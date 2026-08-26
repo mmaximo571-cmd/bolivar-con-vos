@@ -1,0 +1,194 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Mi cuenta · La Bolívar con vos</title>
+<meta name="theme-color" content="#1A1A1A">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=Antonio:wght@400;700&family=Roboto+Condensed:wght@400;700&display=swap" rel="stylesheet">
+<link rel="icon" href="../favicon.svg">
+<link rel="stylesheet" href="../estilos.css">
+</head>
+<body>
+
+<div id="cabecera"></div>
+<main class="envoltura" id="contenido">
+  <div class="cargando">Cargando…</div>
+</main>
+<div id="pie"></div>
+
+<script>window.RAIZ = '../';</script>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="../config.js"></script>
+<script src="../app.js"></script>
+<script>
+(async function pantallaMiCuenta(){
+
+  document.getElementById('cabecera').innerHTML = htmlCabecera();
+  document.getElementById('pie').innerHTML = htmlPie();
+  pintarNav('mi');
+
+  const contenido = document.getElementById('contenido');
+
+  async function refrescar(){
+    const { usuario, perfil } = await sesionActual();
+    if (usuario) pintarAdentro(usuario, perfil);
+    else         pintarAfuera();
+  }
+
+  /* ============================================================
+     SIN CUENTA · entrar o registrarse
+     ============================================================ */
+  function pintarAfuera(){
+    contenido.innerHTML = `
+      <h1 class="titulo-pantalla">MI CUENTA</h1>
+      <p class="bajada">
+        La app funciona entera sin cuenta. Registrate solo si querés
+        <strong>guardar trámites</strong> para encontrarlos rápido después.
+      </p>
+
+      <div class="chips" style="margin-bottom:4px">
+        <button class="chip" id="tab-entrar" aria-pressed="true">Ya tengo cuenta</button>
+        <button class="chip" id="tab-crear"  aria-pressed="false">Crear una cuenta</button>
+      </div>
+
+      <div class="ficha">
+        <form id="formulario">
+          <div class="campo" id="campo-nombre" hidden>
+            <label for="nombre">Tu nombre</label>
+            <input id="nombre" type="text" autocomplete="name" placeholder="Cómo te llamamos">
+          </div>
+          <div class="campo">
+            <label for="correo">Correo electrónico</label>
+            <input id="correo" type="email" autocomplete="email" required placeholder="vos@ejemplo.com">
+          </div>
+          <div class="campo">
+            <label for="clave">Contraseña</label>
+            <input id="clave" type="password" autocomplete="current-password" required
+                   minlength="6" placeholder="Mínimo 6 caracteres">
+          </div>
+          <button class="boton ancho" type="submit" id="enviar">Entrar</button>
+        </form>
+        <div id="mensaje"></div>
+      </div>
+
+      <p style="color:var(--gris);font-size:13px;margin-top:16px">
+        Guardamos solo tu correo y los trámites que marques. Nada más.
+      </p>`;
+
+    let modo = 'entrar';
+    const tabEntrar = document.getElementById('tab-entrar');
+    const tabCrear  = document.getElementById('tab-crear');
+    const campoNom  = document.getElementById('campo-nombre');
+    const boton     = document.getElementById('enviar');
+    const mensaje   = document.getElementById('mensaje');
+
+    function cambiarModo(nuevo){
+      modo = nuevo;
+      tabEntrar.setAttribute('aria-pressed', modo === 'entrar');
+      tabCrear .setAttribute('aria-pressed', modo === 'crear');
+      campoNom.hidden = (modo !== 'crear');
+      boton.textContent = (modo === 'crear') ? 'Crear mi cuenta' : 'Entrar';
+      document.getElementById('clave').autocomplete =
+        (modo === 'crear') ? 'new-password' : 'current-password';
+      mensaje.innerHTML = '';
+    }
+    tabEntrar.onclick = () => cambiarModo('entrar');
+    tabCrear .onclick = () => cambiarModo('crear');
+
+    document.getElementById('formulario').addEventListener('submit', async function(ev){
+      ev.preventDefault();
+      const correo = document.getElementById('correo').value.trim();
+      const clave  = document.getElementById('clave').value;
+      const nombre = document.getElementById('nombre').value.trim();
+
+      boton.disabled = true;
+      boton.textContent = 'Un segundo…';
+      mensaje.innerHTML = '';
+
+      const { data, error } = (modo === 'crear')
+        ? await db.auth.signUp({ email:correo, password:clave, options:{ data:{ nombre } } })
+        : await db.auth.signInWithPassword({ email:correo, password:clave });
+
+      boton.disabled = false;
+      cambiarModo(modo);
+
+      if (error){
+        const traduccion = {
+          'Invalid login credentials': 'El correo o la contraseña no coinciden.',
+          'Email not confirmed':       'Tenés que confirmar tu correo antes de entrar. Fijate en tu casilla.',
+          'User already registered':   'Ese correo ya tiene cuenta. Probá con «Ya tengo cuenta».',
+          'Signups not allowed for this instance':
+            'El registro de cuentas nuevas está cerrado por ahora.'
+        }[error.message] || error.message;
+        mensaje.innerHTML = `<div class="aviso error">${esc(traduccion)}</div>`;
+        return;
+      }
+
+      if (modo === 'crear' && data.user && !data.session){
+        mensaje.innerHTML = `<div class="aviso ok">
+            Listo. Te mandamos un correo a <strong>${esc(correo)}</strong> para confirmar la cuenta.
+            Abrilo y después volvé acá.</div>`;
+        return;
+      }
+      refrescar();
+    });
+  }
+
+  /* ============================================================
+     CON CUENTA
+     ============================================================ */
+  async function pintarAdentro(usuario, perfil){
+    const nombre = (perfil && perfil.nombre) || usuario.email;
+
+    contenido.innerHTML = `
+      <h1 class="titulo-pantalla">HOLA${perfil && perfil.nombre ? ', ' + esc(perfil.nombre.split(' ')[0]).toUpperCase() : ''}</h1>
+      <p class="bajada">${esc(usuario.email)}</p>
+
+      ${esDelEquipo(perfil) ? `
+        <a class="boton ancho oscuro" href="../panel/" style="margin-bottom:14px">
+          🛠 Panel de la agrupación</a>` : ''}
+
+      <div class="titulo-seccion">TRÁMITES GUARDADOS</div>
+      <div class="lista" id="guardados"><div class="cargando">Cargando…</div></div>
+
+      <button class="boton ancho borde" id="salir" style="margin-top:26px">Cerrar sesión</button>`;
+
+    document.getElementById('salir').onclick = async function(){
+      this.disabled = true;
+      await db.auth.signOut();
+      refrescar();
+    };
+
+    const caja = document.getElementById('guardados');
+    const { data, error } = await db.from('guardados')
+      .select('tramite_id, tramites(id,titulo,resumen)')
+      .order('creado_at', { ascending:false });
+
+    if (error){ mostrarError(caja, error, 'cargar tus guardados'); return; }
+
+    const conTramite = (data || []).filter(g => g.tramites);
+    if (!conTramite.length){
+      caja.innerHTML = `<div class="vacio">
+          Todavía no guardaste ninguno.<br>
+          Abrí un trámite y tocá «Guardar».<br>
+          <a class="boton" href="../tramites/" style="margin-top:14px">Ver trámites</a>
+        </div>`;
+      return;
+    }
+
+    caja.innerHTML = conTramite.map(g => `
+      <a class="tarjeta" href="../tramites/?id=${g.tramites.id}">
+        <h3>${esc(g.tramites.titulo)}</h3>
+        ${g.tramites.resumen ? `<p>${esc(g.tramites.resumen)}</p>` : ''}
+      </a>`).join('');
+  }
+
+  refrescar();
+
+})();
+</script>
+</body>
+</html>

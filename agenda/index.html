@@ -1,0 +1,181 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Agenda · La Bolívar con vos</title>
+<meta name="theme-color" content="#1A1A1A">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=Antonio:wght@400;700&family=Roboto+Condensed:wght@400;700&display=swap" rel="stylesheet">
+<link rel="icon" href="../favicon.svg">
+<link rel="stylesheet" href="../estilos.css">
+</head>
+<body>
+
+<div id="cabecera"></div>
+<main class="envoltura" id="contenido">
+  <div class="cargando">Cargando…</div>
+</main>
+<div id="pie"></div>
+
+<script>window.RAIZ = '../';</script>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="../config.js"></script>
+<script src="../app.js"></script>
+<script>
+(async function pantallaAgenda(){
+
+  document.getElementById('cabecera').innerHTML = htmlCabecera(
+    '<a class="boton-cabecera" href="../mi/">Mi cuenta</a>'
+  );
+  document.getElementById('pie').innerHTML = htmlPie();
+  pintarNav('agenda');
+
+  const contenido = document.getElementById('contenido');
+  const id = parametro('id');
+
+  /* ============================================================
+     Detalle de una publicación
+     ============================================================ */
+  if (id){
+    let p;
+    try {
+      const { data, error } = await db.from('publicaciones')
+        .select('*').eq('id', id).eq('publicado', true).maybeSingle();
+      if (error) throw error;
+      p = data;
+    } catch (e) { mostrarError(contenido, e, 'cargar la publicación'); return; }
+
+    if (!p){
+      contenido.innerHTML = `<div class="vacio">
+          Esa publicación ya no está.<br>
+          <a class="boton" href="./" style="margin-top:14px">Ver la agenda</a></div>`;
+      return;
+    }
+
+    const cuando = rangoLindo(p.fecha_desde, p.fecha_hasta);
+
+    contenido.innerHTML = `
+      <a href="./" style="display:inline-block;margin-top:18px;font-family:var(--fuente-sub);
+         font-size:13px;text-transform:uppercase;letter-spacing:.06em;
+         color:var(--gris);text-decoration:none">← Volver a la agenda</a>
+
+      <div style="margin-top:14px">
+        <span class="etiqueta ${esc(p.linea)}">${esc(NOMBRE_LINEA[p.linea] || p.linea)}</span>
+      </div>
+      <h1 class="titulo-pantalla" style="margin-top:4px">${esc(p.titulo)}</h1>
+
+      ${(cuando || p.hora || p.lugar) ? `<div class="ficha"><dl>
+          ${cuando  ? `<dt>Cuándo</dt><dd>${esc(cuando)}</dd>` : ''}
+          ${p.hora  ? `<dt>Hora</dt><dd>${esc(p.hora)}</dd>`   : ''}
+          ${p.lugar ? `<dt>Dónde</dt><dd>${esc(p.lugar)}</dd>` : ''}
+        </dl></div>` : ''}
+
+      ${p.imagen_url ? `<img src="${esc(p.imagen_url)}" alt=""
+          style="border-radius:var(--radio);margin:16px 0" loading="lazy">` : ''}
+
+      ${p.cuerpo ? `<div style="font-size:16.5px;line-height:1.5">${escMulti(p.cuerpo)}</div>` : ''}
+
+      ${p.link_url ? `<a class="boton ancho oscuro" style="margin-top:20px"
+          href="${esc(p.link_url)}" target="_blank" rel="noopener">Abrir el enlace ↗</a>` : ''}`;
+
+    document.title = p.titulo + ' · La Bolívar con vos';
+    return;
+  }
+
+  /* ============================================================
+     Listado
+     ============================================================ */
+  contenido.innerHTML = `
+    <h1 class="titulo-pantalla">AGENDA Y<br>NOVEDADES</h1>
+    <p class="bajada">Fechas, comunicados y actividades. Se actualiza sola.</p>
+    <div class="chips" id="chips"></div>
+    <div id="zonas"><div class="cargando">Cargando…</div></div>`;
+
+  const chips = document.getElementById('chips');
+  const zonas = document.getElementById('zonas');
+
+  chips.innerHTML =
+    `<button class="chip" data-linea="">Todo</button>` +
+    Object.keys(NOMBRE_LINEA).map(k =>
+      `<button class="chip" data-linea="${k}">${esc(NOMBRE_LINEA[k])}</button>`).join('');
+
+  let lineaActiva = '';
+  let publicaciones = [];
+
+  chips.addEventListener('click', function(ev){
+    const b = ev.target.closest('.chip');
+    if (!b) return;
+    lineaActiva = b.dataset.linea;
+    dibujar();
+  });
+
+  async function traer(){
+    const { data, error } = await db.from('publicaciones')
+      .select('*').eq('publicado', true).order('creado_at', { ascending:false });
+    if (error){ mostrarError(zonas, error, 'cargar la agenda'); return false; }
+    publicaciones = data;
+    return true;
+  }
+
+  function tarjeta(p){
+    const f = partesFecha(p.fecha_desde);
+    const datos = [rangoLindo(p.fecha_desde, p.fecha_hasta), p.hora, p.lugar]
+      .filter(Boolean).map(esc).join(' · ');
+
+    const cuerpo = `
+      <span class="etiqueta ${esc(p.linea)}">${esc(NOMBRE_LINEA[p.linea] || p.linea)}</span>
+      <h3>${esc(p.titulo)}</h3>
+      ${datos ? `<p>${datos}</p>`
+              : (p.cuerpo ? `<p>${esc(p.cuerpo.slice(0,140))}${p.cuerpo.length > 140 ? '…' : ''}</p>` : '')}`;
+
+    if (f) return `<a class="tarjeta ${esc(p.linea)}" href="?id=${p.id}">
+        <div class="tarjeta-fecha">
+          <div class="cubo-fecha"><span class="dia">${f.dia}</span><span class="mes">${f.mesCorto}</span></div>
+          <div>${cuerpo}</div>
+        </div></a>`;
+
+    return `<a class="tarjeta ${esc(p.linea)}" href="?id=${p.id}">${cuerpo}</a>`;
+  }
+
+  function dibujar(){
+    [...chips.children].forEach(b =>
+      b.setAttribute('aria-pressed', b.dataset.linea === lineaActiva ? 'true' : 'false'));
+
+    const hoy = hoyISO();
+    const visibles = publicaciones.filter(p => !lineaActiva || p.linea === lineaActiva);
+
+    const proximas = visibles
+      .filter(p => p.fecha_desde && (p.fecha_hasta || p.fecha_desde) >= hoy)
+      .sort((a,b) => a.fecha_desde.localeCompare(b.fecha_desde));
+
+    const resto = visibles.filter(p => !proximas.includes(p));
+
+    if (!visibles.length){
+      zonas.innerHTML = `<div class="vacio">
+          ${publicaciones.length ? 'No hay nada en esta categoría.'
+                                 : 'Todavía no hay nada publicado.<br>Volvé en unos días.'}
+        </div>`;
+      return;
+    }
+
+    zonas.innerHTML =
+      (proximas.length ? `<div class="titulo-seccion">LO QUE SE VIENE</div>
+        <div class="lista">${proximas.map(tarjeta).join('')}</div>` : '') +
+      (resto.length ? `<div class="titulo-seccion">${proximas.length ? 'MÁS' : 'PUBLICACIONES'}</div>
+        <div class="lista">${resto.map(tarjeta).join('')}</div>` : '');
+  }
+
+  if (await traer()) dibujar();
+
+  /* Realtime: si el equipo publica algo, aparece sin recargar */
+  db.channel('agenda-viva')
+    .on('postgres_changes', { event:'*', schema:'public', table:'publicaciones' },
+        async () => { if (await traer()) dibujar(); })
+    .subscribe();
+
+})();
+</script>
+</body>
+</html>

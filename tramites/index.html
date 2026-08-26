@@ -1,0 +1,260 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Trámites · La Bolívar con vos</title>
+<meta name="theme-color" content="#1A1A1A">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=Antonio:wght@400;700&family=Roboto+Condensed:wght@400;700&display=swap" rel="stylesheet">
+<link rel="icon" href="../favicon.svg">
+<link rel="stylesheet" href="../estilos.css">
+</head>
+<body>
+
+<div id="cabecera"></div>
+<main class="envoltura" id="contenido">
+  <div class="cargando">Cargando…</div>
+</main>
+<div id="pie"></div>
+
+<script>window.RAIZ = '../';</script>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="../config.js"></script>
+<script src="../app.js"></script>
+<script>
+(async function pantallaTramites(){
+
+  document.getElementById('cabecera').innerHTML = htmlCabecera(
+    '<a class="boton-cabecera" href="../mi/">Mi cuenta</a>'
+  );
+  document.getElementById('pie').innerHTML = htmlPie();
+  pintarNav('tramites');
+
+  const contenido = document.getElementById('contenido');
+  const idTramite = parametro('id');
+  const idFaq     = parametro('faq');
+  const idCat     = parametro('categoria');
+
+  /* ============================================================
+     CASO 1 · Detalle de un trámite
+     ============================================================ */
+  if (idTramite){
+    let t, categoria = null;
+    try {
+      const { data, error } = await db.from('tramites')
+        .select('*').eq('id', idTramite).eq('publicado', true).maybeSingle();
+      if (error) throw error;
+      t = data;
+      if (t && t.categoria_id){
+        const r = await db.from('categorias').select('*').eq('id', t.categoria_id).maybeSingle();
+        categoria = r.data;
+      }
+    } catch (e) {
+      mostrarError(contenido, e, 'cargar el trámite');
+      return;
+    }
+
+    if (!t){
+      contenido.innerHTML = `<div class="vacio">
+          Ese trámite ya no está disponible.<br>
+          <a class="boton" href="./" style="margin-top:14px">Ver todos los trámites</a>
+        </div>`;
+      return;
+    }
+
+    const pasos = Array.isArray(t.pasos) ? t.pasos : [];
+    const hayFicha = t.requisitos || t.plazo || t.donde;
+
+    contenido.innerHTML = `
+      <a href="./${idCat ? '?categoria=' + esc(idCat) : ''}"
+         style="display:inline-block;margin-top:18px;font-family:var(--fuente-sub);
+                font-size:13px;text-transform:uppercase;letter-spacing:.06em;
+                color:var(--gris);text-decoration:none">← Volver a trámites</a>
+
+      ${categoria ? `<div style="margin-top:14px"><span class="etiqueta">${esc(categoria.emoji)} ${esc(categoria.nombre)}</span></div>` : ''}
+      <h1 class="titulo-pantalla" style="margin-top:6px">${esc(t.titulo)}</h1>
+      ${t.resumen ? `<p class="bajada">${escMulti(t.resumen)}</p>` : ''}
+
+      ${hayFicha ? `<div class="ficha"><dl>
+          ${t.requisitos ? `<dt>Necesitás</dt><dd>${escMulti(t.requisitos)}</dd>` : ''}
+          ${t.plazo      ? `<dt>Cuándo</dt><dd>${escMulti(t.plazo)}</dd>`        : ''}
+          ${t.donde      ? `<dt>Dónde</dt><dd>${escMulti(t.donde)}</dd>`         : ''}
+        </dl></div>` : ''}
+
+      ${pasos.length ? `
+        <div class="titulo-seccion">PASO A PASO</div>
+        <ol class="pasos">${pasos.map(p => `<li>
+            <div class="paso-titulo">${esc(p.titulo || '')}</div>
+            ${p.detalle ? `<div class="paso-detalle">${escMulti(p.detalle)}</div>` : ''}
+          </li>`).join('')}</ol>` : ''}
+
+      ${t.link_url ? `<a class="boton ancho oscuro" style="margin-top:18px"
+          href="${esc(t.link_url)}" target="_blank" rel="noopener">
+          ${esc(t.link_titulo || 'Ir al sitio oficial')} ↗</a>` : ''}
+
+      <div id="zona-guardar" style="margin-top:12px"></div>
+
+      <p style="color:var(--gris);font-size:13px;margin-top:22px">
+        Última actualización: ${esc(fechaLinda(t.actualizado_at))}.<br>
+        Si algo cambió o no te funcionó, avisanos y lo corregimos.
+      </p>`;
+
+    document.title = t.titulo + ' · La Bolívar con vos';
+
+    /* Botón "guardar" — solo para quien tenga cuenta */
+    (async function botonGuardar(){
+      const { usuario } = await sesionActual();
+      const caja = document.getElementById('zona-guardar');
+      if (!usuario){
+        caja.innerHTML = `<a class="boton ancho borde" href="../mi/">
+            ⭐ Creá tu cuenta para guardar este trámite</a>`;
+        return;
+      }
+      const { data: ya } = await db.from('guardados')
+        .select('tramite_id').eq('tramite_id', t.id).maybeSingle();
+      let guardado = !!ya;
+
+      function dibujar(){
+        caja.innerHTML = `<button class="boton ancho ${guardado ? 'borde' : ''}" id="btn-guardar">
+            ${guardado ? '✓ Guardado' : '⭐ Guardar este trámite'}</button>`;
+        document.getElementById('btn-guardar').onclick = async function(){
+          this.disabled = true;
+          if (guardado) await db.from('guardados').delete().eq('tramite_id', t.id);
+          else          await db.from('guardados').insert({ usuario_id: usuario.id, tramite_id: t.id });
+          guardado = !guardado;
+          dibujar();
+        };
+      }
+      dibujar();
+    })();
+
+    return;
+  }
+
+  /* ============================================================
+     CASO 2 · Una pregunta frecuente sola
+     ============================================================ */
+  if (idFaq){
+    let p;
+    try {
+      const { data, error } = await db.from('faq')
+        .select('*').eq('id', idFaq).eq('publicado', true).maybeSingle();
+      if (error) throw error;
+      p = data;
+    } catch (e) { mostrarError(contenido, e, 'cargar la pregunta'); return; }
+
+    if (!p){ contenido.innerHTML = '<div class="vacio">Esa pregunta ya no está disponible.</div>'; return; }
+
+    contenido.innerHTML = `
+      <a href="./" style="display:inline-block;margin-top:18px;font-family:var(--fuente-sub);
+         font-size:13px;text-transform:uppercase;letter-spacing:.06em;
+         color:var(--gris);text-decoration:none">← Volver a trámites</a>
+      <h1 class="titulo-pantalla" style="margin-top:12px">${esc(p.pregunta)}</h1>
+      <div class="ficha"><div style="font-size:16px">${escMulti(p.respuesta)}</div></div>`;
+    document.title = p.pregunta + ' · La Bolívar con vos';
+    return;
+  }
+
+  /* ============================================================
+     CASO 3 · Listado completo
+     ============================================================ */
+  let categorias = [], tramites = [], preguntas = [];
+  try {
+    const [rCat, rTra, rFaq] = await Promise.all([
+      db.from('categorias').select('*').order('orden'),
+      db.from('tramites').select('id,titulo,resumen,categoria_id,palabras_clave')
+        .eq('publicado', true).order('orden'),
+      db.from('faq').select('*').eq('publicado', true).order('orden')
+    ]);
+    for (const r of [rCat, rTra, rFaq]) if (r.error) throw r.error;
+    categorias = rCat.data; tramites = rTra.data; preguntas = rFaq.data;
+  } catch (e) { mostrarError(contenido, e, 'cargar los trámites'); return; }
+
+  contenido.innerHTML = `
+    <h1 class="titulo-pantalla">TRÁMITES Y<br>PREGUNTAS</h1>
+    <p class="bajada">Todo lo que hay que hacer en la facu, explicado paso a paso.</p>
+
+    <div class="buscador" style="margin-bottom:6px">
+      <span class="lupa">🔍</span>
+      <input id="filtro" type="search" autocomplete="off" placeholder="Buscar…"
+             style="border:1px solid var(--borde)" aria-label="Buscar trámites">
+    </div>
+
+    <div class="chips" id="chips"></div>
+    <div class="lista" id="lista" style="margin-top:8px"></div>`;
+
+  const chips = document.getElementById('chips');
+  const lista = document.getElementById('lista');
+  const filtro = document.getElementById('filtro');
+
+  let catActiva = idCat ? Number(idCat) : 0;   // 0 = todas
+
+  chips.innerHTML =
+    `<button class="chip" data-cat="0">Todo</button>` +
+    categorias.map(c => `<button class="chip" data-cat="${c.id}">${esc(c.emoji)} ${esc(c.nombre)}</button>`).join('');
+
+  chips.addEventListener('click', function(ev){
+    const b = ev.target.closest('.chip');
+    if (!b) return;
+    catActiva = Number(b.dataset.cat);
+    const url = new URL(location.href);
+    if (catActiva) url.searchParams.set('categoria', catActiva);
+    else           url.searchParams.delete('categoria');
+    history.replaceState(null, '', url);
+    dibujar();
+  });
+
+  filtro.addEventListener('input', dibujar);
+
+  function dibujar(){
+    [...chips.children].forEach(b =>
+      b.setAttribute('aria-pressed', Number(b.dataset.cat) === catActiva ? 'true' : 'false'));
+
+    const q = normalizar(filtro.value.trim());
+
+    const t = tramites.filter(x =>
+      (!catActiva || x.categoria_id === catActiva) &&
+      (!q || normalizar(x.titulo + ' ' + (x.resumen || '') + ' ' + (x.palabras_clave || '')).includes(q)));
+
+    const f = preguntas.filter(x =>
+      (!catActiva || x.categoria_id === catActiva) &&
+      (!q || normalizar(x.pregunta + ' ' + x.respuesta).includes(q)));
+
+    if (!t.length && !f.length){
+      lista.innerHTML = `<div class="vacio">
+          ${tramites.length || preguntas.length
+            ? 'No hay nada que coincida con esa búsqueda.'
+            : 'Todavía no hay trámites cargados.<br>El equipo de la agrupación los va a ir sumando.'}
+        </div>`;
+      return;
+    }
+
+    const sufijoCat = catActiva ? '&categoria=' + catActiva : '';
+
+    lista.innerHTML =
+      t.map(x => {
+        const c = categorias.find(c => c.id === x.categoria_id);
+        return `<a class="tarjeta" href="?id=${x.id}${sufijoCat}">
+            <h3>${esc(x.titulo)}</h3>
+            ${x.resumen ? `<p>${esc(x.resumen)}</p>` : ''}
+            ${c ? `<div class="meta"><span>${esc(c.emoji)} ${esc(c.nombre)}</span></div>` : ''}
+          </a>`;
+      }).join('') +
+      (f.length ? `<div class="titulo-seccion" style="margin-top:20px">PREGUNTAS FRECUENTES</div>` : '') +
+      f.map(x => `
+        <details class="tarjeta" style="border-left-color:var(--turquesa)">
+          <summary style="cursor:pointer;list-style:none;font-family:var(--fuente-sub);
+                          font-weight:700;font-size:16px;line-height:1.2">
+            ${esc(x.pregunta)}</summary>
+          <div style="margin-top:9px;color:var(--gris);font-size:15px">${escMulti(x.respuesta)}</div>
+        </details>`).join('');
+  }
+
+  dibujar();
+
+})();
+</script>
+</body>
+</html>

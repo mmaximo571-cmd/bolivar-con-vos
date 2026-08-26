@@ -1,0 +1,220 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>La Bolívar con vos</title>
+<meta name="description" content="Trámites, fechas y novedades de la Facultad de Trabajo Social de la UNLP. Agrupación Simón Bolívar.">
+<meta name="theme-color" content="#1A1A1A">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=Antonio:wght@400;700&family=Roboto+Condensed:wght@400;700&display=swap" rel="stylesheet">
+<link rel="icon" href="favicon.svg">
+<link rel="stylesheet" href="estilos.css">
+</head>
+<body>
+
+<div id="cabecera"></div>
+
+<div class="caja-buscador">
+  <div class="envoltura">
+    <div class="buscador">
+      <span class="lupa">🔍</span>
+      <input id="busqueda" type="search" autocomplete="off"
+             placeholder="¿Qué necesitás resolver?" aria-label="Buscar trámites y preguntas">
+    </div>
+  </div>
+</div>
+
+<main class="envoltura">
+
+  <!-- Resultados de la búsqueda (solo aparecen al escribir) -->
+  <section id="zona-resultados" hidden>
+    <div class="titulo-seccion" id="titulo-resultados">RESULTADOS</div>
+    <div class="lista" id="resultados"></div>
+  </section>
+
+  <!-- Todo lo demás se esconde mientras se busca -->
+  <div id="zona-normal">
+
+    <div class="titulo-seccion">
+      ¿CON QUÉ NECESITÁS AYUDA?
+      <a href="tramites/">Ver todo</a>
+    </div>
+    <div class="rejilla-categorias" id="categorias">
+      <div class="cargando">Cargando…</div>
+    </div>
+
+    <div class="titulo-seccion">
+      LO QUE SE VIENE
+      <a href="agenda/">Agenda</a>
+    </div>
+    <div class="lista" id="proximas">
+      <div class="cargando">Cargando…</div>
+    </div>
+
+    <div class="titulo-seccion">
+      NOVEDADES
+      <a href="agenda/">Ver todas</a>
+    </div>
+    <div class="lista" id="novedades">
+      <div class="cargando">Cargando…</div>
+    </div>
+
+  </div>
+</main>
+
+<div id="pie"></div>
+
+<script>window.RAIZ = './';</script>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="config.js"></script>
+<script src="app.js"></script>
+<script>
+(async function inicio(){
+
+  document.getElementById('cabecera').innerHTML = htmlCabecera(
+    '<a class="boton-cabecera" href="mi/">Mi cuenta</a>'
+  );
+  document.getElementById('pie').innerHTML = htmlPie();
+  pintarNav('inicio');
+
+  /* ---------- Traemos todo de una sola vez ---------- */
+  let categorias = [], tramites = [], preguntas = [], publicaciones = [];
+
+  try {
+    const [rCat, rTra, rFaq, rPub] = await Promise.all([
+      db.from('categorias').select('*').order('orden'),
+      db.from('tramites').select('id,titulo,resumen,categoria_id,palabras_clave')
+        .eq('publicado', true).order('orden'),
+      db.from('faq').select('id,pregunta,respuesta,categoria_id')
+        .eq('publicado', true).order('orden'),
+      db.from('publicaciones').select('*').eq('publicado', true)
+        .order('creado_at', { ascending:false })
+    ]);
+    for (const r of [rCat, rTra, rFaq, rPub]) if (r.error) throw r.error;
+    categorias = rCat.data; tramites = rTra.data;
+    preguntas = rFaq.data;  publicaciones = rPub.data;
+  } catch (e) {
+    mostrarError(document.getElementById('zona-normal'), e, 'cargar la información');
+    return;
+  }
+
+  /* ---------- Categorías ---------- */
+  (function pintarCategorias(){
+    const caja = document.getElementById('categorias');
+    if (!categorias.length){
+      caja.outerHTML = '<div class="vacio">Todavía no hay categorías cargadas.</div>';
+      return;
+    }
+    caja.innerHTML = categorias.map(c => {
+      const cuantos = tramites.filter(t => t.categoria_id === c.id).length;
+      return `<a class="tarjeta-categoria" href="tramites/?categoria=${c.id}">
+          <span class="emoji">${esc(c.emoji)}</span>
+          <span class="nombre">${esc(c.nombre)}</span>
+          <span class="cuenta">${cuantos} ${cuantos === 1 ? 'trámite' : 'trámites'}</span>
+        </a>`;
+    }).join('');
+  })();
+
+  /* ---------- Lo que se viene ---------- */
+  (function pintarProximas(){
+    const caja = document.getElementById('proximas');
+    const hoy = hoyISO();
+    const proximas = publicaciones
+      .filter(p => p.fecha_desde && (p.fecha_hasta || p.fecha_desde) >= hoy)
+      .sort((a,b) => a.fecha_desde.localeCompare(b.fecha_desde))
+      .slice(0, 4);
+
+    if (!proximas.length){
+      caja.innerHTML = '<div class="vacio">No hay fechas cargadas por ahora.</div>';
+      return;
+    }
+    caja.innerHTML = proximas.map(p => {
+      const f = partesFecha(p.fecha_desde);
+      return `<a class="tarjeta ${esc(p.linea)}" href="agenda/?id=${p.id}">
+          <div class="tarjeta-fecha">
+            <div class="cubo-fecha">
+              <span class="dia">${f.dia}</span><span class="mes">${f.mesCorto}</span>
+            </div>
+            <div>
+              <span class="etiqueta ${esc(p.linea)}">${esc(NOMBRE_LINEA[p.linea] || p.linea)}</span>
+              <h3>${esc(p.titulo)}</h3>
+              <p>${esc(rangoLindo(p.fecha_desde, p.fecha_hasta))}${p.hora ? ' · ' + esc(p.hora) : ''}${p.lugar ? ' · ' + esc(p.lugar) : ''}</p>
+            </div>
+          </div>
+        </a>`;
+    }).join('');
+  })();
+
+  /* ---------- Novedades ---------- */
+  (function pintarNovedades(){
+    const caja = document.getElementById('novedades');
+    const novedades = publicaciones.filter(p => p.tipo === 'novedad').slice(0, 3);
+    if (!novedades.length){
+      caja.innerHTML = '<div class="vacio">Todavía no hay novedades publicadas.</div>';
+      return;
+    }
+    caja.innerHTML = novedades.map(p => `
+        <a class="tarjeta ${esc(p.linea)}" href="agenda/?id=${p.id}">
+          <span class="etiqueta ${esc(p.linea)}">${esc(NOMBRE_LINEA[p.linea] || p.linea)}</span>
+          <h3>${esc(p.titulo)}</h3>
+          ${p.cuerpo ? `<p>${esc(p.cuerpo.slice(0,140))}${p.cuerpo.length > 140 ? '…' : ''}</p>` : ''}
+        </a>`).join('');
+  })();
+
+  /* ---------- Buscador ---------- */
+  const entrada    = document.getElementById('busqueda');
+  const zonaRes    = document.getElementById('zona-resultados');
+  const zonaNormal = document.getElementById('zona-normal');
+  const listaRes   = document.getElementById('resultados');
+  const tituloRes  = document.getElementById('titulo-resultados');
+
+  entrada.addEventListener('input', function(){
+    const q = normalizar(entrada.value.trim());
+
+    if (q.length < 2){
+      zonaRes.hidden = true;
+      zonaNormal.hidden = false;
+      return;
+    }
+    zonaRes.hidden = false;
+    zonaNormal.hidden = true;
+
+    const tHit = tramites.filter(t =>
+      normalizar(t.titulo + ' ' + (t.resumen || '') + ' ' + (t.palabras_clave || '')).includes(q));
+    const fHit = preguntas.filter(p =>
+      normalizar(p.pregunta + ' ' + p.respuesta).includes(q));
+
+    const total = tHit.length + fHit.length;
+    tituloRes.textContent = total
+      ? `${total} ${total === 1 ? 'RESULTADO' : 'RESULTADOS'}`
+      : 'SIN RESULTADOS';
+
+    if (!total){
+      listaRes.innerHTML = `<div class="vacio">
+          No encontramos nada con «${esc(entrada.value.trim())}».<br>
+          Probá con otra palabra, o escribinos por Instagram y lo resolvemos a mano.
+        </div>`;
+      return;
+    }
+
+    listaRes.innerHTML =
+      tHit.map(t => `
+        <a class="tarjeta" href="tramites/?id=${t.id}">
+          <h3>${esc(t.titulo)}</h3>
+          ${t.resumen ? `<p>${esc(t.resumen)}</p>` : ''}
+          <div class="meta"><span>Trámite</span></div>
+        </a>`).join('') +
+      fHit.map(p => `
+        <a class="tarjeta" href="tramites/?faq=${p.id}">
+          <h3>${esc(p.pregunta)}</h3>
+          <p>${esc(p.respuesta.slice(0,140))}${p.respuesta.length > 140 ? '…' : ''}</p>
+          <div class="meta"><span>Pregunta frecuente</span></div>
+        </a>`).join('');
+  });
+
+})();
+</script>
+</body>
+</html>

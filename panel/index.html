@@ -1,0 +1,715 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Panel · La Bolívar con vos</title>
+<meta name="theme-color" content="#1A1A1A">
+<meta name="robots" content="noindex">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=Antonio:wght@400;700&family=Roboto+Condensed:wght@400;700&display=swap" rel="stylesheet">
+<link rel="icon" href="../favicon.svg">
+<link rel="stylesheet" href="../estilos.css">
+<style>
+  body{padding-bottom:30px}                    /* el panel no lleva barra de abajo */
+  .fila-item{display:flex;align-items:center;gap:10px}
+  .fila-item .crecer{flex:1;min-width:0}
+  .borrador{opacity:.55}
+  .mini{
+    font-family:var(--fuente-sub);font-size:12px;text-transform:uppercase;letter-spacing:.06em;
+    padding:7px 11px;border-radius:99px;border:1px solid var(--borde);background:var(--blanco);
+    white-space:nowrap
+  }
+  .mini.rojo{border-color:var(--rojo);color:var(--rojo)}
+  .paso-editor{
+    border:1px solid var(--borde);border-radius:var(--radio-chico);
+    padding:10px;margin-bottom:8px;background:var(--hueso)
+  }
+  .paso-editor .encabezado{
+    display:flex;justify-content:space-between;align-items:center;margin-bottom:7px;
+    font-family:var(--fuente-sub);font-size:12px;text-transform:uppercase;
+    letter-spacing:.07em;color:var(--gris)
+  }
+  .paso-editor .campo{margin-bottom:8px}
+  .paso-editor .campo:last-child{margin-bottom:0}
+</style>
+</head>
+<body>
+
+<div id="cabecera"></div>
+<main class="envoltura" id="contenido">
+  <div class="cargando">Cargando…</div>
+</main>
+
+<script>window.RAIZ = '../';</script>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="../config.js"></script>
+<script src="../app.js"></script>
+<script>
+(async function panel(){
+
+  document.getElementById('cabecera').innerHTML = htmlCabecera(
+    '<a class="boton-cabecera" href="../">Ver la app</a>'
+  );
+  const contenido = document.getElementById('contenido');
+
+  /* ============================================================
+     PUERTA · solo el equipo entra
+     ============================================================ */
+  const { usuario, perfil } = await sesionActual();
+
+  if (!usuario){
+    contenido.innerHTML = `
+      <h1 class="titulo-pantalla">PANEL</h1>
+      <p class="bajada">Entrá con la cuenta del equipo de la agrupación.</p>
+      <div class="ficha">
+        <form id="login">
+          <div class="campo"><label for="correo">Correo</label>
+            <input id="correo" type="email" autocomplete="email" required></div>
+          <div class="campo"><label for="clave">Contraseña</label>
+            <input id="clave" type="password" autocomplete="current-password" required></div>
+          <button class="boton ancho" type="submit" id="btn">Entrar</button>
+        </form>
+        <div id="msj"></div>
+      </div>`;
+    document.getElementById('login').addEventListener('submit', async ev => {
+      ev.preventDefault();
+      const btn = document.getElementById('btn');
+      btn.disabled = true; btn.textContent = 'Un segundo…';
+      const { error } = await db.auth.signInWithPassword({
+        email: document.getElementById('correo').value.trim(),
+        password: document.getElementById('clave').value
+      });
+      if (error){
+        btn.disabled = false; btn.textContent = 'Entrar';
+        document.getElementById('msj').innerHTML =
+          `<div class="aviso error">${esc(
+             error.message === 'Invalid login credentials'
+               ? 'El correo o la contraseña no coinciden.' : error.message)}</div>`;
+        return;
+      }
+      location.reload();
+    });
+    return;
+  }
+
+  if (!esDelEquipo(perfil)){
+    contenido.innerHTML = `
+      <h1 class="titulo-pantalla">ACCESO<br>RESERVADO</h1>
+      <p class="bajada">
+        Tu cuenta (${esc(usuario.email)}) existe, pero no forma parte del equipo
+        de la agrupación, así que no puede administrar contenido.
+      </p>
+      <a class="boton ancho" href="../">Volver a la app</a>
+      <button class="boton ancho borde" id="salir" style="margin-top:10px">Cerrar sesión</button>`;
+    document.getElementById('salir').onclick = async () => {
+      await db.auth.signOut(); location.reload();
+    };
+    return;
+  }
+
+  /* ============================================================
+     ARMADO DEL PANEL
+     ============================================================ */
+  contenido.innerHTML = `
+    <h1 class="titulo-pantalla">PANEL</h1>
+    <p class="bajada">${esc(usuario.email)} · equipo</p>
+    <div class="chips" id="pestanias">
+      <button class="chip" data-p="tramites" aria-pressed="true">🧭 Trámites</button>
+      <button class="chip" data-p="faq"      aria-pressed="false">❓ Preguntas</button>
+      <button class="chip" data-p="agenda"   aria-pressed="false">📅 Agenda</button>
+      <button class="chip" data-p="categorias" aria-pressed="false">🗂 Categorías</button>
+    </div>
+    <div id="zona" style="margin-top:14px"></div>
+    <button class="boton ancho borde" id="salir" style="margin-top:34px">Cerrar sesión</button>`;
+
+  document.getElementById('salir').onclick = async () => {
+    await db.auth.signOut(); location.href = '../';
+  };
+
+  const zona = document.getElementById('zona');
+  const pestanias = document.getElementById('pestanias');
+  let actual = 'tramites';
+  let categorias = [];
+
+  pestanias.addEventListener('click', ev => {
+    const b = ev.target.closest('.chip');
+    if (!b) return;
+    actual = b.dataset.p;
+    [...pestanias.children].forEach(x =>
+      x.setAttribute('aria-pressed', x.dataset.p === actual ? 'true' : 'false'));
+    dibujar();
+  });
+
+  /* -------- helpers -------- */
+  const val  = id => document.getElementById(id).value.trim();
+  const nulo = id => val(id) || null;
+
+  function aviso(texto, clase){
+    zona.insertAdjacentHTML('afterbegin', `<div class="aviso ${clase}">${esc(texto)}</div>`);
+  }
+
+  async function cargarCategorias(){
+    const { data } = await db.from('categorias').select('*').order('orden');
+    categorias = data || [];
+  }
+
+  function opcionesCategoria(seleccionada){
+    return `<option value="">— sin categoría —</option>` +
+      categorias.map(c =>
+        `<option value="${c.id}"${c.id === seleccionada ? ' selected' : ''}>${esc(c.emoji)} ${esc(c.nombre)}</option>`
+      ).join('');
+  }
+
+  /* ============================================================
+     TRÁMITES
+     ============================================================ */
+  async function vistaTramites(){
+    await cargarCategorias();
+    const { data, error } = await db.from('tramites')
+      .select('*').order('orden').order('id');
+    if (error){ mostrarError(zona, error, 'cargar los trámites'); return; }
+
+    zona.innerHTML = `
+      <button class="boton ancho" id="nuevo">+ Nuevo trámite</button>
+      <div class="lista" style="margin-top:14px" id="lista"></div>`;
+
+    document.getElementById('nuevo').onclick = () => formularioTramite(null);
+
+    const lista = document.getElementById('lista');
+    if (!data.length){
+      lista.innerHTML = '<div class="vacio">Todavía no hay trámites. Creá el primero.</div>';
+      return;
+    }
+    lista.innerHTML = data.map(t => {
+      const c = categorias.find(c => c.id === t.categoria_id);
+      return `<div class="tarjeta ${t.publicado ? '' : 'borrador'}">
+        <div class="fila-item">
+          <div class="crecer">
+            <h3>${esc(t.titulo)}</h3>
+            <p>${c ? esc(c.emoji + ' ' + c.nombre) : 'Sin categoría'}${t.publicado ? '' : ' · BORRADOR'}</p>
+          </div>
+          <button class="mini" data-editar="${t.id}">Editar</button>
+        </div></div>`;
+    }).join('');
+
+    lista.addEventListener('click', ev => {
+      const b = ev.target.closest('[data-editar]');
+      if (b) formularioTramite(data.find(t => t.id === Number(b.dataset.editar)));
+    });
+  }
+
+  function formularioTramite(t){
+    const esNuevo = !t;
+    t = t || { pasos:[], publicado:true, orden:0 };
+
+    zona.innerHTML = `
+      <button class="mini" id="volver">← Volver a la lista</button>
+      <h2 class="titulo-pantalla" style="font-size:24px">${esNuevo ? 'NUEVO TRÁMITE' : 'EDITAR TRÁMITE'}</h2>
+
+      <div class="campo"><label for="titulo">Título *</label>
+        <input id="titulo" value="${esc(t.titulo || '')}" placeholder="Inscripción a finales"></div>
+
+      <div class="campo"><label for="resumen">Resumen corto</label>
+        <textarea id="resumen" style="min-height:60px"
+          placeholder="Una línea que se ve en la lista">${esc(t.resumen || '')}</textarea></div>
+
+      <div class="campo"><label for="categoria">Categoría</label>
+        <select id="categoria">${opcionesCategoria(t.categoria_id)}</select></div>
+
+      <div class="campo"><label for="requisitos">Qué necesita el estudiante</label>
+        <textarea id="requisitos" style="min-height:60px"
+          placeholder="DNI, libreta, número de legajo…">${esc(t.requisitos || '')}</textarea></div>
+
+      <div class="dos-columnas">
+        <div class="campo"><label for="plazo">Cuándo</label>
+          <input id="plazo" value="${esc(t.plazo || '')}" placeholder="Del 1 al 10 de cada mes"></div>
+        <div class="campo"><label for="donde">Dónde</label>
+          <input id="donde" value="${esc(t.donde || '')}" placeholder="Alumnado, planta baja"></div>
+      </div>
+
+      <div class="titulo-seccion" style="font-size:17px">PASO A PASO</div>
+      <div id="pasos"></div>
+      <button class="mini" id="agregar-paso">+ Agregar paso</button>
+
+      <div class="dos-columnas" style="margin-top:20px">
+        <div class="campo"><label for="link_titulo">Texto del botón</label>
+          <input id="link_titulo" value="${esc(t.link_titulo || '')}" placeholder="Ir al SIU Guaraní"></div>
+        <div class="campo"><label for="link_url">Enlace</label>
+          <input id="link_url" type="url" value="${esc(t.link_url || '')}" placeholder="https://…"></div>
+      </div>
+
+      <div class="campo"><label for="palabras_clave">Palabras clave para el buscador</label>
+        <input id="palabras_clave" value="${esc(t.palabras_clave || '')}"
+          placeholder="mesa, examen, anotarse, guarani"></div>
+
+      <div class="dos-columnas">
+        <div class="campo"><label for="orden">Orden en la lista</label>
+          <input id="orden" type="number" value="${Number(t.orden) || 0}"></div>
+        <div class="campo"><label for="publicado">¿Se ve en la app?</label>
+          <select id="publicado">
+            <option value="si"${t.publicado ? ' selected' : ''}>Sí, publicado</option>
+            <option value="no"${t.publicado ? '' : ' selected'}>No, borrador</option>
+          </select></div>
+      </div>
+
+      <button class="boton ancho" id="guardar" style="margin-top:8px">Guardar</button>
+      ${esNuevo ? '' : `<button class="boton ancho peligro" id="borrar" style="margin-top:10px">Eliminar trámite</button>`}
+      <div id="msj"></div>`;
+
+    document.getElementById('volver').onclick = vistaTramites;
+
+    /* --- editor de pasos --- */
+    const cajaPasos = document.getElementById('pasos');
+    function pintarPasos(pasos){
+      cajaPasos.innerHTML = pasos.length ? '' :
+        '<p style="color:var(--gris);font-size:14px">Sin pasos todavía.</p>';
+      pasos.forEach((p, i) => {
+        cajaPasos.insertAdjacentHTML('beforeend', `
+          <div class="paso-editor" data-i="${i}">
+            <div class="encabezado"><span>Paso ${i + 1}</span>
+              <span>
+                ${i > 0 ? '<button class="mini" data-sube="' + i + '">↑</button>' : ''}
+                <button class="mini rojo" data-quita="${i}">Quitar</button>
+              </span></div>
+            <div class="campo"><input class="p-titulo" value="${esc(p.titulo || '')}"
+              placeholder="Qué hay que hacer"></div>
+            <div class="campo"><textarea class="p-detalle" style="min-height:52px"
+              placeholder="Aclaraciones (opcional)">${esc(p.detalle || '')}</textarea></div>
+          </div>`);
+      });
+    }
+
+    function leerPasos(){
+      return [...cajaPasos.querySelectorAll('.paso-editor')].map(d => ({
+        titulo:  d.querySelector('.p-titulo').value.trim(),
+        detalle: d.querySelector('.p-detalle').value.trim()
+      })).filter(p => p.titulo || p.detalle);
+    }
+
+    pintarPasos(Array.isArray(t.pasos) ? t.pasos : []);
+
+    document.getElementById('agregar-paso').onclick = () =>
+      pintarPasos([...leerPasos(), { titulo:'', detalle:'' }]);
+
+    cajaPasos.addEventListener('click', ev => {
+      const quita = ev.target.closest('[data-quita]');
+      const sube  = ev.target.closest('[data-sube]');
+      if (quita){
+        const pasos = leerPasos();
+        pasos.splice(Number(quita.dataset.quita), 1);
+        pintarPasos(pasos);
+      } else if (sube){
+        const pasos = leerPasos();
+        const i = Number(sube.dataset.sube);
+        [pasos[i-1], pasos[i]] = [pasos[i], pasos[i-1]];
+        pintarPasos(pasos);
+      }
+    });
+
+    /* --- guardar --- */
+    document.getElementById('guardar').onclick = async function(){
+      if (!val('titulo')){
+        document.getElementById('msj').innerHTML =
+          '<div class="aviso error">Falta el título.</div>';
+        return;
+      }
+      this.disabled = true; this.textContent = 'Guardando…';
+
+      const fila = {
+        titulo:         val('titulo'),
+        resumen:        nulo('resumen'),
+        categoria_id:   val('categoria') ? Number(val('categoria')) : null,
+        requisitos:     nulo('requisitos'),
+        plazo:          nulo('plazo'),
+        donde:          nulo('donde'),
+        link_titulo:    nulo('link_titulo'),
+        link_url:       nulo('link_url'),
+        palabras_clave: nulo('palabras_clave'),
+        orden:          Number(val('orden')) || 0,
+        publicado:      val('publicado') === 'si',
+        pasos:          leerPasos()
+      };
+
+      const { error } = esNuevo
+        ? await db.from('tramites').insert(fila)
+        : await db.from('tramites').update(fila).eq('id', t.id);
+
+      if (error){
+        this.disabled = false; this.textContent = 'Guardar';
+        document.getElementById('msj').innerHTML =
+          `<div class="aviso error">No se pudo guardar: ${esc(error.message)}</div>`;
+        return;
+      }
+      await vistaTramites();
+      aviso('Trámite guardado.', 'ok');
+    };
+
+    const btnBorrar = document.getElementById('borrar');
+    if (btnBorrar) btnBorrar.onclick = async function(){
+      if (!confirm('¿Eliminar «' + t.titulo + '»? No se puede deshacer.')) return;
+      this.disabled = true;
+      const { error } = await db.from('tramites').delete().eq('id', t.id);
+      if (error){
+        this.disabled = false;
+        document.getElementById('msj').innerHTML =
+          `<div class="aviso error">No se pudo eliminar: ${esc(error.message)}</div>`;
+        return;
+      }
+      await vistaTramites();
+      aviso('Trámite eliminado.', 'ok');
+    };
+  }
+
+  /* ============================================================
+     PREGUNTAS FRECUENTES
+     ============================================================ */
+  async function vistaFaq(){
+    await cargarCategorias();
+    const { data, error } = await db.from('faq').select('*').order('orden').order('id');
+    if (error){ mostrarError(zona, error, 'cargar las preguntas'); return; }
+
+    zona.innerHTML = `
+      <button class="boton ancho" id="nuevo">+ Nueva pregunta</button>
+      <div class="lista" style="margin-top:14px" id="lista"></div>`;
+    document.getElementById('nuevo').onclick = () => formularioFaq(null);
+
+    const lista = document.getElementById('lista');
+    if (!data.length){
+      lista.innerHTML = '<div class="vacio">Todavía no hay preguntas cargadas.</div>';
+      return;
+    }
+    lista.innerHTML = data.map(f => `
+      <div class="tarjeta ${f.publicado ? '' : 'borrador'}">
+        <div class="fila-item">
+          <div class="crecer"><h3>${esc(f.pregunta)}</h3>
+            <p>${esc(f.respuesta.slice(0,90))}${f.respuesta.length > 90 ? '…' : ''}</p></div>
+          <button class="mini" data-editar="${f.id}">Editar</button>
+        </div></div>`).join('');
+
+    lista.addEventListener('click', ev => {
+      const b = ev.target.closest('[data-editar]');
+      if (b) formularioFaq(data.find(f => f.id === Number(b.dataset.editar)));
+    });
+  }
+
+  function formularioFaq(f){
+    const esNuevo = !f;
+    f = f || { publicado:true, orden:0 };
+
+    zona.innerHTML = `
+      <button class="mini" id="volver">← Volver a la lista</button>
+      <h2 class="titulo-pantalla" style="font-size:24px">${esNuevo ? 'NUEVA PREGUNTA' : 'EDITAR PREGUNTA'}</h2>
+
+      <div class="campo"><label for="pregunta">Pregunta *</label>
+        <input id="pregunta" value="${esc(f.pregunta || '')}"
+          placeholder="¿Cuántas veces puedo rendir un final?"></div>
+
+      <div class="campo"><label for="respuesta">Respuesta *</label>
+        <textarea id="respuesta" style="min-height:120px">${esc(f.respuesta || '')}</textarea></div>
+
+      <div class="campo"><label for="categoria">Categoría</label>
+        <select id="categoria">${opcionesCategoria(f.categoria_id)}</select></div>
+
+      <div class="dos-columnas">
+        <div class="campo"><label for="orden">Orden</label>
+          <input id="orden" type="number" value="${Number(f.orden) || 0}"></div>
+        <div class="campo"><label for="publicado">¿Se ve en la app?</label>
+          <select id="publicado">
+            <option value="si"${f.publicado ? ' selected' : ''}>Sí, publicada</option>
+            <option value="no"${f.publicado ? '' : ' selected'}>No, borrador</option>
+          </select></div>
+      </div>
+
+      <button class="boton ancho" id="guardar">Guardar</button>
+      ${esNuevo ? '' : `<button class="boton ancho peligro" id="borrar" style="margin-top:10px">Eliminar</button>`}
+      <div id="msj"></div>`;
+
+    document.getElementById('volver').onclick = vistaFaq;
+
+    document.getElementById('guardar').onclick = async function(){
+      if (!val('pregunta') || !val('respuesta')){
+        document.getElementById('msj').innerHTML =
+          '<div class="aviso error">Falta la pregunta o la respuesta.</div>';
+        return;
+      }
+      this.disabled = true; this.textContent = 'Guardando…';
+      const fila = {
+        pregunta:     val('pregunta'),
+        respuesta:    val('respuesta'),
+        categoria_id: val('categoria') ? Number(val('categoria')) : null,
+        orden:        Number(val('orden')) || 0,
+        publicado:    val('publicado') === 'si'
+      };
+      const { error } = esNuevo
+        ? await db.from('faq').insert(fila)
+        : await db.from('faq').update(fila).eq('id', f.id);
+      if (error){
+        this.disabled = false; this.textContent = 'Guardar';
+        document.getElementById('msj').innerHTML =
+          `<div class="aviso error">No se pudo guardar: ${esc(error.message)}</div>`;
+        return;
+      }
+      await vistaFaq();
+      aviso('Pregunta guardada.', 'ok');
+    };
+
+    const btnBorrar = document.getElementById('borrar');
+    if (btnBorrar) btnBorrar.onclick = async function(){
+      if (!confirm('¿Eliminar esta pregunta?')) return;
+      this.disabled = true;
+      const { error } = await db.from('faq').delete().eq('id', f.id);
+      if (error){
+        this.disabled = false;
+        document.getElementById('msj').innerHTML =
+          `<div class="aviso error">No se pudo eliminar: ${esc(error.message)}</div>`;
+        return;
+      }
+      await vistaFaq();
+      aviso('Pregunta eliminada.', 'ok');
+    };
+  }
+
+  /* ============================================================
+     AGENDA Y NOVEDADES
+     ============================================================ */
+  async function vistaAgenda(){
+    const { data, error } = await db.from('publicaciones')
+      .select('*').order('creado_at', { ascending:false });
+    if (error){ mostrarError(zona, error, 'cargar la agenda'); return; }
+
+    zona.innerHTML = `
+      <button class="boton ancho" id="nuevo">+ Nueva publicación</button>
+      <div class="lista" style="margin-top:14px" id="lista"></div>`;
+    document.getElementById('nuevo').onclick = () => formularioPublicacion(null);
+
+    const lista = document.getElementById('lista');
+    if (!data.length){
+      lista.innerHTML = '<div class="vacio">Todavía no publicaste nada.</div>';
+      return;
+    }
+    lista.innerHTML = data.map(p => `
+      <div class="tarjeta ${esc(p.linea)} ${p.publicado ? '' : 'borrador'}">
+        <div class="fila-item">
+          <div class="crecer">
+            <span class="etiqueta ${esc(p.linea)}">${esc(NOMBRE_LINEA[p.linea] || p.linea)}</span>
+            <h3>${esc(p.titulo)}</h3>
+            <p>${esc(rangoLindo(p.fecha_desde, p.fecha_hasta) || 'Sin fecha')}${p.publicado ? '' : ' · BORRADOR'}</p>
+          </div>
+          <button class="mini" data-editar="${p.id}">Editar</button>
+        </div></div>`).join('');
+
+    lista.addEventListener('click', ev => {
+      const b = ev.target.closest('[data-editar]');
+      if (b) formularioPublicacion(data.find(p => p.id === Number(b.dataset.editar)));
+    });
+  }
+
+  function formularioPublicacion(p){
+    const esNuevo = !p;
+    p = p || { tipo:'novedad', linea:'info', publicado:true };
+
+    const opcion = (v, txt, actual) =>
+      `<option value="${v}"${v === actual ? ' selected' : ''}>${esc(txt)}</option>`;
+
+    zona.innerHTML = `
+      <button class="mini" id="volver">← Volver a la lista</button>
+      <h2 class="titulo-pantalla" style="font-size:24px">${esNuevo ? 'NUEVA PUBLICACIÓN' : 'EDITAR PUBLICACIÓN'}</h2>
+
+      <div class="campo"><label for="titulo">Título *</label>
+        <input id="titulo" value="${esc(p.titulo || '')}" placeholder="Mesa de finales de septiembre"></div>
+
+      <div class="dos-columnas">
+        <div class="campo"><label for="tipo">Tipo</label>
+          <select id="tipo">
+            ${opcion('novedad','Novedad', p.tipo)}
+            ${opcion('evento','Actividad o evento', p.tipo)}
+            ${opcion('fecha','Fecha clave', p.tipo)}
+          </select></div>
+        <div class="campo"><label for="linea">Línea editorial</label>
+          <select id="linea">
+            ${opcion('info','Info importante (rojo)', p.linea)}
+            ${opcion('gremial','Gremial (turquesa)', p.linea)}
+            ${opcion('saberes','Saberes colectivos (celeste)', p.linea)}
+            ${opcion('frente','Frente político (negro)', p.linea)}
+          </select></div>
+      </div>
+
+      <div class="campo"><label for="cuerpo">Texto</label>
+        <textarea id="cuerpo" style="min-height:120px">${esc(p.cuerpo || '')}</textarea></div>
+
+      <div class="dos-columnas">
+        <div class="campo"><label for="fecha_desde">Fecha (desde)</label>
+          <input id="fecha_desde" type="date" value="${esc((p.fecha_desde || '').slice(0,10))}"></div>
+        <div class="campo"><label for="fecha_hasta">Fecha (hasta)</label>
+          <input id="fecha_hasta" type="date" value="${esc((p.fecha_hasta || '').slice(0,10))}"></div>
+      </div>
+
+      <div class="dos-columnas">
+        <div class="campo"><label for="hora">Hora</label>
+          <input id="hora" value="${esc(p.hora || '')}" placeholder="18:00"></div>
+        <div class="campo"><label for="lugar">Lugar</label>
+          <input id="lugar" value="${esc(p.lugar || '')}" placeholder="Aula 3"></div>
+      </div>
+
+      <div class="campo"><label for="imagen_url">Dirección de una imagen (opcional)</label>
+        <input id="imagen_url" type="url" value="${esc(p.imagen_url || '')}" placeholder="https://…"></div>
+
+      <div class="campo"><label for="link_url">Enlace (opcional)</label>
+        <input id="link_url" type="url" value="${esc(p.link_url || '')}" placeholder="https://…"></div>
+
+      <div class="campo"><label for="publicado">¿Se ve en la app?</label>
+        <select id="publicado">
+          <option value="si"${p.publicado ? ' selected' : ''}>Sí, publicada</option>
+          <option value="no"${p.publicado ? '' : ' selected'}>No, borrador</option>
+        </select></div>
+
+      <button class="boton ancho" id="guardar">Guardar</button>
+      ${esNuevo ? '' : `<button class="boton ancho peligro" id="borrar" style="margin-top:10px">Eliminar</button>`}
+      <div id="msj"></div>`;
+
+    document.getElementById('volver').onclick = vistaAgenda;
+
+    document.getElementById('guardar').onclick = async function(){
+      if (!val('titulo')){
+        document.getElementById('msj').innerHTML =
+          '<div class="aviso error">Falta el título.</div>';
+        return;
+      }
+      const desde = nulo('fecha_desde'), hasta = nulo('fecha_hasta');
+      if (desde && hasta && hasta < desde){
+        document.getElementById('msj').innerHTML =
+          '<div class="aviso error">La fecha «hasta» es anterior a la de «desde».</div>';
+        return;
+      }
+      this.disabled = true; this.textContent = 'Guardando…';
+
+      const fila = {
+        titulo:      val('titulo'),
+        tipo:        val('tipo'),
+        linea:       val('linea'),
+        cuerpo:      nulo('cuerpo'),
+        fecha_desde: desde,
+        fecha_hasta: hasta,
+        hora:        nulo('hora'),
+        lugar:       nulo('lugar'),
+        imagen_url:  nulo('imagen_url'),
+        link_url:    nulo('link_url'),
+        publicado:   val('publicado') === 'si'
+      };
+
+      const { error } = esNuevo
+        ? await db.from('publicaciones').insert(fila)
+        : await db.from('publicaciones').update(fila).eq('id', p.id);
+
+      if (error){
+        this.disabled = false; this.textContent = 'Guardar';
+        document.getElementById('msj').innerHTML =
+          `<div class="aviso error">No se pudo guardar: ${esc(error.message)}</div>`;
+        return;
+      }
+      await vistaAgenda();
+      aviso('Publicación guardada.', 'ok');
+    };
+
+    const btnBorrar = document.getElementById('borrar');
+    if (btnBorrar) btnBorrar.onclick = async function(){
+      if (!confirm('¿Eliminar «' + p.titulo + '»?')) return;
+      this.disabled = true;
+      const { error } = await db.from('publicaciones').delete().eq('id', p.id);
+      if (error){
+        this.disabled = false;
+        document.getElementById('msj').innerHTML =
+          `<div class="aviso error">No se pudo eliminar: ${esc(error.message)}</div>`;
+        return;
+      }
+      await vistaAgenda();
+      aviso('Publicación eliminada.', 'ok');
+    };
+  }
+
+  /* ============================================================
+     CATEGORÍAS
+     ============================================================ */
+  async function vistaCategorias(){
+    await cargarCategorias();
+
+    zona.innerHTML = `
+      <p style="color:var(--gris);font-size:14px;margin-top:0">
+        Las categorías son los cuadraditos de la pantalla de inicio.</p>
+      <div class="ficha">
+        <div class="dos-columnas">
+          <div class="campo"><label for="n-emoji">Emoji</label>
+            <input id="n-emoji" value="📌" maxlength="4"></div>
+          <div class="campo"><label for="n-orden">Orden</label>
+            <input id="n-orden" type="number" value="${categorias.length + 1}"></div>
+        </div>
+        <div class="campo"><label for="n-nombre">Nombre de la categoría</label>
+          <input id="n-nombre" placeholder="Becas y ayudas"></div>
+        <button class="boton ancho" id="agregar">+ Agregar categoría</button>
+      </div>
+      <div class="lista" id="lista"></div>
+      <div id="msj"></div>`;
+
+    document.getElementById('agregar').onclick = async function(){
+      const nombre = document.getElementById('n-nombre').value.trim();
+      if (!nombre){
+        document.getElementById('msj').innerHTML =
+          '<div class="aviso error">Escribí un nombre.</div>';
+        return;
+      }
+      this.disabled = true;
+      const { error } = await db.from('categorias').insert({
+        nombre,
+        emoji: document.getElementById('n-emoji').value.trim() || '📌',
+        orden: Number(document.getElementById('n-orden').value) || 0
+      });
+      if (error){
+        this.disabled = false;
+        document.getElementById('msj').innerHTML =
+          `<div class="aviso error">No se pudo agregar: ${esc(error.message)}</div>`;
+        return;
+      }
+      vistaCategorias();
+    };
+
+    const lista = document.getElementById('lista');
+    lista.innerHTML = categorias.map(c => `
+      <div class="tarjeta">
+        <div class="fila-item">
+          <div class="crecer"><h3>${esc(c.emoji)} ${esc(c.nombre)}</h3>
+            <p>Orden ${c.orden}</p></div>
+          <button class="mini rojo" data-borrar="${c.id}">Eliminar</button>
+        </div></div>`).join('');
+
+    lista.addEventListener('click', async ev => {
+      const b = ev.target.closest('[data-borrar]');
+      if (!b) return;
+      const c = categorias.find(x => x.id === Number(b.dataset.borrar));
+      if (!confirm('¿Eliminar «' + c.nombre + '»? Los trámites que la usaban quedan sin categoría.')) return;
+      b.disabled = true;
+      const { error } = await db.from('categorias').delete().eq('id', c.id);
+      if (error){
+        document.getElementById('msj').innerHTML =
+          `<div class="aviso error">No se pudo eliminar: ${esc(error.message)}</div>`;
+        b.disabled = false;
+        return;
+      }
+      vistaCategorias();
+    });
+  }
+
+  /* ============================================================ */
+  function dibujar(){
+    zona.innerHTML = '<div class="cargando">Cargando…</div>';
+    ({ tramites:vistaTramites, faq:vistaFaq,
+       agenda:vistaAgenda, categorias:vistaCategorias }[actual])();
+  }
+
+  dibujar();
+
+})();
+</script>
+</body>
+</html>
