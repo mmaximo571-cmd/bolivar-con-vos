@@ -647,6 +647,11 @@
         </div>
         <div class="campo"><label for="n-nombre">Nombre de la categoría</label>
           <input id="n-nombre" placeholder="Becas y ayudas"></div>
+        <div class="campo"><label for="n-seccion">¿En qué puerta va?</label>
+          <select id="n-seccion">
+            <option value="carrera">🎓 Mi carrera</option>
+            <option value="derechos">⚖️ Mis derechos</option>
+          </select></div>
         <button class="boton ancho" id="agregar">+ Agregar categoría</button>
       </div>
       <div class="lista" id="lista"></div>
@@ -662,8 +667,9 @@
       this.disabled = true;
       const { error } = await db.from('categorias').insert({
         nombre,
-        emoji: document.getElementById('n-emoji').value.trim() || '📌',
-        orden: Number(document.getElementById('n-orden').value) || 0
+        emoji:   document.getElementById('n-emoji').value.trim() || '📌',
+        orden:   Number(document.getElementById('n-orden').value) || 0,
+        seccion: document.getElementById('n-seccion').value
       });
       if (error){
         this.disabled = false;
@@ -675,15 +681,38 @@
     };
 
     const lista = document.getElementById('lista');
-    lista.innerHTML = categorias.map(c => `
-      <div class="tarjeta">
-        <div class="fila-item">
-          <div class="crecer"><h3>${esc(c.emoji)} ${esc(c.nombre)}</h3>
-            <p>Orden ${c.orden}</p></div>
-          <button class="mini rojo" data-borrar="${c.id}">Eliminar</button>
-        </div></div>`).join('');
+    lista.innerHTML = Object.keys(NOMBRE_SECCION).map(s => {
+      const suyas = categorias.filter(c => (c.seccion || 'carrera') === s);
+      if (!suyas.length) return '';
+      return `<div class="titulo-seccion" style="font-size:17px">${esc(NOMBRE_SECCION[s].toUpperCase())}</div>` +
+        suyas.map(c => `
+          <div class="tarjeta">
+            <div class="fila-item">
+              <div class="crecer"><h3>${esc(c.emoji)} ${esc(c.nombre)}</h3>
+                <p>Orden ${c.orden}</p></div>
+              <button class="mini" data-mover="${c.id}">Mover</button>
+              <button class="mini rojo" data-borrar="${c.id}">Eliminar</button>
+            </div></div>`).join('');
+    }).join('');
 
     lista.addEventListener('click', async ev => {
+      /* Mover una categoría de una puerta a la otra */
+      const m = ev.target.closest('[data-mover]');
+      if (m){
+        const c = categorias.find(x => x.id === Number(m.dataset.mover));
+        const destino = (c.seccion || 'carrera') === 'carrera' ? 'derechos' : 'carrera';
+        m.disabled = true;
+        const { error } = await db.from('categorias').update({ seccion: destino }).eq('id', c.id);
+        if (error){
+          document.getElementById('msj').innerHTML =
+            `<div class="aviso error">No se pudo mover: ${esc(error.message)}</div>`;
+          m.disabled = false;
+          return;
+        }
+        vistaCategorias();
+        return;
+      }
+
       const b = ev.target.closest('[data-borrar]');
       if (!b) return;
       const c = categorias.find(x => x.id === Number(b.dataset.borrar));

@@ -36,6 +36,7 @@
   const idTramite = parametro('id');
   const idFaq     = parametro('faq');
   const idCat     = parametro('categoria');
+  const seccion   = parametro('seccion');   // 'carrera' | 'derechos' | null = todo
 
   /* ============================================================
      CASO 1 · Detalle de un trámite
@@ -172,9 +173,25 @@
     categorias = rCat.data; tramites = rTra.data; preguntas = rFaq.data;
   } catch (e) { mostrarError(contenido, e, 'cargar los trámites'); return; }
 
+  /* Si venimos de una puerta ("Mi carrera" / "Mis derechos"), mostramos solo eso */
+  if (seccion && NOMBRE_SECCION[seccion]){
+    categorias = categorias.filter(c => (c.seccion || 'carrera') === seccion);
+    const suyas = categorias.map(c => c.id);
+    tramites  = tramites.filter(t => suyas.includes(t.categoria_id));
+    preguntas = preguntas.filter(p => suyas.includes(p.categoria_id));
+    document.title = NOMBRE_SECCION[seccion] + ' · La Bolívar con vos';
+  }
+
+  const titulo = seccion && NOMBRE_SECCION[seccion]
+    ? NOMBRE_SECCION[seccion].toUpperCase()
+    : 'TRÁMITES Y<br>PREGUNTAS';
+  const bajada = seccion === 'derechos'
+    ? 'Lo que te corresponde y cómo reclamarlo.'
+    : 'Todo lo que hay que hacer en la facu, explicado paso a paso.';
+
   contenido.innerHTML = `
-    <h1 class="titulo-pantalla">TRÁMITES Y<br>PREGUNTAS</h1>
-    <p class="bajada">Todo lo que hay que hacer en la facu, explicado paso a paso.</p>
+    <h1 class="titulo-pantalla">${titulo}</h1>
+    <p class="bajada">${esc(bajada)}</p>
 
     <div class="buscador" style="margin-bottom:6px">
       <span class="lupa">🔍</span>

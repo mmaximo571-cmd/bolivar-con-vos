@@ -1,0 +1,464 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Organizador de cursadas · La Bolívar con vos</title>
+<meta name="description" content="Organizá tu cursada según el plan de estudios de la Licenciatura en Trabajo Social. Mirá qué podés cursar y qué podés promocionar el año que viene.">
+<meta name="theme-color" content="#1A1A1A">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=Antonio:wght@400;700&family=Roboto+Condensed:wght@400;700&display=swap" rel="stylesheet">
+<link rel="icon" href="../favicon.svg">
+<link rel="stylesheet" href="../estilos.css">
+</head>
+<body>
+
+<div id="cabecera"></div>
+
+<main class="envoltura">
+
+  <h1 class="titulo-pantalla">Organizador de cursadas</h1>
+  <p class="bajada">
+    Marcá cómo venís con cada materia y la app te dice qué podés cursar
+    y qué podés <strong>promocionar</strong> el año que viene.
+  </p>
+
+  <!-- ---------- PROGRESO ---------- -->
+  <section class="progreso" id="progreso"></section>
+
+  <!-- ---------- PESTAÑAS ---------- -->
+  <div class="pestanas" role="tablist">
+    <button class="pestana" id="tab-plan"  role="tab" aria-selected="true">El año que viene</button>
+    <button class="pestana" id="tab-todo"  role="tab" aria-selected="false">Plan completo</button>
+  </div>
+
+  <!-- ---------- VISTA: EL AÑO QUE VIENE ---------- -->
+  <section id="vista-plan">
+
+    <div class="chips" id="filtro-cuatri" role="group" aria-label="Filtrar por cuatrimestre">
+      <button class="chip" data-cuatri="todo"  aria-pressed="true">Todas</button>
+      <button class="chip" data-cuatri="anual" aria-pressed="false">Anuales</button>
+      <button class="chip" data-cuatri="1c"    aria-pressed="false">1° cuatri</button>
+      <button class="chip" data-cuatri="2c"    aria-pressed="false">2° cuatri</button>
+    </div>
+
+    <label class="interruptor" id="caja-suponer" hidden>
+      <input type="checkbox" id="suponer">
+      <span>Dar por aprobadas las cursadas que estoy haciendo ahora</span>
+    </label>
+
+    <div id="grupos"></div>
+    <div id="consejo"></div>
+  </section>
+
+  <!-- ---------- VISTA: PLAN COMPLETO ---------- -->
+  <section id="vista-todo" hidden>
+    <div id="por-anio"></div>
+
+    <div class="titulo-seccion">OTROS REQUISITOS</div>
+    <div id="requisitos"></div>
+
+    <div class="aviso" id="nota-asterisco"></div>
+
+    <button class="boton borde ancho" id="borrar" style="margin:18px 0 6px">
+      Empezar de nuevo
+    </button>
+    <p class="letra-chica">
+      Lo que marcás se guarda solo en este teléfono. No se sube a ningún lado
+      y nadie más lo ve.
+    </p>
+  </section>
+
+</main>
+
+<!-- ---------- HOJA DE DETALLE ---------- -->
+<div class="hoja-fondo" id="hoja-fondo" hidden>
+  <div class="hoja" id="hoja" role="dialog" aria-modal="true" aria-labelledby="hoja-titulo">
+    <button class="hoja-cerrar" id="hoja-cerrar" aria-label="Cerrar">✕</button>
+    <div id="hoja-cuerpo"></div>
+  </div>
+</div>
+
+<div id="pie"></div>
+
+<script>window.RAIZ = '../';</script>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="../config.js"></script>
+<script src="../app.js"></script>
+<script src="plan.js"></script>
+<script>
+(function carrera(){
+
+document.getElementById('cabecera').innerHTML = htmlCabecera(
+  '<a class="boton-cabecera" href="../mi/">Mi cuenta</a>');
+document.getElementById('pie').innerHTML = htmlPie();
+pintarNav('carrera');
+
+/* ============================================================
+   LOS DATOS
+   ============================================================ */
+const PLAN     = window.PLAN_TS;
+const MATERIAS = PLAN.materias;
+const POR_COD  = {};
+MATERIAS.forEach(m => POR_COD[m.cod] = m);
+
+/* Mapa al revés: para cada materia, a cuáles les abre la puerta */
+const HABILITA = {};
+MATERIAS.forEach(m => HABILITA[m.cod] = []);
+MATERIAS.forEach(m => (m.correl || []).forEach(c => {
+  if (HABILITA[c]) HABILITA[c].push(m.cod);
+}));
+
+/* ============================================================
+   LOS CUATRO ESTADOS
+   El corazón del sistema de correlatividades:
+     promocionar una materia te habilita a promocionar la siguiente;
+     aprobar solo la cursada te habilita a cursarla, pero no a promocionarla.
+   ============================================================ */
+const ESTADOS = {
+  pendiente: { texto:'Todavía no la hice',       corto:'Pendiente'  },
+  cursando:  { texto:'La estoy cursando ahora',  corto:'Cursando'   },
+  cursada:   { texto:'Aprobé la cursada, me falta el final', corto:'Falta el final' },
+  aprobada:  { texto:'Aprobada (promoción o final rendido)', corto:'Aprobada' }
+};
+const ORDEN = { pendiente:0, cursando:1, cursada:2, aprobada:3 };
+
+const LLAVE = 'bolivar-carrera-v1';
+let guardado = { estados:{}, suponer:false, idioma:false };
+try {
+  const crudo = localStorage.getItem(LLAVE);
+  if (crudo) guardado = Object.assign(guardado, JSON.parse(crudo));
+} catch(e){ /* modo incógnito o memoria llena: seguimos sin guardar */ }
+
+function persistir(){
+  try { localStorage.setItem(LLAVE, JSON.stringify(guardado)); } catch(e){}
+}
+
+function estadoCrudo(cod){ return guardado.estados[cod] || 'pendiente'; }
+
+/* El estado con el que se hacen las cuentas. Si el interruptor está puesto,
+   una materia "cursando" se cuenta como cursada aprobada. */
+function estado(cod){
+  const e = estadoCrudo(cod);
+  return (guardado.suponer && e === 'cursando') ? 'cursada' : e;
+}
+
+/* ============================================================
+   LA REGLA
+   ============================================================ */
+function situacion(m){
+  const faltaCursar = [], faltaFinal = [];
+  (m.correl || []).forEach(c => {
+    const e = estado(c);
+    if (ORDEN[e] < ORDEN.cursada)      faltaCursar.push(c);
+    else if (e !== 'aprobada')         faltaFinal.push(c);
+  });
+  if (faltaCursar.length) return { clase:'trabada',    faltaCursar, faltaFinal };
+  if (faltaFinal.length)  return { clase:'cursa',      faltaCursar, faltaFinal };
+  return                         { clase:'promociona', faltaCursar, faltaFinal };
+}
+
+const NOMBRE_CLASE = {
+  promociona: 'PODÉS PROMOCIONARLA',
+  cursa:      'PODÉS CURSARLA, PERO NO PROMOCIONARLA',
+  trabada:    'TODAVÍA NO LA PODÉS CURSAR'
+};
+
+const DICTADO = { anual:'Anual', '1c':'1° cuatrimestre', '2c':'2° cuatrimestre', libre:'Sin cuatrimestre fijo' };
+
+function listaNombres(codigos){
+  return codigos.map(c => POR_COD[c] ? POR_COD[c].nombre : c).join(', ');
+}
+
+/* ============================================================
+   PROGRESO
+   ============================================================ */
+function pintarProgreso(){
+  const total     = MATERIAS.length;
+  const aprobadas = MATERIAS.filter(m => estadoCrudo(m.cod) === 'aprobada').length;
+  const cursadas  = MATERIAS.filter(m => estadoCrudo(m.cod) === 'cursada').length;
+
+  /* El progreso se mide en MATERIAS, no en horas: es lo que la estudiante
+     cuenta, y es lo unico que los tres planes tienen en comun (los de
+     Gestion del Riesgo y Fonoaudiologia no publican carga horaria). */
+  const pct = Math.round(aprobadas / total * 100);
+
+  document.getElementById('progreso').innerHTML = `
+    <div class="barra"><div class="barra-llena" style="width:${pct}%"></div></div>
+    <div class="progreso-datos">
+      <div><strong>${aprobadas}</strong> de ${total} materias aprobadas</div>
+      <div>${pct}% de la carrera</div>
+    </div>
+    ${cursadas ? `<div class="progreso-extra">Te quedan <strong>${cursadas}</strong>
+       ${cursadas === 1 ? 'final pendiente' : 'finales pendientes'}.</div>` : ''}`;
+}
+
+/* ============================================================
+   VISTA: EL AÑO QUE VIENE
+   ============================================================ */
+let filtroCuatri = 'todo';
+
+function pintarGrupos(){
+  const hayCursando = MATERIAS.some(m => estadoCrudo(m.cod) === 'cursando');
+  document.getElementById('caja-suponer').hidden = !hayCursando;
+  document.getElementById('suponer').checked = !!guardado.suponer;
+
+  const candidatas = MATERIAS.filter(m => {
+    if (estado(m.cod) !== 'pendiente') return false;
+    if (filtroCuatri === 'todo') return true;
+    return m.dictado === filtroCuatri;
+  });
+
+  const grupos = { promociona:[], cursa:[], trabada:[] };
+  candidatas.forEach(m => grupos[situacion(m).clase].push(m));
+
+  const caja = document.getElementById('grupos');
+
+  if (!candidatas.length){
+    caja.innerHTML = `<div class="vacio">
+        ${filtroCuatri === 'todo'
+          ? 'No queda ninguna materia pendiente. Felicitaciones. 🎓'
+          : 'No hay materias pendientes en ese cuatrimestre.'}
+      </div>`;
+    return;
+  }
+
+  caja.innerHTML = ['promociona','cursa','trabada'].map(clase => {
+    const lista = grupos[clase];
+    if (!lista.length) return '';
+    return `<div class="titulo-seccion">${NOMBRE_CLASE[clase]}
+        <span class="cuenta-grupo">${lista.length}</span></div>
+      <div class="lista">` +
+      lista.map(m => tarjetaMateria(m, clase)).join('') + `</div>`;
+  }).join('');
+}
+
+function tarjetaMateria(m, clase){
+  const s = situacion(m);
+  let pie = '';
+  if (clase === 'cursa'){
+    pie = `<p class="motivo">Para promocionarla te falta rendir el final de:
+             <strong>${esc(listaNombres(s.faltaFinal))}</strong></p>`;
+  } else if (clase === 'trabada'){
+    pie = `<p class="motivo">Primero tenés que aprobar la cursada de:
+             <strong>${esc(listaNombres(s.faltaCursar))}</strong></p>`;
+  } else if (!m.correl.length){
+    pie = `<p class="motivo">No tiene correlativas.</p>`;
+  } else {
+    pie = `<p class="motivo">Tenés aprobadas todas sus correlativas.</p>`;
+  }
+
+  return `<button class="tarjeta materia ${clase}" data-cod="${esc(m.cod)}">
+      <h3>${esc(m.nombre)}</h3>
+      ${pie}
+      <div class="meta">
+        <span>${m.anio}° año</span>
+        <span>${DICTADO[m.dictado]}</span>
+        ${m.horas ? `<span>${m.horas} h</span>` : ''}
+        ${m.marcada ? '<span>(*)</span>' : ''}
+      </div>
+    </button>`;
+}
+
+/* "Si rendís este final, se te destraban N promociones" */
+function pintarConsejo(){
+  const caja = document.getElementById('consejo');
+  const conFinal = MATERIAS.filter(m => estado(m.cod) === 'cursada');
+
+  if (!conFinal.length){ caja.innerHTML = ''; return; }
+
+  const filas = conFinal.map(m => {
+    /* Cuántas pendientes pasarían de "solo cursar" a "promocionar" */
+    const gana = MATERIAS.filter(otra =>
+      estado(otra.cod) === 'pendiente' &&
+      (otra.correl || []).indexOf(m.cod) !== -1 &&
+      situacion(otra).clase === 'cursa' &&
+      situacion(otra).faltaFinal.length === 1
+    );
+    return { m, gana };
+  }).sort((a,b) => b.gana.length - a.gana.length);
+
+  caja.innerHTML =
+    `<div class="titulo-seccion">FINALES QUE TENÉS PENDIENTES</div>
+     <div class="lista">` +
+    filas.map(f => `
+      <button class="tarjeta materia final" data-cod="${esc(f.m.cod)}">
+        <h3>${esc(f.m.nombre)}</h3>
+        <p class="motivo">${
+          f.gana.length
+            ? `Si rendís este final podés promocionar
+               <strong>${esc(f.gana.map(x => x.nombre).join(', '))}</strong>.`
+            : 'Rendirlo no te destraba ninguna promoción por ahora, pero te suma materia aprobada.'
+        }</p>
+      </button>`).join('') + `</div>`;
+}
+
+/* ============================================================
+   VISTA: PLAN COMPLETO
+   ============================================================ */
+const ORDINAL = ['', 'PRIMER', 'SEGUNDO', 'TERCER', 'CUARTO', 'QUINTO'];
+
+function pintarPlanCompleto(){
+  const caja = document.getElementById('por-anio');
+  caja.innerHTML = [1,2,3,4,5].map(anio => {
+    const suyas = MATERIAS.filter(m => m.anio === anio);
+    const listas = suyas.filter(m => estadoCrudo(m.cod) === 'aprobada').length;
+    return `<div class="titulo-seccion">${ORDINAL[anio]} AÑO
+        <span class="cuenta-grupo">${listas}/${suyas.length}</span></div>
+      <div class="lista">` +
+      suyas.map(m => {
+        const e = estadoCrudo(m.cod);
+        return `<button class="tarjeta materia estado-${e}" data-cod="${esc(m.cod)}">
+            <h3>${esc(m.nombre)}</h3>
+            <div class="meta">
+              <span class="pastilla ${e}">${ESTADOS[e].corto}</span>
+              <span>${DICTADO[m.dictado]}</span>
+              ${m.horas ? `<span>${m.horas} h</span>` : ''}
+              ${m.marcada ? '<span>(*)</span>' : ''}
+            </div>
+          </button>`;
+      }).join('') + `</div>`;
+  }).join('');
+
+  document.getElementById('requisitos').innerHTML =
+    PLAN.requisitos.map(r => `
+      <label class="interruptor">
+        <input type="checkbox" id="req-idioma" ${guardado.idioma ? 'checked' : ''}>
+        <span>${esc(r.nombre)} — ya la tengo</span>
+      </label>`).join('');
+
+  document.getElementById('req-idioma').addEventListener('change', function(){
+    guardado.idioma = this.checked; persistir();
+  });
+
+  document.getElementById('nota-asterisco').innerHTML =
+    `<strong>(*)</strong> ${esc(PLAN.notaAsterisco)}`;
+}
+
+/* ============================================================
+   HOJA DE DETALLE
+   ============================================================ */
+const fondo = document.getElementById('hoja-fondo');
+const cuerpo = document.getElementById('hoja-cuerpo');
+
+function abrirHoja(cod){
+  const m = POR_COD[cod];
+  if (!m) return;
+  const s = situacion(m);
+  const eActual = estadoCrudo(cod);
+
+  const correl = (m.correl || []).map(c => {
+    const e = estado(c);
+    return `<li><span class="pastilla ${e}">${ESTADOS[e].corto}</span>
+              ${esc(POR_COD[c] ? POR_COD[c].nombre : c)}</li>`;
+  }).join('');
+
+  const abre = HABILITA[cod].map(c =>
+    `<li>${esc(POR_COD[c].nombre)} <small>(${POR_COD[c].anio}° año)</small></li>`).join('');
+
+  cuerpo.innerHTML = `
+    <div class="hoja-cod">${esc(m.cod)} · ${m.anio}° año · ${DICTADO[m.dictado]}${m.horas ? ' · ' + m.horas + ' h' : ''}</div>
+    <h2 id="hoja-titulo">${esc(m.nombre)}</h2>
+    ${m.marcada ? `<p class="letra-chica">(*) ${esc(PLAN.notaAsterisco)}</p>` : ''}
+
+    <div class="veredicto ${s.clase}">${NOMBRE_CLASE[s.clase]}</div>
+
+    <div class="titulo-seccion">CÓMO VENÍS CON ESTA MATERIA</div>
+    <div class="opciones-estado">
+      ${Object.keys(ESTADOS).map(k => `
+        <button class="opcion ${k} ${k === eActual ? 'elegida' : ''}"
+                data-estado="${k}">${ESTADOS[k].texto}</button>`).join('')}
+    </div>
+
+    <div class="titulo-seccion">CORRELATIVAS</div>
+    ${correl ? `<ul class="lista-correl">${correl}</ul>`
+             : `<p class="letra-chica">No tiene. La podés cursar y promocionar cuando quieras.</p>`}
+
+    <div class="titulo-seccion">LE ABRE LA PUERTA A</div>
+    ${abre ? `<ul class="lista-correl simple">${abre}</ul>`
+           : `<p class="letra-chica">Ninguna otra materia depende de esta.</p>`}
+  `;
+
+  cuerpo.querySelectorAll('.opcion').forEach(b => {
+    b.addEventListener('click', function(){
+      guardado.estados[cod] = this.dataset.estado;
+      persistir();
+      cerrarHoja();
+      pintarTodo();
+    });
+  });
+
+  fondo.hidden = false;
+  document.body.style.overflow = 'hidden';
+}
+
+function cerrarHoja(){
+  fondo.hidden = true;
+  document.body.style.overflow = '';
+}
+
+document.getElementById('hoja-cerrar').addEventListener('click', cerrarHoja);
+fondo.addEventListener('click', e => { if (e.target === fondo) cerrarHoja(); });
+document.addEventListener('keydown', e => { if (e.key === 'Escape' && !fondo.hidden) cerrarHoja(); });
+
+/* Un solo escuchador para todas las tarjetas, en cualquiera de las dos vistas */
+document.querySelector('main').addEventListener('click', e => {
+  const t = e.target.closest('.materia');
+  if (t) abrirHoja(t.dataset.cod);
+});
+
+/* ============================================================
+   CONTROLES
+   ============================================================ */
+document.getElementById('filtro-cuatri').addEventListener('click', e => {
+  const b = e.target.closest('.chip');
+  if (!b) return;
+  filtroCuatri = b.dataset.cuatri;
+  document.querySelectorAll('#filtro-cuatri .chip').forEach(c =>
+    c.setAttribute('aria-pressed', c === b ? 'true' : 'false'));
+  pintarGrupos();
+});
+
+document.getElementById('suponer').addEventListener('change', function(){
+  guardado.suponer = this.checked;
+  persistir();
+  pintarGrupos();
+  pintarConsejo();
+});
+
+const tabPlan = document.getElementById('tab-plan');
+const tabTodo = document.getElementById('tab-todo');
+function verPestana(cual){
+  const esPlan = cual === 'plan';
+  tabPlan.setAttribute('aria-selected', esPlan);
+  tabTodo.setAttribute('aria-selected', !esPlan);
+  document.getElementById('vista-plan').hidden = !esPlan;
+  document.getElementById('vista-todo').hidden = esPlan;
+  scrollTo(0, 0);
+}
+tabPlan.addEventListener('click', () => verPestana('plan'));
+tabTodo.addEventListener('click', () => verPestana('todo'));
+
+document.getElementById('borrar').addEventListener('click', () => {
+  if (!confirm('¿Borrar todo lo que marcaste y empezar de nuevo?')) return;
+  guardado = { estados:{}, suponer:false, idioma:false };
+  persistir();
+  pintarTodo();
+});
+
+/* ============================================================
+   ARRANQUE
+   ============================================================ */
+function pintarTodo(){
+  pintarProgreso();
+  pintarGrupos();
+  pintarConsejo();
+  pintarPlanCompleto();
+}
+pintarTodo();
+
+})();
+</script>
+</body>
+</html>

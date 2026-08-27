@@ -257,6 +257,60 @@ h1,h2,h3{margin:0;font-weight:400}
 .cargando{text-align:center;color:var(--gris);padding:34px 16px;font-size:15px}
 
 /* ============================================================
+   CALENDARIO
+   ============================================================ */
+.calendario{
+  background:var(--blanco);border:1px solid var(--borde);border-radius:var(--radio);
+  padding:12px 12px 10px;box-shadow:var(--sombra)
+}
+.cal-cabecera{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-bottom:12px}
+.cal-mes{
+  font-family:var(--fuente-titulo);font-size:19px;text-transform:uppercase;
+  line-height:1;text-align:center;flex:1
+}
+.cal-flecha{
+  flex:0 0 auto;width:34px;height:34px;border-radius:50%;
+  border:1px solid var(--borde);background:var(--blanco);
+  font-size:16px;line-height:1;color:var(--negro);
+  display:flex;align-items:center;justify-content:center
+}
+.cal-flecha:hover{background:var(--hueso)}
+
+.cal-grilla{display:grid;grid-template-columns:repeat(7,1fr);gap:3px}
+.cal-nombre-dia{
+  text-align:center;font-family:var(--fuente-sub);font-size:11px;font-weight:700;
+  letter-spacing:.06em;color:var(--gris);text-transform:uppercase;padding-bottom:4px
+}
+
+/* La celda cuadrada: el ancho lo pone la grilla, el alto lo iguala */
+.cal-dia{
+  aspect-ratio:1/1;border:none;background:transparent;border-radius:9px;
+  font-family:var(--fuente-texto);font-size:15px;color:var(--negro);
+  display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;
+  padding:0;position:relative
+}
+.cal-dia.vacio{visibility:hidden;pointer-events:none}
+.cal-dia.apagado{color:var(--borde)}
+.cal-dia.con-cosas{font-weight:700}
+.cal-dia.con-cosas:hover{background:var(--hueso)}
+.cal-dia.hoy{box-shadow:inset 0 0 0 1.5px var(--negro)}
+.cal-dia[aria-pressed="true"]{background:var(--amarillo)}
+.cal-dia[aria-pressed="true"].hoy{box-shadow:inset 0 0 0 1.5px var(--negro)}
+
+.cal-puntos{display:flex;gap:2px;height:5px;align-items:center}
+.cal-punto{width:5px;height:5px;border-radius:50%;background:var(--negro)}
+.cal-punto.frente  {background:var(--linea-frente)}
+.cal-punto.gremial {background:var(--linea-gremial)}
+.cal-punto.info    {background:var(--linea-info)}
+.cal-punto.saberes {background:var(--linea-saberes)}
+
+.cal-referencia{
+  display:flex;flex-wrap:wrap;gap:10px;margin-top:11px;padding-top:10px;
+  border-top:1px solid var(--borde);font-size:11.5px;color:var(--gris)
+}
+.cal-referencia span{display:flex;align-items:center;gap:5px}
+
+/* ============================================================
    BARRA DE NAVEGACION INFERIOR
    ============================================================ */
 .nav-abajo{
@@ -283,10 +337,146 @@ h1,h2,h3{margin:0;font-weight:400}
 .pie strong{color:var(--negro)}
 
 /* ============================================================
+   ORGANIZADOR DE CURSADAS  (carrera/)
+   Los tres colores que ordenan toda la pantalla:
+     turquesa = la promocionás    amarillo = la cursás sin promoción
+     gris     = todavía no podés  celeste  = final pendiente
+   ============================================================ */
+
+/* --- Barra de progreso --- */
+.progreso{
+  background:var(--blanco);border:1px solid var(--borde);border-radius:var(--radio);
+  padding:14px;box-shadow:var(--sombra);margin-bottom:18px
+}
+.barra{background:var(--borde);border-radius:99px;height:10px;overflow:hidden}
+.barra-llena{background:var(--turquesa);height:100%;border-radius:99px;transition:width .3s}
+.progreso-datos{
+  display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap;
+  margin-top:9px;font-size:14px;color:var(--gris)
+}
+.progreso-datos strong{
+  font-family:var(--fuente-titulo);font-size:20px;color:var(--negro);
+  vertical-align:-1px;margin-right:2px
+}
+.progreso-extra{margin-top:6px;font-size:14px;color:var(--gris)}
+
+/* --- Pestañas --- */
+.pestanas{display:flex;gap:6px;margin:0 0 14px}
+.pestana{
+  flex:1;background:transparent;border:none;border-bottom:3px solid var(--borde);
+  padding:10px 4px;font-family:var(--fuente-sub);font-size:15px;
+  text-transform:uppercase;letter-spacing:.04em;color:var(--gris)
+}
+.pestana[aria-selected="true"]{border-bottom-color:var(--negro);color:var(--negro);font-weight:700}
+
+/* --- Interruptor de una linea --- */
+.interruptor{
+  display:flex;align-items:center;gap:10px;background:var(--blanco);
+  border:1px solid var(--borde);border-radius:var(--radio-chico);
+  padding:11px 13px;margin:6px 0 16px;font-size:14.5px;line-height:1.3
+}
+.interruptor input{width:19px;height:19px;flex:0 0 auto;accent-color:var(--negro)}
+
+.cuenta-grupo{
+  background:var(--negro);color:var(--blanco);border-radius:99px;
+  font-size:12px;padding:2px 9px;letter-spacing:0
+}
+
+/* --- Tarjeta de materia --- */
+.tarjeta.materia{border-left-color:var(--borde);cursor:pointer}
+.tarjeta.materia:hover{border-color:var(--negro)}
+.tarjeta.materia.promociona{border-left-color:var(--turquesa)}
+.tarjeta.materia.cursa     {border-left-color:var(--amarillo)}
+.tarjeta.materia.trabada   {border-left-color:var(--borde);opacity:.72}
+.tarjeta.materia.final     {border-left-color:var(--linea-saberes)}
+.tarjeta.materia .motivo{margin:0;color:var(--gris);font-size:14px;line-height:1.35}
+.tarjeta.materia .motivo strong{color:var(--negro)}
+
+.tarjeta.materia.estado-aprobada{border-left-color:var(--turquesa)}
+.tarjeta.materia.estado-cursada {border-left-color:var(--amarillo)}
+.tarjeta.materia.estado-cursando{border-left-color:var(--linea-saberes)}
+
+/* --- Pastilla de estado --- */
+.pastilla{
+  display:inline-block;font-size:11px;font-weight:700;letter-spacing:.06em;
+  text-transform:uppercase;padding:2px 8px;border-radius:99px;
+  background:var(--borde);color:var(--negro)
+}
+.pastilla.cursando{background:var(--linea-saberes);color:var(--negro)}
+.pastilla.cursada {background:var(--amarillo);color:var(--negro)}
+.pastilla.aprobada{background:var(--turquesa);color:var(--negro)}
+
+/* --- Hoja de detalle --- */
+.hoja-fondo{
+  position:fixed;inset:0;z-index:80;background:rgba(26,26,26,.55);
+  display:flex;align-items:flex-end;justify-content:center
+}
+.hoja{
+  background:var(--hueso);width:100%;max-width:var(--ancho-max);
+  max-height:88vh;overflow-y:auto;position:relative;
+  border-radius:var(--radio) var(--radio) 0 0;padding:20px 16px 30px
+}
+.hoja-cerrar{
+  position:absolute;top:12px;right:12px;width:34px;height:34px;border-radius:99px;
+  border:1px solid var(--borde);background:var(--blanco);font-size:15px;line-height:1
+}
+.hoja-cod{
+  font-family:var(--fuente-sub);font-size:12px;text-transform:uppercase;
+  letter-spacing:.08em;color:var(--gris)
+}
+.hoja h2{
+  font-family:var(--fuente-titulo);font-size:25px;line-height:1.05;
+  text-transform:uppercase;margin:4px 40px 12px 0
+}
+.veredicto{
+  font-family:var(--fuente-sub);font-weight:700;font-size:14px;
+  text-transform:uppercase;letter-spacing:.05em;line-height:1.25;
+  padding:11px 13px;border-radius:var(--radio-chico);background:var(--borde)
+}
+.veredicto.promociona{background:var(--turquesa);color:var(--negro)}
+.veredicto.cursa     {background:var(--amarillo);color:var(--negro)}
+.veredicto.trabada   {background:var(--borde);color:var(--gris)}
+
+.opciones-estado{display:flex;flex-direction:column;gap:8px}
+.opcion{
+  background:var(--blanco);border:1.5px solid var(--borde);border-radius:var(--radio-chico);
+  padding:12px 13px;text-align:left;font-size:15px;line-height:1.25
+}
+.opcion.elegida{border-color:var(--negro);font-weight:700}
+.opcion.elegida.cursando{background:var(--linea-saberes)}
+.opcion.elegida.cursada {background:var(--amarillo)}
+.opcion.elegida.aprobada{background:var(--turquesa)}
+
+.lista-correl{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:8px}
+.lista-correl li{
+  background:var(--blanco);border:1px solid var(--borde);border-radius:var(--radio-chico);
+  padding:10px 12px;font-size:15px;line-height:1.3
+}
+.lista-correl li .pastilla{margin-right:7px;vertical-align:1px}
+.lista-correl li small{color:var(--gris)}
+
+.letra-chica{color:var(--gris);font-size:13px;line-height:1.45;margin:8px 0 0}
+
+/* --- Puerta al organizador desde la pantalla de inicio --- */
+.tarjeta-destacada{
+  display:flex;align-items:center;gap:13px;text-decoration:none;
+  background:var(--negro);color:var(--blanco);border-radius:var(--radio);
+  padding:16px;margin:18px 0 4px;box-shadow:var(--sombra)
+}
+.tarjeta-destacada .emoji{font-size:30px;flex:0 0 auto;line-height:1}
+.tarjeta-destacada .nombre{
+  font-family:var(--fuente-sub);font-weight:700;font-size:17px;line-height:1.1;
+  text-transform:uppercase;color:var(--amarillo);display:block
+}
+.tarjeta-destacada p{margin:3px 0 0;font-size:14px;color:#c9c9c9;line-height:1.35}
+
+/* ============================================================
    PANTALLAS GRANDES
    ============================================================ */
 @media (min-width:720px){
   .rejilla-categorias{grid-template-columns:repeat(3,1fr)}
   .titulo-pantalla{font-size:38px}
   .marca{font-size:30px}
+  .hoja{align-self:center;border-radius:var(--radio);max-height:82vh}
+  .hoja-fondo{align-items:center}
 }

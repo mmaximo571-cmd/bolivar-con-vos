@@ -68,12 +68,133 @@ function normalizar(t){
   return String(t ?? '').toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g,'');
 }
 
+/* Las dos puertas grandes de la app. El orden de acá es el orden en que se muestran. */
+const NOMBRE_SECCION = {
+  carrera:  'Mi carrera',
+  derechos: 'Mis derechos'
+};
+
 const NOMBRE_LINEA = {
   frente:  'Frente político',
   gremial: 'Gremial',
   info:    'Info importante',
   saberes: 'Saberes colectivos'
 };
+
+/* ------------------------------------------------------------
+   CALENDARIO
+   ------------------------------------------------------------ */
+
+/* Devuelve "2026-09-04" a partir de año, mes (1-12) y día, sin pasar por
+   objetos Date, que en zonas horarias negativas corren el día para atrás. */
+function armarISO(anio, mes, dia){
+  return `${anio}-${String(mes).padStart(2,'0')}-${String(dia).padStart(2,'0')}`;
+}
+
+/* ¿Esta publicación cae en este día? Contempla los rangos de varios días. */
+function caeEnElDia(p, iso){
+  if (!p.fecha_desde) return false;
+  const desde = String(p.fecha_desde).slice(0,10);
+  const hasta = String(p.fecha_hasta || p.fecha_desde).slice(0,10);
+  return iso >= desde && iso <= hasta;
+}
+
+/*
+  Dibuja un calendario mensual dentro de `caja`.
+
+  publicaciones : las filas de la tabla publicaciones
+  alElegirDia   : función que recibe (iso, publicacionesDeEseDia). Si el
+                  estudiante deselecciona, recibe (null, []).
+*/
+function montarCalendario(caja, publicaciones, alElegirDia){
+  const hoy   = hoyISO();
+  const parteHoy = partesFecha(hoy);
+
+  let anio = parteHoy.anio;
+  let mes  = parteHoy.mes;      // 1-12
+  let elegido = null;
+
+  caja.innerHTML = `
+    <div class="calendario">
+      <div class="cal-cabecera">
+        <button class="cal-flecha" id="cal-antes"  aria-label="Mes anterior">‹</button>
+        <div class="cal-mes" id="cal-mes"></div>
+        <button class="cal-flecha" id="cal-despues" aria-label="Mes siguiente">›</button>
+      </div>
+      <div class="cal-grilla" id="cal-grilla"></div>
+      <div class="cal-referencia">
+        <span><i class="cal-punto info"></i> Facultad</span>
+        <span><i class="cal-punto gremial"></i> La Bolívar</span>
+        <span><i class="cal-punto saberes"></i> Saberes colectivos</span>
+      </div>
+    </div>`;
+
+  const grilla    = caja.querySelector('#cal-grilla');
+  const tituloMes = caja.querySelector('#cal-mes');
+
+  function publicacionesDe(iso){
+    return publicaciones.filter(p => caeEnElDia(p, iso));
+  }
+
+  function dibujar(){
+    tituloMes.textContent = `${MESES_LARGO[mes-1]} ${anio}`.toUpperCase();
+
+    /* getDay() da 0 para domingo; acá la semana arranca el lunes */
+    const primerDia   = (new Date(anio, mes-1, 1).getDay() + 6) % 7;
+    const diasDelMes  = new Date(anio, mes, 0).getDate();
+
+    let html = ['L','M','M','J','V','S','D']
+      .map(d => `<div class="cal-nombre-dia">${d}</div>`).join('');
+
+    for (let i = 0; i < primerDia; i++)
+      html += `<button class="cal-dia vacio" tabindex="-1"></button>`;
+
+    for (let d = 1; d <= diasDelMes; d++){
+      const iso   = armarISO(anio, mes, d);
+      const suyas = publicacionesDe(iso);
+
+      /* Un punto por línea editorial presente, hasta tres */
+      const lineas = [...new Set(suyas.map(p => p.linea))].slice(0,3);
+      const puntos = lineas.length
+        ? `<span class="cal-puntos">${lineas.map(l =>
+             `<i class="cal-punto ${esc(l)}"></i>`).join('')}</span>`
+        : `<span class="cal-puntos"></span>`;
+
+      const clases = ['cal-dia'];
+      if (suyas.length) clases.push('con-cosas'); else clases.push('apagado');
+      if (iso === hoy)  clases.push('hoy');
+
+      html += `<button class="${clases.join(' ')}" data-dia="${iso}"
+                 aria-pressed="${iso === elegido}"
+                 ${suyas.length ? '' : 'disabled'}
+                 aria-label="${d} de ${MESES_LARGO[mes-1]}${
+                   suyas.length ? ', ' + suyas.length + ' actividad' + (suyas.length>1?'es':'') : ''}">
+                 <span>${d}</span>${puntos}</button>`;
+    }
+
+    grilla.innerHTML = html;
+  }
+
+  function elegir(iso){
+    elegido = (elegido === iso) ? null : iso;
+    dibujar();
+    alElegirDia(elegido, elegido ? publicacionesDe(elegido) : []);
+  }
+
+  grilla.addEventListener('click', ev => {
+    const b = ev.target.closest('[data-dia]');
+    if (b && !b.disabled) elegir(b.dataset.dia);
+  });
+
+  caja.querySelector('#cal-antes').onclick = () => {
+    mes--; if (mes < 1){ mes = 12; anio--; } dibujar();
+  };
+  caja.querySelector('#cal-despues').onclick = () => {
+    mes++; if (mes > 12){ mes = 1; anio++; } dibujar();
+  };
+
+  dibujar();
+}
 
 /* ------------------------------------------------------------
    SESION
@@ -94,11 +215,12 @@ function esDelEquipo(perfil){ return !!perfil && perfil.rol === 'equipo'; }
    PARTES VISUALES REPETIDAS
    ------------------------------------------------------------ */
 
-/* Barra de navegacion de abajo. actual: inicio | tramites | agenda | mi */
+/* Barra de navegacion de abajo. actual: inicio | tramites | carrera | agenda | mi */
 function pintarNav(actual){
   const items = [
     { id:'inicio',   texto:'Inicio',   icono:'🏠', url:RAIZ },
     { id:'tramites', texto:'Trámites', icono:'🧭', url:RAIZ+'tramites/' },
+    { id:'carrera',  texto:'Cursadas', icono:'🎓', url:RAIZ+'carrera/' },
     { id:'agenda',   texto:'Agenda',   icono:'📅', url:RAIZ+'agenda/' },
     { id:'mi',       texto:'Mi cuenta',icono:'👤', url:RAIZ+'mi/' }
   ];

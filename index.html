@@ -35,20 +35,30 @@
   </section>
 
   <!-- Todo lo demás se esconde mientras se busca -->
+  <!-- Vive afuera de #zona-normal a propósito: el organizador no depende de
+       la base, así que tiene que seguir a la vista aunque la base falle. -->
+  <a class="tarjeta-destacada" id="destacado" href="carrera/">
+    <span class="emoji">🎓</span>
+    <span>
+      <span class="nombre">Organizador de cursadas</span>
+      <p>Marcá cómo venís y mirá qué podés cursar y qué podés promocionar
+         el año que viene.</p>
+    </span>
+  </a>
+
   <div id="zona-normal">
 
-    <div class="titulo-seccion">
-      ¿CON QUÉ NECESITÁS AYUDA?
-      <a href="tramites/">Ver todo</a>
-    </div>
-    <div class="rejilla-categorias" id="categorias">
+    <div id="categorias">
       <div class="cargando">Cargando…</div>
     </div>
 
     <div class="titulo-seccion">
-      LO QUE SE VIENE
-      <a href="agenda/">Agenda</a>
+      CALENDARIO
+      <a href="agenda/">Ver en lista</a>
     </div>
+    <div id="calendario"></div>
+
+    <div class="titulo-seccion" id="titulo-proximas">LO QUE SE VIENE</div>
     <div class="lista" id="proximas">
       <div class="cargando">Cargando…</div>
     </div>
@@ -100,37 +110,51 @@
     return;
   }
 
-  /* ---------- Categorías ---------- */
+  /* ---------- Categorías, agrupadas en las dos puertas ---------- */
   (function pintarCategorias(){
     const caja = document.getElementById('categorias');
     if (!categorias.length){
-      caja.outerHTML = '<div class="vacio">Todavía no hay categorías cargadas.</div>';
+      caja.innerHTML = '<div class="vacio">Todavía no hay categorías cargadas.</div>';
       return;
     }
-    caja.innerHTML = categorias.map(c => {
-      const cuantos = tramites.filter(t => t.categoria_id === c.id).length;
-      return `<a class="tarjeta-categoria" href="tramites/?categoria=${c.id}">
-          <span class="emoji">${esc(c.emoji)}</span>
-          <span class="nombre">${esc(c.nombre)}</span>
-          <span class="cuenta">${cuantos} ${cuantos === 1 ? 'trámite' : 'trámites'}</span>
-        </a>`;
+
+    /* Solo mostramos las categorías que tengan algo publicado adentro:
+       una categoría vacía es una puerta que no lleva a ningún lado. */
+    const conContenido = categorias.filter(c =>
+      tramites.some(t => t.categoria_id === c.id) ||
+      preguntas.some(p => p.categoria_id === c.id));
+
+    if (!conContenido.length){
+      caja.innerHTML = `<div class="vacio">
+          Todavía no hay contenido publicado.<br>Volvé en unos días.</div>`;
+      return;
+    }
+
+    caja.innerHTML = Object.keys(NOMBRE_SECCION).map(seccion => {
+      const suyas = conContenido.filter(c => (c.seccion || 'carrera') === seccion);
+      if (!suyas.length) return '';
+
+      return `<div class="titulo-seccion">${esc(NOMBRE_SECCION[seccion].toUpperCase())}
+          <a href="tramites/?seccion=${seccion}">Ver todo</a></div>
+        <div class="rejilla-categorias">` +
+        suyas.map(c => {
+          const cuantos = tramites.filter(t => t.categoria_id === c.id).length +
+                          preguntas.filter(p => p.categoria_id === c.id).length;
+          return `<a class="tarjeta-categoria" href="tramites/?categoria=${c.id}">
+              <span class="emoji">${esc(c.emoji)}</span>
+              <span class="nombre">${esc(c.nombre)}</span>
+              <span class="cuenta">${cuantos} ${cuantos === 1 ? 'ficha' : 'fichas'}</span>
+            </a>`;
+        }).join('') + `</div>`;
     }).join('');
   })();
 
-  /* ---------- Lo que se viene ---------- */
-  (function pintarProximas(){
-    const caja = document.getElementById('proximas');
-    const hoy = hoyISO();
-    const proximas = publicaciones
-      .filter(p => p.fecha_desde && (p.fecha_hasta || p.fecha_desde) >= hoy)
-      .sort((a,b) => a.fecha_desde.localeCompare(b.fecha_desde))
-      .slice(0, 4);
+  /* ---------- Calendario + lista de abajo ---------- */
+  (function pintarCalendario(){
+    const caja        = document.getElementById('proximas');
+    const tituloLista = document.getElementById('titulo-proximas');
 
-    if (!proximas.length){
-      caja.innerHTML = '<div class="vacio">No hay fechas cargadas por ahora.</div>';
-      return;
-    }
-    caja.innerHTML = proximas.map(p => {
+    function tarjetaFecha(p){
       const f = partesFecha(p.fecha_desde);
       return `<a class="tarjeta ${esc(p.linea)}" href="agenda/?id=${p.id}">
           <div class="tarjeta-fecha">
@@ -144,7 +168,33 @@
             </div>
           </div>
         </a>`;
-    }).join('');
+    }
+
+    /* Sin día elegido mostramos lo que se viene; con un día elegido, ese día. */
+    function mostrarProximas(){
+      tituloLista.textContent = 'LO QUE SE VIENE';
+      const hoy = hoyISO();
+      const proximas = publicaciones
+        .filter(p => p.fecha_desde && (p.fecha_hasta || p.fecha_desde) >= hoy)
+        .sort((a,b) => a.fecha_desde.localeCompare(b.fecha_desde))
+        .slice(0, 4);
+
+      caja.innerHTML = proximas.length
+        ? proximas.map(tarjetaFecha).join('')
+        : '<div class="vacio">No hay fechas próximas cargadas.</div>';
+    }
+
+    montarCalendario(document.getElementById('calendario'), publicaciones,
+      function(iso, deEseDia){
+        if (!iso){ mostrarProximas(); return; }
+        tituloLista.textContent = fechaLinda(iso).toUpperCase();
+        caja.innerHTML = deEseDia.length
+          ? deEseDia.map(tarjetaFecha).join('')
+          : '<div class="vacio">No hay nada ese día.</div>';
+        tituloLista.scrollIntoView({ block:'nearest' });
+      });
+
+    mostrarProximas();
   })();
 
   /* ---------- Novedades ---------- */
@@ -167,6 +217,7 @@
   const entrada    = document.getElementById('busqueda');
   const zonaRes    = document.getElementById('zona-resultados');
   const zonaNormal = document.getElementById('zona-normal');
+  const destacado  = document.getElementById('destacado');
   const listaRes   = document.getElementById('resultados');
   const tituloRes  = document.getElementById('titulo-resultados');
 
@@ -176,10 +227,12 @@
     if (q.length < 2){
       zonaRes.hidden = true;
       zonaNormal.hidden = false;
+      destacado.hidden = false;
       return;
     }
     zonaRes.hidden = false;
     zonaNormal.hidden = true;
+    destacado.hidden = true;
 
     const tHit = tramites.filter(t =>
       normalizar(t.titulo + ' ' + (t.resumen || '') + ' ' + (t.palabras_clave || '')).includes(q));

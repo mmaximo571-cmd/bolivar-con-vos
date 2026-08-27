@@ -11,6 +11,7 @@ Facultad de Trabajo Social, UNLP.
 |---|---|---|
 | Inicio | `index.html` | Buscador grande, categorías, próximas fechas, novedades |
 | Trámites | `tramites/index.html` | Guía paso a paso + preguntas frecuentes |
+| Cursadas | `carrera/index.html` | Organizador de cursadas según el plan de estudios |
 | Agenda | `agenda/index.html` | Fechas, comunicados y actividades. Se actualiza sola |
 | Mi cuenta | `mi/index.html` | Cuenta **opcional** del estudiante, para guardar trámites |
 | Panel | `panel/index.html` | Donde el equipo carga y edita todo |
@@ -28,6 +29,10 @@ app.js               ← funciones compartidas (cabecera, barra de abajo, fechas
 favicon.svg          ← ícono de la pestaña
 index.html
 tramites/index.html
+carrera/index.html   ← organizador de cursadas
+carrera/plan.js      ← PLAN: Licenciatura en Trabajo Social
+carrera/plan-tgcr.js ← PLAN: Tecnicatura en Gestión Comunitaria del Riesgo
+carrera/plan-fono.js ← PLAN: Licenciatura en Fonoaudiología
 agenda/index.html
 mi/index.html
 panel/index.html
@@ -36,6 +41,52 @@ LEEME.md             ← este archivo
 
 **Para cambiar un color de toda la app:** abrí `estilos.css` y tocá una sola línea
 en el bloque `PANEL DE CONTROL ESTETICO` de arriba de todo.
+
+---
+
+## El organizador de cursadas
+
+Es la única pantalla que **no usa Supabase**: el plan de estudios está escrito en
+`carrera/plan.js` y viaja con la app, así que funciona sin internet y sin cuenta.
+Lo que marca cada estudiante se guarda **solo en su teléfono** (`localStorage`),
+no se sube a ningún lado y nadie del equipo lo ve.
+
+**Para corregir el plan** (una correlativa, un nombre, una carga horaria) se toca
+`carrera/plan.js` y nada más. Cada materia tiene:
+
+| Campo | Qué es |
+|---|---|
+| `cod` | El código tal cual figura en el plan (`211 A`, `242`…) |
+| `dictado` | `anual`, `1c`, `2c` o `libre` |
+| `correl` | Los códigos de sus correlativas |
+| `marcada` | `true` si en el plan aparece con asterisco (*) |
+
+La regla que aplica, tal como funciona la cursada:
+
+- **Promocionar** una materia habilita a **promocionar** la que le sigue.
+- **Aprobar solo la cursada** habilita a **cursar** la que le sigue, pero no a
+  promocionarla: primero hay que rendir el final.
+
+### Los tres planes cargados
+
+| Carrera | Archivo | Variable | Materias |
+|---|---|---|---|
+| Licenciatura en Trabajo Social | `carrera/plan.js` | `PLAN_TS` | 31 |
+| Tecnicatura en Gestión Comunitaria del Riesgo | `carrera/plan-tgcr.js` | `PLAN_TGCR` | 21 |
+| Licenciatura en Fonoaudiología | `carrera/plan-fono.js` | `PLAN_FONO` | 42 |
+
+Los tres tienen la misma forma, salvo dos diferencias que vienen de los planes
+mismos y **no** son un descuido:
+
+- **Trabajo Social y Gestión del Riesgo** traen **una sola** columna de
+  correlativas, en el campo `correl`. Ahí vale la regla general de arriba.
+- **Fonoaudiología** trae **dos** columnas —«CURSADA» y «FINAL / PROMOCIÓN»— así
+  que sus materias usan `paraCursar` y `paraFinal` en lugar de `correl`.
+- Los PDF de Gestión del Riesgo y de Fonoaudiología **no publican carga
+  horaria**, así que esas materias no tienen el campo `horas`.
+
+Por ahora la pantalla solo muestra Trabajo Social. Conectar las otras dos es el
+paso siguiente.
 
 ---
 
