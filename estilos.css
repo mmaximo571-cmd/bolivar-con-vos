@@ -9,6 +9,8 @@
   --rojo:      #B22222;   /* urgente, alertas, eliminar                 */
   --turquesa:  #00BFA5;   /* gremial, confirmaciones                    */
   --hueso:     #F5F0E8;   /* fondo general de la app                    */
+  --amarillo-marca: #F9E830; /* el amarillo del logo animado de apertura */
+  --rojo-marca:     #B62725; /* el rojo de la tinta del logo             */
   --blanco:    #FFFFFF;   /* tarjetas                                   */
   --gris:      #6B6B6B;   /* textos secundarios                         */
   --borde:     #E3DDD2;   /* lineas y separadores                       */
@@ -469,6 +471,183 @@ h1,h2,h3{margin:0;font-weight:400}
   text-transform:uppercase;color:var(--amarillo);display:block
 }
 .tarjeta-destacada p{margin:3px 0 0;font-size:14px;color:#c9c9c9;line-height:1.35}
+
+/* --- Mapa de correlatividades --------------------------------
+   Se lee de izquierda a derecha: una columna por año. Las lineas
+   unen cada materia con las que le abren la puerta. Los colores son
+   los mismos del resto del organizador: turquesa = promocion,
+   amarillo = cursada.
+   ------------------------------------------------------------ */
+.mapa-leyenda{
+  display:flex;flex-wrap:wrap;gap:7px 14px;margin:0 0 10px;
+  font-size:12.5px;color:var(--gris)
+}
+.mapa-leyenda span{display:flex;align-items:center;gap:6px}
+.mapa-leyenda i{
+  width:15px;height:15px;border-radius:4px;flex:0 0 auto;
+  background:var(--blanco);border:1.5px solid var(--borde)
+}
+.mapa-leyenda i.aprobada  {background:var(--turquesa);border-color:var(--turquesa)}
+.mapa-leyenda i.cursada   {background:var(--amarillo);border-color:var(--amarillo)}
+.mapa-leyenda i.promociona{border-color:var(--turquesa);border-width:2.5px}
+.mapa-leyenda i.cursa     {border-color:var(--amarillo);border-width:2.5px}
+.mapa-leyenda i.trabada   {background:#F3F0EA}
+
+.mapa-marco{
+  overflow:auto;-webkit-overflow-scrolling:touch;
+  background:var(--blanco);border:1px solid var(--borde);
+  border-radius:var(--radio);box-shadow:var(--sombra)
+}
+.mapa-lienzo{position:relative}
+.mapa-lienzo svg{position:absolute;left:0;top:0;pointer-events:none}
+
+.mapa-col-titulo{
+  position:absolute;top:12px;
+  font-family:var(--fuente-sub);font-weight:700;font-size:12px;
+  text-transform:uppercase;letter-spacing:.06em;color:var(--gris);white-space:nowrap
+}
+
+.mapa-nodo{
+  position:absolute;display:flex;flex-direction:column;gap:2px;
+  text-align:left;overflow:hidden;cursor:pointer;
+  background:var(--blanco);border:1.5px solid var(--borde);
+  border-radius:var(--radio-chico);padding:6px 8px;
+  font-family:var(--fuente-texto);line-height:1.14
+}
+.mapa-nodo .cod{
+  font-size:10px;letter-spacing:.04em;color:var(--gris);
+  white-space:nowrap;overflow:hidden;text-overflow:ellipsis
+}
+.mapa-nodo .nom{
+  font-size:11.5px;font-weight:700;color:var(--negro);
+  display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden
+}
+.mapa-nodo.aprobada  {background:var(--turquesa);border-color:var(--turquesa)}
+.mapa-nodo.cursada   {background:var(--amarillo);border-color:var(--amarillo)}
+.mapa-nodo.cursando  {border-color:var(--linea-saberes);border-width:2.5px}
+.mapa-nodo.promociona{border-color:var(--turquesa);border-width:2.5px}
+.mapa-nodo.cursa     {border-color:var(--amarillo);border-width:2.5px}
+.mapa-nodo.trabada   {background:#F3F0EA}
+.mapa-nodo.trabada .nom{color:var(--gris)}
+.mapa-nodo:hover{box-shadow:0 0 0 2px var(--negro)}
+
+.mapa-arista{fill:none;stroke:var(--borde);stroke-width:1.2}
+.mapa-arista.promociona{stroke:var(--turquesa);stroke-width:2.4}
+.mapa-arista.cursa     {stroke:var(--amarillo);stroke-width:2.4}
+.mapa-arista.resaltada {stroke:var(--negro);stroke-width:2.4}
+
+/* ============================================================
+   APERTURA · la animacion de cuando abris la app
+   Dura poco menos de un segundo y se va sola. Se ve una vez por
+   visita, no cada vez que cambias de pantalla.
+   ============================================================ */
+/* El logo animado de la Agrupacion, traido del proyecto de Claude Design
+   "Animación logo Simón Bolívar". Son tres capas apiladas (el contorno de
+   Sudamerica, SIMON y BOLIVAR) sobre el amarillo de la marca. El dibujo
+   completo mide 1080x1350, y la tinta ocupa 805x664 en el centro: por eso
+   la escala se calcula contra esas medidas y no contra el lienzo.
+   La coreografia (que capa entra cuando) esta en index.html. */
+.apertura{
+  position:fixed;inset:0;z-index:200;overflow:hidden;
+  background:var(--amarillo-marca);
+  display:flex;align-items:center;justify-content:center;
+  transition:opacity .35s ease
+}
+.apertura::before{
+  content:'';position:absolute;inset:0;pointer-events:none;
+  background:radial-gradient(130% 100% at 50% 42%,
+    rgba(255,255,255,.14) 0%, rgba(255,255,255,0) 60%, rgba(182,39,37,.07) 100%)
+}
+.apertura.yendose{opacity:0}
+
+.marca-escena{
+  position:relative;flex:0 0 auto;
+  width:1080px;height:1350px;transform-origin:50% 50%
+}
+.marca-escena .capa{position:absolute;inset:0}
+.marca-escena .capa img{
+  position:absolute;left:0;top:0;width:1080px;height:1350px;
+  user-select:none;-webkit-user-select:none;-webkit-user-drag:none
+}
+.marca-escena .destello{
+  position:absolute;top:-20%;width:26%;height:140%;opacity:0;
+  transform:rotate(14deg);pointer-events:none;mix-blend-mode:soft-light;
+  background:linear-gradient(to right,
+    rgba(255,255,255,0) 0%, rgba(255,255,255,.9) 50%, rgba(255,255,255,0) 100%)
+}
+
+/* ============================================================
+   BIENVENIDA · solo la primera vez que alguien abre la app
+   ============================================================ */
+/* La apertura y la bienvenida no tienen barra de navegacion abajo, asi
+   que hay que sacarles el hueco que el body le reserva. Si no, la
+   pantalla queda 80px mas alta de lo que se ve y aparece scroll. */
+body.antes-de-entrar{padding-bottom:0}
+
+/* Tiene que entrar de una en la pantalla del telefono: si los botones
+   quedan abajo del pliegue, la bienvenida no sirve para nada. Por eso
+   el dibujo se mide en vh y encoge solo en pantallas cortas. */
+.bienvenida{
+  min-height:100vh;min-height:100dvh;display:flex;flex-direction:column;
+  padding:18px 20px calc(20px + env(safe-area-inset-bottom));
+  background:var(--hueso);text-align:center
+}
+.bienvenida .arriba{
+  flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;
+  gap:clamp(10px,2.2vh,20px);min-height:0
+}
+.bienvenida .dibujo{width:min(240px,60vw);height:auto;max-height:26vh}
+.bienvenida .quienes{
+  font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--gris)
+}
+.bienvenida h1{
+  font-family:var(--fuente-titulo);font-size:clamp(27px,7.4vw,34px);line-height:1.02;
+  text-transform:uppercase;max-width:15ch;margin-top:5px
+}
+.bienvenida .lema{color:var(--gris);font-size:16px;line-height:1.4;max-width:32ch;margin:0}
+.bienvenida .abajo{display:flex;flex-direction:column;gap:10px;width:100%;max-width:420px;margin:0 auto}
+.bienvenida .sin-cuenta{
+  background:transparent;border:none;padding:12px;
+  font-family:var(--fuente-sub);font-size:16px;font-weight:700;
+  text-transform:uppercase;letter-spacing:.04em;color:var(--negro);text-decoration:none
+}
+
+/* ============================================================
+   INICIO · tarjeta grande y recuadros
+   ============================================================ */
+.tarjeta-carrera{
+  display:block;text-decoration:none;color:var(--negro);
+  border-radius:20px;padding:18px;margin:18px 0 12px;
+  min-height:158px;box-shadow:var(--sombra);
+  background:linear-gradient(118deg,#FFD600 0%,#FFE879 34%,#8FE9DC 74%,#00BFA5 100%)
+}
+.tarjeta-carrera .rotulo{
+  font-size:11px;letter-spacing:.14em;text-transform:uppercase;opacity:.72
+}
+.tarjeta-carrera .nombre{
+  font-family:var(--fuente-titulo);font-size:27px;line-height:1;
+  text-transform:uppercase;margin:7px 0 12px;display:block
+}
+.tarjeta-carrera .barra{background:rgba(26,26,26,.17);height:8px}
+.tarjeta-carrera .barra-llena{background:var(--negro)}
+.tarjeta-carrera .cifra{
+  display:flex;justify-content:space-between;align-items:baseline;gap:10px;
+  margin-top:9px;font-size:14px
+}
+.tarjeta-carrera .cifra strong{font-family:var(--fuente-sub);font-size:19px}
+
+.rejilla-recuadros{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin-bottom:8px}
+.recuadro{
+  background:var(--blanco);border:1px solid var(--borde);border-radius:var(--radio);
+  padding:14px;text-decoration:none;color:var(--negro);
+  box-shadow:var(--sombra);display:flex;flex-direction:column;gap:3px;min-height:112px
+}
+.recuadro .rotulo{font-size:12px;letter-spacing:.06em;text-transform:uppercase;color:var(--gris)}
+.recuadro .grande{
+  font-family:var(--fuente-titulo);font-size:30px;line-height:1;margin-top:2px
+}
+.recuadro .detalle{font-size:13.5px;color:var(--gris);line-height:1.3}
+.recuadro .pie-recuadro{margin-top:auto;font-size:13.5px;line-height:1.25;font-weight:700}
 
 /* ============================================================
    PANTALLAS GRANDES

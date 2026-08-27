@@ -33,6 +33,7 @@
   <!-- ---------- PESTAÑAS ---------- -->
   <div class="pestanas" role="tablist">
     <button class="pestana" id="tab-plan"  role="tab" aria-selected="true">El año que viene</button>
+    <button class="pestana" id="tab-mapa"  role="tab" aria-selected="false">Mapa</button>
     <button class="pestana" id="tab-todo"  role="tab" aria-selected="false">Plan completo</button>
   </div>
 
@@ -53,6 +54,27 @@
 
     <div id="grupos"></div>
     <div id="consejo"></div>
+  </section>
+
+  <!-- ---------- VISTA: MAPA DE CORRELATIVIDADES ---------- -->
+  <section id="vista-mapa" hidden>
+    <p class="bajada" style="margin-bottom:12px">
+      El plan se lee de izquierda a derecha: cada columna es un año, y las
+      líneas van de cada materia a las que te habilita.
+    </p>
+
+    <div class="mapa-leyenda">
+      <span><i class="aprobada"></i>Aprobada</span>
+      <span><i class="cursada"></i>Te falta el final</span>
+      <span><i class="promociona"></i>Podés promocionarla</span>
+      <span><i class="cursa"></i>Podés cursarla</span>
+      <span><i class="trabada"></i>Todavía no</span>
+    </div>
+
+    <div class="mapa-marco" id="mapa-marco">
+      <div class="mapa-lienzo" id="mapa-lienzo"></div>
+    </div>
+    <p class="letra-chica" id="mapa-aviso" hidden></p>
   </section>
 
   <!-- ---------- VISTA: PLAN COMPLETO ---------- -->
@@ -265,6 +287,14 @@ function pintarProgreso(){
      Gestion del Riesgo y Fonoaudiologia no publican carga horaria). */
   const pct = Math.round(aprobadas / total * 100);
 
+  /* Le dejamos un resumen chiquito a la pantalla de inicio, para que
+     pueda mostrar la tarjeta grande sin cargar los tres planes. */
+  try {
+    localStorage.setItem('bolivar-carrera-resumen', JSON.stringify({
+      carrera: PLAN.nombreCorto, aprobadas: aprobadas, total: total
+    }));
+  } catch(e){ /* modo incógnito: la tarjeta muestra la invitación */ }
+
   document.getElementById('progreso').innerHTML = `
     <div class="barra"><div class="barra-llena" style="width:${pct}%"></div></div>
     <div class="progreso-datos">
@@ -443,6 +473,153 @@ function pintarPlanCompleto(){
 }
 
 /* ============================================================
+   VISTA: MAPA DE CORRELATIVIDADES
+
+   Una columna por año, leyendo de izquierda a derecha. Las lineas
+   van de cada materia a las que le abren la puerta, y se encienden
+   cuando esa puerta ya se abrio de verdad.
+   ============================================================ */
+/* El alto da para el codigo + tres renglones de nombre: con menos, se
+   cortaban los nombres largos como "Teoría de las culturas y
+   antropologías de las sociedades contemporáneas". */
+const NODO_AN = 158, NODO_AL = 70;   /* tamaño de cada materia    */
+const HUECO_X = 72,  HUECO_Y = 12;   /* aire entre columnas/filas */
+const MARGEN  = 16,  TECHO   = 40;   /* borde y lugar del titulo  */
+
+const ORDEN_DICTADO = { '1c':0, anual:1, '2c':2, libre:3 };
+
+/* Lo que el mapa dibuja como flecha. El Trabajo Integrador Final de
+   Fonoaudiología pide "todas las de 1° a 4°": son cuarenta flechas que
+   no explican nada, así que esa no se dibuja (la ficha sí la cuenta). */
+function refsMapa(m){
+  const pf = (m.paraFinal === 'todas-1-a-4') ? [] : paraFinal(m);
+  const todas = paraCursar(m).concat(pf);
+  return todas.filter((c, i) => todas.indexOf(c) === i);
+}
+
+/* El color de cada materia en el mapa */
+function claseMapa(m){
+  const e = estadoCrudo(m.cod);
+  if (e === 'aprobada') return 'aprobada';
+  if (e === 'cursada')  return 'cursada';
+  if (e === 'cursando') return 'cursando';
+  return situacion(m).clase;
+}
+
+function pintarMapa(){
+  /* ---- 1. Repartir las materias en columnas, una por año ---- */
+  const columnas = [];
+  for (let a = 1; a <= (PLAN.anios || 5); a++){
+    const suyas = MATERIAS.filter(m => m.anio === a);
+    if (suyas.length) columnas.push({ anio:a, nodos:suyas.slice() });
+  }
+
+  const lugar = {};   /* cod -> {col, fila} */
+
+  /* Dentro de cada columna: primero por cuatrimestre, y despues cerca
+     de la altura promedio de sus correlativas, para que las lineas se
+     crucen lo menos posible. */
+  function alturaDeSusCorrelativas(m){
+    const previas = refsMapa(m).map(c => lugar[c]).filter(p => p);
+    if (!previas.length) return 0;
+    return previas.reduce((s, p) => s + p.fila, 0) / previas.length;
+  }
+
+  columnas.forEach((col, ci) => {
+    col.nodos.sort((x, y) => {
+      const d = ORDEN_DICTADO[x.dictado] - ORDEN_DICTADO[y.dictado];
+      return d || (alturaDeSusCorrelativas(x) - alturaDeSusCorrelativas(y));
+    });
+    col.nodos.forEach((m, fi) => lugar[m.cod] = { col:ci, fila:fi });
+  });
+
+  const equis = ci => MARGEN + ci * (NODO_AN + HUECO_X);
+  const ye    = fi => TECHO  + fi * (NODO_AL + HUECO_Y);
+
+  const filasMax = Math.max(...columnas.map(c => c.nodos.length));
+  const ancho = MARGEN * 2 + columnas.length * NODO_AN + (columnas.length - 1) * HUECO_X;
+  const alto  = TECHO + filasMax * (NODO_AL + HUECO_Y) + MARGEN;
+
+  /* ---- 2. Las lineas ---- */
+  const lineas = [];
+  MATERIAS.forEach(m => {
+    const hasta = lugar[m.cod];
+    const claseDestino = claseMapa(m);
+
+    refsMapa(m).forEach(c => {
+      const desde = lugar[c];
+      if (!desde) return;
+
+      /* Se enciende cuando la de la izquierda ya está hecha y gracias a
+         eso la de la derecha se te abrió. Eso es lo que el mapa cuenta. */
+      const listaLaPrevia = ORDEN[estado(c)] >= ORDEN.cursada;
+      const pendiente     = estadoCrudo(m.cod) === 'pendiente';
+      const encendida     = listaLaPrevia && pendiente &&
+                            (claseDestino === 'promociona' || claseDestino === 'cursa');
+
+      const yD = ye(desde.fila) + NODO_AL / 2;
+      const yH = ye(hasta.fila) + NODO_AL / 2;
+      let d;
+
+      if (desde.col === hasta.col){
+        /* Misma columna: la rodeamos por la izquierda */
+        const x = equis(desde.col), vuelta = x - 26;
+        d = `M ${x} ${yD} C ${vuelta} ${yD}, ${vuelta} ${yH}, ${x} ${yH}`;
+      } else {
+        const xD = equis(desde.col) + NODO_AN, xH = equis(hasta.col);
+        const tiron = Math.min(48, (xH - xD) / 2);
+        d = `M ${xD} ${yD} C ${xD + tiron} ${yD}, ${xH - tiron} ${yH}, ${xH} ${yH}`;
+      }
+
+      lineas.push(`<path class="mapa-arista ${encendida ? claseDestino : ''}"
+                     d="${d}" data-une="${esc(c)}|${esc(m.cod)}"></path>`);
+    });
+  });
+
+  /* ---- 3. Armar todo ---- */
+  const lienzo = document.getElementById('mapa-lienzo');
+  lienzo.style.width  = ancho + 'px';
+  lienzo.style.height = alto + 'px';
+
+  lienzo.innerHTML =
+    `<svg width="${ancho}" height="${alto}" viewBox="0 0 ${ancho} ${alto}" aria-hidden="true">
+       ${lineas.join('')}
+     </svg>` +
+    columnas.map((col, ci) =>
+      `<div class="mapa-col-titulo" style="left:${equis(ci)}px">${ORDINAL[col.anio]} AÑO</div>`
+    ).join('') +
+    columnas.map((col, ci) => col.nodos.map((m, fi) =>
+      `<button class="mapa-nodo materia ${claseMapa(m)}" data-cod="${esc(m.cod)}"
+               style="left:${equis(ci)}px;top:${ye(fi)}px;width:${NODO_AN}px;height:${NODO_AL}px"
+               title="${esc(m.nombre)}">
+         <span class="cod">${esc(m.cod)} · ${DICTADO[m.dictado]}</span>
+         <span class="nom">${esc(m.nombre)}</span>
+       </button>`).join('')).join('');
+
+  /* En pantalla grande se resaltan las conexiones de la materia que
+     tenés debajo del dedo o del mouse. En el celular no molesta. */
+  lienzo.querySelectorAll('.mapa-nodo').forEach(nodo => {
+    nodo.addEventListener('mouseenter', () => marcarLineas(nodo.dataset.cod));
+    nodo.addEventListener('mouseleave', () => marcarLineas(null));
+  });
+
+  function marcarLineas(cod){
+    lienzo.querySelectorAll('.mapa-arista').forEach(l => {
+      const [a, b] = l.dataset.une.split('|');
+      l.classList.toggle('resaltada', cod !== null && (a === cod || b === cod));
+    });
+  }
+
+  /* Aviso de deslizar, solo si de verdad no entra en la pantalla */
+  const marco = document.getElementById('mapa-marco');
+  const aviso = document.getElementById('mapa-aviso');
+  const noEntra = ancho > marco.clientWidth;
+  aviso.hidden = !noEntra;
+  if (noEntra) aviso.textContent =
+    'Deslizá el mapa hacia el costado para ver los años siguientes.';
+}
+
+/* ============================================================
    HOJA DE DETALLE
    ============================================================ */
 const fondo  = document.getElementById('hoja-fondo');
@@ -578,18 +755,19 @@ document.getElementById('suponer').addEventListener('change', function(){
   pintarConsejo();
 });
 
-const tabPlan = document.getElementById('tab-plan');
-const tabTodo = document.getElementById('tab-todo');
+const PESTANAS = ['plan', 'mapa', 'todo'];
 function verPestana(cual){
-  const esPlan = cual === 'plan';
-  tabPlan.setAttribute('aria-selected', esPlan);
-  tabTodo.setAttribute('aria-selected', !esPlan);
-  document.getElementById('vista-plan').hidden = !esPlan;
-  document.getElementById('vista-todo').hidden = esPlan;
+  PESTANAS.forEach(k => {
+    document.getElementById('tab-' + k).setAttribute('aria-selected', k === cual);
+    document.getElementById('vista-' + k).hidden = k !== cual;
+  });
+  /* El mapa se mide contra el ancho de la pantalla, así que el aviso de
+     deslizar hay que recalcularlo cuando la vista ya está visible. */
+  if (cual === 'mapa') pintarMapa();
   scrollTo(0, 0);
 }
-tabPlan.addEventListener('click', () => verPestana('plan'));
-tabTodo.addEventListener('click', () => verPestana('todo'));
+PESTANAS.forEach(k =>
+  document.getElementById('tab-' + k).addEventListener('click', () => verPestana(k)));
 
 document.getElementById('borrar').addEventListener('click', () => {
   if (!confirm(`¿Borrar todo lo que marcaste en ${PLAN.nombreCorto} y empezar de nuevo?\n\nLo de las otras carreras no se toca.`)) return;
@@ -608,6 +786,7 @@ function pintarTodo(){
   pintarGrupos();
   pintarConsejo();
   pintarPlanCompleto();
+  pintarMapa();
 }
 
 elegirCarrera(guardado.carrera || 'ts');

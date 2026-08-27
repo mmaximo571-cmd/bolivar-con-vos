@@ -9,7 +9,7 @@ Facultad de Trabajo Social, UNLP.
 
 | Pantalla | Archivo | Para qué |
 |---|---|---|
-| Inicio | `index.html` | Buscador grande, categorías, próximas fechas, novedades |
+| Inicio | `index.html` | Apertura, bienvenida, tarjeta de carrera, recuadros, buscador |
 | Trámites | `tramites/index.html` | Guía paso a paso + preguntas frecuentes |
 | Cursadas | `carrera/index.html` | Organizador de cursadas según el plan de estudios |
 | Agenda | `agenda/index.html` | Fechas, comunicados y actividades. Se actualiza sola |
@@ -17,6 +17,63 @@ Facultad de Trabajo Social, UNLP.
 | Panel | `panel/index.html` | Donde el equipo carga y edita todo |
 
 **La app se usa entera sin registrarse.** La cuenta solo sirve para guardar trámites.
+
+---
+
+## Lo primero que ve el estudiante
+
+Al abrir `index.html` pasan tres cosas, en este orden:
+
+1. **La apertura: el logo animado de la Agrupación.** Sobre el amarillo de la
+   marca se dibuja el contorno de Sudamérica de norte a sur, después entran
+   SIMÓN y BOLÍVAR barriendo de izquierda a derecha, un destello cruza el logo
+   y todo se disuelve. Se ve **una vez por visita**: si entrás a Trámites y
+   volvés, no se repite. Se puede saltear tocando la pantalla, y quien tenga
+   activado «reducir movimiento» en su teléfono ve el logo ya armado, sin
+   animación.
+2. **La bienvenida.** Solo la **primerísima vez**, nunca más. Dos botones:
+   **Entrar** (pasa directo, sin registrarse) y **Ya tengo cuenta** (va al login).
+   Los dos marcan la bienvenida como vista.
+3. **El inicio.** Arriba de todo, una tarjeta grande con **cómo venís con tu
+   carrera**, y debajo dos recuadros: la próxima fecha de la agenda y cuántos
+   trámites hay cargados. Después siguen las categorías, las fechas y las
+   novedades de siempre.
+
+La tarjeta grande **no carga los planes de estudio**: el organizador le deja un
+resumen chiquito en el teléfono (`bolivar-carrera-resumen`) y la tarjeta lo lee.
+Mientras nadie usó el organizador, la tarjeta invita a empezar.
+
+Lo que se guarda para todo esto:
+
+| Llave | Dónde | Para qué |
+|---|---|---|
+| `bolivar-apertura-vista` | sesión | Que la animación no se repita al navegar |
+| `bolivar-bienvenida-vista` | teléfono | Que la bienvenida se vea una sola vez |
+| `bolivar-carrera-resumen` | teléfono | La tarjeta grande del inicio |
+
+### Cómo tocar el logo animado
+
+El dibujo son **tres PNG apilados** en `marca/`: `map.png` (el contorno),
+`simon.png` y `bolivar.png`. Vienen del proyecto de Claude Design «Animación
+logo Simón Bolívar». Las tres miden 1080×1350 y la tinta ocupa 805×664 en el
+centro; por eso el tamaño en pantalla se calcula contra esas medidas y no
+contra el lienzo entero.
+
+**Para cambiar cuánto dura, tocá una sola línea** en `index.html`:
+
+```js
+const DURACION_APERTURA = 2.6;   // segundos que dura en la app
+```
+
+En el diseño original la animación dura 8,8 segundos y va en loop, porque está
+pensada como pieza de video. Acá se reproduce una sola vez y comprimida. El
+reloj interno igual cuenta en los 8,8 segundos originales y lo único que cambia
+es a qué velocidad avanza, así que la coreografía queda idéntica: subir o bajar
+ese número estira o encoge todo por igual, sin desacomodar nada.
+
+El amarillo de la apertura (`--amarillo-marca`, `#F9E830`) es el del dibujo y
+**no es el mismo** que el amarillo de la app (`--amarillo`, `#FFD600`). Están
+separados a propósito: el del logo viene dado por el arte.
 
 ---
 
@@ -92,6 +149,27 @@ y el botón «Empezar de nuevo» borra solo la que estás mirando.
 Quien ya venía usando la app tenía sus materias de Trabajo Social guardadas en el
 formato viejo. No se pierde nada: la primera vez que abre la pantalla nueva, eso
 pasa solo a Trabajo Social.
+
+### La pestaña «Mapa»
+
+Muestra el plan de correlatividades **de izquierda a derecha**: una columna por
+año, y una línea desde cada materia hasta las que te habilita.
+
+Los colores son los mismos que en el resto del organizador:
+
+- **Turquesa lleno** — ya la aprobaste.
+- **Amarillo lleno** — aprobaste la cursada, te falta el final.
+- **Borde turquesa** — la podés promocionar.
+- **Borde amarillo** — la podés cursar, pero no promocionar.
+- **Gris** — todavía no la podés cursar.
+
+Las líneas se encienden solas: cuando una materia queda lista y gracias a eso se
+te abre la siguiente, esa línea se pinta. **Turquesa si te habilita a
+promocionar, amarillo si solo te habilita a cursar.** Ahí se ve de un vistazo lo
+que dice el LEEME más arriba sobre la diferencia entre cursar y promocionar.
+
+Tocando cualquier materia del mapa se abre la misma ficha de siempre. En el
+celular el mapa se desliza hacia el costado; la página no se mueve.
 
 Cuando una carrera no tiene algo, la sección desaparece en vez de quedar vacía:
 Gestión del Riesgo no muestra el filtro «Anuales» porque no tiene materias

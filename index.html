@@ -3,616 +3,560 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Organizador de cursadas · La Bolívar con vos</title>
-<meta name="description" content="Organizá tu cursada según el plan de estudios de tu carrera en la Facultad de Trabajo Social. Mirá qué podés cursar y qué podés promocionar el año que viene.">
+<title>La Bolívar con vos</title>
+<meta name="description" content="Trámites, fechas y novedades de la Facultad de Trabajo Social de la UNLP. Agrupación Simón Bolívar.">
 <meta name="theme-color" content="#1A1A1A">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Anton&family=Antonio:wght@400;700&family=Roboto+Condensed:wght@400;700&display=swap" rel="stylesheet">
-<link rel="icon" href="../favicon.svg">
-<link rel="stylesheet" href="../estilos.css">
+<link rel="icon" href="favicon.svg">
+<link rel="stylesheet" href="estilos.css">
 </head>
-<body>
+<body class="antes-de-entrar">
 
-<div id="cabecera"></div>
-
-<main class="envoltura">
-
-  <h1 class="titulo-pantalla">Organizador de cursadas</h1>
-  <p class="bajada">
-    Marcá cómo venís con cada materia y la app te dice qué podés cursar
-    y qué podés <strong>promocionar</strong> el año que viene.
-  </p>
-
-  <!-- ---------- ELEGIR CARRERA ---------- -->
-  <div class="chips" id="selector-carrera" role="group" aria-label="Elegí tu carrera"></div>
-
-  <!-- ---------- PROGRESO ---------- -->
-  <section class="progreso" id="progreso"></section>
-
-  <!-- ---------- PESTAÑAS ---------- -->
-  <div class="pestanas" role="tablist">
-    <button class="pestana" id="tab-plan"  role="tab" aria-selected="true">El año que viene</button>
-    <button class="pestana" id="tab-todo"  role="tab" aria-selected="false">Plan completo</button>
-  </div>
-
-  <!-- ---------- VISTA: EL AÑO QUE VIENE ---------- -->
-  <section id="vista-plan">
-
-    <div class="chips" id="filtro-cuatri" role="group" aria-label="Filtrar por cuatrimestre">
-      <button class="chip" data-cuatri="todo"  aria-pressed="true">Todas</button>
-      <button class="chip" data-cuatri="anual" aria-pressed="false">Anuales</button>
-      <button class="chip" data-cuatri="1c"    aria-pressed="false">1° cuatri</button>
-      <button class="chip" data-cuatri="2c"    aria-pressed="false">2° cuatri</button>
-    </div>
-
-    <label class="interruptor" id="caja-suponer" hidden>
-      <input type="checkbox" id="suponer">
-      <span>Dar por aprobadas las cursadas que estoy haciendo ahora</span>
-    </label>
-
-    <div id="grupos"></div>
-    <div id="consejo"></div>
-  </section>
-
-  <!-- ---------- VISTA: PLAN COMPLETO ---------- -->
-  <section id="vista-todo" hidden>
-    <div id="por-anio"></div>
-
-    <div class="titulo-seccion" id="titulo-requisitos" hidden>OTROS REQUISITOS</div>
-    <div id="requisitos"></div>
-
-    <div class="aviso" id="nota-asterisco" hidden></div>
-
-    <button class="boton borde ancho" id="borrar" style="margin:18px 0 6px">
-      Empezar de nuevo
-    </button>
-    <p class="letra-chica">
-      Lo que marcás se guarda solo en este teléfono. No se sube a ningún lado
-      y nadie más lo ve. Cada carrera se guarda por separado.
-    </p>
-  </section>
-
-</main>
-
-<!-- ---------- HOJA DE DETALLE ---------- -->
-<div class="hoja-fondo" id="hoja-fondo" hidden>
-  <div class="hoja" id="hoja" role="dialog" aria-modal="true" aria-labelledby="hoja-titulo">
-    <button class="hoja-cerrar" id="hoja-cerrar" aria-label="Cerrar">✕</button>
-    <div id="hoja-cuerpo"></div>
+<!-- ============ 1. APERTURA (se va sola) ============
+     El logo animado de la Agrupación. Tres capas apiladas que se van
+     revelando: primero el contorno de Sudamérica dibujándose de norte
+     a sur, después SIMÓN y BOLÍVAR barriendo de izquierda a derecha. -->
+<div class="apertura" id="apertura">
+  <div class="marca-escena" id="marca-escena">
+    <div class="capa" id="capa-mapa"><img src="marca/map.png" alt=""></div>
+    <div class="capa" id="capa-simon"><img src="marca/simon.png" alt=""></div>
+    <div class="capa" id="capa-bolivar"><img src="marca/bolivar.png" alt=""></div>
+    <div class="destello" id="destello"></div>
   </div>
 </div>
 
+<!-- ============ 2. BIENVENIDA (solo la primera vez) ============ -->
+<section class="bienvenida" id="bienvenida" hidden>
+  <div class="arriba">
+
+    <svg class="dibujo" viewBox="0 0 280 190" role="img"
+         aria-label="Ilustración de la Agrupación Simón Bolívar">
+      <circle cx="42" cy="46" r="26" fill="#00BFA5"/>
+      <path d="M232 18l7.6 16.6L257 42l-17.4 7.4L232 66l-7.6-16.6L207 42l17.4-7.4z" fill="#FFD600"/>
+      <circle cx="248" cy="150" r="17" fill="#5DADE2"/>
+      <rect x="14" y="132" width="34" height="34" rx="9" fill="#FFD600"
+            transform="rotate(-14 31 149)"/>
+      <rect x="76" y="34" width="128" height="128" rx="30" fill="#1A1A1A"/>
+      <text x="140" y="129" text-anchor="middle" fill="#FFD600"
+            font-family="Anton, Antonio, Impact, sans-serif" font-size="92">B</text>
+    </svg>
+
+    <div>
+      <p class="quienes">Agrupación Simón Bolívar · FTS UNLP</p>
+      <h1>La facultad, más fácil</h1>
+    </div>
+
+    <p class="lema">
+      Trámites explicados paso a paso, las fechas que importan y un organizador
+      para tu cursada. Todo sin registrarte.
+    </p>
+  </div>
+
+  <div class="abajo">
+    <button class="boton oscuro ancho" id="btn-entrar">Entrar</button>
+    <a class="sin-cuenta" id="btn-cuenta" href="mi/">Ya tengo cuenta</a>
+  </div>
+</section>
+
+<!-- ============ 3. LA APP ============ -->
+<div id="app" hidden>
+
+<div id="cabecera"></div>
+
+<div class="caja-buscador">
+  <div class="envoltura">
+    <div class="buscador">
+      <span class="lupa">🔍</span>
+      <input id="busqueda" type="search" autocomplete="off"
+             placeholder="¿Qué necesitás resolver?" aria-label="Buscar trámites y preguntas">
+    </div>
+  </div>
+</div>
+
+<main class="envoltura">
+
+  <!-- Resultados de la búsqueda (solo aparecen al escribir) -->
+  <section id="zona-resultados" hidden>
+    <div class="titulo-seccion" id="titulo-resultados">RESULTADOS</div>
+    <div class="lista" id="resultados"></div>
+  </section>
+
+  <!-- Todo lo demás se esconde mientras se busca -->
+  <div id="zona-normal">
+
+    <!-- Tarjeta grande: cómo venís con la carrera -->
+    <a class="tarjeta-carrera" id="tarjeta-carrera" href="carrera/"></a>
+
+    <!-- Recuadros con lo que pasa ahora -->
+    <div class="rejilla-recuadros" id="recuadros"></div>
+
+    <div id="categorias">
+      <div class="cargando">Cargando…</div>
+    </div>
+
+    <div class="titulo-seccion">
+      LO QUE SE VIENE
+      <a href="agenda/">Agenda</a>
+    </div>
+    <div class="lista" id="proximas">
+      <div class="cargando">Cargando…</div>
+    </div>
+
+    <div class="titulo-seccion">
+      NOVEDADES
+      <a href="agenda/">Ver todas</a>
+    </div>
+    <div class="lista" id="novedades">
+      <div class="cargando">Cargando…</div>
+    </div>
+
+  </div>
+</main>
+
 <div id="pie"></div>
 
-<script>window.RAIZ = '../';</script>
+</div><!-- /#app -->
+
+<script>window.RAIZ = './';</script>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-<script src="../config.js"></script>
-<script src="../app.js"></script>
-<script src="plan.js"></script>
-<script src="plan-tgcr.js"></script>
-<script src="plan-fono.js"></script>
+<script src="config.js"></script>
+<script src="app.js"></script>
 <script>
-(function carrera(){
+(async function inicio(){
 
-document.getElementById('cabecera').innerHTML = htmlCabecera(
-  '<a class="boton-cabecera" href="../mi/">Mi cuenta</a>');
-document.getElementById('pie').innerHTML = htmlPie();
-pintarNav('carrera');
+  /* ============================================================
+     LAS TRES ETAPAS DE LA APERTURA
 
-/* ============================================================
-   LAS TRES CARRERAS
-   El orden de acá es el orden en que aparecen los botones de arriba.
-   ============================================================ */
-const CARRERAS = [window.PLAN_TS, window.PLAN_TGCR, window.PLAN_FONO];
+     1. La animación: se ve una vez por visita. Si volvés desde
+        Trámites, no la ves de nuevo (por eso sessionStorage).
+     2. La bienvenida: solo la primerísima vez, nunca más
+        (por eso localStorage).
+     3. La app.
 
-/* Estas cuatro cambian cada vez que se elige otra carrera */
-let PLAN, MATERIAS, POR_COD, HABILITA, datos;
+     Mientras tanto los datos ya se están pidiendo, así que cuando
+     la animación termina la pantalla suele estar lista.
+     ============================================================ */
+  const LLAVE_BIENVENIDA = 'bolivar-bienvenida-vista';
+  const LLAVE_APERTURA   = 'bolivar-apertura-vista';
 
-/* ============================================================
-   LAS DOS LISTAS DE CORRELATIVAS
+  const capaApertura   = document.getElementById('apertura');
+  const capaBienvenida = document.getElementById('bienvenida');
+  const capaApp        = document.getElementById('app');
 
-   Trabajo Social y Gestión del Riesgo traen UNA sola columna de
-   correlativas en el plan: la misma lista dice qué necesitás para
-   cursar (con la cursada aprobada) y qué necesitás para promocionar
-   (con el final aprobado).
-
-   Fonoaudiología trae DOS columnas separadas, y a veces dicen cosas
-   distintas. Por eso todo el sistema pregunta por estas dos funciones
-   en vez de mirar "correl" directamente.
-   ============================================================ */
-function paraCursar(m){
-  return m.paraCursar || m.correl || [];
-}
-
-function paraFinal(m){
-  const p = (m.paraFinal !== undefined) ? m.paraFinal : m.correl;
-  /* El Trabajo Integrador Final de Fonoaudiología pide todas las
-     materias de 1° a 4° con el final aprobado. */
-  if (p === 'todas-1-a-4') return MATERIAS.filter(x => x.anio <= 4).map(x => x.cod);
-  return p || [];
-}
-
-/* Todo lo que esta materia menciona, sin repetir */
-function refsDe(m){
-  const todas = paraCursar(m).concat(paraFinal(m));
-  return todas.filter((c, i) => todas.indexOf(c) === i);
-}
-
-/* ============================================================
-   LOS CUATRO ESTADOS
-   El corazón del sistema de correlatividades:
-     promocionar una materia te habilita a promocionar la siguiente;
-     aprobar solo la cursada te habilita a cursarla, pero no a promocionarla.
-   ============================================================ */
-const ESTADOS = {
-  pendiente: { texto:'Todavía no la hice',       corto:'Pendiente'  },
-  cursando:  { texto:'La estoy cursando ahora',  corto:'Cursando'   },
-  cursada:   { texto:'Aprobé la cursada, me falta el final', corto:'Falta el final' },
-  aprobada:  { texto:'Aprobada (promoción o final rendido)', corto:'Aprobada' }
-};
-const ORDEN = { pendiente:0, cursando:1, cursada:2, aprobada:3 };
-
-/* ============================================================
-   LO QUE SE GUARDA EN EL TELEFONO
-   Cada carrera guarda lo suyo por separado, en guardado.datos[id].
-   ============================================================ */
-const LLAVE     = 'bolivar-carrera-v2';
-const LLAVE_VIEJA = 'bolivar-carrera-v1';
-
-let guardado = { carrera:'ts', datos:{} };
-
-try {
-  const crudo = localStorage.getItem(LLAVE);
-  if (crudo) {
-    guardado = Object.assign(guardado, JSON.parse(crudo));
-  } else {
-    /* Quien ya venía usando la app tenía una sola carrera, la de Trabajo
-       Social, guardada en la llave vieja. No se le pierde nada. */
-    const viejo = localStorage.getItem(LLAVE_VIEJA);
-    if (viejo) guardado.datos.ts = JSON.parse(viejo);
+  function guardado(almacen, llave){
+    try { return almacen.getItem(llave); } catch(e){ return null; }
   }
-} catch(e){ /* modo incógnito o memoria llena: seguimos sin guardar */ }
-
-if (!guardado.datos) guardado.datos = {};
-
-function persistir(){
-  try { localStorage.setItem(LLAVE, JSON.stringify(guardado)); } catch(e){}
-}
-
-function estadoCrudo(cod){ return datos.estados[cod] || 'pendiente'; }
-
-/* El estado con el que se hacen las cuentas. Si el interruptor está puesto,
-   una materia "cursando" se cuenta como cursada aprobada. */
-function estado(cod){
-  const e = estadoCrudo(cod);
-  return (datos.suponer && e === 'cursando') ? 'cursada' : e;
-}
-
-/* ============================================================
-   ELEGIR CARRERA
-   ============================================================ */
-function elegirCarrera(id){
-  PLAN = CARRERAS.filter(c => c && c.id === id)[0] || CARRERAS[0];
-
-  MATERIAS = PLAN.materias;
-
-  POR_COD = {};
-  MATERIAS.forEach(m => POR_COD[m.cod] = m);
-
-  /* Mapa al revés: para cada materia, a cuáles les abre la puerta */
-  HABILITA = {};
-  MATERIAS.forEach(m => HABILITA[m.cod] = []);
-  MATERIAS.forEach(m => refsDe(m).forEach(c => {
-    if (HABILITA[c] && HABILITA[c].indexOf(m.cod) === -1) HABILITA[c].push(m.cod);
-  }));
-
-  guardado.carrera = PLAN.id;
-  if (!guardado.datos[PLAN.id]) {
-    guardado.datos[PLAN.id] = { estados:{}, suponer:false, idioma:false };
+  function guardar(almacen, llave){
+    try { almacen.setItem(llave, '1'); } catch(e){ /* modo incógnito */ }
   }
-  datos = guardado.datos[PLAN.id];
-  if (!datos.estados) datos.estados = {};
-  persistir();
 
-  filtroCuatri = 'todo';
-}
+  function mostrarApp(){
+    capaBienvenida.hidden = true;
+    capaApp.hidden = false;
+    /* Recién acá aparece la barra de abajo, así que recién acá le
+       devolvemos al body el hueco que esa barra necesita. */
+    document.body.classList.remove('antes-de-entrar');
+    if (!document.querySelector('.nav-abajo')) pintarNav('inicio');
+  }
 
-function pintarSelectorCarrera(){
-  document.getElementById('selector-carrera').innerHTML =
-    CARRERAS.filter(c => c).map(c => `
-      <button class="chip" data-carrera="${esc(c.id)}"
-              aria-pressed="${c.id === PLAN.id ? 'true' : 'false'}"
-              title="${esc(c.carrera)}">${esc(c.nombreCorto)}</button>`).join('');
-}
+  function mostrarBienvenida(){
+    capaBienvenida.hidden = false;
+    document.getElementById('btn-entrar').addEventListener('click', () => {
+      guardar(localStorage, LLAVE_BIENVENIDA);
+      mostrarApp();
+    });
+    /* El que ya tiene cuenta también vio la bienvenida: no se la
+       mostramos otra vez cuando vuelva. */
+    document.getElementById('btn-cuenta').addEventListener('click', () => {
+      guardar(localStorage, LLAVE_BIENVENIDA);
+    });
+  }
 
-/* ============================================================
-   LA REGLA
-   ============================================================ */
-function situacion(m){
-  /* Para cursarla: lo de la columna "cursada", con la cursada aprobada. */
-  const faltaCursar = paraCursar(m).filter(c => ORDEN[estado(c)] < ORDEN.cursada);
-  /* Para promocionarla o rendirle el final: lo de la otra columna, aprobado. */
-  const faltaFinal  = paraFinal(m).filter(c => estado(c) !== 'aprobada');
+  function seguirDespuesDeLaApertura(){
+    if (guardado(localStorage, LLAVE_BIENVENIDA)) mostrarApp();
+    else mostrarBienvenida();
+  }
 
-  if (faltaCursar.length) return { clase:'trabada',    faltaCursar, faltaFinal };
-  if (faltaFinal.length)  return { clase:'cursa',      faltaCursar, faltaFinal };
-  return                         { clase:'promociona', faltaCursar, faltaFinal };
-}
+  /* ============================================================
+     LA APERTURA: el logo animado de la Agrupación
 
-const NOMBRE_CLASE = {
-  promociona: 'PODÉS PROMOCIONARLA',
-  cursa:      'PODÉS CURSARLA, PERO NO PROMOCIONARLA',
-  trabada:    'TODAVÍA NO LA PODÉS CURSAR'
-};
+     Viene del proyecto de Claude Design «Animación logo Simón Bolívar».
+     Allá la animación dura 8,8 segundos y va en loop, porque está
+     pensada como pieza de video. Acá es la puerta de entrada a la app,
+     así que se reproduce UNA vez y comprimida.
 
-const DICTADO = { anual:'Anual', '1c':'1° cuatrimestre', '2c':'2° cuatrimestre', libre:'Sin cuatrimestre fijo' };
+     La coreografía es exactamente la del diseño. Para que quede fiel,
+     el reloj interno sigue contando en los 8,8 segundos originales y lo
+     único que cambia es a qué velocidad avanza. Así que si querés que
+     dure más o menos, tocá SOLO esta línea:
+     ============================================================ */
+  const DURACION_APERTURA = 2.6;   // segundos que dura en la app
 
-function listaNombres(codigos){
-  return codigos.map(c => POR_COD[c] ? POR_COD[c].nombre : c).join(', ');
-}
+  const TOTAL_ORIGINAL = 8.8;
+  /* Cada escena empieza donde termina la anterior (3 + 2,2 + 2,6 + 1) */
+  const CUE = { tinta:0, palabras:3, respiro:5.2, salida:7.8 };
 
-/* ============================================================
-   PROGRESO
-   ============================================================ */
-function pintarProgreso(){
-  const total     = MATERIAS.length;
-  const aprobadas = MATERIAS.filter(m => estadoCrudo(m.cod) === 'aprobada').length;
-  const cursadas  = MATERIAS.filter(m => estadoCrudo(m.cod) === 'cursada').length;
+  /* Las curvas de movimiento del diseño original */
+  const suaveFinal  = t => 1 - Math.pow(1 - t, 3);          // easeOutCubic
+  const suaveAmbos  = t => -(Math.cos(Math.PI * t) - 1) / 2; // easeInOutSine
+  const suaveCuad   = t => t < 0.5 ? 2*t*t : 1 - Math.pow(-2*t + 2, 2) / 2;
 
-  /* El progreso se mide en MATERIAS, no en horas: es lo que la estudiante
-     cuenta, y es lo unico que los tres planes tienen en comun (los de
-     Gestion del Riesgo y Fonoaudiologia no publican carga horaria). */
-  const pct = Math.round(aprobadas / total * 100);
+  const topar = (v, a, b) => Math.min(b, Math.max(a, v));
 
-  document.getElementById('progreso').innerHTML = `
-    <div class="barra"><div class="barra-llena" style="width:${pct}%"></div></div>
-    <div class="progreso-datos">
-      <div><strong>${aprobadas}</strong> de ${total} materias aprobadas</div>
-      <div>${pct}% de la carrera</div>
-    </div>
-    ${cursadas ? `<div class="progreso-extra">${cursadas === 1 ? 'Te queda' : 'Te quedan'}
-       <strong>${cursadas}</strong>
-       ${cursadas === 1 ? 'final pendiente' : 'finales pendientes'}.</div>` : ''}`;
-}
+  /* Interpola de "desde" a "hasta" entre dos momentos del guión */
+  function tramo(desde, hasta, arranca, termina, curva){
+    return t => {
+      if (t <= arranca) return desde;
+      if (t >= termina) return hasta;
+      return desde + (hasta - desde) * curva((t - arranca) / (termina - arranca));
+    };
+  }
 
-/* ============================================================
-   VISTA: EL AÑO QUE VIENE
-   ============================================================ */
-let filtroCuatri = 'todo';
+  /* Las máscaras: una franja que barre y va destapando la capa */
+  const mascaraMapa = p =>
+    `linear-gradient(to bottom, #000 0%, #000 ${p*100 - 3}%,` +
+    ` rgba(0,0,0,0) ${p*100 + 3}%, rgba(0,0,0,0) 100%)`;
+  const mascaraPalabra = p =>
+    `linear-gradient(to right, #000 0%, #000 ${p*100 - 6}%,` +
+    ` rgba(0,0,0,0) ${p*100 + 6}%, rgba(0,0,0,0) 100%)`;
 
-/* Gestión del Riesgo no tiene materias anuales: escondemos el filtro que
-   no le sirve a la carrera elegida, en vez de mostrar una lista vacía. */
-function pintarFiltroCuatri(){
-  document.querySelectorAll('#filtro-cuatri .chip').forEach(chip => {
-    const cual = chip.dataset.cuatri;
-    chip.hidden = cual !== 'todo' && !MATERIAS.some(m => m.dictado === cual);
-    chip.setAttribute('aria-pressed', cual === filtroCuatri ? 'true' : 'false');
-  });
-}
+  function pintarCuadro(T, escena, capas){
+    const dibujo = tramo(0, 1, CUE.tinta + 0.3, CUE.tinta + 2.5, suaveAmbos)(T);
+    ponerMascara(capas.mapa, mascaraMapa(dibujo));
 
-function pintarGrupos(){
-  const hayCursando = MATERIAS.some(m => estadoCrudo(m.cod) === 'cursando');
-  document.getElementById('caja-suponer').hidden = !hayCursando;
-  document.getElementById('suponer').checked = !!datos.suponer;
+    /* SIMÓN entra primero, BOLÍVAR un poco después */
+    const p1 = tramo(0, 1, CUE.palabras - 0.2,  CUE.palabras + 1.0,  suaveFinal)(T);
+    const p2 = tramo(0, 1, CUE.palabras + 0.35, CUE.palabras + 1.55, suaveFinal)(T);
+    [[capas.simon, p1], [capas.bolivar, p2]].forEach(([capa, p]) => {
+      ponerMascara(capa, mascaraPalabra(p));
+      capa.style.transform = `translateX(${-(1 - p) * 26}px)`;
+    });
 
-  const candidatas = MATERIAS.filter(m => {
-    if (estado(m.cod) !== 'pendiente') return false;
-    if (filtroCuatri === 'todo') return true;
-    return m.dictado === filtroCuatri;
-  });
+    /* El logo se asienta y después respira */
+    const asiento  = tramo(1.035, 1, CUE.tinta, CUE.palabras + 1.2, suaveFinal)(T);
+    const respiro  = 1 + 0.005 * Math.sin((T - CUE.respiro) * 1.15);
+    const salida   = tramo(0, 1, CUE.salida + 0.1, CUE.salida + 0.85, suaveCuad)(T);
 
-  const grupos = { promociona:[], cursa:[], trabada:[] };
-  candidatas.forEach(m => grupos[situacion(m).clase].push(m));
+    escena.style.transform = `scale(${escala() * asiento * respiro * (1 + 0.05 * salida)})`;
+    escena.style.opacity   = 1 - salida;
 
-  const caja = document.getElementById('grupos');
+    /* El destello de luz que cruza la marca */
+    const destelloX = tramo(-60, 160, CUE.respiro + 0.2, CUE.respiro + 1.9, suaveCuad)(T);
+    capas.destello.style.left = destelloX + '%';
+    capas.destello.style.opacity =
+      topar(Math.sin(Math.PI * topar((T - CUE.respiro - 0.2) / 1.7, 0, 1)), 0, 1) * 0.55;
+  }
 
-  if (!candidatas.length){
-    caja.innerHTML = `<div class="vacio">
-        ${filtroCuatri === 'todo'
-          ? 'No queda ninguna materia pendiente. Felicitaciones. 🎓'
-          : 'No hay materias pendientes en ese cuatrimestre.'}
-      </div>`;
+  function ponerMascara(el, valor){
+    el.style.webkitMaskImage = valor;
+    el.style.maskImage = valor;
+  }
+
+  /* La tinta del dibujo ocupa 805x664 dentro del lienzo de 1080x1350.
+     Si el navegador todavía no sabe cuánto mide la ventana devuelve 0, y
+     entonces el logo quedaría en tamaño cero: por eso el piso. */
+  function escala(){
+    const an = innerWidth  || document.documentElement.clientWidth  || 360;
+    const al = innerHeight || document.documentElement.clientHeight || 640;
+    return Math.max(0.05, Math.min((an * 0.78) / 805, (al * 0.66) / 664));
+  }
+
+  (function apertura(){
+    /* Si ya la vio en esta visita, no la repetimos */
+    if (guardado(sessionStorage, LLAVE_APERTURA)){
+      capaApertura.remove();
+      seguirDespuesDeLaApertura();
+      return;
+    }
+    guardar(sessionStorage, LLAVE_APERTURA);
+
+    const escena = document.getElementById('marca-escena');
+    const capas = {
+      mapa:     document.getElementById('capa-mapa'),
+      simon:    document.getElementById('capa-simon'),
+      bolivar:  document.getElementById('capa-bolivar'),
+      destello: document.getElementById('destello')
+    };
+
+    let terminada = false;
+    function cerrar(){
+      if (terminada) return;
+      terminada = true;
+      capaApertura.classList.add('yendose');
+      setTimeout(() => capaApertura.remove(), 380);
+      seguirDespuesDeLaApertura();
+    }
+
+    /* Se puede saltear tocando la pantalla: nadie tiene que esperar */
+    capaApertura.addEventListener('click', cerrar);
+
+    /* Red de seguridad. El navegador congela requestAnimationFrame cuando
+       la pestaña no está a la vista, así que si alguien abre la app en una
+       pestaña de fondo la animación se pausa a mitad de camino. Sin esto,
+       al volver se encontraría la apertura colgada y la app inalcanzable. */
+    setTimeout(cerrar, DURACION_APERTURA * 1000 + 2600);
+
+    const sinMovimiento = window.matchMedia &&
+      window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+    if (sinMovimiento){
+      /* Sin animación: mostramos el logo ya armado y seguimos */
+      pintarCuadro(CUE.respiro + 0.9, escena, capas);
+      setTimeout(cerrar, 700);
+      return;
+    }
+
+    /* Las tres capas tienen que estar cargadas antes de empezar, si no
+       la animación arranca con la pantalla vacía. Pero nadie espera para
+       siempre: si tardan, se entra igual a la app. */
+    const imagenes = [capas.mapa, capas.simon, capas.bolivar]
+      .map(c => c.querySelector('img'));
+
+    const listas = Promise.all(imagenes.map(img => img.complete
+      ? Promise.resolve()
+      : new Promise(res => { img.onload = res; img.onerror = res; })));
+
+    const seCansoDeEsperar = new Promise(res => setTimeout(res, 1800));
+
+    /* Antes de que carguen no se ve nada más que el amarillo */
+    escena.style.opacity = 0;
+
+    Promise.race([listas, seCansoDeEsperar]).then(() => {
+      if (terminada) return;
+      if (!imagenes.every(i => i.complete && i.naturalWidth)){ cerrar(); return; }
+
+      escena.style.opacity = 1;
+      const arranque = performance.now();
+
+      (function cuadro(ahora){
+        if (terminada) return;
+        const transcurrido = (ahora - arranque) / 1000;
+        const T = (transcurrido / DURACION_APERTURA) * TOTAL_ORIGINAL;
+        pintarCuadro(Math.min(T, TOTAL_ORIGINAL), escena, capas);
+        if (transcurrido >= DURACION_APERTURA) cerrar();
+        else requestAnimationFrame(cuadro);
+      })(arranque);
+    });
+  })();
+
+  document.getElementById('cabecera').innerHTML = htmlCabecera(
+    '<a class="boton-cabecera" href="mi/">Mi cuenta</a>'
+  );
+  document.getElementById('pie').innerHTML = htmlPie();
+
+  /* ---------- Traemos todo de una sola vez ---------- */
+  let categorias = [], tramites = [], preguntas = [], publicaciones = [];
+
+  try {
+    const [rCat, rTra, rFaq, rPub] = await Promise.all([
+      db.from('categorias').select('*').order('orden'),
+      db.from('tramites').select('id,titulo,resumen,categoria_id,palabras_clave')
+        .eq('publicado', true).order('orden'),
+      db.from('faq').select('id,pregunta,respuesta,categoria_id')
+        .eq('publicado', true).order('orden'),
+      db.from('publicaciones').select('*').eq('publicado', true)
+        .order('creado_at', { ascending:false })
+    ]);
+    for (const r of [rCat, rTra, rFaq, rPub]) if (r.error) throw r.error;
+    categorias = rCat.data; tramites = rTra.data;
+    preguntas = rFaq.data;  publicaciones = rPub.data;
+  } catch (e) {
+    mostrarError(document.getElementById('zona-normal'), e, 'cargar la información');
     return;
   }
 
-  caja.innerHTML = ['promociona','cursa','trabada'].map(clase => {
-    const lista = grupos[clase];
-    if (!lista.length) return '';
-    return `<div class="titulo-seccion">${NOMBRE_CLASE[clase]}
-        <span class="cuenta-grupo">${lista.length}</span></div>
-      <div class="lista">` +
-      lista.map(m => tarjetaMateria(m, clase)).join('') + `</div>`;
-  }).join('');
-}
+  /* ---------- Tarjeta grande: cómo venís con la carrera ----------
+     El organizador deja acá un resumen chiquito cuando lo usás, así
+     esta pantalla no necesita cargar los tres planes de estudio. */
+  (function pintarTarjetaCarrera(){
+    const caja = document.getElementById('tarjeta-carrera');
+    let resumen = null;
+    try { resumen = JSON.parse(localStorage.getItem('bolivar-carrera-resumen')); } catch(e){}
 
-function tarjetaMateria(m, clase){
-  const s = situacion(m);
-  let pie = '';
-  if (clase === 'cursa'){
-    pie = `<p class="motivo">Para promocionarla te falta tener aprobada:
-             <strong>${esc(listaNombres(s.faltaFinal))}</strong></p>`;
-  } else if (clase === 'trabada'){
-    pie = `<p class="motivo">Primero tenés que aprobar la cursada de:
-             <strong>${esc(listaNombres(s.faltaCursar))}</strong></p>`;
-  } else if (!refsDe(m).length){
-    pie = `<p class="motivo">No tiene correlativas.</p>`;
-  } else {
-    pie = `<p class="motivo">Tenés aprobadas todas sus correlativas.</p>`;
-  }
+    if (!resumen || !resumen.total){
+      caja.innerHTML = `
+        <span class="rotulo">Organizador de cursadas</span>
+        <span class="nombre">Armá tu año que viene</span>
+        <p style="margin:0;font-size:14.5px;line-height:1.35;max-width:30ch">
+          Marcá las materias que ya hiciste y mirá cuáles podés cursar
+          y cuáles podés promocionar.</p>`;
+      return;
+    }
 
-  return `<button class="tarjeta materia ${clase}" data-cod="${esc(m.cod)}">
-      <h3>${esc(m.nombre)}</h3>
-      ${pie}
-      <div class="meta">
-        <span>${m.anio}° año</span>
-        <span>${DICTADO[m.dictado]}</span>
-        ${m.horas ? `<span>${m.horas} h</span>` : ''}
-        ${m.trayecto ? `<span>${esc(m.trayecto)}</span>` : ''}
-        ${m.marcada ? '<span>(*)</span>' : ''}
-      </div>
-    </button>`;
-}
+    const pct = Math.round(resumen.aprobadas / resumen.total * 100);
+    caja.innerHTML = `
+      <span class="rotulo">Mi carrera</span>
+      <span class="nombre">${esc(resumen.carrera)}</span>
+      <div class="barra"><div class="barra-llena" style="width:${pct}%"></div></div>
+      <div class="cifra">
+        <span><strong>${resumen.aprobadas}</strong> de ${resumen.total} materias</span>
+        <span>${pct}%</span>
+      </div>`;
+  })();
 
-/* "Si rendís este final, se te destraban N promociones" */
-function pintarConsejo(){
-  const caja = document.getElementById('consejo');
-  const conFinal = MATERIAS.filter(m => estado(m.cod) === 'cursada');
+  /* ---------- Recuadros ---------- */
+  (function pintarRecuadros(){
+    const hoy = hoyISO();
+    const proxima = publicaciones
+      .filter(p => p.fecha_desde && (p.fecha_hasta || p.fecha_desde) >= hoy)
+      .sort((a,b) => a.fecha_desde.localeCompare(b.fecha_desde))[0];
 
-  if (!conFinal.length){ caja.innerHTML = ''; return; }
+    const cuantosTramites = tramites.length;
+    const f = proxima ? partesFecha(proxima.fecha_desde) : null;
 
-  const filas = conFinal.map(m => {
-    /* Cuántas pendientes pasarían de "solo cursar" a "promocionar" */
-    const gana = MATERIAS.filter(otra =>
-      estado(otra.cod) === 'pendiente' &&
-      paraFinal(otra).indexOf(m.cod) !== -1 &&
-      situacion(otra).clase === 'cursa' &&
-      situacion(otra).faltaFinal.length === 1
-    );
-    return { m, gana };
-  }).sort((a,b) => b.gana.length - a.gana.length);
+    document.getElementById('recuadros').innerHTML = `
+      <a class="recuadro" href="agenda/">
+        <span class="rotulo">Próxima fecha</span>
+        ${f ? `<span class="grande">${f.dia} ${esc(f.mesCorto)}</span>
+               <span class="pie-recuadro">${esc(proxima.titulo)}</span>`
+            : `<span class="detalle" style="margin-top:6px">
+                 No hay fechas cargadas por ahora.</span>`}
+      </a>
+      <a class="recuadro" href="tramites/">
+        <span class="rotulo">Trámites</span>
+        <span class="grande">${cuantosTramites}</span>
+        <span class="pie-recuadro">${cuantosTramites === 1
+          ? 'ficha explicada paso a paso' : 'fichas explicadas paso a paso'}</span>
+      </a>`;
+  })();
 
-  caja.innerHTML =
-    `<div class="titulo-seccion">FINALES QUE TENÉS PENDIENTES</div>
-     <div class="lista">` +
-    filas.map(f => `
-      <button class="tarjeta materia final" data-cod="${esc(f.m.cod)}">
-        <h3>${esc(f.m.nombre)}</h3>
-        <p class="motivo">${
-          f.gana.length
-            ? `Si rendís este final podés promocionar
-               <strong>${esc(f.gana.map(x => x.nombre).join(', '))}</strong>.`
-            : 'Rendirlo no te destraba ninguna promoción por ahora, pero te suma materia aprobada.'
-        }</p>
-      </button>`).join('') + `</div>`;
-}
+  /* ---------- Categorías, agrupadas en las dos puertas ---------- */
+  (function pintarCategorias(){
+    const caja = document.getElementById('categorias');
+    if (!categorias.length){
+      caja.innerHTML = '<div class="vacio">Todavía no hay categorías cargadas.</div>';
+      return;
+    }
 
-/* ============================================================
-   VISTA: PLAN COMPLETO
-   ============================================================ */
-const ORDINAL = ['', 'PRIMER', 'SEGUNDO', 'TERCER', 'CUARTO', 'QUINTO'];
+    /* Solo mostramos las categorías que tengan algo publicado adentro:
+       una categoría vacía es una puerta que no lleva a ningún lado. */
+    const conContenido = categorias.filter(c =>
+      tramites.some(t => t.categoria_id === c.id) ||
+      preguntas.some(p => p.categoria_id === c.id));
 
-function pintarPlanCompleto(){
-  const anios = [];
-  for (let a = 1; a <= (PLAN.anios || 5); a++) anios.push(a);
+    if (!conContenido.length){
+      caja.innerHTML = `<div class="vacio">
+          Todavía no hay contenido publicado.<br>Volvé en unos días.</div>`;
+      return;
+    }
 
-  document.getElementById('por-anio').innerHTML = anios.map(anio => {
-    const suyas = MATERIAS.filter(m => m.anio === anio);
-    if (!suyas.length) return '';
-    const listas = suyas.filter(m => estadoCrudo(m.cod) === 'aprobada').length;
-    return `<div class="titulo-seccion">${ORDINAL[anio]} AÑO
-        <span class="cuenta-grupo">${listas}/${suyas.length}</span></div>
-      <div class="lista">` +
-      suyas.map(m => {
-        const e = estadoCrudo(m.cod);
-        return `<button class="tarjeta materia estado-${e}" data-cod="${esc(m.cod)}">
-            <h3>${esc(m.nombre)}</h3>
-            <div class="meta">
-              <span class="pastilla ${e}">${ESTADOS[e].corto}</span>
-              <span>${DICTADO[m.dictado]}</span>
-              ${m.horas ? `<span>${m.horas} h</span>` : ''}
-              ${m.trayecto ? `<span>${esc(m.trayecto)}</span>` : ''}
-              ${m.marcada ? '<span>(*)</span>' : ''}
+    caja.innerHTML = Object.keys(NOMBRE_SECCION).map(seccion => {
+      const suyas = conContenido.filter(c => (c.seccion || 'carrera') === seccion);
+      if (!suyas.length) return '';
+
+      return `<div class="titulo-seccion">${esc(NOMBRE_SECCION[seccion].toUpperCase())}
+          <a href="tramites/?seccion=${seccion}">Ver todo</a></div>
+        <div class="rejilla-categorias">` +
+        suyas.map(c => {
+          const cuantos = tramites.filter(t => t.categoria_id === c.id).length +
+                          preguntas.filter(p => p.categoria_id === c.id).length;
+          return `<a class="tarjeta-categoria" href="tramites/?categoria=${c.id}">
+              <span class="emoji">${esc(c.emoji)}</span>
+              <span class="nombre">${esc(c.nombre)}</span>
+              <span class="cuenta">${cuantos} ${cuantos === 1 ? 'ficha' : 'fichas'}</span>
+            </a>`;
+        }).join('') + `</div>`;
+    }).join('');
+  })();
+
+  /* ---------- Lo que se viene ---------- */
+  (function pintarProximas(){
+    const caja = document.getElementById('proximas');
+    const hoy = hoyISO();
+    const proximas = publicaciones
+      .filter(p => p.fecha_desde && (p.fecha_hasta || p.fecha_desde) >= hoy)
+      .sort((a,b) => a.fecha_desde.localeCompare(b.fecha_desde))
+      .slice(0, 4);
+
+    if (!proximas.length){
+      caja.innerHTML = '<div class="vacio">No hay fechas cargadas por ahora.</div>';
+      return;
+    }
+    caja.innerHTML = proximas.map(p => {
+      const f = partesFecha(p.fecha_desde);
+      return `<a class="tarjeta ${esc(p.linea)}" href="agenda/?id=${p.id}">
+          <div class="tarjeta-fecha">
+            <div class="cubo-fecha">
+              <span class="dia">${f.dia}</span><span class="mes">${f.mesCorto}</span>
             </div>
-          </button>`;
-      }).join('') + `</div>`;
-  }).join('');
+            <div>
+              <span class="etiqueta ${esc(p.linea)}">${esc(NOMBRE_LINEA[p.linea] || p.linea)}</span>
+              <h3>${esc(p.titulo)}</h3>
+              <p>${esc(rangoLindo(p.fecha_desde, p.fecha_hasta))}${p.hora ? ' · ' + esc(p.hora) : ''}${p.lugar ? ' · ' + esc(p.lugar) : ''}</p>
+            </div>
+          </div>
+        </a>`;
+    }).join('');
+  })();
 
-  /* Otros requisitos: hoy solo Trabajo Social tiene (la certificación de
-     idioma). Si la carrera no tiene ninguno, no mostramos la sección. */
-  const reqs      = PLAN.requisitos || [];
-  const cajaReq   = document.getElementById('requisitos');
-  document.getElementById('titulo-requisitos').hidden = !reqs.length;
-  cajaReq.hidden  = !reqs.length;
-  cajaReq.innerHTML = reqs.map(r => `
-      <label class="interruptor">
-        <input type="checkbox" id="req-idioma" ${datos.idioma ? 'checked' : ''}>
-        <span>${esc(r.nombre)} — ya la tengo</span>
-      </label>`).join('');
+  /* ---------- Novedades ---------- */
+  (function pintarNovedades(){
+    const caja = document.getElementById('novedades');
+    const novedades = publicaciones.filter(p => p.tipo === 'novedad').slice(0, 3);
+    if (!novedades.length){
+      caja.innerHTML = '<div class="vacio">Todavía no hay novedades publicadas.</div>';
+      return;
+    }
+    caja.innerHTML = novedades.map(p => `
+        <a class="tarjeta ${esc(p.linea)}" href="agenda/?id=${p.id}">
+          <span class="etiqueta ${esc(p.linea)}">${esc(NOMBRE_LINEA[p.linea] || p.linea)}</span>
+          <h3>${esc(p.titulo)}</h3>
+          ${p.cuerpo ? `<p>${esc(p.cuerpo.slice(0,140))}${p.cuerpo.length > 140 ? '…' : ''}</p>` : ''}
+        </a>`).join('');
+  })();
 
-  const casilla = document.getElementById('req-idioma');
-  if (casilla) casilla.addEventListener('change', function(){
-    datos.idioma = this.checked; persistir();
+  /* ---------- Buscador ---------- */
+  const entrada    = document.getElementById('busqueda');
+  const zonaRes    = document.getElementById('zona-resultados');
+  const zonaNormal = document.getElementById('zona-normal');
+  const listaRes   = document.getElementById('resultados');
+  const tituloRes  = document.getElementById('titulo-resultados');
+
+  entrada.addEventListener('input', function(){
+    const q = normalizar(entrada.value.trim());
+
+    if (q.length < 2){
+      zonaRes.hidden = true;
+      zonaNormal.hidden = false;
+      return;
+    }
+    zonaRes.hidden = false;
+    zonaNormal.hidden = true;
+
+    const tHit = tramites.filter(t =>
+      normalizar(t.titulo + ' ' + (t.resumen || '') + ' ' + (t.palabras_clave || '')).includes(q));
+    const fHit = preguntas.filter(p =>
+      normalizar(p.pregunta + ' ' + p.respuesta).includes(q));
+
+    const total = tHit.length + fHit.length;
+    tituloRes.textContent = total
+      ? `${total} ${total === 1 ? 'RESULTADO' : 'RESULTADOS'}`
+      : 'SIN RESULTADOS';
+
+    if (!total){
+      listaRes.innerHTML = `<div class="vacio">
+          No encontramos nada con «${esc(entrada.value.trim())}».<br>
+          Probá con otra palabra, o escribinos por Instagram y lo resolvemos a mano.
+        </div>`;
+      return;
+    }
+
+    listaRes.innerHTML =
+      tHit.map(t => `
+        <a class="tarjeta" href="tramites/?id=${t.id}">
+          <h3>${esc(t.titulo)}</h3>
+          ${t.resumen ? `<p>${esc(t.resumen)}</p>` : ''}
+          <div class="meta"><span>Trámite</span></div>
+        </a>`).join('') +
+      fHit.map(p => `
+        <a class="tarjeta" href="tramites/?faq=${p.id}">
+          <h3>${esc(p.pregunta)}</h3>
+          <p>${esc(p.respuesta.slice(0,140))}${p.respuesta.length > 140 ? '…' : ''}</p>
+          <div class="meta"><span>Pregunta frecuente</span></div>
+        </a>`).join('');
   });
-
-  /* La nota del asterisco tampoco existe en las tres carreras */
-  const cajaNota = document.getElementById('nota-asterisco');
-  const hayNota  = !!PLAN.notaAsterisco && MATERIAS.some(m => m.marcada);
-  cajaNota.hidden = !hayNota;
-  cajaNota.innerHTML = hayNota ? `<strong>(*)</strong> ${esc(PLAN.notaAsterisco)}` : '';
-}
-
-/* ============================================================
-   HOJA DE DETALLE
-   ============================================================ */
-const fondo  = document.getElementById('hoja-fondo');
-const cuerpo = document.getElementById('hoja-cuerpo');
-
-function listaCorrel(codigos){
-  return `<ul class="lista-correl">` + codigos.map(c => {
-    const e = estado(c);
-    return `<li><span class="pastilla ${e}">${ESTADOS[e].corto}</span>
-              ${esc(POR_COD[c] ? POR_COD[c].nombre : c)}</li>`;
-  }).join('') + `</ul>`;
-}
-
-function bloqueCorrelativas(m){
-  const pc = paraCursar(m);
-
-  /* Caso especial: el Trabajo Integrador Final pide todas las materias de
-     1° a 4°. Listarlas una por una serían cuarenta renglones inútiles. */
-  if (m.paraFinal === 'todas-1-a-4'){
-    const faltan = paraFinal(m).filter(c => estado(c) !== 'aprobada').length;
-    return `<div class="titulo-seccion">PARA CURSARLA</div>
-      ${pc.length ? listaCorrel(pc) : `<p class="letra-chica">No pide nada.</p>`}
-      <div class="titulo-seccion">PARA APROBARLA</div>
-      <p class="letra-chica">Todas las materias de 1° a 4° año con el final
-        aprobado.${faltan ? ` Te faltan <strong>${faltan}</strong>.` : ' Ya las tenés todas.'}</p>`;
-  }
-
-  const pf = paraFinal(m);
-  const mismas = pc.length === pf.length && pc.every(c => pf.indexOf(c) !== -1);
-
-  /* Si las dos columnas dicen lo mismo (Trabajo Social y Gestión del
-     Riesgo), no tiene sentido mostrar la misma lista dos veces. */
-  if (mismas){
-    return `<div class="titulo-seccion">CORRELATIVAS</div>
-      ${pc.length ? listaCorrel(pc)
-        : `<p class="letra-chica">No tiene. La podés cursar y promocionar cuando quieras.</p>`}`;
-  }
-
-  return `<div class="titulo-seccion">PARA CURSARLA</div>
-    <p class="letra-chica">Con la cursada aprobada:</p>
-    ${pc.length ? listaCorrel(pc) : `<p class="letra-chica">No pide nada.</p>`}
-    <div class="titulo-seccion">PARA PROMOCIONARLA O RENDIR EL FINAL</div>
-    <p class="letra-chica">Con el final aprobado:</p>
-    ${pf.length ? listaCorrel(pf) : `<p class="letra-chica">No pide nada.</p>`}`;
-}
-
-function abrirHoja(cod){
-  const m = POR_COD[cod];
-  if (!m) return;
-  const s = situacion(m);
-  const eActual = estadoCrudo(cod);
-
-  const abre = HABILITA[cod].map(c =>
-    `<li>${esc(POR_COD[c].nombre)} <small>(${POR_COD[c].anio}° año)</small></li>`).join('');
-
-  const trayecto = m.trayecto && PLAN.trayectos ? PLAN.trayectos[m.trayecto] : '';
-
-  cuerpo.innerHTML = `
-    <div class="hoja-cod">${esc(m.cod)} · ${m.anio}° año · ${DICTADO[m.dictado]}${m.horas ? ' · ' + m.horas + ' h' : ''}</div>
-    <h2 id="hoja-titulo">${esc(m.nombre)}</h2>
-    ${trayecto ? `<p class="letra-chica">${esc(trayecto)}</p>` : ''}
-    ${m.marcada && PLAN.notaAsterisco
-      ? `<p class="letra-chica">(*) ${esc(PLAN.notaAsterisco)}</p>` : ''}
-
-    <div class="veredicto ${s.clase}">${NOMBRE_CLASE[s.clase]}</div>
-
-    <div class="titulo-seccion">CÓMO VENÍS CON ESTA MATERIA</div>
-    <div class="opciones-estado">
-      ${Object.keys(ESTADOS).map(k => `
-        <button class="opcion ${k} ${k === eActual ? 'elegida' : ''}"
-                data-estado="${k}">${ESTADOS[k].texto}</button>`).join('')}
-    </div>
-
-    ${bloqueCorrelativas(m)}
-
-    <div class="titulo-seccion">LE ABRE LA PUERTA A</div>
-    ${abre ? `<ul class="lista-correl simple">${abre}</ul>`
-           : `<p class="letra-chica">Ninguna otra materia depende de esta.</p>`}
-  `;
-
-  cuerpo.querySelectorAll('.opcion').forEach(b => {
-    b.addEventListener('click', function(){
-      datos.estados[cod] = this.dataset.estado;
-      persistir();
-      cerrarHoja();
-      pintarTodo();
-    });
-  });
-
-  fondo.hidden = false;
-  document.body.style.overflow = 'hidden';
-}
-
-function cerrarHoja(){
-  fondo.hidden = true;
-  document.body.style.overflow = '';
-}
-
-document.getElementById('hoja-cerrar').addEventListener('click', cerrarHoja);
-fondo.addEventListener('click', e => { if (e.target === fondo) cerrarHoja(); });
-document.addEventListener('keydown', e => { if (e.key === 'Escape' && !fondo.hidden) cerrarHoja(); });
-
-/* Un solo escuchador para todas las tarjetas, en cualquiera de las dos vistas */
-document.querySelector('main').addEventListener('click', e => {
-  const t = e.target.closest('.materia');
-  if (t) abrirHoja(t.dataset.cod);
-});
-
-/* ============================================================
-   CONTROLES
-   ============================================================ */
-document.getElementById('selector-carrera').addEventListener('click', e => {
-  const b = e.target.closest('.chip');
-  if (!b || b.dataset.carrera === PLAN.id) return;
-  elegirCarrera(b.dataset.carrera);
-  pintarSelectorCarrera();
-  pintarTodo();
-  scrollTo(0, 0);
-});
-
-document.getElementById('filtro-cuatri').addEventListener('click', e => {
-  const b = e.target.closest('.chip');
-  if (!b) return;
-  filtroCuatri = b.dataset.cuatri;
-  pintarFiltroCuatri();
-  pintarGrupos();
-});
-
-document.getElementById('suponer').addEventListener('change', function(){
-  datos.suponer = this.checked;
-  persistir();
-  pintarGrupos();
-  pintarConsejo();
-});
-
-const tabPlan = document.getElementById('tab-plan');
-const tabTodo = document.getElementById('tab-todo');
-function verPestana(cual){
-  const esPlan = cual === 'plan';
-  tabPlan.setAttribute('aria-selected', esPlan);
-  tabTodo.setAttribute('aria-selected', !esPlan);
-  document.getElementById('vista-plan').hidden = !esPlan;
-  document.getElementById('vista-todo').hidden = esPlan;
-  scrollTo(0, 0);
-}
-tabPlan.addEventListener('click', () => verPestana('plan'));
-tabTodo.addEventListener('click', () => verPestana('todo'));
-
-document.getElementById('borrar').addEventListener('click', () => {
-  if (!confirm(`¿Borrar todo lo que marcaste en ${PLAN.nombreCorto} y empezar de nuevo?\n\nLo de las otras carreras no se toca.`)) return;
-  guardado.datos[PLAN.id] = { estados:{}, suponer:false, idioma:false };
-  datos = guardado.datos[PLAN.id];
-  persistir();
-  pintarTodo();
-});
-
-/* ============================================================
-   ARRANQUE
-   ============================================================ */
-function pintarTodo(){
-  pintarFiltroCuatri();
-  pintarProgreso();
-  pintarGrupos();
-  pintarConsejo();
-  pintarPlanCompleto();
-}
-
-elegirCarrera(guardado.carrera || 'ts');
-pintarSelectorCarrera();
-pintarTodo();
 
 })();
 </script>
