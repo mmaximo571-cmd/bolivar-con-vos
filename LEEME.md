@@ -85,8 +85,18 @@ mismos y **no** son un descuido:
 - Los PDF de Gestión del Riesgo y de Fonoaudiología **no publican carga
   horaria**, así que esas materias no tienen el campo `horas`.
 
-Por ahora la pantalla solo muestra Trabajo Social. Conectar las otras dos es el
-paso siguiente.
+Arriba de la pantalla hay tres botones para elegir carrera. **Cada carrera guarda
+lo suyo por separado** en el teléfono: marcar materias en una no toca a las otras,
+y el botón «Empezar de nuevo» borra solo la que estás mirando.
+
+Quien ya venía usando la app tenía sus materias de Trabajo Social guardadas en el
+formato viejo. No se pierde nada: la primera vez que abre la pantalla nueva, eso
+pasa solo a Trabajo Social.
+
+Cuando una carrera no tiene algo, la sección desaparece en vez de quedar vacía:
+Gestión del Riesgo no muestra el filtro «Anuales» porque no tiene materias
+anuales, y ni ella ni Fonoaudiología muestran «Otros requisitos» ni la nota del
+asterisco, porque son cosas del plan de Trabajo Social.
 
 ---
 
