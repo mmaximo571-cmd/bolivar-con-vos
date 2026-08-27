@@ -3,269 +3,616 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>La Bolívar con vos</title>
-<meta name="description" content="Trámites, fechas y novedades de la Facultad de Trabajo Social de la UNLP. Agrupación Simón Bolívar.">
+<title>Organizador de cursadas · La Bolívar con vos</title>
+<meta name="description" content="Organizá tu cursada según el plan de estudios de tu carrera en la Facultad de Trabajo Social. Mirá qué podés cursar y qué podés promocionar el año que viene.">
 <meta name="theme-color" content="#1A1A1A">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Anton&family=Antonio:wght@400;700&family=Roboto+Condensed:wght@400;700&display=swap" rel="stylesheet">
-<link rel="icon" href="favicon.svg">
-<link rel="stylesheet" href="estilos.css">
+<link rel="icon" href="../favicon.svg">
+<link rel="stylesheet" href="../estilos.css">
 </head>
 <body>
 
 <div id="cabecera"></div>
 
-<div class="caja-buscador">
-  <div class="envoltura">
-    <div class="buscador">
-      <span class="lupa">🔍</span>
-      <input id="busqueda" type="search" autocomplete="off"
-             placeholder="¿Qué necesitás resolver?" aria-label="Buscar trámites y preguntas">
+<main class="envoltura">
+
+  <h1 class="titulo-pantalla">Organizador de cursadas</h1>
+  <p class="bajada">
+    Marcá cómo venís con cada materia y la app te dice qué podés cursar
+    y qué podés <strong>promocionar</strong> el año que viene.
+  </p>
+
+  <!-- ---------- ELEGIR CARRERA ---------- -->
+  <div class="chips" id="selector-carrera" role="group" aria-label="Elegí tu carrera"></div>
+
+  <!-- ---------- PROGRESO ---------- -->
+  <section class="progreso" id="progreso"></section>
+
+  <!-- ---------- PESTAÑAS ---------- -->
+  <div class="pestanas" role="tablist">
+    <button class="pestana" id="tab-plan"  role="tab" aria-selected="true">El año que viene</button>
+    <button class="pestana" id="tab-todo"  role="tab" aria-selected="false">Plan completo</button>
+  </div>
+
+  <!-- ---------- VISTA: EL AÑO QUE VIENE ---------- -->
+  <section id="vista-plan">
+
+    <div class="chips" id="filtro-cuatri" role="group" aria-label="Filtrar por cuatrimestre">
+      <button class="chip" data-cuatri="todo"  aria-pressed="true">Todas</button>
+      <button class="chip" data-cuatri="anual" aria-pressed="false">Anuales</button>
+      <button class="chip" data-cuatri="1c"    aria-pressed="false">1° cuatri</button>
+      <button class="chip" data-cuatri="2c"    aria-pressed="false">2° cuatri</button>
     </div>
+
+    <label class="interruptor" id="caja-suponer" hidden>
+      <input type="checkbox" id="suponer">
+      <span>Dar por aprobadas las cursadas que estoy haciendo ahora</span>
+    </label>
+
+    <div id="grupos"></div>
+    <div id="consejo"></div>
+  </section>
+
+  <!-- ---------- VISTA: PLAN COMPLETO ---------- -->
+  <section id="vista-todo" hidden>
+    <div id="por-anio"></div>
+
+    <div class="titulo-seccion" id="titulo-requisitos" hidden>OTROS REQUISITOS</div>
+    <div id="requisitos"></div>
+
+    <div class="aviso" id="nota-asterisco" hidden></div>
+
+    <button class="boton borde ancho" id="borrar" style="margin:18px 0 6px">
+      Empezar de nuevo
+    </button>
+    <p class="letra-chica">
+      Lo que marcás se guarda solo en este teléfono. No se sube a ningún lado
+      y nadie más lo ve. Cada carrera se guarda por separado.
+    </p>
+  </section>
+
+</main>
+
+<!-- ---------- HOJA DE DETALLE ---------- -->
+<div class="hoja-fondo" id="hoja-fondo" hidden>
+  <div class="hoja" id="hoja" role="dialog" aria-modal="true" aria-labelledby="hoja-titulo">
+    <button class="hoja-cerrar" id="hoja-cerrar" aria-label="Cerrar">✕</button>
+    <div id="hoja-cuerpo"></div>
   </div>
 </div>
 
-<main class="envoltura">
-
-  <!-- Resultados de la búsqueda (solo aparecen al escribir) -->
-  <section id="zona-resultados" hidden>
-    <div class="titulo-seccion" id="titulo-resultados">RESULTADOS</div>
-    <div class="lista" id="resultados"></div>
-  </section>
-
-  <!-- Todo lo demás se esconde mientras se busca -->
-  <!-- Vive afuera de #zona-normal a propósito: el organizador no depende de
-       la base, así que tiene que seguir a la vista aunque la base falle. -->
-  <a class="tarjeta-destacada" id="destacado" href="carrera/">
-    <span class="emoji">🎓</span>
-    <span>
-      <span class="nombre">Organizador de cursadas</span>
-      <p>Marcá cómo venís y mirá qué podés cursar y qué podés promocionar
-         el año que viene.</p>
-    </span>
-  </a>
-
-  <div id="zona-normal">
-
-    <div id="categorias">
-      <div class="cargando">Cargando…</div>
-    </div>
-
-    <div class="titulo-seccion">
-      CALENDARIO
-      <a href="agenda/">Ver en lista</a>
-    </div>
-    <div id="calendario"></div>
-
-    <div class="titulo-seccion" id="titulo-proximas">LO QUE SE VIENE</div>
-    <div class="lista" id="proximas">
-      <div class="cargando">Cargando…</div>
-    </div>
-
-    <div class="titulo-seccion">
-      NOVEDADES
-      <a href="agenda/">Ver todas</a>
-    </div>
-    <div class="lista" id="novedades">
-      <div class="cargando">Cargando…</div>
-    </div>
-
-  </div>
-</main>
-
 <div id="pie"></div>
 
-<script>window.RAIZ = './';</script>
+<script>window.RAIZ = '../';</script>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-<script src="config.js"></script>
-<script src="app.js"></script>
+<script src="../config.js"></script>
+<script src="../app.js"></script>
+<script src="plan.js"></script>
+<script src="plan-tgcr.js"></script>
+<script src="plan-fono.js"></script>
 <script>
-(async function inicio(){
+(function carrera(){
 
-  document.getElementById('cabecera').innerHTML = htmlCabecera(
-    '<a class="boton-cabecera" href="mi/">Mi cuenta</a>'
-  );
-  document.getElementById('pie').innerHTML = htmlPie();
-  pintarNav('inicio');
+document.getElementById('cabecera').innerHTML = htmlCabecera(
+  '<a class="boton-cabecera" href="../mi/">Mi cuenta</a>');
+document.getElementById('pie').innerHTML = htmlPie();
+pintarNav('carrera');
 
-  /* ---------- Traemos todo de una sola vez ---------- */
-  let categorias = [], tramites = [], preguntas = [], publicaciones = [];
+/* ============================================================
+   LAS TRES CARRERAS
+   El orden de acá es el orden en que aparecen los botones de arriba.
+   ============================================================ */
+const CARRERAS = [window.PLAN_TS, window.PLAN_TGCR, window.PLAN_FONO];
 
-  try {
-    const [rCat, rTra, rFaq, rPub] = await Promise.all([
-      db.from('categorias').select('*').order('orden'),
-      db.from('tramites').select('id,titulo,resumen,categoria_id,palabras_clave')
-        .eq('publicado', true).order('orden'),
-      db.from('faq').select('id,pregunta,respuesta,categoria_id')
-        .eq('publicado', true).order('orden'),
-      db.from('publicaciones').select('*').eq('publicado', true)
-        .order('creado_at', { ascending:false })
-    ]);
-    for (const r of [rCat, rTra, rFaq, rPub]) if (r.error) throw r.error;
-    categorias = rCat.data; tramites = rTra.data;
-    preguntas = rFaq.data;  publicaciones = rPub.data;
-  } catch (e) {
-    mostrarError(document.getElementById('zona-normal'), e, 'cargar la información');
+/* Estas cuatro cambian cada vez que se elige otra carrera */
+let PLAN, MATERIAS, POR_COD, HABILITA, datos;
+
+/* ============================================================
+   LAS DOS LISTAS DE CORRELATIVAS
+
+   Trabajo Social y Gestión del Riesgo traen UNA sola columna de
+   correlativas en el plan: la misma lista dice qué necesitás para
+   cursar (con la cursada aprobada) y qué necesitás para promocionar
+   (con el final aprobado).
+
+   Fonoaudiología trae DOS columnas separadas, y a veces dicen cosas
+   distintas. Por eso todo el sistema pregunta por estas dos funciones
+   en vez de mirar "correl" directamente.
+   ============================================================ */
+function paraCursar(m){
+  return m.paraCursar || m.correl || [];
+}
+
+function paraFinal(m){
+  const p = (m.paraFinal !== undefined) ? m.paraFinal : m.correl;
+  /* El Trabajo Integrador Final de Fonoaudiología pide todas las
+     materias de 1° a 4° con el final aprobado. */
+  if (p === 'todas-1-a-4') return MATERIAS.filter(x => x.anio <= 4).map(x => x.cod);
+  return p || [];
+}
+
+/* Todo lo que esta materia menciona, sin repetir */
+function refsDe(m){
+  const todas = paraCursar(m).concat(paraFinal(m));
+  return todas.filter((c, i) => todas.indexOf(c) === i);
+}
+
+/* ============================================================
+   LOS CUATRO ESTADOS
+   El corazón del sistema de correlatividades:
+     promocionar una materia te habilita a promocionar la siguiente;
+     aprobar solo la cursada te habilita a cursarla, pero no a promocionarla.
+   ============================================================ */
+const ESTADOS = {
+  pendiente: { texto:'Todavía no la hice',       corto:'Pendiente'  },
+  cursando:  { texto:'La estoy cursando ahora',  corto:'Cursando'   },
+  cursada:   { texto:'Aprobé la cursada, me falta el final', corto:'Falta el final' },
+  aprobada:  { texto:'Aprobada (promoción o final rendido)', corto:'Aprobada' }
+};
+const ORDEN = { pendiente:0, cursando:1, cursada:2, aprobada:3 };
+
+/* ============================================================
+   LO QUE SE GUARDA EN EL TELEFONO
+   Cada carrera guarda lo suyo por separado, en guardado.datos[id].
+   ============================================================ */
+const LLAVE     = 'bolivar-carrera-v2';
+const LLAVE_VIEJA = 'bolivar-carrera-v1';
+
+let guardado = { carrera:'ts', datos:{} };
+
+try {
+  const crudo = localStorage.getItem(LLAVE);
+  if (crudo) {
+    guardado = Object.assign(guardado, JSON.parse(crudo));
+  } else {
+    /* Quien ya venía usando la app tenía una sola carrera, la de Trabajo
+       Social, guardada en la llave vieja. No se le pierde nada. */
+    const viejo = localStorage.getItem(LLAVE_VIEJA);
+    if (viejo) guardado.datos.ts = JSON.parse(viejo);
+  }
+} catch(e){ /* modo incógnito o memoria llena: seguimos sin guardar */ }
+
+if (!guardado.datos) guardado.datos = {};
+
+function persistir(){
+  try { localStorage.setItem(LLAVE, JSON.stringify(guardado)); } catch(e){}
+}
+
+function estadoCrudo(cod){ return datos.estados[cod] || 'pendiente'; }
+
+/* El estado con el que se hacen las cuentas. Si el interruptor está puesto,
+   una materia "cursando" se cuenta como cursada aprobada. */
+function estado(cod){
+  const e = estadoCrudo(cod);
+  return (datos.suponer && e === 'cursando') ? 'cursada' : e;
+}
+
+/* ============================================================
+   ELEGIR CARRERA
+   ============================================================ */
+function elegirCarrera(id){
+  PLAN = CARRERAS.filter(c => c && c.id === id)[0] || CARRERAS[0];
+
+  MATERIAS = PLAN.materias;
+
+  POR_COD = {};
+  MATERIAS.forEach(m => POR_COD[m.cod] = m);
+
+  /* Mapa al revés: para cada materia, a cuáles les abre la puerta */
+  HABILITA = {};
+  MATERIAS.forEach(m => HABILITA[m.cod] = []);
+  MATERIAS.forEach(m => refsDe(m).forEach(c => {
+    if (HABILITA[c] && HABILITA[c].indexOf(m.cod) === -1) HABILITA[c].push(m.cod);
+  }));
+
+  guardado.carrera = PLAN.id;
+  if (!guardado.datos[PLAN.id]) {
+    guardado.datos[PLAN.id] = { estados:{}, suponer:false, idioma:false };
+  }
+  datos = guardado.datos[PLAN.id];
+  if (!datos.estados) datos.estados = {};
+  persistir();
+
+  filtroCuatri = 'todo';
+}
+
+function pintarSelectorCarrera(){
+  document.getElementById('selector-carrera').innerHTML =
+    CARRERAS.filter(c => c).map(c => `
+      <button class="chip" data-carrera="${esc(c.id)}"
+              aria-pressed="${c.id === PLAN.id ? 'true' : 'false'}"
+              title="${esc(c.carrera)}">${esc(c.nombreCorto)}</button>`).join('');
+}
+
+/* ============================================================
+   LA REGLA
+   ============================================================ */
+function situacion(m){
+  /* Para cursarla: lo de la columna "cursada", con la cursada aprobada. */
+  const faltaCursar = paraCursar(m).filter(c => ORDEN[estado(c)] < ORDEN.cursada);
+  /* Para promocionarla o rendirle el final: lo de la otra columna, aprobado. */
+  const faltaFinal  = paraFinal(m).filter(c => estado(c) !== 'aprobada');
+
+  if (faltaCursar.length) return { clase:'trabada',    faltaCursar, faltaFinal };
+  if (faltaFinal.length)  return { clase:'cursa',      faltaCursar, faltaFinal };
+  return                         { clase:'promociona', faltaCursar, faltaFinal };
+}
+
+const NOMBRE_CLASE = {
+  promociona: 'PODÉS PROMOCIONARLA',
+  cursa:      'PODÉS CURSARLA, PERO NO PROMOCIONARLA',
+  trabada:    'TODAVÍA NO LA PODÉS CURSAR'
+};
+
+const DICTADO = { anual:'Anual', '1c':'1° cuatrimestre', '2c':'2° cuatrimestre', libre:'Sin cuatrimestre fijo' };
+
+function listaNombres(codigos){
+  return codigos.map(c => POR_COD[c] ? POR_COD[c].nombre : c).join(', ');
+}
+
+/* ============================================================
+   PROGRESO
+   ============================================================ */
+function pintarProgreso(){
+  const total     = MATERIAS.length;
+  const aprobadas = MATERIAS.filter(m => estadoCrudo(m.cod) === 'aprobada').length;
+  const cursadas  = MATERIAS.filter(m => estadoCrudo(m.cod) === 'cursada').length;
+
+  /* El progreso se mide en MATERIAS, no en horas: es lo que la estudiante
+     cuenta, y es lo unico que los tres planes tienen en comun (los de
+     Gestion del Riesgo y Fonoaudiologia no publican carga horaria). */
+  const pct = Math.round(aprobadas / total * 100);
+
+  document.getElementById('progreso').innerHTML = `
+    <div class="barra"><div class="barra-llena" style="width:${pct}%"></div></div>
+    <div class="progreso-datos">
+      <div><strong>${aprobadas}</strong> de ${total} materias aprobadas</div>
+      <div>${pct}% de la carrera</div>
+    </div>
+    ${cursadas ? `<div class="progreso-extra">${cursadas === 1 ? 'Te queda' : 'Te quedan'}
+       <strong>${cursadas}</strong>
+       ${cursadas === 1 ? 'final pendiente' : 'finales pendientes'}.</div>` : ''}`;
+}
+
+/* ============================================================
+   VISTA: EL AÑO QUE VIENE
+   ============================================================ */
+let filtroCuatri = 'todo';
+
+/* Gestión del Riesgo no tiene materias anuales: escondemos el filtro que
+   no le sirve a la carrera elegida, en vez de mostrar una lista vacía. */
+function pintarFiltroCuatri(){
+  document.querySelectorAll('#filtro-cuatri .chip').forEach(chip => {
+    const cual = chip.dataset.cuatri;
+    chip.hidden = cual !== 'todo' && !MATERIAS.some(m => m.dictado === cual);
+    chip.setAttribute('aria-pressed', cual === filtroCuatri ? 'true' : 'false');
+  });
+}
+
+function pintarGrupos(){
+  const hayCursando = MATERIAS.some(m => estadoCrudo(m.cod) === 'cursando');
+  document.getElementById('caja-suponer').hidden = !hayCursando;
+  document.getElementById('suponer').checked = !!datos.suponer;
+
+  const candidatas = MATERIAS.filter(m => {
+    if (estado(m.cod) !== 'pendiente') return false;
+    if (filtroCuatri === 'todo') return true;
+    return m.dictado === filtroCuatri;
+  });
+
+  const grupos = { promociona:[], cursa:[], trabada:[] };
+  candidatas.forEach(m => grupos[situacion(m).clase].push(m));
+
+  const caja = document.getElementById('grupos');
+
+  if (!candidatas.length){
+    caja.innerHTML = `<div class="vacio">
+        ${filtroCuatri === 'todo'
+          ? 'No queda ninguna materia pendiente. Felicitaciones. 🎓'
+          : 'No hay materias pendientes en ese cuatrimestre.'}
+      </div>`;
     return;
   }
 
-  /* ---------- Categorías, agrupadas en las dos puertas ---------- */
-  (function pintarCategorias(){
-    const caja = document.getElementById('categorias');
-    if (!categorias.length){
-      caja.innerHTML = '<div class="vacio">Todavía no hay categorías cargadas.</div>';
-      return;
-    }
+  caja.innerHTML = ['promociona','cursa','trabada'].map(clase => {
+    const lista = grupos[clase];
+    if (!lista.length) return '';
+    return `<div class="titulo-seccion">${NOMBRE_CLASE[clase]}
+        <span class="cuenta-grupo">${lista.length}</span></div>
+      <div class="lista">` +
+      lista.map(m => tarjetaMateria(m, clase)).join('') + `</div>`;
+  }).join('');
+}
 
-    /* Solo mostramos las categorías que tengan algo publicado adentro:
-       una categoría vacía es una puerta que no lleva a ningún lado. */
-    const conContenido = categorias.filter(c =>
-      tramites.some(t => t.categoria_id === c.id) ||
-      preguntas.some(p => p.categoria_id === c.id));
+function tarjetaMateria(m, clase){
+  const s = situacion(m);
+  let pie = '';
+  if (clase === 'cursa'){
+    pie = `<p class="motivo">Para promocionarla te falta tener aprobada:
+             <strong>${esc(listaNombres(s.faltaFinal))}</strong></p>`;
+  } else if (clase === 'trabada'){
+    pie = `<p class="motivo">Primero tenés que aprobar la cursada de:
+             <strong>${esc(listaNombres(s.faltaCursar))}</strong></p>`;
+  } else if (!refsDe(m).length){
+    pie = `<p class="motivo">No tiene correlativas.</p>`;
+  } else {
+    pie = `<p class="motivo">Tenés aprobadas todas sus correlativas.</p>`;
+  }
 
-    if (!conContenido.length){
-      caja.innerHTML = `<div class="vacio">
-          Todavía no hay contenido publicado.<br>Volvé en unos días.</div>`;
-      return;
-    }
+  return `<button class="tarjeta materia ${clase}" data-cod="${esc(m.cod)}">
+      <h3>${esc(m.nombre)}</h3>
+      ${pie}
+      <div class="meta">
+        <span>${m.anio}° año</span>
+        <span>${DICTADO[m.dictado]}</span>
+        ${m.horas ? `<span>${m.horas} h</span>` : ''}
+        ${m.trayecto ? `<span>${esc(m.trayecto)}</span>` : ''}
+        ${m.marcada ? '<span>(*)</span>' : ''}
+      </div>
+    </button>`;
+}
 
-    caja.innerHTML = Object.keys(NOMBRE_SECCION).map(seccion => {
-      const suyas = conContenido.filter(c => (c.seccion || 'carrera') === seccion);
-      if (!suyas.length) return '';
+/* "Si rendís este final, se te destraban N promociones" */
+function pintarConsejo(){
+  const caja = document.getElementById('consejo');
+  const conFinal = MATERIAS.filter(m => estado(m.cod) === 'cursada');
 
-      return `<div class="titulo-seccion">${esc(NOMBRE_SECCION[seccion].toUpperCase())}
-          <a href="tramites/?seccion=${seccion}">Ver todo</a></div>
-        <div class="rejilla-categorias">` +
-        suyas.map(c => {
-          const cuantos = tramites.filter(t => t.categoria_id === c.id).length +
-                          preguntas.filter(p => p.categoria_id === c.id).length;
-          return `<a class="tarjeta-categoria" href="tramites/?categoria=${c.id}">
-              <span class="emoji">${esc(c.emoji)}</span>
-              <span class="nombre">${esc(c.nombre)}</span>
-              <span class="cuenta">${cuantos} ${cuantos === 1 ? 'ficha' : 'fichas'}</span>
-            </a>`;
-        }).join('') + `</div>`;
-    }).join('');
-  })();
+  if (!conFinal.length){ caja.innerHTML = ''; return; }
 
-  /* ---------- Calendario + lista de abajo ---------- */
-  (function pintarCalendario(){
-    const caja        = document.getElementById('proximas');
-    const tituloLista = document.getElementById('titulo-proximas');
+  const filas = conFinal.map(m => {
+    /* Cuántas pendientes pasarían de "solo cursar" a "promocionar" */
+    const gana = MATERIAS.filter(otra =>
+      estado(otra.cod) === 'pendiente' &&
+      paraFinal(otra).indexOf(m.cod) !== -1 &&
+      situacion(otra).clase === 'cursa' &&
+      situacion(otra).faltaFinal.length === 1
+    );
+    return { m, gana };
+  }).sort((a,b) => b.gana.length - a.gana.length);
 
-    function tarjetaFecha(p){
-      const f = partesFecha(p.fecha_desde);
-      return `<a class="tarjeta ${esc(p.linea)}" href="agenda/?id=${p.id}">
-          <div class="tarjeta-fecha">
-            <div class="cubo-fecha">
-              <span class="dia">${f.dia}</span><span class="mes">${f.mesCorto}</span>
+  caja.innerHTML =
+    `<div class="titulo-seccion">FINALES QUE TENÉS PENDIENTES</div>
+     <div class="lista">` +
+    filas.map(f => `
+      <button class="tarjeta materia final" data-cod="${esc(f.m.cod)}">
+        <h3>${esc(f.m.nombre)}</h3>
+        <p class="motivo">${
+          f.gana.length
+            ? `Si rendís este final podés promocionar
+               <strong>${esc(f.gana.map(x => x.nombre).join(', '))}</strong>.`
+            : 'Rendirlo no te destraba ninguna promoción por ahora, pero te suma materia aprobada.'
+        }</p>
+      </button>`).join('') + `</div>`;
+}
+
+/* ============================================================
+   VISTA: PLAN COMPLETO
+   ============================================================ */
+const ORDINAL = ['', 'PRIMER', 'SEGUNDO', 'TERCER', 'CUARTO', 'QUINTO'];
+
+function pintarPlanCompleto(){
+  const anios = [];
+  for (let a = 1; a <= (PLAN.anios || 5); a++) anios.push(a);
+
+  document.getElementById('por-anio').innerHTML = anios.map(anio => {
+    const suyas = MATERIAS.filter(m => m.anio === anio);
+    if (!suyas.length) return '';
+    const listas = suyas.filter(m => estadoCrudo(m.cod) === 'aprobada').length;
+    return `<div class="titulo-seccion">${ORDINAL[anio]} AÑO
+        <span class="cuenta-grupo">${listas}/${suyas.length}</span></div>
+      <div class="lista">` +
+      suyas.map(m => {
+        const e = estadoCrudo(m.cod);
+        return `<button class="tarjeta materia estado-${e}" data-cod="${esc(m.cod)}">
+            <h3>${esc(m.nombre)}</h3>
+            <div class="meta">
+              <span class="pastilla ${e}">${ESTADOS[e].corto}</span>
+              <span>${DICTADO[m.dictado]}</span>
+              ${m.horas ? `<span>${m.horas} h</span>` : ''}
+              ${m.trayecto ? `<span>${esc(m.trayecto)}</span>` : ''}
+              ${m.marcada ? '<span>(*)</span>' : ''}
             </div>
-            <div>
-              <span class="etiqueta ${esc(p.linea)}">${esc(NOMBRE_LINEA[p.linea] || p.linea)}</span>
-              <h3>${esc(p.titulo)}</h3>
-              <p>${esc(rangoLindo(p.fecha_desde, p.fecha_hasta))}${p.hora ? ' · ' + esc(p.hora) : ''}${p.lugar ? ' · ' + esc(p.lugar) : ''}</p>
-            </div>
-          </div>
-        </a>`;
-    }
+          </button>`;
+      }).join('') + `</div>`;
+  }).join('');
 
-    /* Sin día elegido mostramos lo que se viene; con un día elegido, ese día. */
-    function mostrarProximas(){
-      tituloLista.textContent = 'LO QUE SE VIENE';
-      const hoy = hoyISO();
-      const proximas = publicaciones
-        .filter(p => p.fecha_desde && (p.fecha_hasta || p.fecha_desde) >= hoy)
-        .sort((a,b) => a.fecha_desde.localeCompare(b.fecha_desde))
-        .slice(0, 4);
+  /* Otros requisitos: hoy solo Trabajo Social tiene (la certificación de
+     idioma). Si la carrera no tiene ninguno, no mostramos la sección. */
+  const reqs      = PLAN.requisitos || [];
+  const cajaReq   = document.getElementById('requisitos');
+  document.getElementById('titulo-requisitos').hidden = !reqs.length;
+  cajaReq.hidden  = !reqs.length;
+  cajaReq.innerHTML = reqs.map(r => `
+      <label class="interruptor">
+        <input type="checkbox" id="req-idioma" ${datos.idioma ? 'checked' : ''}>
+        <span>${esc(r.nombre)} — ya la tengo</span>
+      </label>`).join('');
 
-      caja.innerHTML = proximas.length
-        ? proximas.map(tarjetaFecha).join('')
-        : '<div class="vacio">No hay fechas próximas cargadas.</div>';
-    }
-
-    montarCalendario(document.getElementById('calendario'), publicaciones,
-      function(iso, deEseDia){
-        if (!iso){ mostrarProximas(); return; }
-        tituloLista.textContent = fechaLinda(iso).toUpperCase();
-        caja.innerHTML = deEseDia.length
-          ? deEseDia.map(tarjetaFecha).join('')
-          : '<div class="vacio">No hay nada ese día.</div>';
-        tituloLista.scrollIntoView({ block:'nearest' });
-      });
-
-    mostrarProximas();
-  })();
-
-  /* ---------- Novedades ---------- */
-  (function pintarNovedades(){
-    const caja = document.getElementById('novedades');
-    const novedades = publicaciones.filter(p => p.tipo === 'novedad').slice(0, 3);
-    if (!novedades.length){
-      caja.innerHTML = '<div class="vacio">Todavía no hay novedades publicadas.</div>';
-      return;
-    }
-    caja.innerHTML = novedades.map(p => `
-        <a class="tarjeta ${esc(p.linea)}" href="agenda/?id=${p.id}">
-          <span class="etiqueta ${esc(p.linea)}">${esc(NOMBRE_LINEA[p.linea] || p.linea)}</span>
-          <h3>${esc(p.titulo)}</h3>
-          ${p.cuerpo ? `<p>${esc(p.cuerpo.slice(0,140))}${p.cuerpo.length > 140 ? '…' : ''}</p>` : ''}
-        </a>`).join('');
-  })();
-
-  /* ---------- Buscador ---------- */
-  const entrada    = document.getElementById('busqueda');
-  const zonaRes    = document.getElementById('zona-resultados');
-  const zonaNormal = document.getElementById('zona-normal');
-  const destacado  = document.getElementById('destacado');
-  const listaRes   = document.getElementById('resultados');
-  const tituloRes  = document.getElementById('titulo-resultados');
-
-  entrada.addEventListener('input', function(){
-    const q = normalizar(entrada.value.trim());
-
-    if (q.length < 2){
-      zonaRes.hidden = true;
-      zonaNormal.hidden = false;
-      destacado.hidden = false;
-      return;
-    }
-    zonaRes.hidden = false;
-    zonaNormal.hidden = true;
-    destacado.hidden = true;
-
-    const tHit = tramites.filter(t =>
-      normalizar(t.titulo + ' ' + (t.resumen || '') + ' ' + (t.palabras_clave || '')).includes(q));
-    const fHit = preguntas.filter(p =>
-      normalizar(p.pregunta + ' ' + p.respuesta).includes(q));
-
-    const total = tHit.length + fHit.length;
-    tituloRes.textContent = total
-      ? `${total} ${total === 1 ? 'RESULTADO' : 'RESULTADOS'}`
-      : 'SIN RESULTADOS';
-
-    if (!total){
-      listaRes.innerHTML = `<div class="vacio">
-          No encontramos nada con «${esc(entrada.value.trim())}».<br>
-          Probá con otra palabra, o escribinos por Instagram y lo resolvemos a mano.
-        </div>`;
-      return;
-    }
-
-    listaRes.innerHTML =
-      tHit.map(t => `
-        <a class="tarjeta" href="tramites/?id=${t.id}">
-          <h3>${esc(t.titulo)}</h3>
-          ${t.resumen ? `<p>${esc(t.resumen)}</p>` : ''}
-          <div class="meta"><span>Trámite</span></div>
-        </a>`).join('') +
-      fHit.map(p => `
-        <a class="tarjeta" href="tramites/?faq=${p.id}">
-          <h3>${esc(p.pregunta)}</h3>
-          <p>${esc(p.respuesta.slice(0,140))}${p.respuesta.length > 140 ? '…' : ''}</p>
-          <div class="meta"><span>Pregunta frecuente</span></div>
-        </a>`).join('');
+  const casilla = document.getElementById('req-idioma');
+  if (casilla) casilla.addEventListener('change', function(){
+    datos.idioma = this.checked; persistir();
   });
+
+  /* La nota del asterisco tampoco existe en las tres carreras */
+  const cajaNota = document.getElementById('nota-asterisco');
+  const hayNota  = !!PLAN.notaAsterisco && MATERIAS.some(m => m.marcada);
+  cajaNota.hidden = !hayNota;
+  cajaNota.innerHTML = hayNota ? `<strong>(*)</strong> ${esc(PLAN.notaAsterisco)}` : '';
+}
+
+/* ============================================================
+   HOJA DE DETALLE
+   ============================================================ */
+const fondo  = document.getElementById('hoja-fondo');
+const cuerpo = document.getElementById('hoja-cuerpo');
+
+function listaCorrel(codigos){
+  return `<ul class="lista-correl">` + codigos.map(c => {
+    const e = estado(c);
+    return `<li><span class="pastilla ${e}">${ESTADOS[e].corto}</span>
+              ${esc(POR_COD[c] ? POR_COD[c].nombre : c)}</li>`;
+  }).join('') + `</ul>`;
+}
+
+function bloqueCorrelativas(m){
+  const pc = paraCursar(m);
+
+  /* Caso especial: el Trabajo Integrador Final pide todas las materias de
+     1° a 4°. Listarlas una por una serían cuarenta renglones inútiles. */
+  if (m.paraFinal === 'todas-1-a-4'){
+    const faltan = paraFinal(m).filter(c => estado(c) !== 'aprobada').length;
+    return `<div class="titulo-seccion">PARA CURSARLA</div>
+      ${pc.length ? listaCorrel(pc) : `<p class="letra-chica">No pide nada.</p>`}
+      <div class="titulo-seccion">PARA APROBARLA</div>
+      <p class="letra-chica">Todas las materias de 1° a 4° año con el final
+        aprobado.${faltan ? ` Te faltan <strong>${faltan}</strong>.` : ' Ya las tenés todas.'}</p>`;
+  }
+
+  const pf = paraFinal(m);
+  const mismas = pc.length === pf.length && pc.every(c => pf.indexOf(c) !== -1);
+
+  /* Si las dos columnas dicen lo mismo (Trabajo Social y Gestión del
+     Riesgo), no tiene sentido mostrar la misma lista dos veces. */
+  if (mismas){
+    return `<div class="titulo-seccion">CORRELATIVAS</div>
+      ${pc.length ? listaCorrel(pc)
+        : `<p class="letra-chica">No tiene. La podés cursar y promocionar cuando quieras.</p>`}`;
+  }
+
+  return `<div class="titulo-seccion">PARA CURSARLA</div>
+    <p class="letra-chica">Con la cursada aprobada:</p>
+    ${pc.length ? listaCorrel(pc) : `<p class="letra-chica">No pide nada.</p>`}
+    <div class="titulo-seccion">PARA PROMOCIONARLA O RENDIR EL FINAL</div>
+    <p class="letra-chica">Con el final aprobado:</p>
+    ${pf.length ? listaCorrel(pf) : `<p class="letra-chica">No pide nada.</p>`}`;
+}
+
+function abrirHoja(cod){
+  const m = POR_COD[cod];
+  if (!m) return;
+  const s = situacion(m);
+  const eActual = estadoCrudo(cod);
+
+  const abre = HABILITA[cod].map(c =>
+    `<li>${esc(POR_COD[c].nombre)} <small>(${POR_COD[c].anio}° año)</small></li>`).join('');
+
+  const trayecto = m.trayecto && PLAN.trayectos ? PLAN.trayectos[m.trayecto] : '';
+
+  cuerpo.innerHTML = `
+    <div class="hoja-cod">${esc(m.cod)} · ${m.anio}° año · ${DICTADO[m.dictado]}${m.horas ? ' · ' + m.horas + ' h' : ''}</div>
+    <h2 id="hoja-titulo">${esc(m.nombre)}</h2>
+    ${trayecto ? `<p class="letra-chica">${esc(trayecto)}</p>` : ''}
+    ${m.marcada && PLAN.notaAsterisco
+      ? `<p class="letra-chica">(*) ${esc(PLAN.notaAsterisco)}</p>` : ''}
+
+    <div class="veredicto ${s.clase}">${NOMBRE_CLASE[s.clase]}</div>
+
+    <div class="titulo-seccion">CÓMO VENÍS CON ESTA MATERIA</div>
+    <div class="opciones-estado">
+      ${Object.keys(ESTADOS).map(k => `
+        <button class="opcion ${k} ${k === eActual ? 'elegida' : ''}"
+                data-estado="${k}">${ESTADOS[k].texto}</button>`).join('')}
+    </div>
+
+    ${bloqueCorrelativas(m)}
+
+    <div class="titulo-seccion">LE ABRE LA PUERTA A</div>
+    ${abre ? `<ul class="lista-correl simple">${abre}</ul>`
+           : `<p class="letra-chica">Ninguna otra materia depende de esta.</p>`}
+  `;
+
+  cuerpo.querySelectorAll('.opcion').forEach(b => {
+    b.addEventListener('click', function(){
+      datos.estados[cod] = this.dataset.estado;
+      persistir();
+      cerrarHoja();
+      pintarTodo();
+    });
+  });
+
+  fondo.hidden = false;
+  document.body.style.overflow = 'hidden';
+}
+
+function cerrarHoja(){
+  fondo.hidden = true;
+  document.body.style.overflow = '';
+}
+
+document.getElementById('hoja-cerrar').addEventListener('click', cerrarHoja);
+fondo.addEventListener('click', e => { if (e.target === fondo) cerrarHoja(); });
+document.addEventListener('keydown', e => { if (e.key === 'Escape' && !fondo.hidden) cerrarHoja(); });
+
+/* Un solo escuchador para todas las tarjetas, en cualquiera de las dos vistas */
+document.querySelector('main').addEventListener('click', e => {
+  const t = e.target.closest('.materia');
+  if (t) abrirHoja(t.dataset.cod);
+});
+
+/* ============================================================
+   CONTROLES
+   ============================================================ */
+document.getElementById('selector-carrera').addEventListener('click', e => {
+  const b = e.target.closest('.chip');
+  if (!b || b.dataset.carrera === PLAN.id) return;
+  elegirCarrera(b.dataset.carrera);
+  pintarSelectorCarrera();
+  pintarTodo();
+  scrollTo(0, 0);
+});
+
+document.getElementById('filtro-cuatri').addEventListener('click', e => {
+  const b = e.target.closest('.chip');
+  if (!b) return;
+  filtroCuatri = b.dataset.cuatri;
+  pintarFiltroCuatri();
+  pintarGrupos();
+});
+
+document.getElementById('suponer').addEventListener('change', function(){
+  datos.suponer = this.checked;
+  persistir();
+  pintarGrupos();
+  pintarConsejo();
+});
+
+const tabPlan = document.getElementById('tab-plan');
+const tabTodo = document.getElementById('tab-todo');
+function verPestana(cual){
+  const esPlan = cual === 'plan';
+  tabPlan.setAttribute('aria-selected', esPlan);
+  tabTodo.setAttribute('aria-selected', !esPlan);
+  document.getElementById('vista-plan').hidden = !esPlan;
+  document.getElementById('vista-todo').hidden = esPlan;
+  scrollTo(0, 0);
+}
+tabPlan.addEventListener('click', () => verPestana('plan'));
+tabTodo.addEventListener('click', () => verPestana('todo'));
+
+document.getElementById('borrar').addEventListener('click', () => {
+  if (!confirm(`¿Borrar todo lo que marcaste en ${PLAN.nombreCorto} y empezar de nuevo?\n\nLo de las otras carreras no se toca.`)) return;
+  guardado.datos[PLAN.id] = { estados:{}, suponer:false, idioma:false };
+  datos = guardado.datos[PLAN.id];
+  persistir();
+  pintarTodo();
+});
+
+/* ============================================================
+   ARRANQUE
+   ============================================================ */
+function pintarTodo(){
+  pintarFiltroCuatri();
+  pintarProgreso();
+  pintarGrupos();
+  pintarConsejo();
+  pintarPlanCompleto();
+}
+
+elegirCarrera(guardado.carrera || 'ts');
+pintarSelectorCarrera();
+pintarTodo();
 
 })();
 </script>
