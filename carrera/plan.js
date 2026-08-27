@@ -17,8 +17,11 @@
 
 window.PLAN_TS = {
 
+  id: 'ts',
   carrera: 'Licenciatura en Trabajo Social',
+  nombreCorto: 'Trabajo Social',
   facultad: 'Facultad de Trabajo Social · UNLP',
+  anios: 5,
 
   /* Que significa el asterisco (*) del plan. Cuando lo confirmen con la
      facultad, cambien este texto y listo: se actualiza en toda la pantalla. */
