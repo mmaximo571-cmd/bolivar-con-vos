@@ -188,6 +188,24 @@ LEEME.md             ← este archivo
 **Para cambiar un color de toda la app:** abrí `estilos.css` y tocá una sola línea
 en el bloque `PANEL DE CONTROL ESTETICO` de arriba de todo.
 
+### La pantalla de Trámites
+
+Las fichas van **agrupadas por categoría y en cuadrados**: 3 por fila en el
+celular, 4 desde 560 píxeles. Al tocar uno se abre la ficha en una ventanita,
+sin salir de la pantalla ni perder dónde estabas.
+
+Cada cuadrado dice abajo si adentro hay **«Paso a paso»** o si te manda a un
+**«Sitio oficial»**. Eso importa: de 31 fichas, 12 explican el trámite y 19 son
+un enlace afuera, y antes no había forma de saberlo sin entrar.
+
+Antes esto era una tira de 34 tarjetas sin un solo encabezado. Ahora tiene ocho
+grupos con su cuenta al lado.
+
+En el celular los cuadrados son un poco más altos que anchos, a propósito: con
+109 píxeles de lado, títulos como «Plan de estudios: Licenciatura en Trabajo
+Social» se cortaban en el mismo punto y tres fichas distintas quedaban
+idénticas.
+
 ### La alarma de inscripción
 
 Es lo más útil que hace la app, y sale de un dato que ya estaba cargado: **la

@@ -177,13 +177,21 @@
 
   /* ============================================================
      CASO 3 · Listado completo
+
+     Antes esto era una tira de 34 tarjetas, cinco pantallas de scroll
+     sin un solo encabezado: para encontrar algo había que leer todo.
+
+     Ahora va agrupado por categoría y en cuadrados. Al tocar uno se
+     abre la ficha en una ventanita, sin salir de la pantalla ni
+     perder dónde estabas.
      ============================================================ */
   let categorias = [], tramites = [], preguntas = [];
   try {
     const [rCat, rTra, rFaq] = await conPaciencia(Promise.all([
       db.from('categorias').select('*').order('orden'),
-      db.from('tramites').select('id,titulo,resumen,categoria_id,palabras_clave')
-        .eq('publicado', true).order('orden'),
+      /* Traemos la ficha entera, no solo el título: así la ventanita
+         abre al instante, sin ir a buscar nada más. */
+      db.from('tramites').select('*').eq('publicado', true).order('orden'),
       db.from('faq').select('*').eq('publicado', true).order('orden')
     ]));
     for (const r of [rCat, rTra, rFaq]) if (r.error) throw r.error;
@@ -213,15 +221,26 @@
     <div class="buscador" style="margin-bottom:6px">
       <span class="lupa">🔍</span>
       <input id="filtro" type="search" autocomplete="off" placeholder="Buscar…"
-             style="border:1px solid var(--borde)" aria-label="Buscar trámites">
+             aria-label="Buscar trámites">
     </div>
 
     <div class="chips" id="chips"></div>
-    <div class="lista" id="lista" style="margin-top:8px"></div>`;
+    <div id="lista" style="margin-top:10px"></div>`;
 
-  const chips = document.getElementById('chips');
-  const lista = document.getElementById('lista');
+  /* La ventanita donde se lee cada ficha */
+  document.body.insertAdjacentHTML('beforeend', `
+    <div class="hoja-fondo" id="hoja-fondo" hidden>
+      <div class="hoja" role="dialog" aria-modal="true" aria-labelledby="hoja-titulo">
+        <button class="hoja-cerrar" id="hoja-cerrar" aria-label="Cerrar">✕</button>
+        <div id="hoja-cuerpo"></div>
+      </div>
+    </div>`);
+
+  const chips  = document.getElementById('chips');
+  const lista  = document.getElementById('lista');
   const filtro = document.getElementById('filtro');
+  const fondo  = document.getElementById('hoja-fondo');
+  const cuerpo = document.getElementById('hoja-cuerpo');
 
   let catActiva = idCat ? Number(idCat) : 0;   // 0 = todas
 
@@ -242,6 +261,91 @@
 
   filtro.addEventListener('input', dibujar);
 
+  /* ---------- La ventanita con la ficha ---------- */
+  function abrirFicha(id){
+    const t = tramites.find(x => String(x.id) === String(id));
+    if (!t) return;
+    const c = categorias.find(x => x.id === t.categoria_id);
+    const pasos = Array.isArray(t.pasos) ? t.pasos : [];
+    const hayFicha = t.requisitos || t.plazo || t.donde;
+
+    cuerpo.innerHTML = `
+      ${c ? `<div class="hoja-cod">${esc(c.emoji)} ${esc(c.nombre)}</div>` : ''}
+      <h2 id="hoja-titulo">${esc(t.titulo)}</h2>
+      ${t.resumen ? `<p class="hoja-resumen">${escMulti(t.resumen)}</p>` : ''}
+
+      ${hayFicha ? `<div class="ficha"><dl>
+          ${t.requisitos ? `<dt>Necesitás</dt><dd>${escMulti(t.requisitos)}</dd>` : ''}
+          ${t.plazo      ? `<dt>Cuándo</dt><dd>${escMulti(t.plazo)}</dd>`        : ''}
+          ${t.donde      ? `<dt>Dónde</dt><dd>${escMulti(t.donde)}</dd>`         : ''}
+        </dl></div>` : ''}
+
+      ${pasos.length ? `
+        <div class="titulo-seccion">PASO A PASO</div>
+        <ol class="pasos">${pasos.map(p => `<li>
+            <div class="paso-titulo">${esc(p.titulo || '')}</div>
+            ${p.detalle ? `<div class="paso-detalle">${escMulti(p.detalle)}</div>` : ''}
+          </li>`).join('')}</ol>` : ''}
+
+      ${t.link_url ? `<a class="boton ancho oscuro" style="margin-top:18px"
+          href="${esc(t.link_url)}" target="_blank" rel="noopener">
+          ${esc(t.link_titulo || 'Ir al sitio oficial')} ↗</a>` : ''}
+
+      <div id="zona-guardar" style="margin-top:12px"></div>
+
+      <p class="letra-chica" style="margin-top:20px">
+        Última actualización: ${esc(fechaLinda(t.actualizado_at))}.<br>
+        Si algo cambió o no te funcionó, avisanos y lo corregimos.
+      </p>`;
+
+    fondo.hidden = false;
+    document.body.style.overflow = 'hidden';
+    document.getElementById('hoja-cerrar').focus();
+    botonGuardar(t);
+  }
+
+  function cerrarFicha(){
+    fondo.hidden = true;
+    document.body.style.overflow = '';
+  }
+  document.getElementById('hoja-cerrar').addEventListener('click', cerrarFicha);
+  fondo.addEventListener('click', e => { if (e.target === fondo) cerrarFicha(); });
+  document.addEventListener('keydown', e => {
+    if (e.key === 'Escape' && !fondo.hidden) cerrarFicha();
+  });
+
+  /* El botón de guardar, solo para quien tenga cuenta */
+  async function botonGuardar(t){
+    const caja = document.getElementById('zona-guardar');
+    if (!caja) return;
+    const { usuario } = await sesionActual();
+    if (!usuario){
+      caja.innerHTML = `<a class="boton ancho borde" href="../mi/">
+          Creá tu cuenta para guardar este trámite</a>`;
+      return;
+    }
+    const { data: ya } = await db.from('guardados')
+      .select('tramite_id').eq('tramite_id', t.id).maybeSingle();
+    let guardado = !!ya;
+    (function pintar(){
+      caja.innerHTML = `<button class="boton ancho ${guardado ? 'borde' : ''}" id="btn-guardar">
+          ${guardado ? '✓ Guardado' : '⭐ Guardar este trámite'}</button>`;
+      document.getElementById('btn-guardar').onclick = async function(){
+        this.disabled = true;
+        if (guardado) await db.from('guardados').delete().eq('tramite_id', t.id);
+        else          await db.from('guardados').insert({ usuario_id: usuario.id, tramite_id: t.id });
+        guardado = !guardado;
+        pintar();
+      };
+    })();
+  }
+
+  lista.addEventListener('click', e => {
+    const b = e.target.closest('.tarjeta-cuadro');
+    if (b) abrirFicha(b.dataset.id);
+  });
+
+  /* ---------- El listado ---------- */
   function dibujar(){
     [...chips.children].forEach(b =>
       b.setAttribute('aria-pressed', Number(b.dataset.cat) === catActiva ? 'true' : 'false'));
@@ -265,28 +369,53 @@
       return;
     }
 
-    const sufijoCat = catActiva ? '&categoria=' + catActiva : '';
+    /* Un cuadrado por trámite. La marca de abajo dice si adentro vas a
+       encontrar el paso a paso o si te manda a un sitio de afuera: es
+       la diferencia entre una guía y una lista de enlaces, y hasta
+       ahora no se podía saber antes de entrar. */
+    const cuadro = x => {
+      const tienePasos = Array.isArray(x.pasos) && x.pasos.length;
+      return `<button class="tarjeta-cuadro" data-id="${x.id}">
+          <span class="nombre">${esc(x.titulo)}</span>
+          <span class="marca-tipo ${tienePasos ? 'guia' : 'enlace'}">${
+            tienePasos ? 'Paso a paso' : 'Sitio oficial'}</span>
+        </button>`;
+    };
 
-    lista.innerHTML =
-      t.map(x => {
-        const c = categorias.find(c => c.id === x.categoria_id);
-        return `<a class="tarjeta" href="?id=${x.id}${sufijoCat}">
-            <h3>${esc(x.titulo)}</h3>
-            ${x.resumen ? `<p>${esc(x.resumen)}</p>` : ''}
-            ${c ? `<div class="meta"><span>${esc(c.emoji)} ${esc(c.nombre)}</span></div>` : ''}
-          </a>`;
-      }).join('') +
-      (f.length ? `<div class="titulo-seccion" style="margin-top:20px">PREGUNTAS FRECUENTES</div>` : '') +
-      f.map(x => `
-        <details class="tarjeta" style="border-left-color:var(--turquesa)">
-          <summary style="cursor:pointer;list-style:none;font-family:var(--fuente-sub);
-                          font-weight:700;font-size:16px;line-height:1.2">
-            ${esc(x.pregunta)}</summary>
-          <div style="margin-top:9px;color:var(--gris);font-size:15px">${escMulti(x.respuesta)}</div>
-        </details>`).join('');
+    /* Agrupado por categoría, en el orden en que están las categorías */
+    let html = '';
+    categorias.forEach(c => {
+      const suyos = t.filter(x => x.categoria_id === c.id);
+      if (!suyos.length) return;
+      html += `<div class="titulo-seccion">${esc(c.emoji)} ${esc(c.nombre)}
+          <span class="cuenta-grupo">${suyos.length}</span></div>
+        <div class="rejilla-fichas">${suyos.map(cuadro).join('')}</div>`;
+    });
+
+    /* Los que no tengan categoría, si alguna vez pasa */
+    const huerfanos = t.filter(x => !categorias.some(c => c.id === x.categoria_id));
+    if (huerfanos.length){
+      html += `<div class="titulo-seccion">OTROS</div>
+        <div class="rejilla-fichas">${huerfanos.map(cuadro).join('')}</div>`;
+    }
+
+    if (f.length){
+      html += `<div class="titulo-seccion">PREGUNTAS FRECUENTES</div>
+        <div class="lista">` +
+        f.map(x => `
+          <details class="tarjeta">
+            <summary>${esc(x.pregunta)}</summary>
+            <div class="respuesta">${escMulti(x.respuesta)}</div>
+          </details>`).join('') + `</div>`;
+    }
+
+    lista.innerHTML = html;
   }
 
   dibujar();
+
+  /* Si llegaste con un enlace directo a un trámite, se abre la ficha */
+  if (idTramite) abrirFicha(idTramite);
 
 })();
 </script>

@@ -393,7 +393,10 @@ svg.ico{width:1em;height:1em;display:block;flex:0 0 auto}
 }
 .boton:hover{filter:brightness(.94)}
 .boton.oscuro{background:var(--negro);color:var(--amarillo)}
-.boton.borde{background:transparent;border:1.5px solid var(--negro)}
+/* El botón de contorno hereda el color del texto de la página, no el
+   negro fijo: sobre fondo transparente, de noche quedaba oscuro sobre
+   oscuro y no se leía (1,09). */
+.boton.borde{background:transparent;border:1.5px solid var(--texto);color:var(--texto)}
 .boton.peligro{background:var(--rojo-solido);color:var(--sobre-negro)}
 .boton.ancho{width:100%}
 .boton:disabled{opacity:.5;cursor:default}
@@ -1117,6 +1120,59 @@ body.antes-de-entrar{padding-bottom:0}  /* apertura y bienvenida a pantalla comp
 }
 .esq-grilla{display:grid;grid-template-columns:repeat(7,1fr);gap:4px;margin-top:12px}
 .esq-grilla .esqueleto{aspect-ratio:1;height:auto;margin:0}
+
+/* ============================================================
+   LA REJILLA DE FICHAS
+
+   3 por fila en el celular, 4 desde 560px. Antes esto era una tira
+   de 34 tarjetas, cinco pantallas de scroll sin un solo encabezado.
+   ============================================================ */
+.rejilla-fichas{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:6px}
+@media (min-width:560px){ .rejilla-fichas{grid-template-columns:repeat(4,1fr)} }
+
+/* Cuadrados en pantalla grande. En el celular son un poco mas altos
+   que anchos: con 109px de lado, titulos como "Plan de estudios:
+   Licenciatura en Trabajo Social" se cortaban en el mismo lugar y
+   tres fichas distintas quedaban identicas. */
+.tarjeta-cuadro{
+  aspect-ratio:1 / 1.22;background:var(--superficie);
+  border:1px solid var(--linea);border-left:4px solid var(--celeste);
+  border-radius:var(--radio);box-shadow:var(--sombra);
+  padding:10px 9px;text-align:left;color:var(--texto);
+  display:flex;flex-direction:column;justify-content:space-between;gap:6px;
+  overflow:hidden;cursor:pointer
+}
+@media (min-width:560px){ .tarjeta-cuadro{aspect-ratio:1} }
+.tarjeta-cuadro:hover{border-color:var(--celeste)}
+.tarjeta-cuadro:focus-visible{outline:3px solid var(--celeste);outline-offset:2px}
+.tarjeta-cuadro .nombre{
+  font-family:var(--fuente-sub);font-weight:700;font-size:11px;line-height:1.16;
+  text-transform:uppercase;letter-spacing:0;
+  display:-webkit-box;-webkit-line-clamp:7;-webkit-box-orient:vertical;overflow:hidden
+}
+@media (min-width:560px){
+  .tarjeta-cuadro .nombre{font-size:12px;-webkit-line-clamp:6}
+}
+/* Dice si adentro hay un paso a paso o si te manda afuera. Antes no
+   se podia saber sin entrar, y de 31 fichas 18 son solo un enlace. */
+.marca-tipo{
+  flex:0 0 auto;font-family:var(--fuente-texto);font-size:9.5px;font-weight:700;
+  letter-spacing:.05em;text-transform:uppercase;
+  padding:3px 7px;border-radius:99px;align-self:flex-start;white-space:nowrap
+}
+.marca-tipo.guia   {background:var(--amarillo);color:var(--sobre-color)}
+.marca-tipo.enlace {background:var(--superficie-2);color:var(--texto-suave)}
+
+/* Las preguntas frecuentes, plegables */
+details.tarjeta > summary{
+  cursor:pointer;list-style:none;font-family:var(--fuente-sub);
+  font-weight:700;font-size:16px;line-height:1.2
+}
+details.tarjeta > summary::-webkit-details-marker{display:none}
+details.tarjeta .respuesta{margin-top:9px;color:var(--texto-suave);font-size:15px}
+
+/* El resumen adentro de la ventanita */
+.hoja-resumen{margin:8px 0 4px;color:var(--texto-suave);font-size:15px;line-height:1.4}
 
 /* ============================================================
    KIT DE INGRESO
