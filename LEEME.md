@@ -14,6 +14,7 @@ Facultad de Trabajo Social, UNLP.
 | Cursadas | `carrera/index.html` | Organizador de cursadas según el plan de estudios |
 | Agenda | `agenda/index.html` | Fechas, comunicados y actividades. Se actualiza sola |
 | Mi cuenta | `mi/index.html` | Cuenta **opcional** del estudiante, para guardar trámites |
+| Quiénes somos | `quienes/index.html` | La agrupación y quién impulsa la app |
 | Panel | `panel/index.html` | Donde el equipo carga y edita todo |
 
 **La app se usa entera sin registrarse.** La cuenta solo sirve para guardar trámites.
@@ -72,6 +73,32 @@ debajo de la cabecera, y **el botón ☰ abre un menú lateral** con lo mismo.
 El cambio se hizo en un solo lugar: `pintarNav()` en `app.js`. Todas las pantallas
 lo heredan sin tocarles nada. De paso se recuperaron los 64 px que la barra de
 abajo comía en cada vista.
+
+### El logo de la agrupación
+
+Está armado con **las mismas tres capas de la animación de apertura** —el mapa,
+SIMÓN y BOLÍVAR— recortadas y pintadas. No hay un archivo de logo aparte: si
+alguna vez cambia, se cambian esas tres capas de `marca/` y se vuelven a generar
+las piezas.
+
+Va en **dos colores, según el fondo**:
+
+| Dónde | Color | Por qué |
+|---|---|---|
+| Ícono de la app | Amarillo sobre negro | 13,8 de contraste |
+| Portada | Rojo | Sobre el fondo claro da 6,0. En amarillo daría 1,3 y no se vería |
+
+Las piezas están en `imagenes/`:
+
+- `icono-96.png` — la pestaña del navegador y los resultados de Google
+- `icono-192.png` y `icono-512.png` — la pantalla de inicio en Android
+- `icono-apple.png` — la pantalla de inicio en iPhone
+- `compartir.png` — lo que se ve al compartir el link por WhatsApp o Instagram
+- `marca-roja.webp` — el logo de la portada
+
+**`manifest.json`**, en la raíz, es lo que hace que la app se pueda agregar a la
+pantalla de inicio del celular con su ícono propio. Sin ese archivo, Android le
+pone uno genérico.
 
 ### Los íconos
 
@@ -358,6 +385,31 @@ where id = (select id from auth.users where email = 'elcorreo@ejemplo.com');
 | `guardados` | Qué trámite guardó cada estudiante (privado) |
 
 ---
+
+## Cómo escribir el «¿Quiénes somos?»
+
+**Esta pantalla no se edita desde el panel: se edita en el archivo.** Es la única
+así, porque su texto cambia una vez por año y no valía la pena armarle una tabla.
+
+Abrí `quienes/index.html`. Arriba de todo hay un bloque que dice **«ACÁ SE
+ESCRIBE EL TEXTO DE ESTA PANTALLA»**. Todo lo que hay que tocar está ahí; el
+resto del archivo dibuja lo que se escriba.
+
+Cada bloque es un título y uno o más párrafos. Para sumar uno, copiá uno entero
+y cambiale el texto. Para sacarlo, borralo: la pantalla se acomoda sola, sirve
+con dos bloques o con diez.
+
+**Todo lo que diga `REVISAR` es texto de ejemplo** y hay que reemplazarlo.
+
+Los links de redes tienen una protección: **si el link no está cargado, en vez
+del botón aparece un cartel apagado que dice que falta**. Así no se publica un
+botón que no lleva a ningún lado. Cuando pegás un link de verdad, se convierte
+en botón solo.
+
+Se llega desde el **menú ☰** y desde el enlace del **pie de página**, en todas
+las pantallas. No está en la fila de secciones de arriba a propósito: esa fila
+ya tiene cinco y se desliza en el celular, y esto se consulta una vez, no todos
+los días.
 
 ## Si alguna vez la app queda en «Cargando…»
 

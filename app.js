@@ -301,6 +301,12 @@ function pintarNav(actual){
       <div class="menu-lista">
         ${SECCIONES.map(s => `<a href="${s.url}"${s.id===actual ? ' aria-current="page"' : ''}>
             <span class="icono">${icono(s.id) || s.icono}</span>${esc(s.texto)}</a>`).join('')}
+
+        <!-- Quiénes somos va acá y no en la fila de arriba: esa fila ya
+             tiene cinco y se desliza en el celular. Esto se consulta una
+             vez, no todos los días. -->
+        <a class="menu-aparte" href="${RAIZ}quienes/"${actual==='quienes' ? ' aria-current="page"' : ''}>
+          <span class="icono">${icono('quienes') || '✊'}</span>¿Quiénes somos?</a>
       </div>
       <div class="menu-pie">
         Agrupación Simón Bolívar<br>Conducción del CEFTS · FTS UNLP
@@ -330,6 +336,7 @@ function htmlPie(){
       <strong>La Bolívar con vos</strong><br>
       Agrupación Simón Bolívar · Conducción del CEFTS<br>
       Facultad de Trabajo Social · UNLP
+      <a class="pie-enlace" href="${RAIZ}quienes/">¿Quiénes somos?</a>
     </footer>`;
 }
 

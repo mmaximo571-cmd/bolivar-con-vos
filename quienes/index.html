@@ -1,0 +1,168 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Quiénes somos · La Bolívar con vos</title>
+<meta name="description" content="Quiénes somos: la Agrupación Simón Bolívar, conducción del Centro de Estudiantes de la Facultad de Trabajo Social de la UNLP.">
+<meta name="theme-color" content="#F9E830">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@600;700;800&family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+<!-- Iconos de la app: pestana, Google, y pantalla de inicio del celular -->
+<link rel="icon" type="image/png" sizes="96x96" href="../imagenes/icono-96.png">
+<link rel="icon" href="../favicon.svg">
+<link rel="apple-touch-icon" href="../imagenes/icono-apple.png">
+<link rel="manifest" href="../manifest.json">
+
+<!-- Como se ve cuando alguien comparte el link por WhatsApp o Instagram -->
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="La Bolivar con vos">
+<meta property="og:title" content="Quiénes somos · La Bolívar con vos">
+<meta property="og:description" content="Quiénes somos: la Agrupación Simón Bolívar, conducción del Centro de Estudiantes de la Facultad de Trabajo Social de la UNLP.">
+<meta property="og:image" content="https://bolivar-con-vos.vercel.app/imagenes/compartir.png">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="stylesheet" href="../estilos.css">
+</head>
+<body>
+
+<div id="cabecera"></div>
+
+<main class="envoltura">
+  <h1 class="titulo-pantalla">¿Quiénes somos?</h1>
+  <p class="bajada" id="bajada"></p>
+  <div id="contenido"></div>
+</main>
+
+<div class="zona-fondo">
+  <div id="pie"></div>
+</div>
+
+<script>window.RAIZ = '../';</script>
+<!-- La librería de Supabase vive ACÁ ADENTRO, no en un servidor ajeno. -->
+<script src="../lib/supabase.js"></script>
+<script src="../config.js"></script>
+<script src="../iconos.js"></script>
+<script src="../app.js"></script>
+<script>
+/* ============================================================
+   ACÁ SE ESCRIBE EL TEXTO DE ESTA PANTALLA
+
+   Es el único lugar que hay que tocar. No hace falta entender el
+   resto del archivo: todo lo de abajo dibuja lo que se escriba acá.
+
+   Reglas simples:
+   - Cada bloque es un título y uno o más párrafos.
+   - Para sumar un bloque, copiá uno entero y cambiale el texto.
+   - Para sacarlo, borralo. No pasa nada si quedan dos o si hay diez.
+   - Los renglones que dicen REVISAR son de ejemplo: hay que
+     reemplazarlos por lo que ustedes quieran decir de verdad.
+   ============================================================ */
+const QUIENES = {
+
+  /* La frase que va debajo del título, arriba de todo */
+  bajada: 'REVISAR: una línea que diga en pocas palabras quiénes son ' +
+          'y para qué existe esta app.',
+
+  bloques: [
+    {
+      titulo: 'La agrupación',
+      parrafos: [
+        'REVISAR: qué es la Agrupación Simón Bolívar, desde cuándo existe ' +
+        'y qué la mueve.',
+        'REVISAR: un segundo párrafo si hace falta. Se pueden poner los ' +
+        'que quieran, o dejar uno solo.'
+      ]
+    },
+    {
+      titulo: 'La conducción del Centro de Estudiantes',
+      parrafos: [
+        'REVISAR: qué significa conducir el CEFTS, qué se hace desde ahí, ' +
+        'y desde cuándo.'
+      ]
+    },
+    {
+      titulo: 'Quién impulsa esta app',
+      parrafos: [
+        'REVISAR: quiénes la pensaron y la sostienen, y por qué les pareció ' +
+        'que hacía falta.',
+        'REVISAR: si quieren, los nombres de las compañeras y compañeros ' +
+        'que participaron.'
+      ]
+    },
+    {
+      titulo: 'Por qué la hicimos',
+      parrafos: [
+        'REVISAR: el problema que vieron. Por ejemplo: que la información de ' +
+        'la facultad está desparramada y cuesta encontrarla, y que perderse ' +
+        'una fecha te puede costar un cuatrimestre.'
+      ]
+    }
+  ],
+
+  /* Dónde encontrarlos. Si alguna red no la usan, borren el renglón. */
+  redes: [
+    { nombre: 'Instagram', url: 'REVISAR: pegar acá el link de Instagram' },
+    { nombre: 'Facebook',  url: 'REVISAR: pegar acá el link de Facebook'  }
+  ],
+
+  /* El llamado del final. Si no lo quieren, borren todo este bloque
+     poniendo   sumate: null,   en su lugar. */
+  sumate: {
+    titulo: 'Sumate',
+    texto: 'REVISAR: cómo se hace para acercarse, dónde los encuentran, ' +
+           'cuándo se juntan.',
+    boton: 'Escribinos',
+    url: 'REVISAR: link de Instagram, WhatsApp o correo'
+  }
+};
+
+/* ============================================================
+   DE ACÁ PARA ABAJO NO HACE FALTA TOCAR NADA
+   ============================================================ */
+(function quienes(){
+
+document.getElementById('cabecera').innerHTML = htmlCabecera();
+document.getElementById('pie').innerHTML = htmlPie();
+pintarNav('quienes');
+
+/* Un link solo sirve si de verdad es un link. Los REVISAR se muestran
+   como texto apagado, para que se note que falta completarlos. */
+function esLink(u){ return /^https?:\/\//i.test(String(u || '')); }
+
+document.getElementById('bajada').textContent = QUIENES.bajada;
+
+const bloques = (QUIENES.bloques || []).map(b => `
+  <section class="bloque-texto">
+    <h2>${esc(b.titulo)}</h2>
+    ${(b.parrafos || []).map(p => `<p>${esc(p)}</p>`).join('')}
+  </section>`).join('');
+
+const redes = (QUIENES.redes || []).length ? `
+  <section class="bloque-texto">
+    <h2>Dónde encontrarnos</h2>
+    <div class="redes">
+      ${QUIENES.redes.map(r => esLink(r.url)
+        ? `<a class="boton borde" href="${esc(r.url)}"
+              target="_blank" rel="noopener">${esc(r.nombre)} ↗</a>`
+        : `<span class="red-pendiente">${esc(r.nombre)}: falta cargar el link</span>`
+      ).join('')}
+    </div>
+  </section>` : '';
+
+const sumate = QUIENES.sumate ? `
+  <section class="bloque-sumate">
+    <h2>${esc(QUIENES.sumate.titulo)}</h2>
+    <p>${esc(QUIENES.sumate.texto)}</p>
+    ${esLink(QUIENES.sumate.url)
+      ? `<a class="boton oscuro ancho" href="${esc(QUIENES.sumate.url)}"
+            target="_blank" rel="noopener">${esc(QUIENES.sumate.boton)} ↗</a>`
+      : `<span class="red-pendiente">Falta cargar el link del botón</span>`}
+  </section>` : '';
+
+document.getElementById('contenido').innerHTML = bloques + redes + sumate;
+
+})();
+</script>
+</body>
+</html>
