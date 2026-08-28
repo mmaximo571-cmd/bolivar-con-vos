@@ -33,6 +33,39 @@ gente ya tiene guardadas y las que están pegadas en Instagram.
 
 ---
 
+## Cómo se sube a la web
+
+**Antes se arrastraban las carpetas a la web de GitHub, a mano. Ya no.** La
+carpeta es un repositorio de git conectado a
+[mmaximo571-cmd/bolivar-con-vos](https://github.com/mmaximo571-cmd/bolivar-con-vos),
+y Vercel publica solo cada vez que llega algo a la rama `main`.
+
+Desde esta computadora, después de cambiar lo que sea:
+
+```bash
+git add -A && git commit -m "Que cambiaste, en una linea" && git push
+```
+
+Eso es todo: en un minuto está en `bolivar-con-vos.vercel.app`.
+
+**Desde otro lado** —una tablet, otra computadora, Claude en la web— se trabaja
+sobre el mismo repositorio de GitHub. Antes de ponerte a tocar acá, traé lo que
+haya hecho el otro lado:
+
+```bash
+git pull
+```
+
+Si te olvidás del `git pull` y los dos tocan el mismo archivo, git avisa y no
+pisa nada; hay que resolverlo a mano. Por eso conviene que no trabajen los dos
+lados al mismo tiempo sobre lo mismo.
+
+**Lo que git no sube, porque no vive en los archivos:** las tablas y el
+contenido de Supabase, y la configuración de Authentication. Eso se toca en
+supabase.com y no tiene nada que ver con esto.
+
+---
+
 ## Lo primero que ve el estudiante
 
 Al abrir `index.html` pasan tres cosas, en este orden:
