@@ -4,10 +4,10 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Mi cuenta · La Bolívar con vos</title>
-<meta name="theme-color" content="#1A1A1A">
+<meta name="theme-color" content="#F9E830">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Anton&family=Antonio:wght@400;700&family=Roboto+Condensed:wght@400;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@600;700;800&family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
 <link rel="icon" href="../favicon.svg">
 <link rel="stylesheet" href="../estilos.css">
 </head>
@@ -20,8 +20,12 @@
 <div id="pie"></div>
 
 <script>window.RAIZ = '../';</script>
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<!-- La librería de Supabase vive ACÁ ADENTRO, no en un servidor ajeno.
+     Versión 2.112.4, congelada. Antes se bajaba de cdn.jsdelivr.net en
+     cada visita: si esa descarga fallaba, la app quedaba en «Cargando…». -->
+<script src="../lib/supabase.js"></script>
 <script src="../config.js"></script>
+<script src="../iconos.js"></script>
 <script src="../app.js"></script>
 <script>
 (async function pantallaMiCuenta(){

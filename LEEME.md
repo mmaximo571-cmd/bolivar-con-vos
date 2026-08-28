@@ -336,6 +336,31 @@ where id = (select id from auth.users where email = 'elcorreo@ejemplo.com');
 
 ---
 
+## Si alguna vez la app queda en «Cargando…»
+
+Ya pasó una vez y está arreglado, pero conviene saber por qué era.
+
+La app usa una librería de Supabase de 208 KB. **Antes se bajaba en cada visita
+de un servidor ajeno** (`cdn.jsdelivr.net`). Si esa descarga fallaba —red de la
+facultad, bloqueador de publicidad, conexión mala— la primera línea de `app.js`
+reventaba y **no corría nada más**: la pantalla quedaba en «Cargando…» para
+siempre, sin decir qué había pasado.
+
+Se arregló de tres formas:
+
+1. **La librería vive ahora en `lib/supabase.js`**, adentro del proyecto. No se
+   pide nada a servidores ajenos. De paso la versión quedó congelada en la
+   2.112.4: antes decía `@2`, que es flotante, y una actualización de Supabase
+   podía romper la app sola, sin que nadie tocara un archivo.
+2. **Si falta algo, la app lo dice.** En vez de morir en silencio, muestra
+   «No se pudo abrir la app» con el motivo y un botón para reintentar.
+3. **Ninguna consulta espera para siempre.** A los 12 segundos se corta y avisa.
+   Está en `conPaciencia()`, en `app.js`.
+
+Para diagnosticar: si ves «Cargando…» y **nada más** —sin cabecera ni menú— es
+que el JavaScript no corrió. Si ves la app entera pero una parte dice
+«Cargando…», es la consulta.
+
 ## Avisos
 
 - **El proyecto gratuito de Supabase se pausa** tras varios días sin actividad.

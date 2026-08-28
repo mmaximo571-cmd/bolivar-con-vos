@@ -127,7 +127,10 @@
 </div><!-- /#app -->
 
 <script>window.RAIZ = './';</script>
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<!-- La librería de Supabase vive ACÁ ADENTRO, no en un servidor ajeno.
+     Versión 2.112.4, congelada. Antes se bajaba de cdn.jsdelivr.net en
+     cada visita: si esa descarga fallaba, la app quedaba en «Cargando…». -->
+<script src="lib/supabase.js"></script>
 <script src="config.js"></script>
 <script src="iconos.js"></script>
 <script src="app.js"></script>
@@ -359,7 +362,7 @@
   let categorias = [], tramites = [], preguntas = [], publicaciones = [];
 
   try {
-    const [rCat, rTra, rFaq, rPub] = await Promise.all([
+    const [rCat, rTra, rFaq, rPub] = await conPaciencia(Promise.all([
       db.from('categorias').select('*').order('orden'),
       db.from('tramites').select('id,titulo,resumen,categoria_id,palabras_clave')
         .eq('publicado', true).order('orden'),
@@ -367,7 +370,7 @@
         .eq('publicado', true).order('orden'),
       db.from('publicaciones').select('*').eq('publicado', true)
         .order('creado_at', { ascending:false })
-    ]);
+    ]));
     for (const r of [rCat, rTra, rFaq, rPub]) if (r.error) throw r.error;
     categorias = rCat.data; tramites = rTra.data;
     preguntas = rFaq.data;  publicaciones = rPub.data;

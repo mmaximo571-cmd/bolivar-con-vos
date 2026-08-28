@@ -6,11 +6,40 @@
 
 const RAIZ = window.RAIZ || './';
 
-/* Cliente de Supabase */
-const db = window.supabase.createClient(
-  window.BOLIVAR_CONFIG.url,
-  window.BOLIVAR_CONFIG.anonKey
-);
+/* ------------------------------------------------------------
+   CLIENTE DE SUPABASE
+
+   Esta linea es la mas fragil de toda la app: si la libreria no
+   esta, revienta, y como pasa ANTES que todo lo demas, no se dibuja
+   ni la cabecera. La pantalla queda en "Cargando..." para siempre y
+   sin decir por que. Ya paso una vez.
+
+   Por eso ahora: si algo falta, se avisa en pantalla en castellano
+   en vez de morir en silencio.
+   ------------------------------------------------------------ */
+function avisarQueNoArranca(motivo){
+  document.addEventListener('DOMContentLoaded', function(){
+    document.body.innerHTML =
+      '<div style="max-width:520px;margin:60px auto;padding:0 20px;' +
+      'font-family:Roboto,sans-serif;line-height:1.5">' +
+      '<h1 style="font-size:22px;margin-bottom:10px">No se pudo abrir la app</h1>' +
+      '<p>' + motivo + '</p>' +
+      '<p><a href="" style="font-weight:700">Probá de nuevo</a></p></div>';
+  });
+}
+
+let db = null;
+if (!window.supabase || !window.supabase.createClient){
+  avisarQueNoArranca('No cargó una parte de la app. Suele ser la conexión: ' +
+    'probá de nuevo, o con otra red.');
+} else if (!window.BOLIVAR_CONFIG){
+  avisarQueNoArranca('Falta la configuración de la app. Avisale al equipo.');
+} else {
+  db = window.supabase.createClient(
+    window.BOLIVAR_CONFIG.url,
+    window.BOLIVAR_CONFIG.anonKey
+  );
+}
 
 /* ------------------------------------------------------------
    UTILIDADES
@@ -312,4 +341,23 @@ function mostrarError(contenedor, error, queEstabaHaciendo){
     `<div class="aviso error"><strong>No se pudo ${esc(queEstabaHaciendo)}.</strong><br>
      ${esc(detalle)}<br>
      <small>Si esto sigue pasando, avisale al equipo de la agrupación.</small></div>`;
+}
+
+/* ------------------------------------------------------------
+   NO ESPERAR PARA SIEMPRE
+
+   Una consulta puede no fallar y tampoco contestar: se queda colgada.
+   Sin esto, la pantalla se queda en "Cargando..." sin fin y la
+   persona no sabe si esperar o irse.
+
+   Envolviendo la consulta con esto, a los 12 segundos se corta y
+   salta el aviso de error de siempre.
+   ------------------------------------------------------------ */
+function conPaciencia(promesa, segundos){
+  const espera = new Promise((_, rechazar) =>
+    setTimeout(() => rechazar(new Error(
+      'La conexión está tardando demasiado. Puede ser tu red, o que el ' +
+      'servidor esté despertando: probá de nuevo en un minuto.')),
+      (segundos || 12) * 1000));
+  return Promise.race([promesa, espera]);
 }
