@@ -81,12 +81,15 @@ SIMÓN y BOLÍVAR— recortadas y pintadas. No hay un archivo de logo aparte: si
 alguna vez cambia, se cambian esas tres capas de `marca/` y se vuelven a generar
 las piezas.
 
-Va en **dos colores, según el fondo**:
+Va en **tres versiones, según el fondo**:
 
-| Dónde | Color | Por qué |
+| Dónde | Color | Contraste |
 |---|---|---|
-| Ícono de la app | Amarillo sobre negro | 13,8 de contraste |
-| Portada | Rojo | Sobre el fondo claro da 6,0. En amarillo daría 1,3 y no se vería |
+| Ícono de la app | Rojo sobre blanco | 6,4 |
+| Cabecera | Amarillo, sobre el negro | 13,8 |
+| Imagen de compartir | Amarillo, sobre el negro | 13,8 |
+
+El amarillo **nunca** va sobre fondo claro: ahí da 1,3 y no se ve.
 
 Las piezas están en `imagenes/`:
 
