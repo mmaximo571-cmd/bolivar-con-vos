@@ -139,7 +139,19 @@
           'User already registered':   'Ese correo ya tiene cuenta. Probá con «Ya tengo cuenta».',
           'Signups not allowed for this instance':
             'El registro de cuentas nuevas está cerrado por ahora.'
-        }[error.message] || error.message;
+        }[error.message]
+        /* Los que vienen con un número adentro no se pueden poner en una
+           lista fija, así que se reconocen por lo que dicen. Sin esto, el
+           estudiante ve el error en inglés y no entiende qué hacer. */
+        || (/logins are disabled|signups are disabled/i.test(error.message)
+              ? 'Las cuentas están desactivadas por ahora. La app funciona igual sin cuenta.' : '')
+        || (/at least \d+ characters/i.test(error.message)
+              ? 'La contraseña tiene que tener al menos 6 caracteres.' : '')
+        || (/rate limit|too many requests|only request this after/i.test(error.message)
+              ? 'Probamos muchas veces seguidas. Esperá unos minutos y volvé a intentar.' : '')
+        || (/unable to validate email|invalid format/i.test(error.message)
+              ? 'Ese correo no parece estar bien escrito.' : '')
+        || error.message;
         mensaje.innerHTML = `<div class="aviso error">${esc(traduccion)}</div>`;
         return;
       }

@@ -438,6 +438,42 @@ afecta **0 filas**, y si intenta cambiarse el rol a `equipo` recibe un error.
 
 ---
 
+## Habilitar que los estudiantes puedan crearse una cuenta
+
+La pantalla de **Perfil** ya tiene las dos solapas —«Ya tengo cuenta» y «Crear
+una cuenta»— y la base ya está lista: un disparador (`al_crear_usuario`) le
+arma el `perfiles` a cada persona que se registra, con `rol = 'estudiante'`.
+No hay nada que programar.
+
+**Lo único que falta son dos interruptores del tablero de Supabase**, que no se
+tocan desde el código ni desde el SQL Editor:
+
+1. supabase.com → proyecto **La Bolivar con vos** → **Authentication** →
+   **Sign In / Providers** → **Email** → prenderlo (**Enable**) y **Save**.
+   Mientras esté apagado no se puede ni crear cuenta ni entrar, ni siquiera las
+   del equipo.
+2. En esa misma pantalla, **«Confirm email»**:
+   - **Apagado** → al crear la cuenta la persona queda adentro en el momento.
+   - **Prendido** → le llega un correo y no entra hasta abrirlo. **Ojo con
+     esto**: el correo que manda Supabase gratis tiene un tope de unos pocos
+     por hora. Con una cuenta atrás de otra en una jornada de inscripción, el
+     resto queda afuera hasta la hora siguiente.
+
+**Nuestra recomendación es dejarlo apagado.** La cuenta acá no da acceso a nada
+sensible: solo guarda qué trámites marcó cada quien, y el rol siempre arranca en
+`estudiante`. El costo de una casilla trucha es cero; el de que veinte personas
+no puedan entrar en el día de la inscripción, no.
+
+La app está preparada para las dos formas: si «Confirm email» está prendido,
+avisa «te mandamos un correo a tal dirección»; si está apagado, entra derecho.
+
+Los errores de Supabase vienen en inglés y se traducen en `mi/index.html`. Los
+que traen un número adentro («…after 41 seconds») se reconocen por lo que dicen,
+no por una lista fija. Si alguna vez aparece un error en inglés en pantalla, es
+uno nuevo: se agrega ahí.
+
+---
+
 ## Dar de alta a alguien del equipo
 
 1. Entrá a **supabase.com** → proyecto **La Bolivar con vos**.
