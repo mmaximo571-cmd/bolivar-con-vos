@@ -136,6 +136,7 @@
       <button class="chip" data-p="tramites" aria-pressed="true">🧭 Trámites</button>
       <button class="chip" data-p="faq"      aria-pressed="false">❓ Preguntas</button>
       <button class="chip" data-p="agenda"   aria-pressed="false">📅 Agenda</button>
+      <button class="chip" data-p="materiales" aria-pressed="false">📚 Estudiemos</button>
       <button class="chip" data-p="categorias" aria-pressed="false">🗂 Categorías</button>
     </div>
     <div id="zona" style="margin-top:14px"></div>
@@ -746,11 +747,178 @@
     });
   }
 
+
+  /* ============================================================
+     ESTUDIEMOS · el material de los grupos de estudio
+     ============================================================ */
+  const TIPOS_MATERIAL = {
+    apunte:   'Apunte',
+    resumen:  'Resumen',
+    parcial:  'Parcial',
+    programa: 'Programa',
+    guia:     'Grupo de estudio',
+    otro:     'Otro'
+  };
+
+  async function vistaMateriales(){
+    const { data, error } = await db.from('materiales')
+      .select('*').order('materia').order('orden').order('id');
+
+    if (error){
+      /* Si todavía no corrieron el SQL, lo decimos sin jerga */
+      zona.innerHTML = /materiales/.test(error.message || '')
+        ? `<div class="aviso error">
+             <strong>Falta activar esta sección.</strong><br>
+             Hay que correr el archivo <b>tabla-materiales.sql</b> en el
+             SQL Editor de Supabase. Es una sola vez.
+           </div>`
+        : `<div class="aviso error">No se pudo cargar: ${esc(error.message)}</div>`;
+      return;
+    }
+
+    zona.innerHTML =
+      `<button class="boton ancho" id="nuevo">+ Subir material</button>
+       <p class="letra-chica" style="margin-bottom:6px">
+         Se agrupa por materia: escribí el nombre de la materia siempre igual
+         para que quede todo junto.</p>` +
+      (data.length ? data.map(m => `
+        <button class="tarjeta" data-id="${m.id}">
+          <h3>${esc(m.titulo)}</h3>
+          <p>${esc(m.materia)}${m.catedra ? ' · ' + esc(m.catedra) : ''}</p>
+          <div class="meta">
+            <span>${esc(TIPOS_MATERIAL[m.tipo] || m.tipo)}</span>
+            ${m.anio ? `<span>${m.anio}</span>` : ''}
+            <span>${m.publicado ? 'Publicado' : 'Borrador'}</span>
+            ${/^https?:\/\//i.test(m.link_url || '') ? '' : '<span>Sin enlace</span>'}
+          </div>
+        </button>`).join('')
+        : `<div class="vacio">Todavía no hay material cargado.</div>`);
+
+    document.getElementById('nuevo').onclick = () => formularioMaterial(null);
+    zona.querySelectorAll('.tarjeta[data-id]').forEach(b => {
+      b.onclick = () => formularioMaterial(data.find(x => x.id === Number(b.dataset.id)));
+    });
+  }
+
+  function formularioMaterial(m){
+    const esNuevo = !m;
+    m = m || { publicado:true, orden:0, tipo:'apunte' };
+
+    zona.innerHTML = `
+      <button class="mini" id="volver">← Volver a la lista</button>
+      <h2 class="titulo-pantalla" style="font-size:24px">${esNuevo ? 'SUBIR MATERIAL' : 'EDITAR MATERIAL'}</h2>
+
+      <div class="campo"><label for="titulo">Título *</label>
+        <input id="titulo" value="${esc(m.titulo || '')}"
+          placeholder="Resumen de la unidad 3"></div>
+
+      <div class="campo"><label for="materia">Materia *</label>
+        <input id="materia" value="${esc(m.materia || '')}"
+          placeholder="Trabajo Social I"
+          list="materias-cargadas">
+        <datalist id="materias-cargadas"></datalist></div>
+
+      <div class="dos-columnas">
+        <div class="campo"><label for="catedra">Cátedra</label>
+          <input id="catedra" value="${esc(m.catedra || '')}" placeholder="Opcional"></div>
+        <div class="campo"><label for="tipo">Tipo</label>
+          <select id="tipo">${Object.keys(TIPOS_MATERIAL).map(k =>
+            `<option value="${k}"${m.tipo === k ? ' selected' : ''}>${TIPOS_MATERIAL[k]}</option>`).join('')}
+          </select></div>
+      </div>
+
+      <div class="campo"><label for="descripcion">De qué se trata</label>
+        <textarea id="descripcion" style="min-height:90px"
+          placeholder="Dos renglones: qué cubre, hasta dónde llega.">${esc(m.descripcion || '')}</textarea></div>
+
+      <div class="campo"><label for="link_url">Enlace (Drive, PDF, lo que sea)</label>
+        <input id="link_url" value="${esc(m.link_url || '')}" placeholder="https://..."></div>
+
+      <div class="campo"><label for="link_titulo">Qué dice el botón</label>
+        <input id="link_titulo" value="${esc(m.link_titulo || '')}"
+          placeholder="Ver el resumen"></div>
+
+      <div class="dos-columnas">
+        <div class="campo"><label for="aporta">Quién lo compartió</label>
+          <input id="aporta" value="${esc(m.aporta || '')}" placeholder="Opcional"></div>
+        <div class="campo"><label for="anio">Año del material</label>
+          <input id="anio" type="number" value="${m.anio || ''}" placeholder="2026"></div>
+      </div>
+
+      <div class="dos-columnas">
+        <div class="campo"><label for="orden">Orden</label>
+          <input id="orden" type="number" value="${Number(m.orden) || 0}"></div>
+        <div class="campo"><label for="publicado">¿Se ve en la app?</label>
+          <select id="publicado">
+            <option value="si"${m.publicado ? ' selected' : ''}>Sí, publicado</option>
+            <option value="no"${m.publicado ? '' : ' selected'}>No, borrador</option>
+          </select></div>
+      </div>
+
+      <button class="boton ancho" id="guardar">Guardar</button>
+      ${esNuevo ? '' : `<button class="boton ancho peligro" id="borrar" style="margin-top:10px">Eliminar</button>`}
+      <div id="msj"></div>`;
+
+    /* Las materias ya cargadas, para que se escriban siempre igual y
+       no queden "Trabajo Social I" y "Trabajo social 1" separadas. */
+    db.from('materiales').select('materia').then(({ data }) => {
+      const lista = document.getElementById('materias-cargadas');
+      if (!lista || !data) return;
+      lista.innerHTML = [...new Set(data.map(x => x.materia))].sort()
+        .map(x => `<option value="${esc(x)}">`).join('');
+    });
+
+    document.getElementById('volver').onclick = vistaMateriales;
+
+    document.getElementById('guardar').onclick = async function(){
+      if (!val('titulo') || !val('materia')){
+        document.getElementById('msj').innerHTML =
+          '<div class="aviso error">Falta el título o la materia.</div>';
+        return;
+      }
+      this.disabled = true; this.textContent = 'Guardando…';
+      const fila = {
+        titulo:      val('titulo'),
+        materia:     val('materia'),
+        catedra:     nulo('catedra'),
+        tipo:        val('tipo'),
+        descripcion: nulo('descripcion'),
+        link_url:    nulo('link_url'),
+        link_titulo: nulo('link_titulo'),
+        aporta:      nulo('aporta'),
+        anio:        val('anio') ? Number(val('anio')) : null,
+        orden:       Number(val('orden')) || 0,
+        publicado:   val('publicado') === 'si'
+      };
+      const { error } = esNuevo
+        ? await db.from('materiales').insert(fila)
+        : await db.from('materiales').update(fila).eq('id', m.id);
+      if (error){
+        this.disabled = false; this.textContent = 'Guardar';
+        document.getElementById('msj').innerHTML =
+          `<div class="aviso error">No se pudo guardar: ${esc(error.message)}</div>`;
+        return;
+      }
+      vistaMateriales();
+    };
+
+    const borrar = document.getElementById('borrar');
+    if (borrar) borrar.onclick = async function(){
+      if (!confirm('¿Eliminar este material? No se puede deshacer.')) return;
+      const { error } = await db.from('materiales').delete().eq('id', m.id);
+      if (error){
+        document.getElementById('msj').innerHTML =
+          `<div class="aviso error">No se pudo eliminar: ${esc(error.message)}</div>`;
+        return;
+      }
+      vistaMateriales();
+    };
+  }
   /* ============================================================ */
   function dibujar(){
     zona.innerHTML = '<div class="esq-tarjeta"><div class="esqueleto esq-linea titulo"></div><div class="esqueleto esq-linea"></div><div class="esqueleto esq-linea media"></div></div><div class="esq-tarjeta"><div class="esqueleto esq-linea titulo"></div><div class="esqueleto esq-linea"></div><div class="esqueleto esq-linea corta"></div></div>';
-    ({ tramites:vistaTramites, faq:vistaFaq,
-       agenda:vistaAgenda, categorias:vistaCategorias }[actual])();
+    ({ tramites:vistaTramites, faq:vistaFaq, agenda:vistaAgenda,
+       materiales:vistaMateriales, categorias:vistaCategorias }[actual])();
   }
 
   dibujar();

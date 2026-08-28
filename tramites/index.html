@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Trámites · La Bolívar con vos</title>
+<title>Info útil · La Bolívar con vos</title>
 <meta name="theme-color" content="#F9E830">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -18,7 +18,7 @@
 <!-- Como se ve cuando alguien comparte el link por WhatsApp o Instagram -->
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="La Bolivar con vos">
-<meta property="og:title" content="Trámites · La Bolívar con vos">
+<meta property="og:title" content="Info útil · La Bolívar con vos">
 <meta property="og:description" content="">
 <meta property="og:image" content="https://bolivar-con-vos.vercel.app/imagenes/compartir.png">
 <meta name="twitter:card" content="summary_large_image">
@@ -44,7 +44,7 @@
 (async function pantallaTramites(){
 
   document.getElementById('cabecera').innerHTML = htmlCabecera(
-    '<a class="boton-cabecera" href="../mi/">Mi cuenta</a>'
+    '<a class="boton-cabecera" href="../mi/">Perfil</a>'
   );
   document.getElementById('pie').innerHTML = htmlPie();
   pintarNav('tramites');
@@ -209,7 +209,7 @@
 
   const titulo = seccion && NOMBRE_SECCION[seccion]
     ? NOMBRE_SECCION[seccion].toUpperCase()
-    : 'TRÁMITES Y<br>PREGUNTAS';
+    : 'INFO ÚTIL';
   const bajada = seccion === 'derechos'
     ? 'Lo que te corresponde y cómo reclamarlo.'
     : 'Todo lo que hay que hacer en la facu, explicado paso a paso.';

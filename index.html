@@ -113,7 +113,7 @@
     <!-- Calendario cuadrado de lo que se viene -->
     <div class="titulo-seccion">
       LO QUE SE VIENE
-      <a href="agenda/">Agenda</a>
+      <a href="agenda/">Ver fechas</a>
     </div>
     <div class="calendario cuadrado" id="calendario">
       <div class="esq-calendario">
@@ -759,9 +759,12 @@
     /* iconoDeCategoria devuelve el SVG si ya lo cargamos, y si no el
        emoji de la base. Así se pueden ir reemplazando de a uno. */
     const accesos = [{ dibujo: icono('carrera') || '🎓',
-                       nombre:'Organizador de cursadas',
-                       url:'carrera/', destacado:true }].concat(
-      conContenido.slice(0, 8).map(c => ({
+                       nombre:'Mi año',
+                       url:'carrera/', destacado:true },
+                     { dibujo: icono('estudiemos') || '📚',
+                       nombre:'Estudiemos',
+                       url:'estudiemos/' }].concat(
+      conContenido.slice(0, 7).map(c => ({
         dibujo: iconoDeCategoria(c), nombre: c.nombre,
         url: 'tramites/?categoria=' + c.id
       })));

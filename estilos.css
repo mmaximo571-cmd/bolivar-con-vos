@@ -312,7 +312,10 @@ svg.ico{width:1em;height:1em;display:block;flex:0 0 auto}
 .tarjeta{
   background:var(--blanco);border:1px solid var(--borde);border-radius:var(--radio);
   padding:14px;box-shadow:var(--sombra);text-align:left;width:100%;
-  display:block;text-decoration:none;border-left:4px solid var(--celeste)
+  display:block;text-decoration:none;border-left:4px solid var(--celeste);
+  /* Cuando la tarjeta es un <button>, el navegador le pone texto negro por
+     su cuenta. En modo oscuro eso queda negro sobre negro. Lo decimos nosotros. */
+  color:var(--texto)
 }
 .tarjeta h3{
   font-family:var(--fuente-sub);font-weight:700;font-size:17px;line-height:1.15;
@@ -1173,6 +1176,23 @@ details.tarjeta .respuesta{margin-top:9px;color:var(--texto-suave);font-size:15p
 
 /* El resumen adentro de la ventanita */
 .hoja-resumen{margin:8px 0 4px;color:var(--texto-suave);font-size:15px;line-height:1.4}
+
+/* ============================================================
+   ESTUDIEMOS
+   El material de los grupos de estudio, agrupado por materia.
+   ============================================================ */
+.material-tipo{
+  display:inline-block;font-family:var(--fuente-texto);font-size:10.5px;font-weight:700;
+  letter-spacing:.08em;text-transform:uppercase;padding:3px 9px;border-radius:99px;
+  margin-bottom:7px;background:var(--superficie-2);color:var(--texto-suave)
+}
+.material-tipo.resumen {background:var(--amarillo);color:var(--sobre-color)}
+.material-tipo.parcial {background:var(--rojo-solido);color:var(--sobre-negro)}
+.material-tipo.guia    {background:var(--celeste);color:var(--sobre-color)}
+.material-ir{
+  display:block;margin-top:11px;font-family:var(--fuente-sub);font-weight:700;
+  font-size:14px;text-transform:uppercase;letter-spacing:.04em;color:var(--celeste)
+}
 
 /* ============================================================
    KIT DE INGRESO

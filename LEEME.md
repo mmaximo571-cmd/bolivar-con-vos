@@ -10,12 +10,24 @@ Facultad de Trabajo Social, UNLP.
 | Pantalla | Archivo | Para qué |
 |---|---|---|
 | Inicio | `index.html` | Apertura, bienvenida, tarjeta de carrera, recuadros, buscador |
-| Trámites | `tramites/index.html` | Guía paso a paso + preguntas frecuentes |
-| Cursadas | `carrera/index.html` | Organizador de cursadas según el plan de estudios |
-| Agenda | `agenda/index.html` | Fechas, comunicados y actividades. Se actualiza sola |
-| Mi cuenta | `mi/index.html` | Cuenta **opcional** del estudiante, para guardar trámites |
-| Quiénes somos | `quienes/index.html` | La agrupación y quién impulsa la app |
+| Info útil | `tramites/index.html` | Guía paso a paso + preguntas frecuentes |
+| Mi año | `carrera/index.html` | Organizador de cursadas según el plan de estudios |
+| Estudiemos | `estudiemos/index.html` | Material de los grupos de estudio, agrupado por materia |
+| Fechas | `agenda/index.html` | Fechas, comunicados y actividades. Se actualiza sola |
+| Perfil | `mi/index.html` | Cuenta **opcional** del estudiante, para guardar trámites |
+| ¿Quiénes somos? | `quienes/index.html` | La agrupación y quién impulsa la app |
 | Panel | `panel/index.html` | Donde el equipo carga y edita todo |
+
+Las siete primeras son las **secciones** que se ven en la fila de arriba, en ese
+orden. El nombre de la sección, el título de la pantalla y el título de la
+pestaña dicen lo mismo a propósito: si tocás «FECHAS» no podés aterrizar en una
+pantalla que se llama «Agenda». Si alguna vez se le cambia el nombre a una
+sección, hay que cambiarlo en cuatro lugares: `SECCIONES` en `app.js`, el
+`<title>`, el `og:title` y el `<h1>` de esa pantalla.
+
+Las carpetas siguen llamándose `tramites/`, `carrera/`, `agenda/` y `mi/` aunque
+las secciones se llamen distinto. **No se renombran**: son las direcciones que la
+gente ya tiene guardadas y las que están pegadas en Instagram.
 
 **La app se usa entera sin registrarse.** La cuenta solo sirve para guardar trámites.
 
@@ -28,7 +40,7 @@ Al abrir `index.html` pasan tres cosas, en este orden:
 1. **La apertura: el logo animado de la Agrupación.** Sobre el amarillo de la
    marca se dibuja el contorno de Sudamérica de norte a sur, después entran
    SIMÓN y BOLÍVAR barriendo de izquierda a derecha, un destello cruza el logo
-   y todo se disuelve. Se ve **una vez por visita**: si entrás a Trámites y
+   y todo se disuelve. Se ve **una vez por visita**: si entrás a Info útil y
    volvés, no se repite. Se puede saltear tocando la pantalla, y quien tenga
    activado «reducir movimiento» en su teléfono ve el logo ya armado, sin
    animación.
@@ -37,7 +49,7 @@ Al abrir `index.html` pasan tres cosas, en este orden:
    Los dos marcan la bienvenida como vista.
 3. **El inicio.** En este orden:
    - **La cabecera**, en tres partes: el botón de menú a la izquierda, la marca
-     centrada, y Mi cuenta a la derecha.
+     centrada, y el perfil a la derecha.
    - **Las secciones**, en una fila debajo de la cabecera.
    - **El buscador.**
    - **La portada**: las ilustraciones de la facultad, que se van deslizando
@@ -52,13 +64,16 @@ Al abrir `index.html` pasan tres cosas, en este orden:
    **En el calendario del inicio no va todo lo de la agenda.** Van solo las
    **mesas de examen** (en rojo) y los **asuetos y recesos** (en celeste). El
    resto —desarrollo de seminarios, últimos plazos, inscripciones— sigue estando
-   en la Agenda, pero acá tapaba lo importante. De 46 fechas cargadas, al
+   en Fechas, pero acá tapaba lo importante. De 46 fechas cargadas, al
    calendario entran 14.
 
    Para sumar o sacar una familia de fechas se toca **una sola lista**,
    `QUE_VA_AL_CALENDARIO`, arriba del calendario en `index.html`.
-   - **Los nueve accesos**, en una grilla de 3x3: el organizador de cursadas
-     primero, en amarillo, y después las categorías que tengan contenido.
+   - **Los nueve accesos**, en una grilla de 3x3: **Mi año** primero, en
+     amarillo, **Estudiemos** segundo, y después las siete categorías que
+     tengan contenido. Son nueve fijos para que la grilla cierre en 3x3: si
+     alguna vez se suma otro acceso fijo, hay que bajar el `slice(0, 7)` de
+     las categorías en la misma cuenta.
    - **Novedades.**
 
    Desde **«A dónde ir» hasta el piso**, la ilustración del patio va **por
@@ -188,7 +203,7 @@ LEEME.md             ← este archivo
 **Para cambiar un color de toda la app:** abrí `estilos.css` y tocá una sola línea
 en el bloque `PANEL DE CONTROL ESTETICO` de arriba de todo.
 
-### La pantalla de Trámites
+### La pantalla de Info útil (`tramites/`)
 
 Las fichas van **agrupadas por categoría y en cuadrados**: 3 por fila en el
 celular, 4 desde 560 píxeles. Al tocar uno se abre la ficha en una ventanita,
@@ -451,7 +466,8 @@ where id = (select id from auth.users where email = 'elcorreo@ejemplo.com');
 | `categorias` | Los cuadraditos de la pantalla de inicio |
 | `tramites` | Cada trámite, con sus pasos en la columna `pasos` |
 | `faq` | Preguntas frecuentes |
-| `publicaciones` | Agenda y novedades |
+| `publicaciones` | Fechas y novedades |
+| `materiales` | El material de «Estudiemos», agrupado por materia |
 | `guardados` | Qué trámite guardó cada estudiante (privado) |
 
 ---
@@ -476,10 +492,38 @@ del botón aparece un cartel apagado que dice que falta**. Así no se publica un
 botón que no lleva a ningún lado. Cuando pegás un link de verdad, se convierte
 en botón solo.
 
-Se llega desde el **menú ☰** y desde el enlace del **pie de página**, en todas
-las pantallas. No está en la fila de secciones de arriba a propósito: esa fila
-ya tiene cinco y se desliza en el celular, y esto se consulta una vez, no todos
-los días.
+Se llega desde la **fila de secciones**, desde el **menú ☰** y desde el enlace
+del **pie de página**, en todas las pantallas.
+
+---
+
+## Estudiemos: el material de los grupos de estudio
+
+`estudiemos/index.html`. Es la única pantalla que **agrupa por materia** en vez
+de por categoría, porque así es como lo busca una estudiante: primero piensa
+«necesito algo de Epistemología», no «necesito un resumen».
+
+**Antes de que funcione hay que correr `tabla-materiales.sql` una sola vez**, en
+supabase.com → el proyecto → SQL Editor → New query → pegar todo → Run. Mientras
+no se corra, la pantalla no se rompe: avisa que falta activarla. Se puede correr
+más de una vez sin romper nada.
+
+Después el material se carga desde el panel, en la solapa **📚 Estudiemos**. El
+campo *materia* tiene la lista de las materias ya cargadas: **elegila de la
+lista en vez de escribirla**, así no quedan «Trabajo Social I» y «Trabajo
+social 1» como si fueran dos materias distintas.
+
+Si una ficha todavía no tiene enlace —un grupo de estudio que se junta y no
+tiene nada subido— la tarjeta se muestra igual, pero **no como botón**: no se
+publica un botón que no lleva a ningún lado. Es la misma regla que en las redes
+del «¿Quiénes somos?».
+
+El SQL deja dos filas de EJEMPLO para que la pantalla no arranque vacía.
+Cuando carguen material de verdad, se borran con:
+
+```sql
+delete from public.materiales where aporta = 'EJEMPLO';
+```
 
 ## Si alguna vez la app queda en «Cargando…»
 

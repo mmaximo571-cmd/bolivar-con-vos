@@ -244,13 +244,24 @@ function esDelEquipo(perfil){ return !!perfil && perfil.rol === 'equipo'; }
    PARTES VISUALES REPETIDAS
    ------------------------------------------------------------ */
 
-/* Las secciones de la app, en el orden en que se muestran */
+/* ------------------------------------------------------------
+   LAS SECCIONES DE LA APP
+
+   El orden de acá es el orden en que aparecen arriba y en el menú.
+   Para cambiar un nombre se toca SOLO este renglón: se actualiza en
+   las siete pantallas de una.
+
+   Son siete, así que la fila de arriba se desliza en el celular. Se
+   ven las primeras cinco y las otras dos están a un empujón.
+   ------------------------------------------------------------ */
 const SECCIONES = [
-  { id:'inicio',   texto:'Inicio',    icono:'🏠', url:RAIZ },
-  { id:'tramites', texto:'Trámites',  icono:'🧭', url:RAIZ+'tramites/' },
-  { id:'carrera',  texto:'Cursadas',  icono:'🎓', url:RAIZ+'carrera/' },
-  { id:'agenda',   texto:'Agenda',    icono:'📅', url:RAIZ+'agenda/' },
-  { id:'mi',       texto:'Mi cuenta', icono:'👤', url:RAIZ+'mi/' }
+  { id:'inicio',     texto:'Inicio',          icono:'🏠', url:RAIZ },
+  { id:'tramites',   texto:'Info útil',       icono:'🧭', url:RAIZ+'tramites/' },
+  { id:'carrera',    texto:'Mi año',          icono:'🎓', url:RAIZ+'carrera/' },
+  { id:'estudiemos', texto:'Estudiemos',      icono:'📚', url:RAIZ+'estudiemos/' },
+  { id:'agenda',     texto:'Fechas',          icono:'📅', url:RAIZ+'agenda/' },
+  { id:'mi',         texto:'Perfil',          icono:'👤', url:RAIZ+'mi/' },
+  { id:'quienes',    texto:'¿Quiénes somos?', icono:'✊', url:RAIZ+'quienes/' }
 ];
 
 /* ------------------------------------------------------------
@@ -272,7 +283,7 @@ function htmlCabecera(){
             <small>Agrupación Simón Bolívar · FTS UNLP</small>
           </span>
         </a>
-        <a class="boton-icono" href="${RAIZ}mi/" aria-label="Mi cuenta">${icono('mi') || '👤'}</a>
+        <a class="boton-icono" href="${RAIZ}mi/" aria-label="Mi perfil">${icono('mi') || '👤'}</a>
       </div>
     </header>`;
 }
@@ -305,12 +316,6 @@ function pintarNav(actual){
       <div class="menu-lista">
         ${SECCIONES.map(s => `<a href="${s.url}"${s.id===actual ? ' aria-current="page"' : ''}>
             <span class="icono">${icono(s.id) || s.icono}</span>${esc(s.texto)}</a>`).join('')}
-
-        <!-- Quiénes somos va acá y no en la fila de arriba: esa fila ya
-             tiene cinco y se desliza en el celular. Esto se consulta una
-             vez, no todos los días. -->
-        <a class="menu-aparte" href="${RAIZ}quienes/"${actual==='quienes' ? ' aria-current="page"' : ''}>
-          <span class="icono">${icono('quienes') || '✊'}</span>¿Quiénes somos?</a>
       </div>
       <div class="menu-pie">
         Agrupación Simón Bolívar<br>Conducción del CEFTS · FTS UNLP
@@ -318,6 +323,16 @@ function pintarNav(actual){
     </nav>`);
 
   pintarAvisanos();
+
+  /* Con siete secciones la fila no entra en un celular y se desliza. Traemos
+     al centro la sección donde estás parada, si no en «¿Quiénes somos?» la
+     marca de "estás acá" queda fuera de la pantalla y no se ve dónde estás.
+     Movemos la fila, nunca la página: por eso scrollLeft y no scrollIntoView. */
+  const activo = document.querySelector('.secciones-fila a[aria-current="page"]');
+  if (activo){
+    const fila = activo.parentElement;
+    fila.scrollLeft = activo.offsetLeft - (fila.clientWidth - activo.offsetWidth) / 2;
+  }
 
   const fondo = document.getElementById('menu-fondo');
   const panel = document.getElementById('menu-lateral');

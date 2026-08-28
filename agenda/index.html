@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Agenda · La Bolívar con vos</title>
+<title>Fechas · La Bolívar con vos</title>
 <meta name="theme-color" content="#F9E830">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -18,7 +18,7 @@
 <!-- Como se ve cuando alguien comparte el link por WhatsApp o Instagram -->
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="La Bolivar con vos">
-<meta property="og:title" content="Agenda · La Bolívar con vos">
+<meta property="og:title" content="Fechas · La Bolívar con vos">
 <meta property="og:description" content="">
 <meta property="og:image" content="https://bolivar-con-vos.vercel.app/imagenes/compartir.png">
 <meta name="twitter:card" content="summary_large_image">
@@ -44,7 +44,7 @@
 (async function pantallaAgenda(){
 
   document.getElementById('cabecera').innerHTML = htmlCabecera(
-    '<a class="boton-cabecera" href="../mi/">Mi cuenta</a>'
+    '<a class="boton-cabecera" href="../mi/">Perfil</a>'
   );
   document.getElementById('pie').innerHTML = htmlPie();
   pintarNav('agenda');
@@ -105,7 +105,7 @@
      Listado
      ============================================================ */
   contenido.innerHTML = `
-    <h1 class="titulo-pantalla">AGENDA Y<br>NOVEDADES</h1>
+    <h1 class="titulo-pantalla">FECHAS Y<br>NOVEDADES</h1>
     <p class="bajada">Fechas, comunicados y actividades. Se actualiza sola.</p>
     <div class="chips" id="chips"></div>
     <div id="zonas"><div class="esq-tarjeta"><div class="esqueleto esq-linea titulo"></div><div class="esqueleto esq-linea"></div><div class="esqueleto esq-linea media"></div></div><div class="esq-tarjeta"><div class="esqueleto esq-linea titulo"></div><div class="esqueleto esq-linea"></div><div class="esqueleto esq-linea corta"></div></div></div>`;
