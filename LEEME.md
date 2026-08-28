@@ -34,14 +34,52 @@ Al abrir `index.html` pasan tres cosas, en este orden:
 2. **La bienvenida.** Solo la **primerísima vez**, nunca más. Dos botones:
    **Entrar** (pasa directo, sin registrarse) y **Ya tengo cuenta** (va al login).
    Los dos marcan la bienvenida como vista.
-3. **El inicio.** Arriba de todo, una tarjeta grande con **cómo venís con tu
-   carrera**, y debajo dos recuadros: la próxima fecha de la agenda y cuántos
-   trámites hay cargados. Después siguen las categorías, las fechas y las
-   novedades de siempre.
+3. **El inicio.** En este orden:
+   - **La cabecera**, en tres partes: el botón de menú a la izquierda, la marca
+     centrada, y Mi cuenta a la derecha.
+   - **Las secciones**, en una fila debajo de la cabecera.
+   - **El buscador.**
+   - **La portada**: las ilustraciones de la facultad, que se van deslizando
+     solas cada 5 segundos.
+   - **El calendario cuadrado** de lo que se viene. Cada día marcado lleva una
+     **barrita de color** abajo del número, y cuando varios días seguidos son de
+     lo mismo la barra se estira y se lee como una franja. Debajo hay una
+     **leyenda** que dice con todas las letras qué cae ese mes y en qué fechas.
+     Tocás un día y aparece la publicación completa. Se cambia de mes con las
+     flechas.
 
-La tarjeta grande **no carga los planes de estudio**: el organizador le deja un
-resumen chiquito en el teléfono (`bolivar-carrera-resumen`) y la tarjeta lo lee.
-Mientras nadie usó el organizador, la tarjeta invita a empezar.
+   **En el calendario del inicio no va todo lo de la agenda.** Van solo las
+   **mesas de examen** (en rojo) y los **asuetos y recesos** (en celeste). El
+   resto —desarrollo de seminarios, últimos plazos, inscripciones— sigue estando
+   en la Agenda, pero acá tapaba lo importante. De 46 fechas cargadas, al
+   calendario entran 14.
+
+   Para sumar o sacar una familia de fechas se toca **una sola lista**,
+   `QUE_VA_AL_CALENDARIO`, arriba del calendario en `index.html`.
+   - **Los nueve accesos**, en una grilla de 3x3: el organizador de cursadas
+     primero, en amarillo, y después las categorías que tengan contenido.
+   - **Novedades.**
+
+   Desde **«A dónde ir» hasta el piso**, la ilustración del patio va **por
+   detrás** del contenido, apoyada abajo, como si la app estuviera parada sobre
+   la facultad. Está al 28% para que el texto siga leyéndose encima.
+
+### La navegación se mudó arriba
+
+Antes había una barra fija abajo de la pantalla. Ahora las secciones están arriba,
+debajo de la cabecera, y **el botón ☰ abre un menú lateral** con lo mismo.
+
+El cambio se hizo en un solo lugar: `pintarNav()` en `app.js`. Todas las pantallas
+lo heredan sin tocarles nada. De paso se recuperaron los 64 px que la barra de
+abajo comía en cada vista.
+
+### Las ilustraciones
+
+Están en `imagenes/`, en formato **WebP con transparencia**. Salieron de dos
+diseños de Canva: cada uno traía la foto y su máscara por separado, así que hubo
+que combinarlas para que el cielo quedara transparente.
+
+Pesan 308 KB las dos. En PNG pesaban 2,4 MB: por eso van en WebP.
 
 Lo que se guarda para todo esto:
 
