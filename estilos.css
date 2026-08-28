@@ -4,23 +4,32 @@
    ============================================================ */
 :root{
   /* --- Los tres colores de la Agrupacion Simon Bolivar ---
-     Amarillo: TODOS los fondos plenos de la app.
-     Celeste:  los detalles que no son texto (barras, iconos, bordes).
-     Rojo:     las palabras resaltadas.
 
-     OJO con el celeste: sobre el amarillo tiene contraste 2,8 y casi no
-     se ve. Va sobre las tarjetas blancas, donde llega a 3,5. Si algun
-     detalle tiene que ir sobre el amarillo, usar negro o rojo.
-     El blanco sobre amarillo es ilegible (1,3): nunca. */
-  --amarillo:  #F9E830;   /* fondo pleno de toda la app                 */
-  --celeste:   #0195B1;   /* detalles que no son texto                  */
+     COMO SE REPARTEN, que es lo que hace que combinen:
+
+     Amarillo pleno  -> ACENTO, en poca cantidad: el logo sobre el negro,
+                        el chip elegido, la tarjeta de marca, resaltados.
+     Amarillo suave  -> el fondo de toda la app. Es el mismo amarillo
+                        rebajado al 28% sobre blanco. Se lee amarillo
+                        pero no cansa.
+     Celeste         -> LA ESTRUCTURA: bordes, barras, iconos, foco,
+                        lo interactivo. Es el unico tono medio de la
+                        paleta, y por eso es el que une lo claro con lo
+                        oscuro. Sin el, los colores se pelean.
+     Rojo            -> solo palabras resaltadas. En poca cantidad.
+     Negro           -> el texto, y la banda de la cabecera, que es el
+                        ancla de la pagina.
+
+     Sobre el fondo suave: negro 16,2 · gris 5,9 · rojo 6,0 · celeste 3,3.
+     Sobre el amarillo pleno el celeste cae a 2,8: ahi no va. */
+  --amarillo:  #F9E830;   /* acento de marca, en poca cantidad          */
+  --amarillo-fondo: #FDF9C5; /* el fondo de toda la app                 */
+  --celeste:   #0195B1;   /* la estructura: bordes, barras, iconos      */
   --rojo:      #B52625;   /* palabras resaltadas, urgente, eliminar     */
-  --negro:     #1A1A1A;   /* el texto, y los bloques de mucho contraste */
+  --negro:     #1A1A1A;   /* el texto y la cabecera                     */
   --blanco:    #FFFFFF;   /* tarjetas                                   */
-  /* Este gris esta calculado para que se lea SOBRE EL AMARILLO. El
-     anterior (#6B6B6B) daba 4,22 y quedaba por debajo del minimo. */
   --gris:      #5F5F5F;   /* textos secundarios                         */
-  --borde:     #E3DDD2;   /* lineas y separadores dentro de lo blanco   */
+  --borde:     #D8E5EA;   /* lineas y separadores: celeste muy rebajado */
   --hueso:     #F5F0E8;   /* superficies suaves sobre lo blanco         */
 
   /* Tinte mas claro del celeste, para cuando hacen falta dos azules */
@@ -53,7 +62,7 @@
 html,body{margin:0;padding:0}
 body{
   font-family:var(--fuente-texto);
-  background:var(--amarillo);
+  background:var(--amarillo-fondo);
   color:var(--negro);
   font-size:16px;
   line-height:1.45;
@@ -70,23 +79,23 @@ h1,h2,h3{margin:0;font-weight:400}
 /* ============================================================
    ENCABEZADO
    ============================================================ */
-/* La cabecera y el buscador ya no son una banda negra: son el mismo
-   amarillo que el resto, y el negro pasa a estar solo en la letra. */
-.cabecera{background:var(--amarillo);color:var(--negro);padding:18px 0 20px}
+/* La banda negra de arriba es el ancla de la pagina: le da un techo y
+   es donde el amarillo trabaja mejor (sobre negro llega a 13,8). */
+.cabecera{background:var(--negro);color:var(--blanco);padding:18px 0 20px}
 .cabecera .envoltura{display:flex;align-items:center;justify-content:space-between;gap:12px}
 .marca{font-family:var(--fuente-titulo);font-size:26px;font-weight:800;line-height:.95;letter-spacing:-.01em}
-.marca em{font-style:normal;color:var(--rojo)}
+.marca em{font-style:normal;color:var(--amarillo)}
 .marca small{
   display:block;font-family:var(--fuente-texto);font-size:11px;font-weight:500;
-  letter-spacing:.14em;text-transform:uppercase;color:#6a6320;margin-top:5px
+  letter-spacing:.14em;text-transform:uppercase;color:#9c9c9c;margin-top:5px
 }
 .boton-cabecera{
-  background:transparent;border:1.5px solid var(--negro);color:var(--negro);
+  background:transparent;border:1.5px solid #4a4a4a;color:var(--blanco);
   font-family:var(--fuente-sub);font-size:13px;font-weight:700;
   text-transform:uppercase;letter-spacing:.06em;
   padding:8px 12px;border-radius:99px;text-decoration:none;white-space:nowrap
 }
-.boton-cabecera:hover{background:var(--negro);color:var(--amarillo)}
+.boton-cabecera:hover{border-color:var(--amarillo);color:var(--amarillo)}
 
 /* Titulo de pantalla interna */
 .titulo-pantalla{
@@ -98,7 +107,7 @@ h1,h2,h3{margin:0;font-weight:400}
 /* ============================================================
    BUSCADOR
    ============================================================ */
-.caja-buscador{background:var(--amarillo);padding:0 0 22px}
+.caja-buscador{background:var(--negro);padding:0 0 22px}
 .buscador{position:relative}
 .buscador input{
   width:100%;font-family:var(--fuente-texto);font-size:17px;
@@ -122,8 +131,8 @@ h1,h2,h3{margin:0;font-weight:400}
   border-radius:99px;padding:8px 14px;font-family:var(--fuente-sub);
   font-size:14px;letter-spacing:.02em;white-space:nowrap;color:var(--negro)
 }
-/* El chip elegido va en negro: el amarillo sobre amarillo desaparecia */
-.chip[aria-pressed="true"]{background:var(--negro);border-color:var(--negro);color:var(--amarillo);font-weight:700}
+/* Sobre el fondo suave, el amarillo pleno del chip elegido resalta */
+.chip[aria-pressed="true"]{background:var(--amarillo);border-color:var(--amarillo);color:var(--negro);font-weight:700}
 
 .rejilla-categorias{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin:14px 0 26px}
 .tarjeta-categoria{
@@ -565,6 +574,8 @@ h1,h2,h3{margin:0;font-weight:400}
    La coreografia (que capa entra cuando) esta en index.html. */
 .apertura{
   position:fixed;inset:0;z-index:200;overflow:hidden;
+  /* Amarillo PLENO, no el suave: es el fondo con el que fue dibujado
+     el logo, y las tres capas estan hechas para ese amarillo. */
   background:var(--amarillo);
   display:flex;align-items:center;justify-content:center;
   transition:opacity .35s ease
@@ -606,7 +617,7 @@ body.antes-de-entrar{padding-bottom:0}
 .bienvenida{
   min-height:100vh;min-height:100dvh;display:flex;flex-direction:column;
   padding:18px 20px calc(20px + env(safe-area-inset-bottom));
-  background:var(--amarillo);text-align:center
+  background:var(--amarillo-fondo);text-align:center
 }
 .bienvenida .arriba{
   flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;
@@ -631,23 +642,23 @@ body.antes-de-entrar{padding-bottom:0}
 /* ============================================================
    INICIO · tarjeta grande y recuadros
    ============================================================ */
-/* La tarjeta grande va en negro. Sobre un fondo amarillo, una tarjeta
-   amarilla desapareceria, y el celeste no sirve de fondo para texto. */
+/* La tarjeta grande es el momento de marca dentro del contenido: va en
+   amarillo PLENO. Sobre el fondo suave resalta, y con letra negra da 13,8. */
 .tarjeta-carrera{
-  display:block;text-decoration:none;color:var(--blanco);
+  display:block;text-decoration:none;color:var(--negro);
   border-radius:20px;padding:18px;margin:18px 0 12px;
   min-height:158px;box-shadow:var(--sombra);
-  background:var(--negro)
+  background:var(--amarillo)
 }
 .tarjeta-carrera .rotulo{
   font-size:11px;letter-spacing:.14em;text-transform:uppercase;opacity:.72
 }
-.tarjeta-carrera .nombre{color:var(--amarillo);font-weight:800;
+.tarjeta-carrera .nombre{color:var(--negro);font-weight:800;
   font-family:var(--fuente-titulo);font-size:27px;line-height:1;
   text-transform:uppercase;margin:7px 0 12px;display:block
 }
-.tarjeta-carrera .barra{background:rgba(255,255,255,.22);height:8px}
-.tarjeta-carrera .barra-llena{background:var(--amarillo)}
+.tarjeta-carrera .barra{background:rgba(26,26,26,.18);height:8px}
+.tarjeta-carrera .barra-llena{background:var(--negro)}
 .tarjeta-carrera .cifra{
   display:flex;justify-content:space-between;align-items:baseline;gap:10px;
   margin-top:9px;font-size:14px

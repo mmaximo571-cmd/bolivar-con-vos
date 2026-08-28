@@ -99,6 +99,42 @@ LEEME.md             ← este archivo
 **Para cambiar un color de toda la app:** abrí `estilos.css` y tocá una sola línea
 en el bloque `PANEL DE CONTROL ESTETICO` de arriba de todo.
 
+### Los colores y las dos tipografías
+
+Lo que hace que la paleta funcione no son los colores sueltos, sino **en qué
+proporción se reparten**:
+
+| | | Para qué | Cuánta pantalla |
+|---|---|---|---|
+| Amarillo suave | `#FDF9C5` | El fondo de toda la app | ~55% |
+| Blanco | `#FFFFFF` | Las tarjetas | ~31% |
+| Negro | `#1A1A1A` | El texto y la banda de arriba | ~10% |
+| **Amarillo pleno** | `#F9E830` | **Acento**: logo, chip elegido, tarjeta de marca | **~4%** |
+| Celeste | `#0195B1` | **La estructura**: bordes, barras, íconos, foco | detalles |
+| Rojo | `#B52625` | **Las palabras resaltadas** | detalles |
+
+Tipografía: **Montserrat** para títulos y botones, **Roboto** para el cuerpo.
+
+**El amarillo suave es el mismo amarillo de marca rebajado al 28% sobre blanco.**
+Sigue leyéndose amarillo pero no cansa. El amarillo pleno aparece poco y por eso
+pega fuerte cuando aparece.
+
+**La banda negra de arriba es el ancla.** Le da un techo a la página y es donde el
+amarillo trabaja mejor: sobre negro llega a 13,8 de contraste. Sin ella, todo
+flota en la misma luminosidad y la página se siente sin arriba ni abajo.
+
+**El celeste sostiene la estructura.** Es el único tono medio de la paleta, así que
+es el que une lo muy claro con lo muy oscuro. Si lo sacás, los otros colores se
+pelean.
+
+Dos reglas que no se pueden romper:
+
+- **El celeste no va sobre el amarillo pleno**: ahí cae a 2,8 y no se ve. Sobre el
+  fondo suave llega a 3,3 y sobre blanco a 3,5.
+- **Blanco sobre amarillo nunca**: da 1,3, es ilegible.
+
+Medido pantalla por pantalla: las seis dan **cero textos por debajo del mínimo**.
+
 ---
 
 ## El organizador de cursadas
