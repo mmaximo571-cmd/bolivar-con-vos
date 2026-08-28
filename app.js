@@ -234,12 +234,12 @@ function htmlCabecera(){
   return `<header class="cabecera">
       <div class="envoltura barra-superior">
         <button class="boton-icono" id="abrir-menu" aria-label="Abrir el menú"
-                aria-expanded="false" aria-controls="menu-lateral">☰</button>
+                aria-expanded="false" aria-controls="menu-lateral">${icono('menu') || '☰'}</button>
         <a class="marca-centro" href="${RAIZ}">
           <span class="marca">LA BOLÍVAR <em>CON VOS</em></span>
           <small>Agrupación Simón Bolívar · FTS UNLP</small>
         </a>
-        <a class="boton-icono" href="${RAIZ}mi/" aria-label="Mi cuenta">👤</a>
+        <a class="boton-icono" href="${RAIZ}mi/" aria-label="Mi cuenta">${icono('mi') || '👤'}</a>
       </div>
     </header>`;
 }
@@ -258,7 +258,7 @@ function pintarNav(actual){
   cabecera.insertAdjacentHTML('afterend',
     `<nav class="secciones" aria-label="Secciones"><div class="envoltura secciones-fila">` +
     SECCIONES.map(s => `<a href="${s.url}"${s.id===actual ? ' aria-current="page"' : ''}>
-        <span class="icono">${s.icono}</span>${esc(s.texto)}</a>`).join('') +
+        <span class="icono">${icono(s.id) || s.icono}</span>${esc(s.texto)}</a>`).join('') +
     `</div></nav>`);
 
   /* El menu lateral repite las secciones y suma lo que no entra arriba */
@@ -271,7 +271,7 @@ function pintarNav(actual){
       </div>
       <div class="menu-lista">
         ${SECCIONES.map(s => `<a href="${s.url}"${s.id===actual ? ' aria-current="page"' : ''}>
-            <span class="icono">${s.icono}</span>${esc(s.texto)}</a>`).join('')}
+            <span class="icono">${icono(s.id) || s.icono}</span>${esc(s.texto)}</a>`).join('')}
       </div>
       <div class="menu-pie">
         Agrupación Simón Bolívar<br>Conducción del CEFTS · FTS UNLP

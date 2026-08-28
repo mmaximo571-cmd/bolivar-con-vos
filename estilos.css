@@ -106,6 +106,16 @@ h1,h2,h3{margin:0;font-weight:400}
 }
 .boton-icono:hover{background:rgba(255,255,255,.12)}
 
+/* Los iconos de Phosphor. No traen color propio: toman el del texto
+   que los rodea (fill:currentColor), asi el mismo dibujo sirve en
+   blanco sobre la cabecera negra y en celeste sobre una tarjeta. */
+svg.ico{width:1em;height:1em;display:block;flex:0 0 auto}
+.boton-icono svg.ico{width:22px;height:22px}
+.secciones-fila a svg.ico{width:20px;height:20px}
+.menu-lista a svg.ico{width:22px;height:22px}
+.boton-cuadro svg.ico{width:28px;height:28px;color:var(--celeste)}
+.boton-cuadro.destacado svg.ico{color:var(--negro)}
+
 /* --- Las secciones, debajo de la cabecera --- */
 .secciones{background:var(--negro);border-top:1px solid #333}
 .secciones-fila{display:flex;gap:2px;overflow-x:auto;-webkit-overflow-scrolling:touch}

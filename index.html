@@ -129,6 +129,7 @@
 <script>window.RAIZ = './';</script>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script src="config.js"></script>
+<script src="iconos.js"></script>
 <script src="app.js"></script>
 <script>
 (async function inicio(){
@@ -576,15 +577,19 @@
       tramites.some(t => t.categoria_id === c.id) ||
       preguntas.some(p => p.categoria_id === c.id));
 
-    const accesos = [{ icono:'🎓', nombre:'Organizador de cursadas',
+    /* iconoDeCategoria devuelve el SVG si ya lo cargamos, y si no el
+       emoji de la base. Así se pueden ir reemplazando de a uno. */
+    const accesos = [{ dibujo: icono('carrera') || '🎓',
+                       nombre:'Organizador de cursadas',
                        url:'carrera/', destacado:true }].concat(
       conContenido.slice(0, 8).map(c => ({
-        icono: c.emoji, nombre: c.nombre, url: 'tramites/?categoria=' + c.id
+        dibujo: iconoDeCategoria(c), nombre: c.nombre,
+        url: 'tramites/?categoria=' + c.id
       })));
 
     document.getElementById('accesos').innerHTML = accesos.map(a =>
       `<a class="boton-cuadro${a.destacado ? ' destacado' : ''}" href="${a.url}">
-         <span class="icono">${esc(a.icono || '·')}</span>
+         <span class="icono">${a.dibujo}</span>
          <span class="nombre">${esc(a.nombre)}</span>
        </a>`).join('');
   })();

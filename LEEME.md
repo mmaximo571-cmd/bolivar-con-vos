@@ -73,6 +73,27 @@ El cambio se hizo en un solo lugar: `pintarNav()` en `app.js`. Todas las pantall
 lo heredan sin tocarles nada. De paso se recuperaron los 64 px que la barra de
 abajo comía en cada vista.
 
+### Los íconos
+
+Están en **`iconos.js`**, y son de [Phosphor Icons](https://phosphoricons.com),
+peso **Bold**, licencia MIT.
+
+**Los íconos no traen color propio.** Phosphor los copia con un color fijo
+(`fill="#b52625"`); acá ese color se saca y se reemplaza por `currentColor`, así
+el mismo dibujo sale **blanco sobre la cabecera negra** y **celeste sobre las
+tarjetas blancas**. Si dejás el color fijo, el ícono se ve rojo en todos lados.
+
+Para sumar uno: buscalo en phosphoricons.com en peso Bold, tocá **Copy SVG**, y
+de todo lo que copiaste pegá en `iconos.js` **solo la parte que empieza con
+`<path`**, sin el `<svg>` de afuera.
+
+Mientras un ícono no esté cargado, **la app sigue mostrando el emoji de antes**.
+Por eso se pueden ir reemplazando de a uno sin romper nada.
+
+Los de las categorías se asignan por el **id de la categoría** en
+`ICONO_DE_CATEGORIA`, no por el emoji, así que cambiar el emoji en la base no
+afecta al ícono.
+
 ### Las ilustraciones
 
 Están en `imagenes/`, en formato **WebP con transparencia**. Salieron de dos
