@@ -59,12 +59,13 @@
 
     <div>
       <p class="quienes">Agrupación Simón Bolívar · FTS UNLP</p>
-      <h1>La facultad, más fácil</h1>
+      <h1>Lo que la facultad no te explica</h1>
     </div>
 
     <p class="lema">
-      Trámites explicados paso a paso, las fechas que importan y un organizador
-      para tu cursada. Todo sin registrarte.
+      Los trámites contados como se los contaríamos a una compañera, las fechas
+      que no te podés perder, y un organizador para tu cursada.
+      Sin registrarte y sin dar datos.
     </p>
   </div>
 
@@ -100,6 +101,12 @@
   <!-- Todo lo demás se esconde mientras se busca -->
   <div id="zona-normal">
 
+    <!-- LA ALARMA: se anota sola cuando abre la inscripción a una mesa -->
+    <div id="alarma"></div>
+
+    <!-- Cómo venís con tu carrera, si usaste el organizador -->
+    <div id="mi-cursada"></div>
+
     <!-- La portada: las ilustraciones de la facultad, deslizándose -->
     <div class="carrusel" id="carrusel"></div>
 
@@ -109,7 +116,18 @@
       <a href="agenda/">Agenda</a>
     </div>
     <div class="calendario cuadrado" id="calendario">
-      <div class="cargando">Cargando…</div>
+      <div class="esq-calendario">
+        <div class="esqueleto esq-linea titulo"></div>
+        <div class="esq-grilla">
+          <div class="esqueleto"></div><div class="esqueleto"></div>
+          <div class="esqueleto"></div><div class="esqueleto"></div>
+          <div class="esqueleto"></div><div class="esqueleto"></div>
+          <div class="esqueleto"></div><div class="esqueleto"></div>
+          <div class="esqueleto"></div><div class="esqueleto"></div>
+          <div class="esqueleto"></div><div class="esqueleto"></div>
+          <div class="esqueleto"></div><div class="esqueleto"></div>
+        </div>
+      </div>
     </div>
 
   </div>
@@ -121,14 +139,33 @@
 
     <!-- Los nueve accesos -->
     <div class="titulo-seccion">A DÓNDE IR</div>
-    <div class="rejilla-3x3" id="accesos"></div>
+    <div class="rejilla-3x3" id="accesos">
+      <div class="esq-cuadro"></div><div class="esq-cuadro"></div>
+      <div class="esq-cuadro"></div><div class="esq-cuadro"></div>
+      <div class="esq-cuadro"></div><div class="esq-cuadro"></div>
+      <div class="esq-cuadro"></div><div class="esq-cuadro"></div>
+      <div class="esq-cuadro"></div>
+    </div>
+
+    <!-- Para quien recién llega -->
+    <div class="titulo-seccion">SI RECIÉN EMPEZÁS</div>
+    <div class="kit" id="kit"></div>
 
     <div class="titulo-seccion">
       NOVEDADES
       <a href="agenda/">Ver todas</a>
     </div>
     <div class="lista" id="novedades">
-      <div class="cargando">Cargando…</div>
+      <div class="esq-tarjeta">
+        <div class="esqueleto esq-linea titulo"></div>
+        <div class="esqueleto esq-linea"></div>
+        <div class="esqueleto esq-linea media"></div>
+      </div>
+      <div class="esq-tarjeta">
+        <div class="esqueleto esq-linea titulo"></div>
+        <div class="esqueleto esq-linea"></div>
+        <div class="esqueleto esq-linea corta"></div>
+      </div>
     </div>
 
   </div>
@@ -390,6 +427,133 @@
     mostrarError(document.getElementById('zona-normal'), e, 'cargar la información');
     return;
   }
+  /* ============================================================
+     LA ALARMA DE INSCRIPCIÓN
+
+     Es lo más útil que hace esta app, y sale de un dato que ya
+     estaba cargado: la ventana para anotarse a una mesa dura
+     EXACTAMENTE 4 días, nueve veces al año, y la mesa es 4 a 6 días
+     después. Perderse esos 4 días es perder la mesa y esperar un mes.
+
+     Por eso la alarma aparece arriba de todo, sola, desde 5 días
+     antes de que abra hasta que cierra. El resto del año no está.
+     ============================================================ */
+  (function pintarAlarma(){
+    const caja = document.getElementById('alarma');
+    const hoy  = hoyISO();
+    const enDias = (desde, hasta) =>
+      Math.round((new Date(hasta) - new Date(desde)) / 86400000);
+
+    const inscripciones = publicaciones
+      .filter(p => /^inscripción a la mesa/i.test(p.titulo || '') && p.fecha_desde)
+      .map(p => ({ ...p,
+        abre:   p.fecha_desde.slice(0,10),
+        cierra: (p.fecha_hasta || p.fecha_desde).slice(0,10) }))
+      .sort((a,b) => a.abre.localeCompare(b.abre));
+
+    /* La que está abierta ahora, o la próxima si abre en 5 días o menos */
+    const abierta = inscripciones.find(i => hoy >= i.abre && hoy <= i.cierra);
+    const porAbrir = inscripciones.find(i => i.abre > hoy && enDias(hoy, i.abre) <= 5);
+    const i = abierta || porAbrir;
+    if (!i){ caja.innerHTML = ''; return; }
+
+    /* La mesa correspondiente, para decir para cuándo es */
+    const mes = (t) => (/de (\w+)$/.exec(t || '') || [])[1];
+    const mesa = publicaciones.find(p =>
+      /^mesa de examen/i.test(p.titulo || '') && mes(p.titulo) === mes(i.titulo));
+
+    let titulo, cuerpo, urgente;
+    if (abierta){
+      const quedan = enDias(hoy, i.cierra);
+      urgente = quedan <= 1;
+      titulo = quedan === 0 ? 'Hoy cierra la inscripción'
+             : quedan === 1 ? 'Mañana cierra la inscripción'
+             : `Quedan ${quedan} días para anotarte`;
+      cuerpo = `La inscripción a la mesa de ${esc(mes(i.titulo))} está abierta ` +
+               `hasta el ${esc(fechaLinda(i.cierra))}.`;
+    } else {
+      const faltan = enDias(hoy, i.abre);
+      urgente = false;
+      titulo = faltan === 1 ? 'Mañana abre la inscripción'
+                            : `Faltan ${faltan} días para anotarte`;
+      cuerpo = `La inscripción a la mesa de ${esc(mes(i.titulo))} abre el ` +
+               `${esc(fechaLinda(i.abre))} y cierra el ${esc(fechaLinda(i.cierra))}.`;
+    }
+    if (mesa) cuerpo += ` La mesa es el ${esc(fechaLinda(mesa.fecha_desde))}.`;
+
+    caja.innerHTML = `
+      <div class="alarma${urgente ? ' urgente' : ''}">
+        <div class="alarma-texto">
+          <strong>${esc(titulo)}</strong>
+          <p>${cuerpo}</p>
+        </div>
+        <a class="boton oscuro ancho"
+           href="https://autogestion.guarani.unlp.edu.ar/"
+           target="_blank" rel="noopener">Anotarme en el SIU Guaraní ↗</a>
+      </div>`;
+  })();
+
+  /* ---------- Cómo venís con tu carrera ----------
+     El organizador deja un resumen en el teléfono. Acá lo usamos para
+     que el inicio sepa quién es cada quien, en vez de mostrarle lo
+     mismo a un ingresante y a alguien de quinto. */
+  (function pintarMiCursada(){
+    const caja = document.getElementById('mi-cursada');
+    let r = null;
+    try { r = JSON.parse(localStorage.getItem('bolivar-carrera-resumen')); } catch(e){}
+
+    if (!r || !r.total){
+      caja.innerHTML = `
+        <a class="mi-cursada invitacion" href="carrera/">
+          <strong>Armá tu cursada</strong>
+          <p>Marcá las materias que ya hiciste y la app te dice qué podés
+             cursar y qué podés promocionar.</p>
+        </a>`;
+      return;
+    }
+    const pct = Math.round(r.aprobadas / r.total * 100);
+    caja.innerHTML = `
+      <a class="mi-cursada" href="carrera/">
+        <span class="mi-cursada-rotulo">Mi cursada</span>
+        <strong>${esc(r.carrera)}</strong>
+        <div class="barra"><div class="barra-llena" style="width:${pct}%"></div></div>
+        <div class="mi-cursada-datos">
+          <span><b>${r.aprobadas}</b> de ${r.total} materias</span>
+          <span>${pct}%</span>
+        </div>
+      </a>`;
+  })();
+
+  /* ---------- Kit de ingreso ----------
+     Las primeras cosas que necesita quien recién llega. Los enlaces
+     apuntan a categorías que ya existen; si alguna no tiene contenido
+     todavía, la tarjeta igual sirve como puerta. */
+  (function pintarKit(){
+    const buscarCat = (texto) => {
+      const c = categorias.find(x => normalizar(x.nombre).includes(normalizar(texto)));
+      return c ? 'tramites/?categoria=' + c.id : 'tramites/';
+    };
+    const kit = [
+      { titulo:'Trámites básicos',
+        texto:'Lo primero que vas a tener que hacer sí o sí: inscribirte, sacar constancias, anotarte a finales.',
+        url: buscarCat('Inscripciones') },
+      { titulo:'Glosario universitario',
+        texto:'Qué es una cursada, un final, una promoción, una correlativa. Las palabras que todos usan y nadie te explica.',
+        url:'quienes/' },
+      { titulo:'Aulas y fotocopiadoras',
+        texto:'Dónde queda cada cosa adentro de la facultad, los horarios de la sala de informática y dónde conseguir los apuntes.',
+        url: buscarCat('Dónde curso') }
+    ];
+    document.getElementById('kit').innerHTML = kit.map((k, n) => `
+      <a class="tarjeta-kit" href="${k.url}">
+        <span class="kit-numero">${n + 1}</span>
+        <span class="kit-texto">
+          <h3>${esc(k.titulo)}</h3>
+          <p>${esc(k.texto)}</p>
+        </span>
+      </a>`).join('');
+  })();
+
   /* ---------- La portada: el carrusel de ilustraciones ---------- */
   (function pintarCarrusel(){
     const laminas = [

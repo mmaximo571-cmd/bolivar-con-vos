@@ -52,7 +52,7 @@
 
 <div id="cabecera"></div>
 <main class="envoltura" id="contenido">
-  <div class="cargando">Cargando…</div>
+  <div class="esq-tarjeta"><div class="esqueleto esq-linea titulo"></div><div class="esqueleto esq-linea"></div><div class="esqueleto esq-linea media"></div></div><div class="esq-tarjeta"><div class="esqueleto esq-linea titulo"></div><div class="esqueleto esq-linea"></div><div class="esqueleto esq-linea corta"></div></div>
 </main>
 
 <script>window.RAIZ = '../';</script>
@@ -748,7 +748,7 @@
 
   /* ============================================================ */
   function dibujar(){
-    zona.innerHTML = '<div class="cargando">Cargando…</div>';
+    zona.innerHTML = '<div class="esq-tarjeta"><div class="esqueleto esq-linea titulo"></div><div class="esqueleto esq-linea"></div><div class="esqueleto esq-linea media"></div></div><div class="esq-tarjeta"><div class="esqueleto esq-linea titulo"></div><div class="esqueleto esq-linea"></div><div class="esqueleto esq-linea corta"></div></div>';
     ({ tramites:vistaTramites, faq:vistaFaq,
        agenda:vistaAgenda, categorias:vistaCategorias }[actual])();
   }

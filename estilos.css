@@ -22,18 +22,49 @@
 
      Sobre el fondo suave: negro 16,2 · gris 5,9 · rojo 6,0 · celeste 3,3.
      Sobre el amarillo pleno el celeste cae a 2,8: ahi no va. */
+  /* --- LOS COLORES DE MARCA. No cambian nunca, ni de dia ni de noche --- */
   --amarillo:  #F9E830;   /* acento de marca, en poca cantidad          */
-  --amarillo-fondo: #FDF9C5; /* el fondo de toda la app                 */
   --celeste:   #0195B1;   /* la estructura: bordes, barras, iconos      */
   --rojo:      #B52625;   /* palabras resaltadas, urgente, eliminar     */
-  --negro:     #1A1A1A;   /* el texto y la cabecera                     */
-  --blanco:    #FFFFFF;   /* tarjetas                                   */
-  --gris:      #5F5F5F;   /* textos secundarios                         */
-  --borde:     #D8E5EA;   /* lineas y separadores: celeste muy rebajado */
-  --hueso:     #F5F0E8;   /* superficies suaves sobre lo blanco         */
-
-  /* Tinte mas claro del celeste, para cuando hacen falta dos azules */
+  --negro:     #1A1A1A;   /* la cabecera y los bloques de mucho peso    */
   --celeste-claro: #7FC9DA;
+
+  /* Estas dos TAMPOCO cambian de noche, y es a propósito:
+     - sobre-color: texto oscuro cuando el fondo es amarillo o celeste.
+     - sobre-negro: texto claro cuando el fondo es la banda negra.
+     Si se dieran vuelta, el texto quedaría del mismo color que su fondo. */
+  --sobre-color: #1A1A1A;
+  --sobre-negro: #FFFFFF;
+
+  /* El rojo se aclara de noche para que se LEA como texto. Pero como
+     FONDO tiene que seguir siendo el oscuro: si no, el blanco encima
+     cae a 3,2 y deja de leerse. Por eso son dos variables. */
+  --rojo-solido: #B52625;
+
+  /* --- LO QUE SI CAMBIA ENTRE DIA Y NOCHE ---
+     Estas seis son las que se dan vuelta mas abajo, en el bloque de
+     modo oscuro. En el resto de la hoja hay que usar SIEMPRE estas,
+     nunca --blanco o --negro para texto: si no, de noche no se lee. */
+  --fondo:       #FDF9C5;  /* el fondo de la pagina                     */
+  --superficie:  #FFFFFF;  /* las tarjetas                              */
+  --superficie-2:#F5F0E8;  /* superficies suaves sobre las tarjetas     */
+  --texto:       #1A1A1A;  /* el texto principal                        */
+  --texto-suave: #5F5F5F;  /* los textos secundarios                    */
+  --linea:       #D8E5EA;  /* bordes y separadores                      */
+
+  /* El tinte de fondo de los días marcados del calendario */
+  --dia-mesa:   #FDECEB;
+  --dia-asueto: #E6F4F8;
+  --apagado:    #F3F0EA;   /* superficie de lo deshabilitado */
+  --aviso-error:#FDEAEA;
+  --aviso-ok:   #E6F8F5;
+
+  /* Nombres viejos, para no romper nada que todavia los use */
+  --blanco: var(--superficie);
+  --gris:   var(--texto-suave);
+  --borde:  var(--linea);
+  --hueso:  var(--superficie-2);
+  --amarillo-fondo: var(--fondo);
 
   /* --- Colores por linea editorial --- */
   --linea-frente:   #1A1A1A;
@@ -55,6 +86,50 @@
 }
 
 /* ============================================================
+   MODO OSCURO
+
+   Se activa solo, según cómo tenga configurado el teléfono cada
+   persona. No hay botón: si el celular está en modo oscuro, la app
+   también. Es la forma que menos hay que explicar.
+
+   Solo se dan vuelta las seis variables de superficie y texto. Los
+   colores de marca no se tocan: el amarillo sigue siendo el amarillo.
+
+   El fondo NO es negro puro. Un #000 con texto blanco encima genera
+   halo y cansa en lecturas largas, que es justo lo que se hace de
+   noche. Es un gris muy oscuro apenas cálido, para que convive con
+   el amarillo de la marca.
+
+   Contrastes de noche: texto 15,3 · texto suave 7,1 · amarillo 12,6
+   · celeste 4,4 sobre el fondo.
+   ============================================================ */
+@media (prefers-color-scheme: dark){
+  :root{
+    --fondo:        #17160F;
+    --superficie:   #232219;
+    --superficie-2: #2E2C21;
+    --texto:        #F2EFE2;
+    --texto-suave:  #ADA893;
+    --linea:        #3A3830;
+    --dia-mesa:   #3A211F;
+    --dia-asueto: #16323A;
+    --apagado:    #201F17;
+    --aviso-error:#33201F;
+    --aviso-ok:   #16302B;
+
+    /* De noche el rojo puro pierde contraste sobre el fondo oscuro
+       (3,4). Se aclara para que las palabras resaltadas sigan
+       leyéndose sin dejar de ser el rojo de la marca. */
+    --rojo: #E56B62;
+
+    --sombra: 0 2px 12px rgba(0,0,0,.5);
+  }
+  /* Las ilustraciones de la facultad son de trazo fino sobre claro:
+     de noche se apagan un poco para no encandilar. */
+  .carrusel img, .zona-fondo::before{filter:brightness(.86) saturate(.92)}
+}
+
+/* ============================================================
    BASE
    ============================================================ */
 [hidden]{display:none !important}
@@ -63,7 +138,7 @@ html,body{margin:0;padding:0}
 body{
   font-family:var(--fuente-texto);
   background:var(--amarillo-fondo);
-  color:var(--negro);
+  color:var(--texto);
   font-size:16px;
   line-height:1.45;
   -webkit-font-smoothing:antialiased;
@@ -81,7 +156,7 @@ h1,h2,h3{margin:0;font-weight:400}
    ============================================================ */
 /* La banda negra de arriba es el ancla de la pagina: le da un techo y
    es donde el amarillo trabaja mejor (sobre negro llega a 13,8). */
-.cabecera{background:var(--negro);color:var(--blanco);padding:12px 0}
+.cabecera{background:var(--negro);color:var(--sobre-negro);padding:12px 0}
 
 /* Tres columnas: menu, marca, cuenta. Los costados miden lo mismo,
    asi la marca del medio queda centrada de verdad y no a ojo. */
@@ -112,7 +187,7 @@ h1,h2,h3{margin:0;font-weight:400}
 .boton-icono{
   width:44px;height:44px;display:flex;align-items:center;justify-content:center;
   background:transparent;border:none;border-radius:50%;
-  font-size:20px;line-height:1;color:var(--blanco);text-decoration:none;padding:0
+  font-size:20px;line-height:1;color:var(--sobre-negro);text-decoration:none;padding:0
 }
 .boton-icono:hover{background:rgba(255,255,255,.12)}
 
@@ -124,7 +199,7 @@ svg.ico{width:1em;height:1em;display:block;flex:0 0 auto}
 .secciones-fila a svg.ico{width:20px;height:20px}
 .menu-lista a svg.ico{width:22px;height:22px}
 .boton-cuadro svg.ico{width:28px;height:28px;color:var(--celeste)}
-.boton-cuadro.destacado svg.ico{color:var(--negro)}
+.boton-cuadro.destacado svg.ico{color:var(--sobre-color)}
 
 /* --- Las secciones, debajo de la cabecera --- */
 .secciones{background:var(--negro);border-top:1px solid #333}
@@ -144,7 +219,7 @@ svg.ico{width:1em;height:1em;display:block;flex:0 0 auto}
 .menu-fondo{position:fixed;inset:0;z-index:90;background:rgba(26,26,26,.55)}
 .menu-lateral{
   position:fixed;top:0;left:0;bottom:0;z-index:91;width:min(300px,84vw);
-  background:var(--negro);color:var(--blanco);
+  background:var(--negro);color:var(--sobre-negro);
   display:flex;flex-direction:column;padding:14px 0 18px;
   box-shadow:4px 0 22px rgba(0,0,0,.3)
 }
@@ -155,7 +230,7 @@ svg.ico{width:1em;height:1em;display:block;flex:0 0 auto}
 .menu-lista{display:flex;flex-direction:column;overflow-y:auto}
 .menu-lista a{
   display:flex;align-items:center;gap:13px;padding:14px 18px;
-  text-decoration:none;color:var(--blanco);
+  text-decoration:none;color:var(--sobre-negro);
   font-family:var(--fuente-sub);font-size:16px;font-weight:700
 }
 .menu-lista a .icono{font-size:20px;line-height:1}
@@ -182,7 +257,7 @@ svg.ico{width:1em;height:1em;display:block;flex:0 0 auto}
 .buscador input{
   width:100%;font-family:var(--fuente-texto);font-size:17px;
   padding:15px 15px 15px 46px;border:1px solid var(--borde);border-radius:99px;
-  background:var(--blanco);color:var(--negro);outline:none;box-shadow:var(--sombra)
+  background:var(--blanco);color:var(--texto);outline:none;box-shadow:var(--sombra)
 }
 /* El foco va en celeste: sobre el amarillo, un halo amarillo no se veria */
 .buscador input:focus{box-shadow:0 0 0 3px var(--celeste)}
@@ -199,10 +274,10 @@ svg.ico{width:1em;height:1em;display:block;flex:0 0 auto}
 .chip{
   flex:0 0 auto;background:var(--blanco);border:1px solid var(--borde);
   border-radius:99px;padding:8px 14px;font-family:var(--fuente-sub);
-  font-size:14px;letter-spacing:.02em;white-space:nowrap;color:var(--negro)
+  font-size:14px;letter-spacing:.02em;white-space:nowrap;color:var(--texto)
 }
 /* Sobre el fondo suave, el amarillo pleno del chip elegido resalta */
-.chip[aria-pressed="true"]{background:var(--amarillo);border-color:var(--amarillo);color:var(--negro);font-weight:700}
+.chip[aria-pressed="true"]{background:var(--amarillo);border-color:var(--amarillo);color:var(--sobre-color);font-weight:700}
 
 .rejilla-categorias{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin:14px 0 26px}
 .tarjeta-categoria{
@@ -227,7 +302,7 @@ svg.ico{width:1em;height:1em;display:block;flex:0 0 auto}
   font-family:var(--fuente-sub);font-size:13px;text-transform:uppercase;
   letter-spacing:.06em;color:var(--gris);text-decoration:none;flex:0 0 auto
 }
-.titulo-seccion a:hover{color:var(--negro)}
+.titulo-seccion a:hover{color:var(--texto)}
 
 /* ============================================================
    TARJETAS DE CONTENIDO
@@ -253,12 +328,12 @@ svg.ico{width:1em;height:1em;display:block;flex:0 0 auto}
 .etiqueta{
   display:inline-block;font-family:var(--fuente-texto);font-size:11px;font-weight:700;
   letter-spacing:.1em;text-transform:uppercase;padding:3px 9px;border-radius:99px;
-  margin-bottom:7px;color:var(--blanco);background:var(--negro)
+  margin-bottom:7px;color:var(--sobre-negro);background:var(--negro)
 }
 .etiqueta.frente  {background:var(--linea-frente);color:var(--amarillo)}
-.etiqueta.gremial {background:var(--linea-gremial);color:var(--negro)}
-.etiqueta.info    {background:var(--linea-info);color:var(--blanco)}
-.etiqueta.saberes {background:var(--linea-saberes);color:var(--negro)}
+.etiqueta.gremial {background:var(--linea-gremial);color:var(--sobre-color)}
+.etiqueta.info    {background:var(--linea-info);color:var(--sobre-negro)}
+.etiqueta.saberes {background:var(--linea-saberes);color:var(--sobre-color)}
 
 .tarjeta.frente  {border-left-color:var(--linea-frente)}
 .tarjeta.gremial {border-left-color:var(--linea-gremial)}
@@ -268,8 +343,8 @@ svg.ico{width:1em;height:1em;display:block;flex:0 0 auto}
 /* Fecha en formato calendario */
 .tarjeta-fecha{display:flex;gap:13px;align-items:flex-start}
 .cubo-fecha{
-  flex:0 0 54px;background:var(--amarillo);border-radius:var(--radio-chico);
-  padding:7px 0;text-align:center;line-height:1
+  flex:0 0 54px;background:var(--amarillo);color:var(--sobre-color);
+  border-radius:var(--radio-chico);padding:7px 0;text-align:center;line-height:1
 }
 .cubo-fecha .dia{font-family:var(--fuente-titulo);font-size:24px;display:block}
 .cubo-fecha .mes{
@@ -314,12 +389,12 @@ svg.ico{width:1em;height:1em;display:block;flex:0 0 auto}
   font-family:var(--fuente-sub);font-weight:700;font-size:15px;
   text-transform:uppercase;letter-spacing:.05em;
   padding:13px 20px;border-radius:99px;border:none;text-decoration:none;
-  background:var(--amarillo);color:var(--negro)
+  background:var(--amarillo);color:var(--sobre-color)
 }
 .boton:hover{filter:brightness(.94)}
 .boton.oscuro{background:var(--negro);color:var(--amarillo)}
 .boton.borde{background:transparent;border:1.5px solid var(--negro)}
-.boton.peligro{background:var(--rojo);color:var(--blanco)}
+.boton.peligro{background:var(--rojo-solido);color:var(--sobre-negro)}
 .boton.ancho{width:100%}
 .boton:disabled{opacity:.5;cursor:default}
 
@@ -334,9 +409,9 @@ svg.ico{width:1em;height:1em;display:block;flex:0 0 auto}
 .campo input,.campo textarea,.campo select{
   width:100%;font-family:var(--fuente-texto);font-size:16px;
   padding:11px 12px;border:1px solid var(--borde);border-radius:var(--radio-chico);
-  background:var(--blanco);color:var(--negro);outline:none
+  background:var(--blanco);color:var(--texto);outline:none
 }
-.campo input:focus,.campo textarea:focus,.campo select:focus{border-color:var(--negro)}
+.campo input:focus,.campo textarea:focus,.campo select:focus{border-color:var(--texto)}
 .campo textarea{min-height:96px;resize:vertical}
 .dos-columnas{display:grid;grid-template-columns:1fr 1fr;gap:12px}
 
@@ -347,8 +422,8 @@ svg.ico{width:1em;height:1em;display:block;flex:0 0 auto}
   border-radius:var(--radio-chico);padding:11px 13px;font-size:14.5px;margin:12px 0;
   background:var(--blanco);border-left:4px solid var(--gris)
 }
-.aviso.error{border-left-color:var(--rojo);background:#fdeaea}
-.aviso.ok{border-left-color:var(--celeste);background:#e6f8f5}
+.aviso.error{border-left-color:var(--rojo);background:var(--aviso-error)}
+.aviso.ok{border-left-color:var(--celeste);background:var(--aviso-ok)}
 
 .vacio{text-align:center;color:var(--gris);padding:34px 16px;font-size:15px}
 .cargando{text-align:center;color:var(--gris);padding:34px 16px;font-size:15px}
@@ -368,7 +443,7 @@ svg.ico{width:1em;height:1em;display:block;flex:0 0 auto}
 .cal-flecha{
   flex:0 0 auto;width:42px;height:42px;border-radius:50%;
   border:1px solid var(--borde);background:var(--blanco);
-  font-size:18px;line-height:1;color:var(--negro);
+  font-size:18px;line-height:1;color:var(--texto);
   display:flex;align-items:center;justify-content:center
 }
 .cal-flecha:hover{background:var(--hueso)}
@@ -382,7 +457,7 @@ svg.ico{width:1em;height:1em;display:block;flex:0 0 auto}
 /* La celda cuadrada: el ancho lo pone la grilla, el alto lo iguala */
 .cal-dia{
   aspect-ratio:1/1;border:none;background:transparent;border-radius:9px;
-  font-family:var(--fuente-texto);font-size:15px;color:var(--negro);
+  font-family:var(--fuente-texto);font-size:15px;color:var(--texto);
   display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;
   padding:0;position:relative
 }
@@ -391,7 +466,7 @@ svg.ico{width:1em;height:1em;display:block;flex:0 0 auto}
 .cal-dia.con-cosas{font-weight:700}
 .cal-dia.con-cosas:hover{background:var(--hueso)}
 .cal-dia.hoy{box-shadow:inset 0 0 0 1.5px var(--negro)}
-.cal-dia[aria-pressed="true"]{background:var(--amarillo)}
+.cal-dia[aria-pressed="true"]{background:var(--amarillo);color:var(--sobre-color)}
 .cal-dia[aria-pressed="true"].hoy{box-shadow:inset 0 0 0 1.5px var(--negro)}
 
 .cal-puntos{display:flex;gap:2px;height:5px;align-items:center}
@@ -418,7 +493,7 @@ svg.ico{width:1em;height:1em;display:block;flex:0 0 auto}
   text-align:center;color:var(--gris);font-size:13px;
   padding:30px 16px 10px;line-height:1.5
 }
-.pie strong{color:var(--negro)}
+.pie strong{color:var(--texto)}
 
 /* ============================================================
    ORGANIZADOR DE CURSADAS  (carrera/)
@@ -439,7 +514,7 @@ svg.ico{width:1em;height:1em;display:block;flex:0 0 auto}
   margin-top:9px;font-size:14px;color:var(--gris)
 }
 .progreso-datos strong{
-  font-family:var(--fuente-titulo);font-size:20px;color:var(--negro);
+  font-family:var(--fuente-titulo);font-size:20px;color:var(--texto);
   vertical-align:-1px;margin-right:2px
 }
 .progreso-extra{margin-top:6px;font-size:14px;color:var(--gris)}
@@ -453,7 +528,7 @@ svg.ico{width:1em;height:1em;display:block;flex:0 0 auto}
   font-family:var(--fuente-titulo);font-weight:800;font-size:34px;line-height:1;
   color:var(--celeste)
 }
-.promedio-detalle{font-size:14px;line-height:1.25;color:var(--negro)}
+.promedio-detalle{font-size:14px;line-height:1.25;color:var(--texto)}
 .promedio-detalle small{color:var(--gris);font-size:12.5px}
 
 /* El campo de nota, adentro de la ficha de una materia aprobada */
@@ -472,7 +547,7 @@ svg.ico{width:1em;height:1em;display:block;flex:0 0 auto}
 .caja-nota input{
   width:96px;font-family:var(--fuente-sub);font-weight:700;font-size:22px;
   text-align:center;padding:8px 10px;border:1.5px solid var(--borde);
-  border-radius:var(--radio-chico);background:var(--blanco);color:var(--negro)
+  border-radius:var(--radio-chico);background:var(--blanco);color:var(--texto)
 }
 .caja-nota input:focus{outline:none;border-color:var(--celeste)}
 .caja-nota .letra-chica{margin-top:7px}
@@ -484,7 +559,7 @@ svg.ico{width:1em;height:1em;display:block;flex:0 0 auto}
   padding:10px 4px;font-family:var(--fuente-sub);font-size:15px;
   text-transform:uppercase;letter-spacing:.04em;color:var(--gris)
 }
-.pestana[aria-selected="true"]{border-bottom-color:var(--negro);color:var(--negro);font-weight:700}
+.pestana[aria-selected="true"]{border-bottom-color:var(--texto);color:var(--texto);font-weight:700}
 
 /* --- Interruptor de una linea --- */
 .interruptor{
@@ -492,22 +567,22 @@ svg.ico{width:1em;height:1em;display:block;flex:0 0 auto}
   border:1px solid var(--borde);border-radius:var(--radio-chico);
   padding:11px 13px;margin:6px 0 16px;font-size:14.5px;line-height:1.3
 }
-.interruptor input{width:19px;height:19px;flex:0 0 auto;accent-color:var(--negro)}
+.interruptor input{width:19px;height:19px;flex:0 0 auto;accent-color:var(--texto)}
 
 .cuenta-grupo{
-  background:var(--negro);color:var(--blanco);border-radius:99px;
+  background:var(--negro);color:var(--sobre-negro);border-radius:99px;
   font-size:12px;padding:2px 9px;letter-spacing:0
 }
 
 /* --- Tarjeta de materia --- */
 .tarjeta.materia{border-left-color:var(--borde);cursor:pointer}
-.tarjeta.materia:hover{border-color:var(--negro)}
+.tarjeta.materia:hover{border-color:var(--texto)}
 .tarjeta.materia.promociona{border-left-color:var(--celeste)}
 .tarjeta.materia.cursa     {border-left-color:var(--amarillo)}
 .tarjeta.materia.trabada   {border-left-color:var(--borde);opacity:.72}
 .tarjeta.materia.final     {border-left-color:var(--linea-saberes)}
 .tarjeta.materia .motivo{margin:0;color:var(--gris);font-size:14px;line-height:1.35}
-.tarjeta.materia .motivo strong{color:var(--negro)}
+.tarjeta.materia .motivo strong{color:var(--texto)}
 
 .tarjeta.materia.estado-aprobada{border-left-color:var(--celeste)}
 .tarjeta.materia.estado-cursada {border-left-color:var(--amarillo)}
@@ -517,11 +592,11 @@ svg.ico{width:1em;height:1em;display:block;flex:0 0 auto}
 .pastilla{
   display:inline-block;font-size:11px;font-weight:700;letter-spacing:.06em;
   text-transform:uppercase;padding:2px 8px;border-radius:99px;
-  background:var(--borde);color:var(--negro)
+  background:var(--borde);color:var(--sobre-color)
 }
-.pastilla.cursando{background:var(--linea-saberes);color:var(--negro)}
-.pastilla.cursada {background:var(--amarillo);color:var(--negro)}
-.pastilla.aprobada{background:var(--celeste);color:var(--negro)}
+.pastilla.cursando{background:var(--linea-saberes);color:var(--sobre-color)}
+.pastilla.cursada {background:var(--amarillo);color:var(--sobre-color)}
+.pastilla.aprobada{background:var(--celeste);color:var(--sobre-color)}
 
 /* --- Hoja de detalle --- */
 .hoja-fondo{
@@ -550,8 +625,8 @@ svg.ico{width:1em;height:1em;display:block;flex:0 0 auto}
   text-transform:uppercase;letter-spacing:.05em;line-height:1.25;
   padding:11px 13px;border-radius:var(--radio-chico);background:var(--borde)
 }
-.veredicto.promociona{background:var(--celeste);color:var(--negro)}
-.veredicto.cursa     {background:var(--amarillo);color:var(--negro)}
+.veredicto.promociona{background:var(--celeste);color:var(--sobre-color)}
+.veredicto.cursa     {background:var(--amarillo);color:var(--sobre-color)}
 .veredicto.trabada   {background:var(--borde);color:var(--gris)}
 
 .opciones-estado{display:flex;flex-direction:column;gap:8px}
@@ -559,10 +634,10 @@ svg.ico{width:1em;height:1em;display:block;flex:0 0 auto}
   background:var(--blanco);border:1.5px solid var(--borde);border-radius:var(--radio-chico);
   padding:12px 13px;text-align:left;font-size:15px;line-height:1.25
 }
-.opcion.elegida{border-color:var(--negro);font-weight:700}
-.opcion.elegida.cursando{background:var(--linea-saberes)}
-.opcion.elegida.cursada {background:var(--amarillo)}
-.opcion.elegida.aprobada{background:var(--celeste)}
+.opcion.elegida{border-color:var(--texto);font-weight:700}
+.opcion.elegida.cursando{background:var(--linea-saberes);color:var(--sobre-color)}
+.opcion.elegida.cursada {background:var(--amarillo);color:var(--sobre-color)}
+.opcion.elegida.aprobada{background:var(--celeste);color:var(--sobre-color)}
 
 .lista-correl{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:8px}
 .lista-correl li{
@@ -577,7 +652,7 @@ svg.ico{width:1em;height:1em;display:block;flex:0 0 auto}
 /* --- Puerta al organizador desde la pantalla de inicio --- */
 .tarjeta-destacada{
   display:flex;align-items:center;gap:13px;text-decoration:none;
-  background:var(--negro);color:var(--blanco);border-radius:var(--radio);
+  background:var(--negro);color:var(--sobre-negro);border-radius:var(--radio);
   padding:16px;margin:18px 0 4px;box-shadow:var(--sombra)
 }
 .tarjeta-destacada .emoji{font-size:30px;flex:0 0 auto;line-height:1}
@@ -606,7 +681,7 @@ svg.ico{width:1em;height:1em;display:block;flex:0 0 auto}
 .mapa-leyenda i.cursada   {background:var(--amarillo);border-color:var(--amarillo)}
 .mapa-leyenda i.promociona{border-color:var(--celeste);border-width:2.5px}
 .mapa-leyenda i.cursa     {border-color:var(--amarillo);border-width:2.5px}
-.mapa-leyenda i.trabada   {background:#F3F0EA}
+.mapa-leyenda i.trabada   {background:var(--apagado)}
 
 .mapa-marco{
   overflow:auto;-webkit-overflow-scrolling:touch;
@@ -634,16 +709,21 @@ svg.ico{width:1em;height:1em;display:block;flex:0 0 auto}
   white-space:nowrap;overflow:hidden;text-overflow:ellipsis
 }
 .mapa-nodo .nom{
-  font-size:11.5px;font-weight:700;color:var(--negro);
+  font-size:11.5px;font-weight:700;color:var(--texto);
   display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden
 }
-.mapa-nodo.aprobada  {background:var(--celeste);border-color:var(--celeste)}
-.mapa-nodo.cursada   {background:var(--amarillo);border-color:var(--amarillo)}
+.mapa-nodo.aprobada  {background:var(--celeste);border-color:var(--celeste);color:var(--sobre-color)}
+.mapa-nodo.cursada   {background:var(--amarillo);border-color:var(--amarillo);color:var(--sobre-color)}
 .mapa-nodo.cursando  {border-color:var(--linea-saberes);border-width:2.5px}
 .mapa-nodo.promociona{border-color:var(--celeste);border-width:2.5px}
 .mapa-nodo.cursa     {border-color:var(--amarillo);border-width:2.5px}
-.mapa-nodo.trabada   {background:#F3F0EA}
-.mapa-nodo.trabada .nom{color:var(--gris)}
+.mapa-nodo.trabada   {background:var(--apagado)}
+.mapa-nodo.trabada .nom{color:var(--texto-suave)}
+/* El nombre y el código tienen color propio, así que sobre el amarillo
+   y el celeste hay que pisarlos: si no, de noche quedan claros sobre
+   claro y el nodo se vuelve ilegible. */
+.mapa-nodo.cursada .nom, .mapa-nodo.aprobada .nom,
+.mapa-nodo.cursada .cod, .mapa-nodo.aprobada .cod{color:var(--sobre-color)}
 .mapa-nodo:hover{box-shadow:0 0 0 2px var(--negro)}
 
 .mapa-arista{fill:none;stroke:var(--borde);stroke-width:1.2}
@@ -726,7 +806,7 @@ body.antes-de-entrar{padding-bottom:0}  /* apertura y bienvenida a pantalla comp
 .bienvenida .sin-cuenta{
   background:transparent;border:none;padding:12px;
   font-family:var(--fuente-sub);font-size:16px;font-weight:700;
-  text-transform:uppercase;letter-spacing:.04em;color:var(--negro);text-decoration:none
+  text-transform:uppercase;letter-spacing:.04em;color:var(--texto);text-decoration:none
 }
 
 /* ============================================================
@@ -735,7 +815,7 @@ body.antes-de-entrar{padding-bottom:0}  /* apertura y bienvenida a pantalla comp
 /* La tarjeta grande es el momento de marca dentro del contenido: va en
    amarillo PLENO. Sobre el fondo suave resalta, y con letra negra da 13,8. */
 .tarjeta-carrera{
-  display:block;text-decoration:none;color:var(--negro);
+  display:block;text-decoration:none;color:var(--sobre-color);
   border-radius:20px;padding:18px;margin:18px 0 12px;
   min-height:158px;box-shadow:var(--sombra);
   background:var(--amarillo)
@@ -743,7 +823,7 @@ body.antes-de-entrar{padding-bottom:0}  /* apertura y bienvenida a pantalla comp
 .tarjeta-carrera .rotulo{
   font-size:11px;letter-spacing:.14em;text-transform:uppercase;opacity:.72
 }
-.tarjeta-carrera .nombre{color:var(--negro);font-weight:800;
+.tarjeta-carrera .nombre{color:var(--sobre-color);font-weight:800;
   font-family:var(--fuente-titulo);font-size:27px;line-height:1;
   text-transform:uppercase;margin:7px 0 12px;display:block
 }
@@ -758,7 +838,7 @@ body.antes-de-entrar{padding-bottom:0}  /* apertura y bienvenida a pantalla comp
 .rejilla-recuadros{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin-bottom:8px}
 .recuadro{
   background:var(--blanco);border:1px solid var(--borde);border-radius:var(--radio);
-  padding:14px;text-decoration:none;color:var(--negro);
+  padding:14px;text-decoration:none;color:var(--texto);
   box-shadow:var(--sombra);display:flex;flex-direction:column;gap:3px;min-height:112px
 }
 .recuadro .rotulo{font-size:12px;letter-spacing:.06em;text-transform:uppercase;color:var(--gris)}
@@ -794,7 +874,7 @@ body.antes-de-entrar{padding-bottom:0}  /* apertura y bienvenida a pantalla comp
 }
 
 .bloque-sumate{
-  background:var(--negro);color:var(--blanco);
+  background:var(--negro);color:var(--sobre-negro);
   border-radius:var(--radio);padding:18px;margin:16px 0 4px
 }
 .bloque-sumate h2{
@@ -802,14 +882,18 @@ body.antes-de-entrar{padding-bottom:0}  /* apertura y bienvenida a pantalla comp
   text-transform:uppercase;color:var(--amarillo);margin-bottom:8px
 }
 .bloque-sumate p{margin:0 0 14px;font-size:15.5px;line-height:1.5}
-.bloque-sumate .boton.oscuro{background:var(--amarillo);color:var(--negro)}
+.bloque-sumate .boton.oscuro{background:var(--amarillo);color:var(--sobre-color)}
 .bloque-sumate .red-pendiente{background:#333;color:#c9c9c9}
 
 /* El enlace de "¿Quiénes somos?" en el pie y en el menú */
+.pie-nota{
+  display:block;max-width:34ch;margin:12px auto 0;
+  font-size:13px;line-height:1.45;color:var(--texto-suave)
+}
 .pie-enlace{
   display:inline-block;margin-top:10px;font-family:var(--fuente-sub);
   font-weight:700;font-size:13px;text-transform:uppercase;letter-spacing:.05em;
-  color:var(--negro);text-decoration:underline
+  color:var(--texto);text-decoration:underline
 }
 .menu-lista a.menu-aparte{
   margin-top:8px;padding-top:18px;border-top:1px solid #333
@@ -844,7 +928,7 @@ body.antes-de-entrar{padding-bottom:0}  /* apertura y bienvenida a pantalla comp
 .carrusel-lamina img{width:100%;height:auto;display:block}
 .carrusel-pie{
   position:absolute;left:0;right:0;bottom:0;padding:26px 14px 12px;
-  font-family:var(--fuente-sub);font-size:14px;font-weight:700;color:var(--negro);
+  font-family:var(--fuente-sub);font-size:14px;font-weight:700;color:var(--sobre-color);
   background:linear-gradient(to top, rgba(249,232,48,.96) 40%, rgba(249,232,48,0))
 }
 .carrusel-puntos{
@@ -880,8 +964,8 @@ body.antes-de-entrar{padding-bottom:0}  /* apertura y bienvenida a pantalla comp
 .cal-barra.asueto{background:var(--celeste)}
 .cal-barra.sigue-izq{left:-2px;border-top-left-radius:0;border-bottom-left-radius:0}
 .cal-barra.sigue-der{right:-2px;border-top-right-radius:0;border-bottom-right-radius:0}
-.cal-dia.con-cosas.mesa  {background:#fdeceb}
-.cal-dia.con-cosas.asueto{background:#e6f4f8}
+.cal-dia.con-cosas.mesa  {background:var(--dia-mesa)}
+.cal-dia.con-cosas.asueto{background:var(--dia-asueto)}
 
 /* La leyenda: dice con letras lo que la grilla dice con colores */
 .cal-leyenda{
@@ -910,7 +994,7 @@ body.antes-de-entrar{padding-bottom:0}  /* apertura y bienvenida a pantalla comp
 .boton-cuadro{
   aspect-ratio:1;background:var(--blanco);border:1px solid var(--borde);
   border-radius:var(--radio);box-shadow:var(--sombra);text-decoration:none;
-  color:var(--negro);padding:9px 7px;
+  color:var(--texto);padding:9px 7px;
   display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;
   text-align:center;overflow:hidden
 }
@@ -921,7 +1005,7 @@ body.antes-de-entrar{padding-bottom:0}  /* apertura y bienvenida a pantalla comp
   display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden
 }
 .boton-cuadro:hover{border-color:var(--celeste)}
-.boton-cuadro.destacado{background:var(--amarillo);border-color:var(--amarillo)}
+.boton-cuadro.destacado{background:var(--amarillo);border-color:var(--amarillo);color:var(--sobre-color)}
 
 /* ============================================================
    EL FONDO DE CONTEXTO
@@ -936,6 +1020,166 @@ body.antes-de-entrar{padding-bottom:0}  /* apertura y bienvenida a pantalla comp
   background:url(imagenes/facultad-patio.webp) center bottom / contain no-repeat;
   opacity:.28
 }
+
+/* ============================================================
+   LA ALARMA DE INSCRIPCION
+   Aparece sola cuando abre la ventana para anotarse a una mesa, y
+   desaparece cuando cierra. El resto del año no ocupa lugar.
+   ============================================================ */
+.alarma{
+  background:var(--amarillo);color:var(--sobre-color);
+  border-radius:var(--radio);padding:16px;margin:16px 0 4px;
+  box-shadow:var(--sombra)
+}
+.alarma.urgente{background:var(--rojo-solido);color:var(--sobre-negro)}
+.alarma-texto strong{
+  font-family:var(--fuente-titulo);font-weight:800;font-size:20px;line-height:1.1;
+  text-transform:uppercase;display:block;margin-bottom:5px
+}
+.alarma-texto p{margin:0 0 13px;font-size:15px;line-height:1.4}
+.alarma .boton.oscuro{background:var(--negro);color:var(--amarillo)}
+.alarma.urgente .boton.oscuro{background:var(--sobre-negro);color:var(--rojo-solido)}
+
+/* ============================================================
+   MI CURSADA EN EL INICIO
+   El organizador deja un resumen y el inicio lo lee: es lo que hace
+   que la app sepa quien es cada quien.
+   ============================================================ */
+.mi-cursada{
+  display:block;text-decoration:none;color:var(--sobre-color);
+  background:var(--amarillo);border-radius:var(--radio);
+  padding:15px;margin:14px 0 4px;box-shadow:var(--sombra)
+}
+.mi-cursada-rotulo{
+  font-size:11px;letter-spacing:.14em;text-transform:uppercase;opacity:.72
+}
+.mi-cursada strong{
+  font-family:var(--fuente-titulo);font-weight:800;font-size:21px;line-height:1.05;
+  text-transform:uppercase;display:block;margin:5px 0 11px
+}
+.mi-cursada .barra{background:rgba(26,26,26,.18);height:8px}
+.mi-cursada .barra-llena{background:var(--negro)}
+.mi-cursada-datos{
+  display:flex;justify-content:space-between;align-items:baseline;
+  margin-top:8px;font-size:14px
+}
+.mi-cursada-datos b{font-family:var(--fuente-sub);font-size:17px}
+.mi-cursada.invitacion{
+  background:var(--superficie);border:1px solid var(--linea);
+  border-left:4px solid var(--celeste);color:var(--texto)
+}
+.mi-cursada.invitacion strong{font-size:18px;margin-bottom:4px}
+.mi-cursada.invitacion p{margin:0;font-size:14.5px;line-height:1.35;color:var(--texto-suave)}
+
+/* ============================================================
+   ESQUELETOS DE CARGA
+
+   Reemplazan al texto "Cargando...". La diferencia no es estetica:
+   un cartel que dice cargando obliga a esperar sin saber que viene,
+   mientras que ver la forma del contenido antes de que llegue hace
+   sentir la espera mas corta, aunque dure lo mismo.
+
+   La regla: el esqueleto tiene que tener la MISMA forma que lo que
+   va a aparecer. Si no, cuando llega el contenido la pantalla salta.
+   ============================================================ */
+@keyframes esqueleto-brillo{
+  from{background-position:200% 0}
+  to  {background-position:-200% 0}
+}
+.esqueleto{
+  background:linear-gradient(90deg,
+    var(--superficie-2) 25%, var(--linea) 50%, var(--superficie-2) 75%);
+  background-size:200% 100%;
+  animation:esqueleto-brillo 1.6s linear infinite;
+  border-radius:6px
+}
+/* Quien pidio menos movimiento ve el bloque quieto, sin el brillo */
+@media (prefers-reduced-motion:reduce){
+  .esqueleto{animation:none}
+}
+.esq-linea{height:13px;margin-bottom:9px}
+.esq-linea.corta{width:45%}
+.esq-linea.media{width:72%}
+.esq-linea.titulo{height:17px;width:60%;margin-bottom:12px}
+
+.esq-tarjeta{
+  background:var(--superficie);border:1px solid var(--linea);
+  border-left:4px solid var(--linea);border-radius:var(--radio);
+  padding:14px;margin-bottom:10px;box-shadow:var(--sombra)
+}
+.esq-cuadro{
+  background:var(--superficie);border:1px solid var(--linea);
+  border-radius:var(--radio);aspect-ratio:1;box-shadow:var(--sombra)
+}
+.esq-calendario{
+  background:var(--superficie);border:1px solid var(--linea);
+  border-radius:var(--radio);padding:14px;box-shadow:var(--sombra)
+}
+.esq-grilla{display:grid;grid-template-columns:repeat(7,1fr);gap:4px;margin-top:12px}
+.esq-grilla .esqueleto{aspect-ratio:1;height:auto;margin:0}
+
+/* ============================================================
+   KIT DE INGRESO
+   Las primeras cosas que necesita alguien que recien llega.
+   ============================================================ */
+.kit{display:flex;flex-direction:column;gap:10px;margin-bottom:8px}
+.tarjeta-kit{
+  display:flex;align-items:flex-start;gap:13px;
+  background:var(--superficie);border:1px solid var(--linea);
+  border-left:4px solid var(--celeste);border-radius:var(--radio);
+  padding:15px;text-decoration:none;color:var(--texto);box-shadow:var(--sombra)
+}
+.tarjeta-kit:hover{border-color:var(--celeste)}
+.tarjeta-kit .kit-numero{
+  flex:0 0 auto;width:30px;height:30px;border-radius:50%;
+  background:var(--amarillo);color:var(--sobre-color);
+  display:flex;align-items:center;justify-content:center;
+  font-family:var(--fuente-sub);font-weight:800;font-size:15px
+}
+.tarjeta-kit .kit-texto{min-width:0}
+.tarjeta-kit h3{
+  font-family:var(--fuente-sub);font-weight:700;font-size:16.5px;line-height:1.15;
+  text-transform:uppercase;margin-bottom:3px
+}
+.tarjeta-kit p{margin:0;font-size:14.5px;line-height:1.35;color:var(--texto-suave)}
+
+/* ============================================================
+   BOTON FLOTANTE "AVISANOS"
+   ============================================================ */
+.avisanos{
+  position:fixed;right:14px;bottom:14px;z-index:70;
+  display:inline-flex;align-items:center;gap:9px;
+  padding:13px 18px;border-radius:99px;border:2px solid var(--sobre-negro);
+  background:var(--rojo-solido);color:var(--sobre-negro);text-decoration:none;
+  font-family:var(--fuente-sub);font-weight:700;font-size:15px;
+  box-shadow:0 4px 16px rgba(0,0,0,.28);
+  transition:transform .18s ease, box-shadow .18s ease
+}
+.avisanos svg{width:21px;height:21px;flex:0 0 auto;fill:currentColor}
+.avisanos:hover,.avisanos:focus-visible{
+  transform:translateY(-2px);box-shadow:0 7px 22px rgba(0,0,0,.34)
+}
+.avisanos:focus-visible{outline:3px solid var(--celeste);outline-offset:3px}
+
+/* El globo con la pregunta. Aparece al pasar por encima o al llegar
+   con el teclado; en el celular, donde no hay hover, sale solo a los
+   pocos segundos de abrir la pantalla y se va. */
+.avisanos-globo{
+  position:absolute;right:0;bottom:calc(100% + 10px);width:max-content;
+  max-width:min(260px,72vw);padding:11px 14px;border-radius:var(--radio);
+  background:var(--negro);color:var(--sobre-negro);
+  font-family:var(--fuente-texto);font-weight:400;font-size:14px;line-height:1.35;
+  box-shadow:0 4px 16px rgba(0,0,0,.3);
+  opacity:0;transform:translateY(6px);pointer-events:none;
+  transition:opacity .2s ease, transform .2s ease
+}
+.avisanos-globo::after{
+  content:'';position:absolute;right:26px;top:100%;
+  border:7px solid transparent;border-top-color:var(--negro)
+}
+.avisanos:hover .avisanos-globo,
+.avisanos:focus-visible .avisanos-globo,
+.avisanos.mostrando .avisanos-globo{opacity:1;transform:translateY(0)}
 
 /* ============================================================
    PANTALLAS GRANDES

@@ -317,6 +317,8 @@ function pintarNav(actual){
       </div>
     </nav>`);
 
+  pintarAvisanos();
+
   const fondo = document.getElementById('menu-fondo');
   const panel = document.getElementById('menu-lateral');
   const boton = document.getElementById('abrir-menu');
@@ -335,11 +337,55 @@ function pintarNav(actual){
   });
 }
 
+/* ------------------------------------------------------------
+   EL BOTON "AVISANOS"
+
+   Fijo abajo a la derecha, en todas las pantallas. Es la puerta
+   para contar un problema con una materia o con un docente: el tipo
+   de cosa que un centro de estudiantes puede resolver y la facultad
+   no se entera.
+
+   A DONDE LLEVA: cambiá esta linea por el link que quieran usar.
+   Puede ser un formulario, el Instagram o un correo. Mientras tanto
+   va a "Quiénes somos", donde están los contactos.
+   ------------------------------------------------------------ */
+const AVISANOS_URL = RAIZ + 'quienes/';
+
+function pintarAvisanos(){
+  if (document.querySelector('.avisanos')) return;
+
+  document.body.insertAdjacentHTML('beforeend', `
+    <a class="avisanos" id="avisanos" href="${AVISANOS_URL}"
+       aria-label="Avisanos: ¿problemas con una materia o docente?">
+      <svg viewBox="0 0 256 256" aria-hidden="true" focusable="false"><path d="M128,24A104,104,0,0,0,36.18,176.88L24.83,210.93a20,20,0,0,0,25.24,25.24l34.05-11.35A104,104,0,1,0,128,24Zm0,184a83.68,83.68,0,0,1-40.79-10.54,4,4,0,0,0-3.21-.25L49.15,208.85l11.64-34.85a4,4,0,0,0-.25-3.21A84,84,0,1,1,128,208Zm12-88a12,12,0,1,1-12-12A12,12,0,0,1,140,120Zm-12-64a12,12,0,0,0-12,12v28a12,12,0,0,0,24,0V68A12,12,0,0,0,128,56Z"/></svg>
+      <span>Avisanos</span>
+      <span class="avisanos-globo">¿Problemas con una materia o docente?</span>
+    </a>`);
+
+  /* En el celular no existe el "pasar por encima", así que el globo
+     se muestra solo un momento, una vez por visita, y se va. */
+  const boton = document.getElementById('avisanos');
+  const quieto = window.matchMedia &&
+    window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  let yaSalio = false;
+  try { yaSalio = !!sessionStorage.getItem('bolivar-avisanos-visto'); } catch(e){}
+
+  if (!yaSalio && !quieto && window.matchMedia('(hover: none)').matches){
+    setTimeout(() => {
+      boton.classList.add('mostrando');
+      setTimeout(() => boton.classList.remove('mostrando'), 4500);
+      try { sessionStorage.setItem('bolivar-avisanos-visto', '1'); } catch(e){}
+    }, 2500);
+  }
+}
+
 function htmlPie(){
   return `<footer class="pie">
       <strong>La Bolívar con vos</strong><br>
       Agrupación Simón Bolívar · Conducción del CEFTS<br>
       Facultad de Trabajo Social · UNLP
+      <span class="pie-nota">Esta app la hacemos entre nosotras y nosotros.
+        Si algo falta, está mal o no se entiende, decinos.</span>
       <a class="pie-enlace" href="${RAIZ}quienes/">¿Quiénes somos?</a>
     </footer>`;
 }

@@ -188,6 +188,55 @@ LEEME.md             ← este archivo
 **Para cambiar un color de toda la app:** abrí `estilos.css` y tocá una sola línea
 en el bloque `PANEL DE CONTROL ESTETICO` de arriba de todo.
 
+### La alarma de inscripción
+
+Es lo más útil que hace la app, y sale de un dato que ya estaba cargado: **la
+ventana para anotarse a una mesa dura exactamente 4 días**, nueve veces al año,
+y la mesa es 4 a 6 días después. Perderse esos 4 días es perder la mesa y
+esperar un mes.
+
+Por eso aparece **arriba de todo, sola**, desde 5 días antes de que abra hasta
+que cierra. El resto del año no ocupa lugar. Los últimos dos días se pone roja.
+
+No hay nada que cargar: sale de las publicaciones que dicen «Inscripción a la
+mesa de…» en la agenda.
+
+### El modo oscuro
+
+Se activa **solo**, según cómo tenga configurado el teléfono cada persona. No
+hay botón: si el celular está en oscuro, la app también.
+
+Para que funcione, en el CSS hay que usar **siempre las variables de superficie**
+(`--fondo`, `--superficie`, `--texto`, `--texto-suave`, `--linea`) y nunca
+`--blanco` o `--negro` para texto. Las que no se dan vuelta son a propósito:
+
+- `--sobre-color` — texto oscuro cuando el fondo es amarillo o celeste
+- `--sobre-negro` — texto claro cuando el fondo es la banda negra
+- `--rojo-solido` — el rojo como **fondo**. El `--rojo` normal se aclara de
+  noche para leerse como texto, pero aclarado no sirve de fondo: el blanco
+  encima cae a 3,2.
+
+Medido en las siete pantallas, **en los dos modos: cero fallos de contraste**.
+
+### Los esqueletos de carga
+
+Donde antes decía «Cargando…» ahora hay bloques grises con la forma de lo que va
+a aparecer. No es sólo estético: un cartel obliga a esperar sin saber qué viene,
+y ver la forma hace sentir la espera más corta aunque dure lo mismo.
+
+**La regla al agregar uno: tiene que tener la misma forma que el contenido
+real.** Si no, cuando llega el contenido la pantalla salta.
+
+### El botón «Avisanos»
+
+Fijo abajo a la derecha, en todas las pantallas. Al pasar por encima muestra
+«¿Problemas con una materia o docente?». En el celular, donde no existe el pasar
+por encima, el globo sale solo a los 2,5 segundos, una vez por visita.
+
+**A dónde lleva se cambia en una línea**, `AVISANOS_URL` en `app.js`. Hoy va a
+«Quiénes somos», donde están los contactos. Cuando tengan un formulario o un
+Instagram definido, se apunta ahí.
+
 ### Los colores y las dos tipografías
 
 Lo que hace que la paleta funcione no son los colores sueltos, sino **en qué
