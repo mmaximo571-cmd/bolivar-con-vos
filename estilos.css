@@ -3,28 +3,39 @@
    Para cambiar el aspecto de TODA la app, tocá solo esto.
    ============================================================ */
 :root{
-  /* --- Colores de la Agrupacion Simon Bolivar --- */
-  --amarillo:  #FFD600;   /* color de marca: fondos de impacto, acentos */
-  --negro:     #1A1A1A;   /* textos y fondos oscuros                    */
-  --rojo:      #B22222;   /* urgente, alertas, eliminar                 */
-  --turquesa:  #00BFA5;   /* gremial, confirmaciones                    */
-  --hueso:     #F5F0E8;   /* fondo general de la app                    */
-  --amarillo-marca: #F9E830; /* el amarillo del logo animado de apertura */
-  --rojo-marca:     #B62725; /* el rojo de la tinta del logo             */
-  --blanco:    #FFFFFF;   /* tarjetas                                   */
-  --gris:      #6B6B6B;   /* textos secundarios                         */
-  --borde:     #E3DDD2;   /* lineas y separadores                       */
+  /* --- Los tres colores de la Agrupacion Simon Bolivar ---
+     Amarillo: TODOS los fondos plenos de la app.
+     Celeste:  los detalles que no son texto (barras, iconos, bordes).
+     Rojo:     las palabras resaltadas.
 
-  /* --- Colores por linea editorial (los del sistema v4) --- */
+     OJO con el celeste: sobre el amarillo tiene contraste 2,8 y casi no
+     se ve. Va sobre las tarjetas blancas, donde llega a 3,5. Si algun
+     detalle tiene que ir sobre el amarillo, usar negro o rojo.
+     El blanco sobre amarillo es ilegible (1,3): nunca. */
+  --amarillo:  #F9E830;   /* fondo pleno de toda la app                 */
+  --celeste:   #0195B1;   /* detalles que no son texto                  */
+  --rojo:      #B52625;   /* palabras resaltadas, urgente, eliminar     */
+  --negro:     #1A1A1A;   /* el texto, y los bloques de mucho contraste */
+  --blanco:    #FFFFFF;   /* tarjetas                                   */
+  /* Este gris esta calculado para que se lea SOBRE EL AMARILLO. El
+     anterior (#6B6B6B) daba 4,22 y quedaba por debajo del minimo. */
+  --gris:      #5F5F5F;   /* textos secundarios                         */
+  --borde:     #E3DDD2;   /* lineas y separadores dentro de lo blanco   */
+  --hueso:     #F5F0E8;   /* superficies suaves sobre lo blanco         */
+
+  /* Tinte mas claro del celeste, para cuando hacen falta dos azules */
+  --celeste-claro: #7FC9DA;
+
+  /* --- Colores por linea editorial --- */
   --linea-frente:   #1A1A1A;
-  --linea-gremial:  #00BFA5;
-  --linea-info:     #B22222;
-  --linea-saberes:  #5DADE2;
+  --linea-gremial:  #0195B1;
+  --linea-info:     #B52625;
+  --linea-saberes:  #7FC9DA;
 
   /* --- Tipografias --- */
-  --fuente-titulo:  'Anton', sans-serif;             /* impacto, MAYUSCULAS */
-  --fuente-sub:     'Antonio', sans-serif;           /* subtitulos, botones */
-  --fuente-texto:   'Roboto Condensed', sans-serif;  /* cuerpo y datos      */
+  --fuente-titulo:  'Montserrat', sans-serif;   /* titulos, MAYUSCULAS  */
+  --fuente-sub:     'Montserrat', sans-serif;   /* subtitulos, botones  */
+  --fuente-texto:   'Roboto', sans-serif;       /* cuerpo y datos       */
 
   /* --- Medidas --- */
   --radio:       14px;   /* redondeo de tarjetas    */
@@ -42,7 +53,7 @@
 html,body{margin:0;padding:0}
 body{
   font-family:var(--fuente-texto);
-  background:var(--hueso);
+  background:var(--amarillo);
   color:var(--negro);
   font-size:16px;
   line-height:1.45;
@@ -59,20 +70,23 @@ h1,h2,h3{margin:0;font-weight:400}
 /* ============================================================
    ENCABEZADO
    ============================================================ */
-.cabecera{background:var(--negro);color:var(--blanco);padding:18px 0 20px}
+/* La cabecera y el buscador ya no son una banda negra: son el mismo
+   amarillo que el resto, y el negro pasa a estar solo en la letra. */
+.cabecera{background:var(--amarillo);color:var(--negro);padding:18px 0 20px}
 .cabecera .envoltura{display:flex;align-items:center;justify-content:space-between;gap:12px}
-.marca{font-family:var(--fuente-titulo);font-size:26px;line-height:.95;letter-spacing:.01em}
-.marca em{font-style:normal;color:var(--amarillo)}
+.marca{font-family:var(--fuente-titulo);font-size:26px;font-weight:800;line-height:.95;letter-spacing:-.01em}
+.marca em{font-style:normal;color:var(--rojo)}
 .marca small{
-  display:block;font-family:var(--fuente-texto);font-size:11px;font-weight:400;
-  letter-spacing:.14em;text-transform:uppercase;color:#9c9c9c;margin-top:5px
+  display:block;font-family:var(--fuente-texto);font-size:11px;font-weight:500;
+  letter-spacing:.14em;text-transform:uppercase;color:#6a6320;margin-top:5px
 }
 .boton-cabecera{
-  background:transparent;border:1px solid #444;color:var(--blanco);
-  font-family:var(--fuente-sub);font-size:13px;text-transform:uppercase;letter-spacing:.06em;
+  background:transparent;border:1.5px solid var(--negro);color:var(--negro);
+  font-family:var(--fuente-sub);font-size:13px;font-weight:700;
+  text-transform:uppercase;letter-spacing:.06em;
   padding:8px 12px;border-radius:99px;text-decoration:none;white-space:nowrap
 }
-.boton-cabecera:hover{border-color:var(--amarillo);color:var(--amarillo)}
+.boton-cabecera:hover{background:var(--negro);color:var(--amarillo)}
 
 /* Titulo de pantalla interna */
 .titulo-pantalla{
@@ -84,14 +98,15 @@ h1,h2,h3{margin:0;font-weight:400}
 /* ============================================================
    BUSCADOR
    ============================================================ */
-.caja-buscador{background:var(--negro);padding:0 0 22px}
+.caja-buscador{background:var(--amarillo);padding:0 0 22px}
 .buscador{position:relative}
 .buscador input{
   width:100%;font-family:var(--fuente-texto);font-size:17px;
   padding:15px 15px 15px 46px;border:none;border-radius:99px;
   background:var(--blanco);color:var(--negro);outline:none
 }
-.buscador input:focus{box-shadow:0 0 0 3px var(--amarillo)}
+/* El foco va en celeste: sobre el amarillo, un halo amarillo no se veria */
+.buscador input:focus{box-shadow:0 0 0 3px var(--celeste)}
 .buscador .lupa{
   position:absolute;left:16px;top:50%;transform:translateY(-50%);
   font-size:18px;opacity:.5;pointer-events:none
@@ -107,7 +122,8 @@ h1,h2,h3{margin:0;font-weight:400}
   border-radius:99px;padding:8px 14px;font-family:var(--fuente-sub);
   font-size:14px;letter-spacing:.02em;white-space:nowrap;color:var(--negro)
 }
-.chip[aria-pressed="true"]{background:var(--amarillo);border-color:var(--amarillo);font-weight:700}
+/* El chip elegido va en negro: el amarillo sobre amarillo desaparecia */
+.chip[aria-pressed="true"]{background:var(--negro);border-color:var(--negro);color:var(--amarillo);font-weight:700}
 
 .rejilla-categorias{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin:14px 0 26px}
 .tarjeta-categoria{
@@ -142,7 +158,7 @@ h1,h2,h3{margin:0;font-weight:400}
 .tarjeta{
   background:var(--blanco);border:1px solid var(--borde);border-radius:var(--radio);
   padding:14px;box-shadow:var(--sombra);text-align:left;width:100%;
-  display:block;text-decoration:none;border-left:4px solid var(--amarillo)
+  display:block;text-decoration:none;border-left:4px solid var(--celeste)
 }
 .tarjeta h3{
   font-family:var(--fuente-sub);font-weight:700;font-size:17px;line-height:1.15;
@@ -253,7 +269,7 @@ h1,h2,h3{margin:0;font-weight:400}
   background:var(--blanco);border-left:4px solid var(--gris)
 }
 .aviso.error{border-left-color:var(--rojo);background:#fdeaea}
-.aviso.ok{border-left-color:var(--turquesa);background:#e6f8f5}
+.aviso.ok{border-left-color:var(--celeste);background:#e6f8f5}
 
 .vacio{text-align:center;color:var(--gris);padding:34px 16px;font-size:15px}
 .cargando{text-align:center;color:var(--gris);padding:34px 16px;font-size:15px}
@@ -351,7 +367,7 @@ h1,h2,h3{margin:0;font-weight:400}
   padding:14px;box-shadow:var(--sombra);margin-bottom:18px
 }
 .barra{background:var(--borde);border-radius:99px;height:10px;overflow:hidden}
-.barra-llena{background:var(--turquesa);height:100%;border-radius:99px;transition:width .3s}
+.barra-llena{background:var(--celeste);height:100%;border-radius:99px;transition:width .3s}
 .progreso-datos{
   display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap;
   margin-top:9px;font-size:14px;color:var(--gris)
@@ -387,14 +403,14 @@ h1,h2,h3{margin:0;font-weight:400}
 /* --- Tarjeta de materia --- */
 .tarjeta.materia{border-left-color:var(--borde);cursor:pointer}
 .tarjeta.materia:hover{border-color:var(--negro)}
-.tarjeta.materia.promociona{border-left-color:var(--turquesa)}
+.tarjeta.materia.promociona{border-left-color:var(--celeste)}
 .tarjeta.materia.cursa     {border-left-color:var(--amarillo)}
 .tarjeta.materia.trabada   {border-left-color:var(--borde);opacity:.72}
 .tarjeta.materia.final     {border-left-color:var(--linea-saberes)}
 .tarjeta.materia .motivo{margin:0;color:var(--gris);font-size:14px;line-height:1.35}
 .tarjeta.materia .motivo strong{color:var(--negro)}
 
-.tarjeta.materia.estado-aprobada{border-left-color:var(--turquesa)}
+.tarjeta.materia.estado-aprobada{border-left-color:var(--celeste)}
 .tarjeta.materia.estado-cursada {border-left-color:var(--amarillo)}
 .tarjeta.materia.estado-cursando{border-left-color:var(--linea-saberes)}
 
@@ -406,7 +422,7 @@ h1,h2,h3{margin:0;font-weight:400}
 }
 .pastilla.cursando{background:var(--linea-saberes);color:var(--negro)}
 .pastilla.cursada {background:var(--amarillo);color:var(--negro)}
-.pastilla.aprobada{background:var(--turquesa);color:var(--negro)}
+.pastilla.aprobada{background:var(--celeste);color:var(--negro)}
 
 /* --- Hoja de detalle --- */
 .hoja-fondo{
@@ -414,7 +430,7 @@ h1,h2,h3{margin:0;font-weight:400}
   display:flex;align-items:flex-end;justify-content:center
 }
 .hoja{
-  background:var(--hueso);width:100%;max-width:var(--ancho-max);
+  background:var(--blanco);width:100%;max-width:var(--ancho-max);
   max-height:88vh;overflow-y:auto;position:relative;
   border-radius:var(--radio) var(--radio) 0 0;padding:20px 16px 30px
 }
@@ -435,7 +451,7 @@ h1,h2,h3{margin:0;font-weight:400}
   text-transform:uppercase;letter-spacing:.05em;line-height:1.25;
   padding:11px 13px;border-radius:var(--radio-chico);background:var(--borde)
 }
-.veredicto.promociona{background:var(--turquesa);color:var(--negro)}
+.veredicto.promociona{background:var(--celeste);color:var(--negro)}
 .veredicto.cursa     {background:var(--amarillo);color:var(--negro)}
 .veredicto.trabada   {background:var(--borde);color:var(--gris)}
 
@@ -447,7 +463,7 @@ h1,h2,h3{margin:0;font-weight:400}
 .opcion.elegida{border-color:var(--negro);font-weight:700}
 .opcion.elegida.cursando{background:var(--linea-saberes)}
 .opcion.elegida.cursada {background:var(--amarillo)}
-.opcion.elegida.aprobada{background:var(--turquesa)}
+.opcion.elegida.aprobada{background:var(--celeste)}
 
 .lista-correl{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:8px}
 .lista-correl li{
@@ -487,9 +503,9 @@ h1,h2,h3{margin:0;font-weight:400}
   width:15px;height:15px;border-radius:4px;flex:0 0 auto;
   background:var(--blanco);border:1.5px solid var(--borde)
 }
-.mapa-leyenda i.aprobada  {background:var(--turquesa);border-color:var(--turquesa)}
+.mapa-leyenda i.aprobada  {background:var(--celeste);border-color:var(--celeste)}
 .mapa-leyenda i.cursada   {background:var(--amarillo);border-color:var(--amarillo)}
-.mapa-leyenda i.promociona{border-color:var(--turquesa);border-width:2.5px}
+.mapa-leyenda i.promociona{border-color:var(--celeste);border-width:2.5px}
 .mapa-leyenda i.cursa     {border-color:var(--amarillo);border-width:2.5px}
 .mapa-leyenda i.trabada   {background:#F3F0EA}
 
@@ -522,17 +538,17 @@ h1,h2,h3{margin:0;font-weight:400}
   font-size:11.5px;font-weight:700;color:var(--negro);
   display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden
 }
-.mapa-nodo.aprobada  {background:var(--turquesa);border-color:var(--turquesa)}
+.mapa-nodo.aprobada  {background:var(--celeste);border-color:var(--celeste)}
 .mapa-nodo.cursada   {background:var(--amarillo);border-color:var(--amarillo)}
 .mapa-nodo.cursando  {border-color:var(--linea-saberes);border-width:2.5px}
-.mapa-nodo.promociona{border-color:var(--turquesa);border-width:2.5px}
+.mapa-nodo.promociona{border-color:var(--celeste);border-width:2.5px}
 .mapa-nodo.cursa     {border-color:var(--amarillo);border-width:2.5px}
 .mapa-nodo.trabada   {background:#F3F0EA}
 .mapa-nodo.trabada .nom{color:var(--gris)}
 .mapa-nodo:hover{box-shadow:0 0 0 2px var(--negro)}
 
 .mapa-arista{fill:none;stroke:var(--borde);stroke-width:1.2}
-.mapa-arista.promociona{stroke:var(--turquesa);stroke-width:2.4}
+.mapa-arista.promociona{stroke:var(--celeste);stroke-width:2.4}
 .mapa-arista.cursa     {stroke:var(--amarillo);stroke-width:2.4}
 .mapa-arista.resaltada {stroke:var(--negro);stroke-width:2.4}
 
@@ -549,7 +565,7 @@ h1,h2,h3{margin:0;font-weight:400}
    La coreografia (que capa entra cuando) esta en index.html. */
 .apertura{
   position:fixed;inset:0;z-index:200;overflow:hidden;
-  background:var(--amarillo-marca);
+  background:var(--amarillo);
   display:flex;align-items:center;justify-content:center;
   transition:opacity .35s ease
 }
@@ -590,7 +606,7 @@ body.antes-de-entrar{padding-bottom:0}
 .bienvenida{
   min-height:100vh;min-height:100dvh;display:flex;flex-direction:column;
   padding:18px 20px calc(20px + env(safe-area-inset-bottom));
-  background:var(--hueso);text-align:center
+  background:var(--amarillo);text-align:center
 }
 .bienvenida .arriba{
   flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;
@@ -615,21 +631,23 @@ body.antes-de-entrar{padding-bottom:0}
 /* ============================================================
    INICIO · tarjeta grande y recuadros
    ============================================================ */
+/* La tarjeta grande va en negro. Sobre un fondo amarillo, una tarjeta
+   amarilla desapareceria, y el celeste no sirve de fondo para texto. */
 .tarjeta-carrera{
-  display:block;text-decoration:none;color:var(--negro);
+  display:block;text-decoration:none;color:var(--blanco);
   border-radius:20px;padding:18px;margin:18px 0 12px;
   min-height:158px;box-shadow:var(--sombra);
-  background:linear-gradient(118deg,#FFD600 0%,#FFE879 34%,#8FE9DC 74%,#00BFA5 100%)
+  background:var(--negro)
 }
 .tarjeta-carrera .rotulo{
   font-size:11px;letter-spacing:.14em;text-transform:uppercase;opacity:.72
 }
-.tarjeta-carrera .nombre{
+.tarjeta-carrera .nombre{color:var(--amarillo);font-weight:800;
   font-family:var(--fuente-titulo);font-size:27px;line-height:1;
   text-transform:uppercase;margin:7px 0 12px;display:block
 }
-.tarjeta-carrera .barra{background:rgba(26,26,26,.17);height:8px}
-.tarjeta-carrera .barra-llena{background:var(--negro)}
+.tarjeta-carrera .barra{background:rgba(255,255,255,.22);height:8px}
+.tarjeta-carrera .barra-llena{background:var(--amarillo)}
 .tarjeta-carrera .cifra{
   display:flex;justify-content:space-between;align-items:baseline;gap:10px;
   margin-top:9px;font-size:14px

@@ -1,5 +1,5 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
   <rect width="64" height="64" rx="12" fill="#1A1A1A"/>
-  <text x="32" y="47" font-family="Anton, Antonio, Impact, sans-serif" font-size="44"
-        fill="#FFD600" text-anchor="middle">B</text>
+  <text x="32" y="46" font-family="Montserrat, Roboto, sans-serif" font-weight="800"
+        font-size="40" fill="#F9E830" text-anchor="middle">B</text>
 </svg>
