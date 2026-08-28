@@ -1,0 +1,28 @@
+# ============================================================
+#  Lo que NO se sube al repositorio.
+#
+#  Ojo: acá va basura del sistema, no claves. La clave que está
+#  en config.js (sb_publishable_...) es pública a propósito y
+#  TIENE que subirse, si no la app no se conecta a Supabase.
+#
+#  La que nunca va, ni acá ni en ningún archivo, es la secreta
+#  (sb_secret_...). Esa vive solo en el tablero de Supabase.
+# ============================================================
+
+# Windows
+Thumbs.db
+desktop.ini
+$RECYCLE.BIN/
+
+# macOS, por si alguien del equipo trabaja en Mac
+.DS_Store
+
+# Editores
+.vscode/
+.idea/
+*.swp
+
+# Archivos temporales de Office y de los navegadores
+~$*
+*.tmp
+*.crdownload

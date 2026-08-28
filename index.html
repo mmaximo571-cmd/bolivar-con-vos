@@ -1,0 +1,850 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>La Bolívar con vos</title>
+<meta name="description" content="Trámites, fechas y novedades de la Facultad de Trabajo Social de la UNLP. Agrupación Simón Bolívar.">
+<meta name="theme-color" content="#F9E830">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@600;700;800&family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+<!-- Iconos de la app: pestana, Google, y pantalla de inicio del celular -->
+<link rel="icon" type="image/png" sizes="32x32" href="imagenes/icono-32.png">
+<link rel="icon" type="image/png" sizes="96x96" href="imagenes/icono-96.png">
+<link rel="icon" type="image/png" sizes="192x192" href="imagenes/icono-192.png">
+<link rel="apple-touch-icon" href="imagenes/icono-apple.png">
+<link rel="manifest" href="manifest.json">
+
+<!-- Como se ve cuando alguien comparte el link por WhatsApp o Instagram -->
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="La Bolivar con vos">
+<meta property="og:title" content="La Bolívar con vos">
+<meta property="og:description" content="Trámites, fechas y novedades de la Facultad de Trabajo Social de la UNLP. Agrupación Simón Bolívar.">
+<meta property="og:image" content="https://bolivar-con-vos.vercel.app/imagenes/compartir.png">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="stylesheet" href="estilos.css">
+</head>
+<body class="antes-de-entrar">
+
+<!-- ============ 1. APERTURA (se va sola) ============
+     El logo animado de la Agrupación. Tres capas apiladas que se van
+     revelando: primero el contorno de Sudamérica dibujándose de norte
+     a sur, después SIMÓN y BOLÍVAR barriendo de izquierda a derecha. -->
+<div class="apertura" id="apertura">
+  <div class="marca-escena" id="marca-escena">
+    <div class="capa" id="capa-mapa"><img src="marca/map.png" alt=""></div>
+    <div class="capa" id="capa-simon"><img src="marca/simon.png" alt=""></div>
+    <div class="capa" id="capa-bolivar"><img src="marca/bolivar.png" alt=""></div>
+    <div class="destello" id="destello"></div>
+  </div>
+</div>
+
+<!-- ============ 2. BIENVENIDA (solo la primera vez) ============ -->
+<section class="bienvenida" id="bienvenida" hidden>
+  <div class="arriba">
+
+    <!-- El logo de verdad. Antes acá había una "B" amarilla en un cuadrado
+         negro, de cuando el ícono de la app era esa letra. El logo va en
+         rojo porque el fondo de esta pantalla es claro. -->
+    <svg class="dibujo" viewBox="0 0 280 190" role="img"
+         aria-label="Agrupación Simón Bolívar">
+      <circle cx="32" cy="40" r="20" fill="#0195B1"/>
+      <path d="M248 16l6 13.2L267 35l-13 5.9L248 54l-6-13.1L229 35l13-5.9z" fill="#B52625"/>
+      <circle cx="252" cy="158" r="13" fill="#7FC9DA"/>
+      <rect x="12" y="140" width="26" height="26" rx="7" fill="#0195B1"
+            transform="rotate(-14 25 153)"/>
+      <image href="imagenes/marca-roja.webp" x="56" y="24" width="168" height="139"/>
+    </svg>
+
+    <div>
+      <p class="quienes">Agrupación Simón Bolívar · FTS UNLP</p>
+      <h1>Lo que la facultad no te explica</h1>
+    </div>
+
+    <p class="lema">
+      Los trámites contados como se los contaríamos a una compañera, las fechas
+      que no te podés perder, y un organizador para tu cursada.
+      Sin registrarte y sin dar datos.
+    </p>
+  </div>
+
+  <div class="abajo">
+    <button class="boton oscuro ancho" id="btn-entrar">Entrar</button>
+    <a class="sin-cuenta" id="btn-cuenta" href="mi/">Ya tengo cuenta</a>
+  </div>
+</section>
+
+<!-- ============ 3. LA APP ============ -->
+<div id="app" hidden>
+
+<div id="cabecera"></div>
+
+<div class="caja-buscador">
+  <div class="envoltura">
+    <div class="buscador">
+      <span class="lupa">🔍</span>
+      <input id="busqueda" type="search" autocomplete="off"
+             placeholder="¿Qué necesitás resolver?" aria-label="Buscar trámites y preguntas">
+    </div>
+  </div>
+</div>
+
+<main class="envoltura">
+
+  <!-- Resultados de la búsqueda (solo aparecen al escribir) -->
+  <section id="zona-resultados" hidden>
+    <div class="titulo-seccion" id="titulo-resultados">RESULTADOS</div>
+    <div class="lista" id="resultados"></div>
+  </section>
+
+  <!-- Todo lo demás se esconde mientras se busca -->
+  <div id="zona-normal">
+
+    <!-- LA ALARMA: se anota sola cuando abre la inscripción a una mesa -->
+    <div id="alarma"></div>
+
+    <!-- Cómo venís con tu carrera, si usaste el organizador -->
+    <div id="mi-cursada"></div>
+
+    <!-- La portada: las ilustraciones de la facultad, deslizándose -->
+    <div class="carrusel" id="carrusel"></div>
+
+    <!-- Calendario cuadrado de lo que se viene -->
+    <div class="titulo-seccion">
+      LO QUE SE VIENE
+      <a href="agenda/">Ver fechas</a>
+    </div>
+    <div class="calendario cuadrado" id="calendario">
+      <div class="esq-calendario">
+        <div class="esqueleto esq-linea titulo"></div>
+        <div class="esq-grilla">
+          <div class="esqueleto"></div><div class="esqueleto"></div>
+          <div class="esqueleto"></div><div class="esqueleto"></div>
+          <div class="esqueleto"></div><div class="esqueleto"></div>
+          <div class="esqueleto"></div><div class="esqueleto"></div>
+          <div class="esqueleto"></div><div class="esqueleto"></div>
+          <div class="esqueleto"></div><div class="esqueleto"></div>
+          <div class="esqueleto"></div><div class="esqueleto"></div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</main>
+
+<!-- De acá hasta el piso, la ilustración de la facultad va por detrás -->
+<div class="zona-fondo" id="zona-fondo">
+  <div class="envoltura">
+
+    <!-- Los nueve accesos -->
+    <div class="titulo-seccion">A DÓNDE IR</div>
+    <div class="rejilla-3x3" id="accesos">
+      <div class="esq-cuadro"></div><div class="esq-cuadro"></div>
+      <div class="esq-cuadro"></div><div class="esq-cuadro"></div>
+      <div class="esq-cuadro"></div><div class="esq-cuadro"></div>
+      <div class="esq-cuadro"></div><div class="esq-cuadro"></div>
+      <div class="esq-cuadro"></div>
+    </div>
+
+    <!-- Para quien recién llega -->
+    <div class="titulo-seccion">SI RECIÉN EMPEZÁS</div>
+    <div class="kit" id="kit"></div>
+
+    <div class="titulo-seccion">
+      NOVEDADES
+      <a href="agenda/">Ver todas</a>
+    </div>
+    <div class="lista" id="novedades">
+      <div class="esq-tarjeta">
+        <div class="esqueleto esq-linea titulo"></div>
+        <div class="esqueleto esq-linea"></div>
+        <div class="esqueleto esq-linea media"></div>
+      </div>
+      <div class="esq-tarjeta">
+        <div class="esqueleto esq-linea titulo"></div>
+        <div class="esqueleto esq-linea"></div>
+        <div class="esqueleto esq-linea corta"></div>
+      </div>
+    </div>
+
+  </div>
+
+  <div id="pie"></div>
+</div>
+
+</div><!-- /#app -->
+
+<script>window.RAIZ = './';</script>
+<!-- La librería de Supabase vive ACÁ ADENTRO, no en un servidor ajeno.
+     Versión 2.112.4, congelada. Antes se bajaba de cdn.jsdelivr.net en
+     cada visita: si esa descarga fallaba, la app quedaba en «Cargando…». -->
+<script src="lib/supabase.js"></script>
+<script src="config.js"></script>
+<script src="iconos.js"></script>
+<script src="app.js"></script>
+<script>
+(async function inicio(){
+
+  /* ============================================================
+     LAS TRES ETAPAS DE LA APERTURA
+
+     1. La animación: se ve una vez por visita. Si volvés desde
+        Trámites, no la ves de nuevo (por eso sessionStorage).
+     2. La bienvenida: solo la primerísima vez, nunca más
+        (por eso localStorage).
+     3. La app.
+
+     Mientras tanto los datos ya se están pidiendo, así que cuando
+     la animación termina la pantalla suele estar lista.
+     ============================================================ */
+  const LLAVE_BIENVENIDA = 'bolivar-bienvenida-vista';
+  const LLAVE_APERTURA   = 'bolivar-apertura-vista';
+
+  const capaApertura   = document.getElementById('apertura');
+  const capaBienvenida = document.getElementById('bienvenida');
+  const capaApp        = document.getElementById('app');
+
+  /* La cabecera y el pie se arman ANTES que nada: pintarNav necesita
+     que la cabecera ya exista para colgarle las secciones debajo. */
+  document.getElementById('cabecera').innerHTML = htmlCabecera();
+  document.getElementById('pie').innerHTML = htmlPie();
+
+  function guardado(almacen, llave){
+    try { return almacen.getItem(llave); } catch(e){ return null; }
+  }
+  function guardar(almacen, llave){
+    try { almacen.setItem(llave, '1'); } catch(e){ /* modo incógnito */ }
+  }
+
+  function mostrarApp(){
+    capaBienvenida.hidden = true;
+    capaApp.hidden = false;
+    /* Recién acá aparece la navegación, así que recién acá le
+       devolvemos al body su espaciado normal. */
+    document.body.classList.remove('antes-de-entrar');
+    if (!document.querySelector('.secciones')) pintarNav('inicio');
+  }
+
+  function mostrarBienvenida(){
+    capaBienvenida.hidden = false;
+    document.getElementById('btn-entrar').addEventListener('click', () => {
+      guardar(localStorage, LLAVE_BIENVENIDA);
+      mostrarApp();
+    });
+    /* El que ya tiene cuenta también vio la bienvenida: no se la
+       mostramos otra vez cuando vuelva. */
+    document.getElementById('btn-cuenta').addEventListener('click', () => {
+      guardar(localStorage, LLAVE_BIENVENIDA);
+    });
+  }
+
+  function seguirDespuesDeLaApertura(){
+    if (guardado(localStorage, LLAVE_BIENVENIDA)) mostrarApp();
+    else mostrarBienvenida();
+  }
+
+  /* ============================================================
+     LA APERTURA: el logo animado de la Agrupación
+
+     Viene del proyecto de Claude Design «Animación logo Simón Bolívar».
+     Allá la animación dura 8,8 segundos y va en loop, porque está
+     pensada como pieza de video. Acá es la puerta de entrada a la app,
+     así que se reproduce UNA vez y comprimida.
+
+     La coreografía es exactamente la del diseño. Para que quede fiel,
+     el reloj interno sigue contando en los 8,8 segundos originales y lo
+     único que cambia es a qué velocidad avanza. Así que si querés que
+     dure más o menos, tocá SOLO esta línea:
+     ============================================================ */
+  const DURACION_APERTURA = 2.6;   // segundos que dura en la app
+
+  const TOTAL_ORIGINAL = 8.8;
+  /* Cada escena empieza donde termina la anterior (3 + 2,2 + 2,6 + 1) */
+  const CUE = { tinta:0, palabras:3, respiro:5.2, salida:7.8 };
+
+  /* Las curvas de movimiento del diseño original */
+  const suaveFinal  = t => 1 - Math.pow(1 - t, 3);          // easeOutCubic
+  const suaveAmbos  = t => -(Math.cos(Math.PI * t) - 1) / 2; // easeInOutSine
+  const suaveCuad   = t => t < 0.5 ? 2*t*t : 1 - Math.pow(-2*t + 2, 2) / 2;
+
+  const topar = (v, a, b) => Math.min(b, Math.max(a, v));
+
+  /* Interpola de "desde" a "hasta" entre dos momentos del guión */
+  function tramo(desde, hasta, arranca, termina, curva){
+    return t => {
+      if (t <= arranca) return desde;
+      if (t >= termina) return hasta;
+      return desde + (hasta - desde) * curva((t - arranca) / (termina - arranca));
+    };
+  }
+
+  /* Las máscaras: una franja que barre y va destapando la capa */
+  const mascaraMapa = p =>
+    `linear-gradient(to bottom, #000 0%, #000 ${p*100 - 3}%,` +
+    ` rgba(0,0,0,0) ${p*100 + 3}%, rgba(0,0,0,0) 100%)`;
+  const mascaraPalabra = p =>
+    `linear-gradient(to right, #000 0%, #000 ${p*100 - 6}%,` +
+    ` rgba(0,0,0,0) ${p*100 + 6}%, rgba(0,0,0,0) 100%)`;
+
+  function pintarCuadro(T, escena, capas){
+    const dibujo = tramo(0, 1, CUE.tinta + 0.3, CUE.tinta + 2.5, suaveAmbos)(T);
+    ponerMascara(capas.mapa, mascaraMapa(dibujo));
+
+    /* SIMÓN entra primero, BOLÍVAR un poco después */
+    const p1 = tramo(0, 1, CUE.palabras - 0.2,  CUE.palabras + 1.0,  suaveFinal)(T);
+    const p2 = tramo(0, 1, CUE.palabras + 0.35, CUE.palabras + 1.55, suaveFinal)(T);
+    [[capas.simon, p1], [capas.bolivar, p2]].forEach(([capa, p]) => {
+      ponerMascara(capa, mascaraPalabra(p));
+      capa.style.transform = `translateX(${-(1 - p) * 26}px)`;
+    });
+
+    /* El logo se asienta y después respira */
+    const asiento  = tramo(1.035, 1, CUE.tinta, CUE.palabras + 1.2, suaveFinal)(T);
+    const respiro  = 1 + 0.005 * Math.sin((T - CUE.respiro) * 1.15);
+    const salida   = tramo(0, 1, CUE.salida + 0.1, CUE.salida + 0.85, suaveCuad)(T);
+
+    escena.style.transform = `scale(${escala() * asiento * respiro * (1 + 0.05 * salida)})`;
+    escena.style.opacity   = 1 - salida;
+
+    /* El destello de luz que cruza la marca */
+    const destelloX = tramo(-60, 160, CUE.respiro + 0.2, CUE.respiro + 1.9, suaveCuad)(T);
+    capas.destello.style.left = destelloX + '%';
+    capas.destello.style.opacity =
+      topar(Math.sin(Math.PI * topar((T - CUE.respiro - 0.2) / 1.7, 0, 1)), 0, 1) * 0.55;
+  }
+
+  function ponerMascara(el, valor){
+    el.style.webkitMaskImage = valor;
+    el.style.maskImage = valor;
+  }
+
+  /* La tinta del dibujo ocupa 805x664 dentro del lienzo de 1080x1350.
+     Si el navegador todavía no sabe cuánto mide la ventana devuelve 0, y
+     entonces el logo quedaría en tamaño cero: por eso el piso. */
+  function escala(){
+    const an = innerWidth  || document.documentElement.clientWidth  || 360;
+    const al = innerHeight || document.documentElement.clientHeight || 640;
+    return Math.max(0.05, Math.min((an * 0.78) / 805, (al * 0.66) / 664));
+  }
+
+  (function apertura(){
+    /* Si ya la vio en esta visita, no la repetimos */
+    if (guardado(sessionStorage, LLAVE_APERTURA)){
+      capaApertura.remove();
+      seguirDespuesDeLaApertura();
+      return;
+    }
+    guardar(sessionStorage, LLAVE_APERTURA);
+
+    const escena = document.getElementById('marca-escena');
+    const capas = {
+      mapa:     document.getElementById('capa-mapa'),
+      simon:    document.getElementById('capa-simon'),
+      bolivar:  document.getElementById('capa-bolivar'),
+      destello: document.getElementById('destello')
+    };
+
+    let terminada = false;
+    function cerrar(){
+      if (terminada) return;
+      terminada = true;
+      capaApertura.classList.add('yendose');
+      setTimeout(() => capaApertura.remove(), 380);
+      seguirDespuesDeLaApertura();
+    }
+
+    /* Se puede saltear tocando la pantalla: nadie tiene que esperar */
+    capaApertura.addEventListener('click', cerrar);
+
+    /* Red de seguridad. El navegador congela requestAnimationFrame cuando
+       la pestaña no está a la vista, así que si alguien abre la app en una
+       pestaña de fondo la animación se pausa a mitad de camino. Sin esto,
+       al volver se encontraría la apertura colgada y la app inalcanzable. */
+    setTimeout(cerrar, DURACION_APERTURA * 1000 + 2600);
+
+    const sinMovimiento = window.matchMedia &&
+      window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+    if (sinMovimiento){
+      /* Sin animación: mostramos el logo ya armado y seguimos */
+      pintarCuadro(CUE.respiro + 0.9, escena, capas);
+      setTimeout(cerrar, 700);
+      return;
+    }
+
+    /* Las tres capas tienen que estar cargadas antes de empezar, si no
+       la animación arranca con la pantalla vacía. Pero nadie espera para
+       siempre: si tardan, se entra igual a la app. */
+    const imagenes = [capas.mapa, capas.simon, capas.bolivar]
+      .map(c => c.querySelector('img'));
+
+    const listas = Promise.all(imagenes.map(img => img.complete
+      ? Promise.resolve()
+      : new Promise(res => { img.onload = res; img.onerror = res; })));
+
+    const seCansoDeEsperar = new Promise(res => setTimeout(res, 1800));
+
+    /* Antes de que carguen no se ve nada más que el amarillo */
+    escena.style.opacity = 0;
+
+    Promise.race([listas, seCansoDeEsperar]).then(() => {
+      if (terminada) return;
+      if (!imagenes.every(i => i.complete && i.naturalWidth)){ cerrar(); return; }
+
+      escena.style.opacity = 1;
+      const arranque = performance.now();
+
+      (function cuadro(ahora){
+        if (terminada) return;
+        const transcurrido = (ahora - arranque) / 1000;
+        const T = (transcurrido / DURACION_APERTURA) * TOTAL_ORIGINAL;
+        pintarCuadro(Math.min(T, TOTAL_ORIGINAL), escena, capas);
+        if (transcurrido >= DURACION_APERTURA) cerrar();
+        else requestAnimationFrame(cuadro);
+      })(arranque);
+    });
+  })();
+
+
+  /* ---------- Traemos todo de una sola vez ---------- */
+  let categorias = [], tramites = [], preguntas = [], publicaciones = [];
+
+  try {
+    const [rCat, rTra, rFaq, rPub] = await conPaciencia(Promise.all([
+      db.from('categorias').select('*').order('orden'),
+      db.from('tramites').select('id,titulo,resumen,categoria_id,palabras_clave')
+        .eq('publicado', true).order('orden'),
+      db.from('faq').select('id,pregunta,respuesta,categoria_id')
+        .eq('publicado', true).order('orden'),
+      db.from('publicaciones').select('*').eq('publicado', true)
+        .order('creado_at', { ascending:false })
+    ]));
+    for (const r of [rCat, rTra, rFaq, rPub]) if (r.error) throw r.error;
+    categorias = rCat.data; tramites = rTra.data;
+    preguntas = rFaq.data;  publicaciones = rPub.data;
+  } catch (e) {
+    mostrarError(document.getElementById('zona-normal'), e, 'cargar la información');
+    return;
+  }
+  /* ============================================================
+     LA ALARMA DE INSCRIPCIÓN
+
+     Es lo más útil que hace esta app, y sale de un dato que ya
+     estaba cargado: la ventana para anotarse a una mesa dura
+     EXACTAMENTE 4 días, nueve veces al año, y la mesa es 4 a 6 días
+     después. Perderse esos 4 días es perder la mesa y esperar un mes.
+
+     Por eso la alarma aparece arriba de todo, sola, desde 5 días
+     antes de que abra hasta que cierra. El resto del año no está.
+     ============================================================ */
+  (function pintarAlarma(){
+    const caja = document.getElementById('alarma');
+    const hoy  = hoyISO();
+    const enDias = (desde, hasta) =>
+      Math.round((new Date(hasta) - new Date(desde)) / 86400000);
+
+    const inscripciones = publicaciones
+      .filter(p => /^inscripción a la mesa/i.test(p.titulo || '') && p.fecha_desde)
+      .map(p => ({ ...p,
+        abre:   p.fecha_desde.slice(0,10),
+        cierra: (p.fecha_hasta || p.fecha_desde).slice(0,10) }))
+      .sort((a,b) => a.abre.localeCompare(b.abre));
+
+    /* La que está abierta ahora, o la próxima si abre en 5 días o menos */
+    const abierta = inscripciones.find(i => hoy >= i.abre && hoy <= i.cierra);
+    const porAbrir = inscripciones.find(i => i.abre > hoy && enDias(hoy, i.abre) <= 5);
+    const i = abierta || porAbrir;
+    if (!i){ caja.innerHTML = ''; return; }
+
+    /* La mesa correspondiente, para decir para cuándo es */
+    const mes = (t) => (/de (\w+)$/.exec(t || '') || [])[1];
+    const mesa = publicaciones.find(p =>
+      /^mesa de examen/i.test(p.titulo || '') && mes(p.titulo) === mes(i.titulo));
+
+    let titulo, cuerpo, urgente;
+    if (abierta){
+      const quedan = enDias(hoy, i.cierra);
+      urgente = quedan <= 1;
+      titulo = quedan === 0 ? 'Hoy cierra la inscripción'
+             : quedan === 1 ? 'Mañana cierra la inscripción'
+             : `Quedan ${quedan} días para anotarte`;
+      cuerpo = `La inscripción a la mesa de ${esc(mes(i.titulo))} está abierta ` +
+               `hasta el ${esc(fechaLinda(i.cierra))}.`;
+    } else {
+      const faltan = enDias(hoy, i.abre);
+      urgente = false;
+      titulo = faltan === 1 ? 'Mañana abre la inscripción'
+                            : `Faltan ${faltan} días para anotarte`;
+      cuerpo = `La inscripción a la mesa de ${esc(mes(i.titulo))} abre el ` +
+               `${esc(fechaLinda(i.abre))} y cierra el ${esc(fechaLinda(i.cierra))}.`;
+    }
+    if (mesa) cuerpo += ` La mesa es el ${esc(fechaLinda(mesa.fecha_desde))}.`;
+
+    caja.innerHTML = `
+      <div class="alarma${urgente ? ' urgente' : ''}">
+        <div class="alarma-texto">
+          <strong>${esc(titulo)}</strong>
+          <p>${cuerpo}</p>
+        </div>
+        <a class="boton oscuro ancho"
+           href="https://autogestion.guarani.unlp.edu.ar/"
+           target="_blank" rel="noopener">Anotarme en el SIU Guaraní ↗</a>
+      </div>`;
+  })();
+
+  /* ---------- Cómo venís con tu carrera ----------
+     El organizador deja un resumen en el teléfono. Acá lo usamos para
+     que el inicio sepa quién es cada quien, en vez de mostrarle lo
+     mismo a un ingresante y a alguien de quinto. */
+  (function pintarMiCursada(){
+    const caja = document.getElementById('mi-cursada');
+    let r = null;
+    try { r = JSON.parse(localStorage.getItem('bolivar-carrera-resumen')); } catch(e){}
+
+    if (!r || !r.total){
+      caja.innerHTML = `
+        <a class="mi-cursada invitacion" href="carrera/">
+          <strong>Armá tu cursada</strong>
+          <p>Marcá las materias que ya hiciste y la app te dice qué podés
+             cursar y qué podés promocionar.</p>
+        </a>`;
+      return;
+    }
+    const pct = Math.round(r.aprobadas / r.total * 100);
+    caja.innerHTML = `
+      <a class="mi-cursada" href="carrera/">
+        <span class="mi-cursada-rotulo">Mi cursada</span>
+        <strong>${esc(r.carrera)}</strong>
+        <div class="barra"><div class="barra-llena" style="width:${pct}%"></div></div>
+        <div class="mi-cursada-datos">
+          <span><b>${r.aprobadas}</b> de ${r.total} materias</span>
+          <span>${pct}%</span>
+        </div>
+      </a>`;
+  })();
+
+  /* ---------- Kit de ingreso ----------
+     Las primeras cosas que necesita quien recién llega. Los enlaces
+     apuntan a categorías que ya existen; si alguna no tiene contenido
+     todavía, la tarjeta igual sirve como puerta. */
+  (function pintarKit(){
+    const buscarCat = (texto) => {
+      const c = categorias.find(x => normalizar(x.nombre).includes(normalizar(texto)));
+      return c ? 'tramites/?categoria=' + c.id : 'tramites/';
+    };
+    const kit = [
+      { titulo:'Trámites básicos',
+        texto:'Lo primero que vas a tener que hacer sí o sí: inscribirte, sacar constancias, anotarte a finales.',
+        url: buscarCat('Inscripciones') },
+      { titulo:'Glosario universitario',
+        texto:'Qué es una cursada, un final, una promoción, una correlativa. Las palabras que todos usan y nadie te explica.',
+        url:'quienes/' },
+      { titulo:'Aulas y fotocopiadoras',
+        texto:'Dónde queda cada cosa adentro de la facultad, los horarios de la sala de informática y dónde conseguir los apuntes.',
+        url: buscarCat('Dónde curso') }
+    ];
+    document.getElementById('kit').innerHTML = kit.map((k, n) => `
+      <a class="tarjeta-kit" href="${k.url}">
+        <span class="kit-numero">${n + 1}</span>
+        <span class="kit-texto">
+          <h3>${esc(k.titulo)}</h3>
+          <p>${esc(k.texto)}</p>
+        </span>
+      </a>`).join('');
+  })();
+
+  /* ---------- La portada: el carrusel de ilustraciones ---------- */
+  (function pintarCarrusel(){
+    const laminas = [
+      { img:'imagenes/facultad-fachada.webp', pie:'Facultad de Trabajo Social · UNLP' },
+      { img:'imagenes/facultad-patio.webp',   pie:'El patio, donde pasa todo lo demás' }
+    ];
+    const caja = document.getElementById('carrusel');
+
+    caja.innerHTML =
+      `<div class="carrusel-pista" id="carrusel-pista">` +
+      /* La primera lámina se carga de entrada: es lo primero que se ve
+         al abrir. Las demás esperan, que para eso está el lazy. */
+      laminas.map((l,i) => `<div class="carrusel-lamina">
+          <img src="${l.img}" alt=""
+               loading="${i === 0 ? 'eager' : 'lazy'}"
+               ${i === 0 ? 'fetchpriority="high"' : ''}>
+          <div class="carrusel-pie">${esc(l.pie)}</div>
+        </div>`).join('') +
+      `</div>
+       <div class="carrusel-puntos" id="carrusel-puntos">` +
+      laminas.map((l,i) => `<button data-i="${i}" aria-label="Ver la imagen ${i+1}"
+          aria-current="${i===0}"></button>`).join('') + `</div>`;
+
+    const pista  = document.getElementById('carrusel-pista');
+    const puntos = document.getElementById('carrusel-puntos');
+    let actual = 0, solo = false;
+
+    function ir(i){
+      actual = (i + laminas.length) % laminas.length;
+      pista.style.transform = `translateX(-${actual * 100}%)`;
+      puntos.querySelectorAll('button').forEach((b,n) =>
+        b.setAttribute('aria-current', n === actual));
+    }
+    puntos.addEventListener('click', e => {
+      const b = e.target.closest('button');
+      if (b){ solo = true; ir(+b.dataset.i); }
+    });
+
+    /* Se desliza solo, salvo que la persona ya haya elegido una, o que
+       tenga pedido menos movimiento en el teléfono. */
+    const quieto = window.matchMedia &&
+      window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if (!quieto && laminas.length > 1){
+      setInterval(() => { if (!solo) ir(actual + 1); }, 5000);
+    }
+  })();
+
+  /* ---------- Calendario cuadrado de lo que se viene ----------
+
+     En el calendario del inicio NO va todo lo de la agenda: van solo
+     las mesas de examen y los asuetos. El resto (desarrollo de
+     seminarios, ultimos plazos, inscripciones) sigue estando en la
+     agenda, pero acá ensuciaba y tapaba lo importante.
+
+     Si mañana hay que sumar o sacar una familia de fechas, se toca
+     SOLO esta lista.                                                */
+  const QUE_VA_AL_CALENDARIO = [
+    { id:'mesa',   nombre:'Mesas de examen',
+      prueba: t => /^mesa de examen/i.test(t) },
+    { id:'asueto', nombre:'Asuetos y recesos',
+      prueba: t => /^receso|^d[ií]a de la universidad|^d[ií]a del estudiante|^d[ií]a del trabajador|^semana de la memoria/i.test(t) }
+  ];
+
+  function familiaDe(p){
+    const f = QUE_VA_AL_CALENDARIO.find(x => x.prueba(p.titulo || ''));
+    return f ? f.id : null;
+  }
+
+  (function pintarCalendario(){
+    const caja = document.getElementById('calendario');
+    const hoy  = partesFecha(hoyISO());
+    let mes = hoy.mes, anio = hoy.anio, elegido = null;
+
+    /* Solo las que pasan el filtro, y solo si tienen fecha */
+    const enCalendario = publicaciones
+      .filter(p => p.fecha_desde && familiaDe(p))
+      .map(p => ({
+        ...p,
+        familia: familiaDe(p),
+        desde: p.fecha_desde.slice(0,10),
+        hasta: (p.fecha_hasta || p.fecha_desde).slice(0,10)
+      }));
+
+    const delDia = iso => enCalendario.filter(p => iso >= p.desde && iso <= p.hasta);
+
+    function dibujar(){
+      const primero = new Date(anio, mes-1, 1);
+      const cuantos = new Date(anio, mes, 0).getDate();
+      /* getDay(): 0 es domingo. Acá la semana arranca el lunes. */
+      const arranca = (primero.getDay() + 6) % 7;
+      const dd = n => String(n).padStart(2,'0');
+      const iso = d => `${anio}-${dd(mes)}-${dd(d)}`;
+
+      let celdas = '';
+      for (let i = 0; i < arranca; i++) celdas += `<div class="cal-dia vacio"></div>`;
+
+      for (let d = 1; d <= cuantos; d++){
+        const hoyIso = iso(d);
+        const cosas  = delDia(hoyIso);
+        const fam    = cosas.length ? cosas[0].familia : null;
+
+        /* La barrita: se estira sobre los dias seguidos de la misma
+           familia, asi una mesa de dos semanas se lee como una franja
+           continua y no como doce puntitos sueltos. */
+        let barra = '';
+        if (fam){
+          const anterior = d > 1 && delDia(iso(d-1)).some(c => c.familia === fam);
+          const siguiente = d < cuantos && delDia(iso(d+1)).some(c => c.familia === fam);
+          barra = `<span class="cal-barra ${fam}${anterior ? ' sigue-izq' : ''}${
+                     siguiente ? ' sigue-der' : ''}"></span>`;
+        }
+
+        celdas += `<button class="cal-dia${fam ? ' con-cosas ' + fam : ''}${
+            hoyIso === hoyISO() ? ' hoy' : ''}"
+            data-iso="${hoyIso}" aria-pressed="${hoyIso === elegido}"
+            ${fam ? '' : 'tabindex="-1"'}>
+            <span class="cal-numero">${d}</span>${barra}
+          </button>`;
+      }
+
+      caja.innerHTML = `
+        <div class="cal-cabecera">
+          <button class="cal-flecha" data-paso="-1" aria-label="Mes anterior">‹</button>
+          <div class="cal-mes">${esc(MESES_LARGO[mes-1])} ${anio}</div>
+          <button class="cal-flecha" data-paso="1" aria-label="Mes siguiente">›</button>
+        </div>
+        <div class="cal-grilla">
+          ${['L','M','X','J','V','S','D'].map(d =>
+              `<div class="cal-nombre-dia">${d}</div>`).join('')}
+          ${celdas}
+        </div>
+        ${leyendaDelMes()}
+        <div class="cal-elegido" id="cal-elegido"></div>`;
+
+      pintarElegido();
+    }
+
+    /* La leyenda: dice con todas las letras cuándo cae cada cosa este
+       mes. Es lo que convierte una grilla de números en información. */
+    function leyendaDelMes(){
+      const primero = `${anio}-${String(mes).padStart(2,'0')}-01`;
+      const ultimo  = `${anio}-${String(mes).padStart(2,'0')}-${new Date(anio,mes,0).getDate()}`;
+      const delMes = enCalendario
+        .filter(p => p.desde <= ultimo && p.hasta >= primero)
+        .sort((a,b) => a.desde.localeCompare(b.desde));
+
+      if (!delMes.length){
+        return `<div class="cal-leyenda vacia">Este mes no hay mesas ni asuetos.</div>`;
+      }
+      return `<div class="cal-leyenda">` + delMes.map(p =>
+        `<div class="cal-leyenda-fila">
+           <span class="cal-marca ${p.familia}"></span>
+           <span class="cal-leyenda-texto">
+             <strong>${esc(p.titulo)}</strong>
+             <small>${esc(rangoLindo(p.fecha_desde, p.fecha_hasta))}</small>
+           </span>
+         </div>`).join('') + `</div>`;
+    }
+
+    function pintarElegido(){
+      const zona = document.getElementById('cal-elegido');
+      if (!elegido){ zona.innerHTML = ''; return; }
+      const cosas = delDia(elegido);
+      zona.innerHTML = cosas.length ? tarjetas(cosas)
+        : `<div class="vacio">Ese día no hay nada cargado.</div>`;
+    }
+
+    function tarjetas(lista){
+      return lista.map(p => `<a class="tarjeta ${esc(p.linea)}" href="agenda/?id=${p.id}">
+          <span class="etiqueta ${esc(p.linea)}">${esc(NOMBRE_LINEA[p.linea] || p.linea)}</span>
+          <h3>${esc(p.titulo)}</h3>
+          <p>${esc(rangoLindo(p.fecha_desde, p.fecha_hasta))}${
+             p.hora ? ' · ' + esc(p.hora) : ''}${p.lugar ? ' · ' + esc(p.lugar) : ''}</p>
+        </a>`).join('');
+    }
+
+    caja.addEventListener('click', e => {
+      const flecha = e.target.closest('.cal-flecha');
+      if (flecha){
+        mes += +flecha.dataset.paso;
+        if (mes < 1){ mes = 12; anio--; }
+        if (mes > 12){ mes = 1;  anio++; }
+        elegido = null; dibujar(); return;
+      }
+      const dia = e.target.closest('.cal-dia');
+      if (dia && !dia.classList.contains('vacio')){
+        elegido = (elegido === dia.dataset.iso) ? null : dia.dataset.iso;
+        dibujar();
+      }
+    });
+
+    dibujar();
+  })();
+
+  /* ---------- Los nueve accesos ---------- */
+  (function pintarAccesos(){
+    /* El organizador primero y destacado; después las categorías que
+       tengan algo adentro, hasta completar los nueve. */
+    const conContenido = categorias.filter(c =>
+      tramites.some(t => t.categoria_id === c.id) ||
+      preguntas.some(p => p.categoria_id === c.id));
+
+    /* iconoDeCategoria devuelve el SVG si ya lo cargamos, y si no el
+       emoji de la base. Así se pueden ir reemplazando de a uno. */
+    const accesos = [{ dibujo: icono('carrera') || '🎓',
+                       nombre:'Mi año',
+                       url:'carrera/', destacado:true },
+                     { dibujo: icono('estudiemos') || '📚',
+                       nombre:'Estudiemos',
+                       url:'estudiemos/' }].concat(
+      conContenido.slice(0, 7).map(c => ({
+        dibujo: iconoDeCategoria(c), nombre: c.nombre,
+        url: 'tramites/?categoria=' + c.id
+      })));
+
+    document.getElementById('accesos').innerHTML = accesos.map(a =>
+      `<a class="boton-cuadro${a.destacado ? ' destacado' : ''}" href="${a.url}">
+         <span class="icono">${a.dibujo}</span>
+         <span class="nombre">${esc(a.nombre)}</span>
+       </a>`).join('');
+  })();
+
+  /* ---------- Novedades ---------- */
+  (function pintarNovedades(){
+    const caja = document.getElementById('novedades');
+    const novedades = publicaciones.filter(p => p.tipo === 'novedad').slice(0, 3);
+    if (!novedades.length){
+      caja.innerHTML = '<div class="vacio">Todavía no hay novedades publicadas.</div>';
+      return;
+    }
+    caja.innerHTML = novedades.map(p => `
+        <a class="tarjeta ${esc(p.linea)}" href="agenda/?id=${p.id}">
+          <span class="etiqueta ${esc(p.linea)}">${esc(NOMBRE_LINEA[p.linea] || p.linea)}</span>
+          <h3>${esc(p.titulo)}</h3>
+          ${p.cuerpo ? `<p>${esc(p.cuerpo.slice(0,140))}${p.cuerpo.length > 140 ? '…' : ''}</p>` : ''}
+        </a>`).join('');
+  })();
+
+  /* ---------- Buscador ---------- */
+  const entrada    = document.getElementById('busqueda');
+  const zonaRes    = document.getElementById('zona-resultados');
+  const zonaNormal = document.getElementById('zona-normal');
+  const zonaFondo   = document.getElementById('zona-fondo');
+  const listaRes   = document.getElementById('resultados');
+  const tituloRes  = document.getElementById('titulo-resultados');
+
+  entrada.addEventListener('input', function(){
+    const q = normalizar(entrada.value.trim());
+
+    if (q.length < 2){
+      zonaRes.hidden = true;
+      zonaNormal.hidden = false; zonaFondo.hidden = false;
+      return;
+    }
+    zonaRes.hidden = false;
+    zonaNormal.hidden = true;  zonaFondo.hidden = true;
+
+    const tHit = tramites.filter(t =>
+      normalizar(t.titulo + ' ' + (t.resumen || '') + ' ' + (t.palabras_clave || '')).includes(q));
+    const fHit = preguntas.filter(p =>
+      normalizar(p.pregunta + ' ' + p.respuesta).includes(q));
+
+    const total = tHit.length + fHit.length;
+    tituloRes.textContent = total
+      ? `${total} ${total === 1 ? 'RESULTADO' : 'RESULTADOS'}`
+      : 'SIN RESULTADOS';
+
+    if (!total){
+      listaRes.innerHTML = `<div class="vacio">
+          No encontramos nada con «${esc(entrada.value.trim())}».<br>
+          Probá con otra palabra, o escribinos por Instagram y lo resolvemos a mano.
+        </div>`;
+      return;
+    }
+
+    listaRes.innerHTML =
+      tHit.map(t => `
+        <a class="tarjeta" href="tramites/?id=${t.id}">
+          <h3>${esc(t.titulo)}</h3>
+          ${t.resumen ? `<p>${esc(t.resumen)}</p>` : ''}
+          <div class="meta"><span>Trámite</span></div>
+        </a>`).join('') +
+      fHit.map(p => `
+        <a class="tarjeta" href="tramites/?faq=${p.id}">
+          <h3>${esc(p.pregunta)}</h3>
+          <p>${esc(p.respuesta.slice(0,140))}${p.respuesta.length > 140 ? '…' : ''}</p>
+          <div class="meta"><span>Pregunta frecuente</span></div>
+        </a>`).join('');
+  });
+
+})();
+</script>
+</body>
+</html>

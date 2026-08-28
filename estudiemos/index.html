@@ -1,0 +1,188 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Estudiemos · La Bolívar con vos</title>
+<meta name="description" content="Apuntes, resúmenes y material de los grupos de estudio de la Facultad de Trabajo Social de la UNLP.">
+<meta name="theme-color" content="#F9E830">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@600;700;800&family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+<!-- Iconos de la app: pestana, Google, y pantalla de inicio del celular -->
+<link rel="icon" type="image/png" sizes="32x32" href="../imagenes/icono-32.png">
+<link rel="icon" type="image/png" sizes="96x96" href="../imagenes/icono-96.png">
+<link rel="icon" type="image/png" sizes="192x192" href="../imagenes/icono-192.png">
+<link rel="apple-touch-icon" href="../imagenes/icono-apple.png">
+<link rel="manifest" href="../manifest.json">
+
+<!-- Como se ve cuando alguien comparte el link por WhatsApp o Instagram -->
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="La Bolivar con vos">
+<meta property="og:title" content="Estudiemos · La Bolívar con vos">
+<meta property="og:description" content="Apuntes, resúmenes y material de los grupos de estudio de la Facultad de Trabajo Social de la UNLP.">
+<meta property="og:image" content="https://bolivar-con-vos.vercel.app/imagenes/compartir.png">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="stylesheet" href="../estilos.css">
+</head>
+<body>
+
+<div id="cabecera"></div>
+
+<main class="envoltura">
+  <h1 class="titulo-pantalla">Estudiemos</h1>
+  <p class="bajada">
+    Apuntes, resúmenes y parciales que compartimos entre todas y todos.
+    Lo que a vos te sirvió, a otra persona le puede salvar la cursada.
+  </p>
+
+  <div class="buscador" style="margin-bottom:6px">
+    <span class="lupa">🔍</span>
+    <input id="filtro" type="search" autocomplete="off"
+           placeholder="Buscar por materia o tema…" aria-label="Buscar material">
+  </div>
+
+  <div class="chips" id="chips"></div>
+
+  <div id="lista" style="margin-top:10px">
+    <div class="esq-tarjeta"><div class="esqueleto esq-linea titulo"></div><div class="esqueleto esq-linea"></div><div class="esqueleto esq-linea media"></div></div>
+    <div class="esq-tarjeta"><div class="esqueleto esq-linea titulo"></div><div class="esqueleto esq-linea"></div><div class="esqueleto esq-linea corta"></div></div>
+  </div>
+</main>
+
+<div class="zona-fondo">
+  <div id="pie"></div>
+</div>
+
+<script>window.RAIZ = '../';</script>
+<!-- La librería de Supabase vive ACÁ ADENTRO, no en un servidor ajeno. -->
+<script src="../lib/supabase.js"></script>
+<script src="../config.js"></script>
+<script src="../iconos.js"></script>
+<script src="../app.js"></script>
+<script>
+(async function estudiemos(){
+
+  document.getElementById('cabecera').innerHTML = htmlCabecera();
+  document.getElementById('pie').innerHTML = htmlPie();
+  pintarNav('estudiemos');
+
+  const lista  = document.getElementById('lista');
+  const chips  = document.getElementById('chips');
+  const filtro = document.getElementById('filtro');
+
+  /* Cómo se llama cada tipo de material en pantalla */
+  const TIPOS = {
+    apunte:   'Apunte',
+    resumen:  'Resumen',
+    parcial:  'Parcial',
+    programa: 'Programa',
+    guia:     'Grupo de estudio',
+    otro:     'Material'
+  };
+
+  let materiales = [];
+  try {
+    const { data, error } = await conPaciencia(
+      db.from('materiales').select('*').eq('publicado', true)
+        .order('materia').order('orden').order('id'));
+    if (error) throw error;
+    materiales = data || [];
+  } catch (e) {
+    /* Si la tabla todavía no existe, no es un error del estudiante:
+       es que falta correr el SQL. Se lo decimos al equipo sin jerga. */
+    if (e && /materiales/.test(e.message || '')){
+      lista.innerHTML = `<div class="vacio">
+          Esta sección todavía no está activada.<br>
+          <small>Al equipo: falta correr <b>tabla-materiales.sql</b> en Supabase.</small>
+        </div>`;
+      return;
+    }
+    mostrarError(lista, e, 'cargar el material');
+    return;
+  }
+
+  if (!materiales.length){
+    lista.innerHTML = `<div class="vacio">
+        Todavía no hay material cargado.<br>
+        Si tenés apuntes o resúmenes para compartir, escribinos y los subimos.
+      </div>`;
+    chips.hidden = true;
+    filtro.parentElement.hidden = true;
+    return;
+  }
+
+  /* Las materias que de verdad tienen material, en orden alfabético */
+  const materias = [...new Set(materiales.map(m => m.materia))].sort((a, b) =>
+    a.localeCompare(b, 'es'));
+
+  let materiaActiva = '';   // vacío = todas
+
+  chips.innerHTML =
+    `<button class="chip" data-materia="">Todas</button>` +
+    materias.map(m => `<button class="chip" data-materia="${esc(m)}">${esc(m)}</button>`).join('');
+
+  chips.addEventListener('click', e => {
+    const b = e.target.closest('.chip');
+    if (!b) return;
+    materiaActiva = b.dataset.materia;
+    dibujar();
+  });
+  filtro.addEventListener('input', dibujar);
+
+  function dibujar(){
+    [...chips.children].forEach(b =>
+      b.setAttribute('aria-pressed', b.dataset.materia === materiaActiva ? 'true' : 'false'));
+
+    const q = normalizar(filtro.value.trim());
+    const visibles = materiales.filter(m =>
+      (!materiaActiva || m.materia === materiaActiva) &&
+      (!q || normalizar([m.titulo, m.materia, m.catedra, m.descripcion, m.aporta]
+              .filter(Boolean).join(' ')).includes(q)));
+
+    if (!visibles.length){
+      lista.innerHTML = `<div class="vacio">No hay material que coincida con esa búsqueda.</div>`;
+      return;
+    }
+
+    /* Agrupado por materia, que es como lo busca una estudiante:
+       primero pienso "necesito algo de Epistemología", no "necesito
+       un resumen". */
+    let html = '';
+    materias.forEach(materia => {
+      const suyos = visibles.filter(m => m.materia === materia);
+      if (!suyos.length) return;
+      html += `<div class="titulo-seccion">${esc(materia)}
+          <span class="cuenta-grupo">${suyos.length}</span></div>
+        <div class="lista">` +
+        suyos.map(m => {
+          const hayLink = /^https?:\/\//i.test(m.link_url || '');
+          const etiqueta = TIPOS[m.tipo] || TIPOS.otro;
+          const cuerpo = `
+            <span class="material-tipo ${esc(m.tipo)}">${esc(etiqueta)}</span>
+            <h3>${esc(m.titulo)}</h3>
+            ${m.descripcion ? `<p>${escMulti(m.descripcion)}</p>` : ''}
+            <div class="meta">
+              ${m.catedra ? `<span>${esc(m.catedra)}</span>` : ''}
+              ${m.anio ? `<span>${m.anio}</span>` : ''}
+              ${m.aporta ? `<span>Lo compartió ${esc(m.aporta)}</span>` : ''}
+            </div>`;
+          /* Si no tiene enlace todavía, la tarjeta no es un botón que
+             no lleva a ningún lado: es una ficha informativa. */
+          return hayLink
+            ? `<a class="tarjeta" href="${esc(m.link_url)}" target="_blank" rel="noopener">
+                 ${cuerpo}
+                 <span class="material-ir">${esc(m.link_titulo || 'Abrir')} ↗</span>
+               </a>`
+            : `<div class="tarjeta">${cuerpo}</div>`;
+        }).join('') + `</div>`;
+    });
+    lista.innerHTML = html;
+  }
+
+  dibujar();
+
+})();
+</script>
+</body>
+</html>

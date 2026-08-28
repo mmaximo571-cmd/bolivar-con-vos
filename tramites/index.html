@@ -1,0 +1,423 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Info útil · La Bolívar con vos</title>
+<meta name="theme-color" content="#F9E830">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@600;700;800&family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+<!-- Iconos de la app: pestana, Google, y pantalla de inicio del celular -->
+<link rel="icon" type="image/png" sizes="32x32" href="../imagenes/icono-32.png">
+<link rel="icon" type="image/png" sizes="96x96" href="../imagenes/icono-96.png">
+<link rel="icon" type="image/png" sizes="192x192" href="../imagenes/icono-192.png">
+<link rel="apple-touch-icon" href="../imagenes/icono-apple.png">
+<link rel="manifest" href="../manifest.json">
+
+<!-- Como se ve cuando alguien comparte el link por WhatsApp o Instagram -->
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="La Bolivar con vos">
+<meta property="og:title" content="Info útil · La Bolívar con vos">
+<meta property="og:description" content="">
+<meta property="og:image" content="https://bolivar-con-vos.vercel.app/imagenes/compartir.png">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="stylesheet" href="../estilos.css">
+</head>
+<body>
+
+<div id="cabecera"></div>
+<main class="envoltura" id="contenido">
+  <div class="esq-tarjeta"><div class="esqueleto esq-linea titulo"></div><div class="esqueleto esq-linea"></div><div class="esqueleto esq-linea media"></div></div><div class="esq-tarjeta"><div class="esqueleto esq-linea titulo"></div><div class="esqueleto esq-linea"></div><div class="esqueleto esq-linea corta"></div></div>
+</main>
+<div id="pie"></div>
+
+<script>window.RAIZ = '../';</script>
+<!-- La librería de Supabase vive ACÁ ADENTRO, no en un servidor ajeno.
+     Versión 2.112.4, congelada. Antes se bajaba de cdn.jsdelivr.net en
+     cada visita: si esa descarga fallaba, la app quedaba en «Cargando…». -->
+<script src="../lib/supabase.js"></script>
+<script src="../config.js"></script>
+<script src="../iconos.js"></script>
+<script src="../app.js"></script>
+<script>
+(async function pantallaTramites(){
+
+  document.getElementById('cabecera').innerHTML = htmlCabecera(
+    '<a class="boton-cabecera" href="../mi/">Perfil</a>'
+  );
+  document.getElementById('pie').innerHTML = htmlPie();
+  pintarNav('tramites');
+
+  const contenido = document.getElementById('contenido');
+  const idTramite = parametro('id');
+  const idFaq     = parametro('faq');
+  const idCat     = parametro('categoria');
+  const seccion   = parametro('seccion');   // 'carrera' | 'derechos' | null = todo
+
+  /* ============================================================
+     CASO 1 · Detalle de un trámite
+     ============================================================ */
+  if (idTramite){
+    let t, categoria = null;
+    try {
+      const { data, error } = await db.from('tramites')
+        .select('*').eq('id', idTramite).eq('publicado', true).maybeSingle();
+      if (error) throw error;
+      t = data;
+      if (t && t.categoria_id){
+        const r = await db.from('categorias').select('*').eq('id', t.categoria_id).maybeSingle();
+        categoria = r.data;
+      }
+    } catch (e) {
+      mostrarError(contenido, e, 'cargar el trámite');
+      return;
+    }
+
+    if (!t){
+      contenido.innerHTML = `<div class="vacio">
+          Ese trámite ya no está disponible.<br>
+          <a class="boton" href="./" style="margin-top:14px">Ver todos los trámites</a>
+        </div>`;
+      return;
+    }
+
+    const pasos = Array.isArray(t.pasos) ? t.pasos : [];
+    const hayFicha = t.requisitos || t.plazo || t.donde;
+
+    contenido.innerHTML = `
+      <a href="./${idCat ? '?categoria=' + esc(idCat) : ''}"
+         style="display:inline-block;margin-top:18px;font-family:var(--fuente-sub);
+                font-size:13px;text-transform:uppercase;letter-spacing:.06em;
+                color:var(--gris);text-decoration:none">← Volver a trámites</a>
+
+      ${categoria ? `<div style="margin-top:14px"><span class="etiqueta">${esc(categoria.emoji)} ${esc(categoria.nombre)}</span></div>` : ''}
+      <h1 class="titulo-pantalla" style="margin-top:6px">${esc(t.titulo)}</h1>
+      ${t.resumen ? `<p class="bajada">${escMulti(t.resumen)}</p>` : ''}
+
+      ${hayFicha ? `<div class="ficha"><dl>
+          ${t.requisitos ? `<dt>Necesitás</dt><dd>${escMulti(t.requisitos)}</dd>` : ''}
+          ${t.plazo      ? `<dt>Cuándo</dt><dd>${escMulti(t.plazo)}</dd>`        : ''}
+          ${t.donde      ? `<dt>Dónde</dt><dd>${escMulti(t.donde)}</dd>`         : ''}
+        </dl></div>` : ''}
+
+      ${pasos.length ? `
+        <div class="titulo-seccion">PASO A PASO</div>
+        <ol class="pasos">${pasos.map(p => `<li>
+            <div class="paso-titulo">${esc(p.titulo || '')}</div>
+            ${p.detalle ? `<div class="paso-detalle">${escMulti(p.detalle)}</div>` : ''}
+          </li>`).join('')}</ol>` : ''}
+
+      ${t.link_url ? `<a class="boton ancho oscuro" style="margin-top:18px"
+          href="${esc(t.link_url)}" target="_blank" rel="noopener">
+          ${esc(t.link_titulo || 'Ir al sitio oficial')} ↗</a>` : ''}
+
+      <div id="zona-guardar" style="margin-top:12px"></div>
+
+      <p style="color:var(--gris);font-size:13px;margin-top:22px">
+        Última actualización: ${esc(fechaLinda(t.actualizado_at))}.<br>
+        Si algo cambió o no te funcionó, avisanos y lo corregimos.
+      </p>`;
+
+    document.title = t.titulo + ' · La Bolívar con vos';
+
+    /* Botón "guardar" — solo para quien tenga cuenta */
+    (async function botonGuardar(){
+      const { usuario } = await sesionActual();
+      const caja = document.getElementById('zona-guardar');
+      if (!usuario){
+        caja.innerHTML = `<a class="boton ancho borde" href="../mi/">
+            ⭐ Creá tu cuenta para guardar este trámite</a>`;
+        return;
+      }
+      const { data: ya } = await db.from('guardados')
+        .select('tramite_id').eq('tramite_id', t.id).maybeSingle();
+      let guardado = !!ya;
+
+      function dibujar(){
+        caja.innerHTML = `<button class="boton ancho ${guardado ? 'borde' : ''}" id="btn-guardar">
+            ${guardado ? '✓ Guardado' : '⭐ Guardar este trámite'}</button>`;
+        document.getElementById('btn-guardar').onclick = async function(){
+          this.disabled = true;
+          if (guardado) await db.from('guardados').delete().eq('tramite_id', t.id);
+          else          await db.from('guardados').insert({ usuario_id: usuario.id, tramite_id: t.id });
+          guardado = !guardado;
+          dibujar();
+        };
+      }
+      dibujar();
+    })();
+
+    return;
+  }
+
+  /* ============================================================
+     CASO 2 · Una pregunta frecuente sola
+     ============================================================ */
+  if (idFaq){
+    let p;
+    try {
+      const { data, error } = await db.from('faq')
+        .select('*').eq('id', idFaq).eq('publicado', true).maybeSingle();
+      if (error) throw error;
+      p = data;
+    } catch (e) { mostrarError(contenido, e, 'cargar la pregunta'); return; }
+
+    if (!p){ contenido.innerHTML = '<div class="vacio">Esa pregunta ya no está disponible.</div>'; return; }
+
+    contenido.innerHTML = `
+      <a href="./" style="display:inline-block;margin-top:18px;font-family:var(--fuente-sub);
+         font-size:13px;text-transform:uppercase;letter-spacing:.06em;
+         color:var(--gris);text-decoration:none">← Volver a trámites</a>
+      <h1 class="titulo-pantalla" style="margin-top:12px">${esc(p.pregunta)}</h1>
+      <div class="ficha"><div style="font-size:16px">${escMulti(p.respuesta)}</div></div>`;
+    document.title = p.pregunta + ' · La Bolívar con vos';
+    return;
+  }
+
+  /* ============================================================
+     CASO 3 · Listado completo
+
+     Antes esto era una tira de 34 tarjetas, cinco pantallas de scroll
+     sin un solo encabezado: para encontrar algo había que leer todo.
+
+     Ahora va agrupado por categoría y en cuadrados. Al tocar uno se
+     abre la ficha en una ventanita, sin salir de la pantalla ni
+     perder dónde estabas.
+     ============================================================ */
+  let categorias = [], tramites = [], preguntas = [];
+  try {
+    const [rCat, rTra, rFaq] = await conPaciencia(Promise.all([
+      db.from('categorias').select('*').order('orden'),
+      /* Traemos la ficha entera, no solo el título: así la ventanita
+         abre al instante, sin ir a buscar nada más. */
+      db.from('tramites').select('*').eq('publicado', true).order('orden'),
+      db.from('faq').select('*').eq('publicado', true).order('orden')
+    ]));
+    for (const r of [rCat, rTra, rFaq]) if (r.error) throw r.error;
+    categorias = rCat.data; tramites = rTra.data; preguntas = rFaq.data;
+  } catch (e) { mostrarError(contenido, e, 'cargar los trámites'); return; }
+
+  /* Si venimos de una puerta ("Mi carrera" / "Mis derechos"), mostramos solo eso */
+  if (seccion && NOMBRE_SECCION[seccion]){
+    categorias = categorias.filter(c => (c.seccion || 'carrera') === seccion);
+    const suyas = categorias.map(c => c.id);
+    tramites  = tramites.filter(t => suyas.includes(t.categoria_id));
+    preguntas = preguntas.filter(p => suyas.includes(p.categoria_id));
+    document.title = NOMBRE_SECCION[seccion] + ' · La Bolívar con vos';
+  }
+
+  const titulo = seccion && NOMBRE_SECCION[seccion]
+    ? NOMBRE_SECCION[seccion].toUpperCase()
+    : 'INFO ÚTIL';
+  const bajada = seccion === 'derechos'
+    ? 'Lo que te corresponde y cómo reclamarlo.'
+    : 'Todo lo que hay que hacer en la facu, explicado paso a paso.';
+
+  contenido.innerHTML = `
+    <h1 class="titulo-pantalla">${titulo}</h1>
+    <p class="bajada">${esc(bajada)}</p>
+
+    <div class="buscador" style="margin-bottom:6px">
+      <span class="lupa">🔍</span>
+      <input id="filtro" type="search" autocomplete="off" placeholder="Buscar…"
+             aria-label="Buscar trámites">
+    </div>
+
+    <div class="chips" id="chips"></div>
+    <div id="lista" style="margin-top:10px"></div>`;
+
+  /* La ventanita donde se lee cada ficha */
+  document.body.insertAdjacentHTML('beforeend', `
+    <div class="hoja-fondo" id="hoja-fondo" hidden>
+      <div class="hoja" role="dialog" aria-modal="true" aria-labelledby="hoja-titulo">
+        <button class="hoja-cerrar" id="hoja-cerrar" aria-label="Cerrar">✕</button>
+        <div id="hoja-cuerpo"></div>
+      </div>
+    </div>`);
+
+  const chips  = document.getElementById('chips');
+  const lista  = document.getElementById('lista');
+  const filtro = document.getElementById('filtro');
+  const fondo  = document.getElementById('hoja-fondo');
+  const cuerpo = document.getElementById('hoja-cuerpo');
+
+  let catActiva = idCat ? Number(idCat) : 0;   // 0 = todas
+
+  chips.innerHTML =
+    `<button class="chip" data-cat="0">Todo</button>` +
+    categorias.map(c => `<button class="chip" data-cat="${c.id}">${esc(c.emoji)} ${esc(c.nombre)}</button>`).join('');
+
+  chips.addEventListener('click', function(ev){
+    const b = ev.target.closest('.chip');
+    if (!b) return;
+    catActiva = Number(b.dataset.cat);
+    const url = new URL(location.href);
+    if (catActiva) url.searchParams.set('categoria', catActiva);
+    else           url.searchParams.delete('categoria');
+    history.replaceState(null, '', url);
+    dibujar();
+  });
+
+  filtro.addEventListener('input', dibujar);
+
+  /* ---------- La ventanita con la ficha ---------- */
+  function abrirFicha(id){
+    const t = tramites.find(x => String(x.id) === String(id));
+    if (!t) return;
+    const c = categorias.find(x => x.id === t.categoria_id);
+    const pasos = Array.isArray(t.pasos) ? t.pasos : [];
+    const hayFicha = t.requisitos || t.plazo || t.donde;
+
+    cuerpo.innerHTML = `
+      ${c ? `<div class="hoja-cod">${esc(c.emoji)} ${esc(c.nombre)}</div>` : ''}
+      <h2 id="hoja-titulo">${esc(t.titulo)}</h2>
+      ${t.resumen ? `<p class="hoja-resumen">${escMulti(t.resumen)}</p>` : ''}
+
+      ${hayFicha ? `<div class="ficha"><dl>
+          ${t.requisitos ? `<dt>Necesitás</dt><dd>${escMulti(t.requisitos)}</dd>` : ''}
+          ${t.plazo      ? `<dt>Cuándo</dt><dd>${escMulti(t.plazo)}</dd>`        : ''}
+          ${t.donde      ? `<dt>Dónde</dt><dd>${escMulti(t.donde)}</dd>`         : ''}
+        </dl></div>` : ''}
+
+      ${pasos.length ? `
+        <div class="titulo-seccion">PASO A PASO</div>
+        <ol class="pasos">${pasos.map(p => `<li>
+            <div class="paso-titulo">${esc(p.titulo || '')}</div>
+            ${p.detalle ? `<div class="paso-detalle">${escMulti(p.detalle)}</div>` : ''}
+          </li>`).join('')}</ol>` : ''}
+
+      ${t.link_url ? `<a class="boton ancho oscuro" style="margin-top:18px"
+          href="${esc(t.link_url)}" target="_blank" rel="noopener">
+          ${esc(t.link_titulo || 'Ir al sitio oficial')} ↗</a>` : ''}
+
+      <div id="zona-guardar" style="margin-top:12px"></div>
+
+      <p class="letra-chica" style="margin-top:20px">
+        Última actualización: ${esc(fechaLinda(t.actualizado_at))}.<br>
+        Si algo cambió o no te funcionó, avisanos y lo corregimos.
+      </p>`;
+
+    fondo.hidden = false;
+    document.body.style.overflow = 'hidden';
+    document.getElementById('hoja-cerrar').focus();
+    botonGuardar(t);
+  }
+
+  function cerrarFicha(){
+    fondo.hidden = true;
+    document.body.style.overflow = '';
+  }
+  document.getElementById('hoja-cerrar').addEventListener('click', cerrarFicha);
+  fondo.addEventListener('click', e => { if (e.target === fondo) cerrarFicha(); });
+  document.addEventListener('keydown', e => {
+    if (e.key === 'Escape' && !fondo.hidden) cerrarFicha();
+  });
+
+  /* El botón de guardar, solo para quien tenga cuenta */
+  async function botonGuardar(t){
+    const caja = document.getElementById('zona-guardar');
+    if (!caja) return;
+    const { usuario } = await sesionActual();
+    if (!usuario){
+      caja.innerHTML = `<a class="boton ancho borde" href="../mi/">
+          Creá tu cuenta para guardar este trámite</a>`;
+      return;
+    }
+    const { data: ya } = await db.from('guardados')
+      .select('tramite_id').eq('tramite_id', t.id).maybeSingle();
+    let guardado = !!ya;
+    (function pintar(){
+      caja.innerHTML = `<button class="boton ancho ${guardado ? 'borde' : ''}" id="btn-guardar">
+          ${guardado ? '✓ Guardado' : '⭐ Guardar este trámite'}</button>`;
+      document.getElementById('btn-guardar').onclick = async function(){
+        this.disabled = true;
+        if (guardado) await db.from('guardados').delete().eq('tramite_id', t.id);
+        else          await db.from('guardados').insert({ usuario_id: usuario.id, tramite_id: t.id });
+        guardado = !guardado;
+        pintar();
+      };
+    })();
+  }
+
+  lista.addEventListener('click', e => {
+    const b = e.target.closest('.tarjeta-cuadro');
+    if (b) abrirFicha(b.dataset.id);
+  });
+
+  /* ---------- El listado ---------- */
+  function dibujar(){
+    [...chips.children].forEach(b =>
+      b.setAttribute('aria-pressed', Number(b.dataset.cat) === catActiva ? 'true' : 'false'));
+
+    const q = normalizar(filtro.value.trim());
+
+    const t = tramites.filter(x =>
+      (!catActiva || x.categoria_id === catActiva) &&
+      (!q || normalizar(x.titulo + ' ' + (x.resumen || '') + ' ' + (x.palabras_clave || '')).includes(q)));
+
+    const f = preguntas.filter(x =>
+      (!catActiva || x.categoria_id === catActiva) &&
+      (!q || normalizar(x.pregunta + ' ' + x.respuesta).includes(q)));
+
+    if (!t.length && !f.length){
+      lista.innerHTML = `<div class="vacio">
+          ${tramites.length || preguntas.length
+            ? 'No hay nada que coincida con esa búsqueda.'
+            : 'Todavía no hay trámites cargados.<br>El equipo de la agrupación los va a ir sumando.'}
+        </div>`;
+      return;
+    }
+
+    /* Un cuadrado por trámite. La marca de abajo dice si adentro vas a
+       encontrar el paso a paso o si te manda a un sitio de afuera: es
+       la diferencia entre una guía y una lista de enlaces, y hasta
+       ahora no se podía saber antes de entrar. */
+    const cuadro = x => {
+      const tienePasos = Array.isArray(x.pasos) && x.pasos.length;
+      return `<button class="tarjeta-cuadro" data-id="${x.id}">
+          <span class="nombre">${esc(x.titulo)}</span>
+          <span class="marca-tipo ${tienePasos ? 'guia' : 'enlace'}">${
+            tienePasos ? 'Paso a paso' : 'Sitio oficial'}</span>
+        </button>`;
+    };
+
+    /* Agrupado por categoría, en el orden en que están las categorías */
+    let html = '';
+    categorias.forEach(c => {
+      const suyos = t.filter(x => x.categoria_id === c.id);
+      if (!suyos.length) return;
+      html += `<div class="titulo-seccion">${esc(c.emoji)} ${esc(c.nombre)}
+          <span class="cuenta-grupo">${suyos.length}</span></div>
+        <div class="rejilla-fichas">${suyos.map(cuadro).join('')}</div>`;
+    });
+
+    /* Los que no tengan categoría, si alguna vez pasa */
+    const huerfanos = t.filter(x => !categorias.some(c => c.id === x.categoria_id));
+    if (huerfanos.length){
+      html += `<div class="titulo-seccion">OTROS</div>
+        <div class="rejilla-fichas">${huerfanos.map(cuadro).join('')}</div>`;
+    }
+
+    if (f.length){
+      html += `<div class="titulo-seccion">PREGUNTAS FRECUENTES</div>
+        <div class="lista">` +
+        f.map(x => `
+          <details class="tarjeta">
+            <summary>${esc(x.pregunta)}</summary>
+            <div class="respuesta">${escMulti(x.respuesta)}</div>
+          </details>`).join('') + `</div>`;
+    }
+
+    lista.innerHTML = html;
+  }
+
+  dibujar();
+
+  /* Si llegaste con un enlace directo a un trámite, se abre la ficha */
+  if (idTramite) abrirFicha(idTramite);
+
+})();
+</script>
+</body>
+</html>

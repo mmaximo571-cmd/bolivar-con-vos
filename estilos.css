@@ -1,0 +1,1269 @@
+/* ============================================================
+   PANEL DE CONTROL ESTETICO
+   Para cambiar el aspecto de TODA la app, tocá solo esto.
+   ============================================================ */
+:root{
+  /* --- Los tres colores de la Agrupacion Simon Bolivar ---
+
+     COMO SE REPARTEN, que es lo que hace que combinen:
+
+     Amarillo pleno  -> ACENTO, en poca cantidad: el logo sobre el negro,
+                        el chip elegido, la tarjeta de marca, resaltados.
+     Amarillo suave  -> el fondo de toda la app. Es el mismo amarillo
+                        rebajado al 28% sobre blanco. Se lee amarillo
+                        pero no cansa.
+     Celeste         -> LA ESTRUCTURA: bordes, barras, iconos, foco,
+                        lo interactivo. Es el unico tono medio de la
+                        paleta, y por eso es el que une lo claro con lo
+                        oscuro. Sin el, los colores se pelean.
+     Rojo            -> solo palabras resaltadas. En poca cantidad.
+     Negro           -> el texto, y la banda de la cabecera, que es el
+                        ancla de la pagina.
+
+     Sobre el fondo suave: negro 16,2 · gris 5,9 · rojo 6,0 · celeste 3,3.
+     Sobre el amarillo pleno el celeste cae a 2,8: ahi no va. */
+  /* --- LOS COLORES DE MARCA. No cambian nunca, ni de dia ni de noche --- */
+  --amarillo:  #F9E830;   /* acento de marca, en poca cantidad          */
+  --celeste:   #0195B1;   /* la estructura: bordes, barras, iconos      */
+  --rojo:      #B52625;   /* palabras resaltadas, urgente, eliminar     */
+  --negro:     #1A1A1A;   /* la cabecera y los bloques de mucho peso    */
+  --celeste-claro: #7FC9DA;
+
+  /* Estas dos TAMPOCO cambian de noche, y es a propósito:
+     - sobre-color: texto oscuro cuando el fondo es amarillo o celeste.
+     - sobre-negro: texto claro cuando el fondo es la banda negra.
+     Si se dieran vuelta, el texto quedaría del mismo color que su fondo. */
+  --sobre-color: #1A1A1A;
+  --sobre-negro: #FFFFFF;
+
+  /* El rojo se aclara de noche para que se LEA como texto. Pero como
+     FONDO tiene que seguir siendo el oscuro: si no, el blanco encima
+     cae a 3,2 y deja de leerse. Por eso son dos variables. */
+  --rojo-solido: #B52625;
+
+  /* --- LO QUE SI CAMBIA ENTRE DIA Y NOCHE ---
+     Estas seis son las que se dan vuelta mas abajo, en el bloque de
+     modo oscuro. En el resto de la hoja hay que usar SIEMPRE estas,
+     nunca --blanco o --negro para texto: si no, de noche no se lee. */
+  --fondo:       #FDF9C5;  /* el fondo de la pagina                     */
+  --superficie:  #FFFFFF;  /* las tarjetas                              */
+  --superficie-2:#F5F0E8;  /* superficies suaves sobre las tarjetas     */
+  --texto:       #1A1A1A;  /* el texto principal                        */
+  --texto-suave: #5F5F5F;  /* los textos secundarios                    */
+  --linea:       #D8E5EA;  /* bordes y separadores                      */
+
+  /* El tinte de fondo de los días marcados del calendario */
+  --dia-mesa:   #FDECEB;
+  --dia-asueto: #E6F4F8;
+  --apagado:    #F3F0EA;   /* superficie de lo deshabilitado */
+  --aviso-error:#FDEAEA;
+  --aviso-ok:   #E6F8F5;
+
+  /* Nombres viejos, para no romper nada que todavia los use */
+  --blanco: var(--superficie);
+  --gris:   var(--texto-suave);
+  --borde:  var(--linea);
+  --hueso:  var(--superficie-2);
+  --amarillo-fondo: var(--fondo);
+
+  /* --- Colores por linea editorial --- */
+  --linea-frente:   #1A1A1A;
+  --linea-gremial:  #0195B1;
+  --linea-info:     #B52625;
+  --linea-saberes:  #7FC9DA;
+
+  /* --- Tipografias --- */
+  --fuente-titulo:  'Montserrat', sans-serif;   /* titulos, MAYUSCULAS  */
+  --fuente-sub:     'Montserrat', sans-serif;   /* subtitulos, botones  */
+  --fuente-texto:   'Roboto', sans-serif;       /* cuerpo y datos       */
+
+  /* --- Medidas --- */
+  --radio:       14px;   /* redondeo de tarjetas    */
+  --radio-chico: 8px;
+  --ancho-max:   680px;  /* ancho maximo de lectura */
+  --sombra:      0 2px 10px rgba(26,26,26,.08);
+  /* Ya no hay barra fija abajo: la navegacion vive arriba. */
+}
+
+/* ============================================================
+   MODO OSCURO
+
+   Se activa solo, según cómo tenga configurado el teléfono cada
+   persona. No hay botón: si el celular está en modo oscuro, la app
+   también. Es la forma que menos hay que explicar.
+
+   Solo se dan vuelta las seis variables de superficie y texto. Los
+   colores de marca no se tocan: el amarillo sigue siendo el amarillo.
+
+   El fondo NO es negro puro. Un #000 con texto blanco encima genera
+   halo y cansa en lecturas largas, que es justo lo que se hace de
+   noche. Es un gris muy oscuro apenas cálido, para que convive con
+   el amarillo de la marca.
+
+   Contrastes de noche: texto 15,3 · texto suave 7,1 · amarillo 12,6
+   · celeste 4,4 sobre el fondo.
+   ============================================================ */
+@media (prefers-color-scheme: dark){
+  :root{
+    --fondo:        #17160F;
+    --superficie:   #232219;
+    --superficie-2: #2E2C21;
+    --texto:        #F2EFE2;
+    --texto-suave:  #ADA893;
+    --linea:        #3A3830;
+    --dia-mesa:   #3A211F;
+    --dia-asueto: #16323A;
+    --apagado:    #201F17;
+    --aviso-error:#33201F;
+    --aviso-ok:   #16302B;
+
+    /* De noche el rojo puro pierde contraste sobre el fondo oscuro
+       (3,4). Se aclara para que las palabras resaltadas sigan
+       leyéndose sin dejar de ser el rojo de la marca. */
+    --rojo: #E56B62;
+
+    --sombra: 0 2px 12px rgba(0,0,0,.5);
+  }
+  /* Las ilustraciones de la facultad son de trazo fino sobre claro:
+     de noche se apagan un poco para no encandilar. */
+  .carrusel img, .zona-fondo::before{filter:brightness(.86) saturate(.92)}
+}
+
+/* ============================================================
+   BASE
+   ============================================================ */
+[hidden]{display:none !important}
+*,*::before,*::after{box-sizing:border-box}
+html,body{margin:0;padding:0}
+body{
+  font-family:var(--fuente-texto);
+  background:var(--amarillo-fondo);
+  color:var(--texto);
+  font-size:16px;
+  line-height:1.45;
+  -webkit-font-smoothing:antialiased;
+  padding-bottom:24px;
+}
+a{color:inherit}
+img{max-width:100%;display:block}
+button{font-family:inherit;font-size:inherit;cursor:pointer}
+h1,h2,h3{margin:0;font-weight:400}
+
+.envoltura{max-width:var(--ancho-max);margin:0 auto;padding:0 16px}
+
+/* ============================================================
+   ENCABEZADO
+   ============================================================ */
+/* La banda negra de arriba es el ancla de la pagina: le da un techo y
+   es donde el amarillo trabaja mejor (sobre negro llega a 13,8). */
+.cabecera{background:var(--negro);color:var(--sobre-negro);padding:12px 0}
+
+/* Tres columnas: menu, marca, cuenta. Los costados miden lo mismo,
+   asi la marca del medio queda centrada de verdad y no a ojo. */
+.barra-superior{
+  display:grid;grid-template-columns:44px 1fr 44px;align-items:center;gap:10px
+}
+/* El logo y la marca, juntos y centrados. Sobre el negro de la cabecera
+   el logo va en amarillo, que es donde mejor se lee (13,8). */
+.marca-centro{
+  display:flex;align-items:center;justify-content:center;gap:9px;
+  text-decoration:none;color:inherit;min-width:0
+}
+.marca-logo{width:auto;height:38px;flex:0 0 auto}
+.marca-texto{min-width:0;text-align:left}
+/* Sin nowrap: al lado del logo, en un celular angosto, "LA BOLÍVAR CON
+   VOS" en una sola línea no entra y se cortaba. Partido en dos renglones
+   queda a la altura del logo y arma un conjunto. */
+.marca{
+  font-family:var(--fuente-titulo);font-size:16px;font-weight:800;
+  line-height:1.04;letter-spacing:-.01em;display:block
+}
+.marca em{font-style:normal;color:var(--amarillo)}
+.marca-centro small{
+  display:block;font-family:var(--fuente-texto);font-size:9px;font-weight:500;
+  letter-spacing:.09em;text-transform:uppercase;color:#9c9c9c;margin-top:3px;
+  white-space:nowrap;overflow:hidden;text-overflow:ellipsis
+}
+.boton-icono{
+  width:44px;height:44px;display:flex;align-items:center;justify-content:center;
+  background:transparent;border:none;border-radius:50%;
+  font-size:20px;line-height:1;color:var(--sobre-negro);text-decoration:none;padding:0
+}
+.boton-icono:hover{background:rgba(255,255,255,.12)}
+
+/* Los iconos de Phosphor. No traen color propio: toman el del texto
+   que los rodea (fill:currentColor), asi el mismo dibujo sirve en
+   blanco sobre la cabecera negra y en celeste sobre una tarjeta. */
+svg.ico{width:1em;height:1em;display:block;flex:0 0 auto}
+.boton-icono svg.ico{width:22px;height:22px}
+.secciones-fila a svg.ico{width:20px;height:20px}
+.menu-lista a svg.ico{width:22px;height:22px}
+.boton-cuadro svg.ico{width:28px;height:28px;color:var(--celeste)}
+.boton-cuadro.destacado svg.ico{color:var(--sobre-color)}
+
+/* --- Las secciones, debajo de la cabecera --- */
+.secciones{background:var(--negro);border-top:1px solid #333}
+.secciones-fila{display:flex;gap:2px;overflow-x:auto;-webkit-overflow-scrolling:touch}
+.secciones-fila::-webkit-scrollbar{display:none}
+.secciones-fila a{
+  flex:1 0 auto;min-width:72px;padding:9px 10px 11px;text-decoration:none;
+  display:flex;flex-direction:column;align-items:center;gap:3px;
+  font-family:var(--fuente-sub);font-size:11px;font-weight:700;
+  text-transform:uppercase;letter-spacing:.04em;color:#b9b9b9;
+  border-bottom:3px solid transparent
+}
+.secciones-fila a .icono{font-size:18px;line-height:1}
+.secciones-fila a[aria-current="page"]{color:var(--amarillo);border-bottom-color:var(--amarillo)}
+
+/* --- El menu lateral que abre el boton de la izquierda --- */
+.menu-fondo{position:fixed;inset:0;z-index:90;background:rgba(26,26,26,.55)}
+.menu-lateral{
+  position:fixed;top:0;left:0;bottom:0;z-index:91;width:min(300px,84vw);
+  background:var(--negro);color:var(--sobre-negro);
+  display:flex;flex-direction:column;padding:14px 0 18px;
+  box-shadow:4px 0 22px rgba(0,0,0,.3)
+}
+.menu-encabezado{
+  display:flex;align-items:center;justify-content:space-between;gap:10px;
+  padding:0 10px 0 18px;margin-bottom:14px
+}
+.menu-lista{display:flex;flex-direction:column;overflow-y:auto}
+.menu-lista a{
+  display:flex;align-items:center;gap:13px;padding:14px 18px;
+  text-decoration:none;color:var(--sobre-negro);
+  font-family:var(--fuente-sub);font-size:16px;font-weight:700
+}
+.menu-lista a .icono{font-size:20px;line-height:1}
+.menu-lista a:hover{background:rgba(255,255,255,.08)}
+.menu-lista a[aria-current="page"]{color:var(--amarillo);box-shadow:inset 4px 0 0 var(--amarillo)}
+.menu-pie{
+  margin-top:auto;padding:16px 18px 0;font-size:12px;line-height:1.5;color:#8f8f8f
+}
+
+/* Titulo de pantalla interna */
+.titulo-pantalla{
+  font-family:var(--fuente-titulo);font-size:30px;line-height:1;
+  text-transform:uppercase;margin:22px 0 4px
+}
+.bajada{color:var(--gris);font-size:15px;margin:0 0 18px}
+
+/* ============================================================
+   BUSCADOR
+   ============================================================ */
+/* El buscador ya no va sobre el negro: con la cabecera y las secciones
+   arriba, sumarle el buscador hacia un bloque oscuro demasiado alto. */
+.caja-buscador{background:transparent;padding:16px 0 4px}
+.buscador{position:relative}
+.buscador input{
+  width:100%;font-family:var(--fuente-texto);font-size:17px;
+  padding:15px 15px 15px 46px;border:1px solid var(--borde);border-radius:99px;
+  background:var(--blanco);color:var(--texto);outline:none;box-shadow:var(--sombra)
+}
+/* El foco va en celeste: sobre el amarillo, un halo amarillo no se veria */
+.buscador input:focus{box-shadow:0 0 0 3px var(--celeste)}
+.buscador .lupa{
+  position:absolute;left:16px;top:50%;transform:translateY(-50%);
+  font-size:18px;opacity:.5;pointer-events:none
+}
+
+/* ============================================================
+   CHIPS / CATEGORIAS
+   ============================================================ */
+.chips{display:flex;gap:8px;overflow-x:auto;padding:4px 0 8px;-webkit-overflow-scrolling:touch}
+.chips::-webkit-scrollbar{display:none}
+.chip{
+  flex:0 0 auto;background:var(--blanco);border:1px solid var(--borde);
+  border-radius:99px;padding:8px 14px;font-family:var(--fuente-sub);
+  font-size:14px;letter-spacing:.02em;white-space:nowrap;color:var(--texto)
+}
+/* Sobre el fondo suave, el amarillo pleno del chip elegido resalta */
+.chip[aria-pressed="true"]{background:var(--amarillo);border-color:var(--amarillo);color:var(--sobre-color);font-weight:700}
+
+.rejilla-categorias{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin:14px 0 26px}
+.tarjeta-categoria{
+  background:var(--blanco);border:1px solid var(--borde);border-radius:var(--radio);
+  padding:14px;text-decoration:none;display:block;box-shadow:var(--sombra)
+}
+.tarjeta-categoria .emoji{font-size:24px;display:block;margin-bottom:6px}
+.tarjeta-categoria .nombre{
+  font-family:var(--fuente-sub);font-weight:700;font-size:16px;line-height:1.1;
+  text-transform:uppercase;letter-spacing:.01em
+}
+.tarjeta-categoria .cuenta{font-size:13px;color:var(--gris)}
+
+/* ============================================================
+   SECCIONES
+   ============================================================ */
+.titulo-seccion{
+  font-family:var(--fuente-titulo);font-size:20px;text-transform:uppercase;
+  margin:26px 0 10px;display:flex;align-items:baseline;justify-content:space-between;gap:10px
+}
+.titulo-seccion a{
+  font-family:var(--fuente-sub);font-size:13px;text-transform:uppercase;
+  letter-spacing:.06em;color:var(--gris);text-decoration:none;flex:0 0 auto
+}
+.titulo-seccion a:hover{color:var(--texto)}
+
+/* ============================================================
+   TARJETAS DE CONTENIDO
+   ============================================================ */
+.lista{display:flex;flex-direction:column;gap:10px}
+
+.tarjeta{
+  background:var(--blanco);border:1px solid var(--borde);border-radius:var(--radio);
+  padding:14px;box-shadow:var(--sombra);text-align:left;width:100%;
+  display:block;text-decoration:none;border-left:4px solid var(--celeste);
+  /* Cuando la tarjeta es un <button>, el navegador le pone texto negro por
+     su cuenta. En modo oscuro eso queda negro sobre negro. Lo decimos nosotros. */
+  color:var(--texto)
+}
+.tarjeta h3{
+  font-family:var(--fuente-sub);font-weight:700;font-size:17px;line-height:1.15;
+  text-transform:uppercase;margin-bottom:3px
+}
+.tarjeta p{margin:0;color:var(--gris);font-size:14px;line-height:1.35}
+.tarjeta .meta{
+  font-size:12px;color:var(--gris);letter-spacing:.04em;text-transform:uppercase;
+  margin-top:8px;display:flex;gap:10px;flex-wrap:wrap
+}
+
+/* Etiqueta de linea editorial */
+.etiqueta{
+  display:inline-block;font-family:var(--fuente-texto);font-size:11px;font-weight:700;
+  letter-spacing:.1em;text-transform:uppercase;padding:3px 9px;border-radius:99px;
+  margin-bottom:7px;color:var(--sobre-negro);background:var(--negro)
+}
+.etiqueta.frente  {background:var(--linea-frente);color:var(--amarillo)}
+.etiqueta.gremial {background:var(--linea-gremial);color:var(--sobre-color)}
+.etiqueta.info    {background:var(--linea-info);color:var(--sobre-negro)}
+.etiqueta.saberes {background:var(--linea-saberes);color:var(--sobre-color)}
+
+.tarjeta.frente  {border-left-color:var(--linea-frente)}
+.tarjeta.gremial {border-left-color:var(--linea-gremial)}
+.tarjeta.info    {border-left-color:var(--linea-info)}
+.tarjeta.saberes {border-left-color:var(--linea-saberes)}
+
+/* Fecha en formato calendario */
+.tarjeta-fecha{display:flex;gap:13px;align-items:flex-start}
+.cubo-fecha{
+  flex:0 0 54px;background:var(--amarillo);color:var(--sobre-color);
+  border-radius:var(--radio-chico);padding:7px 0;text-align:center;line-height:1
+}
+.cubo-fecha .dia{font-family:var(--fuente-titulo);font-size:24px;display:block}
+.cubo-fecha .mes{
+  font-family:var(--fuente-sub);font-size:11px;text-transform:uppercase;
+  letter-spacing:.08em;display:block;margin-top:3px;font-weight:700
+}
+
+/* ============================================================
+   DETALLE DE TRAMITE
+   ============================================================ */
+.pasos{list-style:none;counter-reset:paso;margin:16px 0 0;padding:0}
+.pasos li{counter-increment:paso;position:relative;padding:0 0 18px 42px}
+.pasos li::before{
+  content:counter(paso);position:absolute;left:0;top:0;
+  width:28px;height:28px;border-radius:50%;background:var(--amarillo);
+  font-family:var(--fuente-titulo);font-size:15px;
+  display:flex;align-items:center;justify-content:center
+}
+.pasos li::after{
+  content:'';position:absolute;left:13.5px;top:32px;bottom:2px;width:1px;background:var(--borde)
+}
+.pasos li:last-child::after{display:none}
+.pasos .paso-titulo{font-family:var(--fuente-sub);font-weight:700;font-size:16px;line-height:1.2}
+.pasos .paso-detalle{color:var(--gris);font-size:14.5px;margin-top:2px;white-space:pre-wrap}
+
+.ficha{
+  background:var(--blanco);border:1px solid var(--borde);border-radius:var(--radio);
+  padding:14px;margin:16px 0;box-shadow:var(--sombra)
+}
+.ficha dl{margin:0;display:grid;grid-template-columns:auto 1fr;gap:8px 14px;font-size:15px}
+.ficha dt{
+  font-family:var(--fuente-sub);font-size:12px;text-transform:uppercase;
+  letter-spacing:.07em;color:var(--gris);padding-top:2px
+}
+.ficha dd{margin:0;white-space:pre-wrap}
+
+/* ============================================================
+   BOTONES
+   ============================================================ */
+.boton{
+  display:inline-flex;align-items:center;justify-content:center;gap:8px;
+  font-family:var(--fuente-sub);font-weight:700;font-size:15px;
+  text-transform:uppercase;letter-spacing:.05em;
+  padding:13px 20px;border-radius:99px;border:none;text-decoration:none;
+  background:var(--amarillo);color:var(--sobre-color)
+}
+.boton:hover{filter:brightness(.94)}
+.boton.oscuro{background:var(--negro);color:var(--amarillo)}
+/* El botón de contorno hereda el color del texto de la página, no el
+   negro fijo: sobre fondo transparente, de noche quedaba oscuro sobre
+   oscuro y no se leía (1,09). */
+.boton.borde{background:transparent;border:1.5px solid var(--texto);color:var(--texto)}
+.boton.peligro{background:var(--rojo-solido);color:var(--sobre-negro)}
+.boton.ancho{width:100%}
+.boton:disabled{opacity:.5;cursor:default}
+
+/* ============================================================
+   FORMULARIOS
+   ============================================================ */
+.campo{margin-bottom:14px}
+.campo label{
+  display:block;font-family:var(--fuente-sub);font-size:12px;text-transform:uppercase;
+  letter-spacing:.07em;color:var(--gris);margin-bottom:5px
+}
+.campo input,.campo textarea,.campo select{
+  width:100%;font-family:var(--fuente-texto);font-size:16px;
+  padding:11px 12px;border:1px solid var(--borde);border-radius:var(--radio-chico);
+  background:var(--blanco);color:var(--texto);outline:none
+}
+.campo input:focus,.campo textarea:focus,.campo select:focus{border-color:var(--texto)}
+.campo textarea{min-height:96px;resize:vertical}
+.dos-columnas{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+
+/* ============================================================
+   AVISOS Y ESTADOS
+   ============================================================ */
+.aviso{
+  border-radius:var(--radio-chico);padding:11px 13px;font-size:14.5px;margin:12px 0;
+  background:var(--blanco);border-left:4px solid var(--gris)
+}
+.aviso.error{border-left-color:var(--rojo);background:var(--aviso-error)}
+.aviso.ok{border-left-color:var(--celeste);background:var(--aviso-ok)}
+
+.vacio{text-align:center;color:var(--gris);padding:34px 16px;font-size:15px}
+.cargando{text-align:center;color:var(--gris);padding:34px 16px;font-size:15px}
+
+/* ============================================================
+   CALENDARIO
+   ============================================================ */
+.calendario{
+  background:var(--blanco);border:1px solid var(--borde);border-radius:var(--radio);
+  padding:12px 12px 10px;box-shadow:var(--sombra)
+}
+.cal-cabecera{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-bottom:12px}
+.cal-mes{
+  font-family:var(--fuente-titulo);font-size:19px;text-transform:uppercase;
+  line-height:1;text-align:center;flex:1
+}
+.cal-flecha{
+  flex:0 0 auto;width:42px;height:42px;border-radius:50%;
+  border:1px solid var(--borde);background:var(--blanco);
+  font-size:18px;line-height:1;color:var(--texto);
+  display:flex;align-items:center;justify-content:center
+}
+.cal-flecha:hover{background:var(--hueso)}
+
+.cal-grilla{display:grid;grid-template-columns:repeat(7,1fr);gap:3px}
+.cal-nombre-dia{
+  text-align:center;font-family:var(--fuente-sub);font-size:11px;font-weight:700;
+  letter-spacing:.06em;color:var(--gris);text-transform:uppercase;padding-bottom:4px
+}
+
+/* La celda cuadrada: el ancho lo pone la grilla, el alto lo iguala */
+.cal-dia{
+  aspect-ratio:1/1;border:none;background:transparent;border-radius:9px;
+  font-family:var(--fuente-texto);font-size:15px;color:var(--texto);
+  display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;
+  padding:0;position:relative
+}
+.cal-dia.vacio{visibility:hidden;pointer-events:none}
+.cal-dia.apagado{color:var(--borde)}
+.cal-dia.con-cosas{font-weight:700}
+.cal-dia.con-cosas:hover{background:var(--hueso)}
+.cal-dia.hoy{box-shadow:inset 0 0 0 1.5px var(--negro)}
+.cal-dia[aria-pressed="true"]{background:var(--amarillo);color:var(--sobre-color)}
+.cal-dia[aria-pressed="true"].hoy{box-shadow:inset 0 0 0 1.5px var(--negro)}
+
+.cal-puntos{display:flex;gap:2px;height:5px;align-items:center}
+.cal-punto{width:5px;height:5px;border-radius:50%;background:var(--negro)}
+.cal-punto.frente  {background:var(--linea-frente)}
+.cal-punto.gremial {background:var(--linea-gremial)}
+.cal-punto.info    {background:var(--linea-info)}
+.cal-punto.saberes {background:var(--linea-saberes)}
+
+.cal-referencia{
+  display:flex;flex-wrap:wrap;gap:10px;margin-top:11px;padding-top:10px;
+  border-top:1px solid var(--borde);font-size:11.5px;color:var(--gris)
+}
+.cal-referencia span{display:flex;align-items:center;gap:5px}
+
+/* ============================================================
+   BARRA DE NAVEGACION INFERIOR
+   ============================================================ */
+
+/* ============================================================
+   PIE
+   ============================================================ */
+.pie{
+  text-align:center;color:var(--gris);font-size:13px;
+  padding:30px 16px 10px;line-height:1.5
+}
+.pie strong{color:var(--texto)}
+
+/* ============================================================
+   ORGANIZADOR DE CURSADAS  (carrera/)
+   Los tres colores que ordenan toda la pantalla:
+     turquesa = la promocionás    amarillo = la cursás sin promoción
+     gris     = todavía no podés  celeste  = final pendiente
+   ============================================================ */
+
+/* --- Barra de progreso --- */
+.progreso{
+  background:var(--blanco);border:1px solid var(--borde);border-radius:var(--radio);
+  padding:14px;box-shadow:var(--sombra);margin-bottom:18px
+}
+.barra{background:var(--borde);border-radius:99px;height:10px;overflow:hidden}
+.barra-llena{background:var(--celeste);height:100%;border-radius:99px;transition:width .3s}
+.progreso-datos{
+  display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap;
+  margin-top:9px;font-size:14px;color:var(--gris)
+}
+.progreso-datos strong{
+  font-family:var(--fuente-titulo);font-size:20px;color:var(--texto);
+  vertical-align:-1px;margin-right:2px
+}
+.progreso-extra{margin-top:6px;font-size:14px;color:var(--gris)}
+
+/* El promedio. Es opcional: solo aparece si hay al menos una nota. */
+.promedio{
+  display:flex;align-items:center;gap:12px;
+  margin-top:12px;padding-top:12px;border-top:1px solid var(--borde)
+}
+.promedio-numero{
+  font-family:var(--fuente-titulo);font-weight:800;font-size:34px;line-height:1;
+  color:var(--celeste)
+}
+.promedio-detalle{font-size:14px;line-height:1.25;color:var(--texto)}
+.promedio-detalle small{color:var(--gris);font-size:12.5px}
+
+/* El campo de nota, adentro de la ficha de una materia aprobada */
+.caja-nota{
+  margin-top:14px;background:var(--hueso);border:1px solid var(--borde);
+  border-radius:var(--radio-chico);padding:12px 13px
+}
+.caja-nota label{
+  display:block;font-family:var(--fuente-sub);font-weight:700;font-size:14px;
+  text-transform:uppercase;letter-spacing:.04em;margin-bottom:7px
+}
+.caja-nota label small{
+  font-family:var(--fuente-texto);font-weight:400;text-transform:none;
+  letter-spacing:0;color:var(--gris)
+}
+.caja-nota input{
+  width:96px;font-family:var(--fuente-sub);font-weight:700;font-size:22px;
+  text-align:center;padding:8px 10px;border:1.5px solid var(--borde);
+  border-radius:var(--radio-chico);background:var(--blanco);color:var(--texto)
+}
+.caja-nota input:focus{outline:none;border-color:var(--celeste)}
+.caja-nota .letra-chica{margin-top:7px}
+
+/* --- Pestañas --- */
+.pestanas{display:flex;gap:6px;margin:0 0 14px}
+.pestana{
+  flex:1;background:transparent;border:none;border-bottom:3px solid var(--borde);
+  padding:10px 4px;font-family:var(--fuente-sub);font-size:15px;
+  text-transform:uppercase;letter-spacing:.04em;color:var(--gris)
+}
+.pestana[aria-selected="true"]{border-bottom-color:var(--texto);color:var(--texto);font-weight:700}
+
+/* --- Interruptor de una linea --- */
+.interruptor{
+  display:flex;align-items:center;gap:10px;background:var(--blanco);
+  border:1px solid var(--borde);border-radius:var(--radio-chico);
+  padding:11px 13px;margin:6px 0 16px;font-size:14.5px;line-height:1.3
+}
+.interruptor input{width:19px;height:19px;flex:0 0 auto;accent-color:var(--texto)}
+
+.cuenta-grupo{
+  background:var(--negro);color:var(--sobre-negro);border-radius:99px;
+  font-size:12px;padding:2px 9px;letter-spacing:0
+}
+
+/* --- Tarjeta de materia --- */
+.tarjeta.materia{border-left-color:var(--borde);cursor:pointer}
+.tarjeta.materia:hover{border-color:var(--texto)}
+.tarjeta.materia.promociona{border-left-color:var(--celeste)}
+.tarjeta.materia.cursa     {border-left-color:var(--amarillo)}
+.tarjeta.materia.trabada   {border-left-color:var(--borde);opacity:.72}
+.tarjeta.materia.final     {border-left-color:var(--linea-saberes)}
+.tarjeta.materia .motivo{margin:0;color:var(--gris);font-size:14px;line-height:1.35}
+.tarjeta.materia .motivo strong{color:var(--texto)}
+
+.tarjeta.materia.estado-aprobada{border-left-color:var(--celeste)}
+.tarjeta.materia.estado-cursada {border-left-color:var(--amarillo)}
+.tarjeta.materia.estado-cursando{border-left-color:var(--linea-saberes)}
+
+/* --- Pastilla de estado --- */
+.pastilla{
+  display:inline-block;font-size:11px;font-weight:700;letter-spacing:.06em;
+  text-transform:uppercase;padding:2px 8px;border-radius:99px;
+  background:var(--borde);color:var(--sobre-color)
+}
+.pastilla.cursando{background:var(--linea-saberes);color:var(--sobre-color)}
+.pastilla.cursada {background:var(--amarillo);color:var(--sobre-color)}
+.pastilla.aprobada{background:var(--celeste);color:var(--sobre-color)}
+
+/* --- Hoja de detalle --- */
+.hoja-fondo{
+  position:fixed;inset:0;z-index:80;background:rgba(26,26,26,.55);
+  display:flex;align-items:flex-end;justify-content:center
+}
+.hoja{
+  background:var(--blanco);width:100%;max-width:var(--ancho-max);
+  max-height:88vh;overflow-y:auto;position:relative;
+  border-radius:var(--radio) var(--radio) 0 0;padding:20px 16px 30px
+}
+.hoja-cerrar{
+  position:absolute;top:12px;right:12px;width:34px;height:34px;border-radius:99px;
+  border:1px solid var(--borde);background:var(--blanco);font-size:15px;line-height:1
+}
+.hoja-cod{
+  font-family:var(--fuente-sub);font-size:12px;text-transform:uppercase;
+  letter-spacing:.08em;color:var(--gris)
+}
+.hoja h2{
+  font-family:var(--fuente-titulo);font-size:25px;line-height:1.05;
+  text-transform:uppercase;margin:4px 40px 12px 0
+}
+.veredicto{
+  font-family:var(--fuente-sub);font-weight:700;font-size:14px;
+  text-transform:uppercase;letter-spacing:.05em;line-height:1.25;
+  padding:11px 13px;border-radius:var(--radio-chico);background:var(--borde)
+}
+.veredicto.promociona{background:var(--celeste);color:var(--sobre-color)}
+.veredicto.cursa     {background:var(--amarillo);color:var(--sobre-color)}
+.veredicto.trabada   {background:var(--borde);color:var(--gris)}
+
+.opciones-estado{display:flex;flex-direction:column;gap:8px}
+.opcion{
+  background:var(--blanco);border:1.5px solid var(--borde);border-radius:var(--radio-chico);
+  padding:12px 13px;text-align:left;font-size:15px;line-height:1.25
+}
+.opcion.elegida{border-color:var(--texto);font-weight:700}
+.opcion.elegida.cursando{background:var(--linea-saberes);color:var(--sobre-color)}
+.opcion.elegida.cursada {background:var(--amarillo);color:var(--sobre-color)}
+.opcion.elegida.aprobada{background:var(--celeste);color:var(--sobre-color)}
+
+.lista-correl{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:8px}
+.lista-correl li{
+  background:var(--blanco);border:1px solid var(--borde);border-radius:var(--radio-chico);
+  padding:10px 12px;font-size:15px;line-height:1.3
+}
+.lista-correl li .pastilla{margin-right:7px;vertical-align:1px}
+.lista-correl li small{color:var(--gris)}
+
+.letra-chica{color:var(--gris);font-size:13px;line-height:1.45;margin:8px 0 0}
+
+/* --- Puerta al organizador desde la pantalla de inicio --- */
+.tarjeta-destacada{
+  display:flex;align-items:center;gap:13px;text-decoration:none;
+  background:var(--negro);color:var(--sobre-negro);border-radius:var(--radio);
+  padding:16px;margin:18px 0 4px;box-shadow:var(--sombra)
+}
+.tarjeta-destacada .emoji{font-size:30px;flex:0 0 auto;line-height:1}
+.tarjeta-destacada .nombre{
+  font-family:var(--fuente-sub);font-weight:700;font-size:17px;line-height:1.1;
+  text-transform:uppercase;color:var(--amarillo);display:block
+}
+.tarjeta-destacada p{margin:3px 0 0;font-size:14px;color:#c9c9c9;line-height:1.35}
+
+/* --- Mapa de correlatividades --------------------------------
+   Se lee de izquierda a derecha: una columna por año. Las lineas
+   unen cada materia con las que le abren la puerta. Los colores son
+   los mismos del resto del organizador: turquesa = promocion,
+   amarillo = cursada.
+   ------------------------------------------------------------ */
+.mapa-leyenda{
+  display:flex;flex-wrap:wrap;gap:7px 14px;margin:0 0 10px;
+  font-size:12.5px;color:var(--gris)
+}
+.mapa-leyenda span{display:flex;align-items:center;gap:6px}
+.mapa-leyenda i{
+  width:15px;height:15px;border-radius:4px;flex:0 0 auto;
+  background:var(--blanco);border:1.5px solid var(--borde)
+}
+.mapa-leyenda i.aprobada  {background:var(--celeste);border-color:var(--celeste)}
+.mapa-leyenda i.cursada   {background:var(--amarillo);border-color:var(--amarillo)}
+.mapa-leyenda i.promociona{border-color:var(--celeste);border-width:2.5px}
+.mapa-leyenda i.cursa     {border-color:var(--amarillo);border-width:2.5px}
+.mapa-leyenda i.trabada   {background:var(--apagado)}
+
+.mapa-marco{
+  overflow:auto;-webkit-overflow-scrolling:touch;
+  background:var(--blanco);border:1px solid var(--borde);
+  border-radius:var(--radio);box-shadow:var(--sombra)
+}
+.mapa-lienzo{position:relative}
+.mapa-lienzo svg{position:absolute;left:0;top:0;pointer-events:none}
+
+.mapa-col-titulo{
+  position:absolute;top:12px;
+  font-family:var(--fuente-sub);font-weight:700;font-size:12px;
+  text-transform:uppercase;letter-spacing:.06em;color:var(--gris);white-space:nowrap
+}
+
+.mapa-nodo{
+  position:absolute;display:flex;flex-direction:column;gap:2px;
+  text-align:left;overflow:hidden;cursor:pointer;
+  background:var(--blanco);border:1.5px solid var(--borde);
+  border-radius:var(--radio-chico);padding:6px 8px;
+  font-family:var(--fuente-texto);line-height:1.14
+}
+.mapa-nodo .cod{
+  font-size:10px;letter-spacing:.04em;color:var(--gris);
+  white-space:nowrap;overflow:hidden;text-overflow:ellipsis
+}
+.mapa-nodo .nom{
+  font-size:11.5px;font-weight:700;color:var(--texto);
+  display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden
+}
+.mapa-nodo.aprobada  {background:var(--celeste);border-color:var(--celeste);color:var(--sobre-color)}
+.mapa-nodo.cursada   {background:var(--amarillo);border-color:var(--amarillo);color:var(--sobre-color)}
+.mapa-nodo.cursando  {border-color:var(--linea-saberes);border-width:2.5px}
+.mapa-nodo.promociona{border-color:var(--celeste);border-width:2.5px}
+.mapa-nodo.cursa     {border-color:var(--amarillo);border-width:2.5px}
+.mapa-nodo.trabada   {background:var(--apagado)}
+.mapa-nodo.trabada .nom{color:var(--texto-suave)}
+/* El nombre y el código tienen color propio, así que sobre el amarillo
+   y el celeste hay que pisarlos: si no, de noche quedan claros sobre
+   claro y el nodo se vuelve ilegible. */
+.mapa-nodo.cursada .nom, .mapa-nodo.aprobada .nom,
+.mapa-nodo.cursada .cod, .mapa-nodo.aprobada .cod{color:var(--sobre-color)}
+.mapa-nodo:hover{box-shadow:0 0 0 2px var(--negro)}
+
+.mapa-arista{fill:none;stroke:var(--borde);stroke-width:1.2}
+.mapa-arista.promociona{stroke:var(--celeste);stroke-width:2.4}
+.mapa-arista.cursa     {stroke:var(--amarillo);stroke-width:2.4}
+.mapa-arista.resaltada {stroke:var(--negro);stroke-width:2.4}
+
+/* ============================================================
+   APERTURA · la animacion de cuando abris la app
+   Dura poco menos de un segundo y se va sola. Se ve una vez por
+   visita, no cada vez que cambias de pantalla.
+   ============================================================ */
+/* El logo animado de la Agrupacion, traido del proyecto de Claude Design
+   "Animación logo Simón Bolívar". Son tres capas apiladas (el contorno de
+   Sudamerica, SIMON y BOLIVAR) sobre el amarillo de la marca. El dibujo
+   completo mide 1080x1350, y la tinta ocupa 805x664 en el centro: por eso
+   la escala se calcula contra esas medidas y no contra el lienzo.
+   La coreografia (que capa entra cuando) esta en index.html. */
+.apertura{
+  position:fixed;inset:0;z-index:200;overflow:hidden;
+  /* Amarillo PLENO, no el suave: es el fondo con el que fue dibujado
+     el logo, y las tres capas estan hechas para ese amarillo. */
+  background:var(--amarillo);
+  display:flex;align-items:center;justify-content:center;
+  transition:opacity .35s ease
+}
+.apertura::before{
+  content:'';position:absolute;inset:0;pointer-events:none;
+  background:radial-gradient(130% 100% at 50% 42%,
+    rgba(255,255,255,.14) 0%, rgba(255,255,255,0) 60%, rgba(182,39,37,.07) 100%)
+}
+.apertura.yendose{opacity:0}
+
+.marca-escena{
+  position:relative;flex:0 0 auto;
+  width:1080px;height:1350px;transform-origin:50% 50%
+}
+.marca-escena .capa{position:absolute;inset:0}
+.marca-escena .capa img{
+  position:absolute;left:0;top:0;width:1080px;height:1350px;
+  user-select:none;-webkit-user-select:none;-webkit-user-drag:none
+}
+.marca-escena .destello{
+  position:absolute;top:-20%;width:26%;height:140%;opacity:0;
+  transform:rotate(14deg);pointer-events:none;mix-blend-mode:soft-light;
+  background:linear-gradient(to right,
+    rgba(255,255,255,0) 0%, rgba(255,255,255,.9) 50%, rgba(255,255,255,0) 100%)
+}
+
+/* ============================================================
+   BIENVENIDA · solo la primera vez que alguien abre la app
+   ============================================================ */
+/* La apertura y la bienvenida no tienen barra de navegacion abajo, asi
+   que hay que sacarles el hueco que el body le reserva. Si no, la
+   pantalla queda 80px mas alta de lo que se ve y aparece scroll. */
+body.antes-de-entrar{padding-bottom:0}  /* apertura y bienvenida a pantalla completa */
+
+/* Tiene que entrar de una en la pantalla del telefono: si los botones
+   quedan abajo del pliegue, la bienvenida no sirve para nada. Por eso
+   el dibujo se mide en vh y encoge solo en pantallas cortas. */
+.bienvenida{
+  min-height:100vh;min-height:100dvh;display:flex;flex-direction:column;
+  padding:18px 20px calc(20px + env(safe-area-inset-bottom));
+  background:var(--amarillo-fondo);text-align:center
+}
+.bienvenida .arriba{
+  flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;
+  gap:clamp(10px,2.2vh,20px);min-height:0
+}
+.bienvenida .dibujo{width:min(240px,60vw);height:auto;max-height:26vh}
+.bienvenida .quienes{
+  font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--gris)
+}
+.bienvenida h1{
+  font-family:var(--fuente-titulo);font-size:clamp(27px,7.4vw,34px);line-height:1.02;
+  text-transform:uppercase;max-width:15ch;margin-top:5px
+}
+.bienvenida .lema{color:var(--gris);font-size:16px;line-height:1.4;max-width:32ch;margin:0}
+.bienvenida .abajo{display:flex;flex-direction:column;gap:10px;width:100%;max-width:420px;margin:0 auto}
+.bienvenida .sin-cuenta{
+  background:transparent;border:none;padding:12px;
+  font-family:var(--fuente-sub);font-size:16px;font-weight:700;
+  text-transform:uppercase;letter-spacing:.04em;color:var(--texto);text-decoration:none
+}
+
+/* ============================================================
+   INICIO · tarjeta grande y recuadros
+   ============================================================ */
+/* La tarjeta grande es el momento de marca dentro del contenido: va en
+   amarillo PLENO. Sobre el fondo suave resalta, y con letra negra da 13,8. */
+.tarjeta-carrera{
+  display:block;text-decoration:none;color:var(--sobre-color);
+  border-radius:20px;padding:18px;margin:18px 0 12px;
+  min-height:158px;box-shadow:var(--sombra);
+  background:var(--amarillo)
+}
+.tarjeta-carrera .rotulo{
+  font-size:11px;letter-spacing:.14em;text-transform:uppercase;opacity:.72
+}
+.tarjeta-carrera .nombre{color:var(--sobre-color);font-weight:800;
+  font-family:var(--fuente-titulo);font-size:27px;line-height:1;
+  text-transform:uppercase;margin:7px 0 12px;display:block
+}
+.tarjeta-carrera .barra{background:rgba(26,26,26,.18);height:8px}
+.tarjeta-carrera .barra-llena{background:var(--negro)}
+.tarjeta-carrera .cifra{
+  display:flex;justify-content:space-between;align-items:baseline;gap:10px;
+  margin-top:9px;font-size:14px
+}
+.tarjeta-carrera .cifra strong{font-family:var(--fuente-sub);font-size:19px}
+
+.rejilla-recuadros{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin-bottom:8px}
+.recuadro{
+  background:var(--blanco);border:1px solid var(--borde);border-radius:var(--radio);
+  padding:14px;text-decoration:none;color:var(--texto);
+  box-shadow:var(--sombra);display:flex;flex-direction:column;gap:3px;min-height:112px
+}
+.recuadro .rotulo{font-size:12px;letter-spacing:.06em;text-transform:uppercase;color:var(--gris)}
+.recuadro .grande{
+  font-family:var(--fuente-titulo);font-size:30px;line-height:1;margin-top:2px
+}
+.recuadro .detalle{font-size:13.5px;color:var(--gris);line-height:1.3}
+.recuadro .pie-recuadro{margin-top:auto;font-size:13.5px;line-height:1.25;font-weight:700}
+
+/* ============================================================
+   QUIENES SOMOS
+   ============================================================ */
+.bloque-texto{
+  background:var(--blanco);border:1px solid var(--borde);
+  border-left:4px solid var(--celeste);border-radius:var(--radio);
+  padding:16px;margin-bottom:10px;box-shadow:var(--sombra)
+}
+.bloque-texto h2{
+  font-family:var(--fuente-titulo);font-weight:800;font-size:19px;line-height:1.1;
+  text-transform:uppercase;margin-bottom:9px
+}
+.bloque-texto p{margin:0 0 10px;font-size:15.5px;line-height:1.5}
+.bloque-texto p:last-child{margin-bottom:0}
+
+.redes{display:flex;flex-wrap:wrap;gap:8px}
+.redes .boton{width:auto}
+
+/* Lo que todavia no se completo se ve, pero apagado: asi no se
+   publica un boton que no lleva a ningun lado. */
+.red-pendiente{
+  display:inline-block;font-size:14px;color:var(--gris);font-style:italic;
+  background:var(--hueso);border-radius:var(--radio-chico);padding:8px 11px
+}
+
+.bloque-sumate{
+  background:var(--negro);color:var(--sobre-negro);
+  border-radius:var(--radio);padding:18px;margin:16px 0 4px
+}
+.bloque-sumate h2{
+  font-family:var(--fuente-titulo);font-weight:800;font-size:22px;
+  text-transform:uppercase;color:var(--amarillo);margin-bottom:8px
+}
+.bloque-sumate p{margin:0 0 14px;font-size:15.5px;line-height:1.5}
+.bloque-sumate .boton.oscuro{background:var(--amarillo);color:var(--sobre-color)}
+.bloque-sumate .red-pendiente{background:#333;color:#c9c9c9}
+
+/* El enlace de "¿Quiénes somos?" en el pie y en el menú */
+.pie-nota{
+  display:block;max-width:34ch;margin:12px auto 0;
+  font-size:13px;line-height:1.45;color:var(--texto-suave)
+}
+.pie-enlace{
+  display:inline-block;margin-top:10px;font-family:var(--fuente-sub);
+  font-weight:700;font-size:13px;text-transform:uppercase;letter-spacing:.05em;
+  color:var(--texto);text-decoration:underline
+}
+.menu-lista a.menu-aparte{
+  margin-top:8px;padding-top:18px;border-top:1px solid #333
+}
+
+/* ============================================================
+   EL LOGO EN LA PORTADA
+   Va en rojo, no en amarillo: sobre el fondo claro de la app el
+   amarillo tiene contraste 1,3 y no se veria. El rojo da 6,0.
+   ============================================================ */
+.marca-portada{
+  display:flex;flex-direction:column;align-items:center;gap:10px;
+  text-align:center;margin:18px 0 6px
+}
+.marca-portada img{width:min(186px,46vw);height:auto}
+.marca-portada-firma{
+  font-family:var(--fuente-titulo);font-weight:800;
+  font-size:clamp(19px,5.4vw,25px);line-height:1;letter-spacing:-.01em;
+  text-transform:uppercase
+}
+.marca-portada-firma em{font-style:normal;color:var(--rojo)}
+
+/* ============================================================
+   PORTADA: el carrusel de imagenes
+   ============================================================ */
+.carrusel{
+  position:relative;margin:16px 0 8px;border-radius:var(--radio);
+  overflow:hidden;background:var(--amarillo);box-shadow:var(--sombra)
+}
+.carrusel-pista{display:flex;transition:transform .5s cubic-bezier(.4,0,.2,1)}
+.carrusel-lamina{flex:0 0 100%;position:relative}
+.carrusel-lamina img{width:100%;height:auto;display:block}
+.carrusel-pie{
+  position:absolute;left:0;right:0;bottom:0;padding:26px 14px 12px;
+  font-family:var(--fuente-sub);font-size:14px;font-weight:700;color:var(--sobre-color);
+  background:linear-gradient(to top, rgba(249,232,48,.96) 40%, rgba(249,232,48,0))
+}
+.carrusel-puntos{
+  position:absolute;bottom:8px;right:12px;display:flex;gap:6px
+}
+.carrusel-puntos button{
+  width:8px;height:8px;padding:0;border-radius:50%;border:none;
+  background:rgba(26,26,26,.3)
+}
+.carrusel-puntos button[aria-current="true"]{background:var(--negro);width:20px;border-radius:99px}
+
+/* ============================================================
+   CALENDARIO CUADRADO DEL INICIO
+   ============================================================ */
+.calendario.cuadrado{
+  background:var(--blanco);border:1px solid var(--borde);
+  border-radius:var(--radio);padding:14px;box-shadow:var(--sombra);margin-bottom:8px
+}
+.calendario.cuadrado .cal-grilla{gap:4px}
+.calendario.cuadrado .cal-dia{
+  aspect-ratio:1;font-size:14px;position:relative;
+  flex-direction:column;justify-content:center;gap:0;padding-bottom:9px
+}
+.cal-numero{line-height:1}
+
+/* La barrita de abajo del día. Cuando dos días seguidos son de lo
+   mismo, la barra se estira por encima del hueco de 4px de la grilla,
+   así una mesa de dos semanas se lee como una franja y no como puntos. */
+.cal-barra{
+  position:absolute;left:5px;right:5px;bottom:5px;height:4px;border-radius:99px
+}
+.cal-barra.mesa  {background:var(--rojo)}
+.cal-barra.asueto{background:var(--celeste)}
+.cal-barra.sigue-izq{left:-2px;border-top-left-radius:0;border-bottom-left-radius:0}
+.cal-barra.sigue-der{right:-2px;border-top-right-radius:0;border-bottom-right-radius:0}
+.cal-dia.con-cosas.mesa  {background:var(--dia-mesa)}
+.cal-dia.con-cosas.asueto{background:var(--dia-asueto)}
+
+/* La leyenda: dice con letras lo que la grilla dice con colores */
+.cal-leyenda{
+  margin-top:12px;border-top:1px solid var(--borde);padding-top:11px;
+  display:flex;flex-direction:column;gap:9px
+}
+.cal-leyenda.vacia{color:var(--gris);font-size:14px;padding-top:12px}
+.cal-leyenda-fila{display:flex;align-items:flex-start;gap:9px}
+.cal-marca{
+  flex:0 0 auto;width:14px;height:5px;border-radius:99px;margin-top:6px
+}
+.cal-marca.mesa  {background:var(--rojo)}
+.cal-marca.asueto{background:var(--celeste)}
+.cal-leyenda-texto{display:flex;flex-direction:column;line-height:1.25}
+.cal-leyenda-texto strong{font-family:var(--fuente-sub);font-size:14px;font-weight:700}
+.cal-leyenda-texto small{color:var(--gris);font-size:13px}
+
+.cal-elegido{display:flex;flex-direction:column;gap:8px}
+.cal-elegido:not(:empty){margin-top:12px;border-top:1px solid var(--borde);padding-top:12px}
+.cal-elegido .vacio{padding:12px 0;font-size:14px}
+
+/* ============================================================
+   PANEL 3x3 DE ACCESOS
+   ============================================================ */
+.rejilla-3x3{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin:6px 0 10px}
+.boton-cuadro{
+  aspect-ratio:1;background:var(--blanco);border:1px solid var(--borde);
+  border-radius:var(--radio);box-shadow:var(--sombra);text-decoration:none;
+  color:var(--texto);padding:9px 7px;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;
+  text-align:center;overflow:hidden
+}
+.boton-cuadro .icono{font-size:26px;line-height:1}
+.boton-cuadro .nombre{
+  font-family:var(--fuente-sub);font-weight:700;font-size:11.5px;line-height:1.12;
+  text-transform:uppercase;letter-spacing:.01em;
+  display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden
+}
+.boton-cuadro:hover{border-color:var(--celeste)}
+.boton-cuadro.destacado{background:var(--amarillo);border-color:var(--amarillo);color:var(--sobre-color)}
+
+/* ============================================================
+   EL FONDO DE CONTEXTO
+   La ilustración de la facultad va POR DETRAS del contenido, desde
+   "A dónde ir" hasta el piso de la página. Se apoya abajo, como si
+   el contenido estuviera parado sobre el patio.
+   ============================================================ */
+.zona-fondo{position:relative;z-index:0;padding-top:2px}
+.zona-fondo::before{
+  content:'';position:absolute;left:0;right:0;bottom:0;z-index:-1;
+  height:min(460px,64vw);pointer-events:none;
+  background:url(imagenes/facultad-patio.webp) center bottom / contain no-repeat;
+  opacity:.28
+}
+
+/* ============================================================
+   LA ALARMA DE INSCRIPCION
+   Aparece sola cuando abre la ventana para anotarse a una mesa, y
+   desaparece cuando cierra. El resto del año no ocupa lugar.
+   ============================================================ */
+.alarma{
+  background:var(--amarillo);color:var(--sobre-color);
+  border-radius:var(--radio);padding:16px;margin:16px 0 4px;
+  box-shadow:var(--sombra)
+}
+.alarma.urgente{background:var(--rojo-solido);color:var(--sobre-negro)}
+.alarma-texto strong{
+  font-family:var(--fuente-titulo);font-weight:800;font-size:20px;line-height:1.1;
+  text-transform:uppercase;display:block;margin-bottom:5px
+}
+.alarma-texto p{margin:0 0 13px;font-size:15px;line-height:1.4}
+.alarma .boton.oscuro{background:var(--negro);color:var(--amarillo)}
+.alarma.urgente .boton.oscuro{background:var(--sobre-negro);color:var(--rojo-solido)}
+
+/* ============================================================
+   MI CURSADA EN EL INICIO
+   El organizador deja un resumen y el inicio lo lee: es lo que hace
+   que la app sepa quien es cada quien.
+   ============================================================ */
+.mi-cursada{
+  display:block;text-decoration:none;color:var(--sobre-color);
+  background:var(--amarillo);border-radius:var(--radio);
+  padding:15px;margin:14px 0 4px;box-shadow:var(--sombra)
+}
+.mi-cursada-rotulo{
+  font-size:11px;letter-spacing:.14em;text-transform:uppercase;opacity:.72
+}
+.mi-cursada strong{
+  font-family:var(--fuente-titulo);font-weight:800;font-size:21px;line-height:1.05;
+  text-transform:uppercase;display:block;margin:5px 0 11px
+}
+.mi-cursada .barra{background:rgba(26,26,26,.18);height:8px}
+.mi-cursada .barra-llena{background:var(--negro)}
+.mi-cursada-datos{
+  display:flex;justify-content:space-between;align-items:baseline;
+  margin-top:8px;font-size:14px
+}
+.mi-cursada-datos b{font-family:var(--fuente-sub);font-size:17px}
+.mi-cursada.invitacion{
+  background:var(--superficie);border:1px solid var(--linea);
+  border-left:4px solid var(--celeste);color:var(--texto)
+}
+.mi-cursada.invitacion strong{font-size:18px;margin-bottom:4px}
+.mi-cursada.invitacion p{margin:0;font-size:14.5px;line-height:1.35;color:var(--texto-suave)}
+
+/* ============================================================
+   ESQUELETOS DE CARGA
+
+   Reemplazan al texto "Cargando...". La diferencia no es estetica:
+   un cartel que dice cargando obliga a esperar sin saber que viene,
+   mientras que ver la forma del contenido antes de que llegue hace
+   sentir la espera mas corta, aunque dure lo mismo.
+
+   La regla: el esqueleto tiene que tener la MISMA forma que lo que
+   va a aparecer. Si no, cuando llega el contenido la pantalla salta.
+   ============================================================ */
+@keyframes esqueleto-brillo{
+  from{background-position:200% 0}
+  to  {background-position:-200% 0}
+}
+.esqueleto{
+  background:linear-gradient(90deg,
+    var(--superficie-2) 25%, var(--linea) 50%, var(--superficie-2) 75%);
+  background-size:200% 100%;
+  animation:esqueleto-brillo 1.6s linear infinite;
+  border-radius:6px
+}
+/* Quien pidio menos movimiento ve el bloque quieto, sin el brillo */
+@media (prefers-reduced-motion:reduce){
+  .esqueleto{animation:none}
+}
+.esq-linea{height:13px;margin-bottom:9px}
+.esq-linea.corta{width:45%}
+.esq-linea.media{width:72%}
+.esq-linea.titulo{height:17px;width:60%;margin-bottom:12px}
+
+.esq-tarjeta{
+  background:var(--superficie);border:1px solid var(--linea);
+  border-left:4px solid var(--linea);border-radius:var(--radio);
+  padding:14px;margin-bottom:10px;box-shadow:var(--sombra)
+}
+.esq-cuadro{
+  background:var(--superficie);border:1px solid var(--linea);
+  border-radius:var(--radio);aspect-ratio:1;box-shadow:var(--sombra)
+}
+.esq-calendario{
+  background:var(--superficie);border:1px solid var(--linea);
+  border-radius:var(--radio);padding:14px;box-shadow:var(--sombra)
+}
+.esq-grilla{display:grid;grid-template-columns:repeat(7,1fr);gap:4px;margin-top:12px}
+.esq-grilla .esqueleto{aspect-ratio:1;height:auto;margin:0}
+
+/* ============================================================
+   LA REJILLA DE FICHAS
+
+   3 por fila en el celular, 4 desde 560px. Antes esto era una tira
+   de 34 tarjetas, cinco pantallas de scroll sin un solo encabezado.
+   ============================================================ */
+.rejilla-fichas{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:6px}
+@media (min-width:560px){ .rejilla-fichas{grid-template-columns:repeat(4,1fr)} }
+
+/* Cuadrados en pantalla grande. En el celular son un poco mas altos
+   que anchos: con 109px de lado, titulos como "Plan de estudios:
+   Licenciatura en Trabajo Social" se cortaban en el mismo lugar y
+   tres fichas distintas quedaban identicas. */
+.tarjeta-cuadro{
+  aspect-ratio:1 / 1.22;background:var(--superficie);
+  border:1px solid var(--linea);border-left:4px solid var(--celeste);
+  border-radius:var(--radio);box-shadow:var(--sombra);
+  padding:10px 9px;text-align:left;color:var(--texto);
+  display:flex;flex-direction:column;justify-content:space-between;gap:6px;
+  overflow:hidden;cursor:pointer
+}
+@media (min-width:560px){ .tarjeta-cuadro{aspect-ratio:1} }
+.tarjeta-cuadro:hover{border-color:var(--celeste)}
+.tarjeta-cuadro:focus-visible{outline:3px solid var(--celeste);outline-offset:2px}
+.tarjeta-cuadro .nombre{
+  font-family:var(--fuente-sub);font-weight:700;font-size:11px;line-height:1.16;
+  text-transform:uppercase;letter-spacing:0;
+  display:-webkit-box;-webkit-line-clamp:7;-webkit-box-orient:vertical;overflow:hidden
+}
+@media (min-width:560px){
+  .tarjeta-cuadro .nombre{font-size:12px;-webkit-line-clamp:6}
+}
+/* Dice si adentro hay un paso a paso o si te manda afuera. Antes no
+   se podia saber sin entrar, y de 31 fichas 18 son solo un enlace. */
+.marca-tipo{
+  flex:0 0 auto;font-family:var(--fuente-texto);font-size:9.5px;font-weight:700;
+  letter-spacing:.05em;text-transform:uppercase;
+  padding:3px 7px;border-radius:99px;align-self:flex-start;white-space:nowrap
+}
+.marca-tipo.guia   {background:var(--amarillo);color:var(--sobre-color)}
+.marca-tipo.enlace {background:var(--superficie-2);color:var(--texto-suave)}
+
+/* Las preguntas frecuentes, plegables */
+details.tarjeta > summary{
+  cursor:pointer;list-style:none;font-family:var(--fuente-sub);
+  font-weight:700;font-size:16px;line-height:1.2
+}
+details.tarjeta > summary::-webkit-details-marker{display:none}
+details.tarjeta .respuesta{margin-top:9px;color:var(--texto-suave);font-size:15px}
+
+/* El resumen adentro de la ventanita */
+.hoja-resumen{margin:8px 0 4px;color:var(--texto-suave);font-size:15px;line-height:1.4}
+
+/* ============================================================
+   ESTUDIEMOS
+   El material de los grupos de estudio, agrupado por materia.
+   ============================================================ */
+.material-tipo{
+  display:inline-block;font-family:var(--fuente-texto);font-size:10.5px;font-weight:700;
+  letter-spacing:.08em;text-transform:uppercase;padding:3px 9px;border-radius:99px;
+  margin-bottom:7px;background:var(--superficie-2);color:var(--texto-suave)
+}
+.material-tipo.resumen {background:var(--amarillo);color:var(--sobre-color)}
+.material-tipo.parcial {background:var(--rojo-solido);color:var(--sobre-negro)}
+.material-tipo.guia    {background:var(--celeste);color:var(--sobre-color)}
+.material-ir{
+  display:block;margin-top:11px;font-family:var(--fuente-sub);font-weight:700;
+  font-size:14px;text-transform:uppercase;letter-spacing:.04em;color:var(--celeste)
+}
+
+/* ============================================================
+   KIT DE INGRESO
+   Las primeras cosas que necesita alguien que recien llega.
+   ============================================================ */
+.kit{display:flex;flex-direction:column;gap:10px;margin-bottom:8px}
+.tarjeta-kit{
+  display:flex;align-items:flex-start;gap:13px;
+  background:var(--superficie);border:1px solid var(--linea);
+  border-left:4px solid var(--celeste);border-radius:var(--radio);
+  padding:15px;text-decoration:none;color:var(--texto);box-shadow:var(--sombra)
+}
+.tarjeta-kit:hover{border-color:var(--celeste)}
+.tarjeta-kit .kit-numero{
+  flex:0 0 auto;width:30px;height:30px;border-radius:50%;
+  background:var(--amarillo);color:var(--sobre-color);
+  display:flex;align-items:center;justify-content:center;
+  font-family:var(--fuente-sub);font-weight:800;font-size:15px
+}
+.tarjeta-kit .kit-texto{min-width:0}
+.tarjeta-kit h3{
+  font-family:var(--fuente-sub);font-weight:700;font-size:16.5px;line-height:1.15;
+  text-transform:uppercase;margin-bottom:3px
+}
+.tarjeta-kit p{margin:0;font-size:14.5px;line-height:1.35;color:var(--texto-suave)}
+
+/* ============================================================
+   BOTON FLOTANTE "AVISANOS"
+   ============================================================ */
+.avisanos{
+  position:fixed;right:14px;bottom:14px;z-index:70;
+  display:inline-flex;align-items:center;gap:9px;
+  padding:13px 18px;border-radius:99px;border:2px solid var(--sobre-negro);
+  background:var(--rojo-solido);color:var(--sobre-negro);text-decoration:none;
+  font-family:var(--fuente-sub);font-weight:700;font-size:15px;
+  box-shadow:0 4px 16px rgba(0,0,0,.28);
+  transition:transform .18s ease, box-shadow .18s ease
+}
+.avisanos svg{width:21px;height:21px;flex:0 0 auto;fill:currentColor}
+.avisanos:hover,.avisanos:focus-visible{
+  transform:translateY(-2px);box-shadow:0 7px 22px rgba(0,0,0,.34)
+}
+.avisanos:focus-visible{outline:3px solid var(--celeste);outline-offset:3px}
+
+/* El globo con la pregunta. Aparece al pasar por encima o al llegar
+   con el teclado; en el celular, donde no hay hover, sale solo a los
+   pocos segundos de abrir la pantalla y se va. */
+.avisanos-globo{
+  position:absolute;right:0;bottom:calc(100% + 10px);width:max-content;
+  max-width:min(260px,72vw);padding:11px 14px;border-radius:var(--radio);
+  background:var(--negro);color:var(--sobre-negro);
+  font-family:var(--fuente-texto);font-weight:400;font-size:14px;line-height:1.35;
+  box-shadow:0 4px 16px rgba(0,0,0,.3);
+  opacity:0;transform:translateY(6px);pointer-events:none;
+  transition:opacity .2s ease, transform .2s ease
+}
+.avisanos-globo::after{
+  content:'';position:absolute;right:26px;top:100%;
+  border:7px solid transparent;border-top-color:var(--negro)
+}
+.avisanos:hover .avisanos-globo,
+.avisanos:focus-visible .avisanos-globo,
+.avisanos.mostrando .avisanos-globo{opacity:1;transform:translateY(0)}
+
+/* ============================================================
+   PANTALLAS GRANDES
+   ============================================================ */
+@media (min-width:720px){
+  .rejilla-categorias{grid-template-columns:repeat(3,1fr)}
+  .titulo-pantalla{font-size:38px}
+  .marca{font-size:30px}
+  .hoja{align-self:center;border-radius:var(--radio);max-height:82vh}
+  .hoja-fondo{align-items:center}
+}

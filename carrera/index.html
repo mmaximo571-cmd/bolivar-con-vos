@@ -1,0 +1,922 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Mi año · La Bolívar con vos</title>
+<meta name="description" content="Organizá tu cursada según el plan de estudios de tu carrera en la Facultad de Trabajo Social. Mirá qué podés cursar y qué podés promocionar el año que viene.">
+<meta name="theme-color" content="#F9E830">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@600;700;800&family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+<!-- Iconos de la app: pestana, Google, y pantalla de inicio del celular -->
+<link rel="icon" type="image/png" sizes="32x32" href="../imagenes/icono-32.png">
+<link rel="icon" type="image/png" sizes="96x96" href="../imagenes/icono-96.png">
+<link rel="icon" type="image/png" sizes="192x192" href="../imagenes/icono-192.png">
+<link rel="apple-touch-icon" href="../imagenes/icono-apple.png">
+<link rel="manifest" href="../manifest.json">
+
+<!-- Como se ve cuando alguien comparte el link por WhatsApp o Instagram -->
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="La Bolivar con vos">
+<meta property="og:title" content="Mi año · La Bolívar con vos">
+<meta property="og:description" content="Organizá tu cursada según el plan de estudios de tu carrera en la Facultad de Trabajo Social. Mirá qué podés cursar y qué podés promocionar el año que viene.">
+<meta property="og:image" content="https://bolivar-con-vos.vercel.app/imagenes/compartir.png">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="stylesheet" href="../estilos.css">
+</head>
+<body>
+
+<div id="cabecera"></div>
+
+<main class="envoltura">
+
+  <h1 class="titulo-pantalla">Mi año</h1>
+  <p class="bajada">
+    Marcá cómo venís con cada materia y te decimos qué podés cursar y qué
+    podés <strong>promocionar</strong>. Nadie más lo ve: queda en tu teléfono.
+  </p>
+
+  <!-- ---------- ELEGIR CARRERA ---------- -->
+  <div class="chips" id="selector-carrera" role="group" aria-label="Elegí tu carrera"></div>
+
+  <!-- ---------- PROGRESO ---------- -->
+  <section class="progreso" id="progreso"></section>
+
+  <!-- ---------- PESTAÑAS ---------- -->
+  <div class="pestanas" role="tablist">
+    <button class="pestana" id="tab-plan"  role="tab" aria-selected="true">Mi cursada</button>
+    <button class="pestana" id="tab-mapa"  role="tab" aria-selected="false">Mapa</button>
+    <button class="pestana" id="tab-todo"  role="tab" aria-selected="false">Plan completo</button>
+  </div>
+
+  <!-- ---------- VISTA: MI CURSADA ---------- -->
+  <section id="vista-plan">
+
+    <!-- Lo que estás haciendo ahora, arriba de todo -->
+    <div id="cursando-ahora"></div>
+
+    <div class="titulo-seccion">EL AÑO QUE VIENE</div>
+
+    <div class="chips" id="filtro-cuatri" role="group" aria-label="Filtrar por cuatrimestre">
+      <button class="chip" data-cuatri="todo"  aria-pressed="true">Todas</button>
+      <button class="chip" data-cuatri="anual" aria-pressed="false">Anuales</button>
+      <button class="chip" data-cuatri="1c"    aria-pressed="false">1° cuatri</button>
+      <button class="chip" data-cuatri="2c"    aria-pressed="false">2° cuatri</button>
+    </div>
+
+    <label class="interruptor" id="caja-suponer" hidden>
+      <input type="checkbox" id="suponer">
+      <span>Dar por aprobadas las cursadas que estoy haciendo ahora</span>
+    </label>
+
+    <div id="grupos"></div>
+    <div id="consejo"></div>
+  </section>
+
+  <!-- ---------- VISTA: MAPA DE CORRELATIVIDADES ---------- -->
+  <section id="vista-mapa" hidden>
+    <p class="bajada" style="margin-bottom:12px">
+      El plan se lee de izquierda a derecha: cada columna es un año, y las
+      líneas van de cada materia a las que te habilita.
+    </p>
+
+    <div class="mapa-leyenda">
+      <span><i class="aprobada"></i>Aprobada</span>
+      <span><i class="cursada"></i>Te falta el final</span>
+      <span><i class="promociona"></i>Podés promocionarla</span>
+      <span><i class="cursa"></i>Podés cursarla</span>
+      <span><i class="trabada"></i>Todavía no</span>
+    </div>
+
+    <div class="mapa-marco" id="mapa-marco">
+      <div class="mapa-lienzo" id="mapa-lienzo"></div>
+    </div>
+    <p class="letra-chica" id="mapa-aviso" hidden></p>
+  </section>
+
+  <!-- ---------- VISTA: PLAN COMPLETO ---------- -->
+  <section id="vista-todo" hidden>
+    <div id="por-anio"></div>
+
+    <div class="titulo-seccion" id="titulo-requisitos" hidden>OTROS REQUISITOS</div>
+    <div id="requisitos"></div>
+
+    <div class="aviso" id="nota-asterisco" hidden></div>
+
+    <button class="boton borde ancho" id="borrar" style="margin:18px 0 6px">
+      Empezar de nuevo
+    </button>
+    <p class="letra-chica">
+      Lo que marcás se guarda solo en este teléfono. No se sube a ningún lado
+      y nadie más lo ve. Cada carrera se guarda por separado.
+    </p>
+  </section>
+
+</main>
+
+<!-- ---------- HOJA DE DETALLE ---------- -->
+<div class="hoja-fondo" id="hoja-fondo" hidden>
+  <div class="hoja" id="hoja" role="dialog" aria-modal="true" aria-labelledby="hoja-titulo">
+    <button class="hoja-cerrar" id="hoja-cerrar" aria-label="Cerrar">✕</button>
+    <div id="hoja-cuerpo"></div>
+  </div>
+</div>
+
+<div id="pie"></div>
+
+<script>window.RAIZ = '../';</script>
+<!-- La librería de Supabase vive ACÁ ADENTRO, no en un servidor ajeno.
+     Versión 2.112.4, congelada. Antes se bajaba de cdn.jsdelivr.net en
+     cada visita: si esa descarga fallaba, la app quedaba en «Cargando…». -->
+<script src="../lib/supabase.js"></script>
+<script src="../config.js"></script>
+<script src="../iconos.js"></script>
+<script src="../app.js"></script>
+<script src="plan.js"></script>
+<script src="plan-tgcr.js"></script>
+<script src="plan-fono.js"></script>
+<script>
+(function carrera(){
+
+document.getElementById('cabecera').innerHTML = htmlCabecera(
+  '<a class="boton-cabecera" href="../mi/">Perfil</a>');
+document.getElementById('pie').innerHTML = htmlPie();
+pintarNav('carrera');
+
+/* ============================================================
+   LAS TRES CARRERAS
+   El orden de acá es el orden en que aparecen los botones de arriba.
+   ============================================================ */
+const CARRERAS = [window.PLAN_TS, window.PLAN_TGCR, window.PLAN_FONO];
+
+/* Estas cuatro cambian cada vez que se elige otra carrera */
+let PLAN, MATERIAS, POR_COD, HABILITA, datos;
+
+/* ============================================================
+   LAS DOS LISTAS DE CORRELATIVAS
+
+   Trabajo Social y Gestión del Riesgo traen UNA sola columna de
+   correlativas en el plan: la misma lista dice qué necesitás para
+   cursar (con la cursada aprobada) y qué necesitás para promocionar
+   (con el final aprobado).
+
+   Fonoaudiología trae DOS columnas separadas, y a veces dicen cosas
+   distintas. Por eso todo el sistema pregunta por estas dos funciones
+   en vez de mirar "correl" directamente.
+   ============================================================ */
+function paraCursar(m){
+  return m.paraCursar || m.correl || [];
+}
+
+function paraFinal(m){
+  const p = (m.paraFinal !== undefined) ? m.paraFinal : m.correl;
+  /* El Trabajo Integrador Final de Fonoaudiología pide todas las
+     materias de 1° a 4° con el final aprobado. */
+  if (p === 'todas-1-a-4') return MATERIAS.filter(x => x.anio <= 4).map(x => x.cod);
+  return p || [];
+}
+
+/* Todo lo que esta materia menciona, sin repetir */
+function refsDe(m){
+  const todas = paraCursar(m).concat(paraFinal(m));
+  return todas.filter((c, i) => todas.indexOf(c) === i);
+}
+
+/* ============================================================
+   LOS CUATRO ESTADOS
+   El corazón del sistema de correlatividades:
+     promocionar una materia te habilita a promocionar la siguiente;
+     aprobar solo la cursada te habilita a cursarla, pero no a promocionarla.
+   ============================================================ */
+const ESTADOS = {
+  pendiente: { texto:'Todavía no la hice',       corto:'Pendiente'  },
+  cursando:  { texto:'La estoy cursando ahora',  corto:'Cursando'   },
+  cursada:   { texto:'Aprobé la cursada, me falta el final', corto:'Falta el final' },
+  aprobada:  { texto:'Aprobada (promoción o final rendido)', corto:'Aprobada' }
+};
+const ORDEN = { pendiente:0, cursando:1, cursada:2, aprobada:3 };
+
+/* ============================================================
+   LO QUE SE GUARDA EN EL TELEFONO
+   Cada carrera guarda lo suyo por separado, en guardado.datos[id].
+   ============================================================ */
+const LLAVE     = 'bolivar-carrera-v2';
+const LLAVE_VIEJA = 'bolivar-carrera-v1';
+
+let guardado = { carrera:'ts', datos:{} };
+
+try {
+  const crudo = localStorage.getItem(LLAVE);
+  if (crudo) {
+    guardado = Object.assign(guardado, JSON.parse(crudo));
+  } else {
+    /* Quien ya venía usando la app tenía una sola carrera, la de Trabajo
+       Social, guardada en la llave vieja. No se le pierde nada. */
+    const viejo = localStorage.getItem(LLAVE_VIEJA);
+    if (viejo) guardado.datos.ts = JSON.parse(viejo);
+  }
+} catch(e){ /* modo incógnito o memoria llena: seguimos sin guardar */ }
+
+if (!guardado.datos) guardado.datos = {};
+
+function persistir(){
+  try { localStorage.setItem(LLAVE, JSON.stringify(guardado)); } catch(e){}
+}
+
+function estadoCrudo(cod){ return datos.estados[cod] || 'pendiente'; }
+
+/* ============================================================
+   LAS NOTAS
+
+   Son OPCIONALES: la app funciona igual sin ninguna. Solo tienen
+   sentido en las materias aprobadas, porque el promedio se hace
+   con notas de final o de promoción.
+
+   El promedio se calcula solo con las que tengan nota cargada, y
+   siempre se aclara cuántas son: un promedio de 2 materias sobre
+   31 no significa lo mismo que uno de 25, y hay que poder verlo.
+   ============================================================ */
+function notaDe(cod){
+  const n = datos.notas[cod];
+  return (typeof n === 'number' && n >= 1 && n <= 10) ? n : null;
+}
+
+function guardarNota(cod, valor){
+  const n = parseFloat(String(valor).replace(',', '.'));
+  if (isNaN(n) || n < 1 || n > 10) delete datos.notas[cod];
+  else datos.notas[cod] = Math.round(n * 100) / 100;
+  persistir();
+}
+
+function promedio(){
+  const conNota = MATERIAS
+    .filter(m => estadoCrudo(m.cod) === 'aprobada' && notaDe(m.cod) !== null)
+    .map(m => notaDe(m.cod));
+  if (!conNota.length) return null;
+  const aprobadas = MATERIAS.filter(m => estadoCrudo(m.cod) === 'aprobada').length;
+  return {
+    valor: conNota.reduce((s, n) => s + n, 0) / conNota.length,
+    cuantas: conNota.length,
+    deCuantas: aprobadas
+  };
+}
+
+/* El estado con el que se hacen las cuentas. Si el interruptor está puesto,
+   una materia "cursando" se cuenta como cursada aprobada. */
+function estado(cod){
+  const e = estadoCrudo(cod);
+  return (datos.suponer && e === 'cursando') ? 'cursada' : e;
+}
+
+/* ============================================================
+   ELEGIR CARRERA
+   ============================================================ */
+function elegirCarrera(id){
+  PLAN = CARRERAS.filter(c => c && c.id === id)[0] || CARRERAS[0];
+
+  MATERIAS = PLAN.materias;
+
+  POR_COD = {};
+  MATERIAS.forEach(m => POR_COD[m.cod] = m);
+
+  /* Mapa al revés: para cada materia, a cuáles les abre la puerta */
+  HABILITA = {};
+  MATERIAS.forEach(m => HABILITA[m.cod] = []);
+  MATERIAS.forEach(m => refsDe(m).forEach(c => {
+    if (HABILITA[c] && HABILITA[c].indexOf(m.cod) === -1) HABILITA[c].push(m.cod);
+  }));
+
+  guardado.carrera = PLAN.id;
+  if (!guardado.datos[PLAN.id]) {
+    guardado.datos[PLAN.id] = { estados:{}, notas:{}, suponer:false, idioma:false };
+  }
+  datos = guardado.datos[PLAN.id];
+  if (!datos.estados) datos.estados = {};
+  /* Quien ya venía usando la app no tenía notas guardadas */
+  if (!datos.notas) datos.notas = {};
+  persistir();
+
+  filtroCuatri = 'todo';
+}
+
+function pintarSelectorCarrera(){
+  document.getElementById('selector-carrera').innerHTML =
+    CARRERAS.filter(c => c).map(c => `
+      <button class="chip" data-carrera="${esc(c.id)}"
+              aria-pressed="${c.id === PLAN.id ? 'true' : 'false'}"
+              title="${esc(c.carrera)}">${esc(c.nombreCorto)}</button>`).join('');
+}
+
+/* ============================================================
+   LA REGLA
+   ============================================================ */
+function situacion(m){
+  /* Para cursarla: lo de la columna "cursada", con la cursada aprobada. */
+  const faltaCursar = paraCursar(m).filter(c => ORDEN[estado(c)] < ORDEN.cursada);
+  /* Para promocionarla o rendirle el final: lo de la otra columna, aprobado. */
+  const faltaFinal  = paraFinal(m).filter(c => estado(c) !== 'aprobada');
+
+  if (faltaCursar.length) return { clase:'trabada',    faltaCursar, faltaFinal };
+  if (faltaFinal.length)  return { clase:'cursa',      faltaCursar, faltaFinal };
+  return                         { clase:'promociona', faltaCursar, faltaFinal };
+}
+
+const NOMBRE_CLASE = {
+  promociona: 'PODÉS PROMOCIONARLA',
+  cursa:      'PODÉS CURSARLA, PERO NO PROMOCIONARLA',
+  trabada:    'TODAVÍA NO LA PODÉS CURSAR'
+};
+
+const DICTADO = { anual:'Anual', '1c':'1° cuatrimestre', '2c':'2° cuatrimestre', libre:'Sin cuatrimestre fijo' };
+
+function listaNombres(codigos){
+  return codigos.map(c => POR_COD[c] ? POR_COD[c].nombre : c).join(', ');
+}
+
+/* ============================================================
+   PROGRESO
+   ============================================================ */
+function pintarProgreso(){
+  const total     = MATERIAS.length;
+  const aprobadas = MATERIAS.filter(m => estadoCrudo(m.cod) === 'aprobada').length;
+  const cursadas  = MATERIAS.filter(m => estadoCrudo(m.cod) === 'cursada').length;
+
+  /* El progreso se mide en MATERIAS, no en horas: es lo que la estudiante
+     cuenta, y es lo unico que los tres planes tienen en comun (los de
+     Gestion del Riesgo y Fonoaudiologia no publican carga horaria). */
+  const pct = Math.round(aprobadas / total * 100);
+
+  /* Le dejamos un resumen chiquito a la pantalla de inicio, para que
+     pueda mostrar la tarjeta grande sin cargar los tres planes. */
+  try {
+    localStorage.setItem('bolivar-carrera-resumen', JSON.stringify({
+      carrera: PLAN.nombreCorto, aprobadas: aprobadas, total: total
+    }));
+  } catch(e){ /* modo incógnito: la tarjeta muestra la invitación */ }
+
+  const prom = promedio();
+
+  document.getElementById('progreso').innerHTML = `
+    <div class="barra"><div class="barra-llena" style="width:${pct}%"></div></div>
+    <div class="progreso-datos">
+      <div><strong>${aprobadas}</strong> de ${total} materias aprobadas</div>
+      <div>${pct}% de la carrera</div>
+    </div>
+    ${prom ? `<div class="promedio">
+        <span class="promedio-numero">${prom.valor.toFixed(2).replace('.', ',')}</span>
+        <span class="promedio-detalle">de promedio<br>
+          <small>con ${prom.cuantas} ${prom.cuantas === 1 ? 'nota cargada' : 'notas cargadas'}
+          de ${prom.deCuantas} ${prom.deCuantas === 1 ? 'materia aprobada' : 'materias aprobadas'}</small>
+        </span>
+      </div>` : ''}
+    ${cursadas ? `<div class="progreso-extra">${cursadas === 1 ? 'Te queda' : 'Te quedan'}
+       <strong>${cursadas}</strong>
+       ${cursadas === 1 ? 'final pendiente' : 'finales pendientes'}.</div>` : ''}`;
+}
+
+/* ============================================================
+   CURSANDO ESTE AÑO
+   Lo que estás haciendo ahora, arriba de todo. Sale de las materias
+   marcadas como "La estoy cursando ahora".
+   ============================================================ */
+function pintarCursandoAhora(){
+  const caja = document.getElementById('cursando-ahora');
+  const ahora = MATERIAS.filter(m => estadoCrudo(m.cod) === 'cursando');
+
+  if (!ahora.length){
+    caja.innerHTML = `
+      <div class="titulo-seccion">CURSANDO ESTE AÑO</div>
+      <div class="vacio">
+        Todavía no marcaste ninguna materia como «la estoy cursando ahora».<br>
+        Tocá una materia y elegí esa opción: van a aparecer acá.
+      </div>`;
+    return;
+  }
+
+  caja.innerHTML = `
+    <div class="titulo-seccion">CURSANDO ESTE AÑO
+      <span class="cuenta-grupo">${ahora.length}</span></div>
+    <div class="lista">` +
+    ahora.map(m => `
+      <button class="tarjeta materia estado-cursando" data-cod="${esc(m.cod)}">
+        <h3>${esc(m.nombre)}</h3>
+        <div class="meta">
+          <span>${m.anio}° año</span>
+          <span>${DICTADO[m.dictado]}</span>
+          ${m.horas ? `<span>${m.horas} h</span>` : ''}
+        </div>
+      </button>`).join('') + `</div>`;
+}
+
+/* ============================================================
+   VISTA: EL AÑO QUE VIENE
+   ============================================================ */
+let filtroCuatri = 'todo';
+
+/* Gestión del Riesgo no tiene materias anuales: escondemos el filtro que
+   no le sirve a la carrera elegida, en vez de mostrar una lista vacía. */
+function pintarFiltroCuatri(){
+  document.querySelectorAll('#filtro-cuatri .chip').forEach(chip => {
+    const cual = chip.dataset.cuatri;
+    chip.hidden = cual !== 'todo' && !MATERIAS.some(m => m.dictado === cual);
+    chip.setAttribute('aria-pressed', cual === filtroCuatri ? 'true' : 'false');
+  });
+}
+
+function pintarGrupos(){
+  const hayCursando = MATERIAS.some(m => estadoCrudo(m.cod) === 'cursando');
+  document.getElementById('caja-suponer').hidden = !hayCursando;
+  document.getElementById('suponer').checked = !!datos.suponer;
+
+  const candidatas = MATERIAS.filter(m => {
+    if (estado(m.cod) !== 'pendiente') return false;
+    if (filtroCuatri === 'todo') return true;
+    return m.dictado === filtroCuatri;
+  });
+
+  const grupos = { promociona:[], cursa:[], trabada:[] };
+  candidatas.forEach(m => grupos[situacion(m).clase].push(m));
+
+  const caja = document.getElementById('grupos');
+
+  if (!candidatas.length){
+    caja.innerHTML = `<div class="vacio">
+        ${filtroCuatri === 'todo'
+          ? 'No queda ninguna materia pendiente. Felicitaciones. 🎓'
+          : 'No hay materias pendientes en ese cuatrimestre.'}
+      </div>`;
+    return;
+  }
+
+  caja.innerHTML = ['promociona','cursa','trabada'].map(clase => {
+    const lista = grupos[clase];
+    if (!lista.length) return '';
+    return `<div class="titulo-seccion">${NOMBRE_CLASE[clase]}
+        <span class="cuenta-grupo">${lista.length}</span></div>
+      <div class="lista">` +
+      lista.map(m => tarjetaMateria(m, clase)).join('') + `</div>`;
+  }).join('');
+}
+
+function tarjetaMateria(m, clase){
+  const s = situacion(m);
+  let pie = '';
+  if (clase === 'cursa'){
+    pie = `<p class="motivo">Para promocionarla te falta tener aprobada:
+             <strong>${esc(listaNombres(s.faltaFinal))}</strong></p>`;
+  } else if (clase === 'trabada'){
+    pie = `<p class="motivo">Primero tenés que aprobar la cursada de:
+             <strong>${esc(listaNombres(s.faltaCursar))}</strong></p>`;
+  } else if (!refsDe(m).length){
+    pie = `<p class="motivo">No tiene correlativas.</p>`;
+  } else {
+    pie = `<p class="motivo">Tenés aprobadas todas sus correlativas.</p>`;
+  }
+
+  return `<button class="tarjeta materia ${clase}" data-cod="${esc(m.cod)}">
+      <h3>${esc(m.nombre)}</h3>
+      ${pie}
+      <div class="meta">
+        <span>${m.anio}° año</span>
+        <span>${DICTADO[m.dictado]}</span>
+        ${m.horas ? `<span>${m.horas} h</span>` : ''}
+        ${m.trayecto ? `<span>${esc(m.trayecto)}</span>` : ''}
+        ${m.marcada ? '<span>(*)</span>' : ''}
+      </div>
+    </button>`;
+}
+
+/* "Si rendís este final, se te destraban N promociones" */
+function pintarConsejo(){
+  const caja = document.getElementById('consejo');
+  const conFinal = MATERIAS.filter(m => estado(m.cod) === 'cursada');
+
+  if (!conFinal.length){ caja.innerHTML = ''; return; }
+
+  const filas = conFinal.map(m => {
+    /* Cuántas pendientes pasarían de "solo cursar" a "promocionar" */
+    const gana = MATERIAS.filter(otra =>
+      estado(otra.cod) === 'pendiente' &&
+      paraFinal(otra).indexOf(m.cod) !== -1 &&
+      situacion(otra).clase === 'cursa' &&
+      situacion(otra).faltaFinal.length === 1
+    );
+    return { m, gana };
+  }).sort((a,b) => b.gana.length - a.gana.length);
+
+  caja.innerHTML =
+    `<div class="titulo-seccion">FINALES QUE TENÉS PENDIENTES</div>
+     <div class="lista">` +
+    filas.map(f => `
+      <button class="tarjeta materia final" data-cod="${esc(f.m.cod)}">
+        <h3>${esc(f.m.nombre)}</h3>
+        <p class="motivo">${
+          f.gana.length
+            ? `Si rendís este final podés promocionar
+               <strong>${esc(f.gana.map(x => x.nombre).join(', '))}</strong>.`
+            : 'Rendirlo no te destraba ninguna promoción por ahora, pero te suma materia aprobada.'
+        }</p>
+      </button>`).join('') + `</div>`;
+}
+
+/* ============================================================
+   VISTA: PLAN COMPLETO
+   ============================================================ */
+const ORDINAL = ['', 'PRIMER', 'SEGUNDO', 'TERCER', 'CUARTO', 'QUINTO'];
+
+function pintarPlanCompleto(){
+  const anios = [];
+  for (let a = 1; a <= (PLAN.anios || 5); a++) anios.push(a);
+
+  document.getElementById('por-anio').innerHTML = anios.map(anio => {
+    const suyas = MATERIAS.filter(m => m.anio === anio);
+    if (!suyas.length) return '';
+    const listas = suyas.filter(m => estadoCrudo(m.cod) === 'aprobada').length;
+    return `<div class="titulo-seccion">${ORDINAL[anio]} AÑO
+        <span class="cuenta-grupo">${listas}/${suyas.length}</span></div>
+      <div class="lista">` +
+      suyas.map(m => {
+        const e = estadoCrudo(m.cod);
+        return `<button class="tarjeta materia estado-${e}" data-cod="${esc(m.cod)}">
+            <h3>${esc(m.nombre)}</h3>
+            <div class="meta">
+              <span class="pastilla ${e}">${ESTADOS[e].corto}</span>
+              <span>${DICTADO[m.dictado]}</span>
+              ${m.horas ? `<span>${m.horas} h</span>` : ''}
+              ${m.trayecto ? `<span>${esc(m.trayecto)}</span>` : ''}
+              ${m.marcada ? '<span>(*)</span>' : ''}
+            </div>
+          </button>`;
+      }).join('') + `</div>`;
+  }).join('');
+
+  /* Otros requisitos: hoy solo Trabajo Social tiene (la certificación de
+     idioma). Si la carrera no tiene ninguno, no mostramos la sección. */
+  const reqs      = PLAN.requisitos || [];
+  const cajaReq   = document.getElementById('requisitos');
+  document.getElementById('titulo-requisitos').hidden = !reqs.length;
+  cajaReq.hidden  = !reqs.length;
+  cajaReq.innerHTML = reqs.map(r => `
+      <label class="interruptor">
+        <input type="checkbox" id="req-idioma" ${datos.idioma ? 'checked' : ''}>
+        <span>${esc(r.nombre)} — ya la tengo</span>
+      </label>`).join('');
+
+  const casilla = document.getElementById('req-idioma');
+  if (casilla) casilla.addEventListener('change', function(){
+    datos.idioma = this.checked; persistir();
+  });
+
+  /* La nota del asterisco tampoco existe en las tres carreras */
+  const cajaNota = document.getElementById('nota-asterisco');
+  const hayNota  = !!PLAN.notaAsterisco && MATERIAS.some(m => m.marcada);
+  cajaNota.hidden = !hayNota;
+  cajaNota.innerHTML = hayNota ? `<strong>(*)</strong> ${esc(PLAN.notaAsterisco)}` : '';
+}
+
+/* ============================================================
+   VISTA: MAPA DE CORRELATIVIDADES
+
+   Una columna por año, leyendo de izquierda a derecha. Las lineas
+   van de cada materia a las que le abren la puerta, y se encienden
+   cuando esa puerta ya se abrio de verdad.
+   ============================================================ */
+/* El alto da para el codigo + tres renglones de nombre: con menos, se
+   cortaban los nombres largos como "Teoría de las culturas y
+   antropologías de las sociedades contemporáneas". */
+const NODO_AN = 158, NODO_AL = 70;   /* tamaño de cada materia    */
+const HUECO_X = 72,  HUECO_Y = 12;   /* aire entre columnas/filas */
+const MARGEN  = 16,  TECHO   = 40;   /* borde y lugar del titulo  */
+
+const ORDEN_DICTADO = { '1c':0, anual:1, '2c':2, libre:3 };
+
+/* Lo que el mapa dibuja como flecha. El Trabajo Integrador Final de
+   Fonoaudiología pide "todas las de 1° a 4°": son cuarenta flechas que
+   no explican nada, así que esa no se dibuja (la ficha sí la cuenta). */
+function refsMapa(m){
+  const pf = (m.paraFinal === 'todas-1-a-4') ? [] : paraFinal(m);
+  const todas = paraCursar(m).concat(pf);
+  return todas.filter((c, i) => todas.indexOf(c) === i);
+}
+
+/* El color de cada materia en el mapa */
+function claseMapa(m){
+  const e = estadoCrudo(m.cod);
+  if (e === 'aprobada') return 'aprobada';
+  if (e === 'cursada')  return 'cursada';
+  if (e === 'cursando') return 'cursando';
+  return situacion(m).clase;
+}
+
+function pintarMapa(){
+  /* ---- 1. Repartir las materias en columnas, una por año ---- */
+  const columnas = [];
+  for (let a = 1; a <= (PLAN.anios || 5); a++){
+    const suyas = MATERIAS.filter(m => m.anio === a);
+    if (suyas.length) columnas.push({ anio:a, nodos:suyas.slice() });
+  }
+
+  const lugar = {};   /* cod -> {col, fila} */
+
+  /* Dentro de cada columna: primero por cuatrimestre, y despues cerca
+     de la altura promedio de sus correlativas, para que las lineas se
+     crucen lo menos posible. */
+  function alturaDeSusCorrelativas(m){
+    const previas = refsMapa(m).map(c => lugar[c]).filter(p => p);
+    if (!previas.length) return 0;
+    return previas.reduce((s, p) => s + p.fila, 0) / previas.length;
+  }
+
+  columnas.forEach((col, ci) => {
+    col.nodos.sort((x, y) => {
+      const d = ORDEN_DICTADO[x.dictado] - ORDEN_DICTADO[y.dictado];
+      return d || (alturaDeSusCorrelativas(x) - alturaDeSusCorrelativas(y));
+    });
+    col.nodos.forEach((m, fi) => lugar[m.cod] = { col:ci, fila:fi });
+  });
+
+  const equis = ci => MARGEN + ci * (NODO_AN + HUECO_X);
+  const ye    = fi => TECHO  + fi * (NODO_AL + HUECO_Y);
+
+  const filasMax = Math.max(...columnas.map(c => c.nodos.length));
+  const ancho = MARGEN * 2 + columnas.length * NODO_AN + (columnas.length - 1) * HUECO_X;
+  const alto  = TECHO + filasMax * (NODO_AL + HUECO_Y) + MARGEN;
+
+  /* ---- 2. Las lineas ---- */
+  const lineas = [];
+  MATERIAS.forEach(m => {
+    const hasta = lugar[m.cod];
+    const claseDestino = claseMapa(m);
+
+    refsMapa(m).forEach(c => {
+      const desde = lugar[c];
+      if (!desde) return;
+
+      /* Se enciende cuando la de la izquierda ya está hecha y gracias a
+         eso la de la derecha se te abrió. Eso es lo que el mapa cuenta. */
+      const listaLaPrevia = ORDEN[estado(c)] >= ORDEN.cursada;
+      const pendiente     = estadoCrudo(m.cod) === 'pendiente';
+      const encendida     = listaLaPrevia && pendiente &&
+                            (claseDestino === 'promociona' || claseDestino === 'cursa');
+
+      const yD = ye(desde.fila) + NODO_AL / 2;
+      const yH = ye(hasta.fila) + NODO_AL / 2;
+      let d;
+
+      if (desde.col === hasta.col){
+        /* Misma columna: la rodeamos por la izquierda */
+        const x = equis(desde.col), vuelta = x - 26;
+        d = `M ${x} ${yD} C ${vuelta} ${yD}, ${vuelta} ${yH}, ${x} ${yH}`;
+      } else {
+        const xD = equis(desde.col) + NODO_AN, xH = equis(hasta.col);
+        const tiron = Math.min(48, (xH - xD) / 2);
+        d = `M ${xD} ${yD} C ${xD + tiron} ${yD}, ${xH - tiron} ${yH}, ${xH} ${yH}`;
+      }
+
+      lineas.push(`<path class="mapa-arista ${encendida ? claseDestino : ''}"
+                     d="${d}" data-une="${esc(c)}|${esc(m.cod)}"></path>`);
+    });
+  });
+
+  /* ---- 3. Armar todo ---- */
+  const lienzo = document.getElementById('mapa-lienzo');
+  lienzo.style.width  = ancho + 'px';
+  lienzo.style.height = alto + 'px';
+
+  lienzo.innerHTML =
+    `<svg width="${ancho}" height="${alto}" viewBox="0 0 ${ancho} ${alto}" aria-hidden="true">
+       ${lineas.join('')}
+     </svg>` +
+    columnas.map((col, ci) =>
+      `<div class="mapa-col-titulo" style="left:${equis(ci)}px">${ORDINAL[col.anio]} AÑO</div>`
+    ).join('') +
+    columnas.map((col, ci) => col.nodos.map((m, fi) =>
+      `<button class="mapa-nodo materia ${claseMapa(m)}" data-cod="${esc(m.cod)}"
+               style="left:${equis(ci)}px;top:${ye(fi)}px;width:${NODO_AN}px;height:${NODO_AL}px"
+               title="${esc(m.nombre)}">
+         <span class="cod">${esc(m.cod)} · ${DICTADO[m.dictado]}</span>
+         <span class="nom">${esc(m.nombre)}</span>
+       </button>`).join('')).join('');
+
+  /* En pantalla grande se resaltan las conexiones de la materia que
+     tenés debajo del dedo o del mouse. En el celular no molesta. */
+  lienzo.querySelectorAll('.mapa-nodo').forEach(nodo => {
+    nodo.addEventListener('mouseenter', () => marcarLineas(nodo.dataset.cod));
+    nodo.addEventListener('mouseleave', () => marcarLineas(null));
+  });
+
+  function marcarLineas(cod){
+    lienzo.querySelectorAll('.mapa-arista').forEach(l => {
+      const [a, b] = l.dataset.une.split('|');
+      l.classList.toggle('resaltada', cod !== null && (a === cod || b === cod));
+    });
+  }
+
+  /* Aviso de deslizar, solo si de verdad no entra en la pantalla */
+  const marco = document.getElementById('mapa-marco');
+  const aviso = document.getElementById('mapa-aviso');
+  const noEntra = ancho > marco.clientWidth;
+  aviso.hidden = !noEntra;
+  if (noEntra) aviso.textContent =
+    'Deslizá el mapa hacia el costado para ver los años siguientes.';
+}
+
+/* ============================================================
+   HOJA DE DETALLE
+   ============================================================ */
+const fondo  = document.getElementById('hoja-fondo');
+const cuerpo = document.getElementById('hoja-cuerpo');
+
+function listaCorrel(codigos){
+  return `<ul class="lista-correl">` + codigos.map(c => {
+    const e = estado(c);
+    return `<li><span class="pastilla ${e}">${ESTADOS[e].corto}</span>
+              ${esc(POR_COD[c] ? POR_COD[c].nombre : c)}</li>`;
+  }).join('') + `</ul>`;
+}
+
+function bloqueCorrelativas(m){
+  const pc = paraCursar(m);
+
+  /* Caso especial: el Trabajo Integrador Final pide todas las materias de
+     1° a 4°. Listarlas una por una serían cuarenta renglones inútiles. */
+  if (m.paraFinal === 'todas-1-a-4'){
+    const faltan = paraFinal(m).filter(c => estado(c) !== 'aprobada').length;
+    return `<div class="titulo-seccion">PARA CURSARLA</div>
+      ${pc.length ? listaCorrel(pc) : `<p class="letra-chica">No pide nada.</p>`}
+      <div class="titulo-seccion">PARA APROBARLA</div>
+      <p class="letra-chica">Todas las materias de 1° a 4° año con el final
+        aprobado.${faltan ? ` Te faltan <strong>${faltan}</strong>.` : ' Ya las tenés todas.'}</p>`;
+  }
+
+  const pf = paraFinal(m);
+  const mismas = pc.length === pf.length && pc.every(c => pf.indexOf(c) !== -1);
+
+  /* Si las dos columnas dicen lo mismo (Trabajo Social y Gestión del
+     Riesgo), no tiene sentido mostrar la misma lista dos veces. */
+  if (mismas){
+    return `<div class="titulo-seccion">CORRELATIVAS</div>
+      ${pc.length ? listaCorrel(pc)
+        : `<p class="letra-chica">No tiene. La podés cursar y promocionar cuando quieras.</p>`}`;
+  }
+
+  return `<div class="titulo-seccion">PARA CURSARLA</div>
+    <p class="letra-chica">Con la cursada aprobada:</p>
+    ${pc.length ? listaCorrel(pc) : `<p class="letra-chica">No pide nada.</p>`}
+    <div class="titulo-seccion">PARA PROMOCIONARLA O RENDIR EL FINAL</div>
+    <p class="letra-chica">Con el final aprobado:</p>
+    ${pf.length ? listaCorrel(pf) : `<p class="letra-chica">No pide nada.</p>`}`;
+}
+
+function abrirHoja(cod){
+  const m = POR_COD[cod];
+  if (!m) return;
+  const s = situacion(m);
+  const eActual = estadoCrudo(cod);
+
+  const abre = HABILITA[cod].map(c =>
+    `<li>${esc(POR_COD[c].nombre)} <small>(${POR_COD[c].anio}° año)</small></li>`).join('');
+
+  const trayecto = m.trayecto && PLAN.trayectos ? PLAN.trayectos[m.trayecto] : '';
+
+  cuerpo.innerHTML = `
+    <div class="hoja-cod">${esc(m.cod)} · ${m.anio}° año · ${DICTADO[m.dictado]}${m.horas ? ' · ' + m.horas + ' h' : ''}</div>
+    <h2 id="hoja-titulo">${esc(m.nombre)}</h2>
+    ${trayecto ? `<p class="letra-chica">${esc(trayecto)}</p>` : ''}
+    ${m.marcada && PLAN.notaAsterisco
+      ? `<p class="letra-chica">(*) ${esc(PLAN.notaAsterisco)}</p>` : ''}
+
+    <div class="veredicto ${s.clase}">${NOMBRE_CLASE[s.clase]}</div>
+
+    <div class="titulo-seccion">CÓMO VENÍS CON ESTA MATERIA</div>
+    <div class="opciones-estado">
+      ${Object.keys(ESTADOS).map(k => `
+        <button class="opcion ${k} ${k === eActual ? 'elegida' : ''}"
+                data-estado="${k}">${ESTADOS[k].texto}</button>`).join('')}
+    </div>
+
+    ${eActual === 'aprobada' ? `
+      <div class="caja-nota">
+        <label for="nota">Nota <small>(opcional)</small></label>
+        <input id="nota" type="number" inputmode="decimal" min="1" max="10" step="0.5"
+               placeholder="—" value="${notaDe(cod) !== null ? notaDe(cod) : ''}">
+        <p class="letra-chica">Si la cargás, entra en el promedio. Si no, no pasa nada.</p>
+      </div>` : ''}
+
+    ${bloqueCorrelativas(m)}
+
+    <div class="titulo-seccion">LE ABRE LA PUERTA A</div>
+    ${abre ? `<ul class="lista-correl simple">${abre}</ul>`
+           : `<p class="letra-chica">Ninguna otra materia depende de esta.</p>`}
+  `;
+
+  cuerpo.querySelectorAll('.opcion').forEach(b => {
+    b.addEventListener('click', function(){
+      datos.estados[cod] = this.dataset.estado;
+      persistir();
+      cerrarHoja();
+      pintarTodo();
+    });
+  });
+
+  /* La nota se guarda mientras escribís, sin botón de guardar. Al
+     cerrar la hoja se repinta todo para que el promedio se actualice. */
+  const campoNota = cuerpo.querySelector('#nota');
+  if (campoNota){
+    campoNota.addEventListener('input', function(){
+      guardarNota(cod, this.value);
+    });
+  }
+
+  fondo.hidden = false;
+  document.body.style.overflow = 'hidden';
+}
+
+function cerrarHoja(){
+  fondo.hidden = true;
+  document.body.style.overflow = '';
+  /* Por si se cargó una nota: el promedio de arriba tiene que reflejarla */
+  pintarProgreso();
+}
+
+document.getElementById('hoja-cerrar').addEventListener('click', cerrarHoja);
+fondo.addEventListener('click', e => { if (e.target === fondo) cerrarHoja(); });
+document.addEventListener('keydown', e => { if (e.key === 'Escape' && !fondo.hidden) cerrarHoja(); });
+
+/* Un solo escuchador para todas las tarjetas, en cualquiera de las dos vistas */
+document.querySelector('main').addEventListener('click', e => {
+  const t = e.target.closest('.materia');
+  if (t) abrirHoja(t.dataset.cod);
+});
+
+/* ============================================================
+   CONTROLES
+   ============================================================ */
+document.getElementById('selector-carrera').addEventListener('click', e => {
+  const b = e.target.closest('.chip');
+  if (!b || b.dataset.carrera === PLAN.id) return;
+  elegirCarrera(b.dataset.carrera);
+  pintarSelectorCarrera();
+  pintarTodo();
+  scrollTo(0, 0);
+});
+
+document.getElementById('filtro-cuatri').addEventListener('click', e => {
+  const b = e.target.closest('.chip');
+  if (!b) return;
+  filtroCuatri = b.dataset.cuatri;
+  pintarFiltroCuatri();
+  pintarGrupos();
+});
+
+document.getElementById('suponer').addEventListener('change', function(){
+  datos.suponer = this.checked;
+  persistir();
+  pintarGrupos();
+  pintarConsejo();
+});
+
+const PESTANAS = ['plan', 'mapa', 'todo'];
+function verPestana(cual){
+  PESTANAS.forEach(k => {
+    document.getElementById('tab-' + k).setAttribute('aria-selected', k === cual);
+    document.getElementById('vista-' + k).hidden = k !== cual;
+  });
+  /* El mapa se mide contra el ancho de la pantalla, así que el aviso de
+     deslizar hay que recalcularlo cuando la vista ya está visible. */
+  if (cual === 'mapa') pintarMapa();
+  scrollTo(0, 0);
+}
+PESTANAS.forEach(k =>
+  document.getElementById('tab-' + k).addEventListener('click', () => verPestana(k)));
+
+document.getElementById('borrar').addEventListener('click', () => {
+  if (!confirm(`¿Borrar todo lo que marcaste en ${PLAN.nombreCorto} y empezar de nuevo?\n\nLo de las otras carreras no se toca.`)) return;
+  guardado.datos[PLAN.id] = { estados:{}, notas:{}, suponer:false, idioma:false };
+  datos = guardado.datos[PLAN.id];
+  persistir();
+  pintarTodo();
+});
+
+/* ============================================================
+   ARRANQUE
+   ============================================================ */
+function pintarTodo(){
+  pintarFiltroCuatri();
+  pintarCursandoAhora();
+  pintarProgreso();
+  pintarGrupos();
+  pintarConsejo();
+  pintarPlanCompleto();
+  pintarMapa();
+}
+
+elegirCarrera(guardado.carrera || 'ts');
+pintarSelectorCarrera();
+pintarTodo();
+
+})();
+</script>
+</body>
+</html>

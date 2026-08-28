@@ -1,0 +1,16 @@
+# ============================================================
+#  Finales de linea.
+#
+#  Windows termina las lineas distinto que Linux. Sin este
+#  archivo, git le cambia el final a cada linea de cada archivo
+#  al pasar de una maquina a otra, y entonces un cambio de una
+#  palabra aparece como si hubieramos tocado el archivo entero.
+#  Con esto, adentro del repositorio siempre se guardan igual.
+# ============================================================
+
+* text=auto eol=lf
+
+# Estos son binarios: no se tocan nunca.
+*.png  binary
+*.webp binary
+*.ico  binary
