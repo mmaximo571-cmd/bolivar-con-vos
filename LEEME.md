@@ -213,6 +213,29 @@ no se sube a ningún lado y nadie del equipo lo ve.
 | `correl` | Los códigos de sus correlativas |
 | `marcada` | `true` si en el plan aparece con asterisco (*) |
 
+### Las tres pestañas
+
+**Mi cursada** arranca con **«Cursando este año»**: las materias que marcaste como
+«la estoy cursando ahora». Debajo sigue **«El año que viene»**, con lo que podés
+promocionar, lo que podés cursar y lo que todavía está trabado.
+
+**Mapa** es el plan de correlatividades de izquierda a derecha. **Plan completo**
+es el listado año por año.
+
+### El promedio
+
+En las materias **aprobadas** aparece un campo para cargar la nota. **Es
+opcional**: la app funciona igual sin ninguna, y el promedio solo se muestra si
+hay al menos una cargada.
+
+El promedio siempre aclara **con cuántas notas está hecho**: «8,17 de promedio,
+con 3 notas cargadas de 12 materias aprobadas». Eso importa, porque un promedio
+de 3 materias no significa lo mismo que uno de 25 y hay que poder verlo.
+
+Se aceptan notas de 1 a 10. Si escribís cualquier otra cosa, la nota se descarta
+en vez de romper la cuenta. Las notas se guardan **por carrera**, igual que los
+estados, y solo en el teléfono.
+
 La regla que aplica, tal como funciona la cursada:
 
 - **Promocionar** una materia habilita a **promocionar** la que le sigue.

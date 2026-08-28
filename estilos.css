@@ -434,6 +434,39 @@ svg.ico{width:1em;height:1em;display:block;flex:0 0 auto}
 }
 .progreso-extra{margin-top:6px;font-size:14px;color:var(--gris)}
 
+/* El promedio. Es opcional: solo aparece si hay al menos una nota. */
+.promedio{
+  display:flex;align-items:center;gap:12px;
+  margin-top:12px;padding-top:12px;border-top:1px solid var(--borde)
+}
+.promedio-numero{
+  font-family:var(--fuente-titulo);font-weight:800;font-size:34px;line-height:1;
+  color:var(--celeste)
+}
+.promedio-detalle{font-size:14px;line-height:1.25;color:var(--negro)}
+.promedio-detalle small{color:var(--gris);font-size:12.5px}
+
+/* El campo de nota, adentro de la ficha de una materia aprobada */
+.caja-nota{
+  margin-top:14px;background:var(--hueso);border:1px solid var(--borde);
+  border-radius:var(--radio-chico);padding:12px 13px
+}
+.caja-nota label{
+  display:block;font-family:var(--fuente-sub);font-weight:700;font-size:14px;
+  text-transform:uppercase;letter-spacing:.04em;margin-bottom:7px
+}
+.caja-nota label small{
+  font-family:var(--fuente-texto);font-weight:400;text-transform:none;
+  letter-spacing:0;color:var(--gris)
+}
+.caja-nota input{
+  width:96px;font-family:var(--fuente-sub);font-weight:700;font-size:22px;
+  text-align:center;padding:8px 10px;border:1.5px solid var(--borde);
+  border-radius:var(--radio-chico);background:var(--blanco);color:var(--negro)
+}
+.caja-nota input:focus{outline:none;border-color:var(--celeste)}
+.caja-nota .letra-chica{margin-top:7px}
+
 /* --- Pestañas --- */
 .pestanas{display:flex;gap:6px;margin:0 0 14px}
 .pestana{

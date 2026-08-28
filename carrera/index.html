@@ -32,13 +32,18 @@
 
   <!-- ---------- PESTAÑAS ---------- -->
   <div class="pestanas" role="tablist">
-    <button class="pestana" id="tab-plan"  role="tab" aria-selected="true">El año que viene</button>
+    <button class="pestana" id="tab-plan"  role="tab" aria-selected="true">Mi cursada</button>
     <button class="pestana" id="tab-mapa"  role="tab" aria-selected="false">Mapa</button>
     <button class="pestana" id="tab-todo"  role="tab" aria-selected="false">Plan completo</button>
   </div>
 
-  <!-- ---------- VISTA: EL AÑO QUE VIENE ---------- -->
+  <!-- ---------- VISTA: MI CURSADA ---------- -->
   <section id="vista-plan">
+
+    <!-- Lo que estás haciendo ahora, arriba de todo -->
+    <div id="cursando-ahora"></div>
+
+    <div class="titulo-seccion">EL AÑO QUE VIENE</div>
 
     <div class="chips" id="filtro-cuatri" role="group" aria-label="Filtrar por cuatrimestre">
       <button class="chip" data-cuatri="todo"  aria-pressed="true">Todas</button>
@@ -208,6 +213,42 @@ function persistir(){
 
 function estadoCrudo(cod){ return datos.estados[cod] || 'pendiente'; }
 
+/* ============================================================
+   LAS NOTAS
+
+   Son OPCIONALES: la app funciona igual sin ninguna. Solo tienen
+   sentido en las materias aprobadas, porque el promedio se hace
+   con notas de final o de promoción.
+
+   El promedio se calcula solo con las que tengan nota cargada, y
+   siempre se aclara cuántas son: un promedio de 2 materias sobre
+   31 no significa lo mismo que uno de 25, y hay que poder verlo.
+   ============================================================ */
+function notaDe(cod){
+  const n = datos.notas[cod];
+  return (typeof n === 'number' && n >= 1 && n <= 10) ? n : null;
+}
+
+function guardarNota(cod, valor){
+  const n = parseFloat(String(valor).replace(',', '.'));
+  if (isNaN(n) || n < 1 || n > 10) delete datos.notas[cod];
+  else datos.notas[cod] = Math.round(n * 100) / 100;
+  persistir();
+}
+
+function promedio(){
+  const conNota = MATERIAS
+    .filter(m => estadoCrudo(m.cod) === 'aprobada' && notaDe(m.cod) !== null)
+    .map(m => notaDe(m.cod));
+  if (!conNota.length) return null;
+  const aprobadas = MATERIAS.filter(m => estadoCrudo(m.cod) === 'aprobada').length;
+  return {
+    valor: conNota.reduce((s, n) => s + n, 0) / conNota.length,
+    cuantas: conNota.length,
+    deCuantas: aprobadas
+  };
+}
+
 /* El estado con el que se hacen las cuentas. Si el interruptor está puesto,
    una materia "cursando" se cuenta como cursada aprobada. */
 function estado(cod){
@@ -235,10 +276,12 @@ function elegirCarrera(id){
 
   guardado.carrera = PLAN.id;
   if (!guardado.datos[PLAN.id]) {
-    guardado.datos[PLAN.id] = { estados:{}, suponer:false, idioma:false };
+    guardado.datos[PLAN.id] = { estados:{}, notas:{}, suponer:false, idioma:false };
   }
   datos = guardado.datos[PLAN.id];
   if (!datos.estados) datos.estados = {};
+  /* Quien ya venía usando la app no tenía notas guardadas */
+  if (!datos.notas) datos.notas = {};
   persistir();
 
   filtroCuatri = 'todo';
@@ -299,15 +342,58 @@ function pintarProgreso(){
     }));
   } catch(e){ /* modo incógnito: la tarjeta muestra la invitación */ }
 
+  const prom = promedio();
+
   document.getElementById('progreso').innerHTML = `
     <div class="barra"><div class="barra-llena" style="width:${pct}%"></div></div>
     <div class="progreso-datos">
       <div><strong>${aprobadas}</strong> de ${total} materias aprobadas</div>
       <div>${pct}% de la carrera</div>
     </div>
+    ${prom ? `<div class="promedio">
+        <span class="promedio-numero">${prom.valor.toFixed(2).replace('.', ',')}</span>
+        <span class="promedio-detalle">de promedio<br>
+          <small>con ${prom.cuantas} ${prom.cuantas === 1 ? 'nota cargada' : 'notas cargadas'}
+          de ${prom.deCuantas} ${prom.deCuantas === 1 ? 'materia aprobada' : 'materias aprobadas'}</small>
+        </span>
+      </div>` : ''}
     ${cursadas ? `<div class="progreso-extra">${cursadas === 1 ? 'Te queda' : 'Te quedan'}
        <strong>${cursadas}</strong>
        ${cursadas === 1 ? 'final pendiente' : 'finales pendientes'}.</div>` : ''}`;
+}
+
+/* ============================================================
+   CURSANDO ESTE AÑO
+   Lo que estás haciendo ahora, arriba de todo. Sale de las materias
+   marcadas como "La estoy cursando ahora".
+   ============================================================ */
+function pintarCursandoAhora(){
+  const caja = document.getElementById('cursando-ahora');
+  const ahora = MATERIAS.filter(m => estadoCrudo(m.cod) === 'cursando');
+
+  if (!ahora.length){
+    caja.innerHTML = `
+      <div class="titulo-seccion">CURSANDO ESTE AÑO</div>
+      <div class="vacio">
+        Todavía no marcaste ninguna materia como «la estoy cursando ahora».<br>
+        Tocá una materia y elegí esa opción: van a aparecer acá.
+      </div>`;
+    return;
+  }
+
+  caja.innerHTML = `
+    <div class="titulo-seccion">CURSANDO ESTE AÑO
+      <span class="cuenta-grupo">${ahora.length}</span></div>
+    <div class="lista">` +
+    ahora.map(m => `
+      <button class="tarjeta materia estado-cursando" data-cod="${esc(m.cod)}">
+        <h3>${esc(m.nombre)}</h3>
+        <div class="meta">
+          <span>${m.anio}° año</span>
+          <span>${DICTADO[m.dictado]}</span>
+          ${m.horas ? `<span>${m.horas} h</span>` : ''}
+        </div>
+      </button>`).join('') + `</div>`;
 }
 
 /* ============================================================
@@ -697,6 +783,14 @@ function abrirHoja(cod){
                 data-estado="${k}">${ESTADOS[k].texto}</button>`).join('')}
     </div>
 
+    ${eActual === 'aprobada' ? `
+      <div class="caja-nota">
+        <label for="nota">Nota <small>(opcional)</small></label>
+        <input id="nota" type="number" inputmode="decimal" min="1" max="10" step="0.5"
+               placeholder="—" value="${notaDe(cod) !== null ? notaDe(cod) : ''}">
+        <p class="letra-chica">Si la cargás, entra en el promedio. Si no, no pasa nada.</p>
+      </div>` : ''}
+
     ${bloqueCorrelativas(m)}
 
     <div class="titulo-seccion">LE ABRE LA PUERTA A</div>
@@ -713,6 +807,15 @@ function abrirHoja(cod){
     });
   });
 
+  /* La nota se guarda mientras escribís, sin botón de guardar. Al
+     cerrar la hoja se repinta todo para que el promedio se actualice. */
+  const campoNota = cuerpo.querySelector('#nota');
+  if (campoNota){
+    campoNota.addEventListener('input', function(){
+      guardarNota(cod, this.value);
+    });
+  }
+
   fondo.hidden = false;
   document.body.style.overflow = 'hidden';
 }
@@ -720,6 +823,8 @@ function abrirHoja(cod){
 function cerrarHoja(){
   fondo.hidden = true;
   document.body.style.overflow = '';
+  /* Por si se cargó una nota: el promedio de arriba tiene que reflejarla */
+  pintarProgreso();
 }
 
 document.getElementById('hoja-cerrar').addEventListener('click', cerrarHoja);
@@ -775,7 +880,7 @@ PESTANAS.forEach(k =>
 
 document.getElementById('borrar').addEventListener('click', () => {
   if (!confirm(`¿Borrar todo lo que marcaste en ${PLAN.nombreCorto} y empezar de nuevo?\n\nLo de las otras carreras no se toca.`)) return;
-  guardado.datos[PLAN.id] = { estados:{}, suponer:false, idioma:false };
+  guardado.datos[PLAN.id] = { estados:{}, notas:{}, suponer:false, idioma:false };
   datos = guardado.datos[PLAN.id];
   persistir();
   pintarTodo();
@@ -786,6 +891,7 @@ document.getElementById('borrar').addEventListener('click', () => {
    ============================================================ */
 function pintarTodo(){
   pintarFiltroCuatri();
+  pintarCursandoAhora();
   pintarProgreso();
   pintarGrupos();
   pintarConsejo();
