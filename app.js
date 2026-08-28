@@ -265,8 +265,12 @@ function htmlCabecera(){
         <button class="boton-icono" id="abrir-menu" aria-label="Abrir el menú"
                 aria-expanded="false" aria-controls="menu-lateral">${icono('menu') || '☰'}</button>
         <a class="marca-centro" href="${RAIZ}">
-          <span class="marca">LA BOLÍVAR <em>CON VOS</em></span>
-          <small>Agrupación Simón Bolívar · FTS UNLP</small>
+          <img class="marca-logo" src="${RAIZ}imagenes/marca-amarilla.webp"
+               alt="" width="260" height="215">
+          <span class="marca-texto">
+            <span class="marca">LA BOLÍVAR <em>CON VOS</em></span>
+            <small>Agrupación Simón Bolívar · FTS UNLP</small>
+          </span>
         </a>
         <a class="boton-icono" href="${RAIZ}mi/" aria-label="Mi cuenta">${icono('mi') || '👤'}</a>
       </div>
