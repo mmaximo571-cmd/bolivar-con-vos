@@ -215,33 +215,85 @@ function esDelEquipo(perfil){ return !!perfil && perfil.rol === 'equipo'; }
    PARTES VISUALES REPETIDAS
    ------------------------------------------------------------ */
 
-/* Barra de navegacion de abajo. actual: inicio | tramites | carrera | agenda | mi */
-function pintarNav(actual){
-  const items = [
-    { id:'inicio',   texto:'Inicio',   icono:'🏠', url:RAIZ },
-    { id:'tramites', texto:'Trámites', icono:'🧭', url:RAIZ+'tramites/' },
-    { id:'carrera',  texto:'Cursadas', icono:'🎓', url:RAIZ+'carrera/' },
-    { id:'agenda',   texto:'Agenda',   icono:'📅', url:RAIZ+'agenda/' },
-    { id:'mi',       texto:'Mi cuenta',icono:'👤', url:RAIZ+'mi/' }
-  ];
-  document.body.insertAdjacentHTML('beforeend',
-    `<nav class="nav-abajo">` +
-    items.map(i => `<a href="${i.url}"${i.id===actual ? ' aria-current="page"' : ''}>
-        <span class="icono">${i.icono}</span>${esc(i.texto)}</a>`).join('') +
-    `</nav>`
-  );
+/* Las secciones de la app, en el orden en que se muestran */
+const SECCIONES = [
+  { id:'inicio',   texto:'Inicio',    icono:'🏠', url:RAIZ },
+  { id:'tramites', texto:'Trámites',  icono:'🧭', url:RAIZ+'tramites/' },
+  { id:'carrera',  texto:'Cursadas',  icono:'🎓', url:RAIZ+'carrera/' },
+  { id:'agenda',   texto:'Agenda',    icono:'📅', url:RAIZ+'agenda/' },
+  { id:'mi',       texto:'Mi cuenta', icono:'👤', url:RAIZ+'mi/' }
+];
+
+/* ------------------------------------------------------------
+   CABECERA
+   Tres partes: el menu a la izquierda, la marca en el centro y
+   Mi cuenta a la derecha. La marca queda centrada de verdad porque
+   las tres columnas de los costados miden lo mismo.
+   ------------------------------------------------------------ */
+function htmlCabecera(){
+  return `<header class="cabecera">
+      <div class="envoltura barra-superior">
+        <button class="boton-icono" id="abrir-menu" aria-label="Abrir el menú"
+                aria-expanded="false" aria-controls="menu-lateral">☰</button>
+        <a class="marca-centro" href="${RAIZ}">
+          <span class="marca">LA BOLÍVAR <em>CON VOS</em></span>
+          <small>Agrupación Simón Bolívar · FTS UNLP</small>
+        </a>
+        <a class="boton-icono" href="${RAIZ}mi/" aria-label="Mi cuenta">👤</a>
+      </div>
+    </header>`;
 }
 
-/* Cabecera negra con la marca */
-function htmlCabecera(botonDerecha){
-  return `<header class="cabecera"><div class="envoltura">
-      <a href="${RAIZ}" style="text-decoration:none">
-        <div class="marca">LA BOLÍVAR<br><em>CON VOS</em>
-          <small>Agrupación Simón Bolívar · FTS UNLP</small>
-        </div>
-      </a>
-      ${botonDerecha || ''}
-    </div></header>`;
+/* ------------------------------------------------------------
+   LAS SECCIONES, debajo de la cabecera, y el menu lateral
+
+   Antes esto era una barra fija abajo de la pantalla. Ahora la
+   navegacion vive arriba: se ve donde estas parado sin tapar
+   contenido, y se recuperan los 64px que comia la barra.
+   ------------------------------------------------------------ */
+function pintarNav(actual){
+  const cabecera = document.querySelector('.cabecera');
+  if (!cabecera) return;
+
+  cabecera.insertAdjacentHTML('afterend',
+    `<nav class="secciones" aria-label="Secciones"><div class="envoltura secciones-fila">` +
+    SECCIONES.map(s => `<a href="${s.url}"${s.id===actual ? ' aria-current="page"' : ''}>
+        <span class="icono">${s.icono}</span>${esc(s.texto)}</a>`).join('') +
+    `</div></nav>`);
+
+  /* El menu lateral repite las secciones y suma lo que no entra arriba */
+  document.body.insertAdjacentHTML('beforeend', `
+    <div class="menu-fondo" id="menu-fondo" hidden></div>
+    <nav class="menu-lateral" id="menu-lateral" aria-label="Menú" hidden>
+      <div class="menu-encabezado">
+        <span class="marca">LA BOLÍVAR <em>CON VOS</em></span>
+        <button class="boton-icono" id="cerrar-menu" aria-label="Cerrar el menú">✕</button>
+      </div>
+      <div class="menu-lista">
+        ${SECCIONES.map(s => `<a href="${s.url}"${s.id===actual ? ' aria-current="page"' : ''}>
+            <span class="icono">${s.icono}</span>${esc(s.texto)}</a>`).join('')}
+      </div>
+      <div class="menu-pie">
+        Agrupación Simón Bolívar<br>Conducción del CEFTS · FTS UNLP
+      </div>
+    </nav>`);
+
+  const fondo = document.getElementById('menu-fondo');
+  const panel = document.getElementById('menu-lateral');
+  const boton = document.getElementById('abrir-menu');
+
+  function abrir(si){
+    fondo.hidden = !si; panel.hidden = !si;
+    if (boton) boton.setAttribute('aria-expanded', si ? 'true' : 'false');
+    document.body.style.overflow = si ? 'hidden' : '';
+    if (si) panel.querySelector('a').focus();
+  }
+  if (boton) boton.addEventListener('click', () => abrir(true));
+  document.getElementById('cerrar-menu').addEventListener('click', () => abrir(false));
+  fondo.addEventListener('click', () => abrir(false));
+  document.addEventListener('keydown', e => {
+    if (e.key === 'Escape' && !panel.hidden) abrir(false);
+  });
 }
 
 function htmlPie(){
