@@ -846,11 +846,25 @@ svg.ico{width:1em;height:1em;display:block;flex:0 0 auto}
 .boton.texto:active{transform:none;opacity:.6}
 
 /* --- Pestañas --- */
-.pestanas{display:flex;gap:6px;margin:0 0 14px}
+/* Con la cuarta pestaña, «Preparar un final», las cuatro no entraban en
+   343 px: se desbordaban 24 y arrastraban la página entera de costado.
+   Se resolvió por las dos vías. Achicar para que entren, y dejar que se
+   deslicen si algún día se suma otra, como ya hacen la fila de secciones
+   y los chips. Así no puede volver a romper el ancho de la página. */
+.pestanas{
+  display:flex;gap:0;margin:0 0 14px;
+  overflow-x:auto;-webkit-overflow-scrolling:touch
+}
+.pestanas::-webkit-scrollbar{display:none}
+/* min-width:0 es lo que permite que se achiquen por debajo de su texto y
+   partan en dos renglones. Sin eso, flex respeta el ancho del contenido
+   y las cuatro se desbordan aunque digan flex:1. */
 .pestana{
-  flex:1;background:transparent;border:none;border-bottom:3px solid var(--linea);
-  padding:10px 4px;font-family:var(--fuente-sub);font-size:15px;
-  text-transform:uppercase;letter-spacing:.04em;color:var(--texto-suave)
+  flex:1 1 0;min-width:0;
+  background:transparent;border:none;border-bottom:3px solid var(--linea);
+  padding:10px 4px;font-family:var(--fuente-sub);font-size:var(--letra-densa);
+  line-height:1.15;text-transform:uppercase;letter-spacing:.01em;
+  color:var(--texto-suave)
 }
 .pestana[aria-selected="true"]{border-bottom-color:var(--texto);color:var(--texto);font-weight:700}
 
@@ -1626,4 +1640,158 @@ details.tarjeta .respuesta{margin-top:9px;color:var(--texto-suave);font-size:15p
   .lista,.kit{
     display:grid;grid-template-columns:1fr 1fr;gap:12px;align-items:start
   }
+}
+
+/* ============================================================
+   PREPARAR UN FINAL
+
+   La firma de esta pantalla es EL PROGRAMA QUE SE TACHA. Un texto de la
+   carrera no es "tarea 3": es Carballeda (2002), y así se lo nombra en
+   clase y así se lo pide en la fotocopiadora. Por eso cada texto se
+   escribe como una ficha bibliográfica, en la tipografía de datos, con
+   el apellido adelante.
+
+   Y marcarlo como leído no prende una casilla azul: lo TACHA, con una
+   línea que cruza el renglón como cuando tachás el programa en papel.
+   Es el gesto que la persona ya hace, en pantalla.
+   ============================================================ */
+
+.tarjeta-invita{
+  background:var(--superficie);border:1.5px solid var(--tinta-borde);
+  border-radius:var(--radio);box-shadow:var(--sombra);padding:18px 16px
+}
+.tarjeta-invita h3{
+  font-family:var(--fuente-titulo);font-size:var(--letra-sub);line-height:1.1;
+  margin:0 0 10px
+}
+.tarjeta-invita p{margin:0 0 12px;font-size:var(--letra-base);line-height:1.45}
+.tarjeta-invita .boton{margin-top:6px}
+
+/* --- La cabecera de la preparación --- */
+.prep-cabecera{
+  background:var(--amarillo);color:var(--sobre-color);
+  border:1.5px solid var(--tinta-borde);border-radius:var(--radio);
+  box-shadow:var(--sombra);padding:15px;margin-bottom:6px
+}
+.prep-materia{
+  font-family:var(--fuente-titulo);font-size:21px;line-height:1.05;
+  margin:4px 0 11px
+}
+.prep-cuenta{
+  display:inline-block;font-family:var(--fuente-datos);font-weight:700;
+  font-size:var(--letra-chica);letter-spacing:.06em;text-transform:uppercase;
+  color:var(--texto-suave)
+}
+.prep-cabecera .prep-cuenta{color:var(--sobre-color);opacity:.75}
+/* Cuando la mesa está encima, el dato deja de ser gris */
+.prep-cuenta.cerca{
+  background:var(--rojo-solido);color:var(--sobre-negro);opacity:1;
+  padding:3px 8px;border-radius:var(--radio-pastilla)
+}
+.prep-cabecera .barra{background:rgba(26,26,26,.18);height:10px}
+.prep-cabecera .barra-llena{background:var(--negro)}
+.prep-datos{
+  margin:8px 0 0;font-family:var(--fuente-datos);font-size:var(--letra-nota)
+}
+.prep-datos strong,.prep-datos b{font-size:17px}
+
+.tarjeta.prep{border-left-color:var(--celeste)}
+.tarjeta.prep .barra{margin:8px 0 2px}
+
+/* --- El programa --- */
+.unidad{margin-bottom:16px}
+.unidad h4{
+  font-family:var(--fuente-sub);font-weight:700;font-size:var(--letra-densa);
+  text-transform:uppercase;letter-spacing:.04em;line-height:1.25;
+  margin:0 0 6px;display:flex;justify-content:space-between;gap:10px;align-items:baseline
+}
+.unidad-cuenta{
+  font-family:var(--fuente-datos);font-size:var(--letra-chica);
+  color:var(--texto-suave);flex:0 0 auto
+}
+.textos{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:2px}
+
+.texto{
+  width:100%;display:flex;gap:11px;align-items:flex-start;text-align:left;
+  background:transparent;border:0;border-bottom:1px solid var(--linea);
+  padding:11px 2px;min-height:48px;color:var(--texto);cursor:pointer
+}
+.texto:hover{background:var(--superficie-2)}
+.marca-leido{
+  flex:0 0 auto;width:19px;height:19px;margin-top:2px;
+  border:1.5px solid var(--tinta-borde);border-radius:3px;position:relative
+}
+.ficha{
+  flex:1;font-family:var(--fuente-datos);font-size:var(--letra-nota);
+  line-height:1.45;position:relative
+}
+.ficha-autor{font-weight:700;margin-right:5px}
+.ficha-titulo{color:var(--texto-suave)}
+
+/* El tachado: una línea que cruza el renglón, como en el papel. Se
+   dibuja de izquierda a derecha, no aparece de golpe. */
+.texto .ficha::after{
+  content:'';position:absolute;left:0;top:52%;height:1.5px;width:0;
+  background:var(--rojo-solido);transition:width .22s ease
+}
+.texto.leido .ficha{opacity:.55}
+.texto.leido .ficha::after{width:100%}
+.texto.leido .marca-leido{background:var(--tinta-borde)}
+.texto.leido .marca-leido::after{
+  content:'';position:absolute;left:5px;top:1px;width:5px;height:10px;
+  border:solid var(--superficie);border-width:0 2px 2px 0;transform:rotate(42deg)
+}
+@media (prefers-reduced-motion:reduce){
+  .texto .ficha::after{transition:none}
+}
+
+/* --- El reloj de estudio --- */
+.pomo{
+  background:var(--superficie);border:1.5px solid var(--tinta-borde);
+  border-radius:var(--radio);box-shadow:var(--sombra);
+  padding:16px;text-align:center
+}
+.pomo.descanso{background:var(--superficie-2)}
+.pomo-rotulo{
+  font-family:var(--fuente-sub);font-weight:700;font-size:var(--letra-chica);
+  letter-spacing:.1em;text-transform:uppercase;color:var(--texto-suave)
+}
+.pomo-reloj{
+  font-family:var(--fuente-datos);font-weight:700;font-size:52px;line-height:1;
+  letter-spacing:-.01em;margin:6px 0 12px;font-variant-numeric:tabular-nums
+}
+.pomo-barra{
+  height:6px;background:var(--linea);border-radius:var(--radio-pastilla);
+  overflow:hidden;margin-bottom:14px
+}
+.pomo-barra div{height:100%;background:var(--celeste);border-radius:var(--radio-pastilla)}
+.pomo.descanso .pomo-barra div{background:var(--texto-suave)}
+.pomo-botones{display:flex;gap:8px}
+.pomo-botones .boton{flex:1}
+.pomo .letra-chica{margin-top:10px}
+
+/* Al terminar un bloque parpadea el borde. Nada de sonido: esto se usa
+   en la biblioteca y en el aula. */
+@keyframes pomo-avisa{
+  0%,100%{border-color:var(--tinta-borde)}
+  50%{border-color:var(--rojo-solido)}
+}
+.pomo.sono{animation:pomo-avisa .8s ease 3}
+@media (prefers-reduced-motion:reduce){ .pomo.sono{animation:none} }
+
+/* --- El nexo de Estudiemos hacia el organizador de finales --- */
+.nexo-final{
+  display:flex;align-items:center;gap:12px;text-decoration:none;
+  background:var(--amarillo);color:var(--sobre-color);
+  border:1.5px solid var(--tinta-borde);border-radius:var(--radio);
+  box-shadow:var(--sombra);padding:14px 15px;margin:0 0 14px
+}
+.nexo-texto{flex:1;font-size:var(--letra-nota);line-height:1.4}
+.nexo-texto strong{
+  display:block;font-family:var(--fuente-titulo);font-size:17px;
+  line-height:1.15;margin-bottom:3px
+}
+.nexo-flecha{
+  flex:0 0 auto;font-family:var(--fuente-sub);font-weight:700;font-size:22px;
+  line-height:1
 }

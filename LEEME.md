@@ -94,6 +94,51 @@ salto a oscura.
 Se guarda en `bolivar-tema`. Si está en automático y la persona cambia el modo
 del teléfono con la app abierta, la app acompaña sin recargar.
 
+### Preparar un final
+
+Cuarta pestaña de **Mi año**, y un botón desde **Estudiemos** que lleva ahí.
+
+**Tres cosas no se escriben a mano, y esa es la decisión de fondo:**
+
+| Qué | De dónde sale |
+|---|---|
+| La materia | De las que marcaste como **cursada** (aprobaste la cursada, debés el final) |
+| La fecha de la mesa | Del calendario que publica la agrupación |
+| El programa | Del que cargó el equipo en el panel |
+
+Lo único que ponés vos es lo que solo vos sabés: **qué leíste**.
+
+**Ojo con el filtro de mesas.** En el calendario conviven «Mesa de examen de
+septiembre» y «Inscripción a la mesa de septiembre», que son cosas distintas:
+la inscripción es la ventana de cuatro días para anotarse, una semana antes.
+El filtro toma solo las que **empiezan** con «Mesa», porque ofrecer la
+inscripción como fecha de mesa daría mal la cuenta de días.
+
+**Esto sí necesita cuenta**, y es la única parte de la app que la pide: se
+guarda en Supabase para que lo veas desde cualquier teléfono. Sin cuenta la
+pantalla no es un cartel de error, es una invitación.
+
+**El programa se COPIA, no se referencia.** Al empezar a preparar una materia,
+la app se lleva una copia del programa oficial. Así el estudiante puede sacar y
+agregar textos sin tocar el de nadie, y si el equipo corrige el programa en
+octubre no le reescribe el plan a quien ya lo empezó.
+
+**Los textos se identifican por posición** (`u0-t2`). Si el estudiante edita la
+lista, los leídos que ya no existen se descartan solos.
+
+**Dos tablas con dueños distintos** (`tabla-organizador.sql`):
+
+- `programas` — los carga el equipo, los lee todo el mundo.
+- `preparaciones` — una por estudiante y materia. **Acá no entra el equipo**:
+  las políticas son por usuario, no por rol. Ni una cuenta de equipo puede ver
+  la preparación de otra persona.
+
+**El reloj de estudio** son 25 y 5, con empezar, pausar y reiniciar. Lo único
+que se le agregó al método: cuando termina un bloque, avisa que marques el
+texto que avanzaste. Sin eso sería un cronómetro que casualmente está en esa
+pantalla, y no una herramienta de esa pantalla. **No suena**: se usa en la
+biblioteca y en el aula, así que parpadea el borde.
+
 ### Marcar una materia como aprobada
 
 La hoja de detalle de cada materia tiene **dos pantallas**. Al marcar

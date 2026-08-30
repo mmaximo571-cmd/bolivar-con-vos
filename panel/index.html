@@ -148,6 +148,7 @@
       <button class="chip" data-p="faq"      aria-pressed="false">❓ Preguntas</button>
       <button class="chip" data-p="agenda"   aria-pressed="false">📅 Agenda</button>
       <button class="chip" data-p="materiales" aria-pressed="false">📚 Estudiemos</button>
+      <button class="chip" data-p="programas"  aria-pressed="false">📖 Programas</button>
       <button class="chip" data-p="categorias" aria-pressed="false">🗂 Categorías</button>
     </div>
     <div id="zona" style="margin-top:14px"></div>
@@ -927,8 +928,197 @@
   }
   /* ============================================================ */
   function dibujar(){
+
+  /* ============================================================
+     PROGRAMAS · lo que el equipo carga una vez y usan todos
+
+     Se carga PEGANDO el programa tal como viene de la cátedra, no
+     llenando un campo por texto: un programa tiene treinta textos y
+     nadie va a tipear treinta formularios.
+     ============================================================ */
+  const CARRERAS_PANEL = { ts:'Trabajo Social', tgcr:'Gestión del Riesgo', fono:'Fonoaudiología' };
+
+  /* De texto pegado a unidades: un bloque por unidad, el primer renglón
+     es el título y los de abajo son los textos, uno por línea. */
+  function leerPrograma(texto){
+    return texto.split(/\n\s*\n/).map(b => b.trim()).filter(Boolean).map(b => {
+      const lineas = b.split('\n').map(l => l.trim()).filter(Boolean);
+      return {
+        titulo: lineas.shift(),
+        textos: lineas.map(l => {
+          const p = l.split(/\s*[·;]\s*/);
+          if (p.length >= 3) return { autor:p[0], anio:p[1], titulo:p.slice(2).join(' · ') };
+          if (p.length === 2) return { autor:p[0], anio:'', titulo:p[1] };
+          return { autor:'', anio:'', titulo:p[0] };
+        })
+      };
+    });
+  }
+
+  function escribirPrograma(unidades){
+    return (unidades || []).map(u =>
+      (u.titulo || '') + '\n' + (u.textos || []).map(t =>
+        [t.autor, t.anio, t.titulo].filter(Boolean).join(' · ')).join('\n')
+    ).join('\n\n');
+  }
+
+  function contarTextosPanel(unidades){
+    return (unidades || []).reduce((s, u) => s + (u.textos || []).length, 0);
+  }
+
+  async function vistaProgramas(){
+    const { data, error } = await db.from('programas')
+      .select('*').order('carrera').order('materia');
+
+    if (error){
+      zona.innerHTML = /programas/.test(error.message || '')
+        ? `<div class="aviso error">
+             <strong>Falta activar esta sección.</strong><br>
+             Hay que correr <b>tabla-organizador.sql</b> en el SQL Editor de
+             Supabase. Es una sola vez.
+           </div>`
+        : `<div class="aviso error">No se pudo cargar: ${esc(error.message)}</div>`;
+      return;
+    }
+
+    zona.innerHTML =
+      `<button class="boton ancho" id="nuevo">+ Cargar un programa</button>
+       <p class="letra-chica" style="margin-bottom:6px">
+         Cada estudiante se lleva una copia al empezar a preparar el final, y
+         puede editarla. Corregir el programa acá no le reescribe el plan a
+         quien ya lo empezó.</p>` +
+      (data.length ? data.map(p => `
+        <button class="tarjeta" data-id="${p.id}">
+          <h3>${esc(p.materia)}</h3>
+          <p>${esc(CARRERAS_PANEL[p.carrera] || p.carrera)}${p.catedra ? ' · ' + esc(p.catedra) : ''}</p>
+          <div class="meta">
+            <span>${(p.unidades || []).length} unidades</span>
+            <span>${contarTextosPanel(p.unidades)} textos</span>
+            ${p.anio ? `<span>${p.anio}</span>` : ''}
+            <span>${p.publicado ? 'Publicado' : 'Borrador'}</span>
+          </div>
+        </button>`).join('')
+        : `<div class="vacio">Todavía no hay ningún programa cargado.</div>`);
+
+    document.getElementById('nuevo').onclick = () => formularioPrograma(null);
+    zona.querySelectorAll('.tarjeta[data-id]').forEach(b => {
+      b.onclick = () => formularioPrograma(data.find(x => x.id === Number(b.dataset.id)));
+    });
+  }
+
+  function formularioPrograma(p){
+    const esNuevo = !p;
+    p = p || { carrera:'ts', publicado:true, unidades:[] };
+
+    zona.innerHTML = `
+      <button class="mini" id="volver">← Volver a la lista</button>
+      <h2 class="titulo-pantalla" style="font-size:24px">${esNuevo ? 'CARGAR UN PROGRAMA' : 'EDITAR EL PROGRAMA'}</h2>
+
+      <div class="dos-columnas">
+        <div class="campo"><label for="carrera">Carrera</label>
+          <select id="carrera">${Object.keys(CARRERAS_PANEL).map(k =>
+            `<option value="${k}"${p.carrera === k ? ' selected' : ''}>${CARRERAS_PANEL[k]}</option>`).join('')}
+          </select></div>
+        <div class="campo"><label for="materia_cod">Código de la materia *</label>
+          <input id="materia_cod" value="${esc(p.materia_cod || '')}" placeholder="211 A"></div>
+      </div>
+      <p class="letra-chica" style="margin-top:-6px">
+        El código tiene que ser <b>igual al del plan de estudios</b>: es lo que
+        conecta el programa con la materia. Está en «Plan completo».</p>
+
+      <div class="campo"><label for="materia">Nombre de la materia *</label>
+        <input id="materia" value="${esc(p.materia || '')}" placeholder="Trabajo Social I"></div>
+
+      <div class="dos-columnas">
+        <div class="campo"><label for="catedra">Cátedra</label>
+          <input id="catedra" value="${esc(p.catedra || '')}" placeholder="Opcional"></div>
+        <div class="campo"><label for="anio">Año del programa</label>
+          <input id="anio" type="number" value="${p.anio || ''}" placeholder="2026"></div>
+      </div>
+
+      <div class="campo">
+        <label for="unidades">El programa</label>
+        <p class="letra-chica" style="margin:0 0 6px">
+          Pegalo tal como viene. Una unidad por bloque, separando los bloques
+          con un renglón en blanco. El primer renglón de cada bloque es el
+          título de la unidad y los de abajo son los textos, uno por línea.
+          Para separar autor, año y título usá <b>·</b> o punto y coma.</p>
+        <textarea id="unidades" style="min-height:300px;font-family:var(--fuente-datos);font-size:14px"
+          placeholder="Unidad 1: El campo profesional&#10;Carballeda · 2002 · La intervención en lo social&#10;Rozas Pagaza · 1998 · Una perspectiva teórica metodológica&#10;&#10;Unidad 2: La cuestión social&#10;Castel · 1997 · Las metamorfosis de la cuestión social">${esc(escribirPrograma(p.unidades))}</textarea>
+      </div>
+      <div id="vista-previa"></div>
+
+      <div class="campo"><label for="publicado">¿Lo ven los estudiantes?</label>
+        <select id="publicado">
+          <option value="si"${p.publicado ? ' selected' : ''}>Sí, publicado</option>
+          <option value="no"${p.publicado ? '' : ' selected'}>No, borrador</option>
+        </select></div>
+
+      <button class="boton ancho" id="guardar">Guardar</button>
+      ${esNuevo ? '' : `<button class="boton ancho peligro" id="borrar" style="margin-top:10px">Eliminar</button>`}
+      <div id="msj"></div>`;
+
+    /* Se ve al toque cómo va a quedar leído: si el formato está mal, se
+       nota acá y no después, cuando ya lo copió un estudiante. */
+    const campo = document.getElementById('unidades');
+    const previa = document.getElementById('vista-previa');
+    function verPrevia(){
+      const u = leerPrograma(campo.value);
+      previa.innerHTML = u.length
+        ? `<div class="aviso ok">Van a quedar <b>${u.length}</b>
+             unidad${u.length === 1 ? '' : 'es'} y
+             <b>${contarTextosPanel(u)}</b> textos.</div>`
+        : '';
+    }
+    campo.addEventListener('input', verPrevia);
+    verPrevia();
+
+    document.getElementById('volver').onclick = vistaProgramas;
+
+    document.getElementById('guardar').onclick = async function(){
+      if (!val('materia_cod') || !val('materia')){
+        document.getElementById('msj').innerHTML =
+          '<div class="aviso error">Falta el código o el nombre de la materia.</div>';
+        return;
+      }
+      this.disabled = true; this.textContent = 'Guardando…';
+      const fila = {
+        carrera:     val('carrera'),
+        materia_cod: val('materia_cod'),
+        materia:     val('materia'),
+        catedra:     nulo('catedra'),
+        anio:        val('anio') ? Number(val('anio')) : null,
+        unidades:    leerPrograma(campo.value),
+        publicado:   val('publicado') === 'si'
+      };
+      const { error } = esNuevo
+        ? await db.from('programas').insert(fila)
+        : await db.from('programas').update(fila).eq('id', p.id);
+      if (error){
+        this.disabled = false; this.textContent = 'Guardar';
+        document.getElementById('msj').innerHTML =
+          `<div class="aviso error">${/duplicate|unique/i.test(error.message)
+            ? 'Ya hay un programa cargado para esa materia, cátedra y año.'
+            : 'No se pudo guardar: ' + esc(error.message)}</div>`;
+        return;
+      }
+      vistaProgramas();
+    };
+
+    const borrar = document.getElementById('borrar');
+    if (borrar) borrar.onclick = async function(){
+      if (!confirm('¿Eliminar este programa?\n\nA quien ya lo esté usando no se le borra: se llevó una copia.')) return;
+      const { error } = await db.from('programas').delete().eq('id', p.id);
+      if (error){
+        document.getElementById('msj').innerHTML =
+          `<div class="aviso error">No se pudo eliminar: ${esc(error.message)}</div>`;
+        return;
+      }
+      vistaProgramas();
+    };
+  }
     zona.innerHTML = '<div class="esq-tarjeta"><div class="esqueleto esq-linea titulo"></div><div class="esqueleto esq-linea"></div><div class="esqueleto esq-linea media"></div></div><div class="esq-tarjeta"><div class="esqueleto esq-linea titulo"></div><div class="esqueleto esq-linea"></div><div class="esqueleto esq-linea corta"></div></div>';
-    ({ tramites:vistaTramites, faq:vistaFaq, agenda:vistaAgenda,
+    ({ tramites:vistaTramites, faq:vistaFaq, agenda:vistaAgenda, programas:vistaProgramas,
        materiales:vistaMateriales, categorias:vistaCategorias }[actual])();
   }
 

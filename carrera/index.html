@@ -57,6 +57,7 @@
   <!-- ---------- PESTAÑAS ---------- -->
   <div class="pestanas" role="tablist">
     <button class="pestana" id="tab-plan"  role="tab" aria-selected="true">Mi cursada</button>
+    <button class="pestana" id="tab-final" role="tab" aria-selected="false">Finales</button>
     <button class="pestana" id="tab-mapa"  role="tab" aria-selected="false">Mapa</button>
     <button class="pestana" id="tab-todo"  role="tab" aria-selected="false">Plan completo</button>
   </div>
@@ -84,6 +85,12 @@
     <div id="grupos"></div>
     <div id="consejo"></div>
   </section>
+
+  <!-- ---------- VISTA: PREPARAR UN FINAL ----------
+       Se dibuja entera desde el JS porque depende de si hay sesión, de
+       si ya empezaste a preparar alguna, y del programa que haya
+       cargado el equipo. -->
+  <section id="vista-final" hidden></section>
 
   <!-- ---------- VISTA: MAPA DE CORRELATIVIDADES ---------- -->
   <section id="vista-mapa" hidden>
@@ -1063,7 +1070,584 @@ document.getElementById('suponer').addEventListener('change', function(){
   pintarConsejo();
 });
 
-const PESTANAS = ['plan', 'mapa', 'todo'];
+
+/* ============================================================
+   PREPARAR UN FINAL
+
+   Vive acá adentro y no en una sección aparte porque es acá donde ya
+   estás cuando pensás en un final: la app ya sabe cuáles debés.
+
+   TRES COSAS QUE NO SE ESCRIBEN A MANO, y es la decisión de fondo:
+   - la materia sale de las que marcaste como «cursada»
+   - la fecha de la mesa sale del calendario que publica la agrupación
+   - el programa sale del que cargó el equipo
+   Lo único que ponés vos es lo que solo vos sabés: qué leíste.
+
+   Esto SÍ necesita cuenta, a diferencia del resto de la app: se guarda
+   en Supabase para que lo veas desde cualquier teléfono. Sin cuenta la
+   pantalla no es un cartel de error: es una invitación.
+   ============================================================ */
+
+const zonaFinal = document.getElementById('vista-final');
+
+let sesionFinal = null;     /* el usuario, si hay */
+let prepActual  = null;     /* la preparación abierta */
+let mesasCache  = null;     /* las mesas próximas, del calendario */
+let cargandoFinal = false;
+
+/* ---------- Textos: se identifican por posición ---------- */
+function idTexto(u, t){ return 'u' + u + '-t' + t; }
+
+function contarTextos(unidades){
+  return (unidades || []).reduce((s, u) => s + (u.textos || []).length, 0);
+}
+
+/* ---------- La ficha bibliográfica ----------
+   Un texto de la carrera no es «tarea 3»: es Carballeda (2002). Se
+   escribe como en el programa, con el apellido adelante, porque es
+   así como se lo nombra en clase y como se lo busca en la fotocopiadora. */
+function fichaTexto(t){
+  const autor = (t.autor || '').trim();
+  const anio  = (t.anio  || '').toString().trim();
+  const cabeza = autor ? esc(autor) + (anio ? ' (' + esc(anio) + ')' : '') : '';
+  return `${cabeza ? `<span class="ficha-autor">${cabeza}</span>` : ''}
+          <span class="ficha-titulo">${esc(t.titulo || 'Sin título')}</span>`;
+}
+
+/* ---------- Cuántos días faltan ---------- */
+function diasHasta(iso){
+  if (!iso) return null;
+  const p = iso.split('-').map(Number);
+  const mesa = new Date(p[0], p[1] - 1, p[2]);
+  const hoy = new Date(); hoy.setHours(0, 0, 0, 0);
+  return Math.round((mesa - hoy) / 86400000);
+}
+
+function textoCuenta(dias){
+  if (dias === null)  return 'Sin fecha de mesa';
+  if (dias < 0)       return 'La mesa ya pasó';
+  if (dias === 0)     return 'La mesa es HOY';
+  if (dias === 1)     return 'Falta 1 día';
+  return 'Faltan ' + dias + ' días';
+}
+
+/* ============================================================
+   GUARDAR
+
+   Se guarda solo, sin botón, pero no en cada tecla: se espera a que
+   pares de escribir. Sin esto, escribir una meta dispara veinte
+   consultas y en la red de la facultad se nota.
+   ============================================================ */
+let relojGuardado = null;
+function guardarPrep(cambios, alTerminar){
+  Object.assign(prepActual, cambios);
+  clearTimeout(relojGuardado);
+  relojGuardado = setTimeout(async () => {
+    const { error } = await db.from('preparaciones')
+      .update(cambios).eq('id', prepActual.id);
+    if (error) avisoFinal('No se pudo guardar: ' + error.message);
+    else if (alTerminar) alTerminar();
+  }, 600);
+}
+
+function avisoFinal(texto){
+  const caja = document.getElementById('aviso-final');
+  if (!caja) return;
+  caja.textContent = texto;
+  caja.hidden = !texto;
+}
+
+/* ============================================================
+   LAS TRES PANTALLAS
+   ============================================================ */
+async function pintarFinal(){
+  if (cargandoFinal) return;
+  cargandoFinal = true;
+
+  zonaFinal.innerHTML = `
+    <div class="esq-tarjeta"><div class="esqueleto esq-linea titulo"></div>
+      <div class="esqueleto esq-linea"></div>
+      <div class="esqueleto esq-linea media"></div></div>`;
+
+  try {
+    const { usuario } = await conPaciencia(sesionActual());
+    sesionFinal = usuario || null;
+  } catch(e){ sesionFinal = null; }
+
+  if (!sesionFinal){ cargandoFinal = false; return vistaSinCuenta(); }
+
+  let filas = [];
+  try {
+    const { data, error } = await conPaciencia(
+      db.from('preparaciones').select('*')
+        .eq('carrera', PLAN.id).order('mesa_fecha', { nullsFirst:false }));
+    if (error) throw error;
+    filas = data || [];
+  } catch(e){
+    cargandoFinal = false;
+    if (/preparaciones/.test(e.message || '')){
+      zonaFinal.innerHTML = `<div class="vacio">
+        Esta parte todavía no está activada.<br>
+        <small>Al equipo: falta correr <b>tabla-organizador.sql</b> en Supabase.</small></div>`;
+      return;
+    }
+    return mostrarError(zonaFinal, e, 'abrir tus finales');
+  }
+
+  cargandoFinal = false;
+  if (prepActual){
+    const viva = filas.filter(f => f.id === prepActual.id)[0];
+    if (viva) return vistaPreparacion(viva);
+  }
+  vistaElegir(filas);
+}
+
+/* ---------- Sin cuenta ---------- */
+function vistaSinCuenta(){
+  zonaFinal.innerHTML = `
+    <div class="tarjeta-invita">
+      <h3>Para preparar un final necesitás una cuenta</h3>
+      <p>Es la única parte de la app que la pide. Lo que marcás acá —qué
+         textos leíste, cuánto te falta— se guarda en tu cuenta para que
+         lo veas desde cualquier teléfono, y no se pierda si cambiás de
+         aparato.</p>
+      <p class="letra-chica">Todo lo demás, incluido el organizador de
+         cursadas de acá al lado, sigue funcionando sin registrarte.</p>
+      <a class="boton oscuro ancho" href="../mi/">Crear una cuenta</a>
+    </div>`;
+}
+
+/* ---------- Elegir qué preparar ---------- */
+async function vistaElegir(filas){
+  /* Las que debés el final: cursada aprobada, final pendiente */
+  const debidos = MATERIAS.filter(m => estadoCrudo(m.cod) === 'cursada');
+  const yaEmpezadas = {};
+  filas.forEach(f => { yaEmpezadas[f.materia_cod] = f; });
+
+  const enCurso = filas.map(f => {
+    const total = contarTextos(f.unidades);
+    const hechos = (f.leidos || []).length;
+    const pct = total ? Math.round(hechos / total * 100) : 0;
+    const d = diasHasta(f.mesa_fecha);
+    return `
+      <button class="tarjeta prep" data-abrir="${f.id}">
+        <span class="prep-cuenta ${d !== null && d >= 0 && d <= 7 ? 'cerca' : ''}">${textoCuenta(d)}</span>
+        <h3>${esc(f.materia)}</h3>
+        <div class="barra"><div class="barra-llena" style="width:${pct}%"></div></div>
+        <p class="motivo"><strong>${hechos}</strong> de ${total} textos leídos</p>
+      </button>`;
+  }).join('');
+
+  const paraEmpezar = debidos.filter(m => !yaEmpezadas[m.cod]);
+
+  zonaFinal.innerHTML = `
+    ${filas.length ? `<div class="titulo-seccion">LO QUE ESTÁS PREPARANDO</div>
+      <div class="lista">${enCurso}</div>` : ''}
+
+    <div class="titulo-seccion">${filas.length ? 'EMPEZAR OTRO' : 'EMPEZÁ POR ACÁ'}</div>
+    ${paraEmpezar.length ? `
+      <p class="letra-chica">Estas son las materias que tenés con la cursada
+        aprobada y el final pendiente.</p>
+      <div class="lista">${paraEmpezar.map(m => `
+        <button class="tarjeta materia" data-nueva="${esc(m.cod)}">
+          <h3>${esc(m.nombre)}</h3>
+          <p class="motivo">Te falta el final</p>
+        </button>`).join('')}</div>`
+      : `<div class="vacio">
+          ${debidos.length
+            ? 'Ya estás preparando todos los finales que debés.'
+            : `No tenés ninguna materia con el final pendiente.<br>
+               <small>En «Mi cursada» marcá una materia como <b>Cursada</b>
+               —aprobaste la cursada, te falta el final— y va a aparecer acá.</small>`}
+        </div>`}
+    <p class="aviso error" id="aviso-final" hidden></p>`;
+
+  zonaFinal.querySelectorAll('[data-abrir]').forEach(b => {
+    b.addEventListener('click', () => {
+      const f = filas.filter(x => String(x.id) === b.dataset.abrir)[0];
+      if (f){ prepActual = f; vistaPreparacion(f); }
+    });
+  });
+  zonaFinal.querySelectorAll('[data-nueva]').forEach(b => {
+    b.addEventListener('click', () => vistaNueva(b.dataset.nueva));
+  });
+}
+
+/* ---------- Crear una: elegir la mesa ---------- */
+async function vistaNueva(cod){
+  const m = POR_COD[cod];
+  if (!m) return;
+
+  if (mesasCache === null){
+    mesasCache = [];
+    try {
+      const hoy = new Date().toISOString().slice(0, 10);
+      const { data } = await conPaciencia(
+        db.from('publicaciones').select('titulo,fecha_desde,fecha_hasta')
+          .eq('publicado', true).gte('fecha_desde', hoy)
+          .order('fecha_desde').limit(30));
+      /* Solo las mesas, NO las inscripciones. En el calendario conviven
+         «Mesa de examen de septiembre» y «Inscripción a la mesa de
+         septiembre», que son cosas distintas: la inscripción es la
+         ventana de cuatro días para anotarse, una semana antes. Ofrecer
+         la inscripción como fecha de mesa daría mal la cuenta de días. */
+      mesasCache = (data || []).filter(p => /^\s*mesa\b/i.test(p.titulo || ''));
+    } catch(e){ mesasCache = []; }
+  }
+
+  zonaFinal.innerHTML = `
+    <button class="hoja-volver" id="volver-lista">← Volver</button>
+    <div class="titulo-seccion">PREPARAR UN FINAL</div>
+    <h3 class="prep-materia">${esc(m.nombre)}</h3>
+
+    <p class="letra-chica">¿Para qué mesa la estás preparando? Sirve para
+      contarte cuántos días faltan.</p>
+
+    <div class="opciones-estado" id="mesas">
+      ${mesasCache.map((p, i) => `
+        <button class="opcion" data-fecha="${esc(p.fecha_desde)}">
+          ${esc(p.titulo)}
+          <small>desde el ${fechaLinda(p.fecha_desde)}</small>
+        </button>`).join('')}
+      <button class="opcion" data-fecha="otra">Otra fecha</button>
+      <button class="opcion" data-fecha="">Todavía no sé</button>
+    </div>
+
+    <div class="campo-nota" id="campo-otra" hidden style="margin-top:12px">
+      <label for="mesa-otra">¿Qué día es la mesa?</label>
+      <input id="mesa-otra" type="date">
+    </div>
+
+    <button class="boton ancho" id="crear-prep" style="margin-top:16px">
+      Empezar a prepararla
+    </button>
+    <p class="aviso error" id="aviso-final" hidden></p>`;
+
+  let elegida = null;
+  const campoOtra = zonaFinal.querySelector('#campo-otra');
+
+  zonaFinal.querySelectorAll('#mesas .opcion').forEach(b => {
+    b.addEventListener('click', function(){
+      zonaFinal.querySelectorAll('#mesas .opcion').forEach(o => o.classList.remove('elegida'));
+      this.classList.add('elegida');
+      elegida = this.dataset.fecha;
+      campoOtra.hidden = elegida !== 'otra';
+      if (elegida === 'otra') zonaFinal.querySelector('#mesa-otra').focus();
+    });
+  });
+
+  zonaFinal.querySelector('#volver-lista')
+    .addEventListener('click', () => { prepActual = null; pintarFinal(); });
+
+  zonaFinal.querySelector('#crear-prep').addEventListener('click', async function(){
+    this.disabled = true; this.textContent = 'Un segundo…';
+
+    let fecha = null;
+    if (elegida === 'otra') fecha = zonaFinal.querySelector('#mesa-otra').value || null;
+    else if (elegida)       fecha = elegida;
+
+    /* El programa que cargó el equipo, si hay. Se COPIA: a partir de acá
+       es tuyo y lo podés editar sin tocar el de nadie. */
+    let unidades = [], programaId = null;
+    try {
+      const { data } = await db.from('programas').select('id,unidades')
+        .eq('carrera', PLAN.id).eq('materia_cod', cod)
+        .eq('publicado', true).limit(1);
+      if (data && data.length){ unidades = data[0].unidades || []; programaId = data[0].id; }
+    } catch(e){ /* sin programa cargado se arranca en blanco */ }
+
+    const { data, error } = await db.from('preparaciones').insert({
+      carrera: PLAN.id, materia_cod: cod, materia: m.nombre,
+      mesa_fecha: fecha, unidades: unidades, programa_id: programaId
+    }).select().single();
+
+    if (error){
+      this.disabled = false; this.textContent = 'Empezar a prepararla';
+      avisoFinal(/duplicate|unique/i.test(error.message)
+        ? 'Ya estabas preparando esta materia. Volvé y abrila.'
+        : 'No se pudo crear: ' + error.message);
+      return;
+    }
+    prepActual = data;
+    vistaPreparacion(data);
+  });
+}
+
+/* ---------- La pantalla de trabajo ---------- */
+function vistaPreparacion(p){
+  prepActual = p;
+  const total  = contarTextos(p.unidades);
+  const leidos = p.leidos || [];
+  const pct    = total ? Math.round(leidos.length / total * 100) : 0;
+  const dias   = diasHasta(p.mesa_fecha);
+  const metas  = p.metas || {};
+
+  /* Cuántos por día hacen falta para llegar. Es el dato que la persona
+     quiere y que ninguna app le da: no "cuánto hiciste" sino "cuánto
+     te falta por día". */
+  const faltan = total - leidos.length;
+  const ritmo = (dias !== null && dias > 0 && faltan > 0)
+    ? Math.ceil(faltan / dias) : null;
+
+  zonaFinal.innerHTML = `
+    <button class="hoja-volver" id="volver-lista">← Todos mis finales</button>
+
+    <div class="prep-cabecera">
+      <span class="prep-cuenta ${dias !== null && dias >= 0 && dias <= 7 ? 'cerca' : ''}">${textoCuenta(dias)}</span>
+      <h3 class="prep-materia">${esc(p.materia)}</h3>
+      <div class="barra"><div class="barra-llena" style="width:${pct}%"></div></div>
+      <p class="prep-datos">
+        <strong>${leidos.length}</strong> de ${total} textos
+        ${ritmo ? `· <b>${ritmo}</b> por día para llegar` : ''}
+      </p>
+    </div>
+
+    <div class="titulo-seccion">EL PROGRAMA</div>
+    <div id="programa"></div>
+    <button class="boton borde ancho" id="editar-programa" style="margin-top:10px">
+      Editar el programa
+    </button>
+
+    <div class="titulo-seccion">MIS METAS</div>
+    <div class="campos-nota">
+      <div class="campo-nota" style="flex:0 0 104px">
+        <label for="meta-dia">Textos por día</label>
+        <input id="meta-dia" type="number" inputmode="numeric" min="1" max="20"
+               placeholder="—" value="${metas.textos_por_dia || ''}">
+      </div>
+      <div class="campo-nota" style="flex:1 1 150px">
+        <label for="meta-fecha">Empiezo a escribir el</label>
+        <input id="meta-fecha" type="date" value="${metas.fecha_redaccion || ''}">
+      </div>
+    </div>
+    <p class="letra-chica">Las metas son tuyas y no te reta nadie si no las
+      cumplís. Sirven para ver si el ritmo alcanza.</p>
+
+    <div class="titulo-seccion">RELOJ DE ESTUDIO</div>
+    <div id="pomodoro"></div>
+
+    <p class="aviso error" id="aviso-final" hidden></p>
+
+    <button class="boton borde ancho" id="borrar-prep" style="margin-top:22px">
+      Dejar de preparar esta materia
+    </button>`;
+
+  pintarPrograma();
+  pintarPomodoro();
+
+  zonaFinal.querySelector('#volver-lista')
+    .addEventListener('click', () => { prepActual = null; pararPomodoro(); pintarFinal(); });
+
+  zonaFinal.querySelector('#meta-dia').addEventListener('input', function(){
+    const n = parseInt(this.value, 10);
+    guardarPrep({ metas: Object.assign({}, prepActual.metas, {
+      textos_por_dia: (n >= 1 && n <= 20) ? n : null }) });
+  });
+  zonaFinal.querySelector('#meta-fecha').addEventListener('input', function(){
+    guardarPrep({ metas: Object.assign({}, prepActual.metas, {
+      fecha_redaccion: this.value || null }) });
+  });
+
+  zonaFinal.querySelector('#editar-programa')
+    .addEventListener('click', vistaEditarPrograma);
+
+  zonaFinal.querySelector('#borrar-prep').addEventListener('click', async () => {
+    if (!confirm(`¿Dejar de preparar ${prepActual.materia}?\n\nSe pierde lo que marcaste como leído.`)) return;
+    await db.from('preparaciones').delete().eq('id', prepActual.id);
+    prepActual = null; pararPomodoro(); pintarFinal();
+  });
+}
+
+/* ---------- El programa, que se va tachando ---------- */
+function pintarPrograma(){
+  const caja = document.getElementById('programa');
+  const p = prepActual;
+  const leidos = p.leidos || [];
+
+  if (!contarTextos(p.unidades)){
+    caja.innerHTML = `<div class="vacio">
+        Todavía no hay programa cargado para esta materia.<br>
+        <small>Tocá «Editar el programa» y armá la lista de textos.</small>
+      </div>`;
+    return;
+  }
+
+  caja.innerHTML = p.unidades.map((u, iu) => {
+    const textos = (u.textos || []).map((t, it) => {
+      const id = idTexto(iu, it);
+      const listo = leidos.indexOf(id) !== -1;
+      return `
+        <li>
+          <button class="texto ${listo ? 'leido' : ''}" data-texto="${id}"
+                  aria-pressed="${listo}">
+            <span class="marca-leido" aria-hidden="true"></span>
+            <span class="ficha">${fichaTexto(t)}</span>
+          </button>
+        </li>`;
+    }).join('');
+    const hechos = (u.textos || []).filter((t, it) =>
+      leidos.indexOf(idTexto(iu, it)) !== -1).length;
+    return `
+      <section class="unidad">
+        <h4>${esc(u.titulo || 'Unidad ' + (iu + 1))}
+          <span class="unidad-cuenta">${hechos}/${(u.textos || []).length}</span></h4>
+        <ul class="textos">${textos}</ul>
+      </section>`;
+  }).join('');
+
+  caja.querySelectorAll('[data-texto]').forEach(b => {
+    b.addEventListener('click', function(){ alternarTexto(this.dataset.texto); });
+  });
+}
+
+function alternarTexto(id){
+  const leidos = (prepActual.leidos || []).slice();
+  const i = leidos.indexOf(id);
+  if (i === -1) leidos.push(id); else leidos.splice(i, 1);
+  guardarPrep({ leidos: leidos });
+  vistaPreparacion(Object.assign({}, prepActual, { leidos: leidos }));
+}
+
+/* ---------- Editar el programa ---------- */
+function vistaEditarPrograma(){
+  const p = prepActual;
+  const texto = (p.unidades || []).map(u =>
+    (u.titulo || '') + '\n' + (u.textos || []).map(t =>
+      [t.autor, t.anio, t.titulo].filter(Boolean).join(' · ')).join('\n')
+  ).join('\n\n');
+
+  zonaFinal.innerHTML = `
+    <button class="hoja-volver" id="volver-prep">← Volver</button>
+    <div class="titulo-seccion">EDITAR EL PROGRAMA</div>
+    <p class="letra-chica">Una unidad por bloque. El primer renglón es el
+      título de la unidad y los de abajo son los textos, uno por línea.
+      Para separar autor, año y título usá <b>·</b> o punto y coma.</p>
+    <div class="campo">
+      <textarea id="programa-texto" style="min-height:280px;font-family:var(--fuente-datos);font-size:14px">${esc(texto)}</textarea>
+    </div>
+    <button class="boton ancho" id="guardar-programa">Guardar el programa</button>
+    <p class="letra-chica">Esto cambia solo tu copia. El programa que cargó
+      la agrupación no se toca.</p>
+    <p class="aviso error" id="aviso-final" hidden></p>`;
+
+  zonaFinal.querySelector('#volver-prep')
+    .addEventListener('click', () => vistaPreparacion(prepActual));
+
+  zonaFinal.querySelector('#guardar-programa').addEventListener('click', function(){
+    const bloques = document.getElementById('programa-texto').value
+      .split(/\n\s*\n/).map(b => b.trim()).filter(Boolean);
+    const unidades = bloques.map(b => {
+      const lineas = b.split('\n').map(l => l.trim()).filter(Boolean);
+      return {
+        titulo: lineas.shift(),
+        textos: lineas.map(l => {
+          const partes = l.split(/\s*[·;]\s*/);
+          if (partes.length >= 3) return { autor:partes[0], anio:partes[1], titulo:partes.slice(2).join(' · ') };
+          if (partes.length === 2) return { autor:partes[0], anio:'', titulo:partes[1] };
+          return { autor:'', anio:'', titulo:partes[0] };
+        })
+      };
+    });
+    /* Los leídos se recalculan solos: si sacaste textos, los ids que ya
+       no existen se descartan. */
+    const validos = [];
+    unidades.forEach((u, iu) => (u.textos || []).forEach((t, it) => validos.push(idTexto(iu, it))));
+    const leidos = (prepActual.leidos || []).filter(id => validos.indexOf(id) !== -1);
+
+    guardarPrep({ unidades: unidades, leidos: leidos });
+    vistaPreparacion(Object.assign({}, prepActual, { unidades: unidades, leidos: leidos }));
+  });
+}
+
+/* ============================================================
+   EL RELOJ DE ESTUDIO (pomodoro)
+
+   25 minutos de concentración, 5 de descanso. Lo único que le
+   agregamos al método: cuando termina un bloque, pregunta si avanzaste
+   con algún texto. Si no, sería un cronómetro que casualmente está en
+   esta pantalla, y no una herramienta de esta pantalla.
+   ============================================================ */
+const CONCENTRA = 25 * 60, DESCANSO = 5 * 60;
+let pomoQueda = CONCENTRA, pomoAndando = false, pomoEsDescanso = false, pomoReloj = null;
+
+function pintarPomodoro(){
+  const caja = document.getElementById('pomodoro');
+  if (!caja) return;
+  const min = String(Math.floor(pomoQueda / 60)).padStart(2, '0');
+  const seg = String(pomoQueda % 60).padStart(2, '0');
+  const total = pomoEsDescanso ? DESCANSO : CONCENTRA;
+
+  caja.innerHTML = `
+    <div class="pomo ${pomoEsDescanso ? 'descanso' : ''} ${pomoAndando ? 'andando' : ''}">
+      <span class="pomo-rotulo">${pomoEsDescanso ? 'Descanso' : 'Concentración'}</span>
+      <div class="pomo-reloj" role="timer" aria-live="off">${min}:${seg}</div>
+      <div class="pomo-barra"><div style="width:${100 - (pomoQueda / total * 100)}%"></div></div>
+      <div class="pomo-botones">
+        <button class="boton" id="pomo-arranca">${pomoAndando ? 'Pausar' : 'Empezar'}</button>
+        <button class="boton borde" id="pomo-reinicia">Reiniciar</button>
+      </div>
+      <p class="letra-chica">${prepActual.pomodoros
+        ? 'Llevás <b>' + prepActual.pomodoros + '</b> bloque' + (prepActual.pomodoros === 1 ? '' : 's') + ' con esta materia.'
+        : '25 minutos de concentración y 5 de descanso.'}</p>
+    </div>`;
+
+  caja.querySelector('#pomo-arranca').addEventListener('click', () => {
+    pomoAndando ? pausarPomodoro() : arrancarPomodoro();
+  });
+  caja.querySelector('#pomo-reinicia').addEventListener('click', reiniciarPomodoro);
+}
+
+function arrancarPomodoro(){
+  pomoAndando = true;
+  clearInterval(pomoReloj);
+  pomoReloj = setInterval(() => {
+    pomoQueda--;
+    if (pomoQueda <= 0) return terminarBloque();
+    const r = document.querySelector('.pomo-reloj');
+    const b = document.querySelector('.pomo-barra div');
+    if (!r) return pararPomodoro();
+    r.textContent = String(Math.floor(pomoQueda / 60)).padStart(2, '0') + ':' +
+                    String(pomoQueda % 60).padStart(2, '0');
+    if (b) b.style.width = (100 - (pomoQueda / (pomoEsDescanso ? DESCANSO : CONCENTRA) * 100)) + '%';
+  }, 1000);
+  pintarPomodoro();
+}
+
+function pausarPomodoro(){ pomoAndando = false; clearInterval(pomoReloj); pintarPomodoro(); }
+function pararPomodoro(){ pomoAndando = false; clearInterval(pomoReloj); }
+
+function reiniciarPomodoro(){
+  pararPomodoro();
+  pomoEsDescanso = false;
+  pomoQueda = CONCENTRA;
+  pintarPomodoro();
+}
+
+function terminarBloque(){
+  pararPomodoro();
+  const eraConcentracion = !pomoEsDescanso;
+  pomoEsDescanso = !pomoEsDescanso;
+  pomoQueda = pomoEsDescanso ? DESCANSO : CONCENTRA;
+
+  if (eraConcentracion){
+    const n = (prepActual.pomodoros || 0) + 1;
+    guardarPrep({ pomodoros: n });
+    prepActual.pomodoros = n;
+  }
+  pintarPomodoro();
+
+  /* Un aviso que se lee, no un sonido que asusta en la biblioteca */
+  const caja = document.querySelector('.pomo');
+  if (caja){
+    caja.classList.add('sono');
+    setTimeout(() => caja.classList.remove('sono'), 2400);
+  }
+  avisoFinal(eraConcentracion
+    ? 'Terminaste un bloque. Si avanzaste con un texto, marcalo arriba.'
+    : 'Se terminó el descanso. Cuando quieras arrancás otro bloque.');
+  setTimeout(() => avisoFinal(''), 8000);
+}
+const PESTANAS = ['plan', 'final', 'mapa', 'todo'];
 function verPestana(cual){
   PESTANAS.forEach(k => {
     document.getElementById('tab-' + k).setAttribute('aria-selected', k === cual);
@@ -1071,11 +1655,16 @@ function verPestana(cual){
   });
   /* El mapa se mide contra el ancho de la pantalla, así que el aviso de
      deslizar hay que recalcularlo cuando la vista ya está visible. */
-  if (cual === 'mapa') pintarMapa();
+  if (cual === 'mapa')  pintarMapa();
+  if (cual === 'final') pintarFinal();
   scrollTo(0, 0);
 }
 PESTANAS.forEach(k =>
   document.getElementById('tab-' + k).addEventListener('click', () => verPestana(k)));
+
+/* Desde Estudiemos se llega con #finales: abre la pestaña directamente,
+   si no la persona aterriza en «Mi cursada» y tiene que buscarla. */
+if (location.hash === '#finales') verPestana('final');
 
 document.getElementById('borrar').addEventListener('click', () => {
   if (!confirm(`¿Borrar todo lo que marcaste en ${PLAN.nombreCorto} y empezar de nuevo?\n\nLo de las otras carreras no se toca.`)) return;
