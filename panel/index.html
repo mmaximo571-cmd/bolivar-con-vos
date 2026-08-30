@@ -149,6 +149,7 @@
       <button class="chip" data-p="agenda"   aria-pressed="false">📅 Agenda</button>
       <button class="chip" data-p="materiales" aria-pressed="false">📚 Estudiemos</button>
       <button class="chip" data-p="programas"  aria-pressed="false">📖 Programas</button>
+      <button class="chip" data-p="guia"      aria-pressed="false">🧠 Guía de materia</button>
       <button class="chip" data-p="quienes"    aria-pressed="false">✊ Quiénes somos</button>
       <button class="chip" data-p="consejo"   aria-pressed="false">🏛 Consejo</button>
       <button class="chip" data-p="categorias" aria-pressed="false">🗂 Categorías</button>
@@ -1373,11 +1374,171 @@
         : `<div class="aviso ok">Listo. Ya se ve así en la app.</div>`;
     };
   }
+  /* ============================================================
+     LA GUÍA DE UNA MATERIA
+
+     El programa lo transcribí yo del PDF de la cátedra, así que esto
+     existe para que ustedes lo corrijan sin pedírmelo. Sobre todo el
+     cronograma: el .docx original vino con las filas de la tabla
+     desordenadas y las fechas hay que verificarlas contra la cátedra.
+
+     Un módulo por bloque, y adentro de cada módulo las listas van una
+     por línea. Las líneas que empiezan con «>» son bibliografía
+     obligatoria y las que empiezan con «+» son complementaria.
+     ============================================================ */
+  function leerModulos(texto){
+    return texto.split(/\n\s*\n/).map(b => b.trim()).filter(Boolean).map((b, i) => {
+      const lineas = b.split('\n').map(l => l.trim()).filter(Boolean);
+      const cabeza = (lineas.shift() || '').split(/\s*[·;]\s*/);
+      const mod = {
+        numero: Number(cabeza[0]) || (i + 1),
+        titulo: cabeza[1] || '',
+        fechas: cabeza[2] || '',
+        contenidos: [], obligatoria: [], complementaria: [], modelo: null
+      };
+      lineas.forEach(l => {
+        if (l.charAt(0) === '>')      mod.obligatoria.push(l.slice(1).trim());
+        else if (l.charAt(0) === '+') mod.complementaria.push(l.slice(1).trim());
+        else                          mod.contenidos.push(l);
+      });
+      return mod;
+    });
+  }
+
+  function escribirModulos(modulos){
+    return (modulos || []).map(m =>
+      [m.numero, m.titulo, m.fechas].filter(x => x !== '' && x != null).join(' · ') + '\n' +
+      (m.contenidos    || []).join('\n') +
+      ((m.obligatoria    || []).length ? '\n' + m.obligatoria.map(x => '> ' + x).join('\n') : '') +
+      ((m.complementaria || []).length ? '\n' + m.complementaria.map(x => '+ ' + x).join('\n') : '')
+    ).join('\n\n');
+  }
+
+  function leerParejas(texto, a, b){
+    return texto.split('\n').map(l => l.trim()).filter(Boolean).map(l => {
+      const p = l.split(/\s*[·;]\s*/);
+      const o = {}; o[a] = p[0] || ''; o[b] = p.slice(1).join(' · ');
+      return o;
+    });
+  }
+  function escribirParejas(filas, a, b){
+    return (filas || []).map(f => [f[a], f[b]].filter(Boolean).join(' · ')).join('\n');
+  }
+
+  async function vistaGuia(){
+    const { data, error } = await db.from('guia_materia')
+      .select('*').eq('carrera','fono').eq('materia_cod','812').maybeSingle();
+
+    if (error){
+      zona.innerHTML = /guia_materia/.test(error.message || '')
+        ? `<div class="aviso error">
+             <strong>Falta activar esta sección.</strong><br>
+             Hay que correr <b>tabla-guia.sql</b> en el SQL Editor de Supabase.
+           </div>`
+        : `<div class="aviso error">No se pudo cargar: ${esc(error.message)}</div>`;
+      return;
+    }
+
+    const g = data || { bajada:'', modulos:[], fechas_clave:[], practicos:[] };
+
+    zona.innerHTML = `
+      <div class="aviso error">
+        <strong>Revisar el cronograma.</strong> El programa lo transcribimos
+        del documento de la cátedra, que vino con la tabla de fechas
+        desordenada. <b>Verificar las fechas con la cátedra antes de
+        confiar en ellas.</b>
+      </div>
+
+      <p class="letra-chica">Esto es lo que se lee en
+        <b>Anatomofisiología Fonoaudiológica</b>, a la que se llega desde
+        Estudiemos.</p>
+
+      <div class="campo"><label for="bajada">La frase de arriba</label>
+        <textarea id="bajada" style="min-height:80px">${esc(g.bajada || '')}</textarea></div>
+
+      <div class="campo">
+        <label for="modulos">El programa</label>
+        <p class="letra-chica" style="margin:0 0 6px">
+          Un módulo por bloque, separados con un renglón en blanco.<br>
+          El <b>primer renglón</b> de cada bloque es
+          <code>número · título · fechas</code>.<br>
+          Después, un tema por línea. Las que empiezan con <b>&gt;</b> son
+          bibliografía <b>obligatoria</b> y las que empiezan con <b>+</b> son
+          <b>complementaria</b>.</p>
+        <textarea id="modulos" style="min-height:340px;font-family:var(--fuente-datos);font-size:13px">${esc(escribirModulos(g.modulos))}</textarea>
+        <div id="cuenta-modulos"></div>
+      </div>
+
+      <div class="campo">
+        <label for="fechas">Las fechas que no hay que perderse</label>
+        <p class="letra-chica" style="margin:0 0 6px">
+          Una por línea: <code>11/06 · Parcial integrador</code></p>
+        <textarea id="fechas" style="min-height:110px;font-family:var(--fuente-datos);font-size:13px">${esc(escribirParejas(g.fechas_clave,'fecha','que'))}</textarea>
+      </div>
+
+      <div class="campo">
+        <label for="practicos">Los prácticos obligatorios</label>
+        <p class="letra-chica" style="margin:0 0 6px">
+          Uno por línea: <code>Título · detalle</code></p>
+        <textarea id="practicos" style="min-height:90px">${esc(escribirParejas(g.practicos,'titulo','detalle'))}</textarea>
+      </div>
+
+      <button class="boton ancho" id="guardar-guia">Guardar la guía</button>
+      <a class="boton borde ancho" href="../anatomo/" target="_blank" rel="noopener"
+         style="margin-top:10px">Ver cómo quedó ↗</a>
+      <p class="letra-chica" style="margin-top:12px">
+        Los <b>modelos 3D</b> de los módulos 3 y 5 no se tocan desde acá: están
+        atados a su licencia y a su atribución. Si hace falta cambiarlos,
+        avisá.</p>
+      <div id="msj"></div>`;
+
+    const campo = document.getElementById('modulos');
+    const cuenta = document.getElementById('cuenta-modulos');
+    function verCuenta(){
+      const m = leerModulos(campo.value);
+      const sinTitulo = m.filter(x => !x.titulo).length;
+      cuenta.innerHTML = !m.length ? '' :
+        `<div class="aviso ${sinTitulo ? 'error' : 'ok'}">
+           Van a quedar <b>${m.length}</b> módulo${m.length === 1 ? '' : 's'},
+           con <b>${m.reduce((s, x) => s + x.contenidos.length, 0)}</b> temas y
+           <b>${m.reduce((s, x) => s + x.obligatoria.length + x.complementaria.length, 0)}</b>
+           textos de bibliografía.
+           ${sinTitulo ? `<b>${sinTitulo}</b> sin título: el primer renglón va
+             <b>número · título · fechas</b>.` : ''}
+         </div>`;
+    }
+    campo.addEventListener('input', verCuenta);
+    verCuenta();
+
+    document.getElementById('guardar-guia').onclick = async function(){
+      this.disabled = true; this.textContent = 'Guardando…';
+
+      /* Los modelos 3D se conservan: no se editan desde acá, así que se
+         vuelven a pegar sobre los módulos por número. */
+      const viejos = {};
+      (g.modulos || []).forEach(m => { if (m.modelo) viejos[m.numero] = m.modelo; });
+      const modulos = leerModulos(campo.value).map(m =>
+        Object.assign(m, { modelo: viejos[m.numero] || null }));
+
+      const { error } = await db.from('guia_materia').update({
+        bajada:       val('bajada'),
+        modulos:      modulos,
+        fechas_clave: leerParejas(document.getElementById('fechas').value, 'fecha', 'que'),
+        practicos:    leerParejas(document.getElementById('practicos').value, 'titulo', 'detalle')
+      }).eq('carrera','fono').eq('materia_cod','812');
+
+      this.disabled = false; this.textContent = 'Guardar la guía';
+      document.getElementById('msj').innerHTML = error
+        ? `<div class="aviso error">No se pudo guardar: ${esc(error.message)}</div>`
+        : `<div class="aviso ok">Listo. Ya se ve así en la app.</div>`;
+    };
+  }
   /* ============================================================ */
   function dibujar(){
     zona.innerHTML = '<div class="esq-tarjeta"><div class="esqueleto esq-linea titulo"></div><div class="esqueleto esq-linea"></div><div class="esqueleto esq-linea media"></div></div><div class="esq-tarjeta"><div class="esqueleto esq-linea titulo"></div><div class="esqueleto esq-linea"></div><div class="esqueleto esq-linea corta"></div></div>';
     ({ tramites:vistaTramites, faq:vistaFaq, agenda:vistaAgenda, programas:vistaProgramas,
-       materiales:vistaMateriales, quienes:vistaQuienes, consejo:vistaConsejo,
+       materiales:vistaMateriales, guia:vistaGuia,
+       quienes:vistaQuienes, consejo:vistaConsejo,
        categorias:vistaCategorias }[actual])();
   }
 

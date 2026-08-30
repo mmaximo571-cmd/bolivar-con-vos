@@ -467,9 +467,14 @@ svg.ico{width:1em;height:1em;display:block;flex:0 0 auto}
 }
 
 /* Titulo de pantalla interna */
+/* El tamaño se acomoda al ancho porque hay títulos de una sola palabra
+   muy larga: «ANATOMOFISIOLOGÍA» a 30 px medía 363 px en una pantalla
+   de 343, y se llevaba la página entera de costado. El overflow-wrap
+   es la red por si aparece una palabra todavía más larga. */
 .titulo-pantalla{
-  font-family:var(--fuente-titulo);font-size:30px;line-height:1;
-  text-transform:uppercase;margin:22px 0 4px
+  font-family:var(--fuente-titulo);font-size:clamp(23px, 7.4vw, 30px);
+  line-height:1;text-transform:uppercase;margin:22px 0 4px;
+  overflow-wrap:anywhere
 }
 .bajada{color:var(--texto-suave);font-size:15px;margin:0 0 18px}
 
@@ -1107,29 +1112,57 @@ body.antes-de-entrar{padding-bottom:0}  /* apertura y bienvenida a pantalla comp
 /* Tiene que entrar de una en la pantalla del telefono: si los botones
    quedan abajo del pliegue, la bienvenida no sirve para nada. Por eso
    el dibujo se mide en vh y encoge solo en pantallas cortas. */
+/* Amarillo pleno, como la banda .sol de «¿Quiénes somos?». El color va
+   fijo y NO cambia de noche: es un objeto impreso, y una placa no se
+   apaga porque sea de noche. Negro sobre este amarillo da 13,5 y el
+   rojo de las palabras destacadas da 5,2: los dos pasan AA. */
 .bienvenida{
   min-height:100vh;min-height:100dvh;display:flex;flex-direction:column;
-  padding:18px 20px calc(20px + env(safe-area-inset-bottom));
-  background:var(--fondo);text-align:center
+  padding:clamp(20px,4vh,34px) 20px calc(20px + env(safe-area-inset-bottom));
+  background:var(--amarillo);color:var(--sobre-color);
+  text-align:left;position:relative;overflow:hidden
+}
+/* La trama de puntos de las serigrafías, la misma de la banda oscura.
+   Acá la tinta es negra: sobre amarillo, puntos amarillos no se ven. */
+.bienvenida::before{
+  content:'';position:absolute;inset:0;pointer-events:none;
+  background-image:radial-gradient(#1A1A1A 1px, transparent 1.1px);
+  background-size:10px 10px;opacity:.09
+}
+.bienvenida-adentro{
+  position:relative;z-index:1;flex:1;min-height:0;
+  display:flex;flex-direction:column;
+  width:100%;max-width:var(--ancho-max);margin:0 auto
 }
 .bienvenida .arriba{
-  flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;
-  gap:clamp(10px,2.2vh,20px);min-height:0
+  flex:1;min-height:0;display:flex;flex-direction:column;justify-content:center;
+  gap:clamp(6px,1.4vh,14px)
 }
-.bienvenida .dibujo{width:min(240px,60vw);height:auto;max-height:26vh}
-.bienvenida .quienes{
-  font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--texto-suave)
+.bienvenida .dibujo{
+  width:min(128px,29vw);height:auto;margin-bottom:clamp(2px,1.4vh,12px)
 }
-.bienvenida h1{
-  font-family:var(--fuente-titulo);font-size:clamp(27px,7.4vw,34px);line-height:1.02;
-  text-transform:uppercase;max-width:15ch;margin-top:5px
+.bienvenida .ceja-lectura{margin:0}
+
+/* Más chico que el grito de «¿Quiénes somos?»: allá la pantalla se
+   scrollea, acá el lema Y los botones tienen que entrar junto con el
+   titular en la pantalla de un teléfono. Si «Entrar» queda abajo del
+   pliegue, la portada deja de funcionar. */
+.bienvenida .grito{font-size:clamp(33px,8.6vw,58px);max-width:15ch}
+.bienvenida .grito em{color:var(--rojo-solido)}
+
+.bienvenida .bajada-lectura{margin:clamp(8px,1.8vh,18px) 0 0;max-width:36ch}
+
+.bienvenida .abajo{
+  flex:0 0 auto;display:flex;flex-direction:column;gap:10px;
+  width:100%;max-width:420px;margin-top:clamp(14px,2.6vh,26px)
 }
-.bienvenida .lema{color:var(--texto-suave);font-size:16px;line-height:1.4;max-width:32ch;margin:0}
-.bienvenida .abajo{display:flex;flex-direction:column;gap:10px;width:100%;max-width:420px;margin:0 auto}
+/* El color va atado a la banda, no al tema: --texto de noche es casi
+   blanco y sobre el amarillo no se leería (1,3). */
 .bienvenida .sin-cuenta{
   background:transparent;border:none;padding:12px;
   font-family:var(--fuente-sub);font-size:16px;font-weight:700;
-  text-transform:uppercase;letter-spacing:.04em;color:var(--texto);text-decoration:none
+  text-transform:uppercase;letter-spacing:.04em;
+  color:var(--sobre-color);text-decoration:underline;text-underline-offset:3px
 }
 
 /* ============================================================
@@ -1962,3 +1995,122 @@ details.tarjeta .respuesta{margin-top:9px;color:var(--texto-suave);font-size:15p
   color:inherit;text-decoration:none;border-bottom:1px solid currentColor
 }
 .volver-lectura:hover{opacity:.75}
+
+/* ============================================================
+   LA GUÍA DE UNA MATERIA
+
+   Anatomofisiología es de primer año de Fonoaudiología y de las que
+   más cuesta. Lo que más ayuda no es el 3D: es saber QUÉ estudiar, DE
+   QUÉ LIBRO y PARA CUÁNDO. Por eso la pantalla es el programa
+   ordenado, y el modelo 3D vive adentro del módulo que lo necesita.
+   ============================================================ */
+.modulo{
+  background:var(--superficie);border:1.5px solid var(--tinta-borde);
+  border-radius:var(--radio);box-shadow:var(--sombra);
+  padding:16px 15px;margin-bottom:12px
+}
+.modulo-cabeza{
+  display:flex;align-items:baseline;gap:10px;flex-wrap:wrap;margin-bottom:4px
+}
+.modulo-numero{
+  font-family:var(--fuente-datos);font-weight:700;font-size:var(--letra-chica);
+  letter-spacing:.1em;color:var(--texto-suave);flex:0 0 auto
+}
+.modulo h3{
+  font-family:var(--fuente-titulo);font-size:clamp(19px,5vw,24px);
+  line-height:1.08;margin:0;flex:1 1 100%
+}
+/* Las fechas van en la tipografía de datos porque son datos: se leen de
+   un vistazo y se comparan con el calendario. */
+.modulo-fechas{
+  display:inline-block;font-family:var(--fuente-datos);font-size:var(--letra-chica);
+  background:var(--amarillo);color:var(--sobre-color);
+  padding:3px 9px;border-radius:var(--radio-pastilla);margin-top:8px
+}
+.modulo h4{
+  font-family:var(--fuente-sub);font-weight:700;font-size:var(--letra-chica);
+  letter-spacing:.08em;text-transform:uppercase;color:var(--texto-suave);
+  margin:18px 0 7px
+}
+.modulo ul{margin:0;padding-left:19px;font-size:var(--letra-nota);line-height:1.5}
+.modulo li{margin-bottom:5px}
+.modulo li:last-child{margin-bottom:0}
+/* La bibliografía es una ficha, como los textos del organizador de
+   finales: autor adelante, que es como se la busca en la fotocopiadora. */
+.biblio{list-style:none;padding:0}
+.biblio li{
+  font-family:var(--fuente-datos);font-size:var(--letra-chica);line-height:1.45;
+  padding:7px 0;border-bottom:1px solid var(--linea)
+}
+.biblio li:last-child{border-bottom:0}
+
+/* ---- El modelo 3D, apagado hasta que lo pidan ----
+   Pesa varios MB y viene de un servidor ajeno. Si cargara solo, se
+   comería los datos de quien nunca lo va a abrir. */
+.modelo3d{
+  margin-top:16px;border:1.5px solid var(--tinta-borde);
+  border-radius:var(--radio-chico);overflow:hidden;background:var(--superficie-2)
+}
+.modelo3d-tapa{
+  width:100%;display:flex;flex-direction:column;align-items:center;gap:6px;
+  padding:26px 16px;background:transparent;border:0;cursor:pointer;
+  color:var(--texto);text-align:center;min-height:120px;justify-content:center
+}
+.modelo3d-tapa:hover{background:var(--superficie)}
+.modelo3d-tapa strong{
+  font-family:var(--fuente-sub);font-weight:700;font-size:var(--letra-base)
+}
+/* El :not() es necesario: sin él esta regla también pinta el círculo
+   del triángulo, porque tiene más peso que .modelo3d-cubo. Ya pasó:
+   el triángulo quedaba gris sobre celeste, en 1,80. */
+.modelo3d-tapa span:not(.modelo3d-cubo){
+  font-family:var(--fuente-datos);font-size:var(--letra-chica);color:var(--texto-suave)
+}
+.modelo3d-cubo{
+  width:46px;height:46px;border-radius:50%;background:var(--negro);
+  color:var(--sobre-negro);display:flex;align-items:center;justify-content:center;
+  font-size:20px;line-height:1;margin-bottom:4px
+}
+.modelo3d iframe{width:100%;height:min(72vw,420px);border:0;display:block}
+/* La atribución es obligatoria por la licencia, así que no es opcional
+   ni se esconde: va abajo del modelo, siempre. */
+.modelo3d-credito{
+  padding:10px 13px;font-family:var(--fuente-datos);
+  font-size:var(--letra-chica);line-height:1.45;color:var(--texto-suave);
+  border-top:1px solid var(--linea)
+}
+.modelo3d-credito a{color:inherit}
+
+/* ---- Las fechas que no hay que perderse ---- */
+.fechas-clave{list-style:none;margin:0;padding:0;display:grid;gap:2px}
+.fechas-clave li{
+  display:flex;gap:12px;align-items:baseline;padding:10px 0;
+  border-bottom:1px solid var(--linea)
+}
+.fechas-clave li:last-child{border-bottom:0}
+.fechas-clave b{
+  font-family:var(--fuente-datos);font-weight:700;font-size:var(--letra-base);
+  flex:0 0 58px
+}
+.fechas-clave span{font-size:var(--letra-nota);line-height:1.4}
+
+/* ---- El aviso de que hay que revisarlo ---- */
+.aviso-transcripcion{
+  font-size:var(--letra-nota);line-height:1.45;margin-top:22px;
+  padding:12px 14px;border-radius:var(--radio-chico);
+  background:var(--superficie-2);border-left:4px solid var(--texto-suave);
+  color:var(--texto-suave)
+}
+
+.ceja-materia{
+  font-family:var(--fuente-datos);font-size:var(--letra-chica);
+  letter-spacing:.1em;text-transform:uppercase;color:var(--texto-suave);
+  margin:22px 0 2px
+}
+
+/* El mail de la cátedra: era un enlace suelto adentro de un párrafo y
+   quedaba de 17 px de alto, por debajo del mínimo para tocar. */
+.contacto-catedra{
+  display:inline-flex;align-items:center;min-height:32px;padding:6px 2px;
+  font-family:var(--fuente-datos);font-size:var(--letra-nota)
+}

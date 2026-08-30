@@ -51,38 +51,38 @@
   </div>
 </div>
 
-<!-- ============ 2. BIENVENIDA (solo la primera vez) ============ -->
+<!-- ============ 2. PORTADA (se ve siempre) ============
+     Toma la identidad de «¿Quiénes somos?»: banda de color pleno, ceja
+     arriba, y el titular gigante con una palabra en otro color. Las
+     clases .ceja-lectura, .grito y .bajada-lectura son LAS MISMAS de
+     esa pantalla, no una copia: si allá se toca la tipografía, acá
+     cambia sola.
+
+     Los circulitos celestes que había antes alrededor del logo se
+     fueron: en las placas del Instagram el celeste no aparece nunca,
+     el par es amarillo y negro con el rojo como acento chico. -->
 <section class="bienvenida" id="bienvenida" hidden>
-  <div class="arriba">
+  <div class="bienvenida-adentro">
+    <div class="arriba">
 
-    <!-- El logo de verdad. Antes acá había una "B" amarilla en un cuadrado
-         negro, de cuando el ícono de la app era esa letra. El logo va en
-         rojo porque el fondo de esta pantalla es claro. -->
-    <svg class="dibujo" viewBox="0 0 280 190" role="img"
-         aria-label="Agrupación Simón Bolívar">
-      <circle cx="32" cy="40" r="20" fill="#0195B1"/>
-      <path d="M248 16l6 13.2L267 35l-13 5.9L248 54l-6-13.1L229 35l13-5.9z" fill="#B52625"/>
-      <circle cx="252" cy="158" r="13" fill="#7FC9DA"/>
-      <rect x="12" y="140" width="26" height="26" rx="7" fill="#0195B1"
-            transform="rotate(-14 25 153)"/>
-      <image href="imagenes/marca-roja.webp" x="56" y="24" width="168" height="139"/>
-    </svg>
+      <img class="dibujo" src="imagenes/marca-roja.webp"
+           alt="Agrupación Simón Bolívar" width="168" height="139">
 
-    <div>
-      <p class="quienes">Agrupación Simón Bolívar · FTS UNLP</p>
-      <h1>Lo que la facultad no te explica</h1>
+      <p class="ceja-lectura">Agrupación Simón Bolívar · Conducción del CEFTS</p>
+
+      <h1 class="grito">Lo que la facultad<br><em>no te explica</em></h1>
+
+      <p class="bajada-lectura">
+        Los trámites contados como se los contaríamos a una compañera, las fechas
+        que no te podés perder, y un organizador para tu cursada.
+        Sin registrarte y sin dar datos.
+      </p>
     </div>
 
-    <p class="lema">
-      Los trámites contados como se los contaríamos a una compañera, las fechas
-      que no te podés perder, y un organizador para tu cursada.
-      Sin registrarte y sin dar datos.
-    </p>
-  </div>
-
-  <div class="abajo">
-    <button class="boton oscuro ancho" id="btn-entrar">Entrar</button>
-    <a class="sin-cuenta" id="btn-cuenta" href="mi/">Ya tengo cuenta</a>
+    <div class="abajo">
+      <button class="boton oscuro ancho" id="btn-entrar">Entrar</button>
+      <a class="sin-cuenta" id="btn-cuenta" href="mi/">Ya tengo cuenta</a>
+    </div>
   </div>
 </section>
 
@@ -263,25 +263,27 @@
 
   function mostrarBienvenida(){
     capaBienvenida.hidden = false;
-    document.getElementById('btn-entrar').addEventListener('click', () => {
-      guardar(localStorage, LLAVE_BIENVENIDA);
-      mostrarApp();
-    });
-    /* El que ya tiene cuenta también vio la bienvenida: no se la
-       mostramos otra vez cuando vuelva. */
-    document.getElementById('btn-cuenta').addEventListener('click', () => {
-      guardar(localStorage, LLAVE_BIENVENIDA);
-    });
+    document.getElementById('btn-entrar').addEventListener('click', mostrarApp);
+    /* «Ya tengo cuenta» es un enlace a Perfil: se va de la portada solo,
+       no hay nada que hacerle acá. */
   }
 
-  /* PARA VERLA DE NUEVO: bolivar-con-vos.vercel.app/?bienvenida
-     La bienvenida se ve UNA sola vez en la vida y después nunca más,
-     así que para trabajar sobre ella no había forma de mirarla sin
-     borrar los datos del navegador. Con eso en la dirección se muestra
-     igual, y no borra nada de lo que tengas guardado. */
+  /* LA PORTADA SE VE SIEMPRE.
+
+     Antes se veía UNA vez en la vida y después nunca más: se guardaba
+     una llave en localStorage y listo. Ya no. Es una decisión tomada a
+     sabiendas de lo que cuesta: quien abre la app para mirar una fecha
+     ahora paga un toque de más, todas las veces. A cambio, la portada
+     es lo primero que ve siempre.
+
+     Si alguna vez se quiere volver atrás, es una línea:
+       if (guardado(localStorage, LLAVE_BIENVENIDA)) mostrarApp(); else ...
+     y volver a guardar la llave en el botón Entrar.
+
+     Con ?directo en la dirección se saltea, para poder probar el resto
+     de la portada sin pasar por acá en cada recarga. */
   function seguirDespuesDeLaApertura(){
-    const forzada = /[?&]bienvenida\b/.test(location.search);
-    if (!forzada && guardado(localStorage, LLAVE_BIENVENIDA)) mostrarApp();
+    if (/[?&]directo\b/.test(location.search)) mostrarApp();
     else mostrarBienvenida();
   }
 

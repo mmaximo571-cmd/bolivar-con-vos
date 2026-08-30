@@ -1,0 +1,215 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Anatomofisiología · La Bolívar con vos</title>
+<meta name="description" content="El programa de Anatomofisiología Fonoaudiológica ordenado por módulos: qué entra, qué libro leer, qué fecha, y modelos 3D de la laringe y el oído.">
+<meta name="theme-color" content="#F9E830">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Montserrat:wght@600;700;800&family=Roboto:wght@400;500;700&family=Roboto+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<!-- Iconos de la app: pestana, Google, y pantalla de inicio del celular -->
+<link rel="icon" type="image/png" sizes="32x32" href="../imagenes/icono-32.png">
+<link rel="icon" type="image/png" sizes="96x96" href="../imagenes/icono-96.png">
+<link rel="icon" type="image/png" sizes="192x192" href="../imagenes/icono-192.png">
+<link rel="apple-touch-icon" href="../imagenes/icono-apple.png">
+<link rel="manifest" href="../manifest.json">
+
+<!-- Como se ve cuando alguien comparte el link por WhatsApp o Instagram -->
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="La Bolivar con vos">
+<meta property="og:title" content="Anatomofisiología Fonoaudiológica · La Bolívar con vos">
+<meta property="og:description" content="El programa ordenado por módulos, con la bibliografía, las fechas y modelos 3D de la laringe y el oído.">
+<meta property="og:image" content="https://bolivar-con-vos.vercel.app/imagenes/compartir.png">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="stylesheet" href="../estilos.css">
+<!-- EL TEMA, ANTES DE DIBUJAR NADA. Va acá arriba y no en app.js a
+     propósito: app.js carga al final del cuerpo, así que la pantalla
+     arrancaría clara y pegaría un salto a oscura. Son tres renglones. -->
+<script>
+(function(){try{
+  var g = localStorage.getItem('bolivar-tema') || 'auto';
+  var oscuro = g === 'oscuro' || (g === 'auto' &&
+    window.matchMedia('(prefers-color-scheme: dark)').matches);
+  document.documentElement.dataset.tema = oscuro ? 'oscuro' : 'claro';
+}catch(e){ document.documentElement.dataset.tema = 'claro'; }})();
+</script>
+</head>
+<body>
+
+<div id="cabecera"></div>
+
+<main class="envoltura" id="contenido" tabindex="-1">
+  <div id="guia">
+    <div class="esq-tarjeta"><div class="esqueleto esq-linea titulo"></div>
+      <div class="esqueleto esq-linea"></div>
+      <div class="esqueleto esq-linea media"></div></div>
+    <div class="esq-tarjeta"><div class="esqueleto esq-linea titulo"></div>
+      <div class="esqueleto esq-linea"></div>
+      <div class="esqueleto esq-linea corta"></div></div>
+  </div>
+</main>
+
+<div class="zona-fondo">
+  <div id="pie"></div>
+</div>
+
+<script>window.RAIZ = '../';</script>
+<!-- La librería de Supabase vive ACÁ ADENTRO, no en un servidor ajeno. -->
+<script src="../lib/supabase.js"></script>
+<script src="../config.js"></script>
+<script src="../iconos.js"></script>
+<script src="../app.js"></script>
+<script>
+/* ============================================================
+   LA GUÍA DE ANATOMOFISIOLOGÍA
+
+   El contenido se edita desde el panel, solapa «🧠 Guía de materia».
+   Acá no hay texto de la materia que tocar.
+
+   Es el programa oficial de la cátedra, transcripto. Los modelos 3D
+   son de terceros y tienen licencia Creative Commons: la atribución
+   que se muestra abajo de cada uno NO ES OPCIONAL, la pide la licencia.
+   ============================================================ */
+(async function anatomo(){
+  document.getElementById('cabecera').innerHTML = htmlCabecera();
+  document.getElementById('pie').innerHTML = htmlPie();
+  pintarNav('estudiemos');
+
+  const caja = document.getElementById('guia');
+  let g = null;
+  try {
+    const { data, error } = await conPaciencia(
+      db.from('guia_materia').select('*')
+        .eq('carrera','fono').eq('materia_cod','812').maybeSingle());
+    if (error) throw error;
+    g = data;
+  } catch(e){
+    if (/guia_materia/.test(e.message || '')){
+      caja.innerHTML = `<div class="vacio">
+          Esta guía todavía no está activada.<br>
+          <small>Al equipo: falta correr <b>tabla-guia.sql</b> en Supabase.</small>
+        </div>`;
+      return;
+    }
+    return mostrarError(caja, e, 'abrir la guía');
+  }
+
+  if (!g){
+    caja.innerHTML = `<div class="vacio">Todavía no cargamos esta materia.</div>`;
+    return;
+  }
+
+  const modulos = Array.isArray(g.modulos) ? g.modulos : [];
+  const lista = a => (Array.isArray(a) ? a : []);
+
+  /* Cada módulo: qué entra, cuándo se da, qué hay que leer, y el modelo
+     3D si lo tiene. Ese es el orden en que sirve. */
+  const html = `
+    <p class="ceja-materia">${esc(g.materia_cod)} · Licenciatura en Fonoaudiología${
+      g.anio_programa ? ' · Programa ' + g.anio_programa : ''}</p>
+    <h1 class="titulo-pantalla">${esc(g.materia)}</h1>
+    <p class="bajada">${esc(g.bajada || '')}</p>
+
+    <div class="titulo-seccion">EL PROGRAMA, MÓDULO POR MÓDULO</div>
+    ${modulos.map(m => `
+      <section class="modulo">
+        <div class="modulo-cabeza">
+          <span class="modulo-numero">MÓDULO ${esc(String(m.numero || ''))}</span>
+          <h3>${esc(m.titulo || '')}</h3>
+        </div>
+        ${m.fechas ? `<span class="modulo-fechas">${esc(m.fechas)}</span>` : ''}
+
+        <h4>Qué entra</h4>
+        <ul>${lista(m.contenidos).map(c => `<li>${esc(c)}</li>`).join('')}</ul>
+
+        ${m.modelo && m.modelo.url ? bloqueModelo(m.modelo, m.numero) : ''}
+
+        ${lista(m.obligatoria).length ? `
+          <h4>Para leer</h4>
+          <ul class="biblio">${lista(m.obligatoria).map(b => `<li>${esc(b)}</li>`).join('')}</ul>` : ''}
+        ${lista(m.complementaria).length ? `
+          <h4>Si querés profundizar</h4>
+          <ul class="biblio">${lista(m.complementaria).map(b => `<li>${esc(b)}</li>`).join('')}</ul>` : ''}
+      </section>`).join('')}
+
+    ${lista(g.fechas_clave).length ? `
+      <div class="titulo-seccion">LAS FECHAS QUE NO HAY QUE PERDERSE</div>
+      <ul class="fechas-clave">
+        ${lista(g.fechas_clave).map(f => `
+          <li><b>${esc(f.fecha)}</b><span>${esc(f.que)}</span></li>`).join('')}
+      </ul>` : ''}
+
+    ${lista(g.practicos).length ? `
+      <div class="titulo-seccion">LOS PRÁCTICOS OBLIGATORIOS</div>
+      ${lista(g.practicos).map(p => `
+        <div class="tarjeta">
+          <h3>${esc(p.titulo)}</h3>
+          ${p.detalle ? `<p>${esc(p.detalle)}</p>` : ''}
+        </div>`).join('')}` : ''}
+
+    ${lista(g.aprobacion).length ? `
+      <div class="titulo-seccion">CÓMO SE APRUEBA</div>
+      ${lista(g.aprobacion).map(a => `
+        <section class="modulo">
+          <h3>${esc(a.titulo)}</h3>
+          <ul style="margin-top:10px">${lista(a.requisitos).map(r => `<li>${esc(r)}</li>`).join('')}</ul>
+        </section>`).join('')}` : ''}
+
+    ${lista(g.equipo).length ? `
+      <div class="titulo-seccion">LA CÁTEDRA</div>
+      <ul class="biblio">${lista(g.equipo).map(e => `<li>${esc(e)}</li>`).join('')}</ul>
+      ${g.contacto ? `<p class="letra-chica" style="margin-top:10px">
+        Escribirles:
+        <a class="contacto-catedra" href="mailto:${esc(g.contacto)}">${esc(g.contacto)}</a></p>` : ''}` : ''}
+
+    <p class="aviso-transcripcion">
+      Esto es el programa oficial de la cátedra, transcripto por la agrupación.
+      <b>Si algo no coincide con lo que dijeron en clase, mandá el dato y lo
+      corregimos.</b> Ante la duda, siempre vale lo que dice la cátedra.
+    </p>`;
+
+  caja.innerHTML = html;
+
+  /* El modelo 3D pesa varios MB y viene de Sketchfab. No se carga solo:
+     el iframe recién se crea cuando alguien toca el botón, así nadie
+     paga esos datos sin querer. */
+  caja.querySelectorAll('[data-modelo]').forEach(boton => {
+    boton.addEventListener('click', function(){
+      const caja3d = this.parentElement;
+      const marco = document.createElement('iframe');
+      marco.src = this.dataset.modelo;
+      marco.title = this.dataset.titulo || 'Modelo 3D';
+      marco.allow = 'autoplay; fullscreen; xr-spatial-tracking';
+      marco.setAttribute('allowfullscreen', '');
+      marco.loading = 'lazy';
+      caja3d.insertBefore(marco, this);
+      this.remove();
+    });
+  });
+})();
+
+/* La tapa del modelo: lo que se ve antes de descargarlo. Dice cuánto
+   pesa aproximadamente, porque en la red de la facultad eso importa. */
+function bloqueModelo(m, numero){
+  return `
+    <div class="modelo3d">
+      <button class="modelo3d-tapa" data-modelo="${esc(m.url)}"
+              data-titulo="${esc(m.titulo || '')}"
+              aria-label="Abrir el modelo 3D de ${esc(m.titulo || '')}">
+        <span class="modelo3d-cubo" aria-hidden="true">▶</span>
+        <strong>Ver en 3D: ${esc(m.titulo || '')}</strong>
+        <span>Se puede girar y acercar · unos pocos MB · mejor con wifi</span>
+      </button>
+      <p class="modelo3d-credito">
+        <b>${esc(m.titulo || '')}</b> de
+        ${m.fuente ? `<a href="${esc(m.fuente)}" target="_blank" rel="noopener">${esc(m.autor || '')}</a>`
+                   : esc(m.autor || '')},
+        con licencia ${esc(m.licencia || '')}.${m.nota ? ' ' + esc(m.nota) + '.' : ''}
+      </p>
+    </div>`;
+}
+</script>
+</body>
+</html>
