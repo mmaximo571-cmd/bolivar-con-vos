@@ -891,7 +891,13 @@ svg.ico{width:1em;height:1em;display:block;flex:0 0 auto}
 .tarjeta.materia:hover{border-color:var(--texto)}
 .tarjeta.materia.promociona{border-left-color:var(--celeste)}
 .tarjeta.materia.cursa     {border-left-color:var(--amarillo)}
-.tarjeta.materia.trabada   {border-left-color:var(--linea);background:var(--apagado)}
+.tarjeta.materia.trabada   {
+  /* Trabada no se dice apagando el texto: el renglon que explica que te
+     falta aprobar es justo el que hay que poder leer. Se dice con la
+     superficie y con la barra cortada, que se ven igual en los dos temas. */
+  border-left-color:var(--linea);border-left-style:dashed;
+  background:var(--apagado)
+}
 .tarjeta.materia.final     {border-left-color:var(--linea-saberes)}
 .tarjeta.materia .motivo{margin:0;color:var(--texto-suave);font-size:14px;line-height:1.35}
 .tarjeta.materia .motivo strong{color:var(--texto)}
