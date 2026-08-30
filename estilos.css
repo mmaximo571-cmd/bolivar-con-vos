@@ -152,6 +152,64 @@ h1,h2,h3{margin:0;font-weight:400}
 .envoltura{max-width:var(--ancho-max);margin:0 auto;padding:0 16px}
 
 /* ============================================================
+   SALTAR AL CONTENIDO
+
+   Invisible hasta que se lo enfoca con el tabulador. Sin esto, quien
+   navega con teclado tiene que pasar por el menú, la marca, el perfil
+   y las siete secciones —diez paradas— en cada pantalla, antes de
+   llegar a lo que vino a leer.
+   ============================================================ */
+.saltar{
+  position:absolute;left:-9999px;top:0;z-index:200;
+  background:var(--amarillo);color:var(--sobre-color);
+  font-family:var(--fuente-sub);font-weight:700;font-size:14px;
+  padding:12px 18px;border-radius:0 0 var(--radio) 0;text-decoration:none
+}
+.saltar:focus{left:0}
+
+/* Se lee con lector de pantalla pero no se ve. Sirve para el título de
+   la portada: la marca de la cabecera ya lo dice a la vista, pero una
+   imagen y un texto de marca no son un encabezado de página. */
+.solo-lectores{
+  position:absolute;width:1px;height:1px;padding:0;margin:-1px;
+  overflow:hidden;clip-path:inset(50%);white-space:nowrap;border:0
+}
+/* Al saltar al contenido no queremos el contorno del foco alrededor de
+   media pantalla: se enfoca para que el lector siga desde ahí, nada más. */
+#contenido:focus{outline:none}
+
+/* ============================================================
+   FOCO DEL TECLADO, UNO SOLO PARA TODO
+
+   Antes casi todo se quedaba con el contorno naranja que pone el
+   navegador por su cuenta, que sobre el amarillo de la app casi no se
+   ve. Este es el mismo en todos lados y siempre contrasta.
+   ============================================================ */
+a:focus-visible,
+button:focus-visible,
+[tabindex]:focus-visible{
+  outline:3px solid var(--celeste);
+  outline-offset:2px;
+  border-radius:4px
+}
+/* Sobre la cabecera negra el celeste se apaga, ahí manda el amarillo */
+.cabecera a:focus-visible,
+.cabecera button:focus-visible,
+.secciones-fila a:focus-visible,
+.menu-lateral a:focus-visible,
+.menu-lateral button:focus-visible{
+  outline-color:var(--amarillo)
+}
+
+/* Un botón es un botón, no un párrafo: al tocarlo con el pulgar y
+   correrse un milímetro, se marcaba la palabra en azul en vez de
+   activarse. */
+.boton,.boton-cuadro,.boton-icono,.chip,.tarjeta,.tarjeta-cuadro,
+.cal-dia,.avisanos,.secciones-fila a,.menu-lista a,.carrusel-puntos button{
+  -webkit-user-select:none;user-select:none
+}
+
+/* ============================================================
    ENCABEZADO
    ============================================================ */
 /* La banda negra de arriba es el ancla de la pagina: le da un techo y
@@ -179,11 +237,16 @@ h1,h2,h3{margin:0;font-weight:400}
   line-height:1.04;letter-spacing:-.01em;display:block
 }
 .marca em{font-style:normal;color:var(--amarillo)}
+/* En un celular angosto esto no entra y se cortaba con puntos
+   suspensivos: «AGRUPACIÓN SIMÓN BOLÍVAR · FTS…». Un texto cortado
+   ensucia y no dice nada que el logo no diga ya, así que abajo de
+   420 px no se muestra. */
 .marca-centro small{
-  display:block;font-family:var(--fuente-texto);font-size:9px;font-weight:500;
+  display:none;font-family:var(--fuente-texto);font-size:10px;font-weight:500;
   letter-spacing:.09em;text-transform:uppercase;color:#9c9c9c;margin-top:3px;
   white-space:nowrap;overflow:hidden;text-overflow:ellipsis
 }
+@media (min-width:420px){ .marca-centro small{display:block} }
 .boton-icono{
   width:44px;height:44px;display:flex;align-items:center;justify-content:center;
   background:transparent;border:none;border-radius:50%;
@@ -202,7 +265,16 @@ svg.ico{width:1em;height:1em;display:block;flex:0 0 auto}
 .boton-cuadro.destacado svg.ico{color:var(--sobre-color)}
 
 /* --- Las secciones, debajo de la cabecera --- */
-.secciones{background:var(--negro);border-top:1px solid #333}
+/* Siete secciones no entran en un celular: la fila se desliza. El
+   degradado de la derecha es lo que avisa que hay más, si no la última
+   queda cortada al medio de la palabra y parece un error. Desaparece
+   cuando la fila entra entera (de 720 px para arriba). */
+.secciones{background:var(--negro);border-top:1px solid #333;position:relative}
+.secciones::after{
+  content:'';position:absolute;top:0;right:0;bottom:0;width:28px;
+  background:linear-gradient(to right, rgba(26,26,26,0), var(--negro));
+  pointer-events:none
+}
 .secciones-fila{display:flex;gap:2px;overflow-x:auto;-webkit-overflow-scrolling:touch}
 .secciones-fila::-webkit-scrollbar{display:none}
 .secciones-fila a{
@@ -263,8 +335,21 @@ svg.ico{width:1em;height:1em;display:block;flex:0 0 auto}
 .buscador input:focus{box-shadow:0 0 0 3px var(--celeste)}
 .buscador .lupa{
   position:absolute;left:16px;top:50%;transform:translateY(-50%);
-  font-size:18px;opacity:.5;pointer-events:none
+  font-size:18px;opacity:.5;pointer-events:none;
+  display:flex;align-items:center;color:var(--texto)
 }
+.buscador .lupa svg.ico{width:19px;height:19px}
+
+/* El ícono de la categoría, adentro del chip y del título. La misma
+   categoría tiene que verse igual en la portada y acá: antes en la
+   portada era un ícono y acá el emoji de la base de datos. */
+.chip-icono,.titulo-icono{
+  display:inline-flex;align-items:center;vertical-align:-3px;margin-right:6px;
+  color:var(--celeste)
+}
+.chip-icono svg.ico{width:16px;height:16px}
+.titulo-icono svg.ico{width:20px;height:20px}
+.chip[aria-pressed="true"] .chip-icono{color:inherit}
 
 /* ============================================================
    CHIPS / CATEGORIAS
@@ -298,9 +383,13 @@ svg.ico{width:1em;height:1em;display:block;flex:0 0 auto}
   font-family:var(--fuente-titulo);font-size:20px;text-transform:uppercase;
   margin:26px 0 10px;display:flex;align-items:baseline;justify-content:space-between;gap:10px
 }
+/* Medían 19 px de alto: por debajo del mínimo de 24 que pide la norma
+   para algo que se toca con el dedo. El padding agranda lo tocable sin
+   mover el texto de lugar. */
 .titulo-seccion a{
   font-family:var(--fuente-sub);font-size:13px;text-transform:uppercase;
-  letter-spacing:.06em;color:var(--gris);text-decoration:none;flex:0 0 auto
+  letter-spacing:.06em;color:var(--gris);text-decoration:none;flex:0 0 auto;
+  padding:6px 2px;margin:-6px -2px;display:inline-flex;align-items:center;min-height:24px
 }
 .titulo-seccion a:hover{color:var(--texto)}
 
@@ -495,9 +584,11 @@ svg.ico{width:1em;height:1em;display:block;flex:0 0 auto}
 /* ============================================================
    PIE
    ============================================================ */
+/* El padding de abajo deja lugar para el botón flotante: sin esto, el
+   último renglón del pie queda debajo del botón y no se puede leer. */
 .pie{
   text-align:center;color:var(--gris);font-size:13px;
-  padding:30px 16px 10px;line-height:1.5
+  padding:30px 16px 84px;line-height:1.5
 }
 .pie strong{color:var(--texto)}
 
@@ -897,7 +988,8 @@ body.antes-de-entrar{padding-bottom:0}  /* apertura y bienvenida a pantalla comp
   font-size:13px;line-height:1.45;color:var(--texto-suave)
 }
 .pie-enlace{
-  display:inline-block;margin-top:10px;font-family:var(--fuente-sub);
+  display:inline-flex;align-items:center;min-height:24px;padding:4px 2px;
+  margin-top:8px;font-family:var(--fuente-sub);
   font-weight:700;font-size:13px;text-transform:uppercase;letter-spacing:.05em;
   color:var(--texto);text-decoration:underline
 }
@@ -931,20 +1023,37 @@ body.antes-de-entrar{padding-bottom:0}  /* apertura y bienvenida a pantalla comp
 }
 .carrusel-pista{display:flex;transition:transform .5s cubic-bezier(.4,0,.2,1)}
 .carrusel-lamina{flex:0 0 100%;position:relative}
-.carrusel-lamina img{width:100%;height:auto;display:block}
+/* Las dos ilustraciones no tienen exactamente la misma proporción, y
+   como las láminas se estiran a la más alta, quedaban 87 px de amarillo
+   vacío abajo. Con la proporción fija las dos miden igual y el bloque
+   deja de pesar más que el contenido que tiene al lado. */
+.carrusel-lamina img{
+  width:100%;height:auto;display:block;
+  aspect-ratio:900/358;object-fit:cover;object-position:center
+}
 .carrusel-pie{
   position:absolute;left:0;right:0;bottom:0;padding:26px 14px 12px;
   font-family:var(--fuente-sub);font-size:14px;font-weight:700;color:var(--sobre-color);
   background:linear-gradient(to top, rgba(249,232,48,.96) 40%, rgba(249,232,48,0))
 }
 .carrusel-puntos{
-  position:absolute;bottom:8px;right:12px;display:flex;gap:6px
+  position:absolute;bottom:2px;right:6px;display:flex;gap:0
 }
+/* El punto que se ve sigue midiendo 8 px, pero lo que se toca mide 24,
+   que es el mínimo de la norma. Antes eran 8x8: imposible de acertar
+   con el pulgar. El botón es transparente y el punto lo dibuja el
+   ::before, así crece el área sin crecer el dibujo. */
 .carrusel-puntos button{
-  width:8px;height:8px;padding:0;border-radius:50%;border:none;
-  background:rgba(26,26,26,.3)
+  width:24px;height:24px;padding:0;border:none;background:transparent;
+  display:flex;align-items:center;justify-content:center
 }
-.carrusel-puntos button[aria-current="true"]{background:var(--negro);width:20px;border-radius:99px}
+.carrusel-puntos button::before{
+  content:'';display:block;width:8px;height:8px;border-radius:50%;
+  background:rgba(26,26,26,.3);transition:width .2s ease
+}
+.carrusel-puntos button[aria-current="true"]::before{
+  background:var(--negro);width:18px;border-radius:99px
+}
 
 /* ============================================================
    CALENDARIO CUADRADO DEL INICIO
@@ -1000,13 +1109,15 @@ body.antes-de-entrar{padding-bottom:0}  /* apertura y bienvenida a pantalla comp
 .boton-cuadro{
   aspect-ratio:1;background:var(--blanco);border:1px solid var(--borde);
   border-radius:var(--radio);box-shadow:var(--sombra);text-decoration:none;
-  color:var(--texto);padding:9px 7px;
+  color:var(--texto);padding:9px 4px;
   display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;
   text-align:center;overflow:hidden
 }
 .boton-cuadro .icono{font-size:26px;line-height:1}
+/* Estas nueve etiquetas son la navegación principal de la portada.
+   Estaban en 11,5 px, tamaño de nota al pie. */
 .boton-cuadro .nombre{
-  font-family:var(--fuente-sub);font-weight:700;font-size:11.5px;line-height:1.12;
+  font-family:var(--fuente-sub);font-weight:700;font-size:13px;line-height:1.12;
   text-transform:uppercase;letter-spacing:.01em;
   display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden
 }
@@ -1102,6 +1213,10 @@ body.antes-de-entrar{padding-bottom:0}  /* apertura y bienvenida a pantalla comp
 /* Quien pidio menos movimiento ve el bloque quieto, sin el brillo */
 @media (prefers-reduced-motion:reduce){
   .esqueleto{animation:none}
+  /* Quien pidió menos movimiento no quiere un botón que se desliza ni
+     un carrusel que se corre solo: aparecen y desaparecen, nada más. */
+  .avisanos,.carrusel-pista,.avisanos-globo{transition:none}
+  .avisanos.apartado{transform:none}
 }
 .esq-linea{height:13px;margin-bottom:9px}
 .esq-linea.corta{width:45%}
@@ -1222,16 +1337,44 @@ details.tarjeta .respuesta{margin-top:9px;color:var(--texto-suave);font-size:15p
 /* ============================================================
    BOTON FLOTANTE "AVISANOS"
    ============================================================ */
+/* Era una píldora de 140x52 fija abajo a la derecha: tapaba el
+   calendario al abrir, un cuadro de «A dónde ir» al bajar y el pie al
+   final. Ahora es un círculo de 56 —el tamaño de un botón flotante de
+   toda la vida— y la palabra aparece solo cuando hay lugar (720 px
+   para arriba, donde no tapa nada). */
 .avisanos{
   position:fixed;right:14px;bottom:14px;z-index:70;
-  display:inline-flex;align-items:center;gap:9px;
-  padding:13px 18px;border-radius:99px;border:2px solid var(--sobre-negro);
+  width:56px;height:56px;
+  display:inline-flex;align-items:center;justify-content:center;gap:9px;
+  border-radius:99px;border:2px solid var(--sobre-negro);
   background:var(--rojo-solido);color:var(--sobre-negro);text-decoration:none;
   font-family:var(--fuente-sub);font-weight:700;font-size:15px;
   box-shadow:0 4px 16px rgba(0,0,0,.28);
-  transition:transform .18s ease, box-shadow .18s ease
+  transition:transform .22s ease, box-shadow .18s ease, opacity .22s ease
 }
-.avisanos svg{width:21px;height:21px;flex:0 0 auto;fill:currentColor}
+.avisanos > span:not(.avisanos-globo){
+  position:absolute;width:1px;height:1px;overflow:hidden;clip-path:inset(50%)
+}
+/* Los primeros segundos el botón muestra la palabra, para que se
+   entienda qué es, y después se encoge solo. Ocupa su esquina y nada
+   más: nunca se le pone encima al contenido. */
+.avisanos.con-palabra{width:auto;height:auto;padding:13px 18px}
+.avisanos.con-palabra > span:not(.avisanos-globo){
+  position:static;width:auto;height:auto;overflow:visible;clip-path:none
+}
+/* Mientras se baja se corre para afuera: es cuando la persona está
+   leyendo. Vuelve apenas se sube, que es el gesto de «quiero volver a
+   algo». Lo maneja app.js poniendo y sacando la clase. */
+.avisanos.apartado{
+  transform:translateX(calc(100% + 20px));opacity:0;pointer-events:none
+}
+.avisanos svg{width:24px;height:24px;flex:0 0 auto;fill:currentColor}
+@media (min-width:720px){
+  .avisanos{width:auto;height:auto;padding:13px 18px}
+  .avisanos > span:not(.avisanos-globo){
+    position:static;width:auto;height:auto;overflow:visible;clip-path:none
+  }
+}
 .avisanos:hover,.avisanos:focus-visible{
   transform:translateY(-2px);box-shadow:0 7px 22px rgba(0,0,0,.34)
 }
@@ -1253,9 +1396,10 @@ details.tarjeta .respuesta{margin-top:9px;color:var(--texto-suave);font-size:15p
   content:'';position:absolute;right:26px;top:100%;
   border:7px solid transparent;border-top-color:var(--negro)
 }
+/* El globo queda solo para el mouse y el teclado, donde lo pide la
+   persona. Ya no sale solo: en el celular tapaba el calendario. */
 .avisanos:hover .avisanos-globo,
-.avisanos:focus-visible .avisanos-globo,
-.avisanos.mostrando .avisanos-globo{opacity:1;transform:translateY(0)}
+.avisanos:focus-visible .avisanos-globo{opacity:1;transform:translateY(0)}
 
 /* ============================================================
    PANTALLAS GRANDES
@@ -1266,4 +1410,50 @@ details.tarjeta .respuesta{margin-top:9px;color:var(--texto-suave);font-size:15p
   .marca{font-size:30px}
   .hoja{align-self:center;border-radius:var(--radio);max-height:82vh}
   .hoja-fondo{align-items:center}
+  /* La fila de secciones ya entra entera: sobra el degradado del borde */
+  .secciones::after{display:none}
+  /* Desde la tablet para arriba los cuadros dejan de ser cuadrados: si
+     no, un cuadrado de 211 px de lado da una grilla de 648 de alto. */
+  .boton-cuadro{aspect-ratio:auto;min-height:124px;padding:12px 10px}
+}
+
+/* ------------------------------------------------------------
+   EN LA COMPUTADORA
+
+   La app se diseñó para el celular y está bien que así sea: ahí la usa
+   casi todo el mundo. Pero en una pantalla de 1280 la columna medía
+   680 px y quedaban 300 de amarillo vacío a cada lado —se usaba el 53%
+   de la pantalla— con la portada estirada a lo largo de cuatro
+   pantallazos.
+
+   No la rediseñamos: le damos aire a la columna y ponemos en dos
+   columnas lo que se lee de a pares. La portada pasa a entrar en poco
+   más de una pantalla.
+   ------------------------------------------------------------ */
+@media (min-width:900px){
+  .envoltura{max-width:1000px}
+
+  /* El calendario y la portada, uno al lado del otro. Solos, cada uno
+     quedaba flotando en el medio de una columna de mil píxeles. */
+  #zona-normal{display:grid;grid-template-columns:1fr 1fr;gap:0 20px;align-items:start}
+  #zona-normal > #alarma,
+  #zona-normal > #mi-cursada,
+  #zona-normal > .titulo-seccion{grid-column:1 / -1}
+  #zona-normal > .calendario{grid-column:1}
+  #zona-normal > .carrusel{grid-column:2;margin-top:0}
+
+  /* Los cuadros son cuadrados porque en un celular miden 100 px. Acá,
+     con la columna ancha, un cuadrado da 310x310 y la grilla sola mide
+     casi mil píxeles de alto. En pantalla grande dejan de ser
+     cuadrados y pasan a ser fichas anchas. */
+  .rejilla-3x3{gap:12px}
+  .boton-cuadro{aspect-ratio:auto;min-height:132px;padding:14px 12px;gap:10px}
+  .boton-cuadro .nombre{font-size:14px}
+  .boton-cuadro svg.ico{width:32px;height:32px}
+
+  /* Las listas de tarjetas leen mejor en dos columnas que en una
+     columna de mil píxeles de ancho */
+  .lista,.kit{
+    display:grid;grid-template-columns:1fr 1fr;gap:12px;align-items:start
+  }
 }

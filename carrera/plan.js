@@ -25,8 +25,11 @@ window.PLAN_TS = {
 
   /* Que significa el asterisco (*) del plan. Cuando lo confirmen con la
      facultad, cambien este texto y listo: se actualiza en toda la pantalla. */
-  notaAsterisco: 'REVISAR: en el plan estas materias figuran con un asterisco (*). ' +
-                 'Falta confirmar con la facultad qué condición indica.',
+  /* Esto lo lee el estudiante, así que está escrito para el estudiante:
+     decimos lo que sabemos y también lo que no. */
+  notaAsterisco: 'En el plan de estudios estas materias figuran con un ' +
+                 'asterisco (*). Todavía no tenemos confirmado qué condición ' +
+                 'indica: si te toca alguna, preguntá en Alumnado.',
 
   materias: [
 

@@ -27,7 +27,7 @@
 <body>
 
 <div id="cabecera"></div>
-<main class="envoltura" id="contenido">
+<main class="envoltura" id="contenido" tabindex="-1">
   <div class="esq-tarjeta"><div class="esqueleto esq-linea titulo"></div><div class="esqueleto esq-linea"></div><div class="esqueleto esq-linea media"></div></div><div class="esq-tarjeta"><div class="esqueleto esq-linea titulo"></div><div class="esqueleto esq-linea"></div><div class="esqueleto esq-linea corta"></div></div>
 </main>
 <div id="pie"></div>
@@ -219,7 +219,7 @@
     <p class="bajada">${esc(bajada)}</p>
 
     <div class="buscador" style="margin-bottom:6px">
-      <span class="lupa">🔍</span>
+      <span class="lupa" id="lupa">🔍</span>
       <input id="filtro" type="search" autocomplete="off" placeholder="Buscar…"
              aria-label="Buscar trámites">
     </div>
@@ -246,7 +246,7 @@
 
   chips.innerHTML =
     `<button class="chip" data-cat="0">Todo</button>` +
-    categorias.map(c => `<button class="chip" data-cat="${c.id}">${esc(c.emoji)} ${esc(c.nombre)}</button>`).join('');
+    categorias.map(c => `<button class="chip" data-cat="${c.id}"><span class="chip-icono">${iconoDeCategoria(c)}</span>${esc(c.nombre)}</button>`).join('');
 
   chips.addEventListener('click', function(ev){
     const b = ev.target.closest('.chip');
@@ -387,7 +387,7 @@
     categorias.forEach(c => {
       const suyos = t.filter(x => x.categoria_id === c.id);
       if (!suyos.length) return;
-      html += `<div class="titulo-seccion">${esc(c.emoji)} ${esc(c.nombre)}
+      html += `<div class="titulo-seccion"><span class="titulo-icono">${iconoDeCategoria(c)}</span>${esc(c.nombre)}
           <span class="cuenta-grupo">${suyos.length}</span></div>
         <div class="rejilla-fichas">${suyos.map(cuadro).join('')}</div>`;
     });

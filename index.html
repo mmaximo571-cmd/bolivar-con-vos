@@ -83,14 +83,20 @@
 <div class="caja-buscador">
   <div class="envoltura">
     <div class="buscador">
-      <span class="lupa">🔍</span>
+      <span class="lupa" id="lupa">🔍</span>
       <input id="busqueda" type="search" autocomplete="off"
              placeholder="¿Qué necesitás resolver?" aria-label="Buscar trámites y preguntas">
     </div>
   </div>
 </div>
 
-<main class="envoltura">
+<main class="envoltura" id="contenido" tabindex="-1">
+
+  <!-- El título de la página. No se ve, pero existe: sin un h1 la
+       portada no tiene encabezado y con lector de pantalla queda como
+       una lista plana de sesenta elementos. Lo que se ve es la marca de
+       la cabecera, que dice lo mismo. -->
+  <h1 class="solo-lectores">La Bolívar con vos · Agrupación Simón Bolívar, FTS UNLP</h1>
 
   <!-- Resultados de la búsqueda (solo aparecen al escribir) -->
   <section id="zona-resultados" hidden>
@@ -107,10 +113,10 @@
     <!-- Cómo venís con tu carrera, si usaste el organizador -->
     <div id="mi-cursada"></div>
 
-    <!-- La portada: las ilustraciones de la facultad, deslizándose -->
-    <div class="carrusel" id="carrusel"></div>
-
-    <!-- Calendario cuadrado de lo que se viene -->
+    <!-- Calendario cuadrado de lo que se viene.
+         Va ANTES del carrusel a propósito: el carrusel es ambientación
+         y pesaba más que todo lo demás, así que lo primero que se veía
+         al abrir era una foto en vez de las fechas. -->
     <div class="titulo-seccion">
       LO QUE SE VIENE
       <a href="agenda/">Ver fechas</a>
@@ -129,6 +135,9 @@
         </div>
       </div>
     </div>
+
+    <!-- La portada: las ilustraciones de la facultad, deslizándose -->
+    <div class="carrusel" id="carrusel"></div>
 
   </div>
 </main>
@@ -556,9 +565,19 @@
 
   /* ---------- La portada: el carrusel de ilustraciones ---------- */
   (function pintarCarrusel(){
+    /* El "alt" describe el dibujo; el "pie" es lo que se lee en
+       pantalla. No dicen lo mismo a propósito: si el alt repitiera el
+       pie, quien usa lector de pantalla escucharía dos veces la misma
+       frase y no se enteraría de qué se ve. */
     const laminas = [
-      { img:'imagenes/facultad-fachada.webp', pie:'Facultad de Trabajo Social · UNLP' },
-      { img:'imagenes/facultad-patio.webp',   pie:'El patio, donde pasa todo lo demás' }
+      { img:'imagenes/facultad-fachada.webp',
+        alt:'Dibujo de la fachada de la Facultad de Trabajo Social, con el ' +
+            'cartel de Educación sobre la entrada.',
+        pie:'Facultad de Trabajo Social · UNLP' },
+      { img:'imagenes/facultad-patio.webp',
+        alt:'Dibujo del patio de la facultad: estudiantes sentados en ronda ' +
+            'en el piso, junto a la galería.',
+        pie:'El patio, donde pasa todo lo demás' }
     ];
     const caja = document.getElementById('carrusel');
 
@@ -567,7 +586,7 @@
       /* La primera lámina se carga de entrada: es lo primero que se ve
          al abrir. Las demás esperan, que para eso está el lazy. */
       laminas.map((l,i) => `<div class="carrusel-lamina">
-          <img src="${l.img}" alt=""
+          <img src="${l.img}" alt="${esc(l.alt)}"
                loading="${i === 0 ? 'eager' : 'lazy'}"
                ${i === 0 ? 'fetchpriority="high"' : ''}>
           <div class="carrusel-pie">${esc(l.pie)}</div>

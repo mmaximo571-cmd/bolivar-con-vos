@@ -49,7 +49,8 @@ window.PLAN_FONO = {
 
   /* Las cuatro materias que en el cuadro ocupan las dos columnas de
      cuatrimestre, o sea que se dictan todo el año. Conviene confirmarlo. */
-  notaAnuales: 'REVISAR: 821, 841, 842 y 852 figuran cruzando los dos ' +
+  /* Nota para el equipo: esto no se muestra en pantalla. */
+  notaAnuales: '821, 841, 842 y 852 figuran cruzando los dos ' +
                'cuatrimestres del cuadro, así que las cargamos como anuales.',
 
   materias: [

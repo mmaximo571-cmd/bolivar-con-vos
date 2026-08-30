@@ -33,6 +33,46 @@ gente ya tiene guardadas y las que están pegadas en Instagram.
 
 ---
 
+## Reglas de diseño que ya están resueltas
+
+No hace falta volver a discutirlas, pero sí respetarlas al agregar cosas nuevas.
+
+**Nada de «REVISAR» ni «EJEMPLO» publicado.** Lo lee un estudiante, no el equipo.
+Si un texto no está listo, se despublica la fila o se saca el bloque: es mejor
+una pantalla que dice «esto todavía lo estamos escribiendo» que una llena de
+notas nuestras. Para encontrar los que se hayan colado:
+
+```sql
+select 'tramites' t, id, titulo from public.tramites
+ where publicado and (resumen ilike '%REVISAR%' or pasos::text ilike '%REVISAR%')
+union all select 'faq', id, pregunta from public.faq
+ where publicado and respuesta ilike '%REVISAR%'
+union all select 'publicaciones', id, titulo from public.publicaciones
+ where publicado and cuerpo ilike '%REVISAR%';
+```
+
+**No inventamos plazos ni reglas de la facultad.** Los campos «Cuándo» y «Dónde»
+de un trámite están vacíos si nadie los confirmó, y la pantalla directamente no
+los muestra. Un dato inventado es peor que un dato ausente: la persona se lo
+cree y se pierde la inscripción.
+
+**Todo lo que se toca mide 24 px como mínimo.** Los puntos del carrusel se ven de
+8 px pero se tocan en 24, con un `::before`. Vale la pena copiar ese truco.
+
+**Nada tapa el contenido.** El botón «Avisanos» es un círculo de 56 que se aparta
+mientras se baja; el pie tiene 84 px de aire abajo para que nunca quede debajo.
+El globo con la pregunta ya no sale solo: tapaba el calendario.
+
+**Cada pantalla tiene un `h1` y sus títulos son títulos.** Los `.titulo-seccion`
+se marcan solos desde `app.js`. Y el enlace «Saltar al contenido» es el primer
+elemento de todas: sin él hay que pasar por diez cosas antes de llegar al
+contenido, en cada pantalla.
+
+**El contraste se mide, no se estima.** Las ocho pantallas están verificadas en
+claro y en oscuro sobre el texto ya dibujado, no sobre el CSS.
+
+---
+
 ## Cómo se sube a la web
 
 **Antes se arrastraban las carpetas a la web de GitHub, a mano. Ya no.** La
@@ -154,7 +194,18 @@ pone uno genérico.
 ### Los íconos
 
 Están en **`iconos.js`**, y son de [Phosphor Icons](https://phosphoricons.com),
-peso **Bold**, licencia MIT.
+peso **Bold**, licencia MIT. **Están los 19: no quedan emoji sueltos.** Si alguna
+vez se agrega una categoría nueva en Supabase, hasta que se le cargue el ícono va
+a mostrar su emoji, que es la red de seguridad de siempre.
+
+Cuidado con dos cosas al agregar uno:
+
+- **Fijate que no esté repetido.** «Estudiemos» arrancó con el mismo dibujo que
+  «Mi año» porque los dos son *books*.
+- **El ícono se pone en un solo lugar.** La lupa del buscador y los íconos de las
+  categorías se dibujan cuando llega el contenido de Supabase, o sea después de
+  que la pantalla ya existe. Por eso `app.js` los repasa con un observador y no
+  una sola vez al arrancar.
 
 **Los íconos no traen color propio.** Phosphor los copia con un color fijo
 (`fill="#b52625"`); acá ese color se saca y se reemplaza por `currentColor`, así

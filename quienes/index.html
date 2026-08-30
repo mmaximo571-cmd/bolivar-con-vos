@@ -32,7 +32,7 @@
 <main class="envoltura">
   <h1 class="titulo-pantalla">¿Quiénes somos?</h1>
   <p class="bajada" id="bajada"></p>
-  <div id="contenido"></div>
+  <div id="contenido" tabindex="-1"></div>
 </main>
 
 <div class="zona-fondo">
@@ -56,65 +56,58 @@
    - Cada bloque es un título y uno o más párrafos.
    - Para sumar un bloque, copiá uno entero y cambiale el texto.
    - Para sacarlo, borralo. No pasa nada si quedan dos o si hay diez.
-   - Los renglones que dicen REVISAR son de ejemplo: hay que
-     reemplazarlos por lo que ustedes quieran decir de verdad.
+
+   OJO: lo que se escriba acá lo lee un estudiante, no el equipo. Si
+   un texto todavía no está listo, es mejor sacar el bloque entero que
+   dejar una nota nuestra a la vista.
    ============================================================ */
 const QUIENES = {
 
   /* La frase que va debajo del título, arriba de todo */
-  bajada: 'REVISAR: una línea que diga en pocas palabras quiénes son ' +
-          'y para qué existe esta app.',
+  bajada: 'Somos la Agrupación Simón Bolívar. Conducimos el Centro de ' +
+          'Estudiantes de la Facultad de Trabajo Social de la UNLP, y esta ' +
+          'app la hacemos nosotras y nosotros.',
 
   bloques: [
     {
-      titulo: 'La agrupación',
+      titulo: 'Por qué hicimos esta app',
       parrafos: [
-        'REVISAR: qué es la Agrupación Simón Bolívar, desde cuándo existe ' +
-        'y qué la mueve.',
-        'REVISAR: un segundo párrafo si hace falta. Se pueden poner los ' +
-        'que quieran, o dejar uno solo.'
+        'La información de la facultad existe, pero está desparramada: un ' +
+        'poco en la página, un poco en un PDF, un poco en un grupo de ' +
+        'WhatsApp que alguien te tiene que pasar. Perderse una fecha por no ' +
+        'haberla visto a tiempo te puede costar un cuatrimestre.',
+        'Así que juntamos todo en un solo lugar y lo escribimos como se lo ' +
+        'contaríamos a una compañera. Sin registrarte y sin dar datos.'
       ]
     },
     {
-      titulo: 'La conducción del Centro de Estudiantes',
+      titulo: 'Esta parte todavía la estamos escribiendo',
       parrafos: [
-        'REVISAR: qué significa conducir el CEFTS, qué se hace desde ahí, ' +
-        'y desde cuándo.'
-      ]
-    },
-    {
-      titulo: 'Quién impulsa esta app',
-      parrafos: [
-        'REVISAR: quiénes la pensaron y la sostienen, y por qué les pareció ' +
-        'que hacía falta.',
-        'REVISAR: si quieren, los nombres de las compañeras y compañeros ' +
-        'que participaron.'
-      ]
-    },
-    {
-      titulo: 'Por qué la hicimos',
-      parrafos: [
-        'REVISAR: el problema que vieron. Por ejemplo: que la información de ' +
-        'la facultad está desparramada y cuesta encontrarla, y que perderse ' +
-        'una fecha te puede costar un cuatrimestre.'
+        'Nos falta contar quiénes somos, desde cuándo existe la agrupación y ' +
+        'qué hacemos desde el Centro de Estudiantes. Preferimos dejarlo en ' +
+        'blanco antes que llenarlo con cualquier cosa.',
+        'Mientras tanto, si querés saber más o darnos una mano, escribinos ' +
+        'por Instagram: ahí contestamos.'
       ]
     }
   ],
 
-  /* Dónde encontrarlos. Si alguna red no la usan, borren el renglón. */
+  /* Dónde encontrarnos. Si alguna red no la usan, borren el renglón. */
   redes: [
-    { nombre: 'Instagram', url: 'REVISAR: pegar acá el link de Instagram' },
-    { nombre: 'Facebook',  url: 'REVISAR: pegar acá el link de Facebook'  }
+    { nombre: 'Instagram', url: 'https://www.instagram.com/SimonBolivarfts' },
+    { nombre: 'Facebook',  url: 'https://www.facebook.com/SimonBolivarfts'  },
+    { nombre: 'Todos nuestros links', url: 'https://linktr.ee/SimonBolivarfts' }
   ],
 
   /* El llamado del final. Si no lo quieren, borren todo este bloque
      poniendo   sumate: null,   en su lugar. */
   sumate: {
     titulo: 'Sumate',
-    texto: 'REVISAR: cómo se hace para acercarse, dónde los encuentran, ' +
-           'cuándo se juntan.',
-    boton: 'Escribinos',
-    url: 'REVISAR: link de Instagram, WhatsApp o correo'
+    texto: 'Si algo de acá adentro está mal, falta o se puede explicar ' +
+           'mejor, decinos. Y si querés participar de la agrupación, ' +
+           'escribinos y te contamos cuándo nos juntamos.',
+    boton: 'Escribinos por Instagram',
+    url: 'https://www.instagram.com/SimonBolivarfts'
   }
 };
 
@@ -127,8 +120,9 @@ document.getElementById('cabecera').innerHTML = htmlCabecera();
 document.getElementById('pie').innerHTML = htmlPie();
 pintarNav('quienes');
 
-/* Un link solo sirve si de verdad es un link. Los REVISAR se muestran
-   como texto apagado, para que se note que falta completarlos. */
+/* Un link solo sirve si de verdad es un link. Si en vez de una
+   dirección hay una nota, se muestra como texto apagado en vez de
+   como botón: no se publica un botón que no lleva a ningún lado. */
 function esLink(u){ return /^https?:\/\//i.test(String(u || '')); }
 
 document.getElementById('bajada').textContent = QUIENES.bajada;

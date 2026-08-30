@@ -271,7 +271,11 @@ const SECCIONES = [
    las tres columnas de los costados miden lo mismo.
    ------------------------------------------------------------ */
 function htmlCabecera(){
-  return `<header class="cabecera">
+  /* El enlace de saltar va PRIMERO de todo: es la única forma de que,
+     navegando con teclado, no haya que pasar por el menú y las siete
+     secciones en cada pantalla. Solo se ve cuando se lo enfoca. */
+  return `<a class="saltar" href="#contenido">Saltar al contenido</a>
+    <header class="cabecera">
       <div class="envoltura barra-superior">
         <button class="boton-icono" id="abrir-menu" aria-label="Abrir el menú"
                 aria-expanded="false" aria-controls="menu-lateral">${icono('menu') || '☰'}</button>
@@ -286,6 +290,47 @@ function htmlCabecera(){
         <a class="boton-icono" href="${RAIZ}mi/" aria-label="Mi perfil">${icono('mi') || '👤'}</a>
       </div>
     </header>`;
+}
+
+/* ============================================================
+   LOS TÍTULOS DE SECCIÓN SON TÍTULOS DE VERDAD
+
+   «A DÓNDE IR», «LO QUE SE VIENE» y compañía se dibujan con un <div>.
+   Para el ojo alcanza; para un lector de pantalla no existen, y la
+   pantalla queda como una lista plana de sesenta elementos sin
+   ninguna estructura.
+
+   Se marcan acá, en un solo lugar, en vez de tocar los treinta lugares
+   donde se generan. El observador los agarra también cuando aparecen
+   después, que es lo que pasa en casi todas las pantallas: el
+   contenido llega de Supabase y se dibuja recién ahí.
+   ============================================================ */
+/* La lupa del buscador estaba escrita como emoji en las tres pantallas
+   que tienen buscador. Un emoji lo dibuja cada teléfono a su manera y
+   quedaba de otro color y otro peso que el resto de los íconos. */
+function ponerLupa(donde){
+  const dibujo = icono('buscador');
+  if (!dibujo) return;                       /* sin ícono, se queda el emoji */
+  (donde || document).querySelectorAll('.lupa:not(.ya-cambiada)').forEach(l => {
+    l.innerHTML = dibujo;
+    l.classList.add('ya-cambiada');
+  });
+}
+
+function marcarTitulos(donde){
+  (donde || document).querySelectorAll('.titulo-seccion:not([role])')
+    .forEach(t => { t.setAttribute('role', 'heading'); t.setAttribute('aria-level', '2'); });
+}
+
+/* Casi todo el contenido llega de Supabase y se dibuja después de que
+   la pantalla ya existe. Por eso no alcanza con arreglar una vez al
+   arrancar: hay que mirar también lo que aparece más tarde. */
+function vigilarTitulos(){
+  const repasar = () => { marcarTitulos(); ponerLupa(); };
+  repasar();
+  if (!window.MutationObserver) return;
+  new MutationObserver(repasar)
+    .observe(document.body, { childList: true, subtree: true });
 }
 
 /* ------------------------------------------------------------
@@ -323,6 +368,8 @@ function pintarNav(actual){
     </nav>`);
 
   pintarAvisanos();
+  vigilarTitulos();
+  ponerLupa();
 
   /* Con siete secciones la fila no entra en un celular y se desliza. Traemos
      al centro la sección donde estás parada, si no en «¿Quiénes somos?» la
@@ -377,21 +424,54 @@ function pintarAvisanos(){
       <span class="avisanos-globo">¿Problemas con una materia o docente?</span>
     </a>`);
 
-  /* En el celular no existe el "pasar por encima", así que el globo
-     se muestra solo un momento, una vez por visita, y se va. */
   const boton = document.getElementById('avisanos');
   const quieto = window.matchMedia &&
     window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   let yaSalio = false;
   try { yaSalio = !!sessionStorage.getItem('bolivar-avisanos-visto'); } catch(e){}
 
+  /* En el celular no existe el "pasar por encima", así que hay que
+     mostrar de alguna forma para qué sirve el botón.
+
+     Antes se abría un globo con la pregunta. El problema es que un
+     cartel que sale solo SIEMPRE tapa algo: tapaba el calendario justo
+     al abrir la pantalla, que es lo que la persona vino a mirar.
+
+     Ahora el botón nace con la palabra adentro y se encoge a círculo
+     solo. Nunca ocupa más que su propio lugar en la esquina. */
   if (!yaSalio && !quieto && window.matchMedia('(hover: none)').matches){
-    setTimeout(() => {
-      boton.classList.add('mostrando');
-      setTimeout(() => boton.classList.remove('mostrando'), 4500);
+    boton.classList.add('con-palabra');
+    const encoger = () => {
+      boton.classList.remove('con-palabra');
       try { sessionStorage.setItem('bolivar-avisanos-visto', '1'); } catch(e){}
-    }, 2500);
+      window.removeEventListener('scroll', encoger);
+    };
+    setTimeout(encoger, 4000);
+    /* Si se pone a leer antes de los 4 segundos, se encoge en el acto */
+    window.addEventListener('scroll', encoger, { passive:true, once:true });
   }
+
+  /* El botón está fijo, así que SIEMPRE hay algo tapado abajo a la
+     derecha: el calendario al abrir, un cuadro de «A dónde ir» al bajar,
+     el pie al final. Se aparta mientras se baja —que es cuando la
+     persona está leyendo— y vuelve apenas se sube, que es el gesto de
+     «quiero volver a algo». Así nunca queda encima de lo que se está
+     mirando, y tampoco hay que ir a buscarlo. */
+  let ultimo = window.scrollY, pendiente = false;
+  window.addEventListener('scroll', () => {
+    if (pendiente) return;
+    pendiente = true;
+    requestAnimationFrame(() => {
+      const y = window.scrollY;
+      /* Los saltitos de menos de 6 px no cuentan: si no, el botón
+         parpadea con el rebote del dedo. */
+      if (Math.abs(y - ultimo) > 6){
+        boton.classList.toggle('apartado', y > ultimo && y > 240);
+        ultimo = y;
+      }
+      pendiente = false;
+    });
+  }, { passive: true });
 }
 
 function htmlPie(){
