@@ -107,6 +107,46 @@ cursadas y cursando, así la portada puede decir «6 de 31 materias · 2 cursand
 
 ---
 
+## Las cuatro reglas del sistema
+
+Salieron de una auditoría del CSS. Son las que hay que respetar al agregar algo
+nuevo; lo que ya estaba se fue migrando.
+
+**1. Un color se llama por lo que hace, no por cómo se ve.** Va
+`--texto-suave`, no `--gris`; `--linea`, no `--borde`. Los cinco nombres viejos
+(`--blanco`, `--gris`, `--borde`, `--hueso`, `--amarillo-fondo`) **se borraron**:
+eran dos nombres para lo mismo, y el viejo se usaba tres veces más que el bueno,
+así que este archivo apuntaba al que casi nadie usaba. «Gris» además deja de
+describirlo de noche, cuando se da vuelta.
+
+**No queda ni un color escrito a mano fuera del panel de control.** Los grises
+de las zonas que siempre son oscuras —cabecera, secciones, menú— tienen sus
+propios tres tokens (`--sobre-negro-suave`, `--sobre-negro-tenue`,
+`--linea-negro`), porque esos no se dan vuelta y no pueden salir de los otros.
+
+**2. La letra sale de la escala.** Ocho pasos, de `--letra-mini` (11 px) a
+`--letra-titulo` (30 px). Había 28 tamaños distintos, ocho de ellos con medio
+píxel. Un medio píxel no es una decisión: es un número que se movió hasta que
+entró. Si hace falta un tamaño que no está, fijate primero si no sirve el de al
+lado: casi siempre sirve.
+
+**3. El espacio sale de la escala**, de `--e1` (4 px) a `--e6` (32 px). Había
+27 valores distintos: todos los enteros del 1 al 16. **Esto todavía no está
+migrado a propósito**: reescribir los 27 valores movía la densidad de toda la
+app, y eso es una decisión de diseño aparte, no una limpieza. Se migra cuando se
+toca cada componente.
+
+**4. Lo que se toca tiene estado apretado.** Un celular no tiene «pasar por
+encima»: `:active` es la única devolución táctil que existe, y es la que dice
+«te registré el toque» mientras la pantalla carga. La hoja tenía trece reglas de
+`:hover` —que en un teléfono no se disparan nunca— y cero de `:active`.
+
+El gesto sigue el lenguaje de la serigrafía: la pieza baja los 2 px del
+desplazamiento y la segunda tinta desaparece, como el papel apoyándose. Quien
+pidió menos movimiento no se queda sin devolución: en vez de moverse, se apaga.
+
+---
+
 ## Reglas de diseño que ya están resueltas
 
 No hace falta volver a discutirlas, pero sí respetarlas al agregar cosas nuevas.

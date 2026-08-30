@@ -63,12 +63,26 @@
   --aviso-error:#FDEAEA;
   --aviso-ok:   #E6F8F5;
 
-  /* Nombres viejos, para no romper nada que todavia los use */
-  --blanco: var(--superficie);
-  --gris:   var(--texto-suave);
-  --borde:  var(--linea);
-  --hueso:  var(--superficie-2);
-  --amarillo-fondo: var(--fondo);
+  /* Habia cinco nombres viejos que eran atajos a las variables de
+     arriba: --blanco, --gris, --borde, --hueso y --amarillo-fondo. Se
+     borraron. El problema no era estetico: eran DOS nombres para lo
+     mismo, y el viejo se usaba tres veces mas que el bueno, asi que la
+     documentacion apuntaba al que casi nadie usaba.
+
+     Un color se llama por lo que HACE (--texto-suave, --linea) y no
+     por como se ve (--gris), porque de noche se dan vuelta y "gris"
+     deja de describirlo. */
+
+  /* --- Los grises de las zonas que SIEMPRE son oscuras ---
+
+     La cabecera, la fila de secciones y el menu lateral son negros de
+     dia y de noche, asi que sus grises no se dan vuelta y no pueden
+     salir de --texto-suave ni de --linea. Antes estaban escritos a
+     mano y habia seis grises distintos para tres trabajos. Ahora son
+     tres, con nombre. */
+  --sobre-negro-suave: #B9B9B9;  /* texto secundario sobre el negro   */
+  --sobre-negro-tenue: #8F8F8F;  /* letra chica y rotulos             */
+  --linea-negro:       #383838;  /* separadores sobre el negro        */
 
   /* --- Colores por linea editorial --- */
   --linea-frente:   #1A1A1A;
@@ -92,6 +106,42 @@
   --fuente-texto:   'Roboto', sans-serif;       /* cuerpo                     */
   --fuente-datos:   'Roboto Mono', ui-monospace, monospace;  /* datos y fechas */
 
+  /* --- LA ESCALA DE LETRA ---
+
+     Habia 28 tamanos distintos, ocho de ellos con medio pixel (9,5 ·
+     10,5 · 11,5 · 12,5 · 13,5 · 14,5 · 15,5 · 16,5). Un medio pixel no
+     es una decision: es un numero que se movio hasta que entro.
+
+     Son ocho pasos y salen de los tamanos que la app ya usaba, no de
+     una tabla de manual. LO NUEVO SE ESCRIBE CON ESTOS. Si hace falta
+     un tamano que no esta, primero fijate si no sirve el de al lado:
+     casi siempre sirve. */
+  --letra-mini:   11px;  /* pastillas y etiquetas en mayusculas   */
+  --letra-chica:  12px;  /* metadatos, leyendas                   */
+  --letra-nota:   13px;  /* textos secundarios, pies              */
+  --letra-densa:  14px;  /* listas apretadas                      */
+  --letra-base:   15px;  /* el cuerpo del texto                   */
+  --letra-guia:   17px;  /* la bajada de cada pantalla            */
+  --letra-sub:    20px;  /* titulos de seccion                    */
+  --letra-titulo: 30px;  /* el titulo de la pantalla              */
+
+  /* --- LA ESCALA DE ESPACIO ---
+
+     Habia 27 valores distintos: TODOS los enteros del 1 al 16. O sea
+     que cada vez que alguien tuvo que separar dos cosas, eligio un
+     numero nuevo.
+
+     Estos seis son para lo que se escriba de ahora en adelante. Lo que
+     ya estaba NO se cambio de una: reescribir los 27 valores movia la
+     densidad de toda la app, y eso es una decision de diseno aparte,
+     no una limpieza. Se va migrando cuando se toca cada componente. */
+  --e1:  4px;
+  --e2:  8px;
+  --e3: 12px;
+  --e4: 16px;
+  --e5: 24px;
+  --e6: 32px;
+
   /* --- Medidas ---
 
      LA SEGUNDA TINTA. Antes habia una sombra difusa, que dice "esto
@@ -106,6 +156,7 @@
      que es otro trabajo. */
   --radio:       10px;   /* redondeo de tarjetas    */
   --radio-chico: 6px;
+  --radio-pastilla: 99px;  /* lo que es una pildora: chips, botones redondos */
   --ancho-max:   680px;  /* ancho maximo de lectura */
   --tinta-borde: #1A1A1A;                /* el borde de las tarjetas */
   --sombra:      2px 2px 0 #1A1A1A;      /* la segunda tinta corrida */
@@ -176,7 +227,7 @@
 html,body{margin:0;padding:0}
 body{
   font-family:var(--fuente-texto);
-  background:var(--amarillo-fondo);
+  background:var(--fondo);
   color:var(--texto);
   font-size:16px;
   line-height:1.45;
@@ -240,6 +291,43 @@ button:focus-visible,
   outline-color:var(--amarillo)
 }
 
+/* ============================================================
+   EL ESTADO APRETADO
+
+   Un celular no tiene "pasar por encima": el dedo toca y listo. Así
+   que :active es la ÚNICA devolución táctil que existe, y es la que
+   dice «te registré el toque» mientras la pantalla todavía carga. La
+   hoja tenía trece reglas de :hover, que en un teléfono no se disparan
+   nunca, y cero de :active.
+
+   El gesto sigue el lenguaje de la serigrafía: la pieza baja los 2 px
+   del desplazamiento y la segunda tinta desaparece. Se lee como el
+   papel apoyándose sobre la mesa. */
+.tarjeta:active, .tarjeta-cuadro:active, .tarjeta-kit:active,
+.boton-cuadro:active, .boton:active, .chip:active,
+.mi-cursada:active, .alarma:active{
+  transform:translate(2px, 2px);
+  box-shadow:none
+}
+/* Los que no tienen sombra corrida se hunden apenas */
+.boton-icono:active, .cal-dia:active, .secciones-fila a:active,
+.menu-lista a:active, .pestana:active, .tema-opciones button:active{
+  transform:scale(.94)
+}
+.avisanos:active{transform:scale(.94);box-shadow:0 2px 8px rgba(0,0,0,.3)}
+
+@media (prefers-reduced-motion:reduce){
+  /* Sin movimiento, pero la devolución no se pierde: se apaga. */
+  .tarjeta:active, .tarjeta-cuadro:active, .tarjeta-kit:active,
+  .boton-cuadro:active, .boton:active, .chip:active,
+  .mi-cursada:active, .alarma:active,
+  .boton-icono:active, .cal-dia:active, .secciones-fila a:active,
+  .menu-lista a:active, .pestana:active, .tema-opciones button:active,
+  .avisanos:active{
+    transform:none;opacity:.7
+  }
+}
+
 /* Un botón es un botón, no un párrafo: al tocarlo con el pulgar y
    correrse un milímetro, se marcaba la palabra en azul en vez de
    activarse. */
@@ -282,7 +370,7 @@ button:focus-visible,
    420 px no se muestra. */
 .marca-centro small{
   display:none;font-family:var(--fuente-texto);font-size:10px;font-weight:500;
-  letter-spacing:.09em;text-transform:uppercase;color:#9c9c9c;margin-top:3px;
+  letter-spacing:.09em;text-transform:uppercase;color:var(--sobre-negro-tenue);margin-top:3px;
   white-space:nowrap;overflow:hidden;text-overflow:ellipsis
 }
 @media (min-width:420px){ .marca-centro small{display:block} }
@@ -308,7 +396,7 @@ svg.ico{width:1em;height:1em;display:block;flex:0 0 auto}
    degradado de la derecha es lo que avisa que hay más, si no la última
    queda cortada al medio de la palabra y parece un error. Desaparece
    cuando la fila entra entera (de 720 px para arriba). */
-.secciones{background:var(--negro);border-top:1px solid #333;position:relative}
+.secciones{background:var(--negro);border-top:1px solid var(--linea-negro);position:relative}
 .secciones::after{
   content:'';position:absolute;top:0;right:0;bottom:0;width:28px;
   background:linear-gradient(to right, rgba(26,26,26,0), var(--negro));
@@ -320,7 +408,7 @@ svg.ico{width:1em;height:1em;display:block;flex:0 0 auto}
   flex:1 0 auto;min-width:72px;padding:9px 10px 11px;text-decoration:none;
   display:flex;flex-direction:column;align-items:center;gap:3px;
   font-family:var(--fuente-sub);font-size:11px;font-weight:700;
-  text-transform:uppercase;letter-spacing:.04em;color:#b9b9b9;
+  text-transform:uppercase;letter-spacing:.04em;color:var(--sobre-negro-suave);
   border-bottom:3px solid transparent
 }
 .secciones-fila a .icono{font-size:18px;line-height:1}
@@ -354,28 +442,28 @@ svg.ico{width:1em;height:1em;display:block;flex:0 0 auto}
    los días. El menú de este panel está siempre en oscuro, así que los
    colores de acá adentro son fijos y no salen de las variables. */
 .menu-tema{
-  margin-top:auto;padding:18px 18px 0;border-top:1px solid #333
+  margin-top:auto;padding:18px 18px 0;border-top:1px solid var(--linea-negro)
 }
 .menu-tema-rotulo{
   display:block;font-family:var(--fuente-sub);font-size:11px;font-weight:700;
-  letter-spacing:.1em;text-transform:uppercase;color:#8f8f8f;margin-bottom:9px
+  letter-spacing:.1em;text-transform:uppercase;color:var(--sobre-negro-tenue);margin-bottom:9px
 }
 .tema-opciones{
-  display:flex;border:1px solid #3d3d3d;border-radius:99px;overflow:hidden
+  display:flex;border:1px solid var(--linea-negro);border-radius:var(--radio-pastilla);overflow:hidden
 }
 .tema-opciones button{
   flex:1;appearance:none;border:0;background:transparent;cursor:pointer;
   font-family:var(--fuente-sub);font-weight:700;font-size:12px;
-  letter-spacing:.03em;color:#c9c9c9;padding:11px 6px;min-height:40px
+  letter-spacing:.03em;color:var(--sobre-negro-suave);padding:11px 6px;min-height:40px
 }
-.tema-opciones button + button{border-left:1px solid #3d3d3d}
+.tema-opciones button + button{border-left:1px solid var(--linea-negro)}
 .tema-opciones button[aria-pressed="true"]{
-  background:var(--amarillo);color:#1A1A1A
+  background:var(--amarillo);color:var(--sobre-color)
 }
 .tema-opciones button:focus-visible{outline:2px solid var(--amarillo);outline-offset:-3px}
 
 .menu-pie{
-  padding:16px 18px 0;font-size:12px;line-height:1.5;color:#8f8f8f
+  padding:16px 18px 0;font-size:12px;line-height:1.5;color:var(--sobre-negro-tenue)
 }
 
 /* Titulo de pantalla interna */
@@ -383,7 +471,7 @@ svg.ico{width:1em;height:1em;display:block;flex:0 0 auto}
   font-family:var(--fuente-titulo);font-size:30px;line-height:1;
   text-transform:uppercase;margin:22px 0 4px
 }
-.bajada{color:var(--gris);font-size:15px;margin:0 0 18px}
+.bajada{color:var(--texto-suave);font-size:15px;margin:0 0 18px}
 
 /* ============================================================
    BUSCADOR
@@ -394,8 +482,8 @@ svg.ico{width:1em;height:1em;display:block;flex:0 0 auto}
 .buscador{position:relative}
 .buscador input{
   width:100%;font-family:var(--fuente-texto);font-size:17px;
-  padding:15px 15px 15px 46px;border:1px solid var(--borde);border-radius:99px;
-  background:var(--blanco);color:var(--texto);outline:none;box-shadow:var(--sombra)
+  padding:15px 15px 15px 46px;border:1px solid var(--linea);border-radius:var(--radio-pastilla);
+  background:var(--superficie);color:var(--texto);outline:none;box-shadow:var(--sombra)
 }
 /* El foco va en celeste: sobre el amarillo, un halo amarillo no se veria */
 .buscador input:focus{box-shadow:0 0 0 3px var(--celeste)}
@@ -423,24 +511,13 @@ svg.ico{width:1em;height:1em;display:block;flex:0 0 auto}
 .chips{display:flex;gap:8px;overflow-x:auto;padding:4px 0 8px;-webkit-overflow-scrolling:touch}
 .chips::-webkit-scrollbar{display:none}
 .chip{
-  flex:0 0 auto;background:var(--blanco);border:1px solid var(--borde);
-  border-radius:99px;padding:8px 14px;font-family:var(--fuente-sub);
+  flex:0 0 auto;background:var(--superficie);border:1px solid var(--linea);
+  border-radius:var(--radio-pastilla);padding:8px 14px;font-family:var(--fuente-sub);
   font-size:14px;letter-spacing:.02em;white-space:nowrap;color:var(--texto)
 }
 /* Sobre el fondo suave, el amarillo pleno del chip elegido resalta */
 .chip[aria-pressed="true"]{background:var(--amarillo);border-color:var(--amarillo);color:var(--sobre-color);font-weight:700}
 
-.rejilla-categorias{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin:14px 0 26px}
-.tarjeta-categoria{
-  background:var(--blanco);border:1px solid var(--borde);border-radius:var(--radio);
-  padding:14px;text-decoration:none;display:block;box-shadow:var(--sombra)
-}
-.tarjeta-categoria .emoji{font-size:24px;display:block;margin-bottom:6px}
-.tarjeta-categoria .nombre{
-  font-family:var(--fuente-sub);font-weight:700;font-size:16px;line-height:1.1;
-  text-transform:uppercase;letter-spacing:.01em
-}
-.tarjeta-categoria .cuenta{font-size:13px;color:var(--gris)}
 
 /* ============================================================
    SECCIONES
@@ -454,7 +531,7 @@ svg.ico{width:1em;height:1em;display:block;flex:0 0 auto}
    mover el texto de lugar. */
 .titulo-seccion a{
   font-family:var(--fuente-sub);font-size:13px;text-transform:uppercase;
-  letter-spacing:.06em;color:var(--gris);text-decoration:none;flex:0 0 auto;
+  letter-spacing:.06em;color:var(--texto-suave);text-decoration:none;flex:0 0 auto;
   padding:6px 2px;margin:-6px -2px;display:inline-flex;align-items:center;min-height:24px
 }
 .titulo-seccion a:hover{color:var(--texto)}
@@ -475,8 +552,7 @@ svg.ico{width:1em;height:1em;display:block;flex:0 0 auto}
    Solo se toca el COLOR del borde, nunca el grosor: así ninguna pieza
    cambia de tamaño y no se mueve nada de lugar.
    ============================================================ */
-.tarjeta, .tarjeta-cuadro, .tarjeta-carrera, .tarjeta-categoria,
-.tarjeta-destacada, .tarjeta-kit, .boton-cuadro, .ficha, .recuadro,
+.tarjeta, .tarjeta-cuadro, .tarjeta-kit, .boton-cuadro, .ficha,
 .calendario, .carrusel, .alarma, .mi-cursada, .progreso,
 .mapa-marco, .bloque-texto, .buscador input{
   border-color:var(--tinta-borde);
@@ -488,7 +564,7 @@ svg.ico{width:1em;height:1em;display:block;flex:0 0 auto}
 .lista{display:flex;flex-direction:column;gap:10px}
 
 .tarjeta{
-  background:var(--blanco);border:1px solid var(--borde);border-radius:var(--radio);
+  background:var(--superficie);border:1px solid var(--linea);border-radius:var(--radio);
   padding:14px;box-shadow:var(--sombra);text-align:left;width:100%;
   display:block;text-decoration:none;border-left:4px solid var(--celeste);
   /* Cuando la tarjeta es un <button>, el navegador le pone texto negro por
@@ -499,16 +575,16 @@ svg.ico{width:1em;height:1em;display:block;flex:0 0 auto}
   font-family:var(--fuente-sub);font-weight:700;font-size:17px;line-height:1.15;
   text-transform:uppercase;margin-bottom:3px
 }
-.tarjeta p{margin:0;color:var(--gris);font-size:14px;line-height:1.35}
+.tarjeta p{margin:0;color:var(--texto-suave);font-size:14px;line-height:1.35}
 .tarjeta .meta{
-  font-size:12px;color:var(--gris);letter-spacing:.04em;text-transform:uppercase;
+  font-size:12px;color:var(--texto-suave);letter-spacing:.04em;text-transform:uppercase;
   margin-top:8px;display:flex;gap:10px;flex-wrap:wrap
 }
 
 /* Etiqueta de linea editorial */
 .etiqueta{
   display:inline-block;font-family:var(--fuente-texto);font-size:11px;font-weight:700;
-  letter-spacing:.1em;text-transform:uppercase;padding:3px 9px;border-radius:99px;
+  letter-spacing:.1em;text-transform:uppercase;padding:3px 9px;border-radius:var(--radio-pastilla);
   margin-bottom:7px;color:var(--sobre-negro);background:var(--negro)
 }
 .etiqueta.frente  {background:var(--linea-frente);color:var(--amarillo)}
@@ -545,20 +621,20 @@ svg.ico{width:1em;height:1em;display:block;flex:0 0 auto}
   display:flex;align-items:center;justify-content:center
 }
 .pasos li::after{
-  content:'';position:absolute;left:13.5px;top:32px;bottom:2px;width:1px;background:var(--borde)
+  content:'';position:absolute;left:13.5px;top:32px;bottom:2px;width:1px;background:var(--linea)
 }
 .pasos li:last-child::after{display:none}
 .pasos .paso-titulo{font-family:var(--fuente-sub);font-weight:700;font-size:16px;line-height:1.2}
-.pasos .paso-detalle{color:var(--gris);font-size:14.5px;margin-top:2px;white-space:pre-wrap}
+.pasos .paso-detalle{color:var(--texto-suave);font-size:var(--letra-base);margin-top:2px;white-space:pre-wrap}
 
 .ficha{
-  background:var(--blanco);border:1px solid var(--borde);border-radius:var(--radio);
+  background:var(--superficie);border:1px solid var(--linea);border-radius:var(--radio);
   padding:14px;margin:16px 0;box-shadow:var(--sombra)
 }
 .ficha dl{margin:0;display:grid;grid-template-columns:auto 1fr;gap:8px 14px;font-size:15px}
 .ficha dt{
   font-family:var(--fuente-sub);font-size:12px;text-transform:uppercase;
-  letter-spacing:.07em;color:var(--gris);padding-top:2px
+  letter-spacing:.07em;color:var(--texto-suave);padding-top:2px
 }
 .ficha dd{margin:0;white-space:pre-wrap}
 
@@ -569,7 +645,7 @@ svg.ico{width:1em;height:1em;display:block;flex:0 0 auto}
   display:inline-flex;align-items:center;justify-content:center;gap:8px;
   font-family:var(--fuente-sub);font-weight:700;font-size:15px;
   text-transform:uppercase;letter-spacing:.05em;
-  padding:13px 20px;border-radius:99px;border:none;text-decoration:none;
+  padding:13px 20px;border-radius:var(--radio-pastilla);border:none;text-decoration:none;
   background:var(--amarillo);color:var(--sobre-color)
 }
 .boton:hover{filter:brightness(.94)}
@@ -588,12 +664,12 @@ svg.ico{width:1em;height:1em;display:block;flex:0 0 auto}
 .campo{margin-bottom:14px}
 .campo label{
   display:block;font-family:var(--fuente-sub);font-size:12px;text-transform:uppercase;
-  letter-spacing:.07em;color:var(--gris);margin-bottom:5px
+  letter-spacing:.07em;color:var(--texto-suave);margin-bottom:5px
 }
 .campo input,.campo textarea,.campo select{
   width:100%;font-family:var(--fuente-texto);font-size:16px;
-  padding:11px 12px;border:1px solid var(--borde);border-radius:var(--radio-chico);
-  background:var(--blanco);color:var(--texto);outline:none
+  padding:11px 12px;border:1px solid var(--linea);border-radius:var(--radio-chico);
+  background:var(--superficie);color:var(--texto);outline:none
 }
 .campo input:focus,.campo textarea:focus,.campo select:focus{border-color:var(--texto)}
 .campo textarea{min-height:96px;resize:vertical}
@@ -603,20 +679,19 @@ svg.ico{width:1em;height:1em;display:block;flex:0 0 auto}
    AVISOS Y ESTADOS
    ============================================================ */
 .aviso{
-  border-radius:var(--radio-chico);padding:11px 13px;font-size:14.5px;margin:12px 0;
-  background:var(--blanco);border-left:4px solid var(--gris)
+  border-radius:var(--radio-chico);padding:11px 13px;font-size:var(--letra-base);margin:12px 0;
+  background:var(--superficie);border-left:4px solid var(--texto-suave)
 }
 .aviso.error{border-left-color:var(--rojo);background:var(--aviso-error)}
 .aviso.ok{border-left-color:var(--celeste);background:var(--aviso-ok)}
 
-.vacio{text-align:center;color:var(--gris);padding:34px 16px;font-size:15px}
-.cargando{text-align:center;color:var(--gris);padding:34px 16px;font-size:15px}
+.vacio{text-align:center;color:var(--texto-suave);padding:34px 16px;font-size:15px}
 
 /* ============================================================
    CALENDARIO
    ============================================================ */
 .calendario{
-  background:var(--blanco);border:1px solid var(--borde);border-radius:var(--radio);
+  background:var(--superficie);border:1px solid var(--linea);border-radius:var(--radio);
   padding:12px 12px 10px;box-shadow:var(--sombra)
 }
 .cal-cabecera{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-bottom:12px}
@@ -626,16 +701,16 @@ svg.ico{width:1em;height:1em;display:block;flex:0 0 auto}
 }
 .cal-flecha{
   flex:0 0 auto;width:42px;height:42px;border-radius:50%;
-  border:1px solid var(--borde);background:var(--blanco);
+  border:1px solid var(--linea);background:var(--superficie);
   font-size:18px;line-height:1;color:var(--texto);
   display:flex;align-items:center;justify-content:center
 }
-.cal-flecha:hover{background:var(--hueso)}
+.cal-flecha:hover{background:var(--superficie-2)}
 
 .cal-grilla{display:grid;grid-template-columns:repeat(7,1fr);gap:3px}
 .cal-nombre-dia{
   text-align:center;font-family:var(--fuente-sub);font-size:11px;font-weight:700;
-  letter-spacing:.06em;color:var(--gris);text-transform:uppercase;padding-bottom:4px
+  letter-spacing:.06em;color:var(--texto-suave);text-transform:uppercase;padding-bottom:4px
 }
 
 /* La celda cuadrada: el ancho lo pone la grilla, el alto lo iguala */
@@ -646,9 +721,9 @@ svg.ico{width:1em;height:1em;display:block;flex:0 0 auto}
   padding:0;position:relative
 }
 .cal-dia.vacio{visibility:hidden;pointer-events:none}
-.cal-dia.apagado{color:var(--borde)}
+.cal-dia.apagado{color:var(--linea)}
 .cal-dia.con-cosas{font-weight:700}
-.cal-dia.con-cosas:hover{background:var(--hueso)}
+.cal-dia.con-cosas:hover{background:var(--superficie-2)}
 .cal-dia.hoy{box-shadow:inset 0 0 0 1.5px var(--negro)}
 .cal-dia[aria-pressed="true"]{background:var(--amarillo);color:var(--sobre-color)}
 .cal-dia[aria-pressed="true"].hoy{box-shadow:inset 0 0 0 1.5px var(--negro)}
@@ -662,7 +737,7 @@ svg.ico{width:1em;height:1em;display:block;flex:0 0 auto}
 
 .cal-referencia{
   display:flex;flex-wrap:wrap;gap:10px;margin-top:11px;padding-top:10px;
-  border-top:1px solid var(--borde);font-size:11.5px;color:var(--gris)
+  border-top:1px solid var(--linea);font-size:var(--letra-chica);color:var(--texto-suave)
 }
 .cal-referencia span{display:flex;align-items:center;gap:5px}
 
@@ -676,7 +751,7 @@ svg.ico{width:1em;height:1em;display:block;flex:0 0 auto}
 /* El padding de abajo deja lugar para el botón flotante: sin esto, el
    último renglón del pie queda debajo del botón y no se puede leer. */
 .pie{
-  text-align:center;color:var(--gris);font-size:13px;
+  text-align:center;color:var(--texto-suave);font-size:13px;
   padding:30px 16px 84px;line-height:1.5
 }
 .pie strong{color:var(--texto)}
@@ -690,36 +765,36 @@ svg.ico{width:1em;height:1em;display:block;flex:0 0 auto}
 
 /* --- Barra de progreso --- */
 .progreso{
-  background:var(--blanco);border:1px solid var(--borde);border-radius:var(--radio);
+  background:var(--superficie);border:1px solid var(--linea);border-radius:var(--radio);
   padding:14px;box-shadow:var(--sombra);margin-bottom:18px
 }
-.barra{background:var(--borde);border-radius:99px;height:10px;overflow:hidden}
-.barra-llena{background:var(--celeste);height:100%;border-radius:99px;transition:width .3s}
+.barra{background:var(--linea);border-radius:var(--radio-pastilla);height:10px;overflow:hidden}
+.barra-llena{background:var(--celeste);height:100%;border-radius:var(--radio-pastilla);transition:width .3s}
 .progreso-datos{
   display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap;
-  margin-top:9px;font-size:14px;color:var(--gris)
+  margin-top:9px;font-size:14px;color:var(--texto-suave)
 }
 .progreso-datos strong{
   font-family:var(--fuente-titulo);font-size:20px;color:var(--texto);
   vertical-align:-1px;margin-right:2px
 }
-.progreso-extra{margin-top:6px;font-size:14px;color:var(--gris)}
+.progreso-extra{margin-top:6px;font-size:14px;color:var(--texto-suave)}
 
 /* El promedio. Es opcional: solo aparece si hay al menos una nota. */
 .promedio{
   display:flex;align-items:center;gap:12px;
-  margin-top:12px;padding-top:12px;border-top:1px solid var(--borde)
+  margin-top:12px;padding-top:12px;border-top:1px solid var(--linea)
 }
 .promedio-numero{
   font-family:var(--fuente-titulo);font-weight:400;font-size:34px;line-height:1;
   color:var(--celeste)
 }
 .promedio-detalle{font-size:14px;line-height:1.25;color:var(--texto)}
-.promedio-detalle small{color:var(--gris);font-size:12.5px}
+.promedio-detalle small{color:var(--texto-suave);font-size:var(--letra-nota)}
 
 /* El campo de nota, adentro de la ficha de una materia aprobada */
 .caja-nota{
-  margin-top:14px;background:var(--hueso);border:1px solid var(--borde);
+  margin-top:14px;background:var(--superficie-2);border:1px solid var(--linea);
   border-radius:var(--radio-chico);padding:12px 13px
 }
 .caja-nota label{
@@ -728,12 +803,12 @@ svg.ico{width:1em;height:1em;display:block;flex:0 0 auto}
 }
 .caja-nota label small{
   font-family:var(--fuente-texto);font-weight:400;text-transform:none;
-  letter-spacing:0;color:var(--gris)
+  letter-spacing:0;color:var(--texto-suave)
 }
 .caja-nota input{
   width:96px;font-family:var(--fuente-sub);font-weight:700;font-size:22px;
-  text-align:center;padding:8px 10px;border:1.5px solid var(--borde);
-  border-radius:var(--radio-chico);background:var(--blanco);color:var(--texto)
+  text-align:center;padding:8px 10px;border:1.5px solid var(--linea);
+  border-radius:var(--radio-chico);background:var(--superficie);color:var(--texto)
 }
 .caja-nota input:focus{outline:none;border-color:var(--celeste)}
 .caja-nota .letra-chica{margin-top:7px}
@@ -741,33 +816,33 @@ svg.ico{width:1em;height:1em;display:block;flex:0 0 auto}
 /* --- Pestañas --- */
 .pestanas{display:flex;gap:6px;margin:0 0 14px}
 .pestana{
-  flex:1;background:transparent;border:none;border-bottom:3px solid var(--borde);
+  flex:1;background:transparent;border:none;border-bottom:3px solid var(--linea);
   padding:10px 4px;font-family:var(--fuente-sub);font-size:15px;
-  text-transform:uppercase;letter-spacing:.04em;color:var(--gris)
+  text-transform:uppercase;letter-spacing:.04em;color:var(--texto-suave)
 }
 .pestana[aria-selected="true"]{border-bottom-color:var(--texto);color:var(--texto);font-weight:700}
 
 /* --- Interruptor de una linea --- */
 .interruptor{
-  display:flex;align-items:center;gap:10px;background:var(--blanco);
-  border:1px solid var(--borde);border-radius:var(--radio-chico);
-  padding:11px 13px;margin:6px 0 16px;font-size:14.5px;line-height:1.3
+  display:flex;align-items:center;gap:10px;background:var(--superficie);
+  border:1px solid var(--linea);border-radius:var(--radio-chico);
+  padding:11px 13px;margin:6px 0 16px;font-size:var(--letra-base);line-height:1.3
 }
 .interruptor input{width:19px;height:19px;flex:0 0 auto;accent-color:var(--texto)}
 
 .cuenta-grupo{
-  background:var(--negro);color:var(--sobre-negro);border-radius:99px;
+  background:var(--negro);color:var(--sobre-negro);border-radius:var(--radio-pastilla);
   font-size:12px;padding:2px 9px;letter-spacing:0
 }
 
 /* --- Tarjeta de materia --- */
-.tarjeta.materia{border-left-color:var(--borde);cursor:pointer}
+.tarjeta.materia{border-left-color:var(--linea);cursor:pointer}
 .tarjeta.materia:hover{border-color:var(--texto)}
 .tarjeta.materia.promociona{border-left-color:var(--celeste)}
 .tarjeta.materia.cursa     {border-left-color:var(--amarillo)}
-.tarjeta.materia.trabada   {border-left-color:var(--borde);opacity:.72}
+.tarjeta.materia.trabada   {border-left-color:var(--linea);opacity:.72}
 .tarjeta.materia.final     {border-left-color:var(--linea-saberes)}
-.tarjeta.materia .motivo{margin:0;color:var(--gris);font-size:14px;line-height:1.35}
+.tarjeta.materia .motivo{margin:0;color:var(--texto-suave);font-size:14px;line-height:1.35}
 .tarjeta.materia .motivo strong{color:var(--texto)}
 
 .tarjeta.materia.estado-aprobada{border-left-color:var(--celeste)}
@@ -777,8 +852,8 @@ svg.ico{width:1em;height:1em;display:block;flex:0 0 auto}
 /* --- Pastilla de estado --- */
 .pastilla{
   display:inline-block;font-size:11px;font-weight:700;letter-spacing:.06em;
-  text-transform:uppercase;padding:2px 8px;border-radius:99px;
-  background:var(--borde);color:var(--sobre-color)
+  text-transform:uppercase;padding:2px 8px;border-radius:var(--radio-pastilla);
+  background:var(--linea);color:var(--sobre-color)
 }
 .pastilla.cursando{background:var(--linea-saberes);color:var(--sobre-color)}
 .pastilla.cursada {background:var(--amarillo);color:var(--sobre-color)}
@@ -790,17 +865,17 @@ svg.ico{width:1em;height:1em;display:block;flex:0 0 auto}
   display:flex;align-items:flex-end;justify-content:center
 }
 .hoja{
-  background:var(--blanco);width:100%;max-width:var(--ancho-max);
+  background:var(--superficie);width:100%;max-width:var(--ancho-max);
   max-height:88vh;overflow-y:auto;position:relative;
   border-radius:var(--radio) var(--radio) 0 0;padding:20px 16px 30px
 }
 .hoja-cerrar{
-  position:absolute;top:12px;right:12px;width:34px;height:34px;border-radius:99px;
-  border:1px solid var(--borde);background:var(--blanco);font-size:15px;line-height:1
+  position:absolute;top:12px;right:12px;width:34px;height:34px;border-radius:var(--radio-pastilla);
+  border:1px solid var(--linea);background:var(--superficie);font-size:15px;line-height:1
 }
 .hoja-cod{
   font-family:var(--fuente-sub);font-size:12px;text-transform:uppercase;
-  letter-spacing:.08em;color:var(--gris)
+  letter-spacing:.08em;color:var(--texto-suave)
 }
 .hoja h2{
   font-family:var(--fuente-titulo);font-size:25px;line-height:1.05;
@@ -809,15 +884,15 @@ svg.ico{width:1em;height:1em;display:block;flex:0 0 auto}
 .veredicto{
   font-family:var(--fuente-sub);font-weight:700;font-size:14px;
   text-transform:uppercase;letter-spacing:.05em;line-height:1.25;
-  padding:11px 13px;border-radius:var(--radio-chico);background:var(--borde)
+  padding:11px 13px;border-radius:var(--radio-chico);background:var(--linea)
 }
 .veredicto.promociona{background:var(--celeste);color:var(--sobre-color)}
 .veredicto.cursa     {background:var(--amarillo);color:var(--sobre-color)}
-.veredicto.trabada   {background:var(--borde);color:var(--gris)}
+.veredicto.trabada   {background:var(--linea);color:var(--texto-suave)}
 
 .opciones-estado{display:flex;flex-direction:column;gap:8px}
 .opcion{
-  background:var(--blanco);border:1.5px solid var(--borde);border-radius:var(--radio-chico);
+  background:var(--superficie);border:1.5px solid var(--linea);border-radius:var(--radio-chico);
   padding:12px 13px;text-align:left;font-size:15px;line-height:1.25
 }
 .opcion.elegida{border-color:var(--texto);font-weight:700}
@@ -827,26 +902,15 @@ svg.ico{width:1em;height:1em;display:block;flex:0 0 auto}
 
 .lista-correl{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:8px}
 .lista-correl li{
-  background:var(--blanco);border:1px solid var(--borde);border-radius:var(--radio-chico);
+  background:var(--superficie);border:1px solid var(--linea);border-radius:var(--radio-chico);
   padding:10px 12px;font-size:15px;line-height:1.3
 }
 .lista-correl li .pastilla{margin-right:7px;vertical-align:1px}
-.lista-correl li small{color:var(--gris)}
+.lista-correl li small{color:var(--texto-suave)}
 
-.letra-chica{color:var(--gris);font-size:13px;line-height:1.45;margin:8px 0 0}
+.letra-chica{color:var(--texto-suave);font-size:13px;line-height:1.45;margin:8px 0 0}
 
 /* --- Puerta al organizador desde la pantalla de inicio --- */
-.tarjeta-destacada{
-  display:flex;align-items:center;gap:13px;text-decoration:none;
-  background:var(--negro);color:var(--sobre-negro);border-radius:var(--radio);
-  padding:16px;margin:18px 0 4px;box-shadow:var(--sombra)
-}
-.tarjeta-destacada .emoji{font-size:30px;flex:0 0 auto;line-height:1}
-.tarjeta-destacada .nombre{
-  font-family:var(--fuente-sub);font-weight:700;font-size:17px;line-height:1.1;
-  text-transform:uppercase;color:var(--amarillo);display:block
-}
-.tarjeta-destacada p{margin:3px 0 0;font-size:14px;color:#c9c9c9;line-height:1.35}
 
 /* --- Mapa de correlatividades --------------------------------
    Se lee de izquierda a derecha: una columna por año. Las lineas
@@ -856,12 +920,12 @@ svg.ico{width:1em;height:1em;display:block;flex:0 0 auto}
    ------------------------------------------------------------ */
 .mapa-leyenda{
   display:flex;flex-wrap:wrap;gap:7px 14px;margin:0 0 10px;
-  font-size:12.5px;color:var(--gris)
+  font-size:var(--letra-nota);color:var(--texto-suave)
 }
 .mapa-leyenda span{display:flex;align-items:center;gap:6px}
 .mapa-leyenda i{
   width:15px;height:15px;border-radius:4px;flex:0 0 auto;
-  background:var(--blanco);border:1.5px solid var(--borde)
+  background:var(--superficie);border:1.5px solid var(--linea)
 }
 .mapa-leyenda i.aprobada  {background:var(--celeste);border-color:var(--celeste)}
 .mapa-leyenda i.cursada   {background:var(--amarillo);border-color:var(--amarillo)}
@@ -871,7 +935,7 @@ svg.ico{width:1em;height:1em;display:block;flex:0 0 auto}
 
 .mapa-marco{
   overflow:auto;-webkit-overflow-scrolling:touch;
-  background:var(--blanco);border:1px solid var(--borde);
+  background:var(--superficie);border:1px solid var(--linea);
   border-radius:var(--radio);box-shadow:var(--sombra)
 }
 .mapa-lienzo{position:relative}
@@ -880,22 +944,22 @@ svg.ico{width:1em;height:1em;display:block;flex:0 0 auto}
 .mapa-col-titulo{
   position:absolute;top:12px;
   font-family:var(--fuente-sub);font-weight:700;font-size:12px;
-  text-transform:uppercase;letter-spacing:.06em;color:var(--gris);white-space:nowrap
+  text-transform:uppercase;letter-spacing:.06em;color:var(--texto-suave);white-space:nowrap
 }
 
 .mapa-nodo{
   position:absolute;display:flex;flex-direction:column;gap:2px;
   text-align:left;overflow:hidden;cursor:pointer;
-  background:var(--blanco);border:1.5px solid var(--borde);
+  background:var(--superficie);border:1.5px solid var(--linea);
   border-radius:var(--radio-chico);padding:6px 8px;
   font-family:var(--fuente-texto);line-height:1.14
 }
 .mapa-nodo .cod{
-  font-family:var(--fuente-datos);font-size:10px;letter-spacing:.02em;color:var(--gris);
+  font-family:var(--fuente-datos);font-size:10px;letter-spacing:.02em;color:var(--texto-suave);
   white-space:nowrap;overflow:hidden;text-overflow:ellipsis
 }
 .mapa-nodo .nom{
-  font-size:11.5px;font-weight:700;color:var(--texto);
+  font-size:var(--letra-chica);font-weight:700;color:var(--texto);
   display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden
 }
 .mapa-nodo.aprobada  {background:var(--celeste);border-color:var(--celeste);color:var(--sobre-color)}
@@ -912,7 +976,7 @@ svg.ico{width:1em;height:1em;display:block;flex:0 0 auto}
 .mapa-nodo.cursada .cod, .mapa-nodo.aprobada .cod{color:var(--sobre-color)}
 .mapa-nodo:hover{box-shadow:0 0 0 2px var(--negro)}
 
-.mapa-arista{fill:none;stroke:var(--borde);stroke-width:1.2}
+.mapa-arista{fill:none;stroke:var(--linea);stroke-width:1.2}
 .mapa-arista.promociona{stroke:var(--celeste);stroke-width:2.4}
 .mapa-arista.cursa     {stroke:var(--amarillo);stroke-width:2.4}
 .mapa-arista.resaltada {stroke:var(--negro);stroke-width:2.4}
@@ -973,7 +1037,7 @@ body.antes-de-entrar{padding-bottom:0}  /* apertura y bienvenida a pantalla comp
 .bienvenida{
   min-height:100vh;min-height:100dvh;display:flex;flex-direction:column;
   padding:18px 20px calc(20px + env(safe-area-inset-bottom));
-  background:var(--amarillo-fondo);text-align:center
+  background:var(--fondo);text-align:center
 }
 .bienvenida .arriba{
   flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;
@@ -981,13 +1045,13 @@ body.antes-de-entrar{padding-bottom:0}  /* apertura y bienvenida a pantalla comp
 }
 .bienvenida .dibujo{width:min(240px,60vw);height:auto;max-height:26vh}
 .bienvenida .quienes{
-  font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--gris)
+  font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--texto-suave)
 }
 .bienvenida h1{
   font-family:var(--fuente-titulo);font-size:clamp(27px,7.4vw,34px);line-height:1.02;
   text-transform:uppercase;max-width:15ch;margin-top:5px
 }
-.bienvenida .lema{color:var(--gris);font-size:16px;line-height:1.4;max-width:32ch;margin:0}
+.bienvenida .lema{color:var(--texto-suave);font-size:16px;line-height:1.4;max-width:32ch;margin:0}
 .bienvenida .abajo{display:flex;flex-direction:column;gap:10px;width:100%;max-width:420px;margin:0 auto}
 .bienvenida .sin-cuenta{
   background:transparent;border:none;padding:12px;
@@ -1000,45 +1064,13 @@ body.antes-de-entrar{padding-bottom:0}  /* apertura y bienvenida a pantalla comp
    ============================================================ */
 /* La tarjeta grande es el momento de marca dentro del contenido: va en
    amarillo PLENO. Sobre el fondo suave resalta, y con letra negra da 13,8. */
-.tarjeta-carrera{
-  display:block;text-decoration:none;color:var(--sobre-color);
-  border-radius:20px;padding:18px;margin:18px 0 12px;
-  min-height:158px;box-shadow:var(--sombra);
-  background:var(--amarillo)
-}
-.tarjeta-carrera .rotulo{
-  font-size:11px;letter-spacing:.14em;text-transform:uppercase;opacity:.72
-}
-.tarjeta-carrera .nombre{color:var(--sobre-color);font-weight:800;
-  font-family:var(--fuente-titulo);font-size:27px;line-height:1;
-  text-transform:uppercase;margin:7px 0 12px;display:block
-}
-.tarjeta-carrera .barra{background:rgba(26,26,26,.18);height:8px}
-.tarjeta-carrera .barra-llena{background:var(--negro)}
-.tarjeta-carrera .cifra{
-  display:flex;justify-content:space-between;align-items:baseline;gap:10px;
-  margin-top:9px;font-size:14px
-}
-.tarjeta-carrera .cifra strong{font-family:var(--fuente-sub);font-size:19px}
 
-.rejilla-recuadros{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin-bottom:8px}
-.recuadro{
-  background:var(--blanco);border:1px solid var(--borde);border-radius:var(--radio);
-  padding:14px;text-decoration:none;color:var(--texto);
-  box-shadow:var(--sombra);display:flex;flex-direction:column;gap:3px;min-height:112px
-}
-.recuadro .rotulo{font-size:12px;letter-spacing:.06em;text-transform:uppercase;color:var(--gris)}
-.recuadro .grande{
-  font-family:var(--fuente-titulo);font-size:30px;line-height:1;margin-top:2px
-}
-.recuadro .detalle{font-size:13.5px;color:var(--gris);line-height:1.3}
-.recuadro .pie-recuadro{margin-top:auto;font-size:13.5px;line-height:1.25;font-weight:700}
 
 /* ============================================================
    QUIENES SOMOS
    ============================================================ */
 .bloque-texto{
-  background:var(--blanco);border:1px solid var(--borde);
+  background:var(--superficie);border:1px solid var(--linea);
   border-left:4px solid var(--celeste);border-radius:var(--radio);
   padding:16px;margin-bottom:10px;box-shadow:var(--sombra)
 }
@@ -1046,7 +1078,7 @@ body.antes-de-entrar{padding-bottom:0}  /* apertura y bienvenida a pantalla comp
   font-family:var(--fuente-titulo);font-weight:400;font-size:19px;line-height:1.1;
   text-transform:uppercase;margin-bottom:9px
 }
-.bloque-texto p{margin:0 0 10px;font-size:15.5px;line-height:1.5}
+.bloque-texto p{margin:0 0 10px;font-size:var(--letra-base);line-height:1.5}
 .bloque-texto p:last-child{margin-bottom:0}
 
 .redes{display:flex;flex-wrap:wrap;gap:8px}
@@ -1055,8 +1087,8 @@ body.antes-de-entrar{padding-bottom:0}  /* apertura y bienvenida a pantalla comp
 /* Lo que todavia no se completo se ve, pero apagado: asi no se
    publica un boton que no lleva a ningun lado. */
 .red-pendiente{
-  display:inline-block;font-size:14px;color:var(--gris);font-style:italic;
-  background:var(--hueso);border-radius:var(--radio-chico);padding:8px 11px
+  display:inline-block;font-size:14px;color:var(--texto-suave);font-style:italic;
+  background:var(--superficie-2);border-radius:var(--radio-chico);padding:8px 11px
 }
 
 .bloque-sumate{
@@ -1067,9 +1099,9 @@ body.antes-de-entrar{padding-bottom:0}  /* apertura y bienvenida a pantalla comp
   font-family:var(--fuente-titulo);font-weight:400;font-size:22px;
   text-transform:uppercase;color:var(--amarillo);margin-bottom:8px
 }
-.bloque-sumate p{margin:0 0 14px;font-size:15.5px;line-height:1.5}
+.bloque-sumate p{margin:0 0 14px;font-size:var(--letra-base);line-height:1.5}
 .bloque-sumate .boton.oscuro{background:var(--amarillo);color:var(--sobre-color)}
-.bloque-sumate .red-pendiente{background:#333;color:#c9c9c9}
+.bloque-sumate .red-pendiente{background:var(--linea-negro);color:var(--sobre-negro-suave)}
 
 /* El enlace de "¿Quiénes somos?" en el pie y en el menú */
 .pie-nota{
@@ -1083,7 +1115,7 @@ body.antes-de-entrar{padding-bottom:0}  /* apertura y bienvenida a pantalla comp
   color:var(--texto);text-decoration:underline
 }
 .menu-lista a.menu-aparte{
-  margin-top:8px;padding-top:18px;border-top:1px solid #333
+  margin-top:8px;padding-top:18px;border-top:1px solid var(--linea-negro)
 }
 
 /* ============================================================
@@ -1091,17 +1123,6 @@ body.antes-de-entrar{padding-bottom:0}  /* apertura y bienvenida a pantalla comp
    Va en rojo, no en amarillo: sobre el fondo claro de la app el
    amarillo tiene contraste 1,3 y no se veria. El rojo da 6,0.
    ============================================================ */
-.marca-portada{
-  display:flex;flex-direction:column;align-items:center;gap:10px;
-  text-align:center;margin:18px 0 6px
-}
-.marca-portada img{width:min(186px,46vw);height:auto}
-.marca-portada-firma{
-  font-family:var(--fuente-titulo);font-weight:400;
-  font-size:clamp(19px,5.4vw,25px);line-height:1;letter-spacing:-.01em;
-  text-transform:uppercase
-}
-.marca-portada-firma em{font-style:normal;color:var(--rojo)}
 
 /* ============================================================
    PORTADA: el carrusel de imagenes
@@ -1141,14 +1162,14 @@ body.antes-de-entrar{padding-bottom:0}  /* apertura y bienvenida a pantalla comp
   background:rgba(26,26,26,.3);transition:width .2s ease
 }
 .carrusel-puntos button[aria-current="true"]::before{
-  background:var(--negro);width:18px;border-radius:99px
+  background:var(--negro);width:18px;border-radius:var(--radio-pastilla)
 }
 
 /* ============================================================
    CALENDARIO CUADRADO DEL INICIO
    ============================================================ */
 .calendario.cuadrado{
-  background:var(--blanco);border:1px solid var(--borde);
+  background:var(--superficie);border:1px solid var(--linea);
   border-radius:var(--radio);padding:14px;box-shadow:var(--sombra);margin-bottom:8px
 }
 .calendario.cuadrado .cal-grilla{gap:4px}
@@ -1162,7 +1183,7 @@ body.antes-de-entrar{padding-bottom:0}  /* apertura y bienvenida a pantalla comp
    mismo, la barra se estira por encima del hueco de 4px de la grilla,
    así una mesa de dos semanas se lee como una franja y no como puntos. */
 .cal-barra{
-  position:absolute;left:5px;right:5px;bottom:5px;height:4px;border-radius:99px
+  position:absolute;left:5px;right:5px;bottom:5px;height:4px;border-radius:var(--radio-pastilla)
 }
 .cal-barra.mesa  {background:var(--rojo)}
 .cal-barra.asueto{background:var(--celeste)}
@@ -1173,22 +1194,22 @@ body.antes-de-entrar{padding-bottom:0}  /* apertura y bienvenida a pantalla comp
 
 /* La leyenda: dice con letras lo que la grilla dice con colores */
 .cal-leyenda{
-  margin-top:12px;border-top:1px solid var(--borde);padding-top:11px;
+  margin-top:12px;border-top:1px solid var(--linea);padding-top:11px;
   display:flex;flex-direction:column;gap:9px
 }
-.cal-leyenda.vacia{color:var(--gris);font-size:14px;padding-top:12px}
+.cal-leyenda.vacia{color:var(--texto-suave);font-size:14px;padding-top:12px}
 .cal-leyenda-fila{display:flex;align-items:flex-start;gap:9px}
 .cal-marca{
-  flex:0 0 auto;width:14px;height:5px;border-radius:99px;margin-top:6px
+  flex:0 0 auto;width:14px;height:5px;border-radius:var(--radio-pastilla);margin-top:6px
 }
 .cal-marca.mesa  {background:var(--rojo)}
 .cal-marca.asueto{background:var(--celeste)}
 .cal-leyenda-texto{display:flex;flex-direction:column;line-height:1.25}
 .cal-leyenda-texto strong{font-family:var(--fuente-sub);font-size:14px;font-weight:700}
-.cal-leyenda-texto small{color:var(--gris);font-size:13px}
+.cal-leyenda-texto small{color:var(--texto-suave);font-size:13px}
 
 .cal-elegido{display:flex;flex-direction:column;gap:8px}
-.cal-elegido:not(:empty){margin-top:12px;border-top:1px solid var(--borde);padding-top:12px}
+.cal-elegido:not(:empty){margin-top:12px;border-top:1px solid var(--linea);padding-top:12px}
 .cal-elegido .vacio{padding:12px 0;font-size:14px}
 
 /* ============================================================
@@ -1196,7 +1217,7 @@ body.antes-de-entrar{padding-bottom:0}  /* apertura y bienvenida a pantalla comp
    ============================================================ */
 .rejilla-3x3{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin:6px 0 10px}
 .boton-cuadro{
-  aspect-ratio:1;background:var(--blanco);border:1px solid var(--borde);
+  aspect-ratio:1;background:var(--superficie);border:1px solid var(--linea);
   border-radius:var(--radio);box-shadow:var(--sombra);text-decoration:none;
   color:var(--texto);padding:9px 7px;
   display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;
@@ -1206,7 +1227,7 @@ body.antes-de-entrar{padding-bottom:0}  /* apertura y bienvenida a pantalla comp
 /* Estas nueve etiquetas son la navegación principal de la portada.
    Estaban en 11,5 px, tamaño de nota al pie. */
 .boton-cuadro .nombre{
-  font-family:var(--fuente-sub);font-weight:700;font-size:12.5px;line-height:1.14;
+  font-family:var(--fuente-sub);font-weight:700;font-size:var(--letra-nota);line-height:1.14;
   overflow-wrap:anywhere;
   text-transform:uppercase;letter-spacing:.01em;
   display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden
@@ -1277,7 +1298,7 @@ body.antes-de-entrar{padding-bottom:0}  /* apertura y bienvenida a pantalla comp
   border-left:4px solid var(--celeste);color:var(--texto)
 }
 .mi-cursada.invitacion strong{font-size:18px;margin-bottom:4px}
-.mi-cursada.invitacion p{margin:0;font-size:14.5px;line-height:1.35;color:var(--texto-suave)}
+.mi-cursada.invitacion p{margin:0;font-size:var(--letra-base);line-height:1.35;color:var(--texto-suave)}
 
 /* ============================================================
    ESQUELETOS DE CARGA
@@ -1365,9 +1386,9 @@ body.antes-de-entrar{padding-bottom:0}  /* apertura y bienvenida a pantalla comp
 /* Dice si adentro hay un paso a paso o si te manda afuera. Antes no
    se podia saber sin entrar, y de 31 fichas 18 son solo un enlace. */
 .marca-tipo{
-  flex:0 0 auto;font-family:var(--fuente-texto);font-size:9.5px;font-weight:700;
+  flex:0 0 auto;font-family:var(--fuente-texto);font-size:var(--letra-mini);font-weight:700;
   letter-spacing:.05em;text-transform:uppercase;
-  padding:3px 7px;border-radius:99px;align-self:flex-start;white-space:nowrap
+  padding:3px 7px;border-radius:var(--radio-pastilla);align-self:flex-start;white-space:nowrap
 }
 .marca-tipo.guia   {background:var(--amarillo);color:var(--sobre-color)}
 .marca-tipo.enlace {background:var(--superficie-2);color:var(--texto-suave)}
@@ -1388,8 +1409,8 @@ details.tarjeta .respuesta{margin-top:9px;color:var(--texto-suave);font-size:15p
    El material de los grupos de estudio, agrupado por materia.
    ============================================================ */
 .material-tipo{
-  display:inline-block;font-family:var(--fuente-texto);font-size:10.5px;font-weight:700;
-  letter-spacing:.08em;text-transform:uppercase;padding:3px 9px;border-radius:99px;
+  display:inline-block;font-family:var(--fuente-texto);font-size:var(--letra-mini);font-weight:700;
+  letter-spacing:.08em;text-transform:uppercase;padding:3px 9px;border-radius:var(--radio-pastilla);
   margin-bottom:7px;background:var(--superficie-2);color:var(--texto-suave)
 }
 .material-tipo.resumen {background:var(--amarillo);color:var(--sobre-color)}
@@ -1420,10 +1441,10 @@ details.tarjeta .respuesta{margin-top:9px;color:var(--texto-suave);font-size:15p
 }
 .tarjeta-kit .kit-texto{min-width:0}
 .tarjeta-kit h3{
-  font-family:var(--fuente-sub);font-weight:700;font-size:16.5px;line-height:1.15;
+  font-family:var(--fuente-sub);font-weight:700;font-size:var(--letra-guia);line-height:1.15;
   text-transform:uppercase;margin-bottom:3px
 }
-.tarjeta-kit p{margin:0;font-size:14.5px;line-height:1.35;color:var(--texto-suave)}
+.tarjeta-kit p{margin:0;font-size:var(--letra-base);line-height:1.35;color:var(--texto-suave)}
 
 /* ============================================================
    BOTON FLOTANTE "AVISANOS"
@@ -1437,7 +1458,7 @@ details.tarjeta .respuesta{margin-top:9px;color:var(--texto-suave);font-size:15p
   position:fixed;right:14px;bottom:14px;z-index:70;
   width:56px;height:56px;
   display:inline-flex;align-items:center;justify-content:center;gap:9px;
-  border-radius:99px;border:2px solid var(--sobre-negro);
+  border-radius:var(--radio-pastilla);border:2px solid var(--sobre-negro);
   background:var(--rojo-solido);color:var(--sobre-negro);text-decoration:none;
   font-family:var(--fuente-sub);font-weight:700;font-size:15px;
   box-shadow:0 4px 16px rgba(0,0,0,.28);
@@ -1496,7 +1517,6 @@ details.tarjeta .respuesta{margin-top:9px;color:var(--texto-suave);font-size:15p
    PANTALLAS GRANDES
    ============================================================ */
 @media (min-width:720px){
-  .rejilla-categorias{grid-template-columns:repeat(3,1fr)}
   .titulo-pantalla{font-size:38px}
   .marca{font-size:30px}
   .hoja{align-self:center;border-radius:var(--radio);max-height:82vh}

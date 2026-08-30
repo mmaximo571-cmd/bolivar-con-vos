@@ -42,18 +42,18 @@
   .borrador{opacity:.55}
   .mini{
     font-family:var(--fuente-sub);font-size:12px;text-transform:uppercase;letter-spacing:.06em;
-    padding:7px 11px;border-radius:99px;border:1px solid var(--borde);background:var(--blanco);
+    padding:7px 11px;border-radius:99px;border:1px solid var(--linea);background:var(--superficie);
     white-space:nowrap
   }
   .mini.rojo{border-color:var(--rojo);color:var(--rojo)}
   .paso-editor{
-    border:1px solid var(--borde);border-radius:var(--radio-chico);
-    padding:10px;margin-bottom:8px;background:var(--hueso)
+    border:1px solid var(--linea);border-radius:var(--radio-chico);
+    padding:10px;margin-bottom:8px;background:var(--superficie-2)
   }
   .paso-editor .encabezado{
     display:flex;justify-content:space-between;align-items:center;margin-bottom:7px;
     font-family:var(--fuente-sub);font-size:12px;text-transform:uppercase;
-    letter-spacing:.07em;color:var(--gris)
+    letter-spacing:.07em;color:var(--texto-suave)
   }
   .paso-editor .campo{margin-bottom:8px}
   .paso-editor .campo:last-child{margin-bottom:0}
@@ -293,7 +293,7 @@
     const cajaPasos = document.getElementById('pasos');
     function pintarPasos(pasos){
       cajaPasos.innerHTML = pasos.length ? '' :
-        '<p style="color:var(--gris);font-size:14px">Sin pasos todavía.</p>';
+        '<p style="color:var(--texto-suave);font-size:14px">Sin pasos todavía.</p>';
       pasos.forEach((p, i) => {
         cajaPasos.insertAdjacentHTML('beforeend', `
           <div class="paso-editor" data-i="${i}">
@@ -665,7 +665,7 @@
     await cargarCategorias();
 
     zona.innerHTML = `
-      <p style="color:var(--gris);font-size:14px;margin-top:0">
+      <p style="color:var(--texto-suave);font-size:14px;margin-top:0">
         Las categorías son los cuadraditos de la pantalla de inicio.</p>
       <div class="ficha">
         <div class="dos-columnas">
