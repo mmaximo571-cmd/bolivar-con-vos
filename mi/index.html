@@ -291,12 +291,81 @@
       <div class="titulo-seccion">TRÁMITES GUARDADOS</div>
       <div class="lista" id="guardados"><div class="esq-tarjeta"><div class="esqueleto esq-linea titulo"></div><div class="esqueleto esq-linea"></div><div class="esqueleto esq-linea media"></div></div><div class="esq-tarjeta"><div class="esqueleto esq-linea titulo"></div><div class="esqueleto esq-linea"></div><div class="esqueleto esq-linea corta"></div></div></div>
 
+      <div class="titulo-seccion">TU CONTRASEÑA</div>
+      <div class="ficha">
+        <p style="margin:0 0 12px;font-size:var(--letra-nota);line-height:1.4;color:var(--texto-suave)">
+          Cambiala cuando quieras. No hace falta que te acuerdes de la
+          anterior: ya estás con la sesión abierta.</p>
+        <button class="boton borde ancho" id="abrir-cambio">Cambiar mi contraseña</button>
+
+        <div id="cambio" hidden>
+          <div class="campo" style="margin-top:12px">
+            <label for="clave-nueva">Contraseña nueva</label>
+            <input id="clave-nueva" type="password" autocomplete="new-password"
+                   minlength="6" placeholder="Mínimo 6 caracteres">
+          </div>
+          <button class="boton ancho" id="guardar-clave">Guardar la contraseña</button>
+          <button class="boton texto ancho" id="cancelar-cambio">Dejarla como está</button>
+        </div>
+        <div id="msj-clave"></div>
+      </div>
+
       <button class="boton ancho borde" id="salir" style="margin-top:26px">Cerrar sesión</button>`;
 
     document.getElementById('salir').onclick = async function(){
       this.disabled = true;
       await db.auth.signOut();
       refrescar();
+    };
+
+    /* ---------- Cambiar la contraseña con la sesión abierta ----------
+       El campo empieza escondido a propósito: es una acción que se hace
+       una vez cada mucho, y si estuviera siempre a la vista competiría
+       con lo que la persona vino a hacer, que es ver sus trámites. */
+    const cajaCambio = document.getElementById('cambio');
+    const msjClave   = document.getElementById('msj-clave');
+    const btnAbrir   = document.getElementById('abrir-cambio');
+
+    btnAbrir.onclick = () => {
+      cajaCambio.hidden = false;
+      btnAbrir.hidden = true;
+      msjClave.innerHTML = '';
+      document.getElementById('clave-nueva').focus();
+    };
+
+    document.getElementById('cancelar-cambio').onclick = () => {
+      cajaCambio.hidden = true;
+      btnAbrir.hidden = false;
+      document.getElementById('clave-nueva').value = '';
+      msjClave.innerHTML = '';
+      btnAbrir.focus();
+    };
+
+    document.getElementById('guardar-clave').onclick = async function(){
+      const campo = document.getElementById('clave-nueva');
+      if (!campo.value || campo.value.length < 6){
+        msjClave.innerHTML = `<div class="aviso error">
+            La contraseña tiene que tener al menos 6 caracteres.</div>`;
+        campo.focus();
+        return;
+      }
+      this.disabled = true; this.textContent = 'Guardando…';
+      const { error } = await db.auth.updateUser({ password: campo.value });
+      this.disabled = false; this.textContent = 'Guardar la contraseña';
+
+      if (error){
+        msjClave.innerHTML = `<div class="aviso error">${esc(
+          /should be different|same/i.test(error.message)
+            ? 'Esa es la que ya tenías. Poné una distinta.'
+            : 'No se pudo cambiar: ' + error.message)}</div>`;
+        return;
+      }
+      campo.value = '';
+      cajaCambio.hidden = true;
+      btnAbrir.hidden = false;
+      msjClave.innerHTML = `<div class="aviso ok">
+          Listo, la contraseña quedó cambiada. La vas a necesitar la próxima
+          vez que entres.</div>`;
     };
 
     const caja = document.getElementById('guardados');
