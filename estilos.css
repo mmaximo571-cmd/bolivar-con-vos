@@ -793,25 +793,57 @@ svg.ico{width:1em;height:1em;display:block;flex:0 0 auto}
 .promedio-detalle small{color:var(--texto-suave);font-size:var(--letra-nota)}
 
 /* El campo de nota, adentro de la ficha de una materia aprobada */
+/* --- La nota ya cargada, en el detalle de la materia --- */
 .caja-nota{
   margin-top:14px;background:var(--superficie-2);border:1px solid var(--linea);
-  border-radius:var(--radio-chico);padding:12px 13px
+  border-radius:var(--radio-chico);padding:12px 13px;
+  display:flex;align-items:center;gap:12px;flex-wrap:wrap
 }
-.caja-nota label{
-  display:block;font-family:var(--fuente-sub);font-weight:700;font-size:14px;
-  text-transform:uppercase;letter-spacing:.04em;margin-bottom:7px
+.nota-resumen{flex:1 1 140px;display:flex;align-items:center;gap:10px;min-width:0}
+.nota-numero{
+  font-family:var(--fuente-titulo);font-size:32px;line-height:1;
+  color:var(--texto);flex:0 0 auto
 }
-.caja-nota label small{
-  font-family:var(--fuente-texto);font-weight:400;text-transform:none;
-  letter-spacing:0;color:var(--texto-suave)
+.nota-detalle{font-size:var(--letra-nota);line-height:1.35;color:var(--texto-suave)}
+.caja-nota .boton{flex:0 0 auto;padding:9px 14px;font-size:var(--letra-nota)}
+
+/* --- La pantalla que pide la nota --- */
+.hoja-volver{
+  background:none;border:0;padding:6px 2px;margin:0 0 6px -2px;
+  font-family:var(--fuente-sub);font-weight:700;font-size:var(--letra-nota);
+  color:var(--texto-suave);min-height:24px;cursor:pointer
 }
-.caja-nota input{
-  width:96px;font-family:var(--fuente-sub);font-weight:700;font-size:22px;
-  text-align:center;padding:8px 10px;border:1.5px solid var(--linea);
-  border-radius:var(--radio-chico);background:var(--superficie);color:var(--texto)
+.hoja-volver:hover{color:var(--texto)}
+
+.campos-nota{display:flex;gap:12px;margin-top:16px;flex-wrap:wrap}
+.campo-nota{display:flex;flex-direction:column;gap:6px}
+.campo-nota:first-child{flex:0 0 104px}
+.campo-nota:last-child{flex:1 1 150px}
+.campo-nota label{
+  font-family:var(--fuente-sub);font-weight:700;font-size:var(--letra-chica);
+  text-transform:uppercase;letter-spacing:.05em;color:var(--texto-suave)
 }
-.caja-nota input:focus{outline:none;border-color:var(--celeste)}
-.caja-nota .letra-chica{margin-top:7px}
+.campo-nota input{
+  width:100%;padding:12px 10px;border:1.5px solid var(--linea);
+  border-radius:var(--radio-chico);background:var(--superficie);color:var(--texto);
+  font-family:var(--fuente-datos);font-size:17px;min-height:48px
+}
+/* La nota es el dato principal: grande y centrada, como en una libreta */
+.campo-nota:first-child input{
+  font-family:var(--fuente-titulo);font-size:28px;text-align:center;padding:8px 6px
+}
+.campo-nota input:focus{outline:none;border-color:var(--celeste);
+  box-shadow:0 0 0 3px var(--celeste)}
+#nota-error{margin-top:10px}
+
+/* «Saltar por ahora» es una salida legítima, no un castigo: se ve, pero
+   no compite con el botón principal. */
+.boton.texto{
+  background:transparent;border:0;box-shadow:none;color:var(--texto-suave);
+  text-decoration:underline;margin-top:6px;font-size:var(--letra-nota)
+}
+.boton.texto:hover{color:var(--texto)}
+.boton.texto:active{transform:none;opacity:.6}
 
 /* --- Pestañas --- */
 .pestanas{display:flex;gap:6px;margin:0 0 14px}
@@ -862,12 +894,35 @@ svg.ico{width:1em;height:1em;display:block;flex:0 0 auto}
 /* --- Hoja de detalle --- */
 .hoja-fondo{
   position:fixed;inset:0;z-index:80;background:rgba(26,26,26,.55);
-  display:flex;align-items:flex-end;justify-content:center
+  display:flex;align-items:flex-end;justify-content:center;
+  animation:fondo-entra .18s ease
 }
 .hoja{
   background:var(--superficie);width:100%;max-width:var(--ancho-max);
   max-height:88vh;overflow-y:auto;position:relative;
-  border-radius:var(--radio) var(--radio) 0 0;padding:20px 16px 30px
+  border-radius:var(--radio) var(--radio) 0 0;padding:20px 16px 30px;
+  animation:hoja-entra .26s cubic-bezier(.2,.8,.2,1)
+}
+
+/* La hoja entra desde abajo y sale por donde entró. El JS le pone
+   .cerrando y espera a que termine antes de esconderla: si no, la
+   animación de salida no llega a verse. */
+@keyframes fondo-entra{ from{opacity:0} to{opacity:1} }
+@keyframes fondo-sale { to{opacity:0} }
+@keyframes hoja-entra { from{transform:translateY(14px)} to{transform:none} }
+@keyframes hoja-sale  { to{transform:translateY(100%)} }
+.hoja-fondo.cerrando{animation:fondo-sale .2s ease forwards}
+.hoja-fondo.cerrando .hoja{animation:hoja-sale .22s cubic-bezier(.4,0,.9,.4) forwards}
+
+/* El paso de una pantalla a la otra, adentro de la misma hoja */
+@keyframes pantalla-entra{
+  from{opacity:0;transform:translateX(14px)} to{opacity:1;transform:none}
+}
+#hoja-cuerpo.entra,#hoja-nota.entra{animation:pantalla-entra .22s ease}
+
+@media (prefers-reduced-motion:reduce){
+  .hoja-fondo,.hoja,.hoja-fondo.cerrando,.hoja-fondo.cerrando .hoja,
+  #hoja-cuerpo.entra,#hoja-nota.entra{animation:none}
 }
 .hoja-cerrar{
   position:absolute;top:12px;right:12px;width:34px;height:34px;border-radius:var(--radio-pastilla);
@@ -881,6 +936,10 @@ svg.ico{width:1em;height:1em;display:block;flex:0 0 auto}
   font-family:var(--fuente-titulo);font-size:25px;line-height:1.05;
   text-transform:uppercase;margin:4px 40px 12px 0
 }
+/* El título recibe el foco al volver del detalle, para que quien navega
+   con teclado no quede en la nada. Pero no es algo que se toque, así que
+   no lleva el recuadro del foco. */
+.hoja h2:focus{outline:none}
 .veredicto{
   font-family:var(--fuente-sub);font-weight:700;font-size:14px;
   text-transform:uppercase;letter-spacing:.05em;line-height:1.25;

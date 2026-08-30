@@ -130,7 +130,12 @@
 <div class="hoja-fondo" id="hoja-fondo" hidden>
   <div class="hoja" id="hoja" role="dialog" aria-modal="true" aria-labelledby="hoja-titulo">
     <button class="hoja-cerrar" id="hoja-cerrar" aria-label="Cerrar">✕</button>
+    <!-- La hoja tiene dos pantallas. La primera es el detalle de la
+         materia; la segunda aparece al marcarla como aprobada y pide la
+         nota. Antes marcar "Aprobada" cerraba todo de golpe, así que
+         cargar la nota exigía volver a entrar. -->
     <div id="hoja-cuerpo"></div>
+    <div id="hoja-nota" hidden></div>
   </div>
 </div>
 
@@ -260,6 +265,35 @@ function guardarNota(cod, valor){
   persistir();
 }
 
+/* La fecha en que la aprobaste. Es opcional como la nota, y sirve para
+   acordarte de cuándo fue: en un final rendido hace dos años, la fecha
+   es lo primero que se olvida. Se guarda como '2026-08-30'. */
+function fechaDe(cod){
+  const f = datos.fechas ? datos.fechas[cod] : null;
+  return (typeof f === 'string' && /^\d{4}-\d{2}-\d{2}$/.test(f)) ? f : null;
+}
+
+function guardarFecha(cod, iso){
+  if (!datos.fechas) datos.fechas = {};
+  if (!iso || !/^\d{4}-\d{2}-\d{2}$/.test(iso)) delete datos.fechas[cod];
+  else datos.fechas[cod] = iso;
+  persistir();
+}
+
+/* Para mostrarla: 2026-08-30 -> 30/8/2026. Sin new Date(), que
+   interpreta la cadena como UTC y en Argentina resta un día. */
+function fechaLinda(iso){
+  if (!iso) return '';
+  const p = iso.split('-');
+  return Number(p[2]) + '/' + Number(p[1]) + '/' + p[0];
+}
+
+function hoyISO(){
+  const d = new Date();
+  const dosCifras = n => String(n).padStart(2, '0');
+  return d.getFullYear() + '-' + dosCifras(d.getMonth() + 1) + '-' + dosCifras(d.getDate());
+}
+
 function promedio(){
   const conNota = MATERIAS
     .filter(m => estadoCrudo(m.cod) === 'aprobada' && notaDe(m.cod) !== null)
@@ -300,12 +334,14 @@ function elegirCarrera(id){
 
   guardado.carrera = PLAN.id;
   if (!guardado.datos[PLAN.id]) {
-    guardado.datos[PLAN.id] = { estados:{}, notas:{}, suponer:false, idioma:false };
+    guardado.datos[PLAN.id] = { estados:{}, notas:{}, fechas:{}, suponer:false, idioma:false };
   }
   datos = guardado.datos[PLAN.id];
   if (!datos.estados) datos.estados = {};
   /* Quien ya venía usando la app no tenía notas guardadas */
   if (!datos.notas) datos.notas = {};
+  /* Ni fechas: se agregaron después. Sin esto, la primera vez rompe. */
+  if (!datos.fechas) datos.fechas = {};
   persistir();
 
   filtroCuatri = 'todo';
@@ -741,8 +777,10 @@ function pintarMapa(){
 /* ============================================================
    HOJA DE DETALLE
    ============================================================ */
-const fondo  = document.getElementById('hoja-fondo');
-const cuerpo = document.getElementById('hoja-cuerpo');
+const fondo    = document.getElementById('hoja-fondo');
+const hoja     = document.getElementById('hoja');
+const cuerpo   = document.getElementById('hoja-cuerpo');
+const cajaNota = document.getElementById('hoja-nota');
 
 function listaCorrel(codigos){
   return `<ul class="lista-correl">` + codigos.map(c => {
@@ -812,13 +850,7 @@ function abrirHoja(cod){
                 data-estado="${k}">${ESTADOS[k].texto}</button>`).join('')}
     </div>
 
-    ${eActual === 'aprobada' ? `
-      <div class="caja-nota">
-        <label for="nota">Nota <small>(opcional)</small></label>
-        <input id="nota" type="number" inputmode="decimal" min="1" max="10" step="0.5"
-               placeholder="—" value="${notaDe(cod) !== null ? notaDe(cod) : ''}">
-        <p class="letra-chica">Si la cargás, entra en el promedio. Si no, no pasa nada.</p>
-      </div>` : ''}
+    ${eActual === 'aprobada' ? cajaNotaCargada(cod) : ''}
 
     ${bloqueCorrelativas(m)}
 
@@ -829,31 +861,169 @@ function abrirHoja(cod){
 
   cuerpo.querySelectorAll('.opcion').forEach(b => {
     b.addEventListener('click', function(){
-      datos.estados[cod] = this.dataset.estado;
+      const nuevo = this.dataset.estado;
+      const yaEstaba = datos.estados[cod] === nuevo;
+      datos.estados[cod] = nuevo;
       persistir();
-      cerrarHoja();
       pintarTodo();
+
+      /* Marcar "Aprobada" NO cierra la hoja. Es el único momento en que
+         la persona se acuerda de la nota: si cerramos acá, para
+         cargarla hay que volver a entrar, y no la carga nadie. */
+      if (nuevo === 'aprobada'){ pantallaNota(cod, !yaEstaba); return; }
+
+      cerrarHoja();
     });
   });
 
-  /* La nota se guarda mientras escribís, sin botón de guardar. Al
-     cerrar la hoja se repinta todo para que el promedio se actualice. */
-  const campoNota = cuerpo.querySelector('#nota');
-  if (campoNota){
-    campoNota.addEventListener('input', function(){
-      guardarNota(cod, this.value);
-    });
-  }
+  /* Desde el detalle también se puede cambiar la nota ya cargada. Es la
+     misma pantalla: un solo lugar donde se edita, dos formas de llegar. */
+  const btnNota = cuerpo.querySelector('#cambiar-nota');
+  if (btnNota) btnNota.addEventListener('click', () => pantallaNota(cod, false));
 
+  mostrarPantalla('detalle');
   fondo.hidden = false;
   document.body.style.overflow = 'hidden';
 }
 
+/* ============================================================
+   LA SEGUNDA PANTALLA: LA NOTA
+
+   Aparece al marcar una materia como aprobada, sin cerrar la hoja.
+   Las dos salidas —guardar y saltear— son legítimas: nadie se acuerda
+   de todas las notas, y obligar a poner una haría que la gente ponga
+   cualquier cosa con tal de seguir.
+   ============================================================ */
+function cajaNotaCargada(cod){
+  const n = notaDe(cod), f = fechaDe(cod);
+  return `
+    <div class="caja-nota">
+      <div class="nota-resumen">
+        ${n !== null
+          ? `<span class="nota-numero">${String(n).replace('.', ',')}</span>
+             <span class="nota-detalle">${f ? 'Aprobada el ' + fechaLinda(f) : 'Sin fecha'}</span>`
+          : `<span class="nota-detalle">Todavía no cargaste la nota.
+               Si la cargás, entra en el promedio.</span>`}
+      </div>
+      <button class="boton borde" id="cambiar-nota">
+        ${n !== null ? 'Cambiar la nota' : 'Cargar la nota'}
+      </button>
+    </div>`;
+}
+
+function pantallaNota(cod, esNueva){
+  const m = POR_COD[cod];
+  const n = notaDe(cod);
+
+  cajaNota.innerHTML = `
+    <button class="hoja-volver" id="volver-detalle">← Volver a la materia</button>
+    <div class="hoja-cod">${esc(m.cod)} · ${esc(m.nombre)}</div>
+    <h2 id="nota-titulo">${esNueva ? '¡Buena esa! ¿Qué nota te sacaste?' : 'Tu nota'}</h2>
+    <p class="letra-chica">
+      Es opcional. Si la cargás entra en el promedio; si no te acordás,
+      podés saltearla y cargarla cuando quieras.
+    </p>
+
+    <div class="campos-nota">
+      <div class="campo-nota">
+        <label for="nota">Nota</label>
+        <input id="nota" type="number" inputmode="decimal" min="1" max="10" step="0.5"
+               placeholder="—" value="${n !== null ? n : ''}">
+      </div>
+      <div class="campo-nota">
+        <label for="fecha-nota">¿Cuándo la aprobaste?</label>
+        <input id="fecha-nota" type="date" max="${hoyISO()}"
+               value="${fechaDe(cod) || hoyISO()}">
+      </div>
+    </div>
+    <p class="aviso error" id="nota-error" hidden></p>
+
+    <button class="boton ancho" id="guardar-nota">Guardar nota</button>
+    <button class="boton texto ancho" id="saltar-nota">Saltar por ahora</button>`;
+
+  const campo  = cajaNota.querySelector('#nota');
+  const fecha  = cajaNota.querySelector('#fecha-nota');
+  const error  = cajaNota.querySelector('#nota-error');
+
+  function validar(){
+    const v = String(campo.value).trim().replace(',', '.');
+    if (v === '') return { ok:true, vacio:true };
+    const num = parseFloat(v);
+    if (isNaN(num) || num < 1 || num > 10){
+      return { ok:false, texto:'La nota va del 1 al 10.' };
+    }
+    return { ok:true, valor:num };
+  }
+
+  function guardar(){
+    const r = validar();
+    if (!r.ok){
+      error.textContent = r.texto;
+      error.hidden = false;
+      campo.focus();
+      return;
+    }
+    if (r.vacio){ guardarNota(cod, ''); guardarFecha(cod, ''); }
+    else        { guardarNota(cod, r.valor); guardarFecha(cod, fecha.value); }
+    pintarTodo();
+    cerrarHoja();
+  }
+
+  campo.addEventListener('input', () => { error.hidden = true; });
+  campo.addEventListener('keydown', e => { if (e.key === 'Enter') guardar(); });
+  cajaNota.querySelector('#guardar-nota').addEventListener('click', guardar);
+
+  /* Saltear no borra nada: el estado "aprobada" ya quedó guardado antes
+     de llegar acá. Lo único que se saltea es la nota. */
+  cajaNota.querySelector('#saltar-nota').addEventListener('click', cerrarHoja);
+  cajaNota.querySelector('#volver-detalle').addEventListener('click', () => abrirHoja(cod));
+
+  mostrarPantalla('nota');
+  hoja.scrollTop = 0;
+  /* Va derecho al campo de la nota: es a lo que vino. De paso resuelve
+     el problema de accesibilidad de cambiar de pantalla —si el foco se
+     quedara en el botón que acabamos de esconder, quien navega con
+     teclado o lector de pantalla quedaría en la nada. */
+  setTimeout(() => campo.focus(), 260);
+}
+
+function mostrarPantalla(cual){
+  const esNota = cual === 'nota';
+  cuerpo.hidden   = esNota;
+  cajaNota.hidden = !esNota;
+  const visible = esNota ? cajaNota : cuerpo;
+  visible.classList.remove('entra');
+  void visible.offsetWidth;          /* reinicia la animación */
+  visible.classList.add('entra');
+  hoja.setAttribute('aria-labelledby', esNota ? 'nota-titulo' : 'hoja-titulo');
+
+  /* Al volver al detalle, el foco va al título de la materia: si no,
+     queda en un botón que ya no está en pantalla. */
+  if (!esNota){
+    const titulo = cuerpo.querySelector('#hoja-titulo');
+    if (titulo){ titulo.setAttribute('tabindex', '-1'); titulo.focus(); }
+  }
+}
+
+/* Se cierra con una animación de salida, no de golpe: la hoja se va
+   para abajo por donde entró. Quien pidió menos movimiento la ve
+   desaparecer sin deslizarse. El hidden se pone RECIÉN al terminar, si
+   no la animación no llega a verse. */
 function cerrarHoja(){
-  fondo.hidden = true;
-  document.body.style.overflow = '';
-  /* Por si se cargó una nota: el promedio de arriba tiene que reflejarla */
-  pintarProgreso();
+  const quieto = window.matchMedia &&
+    window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  const terminar = () => {
+    fondo.classList.remove('cerrando');
+    fondo.hidden = true;
+    document.body.style.overflow = '';
+    /* Por si se cargó una nota: el promedio de arriba tiene que reflejarla */
+    pintarProgreso();
+  };
+
+  if (quieto || fondo.hidden) { terminar(); return; }
+  fondo.classList.add('cerrando');
+  setTimeout(terminar, 220);
 }
 
 document.getElementById('hoja-cerrar').addEventListener('click', cerrarHoja);
@@ -909,7 +1079,7 @@ PESTANAS.forEach(k =>
 
 document.getElementById('borrar').addEventListener('click', () => {
   if (!confirm(`¿Borrar todo lo que marcaste en ${PLAN.nombreCorto} y empezar de nuevo?\n\nLo de las otras carreras no se toca.`)) return;
-  guardado.datos[PLAN.id] = { estados:{}, notas:{}, suponer:false, idioma:false };
+  guardado.datos[PLAN.id] = { estados:{}, notas:{}, fechas:{}, suponer:false, idioma:false };
   datos = guardado.datos[PLAN.id];
   persistir();
   pintarTodo();

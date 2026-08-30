@@ -94,6 +94,39 @@ salto a oscura.
 Se guarda en `bolivar-tema`. Si está en automático y la persona cambia el modo
 del teléfono con la app abierta, la app acompaña sin recargar.
 
+### Marcar una materia como aprobada
+
+La hoja de detalle de cada materia tiene **dos pantallas**. Al marcar
+«Aprobada», la hoja **no se cierra**: pasa a una segunda pantalla que felicita
+y pide la nota y la fecha.
+
+**Por qué:** ese es el único momento en que la persona se acuerda de la nota.
+Antes marcar «Aprobada» cerraba todo de golpe, así que para cargarla había que
+volver a entrar a la materia — y no la cargaba nadie.
+
+Los otros tres estados (cursando, cursada, pendiente) **siguen cerrando al
+toque**: ahí no hay nada más que preguntar.
+
+Detalles que importan si se toca esto:
+
+- **El estado se guarda ANTES** de mostrar la segunda pantalla. Así, si la
+  persona cierra con la ✕, con Escape o tocando afuera, no pierde el «aprobada».
+  Lo único que se saltea es la nota.
+- **«Saltar por ahora» es una salida legítima**, no un castigo. Nadie se acuerda
+  de todas las notas, y obligar a poner una hace que la gente ponga cualquier
+  cosa con tal de seguir.
+- **La nota se edita en un solo lugar.** Al reabrir una materia aprobada, el
+  detalle muestra un resumen («8,5 · Aprobada el 14/7/2026») y un botón que
+  lleva a esa misma pantalla. Dos formas de llegar, un solo editor.
+- **El foco se mueve con la pantalla.** Al pasar a la nota va al campo; al
+  volver, al título de la materia. Sin esto, quien navega con teclado o lector
+  de pantalla se queda con el foco en un botón que ya no existe.
+- **Las fechas se guardan en `datos.fechas`**, agregado después de las notas.
+  Como con `datos.notas`, hay un `if (!datos.fechas) datos.fechas = {}` para
+  que a quien ya venía usando la app no se le rompa.
+- **La fecha se muestra sin `new Date()`**: esa función interpreta
+  `'2026-08-30'` como UTC y en Argentina resta un día, así que mostraría el 29.
+
 ### La barra de progreso
 
 En la portada, «Mi cursada» muestra una **barra**. Probamos reemplazarla por una
