@@ -1721,7 +1721,7 @@ details.tarjeta .respuesta{margin-top:9px;color:var(--texto-suave);font-size:15p
   flex:0 0 auto;width:19px;height:19px;margin-top:2px;
   border:1.5px solid var(--tinta-borde);border-radius:3px;position:relative
 }
-.ficha{
+.ficha-texto{
   flex:1;font-family:var(--fuente-datos);font-size:var(--letra-nota);
   line-height:1.45;position:relative
 }
@@ -1730,19 +1730,19 @@ details.tarjeta .respuesta{margin-top:9px;color:var(--texto-suave);font-size:15p
 
 /* El tachado: una línea que cruza el renglón, como en el papel. Se
    dibuja de izquierda a derecha, no aparece de golpe. */
-.texto .ficha::after{
+.texto .ficha-texto::after{
   content:'';position:absolute;left:0;top:52%;height:1.5px;width:0;
   background:var(--rojo-solido);transition:width .22s ease
 }
-.texto.leido .ficha{opacity:.55}
-.texto.leido .ficha::after{width:100%}
+.texto.leido .ficha-texto{opacity:.55}
+.texto.leido .ficha-texto::after{width:100%}
 .texto.leido .marca-leido{background:var(--tinta-borde)}
 .texto.leido .marca-leido::after{
   content:'';position:absolute;left:5px;top:1px;width:5px;height:10px;
   border:solid var(--superficie);border-width:0 2px 2px 0;transform:rotate(42deg)
 }
 @media (prefers-reduced-motion:reduce){
-  .texto .ficha::after{transition:none}
+  .texto .ficha-texto::after{transition:none}
 }
 
 /* --- El reloj de estudio --- */

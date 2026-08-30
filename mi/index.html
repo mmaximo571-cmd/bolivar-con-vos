@@ -60,10 +60,69 @@
 
   const contenido = document.getElementById('contenido');
 
+  /* Cuando volvés desde el correo de recuperación, Supabase deja el
+     enlace con type=recovery y abre una sesión temporal. Hay que
+     mirarlo ANTES de decidir qué pantalla mostrar: si no, se ve
+     «Hola, Máximo» y la persona nunca llega a cambiar la contraseña. */
+  function vieneDeRecuperar(){
+    const h = location.hash || '';
+    const b = location.search || '';
+    return /type=recovery/.test(h) || /type=recovery/.test(b);
+  }
+  let recuperando = vieneDeRecuperar();
+
   async function refrescar(){
     const { usuario, perfil } = await sesionActual();
+    if (recuperando && usuario) return pedirClaveNueva(usuario);
     if (usuario) pintarAdentro(usuario, perfil);
     else         pintarAfuera();
+  }
+
+  /* ============================================================
+     ELEGIR UNA CONTRASEÑA NUEVA
+     ============================================================ */
+  function pedirClaveNueva(usuario){
+    contenido.innerHTML = `
+      <h1 class="titulo-pantalla">CONTRASEÑA NUEVA</h1>
+      <p class="bajada">Entraste con el enlace que te mandamos a
+        <strong>${esc(usuario.email)}</strong>. Elegí una contraseña nueva
+        y ya quedás adentro.</p>
+
+      <div class="ficha">
+        <div class="campo">
+          <label for="clave-nueva">Contraseña nueva</label>
+          <input id="clave-nueva" type="password" autocomplete="new-password"
+                 minlength="6" placeholder="Mínimo 6 caracteres">
+        </div>
+        <button class="boton ancho" id="guardar-clave">Guardar la contraseña</button>
+        <div id="mensaje"></div>
+      </div>`;
+
+    const campo   = document.getElementById('clave-nueva');
+    const mensaje = document.getElementById('mensaje');
+    campo.focus();
+
+    document.getElementById('guardar-clave').onclick = async function(){
+      const clave = campo.value;
+      if (!clave || clave.length < 6){
+        mensaje.innerHTML = `<div class="aviso error">
+            La contraseña tiene que tener al menos 6 caracteres.</div>`;
+        campo.focus();
+        return;
+      }
+      this.disabled = true; this.textContent = 'Guardando…';
+      const { error } = await db.auth.updateUser({ password: clave });
+      if (error){
+        this.disabled = false; this.textContent = 'Guardar la contraseña';
+        mensaje.innerHTML = `<div class="aviso error">No se pudo guardar: ${esc(error.message)}</div>`;
+        return;
+      }
+      /* Se limpia el enlace de la dirección: si queda, al recargar
+         vuelve a pedir contraseña nueva. */
+      recuperando = false;
+      history.replaceState(null, '', location.pathname);
+      refrescar();
+    };
   }
 
   /* ============================================================
@@ -99,6 +158,7 @@
           </div>
           <button class="boton ancho" type="submit" id="enviar">Entrar</button>
         </form>
+        <button class="boton texto ancho" id="olvide">Me olvidé la contraseña</button>
         <div id="mensaje"></div>
       </div>
 
@@ -125,6 +185,43 @@
     }
     tabEntrar.onclick = () => cambiarModo('entrar');
     tabCrear .onclick = () => cambiarModo('crear');
+
+    /* ---------- Me olvidé la contraseña ----------
+       Manda un correo con un enlace. Al volver por ese enlace, Supabase
+       deja una sesión de recuperación y la app pide la contraseña nueva
+       (más abajo, en pedirClaveNueva). */
+    document.getElementById('olvide').onclick = async function(){
+      const correo = document.getElementById('correo').value.trim();
+      if (!correo){
+        mensaje.innerHTML = `<div class="aviso error">
+            Escribí tu correo arriba y volvé a tocar acá: ahí te mandamos el enlace.
+          </div>`;
+        document.getElementById('correo').focus();
+        return;
+      }
+      this.disabled = true; this.textContent = 'Mandando…';
+      const { error } = await db.auth.resetPasswordForEmail(correo, {
+        redirectTo: location.origin + RAIZ + 'mi/'
+      });
+      this.disabled = false; this.textContent = 'Me olvidé la contraseña';
+
+      if (error){
+        mensaje.innerHTML = `<div class="aviso error">${esc(
+          /rate limit|only request this after/i.test(error.message)
+            ? 'Se mandaron muchos correos seguidos. Esperá unos minutos.'
+            : 'No se pudo mandar el correo: ' + error.message)}</div>`;
+        return;
+      }
+      /* Se contesta lo mismo exista o no la cuenta: si dijéramos "ese
+         correo no está registrado", cualquiera podría averiguar quién
+         tiene cuenta probando direcciones. */
+      mensaje.innerHTML = `<div class="aviso ok">
+          Si ese correo tiene una cuenta, le mandamos un enlace a
+          <strong>${esc(correo)}</strong>. Abrilo desde este mismo teléfono
+          y vas a poder elegir una contraseña nueva.<br>
+          <small>Fijate también en el correo no deseado.</small>
+        </div>`;
+    };
 
     document.getElementById('formulario').addEventListener('submit', async function(ev){
       ev.preventDefault();
