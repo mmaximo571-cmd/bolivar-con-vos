@@ -927,7 +927,6 @@
     };
   }
   /* ============================================================ */
-  function dibujar(){
 
   /* ============================================================
      PROGRAMAS · lo que el equipo carga una vez y usan todos
@@ -1117,6 +1116,9 @@
       vistaProgramas();
     };
   }
+
+  /* ============================================================ */
+  function dibujar(){
     zona.innerHTML = '<div class="esq-tarjeta"><div class="esqueleto esq-linea titulo"></div><div class="esqueleto esq-linea"></div><div class="esqueleto esq-linea media"></div></div><div class="esq-tarjeta"><div class="esqueleto esq-linea titulo"></div><div class="esqueleto esq-linea"></div><div class="esqueleto esq-linea corta"></div></div>';
     ({ tramites:vistaTramites, faq:vistaFaq, agenda:vistaAgenda, programas:vistaProgramas,
        materiales:vistaMateriales, categorias:vistaCategorias }[actual])();
