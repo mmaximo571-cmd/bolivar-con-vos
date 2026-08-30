@@ -259,8 +259,14 @@
     });
   }
 
+  /* PARA VERLA DE NUEVO: bolivar-con-vos.vercel.app/?bienvenida
+     La bienvenida se ve UNA sola vez en la vida y después nunca más,
+     así que para trabajar sobre ella no había forma de mirarla sin
+     borrar los datos del navegador. Con eso en la dirección se muestra
+     igual, y no borra nada de lo que tengas guardado. */
   function seguirDespuesDeLaApertura(){
-    if (guardado(localStorage, LLAVE_BIENVENIDA)) mostrarApp();
+    const forzada = /[?&]bienvenida\b/.test(location.search);
+    if (!forzada && guardado(localStorage, LLAVE_BIENVENIDA)) mostrarApp();
     else mostrarBienvenida();
   }
 
