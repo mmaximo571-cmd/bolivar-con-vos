@@ -23,6 +23,17 @@
 <meta property="og:image" content="https://bolivar-con-vos.vercel.app/imagenes/compartir.png">
 <meta name="twitter:card" content="summary_large_image">
 <link rel="stylesheet" href="../estilos.css">
+<!-- EL TEMA, ANTES DE DIBUJAR NADA. Va acá arriba y no en app.js a
+     propósito: app.js carga al final del cuerpo, así que la pantalla
+     arrancaría clara y pegaría un salto a oscura. Son tres renglones. -->
+<script>
+(function(){try{
+  var g = localStorage.getItem('bolivar-tema') || 'auto';
+  var oscuro = g === 'oscuro' || (g === 'auto' &&
+    window.matchMedia('(prefers-color-scheme: dark)').matches);
+  document.documentElement.dataset.tema = oscuro ? 'oscuro' : 'claro';
+}catch(e){ document.documentElement.dataset.tema = 'claro'; }})();
+</script>
 </head>
 <body>
 

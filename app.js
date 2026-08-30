@@ -305,6 +305,60 @@ function htmlCabecera(){
    después, que es lo que pasa en casi todas las pantallas: el
    contenido llega de Supabase y se dibuja recién ahí.
    ============================================================ */
+/* ============================================================
+   LOS COLORES DE LA PANTALLA
+
+   Tres opciones: automático (sigue al teléfono, y es lo que viene
+   puesto), claro y oscuro.
+
+   Quien decide es el atributo data-tema del <html>, que ya dejó puesto
+   el script del <head> antes de dibujar nada. Acá solo se cambia
+   cuando la persona toca una opción.
+
+   Por qué tres y no un interruptor de dos: con dos, apenas tocás una
+   vez perdés para siempre la opción de seguir al teléfono. Con tres se
+   puede volver.
+   ============================================================ */
+const TEMAS = ['auto', 'claro', 'oscuro'];
+
+function temaGuardado(){
+  let g = 'auto';
+  try { g = localStorage.getItem('bolivar-tema') || 'auto'; } catch(e){}
+  return TEMAS.indexOf(g) === -1 ? 'auto' : g;
+}
+
+function aplicarTema(cual){
+  const oscuro = cual === 'oscuro' || (cual === 'auto' &&
+    window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches);
+  document.documentElement.dataset.tema = oscuro ? 'oscuro' : 'claro';
+
+  /* La barra de arriba del navegador en el celular también acompaña */
+  const meta = document.querySelector('meta[name="theme-color"]');
+  if (meta) meta.setAttribute('content', oscuro ? '#17160F' : '#F9E830');
+}
+
+function pintarTema(){
+  const guardado = temaGuardado();
+  aplicarTema(guardado);
+
+  document.querySelectorAll('[data-tema-op]').forEach(b => {
+    b.setAttribute('aria-pressed', b.dataset.temaOp === guardado ? 'true' : 'false');
+    b.onclick = () => {
+      try { localStorage.setItem('bolivar-tema', b.dataset.temaOp); } catch(e){}
+      pintarTema();
+    };
+  });
+}
+
+/* Si está en automático y la persona cambia el modo del teléfono con la
+   app abierta, la app acompaña sin que haya que recargar. */
+if (window.matchMedia){
+  const consulta = window.matchMedia('(prefers-color-scheme: dark)');
+  const alCambiar = () => { if (temaGuardado() === 'auto') aplicarTema('auto'); };
+  if (consulta.addEventListener) consulta.addEventListener('change', alCambiar);
+  else if (consulta.addListener) consulta.addListener(alCambiar);
+}
+
 /* La lupa del buscador estaba escrita como emoji en las tres pantallas
    que tienen buscador. Un emoji lo dibuja cada teléfono a su manera y
    quedaba de otro color y otro peso que el resto de los íconos. */
@@ -362,10 +416,20 @@ function pintarNav(actual){
         ${SECCIONES.map(s => `<a href="${s.url}"${s.id===actual ? ' aria-current="page"' : ''}>
             <span class="icono">${icono(s.id) || s.icono}</span>${esc(s.texto)}</a>`).join('')}
       </div>
+      <div class="menu-tema">
+        <span class="menu-tema-rotulo">Colores de la pantalla</span>
+        <div class="tema-opciones" role="group" aria-label="Colores de la pantalla">
+          <button type="button" data-tema-op="auto">Automático</button>
+          <button type="button" data-tema-op="claro">Claro</button>
+          <button type="button" data-tema-op="oscuro">Oscuro</button>
+        </div>
+      </div>
       <div class="menu-pie">
         Agrupación Simón Bolívar<br>Conducción del CEFTS · FTS UNLP
       </div>
     </nav>`);
+
+  pintarTema();
 
   pintarAvisanos();
   vigilarTitulos();

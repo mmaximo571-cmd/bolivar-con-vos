@@ -64,20 +64,46 @@ Montserrat, que sí tiene varios grosores.
 calendario, códigos de materia, cantidades. Lo que se lee de un vistazo y se
 compara entre sí.
 
-### Una casilla por materia
+### Los colores de la pantalla: el botón
 
-En la portada, «Mi cursada» dibuja **una casilla por materia** en vez de una
-barra de progreso. Una barra continua dice que el progreso fluye; no fluye, se
-mueve de a saltos, y cada salto costó un cuatrimestre.
+En el **menú ☰**, abajo de todo, hay tres opciones: **Automático · Claro ·
+Oscuro**. Automático sigue lo que tenga configurado el teléfono y es lo que
+viene puesto.
 
-Las casillas muestran **cuántas, no cuáles**: van agrupadas por estado, no en
-el orden del plan. Los tres estados se separan por relleno —lleno, mitad,
-rayado— y **todas van en tinta sobre el amarillo**: sobre el amarillo pleno el
-celeste cae a 2,8 y una casilla celeste no se distinguiría de una vacía.
+Van tres y no un interruptor de dos porque con dos, apenas tocás una vez,
+perdés para siempre la opción de seguir al teléfono.
 
-El organizador guarda en `bolivar-carrera-resumen` las cuentas de aprobadas,
-cursadas y cursando. Si alguna vez se agrega un plan con muchas materias, la
-grilla se estira a más columnas en vez de achicar las casillas.
+**Está en el menú y no en la cabecera** porque la cabecera tiene tres columnas
+y en un celular angosto la marca ya baja a dos renglones: un cuarto botón
+arriba le comía 44 px más. Y esto se toca una vez, no todos los días.
+
+**Cómo funciona, que es lo que hay que entender antes de tocarlo:** en el CSS
+**no hay** un `@media (prefers-color-scheme)`. Quien decide es el atributo
+`data-tema="oscuro"` en el `<html>`, que pone un script de tres renglones en el
+`<head>` de cada pantalla.
+
+Se hizo así a propósito: con un `@media` harían falta **dos copias** de los
+quince valores del modo oscuro —una para el modo del teléfono y otra para el
+botón—, y a la primera que alguien toque una sola de las dos, los modos dejan
+de coincidir. Con el atributo hay una sola copia.
+
+El script va en el `<head>` y no en `app.js` porque `app.js` carga al final del
+cuerpo: si el tema se resolviera ahí, la pantalla arrancaría clara y pegaría un
+salto a oscura.
+
+Se guarda en `bolivar-tema`. Si está en automático y la persona cambia el modo
+del teléfono con la app abierta, la app acompaña sin recargar.
+
+### La barra de progreso
+
+En la portada, «Mi cursada» muestra una **barra**. Probamos reemplazarla por una
+casilla por materia —con el argumento de que el progreso se mide en materias y
+no fluye— y **volvimos atrás**: la barra se lee de un vistazo y no necesita
+leyenda. Si alguna vez se quiere volver a ver la otra versión, está en el commit
+`bb3b6ba`.
+
+El organizador igual guarda en `bolivar-carrera-resumen` las cuentas de
+cursadas y cursando, así la portada puede decir «6 de 31 materias · 2 cursando».
 
 ---
 

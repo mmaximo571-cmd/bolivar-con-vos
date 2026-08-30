@@ -115,9 +115,17 @@
 /* ============================================================
    MODO OSCURO
 
-   Se activa solo, según cómo tenga configurado el teléfono cada
-   persona. No hay botón: si el celular está en modo oscuro, la app
-   también. Es la forma que menos hay que explicar.
+   Hay tres opciones, en el menú ☰: automático, claro y oscuro.
+   Automático sigue lo que tenga configurado el teléfono, y es lo que
+   viene puesto.
+
+   OJO CON CÓMO SE PRENDE. Acá NO hay un @media (prefers-color-scheme):
+   quien decide es un atributo, data-tema="oscuro", que pone un script
+   de tres renglones en el <head> de cada pantalla. Se hizo así a
+   propósito: con un @media harían falta DOS copias de estos quince
+   valores —una para el modo del teléfono y otra para el botón— y a la
+   primera que alguien toque una sola de las dos, los modos dejan de
+   coincidir. Con el atributo hay una sola copia.
 
    Solo se dan vuelta las seis variables de superficie y texto. Los
    colores de marca no se tocan: el amarillo sigue siendo el amarillo.
@@ -130,8 +138,7 @@
    Contrastes de noche: texto 15,3 · texto suave 7,1 · amarillo 12,6
    · celeste 4,4 sobre el fondo.
    ============================================================ */
-@media (prefers-color-scheme: dark){
-  :root{
+:root[data-tema="oscuro"]{
     --fondo:        #17160F;
     --superficie:   #232219;
     --superficie-2: #2E2C21;
@@ -155,11 +162,11 @@
        de noche la tinta es la que ilumina. */
     --tinta-borde: #4A4739;
     --sombra: 2px 2px 0 #0B0A06;
-  }
-  /* Las ilustraciones de la facultad son de trazo fino sobre claro:
-     de noche se apagan un poco para no encandilar. */
-  .carrusel img, .zona-fondo::before{filter:brightness(.86) saturate(.92)}
 }
+/* Las ilustraciones de la facultad son de trazo fino sobre claro:
+   de noche se apagan un poco para no encandilar. */
+:root[data-tema="oscuro"] .carrusel img,
+:root[data-tema="oscuro"] .zona-fondo::before{filter:brightness(.86) saturate(.92)}
 
 /* ============================================================
    BASE
@@ -340,8 +347,35 @@ svg.ico{width:1em;height:1em;display:block;flex:0 0 auto}
 .menu-lista a .icono{font-size:20px;line-height:1}
 .menu-lista a:hover{background:rgba(255,255,255,.08)}
 .menu-lista a[aria-current="page"]{color:var(--amarillo);box-shadow:inset 4px 0 0 var(--amarillo)}
+/* --- Los colores de la pantalla, adentro del menú ---
+   Va acá y no en la cabecera porque la cabecera tiene tres columnas y
+   en un celular angosto la marca ya baja a dos renglones: un cuarto
+   botón arriba le comía 44 px más. Y esto se toca una vez, no todos
+   los días. El menú de este panel está siempre en oscuro, así que los
+   colores de acá adentro son fijos y no salen de las variables. */
+.menu-tema{
+  margin-top:auto;padding:18px 18px 0;border-top:1px solid #333
+}
+.menu-tema-rotulo{
+  display:block;font-family:var(--fuente-sub);font-size:11px;font-weight:700;
+  letter-spacing:.1em;text-transform:uppercase;color:#8f8f8f;margin-bottom:9px
+}
+.tema-opciones{
+  display:flex;border:1px solid #3d3d3d;border-radius:99px;overflow:hidden
+}
+.tema-opciones button{
+  flex:1;appearance:none;border:0;background:transparent;cursor:pointer;
+  font-family:var(--fuente-sub);font-weight:700;font-size:12px;
+  letter-spacing:.03em;color:#c9c9c9;padding:11px 6px;min-height:40px
+}
+.tema-opciones button + button{border-left:1px solid #3d3d3d}
+.tema-opciones button[aria-pressed="true"]{
+  background:var(--amarillo);color:#1A1A1A
+}
+.tema-opciones button:focus-visible{outline:2px solid var(--amarillo);outline-offset:-3px}
+
 .menu-pie{
-  margin-top:auto;padding:16px 18px 0;font-size:12px;line-height:1.5;color:#8f8f8f
+  padding:16px 18px 0;font-size:12px;line-height:1.5;color:#8f8f8f
 }
 
 /* Titulo de pantalla interna */
@@ -1232,40 +1266,6 @@ body.antes-de-entrar{padding-bottom:0}  /* apertura y bienvenida a pantalla comp
 }
 .mi-cursada .barra{background:rgba(26,26,26,.18);height:8px}
 .mi-cursada .barra-llena{background:var(--negro)}
-
-/* ---- UNA CASILLA POR MATERIA ----
-
-   Reemplazan a la barra de progreso. Una barra continua dice que el
-   progreso fluye; no fluye, se mueve de a saltos y cada salto costó un
-   cuatrimestre. Las casillas se cuentan de un vistazo.
-
-   Van todas en TINTA sobre el amarillo, y no en celeste: sobre el
-   amarillo pleno el celeste cae a 2,8 y una casilla celeste no se
-   distinguiría de una vacía. Los tres estados se separan por relleno
-   —lleno, mitad, rayado— que es como se marca una planilla a mano. */
-.casillas{
-  display:grid;grid-template-columns:repeat(var(--columnas,11),1fr);
-  gap:3px;margin:2px 0 10px
-}
-.casilla{
-  aspect-ratio:1;border:1.5px solid var(--sobre-color);border-radius:2px;
-  display:block
-}
-.casilla.aprobada{background:var(--sobre-color)}
-.casilla.cursada{
-  background:linear-gradient(to top, var(--sobre-color) 50%, transparent 50%)
-}
-.casilla.cursando{
-  background:repeating-linear-gradient(45deg,
-    var(--sobre-color) 0 2px, transparent 2px 5px)
-}
-
-.mi-cursada-leyenda{
-  display:flex;gap:12px;flex-wrap:wrap;margin-top:9px;
-  font-size:10.5px;letter-spacing:.05em;text-transform:uppercase;opacity:.78
-}
-.mi-cursada-leyenda span{display:inline-flex;align-items:center;gap:5px}
-.mi-cursada-leyenda i{width:11px;height:11px;flex:0 0 auto}
 
 .mi-cursada-datos{
   display:flex;justify-content:space-between;align-items:baseline;
