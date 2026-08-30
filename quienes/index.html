@@ -136,9 +136,9 @@ const RESPALDO = {
                 <h3>${esc(b.titulo || '')}</h3>
                 ${(b.parrafos || []).map(t => `<p>${esc(t)}</p>`).join('')}
               </div>
-              ${img && img.archivo ? `
+              ${fotoDe(img) ? `
                 <figure>
-                  <img src="../imagenes/${esc(img.archivo)}" alt="${esc(img.epigrafe || '')}"
+                  <img src="${esc(fotoDe(img))}" alt="${esc(img.epigrafe || '')}"
                        loading="lazy" decoding="async">
                   ${img.epigrafe ? `<figcaption>${esc(img.epigrafe)}</figcaption>` : ''}
                 </figure>` : ''}

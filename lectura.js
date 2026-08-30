@@ -61,3 +61,22 @@ function titularHTML(texto){
     .map(linea => linea.replace(/\*([^*]+)\*/g, '<em>$1</em>'))
     .join('<br>');
 }
+
+/* ============================================================
+   LA FOTO DE UN BLOQUE
+
+   Hay dos formas de que una foto llegue a estas pantallas:
+
+     · subida desde el panel, que queda en el depósito de Supabase y
+       trae la dirección entera en «url». Es la forma de ahora.
+     · dejada a mano en la carpeta /imagenes/, que trae solo el nombre
+       del archivo. Quedan las viejas andando.
+
+   Devuelve la dirección o cadena vacía si ese bloque no tiene foto.
+   ============================================================ */
+function fotoDe(img, raiz){
+  if (!img) return '';
+  if (img.url && /^https?:\/\//i.test(img.url)) return img.url;
+  if (img.archivo) return (raiz || '../') + 'imagenes/' + img.archivo;
+  return '';
+}

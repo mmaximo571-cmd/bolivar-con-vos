@@ -57,7 +57,25 @@
   }
   .paso-editor .campo{margin-bottom:8px}
   .paso-editor .campo:last-child{margin-bottom:0}
+  /* --- Las ranuras de foto ---
+     Una por bloque de texto. La miniatura se muestra con el mismo
+     recorte que va a tener en la app, para que no haya sorpresas. */
+  .ranura-foto{
+    border:1px solid var(--linea);border-radius:var(--radio);
+    padding:12px;margin-bottom:12px;background:var(--superficie)
+  }
+  .ranura-donde{
+    margin:0 0 10px;font-size:var(--letra-chica);color:var(--texto-suave)
+  }
+  .ranura-vista{
+    width:100%;aspect-ratio:4/3;object-fit:cover;display:block;
+    border:2px solid var(--tinta-borde);border-radius:var(--radio);
+    margin-bottom:12px;background:var(--superficie-2)
+  }
+  .ranura-botones{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+  .ranura-botones .boton{flex:1 1 0;min-width:0}
 </style>
+
 </head>
 <body>
 
@@ -1154,6 +1172,150 @@
     return (redes || []).map(r => r.nombre + ' · ' + (r.url || '')).join('\n');
   }
 
+
+  /* ============================================================
+     LAS FOTOS DE LA AGRUPACIÓN
+
+     Una foto por bloque de texto: la foto va al lado de lo que ese
+     bloque cuenta. Se suben al depósito «fotos» de Supabase desde el
+     panel, o sea desde el celular, sin que pase por quien programa.
+
+     Se achican ANTES de salir. Una foto de teléfono pesa 3 o 4 MB y en
+     la red de la facultad eso no sube ni baja; achicada a 1600px de
+     lado queda en 200 o 300 KB y en pantalla se ve igual.
+     ============================================================ */
+
+  const MAX_LADO = 1600;
+
+  function achicarFoto(archivo){
+    return new Promise(function(listo, fallo){
+      const lector = new FileReader();
+      lector.onerror = function(){ fallo(new Error('No se pudo leer ese archivo.')); };
+      lector.onload = function(){
+        const img = new Image();
+        img.onerror = function(){ fallo(new Error('Ese archivo no es una imagen.')); };
+        img.onload = function(){
+          const escala = Math.min(1, MAX_LADO / Math.max(img.width, img.height));
+          const lienzo = document.createElement('canvas');
+          lienzo.width  = Math.round(img.width  * escala);
+          lienzo.height = Math.round(img.height * escala);
+          lienzo.getContext('2d').drawImage(img, 0, 0, lienzo.width, lienzo.height);
+          lienzo.toBlob(function(b){
+            b ? listo(b) : fallo(new Error('No se pudo preparar la foto.'));
+          }, 'image/jpeg', 0.82);
+        };
+        img.src = lector.result;
+      };
+      lector.readAsDataURL(archivo);
+    });
+  }
+
+  async function subirFoto(archivo, prefijo){
+    const chica  = await achicarFoto(archivo);
+    const nombre = prefijo + '-' + Date.now() + '.jpg';
+    const { error } = await db.storage.from('fotos')
+      .upload(nombre, chica, { contentType:'image/jpeg' });
+    if (error){
+      if (/Bucket not found/i.test(error.message || ''))
+        throw new Error('Falta activar el depósito de fotos: hay que correr tabla-fotos.sql en Supabase.');
+      if (/row-level security|Unauthorized/i.test(error.message || ''))
+        throw new Error('Tu cuenta no tiene permiso para subir fotos. Tiene que estar como «equipo».');
+      throw error;
+    }
+    return { url: db.storage.from('fotos').getPublicUrl(nombre).data.publicUrl,
+             nombre: nombre };
+  }
+
+  /* Borra el archivo del depósito además de sacarlo de la pantalla. Si
+     una compañera pide que saquen su foto, tiene que desaparecer de
+     verdad, no solo dejar de mostrarse. */
+  async function borrarFoto(nombre){
+    if (!nombre) return;
+    try { await db.storage.from('fotos').remove([nombre]); } catch(e){ /* ya no estaba */ }
+  }
+
+  /* Dibuja una ranura de foto por cada bloque de texto y devuelve el
+     mismo arreglo que le pasaron, ya modificado. Lo usan las dos
+     pantallas: «¿Quiénes somos?» y el Consejo Directivo. */
+  function montarFotos(donde, bloques, imagenes, prefijo){
+    const caja = document.getElementById(donde);
+    if (!caja) return;
+
+    function dibujar(){
+      if (!bloques.length){
+        caja.innerHTML = `<p class="letra-chica">Escribí primero los bloques de
+          texto de acá arriba y guardá: cada bloque va a poder llevar su foto.</p>`;
+        return;
+      }
+      caja.innerHTML = bloques.map(function(b, i){
+        const f = imagenes[i] || {};
+        return `
+        <div class="ranura-foto">
+          <p class="ranura-donde">Al lado de: <b>${esc(b.titulo || 'bloque sin título')}</b></p>
+          ${f.url ? `
+            <img class="ranura-vista" src="${esc(f.url)}" alt="">
+            <div class="campo">
+              <label for="epi-${i}">Qué se ve en la foto</label>
+              <input id="epi-${i}" data-epi="${i}" value="${esc(f.epigrafe || '')}"
+                     placeholder="Asamblea de carrera, mayo de 2026">
+            </div>
+            <div class="ranura-botones">
+              <button class="boton borde" data-cambiar="${i}">Cambiar la foto</button>
+              <button class="boton texto" data-sacar="${i}">Sacar la foto</button>
+            </div>`
+          : `
+            <button class="boton borde ancho" data-cambiar="${i}">Elegir una foto</button>`}
+          <input type="file" accept="image/jpeg,image/png,image/webp"
+                 data-archivo="${i}" hidden>
+          <div data-msj="${i}"></div>
+        </div>`;
+      }).join('');
+
+      caja.querySelectorAll('[data-cambiar]').forEach(function(b){
+        b.onclick = function(){
+          caja.querySelector('[data-archivo="' + this.dataset.cambiar + '"]').click();
+        };
+      });
+
+      caja.querySelectorAll('[data-epi]').forEach(function(c){
+        c.oninput = function(){
+          const i = +this.dataset.epi;
+          imagenes[i] = Object.assign({}, imagenes[i], { epigrafe: this.value });
+        };
+      });
+
+      caja.querySelectorAll('[data-sacar]').forEach(function(b){
+        b.onclick = async function(){
+          const i = +this.dataset.sacar;
+          await borrarFoto((imagenes[i] || {}).nombre);
+          imagenes[i] = null;
+          dibujar();
+        };
+      });
+
+      caja.querySelectorAll('[data-archivo]').forEach(function(c){
+        c.onchange = async function(){
+          const i = +this.dataset.archivo;
+          const archivo = this.files && this.files[0];
+          if (!archivo) return;
+          const msj = caja.querySelector('[data-msj="' + i + '"]');
+          msj.innerHTML = `<div class="aviso">Subiendo la foto…</div>`;
+          try {
+            const viejo = (imagenes[i] || {}).nombre;
+            const nueva = await subirFoto(archivo, prefijo + '-' + (i + 1));
+            imagenes[i] = { url: nueva.url, nombre: nueva.nombre,
+                            epigrafe: (imagenes[i] || {}).epigrafe || '' };
+            await borrarFoto(viejo);
+            dibujar();
+          } catch(e){
+            msj.innerHTML = `<div class="aviso error">${esc(e.message || 'No se pudo subir.')}</div>`;
+          }
+        };
+      });
+    }
+
+    dibujar();
+  }
   async function vistaQuienes(){
     const { data, error } = await db.from('pagina_quienes').select('*').limit(1).maybeSingle();
 
@@ -1168,7 +1330,11 @@
       return;
     }
 
-    const p = data || { bajada:'', bloques:[], redes:[], sumate:null };
+    const p = data || { bajada:'', bloques:[], redes:[], sumate:null, imagenes:[] };
+
+    /* Las fotos se atan a los bloques YA GUARDADOS, no a lo que hay
+       escrito en el cuadro de texto en este momento. */
+    const imagenes = Array.isArray(p.imagenes) ? p.imagenes.slice() : [];
     const s = p.sumate || {};
 
     zona.innerHTML = `
@@ -1195,6 +1361,24 @@
           son los párrafos, uno por línea.</p>
         <textarea id="bloques" style="min-height:260px"
           placeholder="La agrupación&#10;Qué es la Agrupación Simón Bolívar y desde cuándo existe.&#10;&#10;Por qué hicimos esta app&#10;El problema que vimos.">${esc(escribirBloques(p.bloques))}</textarea>
+      </div>
+
+      <div class="campo">
+        <label>Las fotos</label>
+        <p class="letra-chica" style="margin:0 0 10px">
+          Una foto por bloque, al lado de lo que ese bloque cuenta. Van
+          mejor las fotos <b>de la agrupación haciendo algo</b> —una
+          asamblea, una jornada, la mesa en el pasillo— que las fotos
+          posadas.<br>
+          Si agregás un bloque nuevo, guardá primero el texto y su ranura
+          de foto aparece acá abajo.<br>
+          Se recortan todas a la misma proporción, apaisadas, así que
+          <b>dejá aire alrededor de la gente</b>: lo que queda muy al borde
+          se pierde.<br>
+          <b>Si en la foto se reconoce a alguien, pedile permiso antes de
+          publicarla.</b> Sacarla después es un botón, pero ya la vio
+          gente.</p>
+        <div id="fotos-quienes"></div>
       </div>
 
       <div class="campo">
@@ -1225,6 +1409,9 @@
          style="margin-top:10px">Ver cómo quedó ↗</a>
       <div id="msj"></div>`;
 
+    montarFotos('fotos-quienes', Array.isArray(p.bloques) ? p.bloques : [],
+                imagenes, 'quienes');
+
     document.getElementById('guardar-quienes').onclick = async function(){
       this.disabled = true; this.textContent = 'Guardando…';
 
@@ -1234,6 +1421,7 @@
         titular: val('titular'),
         bajada:  val('bajada'),
         bloques: leerBloques(document.getElementById('bloques').value),
+        imagenes: imagenes,
         redes:   leerRedes(document.getElementById('redes').value),
         sumate:  titulo ? {
           titulo: titulo,
@@ -1296,7 +1484,11 @@
       return;
     }
 
-    const p = data || { titular:'', bajada:'', bloques:[], logros:[] };
+    const p = data || { titular:'', bajada:'', bloques:[], logros:[], imagenes:[] };
+
+    /* Igual que en «¿Quiénes somos?»: las fotos se atan a los bloques
+       ya guardados, no a lo que hay escrito en el cuadro ahora mismo. */
+    const imagenes = Array.isArray(p.imagenes) ? p.imagenes.slice() : [];
 
     zona.innerHTML = `
       <p class="letra-chica">Esto es lo que se lee en la pantalla
@@ -1325,6 +1517,19 @@
       </div>
 
       <div class="campo">
+        <label>Las fotos</label>
+        <p class="letra-chica" style="margin:0 0 10px">
+          Una foto por bloque. Acá funcionan bien las del Consejo
+          sesionando o las de una comisión trabajando: se ve dónde se
+          toman las decisiones.<br>
+          Se recortan a la misma proporción, apaisadas: dejá aire
+          alrededor de la gente.<br>
+          <b>Si en la foto se reconoce a alguien, pedile permiso antes de
+          publicarla.</b></p>
+        <div id="fotos-consejo"></div>
+      </div>
+
+      <div class="campo">
         <label for="logros">Los logros</label>
         <p class="letra-chica" style="margin:0 0 6px">
           Uno por bloque, separados con un renglón en blanco. El primer
@@ -1340,6 +1545,9 @@
       <a class="boton borde ancho" href="../consejo/" target="_blank" rel="noopener"
          style="margin-top:10px">Ver cómo quedó ↗</a>
       <div id="msj"></div>`;
+
+    montarFotos('fotos-consejo', Array.isArray(p.bloques) ? p.bloques : [],
+                imagenes, 'consejo');
 
     /* Se ve al toque cuántos van a quedar: si el formato está mal, se
        nota acá y no cuando ya está publicado. */
@@ -1365,6 +1573,7 @@
         titular: val('titular'),
         bajada:  val('bajada'),
         bloques: leerBloques(document.getElementById('bloques').value),
+        imagenes: imagenes,
         logros:  leerLogros(campoLogros.value)
       }, { onConflict:'solo_una' });
 

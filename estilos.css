@@ -1910,8 +1910,13 @@ details.tarjeta .respuesta{margin-top:9px;color:var(--texto-suave);font-size:15p
    que la sombra de las tarjetas, pero grande. */
 .zigzag figure{margin:0;position:relative}
 .zigzag figure img{
-  width:100%;height:auto;display:block;border-radius:var(--radio);
-  border:2px solid var(--tinta-borde);position:relative;z-index:1
+  /* Las fotos las sube la agrupacion desde el celular y vienen en
+     formas dispares: una apaisada al lado de una parada descomponia el
+     zigzag. Se recortan todas a la misma proporcion, centradas. */
+  width:100%;aspect-ratio:4/3;object-fit:cover;object-position:center;
+  height:auto;display:block;border-radius:var(--radio);
+  border:2px solid var(--tinta-borde);position:relative;z-index:1;
+  background:var(--superficie-2)
 }
 .zigzag figure::before{
   content:'';position:absolute;inset:14px -14px -14px 14px;
