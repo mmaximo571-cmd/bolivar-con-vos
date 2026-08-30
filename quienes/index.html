@@ -124,12 +124,33 @@ const QUIENES = {
 
 /* ============================================================
    DE ACÁ PARA ABAJO NO HACE FALTA TOCAR NADA
+
+   OJO: lo de arriba ya NO es lo que se ve. Ahora esta pantalla se
+   edita desde el panel, solapa «✊ Quiénes somos», y el texto vive en
+   Supabase. Lo de arriba quedó como RED DE SEGURIDAD: si la base no
+   contesta —red de la facultad, tabla sin crear— la pantalla muestra
+   eso en vez de quedar vacía.
+
+   O sea: para cambiar el texto, andá al panel. Tocá esto solo si
+   querés cambiar lo que se ve cuando no hay internet.
    ============================================================ */
-(function quienes(){
+(async function quienes(){
 
 document.getElementById('cabecera').innerHTML = htmlCabecera();
 document.getElementById('pie').innerHTML = htmlPie();
 pintarNav('quienes');
+
+/* Lo que diga la base gana; si no contesta, queda lo del archivo. */
+try {
+  const { data, error } = await conPaciencia(
+    db.from('pagina_quienes').select('*').limit(1).maybeSingle());
+  if (!error && data){
+    if (data.bajada)  QUIENES.bajada  = data.bajada;
+    if (Array.isArray(data.bloques) && data.bloques.length) QUIENES.bloques = data.bloques;
+    if (Array.isArray(data.redes))   QUIENES.redes   = data.redes;
+    QUIENES.sumate = data.sumate || null;
+  }
+} catch(e){ /* se queda lo del archivo */ }
 
 /* Un link solo sirve si de verdad es un link. Si en vez de una
    dirección hay una nota, se muestra como texto apagado en vez de

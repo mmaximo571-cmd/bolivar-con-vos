@@ -16,7 +16,7 @@ Facultad de Trabajo Social, UNLP.
 | Fechas | `agenda/index.html` | Fechas, comunicados y actividades. Se actualiza sola |
 | Perfil | `mi/index.html` | Cuenta **opcional** del estudiante, para guardar trámites |
 | ¿Quiénes somos? | `quienes/index.html` | La agrupación y quién impulsa la app |
-| Panel | `panel/index.html` | Donde el equipo carga y edita todo |
+| Panel | `panel/index.html` | Donde el equipo carga y edita todo, incluido el «¿Quiénes somos?» |
 
 Las siete primeras son las **secciones** que se ven en la fila de arriba, en ese
 orden. El nombre de la sección, el título de la pantalla y el título de la
@@ -798,25 +798,29 @@ where id = (select id from auth.users where email = 'elcorreo@ejemplo.com');
 
 ---
 
-## Cómo escribir el «¿Quiénes somos?»
+## El «¿Quiénes somos?»
 
-**Esta pantalla no se edita desde el panel: se edita en el archivo.** Es la única
-así, porque su texto cambia una vez por año y no valía la pena armarle una tabla.
+**Se edita desde el panel**, solapa **✊ Quiénes somos**. Antes era la única
+pantalla que había que tocar en el archivo, y no tenía sentido: ese texto lo
+escribe la agrupación, no quien programa.
 
-Abrí `quienes/index.html`. Arriba de todo hay un bloque que dice **«ACÁ SE
-ESCRIBE EL TEXTO DE ESTA PANTALLA»**. Todo lo que hay que tocar está ahí; el
-resto del archivo dibuja lo que se escriba.
+Se guarda entero de una vez, en una sola fila de la tabla `pagina_quienes`
+(`tabla-quienes.sql`). No es una lista de cosas como los trámites: es una
+página, así que no hay botón de «nuevo». La tabla tiene un candado que impide
+que se cargue una segunda fila por error.
 
-Cada bloque es un título y uno o más párrafos. Para sumar uno, copiá uno entero
-y cambiale el texto. Para sacarlo, borralo: la pantalla se acomoda sola, sirve
-con dos bloques o con diez.
+**Los bloques se escriben como el programa de una materia**: un bloque por
+sección, separados con un renglón en blanco, el primer renglón es el título y
+los de abajo son los párrafos. Es la misma convención en toda la app.
 
-**Todo lo que diga `REVISAR` es texto de ejemplo** y hay que reemplazarlo.
+**Las redes van una por línea**, `Nombre · dirección`. Si una no tiene
+dirección, en la app aparece apagada en vez de como botón: no se publica un
+botón que no lleva a ningún lado.
 
-Los links de redes tienen una protección: **si el link no está cargado, en vez
-del botón aparece un cartel apagado que dice que falta**. Así no se publica un
-botón que no lleva a ningún lado. Cuando pegás un link de verdad, se convierte
-en botón solo.
+**El texto del archivo sigue ahí, pero ya no es lo que se ve.** Quedó como red
+de seguridad: si la base no contesta —red de la facultad, tabla sin crear— la
+pantalla muestra eso en vez de quedar vacía. Tocalo solo si querés cambiar lo
+que se ve sin internet.
 
 Se llega desde la **fila de secciones**, desde el **menú ☰** y desde el enlace
 del **pie de página**, en todas las pantallas.

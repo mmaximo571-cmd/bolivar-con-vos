@@ -149,6 +149,7 @@
       <button class="chip" data-p="agenda"   aria-pressed="false">📅 Agenda</button>
       <button class="chip" data-p="materiales" aria-pressed="false">📚 Estudiemos</button>
       <button class="chip" data-p="programas"  aria-pressed="false">📖 Programas</button>
+      <button class="chip" data-p="quienes"    aria-pressed="false">✊ Quiénes somos</button>
       <button class="chip" data-p="categorias" aria-pressed="false">🗂 Categorías</button>
     </div>
     <div id="zona" style="margin-top:14px"></div>
@@ -1117,11 +1118,137 @@
     };
   }
 
+  /* ============================================================
+     ¿QUIÉNES SOMOS?  ·  una sola página, no una lista
+
+     Era la única pantalla que había que editar tocando el archivo. No
+     tenía sentido: ese texto lo escribe la agrupación.
+
+     No hay lista ni botón de «nuevo»: es UNA página. El formulario se
+     abre directamente y guarda arriba de lo que había.
+     ============================================================ */
+
+  /* Los bloques se escriben como el programa de una materia: un bloque
+     por sección, el primer renglón es el título y los de abajo son los
+     párrafos. Es la misma convención en toda la app. */
+  function leerBloques(texto){
+    return texto.split(/\n\s*\n/).map(b => b.trim()).filter(Boolean).map(b => {
+      const lineas = b.split('\n').map(l => l.trim()).filter(Boolean);
+      return { titulo: lineas.shift() || '', parrafos: lineas };
+    });
+  }
+  function escribirBloques(bloques){
+    return (bloques || []).map(b =>
+      (b.titulo || '') + '\n' + (b.parrafos || []).join('\n')).join('\n\n');
+  }
+
+  function leerRedes(texto){
+    return texto.split('\n').map(l => l.trim()).filter(Boolean).map(l => {
+      const p = l.split(/\s*[·;|]\s*/);
+      return { nombre: p[0] || '', url: (p[1] || '').trim() };
+    }).filter(r => r.nombre);
+  }
+  function escribirRedes(redes){
+    return (redes || []).map(r => r.nombre + ' · ' + (r.url || '')).join('\n');
+  }
+
+  async function vistaQuienes(){
+    const { data, error } = await db.from('pagina_quienes').select('*').limit(1).maybeSingle();
+
+    if (error){
+      zona.innerHTML = /pagina_quienes/.test(error.message || '')
+        ? `<div class="aviso error">
+             <strong>Falta activar esta sección.</strong><br>
+             Hay que correr <b>tabla-quienes.sql</b> en el SQL Editor de
+             Supabase. Es una sola vez.
+           </div>`
+        : `<div class="aviso error">No se pudo cargar: ${esc(error.message)}</div>`;
+      return;
+    }
+
+    const p = data || { bajada:'', bloques:[], redes:[], sumate:null };
+    const s = p.sumate || {};
+
+    zona.innerHTML = `
+      <p class="letra-chica">Esto es lo que se lee en la pantalla
+        <b>¿Quiénes somos?</b> de la app. Se guarda entero de una vez.</p>
+
+      <div class="campo"><label for="bajada">La frase de arriba</label>
+        <textarea id="bajada" style="min-height:70px"
+          placeholder="Somos la Agrupación Simón Bolívar…">${esc(p.bajada || '')}</textarea></div>
+
+      <div class="campo">
+        <label for="bloques">Los bloques de texto</label>
+        <p class="letra-chica" style="margin:0 0 6px">
+          Un bloque por sección, separados con un renglón en blanco. El
+          <b>primer renglón de cada bloque es el título</b> y los de abajo
+          son los párrafos, uno por línea.</p>
+        <textarea id="bloques" style="min-height:260px"
+          placeholder="La agrupación&#10;Qué es la Agrupación Simón Bolívar y desde cuándo existe.&#10;&#10;Por qué hicimos esta app&#10;El problema que vimos.">${esc(escribirBloques(p.bloques))}</textarea>
+      </div>
+
+      <div class="campo">
+        <label for="redes">Dónde encontrarnos</label>
+        <p class="letra-chica" style="margin:0 0 6px">
+          Una red por línea: <b>Nombre · dirección</b>. Si una no tiene
+          dirección, en la app aparece apagada en vez de como botón: no se
+          publica un botón que no lleva a ningún lado.</p>
+        <textarea id="redes" style="min-height:90px;font-family:var(--fuente-datos);font-size:14px"
+          placeholder="Instagram · https://www.instagram.com/SimonBolivarfts">${esc(escribirRedes(p.redes))}</textarea>
+      </div>
+
+      <div class="campo"><label for="sumate-titulo">El llamado del final</label>
+        <p class="letra-chica" style="margin:0 0 6px">
+          Dejá el título vacío si no lo querés mostrar.</p>
+        <input id="sumate-titulo" value="${esc(s.titulo || '')}" placeholder="Sumate"></div>
+      <div class="campo"><label for="sumate-texto">Qué dice</label>
+        <textarea id="sumate-texto" style="min-height:80px">${esc(s.texto || '')}</textarea></div>
+      <div class="dos-columnas">
+        <div class="campo"><label for="sumate-boton">Qué dice el botón</label>
+          <input id="sumate-boton" value="${esc(s.boton || '')}" placeholder="Escribinos"></div>
+        <div class="campo"><label for="sumate-url">A dónde lleva</label>
+          <input id="sumate-url" value="${esc(s.url || '')}" placeholder="https://..."></div>
+      </div>
+
+      <button class="boton ancho" id="guardar-quienes">Guardar la pantalla</button>
+      <a class="boton borde ancho" href="../quienes/" target="_blank" rel="noopener"
+         style="margin-top:10px">Ver cómo quedó ↗</a>
+      <div id="msj"></div>`;
+
+    document.getElementById('guardar-quienes').onclick = async function(){
+      this.disabled = true; this.textContent = 'Guardando…';
+
+      const titulo = val('sumate-titulo');
+      const fila = {
+        solo_una: true,
+        bajada:  val('bajada'),
+        bloques: leerBloques(document.getElementById('bloques').value),
+        redes:   leerRedes(document.getElementById('redes').value),
+        sumate:  titulo ? {
+          titulo: titulo,
+          texto:  val('sumate-texto'),
+          boton:  val('sumate-boton') || 'Escribinos',
+          url:    val('sumate-url')
+        } : null
+      };
+
+      /* upsert: la primera vez la crea, después la pisa. Es una sola
+         fila, así que no hay riesgo de duplicar. */
+      const { error } = await db.from('pagina_quienes')
+        .upsert(fila, { onConflict:'solo_una' });
+
+      this.disabled = false; this.textContent = 'Guardar la pantalla';
+      document.getElementById('msj').innerHTML = error
+        ? `<div class="aviso error">No se pudo guardar: ${esc(error.message)}</div>`
+        : `<div class="aviso ok">Listo. Ya se ve así en la app.</div>`;
+    };
+  }
   /* ============================================================ */
   function dibujar(){
     zona.innerHTML = '<div class="esq-tarjeta"><div class="esqueleto esq-linea titulo"></div><div class="esqueleto esq-linea"></div><div class="esqueleto esq-linea media"></div></div><div class="esq-tarjeta"><div class="esqueleto esq-linea titulo"></div><div class="esqueleto esq-linea"></div><div class="esqueleto esq-linea corta"></div></div>';
     ({ tramites:vistaTramites, faq:vistaFaq, agenda:vistaAgenda, programas:vistaProgramas,
-       materiales:vistaMateriales, categorias:vistaCategorias }[actual])();
+       materiales:vistaMateriales, quienes:vistaQuienes,
+       categorias:vistaCategorias }[actual])();
   }
 
   dibujar();
