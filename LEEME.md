@@ -312,6 +312,20 @@ peso **Bold**, licencia MIT. **Están los 19: no quedan emoji sueltos.** Si algu
 vez se agrega una categoría nueva en Supabase, hasta que se le cargue el ícono va
 a mostrar su emoji, que es la red de seguridad de siempre.
 
+**Un ícono se elige mirándolo a 20 px, no a 52.** Muchas formas que se ven
+lindas grandes se convierten en una mancha en la fila de secciones. El
+`signpost` —un cartel indicador, que parecía perfecto para «Mi año»— se
+descartó justamente por eso.
+
+**Y tiene que decir lo que dice su etiqueta.** Cuatro no lo hacían:
+
+| Dónde | Antes | Ahora | Por qué |
+|---|---|---|---|
+| Mi año | Tres libros | Lista con tildes | «Mi año» no es material de lectura: es marcar materias. Los libros describían *Estudiemos*, que estaba al lado |
+| Inscripciones y finales | Tarjeta con «A+» | Planilla | **En esta facultad no existe el «A+»**: se califica del 1 al 10. Y ahí uno se anota, no lo califican |
+| Cátedras | Pizarrón con docente | Agenda de contactos | Lo que hay adentro son los contactos de las cátedras. Y el pizarrón se ensuciaba a 20 px |
+| Alquiler | Casa | Llave | Había **dos casas**: esta y la de Inicio |
+
 Cuidado con dos cosas al agregar uno:
 
 - **Fijate que no esté repetido.** «Estudiemos» arrancó con el mismo dibujo que
