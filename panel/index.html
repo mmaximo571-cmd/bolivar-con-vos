@@ -150,6 +150,7 @@
       <button class="chip" data-p="materiales" aria-pressed="false">📚 Estudiemos</button>
       <button class="chip" data-p="programas"  aria-pressed="false">📖 Programas</button>
       <button class="chip" data-p="quienes"    aria-pressed="false">✊ Quiénes somos</button>
+      <button class="chip" data-p="consejo"   aria-pressed="false">🏛 Consejo</button>
       <button class="chip" data-p="categorias" aria-pressed="false">🗂 Categorías</button>
     </div>
     <div id="zona" style="margin-top:14px"></div>
@@ -1173,6 +1174,14 @@
       <p class="letra-chica">Esto es lo que se lee en la pantalla
         <b>¿Quiénes somos?</b> de la app. Se guarda entero de una vez.</p>
 
+      <div class="campo">
+        <label for="titular">El titular</label>
+        <p class="letra-chica" style="margin:0 0 6px">
+          Es lo más grande de la pantalla. La barra <b>|</b> corta el renglón
+          y lo que va entre <b>*asteriscos*</b> sale resaltado en color.<br>
+          Ejemplo: <code>Esta app es|la parte *chica*</code></p>
+        <input id="titular" value="${esc(p.titular || "")}" placeholder="Esta app es|la parte *chica*"></div>
+
       <div class="campo"><label for="bajada">La frase de arriba</label>
         <textarea id="bajada" style="min-height:70px"
           placeholder="Somos la Agrupación Simón Bolívar…">${esc(p.bajada || '')}</textarea></div>
@@ -1221,6 +1230,7 @@
       const titulo = val('sumate-titulo');
       const fila = {
         solo_una: true,
+        titular: val('titular'),
         bajada:  val('bajada'),
         bloques: leerBloques(document.getElementById('bloques').value),
         redes:   leerRedes(document.getElementById('redes').value),
@@ -1243,11 +1253,131 @@
         : `<div class="aviso ok">Listo. Ya se ve así en la app.</div>`;
     };
   }
+  /* ============================================================
+     EL CONSEJO DIRECTIVO  ·  su propia página, con línea de tiempo
+
+     Igual que «¿Quiénes somos?»: una sola fila, se guarda entera. Lo
+     que cambia es que acá hay LOGROS, y van con año porque en la
+     pantalla se dibujan como una línea de tiempo: el orden cuenta la
+     acumulación del trabajo.
+     ============================================================ */
+
+  /* Un logro por bloque: primer renglón «2025 · Título», el resto es el
+     detalle. Misma convención que los programas y los bloques. */
+  function leerLogros(texto){
+    return texto.split(/\n\s*\n/).map(b => b.trim()).filter(Boolean).map(b => {
+      const lineas = b.split('\n').map(l => l.trim()).filter(Boolean);
+      const cabeza = (lineas.shift() || '').split(/\s*[·;]\s*/);
+      return {
+        anio:    cabeza.length > 1 ? cabeza[0] : '',
+        titulo:  cabeza.length > 1 ? cabeza.slice(1).join(' · ') : cabeza[0],
+        detalle: lineas.join(' ')
+      };
+    });
+  }
+  function escribirLogros(logros){
+    return (logros || []).map(l =>
+      [l.anio, l.titulo].filter(Boolean).join(' · ') +
+      (l.detalle ? '\n' + l.detalle : '')).join('\n\n');
+  }
+
+  async function vistaConsejo(){
+    const { data, error } = await db.from('pagina_consejo').select('*').limit(1).maybeSingle();
+
+    if (error){
+      zona.innerHTML = /pagina_consejo/.test(error.message || '')
+        ? `<div class="aviso error">
+             <strong>Falta activar esta sección.</strong><br>
+             Hay que correr <b>tabla-consejo.sql</b> en el SQL Editor de
+             Supabase. Es una sola vez.
+           </div>`
+        : `<div class="aviso error">No se pudo cargar: ${esc(error.message)}</div>`;
+      return;
+    }
+
+    const p = data || { titular:'', bajada:'', bloques:[], logros:[] };
+
+    zona.innerHTML = `
+      <p class="letra-chica">Esto es lo que se lee en la pantalla
+        <b>El Consejo Directivo</b>, a la que se llega desde
+        «¿Quiénes somos?».</p>
+
+      <div class="campo">
+        <label for="titular">El titular</label>
+        <p class="letra-chica" style="margin:0 0 6px">
+          La barra <b>|</b> corta el renglón y lo que va entre
+          <b>*asteriscos*</b> sale resaltado.<br>
+          Ejemplo: <code>El Consejo|*Directivo*</code></p>
+        <input id="titular" value="${esc(p.titular || '')}"
+               placeholder="El Consejo|*Directivo*"></div>
+
+      <div class="campo"><label for="bajada">La frase de arriba</label>
+        <textarea id="bajada" style="min-height:70px"
+          placeholder="El Consejo Directivo es donde se decide…">${esc(p.bajada || '')}</textarea></div>
+
+      <div class="campo">
+        <label for="bloques">Los bloques de texto</label>
+        <p class="letra-chica" style="margin:0 0 6px">
+          Un bloque por sección, separados con un renglón en blanco. El
+          primer renglón de cada bloque es el título.</p>
+        <textarea id="bloques" style="min-height:220px">${esc(escribirBloques(p.bloques))}</textarea>
+      </div>
+
+      <div class="campo">
+        <label for="logros">Los logros</label>
+        <p class="letra-chica" style="margin:0 0 6px">
+          Uno por bloque, separados con un renglón en blanco. El primer
+          renglón es <b>año · qué se consiguió</b> y lo de abajo es el
+          detalle, si hace falta. <b>Van del más viejo al más nuevo</b>:
+          así se dibujan en la pantalla.</p>
+        <textarea id="logros" style="min-height:220px;font-family:var(--fuente-datos);font-size:14px"
+          placeholder="2024 · Boleto universitario para posgrado&#10;Se aprobó por unanimidad después de dos años de reclamo.&#10;&#10;2025 · Ampliación de la sala de informática">${esc(escribirLogros(p.logros))}</textarea>
+        <div id="cuenta-logros"></div>
+      </div>
+
+      <button class="boton ancho" id="guardar-consejo">Guardar la pantalla</button>
+      <a class="boton borde ancho" href="../consejo/" target="_blank" rel="noopener"
+         style="margin-top:10px">Ver cómo quedó ↗</a>
+      <div id="msj"></div>`;
+
+    /* Se ve al toque cuántos van a quedar: si el formato está mal, se
+       nota acá y no cuando ya está publicado. */
+    const campoLogros = document.getElementById('logros');
+    const cuenta = document.getElementById('cuenta-logros');
+    function verCuenta(){
+      const l = leerLogros(campoLogros.value);
+      const sinAnio = l.filter(x => !x.anio).length;
+      cuenta.innerHTML = !l.length ? '' :
+        `<div class="aviso ${sinAnio ? 'error' : 'ok'}">
+           Van a quedar <b>${l.length}</b> logro${l.length === 1 ? '' : 's'}.
+           ${sinAnio ? `<b>${sinAnio}</b> sin año: escribilos como
+             <b>2025 · qué se consiguió</b>.` : ''}
+         </div>`;
+    }
+    campoLogros.addEventListener('input', verCuenta);
+    verCuenta();
+
+    document.getElementById('guardar-consejo').onclick = async function(){
+      this.disabled = true; this.textContent = 'Guardando…';
+      const { error } = await db.from('pagina_consejo').upsert({
+        solo_una: true,
+        titular: val('titular'),
+        bajada:  val('bajada'),
+        bloques: leerBloques(document.getElementById('bloques').value),
+        logros:  leerLogros(campoLogros.value)
+      }, { onConflict:'solo_una' });
+
+      this.disabled = false; this.textContent = 'Guardar la pantalla';
+      document.getElementById('msj').innerHTML = error
+        ? `<div class="aviso error">No se pudo guardar: ${esc(error.message)}</div>`
+        : `<div class="aviso ok">Listo. Ya se ve así en la app.</div>`;
+    };
+  }
   /* ============================================================ */
   function dibujar(){
     zona.innerHTML = '<div class="esq-tarjeta"><div class="esqueleto esq-linea titulo"></div><div class="esqueleto esq-linea"></div><div class="esqueleto esq-linea media"></div></div><div class="esq-tarjeta"><div class="esqueleto esq-linea titulo"></div><div class="esqueleto esq-linea"></div><div class="esqueleto esq-linea corta"></div></div>';
     ({ tramites:vistaTramites, faq:vistaFaq, agenda:vistaAgenda, programas:vistaProgramas,
-       materiales:vistaMateriales, quienes:vistaQuienes,
+       materiales:vistaMateriales, quienes:vistaQuienes, consejo:vistaConsejo,
        categorias:vistaCategorias }[actual])();
   }
 

@@ -1795,3 +1795,170 @@ details.tarjeta .respuesta{margin-top:9px;color:var(--texto-suave);font-size:15p
   flex:0 0 auto;font-family:var(--fuente-sub);font-weight:700;font-size:22px;
   line-height:1
 }
+
+/* ============================================================
+   LAS DOS PANTALLAS QUE SE LEEN, NO SE USAN
+
+   «¿Quiénes somos?» y «El Consejo Directivo» son las únicas dos
+   pantallas de la app que se leen de arriba a abajo. El resto es una
+   herramienta: entrás, resolvés algo y salís.
+
+   Por eso rompen con el resto. El amarillo deja de ser acento y pasa a
+   ser FONDO, entra el negro pleno por bandas, y el celeste desaparece:
+   en las placas del Instagram el celeste no existe, y acá la página
+   habla el idioma de las placas, no el de la app.
+
+   La paleta es la misma de siempre. Lo que se rompe es la contención.
+   ============================================================ */
+.lectura{ --banda-aire:clamp(48px, 11vw, 96px) }
+
+/* Las bandas van de borde a borde, sin la envoltura de 680 px: en una
+   pantalla que se lee, el color tiene que llegar hasta el filo. */
+.banda{ padding:var(--banda-aire) 0; position:relative }
+.banda > .envoltura{ position:relative; z-index:1 }
+.banda.tinta{ background:var(--negro); color:var(--sobre-negro) }
+.banda.sol  { background:var(--amarillo); color:var(--sobre-color) }
+.banda.papel{ background:var(--superficie); color:var(--texto) }
+
+/* La trama de puntos: la misma que tienen las ilustraciones de la
+   facultad, que son serigrafías. Es de donde sale todo el lenguaje. */
+.banda.tinta::before{
+  content:'';position:absolute;inset:0;pointer-events:none;
+  background-image:radial-gradient(var(--amarillo) 1px, transparent 1.1px);
+  background-size:10px 10px;opacity:.10
+}
+
+/* ---- El grito ----
+   Es lo único gigante de toda la app. Va acá y en ningún otro lado. */
+.grito{
+  font-family:var(--fuente-titulo);
+  font-size:clamp(38px, 11.5vw, 92px);
+  line-height:.92;letter-spacing:-.025em;
+  margin:0;text-wrap:balance
+}
+.grito em{font-style:normal;color:var(--amarillo)}
+.banda.sol .grito em{color:var(--rojo-solido)}
+
+.ceja-lectura{
+  font-family:var(--fuente-datos);font-size:var(--letra-chica);
+  letter-spacing:.16em;text-transform:uppercase;
+  margin:0 0 18px;opacity:.72
+}
+.bajada-lectura{
+  font-size:clamp(17px, 4.6vw, 21px);line-height:1.45;
+  max-width:34ch;margin:22px 0 0
+}
+
+/* ---- El zigzag ----
+   Texto e imagen alternando lados, como en la referencia. En el celular
+   se apila solo: por eso no pesa nada. */
+.zigzag{display:grid;gap:26px;margin-top:var(--banda-aire)}
+.zigzag > article{display:grid;gap:18px;align-items:center}
+.zigzag h3{
+  font-family:var(--fuente-titulo);font-size:clamp(22px,6vw,32px);
+  line-height:1.05;margin:0 0 10px
+}
+.zigzag p{margin:0 0 12px;font-size:var(--letra-base);line-height:1.55;max-width:46ch}
+.zigzag p:last-child{margin-bottom:0}
+
+/* La foto, montada sobre su segunda tinta corrida. Es el mismo gesto
+   que la sombra de las tarjetas, pero grande. */
+.zigzag figure{margin:0;position:relative}
+.zigzag figure img{
+  width:100%;height:auto;display:block;border-radius:var(--radio);
+  border:2px solid var(--tinta-borde);position:relative;z-index:1
+}
+.zigzag figure::before{
+  content:'';position:absolute;inset:14px -14px -14px 14px;
+  background:var(--amarillo);border-radius:var(--radio)
+}
+.banda.sol .zigzag figure::before{background:var(--negro)}
+.zigzag figcaption{
+  margin-top:16px;font-family:var(--fuente-datos);
+  font-size:var(--letra-chica);opacity:.72
+}
+
+@media (min-width:760px){
+  .zigzag > article{grid-template-columns:1fr 1fr;gap:44px}
+  .zigzag > article:nth-child(even) figure{order:-1}
+}
+
+/* ---- La línea de tiempo de los logros ----
+   Baja, y el año va en la tipografía de datos porque es un dato. El
+   orden acá dice algo: se ve la acumulación. */
+.linea-logros{list-style:none;margin:var(--banda-aire) 0 0;padding:0;position:relative}
+.linea-logros::before{
+  content:'';position:absolute;left:7px;top:10px;bottom:10px;width:2px;
+  background:currentColor;opacity:.28
+}
+.linea-logros li{position:relative;padding:0 0 30px 34px}
+.linea-logros li:last-child{padding-bottom:0}
+.linea-logros li::before{
+  content:'';position:absolute;left:0;top:7px;width:16px;height:16px;
+  border-radius:50%;background:var(--amarillo);
+  border:2px solid var(--negro)
+}
+.banda.sol .linea-logros li::before{background:var(--negro);border-color:var(--amarillo)}
+.logro-anio{
+  display:block;font-family:var(--fuente-datos);font-weight:700;
+  font-size:var(--letra-chica);letter-spacing:.1em;opacity:.72;margin-bottom:3px
+}
+.logro-titulo{
+  font-family:var(--fuente-titulo);font-size:clamp(19px,5vw,25px);
+  line-height:1.1;margin:0 0 6px
+}
+.linea-logros p{margin:0;font-size:var(--letra-base);line-height:1.5;max-width:46ch}
+
+/* ---- La puerta al Consejo ---- */
+.puerta{
+  display:flex;align-items:center;gap:16px;text-decoration:none;
+  background:var(--negro);color:var(--sobre-negro);
+  border:2px solid var(--negro);border-radius:var(--radio);
+  padding:22px 20px;margin-top:var(--banda-aire)
+}
+.banda.tinta .puerta{background:var(--amarillo);color:var(--sobre-color);border-color:var(--amarillo)}
+.puerta-texto{flex:1}
+.puerta-texto strong{
+  display:block;font-family:var(--fuente-titulo);
+  font-size:clamp(20px,5.4vw,28px);line-height:1.05;margin-bottom:6px
+}
+.puerta-texto span{font-size:var(--letra-nota);line-height:1.4;opacity:.85}
+.puerta-flecha{font-family:var(--fuente-sub);font-weight:700;font-size:28px;line-height:1}
+.puerta:active{transform:translate(2px,2px)}
+
+/* ---- La aparición al desplazar ----
+   Sin librerías: un IntersectionObserver y dos propiedades que la placa
+   de video puede animar sola (transform y opacity). Nada de height ni
+   top, que obligan a recalcular la página en cada cuadro. */
+.aparece{opacity:0;transform:translateY(18px);
+  transition:opacity .55s ease, transform .55s cubic-bezier(.2,.7,.2,1)}
+.aparece.visible{opacity:1;transform:none}
+.aparece:nth-child(2){transition-delay:.07s}
+.aparece:nth-child(3){transition-delay:.14s}
+.aparece:nth-child(4){transition-delay:.21s}
+
+@media (prefers-reduced-motion:reduce){
+  .aparece{opacity:1;transform:none;transition:none}
+}
+
+/* Sin JavaScript la página tiene que leerse igual: si el observador no
+   llega a correr, esto la deja visible. */
+.sin-js .aparece{opacity:1;transform:none}
+
+/* Sobre la banda negra, los botones de borde tienen que invertirse: el
+   --texto de la app es oscuro en modo claro, así que ahí quedaban
+   negros sobre negro. Contraste 1,00: invisibles. */
+.banda.tinta .boton.borde{
+  color:var(--sobre-negro);border-color:var(--sobre-negro);background:transparent
+}
+.banda.tinta .boton.borde:hover{background:rgba(255,255,255,.1)}
+.banda.tinta .red-pendiente{color:var(--sobre-negro);opacity:.7}
+.banda.sol .boton.borde{color:var(--sobre-color);border-color:var(--sobre-color)}
+
+/* El enlace de volver, arriba de la pantalla del Consejo. Iba adentro
+   de un párrafo y quedaba de 17 px de alto: por debajo del mínimo. */
+.volver-lectura{
+  display:inline-flex;align-items:center;min-height:32px;padding:6px 2px;
+  color:inherit;text-decoration:none;border-bottom:1px solid currentColor
+}
+.volver-lectura:hover{opacity:.75}

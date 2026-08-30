@@ -3,8 +3,8 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Quiénes somos · La Bolívar con vos</title>
-<meta name="description" content="Quiénes somos: la Agrupación Simón Bolívar, conducción del Centro de Estudiantes de la Facultad de Trabajo Social de la UNLP.">
+<title>El Consejo Directivo · La Bolívar con vos</title>
+<meta name="description" content="El Consejo Directivo de la Facultad de Trabajo Social: qué es, qué hace la Agrupación Simón Bolívar ahí y qué se consiguió.">
 <meta name="theme-color" content="#F9E830">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -19,8 +19,8 @@
 <!-- Como se ve cuando alguien comparte el link por WhatsApp o Instagram -->
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="La Bolivar con vos">
-<meta property="og:title" content="Quiénes somos · La Bolívar con vos">
-<meta property="og:description" content="Quiénes somos: la Agrupación Simón Bolívar, conducción del Centro de Estudiantes de la Facultad de Trabajo Social de la UNLP.">
+<meta property="og:title" content="El Consejo Directivo · La Bolívar con vos">
+<meta property="og:description" content="El Consejo Directivo de la Facultad de Trabajo Social: qué es, qué hace la Agrupación Simón Bolívar ahí y qué se consiguió.">
 <meta property="og:image" content="https://bolivar-con-vos.vercel.app/imagenes/compartir.png">
 <meta name="twitter:card" content="summary_large_image">
 <link rel="stylesheet" href="../estilos.css">
@@ -68,62 +68,51 @@
 <script src="../lectura.js"></script>
 <script>
 /* ============================================================
-   ¿QUIÉNES SOMOS?
+   EL CONSEJO DIRECTIVO
 
-   El texto se edita desde el PANEL, solapa «✊ Quiénes somos». Acá no
-   hay texto que tocar.
+   El texto y los logros se editan desde el PANEL, solapa
+   «🏛 Consejo Directivo». Acá no hay texto que tocar.
 
-   Lo de abajo es la red de seguridad: si la base no contesta —red de
-   la facultad, tabla sin crear— se muestra esto en vez de una pantalla
-   en blanco. Tocalo solo para eso.
+   Lo de abajo es la red de seguridad, para que la pantalla no quede en
+   blanco si la base no contesta.
    ============================================================ */
 const RESPALDO = {
-  bajada: 'Somos la Agrupación Simón Bolívar. Conducimos el Centro de ' +
-          'Estudiantes de la Facultad de Trabajo Social de la UNLP, y esta ' +
-          'app la hacemos nosotras y nosotros.',
-  bloques: [{
-    titulo: 'Por qué hicimos esta app',
-    parrafos: ['La información de la facultad existe, pero está desparramada. ' +
-      'Perderse una fecha por no haberla visto a tiempo te puede costar un ' +
-      'cuatrimestre, así que juntamos todo en un solo lugar.']
-  }],
-  redes: [{ nombre:'Instagram', url:'https://www.instagram.com/SimonBolivarfts' }],
-  titular: 'Esta app es|la parte *chica*',
-  sumate: null, imagenes: []
+  bajada: 'El Consejo Directivo es donde se decide lo que después te pasa ' +
+          'en la cursada. Ahí estamos.',
+  titular: 'El Consejo|*Directivo*',
+  bloques: [], logros: [], imagenes: []
 };
 
-(async function quienes(){
+(async function consejo(){
   document.getElementById('cabecera').innerHTML = htmlCabecera();
   document.getElementById('pie').innerHTML = htmlPie();
+  /* Se marca «¿Quiénes somos?» en la fila de arriba: esta pantalla vive
+     adentro de esa sección, y así no queda ninguna marcada. */
   pintarNav('quienes');
   document.body.classList.remove('sin-js');
 
   let p = RESPALDO;
   try {
     const { data, error } = await conPaciencia(
-      db.from('pagina_quienes').select('*').limit(1).maybeSingle());
+      db.from('pagina_consejo').select('*').limit(1).maybeSingle());
     if (!error && data) p = data;
   } catch(e){ /* se queda el respaldo */ }
 
   const bloques  = Array.isArray(p.bloques)  ? p.bloques  : [];
+  const logros   = Array.isArray(p.logros)   ? p.logros   : [];
   const imagenes = Array.isArray(p.imagenes) ? p.imagenes : [];
-  const redes    = Array.isArray(p.redes)    ? p.redes    : [];
 
-  /* EL GRITO. Es lo primero y lo único gigante: si alguien entra acá es
-     porque se preguntó quién está atrás de la app, y la respuesta tiene
-     que implicarlo, no solamente informarlo. */
   const hero = `
     <div class="banda tinta">
       <div class="envoltura">
-        <p class="ceja-lectura aparece">Agrupación Simón Bolívar · Conducción del CEFTS</p>
+        <p class="ceja-lectura aparece">
+          <a class="volver-lectura" href="../quienes/">← ¿Quiénes somos?</a>
+        </p>
         <h1 class="grito aparece">${titularHTML(p.titular)}</h1>
         <p class="bajada-lectura aparece">${esc(p.bajada || '')}</p>
       </div>
     </div>`;
 
-  /* Los bloques, en zigzag. Las fotos se reparten entre ellos: si hay
-     menos fotos que bloques, los últimos van solo con texto y la
-     pantalla no se rompe. */
   const cuerpo = bloques.length ? `
     <div class="banda papel">
       <div class="envoltura">
@@ -148,51 +137,48 @@ const RESPALDO = {
       </div>
     </div>` : '';
 
-  /* La puerta al Consejo. Va después de los bloques a propósito: primero
-     quiénes somos, después dónde lo peleamos. */
-  const puerta = `
+  /* LOS LOGROS. Van en línea de tiempo porque el orden dice algo: se ve
+     la acumulación del trabajo. Si todavía no hay ninguno cargado, no
+     se muestra una lista vacía: se dice qué va a haber ahí. */
+  const conseguido = `
     <div class="banda sol">
       <div class="envoltura">
-        <h2 class="grito aparece">Donde se decide<br>lo que <em>te pasa</em></h2>
-        <p class="bajada-lectura aparece">
-          Los planes de estudio, las mesas, los horarios y el presupuesto se
-          aprueban en el Consejo Directivo. Ahí también estamos.</p>
-        <a class="puerta aparece" href="../consejo/">
-          <span class="puerta-texto">
-            <strong>El Consejo Directivo</strong>
-            <span>Qué es, qué hacemos ahí y qué conseguimos</span>
-          </span>
-          <span class="puerta-flecha" aria-hidden="true">→</span>
-        </a>
+        <h2 class="grito aparece">Lo que se<br><em>consiguió</em></h2>
+        ${logros.length ? `
+          <ol class="linea-logros">
+            ${logros.map(l => `
+              <li class="aparece">
+                <span class="logro-anio">${esc(l.anio || '')}</span>
+                <h3 class="logro-titulo">${esc(l.titulo || '')}</h3>
+                ${l.detalle ? `<p>${esc(l.detalle)}</p>` : ''}
+              </li>`).join('')}
+          </ol>`
+        : `<p class="bajada-lectura aparece">
+             Acá van las cosas que se consiguieron desde el Consejo, con el año
+             de cada una. Todavía no las cargamos.</p>`}
       </div>
     </div>`;
 
   const cierre = `
     <div class="banda tinta">
       <div class="envoltura">
-        ${redes.length ? `
-          <h2 class="grito aparece" style="font-size:clamp(28px,7.4vw,52px)">Dónde<br>encontrarnos</h2>
-          <div class="redes aparece" style="margin-top:26px">
-            ${redes.map(r => /^https?:\/\//i.test(String(r.url || ''))
-              ? `<a class="boton borde" href="${esc(r.url)}" target="_blank"
-                    rel="noopener">${esc(r.nombre)} ↗</a>`
-              : `<span class="red-pendiente">${esc(r.nombre)}: falta cargar el link</span>`
-            ).join('')}
-          </div>` : ''}
-        ${p.sumate && p.sumate.titulo ? `
-          <div class="aparece" style="margin-top:${redes.length ? '38px' : '0'}">
-            <h2 class="grito" style="font-size:clamp(28px,7.4vw,52px)">${esc(p.sumate.titulo)}</h2>
-            <p class="bajada-lectura">${esc(p.sumate.texto || '')}</p>
-            ${/^https?:\/\//i.test(String(p.sumate.url || ''))
-              ? `<a class="boton ancho" href="${esc(p.sumate.url)}" target="_blank"
-                    rel="noopener" style="margin-top:20px;max-width:420px">${
-                    esc(p.sumate.boton || 'Escribinos')} ↗</a>`
-              : ''}
-          </div>` : ''}
+        <h2 class="grito aparece" style="font-size:clamp(28px,7.4vw,52px)">
+          ¿Te pasó algo<br>en la facu?</h2>
+        <p class="bajada-lectura aparece">
+          Una cátedra que no publica los horarios, una mesa mal puesta, un aula
+          sin luz. Contanos: lo que en el pasillo es una queja, en el Consejo
+          es un expediente.</p>
+        <a class="puerta aparece" href="../quienes/">
+          <span class="puerta-texto">
+            <strong>Escribinos</strong>
+            <span>Todas nuestras formas de contacto</span>
+          </span>
+          <span class="puerta-flecha" aria-hidden="true">→</span>
+        </a>
       </div>
     </div>`;
 
-  document.getElementById('lectura').innerHTML = hero + cuerpo + puerta + cierre;
+  document.getElementById('lectura').innerHTML = hero + cuerpo + conseguido + cierre;
   vigilarAparicion();
 })();
 </script>
