@@ -399,20 +399,29 @@ SIMÓN y BOLÍVAR— recortadas y pintadas. No hay un archivo de logo aparte: si
 alguna vez cambia, se cambian esas tres capas de `marca/` y se vuelven a generar
 las piezas.
 
-Va en **tres versiones, según el fondo**:
+Va en **dos versiones, según el fondo**:
 
 | Dónde | Color | Contraste |
 |---|---|---|
-| Ícono de la app | Rojo sobre blanco | 6,4 |
+| Ícono de la app | Amarillo, sobre el negro | 13,8 |
 | Cabecera | Amarillo, sobre el negro | 13,8 |
 | Imagen de compartir | Amarillo, sobre el negro | 13,8 |
+| Portada | Rojo, sobre el fondo claro | 6,0 |
 
 El amarillo **nunca** va sobre fondo claro: ahí da 1,3 y no se ve.
 
+El ícono de la app **es una placa negra entera**, no el logo suelto sobre
+transparente. Es a propósito: así se ve igual en cualquier pantalla de inicio,
+clara u oscura, y Android no le inventa un fondo blanco atrás.
+
 Las piezas están en `imagenes/`:
 
-- `icono-96.png` — la pestaña del navegador y los resultados de Google
+- `icono-32.png` y `icono-96.png` — la pestaña del navegador y los resultados de Google
 - `icono-192.png` y `icono-512.png` — la pantalla de inicio en Android
+- `icono-maskable-512.png` — el mismo, para cuando Android recorta el ícono a la
+  forma del launcher (círculo, gota, cuadrado redondeado). Va a sangre, sin
+  esquinas redondeadas propias, y con el logo más chico para que el recorte no
+  se lo coma. Es el que pide `"purpose": "maskable"` en el manifest
 - `icono-apple.png` — la pantalla de inicio en iPhone
 - `compartir.png` — lo que se ve al compartir el link por WhatsApp o Instagram
 - `marca-roja.webp` — el logo de la portada
