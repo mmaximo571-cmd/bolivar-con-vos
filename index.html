@@ -218,6 +218,21 @@
      Mientras tanto los datos ya se están pidiendo, así que cuando
      la animación termina la pantalla suele estar lista.
      ============================================================ */
+  /* ============================================================
+     UN ENLACE DE RECUPERAR CONTRASEÑA QUE CAYÓ ACÁ
+
+     Los enlaces del correo vuelven a «Perfil», que es donde está la
+     pantalla para elegir la contraseña nueva. Pero si la dirección de
+     vuelta no está permitida en Supabase, el enlace cae en la portada
+     —y acá no hay dónde cambiarla: la persona queda adentro sin poder
+     hacer lo que vino a hacer. Ya pasó.
+
+     Si llega uno, lo mandamos a Perfil con la marca intacta. Antes de
+     dibujar nada, para que ni se vea la portada. */
+  if (/type=recovery/.test(location.hash) || /type=recovery|[?&]code=/.test(location.search)){
+    location.replace('mi/' + location.search + location.hash);
+  }
+
   const LLAVE_BIENVENIDA = 'bolivar-bienvenida-vista';
   const LLAVE_APERTURA   = 'bolivar-apertura-vista';
 

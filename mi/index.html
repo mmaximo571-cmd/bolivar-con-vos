@@ -67,7 +67,12 @@
   function vieneDeRecuperar(){
     const h = location.hash || '';
     const b = location.search || '';
-    return /type=recovery/.test(h) || /type=recovery/.test(b);
+    /* «code» es la otra forma en que Supabase devuelve el enlace, y es
+       la que usan también los enlaces mágicos que se mandan desde el
+       tablero. La app nunca manda enlaces para otra cosa, así que si
+       llega uno es porque alguien no puede entrar: mostrarle la
+       pantalla de contraseña nueva es exactamente lo que necesita. */
+    return /type=recovery/.test(h) || /type=recovery/.test(b) || /[?&]code=/.test(b);
   }
   let recuperando = vieneDeRecuperar();
 
@@ -200,8 +205,15 @@
         return;
       }
       this.disabled = true; this.textContent = 'Mandando…';
+      /* OJO: acá NO va RAIZ. En esta pantalla RAIZ vale '../', así que
+         origin + RAIZ + 'mi/' daba «…vercel.app../mi/», una dirección
+         inválida: Supabase la descartaba y mandaba el enlace a la
+         portada, donde no existe la pantalla de contraseña nueva. La
+         persona entraba y no tenía dónde cambiarla.
+         El botón vive en esta misma pantalla, así que la dirección de
+         vuelta es esta misma pantalla. */
       const { error } = await db.auth.resetPasswordForEmail(correo, {
-        redirectTo: location.origin + RAIZ + 'mi/'
+        redirectTo: location.origin + location.pathname
       });
       this.disabled = false; this.textContent = 'Me olvidé la contraseña';
 
