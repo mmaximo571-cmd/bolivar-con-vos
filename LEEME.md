@@ -33,6 +33,54 @@ gente ya tiene guardadas y las que están pegadas en Instagram.
 
 ---
 
+## La estética: serigrafía
+
+La app tiene que parecerse a las placas del Instagram de la agrupación
+([@simonbolivarfts](https://www.instagram.com/SimonBolivarfts), 4.213
+seguidores), que es por donde la mayoría de la gente los conoce. Ese lenguaje
+es: **fondo amarillo, tipografía de afiche enorme, borde de tinta a la vista,
+fotos tratadas a dos tintas, y el rojo como acento chico**.
+
+Cuatro decisiones salen de ahí, y las cuatro viven en el panel de control
+estético de `estilos.css`:
+
+| Qué | Variable | Por qué |
+|---|---|---|
+| Papel, no plástico | `--superficie: #FDFCF7` | Un blanco puro sobre amarillo cálido no son el mismo material: la tarjeta parecía pegada encima |
+| La segunda tinta corrida | `--sombra: 2px 2px 0 #1A1A1A` | Una sombra difusa dice «esto flota». Las placas no flotan: están impresas |
+| Borde de tinta | `--tinta-borde` | Una sola regla, la de «LOS OBJETOS IMPRESOS». **No** se cambia `--borde`: esa variable también pinta el riel de la barra de progreso y el fondo de las pastillas |
+| Tipografía de afiche | `--fuente-titulo: Archivo Black` | De Omnibus-Type, taller de Buenos Aires. Pesa como los títulos de las placas |
+
+**El desplazamiento va en negro, no en celeste.** En las placas el celeste no
+aparece nunca: el par es amarillo y negro. Adentro de la app el celeste se
+queda como el color de lo que se toca, que es otro trabajo.
+
+**Archivo Black tiene un solo grosor.** Donde se use `--fuente-titulo` va
+`font-weight:400`, nunca 700 ni 800: si se le pide más, el navegador lo engorda
+a la fuerza y queda sucio. Por eso los subtítulos y los botones siguen en
+Montserrat, que sí tiene varios grosores.
+
+**`--fuente-datos` (Roboto Mono) es para datos, no para prosa**: números del
+calendario, códigos de materia, cantidades. Lo que se lee de un vistazo y se
+compara entre sí.
+
+### Una casilla por materia
+
+En la portada, «Mi cursada» dibuja **una casilla por materia** en vez de una
+barra de progreso. Una barra continua dice que el progreso fluye; no fluye, se
+mueve de a saltos, y cada salto costó un cuatrimestre.
+
+Las casillas muestran **cuántas, no cuáles**: van agrupadas por estado, no en
+el orden del plan. Los tres estados se separan por relleno —lleno, mitad,
+rayado— y **todas van en tinta sobre el amarillo**: sobre el amarillo pleno el
+celeste cae a 2,8 y una casilla celeste no se distinguiría de una vacía.
+
+El organizador guarda en `bolivar-carrera-resumen` las cuentas de aprobadas,
+cursadas y cursando. Si alguna vez se agrega un plan con muchas materias, la
+grilla se estira a más columnas en vez de achicar las casillas.
+
+---
+
 ## Reglas de diseño que ya están resueltas
 
 No hace falta volver a discutirlas, pero sí respetarlas al agregar cosas nuevas.

@@ -46,7 +46,11 @@
      modo oscuro. En el resto de la hoja hay que usar SIEMPRE estas,
      nunca --blanco o --negro para texto: si no, de noche no se lee. */
   --fondo:       #FDF9C5;  /* el fondo de la pagina                     */
-  --superficie:  #FFFFFF;  /* las tarjetas                              */
+  /* Papel, no plastico. Un blanco puro sobre un amarillo calido no son
+     el mismo material: la tarjeta parecia una calcomania pegada encima.
+     Con este blanco apenas calido, la tarjeta y el fondo son la misma
+     hoja. Es la unica variable que cambia para lograrlo. */
+  --superficie:  #FDFCF7;  /* las tarjetas                              */
   --superficie-2:#F5F0E8;  /* superficies suaves sobre las tarjetas     */
   --texto:       #1A1A1A;  /* el texto principal                        */
   --texto-suave: #5F5F5F;  /* los textos secundarios                    */
@@ -72,16 +76,39 @@
   --linea-info:     #B52625;
   --linea-saberes:  #7FC9DA;
 
-  /* --- Tipografias --- */
-  --fuente-titulo:  'Montserrat', sans-serif;   /* titulos, MAYUSCULAS  */
-  --fuente-sub:     'Montserrat', sans-serif;   /* subtitulos, botones  */
-  --fuente-texto:   'Roboto', sans-serif;       /* cuerpo y datos       */
+  /* --- Tipografias ---
 
-  /* --- Medidas --- */
-  --radio:       14px;   /* redondeo de tarjetas    */
-  --radio-chico: 8px;
+     ARCHIVO BLACK es de Omnibus-Type, un taller tipografico de Buenos
+     Aires. Es una grotesca de afiche: pesa como los titulos de las
+     placas del Instagram de la agrupacion, que es donde la gente los
+     conoce. Tiene un solo grosor, asi que NO sirve para textos chicos:
+     por eso los subtitulos y los botones siguen en Montserrat.
+
+     ROBOTO MONO es para los DATOS, no para la prosa: codigos de
+     materia, fechas, notas, cantidades. Lo que se lee de un vistazo y
+     se compara entre si. */
+  --fuente-titulo:  'Archivo Black', 'Archivo', sans-serif;  /* titulos       */
+  --fuente-sub:     'Montserrat', sans-serif;   /* subtitulos, botones        */
+  --fuente-texto:   'Roboto', sans-serif;       /* cuerpo                     */
+  --fuente-datos:   'Roboto Mono', ui-monospace, monospace;  /* datos y fechas */
+
+  /* --- Medidas ---
+
+     LA SEGUNDA TINTA. Antes habia una sombra difusa, que dice "esto
+     flota sobre una superficie": es una metafora de ventanas de
+     escritorio. Las placas de la agrupacion no flotan: estan impresas,
+     con el borde de tinta a la vista. La sombra ahora es un
+     desplazamiento solido, como cuando la segunda tinta queda corrida.
+
+     Va en NEGRO y no en celeste porque asi es el Instagram: amarillo
+     con negro, y el rojo como acento. El celeste no aparece en ninguna
+     placa; adentro de la app se queda como el color de lo que se toca,
+     que es otro trabajo. */
+  --radio:       10px;   /* redondeo de tarjetas    */
+  --radio-chico: 6px;
   --ancho-max:   680px;  /* ancho maximo de lectura */
-  --sombra:      0 2px 10px rgba(26,26,26,.08);
+  --tinta-borde: #1A1A1A;                /* el borde de las tarjetas */
+  --sombra:      2px 2px 0 #1A1A1A;      /* la segunda tinta corrida */
   /* Ya no hay barra fija abajo: la navegacion vive arriba. */
 }
 
@@ -122,7 +149,12 @@
        leyéndose sin dejar de ser el rojo de la marca. */
     --rojo: #E56B62;
 
-    --sombra: 0 2px 12px rgba(0,0,0,.5);
+    /* La segunda tinta, de noche. Un negro sobre un fondo casi negro no
+       se ve, así que el desplazamiento es más oscuro que el fondo de la
+       página, no que la tarjeta. Y el borde de tinta pasa a ser claro:
+       de noche la tinta es la que ilumina. */
+    --tinta-borde: #4A4739;
+    --sombra: 2px 2px 0 #0B0A06;
   }
   /* Las ilustraciones de la facultad son de trazo fino sobre claro:
      de noche se apagan un poco para no encandilar. */
@@ -233,7 +265,7 @@ button:focus-visible,
    VOS" en una sola línea no entra y se cortaba. Partido en dos renglones
    queda a la altura del logo y arma un conjunto. */
 .marca{
-  font-family:var(--fuente-titulo);font-size:16px;font-weight:800;
+  font-family:var(--fuente-titulo);font-size:16px;font-weight:400;
   line-height:1.04;letter-spacing:-.01em;display:block
 }
 .marca em{font-style:normal;color:var(--amarillo)}
@@ -394,6 +426,29 @@ svg.ico{width:1em;height:1em;display:block;flex:0 0 auto}
 .titulo-seccion a:hover{color:var(--texto)}
 
 /* ============================================================
+   LOS OBJETOS IMPRESOS
+
+   Todo lo que en la app es una "pieza" —tarjetas, cuadros, el
+   calendario, la portada— lleva borde de tinta y la segunda tinta
+   corrida. Es el mismo lenguaje de las placas del Instagram: fondo
+   amarillo, pieza con el borde a la vista.
+
+   Va acá, en una sola regla, y NO cambiando --borde: esa variable
+   también pinta el riel de la barra de progreso, el fondo de las
+   pastillas y el color de los días apagados del calendario. Si se la
+   vuelve negra, esas tres cosas se convierten en manchas.
+
+   Solo se toca el COLOR del borde, nunca el grosor: así ninguna pieza
+   cambia de tamaño y no se mueve nada de lugar.
+   ============================================================ */
+.tarjeta, .tarjeta-cuadro, .tarjeta-carrera, .tarjeta-categoria,
+.tarjeta-destacada, .tarjeta-kit, .boton-cuadro, .ficha, .recuadro,
+.calendario, .carrusel, .alarma, .mi-cursada, .progreso,
+.mapa-marco, .bloque-texto, .buscador input{
+  border-color:var(--tinta-borde);
+}
+
+/* ============================================================
    TARJETAS DE CONTENIDO
    ============================================================ */
 .lista{display:flex;flex-direction:column;gap:10px}
@@ -552,7 +607,7 @@ svg.ico{width:1em;height:1em;display:block;flex:0 0 auto}
 /* La celda cuadrada: el ancho lo pone la grilla, el alto lo iguala */
 .cal-dia{
   aspect-ratio:1/1;border:none;background:transparent;border-radius:9px;
-  font-family:var(--fuente-texto);font-size:15px;color:var(--texto);
+  font-family:var(--fuente-datos);font-size:15px;color:var(--texto);
   display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;
   padding:0;position:relative
 }
@@ -622,7 +677,7 @@ svg.ico{width:1em;height:1em;display:block;flex:0 0 auto}
   margin-top:12px;padding-top:12px;border-top:1px solid var(--borde)
 }
 .promedio-numero{
-  font-family:var(--fuente-titulo);font-weight:800;font-size:34px;line-height:1;
+  font-family:var(--fuente-titulo);font-weight:400;font-size:34px;line-height:1;
   color:var(--celeste)
 }
 .promedio-detalle{font-size:14px;line-height:1.25;color:var(--texto)}
@@ -802,7 +857,7 @@ svg.ico{width:1em;height:1em;display:block;flex:0 0 auto}
   font-family:var(--fuente-texto);line-height:1.14
 }
 .mapa-nodo .cod{
-  font-size:10px;letter-spacing:.04em;color:var(--gris);
+  font-family:var(--fuente-datos);font-size:10px;letter-spacing:.02em;color:var(--gris);
   white-space:nowrap;overflow:hidden;text-overflow:ellipsis
 }
 .mapa-nodo .nom{
@@ -954,7 +1009,7 @@ body.antes-de-entrar{padding-bottom:0}  /* apertura y bienvenida a pantalla comp
   padding:16px;margin-bottom:10px;box-shadow:var(--sombra)
 }
 .bloque-texto h2{
-  font-family:var(--fuente-titulo);font-weight:800;font-size:19px;line-height:1.1;
+  font-family:var(--fuente-titulo);font-weight:400;font-size:19px;line-height:1.1;
   text-transform:uppercase;margin-bottom:9px
 }
 .bloque-texto p{margin:0 0 10px;font-size:15.5px;line-height:1.5}
@@ -975,7 +1030,7 @@ body.antes-de-entrar{padding-bottom:0}  /* apertura y bienvenida a pantalla comp
   border-radius:var(--radio);padding:18px;margin:16px 0 4px
 }
 .bloque-sumate h2{
-  font-family:var(--fuente-titulo);font-weight:800;font-size:22px;
+  font-family:var(--fuente-titulo);font-weight:400;font-size:22px;
   text-transform:uppercase;color:var(--amarillo);margin-bottom:8px
 }
 .bloque-sumate p{margin:0 0 14px;font-size:15.5px;line-height:1.5}
@@ -1008,7 +1063,7 @@ body.antes-de-entrar{padding-bottom:0}  /* apertura y bienvenida a pantalla comp
 }
 .marca-portada img{width:min(186px,46vw);height:auto}
 .marca-portada-firma{
-  font-family:var(--fuente-titulo);font-weight:800;
+  font-family:var(--fuente-titulo);font-weight:400;
   font-size:clamp(19px,5.4vw,25px);line-height:1;letter-spacing:-.01em;
   text-transform:uppercase
 }
@@ -1109,7 +1164,7 @@ body.antes-de-entrar{padding-bottom:0}  /* apertura y bienvenida a pantalla comp
 .boton-cuadro{
   aspect-ratio:1;background:var(--blanco);border:1px solid var(--borde);
   border-radius:var(--radio);box-shadow:var(--sombra);text-decoration:none;
-  color:var(--texto);padding:9px 4px;
+  color:var(--texto);padding:9px 7px;
   display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;
   text-align:center;overflow:hidden
 }
@@ -1117,7 +1172,8 @@ body.antes-de-entrar{padding-bottom:0}  /* apertura y bienvenida a pantalla comp
 /* Estas nueve etiquetas son la navegación principal de la portada.
    Estaban en 11,5 px, tamaño de nota al pie. */
 .boton-cuadro .nombre{
-  font-family:var(--fuente-sub);font-weight:700;font-size:13px;line-height:1.12;
+  font-family:var(--fuente-sub);font-weight:700;font-size:12.5px;line-height:1.14;
+  overflow-wrap:anywhere;
   text-transform:uppercase;letter-spacing:.01em;
   display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden
 }
@@ -1150,7 +1206,7 @@ body.antes-de-entrar{padding-bottom:0}  /* apertura y bienvenida a pantalla comp
 }
 .alarma.urgente{background:var(--rojo-solido);color:var(--sobre-negro)}
 .alarma-texto strong{
-  font-family:var(--fuente-titulo);font-weight:800;font-size:20px;line-height:1.1;
+  font-family:var(--fuente-titulo);font-weight:400;font-size:20px;line-height:1.1;
   text-transform:uppercase;display:block;margin-bottom:5px
 }
 .alarma-texto p{margin:0 0 13px;font-size:15px;line-height:1.4}
@@ -1171,16 +1227,51 @@ body.antes-de-entrar{padding-bottom:0}  /* apertura y bienvenida a pantalla comp
   font-size:11px;letter-spacing:.14em;text-transform:uppercase;opacity:.72
 }
 .mi-cursada strong{
-  font-family:var(--fuente-titulo);font-weight:800;font-size:21px;line-height:1.05;
+  font-family:var(--fuente-titulo);font-weight:400;font-size:21px;line-height:1.05;
   text-transform:uppercase;display:block;margin:5px 0 11px
 }
 .mi-cursada .barra{background:rgba(26,26,26,.18);height:8px}
 .mi-cursada .barra-llena{background:var(--negro)}
+
+/* ---- UNA CASILLA POR MATERIA ----
+
+   Reemplazan a la barra de progreso. Una barra continua dice que el
+   progreso fluye; no fluye, se mueve de a saltos y cada salto costó un
+   cuatrimestre. Las casillas se cuentan de un vistazo.
+
+   Van todas en TINTA sobre el amarillo, y no en celeste: sobre el
+   amarillo pleno el celeste cae a 2,8 y una casilla celeste no se
+   distinguiría de una vacía. Los tres estados se separan por relleno
+   —lleno, mitad, rayado— que es como se marca una planilla a mano. */
+.casillas{
+  display:grid;grid-template-columns:repeat(var(--columnas,11),1fr);
+  gap:3px;margin:2px 0 10px
+}
+.casilla{
+  aspect-ratio:1;border:1.5px solid var(--sobre-color);border-radius:2px;
+  display:block
+}
+.casilla.aprobada{background:var(--sobre-color)}
+.casilla.cursada{
+  background:linear-gradient(to top, var(--sobre-color) 50%, transparent 50%)
+}
+.casilla.cursando{
+  background:repeating-linear-gradient(45deg,
+    var(--sobre-color) 0 2px, transparent 2px 5px)
+}
+
+.mi-cursada-leyenda{
+  display:flex;gap:12px;flex-wrap:wrap;margin-top:9px;
+  font-size:10.5px;letter-spacing:.05em;text-transform:uppercase;opacity:.78
+}
+.mi-cursada-leyenda span{display:inline-flex;align-items:center;gap:5px}
+.mi-cursada-leyenda i{width:11px;height:11px;flex:0 0 auto}
+
 .mi-cursada-datos{
   display:flex;justify-content:space-between;align-items:baseline;
   margin-top:8px;font-size:14px
 }
-.mi-cursada-datos b{font-family:var(--fuente-sub);font-size:17px}
+.mi-cursada-datos b{font-family:var(--fuente-datos);font-weight:700;font-size:19px}
 .mi-cursada.invitacion{
   background:var(--superficie);border:1px solid var(--linea);
   border-left:4px solid var(--celeste);color:var(--texto)

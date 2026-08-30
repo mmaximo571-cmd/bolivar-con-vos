@@ -8,7 +8,7 @@
 <meta name="theme-color" content="#F9E830">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@600;700;800&family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Montserrat:wght@600;700;800&family=Roboto:wght@400;500;700&family=Roboto+Mono:wght@400;500;700&display=swap" rel="stylesheet">
 <!-- Iconos de la app: pestana, Google, y pantalla de inicio del celular -->
 <link rel="icon" type="image/png" sizes="32x32" href="imagenes/icono-32.png">
 <link rel="icon" type="image/png" sizes="96x96" href="imagenes/icono-96.png">
@@ -520,15 +520,46 @@
         </a>`;
       return;
     }
-    const pct = Math.round(r.aprobadas / r.total * 100);
+    /* ---------- Una casilla por materia ----------
+       «El progreso se mide en materias» es la regla de la app, y una
+       barra continua la contradice: dice que el progreso fluye. No
+       fluye, se mueve de a saltos, y cada salto costó un cuatrimestre.
+       Las casillas se cuentan de un vistazo y no hace falta leer un
+       número para ver cuánto falta.
+
+       Las casillas muestran CUÁNTAS, no cuáles: por eso van agrupadas
+       por estado y no en el orden del plan. */
+    const aprobadas = Number(r.aprobadas) || 0;
+    const cursadas  = Number(r.cursadas)  || 0;
+    const cursando  = Number(r.cursando)  || 0;
+    const total     = Number(r.total)     || 0;
+    const vacias    = Math.max(0, total - aprobadas - cursadas - cursando);
+
+    const casillas =
+      '<i class="casilla aprobada"></i>'.repeat(aprobadas) +
+      '<i class="casilla cursada"></i>'.repeat(cursadas) +
+      '<i class="casilla cursando"></i>'.repeat(cursando) +
+      '<i class="casilla"></i>'.repeat(vacias);
+
+    /* Con muchas materias las casillas se achicarían demasiado, así que
+       la grilla se estira a más columnas en vez de encogerlas. */
+    const columnas = total > 40 ? 13 : (total > 33 ? 12 : 11);
+
     caja.innerHTML = `
       <a class="mi-cursada" href="carrera/">
         <span class="mi-cursada-rotulo">Mi cursada</span>
         <strong>${esc(r.carrera)}</strong>
-        <div class="barra"><div class="barra-llena" style="width:${pct}%"></div></div>
+        <div class="casillas" style="--columnas:${columnas}"
+             role="img" aria-label="${aprobadas} de ${total} materias hechas${
+               cursando ? ', ' + cursando + ' cursando ahora' : ''}">${casillas}</div>
         <div class="mi-cursada-datos">
-          <span><b>${r.aprobadas}</b> de ${r.total} materias</span>
-          <span>${pct}%</span>
+          <span><b>${aprobadas}</b> de ${total} materias</span>
+          ${cursando ? `<span>${cursando} cursando</span>` : ''}
+        </div>
+        <div class="mi-cursada-leyenda">
+          <span><i class="casilla aprobada"></i>Aprobada</span>
+          ${cursadas ? '<span><i class="casilla cursada"></i>Cursada</span>' : ''}
+          ${cursando ? '<span><i class="casilla cursando"></i>Cursando</span>' : ''}
         </div>
       </a>`;
   })();
