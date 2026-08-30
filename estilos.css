@@ -53,7 +53,7 @@
   --superficie:  #FDFCF7;  /* las tarjetas                              */
   --superficie-2:#F5F0E8;  /* superficies suaves sobre las tarjetas     */
   --texto:       #1A1A1A;  /* el texto principal                        */
-  --texto-suave: #5F5F5F;  /* los textos secundarios                    */
+  --texto-suave: #4E4E4E;  /* los textos secundarios                    */
   --linea:       #D8E5EA;  /* bordes y separadores                      */
 
   /* El tinte de fondo de los días marcados del calendario */
@@ -81,12 +81,12 @@
      mano y habia seis grises distintos para tres trabajos. Ahora son
      tres, con nombre. */
   --sobre-negro-suave: #B9B9B9;  /* texto secundario sobre el negro   */
-  --sobre-negro-tenue: #8F8F8F;  /* letra chica y rotulos             */
+  --sobre-negro-tenue: #A5A5A5;  /* letra chica y rotulos             */
   --linea-negro:       #383838;  /* separadores sobre el negro        */
 
   /* --- Colores por linea editorial --- */
   --linea-frente:   #1A1A1A;
-  --linea-gremial:  #0195B1;
+  --linea-gremial:  #12B5AC;
   --linea-info:     #B52625;
   --linea-saberes:  #7FC9DA;
 
@@ -194,7 +194,7 @@
     --superficie:   #232219;
     --superficie-2: #2E2C21;
     --texto:        #F2EFE2;
-    --texto-suave:  #ADA893;
+    --texto-suave:  #C0BBA8;
     --linea:        #3A3830;
     --dia-mesa:   #3A211F;
     --dia-asueto: #16323A;
@@ -891,7 +891,7 @@ svg.ico{width:1em;height:1em;display:block;flex:0 0 auto}
 .tarjeta.materia:hover{border-color:var(--texto)}
 .tarjeta.materia.promociona{border-left-color:var(--celeste)}
 .tarjeta.materia.cursa     {border-left-color:var(--amarillo)}
-.tarjeta.materia.trabada   {border-left-color:var(--linea);opacity:.72}
+.tarjeta.materia.trabada   {border-left-color:var(--linea);background:var(--apagado)}
 .tarjeta.materia.final     {border-left-color:var(--linea-saberes)}
 .tarjeta.materia .motivo{margin:0;color:var(--texto-suave);font-size:14px;line-height:1.35}
 .tarjeta.materia .motivo strong{color:var(--texto)}
@@ -1147,7 +1147,13 @@ body.antes-de-entrar{padding-bottom:0}  /* apertura y bienvenida a pantalla comp
    scrollea, acá el lema Y los botones tienen que entrar junto con el
    titular en la pantalla de un teléfono. Si «Entrar» queda abajo del
    pliegue, la portada deja de funcionar. */
-.bienvenida .grito{font-size:clamp(33px,8.6vw,58px);max-width:15ch}
+/* En mayúsculas, a diferencia de los gritos de «¿Quiénes somos?»: acá
+   el titular es el NOMBRE de la app, y el nombre se escribe igual que
+   en la cabecera. Un nombre en caja mixta y el mismo nombre en
+   versalitas dos pantallas después no parecen la misma marca. */
+.bienvenida .grito{
+  font-size:clamp(38px,10.4vw,62px);max-width:15ch;text-transform:uppercase
+}
 .bienvenida .grito em{color:var(--rojo-solido)}
 
 .bienvenida .bajada-lectura{margin:clamp(8px,1.8vh,18px) 0 0;max-width:36ch}
@@ -1385,7 +1391,7 @@ body.antes-de-entrar{padding-bottom:0}  /* apertura y bienvenida a pantalla comp
   padding:15px;margin:14px 0 4px;box-shadow:var(--sombra)
 }
 .mi-cursada-rotulo{
-  font-size:11px;letter-spacing:.14em;text-transform:uppercase;opacity:.72
+  font-size:11px;letter-spacing:.14em;text-transform:uppercase;opacity:.85
 }
 .mi-cursada strong{
   font-family:var(--fuente-titulo);font-weight:400;font-size:21px;line-height:1.05;
@@ -1715,7 +1721,7 @@ details.tarjeta .respuesta{margin-top:9px;color:var(--texto-suave);font-size:15p
   font-size:var(--letra-chica);letter-spacing:.06em;text-transform:uppercase;
   color:var(--texto-suave)
 }
-.prep-cabecera .prep-cuenta{color:var(--sobre-color);opacity:.75}
+.prep-cabecera .prep-cuenta{color:var(--sobre-color);opacity:.88}
 /* Cuando la mesa está encima, el dato deja de ser gris */
 .prep-cuenta.cerca{
   background:var(--rojo-solido);color:var(--sobre-negro);opacity:1;
@@ -1767,7 +1773,7 @@ details.tarjeta .respuesta{margin-top:9px;color:var(--texto-suave);font-size:15p
   content:'';position:absolute;left:0;top:52%;height:1.5px;width:0;
   background:var(--rojo-solido);transition:width .22s ease
 }
-.texto.leido .ficha-texto{opacity:.55}
+.texto.leido .ficha-texto{opacity:.72}
 .texto.leido .ficha-texto::after{width:100%}
 .texto.leido .marca-leido{background:var(--tinta-borde)}
 .texto.leido .marca-leido::after{
@@ -1875,7 +1881,7 @@ details.tarjeta .respuesta{margin-top:9px;color:var(--texto-suave);font-size:15p
 .ceja-lectura{
   font-family:var(--fuente-datos);font-size:var(--letra-chica);
   letter-spacing:.16em;text-transform:uppercase;
-  margin:0 0 18px;opacity:.72
+  margin:0 0 18px;opacity:.85
 }
 .bajada-lectura{
   font-size:clamp(17px, 4.6vw, 21px);line-height:1.45;
@@ -1908,7 +1914,7 @@ details.tarjeta .respuesta{margin-top:9px;color:var(--texto-suave);font-size:15p
 .banda.sol .zigzag figure::before{background:var(--negro)}
 .zigzag figcaption{
   margin-top:16px;font-family:var(--fuente-datos);
-  font-size:var(--letra-chica);opacity:.72
+  font-size:var(--letra-chica);opacity:.85
 }
 
 @media (min-width:760px){
@@ -1934,7 +1940,7 @@ details.tarjeta .respuesta{margin-top:9px;color:var(--texto-suave);font-size:15p
 .banda.sol .linea-logros li::before{background:var(--negro);border-color:var(--amarillo)}
 .logro-anio{
   display:block;font-family:var(--fuente-datos);font-weight:700;
-  font-size:var(--letra-chica);letter-spacing:.1em;opacity:.72;margin-bottom:3px
+  font-size:var(--letra-chica);letter-spacing:.1em;opacity:.85;margin-bottom:3px
 }
 .logro-titulo{
   font-family:var(--fuente-titulo);font-size:clamp(19px,5vw,25px);
