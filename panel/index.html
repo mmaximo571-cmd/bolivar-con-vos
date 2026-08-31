@@ -1335,7 +1335,8 @@
     /* Las fotos se atan a los bloques YA GUARDADOS, no a lo que hay
        escrito en el cuadro de texto en este momento. */
     const imagenes = Array.isArray(p.imagenes) ? p.imagenes.slice() : [];
-    const s = p.sumate || {};
+    const s  = p.sumate || {};
+    const pu = p.puerta || {};
 
     zona.innerHTML = `
       <p class="letra-chica">Esto es lo que se lee en la pantalla
@@ -1382,6 +1383,26 @@
       </div>
 
       <div class="campo">
+        <label for="puerta-titular">La banda amarilla que lleva al Consejo</label>
+        <p class="letra-chica" style="margin:0 0 6px">
+          Es lo que se lee justo antes del botón que va al Consejo
+          Directivo. La barra <b>|</b> corta el renglón y lo que va entre
+          <b>*asteriscos*</b> sale resaltado en color.</p>
+        <input id="puerta-titular" value="${esc(pu.titular || '')}"
+               placeholder="Donde se decide|lo que *te pasa*"></div>
+      <div class="campo"><label for="puerta-texto">Qué dice abajo</label>
+        <textarea id="puerta-texto" style="min-height:80px"
+          placeholder="Los planes de estudio, las mesas…">${esc(pu.texto || '')}</textarea></div>
+      <div class="dos-columnas">
+        <div class="campo"><label for="puerta-boton-titulo">Qué dice el botón</label>
+          <input id="puerta-boton-titulo" value="${esc(pu.boton_titulo || '')}"
+                 placeholder="El Consejo Directivo"></div>
+        <div class="campo"><label for="puerta-boton-bajada">Y su renglón chico</label>
+          <input id="puerta-boton-bajada" value="${esc(pu.boton_bajada || '')}"
+                 placeholder="Qué es, qué hacemos ahí y qué conseguimos"></div>
+      </div>
+
+      <div class="campo">
         <label for="redes">Dónde encontrarnos</label>
         <p class="letra-chica" style="margin:0 0 6px">
           Una red por línea: <b>Nombre · dirección</b>. Si una no tiene
@@ -1423,6 +1444,12 @@
         bloques: leerBloques(document.getElementById('bloques').value),
         imagenes: imagenes,
         redes:   leerRedes(document.getElementById('redes').value),
+        puerta: {
+          titular:      val('puerta-titular'),
+          texto:        val('puerta-texto'),
+          boton_titulo: val('puerta-boton-titulo'),
+          boton_bajada: val('puerta-boton-bajada')
+        },
         sumate:  titulo ? {
           titulo: titulo,
           texto:  val('sumate-texto'),

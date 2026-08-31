@@ -149,18 +149,21 @@ const RESPALDO = {
     </div>` : '';
 
   /* La puerta al Consejo. Va después de los bloques a propósito: primero
-     quiénes somos, después dónde lo peleamos. */
+     quiénes somos, después dónde lo peleamos. El texto se edita desde el
+     panel; lo de acá abajo es lo que se muestra si la base no contesta. */
+  const pt = p.puerta || {};
   const puerta = `
     <div class="banda sol">
       <div class="envoltura">
-        <h2 class="grito aparece">Donde se decide<br>lo que <em>te pasa</em></h2>
-        <p class="bajada-lectura aparece">
-          Los planes de estudio, las mesas, los horarios y el presupuesto se
-          aprueban en el Consejo Directivo. Ahí también estamos.</p>
+        <h2 class="grito aparece">${titularHTML(
+          pt.titular || 'Donde se decide|lo que *te pasa*')}</h2>
+        <p class="bajada-lectura aparece">${esc(pt.texto ||
+          'Los planes de estudio, las mesas, los horarios y el presupuesto se ' +
+          'aprueban en el Consejo Directivo. Ahí también estamos.')}</p>
         <a class="puerta aparece" href="../consejo/">
           <span class="puerta-texto">
-            <strong>El Consejo Directivo</strong>
-            <span>Qué es, qué hacemos ahí y qué conseguimos</span>
+            <strong>${esc(pt.boton_titulo || 'El Consejo Directivo')}</strong>
+            <span>${esc(pt.boton_bajada || 'Qué es, qué hacemos ahí y qué conseguimos')}</span>
           </span>
           <span class="puerta-flecha" aria-hidden="true">→</span>
         </a>

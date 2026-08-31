@@ -95,3 +95,38 @@ select true,
     "boton":"Escribinos por Instagram",
     "url":"https://www.instagram.com/SimonBolivarfts"}'::jsonb
 where not exists (select 1 from public.pagina_quienes);
+
+-- ============================================================
+-- AGREGADOS DESPUÉS
+--
+-- Estas columnas se sumaron más tarde que el resto del archivo. Van
+-- acá abajo para que correr esto en un proyecto nuevo deje la tabla
+-- igual a la que está andando. Se puede correr más de una vez.
+-- ============================================================
+
+-- El titular grande, con la convención de la barra y los asteriscos:
+--   Esta app es|la parte *chica*
+alter table public.pagina_quienes
+  add column if not exists titular text not null default '';
+
+-- Una foto por bloque de texto, en el mismo orden que los bloques.
+-- Los huecos van en null para que la tercera foto no se corra al
+-- segundo bloque. Ver tabla-fotos.sql.
+--   [ { "url": "https://…", "nombre": "quienes-1-….jpg",
+--       "epigrafe": "Asamblea de carrera, mayo de 2026" }, null ]
+alter table public.pagina_quienes
+  add column if not exists imagenes jsonb not null default '[]'::jsonb;
+
+-- La banda amarilla que lleva al Consejo Directivo. Era el último
+-- texto de la pantalla escrito a mano en el archivo.
+alter table public.pagina_quienes
+  add column if not exists puerta jsonb;
+
+update public.pagina_quienes
+set puerta = '{
+  "titular": "Donde se decide|lo que *te pasa*",
+  "texto": "Los planes de estudio, las mesas, los horarios y el presupuesto se aprueban en el Consejo Directivo. Ahí también estamos.",
+  "boton_titulo": "El Consejo Directivo",
+  "boton_bajada": "Qué es, qué hacemos ahí y qué conseguimos"
+}'::jsonb
+where puerta is null;
