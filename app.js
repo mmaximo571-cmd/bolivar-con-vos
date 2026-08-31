@@ -577,3 +577,113 @@ function conPaciencia(promesa, segundos){
       (segundos || 12) * 1000));
   return Promise.race([promesa, espera]);
 }
+
+/* ------------------------------------------------------------
+   TENER LA APP A MANO
+
+   Dos cosas separadas que trabajan juntas:
+
+   · El service worker guarda el armazón, así la app abre sin señal y
+     sin volver a gastar datos. Se registra en toda pantalla.
+
+   · La invitación a ponerla en la pantalla de inicio. NO aparece en la
+     primera visita: aparece cuando la persona ya cargó algo suyo, o
+     sea cuando ya tiene algo que perder. Ahí el motivo es cierto y se
+     puede decir sin vender nada.
+
+   Sobre iOS: Safari no deja instalar desde un botón. No existe la API.
+   Lo único que se puede hacer es explicar dónde está Compartir. Por eso
+   la invitación tiene dos formas, y no es un descuido.
+   ------------------------------------------------------------ */
+
+if ('serviceWorker' in navigator){
+  window.addEventListener('load', function(){
+    navigator.serviceWorker.register(RAIZ + 'sw.js', { scope: RAIZ })
+      .catch(function(){ /* sin service worker la app anda igual, solo sin guardar */ });
+  });
+}
+
+/* Chrome avisa una sola vez que se puede instalar, y hay que atajarlo
+   antes de que se vaya. Se guarda para usarlo en el momento elegido. */
+let __invitacionDelNavegador = null;
+window.addEventListener('beforeinstallprompt', function(e){
+  e.preventDefault();
+  __invitacionDelNavegador = e;
+});
+
+const LLAVE_INSTALAR = 'bolivar-instalar-visto';
+
+function yaEstaInstalada(){
+  return window.matchMedia('(display-mode: standalone)').matches ||
+         window.navigator.standalone === true;
+}
+function esiOS(){
+  return /iPad|iPhone|iPod/.test(navigator.userAgent) ||
+         (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
+}
+function seDijoQueNo(){
+  try { return localStorage.getItem(LLAVE_INSTALAR) === 'no'; } catch(e){ return true; }
+}
+function anotarQueSeVio(valor){
+  try { localStorage.setItem(LLAVE_INSTALAR, valor); } catch(e){}
+}
+
+/* ¿Tiene sentido invitar ahora? Si ya está instalada, si ya dijeron que
+   no, o si el navegador no puede hacer nada, la respuesta es no. */
+function sePuedeInvitarAInstalar(){
+  if (yaEstaInstalada() || seDijoQueNo()) return false;
+  return !!__invitacionDelNavegador || esiOS();
+}
+
+/* La invitación. «motivo» es la frase que explica por qué ahora: la
+   escribe quien la llama, porque depende de lo que la persona acaba de
+   hacer. */
+function invitarAInstalar(motivo){
+  if (!sePuedeInvitarAInstalar()) return false;
+
+  const enIOS = !__invitacionDelNavegador && esiOS();
+  const caja = document.createElement('div');
+  caja.className = 'invitacion-instalar';
+  caja.innerHTML =
+    '<div class="invitacion-hoja">' +
+      '<p class="invitacion-ceja">Para que no se te pierda</p>' +
+      '<h2>Tenela en la<br>pantalla de inicio</h2>' +
+      '<p class="invitacion-motivo">' + esc(motivo || '') + '</p>' +
+      (enIOS
+        ? '<ol class="invitacion-pasos">' +
+            '<li>Tocá <b>Compartir</b> abajo de todo</li>' +
+            '<li>Elegí <b>Agregar a inicio</b></li>' +
+          '</ol>' +
+          '<button class="boton ancho" data-cerrar>Listo</button>'
+        : '<button class="boton ancho" data-instalar>Agregar a la pantalla de inicio</button>') +
+      '<button class="boton texto ancho" data-no>Ahora no</button>' +
+    '</div>';
+
+  document.body.appendChild(caja);
+
+  function cerrar(){
+    caja.classList.add('cerrando');
+    setTimeout(function(){ caja.remove(); }, 220);
+  }
+  caja.querySelector('[data-no]').onclick = function(){
+    anotarQueSeVio('no'); cerrar();
+  };
+  const listo = caja.querySelector('[data-cerrar]');
+  if (listo) listo.onclick = function(){ anotarQueSeVio('ios'); cerrar(); };
+
+  const boton = caja.querySelector('[data-instalar]');
+  if (boton) boton.onclick = async function(){
+    const invitacion = __invitacionDelNavegador;
+    __invitacionDelNavegador = null;
+    anotarQueSeVio('pedida');
+    cerrar();
+    if (invitacion) { invitacion.prompt(); await invitacion.userChoice; }
+  };
+
+  /* Tocar afuera es lo mismo que «ahora no», pero sin darlo por
+     rechazado para siempre: pudo ser sin querer. */
+  caja.addEventListener('click', function(e){
+    if (e.target === caja) cerrar();
+  });
+  return true;
+}

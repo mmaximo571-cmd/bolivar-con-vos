@@ -126,10 +126,16 @@
       Empezar de nuevo
     </button>
     <p class="letra-chica">
-      Lo que marcás se guarda solo en este teléfono. No se sube a ningún lado
-      y nadie más lo ve. Cada carrera se guarda por separado.
+      Lo que marcás se guarda en este teléfono, y cada carrera por separado.
+      No se sube a ningún lado salvo que vos crees una copia de respaldo,
+      acá abajo.
     </p>
   </section>
+
+  <!-- ---------- LA COPIA DE RESPALDO ----------
+       Va afuera de las pestañas a propósito: no es parte de ninguna
+       vista, es de todo Mi año. -->
+  <section class="respaldo" id="respaldo"></section>
 
 </main>
 
@@ -245,6 +251,8 @@ if (!guardado.datos) guardado.datos = {};
 
 function persistir(){
   try { localStorage.setItem(LLAVE, JSON.stringify(guardado)); } catch(e){}
+  /* Y si hay copia de respaldo, se actualiza sola. */
+  if (typeof respaldarLuego === 'function') respaldarLuego();
 }
 
 function estadoCrudo(cod){ return datos.estados[cod] || 'pendiente'; }
@@ -1016,6 +1024,232 @@ function mostrarPantalla(cual){
    para abajo por donde entró. Quien pidió menos movimiento la ve
    desaparecer sin deslizarse. El hidden se pone RECIÉN al terminar, si
    no la animación no llega a verse. */
+
+/* ============================================================
+   LA COPIA DE RESPALDO, SIN CUENTA
+
+   Mi año vive en este teléfono. En iPhone, si alguien no abre la app
+   por unos días, el navegador puede borrar ese guardado por su cuenta:
+   se pierde el año entero. Esto lo arregla sin pedir mail ni nombre.
+
+   La app pide un código al servidor y ese código ES la llave: no hay
+   usuario ni contraseña. Quien lo tiene, entra; quien lo pierde, lo
+   perdió. Eso está dicho en la pantalla y no en la letra chica, porque
+   es la contra de no pedir datos y hay que poder elegirlo sabiéndolo.
+
+   Una vez creado, la copia se actualiza sola con cada cambio. Un
+   respaldo que hay que acordarse de apretar es un respaldo viejo.
+   ============================================================ */
+const LLAVE_RESPALDO = 'bolivar-respaldo-codigo';
+
+function codigoRespaldo(){
+  try { return localStorage.getItem(LLAVE_RESPALDO) || ''; } catch(e){ return ''; }
+}
+function anotarCodigo(c){
+  try {
+    if (c) localStorage.setItem(LLAVE_RESPALDO, c);
+    else   localStorage.removeItem(LLAVE_RESPALDO);
+  } catch(e){}
+}
+
+let avisoRespaldo = '';
+let temporizadorRespaldo = null;
+
+/* Lo último que sabemos que está arriba. Arranca con lo que hay en el
+   teléfono: abrir la app no cambia nada, así que no tiene por qué
+   gastar una subida. Solo suben los cambios de verdad. */
+let ultimoSubido = '';
+
+/* Se llama desde persistir(), o sea con cada cambio. Espera un poco por
+   si vienen varios seguidos: marcar cinco materias es una subida sola. */
+function respaldarLuego(){
+  if (!codigoRespaldo()) return;
+  const ahora = JSON.stringify(guardado);
+  if (ahora === ultimoSubido) return;
+  clearTimeout(temporizadorRespaldo);
+  temporizadorRespaldo = setTimeout(function(){ subirRespaldo(ahora); }, 2500);
+}
+
+async function subirRespaldo(texto){
+  const cod = codigoRespaldo();
+  if (!cod) return;
+  avisoRespaldo = 'guardando';
+  pintarRespaldo();
+  try {
+    const { data, error } = await db.rpc('guardar_respaldo',
+      { p_codigo: cod, p_datos: guardado });
+    if (error) throw error;
+    /* El código está en el teléfono pero ya no en el servidor. Callarlo
+       sería dejar a alguien creyendo que tiene respaldo. */
+    if (data === false){
+      avisoRespaldo = 'perdido';
+    } else {
+      avisoRespaldo = 'guardado';
+      ultimoSubido = texto || JSON.stringify(guardado);
+    }
+  } catch(e){
+    /* Queda sin marcar como subido: el próximo cambio reintenta. */
+    avisoRespaldo = 'sin-red';
+  }
+  pintarRespaldo();
+}
+
+function pintarRespaldo(){
+  const caja = document.getElementById('respaldo');
+  if (!caja) return;
+  const cod = codigoRespaldo();
+
+  const estado = {
+    guardando: '<p class="respaldo-estado">Guardando la copia…</p>',
+    guardado:  '<p class="respaldo-estado ok">La copia está al día.</p>',
+    'sin-red': '<p class="respaldo-estado mal">No se pudo guardar la copia: sin conexión. ' +
+               'Se vuelve a intentar la próxima vez que marques algo.</p>',
+    perdido:   '<p class="respaldo-estado mal">Este código ya no existe en el servidor. ' +
+               'Creá uno nuevo para volver a tener copia.</p>'
+  }[avisoRespaldo] || '';
+
+  if (!cod){
+    caja.innerHTML =
+      '<div class="titulo-seccion">SI CAMBIÁS DE TELÉFONO</div>' +
+      '<p class="letra-chica" style="margin-top:0">' +
+        'Todo lo que marcaste vive acá adentro y en ningún otro lado. Si ' +
+        'perdés el teléfono, o el navegador limpia lo guardado, se pierde. ' +
+        'Podés dejar una copia con un código, sin dar mail ni nombre.</p>' +
+      '<button class="boton ancho" id="crear-respaldo">Crear mi código de respaldo</button>' +
+      '<button class="boton texto ancho" id="pedir-codigo">Ya tengo un código</button>' +
+      '<div id="respaldo-mensaje"></div>';
+
+    document.getElementById('crear-respaldo').onclick = async function(){
+      this.disabled = true; this.textContent = 'Creando…';
+      try {
+        const { data, error } = await db.rpc('crear_respaldo', { p_datos: guardado });
+        if (error) throw error;
+        anotarCodigo(data);
+        avisoRespaldo = 'guardado';
+        pintarRespaldo();
+      } catch(e){
+        this.disabled = false; this.textContent = 'Crear mi código de respaldo';
+        document.getElementById('respaldo-mensaje').innerHTML =
+          '<div class="aviso error">No se pudo crear la copia: ' +
+          esc(e.message || 'sin conexión') + '.</div>';
+      }
+    };
+    document.getElementById('pedir-codigo').onclick = pedirCodigo;
+    return;
+  }
+
+  caja.innerHTML =
+    '<div class="titulo-seccion">TU CÓDIGO DE RESPALDO</div>' +
+    '<p class="letra-chica" style="margin-top:0">' +
+      'Anotalo donde no se te pierda. Con este código traés tu año a ' +
+      'cualquier teléfono. <b>Es lo único que existe: no hay mail ni ' +
+      'contraseña para recuperarlo si lo perdés.</b></p>' +
+    '<div class="codigo-caja"><output class="codigo" id="codigo">' +
+      esc(cod) + '</output></div>' +
+    '<div class="respaldo-botones">' +
+      '<button class="boton borde" id="copiar-codigo">Copiar el código</button>' +
+      '<button class="boton borde" id="pedir-codigo">Usar otro código</button>' +
+    '</div>' + estado +
+    '<div id="respaldo-mensaje"></div>';
+
+  document.getElementById('copiar-codigo').onclick = async function(){
+    try {
+      await navigator.clipboard.writeText(cod);
+      this.textContent = 'Copiado';
+    } catch(e){
+      /* Sin permiso para copiar: lo dejamos seleccionado y que lo copien
+         a mano, que es mejor que un botón que no hace nada. */
+      const r = document.createRange();
+      r.selectNodeContents(document.getElementById('codigo'));
+      const s = getSelection(); s.removeAllRanges(); s.addRange(r);
+      this.textContent = 'Copialo vos';
+    }
+    setTimeout(() => { this.textContent = 'Copiar el código'; }, 2200);
+  };
+  document.getElementById('pedir-codigo').onclick = pedirCodigo;
+}
+
+/* Traer el año desde otro teléfono. Pisa lo que hay, así que antes se
+   dice exactamente cuánto se va a perder. */
+function pedirCodigo(){
+  const caja = document.getElementById('respaldo');
+  caja.innerHTML =
+    '<div class="titulo-seccion">TRAER MI AÑO</div>' +
+    '<p class="letra-chica" style="margin-top:0">' +
+      'Escribí el código que te dio la app en el otro teléfono.</p>' +
+    '<div class="campo">' +
+      '<label for="codigo-entra">Tu código</label>' +
+      '<input id="codigo-entra" class="entrada-codigo" inputmode="text" ' +
+             'autocapitalize="characters" autocomplete="off" ' +
+             'placeholder="XXXX-XXXX-XXXX" maxlength="14"></div>' +
+    '<button class="boton ancho" id="traer">Traer mi año</button>' +
+    '<button class="boton texto ancho" id="volver-respaldo">Volver</button>' +
+    '<div id="respaldo-mensaje"></div>';
+
+  const campo = document.getElementById('codigo-entra');
+  campo.focus();
+  document.getElementById('volver-respaldo').onclick = pintarRespaldo;
+
+  document.getElementById('traer').onclick = async function(){
+    const cod = campo.value.trim().toUpperCase();
+    const msj = document.getElementById('respaldo-mensaje');
+    if (cod.replace(/-/g, '').length < 12){
+      msj.innerHTML = '<div class="aviso error">El código tiene 12 letras y ' +
+        'números, en tres grupos de cuatro.</div>';
+      campo.focus(); return;
+    }
+    this.disabled = true; this.textContent = 'Buscando…';
+    try {
+      const { data, error } = await db.rpc('traer_respaldo', { p_codigo: cod });
+      if (error) throw error;
+      if (!data){
+        this.disabled = false; this.textContent = 'Traer mi año';
+        msj.innerHTML = '<div class="aviso error">No encontramos ningún año con ' +
+          'ese código. Fijate que esté igual, letra por letra.</div>';
+        return;
+      }
+      const cuantas = Object.keys((datos && datos.estados) || {})
+        .filter(c => datos.estados[c] && datos.estados[c] !== 'pendiente').length;
+      if (cuantas && !confirm(
+          'Esto reemplaza lo que hay en este teléfono: ' + cuantas +
+          (cuantas === 1 ? ' materia marcada' : ' materias marcadas') + '. ¿Seguimos?')){
+        this.disabled = false; this.textContent = 'Traer mi año';
+        return;
+      }
+      guardado = data;
+      anotarCodigo(cod);
+      persistir();
+      location.reload();
+    } catch(e){
+      this.disabled = false; this.textContent = 'Traer mi año';
+      msj.innerHTML = '<div class="aviso error">No se pudo buscar: ' +
+        esc(e.message || 'sin conexión') + '.</div>';
+    }
+  };
+}
+
+/* ------------------------------------------------------------
+   EL MOMENTO GANADO
+
+   La invitación a poner la app en la pantalla de inicio no aparece
+   cuando alguien recién llega: aparece acá, cuando ya marcó una
+   materia. Ahí hay algo suyo adentro, y el motivo que le damos es
+   verdadero, no una excusa para conseguir una instalación.
+
+   Se ofrece una sola vez. Si dicen que no, no vuelve a aparecer.
+   ------------------------------------------------------------ */
+function quizasInvitarAInstalar(){
+  if (typeof invitarAInstalar !== 'function') return;
+  const marcadas = Object.keys((datos && datos.estados) || {})
+    .filter(c => datos.estados[c] && datos.estados[c] !== 'pendiente').length;
+  if (!marcadas) return;
+  invitarAInstalar(
+    (marcadas === 1 ? 'Marcaste tu primera materia.' : 'Ya marcaste ' + marcadas + ' materias.') +
+    ' Eso vive en este teléfono, no en una cuenta: con la app en la ' +
+    'pantalla de inicio se queda, y si no, el navegador la puede borrar ' +
+    'solo después de unos días sin que la abras.');
+}
+
 function cerrarHoja(){
   const quieto = window.matchMedia &&
     window.matchMedia('(prefers-reduced-motion: reduce)').matches;
@@ -1026,6 +1260,8 @@ function cerrarHoja(){
     document.body.style.overflow = '';
     /* Por si se cargó una nota: el promedio de arriba tiene que reflejarla */
     pintarProgreso();
+    /* Y recién acá, con la hoja ya cerrada, el momento ganado. */
+    setTimeout(quizasInvitarAInstalar, 500);
   };
 
   if (quieto || fondo.hidden) { terminar(); return; }
@@ -1688,6 +1924,12 @@ function pintarTodo(){
 }
 
 elegirCarrera(guardado.carrera || 'ts');
+
+/* La copia de respaldo. El punto de partida es lo que hay ahora en el
+   teléfono: abrir la app no cambió nada, así que no gasta una subida.
+   A partir de acá, cada cambio sí la actualiza. */
+ultimoSubido = JSON.stringify(guardado);
+pintarRespaldo();
 pintarSelectorCarrera();
 pintarTodo();
 

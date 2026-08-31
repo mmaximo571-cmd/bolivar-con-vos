@@ -1,0 +1,49 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Sin conexión · La Bolívar con vos</title>
+<meta name="theme-color" content="#F9E830">
+<link rel="icon" type="image/png" sizes="32x32" href="/imagenes/icono-32.png">
+<link rel="apple-touch-icon" href="/imagenes/icono-apple.png">
+<link rel="stylesheet" href="/estilos.css">
+<script>
+(function(){try{
+  var g = localStorage.getItem('bolivar-tema') || 'auto';
+  var oscuro = g === 'oscuro' || (g === 'auto' &&
+    window.matchMedia('(prefers-color-scheme: dark)').matches);
+  document.documentElement.dataset.tema = oscuro ? 'oscuro' : 'claro';
+}catch(e){ document.documentElement.dataset.tema = 'claro'; }})();
+</script>
+</head>
+<body>
+
+<main class="envoltura" id="contenido" tabindex="-1" style="padding-top:34px">
+  <h1 class="titulo-pantalla">SIN CONEXIÓN</h1>
+  <p class="bajada">
+    Esta pantalla no la habíamos guardado todavía. Las que ya visitaste
+    siguen abriendo igual, sin señal.
+  </p>
+
+  <button class="boton ancho" id="reintentar">Reintentar</button>
+  <a class="boton borde ancho" href="/" style="margin-top:10px">Ir al inicio</a>
+
+  <p class="letra-chica" style="margin-top:22px">
+    <b>Mi año</b> se guarda en tu teléfono, así que ahí está aunque no
+    haya internet. Lo que necesita señal son los trámites y las fechas,
+    porque los edita la agrupación y tienen que estar al día.
+  </p>
+</main>
+
+<script>
+document.getElementById('reintentar').onclick = function(){
+  this.textContent = 'Probando…';
+  location.reload();
+};
+/* Si la señal vuelve sola mientras alguien mira esta pantalla, no hace
+   falta que toque nada. */
+window.addEventListener('online', function(){ location.reload(); });
+</script>
+</body>
+</html>

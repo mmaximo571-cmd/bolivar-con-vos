@@ -488,6 +488,32 @@
      Por eso la alarma aparece arriba de todo, sola, desde 5 días
      antes de que abra hasta que cierra. El resto del año no está.
      ============================================================ */
+  /* Lo próximo de la agenda, en el mismo lugar donde iría la alarma.
+     Es un renglón, no una tarjeta: si fuera igual de grande que la
+     alarma de inscripción, competiría con ella el día que las dos
+     tengan algo que decir. */
+  function proximoDeLaAgenda(caja, publicaciones, hoy){
+    const proximas = (publicaciones || [])
+      .filter(p => p.fecha_desde && (p.fecha_hasta || p.fecha_desde).slice(0,10) >= hoy)
+      .sort((a, b) => a.fecha_desde.localeCompare(b.fecha_desde));
+    if (!proximas.length){ caja.innerHTML = ''; return; }
+
+    const p = proximas[0];
+    const dias = Math.round(
+      (new Date(p.fecha_desde.slice(0,10)) - new Date(hoy)) / 86400000);
+    const cuando = dias <= 0 ? 'Hoy'
+                 : dias === 1 ? 'Mañana'
+                 : dias <= 7  ? 'En ' + dias + ' días'
+                 : fechaLinda(p.fecha_desde);
+
+    caja.innerHTML = `
+      <a class="proximo" href="${RAIZ}agenda/?id=${encodeURIComponent(p.id)}">
+        <span class="proximo-cuando">${esc(cuando)}</span>
+        <span class="proximo-que">${esc(p.titulo || '')}</span>
+        <span class="proximo-flecha" aria-hidden="true">→</span>
+      </a>`;
+  }
+
   (function pintarAlarma(){
     const caja = document.getElementById('alarma');
     const hoy  = hoyISO();
@@ -505,7 +531,11 @@
     const abierta = inscripciones.find(i => hoy >= i.abre && hoy <= i.cierra);
     const porAbrir = inscripciones.find(i => i.abre > hoy && enDias(hoy, i.abre) <= 5);
     const i = abierta || porAbrir;
-    if (!i){ caja.innerHTML = ''; return; }
+
+    /* Sin inscripción a la vista, el lugar no se desperdicia: muestra lo
+       próximo que hay en la agenda. La app no manda notificaciones, así
+       que lo que se ve al abrir es lo único que avisa. */
+    if (!i){ proximoDeLaAgenda(caja, publicaciones, hoy); return; }
 
     /* La mesa correspondiente, para decir para cuándo es */
     const mes = (t) => (/de (\w+)$/.exec(t || '') || [])[1];
