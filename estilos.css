@@ -341,7 +341,20 @@ button:focus-visible,
    ============================================================ */
 /* La banda negra de arriba es el ancla de la pagina: le da un techo y
    es donde el amarillo trabaja mejor (sobre negro llega a 13,8). */
-.cabecera{background:var(--negro);color:var(--sobre-negro);padding:12px 0}
+/* La trama de puntos de las serigrafias, la misma de la banda oscura de
+   «¿Quienes somos?». Vive en la cabecera de TODAS las pantallas: es el
+   unico lugar que ya era negro, asi que la textura del lenguaje entra
+   sin discutirle nada a la lectura. */
+.cabecera{
+  background:var(--negro);color:var(--sobre-negro);padding:12px 0;
+  position:relative;overflow:hidden
+}
+.cabecera::before{
+  content:'';position:absolute;inset:0;pointer-events:none;
+  background-image:radial-gradient(var(--amarillo) 1px, transparent 1.1px);
+  background-size:10px 10px;opacity:.10
+}
+.cabecera > .envoltura{position:relative;z-index:1}
 
 /* Tres columnas: menu, marca, cuenta. Los costados miden lo mismo,
    asi la marca del medio queda centrada de verdad y no a ojo. */
@@ -651,7 +664,13 @@ svg.ico{width:1em;height:1em;display:block;flex:0 0 auto}
   font-family:var(--fuente-sub);font-weight:700;font-size:15px;
   text-transform:uppercase;letter-spacing:.05em;
   padding:13px 20px;border-radius:var(--radio-pastilla);border:none;text-decoration:none;
-  background:var(--amarillo);color:var(--sobre-color)
+  background:var(--amarillo);color:var(--sobre-color);
+  /* La segunda tinta del boton va en turquesa y no en negro. No es
+     adorno: .boton ya estaba en el grupo de :active que baja 2 px «y la
+     segunda tinta desaparece», pero no tenia ninguna sombra, asi que al
+     apretarlo desaparecia algo que no existia. Y el turquesa es, en
+     esta app, el color de lo que se toca. */
+  box-shadow:2px 2px 0 var(--celeste)
 }
 .boton:hover{filter:brightness(.94)}
 .boton.oscuro{background:var(--negro);color:var(--amarillo)}
@@ -2262,3 +2281,27 @@ details.tarjeta .respuesta{margin-top:9px;color:var(--texto-suave);font-size:15p
 }
 .proximo-flecha{flex:0 0 auto;font-family:var(--fuente-sub);font-weight:700}
 .proximo:active{transform:translate(2px,2px);box-shadow:none}
+
+/* ---- El subrayado de lo que se toca ----
+   El turquesa sobre papel mide 3,3: no llega al minimo para texto, asi
+   que el enlace se queda con la tinta del parrafo y el turquesa va en
+   el subrayado, que no tiene que cumplir ese minimo. Se lee «esto se
+   toca» sin pagarlo en legibilidad.
+
+   Va solo en enlaces DENTRO de un texto corrido. Las tarjetas y los
+   botones ya dicen que se tocan por su forma; subrayarlos ademas seria
+   decir dos veces lo mismo. */
+.respuesta a, .paso-detalle a, .bajada a, .letra-chica a,
+.aviso a, .biblio a, .modelo3d-credito a, .vacio a,
+.bajada-lectura a, .aviso-transcripcion a{
+  text-decoration:underline;
+  text-decoration-color:var(--celeste);
+  text-decoration-thickness:2px;
+  text-underline-offset:3px
+}
+.respuesta a:hover, .paso-detalle a:hover, .bajada a:hover,
+.letra-chica a:hover, .aviso a:hover, .biblio a:hover,
+.modelo3d-credito a:hover, .vacio a:hover,
+.bajada-lectura a:hover, .aviso-transcripcion a:hover{
+  text-decoration-thickness:4px
+}
