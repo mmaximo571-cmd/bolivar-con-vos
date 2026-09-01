@@ -54,6 +54,19 @@
 <script>
 (async function pantallaAgenda(){
 
+  /* «Menos movimiento», con plan B: esta pantalla llega siempre fresca
+     de la red pero app.js sale primero de lo guardado, así que la
+     primera vez después de subir una versión pueden venir desfasados.
+     Llamar derecho a una función que el app.js viejo no tiene mata el
+     guion entero. Ver la nota larga en index.html. */
+  const sinMovimiento = () => {
+    try {
+      if (typeof menosMovimiento === 'function') return menosMovimiento();
+      return !!(window.matchMedia &&
+        window.matchMedia('(prefers-reduced-motion: reduce)').matches);
+    } catch(e){ return false; }
+  };
+
   document.getElementById('cabecera').innerHTML = htmlCabecera(
     '<a class="boton-cabecera" href="../mi/">Perfil</a>'
   );
@@ -282,7 +295,7 @@
     const primera = zonas.querySelector('.tarjeta.destacada');
     if (!primera) return;
 
-    const quieto = menosMovimiento();
+    const quieto = sinMovimiento();
     primera.scrollIntoView({ behavior: quieto ? 'auto' : 'smooth', block: 'center' });
 
     /* Y si el desplazamiento suave no llegó, se salta y listo.

@@ -281,6 +281,40 @@
   const capaBienvenida = document.getElementById('bienvenida');
   const capaApp        = document.getElementById('app');
 
+  /* ============================================================
+     «MENOS MOVIMIENTO», CON PLAN B
+
+     La respuesta buena la da menosMovimiento(), que vive en app.js.
+     Pero esta pantalla y app.js llegan al teléfono por caminos
+     distintos: la pantalla se pide siempre a la red, y app.js sale
+     primero de lo guardado. La primera vez que se abre la app después
+     de subir una versión, el service worker viejo todavía está al
+     mando y puede entregar un app.js de ayer junto con un index.html
+     de hoy. Si esta pantalla llama a una función que ese app.js viejo
+     no tiene, la excepción NO rompe solo esa línea: mata el resto del
+     guion, y el home queda con los esqueletos puestos para siempre.
+
+     Pasó de verdad el 01/09/2026, y no se arregla del todo en el
+     service worker: el que sirve el armazón viejo es el service worker
+     viejo, que ya está instalado y no se puede cambiar desde acá.
+
+     La regla que queda: si una pantalla necesita algo de app.js antes
+     de dibujar, tiene que poder seguir sin eso. Acá el plan B es la
+     misma pregunta hecha a mano, que es una línea.
+     ============================================================ */
+  const quieto = () => {
+    try {
+      if (typeof menosMovimiento === 'function') return menosMovimiento();
+      return !!(window.matchMedia &&
+        window.matchMedia('(prefers-reduced-motion: reduce)').matches);
+    } catch(e){ return false; }
+  };
+  const alCambiarQuieto = (hacer) => {
+    try {
+      if (typeof alCambiarMovimiento === 'function') alCambiarMovimiento(hacer);
+    } catch(e){}
+  };
+
   /* La cabecera y el pie se arman ANTES que nada: pintarNav necesita
      que la cabecera ya exista para colgarle las secciones debajo. */
   document.getElementById('cabecera').innerHTML = htmlCabecera();
@@ -506,7 +540,7 @@
        al volver se encontraría la apertura colgada y la app inalcanzable. */
     setTimeout(cerrar, DURACION_APERTURA * 1000 + 1400);
 
-    if (menosMovimiento()){
+    if (quieto()){
       /* Sin animación: se muestra el logo ya armado y se sigue en el
          acto. Antes había un setTimeout de 700 ms acá: setecientos
          milisegundos de amarillo quieto a alguien que justamente pidió
@@ -904,10 +938,10 @@
       }, 5000);
     };
 
-    if (!menosMovimiento() && laminas.length > 1){
+    if (!quieto() && laminas.length > 1){
       if ('IntersectionObserver' in window){
         new IntersectionObserver(([e]) => {
-          if (e.isIntersecting && !menosMovimiento()) arrancar();
+          if (e.isIntersecting && !quieto()) arrancar();
           else parar();
         }, { threshold: 0.35 }).observe(caja);
       } else {
@@ -922,7 +956,7 @@
        carrusel se frena en el acto. Es lo primero que hay que apagarle
        a quien acaba de marearse: no puede tener que recargar para que
        la app le haga caso. */
-    alCambiarMovimiento(pidioQuieto => { if (pidioQuieto) parar(); });
+    alCambiarQuieto(pidioQuieto => { if (pidioQuieto) parar(); });
   })();
 
   /* ---------- Calendario cuadrado de lo que se viene ----------

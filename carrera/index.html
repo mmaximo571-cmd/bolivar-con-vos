@@ -168,6 +168,22 @@
 <script>
 (function carrera(){
 
+/* «Menos movimiento», con plan B. La respuesta buena la da
+   menosMovimiento(), en app.js. Pero esta pantalla se pide siempre a la
+   red y app.js sale primero de lo guardado, así que la primera vez que
+   se abre la app después de subir una versión pueden venir desfasados:
+   un app.js de ayer con una pantalla de hoy. Si llamáramos derecho a una
+   función que ese app.js viejo no tiene, la excepción no rompe una
+   línea, mata el guion entero y la pantalla queda con los esqueletos
+   puestos. Pasó el 01/09/2026. Ver la nota larga en index.html. */
+const sinMovimiento = () => {
+  try {
+    if (typeof menosMovimiento === 'function') return menosMovimiento();
+    return !!(window.matchMedia &&
+      window.matchMedia('(prefers-reduced-motion: reduce)').matches);
+  } catch(e){ return false; }
+};
+
 document.getElementById('cabecera').innerHTML = htmlCabecera(
   '<a class="boton-cabecera" href="../mi/">Perfil</a>');
 document.getElementById('pie').innerHTML = htmlPie();
@@ -1026,7 +1042,7 @@ function mostrarPantalla(cual){
   cajaNota.hidden = !esNota;
   const visible = esNota ? cajaNota : cuerpo;
 
-  const quieto = menosMovimiento();
+  const quieto = sinMovimiento();
 
   if (pasoDePantalla) pasoDePantalla.cancel();
   /* Avanzar entra desde la derecha; volver, desde la izquierda. Con

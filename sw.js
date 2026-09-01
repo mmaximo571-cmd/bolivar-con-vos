@@ -16,7 +16,7 @@
    no tener fecha: alguien se pierde una mesa por creerle a la app.
    ============================================================ */
 
-const VERSION = 'bolivar-v2';
+const VERSION = 'bolivar-v3';
 const ARMAZON = VERSION + '-armazon';
 const PAGINAS = VERSION + '-paginas';
 
@@ -106,9 +106,17 @@ self.addEventListener('fetch', evento => {
   }
 
   /* El armazón: se sirve de lo guardado al instante y se refresca
-     por detrás, así nunca se espera pero tampoco se queda viejo. */
+     por detrás, así nunca se espera pero tampoco se queda viejo.
+
+     OJO CON DÓNDE SE BUSCA. Antes decía `caches.match(pedido)` a secas,
+     y eso busca en TODAS las cajas guardadas, incluidas las de versiones
+     viejas que todavía no se borraron. O sea que subir una versión nueva
+     no invalidaba nada: el armazón podía seguir saliendo de la caja de
+     la versión anterior. Buscando adentro de la caja de ESTA versión, un
+     cambio de VERSION vacía el armazón de verdad. */
   evento.respondWith((async () => {
-    const guardado = await caches.match(pedido);
+    const caja = await caches.open(ARMAZON);
+    const guardado = await caja.match(pedido);
     const dela_red = fetch(pedido).then(r => {
       if (r && r.ok){
         caches.open(ARMAZON).then(c => c.put(pedido, r.clone()));
