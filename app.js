@@ -515,13 +515,39 @@ function pintarAvisanos(){
 
   document.body.insertAdjacentHTML('beforeend', `
     <a class="avisanos" id="avisanos" href="${AVISANOS_URL}"
-       aria-label="Avisanos: ¿problemas con una materia o docente?">
+       aria-haspopup="dialog"
+       aria-label="Avisanos: preguntá lo que necesites">
       <svg viewBox="0 0 256 256" aria-hidden="true" focusable="false"><path d="M128,24A104,104,0,0,0,36.18,176.88L24.83,210.93a20,20,0,0,0,25.24,25.24l34.05-11.35A104,104,0,1,0,128,24Zm0,184a83.68,83.68,0,0,1-40.79-10.54,4,4,0,0,0-3.21-.25L49.15,208.85l11.64-34.85a4,4,0,0,0-.25-3.21A84,84,0,1,1,128,208Zm12-88a12,12,0,1,1-12-12A12,12,0,0,1,140,120Zm-12-64a12,12,0,0,0-12,12v28a12,12,0,0,0,24,0V68A12,12,0,0,0,128,56Z"/></svg>
       <span>Avisanos</span>
       <span class="avisanos-globo">¿Problemas con una materia o docente?</span>
     </a>`);
 
   const boton = document.getElementById('avisanos');
+
+  /* El chat se baja recién cuando alguien lo toca. Son unos 12 KB que
+     la mayoría no usa nunca, y en un celular con datos contados eso
+     importa más que el parpadeo de la primera apertura.
+
+     Sigue siendo un <a> con href de verdad: si el archivo no baja
+     -sin señal, o el servidor caído- el enlace lleva a «Quiénes
+     somos», donde están los contactos escritos. La función vieja
+     sigue estando abajo de la nueva. */
+  boton.addEventListener('click', function(ev){
+    if (window.Avisanos){ ev.preventDefault(); window.Avisanos.abrir(); return; }
+
+    ev.preventDefault();
+    boton.classList.add('cargando');
+    const s = document.createElement('script');
+    s.src = RAIZ + 'lib/avisanos.js';
+    s.onload = () => {
+      boton.classList.remove('cargando');
+      if (window.Avisanos) window.Avisanos.abrir();
+      else location.href = AVISANOS_URL;
+    };
+    s.onerror = () => { boton.classList.remove('cargando'); location.href = AVISANOS_URL; };
+    document.head.appendChild(s);
+  });
+
   const quieto = window.matchMedia &&
     window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   let yaSalio = false;

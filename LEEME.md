@@ -531,6 +531,48 @@ LEEME.md             ← este archivo
 **Para cambiar un color de toda la app:** abrí `estilos.css` y tocá una sola línea
 en el bloque `PANEL DE CONTROL ESTETICO` de arriba de todo.
 
+### El chat de «Avisanos»
+
+El botón flotante abre un chat que **busca entre los trámites y las preguntas
+frecuentes ya cargados** y contesta con la ficha que el equipo escribió.
+
+**No es una inteligencia artificial, y eso es la decisión, no una limitación.**
+A «¿hasta cuándo me inscribo?» hay una sola respuesta correcta y la sabe la
+facultad. Un bot que contesta con seguridad algo que se le ocurrió hace más daño
+que uno que dice «esto no lo tengo, preguntale a alguien». Por eso el chat nunca
+redacta: muestra fichas o admite que no sabe.
+
+**Cuando no sabe hace tres cosas, en este orden:** lo dice sin vueltas, guarda la
+pregunta para que el equipo la cargue, y pasa a un compañero de la carrera.
+
+**El buscador vive en `lib/avisanos.js` y el peso está en las palabras clave.**
+Quien escribe «no me deja anotarme a una materia» no comparte ni una palabra con
+el título «Inscribirse a las materias del cuatrimestre», pero sí con sus
+`palabras_clave`. Por eso una palabra clave vale 6 puntos, una del título 4 y una
+del resumen 1, y hace falta llegar a 6 para contestar: con menos empieza a
+ofrecer cualquier cosa, que es peor que no contestar. **Si el chat no encuentra
+algo que sí está cargado, la solución casi siempre es sumarle palabras clave a
+esa ficha desde el panel**, no tocar el código.
+
+Compara singulares con plurales, y también palabras que arrancan igual por seis
+letras: así «inscribo» llega a «inscripción» e «imprimo» a «imprimir». Seis es el
+punto justo — con cinco, «programa» y «progresar» pasarían por lo mismo y quien
+busca el programa de una materia terminaría en la beca.
+
+**Se baja recién cuando alguien toca el botón.** Son unos 12 KB que la mayoría no
+usa nunca. El botón sigue siendo un enlace de verdad: si el archivo no baja
+—sin señal, o el servidor caído— lleva a «Quiénes somos», donde están los
+contactos escritos.
+
+**Los contactos se ofrecen de a tres y al azar** (`tabla-avisanos.sql`), para que
+las consultas no le caigan siempre a la misma compañera. El panel muestra cuántos
+hay activos por carrera: **con menos de tres, el azar no reparte nada**.
+
+**Las consultas sin responder las escribe cualquiera, sin cuenta.** Tiene que ser
+así, porque el que pregunta casi nunca tiene cuenta. Lo que lo hace seguro es lo
+que *no* puede hacer: sin cuenta no se pueden leer, ni editar, ni borrar, solo
+dejar un renglón de hasta 500 caracteres. Se leen desde el panel, en **Avisanos**.
+
 ### La pantalla de Fechas (`agenda/`)
 
 **El calendario arriba, centrado, y los meses desplegables abajo.** Las dos

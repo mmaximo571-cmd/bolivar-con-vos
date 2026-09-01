@@ -210,6 +210,7 @@
       <button class="chip" data-p="guia"      aria-pressed="false">🧠 Guía de materia</button>
       <button class="chip" data-p="quienes"    aria-pressed="false">✊ Quiénes somos</button>
       <button class="chip" data-p="consejo"   aria-pressed="false">🏛 Consejo</button>
+      <button class="chip" data-p="avisanos"   aria-pressed="false">💬 Avisanos</button>
       <button class="chip" data-p="categorias" aria-pressed="false">🗂 Categorías</button>
     </div>
     <div id="zona" style="margin-top:14px"></div>
@@ -2122,11 +2123,182 @@
         : `<div class="aviso ok">Listo. Ya se ve así en la app.</div>`;
     };
   }
+  /* ============================================================
+     AVISANOS  ·  a quién pasa el chat, y qué no supo contestar
+
+     Dos cosas en una pantalla porque se leen juntas: las consultas
+     sin responder dicen qué falta cargar en «Info útil», y los
+     contactos son a quién le llegan mientras tanto.
+     ============================================================ */
+
+  const TIPOS_CONTACTO = { instagram:'Instagram', whatsapp:'WhatsApp', mail:'Correo' };
+  const CARRERAS_CONTACTO = { todas:'Todas las carreras', ts:'Trabajo Social',
+                              tgcr:'Gestión del Riesgo', fono:'Fonoaudiología' };
+
+  async function vistaAvisanos(){
+    const [rC, rQ] = await Promise.all([
+      db.from('contactos').select('*').order('carrera').order('orden'),
+      db.from('consultas').select('*').eq('resuelta', false).order('creado_at', { ascending:false }).limit(50)
+    ]);
+
+    if (rC.error){
+      zona.innerHTML = /contactos/.test(rC.error.message || '')
+        ? `<div class="aviso error">
+             <strong>Falta activar esta sección.</strong><br>
+             Hay que correr <b>tabla-avisanos.sql</b> en el SQL Editor de
+             Supabase. Es una sola vez.
+           </div>`
+        : `<div class="aviso error">No se pudo cargar: ${esc(rC.error.message)}</div>`;
+      return;
+    }
+
+    const contactos = rC.data || [];
+    const consultas = rQ.error ? [] : (rQ.data || []);
+
+    /* Cuántos hay por carrera. El chat ofrece tres al azar, así que
+       con menos de tres siempre le caen a la misma persona: eso hay
+       que poder verlo de un vistazo. */
+    const porCarrera = Object.keys(CARRERAS_CONTACTO).map(k => {
+      const cuantos = contactos.filter(c => c.activo && (c.carrera === k || c.carrera === 'todas')).length;
+      return k === 'todas' ? null : `${CARRERAS_CONTACTO[k]}: <b>${cuantos}</b>`;
+    }).filter(Boolean).join(' · ');
+
+    zona.innerHTML = `
+      <h2 class="titulo-pantalla" style="font-size:22px;margin-top:0">LO QUE NO SUPO CONTESTAR</h2>
+      <p class="letra-chica">Cada renglón es alguien que buscó algo y no lo
+        encontró. Es la lista de lo que falta cargar en Info útil, escrita por
+        los estudiantes.</p>
+      ${consultas.length ? consultas.map(q => `
+        <div class="fila-item" style="border:1px solid var(--linea);border-radius:var(--radio-chico);padding:10px;margin-bottom:6px">
+          <div class="crecer">
+            <div>${esc(q.texto)}</div>
+            <div class="letra-chica">${esc(fechaLinda(q.creado_at))}${
+              q.carrera ? ' · ' + esc(CARRERAS_CONTACTO[q.carrera] || q.carrera) : ''}</div>
+          </div>
+          <button class="mini" data-listo="${q.id}">Listo</button>
+        </div>`).join('')
+      : `<div class="vacio">Por ahora el chat contestó todo lo que le preguntaron.</div>`}
+
+      <h2 class="titulo-pantalla" style="font-size:22px;margin-top:26px">A QUIÉN PASA EL CHAT</h2>
+      <p class="letra-chica">Cuando el chat no sabe, ofrece <b>tres al azar</b> de
+        la carrera que corresponda. Al azar para que las consultas no le caigan
+        siempre a la misma compañera.<br>${porCarrera}</p>
+      <button class="boton ancho" id="nuevo-contacto">+ Sumar un contacto</button>
+      <div style="margin-top:10px">
+        ${contactos.length ? contactos.map(c => `
+          <button class="tarjeta ${c.activo ? '' : 'borrador'}" data-contacto="${c.id}">
+            <h3>${esc(c.nombre)}</h3>
+            <p>${esc(CARRERAS_CONTACTO[c.carrera] || c.carrera)}${c.detalle ? ' · ' + esc(c.detalle) : ''}</p>
+            <div class="meta">
+              <span>${esc(TIPOS_CONTACTO[c.tipo] || c.tipo)}</span>
+              <span>${esc(c.destino)}</span>
+              <span>${c.activo ? 'Activo' : 'Apagado'}</span>
+            </div>
+          </button>`).join('')
+        : `<div class="vacio">Todavía no hay contactos. Mientras tanto el chat
+             ofrece el Instagram de la agrupación.</div>`}
+      </div>`;
+
+    zona.querySelectorAll('[data-listo]').forEach(b => {
+      b.onclick = async function(){
+        this.disabled = true;
+        await db.from('consultas').update({ resuelta:true }).eq('id', Number(b.dataset.listo));
+        vistaAvisanos();
+      };
+    });
+    document.getElementById('nuevo-contacto').onclick = () => formularioContacto(null);
+    zona.querySelectorAll('[data-contacto]').forEach(b => {
+      b.onclick = () => formularioContacto(contactos.find(c => c.id === Number(b.dataset.contacto)));
+    });
+  }
+
+  function formularioContacto(c){
+    const esNuevo = !(c && c.id);
+    c = c || { carrera:'todas', tipo:'instagram', activo:true, orden:0 };
+
+    zona.innerHTML = `
+      <button class="mini" id="volver">← Volver</button>
+      <h2 class="titulo-pantalla" style="font-size:24px">${esNuevo ? 'SUMAR UN CONTACTO' : 'EDITAR EL CONTACTO'}</h2>
+
+      <div class="campo"><label for="nombre">Nombre *</label>
+        <input id="nombre" value="${esc(c.nombre || '')}" placeholder="Cami"></div>
+
+      <div class="dos-columnas">
+        <div class="campo"><label for="carrera">¿A quién atiende?</label>
+          <select id="carrera">${Object.keys(CARRERAS_CONTACTO).map(k =>
+            `<option value="${k}"${c.carrera === k ? ' selected' : ''}>${CARRERAS_CONTACTO[k]}</option>`).join('')}
+          </select></div>
+        <div class="campo"><label for="tipo">¿Por dónde se le escribe?</label>
+          <select id="tipo">${Object.keys(TIPOS_CONTACTO).map(k =>
+            `<option value="${k}"${c.tipo === k ? ' selected' : ''}>${TIPOS_CONTACTO[k]}</option>`).join('')}
+          </select></div>
+      </div>
+
+      <div class="campo"><label for="destino">Usuario, número o correo *</label>
+        <input id="destino" value="${esc(c.destino || '')}" placeholder="camibolivar"></div>
+      <p class="letra-chica" style="margin-top:-6px">
+        Instagram: el usuario <b>sin arroba</b>. WhatsApp: el número con código
+        de país y sin espacios ni guiones (5492211234567). Correo: la dirección.</p>
+
+      <div class="campo"><label for="detalle">Detalle</label>
+        <input id="detalle" value="${esc(c.detalle || '')}" placeholder="4.º año · consejera estudiantil"></div>
+      <p class="letra-chica" style="margin-top:-6px">
+        Sirve para que quien escribe sepa con quién habla. Opcional.</p>
+
+      <div class="campo"><label for="activo">¿Lo ofrece el chat?</label>
+        <select id="activo">
+          <option value="si"${c.activo ? ' selected' : ''}>Sí</option>
+          <option value="no"${c.activo ? '' : ' selected'}>No, apagado por ahora</option>
+        </select></div>
+
+      <button class="boton ancho" id="guardar">Guardar</button>
+      ${esNuevo ? '' : `<button class="boton ancho peligro" id="borrar" style="margin-top:10px">Eliminar</button>`}
+      <div id="msj"></div>`;
+
+    document.getElementById('volver').onclick = vistaAvisanos;
+
+    document.getElementById('guardar').onclick = async function(){
+      if (!val('nombre') || !val('destino')){
+        document.getElementById('msj').innerHTML =
+          '<div class="aviso error">Falta el nombre o por dónde se le escribe.</div>';
+        return;
+      }
+      this.disabled = true; this.textContent = 'Guardando…';
+      const fila = {
+        nombre: val('nombre'), carrera: val('carrera'), tipo: val('tipo'),
+        destino: val('destino').replace(/^@/, ''), detalle: nulo('detalle'),
+        activo: val('activo') === 'si'
+      };
+      const { error } = esNuevo
+        ? await db.from('contactos').insert(fila)
+        : await db.from('contactos').update(fila).eq('id', c.id);
+      if (error){
+        this.disabled = false; this.textContent = 'Guardar';
+        document.getElementById('msj').innerHTML =
+          `<div class="aviso error">No se pudo guardar: ${esc(error.message)}</div>`;
+        return;
+      }
+      vistaAvisanos();
+    };
+
+    const borrar = document.getElementById('borrar');
+    if (borrar) borrar.onclick = async function(){
+      if (!confirm('¿Eliminar este contacto?')) return;
+      const { error } = await db.from('contactos').delete().eq('id', c.id);
+      if (error){
+        document.getElementById('msj').innerHTML =
+          `<div class="aviso error">No se pudo eliminar: ${esc(error.message)}</div>`;
+        return;
+      }
+      vistaAvisanos();
+    };
+  }
+
   /* ============================================================ */
   function dibujar(){
     zona.innerHTML = '<div class="esq-tarjeta"><div class="esqueleto esq-linea titulo"></div><div class="esqueleto esq-linea"></div><div class="esqueleto esq-linea media"></div></div><div class="esq-tarjeta"><div class="esqueleto esq-linea titulo"></div><div class="esqueleto esq-linea"></div><div class="esqueleto esq-linea corta"></div></div>';
     ({ tramites:vistaTramites, faq:vistaFaq, agenda:vistaAgenda, programas:vistaProgramas,
-       materiales:vistaMateriales, guia:vistaGuia,
+       materiales:vistaMateriales, guia:vistaGuia, avisanos:vistaAvisanos,
        quienes:vistaQuienes, consejo:vistaConsejo,
        categorias:vistaCategorias }[actual])();
   }
