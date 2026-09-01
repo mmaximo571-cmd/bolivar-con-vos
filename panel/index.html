@@ -57,6 +57,35 @@
   }
   .paso-editor .campo{margin-bottom:8px}
   .paso-editor .campo:last-child{margin-bottom:0}
+  /* --- La lista de PDFs leídos ---
+     Cada renglón es un programa. La barra de la izquierda dice de un
+     vistazo si hay que mirarlo: verde salió entero, amarillo salió con
+     avisos, rojo no se pudo. El color no viaja solo: al lado siempre
+     está el motivo escrito, porque el color no se lee en voz alta ni
+     lo ve quien no distingue el verde del rojo. */
+  .lectura{
+    display:flex;gap:10px;align-items:flex-start;
+    border:1px solid var(--linea);border-left-width:5px;
+    border-radius:var(--radio-chico);padding:9px 11px;margin-bottom:7px;
+    background:var(--superficie)
+  }
+  .lectura.bien{border-left-color:#2E7D32}
+  .lectura.avisa{border-left-color:#B8860B}
+  .lectura.mal{border-left-color:var(--rojo)}
+  .lectura .crecer{flex:1;min-width:0}
+  .lectura h4{margin:0 0 2px;font-size:15px}
+  .lectura .archivo{
+    font-family:var(--fuente-datos);font-size:11px;color:var(--texto-suave);
+    overflow:hidden;text-overflow:ellipsis;white-space:nowrap
+  }
+  .lectura .cuentas{font-size:12px;color:var(--texto-suave);margin-top:3px}
+  .lectura .porque{font-size:12px;margin-top:3px}
+  .zona-soltar{
+    border:2px dashed var(--linea);border-radius:var(--radio-chico);
+    padding:26px 14px;text-align:center;background:var(--superficie-2);
+    margin-bottom:12px
+  }
+  .zona-soltar.encima{border-color:var(--rojo);background:var(--superficie)}
   /* --- Las ranuras de foto ---
      Una por bloque de texto. La miniatura se muestra con el mismo
      recorte que va a tener en la app, para que no haya sorpresas. */
@@ -92,6 +121,17 @@
 <script src="../config.js"></script>
 <script src="../iconos.js"></script>
 <script src="../app.js"></script>
+<!-- Para leer los programas en PDF. Los tres planes hacen falta para
+     reconocer de qué materia es cada archivo, y pdf.js para sacarle el
+     texto sin mandarlo a ningún servidor: el PDF se lee en la máquina
+     de quien lo sube y recién después se guarda.
+     Esto lo carga SOLO el panel. La app que usa el estudiante no baja
+     ni un byte de pdf.js. -->
+<script src="../carrera/plan.js"></script>
+<script src="../carrera/plan-tgcr.js"></script>
+<script src="../carrera/plan-fono.js"></script>
+<script src="../lib/leer-programa.js"></script>
+<script src="../lib/pdf.js"></script>
 <script>
 (async function panel(){
 
@@ -1002,8 +1042,9 @@
     }
 
     zona.innerHTML =
-      `<button class="boton ancho" id="nuevo">+ Cargar un programa</button>
-       <p class="letra-chica" style="margin-bottom:6px">
+      `<button class="boton ancho" id="desde-pdf">📄 Cargar programas desde PDF</button>
+       <button class="boton ancho borde" id="nuevo" style="margin-top:8px">+ Cargar uno a mano</button>
+       <p class="letra-chica" style="margin-bottom:6px;margin-top:8px">
          Cada estudiante se lleva una copia al empezar a preparar el final, y
          puede editarla. Corregir el programa acá no le reescribe el plan a
          quien ya lo empezó.</p>` +
@@ -1021,13 +1062,18 @@
         : `<div class="vacio">Todavía no hay ningún programa cargado.</div>`);
 
     document.getElementById('nuevo').onclick = () => formularioPrograma(null);
+    document.getElementById('desde-pdf').onclick = () => vistaProgramasPDF(data);
     zona.querySelectorAll('.tarjeta[data-id]').forEach(b => {
       b.onclick = () => formularioPrograma(data.find(x => x.id === Number(b.dataset.id)));
     });
   }
 
   function formularioPrograma(p){
-    const esNuevo = !p;
+    /* Se mira el id, no el objeto: la carga desde PDF abre este mismo
+       formulario con lo que leyó ya puesto, y eso sigue siendo un
+       programa nuevo. Con `!p` a secas intentaría actualizar la fila
+       de id `undefined` y no guardaría nada, sin decir por qué. */
+    const esNuevo = !(p && p.id);
     p = p || { carrera:'ts', publicado:true, unidades:[] };
 
     zona.innerHTML = `
@@ -1136,6 +1182,281 @@
       }
       vistaProgramas();
     };
+  }
+
+  /* ============================================================
+     CARGAR PROGRAMAS DESDE PDF
+
+     Cincuenta y tres materias. Pegar cada programa a mano en el
+     formulario de arriba es una tarde entera por carrera, y encima
+     hay que rehacerlo cada año cuando las cátedras publican los
+     nuevos. Acá se arrastran los PDFs y salen leídos.
+
+     TRES COSAS QUE NO SON OBVIAS:
+
+     1. El PDF NO SE MANDA A NINGÚN LADO PARA LEERLO. pdf.js le saca
+        el texto en la máquina de quien lo sube. Al servidor va el
+        resultado, y el archivo solo si se pide guardarlo.
+
+     2. NADA SE GUARDA SOLO. Se lee todo, se muestra qué entendió de
+        cada uno, y recién con «Guardar» se escribe. Un parser que
+        guarda sin mostrar es un parser que se equivoca en silencio, y
+        el error aparece meses después, cuando alguien estudia con un
+        programa mal cargado.
+
+     3. LO QUE NO PUDO LEER NO SE PIERDE. Se abre en el formulario de
+        siempre con el texto del PDF ya extraído, así igual no hay que
+        copiar y pegar desde el visor de PDF.
+     ============================================================ */
+
+  /* Le saca el texto a un PDF, hoja por hoja. El `-layout` que hace
+     pdftotext no existe acá, así que se reconstruyen los renglones
+     por la coordenada Y de cada pedazo: si dos pedazos están a la
+     misma altura, van en el mismo renglón. Sin esto sale todo el
+     programa en una sola línea y no se reconoce ni una unidad. */
+  async function textoDelPdf(archivo){
+    pdfjsLib.GlobalWorkerOptions.workerSrc = '../lib/pdf.worker.js';
+    const datos = await archivo.arrayBuffer();
+    const doc   = await pdfjsLib.getDocument({ data: datos }).promise;
+    let texto = '';
+
+    for (let n = 1; n <= doc.numPages; n++){
+      const hoja = await doc.getPage(n);
+      const cont = await hoja.getTextContent();
+      let renglones = [], actual = null;
+
+      cont.items.forEach(it => {
+        if (!it.str) return;
+        const y = Math.round(it.transform[5]);
+        /* Dos puntos de tolerancia: los acentos y las viñetas vienen
+           un pelo más arriba que el resto del renglón. */
+        if (actual && Math.abs(actual.y - y) <= 2){
+          actual.partes.push(it.str);
+        } else {
+          if (actual) renglones.push(actual);
+          actual = { y: y, partes: [it.str] };
+        }
+      });
+      if (actual) renglones.push(actual);
+
+      texto += renglones.map(r => r.partes.join('')).join('\n') + '\n';
+    }
+    return texto;
+  }
+
+  /* Nombre dentro del depósito. Lleva la materia adelante para que se
+     entienda de qué es al mirar el depósito, y la hora al final para
+     que subir dos veces la misma materia no pise el archivo anterior. */
+  function nombreDePdf(lectura){
+    const base = (lectura.materia || lectura.archivo)
+      .normalize('NFD').replace(/[̀-ͯ]/g, '')
+      .toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '').slice(0, 50);
+    return (lectura.carrera || 'sin-carrera') + '-' + base + '-' + Date.now() + '.pdf';
+  }
+
+  async function subirPdf(archivo, nombre){
+    const { error } = await db.storage.from('programas')
+      .upload(nombre, archivo, { contentType: 'application/pdf' });
+    if (error){
+      if (/Bucket not found/i.test(error.message || ''))
+        throw new Error('Falta correr tabla-programas-pdf.sql en Supabase.');
+      if (/row-level security|Unauthorized/i.test(error.message || ''))
+        throw new Error('Tu cuenta no tiene permiso para subir archivos. Tiene que estar como «equipo».');
+      throw error;
+    }
+    return db.storage.from('programas').getPublicUrl(nombre).data.publicUrl;
+  }
+
+  function vistaProgramasPDF(yaCargados){
+    const CARRERAS = CARRERAS_PANEL;
+    let lecturas = [];
+
+    zona.innerHTML = `
+      <button class="mini" id="volver">← Volver a los programas</button>
+      <h2 class="titulo-pantalla" style="font-size:24px">CARGAR DESDE PDF</h2>
+
+      <div class="zona-soltar" id="soltar">
+        <p style="margin:0 0 10px"><b>Arrastrá acá los PDFs de los programas.</b><br>
+          <span class="letra-chica">Todos juntos si querés. Se leen en tu teléfono o
+          computadora: no se mandan a ningún lado hasta que toques Guardar.</span></p>
+        <input type="file" id="archivos" accept="application/pdf" multiple hidden>
+        <button class="boton borde" id="elegir">Elegir archivos</button>
+      </div>
+
+      <div class="dos-columnas">
+        <div class="campo"><label for="anio-tanda">Año de estos programas</label>
+          <input id="anio-tanda" type="number" value="${new Date().getFullYear()}"></div>
+        <div class="campo"><label for="publicar-tanda">¿Los ven los estudiantes?</label>
+          <select id="publicar-tanda">
+            <option value="no">No todavía, borradores</option>
+            <option value="si">Sí, publicados</option>
+          </select></div>
+      </div>
+      <p class="letra-chica" style="margin-top:-6px">
+        El año se usa solo para los programas donde el PDF no lo dice.
+        Arrancan como borrador a propósito: así se pueden revisar contra
+        el PDF antes de que alguien estudie con ellos.</p>
+
+      <div id="lista"></div>
+      <div id="msj"></div>`;
+
+    document.getElementById('volver').onclick = vistaProgramas;
+    const entrada = document.getElementById('archivos');
+    const soltar  = document.getElementById('soltar');
+    const lista   = document.getElementById('lista');
+
+    document.getElementById('elegir').onclick = () => entrada.click();
+    entrada.onchange = () => procesar([...entrada.files]);
+
+    ['dragenter', 'dragover'].forEach(e => soltar.addEventListener(e, ev => {
+      ev.preventDefault(); soltar.classList.add('encima');
+    }));
+    ['dragleave', 'drop'].forEach(e => soltar.addEventListener(e, ev => {
+      ev.preventDefault(); soltar.classList.remove('encima');
+    }));
+    soltar.addEventListener('drop', ev => {
+      procesar([...ev.dataTransfer.files].filter(f => /\.pdf$/i.test(f.name)));
+    });
+
+    /* ---------- Leer ---------- */
+    async function procesar(archivos){
+      if (!archivos.length) return;
+      lista.innerHTML = `<div class="aviso">Leyendo ${archivos.length} archivo${archivos.length === 1 ? '' : 's'}…</div>`;
+
+      for (const archivo of archivos){
+        let lectura;
+        try {
+          const texto = await textoDelPdf(archivo);
+          lectura = LeerPrograma.desdeTexto(texto);
+          lectura.archivo = archivo.name;
+          lectura.file    = archivo;
+          lectura.calidad = LeerPrograma.calidad(lectura.unidades);
+          lectura.guardar = !!(lectura.materia && lectura.unidades.length);
+        } catch(e){
+          lectura = { archivo: archivo.name, file: archivo, materia: '', carrera: null,
+                      materia_cod: '', anio: null, unidades: [], calidad: 0,
+                      guardar: false, crudo: '',
+                      avisos: ['No se pudo abrir el PDF: ' + (e.message || e)] };
+        }
+        /* Si esa materia ya está cargada, se avisa antes y no después
+           de que la base rechace el duplicado. */
+        const repetido = (yaCargados || []).find(p =>
+          p.carrera === lectura.carrera && p.materia_cod === lectura.materia_cod);
+        if (repetido){
+          lectura.avisos = lectura.avisos.concat(['Esta materia ya está cargada. Si lo guardás, se reemplaza.']);
+          lectura.reemplaza = repetido.id;
+        }
+        lecturas.push(lectura);
+        pintarLista();
+      }
+    }
+
+    /* ---------- Mostrar ---------- */
+    function pintarLista(){
+      if (!lecturas.length){ lista.innerHTML = ''; return; }
+
+      const listos = lecturas.filter(l => l.guardar).length;
+
+      lista.innerHTML = lecturas.map((l, i) => {
+        const clase = !l.unidades.length ? 'mal' : (l.avisos.length ? 'avisa' : 'bien');
+        const textos = LeerPrograma.contarTextos(l.unidades);
+        return `
+        <div class="lectura ${clase}">
+          <input type="checkbox" data-i="${i}" class="marcar" ${l.guardar ? 'checked' : ''}
+                 ${l.materia && l.unidades.length ? '' : 'disabled'} style="margin-top:4px"
+                 aria-label="Guardar ${esc(l.materia || l.archivo)}">
+          <div class="crecer">
+            <h4>${esc(l.materia || 'No se reconoció la materia')}</h4>
+            <div class="archivo">${esc(l.archivo)}</div>
+            <div class="cuentas">
+              ${l.carrera ? esc(CARRERAS[l.carrera]) + ' · ' : ''}
+              ${l.materia_cod ? 'cód. ' + esc(l.materia_cod) + ' · ' : ''}
+              ${l.unidades.length} unidades · ${textos} textos
+              ${textos ? ' · ' + l.calidad + '% con autor y año' : ''}
+            </div>
+            ${l.avisos.length
+              ? `<div class="porque">⚠ ${l.avisos.map(a => esc(a)).join('<br>⚠ ')}</div>` : ''}
+            ${l.materia ? '' :
+              `<div class="porque">Sin materia reconocida no se puede guardar solo:
+                 abrilo y elegí la materia a mano.</div>`}
+          </div>
+          <button class="mini" data-abrir="${i}">Abrir</button>
+        </div>`;
+      }).join('') + `
+        <div class="campo" style="margin-top:12px">
+          <label><input type="checkbox" id="guardar-pdf" checked>
+            Guardar también el PDF original, para que se pueda ver el oficial</label>
+        </div>
+        <button class="boton ancho" id="guardar-todo" ${listos ? '' : 'disabled'}>
+          Guardar ${listos} programa${listos === 1 ? '' : 's'}</button>`;
+
+      lista.querySelectorAll('.marcar').forEach(c => {
+        c.onchange = () => { lecturas[+c.dataset.i].guardar = c.checked; pintarLista(); };
+      });
+      /* «Abrir» lleva al formulario de siempre, con lo leído ya puesto.
+         Para los que fallaron es la salida: el texto del PDF va en el
+         campo grande y se acomoda a mano, sin copiar del visor. */
+      lista.querySelectorAll('[data-abrir]').forEach(b => {
+        b.onclick = () => {
+          const l = lecturas[+b.dataset.abrir];
+          formularioPrograma({
+            carrera: l.carrera || 'ts', materia_cod: l.materia_cod, materia: l.materia,
+            catedra: null, anio: l.anio || Number(val('anio-tanda')) || null,
+            unidades: l.unidades.length ? l.unidades
+                    : [{ titulo: 'Pegar acá el programa', textos: [] }],
+            publicado: false
+          });
+        };
+      });
+      document.getElementById('guardar-todo').onclick = guardarTodo;
+    }
+
+    /* ---------- Guardar ---------- */
+    async function guardarTodo(){
+      const boton = document.getElementById('guardar-todo');
+      const conPdf = document.getElementById('guardar-pdf').checked;
+      const anioTanda  = Number(document.getElementById('anio-tanda').value) || null;
+      const publicados = document.getElementById('publicar-tanda').value === 'si';
+      const elegidos = lecturas.filter(l => l.guardar);
+
+      boton.disabled = true;
+      let hechos = 0, fallados = [];
+
+      for (const l of elegidos){
+        boton.textContent = `Guardando ${hechos + 1} de ${elegidos.length}…`;
+        try {
+          let pdfUrl = null, pdfNombre = null;
+          if (conPdf){
+            pdfNombre = nombreDePdf(l);
+            pdfUrl    = await subirPdf(l.file, pdfNombre);
+          }
+          const fila = {
+            carrera: l.carrera, materia_cod: l.materia_cod, materia: l.materia,
+            anio: l.anio || anioTanda, unidades: l.unidades,
+            publicado: publicados, pdf_url: pdfUrl, pdf_nombre: pdfNombre,
+            revisado: false,
+            origen: l.archivo + (l.avisos.length ? ' · ' + l.avisos.join(' ') : '')
+          };
+          const { error } = l.reemplaza
+            ? await db.from('programas').update(fila).eq('id', l.reemplaza)
+            : await db.from('programas').insert(fila);
+          if (error) throw error;
+          hechos++;
+        } catch(e){
+          fallados.push(l.archivo + ': ' + (e.message || e));
+        }
+      }
+
+      document.getElementById('msj').innerHTML =
+        `<div class="aviso ${fallados.length ? 'error' : 'ok'}">
+           Se guardaron <b>${hechos}</b> de ${elegidos.length}.
+           ${publicados ? '' : 'Quedaron como borrador: se publican desde la lista.'}
+           ${fallados.length ? '<br>No entraron:<br>' + fallados.map(esc).join('<br>') : ''}
+         </div>`;
+      boton.textContent = 'Guardar';
+      boton.disabled = false;
+      if (hechos) setTimeout(vistaProgramas, 2500);
+    }
   }
 
   /* ============================================================

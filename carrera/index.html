@@ -1531,10 +1531,37 @@ async function vistaNueva(cod){
     } catch(e){ mesasCache = []; }
   }
 
+  /* El programa que cargó el equipo, si hay. Se busca ACÁ y no al
+     tocar «Empezar», por dos motivos: para poder ofrecer el PDF
+     oficial antes de empezar, y para que se sepa de entrada si la
+     materia tiene programa cargado o se arranca en blanco. */
+  let programa = null;
+  try {
+    const { data } = await db.from('programas')
+      .select('id,unidades,pdf_url,catedra')
+      .eq('carrera', PLAN.id).eq('materia_cod', cod)
+      .eq('publicado', true).limit(1);
+    if (data && data.length) programa = data[0];
+  } catch(e){ /* sin programa cargado se arranca en blanco */ }
+
+  const textosDelPrograma = programa ? contarTextos(programa.unidades) : 0;
+
   zonaFinal.innerHTML = `
     <button class="hoja-volver" id="volver-lista">← Volver</button>
     <div class="titulo-seccion">PREPARAR UN FINAL</div>
     <h3 class="prep-materia">${esc(m.nombre)}</h3>
+
+    ${programa ? `
+      <p class="letra-chica">Ya está cargado el programa de la cátedra:
+        vas a arrancar con <b>${(programa.unidades || []).length} unidades</b> y
+        <b>${textosDelPrograma} textos</b> para ir tildando.</p>
+      ${programa.pdf_url ? `
+        <a class="boton borde ancho" href="${esc(programa.pdf_url)}"
+           target="_blank" rel="noopener" style="margin-bottom:12px">
+          Ver el programa oficial (PDF)</a>` : ''}`
+    : `<p class="letra-chica">Todavía no está cargado el programa de esta
+        materia, así que vas a arrancar con la lista en blanco y podés ir
+        agregando los textos vos.</p>`}
 
     <p class="letra-chica">¿Para qué mesa la estás preparando? Sirve para
       contarte cuántos días faltan.</p>
@@ -1582,15 +1609,10 @@ async function vistaNueva(cod){
     if (elegida === 'otra') fecha = zonaFinal.querySelector('#mesa-otra').value || null;
     else if (elegida)       fecha = elegida;
 
-    /* El programa que cargó el equipo, si hay. Se COPIA: a partir de acá
-       es tuyo y lo podés editar sin tocar el de nadie. */
-    let unidades = [], programaId = null;
-    try {
-      const { data } = await db.from('programas').select('id,unidades')
-        .eq('carrera', PLAN.id).eq('materia_cod', cod)
-        .eq('publicado', true).limit(1);
-      if (data && data.length){ unidades = data[0].unidades || []; programaId = data[0].id; }
-    } catch(e){ /* sin programa cargado se arranca en blanco */ }
+    /* El programa ya se buscó al abrir esta pantalla. Se COPIA: a
+       partir de acá es tuyo y lo podés editar sin tocar el de nadie. */
+    const unidades   = programa ? (programa.unidades || []) : [];
+    const programaId = programa ? programa.id : null;
 
     const { data, error } = await db.from('preparaciones').insert({
       carrera: PLAN.id, materia_cod: cod, materia: m.nombre,
