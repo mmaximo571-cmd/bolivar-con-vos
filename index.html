@@ -3,27 +3,27 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>La Bolívar con vos</title>
-<meta name="description" content="La app que hacemos les estudiantes de Trabajo Social para acompañarnos: trámites, fechas y grupos de estudio. Agrupación Simón Bolívar, conducción del CEFTS.">
+<title>Mi año · La Bolívar con vos</title>
+<meta name="description" content="Organizá tu cursada según el plan de estudios de tu carrera en la Facultad de Trabajo Social. Mirá qué podés cursar y qué podés promocionar el año que viene.">
 <meta name="theme-color" content="#F9E830">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Montserrat:wght@600;700;800&family=Roboto:wght@400;500;700&family=Roboto+Mono:wght@400;500;700&display=swap" rel="stylesheet">
 <!-- Iconos de la app: pestana, Google, y pantalla de inicio del celular -->
-<link rel="icon" type="image/png" sizes="32x32" href="imagenes/icono-32.png">
-<link rel="icon" type="image/png" sizes="96x96" href="imagenes/icono-96.png">
-<link rel="icon" type="image/png" sizes="192x192" href="imagenes/icono-192.png">
-<link rel="apple-touch-icon" href="imagenes/icono-apple.png">
-<link rel="manifest" href="manifest.json">
+<link rel="icon" type="image/png" sizes="32x32" href="../imagenes/icono-32.png">
+<link rel="icon" type="image/png" sizes="96x96" href="../imagenes/icono-96.png">
+<link rel="icon" type="image/png" sizes="192x192" href="../imagenes/icono-192.png">
+<link rel="apple-touch-icon" href="../imagenes/icono-apple.png">
+<link rel="manifest" href="../manifest.json">
 
 <!-- Como se ve cuando alguien comparte el link por WhatsApp o Instagram -->
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="La Bolivar con vos">
-<meta property="og:title" content="La Bolívar con vos">
-<meta property="og:description" content="La app que hacemos les estudiantes de Trabajo Social para acompañarnos: trámites, fechas y grupos de estudio. Agrupación Simón Bolívar, conducción del CEFTS.">
+<meta property="og:title" content="Mi año · La Bolívar con vos">
+<meta property="og:description" content="Organizá tu cursada según el plan de estudios de tu carrera en la Facultad de Trabajo Social. Mirá qué podés cursar y qué podés promocionar el año que viene.">
 <meta property="og:image" content="https://bolivar-con-vos.vercel.app/imagenes/compartir.png">
 <meta name="twitter:card" content="summary_large_image">
-<link rel="stylesheet" href="estilos.css">
+<link rel="stylesheet" href="../estilos.css">
 <!-- EL TEMA, ANTES DE DIBUJAR NADA. Va acá arriba y no en app.js a
      propósito: app.js carga al final del cuerpo, así que la pantalla
      arrancaría clara y pegaría un salto a oscura. Son tres renglones. -->
@@ -36,1137 +36,2034 @@
 }catch(e){ document.documentElement.dataset.tema = 'claro'; }})();
 </script>
 </head>
-<body class="antes-de-entrar">
-
-<!-- ============ 1. APERTURA (se va sola) ============
-     El logo animado de la Agrupación. Tres capas apiladas que se van
-     revelando: primero el contorno de Sudamérica dibujándose de norte
-     a sur, después SIMÓN y BOLÍVAR barriendo de izquierda a derecha.
-
-     LAS CORTINAS. Cada capa lleva adentro un rectángulo del mismo
-     amarillo del fondo que la tapa y se corre para dejarla a la vista.
-     Antes esto se hacía con una máscara de degradado a la que el guion
-     le reescribía la posición en cada cuadro, y reescribir una máscara
-     obliga al navegador a repintar la capa entera: tres imágenes de
-     1080x1350 repintadas sesenta veces por segundo, justo en el
-     arranque, que es cuando el teléfono menos tiene para dar. Correr un
-     rectángulo, en cambio, lo hace la placa de video sola y no repinta
-     nada. Se ve igual porque el fondo es plano: lo que tapa el
-     rectángulo es indistinguible del fondo que tiene al lado. -->
-<div class="apertura" id="apertura">
-  <div class="marca-escena" id="marca-escena">
-    <div class="capa" id="capa-mapa">
-      <img src="marca/map.png" alt="" decoding="async">
-      <i class="cortina hacia-abajo"></i>
-    </div>
-    <div class="capa" id="capa-simon">
-      <img src="marca/simon.png" alt="" decoding="async">
-      <i class="cortina hacia-derecha"></i>
-    </div>
-    <div class="capa" id="capa-bolivar">
-      <img src="marca/bolivar.png" alt="" decoding="async">
-      <i class="cortina hacia-derecha"></i>
-    </div>
-    <div class="destello" id="destello"></div>
-  </div>
-</div>
-
-<!-- ============ 2. PORTADA (se ve siempre) ============
-     Toma la identidad de «¿Quiénes somos?»: banda de color pleno, ceja
-     arriba, y el titular gigante con una palabra en otro color. Las
-     clases .ceja-lectura, .grito y .bajada-lectura son LAS MISMAS de
-     esa pantalla, no una copia: si allá se toca la tipografía, acá
-     cambia sola.
-
-     Los circulitos celestes que había antes alrededor del logo se
-     fueron: en las placas del Instagram el celeste no aparece nunca,
-     el par es amarillo y negro con el rojo como acento chico. -->
-<section class="bienvenida" id="bienvenida" hidden>
-  <div class="bienvenida-adentro">
-    <div class="arriba">
-
-      <img class="dibujo" src="imagenes/marca-roja.webp"
-           alt="Agrupación Simón Bolívar" width="168" height="139">
-
-      <p class="ceja-lectura">Agrupación Simón Bolívar · Conducción del CEFTS</p>
-
-      <!-- El titular no se inventó para la portada: sale de un bloque de
-           «¿Quiénes somos?». Es de la casa. Los tres saltos de línea son a
-           mano y no accidentales: así se lee como un afiche y no como un
-           párrafo que quedó grande. -->
-      <h1 class="grito">La salida<br>siempre es<br><em>colectiva</em></h1>
-
-      <!-- Abre diciendo QUIÉNES somos, no qué hace la app: el catálogo de
-           funciones ya está adentro. Y cierra en gente, no en una función. -->
-      <p class="bajada-lectura">
-        Somos estudiantes de esta facultad, como vos. Acá dejamos lo que fuimos
-        aprendiendo: los trámites contados como se los contaríamos a une
-        compañere, las fechas que no te podés perder y con quién estudiar
-        cada materia.
-      </p>
-    </div>
-
-    <div class="abajo">
-      <button class="boton oscuro ancho" id="btn-entrar">Entrar</button>
-      <a class="sin-cuenta" id="btn-cuenta" href="mi/">Ya tengo cuenta</a>
-    </div>
-  </div>
-</section>
-
-<!-- ============ 3. LA APP ============ -->
-<div id="app" hidden>
+<body>
 
 <div id="cabecera"></div>
 
-<div class="caja-buscador">
-  <div class="envoltura">
-    <div class="buscador">
-      <span class="lupa" id="lupa">🔍</span>
-      <input id="busqueda" type="search" autocomplete="off"
-             placeholder="¿Qué necesitás resolver?" aria-label="Buscar trámites y preguntas">
-    </div>
-  </div>
-</div>
-
 <main class="envoltura" id="contenido" tabindex="-1">
 
-  <!-- El título de la página. No se ve, pero existe: sin un h1 la
-       portada no tiene encabezado y con lector de pantalla queda como
-       una lista plana de sesenta elementos. Lo que se ve es la marca de
-       la cabecera, que dice lo mismo. -->
-  <h1 class="solo-lectores">La Bolívar con vos · Agrupación Simón Bolívar, FTS UNLP</h1>
+  <h1 class="titulo-pantalla">Mi año</h1>
+  <p class="bajada">
+    Marcá cómo venís con cada materia y te decimos qué podés cursar y qué
+    podés <strong>promocionar</strong>. Nadie más lo ve: queda en tu teléfono.
+  </p>
 
-  <!-- Resultados de la búsqueda (solo aparecen al escribir) -->
-  <section id="zona-resultados" hidden>
-    <div class="titulo-seccion" id="titulo-resultados">RESULTADOS</div>
-    <div class="lista" id="resultados"></div>
+  <!-- ---------- ELEGIR CARRERA ---------- -->
+  <div class="chips" id="selector-carrera" role="group" aria-label="Elegí tu carrera"></div>
+
+  <!-- ---------- PROGRESO ---------- -->
+  <section class="progreso" id="progreso"></section>
+
+  <!-- ---------- PESTAÑAS ---------- -->
+  <div class="pestanas" role="tablist">
+    <button class="pestana" id="tab-plan"  role="tab" aria-selected="true">Mi cursada</button>
+    <button class="pestana" id="tab-final" role="tab" aria-selected="false">Finales</button>
+    <button class="pestana" id="tab-mapa"  role="tab" aria-selected="false">Mapa</button>
+    <button class="pestana" id="tab-todo"  role="tab" aria-selected="false">Plan completo</button>
+  </div>
+
+  <!-- ---------- VISTA: MI CURSADA ---------- -->
+  <section id="vista-plan">
+
+    <!-- Lo que estás haciendo ahora, arriba de todo -->
+    <div id="cursando-ahora"></div>
+
+    <div class="titulo-seccion">EL AÑO QUE VIENE</div>
+
+    <div class="chips" id="filtro-cuatri" role="group" aria-label="Filtrar por cuatrimestre">
+      <button class="chip" data-cuatri="todo"  aria-pressed="true">Todas</button>
+      <button class="chip" data-cuatri="anual" aria-pressed="false">Anuales</button>
+      <button class="chip" data-cuatri="1c"    aria-pressed="false">1° cuatri</button>
+      <button class="chip" data-cuatri="2c"    aria-pressed="false">2° cuatri</button>
+    </div>
+
+    <label class="interruptor" id="caja-suponer" hidden>
+      <input type="checkbox" id="suponer">
+      <span>Dar por aprobadas las cursadas que estoy haciendo ahora</span>
+    </label>
+
+    <div id="grupos"></div>
+    <div id="consejo"></div>
   </section>
 
-  <!-- Todo lo demás se esconde mientras se busca -->
-  <div id="zona-normal">
+  <!-- ---------- VISTA: PREPARAR UN FINAL ----------
+       Se dibuja entera desde el JS porque depende de si hay sesión, de
+       si ya empezaste a preparar alguna, y del programa que haya
+       cargado el equipo. -->
+  <section id="vista-final" hidden></section>
 
-    <!-- LA ALARMA: se anota sola cuando abre la inscripción a una mesa -->
-    <div id="alarma"></div>
+  <!-- ---------- VISTA: MAPA DE CORRELATIVIDADES ---------- -->
+  <section id="vista-mapa" hidden>
+    <p class="bajada" style="margin-bottom:12px">
+      El plan se lee de izquierda a derecha: cada columna es un año, y las
+      líneas van de cada materia a las que te habilita.
+    </p>
 
-    <!-- Cómo venís con tu carrera, si usaste el organizador -->
-    <div id="mi-cursada"></div>
-
-    <!-- Calendario cuadrado de lo que se viene.
-         Va ANTES del carrusel a propósito: el carrusel es ambientación
-         y pesaba más que todo lo demás, así que lo primero que se veía
-         al abrir era una foto en vez de las fechas. -->
-    <div class="titulo-seccion">
-      LO QUE SE VIENE
-      <a href="agenda/">Ver fechas</a>
-    </div>
-    <div class="calendario cuadrado" id="calendario">
-      <div class="esq-calendario">
-        <div class="esqueleto esq-linea titulo"></div>
-        <div class="esq-grilla">
-          <div class="esqueleto"></div><div class="esqueleto"></div>
-          <div class="esqueleto"></div><div class="esqueleto"></div>
-          <div class="esqueleto"></div><div class="esqueleto"></div>
-          <div class="esqueleto"></div><div class="esqueleto"></div>
-          <div class="esqueleto"></div><div class="esqueleto"></div>
-          <div class="esqueleto"></div><div class="esqueleto"></div>
-          <div class="esqueleto"></div><div class="esqueleto"></div>
-        </div>
-      </div>
+    <div class="mapa-leyenda">
+      <span><i class="aprobada"></i>Aprobada</span>
+      <span><i class="cursada"></i>Te falta el final</span>
+      <span><i class="promociona"></i>Podés promocionarla</span>
+      <span><i class="cursa"></i>Podés cursarla</span>
+      <span><i class="trabada"></i>Todavía no</span>
     </div>
 
-    <!-- La portada: las ilustraciones de la facultad, deslizándose -->
-    <div class="carrusel" id="carrusel"></div>
+    <div class="mapa-marco" id="mapa-marco">
+      <div class="mapa-lienzo" id="mapa-lienzo"></div>
+    </div>
+    <p class="letra-chica" id="mapa-aviso" hidden></p>
+  </section>
 
-  </div>
+  <!-- ---------- VISTA: PLAN COMPLETO ---------- -->
+  <section id="vista-todo" hidden>
+    <div id="por-anio"></div>
+
+    <div class="titulo-seccion" id="titulo-requisitos" hidden>OTROS REQUISITOS</div>
+    <div id="requisitos"></div>
+
+    <div class="aviso" id="nota-asterisco" hidden></div>
+
+    <button class="boton borde ancho" id="borrar" style="margin:18px 0 6px">
+      Empezar de nuevo
+    </button>
+    <p class="letra-chica">
+      Lo que marcás se guarda en este teléfono, y cada carrera por separado.
+      No se sube a ningún lado salvo que vos crees una copia de respaldo,
+      acá abajo.
+    </p>
+  </section>
+
+  <!-- ---------- LA COPIA DE RESPALDO ----------
+       Va afuera de las pestañas a propósito: no es parte de ninguna
+       vista, es de todo Mi año. -->
+  <section class="respaldo" id="respaldo"></section>
+
 </main>
 
-<!-- De acá hasta el piso, la ilustración de la facultad va por detrás -->
-<div class="zona-fondo" id="zona-fondo">
-  <div class="envoltura">
-
-    <!-- Los nueve accesos.
-         LOS DOS PRIMEROS VAN ESCRITOS, NO COMO ESQUELETO. «Mi año» y
-         «Estudiemos» están puestos a mano en el guion de más abajo: no
-         salen de ninguna consulta y no hay absolutamente nada que
-         esperar para mostrarlos. Ponerlos como cajón vacío hasta que
-         contestara Supabase era inventar una demora que no existía, y
-         justo en los dos accesos que más se usan. Ahora se ven desde el
-         primer cuadro, se pueden tocar antes de que llegue el resto, y
-         cuando llega el resto no salta nada: el guion reemplaza la
-         rejilla entera con estos dos primeros en el mismo lugar.
-         Los otros siete sí dependen de qué categorías tengan contenido,
-         así que esos sí son esqueleto. -->
-    <div class="titulo-seccion">A DÓNDE IR</div>
-    <div class="rejilla-3x3" id="accesos">
-      <a class="boton-cuadro destacado" href="carrera/">
-        <span class="icono">🎓</span><span class="nombre">Mi año</span></a>
-      <a class="boton-cuadro" href="estudiemos/">
-        <span class="icono">📚</span><span class="nombre">Estudiemos</span></a>
-      <div class="esq-cuadro"></div><div class="esq-cuadro"></div>
-      <div class="esq-cuadro"></div><div class="esq-cuadro"></div>
-      <div class="esq-cuadro"></div><div class="esq-cuadro"></div>
-      <div class="esq-cuadro"></div>
-    </div>
-
-    <!-- Para quien recién llega -->
-    <div class="titulo-seccion">SI RECIÉN EMPEZÁS</div>
-    <div class="kit" id="kit"></div>
-
-    <div class="titulo-seccion">
-      NOVEDADES
-      <a href="agenda/">Ver todas</a>
-    </div>
-    <div class="lista" id="novedades">
-      <div class="esq-tarjeta">
-        <div class="esqueleto esq-linea titulo"></div>
-        <div class="esqueleto esq-linea"></div>
-        <div class="esqueleto esq-linea media"></div>
-      </div>
-      <div class="esq-tarjeta">
-        <div class="esqueleto esq-linea titulo"></div>
-        <div class="esqueleto esq-linea"></div>
-        <div class="esqueleto esq-linea corta"></div>
-      </div>
-    </div>
-
+<!-- ---------- HOJA DE DETALLE ---------- -->
+<div class="hoja-fondo" id="hoja-fondo" hidden>
+  <div class="hoja" id="hoja" role="dialog" aria-modal="true" aria-labelledby="hoja-titulo">
+    <button class="hoja-cerrar" id="hoja-cerrar" aria-label="Cerrar">✕</button>
+    <!-- La hoja tiene dos pantallas. La primera es el detalle de la
+         materia; la segunda aparece al marcarla como aprobada y pide la
+         nota. Antes marcar "Aprobada" cerraba todo de golpe, así que
+         cargar la nota exigía volver a entrar. -->
+    <div id="hoja-cuerpo"></div>
+    <div id="hoja-nota" hidden></div>
   </div>
-
-  <div id="pie"></div>
 </div>
 
-</div><!-- /#app -->
+<div id="pie"></div>
 
-<script>window.RAIZ = './';</script>
+<script>window.RAIZ = '../';</script>
 <!-- La librería de Supabase vive ACÁ ADENTRO, no en un servidor ajeno.
      Versión 2.112.4, congelada. Antes se bajaba de cdn.jsdelivr.net en
      cada visita: si esa descarga fallaba, la app quedaba en «Cargando…». -->
-<script src="lib/supabase.js"></script>
-<script src="config.js"></script>
-<script src="iconos.js"></script>
-<script src="app.js"></script>
+<script src="../lib/supabase.js"></script>
+<script src="../config.js"></script>
+<script src="../iconos.js"></script>
+<script src="../app.js"></script>
+<script src="plan.js"></script>
+<script src="plan-tgcr.js"></script>
+<script src="plan-fono.js"></script>
 <script>
-(async function inicio(){
+(function carrera(){
 
-  /* ============================================================
-     LAS TRES ETAPAS DE LA APERTURA
+document.getElementById('cabecera').innerHTML = htmlCabecera(
+  '<a class="boton-cabecera" href="../mi/">Perfil</a>');
+document.getElementById('pie').innerHTML = htmlPie();
+pintarNav('carrera');
 
-     1. La animación: se ve una vez por visita. Si volvés desde
-        Trámites, no la ves de nuevo (por eso sessionStorage).
-     2. La bienvenida: solo la primerísima vez, nunca más
-        (por eso localStorage).
-     3. La app.
+/* ============================================================
+   LAS TRES CARRERAS
+   El orden de acá es el orden en que aparecen los botones de arriba.
+   ============================================================ */
+const CARRERAS = [window.PLAN_TS, window.PLAN_TGCR, window.PLAN_FONO];
 
-     Mientras tanto los datos ya se están pidiendo, así que cuando
-     la animación termina la pantalla suele estar lista.
-     ============================================================ */
-  /* ============================================================
-     UN ENLACE DE RECUPERAR CONTRASEÑA QUE CAYÓ ACÁ
+/* Estas cuatro cambian cada vez que se elige otra carrera */
+let PLAN, MATERIAS, POR_COD, HABILITA, datos;
 
-     Los enlaces del correo vuelven a «Perfil», que es donde está la
-     pantalla para elegir la contraseña nueva. Pero si la dirección de
-     vuelta no está permitida en Supabase, el enlace cae en la portada
-     —y acá no hay dónde cambiarla: la persona queda adentro sin poder
-     hacer lo que vino a hacer. Ya pasó.
+/* ============================================================
+   LAS DOS LISTAS DE CORRELATIVAS
 
-     Si llega uno, lo mandamos a Perfil con la marca intacta. Antes de
-     dibujar nada, para que ni se vea la portada. */
-  if (/type=recovery/.test(location.hash) || /type=recovery|[?&]code=/.test(location.search)){
-    location.replace('mi/' + location.search + location.hash);
+   Trabajo Social y Gestión del Riesgo traen UNA sola columna de
+   correlativas en el plan: la misma lista dice qué necesitás para
+   cursar (con la cursada aprobada) y qué necesitás para promocionar
+   (con el final aprobado).
+
+   Fonoaudiología trae DOS columnas separadas, y a veces dicen cosas
+   distintas. Por eso todo el sistema pregunta por estas dos funciones
+   en vez de mirar "correl" directamente.
+   ============================================================ */
+function paraCursar(m){
+  return m.paraCursar || m.correl || [];
+}
+
+function paraFinal(m){
+  const p = (m.paraFinal !== undefined) ? m.paraFinal : m.correl;
+  /* El Trabajo Integrador Final de Fonoaudiología pide todas las
+     materias de 1° a 4° con el final aprobado. */
+  if (p === 'todas-1-a-4') return MATERIAS.filter(x => x.anio <= 4).map(x => x.cod);
+  return p || [];
+}
+
+/* Todo lo que esta materia menciona, sin repetir */
+function refsDe(m){
+  const todas = paraCursar(m).concat(paraFinal(m));
+  return todas.filter((c, i) => todas.indexOf(c) === i);
+}
+
+/* ============================================================
+   LOS CUATRO ESTADOS
+   El corazón del sistema de correlatividades:
+     promocionar una materia te habilita a promocionar la siguiente;
+     aprobar solo la cursada te habilita a cursarla, pero no a promocionarla.
+   ============================================================ */
+const ESTADOS = {
+  pendiente: { texto:'Todavía no la hice',       corto:'Pendiente'  },
+  cursando:  { texto:'La estoy cursando ahora',  corto:'Cursando'   },
+  cursada:   { texto:'Aprobé la cursada, me falta el final', corto:'Falta el final' },
+  aprobada:  { texto:'Aprobada (promoción o final rendido)', corto:'Aprobada' }
+};
+const ORDEN = { pendiente:0, cursando:1, cursada:2, aprobada:3 };
+
+/* ============================================================
+   LO QUE SE GUARDA EN EL TELEFONO
+   Cada carrera guarda lo suyo por separado, en guardado.datos[id].
+   ============================================================ */
+const LLAVE     = 'bolivar-carrera-v2';
+const LLAVE_VIEJA = 'bolivar-carrera-v1';
+
+let guardado = { carrera:'ts', datos:{} };
+
+try {
+  const crudo = localStorage.getItem(LLAVE);
+  if (crudo) {
+    guardado = Object.assign(guardado, JSON.parse(crudo));
+  } else {
+    /* Quien ya venía usando la app tenía una sola carrera, la de Trabajo
+       Social, guardada en la llave vieja. No se le pierde nada. */
+    const viejo = localStorage.getItem(LLAVE_VIEJA);
+    if (viejo) guardado.datos.ts = JSON.parse(viejo);
   }
+} catch(e){ /* modo incógnito o memoria llena: seguimos sin guardar */ }
 
-  const LLAVE_BIENVENIDA = 'bolivar-bienvenida-vista';
-  const LLAVE_APERTURA   = 'bolivar-apertura-vista';
+if (!guardado.datos) guardado.datos = {};
 
-  const capaApertura   = document.getElementById('apertura');
-  const capaBienvenida = document.getElementById('bienvenida');
-  const capaApp        = document.getElementById('app');
+function persistir(){
+  try { localStorage.setItem(LLAVE, JSON.stringify(guardado)); } catch(e){}
+  /* Y si hay copia de respaldo, se actualiza sola. */
+  if (typeof respaldarLuego === 'function') respaldarLuego();
+}
 
-  /* La cabecera y el pie se arman ANTES que nada: pintarNav necesita
-     que la cabecera ya exista para colgarle las secciones debajo. */
-  document.getElementById('cabecera').innerHTML = htmlCabecera();
-  document.getElementById('pie').innerHTML = htmlPie();
+function estadoCrudo(cod){ return datos.estados[cod] || 'pendiente'; }
 
-  function guardado(almacen, llave){
-    try { return almacen.getItem(llave); } catch(e){ return null; }
+/* ============================================================
+   LAS NOTAS
+
+   Son OPCIONALES: la app funciona igual sin ninguna. Solo tienen
+   sentido en las materias aprobadas, porque el promedio se hace
+   con notas de final o de promoción.
+
+   El promedio se calcula solo con las que tengan nota cargada, y
+   siempre se aclara cuántas son: un promedio de 2 materias sobre
+   31 no significa lo mismo que uno de 25, y hay que poder verlo.
+   ============================================================ */
+function notaDe(cod){
+  const n = datos.notas[cod];
+  return (typeof n === 'number' && n >= 1 && n <= 10) ? n : null;
+}
+
+function guardarNota(cod, valor){
+  const n = parseFloat(String(valor).replace(',', '.'));
+  if (isNaN(n) || n < 1 || n > 10) delete datos.notas[cod];
+  else datos.notas[cod] = Math.round(n * 100) / 100;
+  persistir();
+}
+
+/* La fecha en que la aprobaste. Es opcional como la nota, y sirve para
+   acordarte de cuándo fue: en un final rendido hace dos años, la fecha
+   es lo primero que se olvida. Se guarda como '2026-08-30'. */
+function fechaDe(cod){
+  const f = datos.fechas ? datos.fechas[cod] : null;
+  return (typeof f === 'string' && /^\d{4}-\d{2}-\d{2}$/.test(f)) ? f : null;
+}
+
+function guardarFecha(cod, iso){
+  if (!datos.fechas) datos.fechas = {};
+  if (!iso || !/^\d{4}-\d{2}-\d{2}$/.test(iso)) delete datos.fechas[cod];
+  else datos.fechas[cod] = iso;
+  persistir();
+}
+
+/* Para mostrarla: 2026-08-30 -> 30/8/2026. Sin new Date(), que
+   interpreta la cadena como UTC y en Argentina resta un día. */
+function fechaLinda(iso){
+  if (!iso) return '';
+  const p = iso.split('-');
+  return Number(p[2]) + '/' + Number(p[1]) + '/' + p[0];
+}
+
+function hoyISO(){
+  const d = new Date();
+  const dosCifras = n => String(n).padStart(2, '0');
+  return d.getFullYear() + '-' + dosCifras(d.getMonth() + 1) + '-' + dosCifras(d.getDate());
+}
+
+function promedio(){
+  const conNota = MATERIAS
+    .filter(m => estadoCrudo(m.cod) === 'aprobada' && notaDe(m.cod) !== null)
+    .map(m => notaDe(m.cod));
+  if (!conNota.length) return null;
+  const aprobadas = MATERIAS.filter(m => estadoCrudo(m.cod) === 'aprobada').length;
+  return {
+    valor: conNota.reduce((s, n) => s + n, 0) / conNota.length,
+    cuantas: conNota.length,
+    deCuantas: aprobadas
+  };
+}
+
+/* El estado con el que se hacen las cuentas. Si el interruptor está puesto,
+   una materia "cursando" se cuenta como cursada aprobada. */
+function estado(cod){
+  const e = estadoCrudo(cod);
+  return (datos.suponer && e === 'cursando') ? 'cursada' : e;
+}
+
+/* ============================================================
+   ELEGIR CARRERA
+   ============================================================ */
+function elegirCarrera(id){
+  PLAN = CARRERAS.filter(c => c && c.id === id)[0] || CARRERAS[0];
+
+  MATERIAS = PLAN.materias;
+
+  POR_COD = {};
+  MATERIAS.forEach(m => POR_COD[m.cod] = m);
+
+  /* Mapa al revés: para cada materia, a cuáles les abre la puerta */
+  HABILITA = {};
+  MATERIAS.forEach(m => HABILITA[m.cod] = []);
+  MATERIAS.forEach(m => refsDe(m).forEach(c => {
+    if (HABILITA[c] && HABILITA[c].indexOf(m.cod) === -1) HABILITA[c].push(m.cod);
+  }));
+
+  guardado.carrera = PLAN.id;
+  if (!guardado.datos[PLAN.id]) {
+    guardado.datos[PLAN.id] = { estados:{}, notas:{}, fechas:{}, suponer:false, idioma:false };
   }
-  function guardar(almacen, llave){
-    try { almacen.setItem(llave, '1'); } catch(e){ /* modo incógnito */ }
-  }
+  datos = guardado.datos[PLAN.id];
+  if (!datos.estados) datos.estados = {};
+  /* Quien ya venía usando la app no tenía notas guardadas */
+  if (!datos.notas) datos.notas = {};
+  /* Ni fechas: se agregaron después. Sin esto, la primera vez rompe. */
+  if (!datos.fechas) datos.fechas = {};
+  persistir();
 
-  function mostrarApp(){
-    capaBienvenida.hidden = true;
-    capaApp.hidden = false;
-    /* Recién acá aparece la navegación, así que recién acá le
-       devolvemos al body su espaciado normal. */
-    document.body.classList.remove('antes-de-entrar');
-    if (!document.querySelector('.secciones')) pintarNav('inicio');
-  }
+  filtroCuatri = 'todo';
+}
 
-  function mostrarBienvenida(){
-    capaBienvenida.hidden = false;
-    document.getElementById('btn-entrar').addEventListener('click', mostrarApp);
-    /* «Ya tengo cuenta» es un enlace a Perfil: se va de la portada solo,
-       no hay nada que hacerle acá. */
-  }
+function pintarSelectorCarrera(){
+  document.getElementById('selector-carrera').innerHTML =
+    CARRERAS.filter(c => c).map(c => `
+      <button class="chip" data-carrera="${esc(c.id)}"
+              aria-pressed="${c.id === PLAN.id ? 'true' : 'false'}"
+              title="${esc(c.carrera)}">${esc(c.nombreCorto)}</button>`).join('');
+}
 
-  /* LA PORTADA SE VE SIEMPRE.
+/* ============================================================
+   LA REGLA
+   ============================================================ */
+function situacion(m){
+  /* Para cursarla: lo de la columna "cursada", con la cursada aprobada. */
+  const faltaCursar = paraCursar(m).filter(c => ORDEN[estado(c)] < ORDEN.cursada);
+  /* Para promocionarla o rendirle el final: lo de la otra columna, aprobado. */
+  const faltaFinal  = paraFinal(m).filter(c => estado(c) !== 'aprobada');
 
-     Antes se veía UNA vez en la vida y después nunca más: se guardaba
-     una llave en localStorage y listo. Ya no. Es una decisión tomada a
-     sabiendas de lo que cuesta: quien abre la app para mirar una fecha
-     ahora paga un toque de más, todas las veces. A cambio, la portada
-     es lo primero que ve siempre.
+  if (faltaCursar.length) return { clase:'trabada',    faltaCursar, faltaFinal };
+  if (faltaFinal.length)  return { clase:'cursa',      faltaCursar, faltaFinal };
+  return                         { clase:'promociona', faltaCursar, faltaFinal };
+}
 
-     Si alguna vez se quiere volver atrás, es una línea:
-       if (guardado(localStorage, LLAVE_BIENVENIDA)) mostrarApp(); else ...
-     y volver a guardar la llave en el botón Entrar.
+const NOMBRE_CLASE = {
+  promociona: 'PODÉS PROMOCIONARLA',
+  cursa:      'PODÉS CURSARLA, PERO NO PROMOCIONARLA',
+  trabada:    'TODAVÍA NO LA PODÉS CURSAR'
+};
 
-     Con ?directo en la dirección se saltea, para poder probar el resto
-     de la portada sin pasar por acá en cada recarga. */
-  function seguirDespuesDeLaApertura(){
-    if (/[?&]directo\b/.test(location.search)) mostrarApp();
-    else mostrarBienvenida();
-  }
+const DICTADO = { anual:'Anual', '1c':'1° cuatrimestre', '2c':'2° cuatrimestre', libre:'Sin cuatrimestre fijo' };
 
-  /* ============================================================
-     LA APERTURA: el logo animado de la Agrupación
+function listaNombres(codigos){
+  return codigos.map(c => POR_COD[c] ? POR_COD[c].nombre : c).join(', ');
+}
 
-     Viene del proyecto de Claude Design «Animación logo Simón Bolívar».
-     Allá la animación dura 8,8 segundos y va en loop, porque está
-     pensada como pieza de video. Acá es la puerta de entrada a la app,
-     así que se reproduce UNA vez y comprimida.
+/* ============================================================
+   PROGRESO
+   ============================================================ */
+function pintarProgreso(){
+  const total     = MATERIAS.length;
+  const aprobadas = MATERIAS.filter(m => estadoCrudo(m.cod) === 'aprobada').length;
+  const cursadas  = MATERIAS.filter(m => estadoCrudo(m.cod) === 'cursada').length;
 
-     La coreografía es exactamente la del diseño. Para que quede fiel,
-     el reloj interno sigue contando en los 8,8 segundos originales y lo
-     único que cambia es a qué velocidad avanza. Así que si querés que
-     dure más o menos, tocá SOLO esta línea:
-     ============================================================ */
-  /* POR QUÉ BAJÓ DE 2,6 A 1,2 SEGUNDOS.
+  /* El progreso se mide en MATERIAS, no en horas: es lo que la estudiante
+     cuenta, y es lo unico que los tres planes tienen en comun (los de
+     Gestion del Riesgo y Fonoaudiologia no publican carga horaria). */
+  const pct = Math.round(aprobadas / total * 100);
 
-     Hay que sumar todo lo que había entre tocar el ícono y ver una
-     fecha: hasta 1,8 s esperando que bajaran las tres imágenes, 2,6 s
-     de animación, 0,38 s de fundido, y recién ahí la portada, que pide
-     OTRO toque para entrar. Casi cinco segundos.
-
-     Eso es aceptable la primera vez que alguien abre la app. No lo es
-     la décima, y menos cuando la razón para abrirla es mirar si la
-     mesa de examen es el jueves. La animación se guardaba por sesión,
-     así que en la práctica se pagaba varias veces por semana.
-
-     1,2 segundos siguen alcanzando para que la marca se lea —el logo
-     se dibuja, las dos palabras entran, el destello cruza— y ya no
-     alcanzan para que la espera se note como espera. Es la diferencia
-     entre una presentación y una puerta.
-
-     Y no se paga sola: la espera por las imágenes bajó a 0,6 s, y las
-     tres imágenes ahora las guarda el service worker, así que a partir
-     de la segunda visita están en el teléfono y no se espera nada. */
-  const DURACION_APERTURA = 1.2;   // segundos que dura en la app
-
-  const TOTAL_ORIGINAL = 8.8;
-  /* Cada escena empieza donde termina la anterior (3 + 2,2 + 2,6 + 1) */
-  const CUE = { tinta:0, palabras:3, respiro:5.2, salida:7.8 };
-
-  /* Las curvas de movimiento del diseño original */
-  const suaveFinal  = t => 1 - Math.pow(1 - t, 3);          // easeOutCubic
-  const suaveAmbos  = t => -(Math.cos(Math.PI * t) - 1) / 2; // easeInOutSine
-  const suaveCuad   = t => t < 0.5 ? 2*t*t : 1 - Math.pow(-2*t + 2, 2) / 2;
-
-  const topar = (v, a, b) => Math.min(b, Math.max(a, v));
-
-  /* Interpola de "desde" a "hasta" entre dos momentos del guión */
-  function tramo(desde, hasta, arranca, termina, curva){
-    return t => {
-      if (t <= arranca) return desde;
-      if (t >= termina) return hasta;
-      return desde + (hasta - desde) * curva((t - arranca) / (termina - arranca));
-    };
-  }
-
-  /* TODO LO QUE SE MUEVE ACÁ SE MUEVE CON transform. NADA MÁS.
-
-     Esta función corre sesenta veces por segundo durante el arranque de
-     la app, que es el peor momento del teléfono: está bajando las
-     imágenes, las cuatro consultas, y armando la página. Cualquier cosa
-     que se toque acá y que obligue al navegador a recalcular la página
-     o a repintar una capa se paga sesenta veces.
-
-     Antes se tocaban tres cosas caras:
-       · la máscara de las tres capas, reescrita entera cada cuadro
-         (repinta 1080x1350 px por capa),
-       · la propiedad `left` del destello (recalcula la página),
-       · y se leía innerWidth DESPUÉS de haber escrito estilos, que
-         obliga al navegador a frenar y rehacer las cuentas de layout
-         antes de contestar.
-
-     Ahora las tres capas se destapan corriendo una cortina, el destello
-     se mueve con translateX, y la escala se mide una sola vez y se
-     guarda. Lo único que se escribe por cuadro son transform y opacity,
-     que es exactamente lo que la placa de video sabe hacer sin ayuda. */
-
-  /* La escala depende del tamaño de la ventana, que durante la apertura
-     no cambia. Medirla una vez y guardarla saca del bucle la única
-     lectura de geometría que quedaba. Si alguien gira el teléfono en el
-     segundo que dura, se vuelve a medir. */
-  let escalaGuardada = 0;
-  function escalaActual(){
-    if (!escalaGuardada) escalaGuardada = escala();
-    return escalaGuardada;
-  }
-  addEventListener('resize', () => { escalaGuardada = 0; }, { passive:true });
-  addEventListener('orientationchange', () => { escalaGuardada = 0; }, { passive:true });
-
-  function pintarCuadro(T, escena, capas){
-    /* El contorno de Sudamérica: la cortina baja y lo va dejando ver.
-       Es el mismo recorrido que hacía la máscara, de norte a sur. */
-    const dibujo = tramo(0, 1, CUE.tinta + 0.3, CUE.tinta + 2.5, suaveAmbos)(T);
-    capas.cortinaMapa.style.transform = `translateY(${dibujo * 100}%)`;
-
-    /* SIMÓN entra primero, BOLÍVAR un poco después */
-    const p1 = tramo(0, 1, CUE.palabras - 0.2,  CUE.palabras + 1.0,  suaveFinal)(T);
-    const p2 = tramo(0, 1, CUE.palabras + 0.35, CUE.palabras + 1.55, suaveFinal)(T);
-    [[capas.simon, capas.cortinaSimon, p1],
-     [capas.bolivar, capas.cortinaBolivar, p2]].forEach(([capa, cortina, p]) => {
-      cortina.style.transform = `translateX(${p * 100}%)`;
-      capa.style.transform = `translateX(${-(1 - p) * 26}px)`;
-    });
-
-    /* El logo se asienta y después respira */
-    const asiento  = tramo(1.035, 1, CUE.tinta, CUE.palabras + 1.2, suaveFinal)(T);
-    const respiro  = 1 + 0.005 * Math.sin((T - CUE.respiro) * 1.15);
-    const salida   = tramo(0, 1, CUE.salida + 0.1, CUE.salida + 0.85, suaveCuad)(T);
-
-    escena.style.transform = `scale(${escalaActual() * asiento * respiro * (1 + 0.05 * salida)})`;
-    escena.style.opacity   = 1 - salida;
-
-    /* El destello de luz que cruza la marca. Se mueve con translateX y
-       no con `left`: el resultado en pantalla es el mismo y el costo
-       no. La franja mide 26% del ancho de la escena, así que el
-       recorrido se expresa en múltiplos de su propio ancho. */
-    const destelloX = tramo(-60, 160, CUE.respiro + 0.2, CUE.respiro + 1.9, suaveCuad)(T);
-    capas.destello.style.transform =
-      `translateX(${destelloX / 26 * 100}%) rotate(14deg)`;
-    capas.destello.style.opacity =
-      topar(Math.sin(Math.PI * topar((T - CUE.respiro - 0.2) / 1.7, 0, 1)), 0, 1) * 0.55;
-  }
-
-  /* La tinta del dibujo ocupa 805x664 dentro del lienzo de 1080x1350.
-     Si el navegador todavía no sabe cuánto mide la ventana devuelve 0, y
-     entonces el logo quedaría en tamaño cero: por eso el piso. */
-  function escala(){
-    const an = innerWidth  || document.documentElement.clientWidth  || 360;
-    const al = innerHeight || document.documentElement.clientHeight || 640;
-    return Math.max(0.05, Math.min((an * 0.78) / 805, (al * 0.66) / 664));
-  }
-
-  (function apertura(){
-    /* Si ya la vio en esta visita, no la repetimos */
-    if (guardado(sessionStorage, LLAVE_APERTURA)){
-      capaApertura.remove();
-      seguirDespuesDeLaApertura();
-      return;
-    }
-    guardar(sessionStorage, LLAVE_APERTURA);
-
-    const escena = document.getElementById('marca-escena');
-    const mapa    = document.getElementById('capa-mapa');
-    const simon   = document.getElementById('capa-simon');
-    const bolivar = document.getElementById('capa-bolivar');
-    const capas = {
-      mapa, simon, bolivar,
-      cortinaMapa:    mapa.querySelector('.cortina'),
-      cortinaSimon:   simon.querySelector('.cortina'),
-      cortinaBolivar: bolivar.querySelector('.cortina'),
-      destello: document.getElementById('destello')
-    };
-
-    let terminada = false;
-    function cerrar(){
-      if (terminada) return;
-      terminada = true;
-      capaApertura.classList.add('yendose');
-      /* Se espera el fin del fundido en vez de contar 380 ms a mano: la
-         duración vive en el CSS y acá no hay que repetirla. El respaldo
-         por tiempo queda por si la transición no llega a dispararse
-         —pestaña de fondo, animaciones frenadas por el sistema—, para
-         que la capa no se quede tapando la app para siempre. */
-      let sacada = false;
-      const sacar = () => { if (!sacada){ sacada = true; capaApertura.remove(); } };
-      capaApertura.addEventListener('transitionend', sacar, { once:true });
-      setTimeout(sacar, 600);
-      seguirDespuesDeLaApertura();
-    }
-
-    /* Se puede saltear tocando la pantalla: nadie tiene que esperar */
-    capaApertura.addEventListener('click', cerrar);
-
-    /* Red de seguridad. El navegador congela requestAnimationFrame cuando
-       la pestaña no está a la vista, así que si alguien abre la app en una
-       pestaña de fondo la animación se pausa a mitad de camino. Sin esto,
-       al volver se encontraría la apertura colgada y la app inalcanzable. */
-    setTimeout(cerrar, DURACION_APERTURA * 1000 + 1400);
-
-    if (menosMovimiento()){
-      /* Sin animación: se muestra el logo ya armado y se sigue en el
-         acto. Antes había un setTimeout de 700 ms acá: setecientos
-         milisegundos de amarillo quieto a alguien que justamente pidió
-         no esperar movimiento. Esperar sin que pase nada es lo peor de
-         las dos opciones. */
-      pintarCuadro(CUE.respiro + 0.9, escena, capas);
-      cerrar();
-      return;
-    }
-
-    /* Las tres capas tienen que estar cargadas antes de empezar, si no
-       la animación arranca con la pantalla vacía. Pero nadie espera para
-       siempre: si tardan, se entra igual a la app.
-
-       Eran 1,8 segundos de espera; ahora son 0,6. El número alto tenía
-       sentido cuando las imágenes se bajaban de la red en cada visita.
-       Ahora las guarda el service worker: de la segunda vez en adelante
-       están en el teléfono y esto resuelve en el primer cuadro. Y la
-       primera vez, en una red lenta, es mejor entrar a la app sin
-       animación que mirar un rectángulo amarillo casi dos segundos. */
-    const imagenes = [capas.mapa, capas.simon, capas.bolivar]
-      .map(c => c.querySelector('img'));
-
-    const listas = Promise.all(imagenes.map(img => img.complete
-      ? Promise.resolve()
-      : new Promise(res => { img.onload = res; img.onerror = res; })));
-
-    const seCansoDeEsperar = new Promise(res => setTimeout(res, 600));
-
-    /* Antes de que carguen no se ve nada más que el amarillo */
-    escena.style.opacity = 0;
-
-    Promise.race([listas, seCansoDeEsperar]).then(() => {
-      if (terminada) return;
-      if (!imagenes.every(i => i.complete && i.naturalWidth)){ cerrar(); return; }
-
-      escena.style.opacity = 1;
-      const arranque = performance.now();
-
-      (function cuadro(ahora){
-        if (terminada) return;
-        const transcurrido = (ahora - arranque) / 1000;
-        const T = (transcurrido / DURACION_APERTURA) * TOTAL_ORIGINAL;
-        pintarCuadro(Math.min(T, TOTAL_ORIGINAL), escena, capas);
-        if (transcurrido >= DURACION_APERTURA) cerrar();
-        else requestAnimationFrame(cuadro);
-      })(arranque);
-    });
-  })();
-
-
-  /* ---------- Traemos todo de una sola vez ---------- */
-  let categorias = [], tramites = [], preguntas = [], publicaciones = [];
-
+  /* Le dejamos un resumen chiquito a la pantalla de inicio, para que
+     pueda mostrar la tarjeta grande sin cargar los tres planes. */
+  /* Van también las cursadas y las que estás cursando ahora, porque la
+     portada dibuja una casilla por materia y necesita distinguirlas.
+     Son números, no la lista: la portada muestra CUÁNTAS, no cuáles. */
+  const cursandoAhora = MATERIAS.filter(m => estadoCrudo(m.cod) === 'cursando').length;
   try {
-    const [rCat, rTra, rFaq, rPub] = await conPaciencia(Promise.all([
-      db.from('categorias').select('*').order('orden'),
-      db.from('tramites').select('id,titulo,resumen,categoria_id,palabras_clave')
-        .eq('publicado', true).order('orden'),
-      db.from('faq').select('id,pregunta,respuesta,categoria_id')
-        .eq('publicado', true).order('orden'),
-      db.from('publicaciones').select('*').eq('publicado', true)
-        .order('creado_at', { ascending:false })
-    ]));
-    for (const r of [rCat, rTra, rFaq, rPub]) if (r.error) throw r.error;
-    categorias = rCat.data; tramites = rTra.data;
-    preguntas = rFaq.data;  publicaciones = rPub.data;
-  } catch (e) {
-    mostrarError(document.getElementById('zona-normal'), e, 'cargar la información');
+    localStorage.setItem('bolivar-carrera-resumen', JSON.stringify({
+      carrera: PLAN.nombreCorto, aprobadas: aprobadas, total: total,
+      cursadas: cursadas, cursando: cursandoAhora
+    }));
+  } catch(e){ /* modo incógnito: la tarjeta muestra la invitación */ }
+
+  const prom = promedio();
+
+  document.getElementById('progreso').innerHTML = `
+    <div class="barra"><div class="barra-llena" style="--llena:${pct}"></div></div>
+    <div class="progreso-datos">
+      <div><strong>${aprobadas}</strong> de ${total} materias aprobadas</div>
+      <div>${pct}% de la carrera</div>
+    </div>
+    ${prom ? `<div class="promedio">
+        <span class="promedio-numero">${prom.valor.toFixed(2).replace('.', ',')}</span>
+        <span class="promedio-detalle">de promedio<br>
+          <small>con ${prom.cuantas} ${prom.cuantas === 1 ? 'nota cargada' : 'notas cargadas'}
+          de ${prom.deCuantas} ${prom.deCuantas === 1 ? 'materia aprobada' : 'materias aprobadas'}</small>
+        </span>
+      </div>` : ''}
+    ${cursadas ? `<div class="progreso-extra">${cursadas === 1 ? 'Te queda' : 'Te quedan'}
+       <strong>${cursadas}</strong>
+       ${cursadas === 1 ? 'final pendiente' : 'finales pendientes'}.</div>` : ''}`;
+}
+
+/* ============================================================
+   CURSANDO ESTE AÑO
+   Lo que estás haciendo ahora, arriba de todo. Sale de las materias
+   marcadas como "La estoy cursando ahora".
+   ============================================================ */
+function pintarCursandoAhora(){
+  const caja = document.getElementById('cursando-ahora');
+  const ahora = MATERIAS.filter(m => estadoCrudo(m.cod) === 'cursando');
+
+  if (!ahora.length){
+    caja.innerHTML = `
+      <div class="titulo-seccion">CURSANDO ESTE AÑO</div>
+      <div class="vacio">
+        Todavía no marcaste ninguna materia como «la estoy cursando ahora».<br>
+        Tocá una materia y elegí esa opción: van a aparecer acá.
+      </div>`;
     return;
   }
-  /* ============================================================
-     LA ALARMA DE INSCRIPCIÓN
 
-     Es lo más útil que hace esta app, y sale de un dato que ya
-     estaba cargado: la ventana para anotarse a una mesa dura
-     EXACTAMENTE 4 días, nueve veces al año, y la mesa es 4 a 6 días
-     después. Perderse esos 4 días es perder la mesa y esperar un mes.
-
-     Por eso la alarma aparece arriba de todo, sola, desde 5 días
-     antes de que abra hasta que cierra. El resto del año no está.
-     ============================================================ */
-  /* Lo próximo de la agenda, en el mismo lugar donde iría la alarma.
-     Es un renglón, no una tarjeta: si fuera igual de grande que la
-     alarma de inscripción, competiría con ella el día que las dos
-     tengan algo que decir. */
-  function proximoDeLaAgenda(caja, publicaciones, hoy){
-    const proximas = (publicaciones || [])
-      .filter(p => p.fecha_desde && (p.fecha_hasta || p.fecha_desde).slice(0,10) >= hoy)
-      .sort((a, b) => a.fecha_desde.localeCompare(b.fecha_desde));
-    if (!proximas.length){ caja.innerHTML = ''; return; }
-
-    const p = proximas[0];
-    const dias = Math.round(
-      (new Date(p.fecha_desde.slice(0,10)) - new Date(hoy)) / 86400000);
-    const cuando = dias <= 0 ? 'Hoy'
-                 : dias === 1 ? 'Mañana'
-                 : dias <= 7  ? 'En ' + dias + ' días'
-                 : fechaLinda(p.fecha_desde);
-
-    caja.innerHTML = `
-      <a class="proximo" href="${RAIZ}agenda/?id=${encodeURIComponent(p.id)}">
-        <span class="proximo-cuando">${esc(cuando)}</span>
-        <span class="proximo-que">${esc(p.titulo || '')}</span>
-        <span class="proximo-flecha" aria-hidden="true">→</span>
-      </a>`;
-  }
-
-  (function pintarAlarma(){
-    const caja = document.getElementById('alarma');
-    const hoy  = hoyISO();
-    const enDias = (desde, hasta) =>
-      Math.round((new Date(hasta) - new Date(desde)) / 86400000);
-
-    const inscripciones = publicaciones
-      .filter(p => /^inscripción a la mesa/i.test(p.titulo || '') && p.fecha_desde)
-      .map(p => ({ ...p,
-        abre:   p.fecha_desde.slice(0,10),
-        cierra: (p.fecha_hasta || p.fecha_desde).slice(0,10) }))
-      .sort((a,b) => a.abre.localeCompare(b.abre));
-
-    /* La que está abierta ahora, o la próxima si abre en 5 días o menos */
-    const abierta = inscripciones.find(i => hoy >= i.abre && hoy <= i.cierra);
-    const porAbrir = inscripciones.find(i => i.abre > hoy && enDias(hoy, i.abre) <= 5);
-    const i = abierta || porAbrir;
-
-    /* Sin inscripción a la vista, el lugar no se desperdicia: muestra lo
-       próximo que hay en la agenda. La app no manda notificaciones, así
-       que lo que se ve al abrir es lo único que avisa. */
-    if (!i){ proximoDeLaAgenda(caja, publicaciones, hoy); return; }
-
-    /* La mesa correspondiente, para decir para cuándo es */
-    const mes = (t) => (/de (\w+)$/.exec(t || '') || [])[1];
-    const mesa = publicaciones.find(p =>
-      /^mesa de examen/i.test(p.titulo || '') && mes(p.titulo) === mes(i.titulo));
-
-    let titulo, cuerpo, urgente;
-    if (abierta){
-      const quedan = enDias(hoy, i.cierra);
-      urgente = quedan <= 1;
-      titulo = quedan === 0 ? 'Hoy cierra la inscripción'
-             : quedan === 1 ? 'Mañana cierra la inscripción'
-             : `Quedan ${quedan} días para anotarte`;
-      cuerpo = `La inscripción a la mesa de ${esc(mes(i.titulo))} está abierta ` +
-               `hasta el ${esc(fechaLinda(i.cierra))}.`;
-    } else {
-      const faltan = enDias(hoy, i.abre);
-      urgente = false;
-      titulo = faltan === 1 ? 'Mañana abre la inscripción'
-                            : `Faltan ${faltan} días para anotarte`;
-      cuerpo = `La inscripción a la mesa de ${esc(mes(i.titulo))} abre el ` +
-               `${esc(fechaLinda(i.abre))} y cierra el ${esc(fechaLinda(i.cierra))}.`;
-    }
-    if (mesa) cuerpo += ` La mesa es el ${esc(fechaLinda(mesa.fecha_desde))}.`;
-
-    caja.innerHTML = `
-      <div class="alarma${urgente ? ' urgente' : ''}">
-        <div class="alarma-texto">
-          <strong>${esc(titulo)}</strong>
-          <p>${cuerpo}</p>
+  caja.innerHTML = `
+    <div class="titulo-seccion">CURSANDO ESTE AÑO
+      <span class="cuenta-grupo">${ahora.length}</span></div>
+    <div class="lista">` +
+    ahora.map(m => `
+      <button class="tarjeta materia estado-cursando" data-cod="${esc(m.cod)}">
+        <h3>${esc(m.nombre)}</h3>
+        <div class="meta">
+          <span>${m.anio}° año</span>
+          <span>${DICTADO[m.dictado]}</span>
+          ${m.horas ? `<span>${m.horas} h</span>` : ''}
         </div>
-        <a class="boton oscuro ancho"
-           href="https://autogestion.guarani.unlp.edu.ar/"
-           target="_blank" rel="noopener">Anotarme en el SIU Guaraní ↗</a>
-      </div>`;
-  })();
+      </button>`).join('') + `</div>`;
+}
 
-  /* ---------- Cómo venís con tu carrera ----------
-     El organizador deja un resumen en el teléfono. Acá lo usamos para
-     que el inicio sepa quién es cada quien, en vez de mostrarle lo
-     mismo a un ingresante y a alguien de quinto. */
-  (function pintarMiCursada(){
-    const caja = document.getElementById('mi-cursada');
-    let r = null;
-    try { r = JSON.parse(localStorage.getItem('bolivar-carrera-resumen')); } catch(e){}
+/* ============================================================
+   VISTA: EL AÑO QUE VIENE
+   ============================================================ */
+let filtroCuatri = 'todo';
 
-    if (!r || !r.total){
-      caja.innerHTML = `
-        <a class="mi-cursada invitacion" href="carrera/">
-          <strong>Armá tu cursada</strong>
-          <p>Marcá las materias que ya hiciste y la app te dice qué podés
-             cursar y qué podés promocionar.</p>
-        </a>`;
-      return;
-    }
-    /* La barra de progreso. Probamos reemplazarla por una casilla por
-       materia y volvimos atrás: la barra se lee de un vistazo y no
-       necesita leyenda. Si alguna vez se quiere ver la otra versión,
-       está en el commit bb3b6ba. */
-    const aprobadas = Number(r.aprobadas) || 0;
-    const total     = Number(r.total)     || 0;
-    const cursando  = Number(r.cursando)  || 0;
-    const pct = total ? Math.round(aprobadas / total * 100) : 0;
-
-    caja.innerHTML = `
-      <a class="mi-cursada" href="carrera/">
-        <span class="mi-cursada-rotulo">Mi cursada</span>
-        <strong>${esc(r.carrera)}</strong>
-        <div class="barra"><div class="barra-llena" style="--llena:${pct}"></div></div>
-        <div class="mi-cursada-datos">
-          <span><b>${aprobadas}</b> de ${total} materias${
-            cursando ? ' · ' + cursando + ' cursando' : ''}</span>
-          <span>${pct}%</span>
-        </div>
-      </a>`;
-  })();
-
-  /* ---------- Kit de ingreso ----------
-     Las primeras cosas que necesita quien recién llega. Los enlaces
-     apuntan a categorías que ya existen; si alguna no tiene contenido
-     todavía, la tarjeta igual sirve como puerta. */
-  (function pintarKit(){
-    const buscarCat = (texto) => {
-      const c = categorias.find(x => normalizar(x.nombre).includes(normalizar(texto)));
-      return c ? 'tramites/?categoria=' + c.id : 'tramites/';
-    };
-    const kit = [
-      { titulo:'Trámites básicos',
-        texto:'Lo primero que vas a tener que hacer sí o sí: inscribirte, sacar constancias, anotarte a finales.',
-        url: buscarCat('Inscripciones') },
-      { titulo:'Glosario universitario',
-        texto:'Qué es una cursada, un final, una promoción, una correlativa. El vocabulario de la facu, explicado entre nosotres.',
-        url:'quienes/' },
-      { titulo:'Aulas y fotocopiadoras',
-        texto:'Dónde queda cada cosa adentro de la facultad, los horarios de la sala de informática y dónde conseguir los apuntes.',
-        url: buscarCat('Dónde curso') }
-    ];
-    document.getElementById('kit').innerHTML = kit.map((k, n) => `
-      <a class="tarjeta-kit" href="${k.url}">
-        <span class="kit-numero">${n + 1}</span>
-        <span class="kit-texto">
-          <h3>${esc(k.titulo)}</h3>
-          <p>${esc(k.texto)}</p>
-        </span>
-      </a>`).join('');
-  })();
-
-  /* ---------- La portada: el carrusel de ilustraciones ---------- */
-  (function pintarCarrusel(){
-    /* El "alt" describe el dibujo; el "pie" es lo que se lee en
-       pantalla. No dicen lo mismo a propósito: si el alt repitiera el
-       pie, quien usa lector de pantalla escucharía dos veces la misma
-       frase y no se enteraría de qué se ve. */
-    const laminas = [
-      { img:'imagenes/facultad-fachada.webp',
-        alt:'Dibujo de la fachada de la Facultad de Trabajo Social, con el ' +
-            'cartel de Educación sobre la entrada.',
-        pie:'Facultad de Trabajo Social · UNLP' },
-      { img:'imagenes/facultad-patio.webp',
-        alt:'Dibujo del patio de la facultad: estudiantes sentados en ronda ' +
-            'en el piso, junto a la galería.',
-        pie:'El patio, donde pasa todo lo demás' }
-    ];
-    const caja = document.getElementById('carrusel');
-
-    caja.innerHTML =
-      `<div class="carrusel-pista" id="carrusel-pista">` +
-      /* La primera lámina se carga de entrada: es lo primero que se ve
-         al abrir. Las demás esperan, que para eso está el lazy. */
-      laminas.map((l,i) => `<div class="carrusel-lamina">
-          <img src="${l.img}" alt="${esc(l.alt)}"
-               loading="${i === 0 ? 'eager' : 'lazy'}"
-               ${i === 0 ? 'fetchpriority="high"' : ''}>
-          <div class="carrusel-pie">${esc(l.pie)}</div>
-        </div>`).join('') +
-      `</div>
-       <div class="carrusel-puntos" id="carrusel-puntos">` +
-      laminas.map((l,i) => `<button data-i="${i}" aria-label="Ver la imagen ${i+1}"
-          aria-current="${i===0}"></button>`).join('') + `</div>`;
-
-    const pista  = document.getElementById('carrusel-pista');
-    const puntos = document.getElementById('carrusel-puntos');
-    let actual = 0, solo = false;
-
-    /* «a-dedo» le cambia la curva y la duración: 400 ms blandos cuando
-       avanza solo, 220 ms secos cuando la persona lo pidió. Son dos
-       cosas distintas y no pueden moverse igual —ver estilos.css. */
-    function ir(i, porPedido){
-      actual = (i + laminas.length) % laminas.length;
-      pista.classList.remove('arrastrando');
-      pista.classList.toggle('a-dedo', !!porPedido);
-      pista.style.transform = `translateX(-${actual * 100}%)`;
-      puntos.querySelectorAll('button').forEach((b,n) =>
-        b.setAttribute('aria-current', n === actual));
-    }
-    puntos.addEventListener('click', e => {
-      const b = e.target.closest('button');
-      if (b){ solo = true; parar(); ir(+b.dataset.i, true); }
-    });
-
-    /* ---- Deslizar con el dedo ----
-
-       Una imagen a ancho completo con puntitos abajo es, para
-       cualquiera que tenga un teléfono, algo que se desliza. Que no
-       respondiera al dedo no se leía como «este carrusel no tiene esa
-       función»: se leía como que la app no anda.
-
-       Dos detalles que son los que separan un deslizamiento que se
-       siente bien de uno que se siente pegajoso:
-
-       · Mientras el dedo está apoyado la lámina lo sigue 1 a 1, sin
-         transición (por eso la clase «arrastrando»). Cualquier retardo
-         acá se percibe como que la imagen pesa.
-       · Para pasar de lámina no hace falta cruzar media pantalla:
-         alcanza con un envión. Se mide la VELOCIDAD, no la distancia.
-         Un tirón corto y rápido es una intención tan clara como un
-         arrastre largo, y pedir distancia obliga a repetir el gesto.
-
-       Y en el borde el arrastre pesa el triple: la lámina se mueve
-       menos cuanto más lejos la llevás. Es lo que hacen las cosas
-       reales cuando llegan al final de su recorrido, y dice «no hay
-       más» sin un tope invisible que frene en seco. */
-    let x0 = 0, y0 = 0, dx = 0, t0 = 0, arrastrando = false, decidido = false;
-    const ancho = () => pista.getBoundingClientRect().width || 1;
-
-    pista.addEventListener('pointerdown', e => {
-      if (e.pointerType === 'mouse' && e.button !== 0) return;
-      x0 = e.clientX; y0 = e.clientY; dx = 0;
-      t0 = e.timeStamp; arrastrando = true; decidido = false;
-      solo = true; parar();
-    });
-
-    pista.addEventListener('pointermove', e => {
-      if (!arrastrando) return;
-      const mx = e.clientX - x0, my = e.clientY - y0;
-
-      /* Hasta no saber si el gesto es horizontal o vertical no se toca
-         nada: si no, mover el dedo para bajar la página arrastraría la
-         lámina de costado. Se decide una sola vez por gesto. */
-      if (!decidido){
-        if (Math.abs(mx) < 8 && Math.abs(my) < 8) return;
-        if (Math.abs(my) > Math.abs(mx)){ arrastrando = false; return; }
-        decidido = true;
-        pista.classList.add('arrastrando');
-        /* Desde acá el dedo es nuestro aunque se salga del carrusel */
-        try { pista.setPointerCapture(e.pointerId); } catch(err){}
-      }
-
-      dx = mx;
-      /* En los extremos, resistencia */
-      const enBorde = (actual === 0 && dx > 0) ||
-                      (actual === laminas.length - 1 && dx < 0);
-      if (enBorde) dx = dx / 3;
-      pista.style.transform =
-        `translateX(calc(${-actual * 100}% + ${dx}px))`;
-    });
-
-    function soltar(e){
-      if (!arrastrando) return;
-      arrastrando = false;
-      if (!decidido){ ir(actual); return; }
-
-      const recorrido = Math.abs(dx);
-      const tiempo    = Math.max(1, e.timeStamp - t0);
-      const envion    = recorrido / tiempo;      /* px por milisegundo */
-
-      /* 0,11 px/ms es el umbral con el que un tirón corto ya cuenta.
-         Y si el dedo recorrió más de un tercio de la lámina, cuenta
-         igual aunque haya ido despacio: ahí la intención es evidente. */
-      const pasa = envion > 0.11 || recorrido > ancho() / 3;
-
-      /* CON EL DEDO NO SE DA LA VUELTA.
-         El avance solo sí vuelve a empezar cuando llega al final: es un
-         bucle de ambiente y está bien que lo sea. Pero arrastrando no.
-         Un momento antes el borde le puso resistencia al dedo, que es
-         la app diciendo «de este lado no hay más»; si al soltar saltara
-         a la última lámina, esa resistencia habría sido mentira. Se
-         queda donde está, que es lo que la resistencia prometió. */
-      const destino = pasa ? actual + (dx < 0 ? 1 : -1) : actual;
-      ir(Math.max(0, Math.min(laminas.length - 1, destino)), true);
-    }
-    pista.addEventListener('pointerup', soltar);
-    pista.addEventListener('pointercancel', soltar);
-
-    /* ---- El avance solo ----
-
-       Antes esto era un setInterval que se creaba y no se apagaba
-       nunca: seguía corriendo con el carrusel fuera de pantalla —o sea
-       casi todo el tiempo, porque está arriba de todo y la gente baja—
-       y con la app en segundo plano. Cada vuelta movía una imagen a
-       ancho completo que nadie estaba mirando: batería y trabajo del
-       compositor tirados.
-
-       Ahora late solo cuando se dan las tres condiciones: el carrusel
-       está a la vista, la pestaña está adelante, y la persona todavía
-       no tocó nada. Al primer toque se apaga para siempre: si alguien
-       eligió una lámina, moverla sola es discutirle. */
-    let reloj = null;
-    const parar    = () => { clearInterval(reloj); reloj = null; };
-    const arrancar = () => {
-      if (reloj || solo) return;
-      reloj = setInterval(() => {
-        if (document.hidden) return;
-        ir(actual + 1);
-      }, 5000);
-    };
-
-    if (!menosMovimiento() && laminas.length > 1){
-      if ('IntersectionObserver' in window){
-        new IntersectionObserver(([e]) => {
-          if (e.isIntersecting && !menosMovimiento()) arrancar();
-          else parar();
-        }, { threshold: 0.35 }).observe(caja);
-      } else {
-        arrancar();
-      }
-      document.addEventListener('visibilitychange', () => {
-        if (document.hidden) parar();
-      });
-    }
-
-    /* Si alguien activa «menos movimiento» con la app abierta, el
-       carrusel se frena en el acto. Es lo primero que hay que apagarle
-       a quien acaba de marearse: no puede tener que recargar para que
-       la app le haga caso. */
-    alCambiarMovimiento(pidioQuieto => { if (pidioQuieto) parar(); });
-  })();
-
-  /* ---------- Calendario cuadrado de lo que se viene ----------
-
-     En el calendario del inicio NO va todo lo de la agenda: van solo
-     las mesas de examen y los asuetos. El resto (desarrollo de
-     seminarios, ultimos plazos, inscripciones) sigue estando en la
-     agenda, pero acá ensuciaba y tapaba lo importante.
-
-     Si mañana hay que sumar o sacar una familia de fechas, se toca
-     SOLO esta lista.                                                */
-  const QUE_VA_AL_CALENDARIO = [
-    { id:'mesa',   nombre:'Mesas de examen',
-      prueba: t => /^mesa de examen/i.test(t) },
-    { id:'asueto', nombre:'Asuetos y recesos',
-      prueba: t => /^receso|^d[ií]a de la universidad|^d[ií]a del estudiante|^d[ií]a del trabajador|^semana de la memoria/i.test(t) }
-  ];
-
-  function familiaDe(p){
-    const f = QUE_VA_AL_CALENDARIO.find(x => x.prueba(p.titulo || ''));
-    return f ? f.id : null;
-  }
-
-  (function pintarCalendario(){
-    const caja = document.getElementById('calendario');
-    const hoy  = partesFecha(hoyISO());
-    let mes = hoy.mes, anio = hoy.anio, elegido = null;
-
-    /* Solo las que pasan el filtro, y solo si tienen fecha */
-    const enCalendario = publicaciones
-      .filter(p => p.fecha_desde && familiaDe(p))
-      .map(p => ({
-        ...p,
-        familia: familiaDe(p),
-        desde: p.fecha_desde.slice(0,10),
-        hasta: (p.fecha_hasta || p.fecha_desde).slice(0,10)
-      }));
-
-    const delDia = iso => enCalendario.filter(p => iso >= p.desde && iso <= p.hasta);
-
-    function dibujar(){
-      const primero = new Date(anio, mes-1, 1);
-      const cuantos = new Date(anio, mes, 0).getDate();
-      /* getDay(): 0 es domingo. Acá la semana arranca el lunes. */
-      const arranca = (primero.getDay() + 6) % 7;
-      const dd = n => String(n).padStart(2,'0');
-      const iso = d => `${anio}-${dd(mes)}-${dd(d)}`;
-
-      let celdas = '';
-      for (let i = 0; i < arranca; i++) celdas += `<div class="cal-dia vacio"></div>`;
-
-      for (let d = 1; d <= cuantos; d++){
-        const hoyIso = iso(d);
-        const cosas  = delDia(hoyIso);
-        const fam    = cosas.length ? cosas[0].familia : null;
-
-        /* La barrita: se estira sobre los dias seguidos de la misma
-           familia, asi una mesa de dos semanas se lee como una franja
-           continua y no como doce puntitos sueltos. */
-        let barra = '';
-        if (fam){
-          const anterior = d > 1 && delDia(iso(d-1)).some(c => c.familia === fam);
-          const siguiente = d < cuantos && delDia(iso(d+1)).some(c => c.familia === fam);
-          barra = `<span class="cal-barra ${fam}${anterior ? ' sigue-izq' : ''}${
-                     siguiente ? ' sigue-der' : ''}"></span>`;
-        }
-
-        celdas += `<button class="cal-dia${fam ? ' con-cosas ' + fam : ''}${
-            hoyIso === hoyISO() ? ' hoy' : ''}"
-            data-iso="${hoyIso}" aria-pressed="${hoyIso === elegido}"
-            ${fam ? '' : 'tabindex="-1"'}>
-            <span class="cal-numero">${d}</span>${barra}
-          </button>`;
-      }
-
-      caja.innerHTML = `
-        <div class="cal-cabecera">
-          <button class="cal-flecha" data-paso="-1" aria-label="Mes anterior">‹</button>
-          <div class="cal-mes">${esc(MESES_LARGO[mes-1])} ${anio}</div>
-          <button class="cal-flecha" data-paso="1" aria-label="Mes siguiente">›</button>
-        </div>
-        <div class="cal-grilla">
-          ${['L','M','X','J','V','S','D'].map(d =>
-              `<div class="cal-nombre-dia">${d}</div>`).join('')}
-          ${celdas}
-        </div>
-        ${leyendaDelMes()}
-        <div class="cal-elegido" id="cal-elegido"></div>`;
-
-      pintarElegido();
-    }
-
-    /* La leyenda: dice con todas las letras cuándo cae cada cosa este
-       mes. Es lo que convierte una grilla de números en información. */
-    function leyendaDelMes(){
-      const primero = `${anio}-${String(mes).padStart(2,'0')}-01`;
-      const ultimo  = `${anio}-${String(mes).padStart(2,'0')}-${new Date(anio,mes,0).getDate()}`;
-      const delMes = enCalendario
-        .filter(p => p.desde <= ultimo && p.hasta >= primero)
-        .sort((a,b) => a.desde.localeCompare(b.desde));
-
-      if (!delMes.length){
-        return `<div class="cal-leyenda vacia">Este mes no hay mesas ni asuetos.</div>`;
-      }
-      return `<div class="cal-leyenda">` + delMes.map(p =>
-        `<div class="cal-leyenda-fila">
-           <span class="cal-marca ${p.familia}"></span>
-           <span class="cal-leyenda-texto">
-             <strong>${esc(p.titulo)}</strong>
-             <small>${esc(rangoLindo(p.fecha_desde, p.fecha_hasta))}</small>
-           </span>
-         </div>`).join('') + `</div>`;
-    }
-
-    function pintarElegido(){
-      const zona = document.getElementById('cal-elegido');
-      if (!elegido){ zona.innerHTML = ''; return; }
-      const cosas = delDia(elegido);
-      zona.innerHTML = cosas.length ? tarjetas(cosas)
-        : `<div class="vacio">Ese día no hay nada cargado.</div>`;
-    }
-
-    function tarjetas(lista){
-      return lista.map(p => `<a class="tarjeta ${esc(p.linea)}" href="agenda/?id=${p.id}">
-          <span class="etiqueta ${esc(p.linea)}">${esc(NOMBRE_LINEA[p.linea] || p.linea)}</span>
-          <h3>${esc(p.titulo)}</h3>
-          <p>${esc(rangoLindo(p.fecha_desde, p.fecha_hasta))}${
-             p.hora ? ' · ' + esc(p.hora) : ''}${p.lugar ? ' · ' + esc(p.lugar) : ''}</p>
-        </a>`).join('');
-    }
-
-    caja.addEventListener('click', e => {
-      const flecha = e.target.closest('.cal-flecha');
-      if (flecha){
-        mes += +flecha.dataset.paso;
-        if (mes < 1){ mes = 12; anio--; }
-        if (mes > 12){ mes = 1;  anio++; }
-        elegido = null; dibujar(); return;
-      }
-      const dia = e.target.closest('.cal-dia');
-      if (dia && !dia.classList.contains('vacio')){
-        elegido = (elegido === dia.dataset.iso) ? null : dia.dataset.iso;
-        dibujar();
-      }
-    });
-
-    dibujar();
-  })();
-
-  /* ---------- Los nueve accesos ---------- */
-  (function pintarAccesos(){
-    /* El organizador primero y destacado; después las categorías que
-       tengan algo adentro, hasta completar los nueve. */
-    const conContenido = categorias.filter(c =>
-      tramites.some(t => t.categoria_id === c.id) ||
-      preguntas.some(p => p.categoria_id === c.id));
-
-    /* iconoDeCategoria devuelve el SVG si ya lo cargamos, y si no el
-       emoji de la base. Así se pueden ir reemplazando de a uno. */
-    const accesos = [{ dibujo: icono('carrera') || '🎓',
-                       nombre:'Mi año',
-                       url:'carrera/', destacado:true },
-                     { dibujo: icono('estudiemos') || '📚',
-                       nombre:'Estudiemos',
-                       url:'estudiemos/' }].concat(
-      conContenido.slice(0, 7).map(c => ({
-        dibujo: iconoDeCategoria(c), nombre: c.nombre,
-        url: 'tramites/?categoria=' + c.id
-      })));
-
-    document.getElementById('accesos').innerHTML = accesos.map(a =>
-      `<a class="boton-cuadro${a.destacado ? ' destacado' : ''}" href="${a.url}">
-         <span class="icono">${a.dibujo}</span>
-         <span class="nombre">${esc(a.nombre)}</span>
-       </a>`).join('');
-  })();
-
-  /* ---------- Novedades ---------- */
-  (function pintarNovedades(){
-    const caja = document.getElementById('novedades');
-    const novedades = publicaciones.filter(p => p.tipo === 'novedad').slice(0, 3);
-    if (!novedades.length){
-      caja.innerHTML = '<div class="vacio">Todavía no hay novedades publicadas.</div>';
-      return;
-    }
-    caja.innerHTML = novedades.map(p => `
-        <a class="tarjeta ${esc(p.linea)}" href="agenda/?id=${p.id}">
-          <span class="etiqueta ${esc(p.linea)}">${esc(NOMBRE_LINEA[p.linea] || p.linea)}</span>
-          <h3>${esc(p.titulo)}</h3>
-          ${p.cuerpo ? `<p>${esc(p.cuerpo.slice(0,140))}${p.cuerpo.length > 140 ? '…' : ''}</p>` : ''}
-        </a>`).join('');
-  })();
-
-  /* ---------- Buscador ---------- */
-  const entrada    = document.getElementById('busqueda');
-  const zonaRes    = document.getElementById('zona-resultados');
-  const zonaNormal = document.getElementById('zona-normal');
-  const zonaFondo   = document.getElementById('zona-fondo');
-  const listaRes   = document.getElementById('resultados');
-  const tituloRes  = document.getElementById('titulo-resultados');
-
-  entrada.addEventListener('input', function(){
-    const q = normalizar(entrada.value.trim());
-
-    if (q.length < 2){
-      zonaRes.hidden = true;
-      zonaNormal.hidden = false; zonaFondo.hidden = false;
-      return;
-    }
-    zonaRes.hidden = false;
-    zonaNormal.hidden = true;  zonaFondo.hidden = true;
-
-    const tHit = tramites.filter(t =>
-      normalizar(t.titulo + ' ' + (t.resumen || '') + ' ' + (t.palabras_clave || '')).includes(q));
-    const fHit = preguntas.filter(p =>
-      normalizar(p.pregunta + ' ' + p.respuesta).includes(q));
-
-    const total = tHit.length + fHit.length;
-    tituloRes.textContent = total
-      ? `${total} ${total === 1 ? 'RESULTADO' : 'RESULTADOS'}`
-      : 'SIN RESULTADOS';
-
-    if (!total){
-      listaRes.innerHTML = `<div class="vacio">
-          No encontramos nada con «${esc(entrada.value.trim())}».<br>
-          Probá con otra palabra, o escribinos por Instagram y lo resolvemos a mano.
-        </div>`;
-      return;
-    }
-
-    listaRes.innerHTML =
-      tHit.map(t => `
-        <a class="tarjeta" href="tramites/?id=${t.id}">
-          <h3>${esc(t.titulo)}</h3>
-          ${t.resumen ? `<p>${esc(t.resumen)}</p>` : ''}
-          <div class="meta"><span>Trámite</span></div>
-        </a>`).join('') +
-      fHit.map(p => `
-        <a class="tarjeta" href="tramites/?faq=${p.id}">
-          <h3>${esc(p.pregunta)}</h3>
-          <p>${esc(p.respuesta.slice(0,140))}${p.respuesta.length > 140 ? '…' : ''}</p>
-          <div class="meta"><span>Pregunta frecuente</span></div>
-        </a>`).join('');
+/* Gestión del Riesgo no tiene materias anuales: escondemos el filtro que
+   no le sirve a la carrera elegida, en vez de mostrar una lista vacía. */
+function pintarFiltroCuatri(){
+  document.querySelectorAll('#filtro-cuatri .chip').forEach(chip => {
+    const cual = chip.dataset.cuatri;
+    chip.hidden = cual !== 'todo' && !MATERIAS.some(m => m.dictado === cual);
+    chip.setAttribute('aria-pressed', cual === filtroCuatri ? 'true' : 'false');
   });
+}
+
+function pintarGrupos(){
+  const hayCursando = MATERIAS.some(m => estadoCrudo(m.cod) === 'cursando');
+  document.getElementById('caja-suponer').hidden = !hayCursando;
+  document.getElementById('suponer').checked = !!datos.suponer;
+
+  const candidatas = MATERIAS.filter(m => {
+    if (estado(m.cod) !== 'pendiente') return false;
+    if (filtroCuatri === 'todo') return true;
+    return m.dictado === filtroCuatri;
+  });
+
+  const grupos = { promociona:[], cursa:[], trabada:[] };
+  candidatas.forEach(m => grupos[situacion(m).clase].push(m));
+
+  const caja = document.getElementById('grupos');
+
+  if (!candidatas.length){
+    caja.innerHTML = `<div class="vacio">
+        ${filtroCuatri === 'todo'
+          ? 'No queda ninguna materia pendiente. Felicitaciones. 🎓'
+          : 'No hay materias pendientes en ese cuatrimestre.'}
+      </div>`;
+    return;
+  }
+
+  caja.innerHTML = ['promociona','cursa','trabada'].map(clase => {
+    const lista = grupos[clase];
+    if (!lista.length) return '';
+    return `<div class="titulo-seccion">${NOMBRE_CLASE[clase]}
+        <span class="cuenta-grupo">${lista.length}</span></div>
+      <div class="lista">` +
+      lista.map(m => tarjetaMateria(m, clase)).join('') + `</div>`;
+  }).join('');
+}
+
+function tarjetaMateria(m, clase){
+  const s = situacion(m);
+  let pie = '';
+  if (clase === 'cursa'){
+    pie = `<p class="motivo">Para promocionarla te falta tener aprobada:
+             <strong>${esc(listaNombres(s.faltaFinal))}</strong></p>`;
+  } else if (clase === 'trabada'){
+    pie = `<p class="motivo">Primero tenés que aprobar la cursada de:
+             <strong>${esc(listaNombres(s.faltaCursar))}</strong></p>`;
+  } else if (!refsDe(m).length){
+    pie = `<p class="motivo">No tiene correlativas.</p>`;
+  } else {
+    pie = `<p class="motivo">Tenés aprobadas todas sus correlativas.</p>`;
+  }
+
+  return `<button class="tarjeta materia ${clase}" data-cod="${esc(m.cod)}">
+      <h3>${esc(m.nombre)}</h3>
+      ${pie}
+      <div class="meta">
+        <span>${m.anio}° año</span>
+        <span>${DICTADO[m.dictado]}</span>
+        ${m.horas ? `<span>${m.horas} h</span>` : ''}
+        ${m.trayecto ? `<span>${esc(m.trayecto)}</span>` : ''}
+        ${m.marcada ? '<span>(*)</span>' : ''}
+      </div>
+    </button>`;
+}
+
+/* "Si rendís este final, se te destraban N promociones" */
+function pintarConsejo(){
+  const caja = document.getElementById('consejo');
+  const conFinal = MATERIAS.filter(m => estado(m.cod) === 'cursada');
+
+  if (!conFinal.length){ caja.innerHTML = ''; return; }
+
+  const filas = conFinal.map(m => {
+    /* Cuántas pendientes pasarían de "solo cursar" a "promocionar" */
+    const gana = MATERIAS.filter(otra =>
+      estado(otra.cod) === 'pendiente' &&
+      paraFinal(otra).indexOf(m.cod) !== -1 &&
+      situacion(otra).clase === 'cursa' &&
+      situacion(otra).faltaFinal.length === 1
+    );
+    return { m, gana };
+  }).sort((a,b) => b.gana.length - a.gana.length);
+
+  caja.innerHTML =
+    `<div class="titulo-seccion">FINALES QUE TENÉS PENDIENTES</div>
+     <div class="lista">` +
+    filas.map(f => `
+      <button class="tarjeta materia final" data-cod="${esc(f.m.cod)}">
+        <h3>${esc(f.m.nombre)}</h3>
+        <p class="motivo">${
+          f.gana.length
+            ? `Si rendís este final podés promocionar
+               <strong>${esc(f.gana.map(x => x.nombre).join(', '))}</strong>.`
+            : 'Rendirlo no te destraba ninguna promoción por ahora, pero te suma materia aprobada.'
+        }</p>
+      </button>`).join('') + `</div>`;
+}
+
+/* ============================================================
+   VISTA: PLAN COMPLETO
+   ============================================================ */
+const ORDINAL = ['', 'PRIMER', 'SEGUNDO', 'TERCER', 'CUARTO', 'QUINTO'];
+
+function pintarPlanCompleto(){
+  const anios = [];
+  for (let a = 1; a <= (PLAN.anios || 5); a++) anios.push(a);
+
+  document.getElementById('por-anio').innerHTML = anios.map(anio => {
+    const suyas = MATERIAS.filter(m => m.anio === anio);
+    if (!suyas.length) return '';
+    const listas = suyas.filter(m => estadoCrudo(m.cod) === 'aprobada').length;
+    return `<div class="titulo-seccion">${ORDINAL[anio]} AÑO
+        <span class="cuenta-grupo">${listas}/${suyas.length}</span></div>
+      <div class="lista">` +
+      suyas.map(m => {
+        const e = estadoCrudo(m.cod);
+        return `<button class="tarjeta materia estado-${e}" data-cod="${esc(m.cod)}">
+            <h3>${esc(m.nombre)}</h3>
+            <div class="meta">
+              <span class="pastilla ${e}">${ESTADOS[e].corto}</span>
+              <span>${DICTADO[m.dictado]}</span>
+              ${m.horas ? `<span>${m.horas} h</span>` : ''}
+              ${m.trayecto ? `<span>${esc(m.trayecto)}</span>` : ''}
+              ${m.marcada ? '<span>(*)</span>' : ''}
+            </div>
+          </button>`;
+      }).join('') + `</div>`;
+  }).join('');
+
+  /* Otros requisitos: hoy solo Trabajo Social tiene (la certificación de
+     idioma). Si la carrera no tiene ninguno, no mostramos la sección. */
+  const reqs      = PLAN.requisitos || [];
+  const cajaReq   = document.getElementById('requisitos');
+  document.getElementById('titulo-requisitos').hidden = !reqs.length;
+  cajaReq.hidden  = !reqs.length;
+  cajaReq.innerHTML = reqs.map(r => `
+      <label class="interruptor">
+        <input type="checkbox" id="req-idioma" ${datos.idioma ? 'checked' : ''}>
+        <span>${esc(r.nombre)} — ya la tengo</span>
+      </label>`).join('');
+
+  const casilla = document.getElementById('req-idioma');
+  if (casilla) casilla.addEventListener('change', function(){
+    datos.idioma = this.checked; persistir();
+  });
+
+  /* La nota del asterisco tampoco existe en las tres carreras */
+  const cajaNota = document.getElementById('nota-asterisco');
+  const hayNota  = !!PLAN.notaAsterisco && MATERIAS.some(m => m.marcada);
+  cajaNota.hidden = !hayNota;
+  cajaNota.innerHTML = hayNota ? `<strong>(*)</strong> ${esc(PLAN.notaAsterisco)}` : '';
+}
+
+/* ============================================================
+   VISTA: MAPA DE CORRELATIVIDADES
+
+   Una columna por año, leyendo de izquierda a derecha. Las lineas
+   van de cada materia a las que le abren la puerta, y se encienden
+   cuando esa puerta ya se abrio de verdad.
+   ============================================================ */
+/* El alto da para el codigo + tres renglones de nombre: con menos, se
+   cortaban los nombres largos como "Teoría de las culturas y
+   antropologías de las sociedades contemporáneas". */
+const NODO_AN = 158, NODO_AL = 70;   /* tamaño de cada materia    */
+const HUECO_X = 72,  HUECO_Y = 12;   /* aire entre columnas/filas */
+const MARGEN  = 16,  TECHO   = 40;   /* borde y lugar del titulo  */
+
+const ORDEN_DICTADO = { '1c':0, anual:1, '2c':2, libre:3 };
+
+/* Lo que el mapa dibuja como flecha. El Trabajo Integrador Final de
+   Fonoaudiología pide "todas las de 1° a 4°": son cuarenta flechas que
+   no explican nada, así que esa no se dibuja (la ficha sí la cuenta). */
+function refsMapa(m){
+  const pf = (m.paraFinal === 'todas-1-a-4') ? [] : paraFinal(m);
+  const todas = paraCursar(m).concat(pf);
+  return todas.filter((c, i) => todas.indexOf(c) === i);
+}
+
+/* El color de cada materia en el mapa */
+function claseMapa(m){
+  const e = estadoCrudo(m.cod);
+  if (e === 'aprobada') return 'aprobada';
+  if (e === 'cursada')  return 'cursada';
+  if (e === 'cursando') return 'cursando';
+  return situacion(m).clase;
+}
+
+function pintarMapa(){
+  /* ---- 1. Repartir las materias en columnas, una por año ---- */
+  const columnas = [];
+  for (let a = 1; a <= (PLAN.anios || 5); a++){
+    const suyas = MATERIAS.filter(m => m.anio === a);
+    if (suyas.length) columnas.push({ anio:a, nodos:suyas.slice() });
+  }
+
+  const lugar = {};   /* cod -> {col, fila} */
+
+  /* Dentro de cada columna: primero por cuatrimestre, y despues cerca
+     de la altura promedio de sus correlativas, para que las lineas se
+     crucen lo menos posible. */
+  function alturaDeSusCorrelativas(m){
+    const previas = refsMapa(m).map(c => lugar[c]).filter(p => p);
+    if (!previas.length) return 0;
+    return previas.reduce((s, p) => s + p.fila, 0) / previas.length;
+  }
+
+  columnas.forEach((col, ci) => {
+    col.nodos.sort((x, y) => {
+      const d = ORDEN_DICTADO[x.dictado] - ORDEN_DICTADO[y.dictado];
+      return d || (alturaDeSusCorrelativas(x) - alturaDeSusCorrelativas(y));
+    });
+    col.nodos.forEach((m, fi) => lugar[m.cod] = { col:ci, fila:fi });
+  });
+
+  const equis = ci => MARGEN + ci * (NODO_AN + HUECO_X);
+  const ye    = fi => TECHO  + fi * (NODO_AL + HUECO_Y);
+
+  const filasMax = Math.max(...columnas.map(c => c.nodos.length));
+  const ancho = MARGEN * 2 + columnas.length * NODO_AN + (columnas.length - 1) * HUECO_X;
+  const alto  = TECHO + filasMax * (NODO_AL + HUECO_Y) + MARGEN;
+
+  /* ---- 2. Las lineas ---- */
+  const lineas = [];
+  MATERIAS.forEach(m => {
+    const hasta = lugar[m.cod];
+    const claseDestino = claseMapa(m);
+
+    refsMapa(m).forEach(c => {
+      const desde = lugar[c];
+      if (!desde) return;
+
+      /* Se enciende cuando la de la izquierda ya está hecha y gracias a
+         eso la de la derecha se te abrió. Eso es lo que el mapa cuenta. */
+      const listaLaPrevia = ORDEN[estado(c)] >= ORDEN.cursada;
+      const pendiente     = estadoCrudo(m.cod) === 'pendiente';
+      const encendida     = listaLaPrevia && pendiente &&
+                            (claseDestino === 'promociona' || claseDestino === 'cursa');
+
+      const yD = ye(desde.fila) + NODO_AL / 2;
+      const yH = ye(hasta.fila) + NODO_AL / 2;
+      let d;
+
+      if (desde.col === hasta.col){
+        /* Misma columna: la rodeamos por la izquierda */
+        const x = equis(desde.col), vuelta = x - 26;
+        d = `M ${x} ${yD} C ${vuelta} ${yD}, ${vuelta} ${yH}, ${x} ${yH}`;
+      } else {
+        const xD = equis(desde.col) + NODO_AN, xH = equis(hasta.col);
+        const tiron = Math.min(48, (xH - xD) / 2);
+        d = `M ${xD} ${yD} C ${xD + tiron} ${yD}, ${xH - tiron} ${yH}, ${xH} ${yH}`;
+      }
+
+      lineas.push(`<path class="mapa-arista ${encendida ? claseDestino : ''}"
+                     d="${d}" data-une="${esc(c)}|${esc(m.cod)}"></path>`);
+    });
+  });
+
+  /* ---- 3. Armar todo ---- */
+  const lienzo = document.getElementById('mapa-lienzo');
+  lienzo.style.width  = ancho + 'px';
+  lienzo.style.height = alto + 'px';
+
+  lienzo.innerHTML =
+    `<svg width="${ancho}" height="${alto}" viewBox="0 0 ${ancho} ${alto}" aria-hidden="true">
+       ${lineas.join('')}
+     </svg>` +
+    columnas.map((col, ci) =>
+      `<div class="mapa-col-titulo" style="left:${equis(ci)}px">${ORDINAL[col.anio]} AÑO</div>`
+    ).join('') +
+    columnas.map((col, ci) => col.nodos.map((m, fi) =>
+      `<button class="mapa-nodo materia ${claseMapa(m)}" data-cod="${esc(m.cod)}"
+               style="left:${equis(ci)}px;top:${ye(fi)}px;width:${NODO_AN}px;height:${NODO_AL}px"
+               title="${esc(m.nombre)}">
+         <span class="cod">${esc(m.cod)} · ${DICTADO[m.dictado]}</span>
+         <span class="nom">${esc(m.nombre)}</span>
+       </button>`).join('')).join('');
+
+  /* En pantalla grande se resaltan las conexiones de la materia que
+     tenés debajo del dedo o del mouse. En el celular no molesta. */
+  lienzo.querySelectorAll('.mapa-nodo').forEach(nodo => {
+    nodo.addEventListener('mouseenter', () => marcarLineas(nodo.dataset.cod));
+    nodo.addEventListener('mouseleave', () => marcarLineas(null));
+  });
+
+  function marcarLineas(cod){
+    lienzo.querySelectorAll('.mapa-arista').forEach(l => {
+      const [a, b] = l.dataset.une.split('|');
+      l.classList.toggle('resaltada', cod !== null && (a === cod || b === cod));
+    });
+  }
+
+  /* Aviso de deslizar, solo si de verdad no entra en la pantalla */
+  const marco = document.getElementById('mapa-marco');
+  const aviso = document.getElementById('mapa-aviso');
+  const noEntra = ancho > marco.clientWidth;
+  aviso.hidden = !noEntra;
+  if (noEntra) aviso.textContent =
+    'Deslizá el mapa hacia el costado para ver los años siguientes.';
+}
+
+/* ============================================================
+   HOJA DE DETALLE
+   ============================================================ */
+const fondo    = document.getElementById('hoja-fondo');
+const hoja     = document.getElementById('hoja');
+const cuerpo   = document.getElementById('hoja-cuerpo');
+const cajaNota = document.getElementById('hoja-nota');
+
+function listaCorrel(codigos){
+  return `<ul class="lista-correl">` + codigos.map(c => {
+    const e = estado(c);
+    return `<li><span class="pastilla ${e}">${ESTADOS[e].corto}</span>
+              ${esc(POR_COD[c] ? POR_COD[c].nombre : c)}</li>`;
+  }).join('') + `</ul>`;
+}
+
+function bloqueCorrelativas(m){
+  const pc = paraCursar(m);
+
+  /* Caso especial: el Trabajo Integrador Final pide todas las materias de
+     1° a 4°. Listarlas una por una serían cuarenta renglones inútiles. */
+  if (m.paraFinal === 'todas-1-a-4'){
+    const faltan = paraFinal(m).filter(c => estado(c) !== 'aprobada').length;
+    return `<div class="titulo-seccion">PARA CURSARLA</div>
+      ${pc.length ? listaCorrel(pc) : `<p class="letra-chica">No pide nada.</p>`}
+      <div class="titulo-seccion">PARA APROBARLA</div>
+      <p class="letra-chica">Todas las materias de 1° a 4° año con el final
+        aprobado.${faltan ? ` Te faltan <strong>${faltan}</strong>.` : ' Ya las tenés todas.'}</p>`;
+  }
+
+  const pf = paraFinal(m);
+  const mismas = pc.length === pf.length && pc.every(c => pf.indexOf(c) !== -1);
+
+  /* Si las dos columnas dicen lo mismo (Trabajo Social y Gestión del
+     Riesgo), no tiene sentido mostrar la misma lista dos veces. */
+  if (mismas){
+    return `<div class="titulo-seccion">CORRELATIVAS</div>
+      ${pc.length ? listaCorrel(pc)
+        : `<p class="letra-chica">No tiene. La podés cursar y promocionar cuando quieras.</p>`}`;
+  }
+
+  return `<div class="titulo-seccion">PARA CURSARLA</div>
+    <p class="letra-chica">Con la cursada aprobada:</p>
+    ${pc.length ? listaCorrel(pc) : `<p class="letra-chica">No pide nada.</p>`}
+    <div class="titulo-seccion">PARA PROMOCIONARLA O RENDIR EL FINAL</div>
+    <p class="letra-chica">Con el final aprobado:</p>
+    ${pf.length ? listaCorrel(pf) : `<p class="letra-chica">No pide nada.</p>`}`;
+}
+
+function abrirHoja(cod){
+  const m = POR_COD[cod];
+  if (!m) return;
+  const s = situacion(m);
+  const eActual = estadoCrudo(cod);
+
+  const abre = HABILITA[cod].map(c =>
+    `<li>${esc(POR_COD[c].nombre)} <small>(${POR_COD[c].anio}° año)</small></li>`).join('');
+
+  const trayecto = m.trayecto && PLAN.trayectos ? PLAN.trayectos[m.trayecto] : '';
+
+  cuerpo.innerHTML = `
+    <div class="hoja-cod">${esc(m.cod)} · ${m.anio}° año · ${DICTADO[m.dictado]}${m.horas ? ' · ' + m.horas + ' h' : ''}</div>
+    <h2 id="hoja-titulo">${esc(m.nombre)}</h2>
+    ${trayecto ? `<p class="letra-chica">${esc(trayecto)}</p>` : ''}
+    ${m.marcada && PLAN.notaAsterisco
+      ? `<p class="letra-chica">(*) ${esc(PLAN.notaAsterisco)}</p>` : ''}
+
+    <div class="veredicto ${s.clase}">${NOMBRE_CLASE[s.clase]}</div>
+
+    <div class="titulo-seccion">CÓMO VENÍS CON ESTA MATERIA</div>
+    <div class="opciones-estado">
+      ${Object.keys(ESTADOS).map(k => `
+        <button class="opcion ${k} ${k === eActual ? 'elegida' : ''}"
+                data-estado="${k}">${ESTADOS[k].texto}</button>`).join('')}
+    </div>
+
+    ${eActual === 'aprobada' ? cajaNotaCargada(cod) : ''}
+
+    ${bloqueCorrelativas(m)}
+
+    <div class="titulo-seccion">LE ABRE LA PUERTA A</div>
+    ${abre ? `<ul class="lista-correl simple">${abre}</ul>`
+           : `<p class="letra-chica">Ninguna otra materia depende de esta.</p>`}
+  `;
+
+  cuerpo.querySelectorAll('.opcion').forEach(b => {
+    b.addEventListener('click', function(){
+      const nuevo = this.dataset.estado;
+      const yaEstaba = datos.estados[cod] === nuevo;
+      datos.estados[cod] = nuevo;
+      persistir();
+      pintarTodo();
+
+      /* Marcar "Aprobada" NO cierra la hoja. Es el único momento en que
+         la persona se acuerda de la nota: si cerramos acá, para
+         cargarla hay que volver a entrar, y no la carga nadie. */
+      if (nuevo === 'aprobada'){ pantallaNota(cod, !yaEstaba); return; }
+
+      cerrarHoja();
+    });
+  });
+
+  /* Desde el detalle también se puede cambiar la nota ya cargada. Es la
+     misma pantalla: un solo lugar donde se edita, dos formas de llegar. */
+  const btnNota = cuerpo.querySelector('#cambiar-nota');
+  if (btnNota) btnNota.addEventListener('click', () => pantallaNota(cod, false));
+
+  mostrarPantalla('detalle');
+  fondo.hidden = false;
+  document.body.style.overflow = 'hidden';
+}
+
+/* ============================================================
+   LA SEGUNDA PANTALLA: LA NOTA
+
+   Aparece al marcar una materia como aprobada, sin cerrar la hoja.
+   Las dos salidas —guardar y saltear— son legítimas: nadie se acuerda
+   de todas las notas, y obligar a poner una haría que la gente ponga
+   cualquier cosa con tal de seguir.
+   ============================================================ */
+function cajaNotaCargada(cod){
+  const n = notaDe(cod), f = fechaDe(cod);
+  return `
+    <div class="caja-nota">
+      <div class="nota-resumen">
+        ${n !== null
+          ? `<span class="nota-numero">${String(n).replace('.', ',')}</span>
+             <span class="nota-detalle">${f ? 'Aprobada el ' + fechaLinda(f) : 'Sin fecha'}</span>`
+          : `<span class="nota-detalle">Todavía no cargaste la nota.
+               Si la cargás, entra en el promedio.</span>`}
+      </div>
+      <button class="boton borde" id="cambiar-nota">
+        ${n !== null ? 'Cambiar la nota' : 'Cargar la nota'}
+      </button>
+    </div>`;
+}
+
+function pantallaNota(cod, esNueva){
+  const m = POR_COD[cod];
+  const n = notaDe(cod);
+
+  cajaNota.innerHTML = `
+    <button class="hoja-volver" id="volver-detalle">← Volver a la materia</button>
+    <div class="hoja-cod">${esc(m.cod)} · ${esc(m.nombre)}</div>
+    <h2 id="nota-titulo">${esNueva ? '¡Buena esa! ¿Qué nota te sacaste?' : 'Tu nota'}</h2>
+    <p class="letra-chica">
+      Es opcional. Si la cargás entra en el promedio; si no te acordás,
+      podés saltearla y cargarla cuando quieras.
+    </p>
+
+    <div class="campos-nota">
+      <div class="campo-nota">
+        <label for="nota">Nota</label>
+        <input id="nota" type="number" inputmode="decimal" min="1" max="10" step="0.5"
+               placeholder="—" value="${n !== null ? n : ''}">
+      </div>
+      <div class="campo-nota">
+        <label for="fecha-nota">¿Cuándo la aprobaste?</label>
+        <input id="fecha-nota" type="date" max="${hoyISO()}"
+               value="${fechaDe(cod) || hoyISO()}">
+      </div>
+    </div>
+    <p class="aviso error" id="nota-error" hidden></p>
+
+    <button class="boton ancho" id="guardar-nota">Guardar nota</button>
+    <button class="boton texto ancho" id="saltar-nota">Saltar por ahora</button>`;
+
+  const campo  = cajaNota.querySelector('#nota');
+  const fecha  = cajaNota.querySelector('#fecha-nota');
+  const error  = cajaNota.querySelector('#nota-error');
+
+  function validar(){
+    const v = String(campo.value).trim().replace(',', '.');
+    if (v === '') return { ok:true, vacio:true };
+    const num = parseFloat(v);
+    if (isNaN(num) || num < 1 || num > 10){
+      return { ok:false, texto:'La nota va del 1 al 10.' };
+    }
+    return { ok:true, valor:num };
+  }
+
+  function guardar(){
+    const r = validar();
+    if (!r.ok){
+      error.textContent = r.texto;
+      error.hidden = false;
+      campo.focus();
+      return;
+    }
+    if (r.vacio){ guardarNota(cod, ''); guardarFecha(cod, ''); }
+    else        { guardarNota(cod, r.valor); guardarFecha(cod, fecha.value); }
+    pintarTodo();
+    cerrarHoja();
+  }
+
+  campo.addEventListener('input', () => { error.hidden = true; });
+  campo.addEventListener('keydown', e => { if (e.key === 'Enter') guardar(); });
+  cajaNota.querySelector('#guardar-nota').addEventListener('click', guardar);
+
+  /* Saltear no borra nada: el estado "aprobada" ya quedó guardado antes
+     de llegar acá. Lo único que se saltea es la nota. */
+  cajaNota.querySelector('#saltar-nota').addEventListener('click', cerrarHoja);
+  cajaNota.querySelector('#volver-detalle').addEventListener('click', () => abrirHoja(cod));
+
+  mostrarPantalla('nota');
+  hoja.scrollTop = 0;
+  /* Va derecho al campo de la nota: es a lo que vino. De paso resuelve
+     el problema de accesibilidad de cambiar de pantalla —si el foco se
+     quedara en el botón que acabamos de esconder, quien navega con
+     teclado o lector de pantalla quedaría en la nada. */
+  setTimeout(() => campo.focus(), 260);
+}
+
+/* El paso entre el detalle de la materia y la pantalla de la nota.
+
+   Va con element.animate() en vez de una clase CSS por dos motivos.
+
+   El primero es que el sentido importa: ir del detalle a la nota es
+   avanzar, y volver es volver. Si las dos entran desde el mismo lado,
+   la segunda se lee como si fuera otra pantalla nueva en vez de la
+   anterior. Una clase sola no sabe para qué lado va; acá sí.
+
+   El segundo es que antes esto era un @keyframes que se reiniciaba
+   con `void visible.offsetWidth`. Esa línea existe solo para forzar al
+   navegador a recalcular la página entera en ese instante —es la única
+   forma de hacer que un keyframe vuelva a empezar— y se pagaba en cada
+   cambio de pantalla. element.animate() arranca cuando se lo llama, sin
+   pedirle nada al layout, corre en la placa de video igual que el CSS,
+   y devuelve el objeto para poder cortarlo si alguien cambia de
+   pantalla antes de que termine. */
+let pasoDePantalla = null;
+function mostrarPantalla(cual){
+  const esNota = cual === 'nota';
+  cuerpo.hidden   = esNota;
+  cajaNota.hidden = !esNota;
+  const visible = esNota ? cajaNota : cuerpo;
+
+  const quieto = menosMovimiento();
+
+  if (pasoDePantalla) pasoDePantalla.cancel();
+  /* Avanzar entra desde la derecha; volver, desde la izquierda. Con
+     menos movimiento se queda solo el fundido, que sigue diciendo que
+     la pantalla cambió sin correr nada de lugar. */
+  const desde = quieto ? 0 : (esNota ? 14 : -14);
+  pasoDePantalla = visible.animate(
+    [{ opacity: 0, transform: `translateX(${desde}px)` },
+     { opacity: 1, transform: 'translateX(0)' }],
+    { duration: quieto ? 180 : 220,
+      easing: 'cubic-bezier(0.23, 1, 0.32, 1)' });
+
+  hoja.setAttribute('aria-labelledby', esNota ? 'nota-titulo' : 'hoja-titulo');
+
+  /* Al volver al detalle, el foco va al título de la materia: si no,
+     queda en un botón que ya no está en pantalla. */
+  if (!esNota){
+    const titulo = cuerpo.querySelector('#hoja-titulo');
+    if (titulo){ titulo.setAttribute('tabindex', '-1'); titulo.focus(); }
+  }
+}
+
+/* Se cierra con una animación de salida, no de golpe: la hoja se va
+   para abajo por donde entró. Quien pidió menos movimiento la ve
+   desaparecer sin deslizarse. El hidden se pone RECIÉN al terminar, si
+   no la animación no llega a verse. */
+
+/* ============================================================
+   LA COPIA DE RESPALDO, SIN CUENTA
+
+   Mi año vive en este teléfono. En iPhone, si alguien no abre la app
+   por unos días, el navegador puede borrar ese guardado por su cuenta:
+   se pierde el año entero. Esto lo arregla sin pedir mail ni nombre.
+
+   La app pide un código al servidor y ese código ES la llave: no hay
+   usuario ni contraseña. Quien lo tiene, entra; quien lo pierde, lo
+   perdió. Eso está dicho en la pantalla y no en la letra chica, porque
+   es la contra de no pedir datos y hay que poder elegirlo sabiéndolo.
+
+   Una vez creado, la copia se actualiza sola con cada cambio. Un
+   respaldo que hay que acordarse de apretar es un respaldo viejo.
+   ============================================================ */
+const LLAVE_RESPALDO = 'bolivar-respaldo-codigo';
+
+function codigoRespaldo(){
+  try { return localStorage.getItem(LLAVE_RESPALDO) || ''; } catch(e){ return ''; }
+}
+function anotarCodigo(c){
+  try {
+    if (c) localStorage.setItem(LLAVE_RESPALDO, c);
+    else   localStorage.removeItem(LLAVE_RESPALDO);
+  } catch(e){}
+}
+
+let avisoRespaldo = '';
+let temporizadorRespaldo = null;
+
+/* Lo último que sabemos que está arriba. Arranca con lo que hay en el
+   teléfono: abrir la app no cambia nada, así que no tiene por qué
+   gastar una subida. Solo suben los cambios de verdad. */
+let ultimoSubido = '';
+
+/* Se llama desde persistir(), o sea con cada cambio. Espera un poco por
+   si vienen varios seguidos: marcar cinco materias es una subida sola. */
+function respaldarLuego(){
+  if (!codigoRespaldo()) return;
+  const ahora = JSON.stringify(guardado);
+  if (ahora === ultimoSubido) return;
+  clearTimeout(temporizadorRespaldo);
+  temporizadorRespaldo = setTimeout(function(){ subirRespaldo(ahora); }, 2500);
+}
+
+async function subirRespaldo(texto){
+  const cod = codigoRespaldo();
+  if (!cod) return;
+  avisoRespaldo = 'guardando';
+  pintarRespaldo();
+  try {
+    const { data, error } = await db.rpc('guardar_respaldo',
+      { p_codigo: cod, p_datos: guardado });
+    if (error) throw error;
+    /* El código está en el teléfono pero ya no en el servidor. Callarlo
+       sería dejar a alguien creyendo que tiene respaldo. */
+    if (data === false){
+      avisoRespaldo = 'perdido';
+    } else {
+      avisoRespaldo = 'guardado';
+      ultimoSubido = texto || JSON.stringify(guardado);
+    }
+  } catch(e){
+    /* Queda sin marcar como subido: el próximo cambio reintenta. */
+    avisoRespaldo = 'sin-red';
+  }
+  pintarRespaldo();
+}
+
+function pintarRespaldo(){
+  const caja = document.getElementById('respaldo');
+  if (!caja) return;
+  const cod = codigoRespaldo();
+
+  const estado = {
+    guardando: '<p class="respaldo-estado">Guardando la copia…</p>',
+    guardado:  '<p class="respaldo-estado ok">La copia está al día.</p>',
+    'sin-red': '<p class="respaldo-estado mal">No se pudo guardar la copia: sin conexión. ' +
+               'Se vuelve a intentar la próxima vez que marques algo.</p>',
+    perdido:   '<p class="respaldo-estado mal">Este código ya no existe en el servidor. ' +
+               'Creá uno nuevo para volver a tener copia.</p>'
+  }[avisoRespaldo] || '';
+
+  if (!cod){
+    caja.innerHTML =
+      '<div class="titulo-seccion">SI CAMBIÁS DE TELÉFONO</div>' +
+      '<p class="letra-chica" style="margin-top:0">' +
+        'Todo lo que marcaste vive acá adentro y en ningún otro lado. Si ' +
+        'perdés el teléfono, o el navegador limpia lo guardado, se pierde. ' +
+        'Podés dejar una copia con un código, sin dar mail ni nombre.</p>' +
+      '<button class="boton ancho" id="crear-respaldo">Crear mi código de respaldo</button>' +
+      '<button class="boton texto ancho" id="pedir-codigo">Ya tengo un código</button>' +
+      '<div id="respaldo-mensaje"></div>';
+
+    document.getElementById('crear-respaldo').onclick = async function(){
+      this.disabled = true; this.textContent = 'Creando…';
+      try {
+        const { data, error } = await db.rpc('crear_respaldo', { p_datos: guardado });
+        if (error) throw error;
+        anotarCodigo(data);
+        avisoRespaldo = 'guardado';
+        pintarRespaldo();
+      } catch(e){
+        this.disabled = false; this.textContent = 'Crear mi código de respaldo';
+        document.getElementById('respaldo-mensaje').innerHTML =
+          '<div class="aviso error">No se pudo crear la copia: ' +
+          esc(e.message || 'sin conexión') + '.</div>';
+      }
+    };
+    document.getElementById('pedir-codigo').onclick = pedirCodigo;
+    return;
+  }
+
+  caja.innerHTML =
+    '<div class="titulo-seccion">TU CÓDIGO DE RESPALDO</div>' +
+    '<p class="letra-chica" style="margin-top:0">' +
+      'Anotalo donde no se te pierda. Con este código traés tu año a ' +
+      'cualquier teléfono. <b>Es lo único que existe: no hay mail ni ' +
+      'contraseña para recuperarlo si lo perdés.</b></p>' +
+    '<div class="codigo-caja"><output class="codigo" id="codigo">' +
+      esc(cod) + '</output></div>' +
+    '<div class="respaldo-botones">' +
+      '<button class="boton borde" id="copiar-codigo">Copiar el código</button>' +
+      '<button class="boton borde" id="pedir-codigo">Usar otro código</button>' +
+    '</div>' + estado +
+    '<div id="respaldo-mensaje"></div>';
+
+  document.getElementById('copiar-codigo').onclick = async function(){
+    try {
+      await navigator.clipboard.writeText(cod);
+      this.textContent = 'Copiado';
+    } catch(e){
+      /* Sin permiso para copiar: lo dejamos seleccionado y que lo copien
+         a mano, que es mejor que un botón que no hace nada. */
+      const r = document.createRange();
+      r.selectNodeContents(document.getElementById('codigo'));
+      const s = getSelection(); s.removeAllRanges(); s.addRange(r);
+      this.textContent = 'Copialo vos';
+    }
+    setTimeout(() => { this.textContent = 'Copiar el código'; }, 2200);
+  };
+  document.getElementById('pedir-codigo').onclick = pedirCodigo;
+}
+
+/* Traer el año desde otro teléfono. Pisa lo que hay, así que antes se
+   dice exactamente cuánto se va a perder. */
+function pedirCodigo(){
+  const caja = document.getElementById('respaldo');
+  caja.innerHTML =
+    '<div class="titulo-seccion">TRAER MI AÑO</div>' +
+    '<p class="letra-chica" style="margin-top:0">' +
+      'Escribí el código que te dio la app en el otro teléfono.</p>' +
+    '<div class="campo">' +
+      '<label for="codigo-entra">Tu código</label>' +
+      '<input id="codigo-entra" class="entrada-codigo" inputmode="text" ' +
+             'autocapitalize="characters" autocomplete="off" ' +
+             'placeholder="XXXX-XXXX-XXXX" maxlength="14"></div>' +
+    '<button class="boton ancho" id="traer">Traer mi año</button>' +
+    '<button class="boton texto ancho" id="volver-respaldo">Volver</button>' +
+    '<div id="respaldo-mensaje"></div>';
+
+  const campo = document.getElementById('codigo-entra');
+  campo.focus();
+  document.getElementById('volver-respaldo').onclick = pintarRespaldo;
+
+  document.getElementById('traer').onclick = async function(){
+    const cod = campo.value.trim().toUpperCase();
+    const msj = document.getElementById('respaldo-mensaje');
+    if (cod.replace(/-/g, '').length < 12){
+      msj.innerHTML = '<div class="aviso error">El código tiene 12 letras y ' +
+        'números, en tres grupos de cuatro.</div>';
+      campo.focus(); return;
+    }
+    this.disabled = true; this.textContent = 'Buscando…';
+    try {
+      const { data, error } = await db.rpc('traer_respaldo', { p_codigo: cod });
+      if (error) throw error;
+      if (!data){
+        this.disabled = false; this.textContent = 'Traer mi año';
+        msj.innerHTML = '<div class="aviso error">No encontramos ningún año con ' +
+          'ese código. Fijate que esté igual, letra por letra.</div>';
+        return;
+      }
+      const cuantas = Object.keys((datos && datos.estados) || {})
+        .filter(c => datos.estados[c] && datos.estados[c] !== 'pendiente').length;
+      if (cuantas && !confirm(
+          'Esto reemplaza lo que hay en este teléfono: ' + cuantas +
+          (cuantas === 1 ? ' materia marcada' : ' materias marcadas') + '. ¿Seguimos?')){
+        this.disabled = false; this.textContent = 'Traer mi año';
+        return;
+      }
+      guardado = data;
+      anotarCodigo(cod);
+      persistir();
+      location.reload();
+    } catch(e){
+      this.disabled = false; this.textContent = 'Traer mi año';
+      msj.innerHTML = '<div class="aviso error">No se pudo buscar: ' +
+        esc(e.message || 'sin conexión') + '.</div>';
+    }
+  };
+}
+
+/* ------------------------------------------------------------
+   EL MOMENTO GANADO
+
+   La invitación a poner la app en la pantalla de inicio no aparece
+   cuando alguien recién llega: aparece acá, cuando ya marcó una
+   materia. Ahí hay algo suyo adentro, y el motivo que le damos es
+   verdadero, no una excusa para conseguir una instalación.
+
+   Se ofrece una sola vez. Si dicen que no, no vuelve a aparecer.
+   ------------------------------------------------------------ */
+function quizasInvitarAInstalar(){
+  if (typeof invitarAInstalar !== 'function') return;
+  const marcadas = Object.keys((datos && datos.estados) || {})
+    .filter(c => datos.estados[c] && datos.estados[c] !== 'pendiente').length;
+  if (!marcadas) return;
+  invitarAInstalar(
+    (marcadas === 1 ? 'Marcaste tu primera materia.' : 'Ya marcaste ' + marcadas + ' materias.') +
+    ' Eso vive en este teléfono, no en una cuenta: con la app en la ' +
+    'pantalla de inicio se queda, y si no, el navegador la puede borrar ' +
+    'solo después de unos días sin que la abras.');
+}
+
+/* EL CIERRE ESPERA AL MOVIMIENTO, NO AL RELOJ.
+
+   Antes acá había un setTimeout de 220 milisegundos, que era una copia
+   a mano de la duración escrita en estilos.css. Dos números que
+   significan lo mismo en dos archivos distintos: el día que alguien
+   ajusta la curva de la hoja y no se acuerda de venir hasta acá, la
+   hoja se esconde antes de terminar de salir —o se queda un rato de
+   más, tapando la pantalla sin motivo.
+
+   Ahora se escucha el final de la transición. La duración vive en un
+   solo lugar. El respaldo por tiempo queda para el caso en que la
+   transición ni siquiera arranque —pestaña en segundo plano, sistema
+   con las animaciones apagadas—, porque una hoja que no se cierra deja
+   la app inalcanzable, y eso es peor que un cierre sin animación. */
+let cerrandoHoja = null;
+function cerrarHoja(){
+  const terminar = () => {
+    clearTimeout(cerrandoHoja);
+    cerrandoHoja = null;
+    fondo.classList.remove('cerrando');
+    fondo.hidden = true;
+    document.body.style.overflow = '';
+    /* Por si se cargó una nota: el promedio de arriba tiene que reflejarla */
+    pintarProgreso();
+    /* Y recién acá, con la hoja ya cerrada, el momento ganado. */
+    setTimeout(quizasInvitarAInstalar, 500);
+  };
+
+  if (fondo.hidden) return;
+  /* Tocar cerrar dos veces mientras se está cerrando no tiene que
+     agendar dos cierres: pintaría el progreso y ofrecería instalar dos
+     veces. */
+  if (cerrandoHoja !== null) return;
+
+  const hoja = fondo.querySelector('.hoja');
+  hoja.addEventListener('transitionend', terminar, { once:true });
+  cerrandoHoja = setTimeout(terminar, 600);
+  fondo.classList.add('cerrando');
+}
+
+document.getElementById('hoja-cerrar').addEventListener('click', cerrarHoja);
+fondo.addEventListener('click', e => { if (e.target === fondo) cerrarHoja(); });
+document.addEventListener('keydown', e => { if (e.key === 'Escape' && !fondo.hidden) cerrarHoja(); });
+
+/* Un solo escuchador para todas las tarjetas, en cualquiera de las dos vistas */
+document.querySelector('main').addEventListener('click', e => {
+  const t = e.target.closest('.materia');
+  if (t) abrirHoja(t.dataset.cod);
+});
+
+/* ============================================================
+   CONTROLES
+   ============================================================ */
+document.getElementById('selector-carrera').addEventListener('click', e => {
+  const b = e.target.closest('.chip');
+  if (!b || b.dataset.carrera === PLAN.id) return;
+  elegirCarrera(b.dataset.carrera);
+  pintarSelectorCarrera();
+  pintarTodo();
+  scrollTo(0, 0);
+});
+
+document.getElementById('filtro-cuatri').addEventListener('click', e => {
+  const b = e.target.closest('.chip');
+  if (!b) return;
+  filtroCuatri = b.dataset.cuatri;
+  pintarFiltroCuatri();
+  pintarGrupos();
+});
+
+document.getElementById('suponer').addEventListener('change', function(){
+  datos.suponer = this.checked;
+  persistir();
+  pintarGrupos();
+  pintarConsejo();
+});
+
+
+/* ============================================================
+   PREPARAR UN FINAL
+
+   Vive acá adentro y no en una sección aparte porque es acá donde ya
+   estás cuando pensás en un final: la app ya sabe cuáles debés.
+
+   TRES COSAS QUE NO SE ESCRIBEN A MANO, y es la decisión de fondo:
+   - la materia sale de las que marcaste como «cursada»
+   - la fecha de la mesa sale del calendario que publica la agrupación
+   - el programa sale del que cargó el equipo
+   Lo único que ponés vos es lo que solo vos sabés: qué leíste.
+
+   Esto SÍ necesita cuenta, a diferencia del resto de la app: se guarda
+   en Supabase para que lo veas desde cualquier teléfono. Sin cuenta la
+   pantalla no es un cartel de error: es una invitación.
+   ============================================================ */
+
+const zonaFinal = document.getElementById('vista-final');
+
+let sesionFinal = null;     /* el usuario, si hay */
+let prepActual  = null;     /* la preparación abierta */
+let mesasCache  = null;     /* las mesas próximas, del calendario */
+let cargandoFinal = false;
+
+/* ---------- Textos: se identifican por posición ---------- */
+function idTexto(u, t){ return 'u' + u + '-t' + t; }
+
+function contarTextos(unidades){
+  return (unidades || []).reduce((s, u) => s + (u.textos || []).length, 0);
+}
+
+/* ---------- La ficha bibliográfica ----------
+   Un texto de la carrera no es «tarea 3»: es Carballeda (2002). Se
+   escribe como en el programa, con el apellido adelante, porque es
+   así como se lo nombra en clase y como se lo busca en la fotocopiadora. */
+function fichaTexto(t){
+  const autor = (t.autor || '').trim();
+  const anio  = (t.anio  || '').toString().trim();
+  const cabeza = autor ? esc(autor) + (anio ? ' (' + esc(anio) + ')' : '') : '';
+  return `${cabeza ? `<span class="ficha-autor">${cabeza}</span>` : ''}
+          <span class="ficha-titulo">${esc(t.titulo || 'Sin título')}</span>`;
+}
+
+/* ---------- Cuántos días faltan ---------- */
+function diasHasta(iso){
+  if (!iso) return null;
+  const p = iso.split('-').map(Number);
+  const mesa = new Date(p[0], p[1] - 1, p[2]);
+  const hoy = new Date(); hoy.setHours(0, 0, 0, 0);
+  return Math.round((mesa - hoy) / 86400000);
+}
+
+function textoCuenta(dias){
+  if (dias === null)  return 'Sin fecha de mesa';
+  if (dias < 0)       return 'La mesa ya pasó';
+  if (dias === 0)     return 'La mesa es HOY';
+  if (dias === 1)     return 'Falta 1 día';
+  return 'Faltan ' + dias + ' días';
+}
+
+/* ============================================================
+   GUARDAR
+
+   Se guarda solo, sin botón, pero no en cada tecla: se espera a que
+   pares de escribir. Sin esto, escribir una meta dispara veinte
+   consultas y en la red de la facultad se nota.
+   ============================================================ */
+let relojGuardado = null;
+function guardarPrep(cambios, alTerminar){
+  Object.assign(prepActual, cambios);
+  clearTimeout(relojGuardado);
+  relojGuardado = setTimeout(async () => {
+    const { error } = await db.from('preparaciones')
+      .update(cambios).eq('id', prepActual.id);
+    if (error) avisoFinal('No se pudo guardar: ' + error.message);
+    else if (alTerminar) alTerminar();
+  }, 600);
+}
+
+function avisoFinal(texto){
+  const caja = document.getElementById('aviso-final');
+  if (!caja) return;
+  caja.textContent = texto;
+  caja.hidden = !texto;
+}
+
+/* ============================================================
+   LAS TRES PANTALLAS
+   ============================================================ */
+async function pintarFinal(){
+  if (cargandoFinal) return;
+  cargandoFinal = true;
+
+  zonaFinal.innerHTML = `
+    <div class="esq-tarjeta"><div class="esqueleto esq-linea titulo"></div>
+      <div class="esqueleto esq-linea"></div>
+      <div class="esqueleto esq-linea media"></div></div>`;
+
+  try {
+    const { usuario } = await conPaciencia(sesionActual());
+    sesionFinal = usuario || null;
+  } catch(e){ sesionFinal = null; }
+
+  if (!sesionFinal){ cargandoFinal = false; return vistaSinCuenta(); }
+
+  let filas = [];
+  try {
+    const { data, error } = await conPaciencia(
+      db.from('preparaciones').select('*')
+        .eq('carrera', PLAN.id).order('mesa_fecha', { nullsFirst:false }));
+    if (error) throw error;
+    filas = data || [];
+  } catch(e){
+    cargandoFinal = false;
+    if (/preparaciones/.test(e.message || '')){
+      zonaFinal.innerHTML = `<div class="vacio">
+        Esta parte todavía no está activada.<br>
+        <small>Al equipo: falta correr <b>tabla-organizador.sql</b> en Supabase.</small></div>`;
+      return;
+    }
+    return mostrarError(zonaFinal, e, 'abrir tus finales');
+  }
+
+  cargandoFinal = false;
+  if (prepActual){
+    const viva = filas.filter(f => f.id === prepActual.id)[0];
+    if (viva) return vistaPreparacion(viva);
+  }
+  vistaElegir(filas);
+}
+
+/* ---------- Sin cuenta ---------- */
+function vistaSinCuenta(){
+  zonaFinal.innerHTML = `
+    <div class="tarjeta-invita">
+      <h3>Para preparar un final necesitás una cuenta</h3>
+      <p>Es la única parte de la app que la pide. Lo que marcás acá —qué
+         textos leíste, cuánto te falta— se guarda en tu cuenta para que
+         lo veas desde cualquier teléfono, y no se pierda si cambiás de
+         aparato.</p>
+      <p class="letra-chica">Todo lo demás, incluido el organizador de
+         cursadas de acá al lado, sigue funcionando sin registrarte.</p>
+      <a class="boton oscuro ancho" href="../mi/">Crear una cuenta</a>
+    </div>`;
+}
+
+/* ---------- Elegir qué preparar ---------- */
+async function vistaElegir(filas){
+  /* Las que debés el final: cursada aprobada, final pendiente */
+  const debidos = MATERIAS.filter(m => estadoCrudo(m.cod) === 'cursada');
+  const yaEmpezadas = {};
+  filas.forEach(f => { yaEmpezadas[f.materia_cod] = f; });
+
+  const enCurso = filas.map(f => {
+    const total = contarTextos(f.unidades);
+    const hechos = (f.leidos || []).length;
+    const pct = total ? Math.round(hechos / total * 100) : 0;
+    const d = diasHasta(f.mesa_fecha);
+    return `
+      <button class="tarjeta prep" data-abrir="${f.id}">
+        <span class="prep-cuenta ${d !== null && d >= 0 && d <= 7 ? 'cerca' : ''}">${textoCuenta(d)}</span>
+        <h3>${esc(f.materia)}</h3>
+        <div class="barra"><div class="barra-llena" style="--llena:${pct}"></div></div>
+        <p class="motivo"><strong>${hechos}</strong> de ${total} textos leídos</p>
+      </button>`;
+  }).join('');
+
+  const paraEmpezar = debidos.filter(m => !yaEmpezadas[m.cod]);
+
+  zonaFinal.innerHTML = `
+    ${filas.length ? `<div class="titulo-seccion">LO QUE ESTÁS PREPARANDO</div>
+      <div class="lista">${enCurso}</div>` : ''}
+
+    <div class="titulo-seccion">${filas.length ? 'EMPEZAR OTRO' : 'EMPEZÁ POR ACÁ'}</div>
+    ${paraEmpezar.length ? `
+      <p class="letra-chica">Estas son las materias que tenés con la cursada
+        aprobada y el final pendiente.</p>
+      <div class="lista">${paraEmpezar.map(m => `
+        <button class="tarjeta materia" data-nueva="${esc(m.cod)}">
+          <h3>${esc(m.nombre)}</h3>
+          <p class="motivo">Te falta el final</p>
+        </button>`).join('')}</div>`
+      : `<div class="vacio">
+          ${debidos.length
+            ? 'Ya estás preparando todos los finales que debés.'
+            : `No tenés ninguna materia con el final pendiente.<br>
+               <small>En «Mi cursada» marcá una materia como <b>Cursada</b>
+               —aprobaste la cursada, te falta el final— y va a aparecer acá.</small>`}
+        </div>`}
+    <p class="aviso error" id="aviso-final" hidden></p>`;
+
+  zonaFinal.querySelectorAll('[data-abrir]').forEach(b => {
+    b.addEventListener('click', () => {
+      const f = filas.filter(x => String(x.id) === b.dataset.abrir)[0];
+      if (f){ prepActual = f; vistaPreparacion(f); }
+    });
+  });
+  zonaFinal.querySelectorAll('[data-nueva]').forEach(b => {
+    b.addEventListener('click', () => vistaNueva(b.dataset.nueva));
+  });
+}
+
+/* ---------- Crear una: elegir la mesa ---------- */
+async function vistaNueva(cod){
+  const m = POR_COD[cod];
+  if (!m) return;
+
+  if (mesasCache === null){
+    mesasCache = [];
+    try {
+      const hoy = new Date().toISOString().slice(0, 10);
+      const { data } = await conPaciencia(
+        db.from('publicaciones').select('titulo,fecha_desde,fecha_hasta')
+          .eq('publicado', true).gte('fecha_desde', hoy)
+          .order('fecha_desde').limit(30));
+      /* Solo las mesas, NO las inscripciones. En el calendario conviven
+         «Mesa de examen de septiembre» y «Inscripción a la mesa de
+         septiembre», que son cosas distintas: la inscripción es la
+         ventana de cuatro días para anotarse, una semana antes. Ofrecer
+         la inscripción como fecha de mesa daría mal la cuenta de días. */
+      mesasCache = (data || []).filter(p => /^\s*mesa\b/i.test(p.titulo || ''));
+    } catch(e){ mesasCache = []; }
+  }
+
+  /* El programa que cargó el equipo, si hay. Se busca ACÁ y no al
+     tocar «Empezar», por dos motivos: para poder ofrecer el PDF
+     oficial antes de empezar, y para que se sepa de entrada si la
+     materia tiene programa cargado o se arranca en blanco. */
+  let programa = null;
+  try {
+    const { data } = await db.from('programas')
+      .select('id,unidades,pdf_url,catedra')
+      .eq('carrera', PLAN.id).eq('materia_cod', cod)
+      .eq('publicado', true).limit(1);
+    if (data && data.length) programa = data[0];
+  } catch(e){ /* sin programa cargado se arranca en blanco */ }
+
+  const textosDelPrograma = programa ? contarTextos(programa.unidades) : 0;
+
+  zonaFinal.innerHTML = `
+    <button class="hoja-volver" id="volver-lista">← Volver</button>
+    <div class="titulo-seccion">PREPARAR UN FINAL</div>
+    <h3 class="prep-materia">${esc(m.nombre)}</h3>
+
+    ${programa ? `
+      <p class="letra-chica">Ya está cargado el programa de la cátedra:
+        vas a arrancar con <b>${(programa.unidades || []).length} unidades</b> y
+        <b>${textosDelPrograma} textos</b> para ir tildando.</p>
+      ${programa.pdf_url ? `
+        <a class="boton borde ancho" href="${esc(programa.pdf_url)}"
+           target="_blank" rel="noopener" style="margin-bottom:12px">
+          Ver el programa oficial (PDF)</a>` : ''}`
+    : `<p class="letra-chica">Todavía no está cargado el programa de esta
+        materia, así que vas a arrancar con la lista en blanco y podés ir
+        agregando los textos vos.</p>`}
+
+    <p class="letra-chica">¿Para qué mesa la estás preparando? Sirve para
+      contarte cuántos días faltan.</p>
+
+    <div class="opciones-estado" id="mesas">
+      ${mesasCache.map((p, i) => `
+        <button class="opcion" data-fecha="${esc(p.fecha_desde)}">
+          ${esc(p.titulo)}
+          <small>desde el ${fechaLinda(p.fecha_desde)}</small>
+        </button>`).join('')}
+      <button class="opcion" data-fecha="otra">Otra fecha</button>
+      <button class="opcion" data-fecha="">Todavía no sé</button>
+    </div>
+
+    <div class="campo-nota" id="campo-otra" hidden style="margin-top:12px">
+      <label for="mesa-otra">¿Qué día es la mesa?</label>
+      <input id="mesa-otra" type="date">
+    </div>
+
+    <button class="boton ancho" id="crear-prep" style="margin-top:16px">
+      Empezar a prepararla
+    </button>
+    <p class="aviso error" id="aviso-final" hidden></p>`;
+
+  let elegida = null;
+  const campoOtra = zonaFinal.querySelector('#campo-otra');
+
+  zonaFinal.querySelectorAll('#mesas .opcion').forEach(b => {
+    b.addEventListener('click', function(){
+      zonaFinal.querySelectorAll('#mesas .opcion').forEach(o => o.classList.remove('elegida'));
+      this.classList.add('elegida');
+      elegida = this.dataset.fecha;
+      campoOtra.hidden = elegida !== 'otra';
+      if (elegida === 'otra') zonaFinal.querySelector('#mesa-otra').focus();
+    });
+  });
+
+  zonaFinal.querySelector('#volver-lista')
+    .addEventListener('click', () => { prepActual = null; pintarFinal(); });
+
+  zonaFinal.querySelector('#crear-prep').addEventListener('click', async function(){
+    this.disabled = true; this.textContent = 'Un segundo…';
+
+    let fecha = null;
+    if (elegida === 'otra') fecha = zonaFinal.querySelector('#mesa-otra').value || null;
+    else if (elegida)       fecha = elegida;
+
+    /* El programa ya se buscó al abrir esta pantalla. Se COPIA: a
+       partir de acá es tuyo y lo podés editar sin tocar el de nadie. */
+    const unidades   = programa ? (programa.unidades || []) : [];
+    const programaId = programa ? programa.id : null;
+
+    const { data, error } = await db.from('preparaciones').insert({
+      carrera: PLAN.id, materia_cod: cod, materia: m.nombre,
+      mesa_fecha: fecha, unidades: unidades, programa_id: programaId
+    }).select().single();
+
+    if (error){
+      this.disabled = false; this.textContent = 'Empezar a prepararla';
+      avisoFinal(/duplicate|unique/i.test(error.message)
+        ? 'Ya estabas preparando esta materia. Volvé y abrila.'
+        : 'No se pudo crear: ' + error.message);
+      return;
+    }
+    prepActual = data;
+    vistaPreparacion(data);
+  });
+}
+
+/* ---------- La pantalla de trabajo ---------- */
+function vistaPreparacion(p){
+  prepActual = p;
+  const total  = contarTextos(p.unidades);
+  const leidos = p.leidos || [];
+  const pct    = total ? Math.round(leidos.length / total * 100) : 0;
+  const dias   = diasHasta(p.mesa_fecha);
+  const metas  = p.metas || {};
+
+  /* Cuántos por día hacen falta para llegar. Es el dato que la persona
+     quiere y que ninguna app le da: no "cuánto hiciste" sino "cuánto
+     te falta por día". */
+  const faltan = total - leidos.length;
+  const ritmo = (dias !== null && dias > 0 && faltan > 0)
+    ? Math.ceil(faltan / dias) : null;
+
+  zonaFinal.innerHTML = `
+    <button class="hoja-volver" id="volver-lista">← Todos mis finales</button>
+
+    <div class="prep-cabecera">
+      <span class="prep-cuenta ${dias !== null && dias >= 0 && dias <= 7 ? 'cerca' : ''}">${textoCuenta(dias)}</span>
+      <h3 class="prep-materia">${esc(p.materia)}</h3>
+      <div class="barra"><div class="barra-llena" style="--llena:${pct}"></div></div>
+      <p class="prep-datos">
+        <strong>${leidos.length}</strong> de ${total} textos
+        ${ritmo ? `· <b>${ritmo}</b> por día para llegar` : ''}
+      </p>
+    </div>
+
+    <div class="titulo-seccion">EL PROGRAMA</div>
+    <div id="programa"></div>
+    <button class="boton borde ancho" id="editar-programa" style="margin-top:10px">
+      Editar el programa
+    </button>
+
+    <div class="titulo-seccion">MIS METAS</div>
+    <div class="campos-nota">
+      <div class="campo-nota" style="flex:0 0 104px">
+        <label for="meta-dia">Textos por día</label>
+        <input id="meta-dia" type="number" inputmode="numeric" min="1" max="20"
+               placeholder="—" value="${metas.textos_por_dia || ''}">
+      </div>
+      <div class="campo-nota" style="flex:1 1 150px">
+        <label for="meta-fecha">Empiezo a escribir el</label>
+        <input id="meta-fecha" type="date" value="${metas.fecha_redaccion || ''}">
+      </div>
+    </div>
+    <p class="letra-chica">Las metas son tuyas y no te reta nadie si no las
+      cumplís. Sirven para ver si el ritmo alcanza.</p>
+
+    <div class="titulo-seccion">RELOJ DE ESTUDIO</div>
+    <div id="pomodoro"></div>
+
+    <p class="aviso error" id="aviso-final" hidden></p>
+
+    <button class="boton borde ancho" id="borrar-prep" style="margin-top:22px">
+      Dejar de preparar esta materia
+    </button>`;
+
+  pintarPrograma();
+  pintarPomodoro();
+
+  zonaFinal.querySelector('#volver-lista')
+    .addEventListener('click', () => { prepActual = null; pararPomodoro(); pintarFinal(); });
+
+  zonaFinal.querySelector('#meta-dia').addEventListener('input', function(){
+    const n = parseInt(this.value, 10);
+    guardarPrep({ metas: Object.assign({}, prepActual.metas, {
+      textos_por_dia: (n >= 1 && n <= 20) ? n : null }) });
+  });
+  zonaFinal.querySelector('#meta-fecha').addEventListener('input', function(){
+    guardarPrep({ metas: Object.assign({}, prepActual.metas, {
+      fecha_redaccion: this.value || null }) });
+  });
+
+  zonaFinal.querySelector('#editar-programa')
+    .addEventListener('click', vistaEditarPrograma);
+
+  zonaFinal.querySelector('#borrar-prep').addEventListener('click', async () => {
+    if (!confirm(`¿Dejar de preparar ${prepActual.materia}?\n\nSe pierde lo que marcaste como leído.`)) return;
+    await db.from('preparaciones').delete().eq('id', prepActual.id);
+    prepActual = null; pararPomodoro(); pintarFinal();
+  });
+}
+
+/* ---------- El programa, que se va tachando ---------- */
+function pintarPrograma(){
+  const caja = document.getElementById('programa');
+  const p = prepActual;
+  const leidos = p.leidos || [];
+
+  if (!contarTextos(p.unidades)){
+    caja.innerHTML = `<div class="vacio">
+        Todavía no hay programa cargado para esta materia.<br>
+        <small>Tocá «Editar el programa» y armá la lista de textos.</small>
+      </div>`;
+    return;
+  }
+
+  caja.innerHTML = p.unidades.map((u, iu) => {
+    const textos = (u.textos || []).map((t, it) => {
+      const id = idTexto(iu, it);
+      const listo = leidos.indexOf(id) !== -1;
+      return `
+        <li>
+          <button class="texto ${listo ? 'leido' : ''}" data-texto="${id}"
+                  aria-pressed="${listo}">
+            <span class="marca-leido" aria-hidden="true"></span>
+            <span class="ficha-texto">${fichaTexto(t)}</span>
+          </button>
+        </li>`;
+    }).join('');
+    const hechos = (u.textos || []).filter((t, it) =>
+      leidos.indexOf(idTexto(iu, it)) !== -1).length;
+    return `
+      <section class="unidad">
+        <h4>${esc(u.titulo || 'Unidad ' + (iu + 1))}
+          <span class="unidad-cuenta">${hechos}/${(u.textos || []).length}</span></h4>
+        <ul class="textos">${textos}</ul>
+      </section>`;
+  }).join('');
+
+  caja.querySelectorAll('[data-texto]').forEach(b => {
+    b.addEventListener('click', function(){ alternarTexto(this.dataset.texto); });
+  });
+}
+
+function alternarTexto(id){
+  const leidos = (prepActual.leidos || []).slice();
+  const i = leidos.indexOf(id);
+  if (i === -1) leidos.push(id); else leidos.splice(i, 1);
+  guardarPrep({ leidos: leidos });
+  vistaPreparacion(Object.assign({}, prepActual, { leidos: leidos }));
+}
+
+/* ---------- Editar el programa ---------- */
+function vistaEditarPrograma(){
+  const p = prepActual;
+  const texto = (p.unidades || []).map(u =>
+    (u.titulo || '') + '\n' + (u.textos || []).map(t =>
+      [t.autor, t.anio, t.titulo].filter(Boolean).join(' · ')).join('\n')
+  ).join('\n\n');
+
+  zonaFinal.innerHTML = `
+    <button class="hoja-volver" id="volver-prep">← Volver</button>
+    <div class="titulo-seccion">EDITAR EL PROGRAMA</div>
+    <p class="letra-chica">Una unidad por bloque. El primer renglón es el
+      título de la unidad y los de abajo son los textos, uno por línea.
+      Para separar autor, año y título usá <b>·</b> o punto y coma.</p>
+    <div class="campo">
+      <textarea id="programa-texto" style="min-height:280px;font-family:var(--fuente-datos);font-size:14px">${esc(texto)}</textarea>
+    </div>
+    <button class="boton ancho" id="guardar-programa">Guardar el programa</button>
+    <p class="letra-chica">Esto cambia solo tu copia. El programa que cargó
+      la agrupación no se toca.</p>
+    <p class="aviso error" id="aviso-final" hidden></p>`;
+
+  zonaFinal.querySelector('#volver-prep')
+    .addEventListener('click', () => vistaPreparacion(prepActual));
+
+  zonaFinal.querySelector('#guardar-programa').addEventListener('click', function(){
+    const bloques = document.getElementById('programa-texto').value
+      .split(/\n\s*\n/).map(b => b.trim()).filter(Boolean);
+    const unidades = bloques.map(b => {
+      const lineas = b.split('\n').map(l => l.trim()).filter(Boolean);
+      return {
+        titulo: lineas.shift(),
+        textos: lineas.map(l => {
+          const partes = l.split(/\s*[·;]\s*/);
+          if (partes.length >= 3) return { autor:partes[0], anio:partes[1], titulo:partes.slice(2).join(' · ') };
+          if (partes.length === 2) return { autor:partes[0], anio:'', titulo:partes[1] };
+          return { autor:'', anio:'', titulo:partes[0] };
+        })
+      };
+    });
+    /* Los leídos se recalculan solos: si sacaste textos, los ids que ya
+       no existen se descartan. */
+    const validos = [];
+    unidades.forEach((u, iu) => (u.textos || []).forEach((t, it) => validos.push(idTexto(iu, it))));
+    const leidos = (prepActual.leidos || []).filter(id => validos.indexOf(id) !== -1);
+
+    guardarPrep({ unidades: unidades, leidos: leidos });
+    vistaPreparacion(Object.assign({}, prepActual, { unidades: unidades, leidos: leidos }));
+  });
+}
+
+/* ============================================================
+   EL RELOJ DE ESTUDIO (pomodoro)
+
+   25 minutos de concentración, 5 de descanso. Lo único que le
+   agregamos al método: cuando termina un bloque, pregunta si avanzaste
+   con algún texto. Si no, sería un cronómetro que casualmente está en
+   esta pantalla, y no una herramienta de esta pantalla.
+   ============================================================ */
+const CONCENTRA = 25 * 60, DESCANSO = 5 * 60;
+let pomoQueda = CONCENTRA, pomoAndando = false, pomoEsDescanso = false, pomoReloj = null;
+
+function pintarPomodoro(){
+  const caja = document.getElementById('pomodoro');
+  if (!caja) return;
+  const min = String(Math.floor(pomoQueda / 60)).padStart(2, '0');
+  const seg = String(pomoQueda % 60).padStart(2, '0');
+  const total = pomoEsDescanso ? DESCANSO : CONCENTRA;
+
+  caja.innerHTML = `
+    <div class="pomo ${pomoEsDescanso ? 'descanso' : ''} ${pomoAndando ? 'andando' : ''}">
+      <span class="pomo-rotulo">${pomoEsDescanso ? 'Descanso' : 'Concentración'}</span>
+      <div class="pomo-reloj" role="timer" aria-live="off">${min}:${seg}</div>
+      <div class="pomo-barra"><div style="--llena:${100 - (pomoQueda / total * 100)}"></div></div>
+      <div class="pomo-botones">
+        <button class="boton" id="pomo-arranca">${pomoAndando ? 'Pausar' : 'Empezar'}</button>
+        <button class="boton borde" id="pomo-reinicia">Reiniciar</button>
+      </div>
+      <p class="letra-chica">${prepActual.pomodoros
+        ? 'Llevás <b>' + prepActual.pomodoros + '</b> bloque' + (prepActual.pomodoros === 1 ? '' : 's') + ' con esta materia.'
+        : '25 minutos de concentración y 5 de descanso.'}</p>
+    </div>`;
+
+  caja.querySelector('#pomo-arranca').addEventListener('click', () => {
+    pomoAndando ? pausarPomodoro() : arrancarPomodoro();
+  });
+  caja.querySelector('#pomo-reinicia').addEventListener('click', reiniciarPomodoro);
+}
+
+function arrancarPomodoro(){
+  pomoAndando = true;
+  clearInterval(pomoReloj);
+  pomoReloj = setInterval(() => {
+    pomoQueda--;
+    if (pomoQueda <= 0) return terminarBloque();
+    const r = document.querySelector('.pomo-reloj');
+    const b = document.querySelector('.pomo-barra div');
+    if (!r) return pararPomodoro();
+    r.textContent = String(Math.floor(pomoQueda / 60)).padStart(2, '0') + ':' +
+                    String(pomoQueda % 60).padStart(2, '0');
+    if (b) b.style.setProperty('--llena',
+      100 - (pomoQueda / (pomoEsDescanso ? DESCANSO : CONCENTRA) * 100));
+  }, 1000);
+  pintarPomodoro();
+}
+
+function pausarPomodoro(){ pomoAndando = false; clearInterval(pomoReloj); pintarPomodoro(); }
+function pararPomodoro(){ pomoAndando = false; clearInterval(pomoReloj); }
+
+function reiniciarPomodoro(){
+  pararPomodoro();
+  pomoEsDescanso = false;
+  pomoQueda = CONCENTRA;
+  pintarPomodoro();
+}
+
+function terminarBloque(){
+  pararPomodoro();
+  const eraConcentracion = !pomoEsDescanso;
+  pomoEsDescanso = !pomoEsDescanso;
+  pomoQueda = pomoEsDescanso ? DESCANSO : CONCENTRA;
+
+  if (eraConcentracion){
+    const n = (prepActual.pomodoros || 0) + 1;
+    guardarPrep({ pomodoros: n });
+    prepActual.pomodoros = n;
+  }
+  pintarPomodoro();
+
+  /* Un aviso que se lee, no un sonido que asusta en la biblioteca.
+
+     Antes el borde titilaba en rojo durante 2,4 segundos. Eran tres
+     problemas: un borde de 1,5 px no se ve con el ojo puesto en el
+     libro, que es donde está el ojo de quien acaba de estudiar
+     veinticinco minutos; 2,4 segundos son largos para ignorar y cortos
+     para atender; y ese 2400 era otra copia a mano de una duración
+     escrita en el CSS.
+
+     Ahora la tarjeta entera da un golpe corto —eso sí se ve de reojo—
+     y el rojo se queda hasta que la persona hace algo, que es cuando
+     el aviso deja de tener trabajo. La duración la sabe el CSS y acá
+     no se repite: se espera el final de la animación. */
+  const caja = document.querySelector('.pomo');
+  if (caja){
+    caja.classList.add('sono');
+    caja.addEventListener('animationend',
+      () => caja.classList.remove('sono'), { once:true });
+    /* Por si la animación no corre (menos movimiento, pestaña de
+       fondo): el rojo igual se retira solo a los pocos segundos. */
+    setTimeout(() => caja.classList.remove('sono'), 4000);
+  }
+  avisoFinal(eraConcentracion
+    ? 'Terminaste un bloque. Si avanzaste con un texto, marcalo arriba.'
+    : 'Se terminó el descanso. Cuando quieras arrancás otro bloque.');
+  setTimeout(() => avisoFinal(''), 8000);
+}
+const PESTANAS = ['plan', 'final', 'mapa', 'todo'];
+const filaPestanas = document.querySelector('.pestanas');
+
+/* EL SUBRAYADO VIAJA DE UNA PESTAÑA A LA OTRA.
+
+   Antes el subrayado se apagaba en una y se prendía en la otra. Eso
+   dice cuál quedó elegida, pero se pierde lo otro que hace falta
+   entender: de dónde vino y para qué lado se movió. Cuando la barra
+   recorre el camino, la pantalla que aparece abajo se lee como
+   consecuencia del gesto; cuando salta, se lee como que la app cambió
+   de tema por su cuenta.
+
+   Acá solo se miden las dos cosas que el CSS no puede saber —dónde
+   empieza la pestaña elegida y cuánto mide— y se las pasa en dos
+   variables. Mover y estirar la barra lo hace el CSS con transform,
+   que es gratis. Se mide DESPUÉS de cambiar el aria-selected porque la
+   pestaña elegida lleva negrita y eso le cambia el ancho.
+
+   offsetLeft y no getBoundingClientRect: la fila se desliza de costado
+   cuando las cuatro no entran, y offsetLeft mide contra la fila, que es
+   el sistema de coordenadas de la barra. Con rect habría que restarle
+   el desplazamiento y se rompería al deslizar. */
+function moverSubrayado(){
+  if (!filaPestanas) return;
+  const activa = filaPestanas.querySelector('.pestana[aria-selected="true"]');
+  if (!activa || !activa.offsetWidth) return;
+  /* El ancho va SIN unidad: es el factor de escala de una barra que
+     mide un píxel, no una medida. La posición sí va en píxeles. */
+  filaPestanas.style.setProperty('--pestana-ancho', activa.offsetWidth);
+  filaPestanas.style.setProperty('--pestana-x', activa.offsetLeft + 'px');
+}
+
+function verPestana(cual){
+  PESTANAS.forEach(k => {
+    document.getElementById('tab-' + k).setAttribute('aria-selected', k === cual);
+    document.getElementById('vista-' + k).hidden = k !== cual;
+  });
+  moverSubrayado();
+  /* El mapa se mide contra el ancho de la pantalla, así que el aviso de
+     deslizar hay que recalcularlo cuando la vista ya está visible. */
+  if (cual === 'mapa')  pintarMapa();
+  if (cual === 'final') pintarFinal();
+  scrollTo(0, 0);
+}
+PESTANAS.forEach(k =>
+  document.getElementById('tab-' + k).addEventListener('click', () => verPestana(k)));
+
+/* Al arrancar y cada vez que cambia el ancho: las pestañas son
+   flexibles, así que girar el teléfono les cambia la medida y la barra
+   quedaría corrida. Sin la primera llamada no hay barra hasta el primer
+   toque, y el CSS deja el borde de la pestaña elegida mientras tanto. */
+moverSubrayado();
+addEventListener('resize', moverSubrayado, { passive:true });
+/* Las tipografías de la app llegan después del primer dibujo y cambian
+   el ancho del texto: sin esto, la barra queda medida con la letra de
+   respaldo. */
+if (document.fonts && document.fonts.ready) document.fonts.ready.then(moverSubrayado);
+
+/* Desde Estudiemos se llega con #finales: abre la pestaña directamente,
+   si no la persona aterriza en «Mi cursada» y tiene que buscarla. */
+if (location.hash === '#finales') verPestana('final');
+
+document.getElementById('borrar').addEventListener('click', () => {
+  if (!confirm(`¿Borrar todo lo que marcaste en ${PLAN.nombreCorto} y empezar de nuevo?\n\nLo de las otras carreras no se toca.`)) return;
+  guardado.datos[PLAN.id] = { estados:{}, notas:{}, fechas:{}, suponer:false, idioma:false };
+  datos = guardado.datos[PLAN.id];
+  persistir();
+  pintarTodo();
+});
+
+/* ============================================================
+   ARRANQUE
+   ============================================================ */
+function pintarTodo(){
+  pintarFiltroCuatri();
+  pintarCursandoAhora();
+  pintarProgreso();
+  pintarGrupos();
+  pintarConsejo();
+  pintarPlanCompleto();
+  pintarMapa();
+}
+
+elegirCarrera(guardado.carrera || 'ts');
+
+/* La copia de respaldo. El punto de partida es lo que hay ahora en el
+   teléfono: abrir la app no cambió nada, así que no gasta una subida.
+   A partir de acá, cada cambio sí la actualiza. */
+ultimoSubido = JSON.stringify(guardado);
+pintarRespaldo();
+pintarSelectorCarrera();
+pintarTodo();
 
 })();
 </script>
