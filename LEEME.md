@@ -531,6 +531,52 @@ LEEME.md             ← este archivo
 **Para cambiar un color de toda la app:** abrí `estilos.css` y tocá una sola línea
 en el bloque `PANEL DE CONTROL ESTETICO` de arriba de todo.
 
+### La pantalla de Fechas (`agenda/`)
+
+**El calendario arriba, centrado, y los meses desplegables abajo.** Las dos
+mitades son un solo instrumento, no dos módulos apilados: el calendario es el
+índice de la lista que va abajo.
+
+**Los grupos son meses, no líneas editoriales.** Esa es la decisión de la
+pantalla. Si los grupos fueran «Gremial», «Info importante» y compañía, el
+calendario de arriba y la lista de abajo no tendrían ninguna relación entre sí;
+con meses, las flechas del calendario y los títulos de abajo hablan de lo mismo.
+La línea editorial no se pierde: la dice la etiqueta de cada tarjeta. Por eso
+también se fue la fila de chips que filtraba por línea.
+
+**Cambiar de mes abre ese mes abajo, pero no mueve la pantalla.** Si al tocar
+«›» la vista saltara a la lista, el calendario se iría de la pantalla y no se
+podría tocar «›» otra vez. **Tocar un día sí lleva abajo**, encierra en un
+anillo de tinta las publicaciones de ese día y despliega su mes: ahí el
+estudiante pidió algo concreto y ya terminó con la grilla. Si el desplazamiento
+suave no llegó a destino en medio segundo, se salta y listo — que la pantalla
+efectivamente baje no es un lujo: si no baja, tocar un día resalta tarjetas que
+quedaron abajo del borde y parece que la app no hizo nada.
+
+**Al entrar se abre el mes en curso**, y si este mes ya no queda nada, el
+próximo que tenga algo. Llegar a «Fechas» y no ver ninguna fecha sería el peor
+resultado posible de una pantalla plegable. Los meses que ya pasaron van al
+final, después de un separador que dice «YA PASARON».
+
+**Las franjas, no los puntos.** Este calendario muestra TODA la agenda, no solo
+las mesas y los asuetos como el del inicio, y por eso no podía marcar cada día
+con un punto: una inscripción que dura tres semanas es **una** cosa, y marcada
+con veinte puntos iguales se lee como veinte. Estirada como franja se lee como
+el período que es, y los días sueltos vuelven a destacarse por contraste.
+
+**Los colores de las marcas son propios** (`--marca-*`), y no los de las
+etiquetas (`--linea-*`). No hacen el mismo trabajo: la etiqueta es un fondo con
+texto encima, la franja es una línea de 4 píxeles. Medidas contra el fondo real
+de la tarjeta, dos no llegaban a los 3:1 que pide la norma en cada tema — de día
+el turquesa (2,5) y el celeste (1,8); de noche el rojo (2,5) y el de «Frente
+político», que es casi negro y directamente no se veía. Ahora las ocho
+combinaciones pasan, con 3,6 de mínimo.
+
+**`montarCalendario()` de `app.js` es el calendario de esta pantalla.** Estaba
+escrito y sin usar: el inicio se había hecho su propia copia inline. El del
+inicio sigue aparte a propósito, porque hace otra cosa (solo mesas y asuetos, y
+muestra la publicación abajo en vez de mandarte a una lista).
+
 ### La pantalla de Info útil (`tramites/`)
 
 Las fichas van **agrupadas por categoría y en cuadrados**: 3 por fila en el

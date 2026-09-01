@@ -90,6 +90,25 @@
   --linea-info:     #B52625;
   --linea-saberes:  #7FC9DA;
 
+  /* Los mismos colores, pero para las MARCAS FINAS del calendario: las
+     franjas de 4 píxeles que dicen qué cae cada día.
+     Van aparte de los de arriba porque no hacen el mismo trabajo. La
+     etiqueta de una tarjeta es un color de fondo con texto encima; la
+     franja es una línea delgada contra el papel, y necesita más
+     contraste para verse. De noche dos de estos cuatro desaparecen
+     -el de «Frente político» es casi negro-, y se aclaran solo acá,
+     sin tocar las etiquetas.
+
+     De día pasa al revés que de noche: el turquesa daba 2,5 sobre el
+     papel y el celeste 1,8, o sea que la franja estaba ahí y no se
+     veía. Los dos se oscurecen hasta pasar 3, que es lo que pide la
+     norma para algo que informa sin ser texto. Siguen siendo el mismo
+     turquesa y el mismo celeste, un paso más abajo. */
+  --marca-frente:   var(--linea-frente);   /* 16,9 sobre el papel */
+  --marca-gremial:  #0D8C85;               /*  4,0 */
+  --marca-info:     var(--linea-info);     /*  6,3 */
+  --marca-saberes:  #3E8FA6;               /*  3,6 */
+
   /* --- Tipografias ---
 
      ARCHIVO BLACK es de Omnibus-Type, un taller tipografico de Buenos
@@ -206,6 +225,13 @@
        (3,4). Se aclara para que las palabras resaltadas sigan
        leyéndose sin dejar de ser el rojo de la marca. */
     --rojo: #E56B62;
+
+    /* Por lo mismo, las franjas del calendario. El rojo de «Info
+       importante» daba 2,5 contra la tarjeta oscura y el de «Frente
+       político», que de día es casi negro, directamente no se veía.
+       Los otros dos ya eran claros y quedan como están. */
+    --marca-info:   #E56B62;
+    --marca-frente: #C8C3AE;
 
     /* La segunda tinta, de noche. Un negro sobre un fondo casi negro no
        se ve, así que el desplazamiento es más oscuro que el fondo de la
@@ -787,16 +813,28 @@ svg.ico{width:1em;height:1em;display:block;flex:0 0 auto}
 
 .cal-puntos{display:flex;gap:2px;height:5px;align-items:center}
 .cal-punto{width:5px;height:5px;border-radius:50%;background:var(--negro)}
-.cal-punto.frente  {background:var(--linea-frente)}
-.cal-punto.gremial {background:var(--linea-gremial)}
-.cal-punto.info    {background:var(--linea-info)}
-.cal-punto.saberes {background:var(--linea-saberes)}
+.cal-punto.frente  {background:var(--marca-frente)}
+.cal-punto.gremial {background:var(--marca-gremial)}
+.cal-punto.info    {background:var(--marca-info)}
+.cal-punto.saberes {background:var(--marca-saberes)}
 
 .cal-referencia{
   display:flex;flex-wrap:wrap;gap:10px;margin-top:11px;padding-top:10px;
   border-top:1px solid var(--linea);font-size:var(--letra-chica);color:var(--texto-suave)
 }
 .cal-referencia span{display:flex;align-items:center;gap:5px}
+
+/* En «Fechas» el calendario no es un módulo más de una columna: es el
+   índice de la lista que va abajo. Va centrado y con ancho propio, así
+   en una pantalla ancha no se estira hasta que los días quedan
+   nadando lejos unos de otros. */
+.calendario-centro{max-width:400px;margin:0 auto 24px}
+
+/* La tarjeta del día que se tocó arriba. Anillo de tinta, no un color
+   de fondo: en las placas de la agrupación lo que se resalta se
+   encierra. Y así funciona igual con las cuatro líneas editoriales,
+   que ya traen su propio color en el borde izquierdo. */
+.tarjeta.destacada{outline:2px solid var(--texto);outline-offset:2px}
 
 /* ============================================================
    BARRA DE NAVEGACION INFERIOR
@@ -1359,6 +1397,16 @@ body.antes-de-entrar{padding-bottom:0}  /* apertura y bienvenida a pantalla comp
 .cal-barra.asueto{background:var(--celeste)}
 .cal-barra.sigue-izq{left:-2px;border-top-left-radius:0;border-bottom-left-radius:0}
 .cal-barra.sigue-der{right:-2px;border-top-right-radius:0;border-bottom-right-radius:0}
+/* Las mismas franjas, pintadas por línea editorial: así las usa el
+   calendario de «Fechas», que muestra toda la agenda y no solo las
+   mesas y los asuetos como el del inicio. */
+.cal-barra.frente {background:var(--marca-frente)}
+.cal-barra.gremial{background:var(--marca-gremial)}
+.cal-barra.info   {background:var(--marca-info)}
+.cal-barra.saberes{background:var(--marca-saberes)}
+/* Cuando en un día conviven dos líneas, la segunda va encima de la
+   primera. Más de dos no se dibujan: se ven tocando el día. */
+.cal-barra.segunda{bottom:11px}
 .cal-dia.con-cosas.mesa  {background:var(--dia-mesa)}
 .cal-dia.con-cosas.asueto{background:var(--dia-asueto)}
 

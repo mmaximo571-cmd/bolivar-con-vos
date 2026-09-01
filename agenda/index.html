@@ -118,26 +118,21 @@
   contenido.innerHTML = `
     <h1 class="titulo-pantalla">FECHAS Y<br>NOVEDADES</h1>
     <p class="bajada">Fechas, comunicados y actividades. Se actualiza sola.</p>
-    <div class="chips" id="chips"></div>
+    <div class="calendario-centro" id="calendario"></div>
     <div id="zonas"><div class="esq-tarjeta"><div class="esqueleto esq-linea titulo"></div><div class="esqueleto esq-linea"></div><div class="esqueleto esq-linea media"></div></div><div class="esq-tarjeta"><div class="esqueleto esq-linea titulo"></div><div class="esqueleto esq-linea"></div><div class="esqueleto esq-linea corta"></div></div></div>`;
 
-  const chips = document.getElementById('chips');
-  const zonas = document.getElementById('zonas');
+  const cajaCal = document.getElementById('calendario');
+  const zonas   = document.getElementById('zonas');
 
-  chips.innerHTML =
-    `<button class="chip" data-linea="">Todo</button>` +
-    Object.keys(NOMBRE_LINEA).map(k =>
-      `<button class="chip" data-linea="${k}">${esc(NOMBRE_LINEA[k])}</button>`).join('');
-
-  let lineaActiva = '';
   let publicaciones = [];
 
-  chips.addEventListener('click', function(ev){
-    const b = ev.target.closest('.chip');
-    if (!b) return;
-    lineaActiva = b.dataset.linea;
-    dibujar();
-  });
+  /* Qué meses están desplegados, y qué día señaló el estudiante en el
+     calendario. Viven acá afuera porque la lista se redibuja entera
+     cuando el equipo publica algo: sin esto, publicar una fecha te
+     cerraría el mes que estabas mirando. */
+  const abiertos   = new Set();
+  let   diaElegido = null;
+  let   primeraVez = true;
 
   async function traer(){
     const { data, error } = await db.from('publicaciones')
@@ -152,55 +147,178 @@
     const datos = [rangoLindo(p.fecha_desde, p.fecha_hasta), p.hora, p.lugar]
       .filter(Boolean).map(esc).join(' · ');
 
+    /* «Señalada» es la que cae en el día que se tocó arriba. Es un
+       anillo de tinta, no un color nuevo: en las placas de la
+       agrupación lo que se resalta se encierra, no se pinta. */
+    const senalada = diaElegido && caeEnElDia(p, diaElegido) ? ' destacada' : '';
+
     const cuerpo = `
       <span class="etiqueta ${esc(p.linea)}">${esc(NOMBRE_LINEA[p.linea] || p.linea)}</span>
       <h3>${esc(p.titulo)}</h3>
       ${datos ? `<p>${datos}</p>`
               : (p.cuerpo ? `<p>${esc(p.cuerpo.slice(0,140))}${p.cuerpo.length > 140 ? '…' : ''}</p>` : '')}`;
 
-    if (f) return `<a class="tarjeta ${esc(p.linea)}" href="?id=${p.id}">
+    if (f) return `<a class="tarjeta ${esc(p.linea)}${senalada}" href="?id=${p.id}" data-fecha="${esc(p.fecha_desde.slice(0,10))}">
         <div class="tarjeta-fecha">
           <div class="cubo-fecha"><span class="dia">${f.dia}</span><span class="mes">${f.mesCorto}</span></div>
           <div>${cuerpo}</div>
         </div></a>`;
 
-    return `<a class="tarjeta ${esc(p.linea)}" href="?id=${p.id}">${cuerpo}</a>`;
+    return `<a class="tarjeta ${esc(p.linea)}${senalada}" href="?id=${p.id}">${cuerpo}</a>`;
   }
 
+  /* '2026-09-04' -> '2026-09'. Agrupar por mes y no por categoría es la
+     decisión de esta pantalla: así el calendario de arriba y la lista
+     de abajo hablan de lo mismo y son un solo instrumento. Si los
+     grupos fueran las líneas editoriales, las dos mitades no tendrían
+     ninguna relación entre sí, y la línea ya la dice la etiqueta de
+     cada tarjeta. */
+  function claveMes(iso){ return String(iso).slice(0, 7); }
+
+  function nombreMes(clave){
+    const [a, m] = clave.split('-');
+    return (MESES_LARGO[+m - 1] + ' ' + a).toUpperCase();
+  }
+
+  function grupo(clave, titulo, dentro, cuantos){
+    return `
+      <details class="grupo" data-grupo="${esc(clave)}" ${abiertos.has(clave) ? 'open' : ''}>
+        <summary>
+          <span class="nombre-grupo">${esc(titulo)}</span>
+          <span class="cuenta-grupo">${cuantos}</span>
+          <span class="flecha" aria-hidden="true">▼</span>
+        </summary>
+        <div class="cuerpo-grupo"><div class="lista">${dentro}</div></div>
+      </details>`;
+  }
+
+  /* Igual que en Info útil: el estado abierto se lee del DOM antes de
+     redibujar, y no del evento «toggle», que el navegador también
+     dispara al insertar un grupo que ya viene abierto. */
+  function recordarAbiertos(){
+    zonas.querySelectorAll('details.grupo').forEach(d => {
+      if (d.open) abiertos.add(d.dataset.grupo);
+      else        abiertos.delete(d.dataset.grupo);
+    });
+  }
+
+  /* `dibujar` solo pinta: nunca lee el estado abierto del DOM. Eso lo
+     hace quien la llama, ANTES de tocar `abiertos`. Si lo hiciera acá
+     adentro, abrir un mes y redibujar en el mismo paso lo cerraría:
+     se pisaría el mes recién agregado con lo que todavía dice la
+     pantalla vieja. */
   function dibujar(){
-    [...chips.children].forEach(b =>
-      b.setAttribute('aria-pressed', b.dataset.linea === lineaActiva ? 'true' : 'false'));
-
-    const hoy = hoyISO();
-    const visibles = publicaciones.filter(p => !lineaActiva || p.linea === lineaActiva);
-
-    const proximas = visibles
-      .filter(p => p.fecha_desde && (p.fecha_hasta || p.fecha_desde) >= hoy)
-      .sort((a,b) => a.fecha_desde.localeCompare(b.fecha_desde));
-
-    const resto = visibles.filter(p => !proximas.includes(p));
-
-    if (!visibles.length){
+    if (!publicaciones.length){
       zonas.innerHTML = `<div class="vacio">
-          ${publicaciones.length ? 'No hay nada en esta categoría.'
-                                 : 'Todavía no hay nada publicado.<br>Volvé en unos días.'}
-        </div>`;
+          Todavía no hay nada publicado.<br>Volvé en unos días.</div>`;
       return;
     }
 
-    zonas.innerHTML =
-      (proximas.length ? `<div class="titulo-seccion">LO QUE SE VIENE</div>
-        <div class="lista">${proximas.map(tarjeta).join('')}</div>` : '') +
-      (resto.length ? `<div class="titulo-seccion">${proximas.length ? 'MÁS' : 'PUBLICACIONES'}</div>
-        <div class="lista">${resto.map(tarjeta).join('')}</div>` : '');
+    const mesDeHoy = claveMes(hoyISO());
+
+    /* Un mes = un grupo. Las que no tienen día van aparte: un
+       comunicado no es una fecha y meterlo en un mes sería inventarle
+       una que no tiene. */
+    const porMes = {};
+    const sinFecha = [];
+    publicaciones.forEach(p => {
+      if (!p.fecha_desde){ sinFecha.push(p); return; }
+      const k = claveMes(p.fecha_desde);
+      (porMes[k] = porMes[k] || []).push(p);
+    });
+
+    const claves = Object.keys(porMes).sort();
+    const porVenir = claves.filter(k => k >= mesDeHoy);
+    const pasados  = claves.filter(k => k <  mesDeHoy).reverse();
+
+    /* Al entrar se abre el mes en curso; si este mes ya no queda nada,
+       el próximo que tenga algo. Llegar a «Fechas» y no ver ninguna
+       fecha sería el peor resultado posible de una pantalla plegable. */
+    if (primeraVez){
+      const arranque = porMes[mesDeHoy] ? mesDeHoy : porVenir[0];
+      if (arranque) abiertos.add(arranque);
+      primeraVez = false;
+    }
+
+    const deMes = k => porMes[k]
+      .sort((a, b) => a.fecha_desde.localeCompare(b.fecha_desde))
+      .map(tarjeta).join('');
+
+    let html = porVenir.map(k => grupo(k, nombreMes(k), deMes(k), porMes[k].length)).join('');
+
+    if (sinFecha.length)
+      html += grupo('sin-fecha', 'SIN FECHA', sinFecha.map(tarjeta).join(''), sinFecha.length);
+
+    if (pasados.length)
+      html += `<div class="titulo-seccion" style="margin-top:22px">YA PASARON</div>` +
+              pasados.map(k => grupo(k, nombreMes(k), deMes(k), porMes[k].length)).join('');
+
+    zonas.innerHTML = html;
   }
 
-  if (await traer()) dibujar();
+  /* ---------- El calendario manda sobre la lista ----------
+
+     Cambiar de mes con las flechas ABRE ese mes abajo, pero no mueve
+     la pantalla: si al tocar «›» la vista saltara a la lista, el
+     calendario se iría de la pantalla y no se podría tocar «›» otra
+     vez.
+
+     Tocar un día sí lleva abajo: ahí el estudiante pidió algo
+     concreto y ya terminó con la grilla.                          */
+  function abrirMes(clave){
+    if (!clave) return;
+    abiertos.add(clave);
+    const d = zonas.querySelector(`details.grupo[data-grupo="${clave}"]`);
+    if (d) d.open = true;
+  }
+
+  function mostrarDia(iso){
+    recordarAbiertos();          /* primero se guarda lo que había abierto */
+    diaElegido = iso;
+    if (iso) abiertos.add(claveMes(iso));
+    dibujar();
+    if (!iso) return;
+
+    const primera = zonas.querySelector('.tarjeta.destacada');
+    if (!primera) return;
+
+    const quieto = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    primera.scrollIntoView({ behavior: quieto ? 'auto' : 'smooth', block: 'center' });
+
+    /* Y si el desplazamiento suave no llegó, se salta y listo.
+       Toda esta función depende de que la pantalla efectivamente baje:
+       si no baja, tocar un día resalta tarjetas que quedaron abajo del
+       borde y parece que la app no hizo nada. Prefiero un salto seco a
+       eso. Medio segundo alcanza para cualquier animación. */
+    if (quieto) return;
+    setTimeout(() => {
+      const y = primera.getBoundingClientRect().top;
+      if (y < 0 || y > window.innerHeight)
+        primera.scrollIntoView({ behavior: 'auto', block: 'center' });
+    }, 500);
+  }
+
+  if (await traer()){
+    dibujar();
+    montarCalendario(cajaCal, publicaciones,
+      iso => mostrarDia(iso),
+      (anio, mes) => abrirMes(`${anio}-${String(mes).padStart(2,'0')}`));
+  }
 
   /* Realtime: si el equipo publica algo, aparece sin recargar */
   db.channel('agenda-viva')
     .on('postgres_changes', { event:'*', schema:'public', table:'publicaciones' },
-        async () => { if (await traer()) dibujar(); })
+        async () => {
+          recordarAbiertos();
+          if (!await traer()) return;
+          dibujar();
+          /* El calendario se rehace para que la fecha nueva aparezca
+             marcada. Vuelve al mes en curso, que es aceptable: esto
+             pasa cuando el equipo publica algo, no mientras navegás. */
+          montarCalendario(cajaCal, publicaciones,
+            iso => mostrarDia(iso),
+            (anio, mes) => abrirMes(`${anio}-${String(mes).padStart(2,'0')}`));
+        })
     .subscribe();
 
 })();

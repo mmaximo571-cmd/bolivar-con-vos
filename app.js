@@ -120,6 +120,14 @@ function armarISO(anio, mes, dia){
   return `${anio}-${String(mes).padStart(2,'0')}-${String(dia).padStart(2,'0')}`;
 }
 
+/* El día de al lado. Se hace todo en UTC y se lee en UTC: con la hora
+   local, en husos negativos como el nuestro, el día se corre para atrás. */
+function isoVecino(iso, paso){
+  const [a, m, d] = String(iso).slice(0,10).split('-').map(Number);
+  const t = new Date(Date.UTC(a, m - 1, d + paso));
+  return `${t.getUTCFullYear()}-${String(t.getUTCMonth()+1).padStart(2,'0')}-${String(t.getUTCDate()).padStart(2,'0')}`;
+}
+
 /* ¿Esta publicación cae en este día? Contempla los rangos de varios días. */
 function caeEnElDia(p, iso){
   if (!p.fecha_desde) return false;
@@ -134,14 +142,29 @@ function caeEnElDia(p, iso){
   publicaciones : las filas de la tabla publicaciones
   alElegirDia   : función que recibe (iso, publicacionesDeEseDia). Si el
                   estudiante deselecciona, recibe (null, []).
+  alCambiarMes  : opcional. Recibe (anio, mes) cada vez que se cambia de
+                  mes, y una vez al montarse. Lo usa «Fechas» para abrir
+                  abajo el grupo del mes que se está mirando arriba.
 */
-function montarCalendario(caja, publicaciones, alElegirDia){
+function montarCalendario(caja, publicaciones, alElegirDia, alCambiarMes){
   const hoy   = hoyISO();
   const parteHoy = partesFecha(hoy);
 
   let anio = parteHoy.anio;
   let mes  = parteHoy.mes;      // 1-12
   let elegido = null;
+
+  /* La referencia nombra SOLO las líneas que de verdad tienen fechas
+     cargadas. Una leyenda que explica un color que no está en la
+     grilla no ayuda: hace dudar de si uno se perdió algo. */
+  function referencia(){
+    const presentes = Object.keys(NOMBRE_LINEA)
+      .filter(l => publicaciones.some(p => p.linea === l && p.fecha_desde));
+    if (!presentes.length) return '';
+    return `<div class="cal-referencia">${presentes.map(l =>
+      `<span><i class="cal-punto ${esc(l)}"></i> ${esc(NOMBRE_LINEA[l])}</span>`
+    ).join('')}</div>`;
+  }
 
   caja.innerHTML = `
     <div class="calendario">
@@ -151,11 +174,7 @@ function montarCalendario(caja, publicaciones, alElegirDia){
         <button class="cal-flecha" id="cal-despues" aria-label="Mes siguiente">›</button>
       </div>
       <div class="cal-grilla" id="cal-grilla"></div>
-      <div class="cal-referencia">
-        <span><i class="cal-punto info"></i> Facultad</span>
-        <span><i class="cal-punto gremial"></i> La Bolívar</span>
-        <span><i class="cal-punto saberes"></i> Saberes colectivos</span>
-      </div>
+      ${referencia()}
     </div>`;
 
   const grilla    = caja.querySelector('#cal-grilla');
@@ -172,7 +191,9 @@ function montarCalendario(caja, publicaciones, alElegirDia){
     const primerDia   = (new Date(anio, mes-1, 1).getDay() + 6) % 7;
     const diasDelMes  = new Date(anio, mes, 0).getDate();
 
-    let html = ['L','M','M','J','V','S','D']
+    /* Miércoles va con X, como en el calendario del inicio: con dos M
+       seguidas no se sabe cuál es martes. */
+    let html = ['L','M','X','J','V','S','D']
       .map(d => `<div class="cal-nombre-dia">${d}</div>`).join('');
 
     for (let i = 0; i < primerDia; i++)
@@ -182,12 +203,20 @@ function montarCalendario(caja, publicaciones, alElegirDia){
       const iso   = armarISO(anio, mes, d);
       const suyas = publicacionesDe(iso);
 
-      /* Un punto por línea editorial presente, hasta tres */
-      const lineas = [...new Set(suyas.map(p => p.linea))].slice(0,3);
-      const puntos = lineas.length
-        ? `<span class="cal-puntos">${lineas.map(l =>
-             `<i class="cal-punto ${esc(l)}"></i>`).join('')}</span>`
-        : `<span class="cal-puntos"></span>`;
+      /* Una FRANJA por línea presente, no un punto por día.
+         La diferencia no es estética: una inscripción que dura tres
+         semanas es UNA cosa, y marcada con veinte puntos iguales se
+         lee como veinte. Estirada, se lee como el período que es, y
+         el resto de los días vuelven a destacarse por contraste. */
+      const lineas = [...new Set(suyas.map(p => p.linea))].slice(0, 2);
+      const franjas = lineas.map((l, i) => {
+        const sigue = vecino =>
+          publicaciones.some(p => p.linea === l && caeEnElDia(p, vecino));
+        return `<span class="cal-barra ${esc(l)}${
+          sigue(isoVecino(iso, -1)) ? ' sigue-izq' : ''}${
+          sigue(isoVecino(iso,  1)) ? ' sigue-der' : ''}${
+          i ? ' segunda' : ''}"></span>`;
+      }).join('');
 
       const clases = ['cal-dia'];
       if (suyas.length) clases.push('con-cosas'); else clases.push('apagado');
@@ -198,7 +227,7 @@ function montarCalendario(caja, publicaciones, alElegirDia){
                  ${suyas.length ? '' : 'disabled'}
                  aria-label="${d} de ${MESES_LARGO[mes-1]}${
                    suyas.length ? ', ' + suyas.length + ' actividad' + (suyas.length>1?'es':'') : ''}">
-                 <span>${d}</span>${puntos}</button>`;
+                 <span class="cal-numero">${d}</span>${franjas}</button>`;
     }
 
     grilla.innerHTML = html;
@@ -215,14 +244,18 @@ function montarCalendario(caja, publicaciones, alElegirDia){
     if (b && !b.disabled) elegir(b.dataset.dia);
   });
 
-  caja.querySelector('#cal-antes').onclick = () => {
-    mes--; if (mes < 1){ mes = 12; anio--; } dibujar();
-  };
-  caja.querySelector('#cal-despues').onclick = () => {
-    mes++; if (mes > 12){ mes = 1; anio++; } dibujar();
-  };
+  function irAlMes(paso){
+    mes += paso;
+    if (mes < 1){ mes = 12; anio--; }
+    if (mes > 12){ mes = 1;  anio++; }
+    dibujar();
+    if (alCambiarMes) alCambiarMes(anio, mes);
+  }
+  caja.querySelector('#cal-antes').onclick   = () => irAlMes(-1);
+  caja.querySelector('#cal-despues').onclick = () => irAlMes(1);
 
   dibujar();
+  if (alCambiarMes) alCambiarMes(anio, mes);
 }
 
 /* ------------------------------------------------------------
