@@ -235,7 +235,6 @@
              aria-label="Buscar trámites">
     </div>
 
-    <div class="chips" id="chips"></div>
     <div id="lista" style="margin-top:10px"></div>`;
 
   /* La ventanita donde se lee cada ficha */
@@ -247,28 +246,36 @@
       </div>
     </div>`);
 
-  const chips  = document.getElementById('chips');
   const lista  = document.getElementById('lista');
   const filtro = document.getElementById('filtro');
   const fondo  = document.getElementById('hoja-fondo');
   const cuerpo = document.getElementById('hoja-cuerpo');
 
-  let catActiva = idCat ? Number(idCat) : 0;   // 0 = todas
+  /* Qué grupos están abiertos. Hace falta guardarlo acá afuera porque
+     la lista se vuelve a dibujar entera con cada tecla del buscador:
+     sin esto, escribir una letra cerraría todo lo que abriste. */
+  const abiertos = new Set();
 
-  chips.innerHTML =
-    `<button class="chip" data-cat="0">Todo</button>` +
-    categorias.map(c => `<button class="chip" data-cat="${c.id}"><span class="chip-icono">${iconoDeCategoria(c)}</span>${esc(c.nombre)}</button>`).join('');
+  /* Si llegaste con un enlace directo a una categoría —desde el inicio,
+     o desde un enlace pegado en Instagram— esa llega abierta. */
+  if (idCat) abiertos.add(String(Number(idCat)));
 
-  chips.addEventListener('click', function(ev){
-    const b = ev.target.closest('.chip');
-    if (!b) return;
-    catActiva = Number(b.dataset.cat);
-    const url = new URL(location.href);
-    if (catActiva) url.searchParams.set('categoria', catActiva);
-    else           url.searchParams.delete('categoria');
-    history.replaceState(null, '', url);
-    dibujar();
-  });
+  /* Antes de redibujar se mira el DOM y se anota qué quedó abierto.
+     Se hace así y no escuchando el evento «toggle» porque el navegador
+     también lo dispara al insertar un grupo que ya viene abierto: los
+     que abre la búsqueda sola quedaban anotados como si los hubieras
+     abierto vos, y al borrar la búsqueda seguían abiertos.
+
+     Mientras se busca no se anota nada: en ese momento están abiertos
+     los que tienen resultados, no los que elegiste. */
+  let ultimaFueBusqueda = false;
+
+  function recordarAbiertos(){
+    lista.querySelectorAll('details.grupo').forEach(d => {
+      if (d.open) abiertos.add(d.dataset.grupo);
+      else        abiertos.delete(d.dataset.grupo);
+    });
+  }
 
   filtro.addEventListener('input', dibujar);
 
@@ -358,18 +365,15 @@
 
   /* ---------- El listado ---------- */
   function dibujar(){
-    [...chips.children].forEach(b =>
-      b.setAttribute('aria-pressed', Number(b.dataset.cat) === catActiva ? 'true' : 'false'));
+    if (!ultimaFueBusqueda) recordarAbiertos();
 
     const q = normalizar(filtro.value.trim());
 
     const t = tramites.filter(x =>
-      (!catActiva || x.categoria_id === catActiva) &&
-      (!q || normalizar(x.titulo + ' ' + (x.resumen || '') + ' ' + (x.palabras_clave || '')).includes(q)));
+      !q || normalizar(x.titulo + ' ' + (x.resumen || '') + ' ' + (x.palabras_clave || '')).includes(q));
 
     const f = preguntas.filter(x =>
-      (!catActiva || x.categoria_id === catActiva) &&
-      (!q || normalizar(x.pregunta + ' ' + x.respuesta).includes(q)));
+      !q || normalizar(x.pregunta + ' ' + x.respuesta).includes(q));
 
     if (!t.length && !f.length){
       lista.innerHTML = `<div class="vacio">
@@ -377,6 +381,7 @@
             ? 'No hay nada que coincida con esa búsqueda.'
             : 'Todavía no hay trámites cargados.<br>El equipo de la agrupación los va a ir sumando.'}
         </div>`;
+      ultimaFueBusqueda = !!q;
       return;
     }
 
@@ -393,34 +398,54 @@
         </button>`;
     };
 
+    /* Mientras se busca, los grupos con resultados se abren solos: si
+       no, la búsqueda diría «hay 3» y no se vería ninguno. Se abren
+       sin anotarse como abiertos, así al borrar la búsqueda la
+       pantalla vuelve a como la habías dejado. */
+    const buscando = !!q;
+
+    const grupo = (clave, encabezado, dentro, cuantos) => `
+      <details class="grupo" data-grupo="${clave}"
+               ${buscando || abiertos.has(clave) ? 'open' : ''}>
+        <summary>
+          <span class="nombre-grupo">${encabezado}</span>
+          <span class="cuenta-grupo">${cuantos}</span>
+          <span class="flecha" aria-hidden="true">▼</span>
+        </summary>
+        <div class="cuerpo-grupo">${dentro}</div>
+      </details>`;
+
     /* Agrupado por categoría, en el orden en que están las categorías */
     let html = '';
     categorias.forEach(c => {
       const suyos = t.filter(x => x.categoria_id === c.id);
       if (!suyos.length) return;
-      html += `<div class="titulo-seccion"><span class="titulo-icono">${iconoDeCategoria(c)}</span>${esc(c.nombre)}
-          <span class="cuenta-grupo">${suyos.length}</span></div>
-        <div class="rejilla-fichas">${suyos.map(cuadro).join('')}</div>`;
+      html += grupo(String(c.id),
+        `<span class="titulo-icono">${iconoDeCategoria(c)}</span>${esc(c.nombre)}`,
+        `<div class="rejilla-fichas">${suyos.map(cuadro).join('')}</div>`,
+        suyos.length);
     });
 
     /* Los que no tengan categoría, si alguna vez pasa */
     const huerfanos = t.filter(x => !categorias.some(c => c.id === x.categoria_id));
     if (huerfanos.length){
-      html += `<div class="titulo-seccion">OTROS</div>
-        <div class="rejilla-fichas">${huerfanos.map(cuadro).join('')}</div>`;
+      html += grupo('otros', 'OTROS',
+        `<div class="rejilla-fichas">${huerfanos.map(cuadro).join('')}</div>`,
+        huerfanos.length);
     }
 
     if (f.length){
-      html += `<div class="titulo-seccion">PREGUNTAS FRECUENTES</div>
-        <div class="lista">` +
-        f.map(x => `
+      html += grupo('faq', 'PREGUNTAS FRECUENTES',
+        `<div class="lista">` + f.map(x => `
           <details class="tarjeta">
             <summary>${esc(x.pregunta)}</summary>
             <div class="respuesta">${escMulti(x.respuesta)}</div>
-          </details>`).join('') + `</div>`;
+          </details>`).join('') + `</div>`,
+        f.length);
     }
 
     lista.innerHTML = html;
+    ultimaFueBusqueda = buscando;
   }
 
   dibujar();

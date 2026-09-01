@@ -554,6 +554,39 @@ svg.ico{width:1em;height:1em;display:block;flex:0 0 auto}
 }
 .titulo-seccion a:hover{color:var(--texto)}
 
+/* --- Grupos plegables ---
+   Ocho títulos apilados entran juntos en la pantalla de un celular;
+   ocho rejillas de cuadraditos, no: había que barrer con el pulgar
+   para saber qué existía. Cerrados de entrada, se abre lo que
+   interesa, y el índice completo se lee de un vistazo.
+
+   Es <details>, no un div con JavaScript: el teclado ya lo abre con
+   Enter, el lector de pantalla ya dice si está abierto o cerrado, y
+   el navegador ya lo encuentra al buscar dentro de la página. */
+.grupo{border-bottom:1px solid var(--linea)}
+.grupo > summary{
+  font-family:var(--fuente-titulo);font-weight:400;font-size:17px;
+  text-transform:uppercase;line-height:1.15;
+  display:flex;align-items:center;gap:9px;
+  padding:14px 2px;cursor:pointer;list-style:none
+}
+.grupo > summary::-webkit-details-marker{display:none}
+.grupo > summary::marker{content:''}
+.grupo > summary .nombre-grupo{flex:1;min-width:0}
+/* La flecha no es decorado: sin ella un título suelto no se lee como
+   algo que se toca. Gira para decir en qué estado quedó. */
+.grupo > summary .flecha{
+  flex:0 0 auto;font-size:13px;color:var(--texto-suave);
+  transition:transform .18s ease
+}
+.grupo[open] > summary .flecha{transform:rotate(180deg)}
+.grupo > summary:hover{color:var(--celeste)}
+.grupo > summary:focus-visible{outline:3px solid var(--celeste);outline-offset:2px}
+.grupo .cuerpo-grupo{padding-bottom:12px}
+@media (prefers-reduced-motion:reduce){
+  .grupo > summary .flecha{transition:none}
+}
+
 /* ============================================================
    LOS OBJETOS IMPRESOS
 
@@ -1515,7 +1548,11 @@ body.antes-de-entrar{padding-bottom:0}  /* apertura y bienvenida a pantalla comp
 .tarjeta-cuadro .nombre{
   font-family:var(--fuente-sub);font-weight:700;font-size:11px;line-height:1.16;
   text-transform:uppercase;letter-spacing:0;
-  display:-webkit-box;-webkit-line-clamp:7;-webkit-box-orient:vertical;overflow:hidden
+  display:-webkit-box;-webkit-line-clamp:7;-webkit-box-orient:vertical;overflow:hidden;
+  /* «FONOAUDIOLOGÍA» no entra en una columna de un tercio de pantalla:
+     sin esto la palabra se sale de la tarjeta y se lee «FONOAUDIOLC».
+     Corta solo cuando no hay más remedio, no en cada renglón. */
+  overflow-wrap:anywhere
 }
 @media (min-width:560px){
   .tarjeta-cuadro .nombre{font-size:12px;-webkit-line-clamp:6}

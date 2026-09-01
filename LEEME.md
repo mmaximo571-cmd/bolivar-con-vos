@@ -133,6 +133,44 @@ lista, los leídos que ya no existen se descartan solos.
   las políticas son por usuario, no por rol. Ni una cuenta de equipo puede ver
   la preparación de otra persona.
 
+### Los programas se cargan arrastrando el PDF
+
+Son cincuenta y tres materias entre las tres carreras, y las cátedras publican
+programas nuevos todos los años. Pegarlos a mano en el formulario era una tarde
+entera por carrera, cada año. En **Panel → Programas → «Cargar desde PDF»** se
+arrastran los PDFs y salen leídos.
+
+**El PDF no se manda a ningún lado para leerlo.** `lib/pdf.js` le saca el texto
+en el teléfono o la computadora de quien lo sube, y `lib/leer-programa.js` lo
+corta en unidades y textos. Al servidor viaja el resultado, y el archivo solo
+si se pide guardarlo. Antes de correr esto hay que correr
+**`tabla-programas-pdf.sql`** una vez: crea el depósito `programas` y le agrega
+cuatro columnas a la tabla (`pdf_url`, `pdf_nombre`, `origen`, `revisado`).
+
+**Nada se guarda solo.** Se leen todos, se muestra qué entendió de cada uno
+—cuántas unidades, cuántos textos, qué no pudo— y recién ahí se guarda. Entran
+como **borrador**, no publicados. Esa demora es a propósito: un programa mal
+leído que se publica solo aparece meses después, cuando alguien ya estudió con
+él.
+
+**El parser acierta bastante, no siempre, y eso está asumido.** Los programas de
+la facultad no tienen un formato único: conviven al menos cuatro. Sobre los 56
+archivos de 2026 reconoce las 53 materias reales (los otros 3 son cronogramas,
+no programas) y saca 340 unidades y unos 2.750 textos. De esos textos, cerca de
+la mitad quedan con autor y año separados en campos; **el resto queda con la
+cita entera en el título**, que se lee bien igual. Lo que no puede partir no lo
+inventa: antes que un autor que dice «Buenos Aires. Año», deja el campo vacío.
+
+**Lo que no reconoce no se pierde.** El botón «Abrir» de cada renglón lleva al
+formulario de siempre con lo que sí pudo leer ya puesto, así igual nadie tiene
+que copiar y pegar desde el visor de PDF.
+
+**El PDF original se guarda además del programa leído**, y aparece como «Ver el
+programa oficial» en la ficha de la materia, antes de empezar a preparar el
+final. Las dos cosas hacen falta: las unidades son lo que se tilda, y el PDF es
+el papel de la cátedra —el que se mira si alguien duda de si la app leyó bien,
+y el que se lleva a Alumnado para legalizar.
+
 **El reloj de estudio** son 25 y 5, con empezar, pausar y reiniciar. Lo único
 que se le agregó al método: cuando termina un bloque, avisa que marques el
 texto que avanzaste. Sin eso sería un cronómetro que casualmente está en esa
@@ -506,10 +544,34 @@ un enlace afuera, y antes no había forma de saberlo sin entrar.
 Antes esto era una tira de 34 tarjetas sin un solo encabezado. Ahora tiene ocho
 grupos con su cuenta al lado.
 
+**Los grupos vienen cerrados y se abren de a uno.** Con todos abiertos, la
+pantalla del celular mostraba un grupo y medio: para saber qué existía había que
+barrer con el pulgar cinco pantallas. Cerrados, los nueve títulos entran juntos
+y el índice completo se lee de un vistazo. Había además una fila de chips arriba
+para filtrar por categoría; se sacó porque hacía dos veces el mismo trabajo, y
+encima horizontal: los nombres largos se salían de la pantalla y había que
+arrastrarla al costado para ver que existía «Extensión».
+
+Son `<details>`, no divs con JavaScript: el teclado ya los abre con Enter, el
+lector de pantalla ya dice si están abiertos, y Ctrl+F del navegador los
+encuentra por dentro.
+
+**El buscador se quedó, y abre solo los grupos que tienen resultados.** Si no,
+diría «hay 3» y no se vería ninguno. Esos grupos se abren **sin anotarse** como
+abiertos: al borrar la búsqueda la pantalla vuelve exactamente a como la
+dejaste. Por eso el estado abierto se lee del DOM antes de redibujar y no se
+escucha el evento `toggle`: el navegador también lo dispara al insertar un
+grupo que ya viene abierto, y los que abría la búsqueda quedaban pegados.
+
+**El enlace `?categoria=N` sigue andando**: llega con ese grupo abierto. Son
+direcciones que ya están pegadas en Instagram.
+
 En el celular los cuadrados son un poco más altos que anchos, a propósito: con
 109 píxeles de lado, títulos como «Plan de estudios: Licenciatura en Trabajo
 Social» se cortaban en el mismo punto y tres fichas distintas quedaban
-idénticas.
+idénticas. Y el título parte la palabra si no hay más remedio
+(`overflow-wrap:anywhere`): sin eso «Fonoaudiología» no entraba en una columna
+de un tercio de pantalla y se leía «Fonoaudiolc».
 
 ### La alarma de inscripción
 
