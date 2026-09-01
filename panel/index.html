@@ -1048,6 +1048,20 @@
          Cada estudiante se lleva una copia al empezar a preparar el final, y
          puede editarla. Corregir el programa acá no le reescribe el plan a
          quien ya lo empezó.</p>` +
+
+      /* Los programas cargados desde PDF entran como borrador, y en
+         borrador no los ve nadie: la pantalla de la materia solo pide
+         los publicados. Cargar 45 de una y después tener que abrirlos
+         de a uno para publicarlos no era una revisión cuidadosa, era
+         un castigo. Este botón aparece solo si hay borradores. */
+      (data.some(p => !p.publicado)
+        ? `<div class="aviso" style="margin-bottom:10px">
+             Hay <b>${data.filter(p => !p.publicado).length}</b> en borrador.
+             Mientras estén así no los ve ningún estudiante.
+             <button class="boton ancho" id="publicar-todos" style="margin-top:8px">
+               Publicar los ${data.filter(p => !p.publicado).length}</button>
+           </div>`
+        : '') +
       (data.length ? data.map(p => `
         <button class="tarjeta" data-id="${p.id}">
           <h3>${esc(p.materia)}</h3>
@@ -1063,6 +1077,24 @@
 
     document.getElementById('nuevo').onclick = () => formularioPrograma(null);
     document.getElementById('desde-pdf').onclick = () => vistaProgramasPDF(data);
+
+    const publicarTodos = document.getElementById('publicar-todos');
+    if (publicarTodos) publicarTodos.onclick = async function(){
+      const borradores = data.filter(p => !p.publicado);
+      if (!confirm('¿Publicar ' + borradores.length + ' programas?\n\n' +
+                   'A partir de ahí los estudiantes los ven al preparar un final. ' +
+                   'Se puede volver atrás uno por uno.')) return;
+      this.disabled = true; this.textContent = 'Publicando…';
+      const { error } = await db.from('programas')
+        .update({ publicado: true })
+        .in('id', borradores.map(p => p.id));
+      if (error){
+        this.disabled = false; this.textContent = 'Publicar los ' + borradores.length;
+        alert('No se pudieron publicar: ' + error.message);
+        return;
+      }
+      vistaProgramas();
+    };
     zona.querySelectorAll('.tarjeta[data-id]').forEach(b => {
       b.onclick = () => formularioPrograma(data.find(x => x.id === Number(b.dataset.id)));
     });
