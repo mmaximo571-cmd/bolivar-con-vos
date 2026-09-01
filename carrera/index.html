@@ -425,7 +425,7 @@ function pintarProgreso(){
   const prom = promedio();
 
   document.getElementById('progreso').innerHTML = `
-    <div class="barra"><div class="barra-llena" style="width:${pct}%"></div></div>
+    <div class="barra"><div class="barra-llena" style="--llena:${pct}"></div></div>
     <div class="progreso-datos">
       <div><strong>${aprobadas}</strong> de ${total} materias aprobadas</div>
       <div>${pct}% de la carrera</div>
@@ -1002,14 +1002,43 @@ function pantallaNota(cod, esNueva){
   setTimeout(() => campo.focus(), 260);
 }
 
+/* El paso entre el detalle de la materia y la pantalla de la nota.
+
+   Va con element.animate() en vez de una clase CSS por dos motivos.
+
+   El primero es que el sentido importa: ir del detalle a la nota es
+   avanzar, y volver es volver. Si las dos entran desde el mismo lado,
+   la segunda se lee como si fuera otra pantalla nueva en vez de la
+   anterior. Una clase sola no sabe para qué lado va; acá sí.
+
+   El segundo es que antes esto era un @keyframes que se reiniciaba
+   con `void visible.offsetWidth`. Esa línea existe solo para forzar al
+   navegador a recalcular la página entera en ese instante —es la única
+   forma de hacer que un keyframe vuelva a empezar— y se pagaba en cada
+   cambio de pantalla. element.animate() arranca cuando se lo llama, sin
+   pedirle nada al layout, corre en la placa de video igual que el CSS,
+   y devuelve el objeto para poder cortarlo si alguien cambia de
+   pantalla antes de que termine. */
+let pasoDePantalla = null;
 function mostrarPantalla(cual){
   const esNota = cual === 'nota';
   cuerpo.hidden   = esNota;
   cajaNota.hidden = !esNota;
   const visible = esNota ? cajaNota : cuerpo;
-  visible.classList.remove('entra');
-  void visible.offsetWidth;          /* reinicia la animación */
-  visible.classList.add('entra');
+
+  const quieto = menosMovimiento();
+
+  if (pasoDePantalla) pasoDePantalla.cancel();
+  /* Avanzar entra desde la derecha; volver, desde la izquierda. Con
+     menos movimiento se queda solo el fundido, que sigue diciendo que
+     la pantalla cambió sin correr nada de lugar. */
+  const desde = quieto ? 0 : (esNota ? 14 : -14);
+  pasoDePantalla = visible.animate(
+    [{ opacity: 0, transform: `translateX(${desde}px)` },
+     { opacity: 1, transform: 'translateX(0)' }],
+    { duration: quieto ? 180 : 220,
+      easing: 'cubic-bezier(0.23, 1, 0.32, 1)' });
+
   hoja.setAttribute('aria-labelledby', esNota ? 'nota-titulo' : 'hoja-titulo');
 
   /* Al volver al detalle, el foco va al título de la materia: si no,
@@ -1250,11 +1279,25 @@ function quizasInvitarAInstalar(){
     'solo después de unos días sin que la abras.');
 }
 
-function cerrarHoja(){
-  const quieto = window.matchMedia &&
-    window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+/* EL CIERRE ESPERA AL MOVIMIENTO, NO AL RELOJ.
 
+   Antes acá había un setTimeout de 220 milisegundos, que era una copia
+   a mano de la duración escrita en estilos.css. Dos números que
+   significan lo mismo en dos archivos distintos: el día que alguien
+   ajusta la curva de la hoja y no se acuerda de venir hasta acá, la
+   hoja se esconde antes de terminar de salir —o se queda un rato de
+   más, tapando la pantalla sin motivo.
+
+   Ahora se escucha el final de la transición. La duración vive en un
+   solo lugar. El respaldo por tiempo queda para el caso en que la
+   transición ni siquiera arranque —pestaña en segundo plano, sistema
+   con las animaciones apagadas—, porque una hoja que no se cierra deja
+   la app inalcanzable, y eso es peor que un cierre sin animación. */
+let cerrandoHoja = null;
+function cerrarHoja(){
   const terminar = () => {
+    clearTimeout(cerrandoHoja);
+    cerrandoHoja = null;
     fondo.classList.remove('cerrando');
     fondo.hidden = true;
     document.body.style.overflow = '';
@@ -1264,9 +1307,16 @@ function cerrarHoja(){
     setTimeout(quizasInvitarAInstalar, 500);
   };
 
-  if (quieto || fondo.hidden) { terminar(); return; }
+  if (fondo.hidden) return;
+  /* Tocar cerrar dos veces mientras se está cerrando no tiene que
+     agendar dos cierres: pintaría el progreso y ofrecería instalar dos
+     veces. */
+  if (cerrandoHoja !== null) return;
+
+  const hoja = fondo.querySelector('.hoja');
+  hoja.addEventListener('transitionend', terminar, { once:true });
+  cerrandoHoja = setTimeout(terminar, 600);
   fondo.classList.add('cerrando');
-  setTimeout(terminar, 220);
 }
 
 document.getElementById('hoja-cerrar').addEventListener('click', cerrarHoja);
@@ -1469,7 +1519,7 @@ async function vistaElegir(filas){
       <button class="tarjeta prep" data-abrir="${f.id}">
         <span class="prep-cuenta ${d !== null && d >= 0 && d <= 7 ? 'cerca' : ''}">${textoCuenta(d)}</span>
         <h3>${esc(f.materia)}</h3>
-        <div class="barra"><div class="barra-llena" style="width:${pct}%"></div></div>
+        <div class="barra"><div class="barra-llena" style="--llena:${pct}"></div></div>
         <p class="motivo"><strong>${hechos}</strong> de ${total} textos leídos</p>
       </button>`;
   }).join('');
@@ -1653,7 +1703,7 @@ function vistaPreparacion(p){
     <div class="prep-cabecera">
       <span class="prep-cuenta ${dias !== null && dias >= 0 && dias <= 7 ? 'cerca' : ''}">${textoCuenta(dias)}</span>
       <h3 class="prep-materia">${esc(p.materia)}</h3>
-      <div class="barra"><div class="barra-llena" style="width:${pct}%"></div></div>
+      <div class="barra"><div class="barra-llena" style="--llena:${pct}"></div></div>
       <p class="prep-datos">
         <strong>${leidos.length}</strong> de ${total} textos
         ${ritmo ? `· <b>${ritmo}</b> por día para llegar` : ''}
@@ -1839,7 +1889,7 @@ function pintarPomodoro(){
     <div class="pomo ${pomoEsDescanso ? 'descanso' : ''} ${pomoAndando ? 'andando' : ''}">
       <span class="pomo-rotulo">${pomoEsDescanso ? 'Descanso' : 'Concentración'}</span>
       <div class="pomo-reloj" role="timer" aria-live="off">${min}:${seg}</div>
-      <div class="pomo-barra"><div style="width:${100 - (pomoQueda / total * 100)}%"></div></div>
+      <div class="pomo-barra"><div style="--llena:${100 - (pomoQueda / total * 100)}"></div></div>
       <div class="pomo-botones">
         <button class="boton" id="pomo-arranca">${pomoAndando ? 'Pausar' : 'Empezar'}</button>
         <button class="boton borde" id="pomo-reinicia">Reiniciar</button>
@@ -1866,7 +1916,8 @@ function arrancarPomodoro(){
     if (!r) return pararPomodoro();
     r.textContent = String(Math.floor(pomoQueda / 60)).padStart(2, '0') + ':' +
                     String(pomoQueda % 60).padStart(2, '0');
-    if (b) b.style.width = (100 - (pomoQueda / (pomoEsDescanso ? DESCANSO : CONCENTRA) * 100)) + '%';
+    if (b) b.style.setProperty('--llena',
+      100 - (pomoQueda / (pomoEsDescanso ? DESCANSO : CONCENTRA) * 100));
   }, 1000);
   pintarPomodoro();
 }
@@ -1894,11 +1945,27 @@ function terminarBloque(){
   }
   pintarPomodoro();
 
-  /* Un aviso que se lee, no un sonido que asusta en la biblioteca */
+  /* Un aviso que se lee, no un sonido que asusta en la biblioteca.
+
+     Antes el borde titilaba en rojo durante 2,4 segundos. Eran tres
+     problemas: un borde de 1,5 px no se ve con el ojo puesto en el
+     libro, que es donde está el ojo de quien acaba de estudiar
+     veinticinco minutos; 2,4 segundos son largos para ignorar y cortos
+     para atender; y ese 2400 era otra copia a mano de una duración
+     escrita en el CSS.
+
+     Ahora la tarjeta entera da un golpe corto —eso sí se ve de reojo—
+     y el rojo se queda hasta que la persona hace algo, que es cuando
+     el aviso deja de tener trabajo. La duración la sabe el CSS y acá
+     no se repite: se espera el final de la animación. */
   const caja = document.querySelector('.pomo');
   if (caja){
     caja.classList.add('sono');
-    setTimeout(() => caja.classList.remove('sono'), 2400);
+    caja.addEventListener('animationend',
+      () => caja.classList.remove('sono'), { once:true });
+    /* Por si la animación no corre (menos movimiento, pestaña de
+       fondo): el rojo igual se retira solo a los pocos segundos. */
+    setTimeout(() => caja.classList.remove('sono'), 4000);
   }
   avisoFinal(eraConcentracion
     ? 'Terminaste un bloque. Si avanzaste con un texto, marcalo arriba.'
@@ -1906,11 +1973,43 @@ function terminarBloque(){
   setTimeout(() => avisoFinal(''), 8000);
 }
 const PESTANAS = ['plan', 'final', 'mapa', 'todo'];
+const filaPestanas = document.querySelector('.pestanas');
+
+/* EL SUBRAYADO VIAJA DE UNA PESTAÑA A LA OTRA.
+
+   Antes el subrayado se apagaba en una y se prendía en la otra. Eso
+   dice cuál quedó elegida, pero se pierde lo otro que hace falta
+   entender: de dónde vino y para qué lado se movió. Cuando la barra
+   recorre el camino, la pantalla que aparece abajo se lee como
+   consecuencia del gesto; cuando salta, se lee como que la app cambió
+   de tema por su cuenta.
+
+   Acá solo se miden las dos cosas que el CSS no puede saber —dónde
+   empieza la pestaña elegida y cuánto mide— y se las pasa en dos
+   variables. Mover y estirar la barra lo hace el CSS con transform,
+   que es gratis. Se mide DESPUÉS de cambiar el aria-selected porque la
+   pestaña elegida lleva negrita y eso le cambia el ancho.
+
+   offsetLeft y no getBoundingClientRect: la fila se desliza de costado
+   cuando las cuatro no entran, y offsetLeft mide contra la fila, que es
+   el sistema de coordenadas de la barra. Con rect habría que restarle
+   el desplazamiento y se rompería al deslizar. */
+function moverSubrayado(){
+  if (!filaPestanas) return;
+  const activa = filaPestanas.querySelector('.pestana[aria-selected="true"]');
+  if (!activa || !activa.offsetWidth) return;
+  /* El ancho va SIN unidad: es el factor de escala de una barra que
+     mide un píxel, no una medida. La posición sí va en píxeles. */
+  filaPestanas.style.setProperty('--pestana-ancho', activa.offsetWidth);
+  filaPestanas.style.setProperty('--pestana-x', activa.offsetLeft + 'px');
+}
+
 function verPestana(cual){
   PESTANAS.forEach(k => {
     document.getElementById('tab-' + k).setAttribute('aria-selected', k === cual);
     document.getElementById('vista-' + k).hidden = k !== cual;
   });
+  moverSubrayado();
   /* El mapa se mide contra el ancho de la pantalla, así que el aviso de
      deslizar hay que recalcularlo cuando la vista ya está visible. */
   if (cual === 'mapa')  pintarMapa();
@@ -1919,6 +2018,17 @@ function verPestana(cual){
 }
 PESTANAS.forEach(k =>
   document.getElementById('tab-' + k).addEventListener('click', () => verPestana(k)));
+
+/* Al arrancar y cada vez que cambia el ancho: las pestañas son
+   flexibles, así que girar el teléfono les cambia la medida y la barra
+   quedaría corrida. Sin la primera llamada no hay barra hasta el primer
+   toque, y el CSS deja el borde de la pestaña elegida mientras tanto. */
+moverSubrayado();
+addEventListener('resize', moverSubrayado, { passive:true });
+/* Las tipografías de la app llegan después del primer dibujo y cambian
+   el ancho del texto: sin esto, la barra queda medida con la letra de
+   respaldo. */
+if (document.fonts && document.fonts.ready) document.fonts.ready.then(moverSubrayado);
 
 /* Desde Estudiemos se llega con #finales: abre la pestaña directamente,
    si no la persona aterriza en «Mi cursada» y tiene que buscarla. */

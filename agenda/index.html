@@ -282,20 +282,52 @@
     const primera = zonas.querySelector('.tarjeta.destacada');
     if (!primera) return;
 
-    const quieto = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const quieto = menosMovimiento();
     primera.scrollIntoView({ behavior: quieto ? 'auto' : 'smooth', block: 'center' });
 
     /* Y si el desplazamiento suave no llegó, se salta y listo.
        Toda esta función depende de que la pantalla efectivamente baje:
        si no baja, tocar un día resalta tarjetas que quedaron abajo del
        borde y parece que la app no hizo nada. Prefiero un salto seco a
-       eso. Medio segundo alcanza para cualquier animación. */
+       eso.
+
+       EL MEDIO SEGUNDO ERA POCO. El desplazamiento suave del navegador
+       no dura lo mismo siempre: cuanto más lejos está el destino, más
+       tarda, y en Chrome pasa holgado los 500 ms si hay que bajar
+       varias pantallas. O sea que el respaldo entraba EN EL MEDIO del
+       movimiento y la página pegaba un segundo salto, seco, arriba del
+       primero. Se veía peor que no tener nada.
+
+       Ahora se espera a que el desplazamiento realmente pare. Donde
+       existe, con el evento «scrollend», que es exactamente eso. Donde
+       no —Safari todavía no lo tiene—, mirando la posición: dos cuadros
+       seguidos sin moverse significa que frenó. Y recién ahí, si el
+       destino igual quedó fuera de la pantalla, se salta. */
     if (quieto) return;
-    setTimeout(() => {
+
+    const revisar = () => {
       const y = primera.getBoundingClientRect().top;
       if (y < 0 || y > window.innerHeight)
         primera.scrollIntoView({ behavior: 'auto', block: 'center' });
-    }, 500);
+    };
+
+    if ('onscrollend' in window){
+      let red = setTimeout(revisar, 1500);   /* por si nunca se movió */
+      addEventListener('scrollend', () => { clearTimeout(red); revisar(); },
+        { once:true });
+      return;
+    }
+
+    let anterior = -1, quietos = 0, cuadros = 0;
+    (function esperarQueFrene(){
+      const y = window.scrollY;
+      /* Tope duro de 1,5 s por si algo lo deja moviéndose para siempre */
+      if (++cuadros > 90) return revisar();
+      quietos = (y === anterior) ? quietos + 1 : 0;
+      anterior = y;
+      if (quietos >= 2) return revisar();
+      requestAnimationFrame(esperarQueFrene);
+    })();
   }
 
   if (await traer()){

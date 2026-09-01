@@ -7,6 +7,42 @@
 const RAIZ = window.RAIZ || './';
 
 /* ------------------------------------------------------------
+   «MENOS MOVIMIENTO», PREGUNTADO CADA VEZ
+
+   Quien tiene vértigo, migraña o sensibilidad al movimiento lo activa
+   en el teléfono y toda la app tiene que hacerle caso. El CSS lo hace
+   solo. El JavaScript no: había cinco lugares que leían la preferencia
+   UNA vez, al cargar la pantalla, y se quedaban con esa respuesta para
+   siempre. Si alguien la activaba con la app abierta —que es
+   exactamente lo que hace quien empezó a marearse— no pasaba nada
+   hasta recargar. Y el carrusel, que es lo primero que marea, seguía
+   corriéndose solo.
+
+   Son dos cosas. La función contesta con el valor de AHORA, así que
+   preguntar es siempre barato y siempre correcto. Y alCambiarMovimiento
+   avisa a quien tenga algo prendido —un reloj, un carrusel— para que lo
+   apague en el momento, sin esperar a la próxima pantalla.
+   ------------------------------------------------------------ */
+const consultaMovimiento = window.matchMedia
+  ? window.matchMedia('(prefers-reduced-motion: reduce)')
+  : null;
+
+function menosMovimiento(){
+  return !!(consultaMovimiento && consultaMovimiento.matches);
+}
+
+function alCambiarMovimiento(hacer){
+  if (!consultaMovimiento) return;
+  /* addEventListener es lo correcto; addListener es lo único que
+     entienden Safari 13 y los Android viejos, que son bastantes de los
+     teléfonos que abren esto. */
+  if (consultaMovimiento.addEventListener)
+    consultaMovimiento.addEventListener('change', e => hacer(e.matches));
+  else if (consultaMovimiento.addListener)
+    consultaMovimiento.addListener(e => hacer(e.matches));
+}
+
+/* ------------------------------------------------------------
    CLIENTE DE SUPABASE
 
    Esta linea es la mas fragil de toda la app: si la libreria no
@@ -416,7 +452,37 @@ function vigilarTitulos(){
   const repasar = () => { marcarTitulos(); ponerLupa(); };
   repasar();
   if (!window.MutationObserver) return;
-  new MutationObserver(repasar)
+
+  /* EL REPASO VA EN LOS RATOS LIBRES, NO EN EL ACTO.
+
+     Este observador mira TODO el body y, cada vez que algo cambia,
+     recorre el documento entero dos veces buscando títulos y lupas.
+     Además escribe innerHTML, o sea que se vuelve a disparar a sí
+     mismo. Sin freno, eso pasaba en cada pintada de lista, en cada
+     mensaje del chat y en cada cuadro de las pantallas que se arman de
+     a pedazos: justo mientras algo se está animando, que es cuando el
+     hilo principal no tiene nada de sobra.
+
+     Con requestIdleCallback el repaso espera a que el navegador haya
+     terminado de dibujar. Nada de esto es urgente —son atributos de
+     accesibilidad y un ícono— y esperar dos cuadros no se nota. Lo que
+     sí se nota es el tirón cuando se hace en el medio.
+
+     El agrupador es lo otro que importa: veinte mutaciones seguidas
+     —que es lo que produce un innerHTML— ahora son UN repaso, no
+     veinte. En navegadores sin requestIdleCallback, un setTimeout de
+     cero cumple la misma función de agrupar. */
+  let pedido = null;
+  const enCuantoSePueda = window.requestIdleCallback
+    ? (fn) => window.requestIdleCallback(fn, { timeout: 500 })
+    : (fn) => setTimeout(fn, 0);
+
+  const agendarRepaso = () => {
+    if (pedido !== null) return;
+    pedido = enCuantoSePueda(() => { pedido = null; repasar(); });
+  };
+
+  new MutationObserver(agendarRepaso)
     .observe(document.body, { childList: true, subtree: true });
 }
 
@@ -482,11 +548,47 @@ function pintarNav(actual){
   const panel = document.getElementById('menu-lateral');
   const boton = document.getElementById('abrir-menu');
 
+  /* El cajón se abre deslizándose desde el borde izquierdo y se cierra
+     por donde vino. La entrada la resuelve el CSS solo con
+     @starting-style: basta con sacarle el hidden.
+
+     La salida no puede: si escondiéramos el panel en el acto, no habría
+     nada que animar. Así que se le pone .cerrando, se espera a que el
+     movimiento TERMINE —el evento, no un número de milisegundos
+     copiado del CSS— y recién ahí se esconde. El respaldo por tiempo
+     está por si la transición nunca se dispara: pestaña en segundo
+     plano, animaciones apagadas por el sistema. Sin ese respaldo, una
+     transición que no arranca deja el cajón trabado en pantalla. */
+  let cerrando = null;
   function abrir(si){
-    fondo.hidden = !si; panel.hidden = !si;
-    if (boton) boton.setAttribute('aria-expanded', si ? 'true' : 'false');
-    document.body.style.overflow = si ? 'hidden' : '';
-    if (si) panel.querySelector('a').focus();
+    clearTimeout(cerrando);
+    if (si){
+      fondo.classList.remove('cerrando');
+      panel.classList.remove('cerrando');
+      fondo.hidden = false; panel.hidden = false;
+      if (boton) boton.setAttribute('aria-expanded', 'true');
+      document.body.style.overflow = 'hidden';
+      panel.querySelector('a').focus();
+      return;
+    }
+
+    if (boton) boton.setAttribute('aria-expanded', 'false');
+    document.body.style.overflow = '';
+    if (panel.hidden) return;
+
+    const guardar = () => {
+      clearTimeout(cerrando);
+      fondo.hidden = true; panel.hidden = true;
+      fondo.classList.remove('cerrando');
+      panel.classList.remove('cerrando');
+      /* El foco vuelve al botón que lo abrió: quien navega con teclado
+         no puede quedar parado sobre algo que ya no está en pantalla. */
+      if (boton) boton.focus();
+    };
+    panel.addEventListener('transitionend', guardar, { once:true });
+    cerrando = setTimeout(guardar, 500);
+    fondo.classList.add('cerrando');
+    panel.classList.add('cerrando');
   }
   if (boton) boton.addEventListener('click', () => abrir(true));
   document.getElementById('cerrar-menu').addEventListener('click', () => abrir(false));
@@ -548,30 +650,51 @@ function pintarAvisanos(){
     document.head.appendChild(s);
   });
 
-  const quieto = window.matchMedia &&
-    window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   let yaSalio = false;
   try { yaSalio = !!sessionStorage.getItem('bolivar-avisanos-visto'); } catch(e){}
 
   /* En el celular no existe el "pasar por encima", así que hay que
      mostrar de alguna forma para qué sirve el botón.
 
-     Antes se abría un globo con la pregunta. El problema es que un
-     cartel que sale solo SIEMPRE tapa algo: tapaba el calendario justo
-     al abrir la pantalla, que es lo que la persona vino a mirar.
+     TRES INTENTOS Y POR QUÉ ESTE.
 
-     Ahora el botón nace con la palabra adentro y se encoge a círculo
-     solo. Nunca ocupa más que su propio lugar en la esquina. */
-  if (!yaSalio && !quieto && window.matchMedia('(hover: none)').matches){
-    boton.classList.add('con-palabra');
-    const encoger = () => {
-      boton.classList.remove('con-palabra');
-      try { sessionStorage.setItem('bolivar-avisanos-visto', '1'); } catch(e){}
-      window.removeEventListener('scroll', encoger);
-    };
-    setTimeout(encoger, 4000);
-    /* Si se pone a leer antes de los 4 segundos, se encoge en el acto */
-    window.addEventListener('scroll', encoger, { passive:true, once:true });
+     El primero fue un globo que salía solo a los pocos segundos de
+     abrir. Tapaba el calendario justo cuando la persona lo estaba
+     mirando, que era a lo que había venido.
+
+     El segundo fue hacer que el botón naciera con la palabra adentro y
+     se encogiera a círculo a los cuatro segundos. Sacaba el problema de
+     tapar, pero traía uno peor: el botón cambiaba de forma solo, en el
+     medio de la lectura, y el cambio era un salto seco. No se podía
+     suavizar sin animar el ancho, que obliga a recalcular la página en
+     cada cuadro. Una interfaz que se transforma sola mientras leés es
+     de las pocas cosas que se sienten mal aunque estén bien hechas.
+
+     Este es el tercero: el globo vuelve, pero espera al primer gesto de
+     SUBIR. Subir significa «terminé de leer esto, busco otra cosa», y
+     es exactamente el momento en que un cartel que dice para qué sirve
+     este botón no molesta a nadie: no hay nada que tapar porque la
+     persona ya no está leyendo, está buscando. Sale una vez por sesión
+     y se va sola a los cuatro segundos, o antes si se vuelve a bajar.
+
+     El botón, mientras tanto, no cambia nunca de forma. */
+  const sinHover = !window.matchMedia ||
+    window.matchMedia('(hover: none)').matches;
+  let globoFuera = null;
+
+  function mostrarGlobo(){
+    /* La preferencia se consulta ACÁ y no al cargar la pantalla: si
+       alguien la activó hace un minuto, el globo ya no sale. */
+    if (yaSalio || !sinHover || menosMovimiento()) return;
+    if (globoFuera !== null) return;
+    boton.classList.add('dice');
+    try { sessionStorage.setItem('bolivar-avisanos-visto', '1'); } catch(e){}
+    globoFuera = setTimeout(esconderGlobo, 4000);
+  }
+  function esconderGlobo(){
+    if (globoFuera === null) return;
+    clearTimeout(globoFuera);
+    boton.classList.remove('dice');
   }
 
   /* El botón está fijo, así que SIEMPRE hay algo tapado abajo a la
@@ -589,7 +712,13 @@ function pintarAvisanos(){
       /* Los saltitos de menos de 6 px no cuentan: si no, el botón
          parpadea con el rebote del dedo. */
       if (Math.abs(y - ultimo) > 6){
-        boton.classList.toggle('apartado', y > ultimo && y > 240);
+        const bajando = y > ultimo && y > 240;
+        boton.classList.toggle('apartado', bajando);
+        /* Subiendo y con la página ya recorrida: es el momento del
+           globo. Bajando, se va, aunque no hayan pasado los 4 segundos:
+           la persona volvió a leer. */
+        if (bajando) esconderGlobo();
+        else if (y > 240) mostrarGlobo();
         ultimo = y;
       }
       pendiente = false;

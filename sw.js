@@ -16,7 +16,7 @@
    no tener fecha: alguien se pierde una mesa por creerle a la app.
    ============================================================ */
 
-const VERSION = 'bolivar-v1';
+const VERSION = 'bolivar-v2';
 const ARMAZON = VERSION + '-armazon';
 const PAGINAS = VERSION + '-paginas';
 
@@ -33,6 +33,16 @@ const DEL_ARMAZON = [
   '/imagenes/icono-512.png',
   '/imagenes/icono-32.png',
   '/imagenes/icono-96.png',
+  /* Las tres capas del logo de la apertura. Van acá porque son lo
+     PRIMERO que se ve al abrir y la animación no puede empezar hasta
+     que estén: bajándolas de la red, cada visita nueva arrancaba con
+     hasta seis décimas de rectángulo amarillo vacío mientras el
+     teléfono además peleaba por el ancho de banda con las consultas de
+     la agenda. Guardadas, la apertura arranca en el primer cuadro y la
+     red queda entera para lo que la persona vino a buscar. */
+  '/marca/map.png',
+  '/marca/simon.png',
+  '/marca/bolivar.png',
   '/sin-conexion.html'
 ];
 

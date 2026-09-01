@@ -180,6 +180,35 @@
   --tinta-borde: #1A1A1A;                /* el borde de las tarjetas */
   --sombra:      2px 2px 0 #1A1A1A;      /* la segunda tinta corrida */
   /* Ya no hay barra fija abajo: la navegacion vive arriba. */
+
+  /* --- EL MOVIMIENTO ---
+
+     Las curvas de la app. Antes cada animación traía la suya escrita a
+     mano y había cinco maneras distintas de decir lo mismo. Ahora son
+     tres, y cada una tiene un trabajo:
+
+     --sale    algo que APARECE o SE VA. Arranca rápido y frena suave.
+               Es la curva por defecto: si dudás, usá esta. Las curvas
+               que vienen con el navegador (ease, ease-out) son
+               demasiado flojas y se sienten pastosas.
+     --ambos   algo que SE MUEVE de un lado a otro estando ya en
+               pantalla, como el carrusel o el subrayado de la pestaña.
+     --cajon   el cajón lateral y las hojas que suben desde abajo. Es
+               la curva de los paneles de iOS: entra decidida y se
+               asienta sin rebote.
+
+     Y las duraciones. La regla es que nada de interfaz pasa de 300 ms.
+     Un menú de 180 ms se siente más rápido que uno de 400, y no es una
+     impresión: la persona ya empezó a leer mientras el otro sigue
+     abriéndose. */
+  --sale:  cubic-bezier(0.23, 1, 0.32, 1);
+  --ambos: cubic-bezier(0.77, 0, 0.175, 1);
+  --cajon: cubic-bezier(0.32, 0.72, 0, 1);
+
+  --t-toque:  140ms;  /* la devolución de apretar algo        */
+  --t-chico:  180ms;  /* globos, subrayados, cambios de color */
+  --t-medio:  220ms;  /* menús, pestañas, el botón flotante   */
+  --t-hoja:   260ms;  /* hojas y cajones: recorren más camino */
 }
 
 /* ============================================================
@@ -418,7 +447,9 @@ button:focus-visible,
   background:transparent;border:none;border-radius:50%;
   font-size:20px;line-height:1;color:var(--sobre-negro);text-decoration:none;padding:0
 }
-.boton-icono:hover{background:rgba(255,255,255,.12)}
+@media (hover:hover) and (pointer:fine){
+  .boton-icono:hover{background:rgba(255,255,255,.12)}
+}
 
 /* Los iconos de Phosphor. No traen color propio: toman el del texto
    que los rodea (fill:currentColor), asi el mismo dibujo sirve en
@@ -452,14 +483,58 @@ svg.ico{width:1em;height:1em;display:block;flex:0 0 auto}
 }
 .secciones-fila a .icono{font-size:18px;line-height:1}
 .secciones-fila a[aria-current="page"]{color:var(--amarillo);border-bottom-color:var(--amarillo)}
+/* Cambio de color, no de posición: la curva que corresponde es la
+   blanda del navegador, y 180 ms alcanza. Es lo único que separa
+   «cambió algo» de «siempre estuvo así». */
+.secciones-fila a{
+  transition:color var(--t-chico) ease,
+             border-bottom-color var(--t-chico) ease
+}
 
-/* --- El menu lateral que abre el boton de la izquierda --- */
-.menu-fondo{position:fixed;inset:0;z-index:90;background:rgba(26,26,26,.55)}
+/* --- El menu lateral que abre el boton de la izquierda ---
+
+   ACÁ EL MOVIMIENTO NO ES ADORNO, ES LA EXPLICACIÓN.
+
+   Este cajón se abría de golpe: aparecía tapando media pantalla sin
+   decir de dónde había salido ni adónde vuelve. Un panel que entra
+   desde el borde izquierdo está diciendo dos cosas al mismo tiempo:
+   «estaba guardado de este lado» y «se cierra empujándolo para allá».
+   Sin eso hay que aprender de memoria dónde está el botón de cerrar.
+
+   Es, además, la superficie que más se toca de toda la app. Que ESTO
+   no tuviera movimiento mientras la pantalla de apertura tenía casi
+   tres segundos de coreografía era tener el presupuesto puesto al
+   revés: todo el gasto en lo que se ve una vez por sesión, y nada en
+   lo que se abre diez veces por día. */
+.menu-fondo{
+  position:fixed;inset:0;z-index:90;background:rgba(26,26,26,.55);
+  opacity:1;
+  transition:opacity var(--t-medio) var(--sale)
+}
 .menu-lateral{
   position:fixed;top:0;left:0;bottom:0;z-index:91;width:min(300px,84vw);
   background:var(--negro);color:var(--sobre-negro);
   display:flex;flex-direction:column;padding:14px 0 18px;
-  box-shadow:4px 0 22px rgba(0,0,0,.3)
+  box-shadow:4px 0 22px rgba(0,0,0,.3);
+  transform:translateX(0);
+  transition:transform var(--t-medio) var(--cajon)
+}
+@starting-style{
+  .menu-fondo{opacity:0}
+  .menu-lateral{transform:translateX(-100%)}
+}
+.menu-fondo.cerrando{opacity:0}
+.menu-lateral.cerrando{transform:translateX(-100%)}
+
+/* Menos movimiento: el cajón no se desliza, pero tampoco aparece de la
+   nada. Se funde, que es la señal mínima de que hay algo nuevo encima. */
+@media (prefers-reduced-motion:reduce){
+  .menu-lateral{
+    transform:none;opacity:1;
+    transition:opacity var(--t-chico) var(--sale)
+  }
+  @starting-style{ .menu-lateral{transform:none;opacity:0} }
+  .menu-lateral.cerrando{transform:none;opacity:0}
 }
 .menu-encabezado{
   display:flex;align-items:center;justify-content:space-between;gap:10px;
@@ -472,7 +547,9 @@ svg.ico{width:1em;height:1em;display:block;flex:0 0 auto}
   font-family:var(--fuente-sub);font-size:16px;font-weight:700
 }
 .menu-lista a .icono{font-size:20px;line-height:1}
-.menu-lista a:hover{background:rgba(255,255,255,.08)}
+@media (hover:hover) and (pointer:fine){
+  .menu-lista a:hover{background:rgba(255,255,255,.08)}
+}
 .menu-lista a[aria-current="page"]{color:var(--amarillo);box-shadow:inset 4px 0 0 var(--amarillo)}
 /* --- Los colores de la pantalla, adentro del menú ---
    Va acá y no en la cabecera porque la cabecera tiene tres columnas y
@@ -578,7 +655,9 @@ svg.ico{width:1em;height:1em;display:block;flex:0 0 auto}
   letter-spacing:.06em;color:var(--texto-suave);text-decoration:none;flex:0 0 auto;
   padding:6px 2px;margin:-6px -2px;display:inline-flex;align-items:center;min-height:24px
 }
-.titulo-seccion a:hover{color:var(--texto)}
+@media (hover:hover) and (pointer:fine){
+  .titulo-seccion a:hover{color:var(--texto)}
+}
 
 /* --- Grupos plegables ---
    Ocho títulos apilados entran juntos en la pantalla de un celular;
@@ -606,7 +685,9 @@ svg.ico{width:1em;height:1em;display:block;flex:0 0 auto}
   transition:transform .18s ease
 }
 .grupo[open] > summary .flecha{transform:rotate(180deg)}
-.grupo > summary:hover{color:var(--celeste)}
+@media (hover:hover) and (pointer:fine){
+  .grupo > summary:hover{color:var(--celeste)}
+}
 .grupo > summary:focus-visible{outline:3px solid var(--celeste);outline-offset:2px}
 .grupo .cuerpo-grupo{padding-bottom:12px}
 @media (prefers-reduced-motion:reduce){
@@ -731,7 +812,9 @@ svg.ico{width:1em;height:1em;display:block;flex:0 0 auto}
      esta app, el color de lo que se toca. */
   box-shadow:2px 2px 0 var(--celeste)
 }
-.boton:hover{filter:brightness(.94)}
+@media (hover:hover) and (pointer:fine){
+  .boton:hover{filter:brightness(.94)}
+}
 .boton.oscuro{background:var(--negro);color:var(--amarillo)}
 /* El botón de contorno hereda el color del texto de la página, no el
    negro fijo: sobre fondo transparente, de noche quedaba oscuro sobre
@@ -788,7 +871,9 @@ svg.ico{width:1em;height:1em;display:block;flex:0 0 auto}
   font-size:18px;line-height:1;color:var(--texto);
   display:flex;align-items:center;justify-content:center
 }
-.cal-flecha:hover{background:var(--superficie-2)}
+@media (hover:hover) and (pointer:fine){
+  .cal-flecha:hover{background:var(--superficie-2)}
+}
 
 .cal-grilla{display:grid;grid-template-columns:repeat(7,1fr);gap:3px}
 .cal-nombre-dia{
@@ -806,7 +891,9 @@ svg.ico{width:1em;height:1em;display:block;flex:0 0 auto}
 .cal-dia.vacio{visibility:hidden;pointer-events:none}
 .cal-dia.apagado{color:var(--linea)}
 .cal-dia.con-cosas{font-weight:700}
-.cal-dia.con-cosas:hover{background:var(--superficie-2)}
+@media (hover:hover) and (pointer:fine){
+  .cal-dia.con-cosas:hover{background:var(--superficie-2)}
+}
 .cal-dia.hoy{box-shadow:inset 0 0 0 1.5px var(--negro)}
 .cal-dia[aria-pressed="true"]{background:var(--amarillo);color:var(--sobre-color)}
 .cal-dia[aria-pressed="true"].hoy{box-shadow:inset 0 0 0 1.5px var(--negro)}
@@ -864,7 +951,39 @@ svg.ico{width:1em;height:1em;display:block;flex:0 0 auto}
   padding:14px;box-shadow:var(--sombra);margin-bottom:18px
 }
 .barra{background:var(--linea);border-radius:var(--radio-pastilla);height:10px;overflow:hidden}
-.barra-llena{background:var(--celeste);height:100%;border-radius:var(--radio-pastilla);transition:width .3s}
+/* LA BARRA SE DIBUJA, NO APARECE DIBUJADA.
+
+   Dos cosas cambiaron acá y las dos importan.
+
+   La primera: antes decía `transition:width .3s` y esa línea NUNCA se
+   ejecutó. Las cuatro barras de la app se pintan con innerHTML, o sea
+   que el elemento nace ya con su ancho puesto: no hay estado anterior
+   del que transicionar. Era una animación escrita que nadie vio nunca.
+   Con @starting-style el navegador sí sabe de dónde venir —de cero— y
+   la barra se dibuja sola al aparecer.
+
+   La segunda: se dibuja con transform y no con width. El ancho es una
+   medida de la página: tocarlo obliga a recalcular la posición de todo
+   lo que está alrededor, cuadro por cuadro. La escala no toca la
+   página, la resuelve la placa de video.
+
+   Los 420 ms se salen del techo de 300 que rige para el resto de la
+   app, y es a propósito. Esto no es una interfaz respondiendo a un
+   toque: es un dato —cuánto llevás de la carrera— y el recorrido de la
+   barra ES la información. Que la barra viaje hasta el 62% se lee
+   distinto que encontrarla ya puesta en 62. Pasa una vez por pantalla,
+   no se interrumpe nada, y nadie está esperando para tocar algo. */
+.barra-llena{
+  background:var(--celeste);height:100%;width:100%;
+  border-radius:var(--radio-pastilla);
+  transform:scaleX(calc(var(--llena,0) / 100));transform-origin:left center;
+  transition:transform 420ms var(--sale)
+}
+@starting-style{ .barra-llena{transform:scaleX(0)} }
+@media (prefers-reduced-motion:reduce){
+  .barra-llena{transition:none}
+  @starting-style{ .barra-llena{transform:scaleX(calc(var(--llena,0) / 100))} }
+}
 .progreso-datos{
   display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap;
   margin-top:9px;font-size:14px;color:var(--texto-suave)
@@ -908,7 +1027,9 @@ svg.ico{width:1em;height:1em;display:block;flex:0 0 auto}
   font-family:var(--fuente-sub);font-weight:700;font-size:var(--letra-nota);
   color:var(--texto-suave);min-height:24px;cursor:pointer
 }
-.hoja-volver:hover{color:var(--texto)}
+@media (hover:hover) and (pointer:fine){
+  .hoja-volver:hover{color:var(--texto)}
+}
 
 .campos-nota{display:flex;gap:12px;margin-top:16px;flex-wrap:wrap}
 .campo-nota{display:flex;flex-direction:column;gap:6px}
@@ -937,7 +1058,9 @@ svg.ico{width:1em;height:1em;display:block;flex:0 0 auto}
   background:transparent;border:0;box-shadow:none;color:var(--texto-suave);
   text-decoration:underline;margin-top:6px;font-size:var(--letra-nota)
 }
-.boton.texto:hover{color:var(--texto)}
+@media (hover:hover) and (pointer:fine){
+  .boton.texto:hover{color:var(--texto)}
+}
 .boton.texto:active{transform:none;opacity:.6}
 
 /* --- Pestañas --- */
@@ -948,9 +1071,48 @@ svg.ico{width:1em;height:1em;display:block;flex:0 0 auto}
    y los chips. Así no puede volver a romper el ancho de la página. */
 .pestanas{
   display:flex;gap:0;margin:0 0 14px;
-  overflow-x:auto;-webkit-overflow-scrolling:touch
+  overflow-x:auto;-webkit-overflow-scrolling:touch;
+  position:relative
 }
 .pestanas::-webkit-scrollbar{display:none}
+
+/* EL SUBRAYADO VIAJA.
+
+   Antes el subrayado se apagaba en una pestaña y se prendía en la
+   otra. Eso informa cuál quedó elegida, pero no informa lo otro que
+   la persona necesita saber: de dónde vino y para qué lado se movió.
+   Cuando la barra recorre el camino, la pantalla que aparece abajo se
+   entiende como consecuencia del gesto y no como un cambio suelto.
+
+   La barra es UN elemento —el ::after del contenedor— movido con
+   transform. Las dos medidas se las pasa el JS de carrera/ en
+   variables. Es la única forma de que esto no cueste nada: una barra
+   que viaja con transform la resuelve la placa de video sola, mientras
+   que animar el borde de cada pestaña obligaría a repintar las cuatro.
+
+   Ojo con el detalle: las variables se ponen en el CONTENEDOR y mueven
+   al ::after del contenedor, no a las pestañas. Poner una variable en
+   un padre para mover a los hijos obliga al navegador a recalcular el
+   estilo de todos los hijos en cada cuadro; acá el hijo es uno solo. */
+/* La barra mide UN píxel y se estira con escala hasta el ancho de la
+   pestaña. Podría medir el ancho real y animarse el ancho, pero eso es
+   una medida de la página: el navegador tendría que recalcular la fila
+   en cada cuadro del viaje. Con un píxel escalado, la barra se mueve y
+   se estira en la misma propiedad —transform— y no toca el layout.
+   El origen a la izquierda es lo que hace que estirar sea «crecer hacia
+   la derecha» y no «crecer para los dos lados desde el centro». */
+.pestanas::after{
+  content:'';position:absolute;left:0;bottom:0;height:3px;width:1px;
+  background:var(--texto);
+  transform-origin:0 50%;
+  transform:translateX(var(--pestana-x,0)) scaleX(var(--pestana-ancho,0));
+  transition:transform var(--t-medio) var(--ambos);
+  pointer-events:none
+}
+/* Antes de que el JS mida —o si no llega a correr— no hay barra
+   flotante y manda el borde de la pestaña elegida, que sigue estando. */
+.pestanas:not([style*="--pestana-ancho"])::after{display:none}
+
 /* min-width:0 es lo que permite que se achiquen por debajo de su texto y
    partan en dos renglones. Sin eso, flex respeta el ancho del contenido
    y las cuatro se desbordan aunque digan flex:1. */
@@ -959,9 +1121,18 @@ svg.ico{width:1em;height:1em;display:block;flex:0 0 auto}
   background:transparent;border:none;border-bottom:3px solid var(--linea);
   padding:10px 4px;font-family:var(--fuente-sub);font-size:var(--letra-densa);
   line-height:1.15;text-transform:uppercase;letter-spacing:.01em;
-  color:var(--texto-suave)
+  color:var(--texto-suave);
+  transition:color var(--t-chico) ease
 }
 .pestana[aria-selected="true"]{border-bottom-color:var(--texto);color:var(--texto);font-weight:700}
+/* Con la barra viajando, el borde de la elegida sobra: quedarían dos
+   subrayados encima del mismo lugar. */
+.pestanas[style*="--pestana-ancho"] .pestana[aria-selected="true"]{
+  border-bottom-color:transparent
+}
+@media (prefers-reduced-motion:reduce){
+  .pestanas::after{transition:none}
+}
 
 /* --- Interruptor de una linea --- */
 .interruptor{
@@ -978,7 +1149,9 @@ svg.ico{width:1em;height:1em;display:block;flex:0 0 auto}
 
 /* --- Tarjeta de materia --- */
 .tarjeta.materia{border-left-color:var(--linea);cursor:pointer}
-.tarjeta.materia:hover{border-color:var(--texto)}
+@media (hover:hover) and (pointer:fine){
+  .tarjeta.materia:hover{border-color:var(--texto)}
+}
 .tarjeta.materia.promociona{border-left-color:var(--celeste)}
 .tarjeta.materia.cursa     {border-left-color:var(--amarillo)}
 .tarjeta.materia.trabada   {
@@ -1006,38 +1179,70 @@ svg.ico{width:1em;height:1em;display:block;flex:0 0 auto}
 .pastilla.cursada {background:var(--amarillo);color:var(--sobre-color)}
 .pastilla.aprobada{background:var(--celeste);color:var(--sobre-color)}
 
-/* --- Hoja de detalle --- */
+/* --- Hoja de detalle ---
+
+   LAS HOJAS ENTRAN Y SALEN POR LA MISMA PUERTA.
+
+   Antes no. Entraban con un empujoncito de 14 píxeles y se iban
+   deslizándose la altura entera hacia abajo. O sea que la salida
+   prometía un origen —«vengo de abajo de la pantalla»— que la entrada
+   nunca había mostrado. Es la clase de incoherencia que no se nota
+   mirando, pero que hace que algo se sienta armado con partes de
+   distintos lados. Ahora las dos recorren el mismo camino.
+
+   Y SON TRANSICIONES, NO @keyframes. Un keyframe siempre arranca de
+   cero: si alguien abre y cierra rápido, el movimiento se corta en
+   seco y vuelve a empezar. Una transición se redirige desde donde
+   está, así que abrir a mitad del cierre devuelve la hoja desde donde
+   había quedado. Además, con @starting-style el navegador sabe solo
+   de dónde entrar y desaparece el setTimeout que en el JS repetía a
+   mano la duración escrita acá —dos números que tarde o temprano se
+   desincronizan. Ahora el JS espera el transitionend y listo. */
 .hoja-fondo{
   position:fixed;inset:0;z-index:80;background:rgba(26,26,26,.55);
   display:flex;align-items:flex-end;justify-content:center;
-  animation:fondo-entra .18s ease
+  opacity:1;
+  transition:opacity var(--t-chico) var(--sale)
 }
 .hoja{
   background:var(--superficie);width:100%;max-width:var(--ancho-max);
   max-height:88vh;overflow-y:auto;position:relative;
   border-radius:var(--radio) var(--radio) 0 0;padding:20px 16px 30px;
-  animation:hoja-entra .26s cubic-bezier(.2,.8,.2,1)
+  transform:translateY(0);
+  transition:transform var(--t-hoja) var(--cajon)
 }
-
-/* La hoja entra desde abajo y sale por donde entró. El JS le pone
-   .cerrando y espera a que termine antes de esconderla: si no, la
-   animación de salida no llega a verse. */
-@keyframes fondo-entra{ from{opacity:0} to{opacity:1} }
-@keyframes fondo-sale { to{opacity:0} }
-@keyframes hoja-entra { from{transform:translateY(14px)} to{transform:none} }
-@keyframes hoja-sale  { to{transform:translateY(100%)} }
-.hoja-fondo.cerrando{animation:fondo-sale .2s ease forwards}
-.hoja-fondo.cerrando .hoja{animation:hoja-sale .22s cubic-bezier(.4,0,.9,.4) forwards}
-
-/* El paso de una pantalla a la otra, adentro de la misma hoja */
-@keyframes pantalla-entra{
-  from{opacity:0;transform:translateX(14px)} to{opacity:1;transform:none}
+@starting-style{
+  .hoja-fondo{opacity:0}
+  .hoja{transform:translateY(100%)}
 }
-#hoja-cuerpo.entra,#hoja-nota.entra{animation:pantalla-entra .22s ease}
+.hoja-fondo.cerrando{opacity:0}
+.hoja-fondo.cerrando .hoja{transform:translateY(100%)}
 
+/* Navegadores sin @starting-style (Safari viejo, Firefox anterior al
+   129) no ven la entrada, pero SÍ la salida, y sobre todo ven la hoja:
+   nunca queda una capa invisible tapando la pantalla. Degrada a que
+   aparezca de una, que es exactamente lo que hacía antes de todo esto. */
+
+/* El paso de una pantalla a la otra, adentro de la misma hoja, lo
+   maneja carrera/index.html con element.animate(). No está acá porque
+   necesita saber PARA QUÉ LADO va: al detalle → la nota entra desde la
+   derecha; de la nota → el detalle vuelve desde la izquierda. El
+   sentido dice en qué parte de la secuencia estás parada, y eso el CSS
+   solo no lo sabe.
+   Antes esto era un @keyframes que se reiniciaba con
+   `void offsetWidth` —un recálculo de página entera cada vez que se
+   cambiaba de pantalla, solo para volver a disparar la animación. */
+
+/* MENOS MOVIMIENTO NO ES CERO MOVIMIENTO.
+   Antes acá decía animation:none y la hoja se teletransportaba: sin
+   ninguna señal de que había aparecido algo nuevo encima, que es
+   justamente lo que la animación estaba diciendo. Lo que molesta del
+   movimiento es el DESPLAZAMIENTO, no el hecho de aparecer. Así que se
+   va el translate y se queda un fundido corto. */
 @media (prefers-reduced-motion:reduce){
-  .hoja-fondo,.hoja,.hoja-fondo.cerrando,.hoja-fondo.cerrando .hoja,
-  #hoja-cuerpo.entra,#hoja-nota.entra{animation:none}
+  .hoja{transition:opacity var(--t-chico) var(--sale);transform:none;opacity:1}
+  @starting-style{ .hoja{opacity:0;transform:none} }
+  .hoja-fondo.cerrando .hoja{transform:none;opacity:0}
 }
 .hoja-cerrar{
   position:absolute;top:12px;right:12px;width:34px;height:34px;border-radius:var(--radio-pastilla);
@@ -1148,7 +1353,9 @@ svg.ico{width:1em;height:1em;display:block;flex:0 0 auto}
    claro y el nodo se vuelve ilegible. */
 .mapa-nodo.cursada .nom, .mapa-nodo.aprobada .nom,
 .mapa-nodo.cursada .cod, .mapa-nodo.aprobada .cod{color:var(--sobre-color)}
-.mapa-nodo:hover{box-shadow:0 0 0 2px var(--negro)}
+@media (hover:hover) and (pointer:fine){
+  .mapa-nodo:hover{box-shadow:0 0 0 2px var(--negro)}
+}
 
 .mapa-arista{fill:none;stroke:var(--linea);stroke-width:1.2}
 .mapa-arista.promociona{stroke:var(--celeste);stroke-width:2.4}
@@ -1172,7 +1379,7 @@ svg.ico{width:1em;height:1em;display:block;flex:0 0 auto}
      el logo, y las tres capas estan hechas para ese amarillo. */
   background:var(--amarillo);
   display:flex;align-items:center;justify-content:center;
-  transition:opacity .35s ease
+  transition:opacity var(--t-hoja) var(--sale)
 }
 .apertura::before{
   content:'';position:absolute;inset:0;pointer-events:none;
@@ -1183,18 +1390,65 @@ svg.ico{width:1em;height:1em;display:block;flex:0 0 auto}
 
 .marca-escena{
   position:relative;flex:0 0 auto;
-  width:1080px;height:1350px;transform-origin:50% 50%
+  width:1080px;height:1350px;transform-origin:50% 50%;
+  /* Le avisamos al navegador que estas tres capas se van a mover y a
+     enmascarar durante todo el splash, así les arma su propia capa de
+     composición una sola vez en vez de decidirlo cuadro por cuadro. */
+  will-change:transform
 }
-.marca-escena .capa{position:absolute;inset:0}
+.marca-escena .capa{position:absolute;inset:0;overflow:hidden}
 .marca-escena .capa img{
   position:absolute;left:0;top:0;width:1080px;height:1350px;
   user-select:none;-webkit-user-select:none;-webkit-user-drag:none
 }
-.marca-escena .destello{
-  position:absolute;top:-20%;width:26%;height:140%;opacity:0;
-  transform:rotate(14deg);pointer-events:none;mix-blend-mode:soft-light;
+/* La cortina que tapa cada capa hasta que le toca. Es del amarillo del
+   fondo, así que mientras cubre no se distingue del fondo que tiene al
+   lado: se lee como si el dibujo todavía no estuviera, no como si
+   hubiera algo encima.
+
+   El borde de ataque va en degradado —los primeros 6% son translúcidos—
+   para que el dibujo no aparezca cortado con una regla. Ese era el
+   único motivo por el que antes esto era una máscara; con el degradado
+   metido en la propia cortina, el efecto es el mismo y el costo es
+   cero. Los degradados de CSS interpolan con alfa premultiplicada, así
+   que ir de transparent al amarillo no pasa por ningún gris.
+
+   Se estiran un 10% de más para los dos lados: al correrse, el borde
+   blando tiene que terminar de salir DESPUÉS del límite de la capa, si
+   no se ve la costura al final del recorrido. */
+.marca-escena .cortina{
+  position:absolute;background:var(--amarillo);
+  will-change:transform
+}
+.marca-escena .hacia-abajo{
+  left:0;right:0;top:-10%;height:120%;
+  background:linear-gradient(to bottom,
+    transparent 0%, var(--amarillo) 14%, var(--amarillo) 100%)
+}
+.marca-escena .hacia-derecha{
+  top:0;bottom:0;left:-10%;width:120%;
   background:linear-gradient(to right,
-    rgba(255,255,255,0) 0%, rgba(255,255,255,.9) 50%, rgba(255,255,255,0) 100%)
+    transparent 0%, var(--amarillo) 14%, var(--amarillo) 100%)
+}
+/* EL DESTELLO PERDIÓ EL mix-blend-mode.
+
+   Tenía soft-light, que obliga al navegador a mezclar este elemento
+   con TODO lo que tiene debajo —las tres capas del logo, a tamaño
+   completo— y esa mezcla no la puede hacer la placa de video sola.
+   Era la línea más cara de la apertura: por sí sola sacaba a la escena
+   entera del camino rápido de composición, justo en el segundo en que
+   el teléfono además está bajando las imágenes y las cuatro consultas.
+
+   Un blanco translúcido encima del amarillo pleno da prácticamente el
+   mismo brillo, y cuesta cero. La diferencia se ve con un medidor, no
+   con el ojo; la diferencia de fluidez en un teléfono de gama media se
+   ve sin medidor. */
+.marca-escena .destello{
+  position:absolute;top:-20%;left:0;width:26%;height:140%;opacity:0;
+  transform:rotate(14deg);pointer-events:none;
+  will-change:transform,opacity;
+  background:linear-gradient(to right,
+    rgba(255,255,255,0) 0%, rgba(255,255,255,.75) 50%, rgba(255,255,255,0) 100%)
 }
 
 /* ============================================================
@@ -1339,7 +1593,32 @@ body.antes-de-entrar{padding-bottom:0}  /* apertura y bienvenida a pantalla comp
   position:relative;margin:16px 0 8px;border-radius:var(--radio);
   overflow:hidden;background:var(--amarillo);box-shadow:var(--sombra)
 }
-.carrusel-pista{display:flex;transition:transform .5s cubic-bezier(.4,0,.2,1)}
+/* DOS VELOCIDADES, PORQUE SON DOS COSAS DISTINTAS.
+
+   El carrusel se mueve por dos motivos que no se parecen en nada.
+   Cuando avanza solo es ambiente: nadie lo pidió, nadie está esperando,
+   y puede tomarse 400 ms con una curva que arranca y frena suave.
+   Cuando alguien toca un punto o arrastra con el dedo, eso es una
+   RESPUESTA: la persona hizo algo y está mirando a ver si pasó. Ahí
+   500 ms con curva blanda se sienten pegajosos, como si la app dudara.
+   Antes las dos usaban la misma. */
+.carrusel-pista{
+  display:flex;
+  transition:transform 400ms var(--ambos);
+  will-change:transform;
+  /* pan-y le dice al navegador: el desplazamiento vertical seguí
+     manejándolo vos, el horizontal es mío. Sin esto, arrastrar de
+     costado sobre el carrusel movía la página y el gesto se perdía. */
+  touch-action:pan-y;
+  /* Sin esto, arrastrar sobre una imagen dispara el «arrastrar imagen»
+     del navegador y el gesto se corta a la mitad. */
+  -webkit-user-drag:none;user-select:none;-webkit-user-select:none
+}
+.carrusel-pista img{-webkit-user-drag:none;pointer-events:none}
+.carrusel-pista.a-dedo{transition:transform var(--t-medio) var(--sale)}
+/* Mientras el dedo está apoyado la lámina sigue al dedo sin retardo:
+   cualquier transición acá se sentiría como arrastrar algo pegajoso. */
+.carrusel-pista.arrastrando{transition:none}
 .carrusel-lamina{flex:0 0 100%;position:relative}
 /* Las dos ilustraciones no tienen exactamente la misma proporción, y
    como las láminas se estiran a la más alta, quedaban 87 px de amarillo
@@ -1365,12 +1644,23 @@ body.antes-de-entrar{padding-bottom:0}  /* apertura y bienvenida a pantalla comp
   width:24px;height:24px;padding:0;border:none;background:transparent;
   display:flex;align-items:center;justify-content:center
 }
+/* El punto mide siempre 18 y se ESTIRA con escala hasta los 8 que se
+   ven cuando no es el elegido. Al revés —creciendo el ancho de 8 a 18—
+   el navegador tiene que recalcular la fila de puntos en cada cuadro,
+   y son dos elementos moviéndose para dibujar un punto. */
 .carrusel-puntos button::before{
-  content:'';display:block;width:8px;height:8px;border-radius:50%;
-  background:rgba(26,26,26,.3);transition:width .2s ease
+  content:'';display:block;width:18px;height:8px;
+  border-radius:var(--radio-pastilla);
+  background:rgba(26,26,26,.3);
+  transform:scaleX(.444);
+  transition:transform var(--t-chico) var(--sale),
+             background-color var(--t-chico) ease
 }
 .carrusel-puntos button[aria-current="true"]::before{
-  background:var(--negro);width:18px;border-radius:var(--radio-pastilla)
+  background:var(--negro);transform:scaleX(1)
+}
+@media (prefers-reduced-motion:reduce){
+  .carrusel-puntos button::before{transition:background-color var(--t-chico) ease}
 }
 
 /* ============================================================
@@ -1450,7 +1740,9 @@ body.antes-de-entrar{padding-bottom:0}  /* apertura y bienvenida a pantalla comp
   text-transform:uppercase;letter-spacing:.01em;
   display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden
 }
-.boton-cuadro:hover{border-color:var(--celeste)}
+@media (hover:hover) and (pointer:fine){
+  .boton-cuadro:hover{border-color:var(--celeste)}
+}
 .boton-cuadro.destacado{background:var(--amarillo);border-color:var(--amarillo);color:var(--sobre-color)}
 
 /* ============================================================
@@ -1528,25 +1820,57 @@ body.antes-de-entrar{padding-bottom:0}  /* apertura y bienvenida a pantalla comp
 
    La regla: el esqueleto tiene que tener la MISMA forma que lo que
    va a aparecer. Si no, cuando llega el contenido la pantalla salta.
+
+   POR QUÉ EL BRILLO SE MUEVE CON transform Y NO CON background-position.
+
+   Esto no es un detalle de purista: era el error más caro de la app.
+   Antes el brillo era un degradado al que se le movía la posición de
+   fondo. Mover un fondo obliga al navegador a REPINTAR el elemento
+   entero en cada cuadro, y no hay forma de mandar eso a la placa de
+   video. En la pantalla de inicio hay veintitrés esqueletos a la vez:
+   eran veintitrés repintados por cuadro, sesenta veces por segundo,
+   justo en el momento en que el teléfono está bajando y armando cuatro
+   consultas. O sea que la animación puesta para que la espera se
+   sintiera más corta era lo que la hacía más larga.
+
+   Ahora el degradado vive en un ::after que cruza el bloque con
+   translateX. Eso lo resuelve el compositor solo, sin repintar nada, y
+   el hilo principal queda libre para lo único que importa mientras se
+   carga: traer el contenido.
    ============================================================ */
 @keyframes esqueleto-brillo{
-  from{background-position:200% 0}
-  to  {background-position:-200% 0}
+  from{transform:translateX(-100%)}
+  to  {transform:translateX(100%)}
 }
 .esqueleto{
-  background:linear-gradient(90deg,
-    var(--superficie-2) 25%, var(--linea) 50%, var(--superficie-2) 75%);
-  background-size:200% 100%;
-  animation:esqueleto-brillo 1.6s linear infinite;
+  position:relative;overflow:hidden;
+  background:var(--superficie-2);
   border-radius:6px
 }
+.esqueleto::after{
+  content:'';position:absolute;inset:0;
+  background:linear-gradient(90deg,
+    transparent 0%, var(--linea) 50%, transparent 100%);
+  animation:esqueleto-brillo 1.6s linear infinite;
+  will-change:transform
+}
+/* ESCALONADO. Veinte cajas latiendo en el mismo cuadro no se leen como
+   una página cargando: se leen como un estroboscopio. Con 70 ms de
+   diferencia entre una y la siguiente, el brillo baja en diagonal y el
+   bloque se lee como una sola cosa que está llegando. */
+.esqueleto:nth-child(2)::after{animation-delay:70ms}
+.esqueleto:nth-child(3)::after{animation-delay:140ms}
+.esqueleto:nth-child(4)::after{animation-delay:210ms}
+.esqueleto:nth-child(5)::after{animation-delay:280ms}
+.esqueleto:nth-child(6)::after{animation-delay:350ms}
+.esqueleto:nth-child(7)::after{animation-delay:420ms}
+.esqueleto:nth-child(7n+8)::after{animation-delay:70ms}
+.esqueleto:nth-child(7n+9)::after{animation-delay:140ms}
+.esqueleto:nth-child(7n+10)::after{animation-delay:210ms}
+
 /* Quien pidio menos movimiento ve el bloque quieto, sin el brillo */
 @media (prefers-reduced-motion:reduce){
-  .esqueleto{animation:none}
-  /* Quien pidió menos movimiento no quiere un botón que se desliza ni
-     un carrusel que se corre solo: aparecen y desaparecen, nada más. */
-  .avisanos,.carrusel-pista,.avisanos-globo{transition:none}
-  .avisanos.apartado{transform:none}
+  .esqueleto::after{animation:none;opacity:.5;transform:none}
 }
 .esq-linea{height:13px;margin-bottom:9px}
 .esq-linea.corta{width:45%}
@@ -1558,9 +1882,28 @@ body.antes-de-entrar{padding-bottom:0}  /* apertura y bienvenida a pantalla comp
   border-left:4px solid var(--linea);border-radius:var(--radio);
   padding:14px;margin-bottom:10px;box-shadow:var(--sombra)
 }
+/* El cuadro de acceso. Antes era un cajón blanco muerto al lado de
+   catorce cajas que brillaban: dos idiomas de carga en la misma
+   pantalla, y el que no se movía parecía roto. Ahora lleva adentro la
+   misma barra que dice «esto está llegando», y el marco impreso
+   —borde y segunda tinta— se queda afuera, que es lo que le da la
+   forma exacta del botón que lo va a reemplazar. */
 .esq-cuadro{
+  position:relative;overflow:hidden;
   background:var(--superficie);border:1px solid var(--linea);
   border-radius:var(--radio);aspect-ratio:1;box-shadow:var(--sombra)
+}
+.esq-cuadro::after{
+  content:'';position:absolute;inset:0;
+  background:linear-gradient(90deg,
+    transparent 0%, var(--superficie-2) 50%, transparent 100%);
+  animation:esqueleto-brillo 1.6s linear infinite;
+  will-change:transform
+}
+.esq-cuadro:nth-child(3n+2)::after{animation-delay:70ms}
+.esq-cuadro:nth-child(3n)::after  {animation-delay:140ms}
+@media (prefers-reduced-motion:reduce){
+  .esq-cuadro::after{animation:none;opacity:.5;transform:none}
 }
 .esq-calendario{
   background:var(--superficie);border:1px solid var(--linea);
@@ -1591,7 +1934,9 @@ body.antes-de-entrar{padding-bottom:0}  /* apertura y bienvenida a pantalla comp
   overflow:hidden;cursor:pointer
 }
 @media (min-width:560px){ .tarjeta-cuadro{aspect-ratio:1} }
-.tarjeta-cuadro:hover{border-color:var(--celeste)}
+@media (hover:hover) and (pointer:fine){
+  .tarjeta-cuadro:hover{border-color:var(--celeste)}
+}
 .tarjeta-cuadro:focus-visible{outline:3px solid var(--celeste);outline-offset:2px}
 .tarjeta-cuadro .nombre{
   font-family:var(--fuente-sub);font-weight:700;font-size:11px;line-height:1.16;
@@ -1654,7 +1999,9 @@ details.tarjeta .respuesta{margin-top:9px;color:var(--texto-suave);font-size:15p
   border-left:4px solid var(--celeste);border-radius:var(--radio);
   padding:15px;text-decoration:none;color:var(--texto);box-shadow:var(--sombra)
 }
-.tarjeta-kit:hover{border-color:var(--celeste)}
+@media (hover:hover) and (pointer:fine){
+  .tarjeta-kit:hover{border-color:var(--celeste)}
+}
 .tarjeta-kit .kit-numero{
   flex:0 0 auto;width:30px;height:30px;border-radius:50%;
   background:var(--amarillo);color:var(--sobre-color);
@@ -1684,18 +2031,33 @@ details.tarjeta .respuesta{margin-top:9px;color:var(--texto-suave);font-size:15p
   background:var(--rojo-solido);color:var(--sobre-negro);text-decoration:none;
   font-family:var(--fuente-sub);font-weight:700;font-size:15px;
   box-shadow:0 4px 16px rgba(0,0,0,.28);
-  transition:transform .22s ease, box-shadow .18s ease, opacity .22s ease
+  /* ASIMÉTRICO A PROPÓSITO. Irse es ambiente: el botón se corre porque
+     la persona está leyendo otra cosa, y puede tomarse su tiempo.
+     Volver es una RESPUESTA a «quiero volver a algo», y una respuesta
+     se contesta seca. Por eso la vuelta es más corta que la ida. */
+  transition:transform var(--t-chico) var(--sale),
+             box-shadow var(--t-chico) var(--sale),
+             opacity   var(--t-chico) var(--sale)
+}
+.avisanos.apartado{
+  transition:transform var(--t-medio) var(--sale),
+             box-shadow var(--t-medio) var(--sale),
+             opacity   var(--t-medio) var(--sale)
 }
 .avisanos > span:not(.avisanos-globo){
   position:absolute;width:1px;height:1px;overflow:hidden;clip-path:inset(50%)
 }
-/* Los primeros segundos el botón muestra la palabra, para que se
-   entienda qué es, y después se encoge solo. Ocupa su esquina y nada
-   más: nunca se le pone encima al contenido. */
-.avisanos.con-palabra{width:auto;height:auto;padding:13px 18px}
-.avisanos.con-palabra > span:not(.avisanos-globo){
-  position:static;width:auto;height:auto;overflow:visible;clip-path:none
-}
+/* SE FUE EL ENCOGIDO AUTOMÁTICO.
+   Antes el botón nacía con la palabra adentro y a los 4 segundos se
+   encogía a círculo solo. Eran tres problemas en uno: cambiaba de forma
+   sin que nadie se lo pidiera, lo hacía mientras la persona estaba
+   leyendo, y el salto era seco porque width y padding no estaban —ni
+   podían estar— en la transición: animar el ancho obliga a recalcular
+   la página en cada cuadro.
+   Ahora el botón nace círculo y se queda círculo. Para qué sirve lo
+   dice el globo, que sale la primera vez que se sube —o sea cuando la
+   persona ya terminó de leer y está buscando algo— y lo maneja app.js.
+   Arriba de 720px, donde sobra lugar, la palabra va siempre. */
 /* Mientras se baja se corre para afuera: es cuando la persona está
    leyendo. Vuelve apenas se sube, que es el gesto de «quiero volver a
    algo». Lo maneja app.js poniendo y sacando la clase. */
@@ -1709,10 +2071,16 @@ details.tarjeta .respuesta{margin-top:9px;color:var(--texto-suave);font-size:15p
     position:static;width:auto;height:auto;overflow:visible;clip-path:none
   }
 }
-.avisanos:hover,.avisanos:focus-visible{
-  transform:translateY(-2px);box-shadow:0 7px 22px rgba(0,0,0,.34)
+/* El levantarse va SOLO con mouse y teclado. En una pantalla táctil el
+   :hover se dispara al tocar y se queda pegado hasta que tocás otra
+   cosa: el botón quedaba levantado sin que nadie lo estuviera tocando. */
+@media (hover:hover) and (pointer:fine){
+  .avisanos:hover{transform:translateY(-2px);box-shadow:0 7px 22px rgba(0,0,0,.34)}
 }
-.avisanos:focus-visible{outline:3px solid var(--celeste);outline-offset:3px}
+.avisanos:focus-visible{
+  transform:translateY(-2px);box-shadow:0 7px 22px rgba(0,0,0,.34);
+  outline:3px solid var(--celeste);outline-offset:3px
+}
 
 /* El globo con la pregunta. Aparece al pasar por encima o al llegar
    con el teclado; en el celular, donde no hay hover, sale solo a los
@@ -1723,17 +2091,26 @@ details.tarjeta .respuesta{margin-top:9px;color:var(--texto-suave);font-size:15p
   background:var(--negro);color:var(--sobre-negro);
   font-family:var(--fuente-texto);font-weight:400;font-size:14px;line-height:1.35;
   box-shadow:0 4px 16px rgba(0,0,0,.3);
-  opacity:0;transform:translateY(6px);pointer-events:none;
-  transition:opacity .2s ease, transform .2s ease
+  opacity:0;transform:translateY(6px) scale(.96);
+  transform-origin:calc(100% - 26px) 100%;pointer-events:none;
+  transition:opacity var(--t-chico) var(--sale),
+             transform var(--t-chico) var(--sale)
 }
 .avisanos-globo::after{
   content:'';position:absolute;right:26px;top:100%;
   border:7px solid transparent;border-top-color:var(--negro)
 }
-/* El globo queda solo para el mouse y el teclado, donde lo pide la
-   persona. Ya no sale solo: en el celular tapaba el calendario. */
-.avisanos:hover .avisanos-globo,
-.avisanos:focus-visible .avisanos-globo{opacity:1;transform:translateY(0)}
+/* El globo crece DESDE la punta de la flecha, no desde su propio
+   centro: es lo que lo ata al botón. Sin el transform-origin parece un
+   cartel que apareció al lado, y no algo que salió de acá. */
+@media (hover:hover) and (pointer:fine){
+  .avisanos:hover .avisanos-globo{opacity:1;transform:none}
+}
+.avisanos:focus-visible .avisanos-globo{opacity:1;transform:none}
+/* En el celular no hay hover. El globo sale UNA vez, la primera vez
+   que la persona sube —o sea cuando ya terminó de leer y está buscando
+   algo— y se va solo. Lo pone y lo saca app.js. */
+.avisanos.dice .avisanos-globo{opacity:1;transform:none}
 
 /* ============================================================
    PANTALLAS GRANDES
@@ -1741,8 +2118,26 @@ details.tarjeta .respuesta{margin-top:9px;color:var(--texto-suave);font-size:15p
 @media (min-width:720px){
   .titulo-pantalla{font-size:38px}
   .marca{font-size:30px}
-  .hoja{align-self:center;border-radius:var(--radio);max-height:82vh}
+  /* Acá la hoja deja de ser hoja: se centra y pasa a ser un cuadro de
+     diálogo. La física tiene que seguir al layout —un cuadro centrado
+     no sube desde abajo de la pantalla, aparece donde está—, así que
+     cambia el movimiento junto con la posición. Con el translate de
+     abajo puesto, la hoja entraba deslizándose desde el pie en una
+     pantalla donde nunca había estado ahí. */
+  .hoja{
+    align-self:center;border-radius:var(--radio);max-height:82vh;
+    transform:scale(1);opacity:1;
+    transition:transform var(--t-medio) var(--sale),
+               opacity var(--t-medio) var(--sale)
+  }
+  @starting-style{ .hoja{transform:scale(.96);opacity:0} }
+  .hoja-fondo.cerrando .hoja{transform:scale(.96);opacity:0}
   .hoja-fondo{align-items:center}
+  @media (prefers-reduced-motion:reduce){
+    .hoja{transform:none;transition:opacity var(--t-chico) var(--sale)}
+    @starting-style{ .hoja{transform:none;opacity:0} }
+    .hoja-fondo.cerrando .hoja{transform:none;opacity:0}
+  }
   /* La fila de secciones ya entra entera: sobra el degradado del borde */
   .secciones::after{display:none}
   /* Desde la tablet para arriba los cuadros dejan de ser cuadrados: si
@@ -1865,7 +2260,9 @@ details.tarjeta .respuesta{margin-top:9px;color:var(--texto-suave);font-size:15p
   background:transparent;border:0;border-bottom:1px solid var(--linea);
   padding:11px 2px;min-height:48px;color:var(--texto);cursor:pointer
 }
-.texto:hover{background:var(--superficie-2)}
+@media (hover:hover) and (pointer:fine){
+  .texto:hover{background:var(--superficie-2)}
+}
 .marca-leido{
   flex:0 0 auto;width:19px;height:19px;margin-top:2px;
   border:1.5px solid var(--tinta-borde);border-radius:3px;position:relative
@@ -1878,13 +2275,18 @@ details.tarjeta .respuesta{margin-top:9px;color:var(--texto-suave);font-size:15p
 .ficha-titulo{color:var(--texto-suave)}
 
 /* El tachado: una línea que cruza el renglón, como en el papel. Se
-   dibuja de izquierda a derecha, no aparece de golpe. */
+   dibuja de izquierda a derecha, no aparece de golpe.
+   «De izquierda a derecha» es literalmente lo que hace scaleX con el
+   origen a la izquierda, y sin obligar al navegador a recalcular el
+   renglón en cada cuadro, que es lo que pasaba animando el ancho. */
 .texto .ficha-texto::after{
-  content:'';position:absolute;left:0;top:52%;height:1.5px;width:0;
-  background:var(--rojo-solido);transition:width .22s ease
+  content:'';position:absolute;left:0;top:52%;height:1.5px;width:100%;
+  background:var(--rojo-solido);
+  transform:scaleX(0);transform-origin:left center;
+  transition:transform var(--t-medio) var(--sale)
 }
 .texto.leido .ficha-texto{opacity:.72}
-.texto.leido .ficha-texto::after{width:100%}
+.texto.leido .ficha-texto::after{transform:scaleX(1)}
 .texto.leido .marca-leido{background:var(--tinta-borde)}
 .texto.leido .marca-leido::after{
   content:'';position:absolute;left:5px;top:1px;width:5px;height:10px;
@@ -1913,20 +2315,60 @@ details.tarjeta .respuesta{margin-top:9px;color:var(--texto-suave);font-size:15p
   height:6px;background:var(--linea);border-radius:var(--radio-pastilla);
   overflow:hidden;margin-bottom:14px
 }
-.pomo-barra div{height:100%;background:var(--celeste);border-radius:var(--radio-pastilla)}
+/* El JS le mueve --llena una vez por segundo. Sin transición, en un
+   bloque de 25 minutos la barra avanza 0,2 píxeles por segundo: no se
+   mueve, da un saltito cada cuatro segundos cuando por fin cruza un
+   píxel. Con la transición de un segundo clavada al reloj, la barra
+   deja de dar saltos y se lee como tiempo corriendo, que es lo que es.
+   `linear` porque el tiempo no acelera ni frena. */
+.pomo-barra div{
+  height:100%;width:100%;background:var(--celeste);
+  border-radius:var(--radio-pastilla);
+  transform:scaleX(calc(var(--llena,0) / 100));transform-origin:left center;
+  transition:transform 1s linear
+}
 .pomo.descanso .pomo-barra div{background:var(--texto-suave)}
+@media (prefers-reduced-motion:reduce){
+  .pomo-barra div{transition:none}
+}
 .pomo-botones{display:flex;gap:8px}
 .pomo-botones .boton{flex:1}
 .pomo .letra-chica{margin-top:10px}
 
-/* Al terminar un bloque parpadea el borde. Nada de sonido: esto se usa
-   en la biblioteca y en el aula. */
+/* Al terminar un bloque avisa la tarjeta entera. Nada de sonido: esto
+   se usa en la biblioteca y en el aula.
+
+   Antes era el borde titilando en rojo 2,4 segundos —tres vueltas de
+   800 ms. Dos problemas. Uno: un borde de 1,5 px cambiando de color es
+   casi invisible con el ojo puesto en otro lado, que es exactamente
+   dónde está el ojo de alguien que estuvo veinticinco minutos leyendo.
+   Dos: 2,4 segundos de titileo son largos como para ignorarlos y
+   cortos como para atender, así que terminan molestando sin avisar.
+
+   Ahora es un solo golpe: la tarjeta se levanta y se asienta, en
+   400 ms. Un movimiento de la pieza completa se ve de reojo; un borde
+   que cambia de color, no. Y el rojo se queda un momento más para que
+   quien miró tarde entienda qué acaba de pasar.
+
+   Es de los pocos lugares de la app donde el movimiento puede
+   permitirse algo de gracia: pasa cada veinticinco minutos, es una
+   pequeña celebración, y no hay nada que se esté interrumpiendo. */
 @keyframes pomo-avisa{
-  0%,100%{border-color:var(--tinta-borde)}
-  50%{border-color:var(--rojo-solido)}
+  0%   {transform:scale(1)}
+  38%  {transform:scale(1.025)}
+  100% {transform:scale(1)}
 }
-.pomo.sono{animation:pomo-avisa .8s ease 3}
-@media (prefers-reduced-motion:reduce){ .pomo.sono{animation:none} }
+.pomo.sono{
+  animation:pomo-avisa 400ms var(--sale);
+  border-color:var(--rojo-solido);
+  transition:border-color var(--t-medio) ease
+}
+.pomo{transition:border-color 600ms ease}
+/* Menos movimiento: se queda el aviso —el borde rojo, que es la
+   información— y se va el salto, que es lo que molesta. */
+@media (prefers-reduced-motion:reduce){
+  .pomo.sono{animation:none}
+}
 
 /* --- El nexo de Estudiemos hacia el organizador de finales --- */
 .nexo-final{
@@ -2083,21 +2525,59 @@ details.tarjeta .respuesta{margin-top:9px;color:var(--texto-suave);font-size:15p
 /* ---- La aparición al desplazar ----
    Sin librerías: un IntersectionObserver y dos propiedades que la placa
    de video puede animar sola (transform y opacity). Nada de height ni
-   top, que obligan a recalcular la página en cada cuadro. */
-.aparece{opacity:0;transform:translateY(18px);
-  transition:opacity .55s ease, transform .55s cubic-bezier(.2,.7,.2,1)}
-.aparece.visible{opacity:1;transform:none}
-.aparece:nth-child(2){transition-delay:.07s}
-.aparece:nth-child(3){transition-delay:.14s}
-.aparece:nth-child(4){transition-delay:.21s}
+   top, que obligan a recalcular la página en cada cuadro.
 
+   POR QUÉ BAJÓ DE 550 A 260 MILISEGUNDOS.
+
+   Este es el movimiento que más se ve en toda la app: cada párrafo de
+   «Quiénes somos» y del Consejo pasa por acá. Y llega en el peor
+   momento posible —después de que la persona ya esperó a que bajara el
+   contenido. Medio segundo más de espera, encima de una espera, se
+   siente como que la app está lenta, no como que es elegante.
+
+   Había además un error de curva: la opacidad usaba `ease`, que empieza
+   despacio. O sea que en el primer tercio del recorrido casi no pasaba
+   nada visible, y recién ahí el texto empezaba a aparecer. Arrancando
+   rápido y frenando suave, 260 ms se leen como más presentes que 550
+   con la curva blanda. No es una impresión: es que la persona ya puede
+   empezar a leer mientras el otro todavía está apareciendo.
+
+   El desplazamiento también bajó, de 18 a 10 píxeles. Con la duración
+   corta, 18 se sentían como un empujón.
+
+   EL ESCALONADO SE FUE DEL CSS. Estaba escrito con :nth-child, que
+   cuenta TODOS los hermanos, no solo los que se animan: en el Consejo
+   los .aparece están mezclados con elementos que no lo son, así que
+   los retardos caían en la pieza equivocada, y del quinto en adelante
+   ninguno tenía retardo y disparaban todos juntos con el primero.
+   Ahora lo pone lectura.js, contando de verdad y solo entre las piezas
+   que entran en la misma pantallada. */
+.aparece{
+  opacity:0;transform:translateY(10px);
+  transition:opacity var(--t-hoja) var(--sale),
+             transform var(--t-hoja) var(--sale)
+}
+.aparece.visible{opacity:1;transform:none}
+
+/* Menos movimiento: se queda el fundido, se va el desplazamiento. La
+   pieza igual avisa que llegó, pero no se corre de lugar. */
 @media (prefers-reduced-motion:reduce){
-  .aparece{opacity:1;transform:none;transition:none}
+  .aparece{transform:none;transition:opacity var(--t-medio) var(--sale)}
+  .aparece.visible{opacity:1}
 }
 
 /* Sin JavaScript la página tiene que leerse igual: si el observador no
    llega a correr, esto la deja visible. */
 .sin-js .aparece{opacity:1;transform:none}
+
+/* AL IMPRIMIR, TODO SE VE.
+   Estas dos pantallas son las que alguien imprime o guarda como PDF
+   para pegar en la cartelera del centro. Al imprimir, el navegador no
+   corre el observador: lo que no se reveló sale en blanco. Se imprimían
+   dos hojas vacías con la cabecera arriba. */
+@media print{
+  .aparece{opacity:1 !important;transform:none !important;transition:none !important}
+}
 
 /* Sobre la banda negra, los botones de borde tienen que invertirse: el
    --texto de la app es oscuro en modo claro, así que ahí quedaban
@@ -2105,7 +2585,9 @@ details.tarjeta .respuesta{margin-top:9px;color:var(--texto-suave);font-size:15p
 .banda.tinta .boton.borde{
   color:var(--sobre-negro);border-color:var(--sobre-negro);background:transparent
 }
-.banda.tinta .boton.borde:hover{background:rgba(255,255,255,.1)}
+@media (hover:hover) and (pointer:fine){
+  .banda.tinta .boton.borde:hover{background:rgba(255,255,255,.1)}
+}
 .banda.tinta .red-pendiente{color:var(--sobre-negro);opacity:.7}
 .banda.sol .boton.borde{color:var(--sobre-color);border-color:var(--sobre-color)}
 
@@ -2115,7 +2597,9 @@ details.tarjeta .respuesta{margin-top:9px;color:var(--texto-suave);font-size:15p
   display:inline-flex;align-items:center;min-height:32px;padding:6px 2px;
   color:inherit;text-decoration:none;border-bottom:1px solid currentColor
 }
-.volver-lectura:hover{opacity:.75}
+@media (hover:hover) and (pointer:fine){
+  .volver-lectura:hover{opacity:.75}
+}
 
 /* ============================================================
    LA GUÍA DE UNA MATERIA
@@ -2177,7 +2661,9 @@ details.tarjeta .respuesta{margin-top:9px;color:var(--texto-suave);font-size:15p
   padding:26px 16px;background:transparent;border:0;cursor:pointer;
   color:var(--texto);text-align:center;min-height:120px;justify-content:center
 }
-.modelo3d-tapa:hover{background:var(--superficie)}
+@media (hover:hover) and (pointer:fine){
+  .modelo3d-tapa:hover{background:var(--superficie)}
+}
 .modelo3d-tapa strong{
   font-family:var(--fuente-sub);font-weight:700;font-size:var(--letra-base)
 }
@@ -2251,17 +2737,21 @@ details.tarjeta .respuesta{margin-top:9px;color:var(--texto-suave);font-size:15p
 .invitacion-instalar{
   position:fixed;inset:0;z-index:90;background:rgba(26,26,26,.55);
   display:flex;align-items:flex-end;justify-content:center;
-  animation:fondo-entra .18s ease
+  opacity:1;
+  transition:opacity var(--t-chico) var(--sale)
 }
 .invitacion-hoja{
   background:var(--superficie);width:100%;max-width:var(--ancho-max);
   border-radius:var(--radio) var(--radio) 0 0;padding:22px 16px 26px;
-  animation:hoja-entra .26s cubic-bezier(.2,.8,.2,1)
+  transform:translateY(0);
+  transition:transform var(--t-hoja) var(--cajon)
 }
-.invitacion-instalar.cerrando{animation:fondo-sale .2s ease forwards}
-.invitacion-instalar.cerrando .invitacion-hoja{
-  animation:hoja-sale .22s cubic-bezier(.4,0,.9,.4) forwards
+@starting-style{
+  .invitacion-instalar{opacity:0}
+  .invitacion-hoja{transform:translateY(100%)}
 }
+.invitacion-instalar.cerrando{opacity:0}
+.invitacion-instalar.cerrando .invitacion-hoja{transform:translateY(100%)}
 .invitacion-ceja{
   margin:0;font-family:var(--fuente-datos);font-size:var(--letra-chica);
   letter-spacing:.14em;text-transform:uppercase;color:var(--texto-suave)
@@ -2293,10 +2783,12 @@ details.tarjeta .respuesta{margin-top:9px;color:var(--texto-suave);font-size:15p
 .invitacion-hoja .boton.texto{margin-top:8px}
 
 @media (prefers-reduced-motion:reduce){
-  .invitacion-instalar,.invitacion-hoja,
-  .invitacion-instalar.cerrando,.invitacion-instalar.cerrando .invitacion-hoja{
-    animation:none
+  .invitacion-hoja{
+    transform:none;opacity:1;
+    transition:opacity var(--t-chico) var(--sale)
   }
+  @starting-style{ .invitacion-hoja{transform:none;opacity:0} }
+  .invitacion-instalar.cerrando .invitacion-hoja{transform:none;opacity:0}
 }
 
 /* ============================================================
@@ -2384,11 +2876,13 @@ details.tarjeta .respuesta{margin-top:9px;color:var(--texto-suave);font-size:15p
   text-decoration-thickness:2px;
   text-underline-offset:3px
 }
-.respuesta a:hover, .paso-detalle a:hover, .bajada a:hover,
-.letra-chica a:hover, .aviso a:hover, .biblio a:hover,
-.modelo3d-credito a:hover, .vacio a:hover,
-.bajada-lectura a:hover, .aviso-transcripcion a:hover{
-  text-decoration-thickness:4px
+@media (hover:hover) and (pointer:fine){
+  .respuesta a:hover, .paso-detalle a:hover, .bajada a:hover,
+  .letra-chica a:hover, .aviso a:hover, .biblio a:hover,
+  .modelo3d-credito a:hover, .vacio a:hover,
+  .bajada-lectura a:hover, .aviso-transcripcion a:hover{
+    text-decoration-thickness:4px
+  }
 }
 
 /* ============================================================
@@ -2405,18 +2899,40 @@ details.tarjeta .respuesta{margin-top:9px;color:var(--texto-suave);font-size:15p
 .chat-fondo{
   position:fixed;inset:0;z-index:90;background:rgba(26,26,26,.55);
   display:flex;align-items:flex-end;justify-content:center;
-  animation:fondo-entra .18s ease
+  opacity:1;
+  transition:opacity var(--t-chico) var(--sale)
 }
 .chat{
   background:var(--superficie);width:100%;max-width:var(--ancho-max);
   height:min(560px, 86vh);display:flex;flex-direction:column;
   border-radius:var(--radio) var(--radio) 0 0;
   border:1px solid var(--linea);border-bottom:none;
-  animation:hoja-entra .26s cubic-bezier(.2,.8,.2,1)
+  transform:translateY(0);
+  transition:transform var(--t-hoja) var(--cajon)
 }
+@starting-style{
+  .chat-fondo{opacity:0}
+  .chat{transform:translateY(100%)}
+}
+.chat-fondo.cerrando{opacity:0}
+.chat-fondo.cerrando .chat{transform:translateY(100%)}
+
+/* Arriba de 560px el chat deja de subir del pie y se planta en el
+   medio. Un panel de 560 píxeles de alto centrado que igual entrara
+   deslizándose desde abajo tendría que recorrer media pantalla para
+   llegar a un lugar donde nunca estuvo: se lee como un salto, no como
+   algo que llega. Centrado, la física correcta es crecer un poco desde
+   donde ya está. */
 @media (min-width:560px){
   .chat-fondo{align-items:center;padding:20px}
-  .chat{border-radius:var(--radio);border-bottom:1px solid var(--linea);box-shadow:var(--sombra)}
+  .chat{
+    border-radius:var(--radio);border-bottom:1px solid var(--linea);box-shadow:var(--sombra);
+    transform:scale(1);opacity:1;
+    transition:transform var(--t-medio) var(--sale),
+               opacity var(--t-medio) var(--sale)
+  }
+  @starting-style{ .chat{transform:scale(.96);opacity:0} }
+  .chat-fondo.cerrando .chat{transform:scale(.96);opacity:0}
 }
 
 .chat-cabecera{
@@ -2433,7 +2949,9 @@ details.tarjeta .respuesta{margin-top:9px;color:var(--texto-suave);font-size:15p
   border:1px solid var(--linea);background:var(--superficie);
   font-size:15px;color:var(--texto);line-height:1
 }
-.chat-cerrar:hover{background:var(--superficie-2)}
+@media (hover:hover) and (pointer:fine){
+  .chat-cerrar:hover{background:var(--superficie-2)}
+}
 
 .chat-hilo{flex:1;overflow-y:auto;padding:14px 16px;display:flex;flex-direction:column;gap:10px}
 
@@ -2464,8 +2982,12 @@ details.tarjeta .respuesta{margin-top:9px;color:var(--texto-suave);font-size:15p
 .chat-puntos i:nth-child(3){animation-delay:.3s}
 @keyframes chat-late{0%,60%,100%{opacity:.3}30%{opacity:1}}
 @media (prefers-reduced-motion:reduce){
+  /* Los puntitos son opacidad pura, sin desplazamiento: eso se puede
+     dejar. Lo que se saca es el latido, que a esta velocidad cansa. */
   .chat-puntos i{animation:none;opacity:.6}
-  .chat-fondo,.chat{animation:none}
+  .chat{transform:none;opacity:1;transition:opacity var(--t-chico) var(--sale)}
+  @starting-style{ .chat{transform:none;opacity:0} }
+  .chat-fondo.cerrando .chat{transform:none;opacity:0}
 }
 
 .chat-opciones{display:flex;flex-wrap:wrap;gap:6px;margin-top:9px}
@@ -2475,7 +2997,9 @@ details.tarjeta .respuesta{margin-top:9px;color:var(--texto-suave);font-size:15p
   background:var(--superficie);color:var(--texto);text-decoration:none;
   display:inline-flex;align-items:center;min-height:32px
 }
-.chat-opcion:hover{background:var(--amarillo);color:var(--sobre-color)}
+@media (hover:hover) and (pointer:fine){
+  .chat-opcion:hover{background:var(--amarillo);color:var(--sobre-color)}
+}
 
 /* Las fichas que encontró: la misma marca de «Paso a paso» o «Sitio
    oficial» que en Info útil, para que se entienda que es lo mismo. */
@@ -2486,7 +3010,9 @@ details.tarjeta .respuesta{margin-top:9px;color:var(--texto-suave);font-size:15p
   border-left:4px solid var(--celeste);border-radius:var(--radio-chico);
   padding:9px 11px;text-decoration:none;color:var(--texto)
 }
-.chat-ficha:hover{border-color:var(--texto)}
+@media (hover:hover) and (pointer:fine){
+  .chat-ficha:hover{border-color:var(--texto)}
+}
 .chat-ficha-titulo{font-weight:700;font-size:14px;line-height:1.25}
 
 .chat-contactos{display:flex;flex-direction:column;gap:6px;margin-top:9px}
@@ -2496,7 +3022,9 @@ details.tarjeta .respuesta{margin-top:9px;color:var(--texto-suave);font-size:15p
   border-radius:var(--radio-chico);padding:9px 11px;
   text-decoration:none;color:var(--texto)
 }
-.chat-contacto:hover{border-color:var(--texto)}
+@media (hover:hover) and (pointer:fine){
+  .chat-contacto:hover{border-color:var(--texto)}
+}
 .chat-contacto-nombre{font-weight:700;font-size:14px}
 .chat-contacto-detalle{font-size:12px;color:var(--texto-suave);flex:1;min-width:0}
 .chat-contacto-como{
@@ -2522,8 +3050,71 @@ details.tarjeta .respuesta{margin-top:9px;color:var(--texto-suave);font-size:15p
   flex:0 0 auto;width:44px;height:44px;border-radius:50%;border:none;
   background:var(--negro);color:var(--amarillo);font-size:19px;line-height:1
 }
-.chat-enviar:hover{background:var(--texto)}
+@media (hover:hover) and (pointer:fine){
+  .chat-enviar:hover{background:var(--texto)}
+}
 
 /* Mientras se baja el archivo del chat, el botón dice que está
    haciendo algo. Sin esto parece que no respondió al toque. */
 .avisanos.cargando{opacity:.65;pointer-events:none}
+
+/* ============================================================
+   EL PASO DE UNA PANTALLA A OTRA
+
+   Esta app son siete páginas HTML separadas, no una sola con
+   pestañas. Eso está bien: cada pantalla pesa poco, se guarda sola en
+   el service worker y anda sin señal. Pero tenía un costo que se
+   pagaba en cada toque de la fila de secciones: entre una página y la
+   siguiente el navegador muestra un blanco. Un blanco de 200 ms es
+   suficiente para que se lea como «se cerró la app y se abrió otra
+   cosa», y es la razón principal por la que esto se sentía como siete
+   páginas y no como una app.
+
+   Con esto el navegador hace el cruce él mismo: guarda una foto de la
+   pantalla que se va, la funde con la que llega, y de paso mantiene
+   quieta la cabecera —que es idéntica en todas— en vez de hacerla
+   parpadear.
+
+   Son cuatro líneas y no cuesta un solo kilobyte de JavaScript. En los
+   navegadores que todavía no lo entienden no pasa absolutamente nada:
+   siguen viendo lo de antes.
+   ============================================================ */
+@view-transition{ navigation:auto }
+
+/* La cabecera y la fila de secciones son las mismas en todas las
+   pantallas: nombrándolas, el navegador entiende que no cambiaron y
+   las deja quietas mientras se cruza lo de abajo. Sin esto se funden
+   consigo mismas, que es un parpadeo sutil pero visible. */
+.cabecera{view-transition-name:cabecera}
+.secciones{view-transition-name:secciones}
+
+::view-transition-old(root),
+::view-transition-new(root){
+  animation-duration:var(--t-medio);
+  animation-timing-function:var(--sale)
+}
+
+/* Menos movimiento: el cruce se acorta hasta ser casi un corte, pero
+   no se apaga. Apagarlo devuelve el flash blanco, que es más brusco
+   que el fundido que se quería evitar. */
+@media (prefers-reduced-motion:reduce){
+  ::view-transition-old(root),
+  ::view-transition-new(root){ animation-duration:90ms }
+}
+
+/* ============================================================
+   ÚLTIMO REPASO DE «MENOS MOVIMIENTO»
+
+   Cada componente ya resuelve lo suyo arriba, al lado de su código,
+   que es donde se puede mantener. Acá quedan solo las dos cosas que no
+   tienen dueño en ninguna sección.
+   ============================================================ */
+@media (prefers-reduced-motion:reduce){
+  /* El carrusel deja de correrse solo: index.html tampoco le pone el
+     reloj, esto es la red de seguridad por si alguien lo mueve a mano. */
+  .carrusel-pista{transition:none}
+  /* El desplazamiento suave al tocar un día del calendario lo decide
+     agenda/index.html, que ya consulta la preferencia. Esto cubre
+     cualquier scroll suave que se agregue más adelante sin acordarse. */
+  html{scroll-behavior:auto}
+}

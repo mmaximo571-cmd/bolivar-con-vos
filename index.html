@@ -41,12 +41,32 @@
 <!-- ============ 1. APERTURA (se va sola) ============
      El logo animado de la Agrupación. Tres capas apiladas que se van
      revelando: primero el contorno de Sudamérica dibujándose de norte
-     a sur, después SIMÓN y BOLÍVAR barriendo de izquierda a derecha. -->
+     a sur, después SIMÓN y BOLÍVAR barriendo de izquierda a derecha.
+
+     LAS CORTINAS. Cada capa lleva adentro un rectángulo del mismo
+     amarillo del fondo que la tapa y se corre para dejarla a la vista.
+     Antes esto se hacía con una máscara de degradado a la que el guion
+     le reescribía la posición en cada cuadro, y reescribir una máscara
+     obliga al navegador a repintar la capa entera: tres imágenes de
+     1080x1350 repintadas sesenta veces por segundo, justo en el
+     arranque, que es cuando el teléfono menos tiene para dar. Correr un
+     rectángulo, en cambio, lo hace la placa de video sola y no repinta
+     nada. Se ve igual porque el fondo es plano: lo que tapa el
+     rectángulo es indistinguible del fondo que tiene al lado. -->
 <div class="apertura" id="apertura">
   <div class="marca-escena" id="marca-escena">
-    <div class="capa" id="capa-mapa"><img src="marca/map.png" alt=""></div>
-    <div class="capa" id="capa-simon"><img src="marca/simon.png" alt=""></div>
-    <div class="capa" id="capa-bolivar"><img src="marca/bolivar.png" alt=""></div>
+    <div class="capa" id="capa-mapa">
+      <img src="marca/map.png" alt="" decoding="async">
+      <i class="cortina hacia-abajo"></i>
+    </div>
+    <div class="capa" id="capa-simon">
+      <img src="marca/simon.png" alt="" decoding="async">
+      <i class="cortina hacia-derecha"></i>
+    </div>
+    <div class="capa" id="capa-bolivar">
+      <img src="marca/bolivar.png" alt="" decoding="async">
+      <i class="cortina hacia-derecha"></i>
+    </div>
     <div class="destello" id="destello"></div>
   </div>
 </div>
@@ -164,10 +184,24 @@
 <div class="zona-fondo" id="zona-fondo">
   <div class="envoltura">
 
-    <!-- Los nueve accesos -->
+    <!-- Los nueve accesos.
+         LOS DOS PRIMEROS VAN ESCRITOS, NO COMO ESQUELETO. «Mi año» y
+         «Estudiemos» están puestos a mano en el guion de más abajo: no
+         salen de ninguna consulta y no hay absolutamente nada que
+         esperar para mostrarlos. Ponerlos como cajón vacío hasta que
+         contestara Supabase era inventar una demora que no existía, y
+         justo en los dos accesos que más se usan. Ahora se ven desde el
+         primer cuadro, se pueden tocar antes de que llegue el resto, y
+         cuando llega el resto no salta nada: el guion reemplaza la
+         rejilla entera con estos dos primeros en el mismo lugar.
+         Los otros siete sí dependen de qué categorías tengan contenido,
+         así que esos sí son esqueleto. -->
     <div class="titulo-seccion">A DÓNDE IR</div>
     <div class="rejilla-3x3" id="accesos">
-      <div class="esq-cuadro"></div><div class="esq-cuadro"></div>
+      <a class="boton-cuadro destacado" href="carrera/">
+        <span class="icono">🎓</span><span class="nombre">Mi año</span></a>
+      <a class="boton-cuadro" href="estudiemos/">
+        <span class="icono">📚</span><span class="nombre">Estudiemos</span></a>
       <div class="esq-cuadro"></div><div class="esq-cuadro"></div>
       <div class="esq-cuadro"></div><div class="esq-cuadro"></div>
       <div class="esq-cuadro"></div><div class="esq-cuadro"></div>
@@ -307,7 +341,27 @@
      único que cambia es a qué velocidad avanza. Así que si querés que
      dure más o menos, tocá SOLO esta línea:
      ============================================================ */
-  const DURACION_APERTURA = 2.6;   // segundos que dura en la app
+  /* POR QUÉ BAJÓ DE 2,6 A 1,2 SEGUNDOS.
+
+     Hay que sumar todo lo que había entre tocar el ícono y ver una
+     fecha: hasta 1,8 s esperando que bajaran las tres imágenes, 2,6 s
+     de animación, 0,38 s de fundido, y recién ahí la portada, que pide
+     OTRO toque para entrar. Casi cinco segundos.
+
+     Eso es aceptable la primera vez que alguien abre la app. No lo es
+     la décima, y menos cuando la razón para abrirla es mirar si la
+     mesa de examen es el jueves. La animación se guardaba por sesión,
+     así que en la práctica se pagaba varias veces por semana.
+
+     1,2 segundos siguen alcanzando para que la marca se lea —el logo
+     se dibuja, las dos palabras entran, el destello cruza— y ya no
+     alcanzan para que la espera se note como espera. Es la diferencia
+     entre una presentación y una puerta.
+
+     Y no se paga sola: la espera por las imágenes bajó a 0,6 s, y las
+     tres imágenes ahora las guarda el service worker, así que a partir
+     de la segunda visita están en el teléfono y no se espera nada. */
+  const DURACION_APERTURA = 1.2;   // segundos que dura en la app
 
   const TOTAL_ORIGINAL = 8.8;
   /* Cada escena empieza donde termina la anterior (3 + 2,2 + 2,6 + 1) */
@@ -329,23 +383,51 @@
     };
   }
 
-  /* Las máscaras: una franja que barre y va destapando la capa */
-  const mascaraMapa = p =>
-    `linear-gradient(to bottom, #000 0%, #000 ${p*100 - 3}%,` +
-    ` rgba(0,0,0,0) ${p*100 + 3}%, rgba(0,0,0,0) 100%)`;
-  const mascaraPalabra = p =>
-    `linear-gradient(to right, #000 0%, #000 ${p*100 - 6}%,` +
-    ` rgba(0,0,0,0) ${p*100 + 6}%, rgba(0,0,0,0) 100%)`;
+  /* TODO LO QUE SE MUEVE ACÁ SE MUEVE CON transform. NADA MÁS.
+
+     Esta función corre sesenta veces por segundo durante el arranque de
+     la app, que es el peor momento del teléfono: está bajando las
+     imágenes, las cuatro consultas, y armando la página. Cualquier cosa
+     que se toque acá y que obligue al navegador a recalcular la página
+     o a repintar una capa se paga sesenta veces.
+
+     Antes se tocaban tres cosas caras:
+       · la máscara de las tres capas, reescrita entera cada cuadro
+         (repinta 1080x1350 px por capa),
+       · la propiedad `left` del destello (recalcula la página),
+       · y se leía innerWidth DESPUÉS de haber escrito estilos, que
+         obliga al navegador a frenar y rehacer las cuentas de layout
+         antes de contestar.
+
+     Ahora las tres capas se destapan corriendo una cortina, el destello
+     se mueve con translateX, y la escala se mide una sola vez y se
+     guarda. Lo único que se escribe por cuadro son transform y opacity,
+     que es exactamente lo que la placa de video sabe hacer sin ayuda. */
+
+  /* La escala depende del tamaño de la ventana, que durante la apertura
+     no cambia. Medirla una vez y guardarla saca del bucle la única
+     lectura de geometría que quedaba. Si alguien gira el teléfono en el
+     segundo que dura, se vuelve a medir. */
+  let escalaGuardada = 0;
+  function escalaActual(){
+    if (!escalaGuardada) escalaGuardada = escala();
+    return escalaGuardada;
+  }
+  addEventListener('resize', () => { escalaGuardada = 0; }, { passive:true });
+  addEventListener('orientationchange', () => { escalaGuardada = 0; }, { passive:true });
 
   function pintarCuadro(T, escena, capas){
+    /* El contorno de Sudamérica: la cortina baja y lo va dejando ver.
+       Es el mismo recorrido que hacía la máscara, de norte a sur. */
     const dibujo = tramo(0, 1, CUE.tinta + 0.3, CUE.tinta + 2.5, suaveAmbos)(T);
-    ponerMascara(capas.mapa, mascaraMapa(dibujo));
+    capas.cortinaMapa.style.transform = `translateY(${dibujo * 100}%)`;
 
     /* SIMÓN entra primero, BOLÍVAR un poco después */
     const p1 = tramo(0, 1, CUE.palabras - 0.2,  CUE.palabras + 1.0,  suaveFinal)(T);
     const p2 = tramo(0, 1, CUE.palabras + 0.35, CUE.palabras + 1.55, suaveFinal)(T);
-    [[capas.simon, p1], [capas.bolivar, p2]].forEach(([capa, p]) => {
-      ponerMascara(capa, mascaraPalabra(p));
+    [[capas.simon, capas.cortinaSimon, p1],
+     [capas.bolivar, capas.cortinaBolivar, p2]].forEach(([capa, cortina, p]) => {
+      cortina.style.transform = `translateX(${p * 100}%)`;
       capa.style.transform = `translateX(${-(1 - p) * 26}px)`;
     });
 
@@ -354,19 +436,18 @@
     const respiro  = 1 + 0.005 * Math.sin((T - CUE.respiro) * 1.15);
     const salida   = tramo(0, 1, CUE.salida + 0.1, CUE.salida + 0.85, suaveCuad)(T);
 
-    escena.style.transform = `scale(${escala() * asiento * respiro * (1 + 0.05 * salida)})`;
+    escena.style.transform = `scale(${escalaActual() * asiento * respiro * (1 + 0.05 * salida)})`;
     escena.style.opacity   = 1 - salida;
 
-    /* El destello de luz que cruza la marca */
+    /* El destello de luz que cruza la marca. Se mueve con translateX y
+       no con `left`: el resultado en pantalla es el mismo y el costo
+       no. La franja mide 26% del ancho de la escena, así que el
+       recorrido se expresa en múltiplos de su propio ancho. */
     const destelloX = tramo(-60, 160, CUE.respiro + 0.2, CUE.respiro + 1.9, suaveCuad)(T);
-    capas.destello.style.left = destelloX + '%';
+    capas.destello.style.transform =
+      `translateX(${destelloX / 26 * 100}%) rotate(14deg)`;
     capas.destello.style.opacity =
       topar(Math.sin(Math.PI * topar((T - CUE.respiro - 0.2) / 1.7, 0, 1)), 0, 1) * 0.55;
-  }
-
-  function ponerMascara(el, valor){
-    el.style.webkitMaskImage = valor;
-    el.style.maskImage = valor;
   }
 
   /* La tinta del dibujo ocupa 805x664 dentro del lienzo de 1080x1350.
@@ -388,10 +469,14 @@
     guardar(sessionStorage, LLAVE_APERTURA);
 
     const escena = document.getElementById('marca-escena');
+    const mapa    = document.getElementById('capa-mapa');
+    const simon   = document.getElementById('capa-simon');
+    const bolivar = document.getElementById('capa-bolivar');
     const capas = {
-      mapa:     document.getElementById('capa-mapa'),
-      simon:    document.getElementById('capa-simon'),
-      bolivar:  document.getElementById('capa-bolivar'),
+      mapa, simon, bolivar,
+      cortinaMapa:    mapa.querySelector('.cortina'),
+      cortinaSimon:   simon.querySelector('.cortina'),
+      cortinaBolivar: bolivar.querySelector('.cortina'),
       destello: document.getElementById('destello')
     };
 
@@ -400,7 +485,15 @@
       if (terminada) return;
       terminada = true;
       capaApertura.classList.add('yendose');
-      setTimeout(() => capaApertura.remove(), 380);
+      /* Se espera el fin del fundido en vez de contar 380 ms a mano: la
+         duración vive en el CSS y acá no hay que repetirla. El respaldo
+         por tiempo queda por si la transición no llega a dispararse
+         —pestaña de fondo, animaciones frenadas por el sistema—, para
+         que la capa no se quede tapando la app para siempre. */
+      let sacada = false;
+      const sacar = () => { if (!sacada){ sacada = true; capaApertura.remove(); } };
+      capaApertura.addEventListener('transitionend', sacar, { once:true });
+      setTimeout(sacar, 600);
       seguirDespuesDeLaApertura();
     }
 
@@ -411,21 +504,29 @@
        la pestaña no está a la vista, así que si alguien abre la app en una
        pestaña de fondo la animación se pausa a mitad de camino. Sin esto,
        al volver se encontraría la apertura colgada y la app inalcanzable. */
-    setTimeout(cerrar, DURACION_APERTURA * 1000 + 2600);
+    setTimeout(cerrar, DURACION_APERTURA * 1000 + 1400);
 
-    const sinMovimiento = window.matchMedia &&
-      window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-
-    if (sinMovimiento){
-      /* Sin animación: mostramos el logo ya armado y seguimos */
+    if (menosMovimiento()){
+      /* Sin animación: se muestra el logo ya armado y se sigue en el
+         acto. Antes había un setTimeout de 700 ms acá: setecientos
+         milisegundos de amarillo quieto a alguien que justamente pidió
+         no esperar movimiento. Esperar sin que pase nada es lo peor de
+         las dos opciones. */
       pintarCuadro(CUE.respiro + 0.9, escena, capas);
-      setTimeout(cerrar, 700);
+      cerrar();
       return;
     }
 
     /* Las tres capas tienen que estar cargadas antes de empezar, si no
        la animación arranca con la pantalla vacía. Pero nadie espera para
-       siempre: si tardan, se entra igual a la app. */
+       siempre: si tardan, se entra igual a la app.
+
+       Eran 1,8 segundos de espera; ahora son 0,6. El número alto tenía
+       sentido cuando las imágenes se bajaban de la red en cada visita.
+       Ahora las guarda el service worker: de la segunda vez en adelante
+       están en el teléfono y esto resuelve en el primer cuadro. Y la
+       primera vez, en una red lenta, es mejor entrar a la app sin
+       animación que mirar un rectángulo amarillo casi dos segundos. */
     const imagenes = [capas.mapa, capas.simon, capas.bolivar]
       .map(c => c.querySelector('img'));
 
@@ -433,7 +534,7 @@
       ? Promise.resolve()
       : new Promise(res => { img.onload = res; img.onerror = res; })));
 
-    const seCansoDeEsperar = new Promise(res => setTimeout(res, 1800));
+    const seCansoDeEsperar = new Promise(res => setTimeout(res, 600));
 
     /* Antes de que carguen no se ve nada más que el amarillo */
     escena.style.opacity = 0;
@@ -604,7 +705,7 @@
       <a class="mi-cursada" href="carrera/">
         <span class="mi-cursada-rotulo">Mi cursada</span>
         <strong>${esc(r.carrera)}</strong>
-        <div class="barra"><div class="barra-llena" style="width:${pct}%"></div></div>
+        <div class="barra"><div class="barra-llena" style="--llena:${pct}"></div></div>
         <div class="mi-cursada-datos">
           <span><b>${aprobadas}</b> de ${total} materias${
             cursando ? ' · ' + cursando + ' cursando' : ''}</span>
@@ -680,24 +781,148 @@
     const puntos = document.getElementById('carrusel-puntos');
     let actual = 0, solo = false;
 
-    function ir(i){
+    /* «a-dedo» le cambia la curva y la duración: 400 ms blandos cuando
+       avanza solo, 220 ms secos cuando la persona lo pidió. Son dos
+       cosas distintas y no pueden moverse igual —ver estilos.css. */
+    function ir(i, porPedido){
       actual = (i + laminas.length) % laminas.length;
+      pista.classList.remove('arrastrando');
+      pista.classList.toggle('a-dedo', !!porPedido);
       pista.style.transform = `translateX(-${actual * 100}%)`;
       puntos.querySelectorAll('button').forEach((b,n) =>
         b.setAttribute('aria-current', n === actual));
     }
     puntos.addEventListener('click', e => {
       const b = e.target.closest('button');
-      if (b){ solo = true; ir(+b.dataset.i); }
+      if (b){ solo = true; parar(); ir(+b.dataset.i, true); }
     });
 
-    /* Se desliza solo, salvo que la persona ya haya elegido una, o que
-       tenga pedido menos movimiento en el teléfono. */
-    const quieto = window.matchMedia &&
-      window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-    if (!quieto && laminas.length > 1){
-      setInterval(() => { if (!solo) ir(actual + 1); }, 5000);
+    /* ---- Deslizar con el dedo ----
+
+       Una imagen a ancho completo con puntitos abajo es, para
+       cualquiera que tenga un teléfono, algo que se desliza. Que no
+       respondiera al dedo no se leía como «este carrusel no tiene esa
+       función»: se leía como que la app no anda.
+
+       Dos detalles que son los que separan un deslizamiento que se
+       siente bien de uno que se siente pegajoso:
+
+       · Mientras el dedo está apoyado la lámina lo sigue 1 a 1, sin
+         transición (por eso la clase «arrastrando»). Cualquier retardo
+         acá se percibe como que la imagen pesa.
+       · Para pasar de lámina no hace falta cruzar media pantalla:
+         alcanza con un envión. Se mide la VELOCIDAD, no la distancia.
+         Un tirón corto y rápido es una intención tan clara como un
+         arrastre largo, y pedir distancia obliga a repetir el gesto.
+
+       Y en el borde el arrastre pesa el triple: la lámina se mueve
+       menos cuanto más lejos la llevás. Es lo que hacen las cosas
+       reales cuando llegan al final de su recorrido, y dice «no hay
+       más» sin un tope invisible que frene en seco. */
+    let x0 = 0, y0 = 0, dx = 0, t0 = 0, arrastrando = false, decidido = false;
+    const ancho = () => pista.getBoundingClientRect().width || 1;
+
+    pista.addEventListener('pointerdown', e => {
+      if (e.pointerType === 'mouse' && e.button !== 0) return;
+      x0 = e.clientX; y0 = e.clientY; dx = 0;
+      t0 = e.timeStamp; arrastrando = true; decidido = false;
+      solo = true; parar();
+    });
+
+    pista.addEventListener('pointermove', e => {
+      if (!arrastrando) return;
+      const mx = e.clientX - x0, my = e.clientY - y0;
+
+      /* Hasta no saber si el gesto es horizontal o vertical no se toca
+         nada: si no, mover el dedo para bajar la página arrastraría la
+         lámina de costado. Se decide una sola vez por gesto. */
+      if (!decidido){
+        if (Math.abs(mx) < 8 && Math.abs(my) < 8) return;
+        if (Math.abs(my) > Math.abs(mx)){ arrastrando = false; return; }
+        decidido = true;
+        pista.classList.add('arrastrando');
+        /* Desde acá el dedo es nuestro aunque se salga del carrusel */
+        try { pista.setPointerCapture(e.pointerId); } catch(err){}
+      }
+
+      dx = mx;
+      /* En los extremos, resistencia */
+      const enBorde = (actual === 0 && dx > 0) ||
+                      (actual === laminas.length - 1 && dx < 0);
+      if (enBorde) dx = dx / 3;
+      pista.style.transform =
+        `translateX(calc(${-actual * 100}% + ${dx}px))`;
+    });
+
+    function soltar(e){
+      if (!arrastrando) return;
+      arrastrando = false;
+      if (!decidido){ ir(actual); return; }
+
+      const recorrido = Math.abs(dx);
+      const tiempo    = Math.max(1, e.timeStamp - t0);
+      const envion    = recorrido / tiempo;      /* px por milisegundo */
+
+      /* 0,11 px/ms es el umbral con el que un tirón corto ya cuenta.
+         Y si el dedo recorrió más de un tercio de la lámina, cuenta
+         igual aunque haya ido despacio: ahí la intención es evidente. */
+      const pasa = envion > 0.11 || recorrido > ancho() / 3;
+
+      /* CON EL DEDO NO SE DA LA VUELTA.
+         El avance solo sí vuelve a empezar cuando llega al final: es un
+         bucle de ambiente y está bien que lo sea. Pero arrastrando no.
+         Un momento antes el borde le puso resistencia al dedo, que es
+         la app diciendo «de este lado no hay más»; si al soltar saltara
+         a la última lámina, esa resistencia habría sido mentira. Se
+         queda donde está, que es lo que la resistencia prometió. */
+      const destino = pasa ? actual + (dx < 0 ? 1 : -1) : actual;
+      ir(Math.max(0, Math.min(laminas.length - 1, destino)), true);
     }
+    pista.addEventListener('pointerup', soltar);
+    pista.addEventListener('pointercancel', soltar);
+
+    /* ---- El avance solo ----
+
+       Antes esto era un setInterval que se creaba y no se apagaba
+       nunca: seguía corriendo con el carrusel fuera de pantalla —o sea
+       casi todo el tiempo, porque está arriba de todo y la gente baja—
+       y con la app en segundo plano. Cada vuelta movía una imagen a
+       ancho completo que nadie estaba mirando: batería y trabajo del
+       compositor tirados.
+
+       Ahora late solo cuando se dan las tres condiciones: el carrusel
+       está a la vista, la pestaña está adelante, y la persona todavía
+       no tocó nada. Al primer toque se apaga para siempre: si alguien
+       eligió una lámina, moverla sola es discutirle. */
+    let reloj = null;
+    const parar    = () => { clearInterval(reloj); reloj = null; };
+    const arrancar = () => {
+      if (reloj || solo) return;
+      reloj = setInterval(() => {
+        if (document.hidden) return;
+        ir(actual + 1);
+      }, 5000);
+    };
+
+    if (!menosMovimiento() && laminas.length > 1){
+      if ('IntersectionObserver' in window){
+        new IntersectionObserver(([e]) => {
+          if (e.isIntersecting && !menosMovimiento()) arrancar();
+          else parar();
+        }, { threshold: 0.35 }).observe(caja);
+      } else {
+        arrancar();
+      }
+      document.addEventListener('visibilitychange', () => {
+        if (document.hidden) parar();
+      });
+    }
+
+    /* Si alguien activa «menos movimiento» con la app abierta, el
+       carrusel se frena en el acto. Es lo primero que hay que apagarle
+       a quien acaba de marearse: no puede tener que recargar para que
+       la app le haga caso. */
+    alCambiarMovimiento(pidioQuieto => { if (pidioQuieto) parar(); });
   })();
 
   /* ---------- Calendario cuadrado de lo que se viene ----------
