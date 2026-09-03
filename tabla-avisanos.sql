@@ -114,15 +114,62 @@ alter table public.consultas enable row level security;
 --
 -- Lo que lo hace seguro es lo que NO puede hacer: nadie sin cuenta
 -- puede LEER esta tabla, ni editarla, ni borrarla. Solo dejar un
--- renglón. Y el `with check` limita el largo, así que tampoco sirve
--- para meter un texto enorme.
+-- renglón.
+--
+-- OJO, ACÁ HUBO UN AGUJERO (cerrado el 2/9/2026): el `with check`
+-- limitaba el largo SOLO de `texto`. Pero `carrera` sale de
+-- localStorage y `pantalla` de la URL: las escribe el visitante y no
+-- tenían ningún tope. Con eso, un renglón de 500 letras podía traer
+-- dos campos de megabytes al lado. La base tiene 500 MB: llenarla es
+-- tirar abajo la app entera, no solo Avisanos.
 grant insert on public.consultas to anon, authenticated;
 grant select, update, delete on public.consultas to authenticated;
 
 drop policy if exists "consultas cualquiera pregunta" on public.consultas;
 create policy "consultas cualquiera pregunta"
   on public.consultas for insert to anon, authenticated
-  with check (char_length(texto) between 2 and 500);
+  with check (
+        char_length(texto) between 2 and 500
+    and char_length(coalesce(carrera,  '')) <= 20
+    and char_length(coalesce(pantalla, '')) <= 120
+    -- Sin esto, quien manda spam lo entra ya marcado como resuelto y
+    -- el equipo no lo ve nunca en la lista de pendientes.
+    and resuelta = false
+  );
+
+-- El freno de caudal. Un tope por renglón no alcanza: lo que llena la
+-- base es el bucle, no el renglón. Veinte por minuto es muchísimo más
+-- de lo que esta app va a tener, y corta en seco al que automatiza.
+--
+-- Va como `security definer` porque sin cuenta no se puede leer la
+-- tabla, y para contar hay que leerla.
+create or replace function public.freno_consultas()
+returns trigger language plpgsql security definer set search_path = public as $$
+declare
+  ultimas int;
+begin
+  select count(*) into ultimas
+    from public.consultas where creado_at > now() - interval '1 minute';
+  if ultimas >= 20 then
+    raise exception 'Llegaron demasiadas consultas juntas.' using errcode = '54000';
+  end if;
+
+  -- Y la misma pregunta repetida, que es lo que hace un botón trabado.
+  if exists (select 1 from public.consultas
+              where texto = new.texto
+                and creado_at > now() - interval '10 minutes') then
+    raise exception 'Esa consulta ya llegó recién.' using errcode = '54000';
+  end if;
+
+  return new;
+end $$;
+
+revoke all on function public.freno_consultas() from public, anon, authenticated;
+
+drop trigger if exists freno_consultas on public.consultas;
+create trigger freno_consultas
+  before insert on public.consultas
+  for each row execute function public.freno_consultas();
 
 drop policy if exists "consultas las lee el equipo" on public.consultas;
 create policy "consultas las lee el equipo"

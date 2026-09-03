@@ -858,6 +858,22 @@ error `42501 permission denied`:
 
 Hay que abrir los dos. Si solo se escriben las políticas RLS, no funciona nada.
 
+**Y hay un tercer candado que no se ve.** RLS filtra fila por fila, así que no
+mira `TRUNCATE`, que no borra filas: vacía la tabla entera de un saque. Ese
+permiso venía concedido a todo el mundo por el default de Supabase y se revocó
+el 2/9/2026.
+
+Los arreglos de seguridad que no son de una tabla en particular viven en
+**`tabla-seguridad.sql`**, que además deja anotado qué se revisó y estaba bien,
+para no volver a auditar lo mismo.
+
+**Lo que RLS tampoco hace es frenar el caudal.** Una política dice quién puede
+escribir, no cuántas veces por minuto. Las dos puertas que escriben sin cuenta
+—las consultas de Avisanos y los respaldos de «Mi año»— tienen su propio freno,
+cada uno documentado en su archivo. Si algún día se agrega otra puerta abierta,
+hay que ponerle freno también: la base tiene 500 MB y llenarla no rompe esa
+función, rompe la app entera.
+
 ---
 
 ## Cómo funcionan los permisos

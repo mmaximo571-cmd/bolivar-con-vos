@@ -38,15 +38,23 @@ revoke all on public.respaldos from anon, authenticated;
 -- Alfabeto sin caracteres que se confunden al copiar a mano: sin 0/O,
 -- sin 1/I/L. Quedan 31, y el código tiene 12: son 31^12 combinaciones,
 -- o sea que adivinar uno no es una opción.
+--
+-- El azar tiene que ser fuerte. `random()` no lo es: es previsible, y
+-- las sesiones de Postgres se reusan entre visitantes, así que quien
+-- pide muchos códigos podría llegar a adivinar el de otra persona. Y
+-- con el código de alguien se le lee el año entero. `gen_random_uuid()`
+-- usa el azar del sistema operativo.
 create or replace function public.codigo_nuevo()
-returns text language plpgsql as $$
+returns text language plpgsql
+set search_path = public as $$
 declare
   alfabeto constant text := '23456789ABCDEFGHJKMNPQRSTUVWXYZ';
+  crudo    bytea := decode(replace(gen_random_uuid()::text, '-', ''), 'hex');
   c text := '';
   i int;
 begin
-  for i in 1..12 loop
-    c := c || substr(alfabeto, 1 + floor(random() * length(alfabeto))::int, 1);
+  for i in 0..11 loop
+    c := c || substr(alfabeto, 1 + (get_byte(crudo, i) % 31), 1);
   end loop;
   -- En grupos de cuatro: se lee y se dicta mejor.
   return substr(c,1,4) || '-' || substr(c,5,4) || '-' || substr(c,9,4);
@@ -58,7 +66,25 @@ returns text language plpgsql security definer set search_path = public as $$
 declare
   c text;
   intentos int := 0;
+  recientes int;
 begin
+  -- Tres frenos, porque esta función la puede llamar cualquiera sin
+  -- cuenta: que sea un objeto, que no pese más de 100 KB, y que no
+  -- entren más de diez por minuto. Sin esto, alguien manda un JSON
+  -- enorme en un bucle y llena la base; y si la base se llena no se
+  -- cae el respaldo, se cae la app entera.
+  if jsonb_typeof(p_datos) <> 'object' then
+    raise exception 'El respaldo tiene que ser un objeto.' using errcode = '22023';
+  end if;
+  if pg_column_size(p_datos) > 100000 then
+    raise exception 'El respaldo es demasiado grande.' using errcode = '54000';
+  end if;
+  select count(*) into recientes
+    from public.respaldos where creado_at > now() - interval '1 minute';
+  if recientes >= 10 then
+    raise exception 'Se están creando demasiados respaldos juntos.' using errcode = '54000';
+  end if;
+
   loop
     c := public.codigo_nuevo();
     begin
@@ -79,6 +105,16 @@ returns boolean language plpgsql security definer set search_path = public as $$
 declare
   tocadas int;
 begin
+  -- El mismo tope que al crear: el código es la llave de quien lo
+  -- tenga, y sin tope quien conoce uno puede engordarlo hasta llenar
+  -- la base.
+  if jsonb_typeof(p_datos) <> 'object' then
+    raise exception 'El respaldo tiene que ser un objeto.' using errcode = '22023';
+  end if;
+  if pg_column_size(p_datos) > 100000 then
+    raise exception 'El respaldo es demasiado grande.' using errcode = '54000';
+  end if;
+
   update public.respaldos
      set datos = p_datos, actualizado_at = now()
    where codigo = upper(trim(p_codigo));
