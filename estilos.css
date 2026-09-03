@@ -135,13 +135,23 @@
      una tabla de manual. LO NUEVO SE ESCRIBE CON ESTOS. Si hace falta
      un tamano que no esta, primero fijate si no sirve el de al lado:
      casi siempre sirve. */
-  --letra-mini:   11px;  /* pastillas y etiquetas en mayusculas   */
-  --letra-chica:  12px;  /* metadatos, leyendas                   */
-  --letra-nota:   13px;  /* textos secundarios, pies              */
-  --letra-densa:  14px;  /* listas apretadas                      */
-  --letra-base:   15px;  /* el cuerpo del texto                   */
-  --letra-guia:   17px;  /* la bajada de cada pantalla            */
-  --letra-sub:    20px;  /* titulos de seccion                    */
+     El 4/9/2026 la escala subio un punto entera, de 11-20 a 12-21.
+     Antes de moverla hubo que hacer otra cosa: de las 178 medidas de
+     texto de la app, solo 55 usaban estas variables. Las otras 123
+     repetian los mismos numeros a mano (veinte veces 14px, diecisiete
+     veces 15px) y se habrian quedado chicas, dejando media app grande
+     y media chica. Asi que primero pasaron todas por aca.
+
+     El titulo NO subio. Ya era grande, y agrandar titulos no se lee
+     mejor: se desborda. Lo mismo con los tamanos sueltos de 16px para
+     arriba, que son numeros y titulares. */
+  --letra-mini:   12px;  /* pastillas y etiquetas en mayusculas   */
+  --letra-chica:  13px;  /* metadatos, leyendas                   */
+  --letra-nota:   14px;  /* textos secundarios, pies              */
+  --letra-densa:  15px;  /* listas apretadas                      */
+  --letra-base:   16px;  /* el cuerpo del texto                   */
+  --letra-guia:   18px;  /* la bajada de cada pantalla            */
+  --letra-sub:    21px;  /* titulos de seccion                    */
   --letra-titulo: 30px;  /* el titulo de la pantalla              */
 
   /* --- LA ESCALA DE ESPACIO ---
@@ -307,7 +317,7 @@ h1,h2,h3{margin:0;font-weight:400}
 .saltar{
   position:absolute;left:-9999px;top:0;z-index:200;
   background:var(--amarillo);color:var(--sobre-color);
-  font-family:var(--fuente-sub);font-weight:700;font-size:14px;
+  font-family:var(--fuente-sub);font-weight:700;font-size:var(--letra-densa);
   padding:12px 18px;border-radius:0 0 var(--radio) 0;text-decoration:none
 }
 .saltar:focus{left:0}
@@ -437,7 +447,7 @@ button:focus-visible,
    ensucia y no dice nada que el logo no diga ya, así que abajo de
    420 px no se muestra. */
 .marca-centro small{
-  display:none;font-family:var(--fuente-texto);font-size:10px;font-weight:500;
+  display:none;font-family:var(--fuente-texto);font-size:var(--letra-mini);font-weight:500;
   letter-spacing:.09em;text-transform:uppercase;color:var(--sobre-negro-tenue);margin-top:3px;
   white-space:nowrap;overflow:hidden;text-overflow:ellipsis
 }
@@ -445,7 +455,7 @@ button:focus-visible,
 .boton-icono{
   width:44px;height:44px;display:flex;align-items:center;justify-content:center;
   background:transparent;border:none;border-radius:50%;
-  font-size:20px;line-height:1;color:var(--sobre-negro);text-decoration:none;padding:0
+  font-size:var(--letra-sub);line-height:1;color:var(--sobre-negro);text-decoration:none;padding:0
 }
 @media (hover:hover) and (pointer:fine){
   .boton-icono:hover{background:rgba(255,255,255,.12)}
@@ -477,7 +487,7 @@ svg.ico{width:1em;height:1em;display:block;flex:0 0 auto}
 .secciones-fila a{
   flex:1 0 auto;min-width:72px;padding:9px 10px 11px;text-decoration:none;
   display:flex;flex-direction:column;align-items:center;gap:3px;
-  font-family:var(--fuente-sub);font-size:11px;font-weight:700;
+  font-family:var(--fuente-sub);font-size:var(--letra-mini);font-weight:700;
   text-transform:uppercase;letter-spacing:.04em;color:var(--sobre-negro-suave);
   border-bottom:3px solid transparent
 }
@@ -546,7 +556,7 @@ svg.ico{width:1em;height:1em;display:block;flex:0 0 auto}
   text-decoration:none;color:var(--sobre-negro);
   font-family:var(--fuente-sub);font-size:16px;font-weight:700
 }
-.menu-lista a .icono{font-size:20px;line-height:1}
+.menu-lista a .icono{font-size:var(--letra-sub);line-height:1}
 @media (hover:hover) and (pointer:fine){
   .menu-lista a:hover{background:rgba(255,255,255,.08)}
 }
@@ -561,7 +571,7 @@ svg.ico{width:1em;height:1em;display:block;flex:0 0 auto}
   margin-top:auto;padding:18px 18px 0;border-top:1px solid var(--linea-negro)
 }
 .menu-tema-rotulo{
-  display:block;font-family:var(--fuente-sub);font-size:11px;font-weight:700;
+  display:block;font-family:var(--fuente-sub);font-size:var(--letra-mini);font-weight:700;
   letter-spacing:.1em;text-transform:uppercase;color:var(--sobre-negro-tenue);margin-bottom:9px
 }
 .tema-opciones{
@@ -569,7 +579,7 @@ svg.ico{width:1em;height:1em;display:block;flex:0 0 auto}
 }
 .tema-opciones button{
   flex:1;appearance:none;border:0;background:transparent;cursor:pointer;
-  font-family:var(--fuente-sub);font-weight:700;font-size:12px;
+  font-family:var(--fuente-sub);font-weight:700;font-size:var(--letra-chica);
   letter-spacing:.03em;color:var(--sobre-negro-suave);padding:11px 6px;min-height:40px
 }
 .tema-opciones button + button{border-left:1px solid var(--linea-negro)}
@@ -579,7 +589,7 @@ svg.ico{width:1em;height:1em;display:block;flex:0 0 auto}
 .tema-opciones button:focus-visible{outline:2px solid var(--amarillo);outline-offset:-3px}
 
 .menu-pie{
-  padding:16px 18px 0;font-size:12px;line-height:1.5;color:var(--sobre-negro-tenue)
+  padding:16px 18px 0;font-size:var(--letra-chica);line-height:1.5;color:var(--sobre-negro-tenue)
 }
 
 /* Titulo de pantalla interna */
@@ -592,7 +602,7 @@ svg.ico{width:1em;height:1em;display:block;flex:0 0 auto}
   line-height:1;text-transform:uppercase;margin:22px 0 4px;
   overflow-wrap:anywhere
 }
-.bajada{color:var(--texto-suave);font-size:15px;margin:0 0 18px}
+.bajada{color:var(--texto-suave);font-size:var(--letra-base);margin:0 0 18px}
 
 /* ============================================================
    BUSCADOR
@@ -602,7 +612,7 @@ svg.ico{width:1em;height:1em;display:block;flex:0 0 auto}
 .caja-buscador{background:transparent;padding:16px 0 4px}
 .buscador{position:relative}
 .buscador input{
-  width:100%;font-family:var(--fuente-texto);font-size:17px;
+  width:100%;font-family:var(--fuente-texto);font-size:var(--letra-guia);
   padding:15px 15px 15px 46px;border:1px solid var(--linea);border-radius:var(--radio-pastilla);
   background:var(--superficie);color:var(--texto);outline:none;box-shadow:var(--sombra)
 }
@@ -634,7 +644,7 @@ svg.ico{width:1em;height:1em;display:block;flex:0 0 auto}
 .chip{
   flex:0 0 auto;background:var(--superficie);border:1px solid var(--linea);
   border-radius:var(--radio-pastilla);padding:8px 14px;font-family:var(--fuente-sub);
-  font-size:14px;letter-spacing:.02em;white-space:nowrap;color:var(--texto)
+  font-size:var(--letra-densa);letter-spacing:.02em;white-space:nowrap;color:var(--texto)
 }
 /* Sobre el fondo suave, el amarillo pleno del chip elegido resalta */
 .chip[aria-pressed="true"]{background:var(--amarillo);border-color:var(--amarillo);color:var(--sobre-color);font-weight:700}
@@ -644,14 +654,14 @@ svg.ico{width:1em;height:1em;display:block;flex:0 0 auto}
    SECCIONES
    ============================================================ */
 .titulo-seccion{
-  font-family:var(--fuente-titulo);font-size:20px;text-transform:uppercase;
+  font-family:var(--fuente-titulo);font-size:var(--letra-sub);text-transform:uppercase;
   margin:26px 0 10px;display:flex;align-items:baseline;justify-content:space-between;gap:10px
 }
 /* Medían 19 px de alto: por debajo del mínimo de 24 que pide la norma
    para algo que se toca con el dedo. El padding agranda lo tocable sin
    mover el texto de lugar. */
 .titulo-seccion a{
-  font-family:var(--fuente-sub);font-size:13px;text-transform:uppercase;
+  font-family:var(--fuente-sub);font-size:var(--letra-nota);text-transform:uppercase;
   letter-spacing:.06em;color:var(--texto-suave);text-decoration:none;flex:0 0 auto;
   padding:6px 2px;margin:-6px -2px;display:inline-flex;align-items:center;min-height:24px
 }
@@ -670,7 +680,7 @@ svg.ico{width:1em;height:1em;display:block;flex:0 0 auto}
    el navegador ya lo encuentra al buscar dentro de la página. */
 .grupo{border-bottom:1px solid var(--linea)}
 .grupo > summary{
-  font-family:var(--fuente-titulo);font-weight:400;font-size:17px;
+  font-family:var(--fuente-titulo);font-weight:400;font-size:var(--letra-guia);
   text-transform:uppercase;line-height:1.15;
   display:flex;align-items:center;gap:9px;
   padding:14px 2px;cursor:pointer;list-style:none
@@ -681,7 +691,7 @@ svg.ico{width:1em;height:1em;display:block;flex:0 0 auto}
 /* La flecha no es decorado: sin ella un título suelto no se lee como
    algo que se toca. Gira para decir en qué estado quedó. */
 .grupo > summary .flecha{
-  flex:0 0 auto;font-size:13px;color:var(--texto-suave);
+  flex:0 0 auto;font-size:var(--letra-nota);color:var(--texto-suave);
   transition:transform .18s ease
 }
 .grupo[open] > summary .flecha{transform:rotate(180deg)}
@@ -730,18 +740,18 @@ svg.ico{width:1em;height:1em;display:block;flex:0 0 auto}
   color:var(--texto)
 }
 .tarjeta h3{
-  font-family:var(--fuente-sub);font-weight:700;font-size:17px;line-height:1.15;
+  font-family:var(--fuente-sub);font-weight:700;font-size:var(--letra-guia);line-height:1.15;
   text-transform:uppercase;margin-bottom:3px
 }
-.tarjeta p{margin:0;color:var(--texto-suave);font-size:14px;line-height:1.35}
+.tarjeta p{margin:0;color:var(--texto-suave);font-size:var(--letra-densa);line-height:1.35}
 .tarjeta .meta{
-  font-size:12px;color:var(--texto-suave);letter-spacing:.04em;text-transform:uppercase;
+  font-size:var(--letra-chica);color:var(--texto-suave);letter-spacing:.04em;text-transform:uppercase;
   margin-top:8px;display:flex;gap:10px;flex-wrap:wrap
 }
 
 /* Etiqueta de linea editorial */
 .etiqueta{
-  display:inline-block;font-family:var(--fuente-texto);font-size:11px;font-weight:700;
+  display:inline-block;font-family:var(--fuente-texto);font-size:var(--letra-mini);font-weight:700;
   letter-spacing:.1em;text-transform:uppercase;padding:3px 9px;border-radius:var(--radio-pastilla);
   margin-bottom:7px;color:var(--sobre-negro);background:var(--negro)
 }
@@ -763,7 +773,7 @@ svg.ico{width:1em;height:1em;display:block;flex:0 0 auto}
 }
 .cubo-fecha .dia{font-family:var(--fuente-titulo);font-size:24px;display:block}
 .cubo-fecha .mes{
-  font-family:var(--fuente-sub);font-size:11px;text-transform:uppercase;
+  font-family:var(--fuente-sub);font-size:var(--letra-mini);text-transform:uppercase;
   letter-spacing:.08em;display:block;margin-top:3px;font-weight:700
 }
 
@@ -775,7 +785,7 @@ svg.ico{width:1em;height:1em;display:block;flex:0 0 auto}
 .pasos li::before{
   content:counter(paso);position:absolute;left:0;top:0;
   width:28px;height:28px;border-radius:50%;background:var(--amarillo);
-  font-family:var(--fuente-titulo);font-size:15px;
+  font-family:var(--fuente-titulo);font-size:var(--letra-base);
   display:flex;align-items:center;justify-content:center
 }
 .pasos li::after{
@@ -789,9 +799,9 @@ svg.ico{width:1em;height:1em;display:block;flex:0 0 auto}
   background:var(--superficie);border:1px solid var(--linea);border-radius:var(--radio);
   padding:14px;margin:16px 0;box-shadow:var(--sombra)
 }
-.ficha dl{margin:0;display:grid;grid-template-columns:auto 1fr;gap:8px 14px;font-size:15px}
+.ficha dl{margin:0;display:grid;grid-template-columns:auto 1fr;gap:8px 14px;font-size:var(--letra-base)}
 .ficha dt{
-  font-family:var(--fuente-sub);font-size:12px;text-transform:uppercase;
+  font-family:var(--fuente-sub);font-size:var(--letra-chica);text-transform:uppercase;
   letter-spacing:.07em;color:var(--texto-suave);padding-top:2px
 }
 .ficha dd{margin:0;white-space:pre-wrap}
@@ -801,7 +811,7 @@ svg.ico{width:1em;height:1em;display:block;flex:0 0 auto}
    ============================================================ */
 .boton{
   display:inline-flex;align-items:center;justify-content:center;gap:8px;
-  font-family:var(--fuente-sub);font-weight:700;font-size:15px;
+  font-family:var(--fuente-sub);font-weight:700;font-size:var(--letra-base);
   text-transform:uppercase;letter-spacing:.05em;
   padding:13px 20px;border-radius:var(--radio-pastilla);border:none;text-decoration:none;
   background:var(--amarillo);color:var(--sobre-color);
@@ -829,7 +839,7 @@ svg.ico{width:1em;height:1em;display:block;flex:0 0 auto}
    ============================================================ */
 .campo{margin-bottom:14px}
 .campo label{
-  display:block;font-family:var(--fuente-sub);font-size:12px;text-transform:uppercase;
+  display:block;font-family:var(--fuente-sub);font-size:var(--letra-chica);text-transform:uppercase;
   letter-spacing:.07em;color:var(--texto-suave);margin-bottom:5px
 }
 .campo input,.campo textarea,.campo select{
@@ -851,7 +861,7 @@ svg.ico{width:1em;height:1em;display:block;flex:0 0 auto}
 .aviso.error{border-left-color:var(--rojo);background:var(--aviso-error)}
 .aviso.ok{border-left-color:var(--celeste);background:var(--aviso-ok)}
 
-.vacio{text-align:center;color:var(--texto-suave);padding:34px 16px;font-size:15px}
+.vacio{text-align:center;color:var(--texto-suave);padding:34px 16px;font-size:var(--letra-base)}
 
 /* ============================================================
    CALENDARIO
@@ -877,14 +887,14 @@ svg.ico{width:1em;height:1em;display:block;flex:0 0 auto}
 
 .cal-grilla{display:grid;grid-template-columns:repeat(7,1fr);gap:3px}
 .cal-nombre-dia{
-  text-align:center;font-family:var(--fuente-sub);font-size:11px;font-weight:700;
+  text-align:center;font-family:var(--fuente-sub);font-size:var(--letra-mini);font-weight:700;
   letter-spacing:.06em;color:var(--texto-suave);text-transform:uppercase;padding-bottom:4px
 }
 
 /* La celda cuadrada: el ancho lo pone la grilla, el alto lo iguala */
 .cal-dia{
   aspect-ratio:1/1;border:none;background:transparent;border-radius:9px;
-  font-family:var(--fuente-datos);font-size:15px;color:var(--texto);
+  font-family:var(--fuente-datos);font-size:var(--letra-base);color:var(--texto);
   display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;
   padding:0;position:relative
 }
@@ -933,7 +943,7 @@ svg.ico{width:1em;height:1em;display:block;flex:0 0 auto}
 /* El padding de abajo deja lugar para el botón flotante: sin esto, el
    último renglón del pie queda debajo del botón y no se puede leer. */
 .pie{
-  text-align:center;color:var(--texto-suave);font-size:13px;
+  text-align:center;color:var(--texto-suave);font-size:var(--letra-nota);
   padding:30px 16px 84px;line-height:1.5
 }
 .pie strong{color:var(--texto)}
@@ -986,13 +996,13 @@ svg.ico{width:1em;height:1em;display:block;flex:0 0 auto}
 }
 .progreso-datos{
   display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap;
-  margin-top:9px;font-size:14px;color:var(--texto-suave)
+  margin-top:9px;font-size:var(--letra-densa);color:var(--texto-suave)
 }
 .progreso-datos strong{
-  font-family:var(--fuente-titulo);font-size:20px;color:var(--texto);
+  font-family:var(--fuente-titulo);font-size:var(--letra-sub);color:var(--texto);
   vertical-align:-1px;margin-right:2px
 }
-.progreso-extra{margin-top:6px;font-size:14px;color:var(--texto-suave)}
+.progreso-extra{margin-top:6px;font-size:var(--letra-densa);color:var(--texto-suave)}
 
 /* El promedio. Es opcional: solo aparece si hay al menos una nota. */
 .promedio{
@@ -1003,7 +1013,7 @@ svg.ico{width:1em;height:1em;display:block;flex:0 0 auto}
   font-family:var(--fuente-titulo);font-weight:400;font-size:34px;line-height:1;
   color:var(--celeste)
 }
-.promedio-detalle{font-size:14px;line-height:1.25;color:var(--texto)}
+.promedio-detalle{font-size:var(--letra-densa);line-height:1.25;color:var(--texto)}
 .promedio-detalle small{color:var(--texto-suave);font-size:var(--letra-nota)}
 
 /* El campo de nota, adentro de la ficha de una materia aprobada */
@@ -1042,7 +1052,7 @@ svg.ico{width:1em;height:1em;display:block;flex:0 0 auto}
 .campo-nota input{
   width:100%;padding:12px 10px;border:1.5px solid var(--linea);
   border-radius:var(--radio-chico);background:var(--superficie);color:var(--texto);
-  font-family:var(--fuente-datos);font-size:17px;min-height:48px
+  font-family:var(--fuente-datos);font-size:var(--letra-guia);min-height:48px
 }
 /* La nota es el dato principal: grande y centrada, como en una libreta */
 .campo-nota:first-child input{
@@ -1116,10 +1126,20 @@ svg.ico{width:1em;height:1em;display:block;flex:0 0 auto}
 /* min-width:0 es lo que permite que se achiquen por debajo de su texto y
    partan en dos renglones. Sin eso, flex respeta el ancho del contenido
    y las cuatro se desbordan aunque digan flex:1. */
+/* Las pestañas NO crecieron con el resto de la escala, y es a propósito:
+   son cuatro repartiéndose 375 px y ya estaban al límite. Con un punto
+   más, la palabra más larga dejaba de entrar y se cortaba. Quedan en
+   --letra-nota, que son los mismos 14 px que tenían antes del 4/9/2026.
+
+   PENDIENTE, y viene de antes de este cambio: «PLAN COMPLETO» es más
+   ancha que su pestaña y se recorta unos 2 px. Se probó `overflow-wrap`
+   y sale peor —parte la palabra y deja una «O» sola en un tercer
+   renglón—, así que el arreglo de verdad es acortar el texto de esa
+   pestaña, y eso lo decide Máximo. */
 .pestana{
   flex:1 1 0;min-width:0;
   background:transparent;border:none;border-bottom:3px solid var(--linea);
-  padding:10px 4px;font-family:var(--fuente-sub);font-size:var(--letra-densa);
+  padding:10px 4px;font-family:var(--fuente-sub);font-size:var(--letra-nota);
   line-height:1.15;text-transform:uppercase;letter-spacing:.01em;
   color:var(--texto-suave);
   transition:color var(--t-chico) ease
@@ -1144,7 +1164,7 @@ svg.ico{width:1em;height:1em;display:block;flex:0 0 auto}
 
 .cuenta-grupo{
   background:var(--negro);color:var(--sobre-negro);border-radius:var(--radio-pastilla);
-  font-size:12px;padding:2px 9px;letter-spacing:0
+  font-size:var(--letra-chica);padding:2px 9px;letter-spacing:0
 }
 
 /* --- Tarjeta de materia --- */
@@ -1162,7 +1182,7 @@ svg.ico{width:1em;height:1em;display:block;flex:0 0 auto}
   background:var(--apagado)
 }
 .tarjeta.materia.final     {border-left-color:var(--linea-saberes)}
-.tarjeta.materia .motivo{margin:0;color:var(--texto-suave);font-size:14px;line-height:1.35}
+.tarjeta.materia .motivo{margin:0;color:var(--texto-suave);font-size:var(--letra-densa);line-height:1.35}
 .tarjeta.materia .motivo strong{color:var(--texto)}
 
 .tarjeta.materia.estado-aprobada{border-left-color:var(--celeste)}
@@ -1171,7 +1191,7 @@ svg.ico{width:1em;height:1em;display:block;flex:0 0 auto}
 
 /* --- Pastilla de estado --- */
 .pastilla{
-  display:inline-block;font-size:11px;font-weight:700;letter-spacing:.06em;
+  display:inline-block;font-size:var(--letra-mini);font-weight:700;letter-spacing:.06em;
   text-transform:uppercase;padding:2px 8px;border-radius:var(--radio-pastilla);
   background:var(--linea);color:var(--sobre-color)
 }
@@ -1246,10 +1266,10 @@ svg.ico{width:1em;height:1em;display:block;flex:0 0 auto}
 }
 .hoja-cerrar{
   position:absolute;top:12px;right:12px;width:34px;height:34px;border-radius:var(--radio-pastilla);
-  border:1px solid var(--linea);background:var(--superficie);font-size:15px;line-height:1
+  border:1px solid var(--linea);background:var(--superficie);font-size:var(--letra-base);line-height:1
 }
 .hoja-cod{
-  font-family:var(--fuente-sub);font-size:12px;text-transform:uppercase;
+  font-family:var(--fuente-sub);font-size:var(--letra-chica);text-transform:uppercase;
   letter-spacing:.08em;color:var(--texto-suave)
 }
 .hoja h2{
@@ -1261,7 +1281,7 @@ svg.ico{width:1em;height:1em;display:block;flex:0 0 auto}
    no lleva el recuadro del foco. */
 .hoja h2:focus{outline:none}
 .veredicto{
-  font-family:var(--fuente-sub);font-weight:700;font-size:14px;
+  font-family:var(--fuente-sub);font-weight:700;font-size:var(--letra-densa);
   text-transform:uppercase;letter-spacing:.05em;line-height:1.25;
   padding:11px 13px;border-radius:var(--radio-chico);background:var(--linea)
 }
@@ -1272,7 +1292,7 @@ svg.ico{width:1em;height:1em;display:block;flex:0 0 auto}
 .opciones-estado{display:flex;flex-direction:column;gap:8px}
 .opcion{
   background:var(--superficie);border:1.5px solid var(--linea);border-radius:var(--radio-chico);
-  padding:12px 13px;text-align:left;font-size:15px;line-height:1.25
+  padding:12px 13px;text-align:left;font-size:var(--letra-base);line-height:1.25
 }
 .opcion.elegida{border-color:var(--texto);font-weight:700}
 .opcion.elegida.cursando{background:var(--linea-saberes);color:var(--sobre-color)}
@@ -1282,12 +1302,12 @@ svg.ico{width:1em;height:1em;display:block;flex:0 0 auto}
 .lista-correl{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:8px}
 .lista-correl li{
   background:var(--superficie);border:1px solid var(--linea);border-radius:var(--radio-chico);
-  padding:10px 12px;font-size:15px;line-height:1.3
+  padding:10px 12px;font-size:var(--letra-base);line-height:1.3
 }
 .lista-correl li .pastilla{margin-right:7px;vertical-align:1px}
 .lista-correl li small{color:var(--texto-suave)}
 
-.letra-chica{color:var(--texto-suave);font-size:13px;line-height:1.45;margin:8px 0 0}
+.letra-chica{color:var(--texto-suave);font-size:var(--letra-nota);line-height:1.45;margin:8px 0 0}
 
 /* --- Puerta al organizador desde la pantalla de inicio --- */
 
@@ -1322,7 +1342,7 @@ svg.ico{width:1em;height:1em;display:block;flex:0 0 auto}
 
 .mapa-col-titulo{
   position:absolute;top:12px;
-  font-family:var(--fuente-sub);font-weight:700;font-size:12px;
+  font-family:var(--fuente-sub);font-weight:700;font-size:var(--letra-chica);
   text-transform:uppercase;letter-spacing:.06em;color:var(--texto-suave);white-space:nowrap
 }
 
@@ -1334,7 +1354,7 @@ svg.ico{width:1em;height:1em;display:block;flex:0 0 auto}
   font-family:var(--fuente-texto);line-height:1.14
 }
 .mapa-nodo .cod{
-  font-family:var(--fuente-datos);font-size:10px;letter-spacing:.02em;color:var(--texto-suave);
+  font-family:var(--fuente-datos);font-size:var(--letra-mini);letter-spacing:.02em;color:var(--texto-suave);
   white-space:nowrap;overflow:hidden;text-overflow:ellipsis
 }
 .mapa-nodo .nom{
@@ -1549,7 +1569,7 @@ body.antes-de-entrar{padding-bottom:0}  /* apertura y bienvenida a pantalla comp
 /* Lo que todavia no se completo se ve, pero apagado: asi no se
    publica un boton que no lleva a ningun lado. */
 .red-pendiente{
-  display:inline-block;font-size:14px;color:var(--texto-suave);font-style:italic;
+  display:inline-block;font-size:var(--letra-densa);color:var(--texto-suave);font-style:italic;
   background:var(--superficie-2);border-radius:var(--radio-chico);padding:8px 11px
 }
 
@@ -1568,12 +1588,12 @@ body.antes-de-entrar{padding-bottom:0}  /* apertura y bienvenida a pantalla comp
 /* El enlace de "¿Quiénes somos?" en el pie y en el menú */
 .pie-nota{
   display:block;max-width:34ch;margin:12px auto 0;
-  font-size:13px;line-height:1.45;color:var(--texto-suave)
+  font-size:var(--letra-nota);line-height:1.45;color:var(--texto-suave)
 }
 .pie-enlace{
   display:inline-flex;align-items:center;min-height:24px;padding:4px 2px;
   margin-top:8px;font-family:var(--fuente-sub);
-  font-weight:700;font-size:13px;text-transform:uppercase;letter-spacing:.05em;
+  font-weight:700;font-size:var(--letra-nota);text-transform:uppercase;letter-spacing:.05em;
   color:var(--texto);text-decoration:underline
 }
 .menu-lista a.menu-aparte{
@@ -1630,7 +1650,7 @@ body.antes-de-entrar{padding-bottom:0}  /* apertura y bienvenida a pantalla comp
 }
 .carrusel-pie{
   position:absolute;left:0;right:0;bottom:0;padding:26px 14px 12px;
-  font-family:var(--fuente-sub);font-size:14px;font-weight:700;color:var(--sobre-color);
+  font-family:var(--fuente-sub);font-size:var(--letra-densa);font-weight:700;color:var(--sobre-color);
   background:linear-gradient(to top, rgba(249,232,48,.96) 40%, rgba(249,232,48,0))
 }
 .carrusel-puntos{
@@ -1672,7 +1692,7 @@ body.antes-de-entrar{padding-bottom:0}  /* apertura y bienvenida a pantalla comp
 }
 .calendario.cuadrado .cal-grilla{gap:4px}
 .calendario.cuadrado .cal-dia{
-  aspect-ratio:1;font-size:14px;position:relative;
+  aspect-ratio:1;font-size:var(--letra-densa);position:relative;
   flex-direction:column;justify-content:center;gap:0;padding-bottom:9px
 }
 .cal-numero{line-height:1}
@@ -1705,7 +1725,7 @@ body.antes-de-entrar{padding-bottom:0}  /* apertura y bienvenida a pantalla comp
   margin-top:12px;border-top:1px solid var(--linea);padding-top:11px;
   display:flex;flex-direction:column;gap:9px
 }
-.cal-leyenda.vacia{color:var(--texto-suave);font-size:14px;padding-top:12px}
+.cal-leyenda.vacia{color:var(--texto-suave);font-size:var(--letra-densa);padding-top:12px}
 .cal-leyenda-fila{display:flex;align-items:flex-start;gap:9px}
 .cal-marca{
   flex:0 0 auto;width:14px;height:5px;border-radius:var(--radio-pastilla);margin-top:6px
@@ -1713,12 +1733,12 @@ body.antes-de-entrar{padding-bottom:0}  /* apertura y bienvenida a pantalla comp
 .cal-marca.mesa  {background:var(--rojo)}
 .cal-marca.asueto{background:var(--celeste)}
 .cal-leyenda-texto{display:flex;flex-direction:column;line-height:1.25}
-.cal-leyenda-texto strong{font-family:var(--fuente-sub);font-size:14px;font-weight:700}
-.cal-leyenda-texto small{color:var(--texto-suave);font-size:13px}
+.cal-leyenda-texto strong{font-family:var(--fuente-sub);font-size:var(--letra-densa);font-weight:700}
+.cal-leyenda-texto small{color:var(--texto-suave);font-size:var(--letra-nota)}
 
 .cal-elegido{display:flex;flex-direction:column;gap:8px}
 .cal-elegido:not(:empty){margin-top:12px;border-top:1px solid var(--linea);padding-top:12px}
-.cal-elegido .vacio{padding:12px 0;font-size:14px}
+.cal-elegido .vacio{padding:12px 0;font-size:var(--letra-densa)}
 
 /* ============================================================
    PANEL 3x3 DE ACCESOS
@@ -1771,10 +1791,10 @@ body.antes-de-entrar{padding-bottom:0}  /* apertura y bienvenida a pantalla comp
 }
 .alarma.urgente{background:var(--rojo-solido);color:var(--sobre-negro)}
 .alarma-texto strong{
-  font-family:var(--fuente-titulo);font-weight:400;font-size:20px;line-height:1.1;
+  font-family:var(--fuente-titulo);font-weight:400;font-size:var(--letra-sub);line-height:1.1;
   text-transform:uppercase;display:block;margin-bottom:5px
 }
-.alarma-texto p{margin:0 0 13px;font-size:15px;line-height:1.4}
+.alarma-texto p{margin:0 0 13px;font-size:var(--letra-base);line-height:1.4}
 .alarma .boton.oscuro{background:var(--negro);color:var(--amarillo)}
 .alarma.urgente .boton.oscuro{background:var(--sobre-negro);color:var(--rojo-solido)}
 
@@ -1789,7 +1809,7 @@ body.antes-de-entrar{padding-bottom:0}  /* apertura y bienvenida a pantalla comp
   padding:15px;margin:14px 0 4px;box-shadow:var(--sombra)
 }
 .mi-cursada-rotulo{
-  font-size:11px;letter-spacing:.14em;text-transform:uppercase;opacity:.85
+  font-size:var(--letra-mini);letter-spacing:.14em;text-transform:uppercase;opacity:.85
 }
 .mi-cursada strong{
   font-family:var(--fuente-titulo);font-weight:400;font-size:21px;line-height:1.05;
@@ -1800,7 +1820,7 @@ body.antes-de-entrar{padding-bottom:0}  /* apertura y bienvenida a pantalla comp
 
 .mi-cursada-datos{
   display:flex;justify-content:space-between;align-items:baseline;
-  margin-top:8px;font-size:14px
+  margin-top:8px;font-size:var(--letra-densa)
 }
 .mi-cursada-datos b{font-family:var(--fuente-datos);font-weight:700;font-size:19px}
 .mi-cursada.invitacion{
@@ -1939,7 +1959,7 @@ body.antes-de-entrar{padding-bottom:0}  /* apertura y bienvenida a pantalla comp
 }
 .tarjeta-cuadro:focus-visible{outline:3px solid var(--celeste);outline-offset:2px}
 .tarjeta-cuadro .nombre{
-  font-family:var(--fuente-sub);font-weight:700;font-size:11px;line-height:1.16;
+  font-family:var(--fuente-sub);font-weight:700;font-size:var(--letra-mini);line-height:1.16;
   text-transform:uppercase;letter-spacing:0;
   display:-webkit-box;-webkit-line-clamp:7;-webkit-box-orient:vertical;overflow:hidden;
   /* «FONOAUDIOLOGÍA» no entra en una columna de un tercio de pantalla:
@@ -1948,7 +1968,7 @@ body.antes-de-entrar{padding-bottom:0}  /* apertura y bienvenida a pantalla comp
   overflow-wrap:anywhere
 }
 @media (min-width:560px){
-  .tarjeta-cuadro .nombre{font-size:12px;-webkit-line-clamp:6}
+  .tarjeta-cuadro .nombre{font-size:var(--letra-chica);-webkit-line-clamp:6}
 }
 /* Dice si adentro hay un paso a paso o si te manda afuera. Antes no
    se podia saber sin entrar, y de 31 fichas 18 son solo un enlace. */
@@ -1966,10 +1986,10 @@ details.tarjeta > summary{
   font-weight:700;font-size:16px;line-height:1.2
 }
 details.tarjeta > summary::-webkit-details-marker{display:none}
-details.tarjeta .respuesta{margin-top:9px;color:var(--texto-suave);font-size:15px}
+details.tarjeta .respuesta{margin-top:9px;color:var(--texto-suave);font-size:var(--letra-base)}
 
 /* El resumen adentro de la ventanita */
-.hoja-resumen{margin:8px 0 4px;color:var(--texto-suave);font-size:15px;line-height:1.4}
+.hoja-resumen{margin:8px 0 4px;color:var(--texto-suave);font-size:var(--letra-base);line-height:1.4}
 
 /* ============================================================
    ESTUDIEMOS
@@ -1985,7 +2005,7 @@ details.tarjeta .respuesta{margin-top:9px;color:var(--texto-suave);font-size:15p
 .material-tipo.guia    {background:var(--celeste);color:var(--sobre-color)}
 .material-ir{
   display:block;margin-top:11px;font-family:var(--fuente-sub);font-weight:700;
-  font-size:14px;text-transform:uppercase;letter-spacing:.04em;color:var(--celeste)
+  font-size:var(--letra-densa);text-transform:uppercase;letter-spacing:.04em;color:var(--celeste)
 }
 
 /* ============================================================
@@ -2006,7 +2026,7 @@ details.tarjeta .respuesta{margin-top:9px;color:var(--texto-suave);font-size:15p
   flex:0 0 auto;width:30px;height:30px;border-radius:50%;
   background:var(--amarillo);color:var(--sobre-color);
   display:flex;align-items:center;justify-content:center;
-  font-family:var(--fuente-sub);font-weight:800;font-size:15px
+  font-family:var(--fuente-sub);font-weight:800;font-size:var(--letra-base)
 }
 .tarjeta-kit .kit-texto{min-width:0}
 .tarjeta-kit h3{
@@ -2029,7 +2049,7 @@ details.tarjeta .respuesta{margin-top:9px;color:var(--texto-suave);font-size:15p
   display:inline-flex;align-items:center;justify-content:center;gap:9px;
   border-radius:var(--radio-pastilla);border:2px solid var(--sobre-negro);
   background:var(--rojo-solido);color:var(--sobre-negro);text-decoration:none;
-  font-family:var(--fuente-sub);font-weight:700;font-size:15px;
+  font-family:var(--fuente-sub);font-weight:700;font-size:var(--letra-base);
   box-shadow:0 4px 16px rgba(0,0,0,.28);
   /* ASIMÉTRICO A PROPÓSITO. Irse es ambiente: el botón se corre porque
      la persona está leyendo otra cosa, y puede tomarse su tiempo.
@@ -2089,7 +2109,7 @@ details.tarjeta .respuesta{margin-top:9px;color:var(--texto-suave);font-size:15p
   position:absolute;right:0;bottom:calc(100% + 10px);width:max-content;
   max-width:min(260px,72vw);padding:11px 14px;border-radius:var(--radio);
   background:var(--negro);color:var(--sobre-negro);
-  font-family:var(--fuente-texto);font-weight:400;font-size:14px;line-height:1.35;
+  font-family:var(--fuente-texto);font-weight:400;font-size:var(--letra-densa);line-height:1.35;
   box-shadow:0 4px 16px rgba(0,0,0,.3);
   opacity:0;transform:translateY(6px) scale(.96);
   transform-origin:calc(100% - 26px) 100%;pointer-events:none;
@@ -2117,7 +2137,7 @@ details.tarjeta .respuesta{margin-top:9px;color:var(--texto-suave);font-size:15p
    ============================================================ */
 @media (min-width:720px){
   .titulo-pantalla{font-size:38px}
-  .marca{font-size:30px}
+  .marca{font-size:var(--letra-titulo)}
   /* Acá la hoja deja de ser hoja: se centra y pasa a ser un cuadro de
      diálogo. La física tiene que seguir al layout —un cuadro centrado
      no sube desde abajo de la pantalla, aparece donde está—, así que
@@ -2176,7 +2196,7 @@ details.tarjeta .respuesta{margin-top:9px;color:var(--texto-suave);font-size:15p
      cuadrados y pasan a ser fichas anchas. */
   .rejilla-3x3{gap:12px}
   .boton-cuadro{aspect-ratio:auto;min-height:132px;padding:14px 12px;gap:10px}
-  .boton-cuadro .nombre{font-size:14px}
+  .boton-cuadro .nombre{font-size:var(--letra-densa)}
   .boton-cuadro svg.ico{width:32px;height:32px}
 
   /* Las listas de tarjetas leen mejor en dos columnas que en una
@@ -2237,7 +2257,7 @@ details.tarjeta .respuesta{margin-top:9px;color:var(--texto-suave);font-size:15p
 .prep-datos{
   margin:8px 0 0;font-family:var(--fuente-datos);font-size:var(--letra-nota)
 }
-.prep-datos strong,.prep-datos b{font-size:17px}
+.prep-datos strong,.prep-datos b{font-size:var(--letra-guia)}
 
 .tarjeta.prep{border-left-color:var(--celeste)}
 .tarjeta.prep .barra{margin:8px 0 2px}
@@ -2379,7 +2399,7 @@ details.tarjeta .respuesta{margin-top:9px;color:var(--texto-suave);font-size:15p
 }
 .nexo-texto{flex:1;font-size:var(--letra-nota);line-height:1.4}
 .nexo-texto strong{
-  display:block;font-family:var(--fuente-titulo);font-size:17px;
+  display:block;font-family:var(--fuente-titulo);font-size:var(--letra-guia);
   line-height:1.15;margin-bottom:3px
 }
 .nexo-flecha{
@@ -2676,7 +2696,7 @@ details.tarjeta .respuesta{margin-top:9px;color:var(--texto-suave);font-size:15p
 .modelo3d-cubo{
   width:46px;height:46px;border-radius:50%;background:var(--negro);
   color:var(--sobre-negro);display:flex;align-items:center;justify-content:center;
-  font-size:20px;line-height:1;margin-bottom:4px
+  font-size:var(--letra-sub);line-height:1;margin-bottom:4px
 }
 .modelo3d iframe{width:100%;height:min(72vw,420px);border:0;display:block}
 /* La atribución es obligatoria por la licencia, así que no es opcional
@@ -2777,7 +2797,7 @@ details.tarjeta .respuesta{margin-top:9px;color:var(--texto-suave);font-size:15p
 .invitacion-pasos li::before{
   content:counter(paso);flex:0 0 24px;height:24px;border-radius:50%;
   background:var(--negro);color:var(--sobre-negro);
-  font-family:var(--fuente-datos);font-size:12px;font-weight:700;
+  font-family:var(--fuente-datos);font-size:var(--letra-chica);font-weight:700;
   display:flex;align-items:center;justify-content:center
 }
 .invitacion-hoja .boton.texto{margin-top:8px}
@@ -2940,14 +2960,14 @@ details.tarjeta .respuesta{margin-top:9px;color:var(--texto-suave);font-size:15p
   padding:15px 16px 12px;border-bottom:1px solid var(--linea)
 }
 .chat-cabecera h2{
-  font-family:var(--fuente-titulo);font-weight:400;font-size:20px;
+  font-family:var(--fuente-titulo);font-weight:400;font-size:var(--letra-sub);
   text-transform:uppercase;margin:0;line-height:1
 }
-.chat-cabecera p{margin:4px 0 0;font-size:13px;color:var(--texto-suave);line-height:1.35}
+.chat-cabecera p{margin:4px 0 0;font-size:var(--letra-nota);color:var(--texto-suave);line-height:1.35}
 .chat-cerrar{
   flex:0 0 auto;width:36px;height:36px;border-radius:50%;
   border:1px solid var(--linea);background:var(--superficie);
-  font-size:15px;color:var(--texto);line-height:1
+  font-size:var(--letra-base);color:var(--texto);line-height:1
 }
 @media (hover:hover) and (pointer:fine){
   .chat-cerrar:hover{background:var(--superficie-2)}
@@ -2957,7 +2977,7 @@ details.tarjeta .respuesta{margin-top:9px;color:var(--texto-suave);font-size:15p
 
 .chat-burbuja{
   max-width:88%;padding:10px 13px;border-radius:var(--radio-chico);
-  font-size:15px;line-height:1.45
+  font-size:var(--letra-base);line-height:1.45
 }
 .chat-burbuja.bot{
   align-self:flex-start;background:var(--superficie-2);
@@ -2968,7 +2988,7 @@ details.tarjeta .respuesta{margin-top:9px;color:var(--texto-suave);font-size:15p
   border-bottom-right-radius:4px
 }
 .chat-burbuja a{color:inherit}
-.chat-nota{display:block;margin-top:8px;font-size:13px;color:var(--texto-suave)}
+.chat-nota{display:block;margin-top:8px;font-size:var(--letra-nota);color:var(--texto-suave)}
 
 /* Los tres puntitos mientras busca. Es la única animación del chat:
    dice «esto tarda» sin escribir «escribiendo…», que sería fingir
@@ -2992,7 +3012,7 @@ details.tarjeta .respuesta{margin-top:9px;color:var(--texto-suave);font-size:15p
 
 .chat-opciones{display:flex;flex-wrap:wrap;gap:6px;margin-top:9px}
 .chat-opcion{
-  font-family:var(--fuente-sub);font-size:12px;text-transform:uppercase;letter-spacing:.05em;
+  font-family:var(--fuente-sub);font-size:var(--letra-chica);text-transform:uppercase;letter-spacing:.05em;
   padding:7px 11px;border-radius:99px;border:1px solid var(--texto);
   background:var(--superficie);color:var(--texto);text-decoration:none;
   display:inline-flex;align-items:center;min-height:32px
@@ -3013,7 +3033,7 @@ details.tarjeta .respuesta{margin-top:9px;color:var(--texto-suave);font-size:15p
 @media (hover:hover) and (pointer:fine){
   .chat-ficha:hover{border-color:var(--texto)}
 }
-.chat-ficha-titulo{font-weight:700;font-size:14px;line-height:1.25}
+.chat-ficha-titulo{font-weight:700;font-size:var(--letra-densa);line-height:1.25}
 
 .chat-contactos{display:flex;flex-direction:column;gap:6px;margin-top:9px}
 .chat-contacto{
@@ -3025,10 +3045,10 @@ details.tarjeta .respuesta{margin-top:9px;color:var(--texto-suave);font-size:15p
 @media (hover:hover) and (pointer:fine){
   .chat-contacto:hover{border-color:var(--texto)}
 }
-.chat-contacto-nombre{font-weight:700;font-size:14px}
-.chat-contacto-detalle{font-size:12px;color:var(--texto-suave);flex:1;min-width:0}
+.chat-contacto-nombre{font-weight:700;font-size:var(--letra-densa)}
+.chat-contacto-detalle{font-size:var(--letra-chica);color:var(--texto-suave);flex:1;min-width:0}
 .chat-contacto-como{
-  font-family:var(--fuente-sub);font-size:11px;text-transform:uppercase;letter-spacing:.05em;
+  font-family:var(--fuente-sub);font-size:var(--letra-mini);text-transform:uppercase;letter-spacing:.05em;
   background:var(--superficie-2);color:var(--texto-suave);
   padding:3px 7px;border-radius:var(--radio-pastilla);white-space:nowrap
 }
@@ -3042,7 +3062,7 @@ details.tarjeta .respuesta{margin-top:9px;color:var(--texto-suave);font-size:15p
 .chat-pie{display:flex;gap:8px;padding:11px 12px;border-top:1px solid var(--linea)}
 .chat-pie input{
   flex:1;min-width:0;border:1px solid var(--linea);border-radius:99px;
-  padding:11px 15px;font:inherit;font-size:15px;
+  padding:11px 15px;font:inherit;font-size:var(--letra-base);
   background:var(--superficie-2);color:var(--texto)
 }
 .chat-pie input:focus-visible{outline:3px solid var(--celeste);outline-offset:1px}

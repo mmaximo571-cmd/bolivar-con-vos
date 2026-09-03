@@ -41,7 +41,7 @@
   .fila-item .crecer{flex:1;min-width:0}
   .borrador{opacity:.55}
   .mini{
-    font-family:var(--fuente-sub);font-size:12px;text-transform:uppercase;letter-spacing:.06em;
+    font-family:var(--fuente-sub);font-size:var(--letra-chica);text-transform:uppercase;letter-spacing:.06em;
     padding:7px 11px;border-radius:99px;border:1px solid var(--linea);background:var(--superficie);
     white-space:nowrap
   }
@@ -52,7 +52,7 @@
   }
   .paso-editor .encabezado{
     display:flex;justify-content:space-between;align-items:center;margin-bottom:7px;
-    font-family:var(--fuente-sub);font-size:12px;text-transform:uppercase;
+    font-family:var(--fuente-sub);font-size:var(--letra-chica);text-transform:uppercase;
     letter-spacing:.07em;color:var(--texto-suave)
   }
   .paso-editor .campo{margin-bottom:8px}
@@ -73,13 +73,13 @@
   .lectura.avisa{border-left-color:#B8860B}
   .lectura.mal{border-left-color:var(--rojo)}
   .lectura .crecer{flex:1;min-width:0}
-  .lectura h4{margin:0 0 2px;font-size:15px}
+  .lectura h4{margin:0 0 2px;font-size:var(--letra-base)}
   .lectura .archivo{
-    font-family:var(--fuente-datos);font-size:11px;color:var(--texto-suave);
+    font-family:var(--fuente-datos);font-size:var(--letra-mini);color:var(--texto-suave);
     overflow:hidden;text-overflow:ellipsis;white-space:nowrap
   }
-  .lectura .cuentas{font-size:12px;color:var(--texto-suave);margin-top:3px}
-  .lectura .porque{font-size:12px;margin-top:3px}
+  .lectura .cuentas{font-size:var(--letra-chica);color:var(--texto-suave);margin-top:3px}
+  .lectura .porque{font-size:var(--letra-chica);margin-top:3px}
   .zona-soltar{
     border:2px dashed var(--linea);border-radius:var(--radio-chico);
     padding:26px 14px;text-align:center;background:var(--superficie-2);
@@ -321,7 +321,7 @@
           <input id="donde" value="${esc(t.donde || '')}" placeholder="Alumnado, planta baja"></div>
       </div>
 
-      <div class="titulo-seccion" style="font-size:17px">PASO A PASO</div>
+      <div class="titulo-seccion" style="font-size:var(--letra-guia)">PASO A PASO</div>
       <div id="pasos"></div>
       <button class="mini" id="agregar-paso">+ Agregar paso</button>
 
@@ -356,7 +356,7 @@
     const cajaPasos = document.getElementById('pasos');
     function pintarPasos(pasos){
       cajaPasos.innerHTML = pasos.length ? '' :
-        '<p style="color:var(--texto-suave);font-size:14px">Sin pasos todavía.</p>';
+        '<p style="color:var(--texto-suave);font-size:var(--letra-densa)">Sin pasos todavía.</p>';
       pasos.forEach((p, i) => {
         cajaPasos.insertAdjacentHTML('beforeend', `
           <div class="paso-editor" data-i="${i}">
@@ -769,7 +769,7 @@
     await cargarCategorias();
 
     zona.innerHTML = `
-      <p style="color:var(--texto-suave);font-size:14px;margin-top:0">
+      <p style="color:var(--texto-suave);font-size:var(--letra-densa);margin-top:0">
         Las categorías son los cuadraditos de la pantalla de inicio.</p>
       <div class="ficha">
         <div class="dos-columnas">
@@ -817,7 +817,7 @@
     lista.innerHTML = Object.keys(NOMBRE_SECCION).map(s => {
       const suyas = categorias.filter(c => (c.seccion || 'carrera') === s);
       if (!suyas.length) return '';
-      return `<div class="titulo-seccion" style="font-size:17px">${esc(NOMBRE_SECCION[s].toUpperCase())}</div>` +
+      return `<div class="titulo-seccion" style="font-size:var(--letra-guia)">${esc(NOMBRE_SECCION[s].toUpperCase())}</div>` +
         suyas.map(c => `
           <div class="tarjeta">
             <div class="fila-item">
@@ -1183,7 +1183,7 @@
           con un renglón en blanco. El primer renglón de cada bloque es el
           título de la unidad y los de abajo son los textos, uno por línea.
           Para separar autor, año y título usá <b>·</b> o punto y coma.</p>
-        <textarea id="unidades" style="min-height:300px;font-family:var(--fuente-datos);font-size:14px"
+        <textarea id="unidades" style="min-height:300px;font-family:var(--fuente-datos);font-size:var(--letra-densa)"
           placeholder="Unidad 1: El campo profesional&#10;Carballeda · 2002 · La intervención en lo social&#10;Rozas Pagaza · 1998 · Una perspectiva teórica metodológica&#10;&#10;Unidad 2: La cuestión social&#10;Castel · 1997 · Las metamorfosis de la cuestión social">${esc(escribirPrograma(p.unidades))}</textarea>
       </div>
       <div id="vista-previa"></div>
@@ -1803,7 +1803,7 @@
           Una red por línea: <b>Nombre · dirección</b>. Si una no tiene
           dirección, en la app aparece apagada en vez de como botón: no se
           publica un botón que no lleva a ningún lado.</p>
-        <textarea id="redes" style="min-height:90px;font-family:var(--fuente-datos);font-size:14px"
+        <textarea id="redes" style="min-height:90px;font-family:var(--fuente-datos);font-size:var(--letra-densa)"
           placeholder="Instagram · https://www.instagram.com/SimonBolivarfts">${esc(escribirRedes(p.redes))}</textarea>
       </div>
 
@@ -1958,7 +1958,7 @@
           renglón es <b>año · qué se consiguió</b> y lo de abajo es el
           detalle, si hace falta. <b>Van del más viejo al más nuevo</b>:
           así se dibujan en la pantalla.</p>
-        <textarea id="logros" style="min-height:220px;font-family:var(--fuente-datos);font-size:14px"
+        <textarea id="logros" style="min-height:220px;font-family:var(--fuente-datos);font-size:var(--letra-densa)"
           placeholder="2024 · Boleto universitario para posgrado&#10;Se aprobó por unanimidad después de dos años de reclamo.&#10;&#10;2025 · Ampliación de la sala de informática">${esc(escribirLogros(p.logros))}</textarea>
         <div id="cuenta-logros"></div>
       </div>
@@ -2096,7 +2096,7 @@
           Después, un tema por línea. Las que empiezan con <b>&gt;</b> son
           bibliografía <b>obligatoria</b> y las que empiezan con <b>+</b> son
           <b>complementaria</b>.</p>
-        <textarea id="modulos" style="min-height:340px;font-family:var(--fuente-datos);font-size:13px">${esc(escribirModulos(g.modulos))}</textarea>
+        <textarea id="modulos" style="min-height:340px;font-family:var(--fuente-datos);font-size:var(--letra-nota)">${esc(escribirModulos(g.modulos))}</textarea>
         <div id="cuenta-modulos"></div>
       </div>
 
@@ -2104,7 +2104,7 @@
         <label for="fechas">Las fechas que no hay que perderse</label>
         <p class="letra-chica" style="margin:0 0 6px">
           Una por línea: <code>11/06 · Parcial integrador</code></p>
-        <textarea id="fechas" style="min-height:110px;font-family:var(--fuente-datos);font-size:13px">${esc(escribirParejas(g.fechas_clave,'fecha','que'))}</textarea>
+        <textarea id="fechas" style="min-height:110px;font-family:var(--fuente-datos);font-size:var(--letra-nota)">${esc(escribirParejas(g.fechas_clave,'fecha','que'))}</textarea>
       </div>
 
       <div class="campo">
