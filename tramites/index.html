@@ -278,6 +278,10 @@
   }
 
   filtro.addEventListener('input', dibujar);
+  /* Y se anota qué se buscó, que es la lista de lo que falta cargar
+     acá mismo. Va aparte de `dibujar` para no mezclar dibujar con
+     registrar. */
+  filtro.addEventListener('input', function(){ anotarBusqueda(filtro.value); });
 
   /* ---------- La ventanita con la ficha ---------- */
   function abrirFicha(id){

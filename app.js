@@ -54,6 +54,10 @@ function alCambiarMovimiento(hacer){
    en vez de morir en silencio.
    ------------------------------------------------------------ */
 function avisarQueNoArranca(motivo){
+  /* Este es EL error que hay que enterarse: la app no abrió. Por eso
+     `anotar` no depende del cliente de datos, que es justo lo que
+     acaba de fallar. */
+  try { anotar('error', 'no arranca: ' + motivo); } catch(e){}
   document.addEventListener('DOMContentLoaded', function(){
     document.body.innerHTML =
       '<div style="max-width:520px;margin:60px auto;padding:0 20px;' +
@@ -94,6 +98,131 @@ if (!armarCliente){
     window.BOLIVAR_CONFIG.anonKey
   );
 }
+
+/* ------------------------------------------------------------
+   EL REGISTRO
+
+   Hasta hoy la app no anotaba nada: si algo se rompía en un
+   telefono ajeno, no nos enterabamos nunca. El 21 entran 4.213
+   personas de una y eso es la diferencia entre saber que pasó y
+   suponerlo.
+
+   Tres reglas de como esta escrito:
+
+   1. NO usa `db`. Va con `fetch` pelado contra la base, porque
+      tiene que poder anotar justamente el error de que el cliente
+      de datos no cargó. Si dependiera de `db`, el dia que falle lo
+      importante no habria registro.
+   2. NUNCA rompe la pantalla. Todo va adentro de try/catch y no se
+      espera la respuesta. Un registro que tira la app es peor que
+      no tener registro.
+   3. NO identifica a nadie. No hay usuario, ni IP, ni nada que
+      permita seguir a una persona entre visitas. Del aparato se
+      guarda un balde grueso —iphone, android, escritorio—, que
+      alcanza para saber donde se rompio algo y no para reconocer
+      a nadie.
+   ------------------------------------------------------------ */
+function queAparato(){
+  const ua = navigator.userAgent || '';
+  if (/iPhone|iPad|iPod/i.test(ua)) return 'iphone';
+  if (/Android/i.test(ua))          return 'android';
+  if (/Mobi/i.test(ua))             return 'otro';
+  return 'escritorio';
+}
+
+function anotar(tipo, detalle){
+  try {
+    const cfg = window.BOLIVAR_CONFIG;
+    if (!cfg || !cfg.url || !cfg.anonKey) return;
+    fetch(cfg.url.replace(/\/+$/, '') + '/rest/v1/sucesos', {
+      method: 'POST',
+      /* `keepalive` es lo que permite que el aviso llegue aunque la
+         persona cierre la pantalla en el mismo momento. */
+      keepalive: true,
+      headers: {
+        apikey: cfg.anonKey,
+        Authorization: 'Bearer ' + cfg.anonKey,
+        'Content-Type': 'application/json',
+        Prefer: 'return=minimal'
+      },
+      body: JSON.stringify([{
+        tipo:        tipo,
+        pantalla:    String(location.pathname).slice(0, 120),
+        detalle:     detalle ? String(detalle).slice(0, 300) : null,
+        dispositivo: queAparato()
+      }])
+    }).catch(function(){ /* si no se pudo anotar, no es asunto de nadie */ });
+  } catch(e){ /* idem */ }
+}
+
+/* Para las pantallas que tienen buscador. Lo que se anota es el
+   termino, igual que ya se hace con las preguntas de Avisanos: es
+   la lista de lo que la gente busca y no encuentra, escrita con sus
+   palabras. */
+let relojBusqueda = null, ultimaBusqueda = '';
+function anotarBusqueda(termino){
+  const t = String(termino || '').trim();
+  clearTimeout(relojBusqueda);
+  if (t.length < 3) return;
+  /* Se anota cuando deja de tipear, no en cada tecla: si no, buscar
+     «certificado» dejaria once renglones y ninguno seria la
+     busqueda de verdad. Y no se repite el mismo termino dos veces
+     en la misma visita. */
+  relojBusqueda = setTimeout(function(){
+    if (t === ultimaBusqueda) return;
+    ultimaBusqueda = t;
+    anotar('busqueda', t);
+  }, 1500);
+}
+
+(function registrar(){
+  /* Los errores: como mucho tres por visita y sin repetir. Un error
+     adentro de un bucle podria mandar miles, y ahi el registro pasa
+     de ser util a ser el problema. */
+  let cuantos = 0;
+  const yaVistos = {};
+  function anotarError(texto){
+    if (cuantos >= 3) return;
+    const t = String(texto || '').slice(0, 300);
+    if (!t || yaVistos[t]) return;
+    yaVistos[t] = true; cuantos++;
+    anotar('error', t);
+  }
+
+  window.addEventListener('error', function(e){
+    anotarError((e.message || 'error') +
+      (e.filename ? ' · ' + String(e.filename).split('/').pop() +
+        (e.lineno ? ':' + e.lineno : '') : ''));
+  });
+  window.addEventListener('unhandledrejection', function(e){
+    const r = e.reason;
+    anotarError('promesa: ' + ((r && (r.message || r)) || 'sin motivo'));
+  });
+
+  /* La visita: una sola por carga, y despues de que la pantalla ya
+     este dibujada, para no competir por el ancho de banda con lo que
+     la persona vino a buscar.
+
+     Lo unico que NO se cuenta es una pagina que el navegador preparo
+     de antemano sin que nadie la abriera (`prerendering`): eso no es
+     una visita. Una pestaña en segundo plano SI se cuenta, porque
+     alguien la abrio a proposito.
+
+     Se probo primero descartando todo lo que estuviera escondido, y
+     estaba mal: si un navegador no avisa cuando se vuelve visible,
+     esa visita se perdia para siempre. Para un numero que el 21
+     tiene que ser confiable, conviene contar de mas y no de menos. */
+  function contarVisita(){ anotar('visita', null); }
+  function programarVisita(){ setTimeout(contarVisita, 2500); }
+
+  if (document.prerendering){
+    document.addEventListener('prerenderingchange', programarVisita, { once:true });
+  } else if (document.readyState === 'complete'){
+    programarVisita();
+  } else {
+    window.addEventListener('load', programarVisita);
+  }
+})();
 
 /* ------------------------------------------------------------
    UTILIDADES

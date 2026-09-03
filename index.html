@@ -1184,6 +1184,11 @@
   const listaRes   = document.getElementById('resultados');
   const tituloRes  = document.getElementById('titulo-resultados');
 
+  /* Lo que la gente busca acá es la lista de lo que falta cargar en
+     «Info útil», escrita con sus palabras. Se anota cuando deja de
+     tipear, no en cada tecla. */
+  entrada.addEventListener('input', function(){ anotarBusqueda(entrada.value); });
+
   entrada.addEventListener('input', function(){
     const q = normalizar(entrada.value.trim());
 

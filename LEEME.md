@@ -1097,6 +1097,48 @@ librería grande. Para que no haya sorpresas, cualquier método que falte **tira
 un error con nombre y apellido** en vez de devolver `undefined` y romper tres
 pasos más adelante. Así se descubrió que Fechas usaba tiempo real.
 
+## El registro: qué le pasa a la app
+
+Desde el 4/9/2026 la app anota tres cosas, y se miran en el panel, en la solapa
+**📈 Registro**:
+
+- **Las visitas.** Una por carga, contada dos segundos y medio después de que la
+  pantalla ya está dibujada, para no pelear por el ancho de banda con lo que la
+  persona vino a buscar.
+- **Lo que la gente busca**, en el buscador de Inicio y en el de Info útil. Es la
+  lista de lo que falta cargar, escrita por los estudiantes con sus palabras —lo
+  mismo que ya hacía Avisanos con las preguntas—. Se anota cuando dejan de
+  tipear, no en cada tecla.
+- **Lo que se rompe.** Como mucho tres errores por visita y sin repetir: un error
+  adentro de un bucle podría mandar miles, y ahí el registro pasa de ser útil a
+  ser el problema.
+
+**Lo que NO se guarda, a propósito.** No hay columna de usuario, ni de dirección
+de internet, ni nada que permita unir dos visitas de la misma persona. Del
+aparato queda un balde grueso —`iphone`, `android`, `escritorio`— que alcanza
+para saber dónde se rompió algo y no para reconocer a nadie. Lo anotado se borra
+solo a los noventa días.
+
+**Dónde vive el código.** La tabla y el resumen están en `tabla-registro.sql`. El
+lado del navegador está en `app.js`, en la función `anotar()`, y tiene tres
+particularidades que conviene no deshacer:
+
+1. **No usa `db`.** Va con `fetch` pelado, porque tiene que poder anotar
+   justamente el error de que el cliente de datos no cargó. Si dependiera de
+   `db`, el día que falle lo importante no habría registro.
+2. **Nunca rompe la pantalla.** Todo va adentro de `try/catch` y no se espera la
+   respuesta.
+3. **Es otra puerta que escribe sin cuenta**, así que tiene tope por fila y freno
+   de caudal, igual que las consultas de Avisanos. El tope es alto —600 por
+   minuto— a propósito: un registro que se corta el día del pico no sirve.
+
+Las cuentas del resumen las hace la base y manda un solo objeto
+(`resumen_registro()`), en vez de bajarse miles de filas al navegador. Esa
+función comprueba que quien la llama sea del equipo: una cuenta de estudiante
+recibe un error, no los datos.
+
+---
+
 ## Avisos
 
 - **El proyecto gratuito de Supabase se pausa** tras varios días sin actividad.

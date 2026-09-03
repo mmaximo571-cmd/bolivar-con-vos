@@ -212,6 +212,7 @@
       <button class="chip" data-p="consejo"   aria-pressed="false">🏛 Consejo</button>
       <button class="chip" data-p="avisanos"   aria-pressed="false">💬 Avisanos</button>
       <button class="chip" data-p="categorias" aria-pressed="false">🗂 Categorías</button>
+      <button class="chip" data-p="registro"   aria-pressed="false">📈 Registro</button>
     </div>
     <div id="zona" style="margin-top:14px"></div>
     <button class="boton ancho borde" id="salir" style="margin-top:34px">Cerrar sesión</button>`;
@@ -2335,12 +2336,124 @@
     };
   }
 
+  /* ============================================================
+     EL REGISTRO  ·  qué le pasa a la app
+
+     Las cuentas las hace la base y manda un solo objeto. Bajar
+     miles de filas para sumarlas acá sería justo lo que estuvimos
+     sacándole a la app.
+
+     Lo único que se lee acá y no se puede tocar: es una pantalla
+     para mirar, no para editar.
+     ============================================================ */
+  async function vistaRegistro(){
+    const { data, error } = await db.rpc('resumen_registro');
+
+    if (error){
+      zona.innerHTML = /resumen_registro|does not exist|function/i.test(error.message || '')
+        ? `<div class="aviso error">
+             <strong>Falta activar esta sección.</strong><br>
+             Hay que correr <b>tabla-registro.sql</b> en el SQL Editor de
+             Supabase. Es una sola vez.
+           </div>`
+        : `<div class="aviso error">No se pudo cargar: ${esc(error.message)}</div>`;
+      return;
+    }
+
+    const r    = data || {};
+    const dias = r.por_dia   || [];
+    const pant = r.pantallas || [];
+    const busq = r.busquedas || [];
+    const errs = r.errores   || [];
+
+    if (!dias.length && !busq.length && !errs.length){
+      zona.innerHTML = `<div class="aviso">
+        <strong>Todavía no hay nada anotado.</strong><br>
+        La app empieza a registrar en cuanto alguien la abra. Volvé
+        en un rato.</div>`;
+      return;
+    }
+
+    const numero = (n, txt) => `
+      <div style="flex:1 1 120px">
+        <div style="font-family:var(--fuente-titulo);font-size:28px;line-height:1">${esc(String(n ?? 0))}</div>
+        <div style="font-size:var(--letra-chica);color:var(--texto-suave);
+                    text-transform:uppercase;letter-spacing:.08em;margin-top:4px">${txt}</div>
+      </div>`;
+
+    /* La barra sale de una proporción, no de un ancho fijo: así el
+       día más alto llena la fila y el resto se lee en relación. */
+    const tope = Math.max(1, ...dias.map(d => Number(d.n) || 0));
+    const barra = (etiqueta, n, total) => `
+      <div style="display:flex;align-items:center;gap:10px;padding:4px 0">
+        <span style="width:52px;flex:0 0 auto;font-family:var(--fuente-datos);
+                     font-size:var(--letra-chica);color:var(--texto-suave)">${esc(etiqueta)}</span>
+        <span style="flex:1;height:10px;background:var(--linea);border-radius:5px;overflow:hidden">
+          <span style="display:block;height:100%;width:${Math.round((Number(n)||0)/total*100)}%;
+                       background:var(--texto)"></span>
+        </span>
+        <span style="width:44px;flex:0 0 auto;text-align:right;
+                     font-family:var(--fuente-datos);font-size:var(--letra-chica)">${esc(String(n))}</span>
+      </div>`;
+
+    const lista = (titulo, filas, vacio) => `
+      <div class="tarjeta" style="margin-top:14px">
+        <div style="font-family:var(--fuente-sub);font-weight:700;
+                    font-size:var(--letra-chica);text-transform:uppercase;
+                    letter-spacing:.08em;margin-bottom:8px">${titulo}</div>
+        ${filas.length ? filas.join('') :
+          `<p style="color:var(--texto-suave);font-size:var(--letra-nota);margin:0">${vacio}</p>`}
+      </div>`;
+
+    zona.innerHTML = `
+      <div class="tarjeta">
+        <div style="display:flex;gap:16px;flex-wrap:wrap">
+          ${numero(r.visitas_hoy,  'visitas hoy')}
+          ${numero(r.visitas_7d,   'visitas · 7 días')}
+          ${numero(r.busquedas_7d, 'búsquedas · 7 días')}
+          ${numero(r.errores_7d,   'errores · 7 días')}
+        </div>
+      </div>
+
+      ${lista('Visitas por día', dias.map(d => barra(d.dia, d.n, tope)),
+              'Todavía no hay visitas anotadas.')}
+
+      ${lista('Pantallas más abiertas · 7 días',
+              pant.map(p => `<div style="display:flex;justify-content:space-between;gap:12px;
+                     padding:5px 0;border-bottom:1px solid var(--linea)">
+                     <span style="font-family:var(--fuente-datos);font-size:var(--letra-nota)">${esc(p.pantalla)}</span>
+                     <span style="font-family:var(--fuente-datos);font-size:var(--letra-nota)">${esc(String(p.n))}</span></div>`),
+              'Todavía no hay visitas anotadas.')}
+
+      ${lista('Lo que la gente busca · 30 días',
+              busq.map(b => `<div style="display:flex;justify-content:space-between;gap:12px;
+                     padding:5px 0;border-bottom:1px solid var(--linea)">
+                     <span style="font-size:var(--letra-nota)">${esc(b.texto)}</span>
+                     <span style="font-family:var(--fuente-datos);font-size:var(--letra-nota);
+                                  color:var(--texto-suave)">${esc(String(b.n))}</span></div>`),
+              'Nadie buscó nada todavía.')}
+
+      ${lista('Lo que se rompió · 30 días',
+              errs.map(e => `<div style="padding:7px 0;border-bottom:1px solid var(--linea)">
+                     <div style="font-size:var(--letra-nota);word-break:break-word">${esc(e.texto)}</div>
+                     <div style="font-size:var(--letra-chica);color:var(--texto-suave);margin-top:2px">
+                       ${esc(String(e.n))} ${Number(e.n) === 1 ? 'vez' : 'veces'} ·
+                       ${esc(e.aparatos || '—')} · última ${esc(e.ultima || '')}</div></div>`),
+              'No se rompió nada. Es una buena noticia.')}
+
+      <p style="color:var(--texto-suave);font-size:var(--letra-chica);margin-top:14px">
+        No se guarda nada que permita reconocer a una persona: ni cuenta, ni
+        dirección de internet, ni nada que una dos visitas entre sí. Del
+        aparato solo queda si era iPhone, Android o computadora. Lo anotado
+        se borra solo a los noventa días.</p>`;
+  }
+
   /* ============================================================ */
   function dibujar(){
     zona.innerHTML = '<div class="esq-tarjeta"><div class="esqueleto esq-linea titulo"></div><div class="esqueleto esq-linea"></div><div class="esqueleto esq-linea media"></div></div><div class="esq-tarjeta"><div class="esqueleto esq-linea titulo"></div><div class="esqueleto esq-linea"></div><div class="esqueleto esq-linea corta"></div></div>';
     ({ tramites:vistaTramites, faq:vistaFaq, agenda:vistaAgenda, programas:vistaProgramas,
        materiales:vistaMateriales, guia:vistaGuia, avisanos:vistaAvisanos,
-       quienes:vistaQuienes, consejo:vistaConsejo,
+       quienes:vistaQuienes, consejo:vistaConsejo, registro:vistaRegistro,
        categorias:vistaCategorias }[actual])();
   }
 
