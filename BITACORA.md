@@ -29,22 +29,20 @@ Si algo de acá quedó viejo, se corrige acá mismo al cerrar la sesión.
 | 3/9 | La tipografía sube un punto y toda la app pasa por la escala `--letra-*` | `ef8737d` |
 | 3/9 | Cinco pantallas dejan de bajar `lib/supabase.js` (212.718 → 6.357 bytes) | `6c91ada` |
 | 3/9 | La app anota visitas, búsquedas y errores; solapa **Registro** en el panel | `6de2ac0` |
+| 3/9 | El ícono de la app es el logo y no la «B» que inventaba Android; el service worker sube a `v5` para que los teléfonos ya instalados se enteren | `65968ac` |
 
 ## Lo que sigue, en este orden
 
-1. **El ícono suelto.** El commit `305f7ec` está sin mergear en la rama
-   `claude/remove-unwanted-logo-symbols-d5645a`. Arregla que Android invente una
-   «B» en vez del logo. Media hora.
-2. **Guardado entre visitas.** Que las pantallas guarden lo que trajeron, para
+1. **Guardado entre visitas.** Que las pantallas guarden lo que trajeron, para
    que la segunda entrada sea instantánea. Hoy el service worker se niega a
    propósito para no mostrar fechas viejas: la solución tiene que distinguir
    «viejo pero mientras carga» de «viejo y mentiroso».
-3. **«Mi año»: ingresante o avanzado.** La idea más grande de las que entran.
+2. **«Mi año»: ingresante o avanzado.** La idea más grande de las que entran.
    Es módulo nuevo → **primero las preguntas, no se construye de una.**
-4. Buscador de cátedras (lun 7) · Contactos en la página + materias libres de
+3. Buscador de cátedras (lun 7) · Contactos en la página + materias libres de
    Fono (mar 8) · Plan de estudios en PDF (mié 9) · Horarios (jue 10 y vie 11) ·
    Materiales como página web (sáb 12).
-5. **Domingo 13: congelamiento.** Última línea de función nueva.
+4. **Domingo 13: congelamiento.** Última línea de función nueva.
 
 ## Decisiones ya tomadas — no volver a discutirlas
 

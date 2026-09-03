@@ -17,9 +17,14 @@
    ============================================================ */
 
 /* Subir este número vacía el armazón guardado en los teléfonos que ya
-   tienen la app. Hay que subirlo cada vez que cambia QUÉ se guarda:
-   v4 (4/9/2026) saca la librería grande de Supabase de la lista. */
-const VERSION = 'bolivar-v4';
+   tienen la app. Hay que subirlo cada vez que cambia QUÉ se guarda, y
+   también cada vez que cambia el CONTENIDO de algo que ya está en la
+   lista, porque acá abajo se sirve lo guardado antes que la red:
+   v4 (3/9/2026) saca la librería grande de Supabase de la lista.
+   v5 (3/9/2026) suma el icono maskable y, sobre todo, tira el manifest
+   y los iconos viejos que ya tienen guardados los teléfonos donde la
+   app está instalada. */
+const VERSION = 'bolivar-v5';
 const ARMAZON = VERSION + '-armazon';
 const PAGINAS = VERSION + '-paginas';
 
@@ -42,6 +47,10 @@ const DEL_ARMAZON = [
   '/imagenes/icono-512.png',
   '/imagenes/icono-32.png',
   '/imagenes/icono-96.png',
+  /* El maskable es el que Android recorta a la forma del launcher, y es
+     el único al que apunta el manifest para eso. Faltaba en esta lista:
+     era el único icono declarado que no quedaba guardado. */
+  '/imagenes/icono-maskable-512.png',
   /* Las tres capas del logo de la apertura. Van acá porque son lo
      PRIMERO que se ve al abrir y la animación no puede empezar hasta
      que estén: bajándolas de la red, cada visita nueva arrancaba con
