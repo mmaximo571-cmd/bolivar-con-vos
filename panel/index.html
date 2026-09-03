@@ -587,7 +587,10 @@
           <div class="crecer">
             <span class="etiqueta ${esc(p.linea)}">${esc(NOMBRE_LINEA[p.linea] || p.linea)}</span>
             <h3>${esc(p.titulo)}</h3>
-            <p>${esc(rangoLindo(p.fecha_desde, p.fecha_hasta) || 'Sin fecha')}${p.publicado ? '' : ' · BORRADOR'}</p>
+            <p>${esc(rangoLindo(p.fecha_desde, p.fecha_hasta) || 'Sin fecha')}${p.publicado ? '' : ' · BORRADOR'}${
+              p.alarma === 'inscripcion' ? ' · ALARMA: inscripción de ' + esc(p.periodo || '')
+            : p.alarma === 'mesa'        ? ' · mesa de ' + esc(p.periodo || '')
+            : ''}</p>
           </div>
           <button class="mini" data-editar="${p.id}">Editar</button>
         </div></div>`).join('');
@@ -626,6 +629,23 @@
             ${opcion('saberes','Saberes colectivos (celeste)', p.linea)}
             ${opcion('frente','Frente político (negro)', p.linea)}
           </select></div>
+      </div>
+
+      <!-- LA ALARMA DE LA PORTADA
+           Esto es lo que hace que el inicio avise «faltan 4 días para
+           anotarte». Hasta el 3/9/2026 se adivinaba del título, así que
+           un título escrito distinto la apagaba sin avisarle a nadie.
+           Ahora se elige acá. -->
+      <div class="dos-columnas">
+        <div class="campo"><label for="alarma">¿Alimenta la alarma de la portada?</label>
+          <select id="alarma">
+            <option value=""${p.alarma ? '' : ' selected'}>— Elegí —</option>
+            ${opcion('inscripcion','Sí: es la INSCRIPCIÓN a una mesa', p.alarma)}
+            ${opcion('mesa','Sí: es la MESA de examen', p.alarma)}
+            ${opcion('ninguna','No tiene que ver con las mesas', p.alarma)}
+          </select></div>
+        <div class="campo"><label for="periodo">¿De qué mesa?</label>
+          <input id="periodo" value="${esc(p.periodo || '')}" placeholder="septiembre"></div>
       </div>
 
       <div class="campo"><label for="cuerpo">Texto</label>
@@ -675,12 +695,33 @@
           '<div class="aviso error">La fecha «hasta» es anterior a la de «desde».</div>';
         return;
       }
+      /* La alarma es lo más útil que hace la app, y lo que no se marca
+         no avisa. Si el título habla de una mesa y nadie dijo qué es,
+         se pregunta UNA vez: eligiendo «No tiene que ver con las
+         mesas» queda decidido y no vuelve a molestar. */
+      const alarma  = val('alarma');
+      const periodo = nulo('periodo');
+      if (!alarma && /^(inscripci[óo]n a la mesa|mesa de examen)/i.test(val('titulo'))){
+        document.getElementById('msj').innerHTML =
+          '<div class="aviso error">El título habla de una mesa, así que hace falta ' +
+          'decir qué es en «¿Alimenta la alarma de la portada?». Si de verdad no tiene ' +
+          'nada que ver, elegí esa opción y no se pregunta más.</div>';
+        return;
+      }
+      if ((alarma === 'inscripcion' || alarma === 'mesa') && !periodo){
+        document.getElementById('msj').innerHTML =
+          '<div class="aviso error">Falta «¿De qué mesa?». Va el mes solo: septiembre.</div>';
+        return;
+      }
+
       this.disabled = true; this.textContent = 'Guardando…';
 
       const fila = {
         titulo:      val('titulo'),
         tipo:        val('tipo'),
         linea:       val('linea'),
+        alarma:      alarma || null,
+        periodo:     (alarma === 'inscripcion' || alarma === 'mesa') ? periodo : null,
         cuerpo:      nulo('cuerpo'),
         fecha_desde: desde,
         fecha_hasta: hasta,

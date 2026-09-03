@@ -671,8 +671,25 @@ esperar un mes.
 Por eso aparece **arriba de todo, sola**, desde 5 días antes de que abra hasta
 que cierra. El resto del año no ocupa lugar. Los últimos dos días se pone roja.
 
-No hay nada que cargar: sale de las publicaciones que dicen «Inscripción a la
-mesa de…» en la agenda.
+**Hay un solo campo que cargar, y es importante.** En el panel, cada publicación
+tiene «¿Alimenta la alarma de la portada?». Ahí se elige si es la **inscripción**
+a una mesa, la **mesa de examen** en sí, o si no tiene nada que ver con las
+mesas. Si es una de las dos primeras, se escribe además de qué mesa se trata: el
+mes solo, `septiembre`. Eso es lo que une la inscripción con su mesa para poder
+decir «la mesa es el 14 de septiembre».
+
+Hasta el 3/9/2026 esto se adivinaba del título, con un `/^inscripción a la
+mesa/`, y por eso la alarma podía apagarse sola: alcanzaba con escribir
+«Inscripcion» sin tilde, o «Inscripción a mesa» sin el «la», para que no
+apareciera nunca. Y como **lo que falta no se ve**, el error recién se notaba
+cuando alguien se perdía la mesa. Por eso ahora el panel no deja guardar una
+publicación cuyo título hable de una mesa sin que alguien diga qué es.
+
+Las publicaciones viejas siguen andando sin tocarlas: si nadie decidió nada, la
+app todavía mira el título como antes. Lo que ya no hace es mirarlo cuando
+alguien eligió «no tiene que ver con las mesas».
+
+El detalle de las columnas y el backfill está en `tabla-alarma.sql`.
 
 ### El modo oscuro
 

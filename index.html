@@ -655,9 +655,31 @@
     const enDias = (desde, hasta) =>
       Math.round((new Date(hasta) - new Date(desde)) / 86400000);
 
+    /* CÓMO SE SABE QUE UNA PUBLICACIÓN ES UNA INSCRIPCIÓN A MESA
+
+       Hasta el 3/9/2026 salía de un regex sobre el título, y por eso
+       podía fallar sin que nadie se enterara: alcanzaba con escribir
+       «Inscripcion» sin tilde, o «Inscripción a mesa», para que la
+       alarma no apareciera nunca. Lo que falta no se ve, así que el
+       error recién aparecía cuando alguien se perdía la mesa.
+
+       Ahora sale de la columna `alarma`, que se elige en el panel.
+       El título se sigue mirando, pero solo cuando nadie decidió nada
+       todavía, así las publicaciones viejas siguen andando. Si en el
+       panel eligieron «no tiene que ver con las mesas», se respeta y
+       el título no se mira. */
+    const mesDelTitulo = (t) => (/ de ([a-záéíóúñ]+)\s*$/i.exec(t || '') || [])[1];
+    const rolDe = (p) =>
+        p.alarma                                            ? (p.alarma === 'ninguna' ? null : p.alarma)
+      : /^inscripci[óo]n a la mesa/i.test(p.titulo || '')   ? 'inscripcion'
+      : /^mesa de examen/i.test(p.titulo || '')             ? 'mesa'
+      : null;
+    const cualMesa = (p) => (p.periodo || mesDelTitulo(p.titulo) || '').toLowerCase();
+
     const inscripciones = publicaciones
-      .filter(p => /^inscripción a la mesa/i.test(p.titulo || '') && p.fecha_desde)
+      .filter(p => rolDe(p) === 'inscripcion' && p.fecha_desde)
       .map(p => ({ ...p,
+        mesaDe: cualMesa(p),
         abre:   p.fecha_desde.slice(0,10),
         cierra: (p.fecha_hasta || p.fecha_desde).slice(0,10) }))
       .sort((a,b) => a.abre.localeCompare(b.abre));
@@ -673,9 +695,13 @@
     if (!i){ proximoDeLaAgenda(caja, publicaciones, hoy); return; }
 
     /* La mesa correspondiente, para decir para cuándo es */
-    const mes = (t) => (/de (\w+)$/.exec(t || '') || [])[1];
-    const mesa = publicaciones.find(p =>
-      /^mesa de examen/i.test(p.titulo || '') && mes(p.titulo) === mes(i.titulo));
+    const mesa = i.mesaDe && publicaciones.find(p =>
+      rolDe(p) === 'mesa' && cualMesa(p) === i.mesaDe);
+
+    /* Si nadie cargó de qué mesa se trata, la alarma igual avisa: se
+       pierde el nombre del mes, no el aviso. Antes, en ese caso, el
+       texto decía «la mesa de undefined». */
+    const frase = i.mesaDe ? `a la mesa de ${esc(i.mesaDe)}` : 'a la próxima mesa';
 
     let titulo, cuerpo, urgente;
     if (abierta){
@@ -684,14 +710,14 @@
       titulo = quedan === 0 ? 'Hoy cierra la inscripción'
              : quedan === 1 ? 'Mañana cierra la inscripción'
              : `Quedan ${quedan} días para anotarte`;
-      cuerpo = `La inscripción a la mesa de ${esc(mes(i.titulo))} está abierta ` +
+      cuerpo = `La inscripción ${frase} está abierta ` +
                `hasta el ${esc(fechaLinda(i.cierra))}.`;
     } else {
       const faltan = enDias(hoy, i.abre);
       urgente = false;
       titulo = faltan === 1 ? 'Mañana abre la inscripción'
                             : `Faltan ${faltan} días para anotarte`;
-      cuerpo = `La inscripción a la mesa de ${esc(mes(i.titulo))} abre el ` +
+      cuerpo = `La inscripción ${frase} abre el ` +
                `${esc(fechaLinda(i.abre))} y cierra el ${esc(fechaLinda(i.cierra))}.`;
     }
     if (mesa) cuerpo += ` La mesa es el ${esc(fechaLinda(mesa.fecha_desde))}.`;
