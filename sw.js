@@ -16,7 +16,10 @@
    no tener fecha: alguien se pierde una mesa por creerle a la app.
    ============================================================ */
 
-const VERSION = 'bolivar-v3';
+/* Subir este número vacía el armazón guardado en los teléfonos que ya
+   tienen la app. Hay que subirlo cada vez que cambia QUÉ se guarda:
+   v4 (4/9/2026) saca la librería grande de Supabase de la lista. */
+const VERSION = 'bolivar-v4';
 const ARMAZON = VERSION + '-armazon';
 const PAGINAS = VERSION + '-paginas';
 
@@ -27,7 +30,13 @@ const DEL_ARMAZON = [
   '/iconos.js',
   '/config.js',
   '/lectura.js',
-  '/lib/supabase.js',
+  /* El cliente chico, que es el que usan seis de las diez pantallas.
+     La librería grande (`/lib/supabase.js`, 213 KB) YA NO se guarda de
+     entrada: la necesitan cuatro pantallas y guardarla acá obligaba a
+     bajarla en la primera visita aunque la persona nunca las abriera.
+     Igual queda guardada la primera vez que alguien entra a una de
+     esas cuatro, por la regla de más abajo. */
+  '/lib/datos.js',
   '/manifest.json',
   '/imagenes/icono-192.png',
   '/imagenes/icono-512.png',

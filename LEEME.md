@@ -1063,6 +1063,40 @@ Para diagnosticar: si ves «Cargando…» y **nada más** —sin cabecera ni men
 que el JavaScript no corrió. Si ves la app entera pero una parte dice
 «Cargando…», es la consulta.
 
+### Hay dos clientes de datos, y cada pantalla elige uno
+
+Desde el 4/9/2026 no todas las pantallas cargan la librería grande. La razón es
+de peso: `lib/supabase.js` pesa **212.718 bytes** y la mitad de las pantallas la
+usaba solo para leer datos públicos. Del otro lado del cable no hay nada raro
+—la base es PostgREST, una API HTTP común—, así que leer una tabla es pedir una
+URL con `fetch`. Eso es `lib/datos.js`: **6.357 bytes**, el 3 %.
+
+| Carga | Pantallas | Por qué |
+|---|---|---|
+| `lib/datos.js` | Inicio, Estudiemos, ¿Quiénes somos?, Consejo, Anatomofisiología | Solo leen cosas publicadas |
+| `lib/supabase.js` | Info útil, Fechas, Mi año, Perfil, Panel | Sesión, archivos o tiempo real |
+
+**La forma de llamarlo es la misma en los dos** (`db.from('tabla').select('*')`),
+justamente para que cambiar de uno a otro sea tocar el `<script>` de arriba y
+nada más.
+
+Las cinco que siguen con la grande no es por casualidad:
+
+- **Info útil** y **Mi año** guardan cosas de quien inició sesión (trámites
+  guardados, preparaciones). El token dura una hora y la librería grande lo
+  **renueva sola**; el cliente chico no. Una sesión que no se renueva falla en
+  silencio, y eso es lo peor que puede pasar.
+- **Fechas** usa `db.channel(...)` para que lo que publica el equipo aparezca
+  sin recargar. Eso es una conexión en vivo por WebSocket y no se resuelve con
+  `fetch`.
+- **Perfil** inicia sesión y **el Panel** además sube archivos.
+
+**Si una pantalla del cliente chico necesita algo que no está**, no se agrega a
+medias: o se implementa bien en `lib/datos.js`, o esa pantalla vuelve a la
+librería grande. Para que no haya sorpresas, cualquier método que falte **tira
+un error con nombre y apellido** en vez de devolver `undefined` y romper tres
+pasos más adelante. Así se descubrió que Fechas usaba tiempo real.
+
 ## Avisos
 
 - **El proyecto gratuito de Supabase se pausa** tras varios días sin actividad.

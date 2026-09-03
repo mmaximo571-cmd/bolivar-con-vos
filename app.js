@@ -64,14 +64,32 @@ function avisarQueNoArranca(motivo){
   });
 }
 
+/* Hay DOS clientes posibles, y esta pantalla ya eligió cuál arriba,
+   en el <script> que cargó:
+
+     lib/supabase.js  la librería grande. La necesitan las pantallas
+                      que inician sesión o suben archivos: «Info útil»,
+                      «Mi año», «Perfil» y el panel.
+     lib/datos.js     el cliente chico, 56 KB menos. Alcanza para
+                      cualquier pantalla que solo lea datos públicos.
+
+   Si por lo que sea estuvieran los dos, manda la grande, que hace
+   todo lo que hace la chica. */
 let db = null;
-if (!window.supabase || !window.supabase.createClient){
+const armarCliente =
+    (window.supabase && window.supabase.createClient)
+  ? window.supabase.createClient
+  : (window.datosBolivar && window.datosBolivar.crearCliente)
+  ? window.datosBolivar.crearCliente
+  : null;
+
+if (!armarCliente){
   avisarQueNoArranca('No cargó una parte de la app. Suele ser la conexión: ' +
     'probá de nuevo, o con otra red.');
 } else if (!window.BOLIVAR_CONFIG){
   avisarQueNoArranca('Falta la configuración de la app. Avisale al equipo.');
 } else {
-  db = window.supabase.createClient(
+  db = armarCliente(
     window.BOLIVAR_CONFIG.url,
     window.BOLIVAR_CONFIG.anonKey
   );
