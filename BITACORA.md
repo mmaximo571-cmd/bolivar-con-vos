@@ -31,7 +31,23 @@ Si algo de acá quedó viejo, se corrige acá mismo al cerrar la sesión.
 | 3/9 | La app anota visitas, búsquedas y errores; solapa **Registro** en el panel | `6de2ac0` |
 | 3/9 | El ícono de la app es el logo y no la «B» que inventaba Android; el service worker sube a `v5` para que los teléfonos ya instalados se enteren | `65968ac` |
 | 3/9 | Inicio pinta los accesos y el kit de lo guardado mientras busca lo de ahora; sin red ya no se vacía la pantalla. Lo que lleva fecha sigue esperando a la red. `v6` | `0ad57f7` |
-| 4/9 | Las cinco pantallas que faltaban guardan entre visitas: Info útil, Estudiemos, Anatomofisiología, ¿Quiénes somos? y El Consejo. `v7` | (este commit) |
+| 4/9 | Las cinco pantallas que faltaban guardan entre visitas: Info útil, Estudiemos, Anatomofisiología, ¿Quiénes somos? y El Consejo. `v7` | `38b6100` |
+| 4/9 | Las materias que se rinden libres en Fonoaudiología, como listado de texto | (este commit) |
+
+**Ojo con lo de las materias libres.** El listado sale de un documento que se
+llama, textualmente, «**Propuesta** de materias libres … para agregar al régimen
+de regularidad o anexar al plan de estudios». No está aprobado, y la app lo dice
+con todas las letras. Si alguien confirma que se aprobó (o que no), hay que
+cambiar `notaLibres` en `carrera/plan-fono.js`, que es el único lugar donde vive
+ese texto.
+
+Y quedó abierta una pregunta que vale para Trabajo Social: **qué significa el
+asterisco (*)** que llevan diez materias en `plan.js`. Cuatro de las seis que TS
+comparte con Fono están marcadas con asterisco Y figuran como libres en la
+propuesta de Fono; las otras dos, no. O sea que apunta a lo mismo pero no
+alcanza para afirmarlo. La pregunta para Alumnado es: «En el plan 2015, ¿qué
+indica el asterisco de algunas materias cuatrimestrales? ¿Que se pueden rendir
+libres?». Hasta que haya respuesta, la nota del asterisco se deja como está.
 
 ## El cronograma
 
@@ -46,7 +62,7 @@ entran 2 o 3 sesiones.
 | sáb 5 | «Mi año»: el Kit de Inicio y el pulido | ídem |
 | dom 6 | Se cierran las cuatro decisiones pendientes | Máximo |
 | lun 7 | Buscador de cátedras | mails de las cátedras |
-| mar 8 | Contactos en la página + materias libres de Fono | 3 contactos por carrera |
+| mar 8 | Contactos en la página | 3 contactos por carrera |
 | mié 9 | Plan de estudios en PDF | los 3 PDFs |
 | jue 10 – vie 11 | Horarios: completos (2 días) o cuadro oficial (medio día) | decisión del dom 6 |
 | sáb 12 | Materiales como página web | PDFs de materiales |

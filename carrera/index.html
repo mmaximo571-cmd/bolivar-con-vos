@@ -120,6 +120,13 @@
     <div class="titulo-seccion" id="titulo-requisitos" hidden>OTROS REQUISITOS</div>
     <div id="requisitos"></div>
 
+    <!-- Las que se rinden libres. Va como texto y no como tarjetas: son
+         veinte de cuarenta y dos, y en tarjetas serían otras cinco
+         pantallas de scroll. Acá lo que sirve es poder recorrer la lista
+         de un vistazo. Solo aparece en las carreras que tienen el dato. -->
+    <div class="titulo-seccion" id="titulo-libres" hidden>SE RINDEN LIBRES</div>
+    <div id="libres"></div>
+
     <div class="aviso" id="nota-asterisco" hidden></div>
 
     <button class="boton borde ancho" id="borrar" style="margin:18px 0 6px">
@@ -628,6 +635,7 @@ function pintarPlanCompleto(){
               <span>${DICTADO[m.dictado]}</span>
               ${m.horas ? `<span>${m.horas} h</span>` : ''}
               ${m.trayecto ? `<span>${esc(m.trayecto)}</span>` : ''}
+              ${m.libre ? '<span>se rinde libre</span>' : ''}
               ${m.marcada ? '<span>(*)</span>' : ''}
             </div>
           </button>`;
@@ -650,6 +658,24 @@ function pintarPlanCompleto(){
   if (casilla) casilla.addEventListener('change', function(){
     datos.idioma = this.checked; persistir();
   });
+
+  /* Las que se rinden libres, agrupadas por año y separadas por puntos.
+     Como texto: veinte tarjetas más serían cinco pantallas de scroll, y
+     lo que hace falta acá es recorrer la lista, no tocar cada una.
+     La carrera que no tiene el dato no muestra la sección: la app no
+     dice «ninguna», dice nada, que es distinto. */
+  const libres      = MATERIAS.filter(m => m.libre);
+  const cajaLibres  = document.getElementById('libres');
+  document.getElementById('titulo-libres').hidden = !libres.length;
+  cajaLibres.hidden = !libres.length;
+  cajaLibres.innerHTML = !libres.length ? '' :
+    anios.map(a => {
+      const suyas = libres.filter(m => m.anio === a);
+      if (!suyas.length) return '';
+      return `<p class="lista-libres"><strong>${ORDINAL[a]} AÑO</strong>` +
+             suyas.map(m => esc(m.nombre)).join(' · ') + '</p>';
+    }).join('') +
+    (PLAN.notaLibres ? `<div class="aviso">${esc(PLAN.notaLibres)}</div>` : '');
 
   /* La nota del asterisco tampoco existe en las tres carreras */
   const cajaNota = document.getElementById('nota-asterisco');
@@ -871,6 +897,8 @@ function abrirHoja(cod){
     ${trayecto ? `<p class="letra-chica">${esc(trayecto)}</p>` : ''}
     ${m.marcada && PLAN.notaAsterisco
       ? `<p class="letra-chica">(*) ${esc(PLAN.notaAsterisco)}</p>` : ''}
+    ${m.libre && PLAN.notaLibres
+      ? `<p class="letra-chica"><strong>Se rinde libre.</strong> ${esc(PLAN.notaLibres)}</p>` : ''}
 
     <div class="veredicto ${s.clase}">${NOMBRE_CLASE[s.clase]}</div>
 

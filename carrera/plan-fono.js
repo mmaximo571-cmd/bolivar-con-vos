@@ -30,6 +30,16 @@
      paraFinal   codigos que necesitás con el final aprobado.
                  Puede ser la palabra 'todas-1-a-4' (la usa el Trabajo
                  Integrador Final, que pide todas las materias de 1° a 4°).
+     libre       true si la materia figura en la «Propuesta de materias
+                 libres» de la carrera. OJO: es una PROPUESTA presentada
+                 para anexar al plan, NO un régimen aprobado. Por eso la
+                 app lo dice con todas las letras: ver `notaLibres`.
+
+                 Este campo va por plan y NO se comparte entre carreras.
+                 Hay materias con el mismo código que en Fonoaudiología
+                 figuran como libres y en Trabajo Social no: rendir libre
+                 es una propiedad del régimen de cada carrera, no de la
+                 materia.
 
    OJO: el PDF de esta carrera NO trae carga horaria. Por eso ninguna
    materia tiene el campo "horas". Si la facultad la publica, se agrega.
@@ -42,6 +52,17 @@ window.PLAN_FONO = {
   nombreCorto: 'Fonoaudiología',
   facultad: 'Facultad de Trabajo Social · UNLP',
   anios: 5,
+
+  /* Esto lo lee el estudiante, así que está escrito para el estudiante:
+     decimos lo que sabemos y también lo que no. La lista sale de un
+     documento que se llama, textualmente, «Propuesta de materias libres
+     … para agregar al régimen de regularidad o anexar al plan de
+     estudios». Mientras diga «propuesta», la app no puede decir otra
+     cosa: de esto depende que alguien se presente o no a rendir. */
+  notaLibres: 'Estas materias figuran en la «Propuesta de materias libres» ' +
+              'de la carrera, presentada para anexar al plan de estudios. ' +
+              'Todavía no está aprobada: antes de anotarte a rendir libre, ' +
+              'confirmalo en Alumnado.',
 
   /* Estas materias tienen el mismo codigo y el mismo nombre que en el plan
      de Trabajo Social: son materias compartidas entre las dos carreras. */
@@ -63,28 +84,28 @@ window.PLAN_FONO = {
       anio:1, dictado:'1c', paraCursar:[], paraFinal:[] },
 
     { cod:'813', nombre:'Epistemología',
-      anio:1, dictado:'1c', paraCursar:[], paraFinal:[] },
+      anio:1, dictado:'1c', paraCursar:[], paraFinal:[], libre:true },
 
     { cod:'814', nombre:'Anatomofisiología fonoaudiológica',
-      anio:1, dictado:'1c', paraCursar:[], paraFinal:[] },
+      anio:1, dictado:'1c', paraCursar:[], paraFinal:[], libre:true },
 
     { cod:'815', nombre:'Acústica',
-      anio:1, dictado:'1c', paraCursar:[], paraFinal:[] },
+      anio:1, dictado:'1c', paraCursar:[], paraFinal:[], libre:true },
 
     { cod:'223', nombre:'Introducción a la psicología',
-      anio:1, dictado:'1c', paraCursar:[], paraFinal:[] },
+      anio:1, dictado:'1c', paraCursar:[], paraFinal:[], libre:true },
 
     { cod:'816', nombre:'Bases neuropsicológicas de la comunicación',
-      anio:1, dictado:'2c', paraCursar:[], paraFinal:[] },
+      anio:1, dictado:'2c', paraCursar:[], paraFinal:[], libre:true },
 
     { cod:'817', nombre:'Lingüística',
-      anio:1, dictado:'2c', paraCursar:[], paraFinal:[] },
+      anio:1, dictado:'2c', paraCursar:[], paraFinal:[], libre:true },
 
     { cod:'818', nombre:'Sociología',
-      anio:1, dictado:'2c', paraCursar:[], paraFinal:[] },
+      anio:1, dictado:'2c', paraCursar:[], paraFinal:[], libre:true },
 
     { cod:'212 A', nombre:'Introducción a la filosofía',
-      anio:1, dictado:'2c', paraCursar:[], paraFinal:[] },
+      anio:1, dictado:'2c', paraCursar:[], paraFinal:[], libre:true },
 
     /* ---------------- SEGUNDO AÑO ---------------- */
     { cod:'821', nombre:'Procesos lingüísticos y comunicación',
@@ -94,7 +115,7 @@ window.PLAN_FONO = {
       anio:2, dictado:'1c', paraCursar:['812','814','816'], paraFinal:[] },
 
     { cod:'823', nombre:'Teoría de la comunicación',
-      anio:2, dictado:'1c', paraCursar:[], paraFinal:[] },
+      anio:2, dictado:'1c', paraCursar:[], paraFinal:[], libre:true },
 
     { cod:'824', nombre:'Audiología y comunicación',
       anio:2, dictado:'1c', paraCursar:['812','814','815'], paraFinal:[] },
@@ -103,10 +124,10 @@ window.PLAN_FONO = {
       anio:2, dictado:'1c', paraCursar:['812','814','816'], paraFinal:[] },
 
     { cod:'826', nombre:'Fonética y fonología',
-      anio:2, dictado:'1c', paraCursar:['817'], paraFinal:[] },
+      anio:2, dictado:'1c', paraCursar:['817'], paraFinal:[], libre:true },
 
     { cod:'827', nombre:'Metodología de la investigación',
-      anio:2, dictado:'2c', paraCursar:['813'], paraFinal:['813'] },
+      anio:2, dictado:'2c', paraCursar:['813'], paraFinal:['813'], libre:true },
 
     { cod:'828', nombre:'Acciones y prácticas en audiología',
       anio:2, dictado:'2c', paraCursar:['824'], paraFinal:[] },
@@ -115,7 +136,7 @@ window.PLAN_FONO = {
       anio:2, dictado:'2c', paraCursar:['825'], paraFinal:[] },
 
     { cod:'215 B', nombre:'Teorías de las culturas y antropología de las sociedades contemporáneas',
-      anio:2, dictado:'2c', paraCursar:[], paraFinal:['818'] },
+      anio:2, dictado:'2c', paraCursar:[], paraFinal:['818'], libre:true },
 
     /* ---------------- TERCER AÑO ---------------- */
     { cod:'512', nombre:'Salud fonatoria',
@@ -128,13 +149,13 @@ window.PLAN_FONO = {
       anio:3, dictado:'1c', paraCursar:['824'], paraFinal:[] },
 
     { cod:'253', nombre:'Salud colectiva',
-      anio:3, dictado:'1c', paraCursar:['215 B'], paraFinal:[] },
+      anio:3, dictado:'1c', paraCursar:['215 B'], paraFinal:[], libre:true },
 
     { cod:'831', nombre:'Introducción al análisis de la estructura social argentina',
-      anio:3, dictado:'1c', paraCursar:['818'], paraFinal:['818'] },
+      anio:3, dictado:'1c', paraCursar:['818'], paraFinal:['818'], libre:true },
 
     { cod:'832', nombre:'Fonoaudiología, derechos humanos y género',
-      anio:3, dictado:'2c', paraCursar:['812','818'], paraFinal:[] },
+      anio:3, dictado:'2c', paraCursar:['812','818'], paraFinal:[], libre:true },
 
     { cod:'513', nombre:'Intervención del lenguaje en población adulta',
       anio:3, dictado:'2c', paraCursar:['821'], paraFinal:[] },
@@ -143,10 +164,10 @@ window.PLAN_FONO = {
       anio:3, dictado:'2c', paraCursar:['828','523'], paraFinal:[] },
 
     { cod:'244', nombre:'Teoría y práctica de la educación',
-      anio:3, dictado:'2c', paraCursar:['215 B'], paraFinal:[] },
+      anio:3, dictado:'2c', paraCursar:['215 B'], paraFinal:[], libre:true },
 
     { cod:'233', nombre:'Psicología del desarrollo y la subjetividad',
-      anio:3, dictado:'2c', paraCursar:['223'], paraFinal:['223'] },
+      anio:3, dictado:'2c', paraCursar:['223'], paraFinal:['223'], libre:true },
 
     { cod:'833', nombre:'Taller de metodología I',
       anio:3, dictado:'2c', paraCursar:['827'], paraFinal:[] },
@@ -161,7 +182,7 @@ window.PLAN_FONO = {
       anio:4, dictado:'anual', paraCursar:['832','512'], paraFinal:[] },
 
     { cod:'843', nombre:'Política social',
-      anio:4, dictado:'1c', paraCursar:['831'], paraFinal:[] },
+      anio:4, dictado:'1c', paraCursar:['831'], paraFinal:[], libre:true },
 
     { cod:'844', nombre:'Fonoaudiología en ámbitos educativos',
       anio:4, dictado:'1c', paraCursar:['244','832'], paraFinal:['244'] },
@@ -176,7 +197,7 @@ window.PLAN_FONO = {
       anio:4, dictado:'2c', paraCursar:['825'], paraFinal:[] },
 
     { cod:'847', nombre:'Gestión y políticas públicas',
-      anio:4, dictado:'2c', paraCursar:['843'], paraFinal:[] },
+      anio:4, dictado:'2c', paraCursar:['843'], paraFinal:[], libre:true },
 
     { cod:'848', nombre:'Taller de metodología II',
       anio:4, dictado:'2c', paraCursar:['833'], paraFinal:[] },
@@ -187,7 +208,7 @@ window.PLAN_FONO = {
       paraCursar:['827','833','848','841'], paraFinal:'todas-1-a-4' },
 
     { cod:'851', nombre:'Ética y deontología',
-      anio:5, dictado:'1c', paraCursar:['832'], paraFinal:[] }
+      anio:5, dictado:'1c', paraCursar:['832'], paraFinal:[], libre:true }
   ],
 
   requisitos: []

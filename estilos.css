@@ -1186,6 +1186,22 @@ svg.ico{width:1em;height:1em;display:block;flex:0 0 auto}
   .pestanas::after{transition:none}
 }
 
+/* --- Las materias que se rinden libres, como texto --- */
+/* Van en un renglón por año, separadas por puntos, en vez de una tarjeta
+   cada una: son veinte de cuarenta y dos, y en tarjetas serían otras
+   cinco pantallas de scroll. Acá lo que hace falta es recorrer la lista
+   de un vistazo, no tocar cada materia: para eso está el listado de
+   arriba, que sigue siendo de tarjetas. */
+.lista-libres{
+  margin:0 0 10px;font-size:var(--letra-nota);line-height:1.5;
+  color:var(--texto)
+}
+.lista-libres strong{
+  display:block;font-family:var(--fuente-sub);font-size:var(--letra-mini);
+  font-weight:700;letter-spacing:.08em;color:var(--texto-suave);
+  margin-bottom:2px
+}
+
 /* --- Interruptor de una linea --- */
 .interruptor{
   display:flex;align-items:center;gap:10px;background:var(--superficie);
