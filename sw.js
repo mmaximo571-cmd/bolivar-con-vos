@@ -31,8 +31,13 @@
    v7 (4/9/2026) misma razón: `app.js` suma `olvidarMemoria`, que es de
    lo que dependen las cinco pantallas nuevas para no seguir mostrando
    algo que la facultad dio de baja. Las pantallas en sí no necesitan
-   esto —se sirven red primero—, pero el `app.js` que las sostiene sí. */
-const VERSION = 'bolivar-v7';
+   esto —se sirven red primero—, pero el `app.js` que las sostiene sí.
+   v8 (4/9/2026) `estilos.css` suma `.lista-libres`, que es como se ven
+   las materias que se rinden libres en Fonoaudiología. La pantalla
+   `carrera/` se sirve red primero y llega nueva, pero el CSS y el
+   `plan-fono.js` que la sostienen salen de lo guardado: sin subir esto,
+   el listado aparecía sin estilo y con los datos viejos. */
+const VERSION = 'bolivar-v8';
 const ARMAZON = VERSION + '-armazon';
 const PAGINAS = VERSION + '-paginas';
 
