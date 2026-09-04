@@ -48,6 +48,15 @@
     podés <strong>promocionar</strong>. Nadie más lo ve: queda en tu teléfono.
   </p>
 
+  <!-- ---------- LA PRIMERA VEZ ----------
+       Dos preguntas en un solo momento: qué carrera y en qué punto de
+       la carrera está. Antes no se preguntaba nada: la app elegía
+       Trabajo Social sola, y a quien recién empezaba lo recibía una
+       barra en 0%, una sección titulada «El año que viene» —cuando era
+       su primer año— y una lista de veinte materias que todavía no
+       podía cursar. -->
+  <section id="bienvenida-anio" hidden></section>
+
   <!-- ---------- ELEGIR CARRERA ---------- -->
   <div class="chips" id="selector-carrera" role="group" aria-label="Elegí tu carrera"></div>
 
@@ -64,6 +73,12 @@
 
   <!-- ---------- VISTA: MI CURSADA ---------- -->
   <section id="vista-plan">
+
+    <!-- Para quien recién empieza: reemplaza a «Mi cursada» entera.
+         Se apaga sola en cuanto marca su primera materia. -->
+    <div id="primer-anio" hidden></div>
+
+    <div id="cursada-normal">
 
     <!-- Lo que estás haciendo ahora, arriba de todo -->
     <div id="cursando-ahora"></div>
@@ -84,6 +99,8 @@
 
     <div id="grupos"></div>
     <div id="consejo"></div>
+
+    </div><!-- /cursada-normal -->
   </section>
 
   <!-- ---------- VISTA: PREPARAR UN FINAL ----------
@@ -272,6 +289,35 @@ try {
 
 if (!guardado.datos) guardado.datos = {};
 
+/* ============================================================
+   INGRESANTE O AVANZADO
+
+   `guardado.momento` vale 'ingresante' o 'avanzado', y se pregunta UNA
+   vez, en el mismo momento que la carrera. Va afuera de `datos[carrera]`
+   a propósito: en qué punto de la facultad está una persona no cambia
+   porque mire otro plan.
+   ============================================================ */
+function algoMarcado(){
+  return Object.keys(guardado.datos || {}).some(id => {
+    const e = (guardado.datos[id] || {}).estados || {};
+    return Object.keys(e).some(c => e[c] && e[c] !== 'pendiente');
+  });
+}
+
+/* A quien ya venía usando la app no se le pregunta nada: si tiene
+   materias marcadas, la respuesta ya la sabemos. Preguntarle sería
+   hacerle repetir algo que su propio uso contesta. */
+if (!guardado.momento && algoMarcado()) guardado.momento = 'avanzado';
+
+function esIngresante(){
+  if (guardado.momento !== 'ingresante') return false;
+  /* Y deja de serlo SOLA en cuanto marca su primera materia: a partir
+     de ahí «Mi cursada» dice la verdad y «Tu primer año» sería un
+     cartel viejo. Lo guardado no se toca nunca; cambia lo que se
+     muestra arriba. */
+  return !MATERIAS.some(m => estadoCrudo(m.cod) !== 'pendiente');
+}
+
 function persistir(){
   try { localStorage.setItem(LLAVE, JSON.stringify(guardado)); } catch(e){}
   /* Y si hay copia de respaldo, se actualiza sola. */
@@ -447,7 +493,17 @@ function pintarProgreso(){
 
   const prom = promedio();
 
-  document.getElementById('progreso').innerHTML = `
+  /* EL 0% NO SE MUESTRA. Una barra vacía y un «0 de 31» reciben con un
+     cero a quien todavía no empezó, y no le dicen nada que no sepa.
+     Ojo: el resumen para la portada se sigue guardando igual, unas
+     líneas más arriba. Lo que se apaga es el dibujo, no la cuenta. */
+  const caja = document.getElementById('progreso');
+  if (!aprobadas && !cursadas && !cursandoAhora){
+    caja.hidden = true; caja.innerHTML = ''; return;
+  }
+  caja.hidden = false;
+
+  caja.innerHTML = `
     <div class="barra"><div class="barra-llena" style="--llena:${pct}"></div></div>
     <div class="progreso-datos">
       <div><strong>${aprobadas}</strong> de ${total} materias aprobadas</div>
@@ -575,6 +631,112 @@ function tarjetaMateria(m, clase){
         ${m.marcada ? '<span>(*)</span>' : ''}
       </div>
     </button>`;
+}
+
+/* ============================================================
+   LA PRIMERA VEZ  ·  dos preguntas en un solo momento
+
+   Los textos van escritos acá, como el resto de la pantalla: no hay
+   tabla nueva. El congelamiento es el domingo 13 y una tabla para
+   cuatro frases no se paga sola.
+   ============================================================ */
+const BIENVENIDA = {
+  ingresante: { titulo: 'Estoy empezando',
+                detalle: 'Es mi primer año en la facultad.' },
+  avanzado:   { titulo: 'Ya vengo cursando',
+                detalle: 'Tengo materias aprobadas o en curso.' },
+  /* Va abajo y chiquito: es una tranquilidad, no una instrucción. Y no
+     repite lo de «queda en tu teléfono», que la bajada de la pantalla
+     ya dice dos renglones más arriba. */
+  pie: 'Las dos se cambian cuando quieras.'
+};
+
+/* Mientras se pregunta, la pantalla no muestra nada más: dos preguntas
+   con la app entera de fondo son dos preguntas que se saltean. */
+function mostrarBienvenida(mostrar){
+  document.getElementById('bienvenida-anio').hidden = !mostrar;
+  document.getElementById('selector-carrera').hidden = mostrar;
+  document.getElementById('progreso').hidden = mostrar;
+  document.querySelector('.pestanas').hidden = mostrar;
+  document.getElementById('vista-plan').hidden = mostrar;
+  /* La copia de respaldo vive afuera de las vistas, así que hay que
+     taparla aparte: ofrecer un código de respaldo a alguien que
+     todavía no dijo ni qué carrera hace es contestar una pregunta que
+     nadie hizo. */
+  document.getElementById('respaldo').hidden = mostrar;
+  if (mostrar){
+    ['vista-final','vista-mapa','vista-todo'].forEach(id =>
+      document.getElementById(id).hidden = true);
+  }
+}
+
+function pintarBienvenida(){
+  const caja = document.getElementById('bienvenida-anio');
+
+  caja.innerHTML = `
+    <div class="titulo-seccion">TU CARRERA</div>
+    <div class="chips" id="bienvenida-carrera" role="group" aria-label="Elegí tu carrera">
+      ${CARRERAS.filter(c => c).map(c => `
+        <button class="chip" data-carrera="${esc(c.id)}"
+                aria-pressed="${c.id === PLAN.id ? 'true' : 'false'}"
+                title="${esc(c.carrera)}">${esc(c.nombreCorto)}</button>`).join('')}
+    </div>
+
+    <div class="titulo-seccion">EN QUÉ PUNTO ESTÁS</div>
+    <div class="lista" id="bienvenida-momento">
+      ${['ingresante','avanzado'].map(k => `
+        <button class="tarjeta" data-momento="${k}">
+          <h3>${esc(BIENVENIDA[k].titulo)}</h3>
+          <p class="motivo">${esc(BIENVENIDA[k].detalle)}</p>
+        </button>`).join('')}
+    </div>
+    <p class="letra-chica">${esc(BIENVENIDA.pie)}</p>`;
+
+  /* La carrera se puede tocar varias veces sin cerrar nada: lo que
+     cierra la bienvenida es responder la segunda pregunta. */
+  document.getElementById('bienvenida-carrera').addEventListener('click', e => {
+    const b = e.target.closest('.chip');
+    if (!b) return;
+    elegirCarrera(b.dataset.carrera);
+    document.querySelectorAll('#bienvenida-carrera .chip').forEach(x =>
+      x.setAttribute('aria-pressed', x.dataset.carrera === PLAN.id ? 'true' : 'false'));
+  });
+
+  document.getElementById('bienvenida-momento').addEventListener('click', e => {
+    const b = e.target.closest('[data-momento]');
+    if (!b) return;
+    guardado.momento = b.dataset.momento;
+    persistir();
+    mostrarBienvenida(false);
+    pintarSelectorCarrera();
+    pintarTodo();
+    scrollTo(0, 0);
+  });
+}
+
+/* ============================================================
+   VISTA: TU PRIMER AÑO
+
+   Lo que ve quien recién empieza, en lugar de «Mi cursada». Muestra
+   con qué materias arranca, y NO muestra la lista de las que todavía
+   no puede cursar: para quien empieza son todas menos las de primero,
+   o sea veinte tarjetas que dicen «todavía no». Eso es ruido, no
+   información.
+   ============================================================ */
+const TEXTO_PRIMER_ANIO =
+  'Con estas empezás: no piden ninguna otra materia aprobada. Tocá una ' +
+  'y marcá «la estoy cursando ahora» — a partir de ahí la app te va ' +
+  'diciendo qué se te abre después.';
+
+function pintarPrimerAnio(){
+  const arranque = MATERIAS.filter(m =>
+    estadoCrudo(m.cod) === 'pendiente' && situacion(m).clase === 'promociona');
+
+  document.getElementById('primer-anio').innerHTML = `
+    <div class="titulo-seccion">CON QUÉ EMPEZÁS
+      <span class="cuenta-grupo">${arranque.length}</span></div>
+    <p class="bajada">${esc(TEXTO_PRIMER_ANIO)}</p>
+    <div class="lista">${arranque.map(m => tarjetaMateria(m, 'promociona')).join('')}</div>`;
 }
 
 /* "Si rendís este final, se te destraban N promociones" */
@@ -2090,6 +2252,20 @@ document.getElementById('borrar').addEventListener('click', () => {
    ARRANQUE
    ============================================================ */
 function pintarTodo(){
+  /* Quien recién empieza ve «Tu primer año» en lugar de «Mi cursada»,
+     y no ve la pestaña de Finales hasta tener una cursada aprobada:
+     preparar un final antes de haber cursado algo no existe. */
+  const empieza  = esIngresante();
+  const hayFinal = MATERIAS.some(m =>
+    estadoCrudo(m.cod) === 'cursada' || estadoCrudo(m.cod) === 'aprobada');
+
+  document.getElementById('primer-anio').hidden    = !empieza;
+  document.getElementById('cursada-normal').hidden =  empieza;
+  document.getElementById('tab-plan').textContent  =  empieza ? 'Tu primer año' : 'Mi cursada';
+  document.getElementById('tab-final').hidden      =  empieza && !hayFinal;
+
+  if (empieza) pintarPrimerAnio();
+
   pintarFiltroCuatri();
   pintarCursandoAhora();
   pintarProgreso();
@@ -2097,6 +2273,11 @@ function pintarTodo(){
   pintarConsejo();
   pintarPlanCompleto();
   pintarMapa();
+
+  /* Esconder una pestaña y cambiarle el texto a otra les cambia el
+     ancho a todas, y el subrayado se mide con `offsetWidth`: sin esto
+     queda corrido. */
+  moverSubrayado();
 }
 
 elegirCarrera(guardado.carrera || 'ts');
@@ -2108,6 +2289,13 @@ ultimoSubido = JSON.stringify(guardado);
 pintarRespaldo();
 pintarSelectorCarrera();
 pintarTodo();
+
+/* La primera vez no se entra derecho: se pregunta. Va DESPUÉS de
+   pintarTodo() porque lo que hace es tapar lo que aquello dibujó. */
+if (!guardado.momento){
+  pintarBienvenida();
+  mostrarBienvenida(true);
+}
 
 })();
 </script>

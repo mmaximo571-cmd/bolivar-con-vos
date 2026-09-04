@@ -32,7 +32,8 @@ Si algo de acá quedó viejo, se corrige acá mismo al cerrar la sesión.
 | 3/9 | El ícono de la app es el logo y no la «B» que inventaba Android; el service worker sube a `v5` para que los teléfonos ya instalados se enteren | `65968ac` |
 | 3/9 | Inicio pinta los accesos y el kit de lo guardado mientras busca lo de ahora; sin red ya no se vacía la pantalla. Lo que lleva fecha sigue esperando a la red. `v6` | `0ad57f7` |
 | 4/9 | Las cinco pantallas que faltaban guardan entre visitas: Info útil, Estudiemos, Anatomofisiología, ¿Quiénes somos? y El Consejo. `v7` | `38b6100` |
-| 4/9 | Las materias que se rinden libres en Fonoaudiología, como listado de texto | (este commit) |
+| 4/9 | Las materias que se rinden libres en Fonoaudiología, como listado de texto | `b95af25` |
+| 4/9 | «Mi año» parte 1: la pregunta al entrar y la vista «Tu primer año» | (este commit) |
 
 **Ojo con lo de las materias libres.** El listado sale de un documento que se
 llama, textualmente, «**Propuesta** de materias libres … para agregar al régimen
@@ -59,7 +60,7 @@ entran 2 o 3 sesiones.
 | jue 3 | ✅ Guardado entre visitas: el mecanismo y la pantalla Inicio | — |
 | vie 4 · 1 | ✅ Guardado en las cinco pantallas que faltan | — |
 | vie 4 · 2 | ✅ Materias libres de Fono, adelantado del mar 8. Y de paso apareció que `--letra-mini` llevaba un día apagada | — |
-| vie 4 · 3 | **«Mi año» ingresante:** la vista «Tu primer año» | — **ya no espera nada** |
+| vie 4 · 3 | ✅ **«Mi año» parte 1:** la pregunta al entrar y la vista «Tu primer año» | — |
 | sáb 5 | «Mi año»: el Kit de Inicio y el pulido | — |
 | dom 6 | Se cierran las cuatro decisiones pendientes | Máximo |
 | lun 7 | Buscador de cátedras | mails de las cátedras |
@@ -152,6 +153,18 @@ deje de costar una función entera.
   tabla nueva: el congelamiento es el domingo 13.
 - **Nunca se borra ni se esconde lo ya marcado.** Cambia lo que se muestra
   arriba, no lo guardado.
+
+**Tres cosas que se decidieron construyéndolo (4/9), y conviene no deshacer:**
+
+- **A quien ya venía usando la app no se le pregunta nada.** Si tiene materias
+  marcadas, la respuesta ya la sabemos: se deduce `avanzado` y listo.
+  Preguntarle sería hacerle repetir algo que su propio uso contesta.
+- **La vista de ingresante se apaga sola** en cuanto marca su primera materia.
+  A partir de ahí «Mi cursada» dice la verdad y «Tu primer año» sería un cartel
+  viejo. `guardado.momento` **no** se toca: cambia lo que se muestra.
+- **«Con qué empezás» muestra todo lo que no pide correlativas**, no solo primer
+  año. En Fono eso suma una materia de segundo. La tarjeta dice «2° año», así
+  que no engaña, y filtrarla sería que la app decida por la persona.
 
 ## Decisiones pendientes — se cierran el domingo 6
 
