@@ -52,8 +52,11 @@
    v16 (4/9/2026) `estilos.css` una vez más: «Te podés anotar» pasó a
    ser dos grupos plegables. Sin subir el número, los <details> llegan
    con la tipografía de los grupos de Agenda, que es tres puntos más
-   grande y en Archivo Black. */
-const VERSION = 'bolivar-v16';
+   grande y en Archivo Black.
+   v17 (4/9/2026) `estilos.css` e `index.html`: la grilla de Instagram
+   en el inicio. Sin subir el número, los cuadrados llegan sin estilo y
+   se apilan a lo largo en vez de quedar de a tres. */
+const VERSION = 'bolivar-v17';
 const ARMAZON = VERSION + '-armazon';
 const PAGINAS = VERSION + '-paginas';
 

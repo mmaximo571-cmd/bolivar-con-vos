@@ -3513,3 +3513,34 @@ details.tarjeta .respuesta{margin-top:9px;color:var(--texto-suave);font-size:var
 @media (hover:hover) and (pointer:fine){
   .grupo-anotarse > summary:hover{color:var(--texto)}
 }
+
+/* ---- Lo ultimo de Instagram, en el inicio ----
+   Cuadrados, porque asi es como se ven alla y asi los reconoce
+   cualquiera. Llevan la misma segunda tinta corrida que las tarjetas:
+   es contenido de la agrupacion, no un widget pegado encima.
+
+   Van chicos a proposito. Son placas —imagen con el texto adentro— y
+   no se pueden agrandar ni escuchar, asi que no pueden ocupar el lugar
+   de las novedades escritas, que si se leen. */
+.grilla-ig{
+  display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:4px
+}
+/* El cuadrado lo fija el RECUADRO, no la imagen. Si lo fijara la
+   imagen, una que no carga —pasa: la red de la facultad, un archivo
+   que se borro— dejaria el texto alternativo suelto y el bloque
+   pasaria de 109 de alto a 304, rompiendo la grilla entera. Asi el
+   hueco queda del tamano correcto pase lo que pase. */
+.posteo-ig{
+  display:block;position:relative;aspect-ratio:1;
+  border-radius:var(--radio-chico);border:2px solid var(--tinta-borde);
+  overflow:hidden;background:var(--superficie-2);box-shadow:var(--sombra)
+}
+.posteo-ig img{
+  display:block;width:100%;height:100%;object-fit:cover;
+  font-size:var(--letra-chica);color:var(--texto-suave);
+  background:var(--superficie-2)
+}
+.posteo-ig:active{transform:translate(2px,2px);box-shadow:none}
+@media (min-width:520px){
+  .grilla-ig{grid-template-columns:repeat(6,1fr)}
+}

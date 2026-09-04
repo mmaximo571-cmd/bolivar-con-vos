@@ -229,6 +229,17 @@
       </div>
     </div>
 
+    <!-- Lo último de Instagram. Se pinta solo si hay algo: si la cuenta
+         no está conectada todavía, no aparece ni el título. -->
+    <section id="instagram" hidden>
+      <div class="titulo-seccion">
+        EN INSTAGRAM
+        <a href="https://www.instagram.com/SimonBolivarfts" target="_blank"
+           rel="noopener">Ver todo ↗</a>
+      </div>
+      <div class="grilla-ig" id="grilla-ig"></div>
+    </section>
+
   </div>
 
   <div id="pie"></div>
@@ -1241,6 +1252,53 @@
           <h3>${esc(p.titulo)}</h3>
           ${p.cuerpo ? `<p>${esc(p.cuerpo.slice(0,140))}${p.cuerpo.length > 140 ? '…' : ''}</p>` : ''}
         </a>`).join('');
+  })();
+
+  /* ---------- Lo último de Instagram ----------
+     Las trae sola una función programada en Supabase, que además se
+     copia las imágenes a nuestro depósito: las direcciones que da
+     Instagram vencen a los pocos días.
+
+     Va aparte de Novedades a propósito. Un posteo de Instagram es una
+     placa: una imagen con el texto adentro, que no se puede agrandar
+     ni escuchar con un lector de pantalla. Las novedades escritas son
+     otra cosa y no tienen que competir con esto.
+
+     Se pinta suelto de todo lo demás: si la cuenta todavía no está
+     conectada, o si falla, el inicio ni se entera. */
+  (async function pintarInstagram(){
+    const seccion = document.getElementById('instagram');
+    if (!seccion) return;
+    try {
+      const { data, error } = await db.from('posteos_ig')
+        .select('id,permalink,epigrafe,imagen,publicado_at')
+        .order('publicado_at', { ascending:false })
+        .limit(6);
+      if (error || !data || !data.length) return;
+
+      const conFoto = data.filter(p => p.imagen);
+      if (!conFoto.length) return;
+
+      /* La dirección del depósito se arma a mano y no con db.storage:
+         esta pantalla usa el cliente chico de lib/datos.js, que no
+         tiene storage. Con la librería grande andaría, pero bajarla
+         entera para formar una dirección sería pagar 100 KB por esto. */
+      const deposito = (window.BOLIVAR_CONFIG || {}).url +
+        '/storage/v1/object/public/fotos/';
+
+      document.getElementById('grilla-ig').innerHTML = conFoto.map(p => {
+        /* El epígrafe entero es larguísimo y termina en etiquetas. Para
+           quien no ve la imagen, la primera frase es lo que sirve. */
+        const frase = (p.epigrafe || '').split('\n')[0].slice(0, 110).trim();
+        return `
+          <a class="posteo-ig" href="${esc(p.permalink)}" target="_blank" rel="noopener">
+            <img src="${esc(deposito + p.imagen)}"
+                 alt="${esc(frase || 'Publicación de la agrupación en Instagram')}"
+                 loading="lazy" decoding="async" width="300" height="300">
+          </a>`;
+      }).join('');
+      seccion.hidden = false;
+    } catch(e){ /* sin Instagram el inicio anda igual */ }
   })();
 
   /* ---------- Buscador ---------- */
