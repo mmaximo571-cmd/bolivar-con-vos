@@ -654,15 +654,28 @@ svg.ico{width:1em;height:1em;display:block;flex:0 0 auto}
 /* ============================================================
    SECCIONES
    ============================================================ */
+/* EL ROTULO BAJA LA VOZ.
+
+   Estaba en la misma tipografia negra que los titulos de las tarjetas
+   que tiene debajo, con dos puntos de diferencia: no separaba, sumaba
+   peso. Ahora usa la voz de datos, chica y espaciada —la misma ceja que
+   ya usan las pantallas de lectura antes del titular—, y la separacion
+   la hace el aire de arriba, no el tamano.
+
+   Es lo que hace que una seccion tenga UNA cosa fuerte y no dos. */
 .titulo-seccion{
-  font-family:var(--fuente-titulo);font-size:var(--letra-sub);text-transform:uppercase;
-  margin:26px 0 10px;display:flex;align-items:baseline;justify-content:space-between;gap:10px
+  font-family:var(--fuente-datos);font-weight:700;font-size:var(--letra-chica);
+  letter-spacing:.16em;text-transform:uppercase;color:var(--texto-suave);
+  margin:38px 0 12px;display:flex;align-items:baseline;justify-content:space-between;gap:10px
 }
+/* El primero de la pantalla no necesita tanto aire arriba: ya lo separa
+   la bajada. */
+.titulo-seccion:first-child{margin-top:22px}
 /* Medían 19 px de alto: por debajo del mínimo de 24 que pide la norma
    para algo que se toca con el dedo. El padding agranda lo tocable sin
    mover el texto de lugar. */
 .titulo-seccion a{
-  font-family:var(--fuente-sub);font-size:var(--letra-nota);text-transform:uppercase;
+  font-family:var(--fuente-sub);font-size:var(--letra-chica);text-transform:uppercase;
   letter-spacing:.06em;color:var(--texto-suave);text-decoration:none;flex:0 0 auto;
   padding:6px 2px;margin:-6px -2px;display:inline-flex;align-items:center;min-height:24px
 }
@@ -975,12 +988,6 @@ svg.ico{width:1em;height:1em;display:block;flex:0 0 auto}
    ============================================================ */
 /* El padding de abajo deja lugar para el botón flotante: sin esto, el
    último renglón del pie queda debajo del botón y no se puede leer. */
-.pie{
-  text-align:center;color:var(--texto-suave);font-size:var(--letra-nota);
-  padding:30px 16px 84px;line-height:1.5
-}
-.pie strong{color:var(--texto)}
-
 /* ============================================================
    ORGANIZADOR DE CURSADAS  (carrera/)
    Los tres colores que ordenan toda la pantalla:
@@ -1635,16 +1642,6 @@ body.antes-de-entrar{padding-bottom:0}  /* apertura y bienvenida a pantalla comp
 .bloque-sumate .red-pendiente{background:var(--linea-negro);color:var(--sobre-negro-suave)}
 
 /* El enlace de "¿Quiénes somos?" en el pie y en el menú */
-.pie-nota{
-  display:block;max-width:34ch;margin:12px auto 0;
-  font-size:var(--letra-nota);line-height:1.45;color:var(--texto-suave)
-}
-.pie-enlace{
-  display:inline-flex;align-items:center;min-height:24px;padding:4px 2px;
-  margin-top:8px;font-family:var(--fuente-sub);
-  font-weight:700;font-size:var(--letra-nota);text-transform:uppercase;letter-spacing:.05em;
-  color:var(--texto);text-decoration:underline
-}
 .menu-lista a.menu-aparte{
   margin-top:8px;padding-top:18px;border-top:1px solid var(--linea-negro)
 }
@@ -3186,4 +3183,50 @@ details.tarjeta .respuesta{margin-top:9px;color:var(--texto-suave);font-size:var
      agenda/index.html, que ya consulta la preferencia. Esto cubre
      cualquier scroll suave que se agregue más adelante sin acordarse. */
   html{scroll-behavior:auto}
+}
+
+/* ============================================================
+   LA BANDA DE CIERRE
+
+   Cada pantalla termina con la misma tinta y la misma trama con las
+   que abre. Antes se cortaba: la lista se acababa y aparecia un
+   parrafo chico centrado sobre el mismo papel.
+
+   El orden dice algo. Primero lo unico que le pedimos a alguien —que
+   avise si algo falta—, despues la puerta a quienes somos, y al final
+   la firma. La firma es lo menos importante de las tres.
+   ============================================================ */
+/* Sin margen arriba: en el resto del lenguaje las bandas se TOCAN
+   —negro, papel, sol, negro— y un hueco solo acá se leía como un
+   descuido. Los 46 px de más abajo dejan pasar el botón flotante de
+   Avisanos, que vive fijo en esa esquina. */
+.cierre{
+  /* El aire de las bandas está declarado dentro de .lectura, y esta
+     banda vive fuera de ahí en las nueve pantallas: sin esto quedaba
+     con padding 0 y el texto pegado a los bordes. Es menor que el de
+     una banda de lectura porque es un cierre, no una portada. */
+  --banda-aire:clamp(38px, 9vw, 64px);
+  padding-bottom:calc(var(--banda-aire) + 46px)
+}
+.cierre .ceja-lectura{margin-bottom:12px}
+.cierre-pedido{
+  font-size:clamp(17px, 4.4vw, 21px);line-height:1.45;
+  margin:0 0 22px;max-width:34ch
+}
+.cierre-pedido strong{color:var(--amarillo)}
+.cierre-puerta{
+  display:flex;align-items:center;justify-content:space-between;gap:14px;
+  padding:14px 16px;text-decoration:none;
+  border:2px solid var(--sobre-negro);border-radius:var(--radio);
+  color:var(--sobre-negro);font-family:var(--fuente-sub);font-weight:700;
+  font-size:var(--letra-base);text-transform:uppercase;letter-spacing:.04em;
+  max-width:360px
+}
+.cierre-puerta:active{transform:translate(2px,2px)}
+.cierre-flecha{font-size:20px;line-height:1}
+.cierre-firma{
+  /* En la tipografia de texto y no en la de datos: es prosa, no un dato,
+     y en mono a 13px «CEFTS» se caia solo a un renglon. */
+  margin:24px 0 0;font-size:var(--letra-chica);line-height:1.6;
+  color:var(--sobre-negro-tenue);max-width:40ch
 }

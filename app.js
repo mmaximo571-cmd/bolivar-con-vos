@@ -873,14 +873,23 @@ function pintarAvisanos(){
   }, { passive: true });
 }
 
+/* La banda de cierre. Antes era un párrafo chico y centrado: la pantalla
+   no terminaba, se cortaba. Ahora cada pantalla cierra con la misma
+   tinta y la misma trama con las que abre, y lo primero que se lee al
+   final es lo único que le pedimos a alguien: que avise si algo falta. */
 function htmlPie(){
-  return `<footer class="pie">
-      <strong>La Bolívar con vos</strong><br>
-      Agrupación Simón Bolívar · Conducción del CEFTS<br>
-      Facultad de Trabajo Social · UNLP
-      <span class="pie-nota">Esta app la hacemos entre nosotras y nosotros.
-        Si algo falta, está mal o no se entiende, decinos.</span>
-      <a class="pie-enlace" href="${RAIZ}quienes/">¿Quiénes somos?</a>
+  return `<footer class="banda tinta cierre">
+      <div class="envoltura">
+        <p class="ceja-lectura">La Bolívar con vos</p>
+        <p class="cierre-pedido">Esta app la hacemos entre nosotras y nosotros.
+          Si algo falta, está mal o no se entiende, <strong>decinos</strong>.</p>
+        <a class="cierre-puerta" href="${RAIZ}quienes/">
+          <span>Quiénes hacemos esto</span>
+          <span class="cierre-flecha" aria-hidden="true">→</span>
+        </a>
+        <p class="cierre-firma">Agrupación Simón Bolívar · Conducción del CEFTS<br>
+          Facultad de Trabajo Social · UNLP</p>
+      </div>
     </footer>`;
 }
 
