@@ -455,7 +455,11 @@ function situacion(m){
 
 const NOMBRE_CLASE = {
   promociona: 'PODÉS PROMOCIONARLA',
-  cursa:      'PODÉS CURSARLA, PERO NO PROMOCIONARLA',
+  /* Corto a proposito: ahora el rotulo es una linea callada en mono y
+     el largo se comia dos renglones para un grupo de una materia. Lo
+     que falta para promocionarla lo dice cada tarjeta, que es donde
+     sirve. */
+  cursa:      'SOLO PODÉS CURSARLA',
   trabada:    'TODAVÍA NO LA PODÉS CURSAR'
 };
 
@@ -595,7 +599,18 @@ function pintarGrupos(){
     return;
   }
 
-  caja.innerHTML = ['promociona','cursa','trabada'].map(clase => {
+  /* ACÁ SOLO VA LO QUE PODÉS HACER.
+
+     Antes se listaban también las trabadas, que en Trabajo Social son
+     dieciocho de veinticinco. El resultado era que la pantalla que
+     tiene que contestar «¿a qué me anoto?» abría con un muro de
+     materias a las que NO te podés anotar, y había que recorrerlo
+     entero para encontrar las pocas que sí.
+
+     Las trabadas no se pierden: están todas en Plan completo, con su
+     estado y con el motivo. Acá queda el renglón que dice cuántas son
+     y lleva hasta ahí. */
+  const bloques = ['promociona','cursa'].map(clase => {
     const lista = grupos[clase];
     if (!lista.length) return '';
     return `<div class="titulo-seccion">${NOMBRE_CLASE[clase]}
@@ -603,6 +618,31 @@ function pintarGrupos(){
       <div class="lista">` +
       lista.map(m => tarjetaMateria(m, clase)).join('') + `</div>`;
   }).join('');
+
+  const trabadas = grupos.trabada.length;
+
+  /* Estás trabada en todo: no es un vacío, es una situación, y tiene
+     una salida concreta que conviene decir. */
+  const nadaQueHacer = !bloques ? `
+    <div class="vacio">Todavía no podés anotarte a ninguna: las que faltan
+      dependen de materias que estás cursando o que te falta rendir.<br>
+      En cuanto apruebes una cursada, acá van a aparecer.</div>` : '';
+
+  const nexo = trabadas ? `
+    <button class="nexo-trabadas" data-ir-a="todo">
+      <span class="nexo-cuenta">${trabadas}</span>
+      <span class="nexo-texto">
+        <strong>${trabadas === 1 ? 'Otra materia se destraba' : 'Otras se destraban'}
+          a medida que aprobás</strong>
+        <span>Verlas en el plan completo</span>
+      </span>
+      <span class="nexo-flecha" aria-hidden="true">→</span>
+    </button>` : '';
+
+  caja.innerHTML = bloques + nadaQueHacer + nexo;
+
+  const irA = caja.querySelector('[data-ir-a]');
+  if (irA) irA.addEventListener('click', function(){ verPestana(this.dataset.irA); });
 }
 
 function tarjetaMateria(m, clase){

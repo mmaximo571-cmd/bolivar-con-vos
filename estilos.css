@@ -3247,3 +3247,37 @@ details.tarjeta .respuesta{margin-top:9px;color:var(--texto-suave);font-size:var
   margin:24px 0 0;font-size:var(--letra-chica);line-height:1.6;
   color:var(--sobre-negro-tenue);max-width:40ch
 }
+
+/* ---- El renglon de las materias trabadas ----
+   «Mi cursada» contesta «¿a que me anoto?», asi que lista solo lo que
+   se puede hacer. Las trabadas —dieciocho de veinticinco en Trabajo
+   Social— viven en Plan completo. Este renglon dice cuantas son y
+   lleva hasta ahi.
+
+   Es deliberadamente callado: si compitiera con las tarjetas de arriba
+   volveriamos al problema que vino a resolver. Por eso no lleva borde
+   ni sombra, solo la linea de arriba que lo separa. La cuenta usa la
+   misma pastilla negra que los titulos de seccion porque es el mismo
+   dato: cuantas hay. */
+.nexo-trabadas{
+  display:flex;align-items:center;gap:13px;width:100%;text-align:left;
+  margin-top:28px;padding:16px 2px 4px;
+  background:none;border:0;border-top:2px solid var(--tinta-borde);
+  color:var(--texto);cursor:pointer;font:inherit
+}
+.nexo-cuenta{
+  flex:0 0 auto;background:var(--negro);color:var(--sobre-negro);
+  border-radius:var(--radio-pastilla);padding:3px 10px;
+  font-family:var(--fuente-datos);font-weight:700;font-size:var(--letra-chica)
+}
+.nexo-texto{flex:1 1 auto;min-width:0;display:flex;flex-direction:column;gap:3px}
+.nexo-texto strong{font-size:var(--letra-nota);line-height:1.3}
+.nexo-texto > span{
+  font-family:var(--fuente-datos);font-size:var(--letra-chica);
+  line-height:1.3;color:var(--texto-suave)
+}
+.nexo-flecha{
+  flex:0 0 auto;font-family:var(--fuente-sub);font-weight:700;font-size:20px;
+  color:var(--texto-suave)
+}
+.nexo-trabadas:active{transform:translate(2px,2px)}
