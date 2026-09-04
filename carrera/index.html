@@ -109,6 +109,19 @@
       </label>
 
       <div id="consejo"></div>
+
+      <!-- LA SALIDA PARA CUANDO CARGASTE MAL.
+           El mismo botón vive al pie de Plan completo desde antes, pero
+           ahí no lo encuentra nadie: quien se da cuenta de que se
+           equivocó está acá, recién terminado el diálogo y mirando un
+           año que no es el suyo. «Actualizar mi año» sirve para
+           corregir un dato; esto es para volver a empezar. -->
+      <div class="reinicio">
+        <button class="boton borde ancho" id="borrar-cursada">Empezar de nuevo</button>
+        <p class="letra-chica">Borra las materias, las notas y las fechas de
+          <strong id="reinicio-carrera"></strong> y te vuelve a preguntar.
+          Lo de las otras carreras no se toca.</p>
+      </div>
     </div>
   </section>
 
@@ -1122,6 +1135,9 @@ function pintarCursada(){
   pintarCursandoAhora();
   pintarParaAnotarse();
   pintarConsejo();
+  /* El aviso de «Empezar de nuevo» nombra la carrera: borrar «todo» es
+     una palabra que asusta distinto según cuánto creas que abarca. */
+  document.getElementById('reinicio-carrera').textContent = PLAN.nombreCorto;
 }
 
 function tarjetaMateria(m, clase){
@@ -2708,13 +2724,30 @@ if (document.fonts && document.fonts.ready) document.fonts.ready.then(moverSubra
    si no la persona aterriza en «Mi cursada» y tiene que buscarla. */
 if (location.hash === '#finales') verPestana('final');
 
-document.getElementById('borrar').addEventListener('click', () => {
+/* EMPEZAR DE NUEVO.
+
+   Está en dos lugares —al pie de «Mi cursada» y al pie de Plan
+   completo— y es la misma función: dos botones que se llaman igual y
+   borran cosas distintas serían una trampa. Borra la carrera que se
+   está mirando y nada más.
+
+   Al no dejar `dialogo` puesto, «Mi cursada» vuelve a preguntar sola:
+   no hace falta acordarse de reabrirlo acá. */
+function empezarDeNuevo(){
   if (!confirm(`¿Borrar todo lo que marcaste en ${PLAN.nombreCorto} y empezar de nuevo?\n\nLo de las otras carreras no se toca.`)) return;
   guardado.datos[PLAN.id] = { estados:{}, notas:{}, fechas:{}, suponer:false, idioma:false };
   datos = guardado.datos[PLAN.id];
+  cerrarDialogo();
   persistir();
   pintarTodo();
-});
+  /* Se vuelve a «Mi cursada» aunque el toque haya salido de Plan
+     completo: lo que sigue es la primera pregunta, y dejarla escondida
+     detrás de otra solapa es dejar la pantalla a medio contestar. */
+  verPestana('plan');
+}
+
+['borrar','borrar-cursada'].forEach(id =>
+  document.getElementById(id).addEventListener('click', empezarDeNuevo));
 
 /* ============================================================
    ARRANQUE

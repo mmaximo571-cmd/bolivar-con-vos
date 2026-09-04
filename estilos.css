@@ -3475,3 +3475,13 @@ details.tarjeta .respuesta{margin-top:9px;color:var(--texto-suave);font-size:var
    foco lo mueve el programa, no la persona: sólo se dibuja si además
    llegó tabulando. */
 .paso-pregunta:focus:not(:focus-visible){outline:none}
+
+/* --- Empezar de nuevo, al pie de «Mi cursada» ---
+   Separado del resumen por la misma línea de tinta que usa el renglón
+   de las trabadas: no es una parte más de tu año, es la salida de
+   emergencia. Y va al final porque se busca cuando se necesita, no se
+   encuentra por accidente. */
+.reinicio{
+  margin-top:34px;padding-top:20px;border-top:2px solid var(--tinta-borde)
+}
+.reinicio .letra-chica{margin:10px 0 0;line-height:1.5;color:var(--texto-suave)}

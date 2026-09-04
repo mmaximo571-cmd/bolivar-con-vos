@@ -45,8 +45,11 @@
    pasó a heredar el color del texto y «Aprobada» cambió de fondo. La
    pantalla `carrera/` llega nueva porque se sirve red primero, pero la
    hoja de estilos que la pinta sale de lo guardado: sin subir el número,
-   quien ya tiene la v13 se queda con las pastillas ilegibles de noche. */
-const VERSION = 'bolivar-v14';
+   quien ya tiene la v13 se queda con las pastillas ilegibles de noche.
+   v15 (4/9/2026) `estilos.css` de nuevo, por el bloque «Empezar de
+   nuevo» al pie de «Mi cursada». Sin subir el número, el botón llega
+   pero sin la línea que lo separa del resumen. */
+const VERSION = 'bolivar-v15';
 const ARMAZON = VERSION + '-armazon';
 const PAGINAS = VERSION + '-paginas';
 
