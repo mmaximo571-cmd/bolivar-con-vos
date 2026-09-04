@@ -36,8 +36,12 @@
    las materias que se rinden libres en Fonoaudiología. La pantalla
    `carrera/` se sirve red primero y llega nueva, pero el CSS y el
    `plan-fono.js` que la sostienen salen de lo guardado: sin subir esto,
-   el listado aparecía sin estilo y con los datos viejos. */
-const VERSION = 'bolivar-v8';
+   el listado aparecía sin estilo y con los datos viejos.
+   v9 (4/9/2026) `estilos.css` otra vez: se arregló un comentario mal
+   cerrado que tenía apagada `--letra-mini` en toda la app. Quien alcanzó
+   a guardar la v8 tiene el CSS roto adentro, y sin subir el número se lo
+   quedaba. */
+const VERSION = 'bolivar-v9';
 const ARMAZON = VERSION + '-armazon';
 const PAGINAS = VERSION + '-paginas';
 
