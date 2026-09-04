@@ -177,6 +177,15 @@ deje de costar una función entera.
 
 ## Cómo se trabaja
 
+- **Una variable de CSS no está bien porque esté escrita en el archivo: está
+  bien si el navegador la resuelve.** El 4/9 se descubrió que `--letra-mini`
+  llevaba un día sin existir en la app, aunque el archivo la tenía: un comentario
+  mal cerrado en el commit de tipografía hacía que el parser descartara esa
+  declaración y solo esa. Catorce lugares quedaron heredando el tamaño de al
+  lado. **No se detecta leyendo el archivo ni contando líneas: se detecta
+  midiendo.** Con una sonda alcanza:
+  `s=document.createElement('span'); s.style.fontSize='var(--letra-mini)'`
+  puesta en la raíz — si mide 16px, la variable no existe.
 - **Una sesión, un objetivo, un commit.** El objetivo se dice antes de empezar.
 - **Nada de «revisá toda la app» en una sesión corta.** Las auditorías amplias
   son lo más caro que existe.
