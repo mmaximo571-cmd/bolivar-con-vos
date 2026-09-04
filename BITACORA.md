@@ -31,18 +31,39 @@ Si algo de acá quedó viejo, se corrige acá mismo al cerrar la sesión.
 | 3/9 | La app anota visitas, búsquedas y errores; solapa **Registro** en el panel | `6de2ac0` |
 | 3/9 | El ícono de la app es el logo y no la «B» que inventaba Android; el service worker sube a `v5` para que los teléfonos ya instalados se enteren | `65968ac` |
 
-## Lo que sigue, en este orden
+## El cronograma
 
-1. **Guardado entre visitas.** Que las pantallas guarden lo que trajeron, para
-   que la segunda entrada sea instantánea. Hoy el service worker se niega a
-   propósito para no mostrar fechas viejas: la solución tiene que distinguir
-   «viejo pero mientras carga» de «viejo y mentiroso».
-2. **«Mi año»: ingresante o avanzado.** La idea más grande de las que entran.
-   Es módulo nuevo → **primero las preguntas, no se construye de una.**
-3. Buscador de cátedras (lun 7) · Contactos en la página + materias libres de
-   Fono (mar 8) · Plan de estudios en PDF (mié 9) · Horarios (jue 10 y vie 11) ·
-   Materiales como página web (sáb 12).
-4. **Domingo 13: congelamiento.** Última línea de función nueva.
+Rearmado el 3/9 sobre la capacidad real: entre el jueves 3 y el viernes 4
+entran 2 o 3 sesiones.
+
+| Día | Qué | Espera algo de |
+|---|---|---|
+| jue 3 | ✅ Guardado entre visitas: el mecanismo y la pantalla Inicio | — |
+| vie 4 · 1 | Guardado en las cinco pantallas que faltan | — |
+| vie 4 · 2 | **«Mi año» ingresante:** la vista «Tu primer año» | **5 respuestas** |
+| sáb 5 | «Mi año»: el Kit de Inicio y el pulido | ídem |
+| dom 6 | Se cierran las cuatro decisiones pendientes | Máximo |
+| lun 7 | Buscador de cátedras | mails de las cátedras |
+| mar 8 | Contactos en la página + materias libres de Fono | 3 contactos por carrera |
+| mié 9 | Plan de estudios en PDF | los 3 PDFs |
+| jue 10 – vie 11 | Horarios: completos (2 días) o cuadro oficial (medio día) | decisión del dom 6 |
+| sáb 12 | Materiales como página web | PDFs de materiales |
+| **dom 13** | **Congelamiento.** Última línea de función nueva | — |
+| lun 14 – dom 20 | Contenido, pruebas y campaña. **Todo arriba el 20** | — |
+| **lun 21** | **Lanzamiento** | — |
+
+### Lo que este cronograma dejó a la vista
+
+**El cuello de botella no es el código: es el contenido.** De las siete tareas
+que quedan, cinco esperan material de Máximo, y en tres de ellas el material
+llega **el mismo día** en que hay que construir con él (mails lun 7 → se
+construye lun 7; PDFs mié 9 → se construye mié 9; PDFs de materiales vie 11 →
+se construye sáb 12). Margen cero: si cualquiera de esas tres se corre un día,
+la tarea se cae del otro lado del congelamiento.
+
+**Lo que hay que hacer:** adelantar cada entrega dos días respecto del día en
+que se construye. No cambia cuánto trabajo hay; cambia que una demora de un día
+deje de costar una función entera.
 
 ## Decisiones ya tomadas — no volver a discutirlas
 
@@ -57,6 +78,36 @@ Si algo de acá quedó viejo, se corrige acá mismo al cerrar la sesión.
 - **Una pantalla que necesita sesión usa `lib/supabase.js`.** El cliente chico
   no renueva el token y una sesión que no se renueva falla en silencio.
 - **Nada de tiempo real ni de subir archivos en el cliente chico.**
+
+### Guardado entre visitas (3/9)
+
+- **Va en la página, no en `sw.js`.** El service worker entrega la respuesta y
+  la página no puede saber si vino de la red o de una caja: pintaría una fecha
+  vieja como si fuera de ahora. Su regla de no guardar datos de Supabase **no
+  se toca**.
+- **Nunca se pinta de memoria lo que lleva fecha:** la alarma de inscripción,
+  el renglón de lo próximo, el calendario y la pantalla Fechas. Esperan la red.
+  `publicaciones` ni siquiera se guarda.
+- **Una semana de vida** (`GUARDADO_VIDA` en `app.js`). Más viejo que eso se
+  tira y la pantalla espera, como el primer día.
+- **La pantalla Fechas queda afuera del guardado.** Su contenido *son* las
+  fechas.
+- **Nada que dependa de una sesión se guarda.** En una computadora de la
+  facultad se lo lleva quien entra después.
+
+### «Mi año»: ingresante o avanzado (3/9)
+
+- Se pregunta **al entrar a Mi año la primera vez, junto con la carrera**. Un
+  solo momento, dos preguntas.
+- El ingresante ve una **vista propia, «Tu primer año»**, en lugar de «Mi
+  cursada», con la pestaña **Finales oculta** hasta que tenga una cursada
+  aprobada. Mapa y Plan completo quedan.
+- **Se esconde el 0%:** una barra vacía y «0 de 31» recibe con un cero a quien
+  todavía no empezó.
+- Los textos van **escritos en el archivo**, como el Kit de ingreso. Nada de
+  tabla nueva: el congelamiento es el domingo 13.
+- **Nunca se borra ni se esconde lo ya marcado.** Cambia lo que se muestra
+  arriba, no lo guardado.
 
 ## Decisiones pendientes — se cierran el domingo 6
 

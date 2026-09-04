@@ -864,6 +864,38 @@ svg.ico{width:1em;height:1em;display:block;flex:0 0 auto}
 .vacio{text-align:center;color:var(--texto-suave);padding:34px 16px;font-size:var(--letra-base)}
 
 /* ============================================================
+   EL AVISO DE LO GUARDADO
+
+   Aparece cuando la pantalla se pinto con lo de la visita anterior
+   mientras busca lo de ahora. Tiene dos formas y la diferencia
+   importa:
+
+   .buscando  dura lo que tarde la red y no esta pasando nada malo,
+              asi que es un renglon fino y gris que no compite con
+              el contenido.
+   .sin-red   la red no contesto y lo que hay en pantalla es lo unico
+              que va a haber. Ahi se agranda y se queda.
+
+   Nada de esto lleva opacity: el color que se ve es el que esta
+   escrito, asi que el contraste que se mide es el de verdad. Sobre
+   --apagado da 7,4:1 en claro y 8,6:1 en oscuro.
+   ============================================================ */
+.aviso-guardado{
+  font-size:var(--letra-chica);line-height:1.4;
+  padding:7px 16px;text-align:center;
+  background:var(--apagado);color:var(--texto-suave);
+  border-bottom:1px solid var(--linea)
+}
+.aviso-guardado.sin-red{
+  font-size:var(--letra-nota);padding:11px 16px;
+  background:var(--aviso-error);color:var(--texto);
+  border-bottom:2px solid var(--rojo)
+}
+/* Vacia no ocupa lugar: la caja se crea antes de tener texto, para
+   que el lector de pantalla la vea cambiar. */
+.aviso-guardado:empty{display:none}
+
+/* ============================================================
    CALENDARIO
    ============================================================ */
 .calendario{

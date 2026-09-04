@@ -914,6 +914,126 @@ function conPaciencia(promesa, segundos){
 }
 
 /* ------------------------------------------------------------
+   LO GUARDADO ENTRE VISITAS
+
+   La segunda entrada a una pantalla no tiene por qué ser una pantalla
+   en blanco esperando a la red. Acá se guarda lo que trajo la visita
+   anterior, para pintarlo MIENTRAS se busca lo de ahora. Mientras, no
+   en lugar de: el pedido a la base sale igual, siempre.
+
+   POR QUÉ ACÁ Y NO EN EL SERVICE WORKER
+
+   `sw.js` se niega a guardar respuestas de Supabase, y hace bien: él
+   entrega la respuesta y la página no puede saber si vino de la red o
+   de una caja guardada, así que pintaría una fecha de la semana pasada
+   como si fuera de hoy. Esa regla no se toca.
+
+   La página sí puede. Es el único lugar que tiene las dos cosas juntas
+   —el dato y la pantalla—, así que es el único que puede decir «esto
+   que estás viendo es de antes, aguantá que busco lo de ahora». La
+   diferencia entre viejo y mentiroso es que lo viejo lo avisa.
+
+   LO QUE NO ENTRA ACÁ
+
+   · Nada que dependa de una sesión: trámites guardados, preparaciones,
+     perfil. En una computadora de la facultad, eso se lo lleva quien
+     entra después.
+   · Nada con fecha que llame a actuar: la alarma de inscripción, el
+     renglón de «lo próximo», el calendario y la pantalla Fechas se
+     pintan solo con lo que vino de la red. Una alarma que dice «te
+     quedan tres días» es un llamado a hacer algo ahora; ponerle al
+     lado un cartel de «guardado» es contradecirse.
+   ------------------------------------------------------------ */
+
+const GUARDADO_PREFIJO = 'bolivar-guardado-';
+
+/* Pasada una semana ya no es «viejo mientras carga», es viejo y
+   punto: se tira y la pantalla espera a la red como el primer día. */
+const GUARDADO_VIDA = 7 * 24 * 60 * 60 * 1000;
+
+function memoriaDe(pantalla){
+  try {
+    const crudo = localStorage.getItem(GUARDADO_PREFIJO + pantalla);
+    if (!crudo) return null;
+    const g = JSON.parse(crudo);
+    if (!g || !g.cuando || !g.datos) return null;
+    /* Una edad negativa es un reloj adelantado que despues se
+       corrigio: eso no es memoria fresca, es memoria rota. */
+    const edad = Date.now() - g.cuando;
+    if (edad < 0 || edad > GUARDADO_VIDA){
+      localStorage.removeItem(GUARDADO_PREFIJO + pantalla);
+      return null;
+    }
+    return { datos: g.datos, cuando: g.cuando };
+  } catch(e){ return null; }
+}
+
+function guardarEnMemoria(pantalla, datos){
+  try {
+    localStorage.setItem(GUARDADO_PREFIJO + pantalla,
+      JSON.stringify({ cuando: Date.now(), datos: datos }));
+  } catch(e){ /* modo incognito, o memoria llena: se sigue sin guardar */ }
+}
+
+/* «hace un rato», «ayer», «hace 3 dias». En palabras y no en fecha
+   exacta porque lo que importa no es CUANDO se guardo sino CUANTO
+   hace: nadie sabe si el 28 de agosto fue hace mucho. */
+function desdeCuando(cuando){
+  const minutos = Math.round((Date.now() - cuando) / 60000);
+  if (minutos < 60) return 'hace un rato';
+  const horas = Math.round(minutos / 60);
+  if (horas < 24) return 'hace ' + horas + (horas === 1 ? ' hora' : ' horas');
+  const dias = Math.round(horas / 24);
+  if (dias <= 1) return 'ayer';
+  return 'hace ' + dias + ' días';
+}
+
+/* El renglon del aviso vive debajo de la fila de secciones, que es
+   donde empieza el contenido de todas las pantallas. */
+function cajaDelAviso(){
+  let caja = document.getElementById('aviso-guardado');
+  if (caja) return caja;
+  const donde = document.querySelector('.secciones') ||
+                document.querySelector('.cabecera');
+  if (!donde) return null;
+  caja = document.createElement('div');
+  caja.id = 'aviso-guardado';
+  caja.setAttribute('role', 'status');
+  donde.insertAdjacentElement('afterend', caja);
+  return caja;
+}
+
+/* La caja nace vacia y se llena un instante despues a proposito: un
+   role="status" que aparece con el texto ya adentro no siempre lo
+   anuncian los lectores de pantalla, porque nunca lo vieron cambiar. */
+function ponerAviso(clase, texto){
+  const caja = cajaDelAviso();
+  if (!caja) return;
+  caja.className = clase;
+  setTimeout(function(){ caja.textContent = texto; }, 0);
+}
+
+/* Mientras se busca lo de ahora: un renglon fino, sin alarma, porque
+   no esta pasando nada malo y ademas dura lo que tarde la red. */
+function avisarMostrandoGuardado(cuando){
+  ponerAviso('aviso-guardado buscando',
+    'Esto es lo que guardamos ' + desdeCuando(cuando) + '. Buscando lo de ahora…');
+}
+
+/* Cuando la red no contesto: ahi si el aviso se agranda y se queda,
+   porque lo que hay en pantalla es lo unico que va a haber. */
+function avisarNoSePudoActualizar(cuando){
+  ponerAviso('aviso-guardado sin-red',
+    'Sin conexión. Esto es lo que guardamos ' + desdeCuando(cuando) +
+    ', así que puede haber cambiado.');
+}
+
+function sacarAvisoGuardado(){
+  const caja = document.getElementById('aviso-guardado');
+  if (caja) caja.remove();
+}
+
+/* ------------------------------------------------------------
    TENER LA APP A MANO
 
    Dos cosas separadas que trabajan juntas:

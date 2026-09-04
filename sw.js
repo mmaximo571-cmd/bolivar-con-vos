@@ -23,8 +23,12 @@
    v4 (3/9/2026) saca la librería grande de Supabase de la lista.
    v5 (3/9/2026) suma el icono maskable y, sobre todo, tira el manifest
    y los iconos viejos que ya tienen guardados los teléfonos donde la
-   app está instalada. */
-const VERSION = 'bolivar-v5';
+   app está instalada.
+   v6 (3/9/2026) no cambia QUÉ se guarda: cambia el contenido de
+   `app.js` y de `estilos.css`, que ya están en la lista. Ahí adentro
+   está lo nuevo —lo guardado entre visitas— y sin subir el número los
+   teléfonos seguirían sirviendo el app.js de antes. */
+const VERSION = 'bolivar-v6';
 const ARMAZON = VERSION + '-armazon';
 const PAGINAS = VERSION + '-paginas';
 

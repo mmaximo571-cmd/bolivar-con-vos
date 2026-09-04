@@ -595,6 +595,37 @@
   /* ---------- Traemos todo de una sola vez ---------- */
   let categorias = [], tramites = [], preguntas = [], publicaciones = [];
 
+  /* ============================================================
+     LO GUARDADO DE LA VISITA ANTERIOR, MIENTRAS LLEGA LO DE AHORA
+
+     De la memoria se pintan SOLO los accesos y el kit, y el motivo es
+     el mismo que tiene sw.js para no guardar nada de la base: una
+     puerta que ayer llevaba a Inscripciones hoy sigue llevando a
+     Inscripciones, pero una fecha vieja mostrada como si fuera de
+     ahora hace que alguien se pierda una mesa.
+
+     Por eso la alarma de inscripción, el renglón de lo próximo, el
+     calendario y las novedades no se pintan de acá ni por asomo:
+     esperan a la red, igual que siempre. `publicaciones` ni se guarda.
+
+     El buscador no hace falta pintarlo: se engancha más abajo y lee
+     `tramites` y `preguntas` recién cuando alguien escribe, así que en
+     cuanto llega lo fresco ya busca sobre lo fresco.
+     ============================================================ */
+  const memoria = memoriaDe('inicio');
+  let huboRed = false;
+
+  if (memoria){
+    categorias = memoria.datos.categorias || [];
+    tramites   = memoria.datos.tramites   || [];
+    preguntas  = memoria.datos.preguntas  || [];
+    /* Están declaradas más abajo, pero una función declarada se puede
+       llamar antes: por eso acá ya se pueden pintar. */
+    pintarKit();
+    pintarAccesos();
+    avisarMostrandoGuardado(memoria.cuando);
+  }
+
   try {
     const [rCat, rTra, rFaq, rPub] = await conPaciencia(Promise.all([
       db.from('categorias').select('*').order('orden'),
@@ -608,9 +639,25 @@
     for (const r of [rCat, rTra, rFaq, rPub]) if (r.error) throw r.error;
     categorias = rCat.data; tramites = rTra.data;
     preguntas = rFaq.data;  publicaciones = rPub.data;
+    huboRed = true;
+    guardarEnMemoria('inicio', {
+      categorias: categorias, tramites: tramites, preguntas: preguntas });
+    sacarAvisoGuardado();
   } catch (e) {
-    mostrarError(document.getElementById('zona-normal'), e, 'cargar la información');
-    return;
+    /* SIN RED. Si hay algo guardado, la pantalla se queda como está y
+       el aviso pasa a decir la verdad entera, en vez de borrar todo
+       para mostrar un error. En el wifi de la facultad esa es la
+       diferencia entre tener la app y no tenerla.
+
+       No se corta acá: más abajo están el carrusel, «mi cursada» y el
+       buscador, que no dependen de la base y tienen que aparecer igual.
+       Lo que no se dibuja es lo que lleva fecha, y de eso se ocupa
+       `huboRed` en cada uno de los tres. */
+    if (!memoria){
+      mostrarError(document.getElementById('zona-normal'), e, 'cargar la información');
+      return;
+    }
+    avisarNoSePudoActualizar(memoria.cuando);
   }
   /* ============================================================
      LA ALARMA DE INSCRIPCIÓN
@@ -650,6 +697,11 @@
   }
 
   (function pintarAlarma(){
+    /* Sin red no hay alarma. Ni siquiera la de la visita anterior: la
+       alarma es un llamado a hacer algo AHORA, y no hay forma honesta
+       de decir «anotate, cierra en tres días» al lado de un cartel que
+       aclara que el dato es viejo. Callarse es lo correcto. */
+    if (!huboRed) return;
     const caja = document.getElementById('alarma');
     const hoy  = hoyISO();
     const enDias = (desde, hasta) =>
@@ -778,7 +830,10 @@
      Las primeras cosas que necesita quien recién llega. Los enlaces
      apuntan a categorías que ya existen; si alguna no tiene contenido
      todavía, la tarjeta igual sirve como puerta. */
-  (function pintarKit(){
+  /* Se llama dos veces: una con lo guardado, apenas abre, y otra
+     cuando llega lo de la red. Es innerHTML puro, así que la segunda
+     pasada reemplaza limpio lo de la primera. */
+  function pintarKit(){
     const buscarCat = (texto) => {
       const c = categorias.find(x => normalizar(x.nombre).includes(normalizar(texto)));
       return c ? 'tramites/?categoria=' + c.id : 'tramites/';
@@ -802,7 +857,8 @@
           <p>${esc(k.texto)}</p>
         </span>
       </a>`).join('');
-  })();
+  }
+  pintarKit();
 
   /* ---------- La portada: el carrusel de ilustraciones ---------- */
   (function pintarCarrusel(){
@@ -1007,6 +1063,10 @@
   }
 
   (function pintarCalendario(){
+    /* Sin red no se dibuja. Un calendario del mes con los días
+       vacíos no dice «no pude cargar»: dice «no hay nada», que es una
+       mentira distinta y peor. */
+    if (!huboRed) return;
     const caja = document.getElementById('calendario');
     const hoy  = partesFecha(hoyISO());
     let mes = hoy.mes, anio = hoy.anio, elegido = null;
@@ -1133,7 +1193,10 @@
   })();
 
   /* ---------- Los nueve accesos ---------- */
-  (function pintarAccesos(){
+  /* Igual que el kit: se llama con lo guardado y otra vez con lo de la
+     red. Los accesos son puertas, y una puerta vieja sigue abriendo
+     donde abría. */
+  function pintarAccesos(){
     /* El organizador primero y destacado; después las categorías que
        tengan algo adentro, hasta completar los nueve. */
     const conContenido = categorias.filter(c =>
@@ -1158,10 +1221,14 @@
          <span class="icono">${a.dibujo}</span>
          <span class="nombre">${esc(a.nombre)}</span>
        </a>`).join('');
-  })();
+  }
+  pintarAccesos();
 
   /* ---------- Novedades ---------- */
   (function pintarNovedades(){
+    /* Sin red tampoco: «todavía no hay novedades publicadas» sería
+       falso, y encima justo cuando puede haber una que importa. */
+    if (!huboRed) return;
     const caja = document.getElementById('novedades');
     const novedades = publicaciones.filter(p => p.tipo === 'novedad').slice(0, 3);
     if (!novedades.length){
