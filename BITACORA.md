@@ -73,7 +73,8 @@ entran 2 o 3 sesiones.
 | vie 4 · 2 | ✅ Materias libres de Fono, adelantado del mar 8. Y de paso apareció que `--letra-mini` llevaba un día apagada | — |
 | vie 4 · 3 | ✅ **«Mi año» parte 1:** la pregunta al entrar y la vista «Tu primer año» | — |
 | vie 4 · 4 | ✅ **El embudo del 21** y la bitácora como única fuente | — |
-| sáb 5 | «Mi año»: el Kit de Inicio y el pulido | — |
+| vie 4 · 5 | ✅ **Contactos de las cátedras, parte 1:** la tabla, los 142 mails y la ficha de materia. Adelantado del lun 7 | — |
+| sáb 5 | Cátedras parte 2: la pantalla con buscador y la solapa del panel | — |
 | dom 6 | Se cierran las cuatro decisiones pendientes | Máximo |
 | lun 7 | Buscador de cátedras | mails de las cátedras |
 | mar 8 | Contactos en la página · **el código no espera nada**, se puede adelantar; lo que espera es el contenido | 3 contactos por carrera |
@@ -221,6 +222,49 @@ tabla todavía solo acepta `visita`, `error` y `busqueda`; hasta que Máximo cor
 `tabla-registro.sql` de nuevo, cada hito se rechaza en la base. No rompe nada
 —el registro nunca rompe la pantalla— pero no se anota.
 
+### Los contactos de las cátedras (4/9)
+
+- **Se atan por código de materia, no por nombre.** Los mails vinieron
+  abreviados —«Epis», «Intro a la psico», «Inves I»— y el plan los tiene
+  completos. Por `materia_cod` enganchan los 75; por nombre no enganchaba ni la
+  mitad.
+- **Una materia compartida son dos filas**, una por carrera. Salud Colectiva
+  (253) la cursan Trabajo Social y Fono, con la misma cátedra. Dos filas para
+  que la pantalla filtre por carrera sin pensar, y para que el día que una
+  carrera cambie de cátedra no haya que desarmar nada.
+- **Se bajan todas de una y se guardan entre visitas.** Son 30 filas y ~5 KB en
+  Trabajo Social. Pedirlas de a una sería una consulta cada vez que alguien abre
+  una ficha. Y un mail de cátedra **no lleva fecha**, así que mostrar el de la
+  semana pasada no miente: vale la regla de siempre, de memoria sale el qué.
+- **Un contacto que rebota es peor que no tener contacto.** Las tres que no
+  tienen mail usable entraron con `publicado = false`: están anotadas para el
+  panel y no se muestran en la app.
+- **No hace falta subir el service worker:** solo cambió `carrera/index.html`,
+  que se sirve red primero.
+
+**Cargado: 75 cátedras publicadas y 142 mails.** 30 de Trabajo Social, 33 de
+Fono y 12 de TGCR.
+
+**Lo que quedó afuera:** el **Profesorado en Trabajo Social** no existe como
+carrera en la app, así que sus ocho mails no tienen dónde ir. Y el
+**«Taller de metodología»** de Fono vino como de 3° año, pero en el plan el II
+es de 4° y el de 3° es el Taller I (833). Sin mail, así que no urge.
+
+### El «Kit de Inicio» del cronograma quedó viejo (4/9)
+
+La tarea del sáb 5 decía «Mi año: el Kit de Inicio». Se escribió el 3/9, cuando
+«Tu primer año» iba a ser un modo aparte para el ingresante. El commit `d57a177`
+lo mató a propósito el 4/9: dejaba de aplicarse apenas marcabas tu primera
+materia. **Ese Kit ya no tiene dónde ir.**
+
+Lo que sí existe es el **Kit de ingreso de la portada**, y tiene un agujero
+real: la tarjeta «Glosario universitario» promete «qué es una cursada, un final,
+una promoción, una correlativa» y lleva a `quienes/`, que es la página de la
+agrupación. **La palabra «glosario» aparece una sola vez en todo el código: en
+la tarjeta que lo promete.** Es una promesa incumplida en la portada, dirigida
+justo al ingresante que es el público del 21. Escribir ese glosario es trabajo
+pendiente y sin fecha asignada.
+
 ## Decisiones pendientes — se cierran el domingo 6
 
 1. **¿Quién actualiza los horarios en marzo?** Si hay nombre y apellido, se
@@ -241,8 +285,9 @@ tabla todavía solo acepta `visita`, `error` y `busqueda`; hasta que Máximo cor
 | **Etiquetar los links de Instagram** con `?de=`: `bolivar-con-vos.vercel.app/?de=historia-carreras`. Un nombre distinto por publicación, en minúscula y con guiones. Sin etiqueta la visita se cuenta igual, pero no se sabe de dónde vino | antes del 21 |
 | Mirar la solapa **Registro** y el campo **«¿Alimenta la alarma?»** en el panel | cuanto antes |
 | Prender *Leaked password protection* en supabase.com → Authentication | cuanto antes |
-| Los mails de las cátedras | lun 7 |
-| Los tres PDFs del plan de estudios (TS, TGCR, Fono) | mié 9 |
+| **Confirmar un mail que no puede existir:** el de «Promoción y prevención en audiología» vino con tildes (`promoción…`) y la parte local de una dirección de Gmail no las acepta. Hasta que se confirme, esa cátedra no muestra contacto | cuanto antes |
+| ~~Los mails de las cátedras~~ | ✅ entregados el 4/9 |
+| ~~Los tres PDFs del plan de estudios~~ | ✅ entregados el 4/9. Ojo: pesan 1,8 MB y 3,6 MB; hay que decidir si se publican enteros o el plan se muestra como página |
 | Los PDFs de los materiales de estudio | vie 11 |
 | Tres contactos por carrera para Avisanos | mié 16 |
 

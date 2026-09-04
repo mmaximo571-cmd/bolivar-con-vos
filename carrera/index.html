@@ -456,6 +456,13 @@ function elegirCarrera(id){
   /* Ni fechas: se agregaron después. Sin esto, la primera vez rompe. */
   if (!datos.fechas) datos.fechas = {};
 
+  /* Los contactos son por carrera: al cambiar de carrera hay que
+     soltar los de la anterior ANTES de pedir los nuevos. Si no, una
+     ficha abierta en el intervalo mostraría el mail de la cátedra
+     equivocada, que es peor que no mostrar ninguno. */
+  CATEDRAS = null;
+  cargarCatedras();
+
   /* A QUIEN YA VENÍA USANDO LA APP NO SE LE PREGUNTA NADA.
 
      Si tiene materias marcadas, su propio uso ya contestó en qué año
@@ -1547,6 +1554,87 @@ function listaCorrel(codigos){
   }).join('') + `</ul>`;
 }
 
+/* ============================================================
+   A QUIÉN LE ESCRIBÍS
+
+   El contacto de la cátedra, adentro de la ficha de cada materia.
+   Hasta ahora eso se averiguaba preguntando en un grupo de WhatsApp.
+
+   SE BAJAN TODAS DE UNA, no una por materia. Son treinta filas en
+   Trabajo Social y unos 5 KB: pedirlas de a una sería una consulta
+   cada vez que alguien abre una ficha, y la ficha tendría que
+   esperarla. Así la primera abre con lo que ya está y las demás
+   salen de memoria.
+
+   SE GUARDAN ENTRE VISITAS. Un mail de cátedra no lleva fecha —no es
+   la alarma de inscripción ni el cronograma—, así que mostrar el de
+   la semana pasada no miente. Vale la regla de siempre: de memoria
+   sale el qué, y acá el qué es todo.
+
+   SE ATA POR CÓDIGO (`materia_cod`), que es el mismo de `plan.js`.
+   Por nombre no engancharía: en la base están completos y los mails
+   vinieron abreviados.
+   ============================================================ */
+let CATEDRAS = null;   /* { '211 A': {mails, telefono, nota}, ... } */
+
+function indexarCatedras(filas){
+  const x = {};
+  (filas || []).forEach(c => { x[c.materia_cod] = c; });
+  return x;
+}
+
+async function cargarCatedras(){
+  const llave = 'catedras-' + PLAN.id;
+
+  /* Primero lo guardado, para que la ficha no espere nada. */
+  const m = memoriaDe(llave);
+  if (m) CATEDRAS = indexarCatedras(m.datos);
+
+  try {
+    const { data, error } = await db.from('catedras')
+      .select('materia_cod,mails,telefono')
+      .eq('carrera', PLAN.id).eq('publicado', true);
+    if (error) return;
+
+    if (!data || !data.length){
+      /* La red contestó que no hay nada. Es una respuesta, y es la
+         más nueva que tenemos: se olvida lo viejo. */
+      olvidarMemoria(llave);
+      CATEDRAS = {};
+    } else {
+      CATEDRAS = indexarCatedras(data);
+      guardarEnMemoria(llave, data);
+    }
+  } catch(e){ /* sin red queda lo guardado, y si no había, no se muestra nada */ }
+
+  /* Si hay una ficha abierta esperando, se llena ahora. */
+  const caja = document.getElementById('contacto-catedra');
+  if (caja && caja.dataset.cod) pintarContacto(caja.dataset.cod);
+}
+
+function pintarContacto(cod){
+  const caja = document.getElementById('contacto-catedra');
+  if (!caja) return;
+  caja.dataset.cod = cod;
+
+  /* Todavía no llegaron: la ficha queda como estaba y esto se
+     completa solo cuando `cargarCatedras` termina. Un renglón de
+     «cargando» para algo secundario es más ruido que ayuda. */
+  if (!CATEDRAS) return;
+
+  const c = CATEDRAS[cod];
+  const mails = (c && c.mails) || [];
+  if (!mails.length && !(c && c.telefono)){ caja.innerHTML = ''; return; }
+
+  caja.innerHTML = `
+    <div class="titulo-seccion">A QUIÉN LE ESCRIBÍS</div>
+    <ul class="lista-correl simple">
+      ${mails.map(d => `<li><a href="mailto:${esc(d)}">${esc(d)}</a></li>`).join('')}
+      ${c.telefono ? `<li>${esc(c.telefono)}</li>` : ''}
+    </ul>
+    <p class="letra-chica">Es el contacto de la cátedra, no de la agrupación.</p>`;
+}
+
 function bloqueCorrelativas(m){
   const pc = paraCursar(m);
 
@@ -1616,7 +1704,14 @@ function abrirHoja(cod){
     <div class="titulo-seccion">LE ABRE LA PUERTA A</div>
     ${abre ? `<ul class="lista-correl simple">${abre}</ul>`
            : `<p class="letra-chica">Ninguna otra materia depende de esta.</p>`}
+
+    <!-- El contacto se llena aparte: la hoja abre ya, y si los
+         contactos todavía no llegaron de la red, aparecen solos
+         cuando llegan. Nunca se hace esperar a la hoja por esto. -->
+    <div id="contacto-catedra"></div>
   `;
+
+  pintarContacto(cod);
 
   cuerpo.querySelectorAll('.opcion').forEach(b => {
     b.addEventListener('click', function(){
