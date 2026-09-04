@@ -30,6 +30,7 @@ Si algo de acá quedó viejo, se corrige acá mismo al cerrar la sesión.
 | 3/9 | Cinco pantallas dejan de bajar `lib/supabase.js` (212.718 → 6.357 bytes) | `6c91ada` |
 | 3/9 | La app anota visitas, búsquedas y errores; solapa **Registro** en el panel | `6de2ac0` |
 | 3/9 | El ícono de la app es el logo y no la «B» que inventaba Android; el service worker sube a `v5` para que los teléfonos ya instalados se enteren | `65968ac` |
+| 3/9 | Inicio pinta los accesos y el kit de lo guardado mientras busca lo de ahora; sin red ya no se vacía la pantalla. Lo que lleva fecha sigue esperando a la red. `v6` | `0ad57f7` |
 
 ## El cronograma
 
@@ -142,6 +143,14 @@ deje de costar una función entera.
   pantalla.
 - **Se publica con `git push`**, y va derecho a `main` porque es lo que Vercel
   mira. Antes de pushear, comprobar que sea un avance limpio.
+- **Se publica sin preguntar** (decidido el 3/9): no hace falta pedir permiso
+  para cada push. Pero **se publica lo que se probó corriendo, no lo que se
+  leyó**. Acá no hay Node ni pruebas automáticas: la única red es levantar el
+  servidor de `HttpListener`, abrir la pantalla y mirar consola y
+  comportamiento. Lo que no se pueda verificar así se comitea, se avisa y **no
+  se sube**. Pesa por lo de acá abajo: quien ya tiene la app se lleva la versión
+  vieja en la primera carga, así que un error publicado no se arregla al
+  instante ni revirtiéndolo enseguida.
 - **Ojo el día del lanzamiento:** el service worker sirve la versión guardada en
   la primera carga y la nueva recién en la segunda. **Todo tiene que estar
   arriba el 20, no el 21.**
