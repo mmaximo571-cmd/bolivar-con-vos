@@ -3281,3 +3281,160 @@ details.tarjeta .respuesta{margin-top:9px;color:var(--texto-suave);font-size:var
   color:var(--texto-suave)
 }
 .nexo-trabadas:active{transform:translate(2px,2px)}
+
+/* ============================================================
+   «MI CURSADA» PREGUNTA · el diálogo y el resumen
+
+   La solapa dejó de abrir con el plan de estudios agrupado. Ahora
+   pregunta —en qué año estás, cómo venís con lo de antes, qué cursás
+   ahora— y recién después contesta. El listado entero vive en «Plan
+   completo», que es la solapa que existe para eso.
+
+   Todo lo de acá está hecho para una pregunta por pantalla: en el
+   navegador de Instagram media vista se la lleva el teclado y la barra
+   del propio Instagram, y una pantalla con dos preguntas es una
+   pregunta que se saltea.
+   ============================================================ */
+
+/* --- La ceja del paso --- */
+/* En la voz de datos, chica y espaciada, como el resto de los rótulos:
+   «paso 2 de 3» es un dato, no un título. */
+.paso-cuenta{
+  font-family:var(--fuente-datos);font-weight:700;font-size:var(--letra-chica);
+  letter-spacing:.16em;text-transform:uppercase;color:var(--texto-suave);
+  margin:0 0 6px
+}
+.paso-volver{
+  background:none;border:0;padding:6px 2px;margin:14px 0 8px -2px;
+  font-family:var(--fuente-sub);font-weight:700;font-size:var(--letra-nota);
+  color:var(--texto-suave);min-height:24px;cursor:pointer
+}
+@media (hover:hover) and (pointer:fine){
+  .paso-volver:hover{color:var(--texto)}
+}
+
+/* La pregunta es lo más fuerte de la pantalla, por encima del título
+   «Mi año»: es lo único que hay que leer para poder contestar. */
+.paso-pregunta{
+  font-family:var(--fuente-titulo);font-weight:400;
+  font-size:clamp(21px, 6.4vw, 26px);line-height:1.05;
+  text-transform:uppercase;margin:0 0 8px;overflow-wrap:anywhere
+}
+#dialogo-cursada .bajada{margin-bottom:20px}
+
+/* --- Las tarjetas de respuesta (el año, la carrera) --- */
+/* Más altas que una tarjeta de contenido: son botones de una pregunta,
+   se tocan con el pulgar y son lo único que hay para tocar. */
+.tarjeta.paso-opcion{padding:18px 16px;border-left-width:6px}
+.tarjeta.paso-opcion h3{font-size:var(--letra-sub);margin-bottom:4px}
+.tarjeta.paso-opcion.elegida{outline:2px solid var(--texto);outline-offset:2px}
+
+/* --- El repaso de los años anteriores --- */
+/* Un botón segmentado por materia, con la misma forma que el selector
+   de tema del menú: tres opciones en una sola pieza, sin desplegables
+   y sin nada que se abra encima. */
+.repaso-fila{
+  display:flex;flex-direction:column;gap:9px;
+  padding:14px 0;border-bottom:1px solid var(--linea)
+}
+.repaso .repaso-fila:last-child{border-bottom:0}
+.repaso-nombre{
+  font-family:var(--fuente-sub);font-weight:700;font-size:var(--letra-densa);
+  line-height:1.2;text-transform:uppercase
+}
+.repaso-opciones{
+  display:flex;border:1.5px solid var(--tinta-borde);
+  border-radius:var(--radio-chico);overflow:hidden;box-shadow:var(--sombra)
+}
+.repaso-opciones button{
+  flex:1 1 0;min-width:0;background:var(--superficie);border:0;color:var(--texto);
+  font-family:var(--fuente-sub);font-weight:700;font-size:var(--letra-mini);
+  letter-spacing:.02em;line-height:1.15;padding:9px 4px;min-height:46px;cursor:pointer
+}
+.repaso-opciones button + button{border-left:1.5px solid var(--tinta-borde)}
+.repaso-opciones button[aria-pressed="true"]{background:var(--amarillo);color:var(--sobre-color)}
+.repaso-opciones button:focus-visible{outline:2px solid var(--texto);outline-offset:-4px}
+
+/* --- El pie del paso --- */
+/* Pegado abajo a propósito. El repaso de un tercer año puede ser doce
+   materias: sin esto, «Seguir» queda a doce materias de distancia de
+   la única mano que lo va a tocar. */
+.paso-pie{
+  position:sticky;bottom:0;z-index:2;background:var(--fondo);
+  margin-top:24px;padding:14px 0 16px;border-top:2px solid var(--tinta-borde)
+}
+.paso-pie .paso-cuenta{margin:0 0 10px}
+
+/* --- Paso 3: elegir qué estás cursando --- */
+/* La tarjeta se marca con una casilla de verdad y no sólo con un
+   borde: un color distinto no dice «esta la elegí yo», y el amarillo
+   pleno de fondo dejaba la línea de metadatos en 6,6 contra 7. */
+.tarjeta.materia.elegible{position:relative;padding-right:54px}
+.tarjeta.materia.elegible::after{
+  content:'';position:absolute;right:14px;top:50%;transform:translateY(-50%);
+  width:26px;height:26px;border:2px solid var(--tinta-borde);border-radius:50%;
+  background:var(--superficie)
+}
+.tarjeta.materia.elegible[aria-pressed="true"]{
+  background:var(--superficie-2);
+  border-left-color:var(--linea-saberes);
+  outline:2px solid var(--texto);outline-offset:2px
+}
+.tarjeta.materia.elegible[aria-pressed="true"]::after{
+  content:'✓';background:var(--amarillo);color:var(--sobre-color);
+  display:flex;align-items:center;justify-content:center;
+  font-family:var(--fuente-sub);font-weight:700;font-size:15px;line-height:1
+}
+
+/* --- El resumen: la banda del año --- */
+/* La misma pastilla negra que usan las cuentas de los rótulos, porque
+   es el mismo tipo de dato. Y al lado, la salida para corregirlo: el
+   año se contesta una vez, pero se cambia cuando haga falta. */
+.anio-banda{
+  display:flex;align-items:center;justify-content:space-between;
+  gap:12px;flex-wrap:wrap;margin:22px 0 2px
+}
+.anio-banda-dato{
+  background:var(--negro);color:var(--sobre-negro);border-radius:var(--radio-pastilla);
+  padding:5px 13px;font-family:var(--fuente-datos);font-weight:700;
+  font-size:var(--letra-chica);letter-spacing:.12em
+}
+.anio-banda .boton.texto{margin:0}
+
+/* El período al que te podés anotar. Va debajo del rótulo y en la voz
+   de datos: es la aclaración de una cuenta, no un segundo título. */
+.periodo-rotulo{
+  font-family:var(--fuente-datos);font-size:var(--letra-chica);
+  letter-spacing:.1em;text-transform:uppercase;
+  color:var(--texto-suave);margin:-8px 0 14px
+}
+
+/* La salida del diálogo. Se ve —una salida escondida no es una
+   salida— pero no compite con «Seguir»: está centrada, sin fondo y
+   debajo del pie. */
+.paso-salida{text-align:center;margin:6px 0 4px}
+
+/* Los botones de texto de esta pantalla son FRASES, no rótulos:
+   «Prefiero marcarlas yo», «Ver también 1 materia del 2° cuatrimestre».
+   En la caja alta y con el interletrado de .boton se leían como
+   titulares y le ganaban a lo que tenían al lado. El .boton.texto de la
+   pantalla de la nota queda como está: ahí «Saltar por ahora» sí es un
+   rótulo corto. */
+.anio-banda .boton.texto,
+#para-anotarse .boton.texto,
+.paso-salida .boton.texto{
+  text-transform:none;letter-spacing:0;padding:8px 2px;
+  font-size:var(--letra-nota);text-align:left
+}
+.paso-salida .boton.texto{text-align:center}
+/* La clase `.texto` sola, de otra pantalla, trae width:100%. Acá el
+   botón va al lado de la pastilla del año, no debajo. */
+.anio-banda .boton.texto{width:auto}
+/* Y este ocupa el ancho, pero como un renglón: alineado a la
+   izquierda, no centrado como un botón. */
+#para-anotarse .boton.texto{justify-content:flex-start}
+/* La pregunta recibe el foco al cambiar de paso, para que un lector de
+   pantalla lea la pregunta nueva y no siga parado donde estaba. Ese
+   foco lo mueve el programa, no la persona: sólo se dibuja si además
+   llegó tabulando. */
+.paso-pregunta:focus:not(:focus-visible){outline:none}

@@ -43,7 +43,12 @@
 <main class="envoltura" id="contenido" tabindex="-1">
 
   <h1 class="titulo-pantalla">Mi año</h1>
-  <p class="bajada">
+  <!-- Se apaga mientras «Mi cursada» está preguntando: describe cómo se
+       usa la pantalla, y mientras hay una pregunta adelante lo único
+       que hay que leer es la pregunta. Además son cuatro renglones de
+       alto, que en el teléfono es justo lo que hace falta para que la
+       primera respuesta entre sin scroll. -->
+  <p class="bajada" id="bajada-anio">
     Marcá cómo venís con cada materia y te decimos qué podés cursar y qué
     podés <strong>promocionar</strong>. Nadie más lo ve: queda en tu teléfono.
   </p>
@@ -71,36 +76,40 @@
     <button class="pestana" id="tab-todo"  role="tab" aria-selected="false">Plan completo</button>
   </div>
 
-  <!-- ---------- VISTA: MI CURSADA ---------- -->
+  <!-- ---------- VISTA: MI CURSADA ----------
+       Ya no abre con materias. Abre PREGUNTANDO.
+
+       Antes esta solapa era el plan de estudios agrupado: un bloque
+       «cursando este año» casi siempre vacío, unos filtros por
+       cuatrimestre y listas de materias. Lo primero que veía alguien
+       era el catálogo entero, y el catálogo no contesta «¿qué hago
+       ahora?»: hay que leerlo todo para deducirlo.
+
+       Ahora son dos cosas. Un DIÁLOGO de hasta tres pasos —en qué año
+       estás, qué te quedó de atrás, qué cursás ahora— y, cuando
+       terminó, un RESUMEN de tu año. El listado no se pierde: vive
+       entero en «Plan completo», que es la solapa que existe para eso.
+       -->
   <section id="vista-plan">
 
-    <!-- Para quien recién empieza: reemplaza a «Mi cursada» entera.
-         Se apaga sola en cuanto marca su primera materia. -->
-    <div id="primer-anio" hidden></div>
+    <!-- El diálogo. Una pregunta por pantalla: en el navegador de
+         Instagram, con media vista tapada, es lo único que se lee
+         entero sin scroll. -->
+    <div id="dialogo-cursada" hidden></div>
 
-    <div id="cursada-normal">
+    <!-- Lo que ve quien ya contestó. Tres bloques cortos y nada más. -->
+    <div id="resumen-cursada" hidden>
+      <div id="resumen-encabezado"></div>
+      <div id="cursando-ahora"></div>
+      <div id="para-anotarse"></div>
 
-    <!-- Lo que estás haciendo ahora, arriba de todo -->
-    <div id="cursando-ahora"></div>
+      <label class="interruptor" id="caja-suponer" hidden>
+        <input type="checkbox" id="suponer">
+        <span>Dar por aprobadas las cursadas que estoy haciendo ahora</span>
+      </label>
 
-    <div class="titulo-seccion">EL AÑO QUE VIENE</div>
-
-    <div class="chips" id="filtro-cuatri" role="group" aria-label="Filtrar por cuatrimestre">
-      <button class="chip" data-cuatri="todo"  aria-pressed="true">Todas</button>
-      <button class="chip" data-cuatri="anual" aria-pressed="false">Anuales</button>
-      <button class="chip" data-cuatri="1c"    aria-pressed="false">1° cuatri</button>
-      <button class="chip" data-cuatri="2c"    aria-pressed="false">2° cuatri</button>
+      <div id="consejo"></div>
     </div>
-
-    <label class="interruptor" id="caja-suponer" hidden>
-      <input type="checkbox" id="suponer">
-      <span>Dar por aprobadas las cursadas que estoy haciendo ahora</span>
-    </label>
-
-    <div id="grupos"></div>
-    <div id="consejo"></div>
-
-    </div><!-- /cursada-normal -->
   </section>
 
   <!-- ---------- VISTA: PREPARAR UN FINAL ----------
@@ -289,33 +298,16 @@ try {
 
 if (!guardado.datos) guardado.datos = {};
 
-/* ============================================================
-   INGRESANTE O AVANZADO
-
-   `guardado.momento` vale 'ingresante' o 'avanzado', y se pregunta UNA
-   vez, en el mismo momento que la carrera. Va afuera de `datos[carrera]`
-   a propósito: en qué punto de la facultad está una persona no cambia
-   porque mire otro plan.
-   ============================================================ */
-function algoMarcado(){
-  return Object.keys(guardado.datos || {}).some(id => {
+/* A quien ya venía usando la app no se le vuelve a preguntar la
+   carrera. `guardado.momento` es la marca de la versión anterior, que
+   preguntaba carrera y punto de la carrera juntas; tener algo marcado
+   es la de quien la usó desde antes de que se preguntara nada. */
+if (!guardado.eligioCarrera){
+  const yaUso = guardado.momento || Object.keys(guardado.datos).some(id => {
     const e = (guardado.datos[id] || {}).estados || {};
     return Object.keys(e).some(c => e[c] && e[c] !== 'pendiente');
   });
-}
-
-/* A quien ya venía usando la app no se le pregunta nada: si tiene
-   materias marcadas, la respuesta ya la sabemos. Preguntarle sería
-   hacerle repetir algo que su propio uso contesta. */
-if (!guardado.momento && algoMarcado()) guardado.momento = 'avanzado';
-
-function esIngresante(){
-  if (guardado.momento !== 'ingresante') return false;
-  /* Y deja de serlo SOLA en cuanto marca su primera materia: a partir
-     de ahí «Mi cursada» dice la verdad y «Tu primer año» sería un
-     cartel viejo. Lo guardado no se toca nunca; cambia lo que se
-     muestra arriba. */
-  return !MATERIAS.some(m => estadoCrudo(m.cod) !== 'pendiente');
+  if (yaUso) guardado.eligioCarrera = true;
 }
 
 function persistir(){
@@ -324,7 +316,31 @@ function persistir(){
   if (typeof respaldarLuego === 'function') respaldarLuego();
 }
 
-function estadoCrudo(cod){ return datos.estados[cod] || 'pendiente'; }
+/* ============================================================
+   DE DÓNDE SALEN LOS ESTADOS
+
+   Casi siempre, de lo guardado. Pero mientras el diálogo está abierto
+   hay que poder preguntarle a las correlativas «si contestás esto,
+   ¿qué se te abre?» ANTES de escribir nada: si escribiéramos derecho,
+   volver un paso atrás dejaría marcas puestas, y alguien que se va a
+   Plan completo a mitad del diálogo vería materias aprobadas que
+   todavía no confirmó.
+
+   Por eso hay una sola perilla, acá, y todo el resto del sistema
+   —situacion(), promedio(), el mapa— sigue preguntando lo mismo de
+   siempre sin enterarse. La perilla se levanta y se baja dentro de
+   conBorrador(), nunca queda puesta entre dibujos.
+   ============================================================ */
+let fuenteEstados = null;
+
+function estadoCrudo(cod){
+  return (fuenteEstados || datos.estados)[cod] || 'pendiente';
+}
+
+function conBorrador(estados, fn){
+  fuenteEstados = estados;
+  try { return fn(); } finally { fuenteEstados = null; }
+}
 
 /* ============================================================
    LAS NOTAS
@@ -426,9 +442,45 @@ function elegirCarrera(id){
   if (!datos.notas) datos.notas = {};
   /* Ni fechas: se agregaron después. Sin esto, la primera vez rompe. */
   if (!datos.fechas) datos.fechas = {};
+
+  /* A QUIEN YA VENÍA USANDO LA APP NO SE LE PREGUNTA NADA.
+
+     Si tiene materias marcadas, su propio uso ya contestó en qué año
+     está: se deduce y se da el diálogo por hecho. Hacerle contestar
+     tres pantallas para llegar a lo que ya tenía cargado sería
+     cobrarle un peaje por el trabajo que hizo.
+
+     Va por carrera y no por persona: el año en Fonoaudiología no es
+     el año en Trabajo Social. */
+  if (!datos.dialogo && MATERIAS.some(m => (datos.estados[m.cod] || 'pendiente') !== 'pendiente')){
+    datos.anio = anioDeducido();
+    datos.dialogo = 'listo';
+  }
+
   persistir();
 
-  filtroCuatri = 'todo';
+  verOtroCuatri = false;
+  cerrarDialogo();
+}
+
+/* En qué año está, leído de lo que ya marcó. Sólo se usa para no
+   preguntarle a quien ya cargó su carrera; si le erramos, el botón
+   «Actualizar mi año» está siempre a mano. */
+function anioDeducido(){
+  const tope = PLAN.anios || 5;
+  const enCurso = MATERIAS.filter(m => estadoCrudo(m.cod) === 'cursando');
+  /* Lo que estás cursando ahora es el dato más directo que hay. */
+  if (enCurso.length) return Math.max.apply(null, enCurso.map(m => m.anio));
+
+  const hechas = MATERIAS.filter(m => estadoCrudo(m.cod) !== 'pendiente');
+  if (!hechas.length) return 1;
+
+  const ultimo = Math.max.apply(null, hechas.map(m => m.anio));
+  /* Si de ese año no le quedó nada pendiente, ya está en el siguiente. */
+  const cerrado = MATERIAS.filter(m => m.anio === ultimo)
+    .every(m => estadoCrudo(m.cod) !== 'pendiente');
+  if (!cerrado) return ultimo;
+  return ultimo < tope ? ultimo + 1 : 'fin';
 }
 
 function pintarSelectorCarrera(){
@@ -526,26 +578,411 @@ function pintarProgreso(){
 }
 
 /* ============================================================
-   CURSANDO ESTE AÑO
-   Lo que estás haciendo ahora, arriba de todo. Sale de las materias
-   marcadas como "La estoy cursando ahora".
-   ============================================================ */
-function pintarCursandoAhora(){
-  const caja = document.getElementById('cursando-ahora');
-  const ahora = MATERIAS.filter(m => estadoCrudo(m.cod) === 'cursando');
+   EL DIÁLOGO
 
-  if (!ahora.length){
-    caja.innerHTML = `
-      <div class="titulo-seccion">CURSANDO ESTE AÑO</div>
-      <div class="vacio">
-        Todavía no marcaste ninguna materia como «la estoy cursando ahora».<br>
-        Tocá una materia y elegí esa opción: van a aparecer acá.
-      </div>`;
+   Hasta tres pasos, una pregunta por pantalla:
+
+     1. ¿En qué año estás?
+     2. ¿Cómo venís con lo de antes?   (si estás en primero, no va)
+     3. ¿Qué estás cursando ahora?     (si ya terminaste de cursar, no va)
+
+   NADA SE GUARDA HASTA EL FINAL. Lo que se va contestando vive en
+   `borrador`, y las correlativas se consultan contra él —ver
+   conBorrador()—, así que el paso 3 puede ofrecer exactamente las
+   materias que se destrabaron con lo que se acaba de contestar en el
+   2. Si la persona vuelve atrás o se va a otra solapa a mitad de
+   camino, en el teléfono no quedó escrito nada.
+   ============================================================ */
+const TOPE = () => PLAN.anios || 5;
+
+let borrador = null;   /* null quiere decir: el diálogo está cerrado */
+let paso = 0;
+let verOtroCuatri = false;
+
+function cerrarDialogo(){ borrador = null; paso = 0; ultimoDibujado = null; }
+
+function abrirDialogo(){
+  borrador = {
+    anio: datos.anio || anioDeducido(),
+    estados: Object.assign({}, datos.estados),
+    /* Lo que la persona tocó con el dedo: no se vuelve a tocar solo. */
+    tocadas: {},
+    /* Lo que dimos por aprobado nosotros: se puede deshacer si cambia
+       de año y ese año deja de estar «atrás». */
+    sembradas: {}
+  };
+  paso = 0;
+  ultimoDibujado = null;
+}
+
+/* Los pasos que le tocan a ESTA persona. Quien está en primer año no
+   tiene años anteriores que repasar, y quien ya terminó de cursar no
+   está cursando nada: preguntárselo igual sería hacerle tocar
+   «Seguir» en una pantalla vacía. */
+function pasosDelDialogo(){
+  const p = ['anio'];
+  if (borrador.anio !== 1)     p.push('atras');
+  if (borrador.anio !== 'fin') p.push('ahora');
+  return p;
+}
+
+/* Las materias de los años anteriores al tuyo. Quien ya terminó de
+   cursar repasa el plan entero: para esa persona todo es «lo de
+   antes». */
+function materiasDeAtras(){
+  const hasta = borrador.anio === 'fin' ? TOPE() + 1 : borrador.anio;
+  return MATERIAS.filter(m => m.anio < hasta &&
+    /* Lo que estás cursando ahora se contesta en el paso siguiente,
+       aunque sea de un año anterior: el arrastre es lo normal. */
+    borrador.estados[m.cod] !== 'cursando');
+}
+
+/* AL REVÉS QUE ANTES: se dan por aprobadas.
+
+   Si alguien dice «estoy en tercero», lo normal es tener primero y
+   segundo casi enteros. Pedirle que tilde diez materias una por una
+   es exactamente el trabajo que hoy hace que nadie cargue su año.
+   Acá vienen todas puestas y se destildan las pocas que faltan.
+
+   Con dos respetos: lo que ya tenía guardado no se pisa, y lo que la
+   persona tocó recién tampoco. */
+function sembrarAtras(){
+  const dentro = {};
+  materiasDeAtras().forEach(m => dentro[m.cod] = true);
+
+  /* Cambió de año hacia abajo: lo que sembramos y ya no corresponde
+     vuelve a ser lo que era. */
+  Object.keys(borrador.sembradas).forEach(cod => {
+    if (dentro[cod]) return;
+    borrador.estados[cod] = datos.estados[cod] || 'pendiente';
+    delete borrador.sembradas[cod];
+  });
+
+  materiasDeAtras().forEach(m => {
+    if (borrador.tocadas[m.cod] || borrador.sembradas[m.cod]) return;
+    if ((datos.estados[m.cod] || 'pendiente') !== 'pendiente') return;
+    borrador.estados[m.cod] = 'aprobada';
+    borrador.sembradas[m.cod] = true;
+  });
+}
+
+/* Lo que se le puede ofrecer en «¿qué estás cursando ahora?»: todo lo
+   que las correlativas habilitan según lo que acaba de contestar. Las
+   trabadas no entran —no se puede estar cursando algo que el plan no
+   deja— y las ya aprobadas tampoco. */
+function materiasParaCursar(){
+  return conBorrador(borrador.estados, () => MATERIAS.filter(m => {
+    const e = estadoCrudo(m.cod);
+    if (e === 'aprobada' || e === 'cursada') return false;
+    return situacion(m).clase !== 'trabada';
+  }));
+}
+
+const ANIO_DETALLE = {
+  1: 'Recién empiezo la carrera.',
+  fin: 'Cursé todo. Me quedan finales.'
+};
+
+function pintarPaso(){
+  const caja  = document.getElementById('dialogo-cursada');
+  const pasos = pasosDelDialogo();
+  if (paso >= pasos.length) paso = pasos.length - 1;
+  const cual  = pasos[paso];
+
+  /* En el primer paso el total todavía no se sabe: cuántas preguntas
+     quedan depende de lo que se conteste ahí mismo. Decir «paso 1 de
+     2» y después «paso 2 de 3» es prometer algo que no sabíamos, así
+     que el primero va sin total. */
+  const ceja = `
+    ${paso > 0 ? '<button class="paso-volver" id="paso-atras">← Volver</button>' : ''}
+    <div class="paso-cuenta">PASO ${paso + 1}${paso ? ' DE ' + pasos.length : ''}</div>`;
+
+  /* LA SALIDA. Una sola, al pie, y en todos los pasos: quien no quiere
+     contestar tiene que poder irse a marcar las materias a mano. Una
+     por paso dejaría a la persona a mitad de camino, que es peor que
+     no haber empezado. */
+  const salida = `
+    <p class="paso-salida">
+      <button class="boton texto" data-paso="saltear">Prefiero marcarlas yo</button>
+    </p>`;
+
+  if (cual === 'anio')  caja.innerHTML = ceja + pasoAnio() + salida;
+  if (cual === 'atras'){ sembrarAtras(); caja.innerHTML = ceja + pasoAtras() + salida; }
+  if (cual === 'ahora') caja.innerHTML = ceja + pasoAhora() + salida;
+
+  const atras = document.getElementById('paso-atras');
+  if (atras) atras.addEventListener('click', () => irAlPaso(paso - 1));
+
+  /* Al cambiar de paso, el foco va a la pregunta nueva. Sin esto, quien
+     usa lector de pantalla o teclado se queda parado donde estaba y la
+     pantalla le cambió abajo sin avisar. Sólo al CAMBIAR de paso: el
+     paso se redibuja entero en cada toque, y mover el foco en cada
+     toque sería secuestrarlo. */
+  if (ultimoDibujado !== cual){
+    ultimoDibujado = cual;
+    const preg = caja.querySelector('.paso-pregunta');
+    if (preg) preg.focus({ preventScroll:true });
+  }
+}
+
+let ultimoDibujado = null;
+
+function irAlPaso(n){
+  paso = n;
+  ultimoDibujado = null;
+  pintarCursada();
+  scrollTo(0, 0);
+}
+
+/* Redibuja el paso sin moverlo de lugar: el mismo botón que se tocó
+   vuelve a quedar enfocado y la página no salta al principio. Un
+   segmentado que pierde el foco en cada toque deja a quien va con
+   teclado empezando de nuevo en cada materia. */
+function repintarPaso(focoSel){
+  const y = window.scrollY;
+  pintarCursada();
+  if (focoSel){
+    const b = document.querySelector(focoSel);
+    if (b) b.focus({ preventScroll:true });
+  }
+  scrollTo(0, y);
+}
+
+/* El resto de los toques van por delegación, con UN solo oyente puesto
+   al arrancar: el diálogo se redibuja entero en cada respuesta, y
+   engancharlo acá adentro dejaría un oyente nuevo por dibujo. */
+document.getElementById('dialogo-cursada').addEventListener('click', e => {
+  if (borrador) manejarPaso(e);
+});
+
+/* ---------- PASO 1 · ¿EN QUÉ AÑO ESTÁS? ---------- */
+function pasoAnio(){
+  const opciones = [];
+  for (let a = 1; a <= TOPE(); a++) opciones.push(a);
+  opciones.push('fin');
+
+  return `
+    <h2 class="paso-pregunta" tabindex="-1">¿En qué año estás?</h2>
+    <p class="bajada">El año donde estás cursando la mayoría de las materias.
+      Si venís mezclando, elegí el más alto: en el paso que sigue cargás
+      lo que te quedó de atrás.</p>
+    <div class="lista">` +
+    opciones.map(a => {
+      const titulo  = a === 'fin' ? 'YA TERMINÉ DE CURSAR' : ORDINAL[a] + ' AÑO';
+      const cuantas = a === 'fin' ? 0 : MATERIAS.filter(m => m.anio === a).length;
+      const detalle = ANIO_DETALLE[a] || '';
+      const esta = a === borrador.anio;
+      return `<button class="tarjeta paso-opcion ${esta ? 'elegida' : ''}"
+                      ${esta ? 'aria-current="true"' : ''} data-anio="${a}">
+          <h3>${esc(titulo)}</h3>
+          ${detalle ? `<p class="motivo">${esc(detalle)}</p>` : ''}
+          ${cuantas ? `<div class="meta"><span>${cuantas} materias</span></div>` : ''}
+        </button>`;
+    }).join('') + `</div>`;
+}
+
+/* ---------- PASO 2 · ¿CÓMO VENÍS CON LO DE ANTES? ---------- */
+const REPASO = [
+  { k:'aprobada', texto:'Aprobada' },
+  { k:'cursada',  texto:'Falta el final' },
+  { k:'pendiente',texto:'No la hice' }
+];
+
+function pasoAtras(){
+  const lista = materiasDeAtras();
+  const faltan = lista.filter(m => borrador.estados[m.cod] !== 'aprobada').length;
+
+  const porAnio = [];
+  for (let a = 1; a <= TOPE(); a++){
+    const suyas = lista.filter(m => m.anio === a);
+    if (!suyas.length) continue;
+    porAnio.push(`<div class="titulo-seccion">${ORDINAL[a]} AÑO</div>` +
+      suyas.map(filaRepaso).join(''));
+  }
+
+  return `
+    <h2 class="paso-pregunta" tabindex="-1">¿Cómo venís con lo de antes?</h2>
+    <p class="bajada">Están todas dadas por aprobadas. Tocá sólo las que no:
+      son las que cambian lo que la app te va a poder decir después.</p>
+    <div class="repaso">${porAnio.join('')}</div>
+    <div class="paso-pie">
+      <p class="paso-cuenta">${faltan
+        ? faltan + (faltan === 1 ? ' marcada como pendiente' : ' marcadas como pendientes')
+        : 'NINGUNA PENDIENTE'}</p>
+      <button class="boton ancho" data-paso="seguir">Seguir</button>
+    </div>`;
+}
+
+function filaRepaso(m){
+  const e = borrador.estados[m.cod] || 'pendiente';
+  return `
+    <div class="repaso-fila">
+      <span class="repaso-nombre">${esc(m.nombre)}</span>
+      <div class="repaso-opciones" role="group" aria-label="${esc(m.nombre)}">` +
+      REPASO.map(o => `
+        <button data-repaso="${esc(m.cod)}" data-estado="${o.k}"
+                aria-pressed="${o.k === e ? 'true' : 'false'}">${o.texto}</button>`).join('') +
+      `</div>
+    </div>`;
+}
+
+/* ---------- PASO 3 · ¿QUÉ ESTÁS CURSANDO AHORA? ---------- */
+function pasoAhora(){
+  const candidatas = materiasParaCursar();
+  const elegidas = candidatas.filter(m => borrador.estados[m.cod] === 'cursando').length;
+
+  /* Las de tu año primero, y las que arrastrás abajo, con su rótulo:
+     cursar mezclado es la norma y no la excepción. */
+  const grupos = [
+    { titulo:ORDINAL[borrador.anio] + ' AÑO',
+      lista:candidatas.filter(m => m.anio === borrador.anio) },
+    { titulo:'DE AÑOS ANTERIORES',
+      lista:candidatas.filter(m => m.anio < borrador.anio) },
+    { titulo:'DE MÁS ADELANTE',
+      lista:candidatas.filter(m => m.anio > borrador.anio) }
+  ].filter(g => g.lista.length);
+
+  const cuerpo = candidatas.length
+    ? grupos.map(g => `
+        <div class="titulo-seccion">${esc(g.titulo)}
+          <span class="cuenta-grupo">${g.lista.length}</span></div>
+        <div class="lista">` +
+        g.lista.map(m => `
+          <button class="tarjeta materia elegible" data-cursando="${esc(m.cod)}"
+                  aria-pressed="${borrador.estados[m.cod] === 'cursando' ? 'true' : 'false'}">
+            <h3>${esc(m.nombre)}</h3>
+            <div class="meta">
+              <span>${m.anio}° año</span>
+              <span>${DICTADO[m.dictado]}</span>
+              ${m.horas ? `<span>${m.horas} h</span>` : ''}
+            </div>
+          </button>`).join('') + `</div>`).join('')
+    : `<div class="vacio">Con lo que marcaste, todavía no hay ninguna materia
+         que puedas estar cursando. Si te falta cargar algo de atrás,
+         volvé un paso.</div>`;
+
+  return `
+    <h2 class="paso-pregunta" tabindex="-1">¿Qué estás cursando ahora?</h2>
+    <p class="bajada">Tocá las materias en las que estás anotada este
+      cuatrimestre. Si no estás cursando ninguna, seguí de largo.</p>
+    ${cuerpo}
+    <div class="paso-pie">
+      <p class="paso-cuenta">${elegidas
+        ? elegidas + (elegidas === 1 ? ' materia elegida' : ' materias elegidas')
+        : 'NINGUNA ELEGIDA'}</p>
+      <button class="boton ancho" data-paso="terminar">Armar mi año</button>
+    </div>`;
+}
+
+/* ---------- LO QUE HACE CADA TOQUE ---------- */
+function manejarPaso(e){
+  const anio = e.target.closest('[data-anio]');
+  if (anio){
+    const v = anio.dataset.anio;
+    borrador.anio = v === 'fin' ? 'fin' : Number(v);
+    /* «Ya terminé de cursar» y estar cursando algo no pueden convivir:
+       si no las soltamos acá, quedan escondidas —el paso 3 no existe
+       para esta persona— y el resumen la contradice. */
+    if (borrador.anio === 'fin'){
+      MATERIAS.forEach(m => {
+        if (borrador.estados[m.cod] === 'cursando') borrador.estados[m.cod] = 'pendiente';
+      });
+    }
+    irAlPaso(paso + 1);
     return;
   }
 
+  const rep = e.target.closest('[data-repaso]');
+  if (rep){
+    const cod = rep.dataset.repaso;
+    borrador.estados[cod] = rep.dataset.estado;
+    borrador.tocadas[cod] = true;
+    delete borrador.sembradas[cod];
+    repintarPaso(`[data-repaso="${cod}"][data-estado="${rep.dataset.estado}"]`);
+    return;
+  }
+
+  const cur = e.target.closest('[data-cursando]');
+  if (cur){
+    const cod = cur.dataset.cursando;
+    borrador.estados[cod] = borrador.estados[cod] === 'cursando' ? 'pendiente' : 'cursando';
+    borrador.tocadas[cod] = true;
+    repintarPaso(`[data-cursando="${cod}"]`);
+    return;
+  }
+
+  const b = e.target.closest('[data-paso]');
+  if (!b) return;
+  if (b.dataset.paso === 'seguir'){
+    if (paso + 1 < pasosDelDialogo().length) irAlPaso(paso + 1);
+    else terminarDialogo();
+    return;
+  }
+  if (b.dataset.paso === 'terminar'){ terminarDialogo(); return; }
+
+  if (b.dataset.paso === 'saltear'){
+    /* Se guarda el año, que ya lo contestó, y NADA más: lo que sembramos
+       nosotros en el paso 2 no lo confirmó nadie, y darlo por aprobado
+       porque se fue sería inventarle una carrera. */
+    datos.anio = borrador.anio;
+    datos.dialogo = 'listo';
+    cerrarDialogo();
+    persistir();
+    pintarTodo();
+    verPestana('todo');
+  }
+}
+
+function terminarDialogo(){
+  datos.anio    = borrador.anio;
+  datos.estados = borrador.estados;
+  datos.dialogo = 'listo';
+  cerrarDialogo();
+  persistir();
+  pintarTodo();
+  scrollTo(0, 0);
+}
+
+/* ============================================================
+   EL RESUMEN · TU AÑO
+
+   Lo que ve quien ya contestó. Tres bloques cortos y ninguno con
+   lista larga: qué estás cursando, a qué te podés anotar, qué finales
+   debés. Es la respuesta a «¿qué tengo que hacer?», que es la
+   pregunta con la que se abre la app.
+   ============================================================ */
+function pintarResumenEncabezado(){
+  /* Corto a propósito: la pastilla y el botón de al lado tienen que
+     entrar en un solo renglón de 343 px. «TERCER AÑO» los partía en
+     dos, y el botón partido se leía como un titular. */
+  const a = datos.anio;
+  const nombre = a === 'fin' ? 'CURSÉ TODO'
+               : (typeof a === 'number' ? a + '° AÑO' : 'TU AÑO');
+
+  document.getElementById('resumen-encabezado').innerHTML = `
+    <div class="anio-banda">
+      <span class="anio-banda-dato">${esc(nombre)}</span>
+      <button class="boton texto" id="retocar-anio">Actualizar mi año</button>
+    </div>`;
+
+  document.getElementById('retocar-anio').addEventListener('click', () => {
+    abrirDialogo();
+    pintarCursada();
+    scrollTo(0, 0);
+  });
+}
+
+function pintarCursandoAhora(){
+  const caja  = document.getElementById('cursando-ahora');
+  const ahora = MATERIAS.filter(m => estadoCrudo(m.cod) === 'cursando');
+
+  /* Si no estás cursando nada, no va el cartel que lo diga: el diálogo
+     ya te lo preguntó y contestaste. Un recuadro vacío arriba de todo
+     era justamente lo que había antes. */
+  if (!ahora.length){ caja.innerHTML = ''; return; }
+
   caja.innerHTML = `
-    <div class="titulo-seccion">CURSANDO ESTE AÑO
+    <div class="titulo-seccion">ESTÁS CURSANDO
       <span class="cuenta-grupo">${ahora.length}</span></div>
     <div class="lista">` +
     ahora.map(m => `
@@ -559,74 +996,79 @@ function pintarCursandoAhora(){
       </button>`).join('') + `</div>`;
 }
 
-/* ============================================================
-   VISTA: EL AÑO QUE VIENE
-   ============================================================ */
-let filtroCuatri = 'todo';
+/* A QUÉ TE PODÉS ANOTAR, PERO DEL PERÍODO QUE VIENE.
 
-/* Gestión del Riesgo no tiene materias anuales: escondemos el filtro que
-   no le sirve a la carrera elegida, en vez de mostrar una lista vacía. */
-function pintarFiltroCuatri(){
-  document.querySelectorAll('#filtro-cuatri .chip').forEach(chip => {
-    const cual = chip.dataset.cuatri;
-    chip.hidden = cual !== 'todo' && !MATERIAS.some(m => m.dictado === cual);
-    chip.setAttribute('aria-pressed', cual === filtroCuatri ? 'true' : 'false');
-  });
+   Antes había cuatro chips —Todas · Anuales · 1° · 2°— y la respuesta
+   correcta la tenía que elegir la persona. La app sabe la fecha: que
+   elija ella, y que el otro cuatrimestre quede a un toque. */
+function periodoQueViene(){
+  const mes = new Date().getMonth() + 1;
+  /* Gestión del Riesgo no tiene ninguna materia anual: nombrarlas es
+     el mismo ruido que era mostrarle el filtro «Anuales» vacío. */
+  const anuales = MATERIAS.some(m => m.dictado === 'anual');
+
+  /* De julio en adelante lo que se viene a inscribir es el año que
+     empieza: primer cuatrimestre y anuales. Antes de julio, el
+     segundo, al que ya no se le suman las anuales porque arrancaron
+     en marzo. */
+  if (mes >= 7) return {
+    claves: anuales ? ['1c','anual'] : ['1c'],
+    titulo: anuales ? '1° CUATRIMESTRE Y ANUALES' : '1° CUATRIMESTRE',
+    otro:   'del 2° cuatrimestre' };
+  return {
+    claves: ['2c'], titulo:'2° CUATRIMESTRE',
+    otro:   anuales ? 'del 1° cuatrimestre y anuales' : 'del 1° cuatrimestre' };
 }
 
-function pintarGrupos(){
+function pintarParaAnotarse(){
+  const caja = document.getElementById('para-anotarse');
+  const per  = periodoQueViene();
+
   const hayCursando = MATERIAS.some(m => estadoCrudo(m.cod) === 'cursando');
   document.getElementById('caja-suponer').hidden = !hayCursando;
   document.getElementById('suponer').checked = !!datos.suponer;
 
-  const candidatas = MATERIAS.filter(m => {
-    if (estado(m.cod) !== 'pendiente') return false;
-    if (filtroCuatri === 'todo') return true;
-    return m.dictado === filtroCuatri;
-  });
+  const libres = MATERIAS.filter(m =>
+    estado(m.cod) === 'pendiente' && situacion(m).clase !== 'trabada');
 
-  const grupos = { promociona:[], cursa:[], trabada:[] };
-  candidatas.forEach(m => grupos[situacion(m).clase].push(m));
+  /* Las que no tienen cuatrimestre fijo van siempre: no hay período al
+     que pertenezcan, así que esconderlas sería perderlas. */
+  const suelta = m => m.dictado === 'libre' || !DICTADO[m.dictado];
+  const ahora  = libres.filter(m => per.claves.indexOf(m.dictado) !== -1 || suelta(m));
+  const otras  = libres.filter(m => ahora.indexOf(m) === -1);
 
-  const caja = document.getElementById('grupos');
+  const enLista = verOtroCuatri ? libres : ahora;
+  const trabadas = MATERIAS.filter(m =>
+    estado(m.cod) === 'pendiente' && situacion(m).clase === 'trabada').length;
 
-  if (!candidatas.length){
-    caja.innerHTML = `<div class="vacio">
-        ${filtroCuatri === 'todo'
-          ? 'No queda ninguna materia pendiente. Felicitaciones. 🎓'
-          : 'No hay materias pendientes en ese cuatrimestre.'}
-      </div>`;
-    return;
-  }
-
-  /* ACÁ SOLO VA LO QUE PODÉS HACER.
-
-     Antes se listaban también las trabadas, que en Trabajo Social son
-     dieciocho de veinticinco. El resultado era que la pantalla que
-     tiene que contestar «¿a qué me anoto?» abría con un muro de
-     materias a las que NO te podés anotar, y había que recorrerlo
-     entero para encontrar las pocas que sí.
-
-     Las trabadas no se pierden: están todas en Plan completo, con su
-     estado y con el motivo. Acá queda el renglón que dice cuántas son
-     y lleva hasta ahí. */
-  const bloques = ['promociona','cursa'].map(clase => {
-    const lista = grupos[clase];
-    if (!lista.length) return '';
+  const bloque = ['promociona','cursa'].map(clase => {
+    const suyas = enLista.filter(m => situacion(m).clase === clase);
+    if (!suyas.length) return '';
     return `<div class="titulo-seccion">${NOMBRE_CLASE[clase]}
-        <span class="cuenta-grupo">${lista.length}</span></div>
-      <div class="lista">` +
-      lista.map(m => tarjetaMateria(m, clase)).join('') + `</div>`;
+        <span class="cuenta-grupo">${suyas.length}</span></div>
+      <div class="lista">` + suyas.map(m => tarjetaMateria(m, clase)).join('') + `</div>`;
   }).join('');
 
-  const trabadas = grupos.trabada.length;
+  let cuerpo = bloque;
+  if (!enLista.length){
+    cuerpo = !libres.length && !trabadas
+      ? `<div class="vacio">No queda ninguna materia pendiente. Felicitaciones. 🎓</div>`
+      : !libres.length
+        ? `<div class="vacio">Todavía no podés anotarte a ninguna: las que faltan
+             dependen de materias que estás cursando o que te falta rendir.<br>
+             En cuanto apruebes una cursada, acá van a aparecer.</div>`
+        : `<div class="vacio">Ninguna de las que podés cursar se dicta en
+             este período.</div>`;
+  }
 
-  /* Estás trabada en todo: no es un vacío, es una situación, y tiene
-     una salida concreta que conviene decir. */
-  const nadaQueHacer = !bloques ? `
-    <div class="vacio">Todavía no podés anotarte a ninguna: las que faltan
-      dependen de materias que estás cursando o que te falta rendir.<br>
-      En cuanto apruebes una cursada, acá van a aparecer.</div>` : '';
+  /* El otro cuatrimestre queda a un toque, sin chips y sin filtro: es
+     una excepción, no un modo de mirar la pantalla. */
+  const otro = otras.length ? `
+    <button class="boton texto" id="ver-otro-cuatri">
+      ${verOtroCuatri
+        ? 'Mostrar sólo las de este período'
+        : 'Ver también ' + otras.length + (otras.length === 1 ? ' materia ' : ' materias ') + per.otro}
+    </button>` : '';
 
   const nexo = trabadas ? `
     <button class="nexo-trabadas" data-ir-a="todo">
@@ -639,10 +1081,47 @@ function pintarGrupos(){
       <span class="nexo-flecha" aria-hidden="true">→</span>
     </button>` : '';
 
-  caja.innerHTML = bloques + nadaQueHacer + nexo;
+  /* Sin nada pendiente y sin nada trabado no hay a qué anotarse: el
+     rótulo con un cero al lado y el período debajo contradicen al
+     mensaje que va justo abajo. Va sólo el mensaje. */
+  const terminada = !libres.length && !trabadas;
+
+  caja.innerHTML = (terminada ? '' : `
+    <div class="titulo-seccion">TE PODÉS ANOTAR
+      <span class="cuenta-grupo">${verOtroCuatri ? libres.length : ahora.length}</span></div>
+    <p class="periodo-rotulo">${verOtroCuatri ? 'TODOS LOS PERÍODOS' : per.titulo}</p>`) +
+    cuerpo + otro + nexo;
+
+  const ver = document.getElementById('ver-otro-cuatri');
+  if (ver) ver.addEventListener('click', () => {
+    verOtroCuatri = !verOtroCuatri;
+    pintarParaAnotarse();
+  });
 
   const irA = caja.querySelector('[data-ir-a]');
   if (irA) irA.addEventListener('click', function(){ verPestana(this.dataset.irA); });
+}
+
+/* El único lugar que decide si «Mi cursada» está preguntando o
+   contestando. */
+function pintarCursada(){
+  const preguntando = !!borrador;
+  document.getElementById('dialogo-cursada').hidden = !preguntando;
+  document.getElementById('resumen-cursada').hidden =  preguntando;
+  document.getElementById('bajada-anio').hidden     =  preguntando;
+
+  if (preguntando){
+    /* Una pregunta a la vez, también acá: la barra de progreso arriba
+       de una pregunta es una respuesta que todavía no dimos. */
+    document.getElementById('progreso').hidden = true;
+    pintarPaso();
+    return;
+  }
+
+  pintarResumenEncabezado();
+  pintarCursandoAhora();
+  pintarParaAnotarse();
+  pintarConsejo();
 }
 
 function tarjetaMateria(m, clase){
@@ -674,25 +1153,22 @@ function tarjetaMateria(m, clase){
 }
 
 /* ============================================================
-   LA PRIMERA VEZ  ·  dos preguntas en un solo momento
+   LA PRIMERA VEZ  ·  una sola pregunta
 
-   Los textos van escritos acá, como el resto de la pantalla: no hay
-   tabla nueva. El congelamiento es el domingo 13 y una tabla para
-   cuatro frases no se paga sola.
+   Antes eran dos: la carrera y «en qué punto estás» (ingresante o
+   avanzado). La segunda se fue: la contesta mejor el primer paso del
+   diálogo de «Mi cursada», que en vez de dos casilleros pregunta el
+   año y sirve para algo después. Preguntar las dos era preguntar lo
+   mismo con distintas palabras.
+
+   La carrera sigue acá, tapando la pantalla, porque es una decisión
+   de todo «Mi año» y no de una solapa: el plan que se mire cambia las
+   cuatro vistas de golpe.
    ============================================================ */
-const BIENVENIDA = {
-  ingresante: { titulo: 'Estoy empezando',
-                detalle: 'Es mi primer año en la facultad.' },
-  avanzado:   { titulo: 'Ya vengo cursando',
-                detalle: 'Tengo materias aprobadas o en curso.' },
-  /* Va abajo y chiquito: es una tranquilidad, no una instrucción. Y no
-     repite lo de «queda en tu teléfono», que la bajada de la pantalla
-     ya dice dos renglones más arriba. */
-  pie: 'Las dos se cambian cuando quieras.'
-};
+const BIENVENIDA_PIE = 'Se cambia cuando quieras, arriba de todo.';
 
-/* Mientras se pregunta, la pantalla no muestra nada más: dos preguntas
-   con la app entera de fondo son dos preguntas que se saltean. */
+/* Mientras se pregunta, la pantalla no muestra nada más: una pregunta
+   con la app entera de fondo es una pregunta que se saltea. */
 function mostrarBienvenida(mostrar){
   document.getElementById('bienvenida-anio').hidden = !mostrar;
   document.getElementById('selector-carrera').hidden = mostrar;
@@ -713,70 +1189,30 @@ function mostrarBienvenida(mostrar){
 function pintarBienvenida(){
   const caja = document.getElementById('bienvenida-anio');
 
+  /* Tarjetas grandes y no chips: es LA pregunta de la pantalla, y una
+     fila de pastillas chicas no se lee como una pregunta. */
   caja.innerHTML = `
     <div class="titulo-seccion">TU CARRERA</div>
-    <div class="chips" id="bienvenida-carrera" role="group" aria-label="Elegí tu carrera">
+    <div class="lista" id="bienvenida-carrera">
       ${CARRERAS.filter(c => c).map(c => `
-        <button class="chip" data-carrera="${esc(c.id)}"
-                aria-pressed="${c.id === PLAN.id ? 'true' : 'false'}"
-                title="${esc(c.carrera)}">${esc(c.nombreCorto)}</button>`).join('')}
-    </div>
-
-    <div class="titulo-seccion">EN QUÉ PUNTO ESTÁS</div>
-    <div class="lista" id="bienvenida-momento">
-      ${['ingresante','avanzado'].map(k => `
-        <button class="tarjeta" data-momento="${k}">
-          <h3>${esc(BIENVENIDA[k].titulo)}</h3>
-          <p class="motivo">${esc(BIENVENIDA[k].detalle)}</p>
+        <button class="tarjeta paso-opcion" data-carrera="${esc(c.id)}">
+          <h3>${esc(c.nombreCorto)}</h3>
+          <p class="motivo">${esc(c.carrera)}</p>
         </button>`).join('')}
     </div>
-    <p class="letra-chica">${esc(BIENVENIDA.pie)}</p>`;
+    <p class="letra-chica">${esc(BIENVENIDA_PIE)}</p>`;
 
-  /* La carrera se puede tocar varias veces sin cerrar nada: lo que
-     cierra la bienvenida es responder la segunda pregunta. */
   document.getElementById('bienvenida-carrera').addEventListener('click', e => {
-    const b = e.target.closest('.chip');
+    const b = e.target.closest('[data-carrera]');
     if (!b) return;
     elegirCarrera(b.dataset.carrera);
-    document.querySelectorAll('#bienvenida-carrera .chip').forEach(x =>
-      x.setAttribute('aria-pressed', x.dataset.carrera === PLAN.id ? 'true' : 'false'));
-  });
-
-  document.getElementById('bienvenida-momento').addEventListener('click', e => {
-    const b = e.target.closest('[data-momento]');
-    if (!b) return;
-    guardado.momento = b.dataset.momento;
+    guardado.eligioCarrera = true;
     persistir();
     mostrarBienvenida(false);
     pintarSelectorCarrera();
     pintarTodo();
     scrollTo(0, 0);
   });
-}
-
-/* ============================================================
-   VISTA: TU PRIMER AÑO
-
-   Lo que ve quien recién empieza, en lugar de «Mi cursada». Muestra
-   con qué materias arranca, y NO muestra la lista de las que todavía
-   no puede cursar: para quien empieza son todas menos las de primero,
-   o sea veinte tarjetas que dicen «todavía no». Eso es ruido, no
-   información.
-   ============================================================ */
-const TEXTO_PRIMER_ANIO =
-  'Con estas empezás: no piden ninguna otra materia aprobada. Tocá una ' +
-  'y marcá «la estoy cursando ahora» — a partir de ahí la app te va ' +
-  'diciendo qué se te abre después.';
-
-function pintarPrimerAnio(){
-  const arranque = MATERIAS.filter(m =>
-    estadoCrudo(m.cod) === 'pendiente' && situacion(m).clase === 'promociona');
-
-  document.getElementById('primer-anio').innerHTML = `
-    <div class="titulo-seccion">CON QUÉ EMPEZÁS
-      <span class="cuenta-grupo">${arranque.length}</span></div>
-    <p class="bajada">${esc(TEXTO_PRIMER_ANIO)}</p>
-    <div class="lista">${arranque.map(m => tarjetaMateria(m, 'promociona')).join('')}</div>`;
 }
 
 /* "Si rendís este final, se te destraban N promociones" */
@@ -1587,18 +2023,10 @@ document.getElementById('selector-carrera').addEventListener('click', e => {
   scrollTo(0, 0);
 });
 
-document.getElementById('filtro-cuatri').addEventListener('click', e => {
-  const b = e.target.closest('.chip');
-  if (!b) return;
-  filtroCuatri = b.dataset.cuatri;
-  pintarFiltroCuatri();
-  pintarGrupos();
-});
-
 document.getElementById('suponer').addEventListener('change', function(){
   datos.suponer = this.checked;
   persistir();
-  pintarGrupos();
+  pintarParaAnotarse();
   pintarConsejo();
 });
 
@@ -2292,25 +2720,16 @@ document.getElementById('borrar').addEventListener('click', () => {
    ARRANQUE
    ============================================================ */
 function pintarTodo(){
-  /* Quien recién empieza ve «Tu primer año» en lugar de «Mi cursada»,
-     y no ve la pestaña de Finales hasta tener una cursada aprobada:
+  /* La pestaña de Finales no aparece hasta tener una cursada aprobada:
      preparar un final antes de haber cursado algo no existe. */
-  const empieza  = esIngresante();
-  const hayFinal = MATERIAS.some(m =>
+  document.getElementById('tab-final').hidden = !MATERIAS.some(m =>
     estadoCrudo(m.cod) === 'cursada' || estadoCrudo(m.cod) === 'aprobada');
 
-  document.getElementById('primer-anio').hidden    = !empieza;
-  document.getElementById('cursada-normal').hidden =  empieza;
-  document.getElementById('tab-plan').textContent  =  empieza ? 'Tu primer año' : 'Mi cursada';
-  document.getElementById('tab-final').hidden      =  empieza && !hayFinal;
+  /* La primera vez en esta carrera, «Mi cursada» abre preguntando. */
+  if (!borrador && datos.dialogo !== 'listo') abrirDialogo();
 
-  if (empieza) pintarPrimerAnio();
-
-  pintarFiltroCuatri();
-  pintarCursandoAhora();
   pintarProgreso();
-  pintarGrupos();
-  pintarConsejo();
+  pintarCursada();
   pintarPlanCompleto();
   pintarMapa();
 
@@ -2332,7 +2751,7 @@ pintarTodo();
 
 /* La primera vez no se entra derecho: se pregunta. Va DESPUÉS de
    pintarTodo() porque lo que hace es tapar lo que aquello dibujó. */
-if (!guardado.momento){
+if (!guardado.eligioCarrera){
   pintarBienvenida();
   mostrarBienvenida(true);
 }
