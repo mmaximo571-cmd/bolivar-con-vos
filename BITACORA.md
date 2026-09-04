@@ -58,11 +58,12 @@ entran 2 o 3 sesiones.
 |---|---|---|
 | jue 3 | ✅ Guardado entre visitas: el mecanismo y la pantalla Inicio | — |
 | vie 4 · 1 | ✅ Guardado en las cinco pantallas que faltan | — |
-| vie 4 · 2 | **«Mi año» ingresante:** la vista «Tu primer año» | **5 respuestas** |
-| sáb 5 | «Mi año»: el Kit de Inicio y el pulido | ídem |
+| vie 4 · 2 | ✅ Materias libres de Fono, adelantado del mar 8. Y de paso apareció que `--letra-mini` llevaba un día apagada | — |
+| vie 4 · 3 | **«Mi año» ingresante:** la vista «Tu primer año» | — **ya no espera nada** |
+| sáb 5 | «Mi año»: el Kit de Inicio y el pulido | — |
 | dom 6 | Se cierran las cuatro decisiones pendientes | Máximo |
 | lun 7 | Buscador de cátedras | mails de las cátedras |
-| mar 8 | Contactos en la página | 3 contactos por carrera |
+| mar 8 | Contactos en la página · **el código no espera nada**, se puede adelantar; lo que espera es el contenido | 3 contactos por carrera |
 | mié 9 | Plan de estudios en PDF | los 3 PDFs |
 | jue 10 – vie 11 | Horarios: completos (2 días) o cuadro oficial (medio día) | decisión del dom 6 |
 | sáb 12 | Materiales como página web | PDFs de materiales |
