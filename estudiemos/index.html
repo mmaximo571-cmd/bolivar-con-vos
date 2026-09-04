@@ -116,13 +116,45 @@
   };
 
   let materiales = [];
+  let materias   = [];
+  let materiaActiva = '';   // vacío = todas
+
+  /* Se declara acá arriba y no al lado de `enganchar`, que es donde se
+     lee: `pintar` corre antes que esa línea, y un `let` todavía sin
+     ejecutar no es «undefined», es un error que corta la pantalla. */
+  let enganchado = false;
+
+  /* ============================================================
+     LO GUARDADO DE LA VISITA ANTERIOR
+
+     Un apunte de Epistemología sigue siendo el mismo apunte la semana
+     que viene: acá no hay nada que venza. El `anio` de cada material
+     dice de qué año ES el apunte, que es una procedencia y no un
+     plazo, así que se guarda entero y sin recortar.
+
+     Lo que no se hace es mostrarlo en lugar de buscar: el pedido a la
+     base sale igual, y cuando llega se repinta encima.
+     ============================================================ */
+  const memoria = memoriaDe('estudiemos');
+  if (memoria && (memoria.datos || []).length){
+    pintar(memoria.datos);
+    avisarMostrandoGuardado(memoria.cuando);
+  }
+
+  let frescos = null;
   try {
     const { data, error } = await conPaciencia(
       db.from('materiales').select('*').eq('publicado', true)
         .order('materia').order('orden').order('id'));
     if (error) throw error;
-    materiales = data || [];
+    frescos = data || [];
   } catch (e) {
+    /* Con la pantalla ya pintada de memoria no se borra nada: el aviso
+       pasa a decir que eso es de antes y puede haber cambiado. */
+    if (memoria){
+      avisarNoSePudoActualizar(memoria.cuando);
+      return;
+    }
     /* Si la tabla todavía no existe, no es un error del estudiante:
        es que falta correr el SQL. Se lo decimos al equipo sin jerga. */
     if (e && /materiales/.test(e.message || '')){
@@ -136,7 +168,12 @@
     return;
   }
 
-  if (!materiales.length){
+  if (!frescos.length){
+    /* La red contestó que no hay nada. Es la respuesta más nueva que
+       tenemos, así que se olvida lo guardado en vez de seguir
+       mostrando material que se dio de baja. */
+    olvidarMemoria('estudiemos');
+    sacarAvisoGuardado();
     lista.innerHTML = `<div class="vacio">
         Todavía no hay material cargado.<br>
         Si tenés apuntes o resúmenes para compartir, escribinos y los subimos.
@@ -146,23 +183,49 @@
     return;
   }
 
-  /* Las materias que de verdad tienen material, en orden alfabético */
-  const materias = [...new Set(materiales.map(m => m.materia))].sort((a, b) =>
-    a.localeCompare(b, 'es'));
+  pintar(frescos);
+  guardarEnMemoria('estudiemos', frescos);
+  sacarAvisoGuardado();
 
-  let materiaActiva = '';   // vacío = todas
+  /* Corre dos veces: con lo guardado y con lo de la red. Lo que la
+     persona haya tocado mientras tanto —la materia elegida, lo que
+     escribió en el buscador— se respeta: `dibujar` los vuelve a leer,
+     así que lo fresco entra filtrado como ella lo dejó. */
+  function pintar(datos){
+    materiales = datos;
+    materias = [...new Set(materiales.map(m => m.materia))].sort((a, b) =>
+      a.localeCompare(b, 'es'));
 
-  chips.innerHTML =
-    `<button class="chip" data-materia="">Todas</button>` +
-    materias.map(m => `<button class="chip" data-materia="${esc(m)}">${esc(m)}</button>`).join('');
+    /* Si la materia que estaba elegida ya no tiene material, se vuelve
+       a «Todas» en vez de dejar la pantalla vacía sin explicación. */
+    if (materiaActiva && !materias.includes(materiaActiva)) materiaActiva = '';
 
-  chips.addEventListener('click', e => {
-    const b = e.target.closest('.chip');
-    if (!b) return;
-    materiaActiva = b.dataset.materia;
+    chips.hidden = false;
+    filtro.parentElement.hidden = false;
+
+    chips.innerHTML =
+      `<button class="chip" data-materia="">Todas</button>` +
+      materias.map(m => `<button class="chip" data-materia="${esc(m)}">${esc(m)}</button>`).join('');
+
+    enganchar();
     dibujar();
-  });
-  filtro.addEventListener('input', dibujar);
+  }
+
+  /* `chips` y `filtro` están fijos en el HTML, no se redibujan: si los
+     escuchara desde `pintar`, la segunda pasada colgaría un segundo
+     oyente del mismo nodo y cada tecla filtraría dos veces. */
+  function enganchar(){
+    if (enganchado) return;
+    enganchado = true;
+
+    chips.addEventListener('click', e => {
+      const b = e.target.closest('.chip');
+      if (!b) return;
+      materiaActiva = b.dataset.materia;
+      dibujar();
+    });
+    filtro.addEventListener('input', dibujar);
+  }
 
   function dibujar(){
     [...chips.children].forEach(b =>
@@ -213,8 +276,6 @@
     });
     lista.innerHTML = html;
   }
-
-  dibujar();
 
 })();
 </script>

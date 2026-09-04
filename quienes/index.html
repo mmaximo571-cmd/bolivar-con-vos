@@ -98,13 +98,55 @@ const RESPALDO = {
   pintarNav('quienes');
   document.body.classList.remove('sin-js');
 
-  let p = RESPALDO;
+  /* ============================================================
+     LO GUARDADO DE LA VISITA ANTERIOR
+
+     Esta pantalla ya tenía red de seguridad: el RESPALDO de arriba.
+     Pero el respaldo es un texto mínimo escrito en el archivo, y lo
+     que vio la persona la visita pasada es la página de verdad. Así
+     que el orden ahora es: lo guardado, y el RESPALDO recién si nunca
+     se llegó a ver nada.
+
+     Y SE AVISA. Antes esto se caía en silencio: sin red mostraba el
+     texto de emergencia y nadie se enteraba de que estaba viendo otra
+     cosa. Acá no hay fechas —quiénes somos no vence—, pero mostrar
+     algo de la semana pasada sin decirlo es la misma familia de
+     mentira que la app decidió no decir.
+     ============================================================ */
+  const memoria = memoriaDe('quienes');
+  if (memoria){
+    pintar(memoria.datos);
+    avisarMostrandoGuardado(memoria.cuando);
+  }
+
+  let p = null, huboRed = false;
   try {
     const { data, error } = await conPaciencia(
       db.from('pagina_quienes').select('*').limit(1).maybeSingle());
-    if (!error && data) p = data;
-  } catch(e){ /* se queda el respaldo */ }
+    if (error) throw error;
+    huboRed = true;
+    p = data;              // puede venir vacío: la página sin cargar
+  } catch(e){ /* sin red: más abajo se decide qué queda en pantalla */ }
 
+  if (huboRed && p){
+    pintar(p);
+    guardarEnMemoria('quienes', p);
+    sacarAvisoGuardado();
+  } else if (huboRed){
+    /* Contestó, y contestó que no hay página cargada. Es lo más nuevo
+       que tenemos: se olvida lo guardado y queda el respaldo. */
+    olvidarMemoria('quienes');
+    sacarAvisoGuardado();
+    pintar(RESPALDO);
+  } else if (memoria){
+    avisarNoSePudoActualizar(memoria.cuando);
+  } else {
+    pintar(RESPALDO);
+  }
+
+/* El dibujo, aparte, porque corre dos veces: una con lo guardado y
+   otra con lo que trae la red. */
+function pintar(p){
   const bloques  = Array.isArray(p.bloques)  ? p.bloques  : [];
   const imagenes = Array.isArray(p.imagenes) ? p.imagenes : [];
   const redes    = Array.isArray(p.redes)    ? p.redes    : [];
@@ -197,6 +239,7 @@ const RESPALDO = {
 
   document.getElementById('lectura').innerHTML = hero + cuerpo + puerta + cierre;
   vigilarAparicion();
+}
 })();
 </script>
 </body>

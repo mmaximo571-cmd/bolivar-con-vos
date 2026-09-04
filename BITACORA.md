@@ -31,6 +31,7 @@ Si algo de acá quedó viejo, se corrige acá mismo al cerrar la sesión.
 | 3/9 | La app anota visitas, búsquedas y errores; solapa **Registro** en el panel | `6de2ac0` |
 | 3/9 | El ícono de la app es el logo y no la «B» que inventaba Android; el service worker sube a `v5` para que los teléfonos ya instalados se enteren | `65968ac` |
 | 3/9 | Inicio pinta los accesos y el kit de lo guardado mientras busca lo de ahora; sin red ya no se vacía la pantalla. Lo que lleva fecha sigue esperando a la red. `v6` | `0ad57f7` |
+| 4/9 | Las cinco pantallas que faltaban guardan entre visitas: Info útil, Estudiemos, Anatomofisiología, ¿Quiénes somos? y El Consejo. `v7` | (este commit) |
 
 ## El cronograma
 
@@ -40,7 +41,7 @@ entran 2 o 3 sesiones.
 | Día | Qué | Espera algo de |
 |---|---|---|
 | jue 3 | ✅ Guardado entre visitas: el mecanismo y la pantalla Inicio | — |
-| vie 4 · 1 | Guardado en las cinco pantallas que faltan | — |
+| vie 4 · 1 | ✅ Guardado en las cinco pantallas que faltan | — |
 | vie 4 · 2 | **«Mi año» ingresante:** la vista «Tu primer año» | **5 respuestas** |
 | sáb 5 | «Mi año»: el Kit de Inicio y el pulido | ídem |
 | dom 6 | Se cierran las cuatro decisiones pendientes | Máximo |
@@ -95,6 +96,31 @@ deje de costar una función entera.
   fechas.
 - **Nada que dependa de una sesión se guarda.** En una computadora de la
   facultad se lo lleva quien entra después.
+
+### Cómo quedó, con las cinco pantallas (4/9)
+
+- **De memoria sale el qué; el cuándo espera a la red.** Es la regla de arriba
+  dicha para adentro de una pantalla. En Anatomofisiología se guarda el
+  programa —qué entra en cada módulo, qué leer, cómo se aprueba— y **no se
+  guarda ninguna fecha**: ni «las fechas que no hay que perderse» ni el cuándo
+  se dicta cada módulo. Los campos se sacan **antes de guardar**, no al pintar,
+  así lo viejo ni siquiera está para mostrarse por error.
+- **Info útil se guarda sin filtrar por sección.** Las tres puertas —todo, «Mi
+  carrera», «Mis derechos»— son la misma consulta: comparten una entrada, y
+  entrar por una deja servidas a las otras dos.
+- **Los `plazo` de los trámites se revisaron uno por uno** antes de guardarlos:
+  son duraciones y ventanas que se repiten («tarda 20 a 25 días hábiles»,
+  «la inscripción va de noviembre a marzo»), no vencimientos de este mes.
+- **¿Quiénes somos? y El Consejo ahora avisan.** Ya tenían un texto de
+  emergencia escrito en el archivo, pero **se caían en silencio**: nadie sabía
+  que estaba viendo otra cosa. Ahora es lo guardado primero, el respaldo recién
+  si nunca se vio la página de verdad, y siempre con el renglón que lo dice.
+- **Si la red contesta que ya no hay nada, se olvida** (`olvidarMemoria`). Una
+  materia despublicada o una lista vaciada es una respuesta, y es la más nueva
+  que tenemos: sin esto seguiría en pantalla para siempre.
+- **Los favoritos (`guardados`) no entran**, por la regla de la sesión.
+- **«Mi año» quedó afuera a propósito:** lo suyo es sesión (`preparaciones`) y
+  fechas (`publicaciones`), y además se reescribe en la sesión siguiente.
 
 ### «Mi año»: ingresante o avanzado (3/9)
 

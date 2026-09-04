@@ -27,8 +27,12 @@
    v6 (3/9/2026) no cambia QUÉ se guarda: cambia el contenido de
    `app.js` y de `estilos.css`, que ya están en la lista. Ahí adentro
    está lo nuevo —lo guardado entre visitas— y sin subir el número los
-   teléfonos seguirían sirviendo el app.js de antes. */
-const VERSION = 'bolivar-v6';
+   teléfonos seguirían sirviendo el app.js de antes.
+   v7 (4/9/2026) misma razón: `app.js` suma `olvidarMemoria`, que es de
+   lo que dependen las cinco pantallas nuevas para no seguir mostrando
+   algo que la facultad dio de baja. Las pantallas en sí no necesitan
+   esto —se sirven red primero—, pero el `app.js` que las sostiene sí. */
+const VERSION = 'bolivar-v7';
 const ARMAZON = VERSION + '-armazon';
 const PAGINAS = VERSION + '-paginas';
 

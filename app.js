@@ -975,6 +975,15 @@ function guardarEnMemoria(pantalla, datos){
   } catch(e){ /* modo incognito, o memoria llena: se sigue sin guardar */ }
 }
 
+/* Para cuando la red contesta que ya NO HAY NADA: la materia se
+   despublicó, se vació la lista de materiales. Eso no es «no pude
+   actualizar», es una respuesta, y es la respuesta más nueva que
+   tenemos. Si no se olvidara, la pantalla seguiría mostrando algo
+   que la facultad dio de baja, cada vez, para siempre. */
+function olvidarMemoria(pantalla){
+  try { localStorage.removeItem(GUARDADO_PREFIJO + pantalla); } catch(e){}
+}
+
 /* «hace un rato», «ayer», «hace 3 dias». En palabras y no en fecha
    exacta porque lo que importa no es CUANDO se guardo sino CUANTO
    hace: nadie sabe si el 28 de agosto fue hace mucho. */

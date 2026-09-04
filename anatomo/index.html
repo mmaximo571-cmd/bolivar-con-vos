@@ -78,6 +78,42 @@
   pintarNav('estudiemos');
 
   const caja = document.getElementById('guia');
+
+  /* ============================================================
+     LO GUARDADO DE LA VISITA ANTERIOR
+
+     DE MEMORIA SALE EL QUÉ; EL CUÁNDO ESPERA A LA RED. Del programa
+     se guarda la estructura —qué entra en cada módulo, qué hay que
+     leer, cómo se aprueba, quién es la cátedra—, que es lo que no
+     cambia en todo el año. No se guarda NADA con fecha:
+
+     · `fechas_clave` es, literalmente, «las fechas que no hay que
+       perderse». Mostrar de memoria un parcial que ya pasó es
+       exactamente lo que esta app no puede hacer.
+     · `fechas` de cada módulo es cuándo se dicta. Misma familia.
+
+     Los dos campos se sacan antes de guardar, no al pintar: así lo
+     viejo ni siquiera está para mostrarse por error. El dibujo ya los
+     tiene condicionados, así que sin ellos esos bloques no existen
+     hasta que contesta la red.
+     ============================================================ */
+  function sinFechas(fila){
+    const limpia = Object.assign({}, fila);
+    delete limpia.fechas_clave;
+    limpia.modulos = (Array.isArray(fila.modulos) ? fila.modulos : []).map(m => {
+      const mm = Object.assign({}, m);
+      delete mm.fechas;
+      return mm;
+    });
+    return limpia;
+  }
+
+  const memoria = memoriaDe('anatomo');
+  if (memoria){
+    pintar(memoria.datos);
+    avisarMostrandoGuardado(memoria.cuando);
+  }
+
   let g = null;
   try {
     const { data, error } = await conPaciencia(
@@ -86,6 +122,13 @@
     if (error) throw error;
     g = data;
   } catch(e){
+    /* Con algo en pantalla no se borra nada: el aviso pasa a decir la
+       verdad entera y lo que hay se queda. Sin nada en pantalla, los
+       mensajes de siempre. */
+    if (memoria){
+      avisarNoSePudoActualizar(memoria.cuando);
+      return;
+    }
     if (/guia_materia/.test(e.message || '')){
       caja.innerHTML = `<div class="vacio">
           Esta guía todavía no está activada.<br>
@@ -97,10 +140,21 @@
   }
 
   if (!g){
+    /* La red contestó, y contestó que no hay. Eso es más nuevo que lo
+       guardado: se olvida, o la guía dada de baja seguiría apareciendo. */
+    olvidarMemoria('anatomo');
+    sacarAvisoGuardado();
     caja.innerHTML = `<div class="vacio">Todavía no cargamos esta materia.</div>`;
     return;
   }
 
+  pintar(g);
+  guardarEnMemoria('anatomo', sinFechas(g));
+  sacarAvisoGuardado();
+
+/* El dibujo entero, aparte, porque corre dos veces: una con lo
+   guardado y otra con lo que trae la red. */
+function pintar(g){
   const modulos = Array.isArray(g.modulos) ? g.modulos : [];
   const lista = a => (Array.isArray(a) ? a : []);
 
@@ -188,6 +242,7 @@
       this.remove();
     });
   });
+}
 })();
 
 /* La tapa del modelo: lo que se ve antes de descargarlo. Dice cuánto
