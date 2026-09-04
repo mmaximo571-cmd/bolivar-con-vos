@@ -14,11 +14,21 @@ Si algo de acá quedó viejo, se corrige acá mismo al cerrar la sesión.
 - **Lanzamiento: lunes 21 de septiembre de 2026**, Día del Estudiante, con
   campaña en Instagram a 4.213 seguidores. **La fecha no se mueve: se mueve el
   alcance.**
-- Hoy es **3 de septiembre** y vamos **dos días adelantados**.
+- Hoy es **4 de septiembre** y vamos **dos días adelantados**.
 - La app ya está viva en `bolivar-con-vos.vercel.app`. Vercel publica solo con
   cada `push` a `main`.
-- Plan completo (documento rector):
-  https://claude.ai/code/artifact/25f7c752-e67f-465a-bf82-5913218cff95
+
+### Dónde vive cada cosa (4/9)
+
+Había cuatro lugares donde podía vivir «qué hacemos ahora», y ninguno mandaba
+sobre los otros. Ahora mandan así, y no se abre un quinto:
+
+| | Qué |
+|---|---|
+| **`BITACORA.md`** | **el ahora.** Única fuente. Se lee al arrancar y se corrige al cerrar |
+| `LEEME.md` | cómo funciona cada cosa. Referencia, no se lee al arrancar |
+| Memoria del proyecto | cómo se trabaja y qué no puede esta máquina |
+| [Artifact del plan](https://claude.ai/code/artifact/25f7c752-e67f-465a-bf82-5913218cff95) | **congelado**, registro histórico. Ya no es el documento rector: quedó viejo cuando se rearmó el cronograma el 3/9 |
 
 ## Hecho y publicado
 
@@ -33,7 +43,8 @@ Si algo de acá quedó viejo, se corrige acá mismo al cerrar la sesión.
 | 3/9 | Inicio pinta los accesos y el kit de lo guardado mientras busca lo de ahora; sin red ya no se vacía la pantalla. Lo que lleva fecha sigue esperando a la red. `v6` | `0ad57f7` |
 | 4/9 | Las cinco pantallas que faltaban guardan entre visitas: Info útil, Estudiemos, Anatomofisiología, ¿Quiénes somos? y El Consejo. `v7` | `38b6100` |
 | 4/9 | Las materias que se rinden libres en Fonoaudiología, como listado de texto | `b95af25` |
-| 4/9 | «Mi año» parte 1: la pregunta al entrar y la vista «Tu primer año» | (este commit) |
+| 4/9 | «Mi año» parte 1: la pregunta al entrar y la vista «Tu primer año» | `2a0f39f` |
+| 4/9 | **El embudo del 21:** hitos (eligió carrera, marcó materia, instaló, volvió) y de qué link de Instagram vino cada visita. `v18` | (este commit) |
 
 **Ojo con lo de las materias libres.** El listado sale de un documento que se
 llama, textualmente, «**Propuesta** de materias libres … para agregar al régimen
@@ -61,6 +72,7 @@ entran 2 o 3 sesiones.
 | vie 4 · 1 | ✅ Guardado en las cinco pantallas que faltan | — |
 | vie 4 · 2 | ✅ Materias libres de Fono, adelantado del mar 8. Y de paso apareció que `--letra-mini` llevaba un día apagada | — |
 | vie 4 · 3 | ✅ **«Mi año» parte 1:** la pregunta al entrar y la vista «Tu primer año» | — |
+| vie 4 · 4 | ✅ **El embudo del 21** y la bitácora como única fuente | — |
 | sáb 5 | «Mi año»: el Kit de Inicio y el pulido | — |
 | dom 6 | Se cierran las cuatro decisiones pendientes | Máximo |
 | lun 7 | Buscador de cátedras | mails de las cátedras |
@@ -98,6 +110,16 @@ deje de costar una función entera.
 - **Una pantalla que necesita sesión usa `lib/supabase.js`.** El cliente chico
   no renueva el token y una sesión que no se renueva falla en silencio.
 - **Nada de tiempo real ni de subir archivos en el cliente chico.**
+- **`estilos.css` no se parte antes del congelamiento.** Son 162 KB y es lo más
+  grande que queda, pero es texto: Vercel lo manda comprimido y desde la segunda
+  visita sale del service worker. Partirlo es riesgo alto —ya pasó lo de
+  `--letra-mini`— y ganancia baja. Después del 13 se puede discutir.
+- **Lo que sí queda por bajar son las fuentes**, y es lo único del camino
+  crítico que el service worker **no** guarda y que no se puede comprimir más
+  (el woff2 ya viene comprimido). Se bajan cuatro familias y diez pesos, y el
+  CSS usa cuatro: `700` (63 veces), `400` (11), `800` (1) y `500` (1).
+  **Montserrat 600 se baja y no se usa en ningún lado.** Media sesión, riesgo
+  casi cero, y pega justo en la llegada desde Instagram.
 
 ### Guardado entre visitas (3/9)
 
@@ -166,6 +188,39 @@ deje de costar una función entera.
   año. En Fono eso suma una materia de segundo. La tarjeta dice «2° año», así
   que no engaña, y filtrarla sería que la app decida por la persona.
 
+### El embudo del 21 (4/9)
+
+Hasta hoy la app contestaba «cuánta gente entró» y nada más. El 21 la pregunta
+es otra: **de los que entraron, ¿a cuántos les sirvió?**
+
+- **No se rompe la regla de privacidad.** Sigue sin haber columna de usuario, así
+  que esto **no es un recorrido**: no se puede decir «de estas 1.000 personas,
+  300 marcaron materia». Se cuenta cada hito por separado y se divide. **La
+  proporción es la métrica**, y ninguna fila sabe de quién es.
+- **Cuatro hitos:** `eligió carrera`, `marcó materia`, `instaló`, `volvió
+  instalada`. Van en la misma tabla `sucesos`, con tipo nuevo `hito` y el
+  nombre en `detalle`.
+- **Uno por visita y por nombre.** Quien marca treinta materias cuenta una vez:
+  el número que buscamos es cuánta gente llegó hasta ahí, no cuánto usó el que
+  ya llegó.
+- **`volvió instalada` es la única señal de retorno posible** sin unir dos
+  visitas. Alguien que abre en modo instalado, volvió. Por eso vale doble.
+- **`instaló` sale del evento `appinstalled`, no de «tocó el botón».** Entre una
+  cosa y la otra está el cartel del sistema, que mucha gente cancela. En iOS ese
+  evento no existe, así que ahí la instalación se ve por `volvió instalada`.
+- **La atribución viaja en el `detalle` de la visita** (`?de=historia-carreras`).
+  Es un dato del **link**, no de la persona: no hace falta fila ni tipo nuevo. Se
+  limpia a mano antes de mandarla —solo letras, números y guiones, 40 caracteres—
+  porque va derecho a la base.
+- **Los dos caminos a «marcó materia» están enganchados**, el de a una materia y
+  el del diálogo de bienvenida. Si faltara el segundo, el camino más usado sería
+  justo el que no se cuenta.
+
+**Ojo: los hitos no entran hasta que se corra el SQL.** La restricción de la
+tabla todavía solo acepta `visita`, `error` y `busqueda`; hasta que Máximo corra
+`tabla-registro.sql` de nuevo, cada hito se rechaza en la base. No rompe nada
+—el registro nunca rompe la pantalla— pero no se anota.
+
 ## Decisiones pendientes — se cierran el domingo 6
 
 1. **¿Quién actualiza los horarios en marzo?** Si hay nombre y apellido, se
@@ -182,6 +237,8 @@ deje de costar una función entera.
 
 | Qué | Para cuándo |
 |---|---|
+| **Correr `tabla-registro.sql` de nuevo** en el SQL Editor. Sin esto los hitos se rechazan y el 21 no hay embudo | **cuanto antes** |
+| **Etiquetar los links de Instagram** con `?de=`: `bolivar-con-vos.vercel.app/?de=historia-carreras`. Un nombre distinto por publicación, en minúscula y con guiones. Sin etiqueta la visita se cuenta igual, pero no se sabe de dónde vino | antes del 21 |
 | Mirar la solapa **Registro** y el campo **«¿Alimenta la alarma?»** en el panel | cuanto antes |
 | Prender *Leaked password protection* en supabase.com → Authentication | cuanto antes |
 | Los mails de las cátedras | lun 7 |

@@ -34,9 +34,21 @@ create table if not exists public.sucesos (
   creado_at   timestamptz not null default now()
 );
 
+-- Los HITOS se agregaron el 4/9/2026. Un hito es algo que la persona
+-- logró —eligió carrera, marcó materia, instaló, volvió—, y el nombre
+-- va en `detalle`. Sirven para contestar la pregunta que las visitas
+-- no contestan: de los que entraron, ¿a cuántos les sirvió?
+--
+-- No rompen la regla de privacidad. Siguen sin tener columna de
+-- usuario, así que NO se puede decir «esta persona entró y marcó
+-- materia»: se cuenta cada cosa por separado y se divide. La
+-- proporción es la métrica; el recorrido individual no existe.
+--
+-- Y en el `detalle` de una VISITA ahora puede venir de qué link llegó
+-- (`?de=historia-carreras`). Es un dato del link, no de la persona.
 alter table public.sucesos drop constraint if exists sucesos_validos;
 alter table public.sucesos add constraint sucesos_validos check (
-      tipo in ('visita','error','busqueda')
+      tipo in ('visita','error','busqueda','hito')
   and char_length(coalesce(pantalla,   '')) <= 120
   and char_length(coalesce(detalle,    '')) <= 300
   and coalesce(dispositivo,'otro') in ('iphone','android','escritorio','otro')
@@ -155,6 +167,24 @@ begin
       from public.sucesos
      where tipo = 'visita' and creado_at >= now() - interval '7 days'
      group by 1
+  ),
+  /* El embudo. Se cuenta cada hito por separado; la proporción contra
+     las visitas del mismo período la hace el panel al pintar. */
+  hito as (
+    select detalle as texto, count(*) as n
+      from public.sucesos
+     where tipo = 'hito' and creado_at >= now() - interval '7 days'
+       and detalle is not null
+     group by 1
+  ),
+  /* De qué link llegaron. Sale del `detalle` de las visitas, que es
+     donde viaja el `?de=` que pone la campaña. */
+  lleg as (
+    select detalle as texto, count(*) as n
+      from public.sucesos
+     where tipo = 'visita' and creado_at >= now() - interval '30 days'
+       and detalle is not null
+     group by 1
   )
   select jsonb_build_object(
     'visitas_hoy', (select count(*) from public.sucesos
@@ -173,7 +203,11 @@ begin
                     'texto', texto, 'n', n) order by n desc, texto), '[]'::jsonb) from busq),
     'errores',   (select coalesce(jsonb_agg(jsonb_build_object(
                     'texto', texto, 'n', n, 'aparatos', aparatos,
-                    'ultima', to_char(ultima,'DD/MM HH24:MI')) order by n desc), '[]'::jsonb) from errs)
+                    'ultima', to_char(ultima,'DD/MM HH24:MI')) order by n desc), '[]'::jsonb) from errs),
+    'hitos',     (select coalesce(jsonb_agg(jsonb_build_object(
+                    'texto', texto, 'n', n) order by n desc), '[]'::jsonb) from hito),
+    'llegadas',  (select coalesce(jsonb_agg(jsonb_build_object(
+                    'texto', texto, 'n', n) order by n desc), '[]'::jsonb) from lleg)
   ) into r;
 
   return r;

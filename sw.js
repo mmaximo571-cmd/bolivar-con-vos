@@ -55,8 +55,12 @@
    grande y en Archivo Black.
    v17 (4/9/2026) `estilos.css` e `index.html`: la grilla de Instagram
    en el inicio. Sin subir el número, los cuadrados llegan sin estilo y
-   se apilan a lo largo en vez de quedar de a tres. */
-const VERSION = 'bolivar-v17';
+   se apilan a lo largo en vez de quedar de a tres.
+   v18 (4/9/2026) `app.js` suma los hitos y de dónde vino la visita. Sin
+   subir el número, quien ya tiene la app sigue anotando solo visitas y
+   el 21 el embudo queda a medias: justo los teléfonos que más nos
+   importa medir son los que ya la tienen instalada. */
+const VERSION = 'bolivar-v18';
 const ARMAZON = VERSION + '-armazon';
 const PAGINAS = VERSION + '-paginas';
 

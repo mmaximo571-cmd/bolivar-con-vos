@@ -2365,6 +2365,8 @@
     const pant = r.pantallas || [];
     const busq = r.busquedas || [];
     const errs = r.errores   || [];
+    const hits = r.hitos     || [];
+    const lleg = r.llegadas  || [];
 
     if (!dias.length && !busq.length && !errs.length){
       zona.innerHTML = `<div class="aviso">
@@ -2417,6 +2419,27 @@
 
       ${lista('Visitas por día', dias.map(d => barra(d.dia, d.n, tope)),
               'Todavía no hay visitas anotadas.')}
+
+      ${lista('El embudo · 7 días',
+              hits.map(h => {
+                const v = Number(r.visitas_7d) || 0;
+                const pct = v ? Math.round((Number(h.n)||0) / v * 100) : null;
+                return `<div style="display:flex;justify-content:space-between;gap:12px;
+                     padding:5px 0;border-bottom:1px solid var(--linea)">
+                     <span style="font-size:var(--letra-nota)">${esc(h.texto)}</span>
+                     <span style="font-family:var(--fuente-datos);font-size:var(--letra-nota)">
+                       ${esc(String(h.n))}${pct === null ? '' :
+                         ` <span style="color:var(--texto-suave)">· ${pct}%</span>`}</span>
+                   </div>`;
+              }),
+              'Todavía nadie eligió carrera ni marcó una materia.')}
+
+      ${lista('De dónde llegaron · 30 días',
+              lleg.map(l => `<div style="display:flex;justify-content:space-between;gap:12px;
+                     padding:5px 0;border-bottom:1px solid var(--linea)">
+                     <span style="font-family:var(--fuente-datos);font-size:var(--letra-nota)">${esc(l.texto)}</span>
+                     <span style="font-family:var(--fuente-datos);font-size:var(--letra-nota)">${esc(String(l.n))}</span></div>`),
+              'Ningún link trajo etiqueta todavía. Se le agrega «?de=loquesea» al link de Instagram.')}
 
       ${lista('Pantallas más abiertas · 7 días',
               pant.map(p => `<div style="display:flex;justify-content:space-between;gap:12px;

@@ -952,6 +952,14 @@ function terminarDialogo(){
   datos.anio    = borrador.anio;
   datos.estados = borrador.estados;
   datos.dialogo = 'listo';
+  /* El diálogo es la otra puerta a lo mismo: quien lo termina dejó
+     materias marcadas igual que quien las toca de a una. Si esto no
+     estuviera, el camino más usado sería justo el que no se cuenta. */
+  if (typeof anotarHito === 'function' &&
+      Object.keys(borrador.estados || {}).some(c => borrador.estados[c] &&
+                                                    borrador.estados[c] !== 'pendiente')){
+    anotarHito('marcó materia');
+  }
   cerrarDialogo();
   persistir();
   pintarTodo();
@@ -1259,6 +1267,8 @@ function pintarBienvenida(){
     if (!b) return;
     elegirCarrera(b.dataset.carrera);
     guardado.eligioCarrera = true;
+    /* Primer hito del embudo: dejó de mirar y contestó algo. */
+    if (typeof anotarHito === 'function') anotarHito('eligió carrera');
     persistir();
     mostrarBienvenida(false);
     pintarSelectorCarrera();
@@ -1613,6 +1623,10 @@ function abrirHoja(cod){
       const nuevo = this.dataset.estado;
       const yaEstaba = datos.estados[cod] === nuevo;
       datos.estados[cod] = nuevo;
+      /* El hito que de verdad importa: la app dejó de ser un folleto y
+         pasó a tener algo suyo adentro. Uno por visita, aunque marque
+         la carrera entera de una sentada. */
+      if (typeof anotarHito === 'function') anotarHito('marcó materia');
       persistir();
       pintarTodo();
 

@@ -155,6 +155,50 @@ function anotar(tipo, detalle){
   } catch(e){ /* idem */ }
 }
 
+/* ------------------------------------------------------------
+   LOS HITOS
+
+   Contar visitas dice cuanta gente entro. No dice si le sirvio, y
+   el 21 esa es la pregunta: de los que entraron, ¿cuantos
+   encontraron para que sirve la app?
+
+   Un hito es algo que la persona logro: eligio su carrera, marco
+   una materia, se la puso en la pantalla de inicio, volvio.
+
+   COMO SE MIDE SIN SEGUIR A NADIE. La regla de no poder unir dos
+   visitas de la misma persona no se toca, asi que esto NO es un
+   recorrido: no se puede decir «de estas 1.000 personas, 300
+   marcaron materia». Lo que se puede es contar cada cosa por
+   separado y dividir: 1.000 visitas y 300 hitos de «marco
+   materia» es una proporcion, y la proporcion es la metrica.
+   Ninguna fila sabe de quien es.
+
+   UNO POR VISITA Y POR NOMBRE. Quien marca treinta materias
+   cuenta una vez. Si no, la persona mas entusiasta seria el
+   numero, y el numero que buscamos es cuanta gente llego hasta
+   ahi, no cuanto uso el que ya llego.
+   ------------------------------------------------------------ */
+const __hitosDeEstaVisita = {};
+function anotarHito(nombre){
+  const n = String(nombre || '').trim();
+  if (!n || __hitosDeEstaVisita[n]) return;
+  __hitosDeEstaVisita[n] = true;
+  anotar('hito', n);
+}
+
+/* De que link vino. Es un dato del LINK, no de la persona: lo pone
+   la campaña en la direccion (`?de=historia-carreras`) y sirve para
+   saber que publicacion funciono. Se limpia a mano porque va
+   derecho a la base: solo letras, numeros y guiones. */
+function deDondeVino(){
+  try {
+    const v = new URLSearchParams(location.search).get('de');
+    if (!v) return null;
+    const limpio = String(v).toLowerCase().replace(/[^a-z0-9_-]/g, '').slice(0, 40);
+    return limpio || null;
+  } catch(e){ return null; }
+}
+
 /* Para las pantallas que tienen buscador. Lo que se anota es el
    termino, igual que ya se hace con las preguntas de Avisanos: es
    la lista de lo que la gente busca y no encuentra, escrita con sus
@@ -212,7 +256,16 @@ function anotarBusqueda(termino){
      estaba mal: si un navegador no avisa cuando se vuelve visible,
      esa visita se perdia para siempre. Para un numero que el 21
      tiene que ser confiable, conviene contar de mas y no de menos. */
-  function contarVisita(){ anotar('visita', null); }
+  /* La visita se anota con de donde vino, si el link lo dijo.
+
+     Y si la app se abrio ya instalada, eso ES la vuelta: alguien que
+     la puso en su pantalla de inicio y la volvio a abrir otro dia.
+     Es la unica señal de retorno que se puede tener sin unir dos
+     visitas de la misma persona, y por eso vale doble. */
+  function contarVisita(){
+    anotar('visita', deDondeVino());
+    try { if (yaEstaInstalada()) anotarHito('volvió instalada'); } catch(e){}
+  }
   function programarVisita(){ setTimeout(contarVisita, 2500); }
 
   if (document.prerendering){
@@ -1100,6 +1153,15 @@ let __invitacionDelNavegador = null;
 window.addEventListener('beforeinstallprompt', function(e){
   e.preventDefault();
   __invitacionDelNavegador = e;
+});
+
+/* La instalación de verdad. Es distinta de «tocó el botón»: entre una
+   cosa y la otra está el cartel del sistema, que mucha gente cancela.
+   El número que sirve es este. En iOS no existe el evento, así que ahí
+   la instalación se ve por el otro lado: la visita que llega en modo
+   instalado anota «volvió instalada». */
+window.addEventListener('appinstalled', function(){
+  try { anotarHito('instaló'); } catch(e){}
 });
 
 const LLAVE_INSTALAR = 'bolivar-instalar-visto';
