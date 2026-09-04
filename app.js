@@ -685,10 +685,28 @@ function pintarNav(actual){
      al centro la sección donde estás parada, si no en «¿Quiénes somos?» la
      marca de "estás acá" queda fuera de la pantalla y no se ve dónde estás.
      Movemos la fila, nunca la página: por eso scrollLeft y no scrollIntoView. */
-  const activo = document.querySelector('.secciones-fila a[aria-current="page"]');
+  const fila = document.querySelector('.secciones-fila');
+  const activo = fila && fila.querySelector('a[aria-current="page"]');
   if (activo){
-    const fila = activo.parentElement;
     fila.scrollLeft = activo.offsetLeft - (fila.clientWidth - activo.offsetWidth) / 2;
+  }
+
+  /* Los degradados de los bordes avisan que la fila sigue. Se prenden
+     solo del lado donde de verdad queda algo escondido: si estás en
+     Inicio no hay nada a la izquierda y un degradado ahí sería mentira.
+     Como además centramos la sección activa, casi siempre hay algo de
+     los dos lados. */
+  if (fila){
+    const marco = fila.parentElement;
+    const marcarBordes = () => {
+      marco.classList.add('medida');
+      const sobra = fila.scrollWidth - fila.clientWidth;
+      marco.classList.toggle('hay-izq', fila.scrollLeft > 2);
+      marco.classList.toggle('hay-der', fila.scrollLeft < sobra - 2);
+    };
+    fila.addEventListener('scroll', marcarBordes, { passive:true });
+    window.addEventListener('resize', marcarBordes);
+    marcarBordes();
   }
 
   const fondo = document.getElementById('menu-fondo');

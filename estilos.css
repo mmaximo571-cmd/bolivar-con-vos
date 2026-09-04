@@ -473,15 +473,32 @@ svg.ico{width:1em;height:1em;display:block;flex:0 0 auto}
 .boton-cuadro.destacado svg.ico{color:var(--sobre-color)}
 
 /* --- Las secciones, debajo de la cabecera --- */
-/* Siete secciones no entran en un celular: la fila se desliza. El
-   degradado de la derecha es lo que avisa que hay más, si no la última
-   queda cortada al medio de la palabra y parece un error. Desaparece
-   cuando la fila entra entera (de 720 px para arriba). */
+/* Siete secciones no entran en un celular: la fila se desliza, y como
+   ademas traemos al centro la seccion donde estas parada, casi siempre
+   hay algo cortado de LOS DOS lados. Habia degradado solo a la derecha:
+   del lado izquierdo la seccion quedaba partida al medio de la palabra
+   —«CIO» por INICIO— y eso no se lee como «hay mas», se lee como roto.
+
+   Ahora hay uno en cada borde y aparecen solo cuando de ese lado
+   realmente queda algo escondido. Hasta que el guion mide, se muestra
+   el de la derecha: es el caso de siempre y asi no hay un parpadeo. */
 .secciones{background:var(--negro);border-top:1px solid var(--linea-negro);position:relative}
+.secciones::before,
 .secciones::after{
-  content:'';position:absolute;top:0;right:0;bottom:0;width:28px;
-  background:linear-gradient(to right, rgba(26,26,26,0), var(--negro));
-  pointer-events:none
+  content:'';position:absolute;top:0;bottom:0;width:30px;
+  pointer-events:none;opacity:0;transition:opacity .15s ease
+}
+.secciones::before{
+  left:0;background:linear-gradient(to left, rgba(26,26,26,0), var(--negro))
+}
+.secciones::after{
+  right:0;background:linear-gradient(to right, rgba(26,26,26,0), var(--negro))
+}
+.secciones:not(.medida)::after{opacity:1}
+.secciones.hay-izq::before{opacity:1}
+.secciones.hay-der::after{opacity:1}
+@media (prefers-reduced-motion:reduce){
+  .secciones::before,.secciones::after{transition:none}
 }
 .secciones-fila{display:flex;gap:2px;overflow-x:auto;-webkit-overflow-scrolling:touch}
 .secciones-fila::-webkit-scrollbar{display:none}
@@ -2204,8 +2221,8 @@ details.tarjeta .respuesta{margin-top:9px;color:var(--texto-suave);font-size:var
     @starting-style{ .hoja{transform:none;opacity:0} }
     .hoja-fondo.cerrando .hoja{transform:none;opacity:0}
   }
-  /* La fila de secciones ya entra entera: sobra el degradado del borde */
-  .secciones::after{display:none}
+  /* La fila de secciones ya entra entera: sobran los dos degradados */
+  .secciones::before,.secciones::after{display:none}
   /* Desde la tablet para arriba los cuadros dejan de ser cuadrados: si
      no, un cuadrado de 211 px de lado da una grilla de 648 de alto. */
   .boton-cuadro{aspect-ratio:auto;min-height:124px;padding:12px 10px}

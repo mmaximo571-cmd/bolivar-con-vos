@@ -41,7 +41,7 @@
    cerrado que tenía apagada `--letra-mini` en toda la app. Quien alcanzó
    a guardar la v8 tiene el CSS roto adentro, y sin subir el número se lo
    quedaba. */
-const VERSION = 'bolivar-v10';
+const VERSION = 'bolivar-v11';
 const ARMAZON = VERSION + '-armazon';
 const PAGINAS = VERSION + '-paginas';
 
