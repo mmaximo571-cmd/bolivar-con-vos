@@ -41,7 +41,12 @@
    cerrado que tenía apagada `--letra-mini` en toda la app. Quien alcanzó
    a guardar la v8 tiene el CSS roto adentro, y sin subir el número se lo
    quedaba. */
-const VERSION = 'bolivar-v13';
+/* v14 (4/9/2026) `estilos.css` otra vez: la pastilla de estado del plan
+   pasó a heredar el color del texto y «Aprobada» cambió de fondo. La
+   pantalla `carrera/` llega nueva porque se sirve red primero, pero la
+   hoja de estilos que la pinta sale de lo guardado: sin subir el número,
+   quien ya tiene la v13 se queda con las pastillas ilegibles de noche. */
+const VERSION = 'bolivar-v14';
 const ARMAZON = VERSION + '-armazon';
 const PAGINAS = VERSION + '-paginas';
 

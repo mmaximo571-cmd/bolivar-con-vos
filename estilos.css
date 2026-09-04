@@ -28,6 +28,15 @@
   --rojo:      #B52625;   /* palabras resaltadas, urgente, eliminar     */
   --negro:     #1A1A1A;   /* la cabecera y los bloques de mucho peso    */
   --celeste-claro: #7FC9DA;
+  /* El celeste de marca es para LÍNEAS: bordes, barras, iconos, donde
+     la vara son 3:1. Como FONDO con texto encima no da: el negro
+     encima queda en 4,92 y el blanco en 3,54, y no hay ningún color
+     de texto que llegue a los 7:1 que pide el proyecto. Este es el
+     mismo celeste bajado hasta que el blanco encima da 7,71. Existe
+     por lo mismo que --rojo-solido: pintar CON un color y leer SOBRE
+     ese color no son el mismo trabajo, y un solo valor no sirve para
+     los dos. */
+  --celeste-hondo: #015B6E;
 
   /* Estas dos TAMPOCO cambian de noche, y es a propósito:
      - sobre-color: texto oscuro cuando el fondo es amarillo o celeste.
@@ -1262,15 +1271,43 @@ svg.ico{width:1em;height:1em;display:block;flex:0 0 auto}
 .tarjeta.materia.estado-cursada {border-left-color:var(--amarillo)}
 .tarjeta.materia.estado-cursando{border-left-color:var(--linea-saberes)}
 
-/* --- Pastilla de estado --- */
+/* --- Pastilla de estado ---
+
+   LA PASTILLA BASE HEREDA EL COLOR DEL TEXTO DE LA PÁGINA, NO UN
+   NEGRO FIJO. Es el mismo error que ya se arregló en `.boton.borde`:
+   el fondo de esta pastilla es --linea, que SÍ se da vuelta de noche
+   (#D8E5EA de día, #3A3830 de noche), y encima llevaba --sobre-color,
+   que NO se da vuelta nunca. De noche eso era #1A1A1A sobre #3A3830:
+   contraste 1,48, o sea que la etiqueta «Pendiente» —la que llevan
+   casi todas las materias— no se leía. Con --texto da 13,5 de día y
+   10,2 de noche.
+
+   En las tres variantes de abajo --sobre-color SÍ es el correcto,
+   porque ahí el fondo es un color de marca que no cambia entre día y
+   noche: el texto tampoco tiene por qué cambiar.
+
+   Y «Aprobada» dejó de usar el celeste pleno. Sobre --celeste el
+   negro da 4,92 y el blanco 3,54; ni un negro puro pasa de 5,94. O
+   sea que NINGÚN color de texto llega a los 7:1 del proyecto sobre
+   ese fondo, y era el mismo 4,92 de día y de noche: no lo arreglaba
+   el modo oscuro. Aclarar el celeste tampoco servía: para llegar a 7
+   con texto oscuro hay que subirlo tanto que queda igual al celeste
+   claro de «Cursando» y los dos estados se confunden. Por eso va al
+   otro lado, a --celeste-hondo con texto claro, que da 7,71 y de paso
+   ordena los tres celestes por peso: cursando el más claro, aprobada
+   el más hondo.
+
+   Medido en el navegador componiendo las capas y la opacidad
+   heredada, no a ojo: pendiente 13,5 de día / 10,2 de noche ·
+   cursando 9,34 · cursada 13,77 · aprobada 7,71. */
 .pastilla{
   display:inline-block;font-size:var(--letra-mini);font-weight:700;letter-spacing:.06em;
   text-transform:uppercase;padding:2px 8px;border-radius:var(--radio-pastilla);
-  background:var(--linea);color:var(--sobre-color)
+  background:var(--linea);color:var(--texto)
 }
 .pastilla.cursando{background:var(--linea-saberes);color:var(--sobre-color)}
 .pastilla.cursada {background:var(--amarillo);color:var(--sobre-color)}
-.pastilla.aprobada{background:var(--celeste);color:var(--sobre-color)}
+.pastilla.aprobada{background:var(--celeste-hondo);color:var(--sobre-negro)}
 
 /* --- Hoja de detalle ---
 
