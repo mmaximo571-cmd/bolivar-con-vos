@@ -3485,3 +3485,31 @@ details.tarjeta .respuesta{margin-top:9px;color:var(--texto-suave);font-size:var
   margin-top:34px;padding-top:20px;border-top:2px solid var(--tinta-borde)
 }
 .reinicio .letra-chica{margin:10px 0 0;line-height:1.5;color:var(--texto-suave)}
+
+/* --- «Te podés anotar»: los dos grupos plegables ---
+   Reusa el <details> de Agenda y Trámites, pero NO su tipografía. Allá
+   el summary es el título de una sección y va en Archivo Black; acá es
+   un rótulo, y esta pantalla ya decidió que los rótulos bajan la voz y
+   hablan en la tipografía de datos. Un Archivo Black de 18 px acá le
+   ganaría a las tarjetas que tiene adentro.
+
+   La diferencia con un rótulo común es el color: los que no se tocan
+   van en --texto-suave, este va en --texto. Sumado a la flecha, es lo
+   que lo hace leerse como algo que se abre.
+
+   El interletrado baja de .16em a .10em porque «PODÉS CURSARLA Y
+   RENDIR FINAL» son veintinueve caracteres y tiene que entrar en un
+   renglón al lado de la cuenta y de la flecha. */
+.grupo-anotarse{border-bottom:1px solid var(--linea)}
+.grupo-anotarse:first-of-type{border-top:1px solid var(--linea)}
+.grupo-anotarse > summary{
+  font-family:var(--fuente-datos);font-weight:700;font-size:var(--letra-chica);
+  letter-spacing:.10em;text-transform:uppercase;color:var(--texto);
+  padding:15px 2px;min-height:48px
+}
+/* Las tarjetas de adentro necesitan aire arriba: pegadas al rótulo se
+   leen como parte de él. */
+.grupo-anotarse .cuerpo-grupo{padding:4px 0 16px}
+@media (hover:hover) and (pointer:fine){
+  .grupo-anotarse > summary:hover{color:var(--texto)}
+}

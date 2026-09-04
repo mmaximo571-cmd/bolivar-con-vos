@@ -520,11 +520,13 @@ function situacion(m){
 
 const NOMBRE_CLASE = {
   promociona: 'PODÉS PROMOCIONARLA',
-  /* Corto a proposito: ahora el rotulo es una linea callada en mono y
-     el largo se comia dos renglones para un grupo de una materia. Lo
-     que falta para promocionarla lo dice cada tarjeta, que es donde
-     sirve. */
-  cursa:      'SOLO PODÉS CURSARLA',
+  /* Nombra lo que SÍ se puede. Se llamaba «SOLO PODÉS CURSARLA», que
+     dice lo que no se puede y esconde el dato importante: en estas vas
+     a tener que rendir final sí o sí, porque te falta el final de una
+     correlativa. Ahora que el grupo es un desplegable que arranca
+     cerrado, el rótulo es lo único que hay para decidir si abrirlo:
+     tiene que decir qué hay adentro. */
+  cursa:      'PODÉS CURSARLA Y RENDIR FINAL',
   trabada:    'TODAVÍA NO LA PODÉS CURSAR'
 };
 
@@ -1033,7 +1035,22 @@ function periodoQueViene(){
     otro:   anuales ? 'del 1° cuatrimestre y anuales' : 'del 1° cuatrimestre' };
 }
 
+/* Qué grupos dejó abiertos. Se lee del DOM antes de redibujar y no de
+   un evento «toggle», que el navegador también dispara al insertar un
+   grupo que ya viene abierto. Vive sólo mientras la app está abierta:
+   qué desplegaste hace una semana no es un dato que valga guardar, y
+   cerrado es el estado que la pantalla quiere al empezar. */
+const anotarseAbiertos = new Set();
+
+function recordarAbiertos(){
+  document.querySelectorAll('#para-anotarse details.grupo').forEach(d => {
+    if (d.open) anotarseAbiertos.add(d.dataset.grupo);
+    else        anotarseAbiertos.delete(d.dataset.grupo);
+  });
+}
+
 function pintarParaAnotarse(){
+  recordarAbiertos();
   const caja = document.getElementById('para-anotarse');
   const per  = periodoQueViene();
 
@@ -1054,12 +1071,31 @@ function pintarParaAnotarse(){
   const trabadas = MATERIAS.filter(m =>
     estado(m.cod) === 'pendiente' && situacion(m).clase === 'trabada').length;
 
+  /* LOS DOS GRUPOS SON DESPLEGABLES, Y ARRANCAN CERRADOS.
+
+     Promocionar y cursar-con-final-pendiente son dos cosas distintas y
+     se deciden distinto, así que van separadas y cada una con su
+     cuenta a la vista. Cerradas, la solapa entra en una pantalla y se
+     ve el mapa completo —cuántas de cada una— antes de mirar ninguna.
+
+     Es <details> y no un div con JavaScript, como los grupos de Agenda
+     y Trámites: el teclado ya lo abre con Enter, el lector de pantalla
+     ya dice si está abierto o cerrado, y el navegador ya lo encuentra
+     al buscar dentro de la página. */
   const bloque = ['promociona','cursa'].map(clase => {
     const suyas = enLista.filter(m => situacion(m).clase === clase);
     if (!suyas.length) return '';
-    return `<div class="titulo-seccion">${NOMBRE_CLASE[clase]}
-        <span class="cuenta-grupo">${suyas.length}</span></div>
-      <div class="lista">` + suyas.map(m => tarjetaMateria(m, clase)).join('') + `</div>`;
+    return `
+      <details class="grupo grupo-anotarse" data-grupo="${clase}"
+               ${anotarseAbiertos.has(clase) ? 'open' : ''}>
+        <summary>
+          <span class="nombre-grupo">${NOMBRE_CLASE[clase]}</span>
+          <span class="cuenta-grupo">${suyas.length}</span>
+          <span class="flecha" aria-hidden="true">▼</span>
+        </summary>
+        <div class="cuerpo-grupo"><div class="lista">` +
+        suyas.map(m => tarjetaMateria(m, clase)).join('') + `</div></div>
+      </details>`;
   }).join('');
 
   let cuerpo = bloque;

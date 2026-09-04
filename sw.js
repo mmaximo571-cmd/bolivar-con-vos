@@ -48,8 +48,12 @@
    quien ya tiene la v13 se queda con las pastillas ilegibles de noche.
    v15 (4/9/2026) `estilos.css` de nuevo, por el bloque «Empezar de
    nuevo» al pie de «Mi cursada». Sin subir el número, el botón llega
-   pero sin la línea que lo separa del resumen. */
-const VERSION = 'bolivar-v15';
+   pero sin la línea que lo separa del resumen.
+   v16 (4/9/2026) `estilos.css` una vez más: «Te podés anotar» pasó a
+   ser dos grupos plegables. Sin subir el número, los <details> llegan
+   con la tipografía de los grupos de Agenda, que es tres puntos más
+   grande y en Archivo Black. */
+const VERSION = 'bolivar-v16';
 const ARMAZON = VERSION + '-armazon';
 const PAGINAS = VERSION + '-paginas';
 
