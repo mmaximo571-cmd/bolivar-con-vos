@@ -686,15 +686,41 @@
      alarma de inscripción, competiría con ella el día que las dos
      tengan algo que decir. */
   function proximoDeLaAgenda(caja, publicaciones, hoy){
-    const proximas = (publicaciones || [])
-      .filter(p => p.fecha_desde && (p.fecha_hasta || p.fecha_desde).slice(0,10) >= hoy)
-      .sort((a, b) => a.fecha_desde.localeCompare(b.fecha_desde));
-    if (!proximas.length){ caja.innerHTML = ''; return; }
+    const vivas = (publicaciones || [])
+      .filter(p => p.fecha_desde && (p.fecha_hasta || p.fecha_desde).slice(0,10) >= hoy);
+    if (!vivas.length){ caja.innerHTML = ''; return; }
 
-    const p = proximas[0];
-    const dias = Math.round(
-      (new Date(p.fecha_desde.slice(0,10)) - new Date(hoy)) / 86400000);
-    const cuando = dias <= 0 ? 'Hoy'
+    /* PRIMERO LO QUE TODAVÍA NO EMPEZÓ, Y RECIÉN DESPUÉS LO QUE ESTÁ EN
+       CURSO.
+
+       Antes se ordenaba todo junto por `fecha_desde`, y eso hacía ganar
+       siempre a lo más viejo. Un período largo —«Desarrollo de seminarios
+       de 2.º cuatrimestre», del 18/8 al 21/11— se quedaba con el renglón
+       durante tres meses y tapaba todo lo que pasaba en el medio.
+
+       Peor todavía: como `dias` daba negativo, caía en `dias <= 0` y se
+       anunciaba como «Hoy». El 21 de septiembre, día del lanzamiento, la
+       portada iba a decir «Hoy · Desarrollo de seminarios» y esconder
+       «Día del estudiante», que era ese día.
+
+       Un período que arrancó hace un mes no es lo próximo. Si igual hay
+       que mostrarlo porque no hay nada por venir, se dice cuándo termina,
+       que es la única fecha suya que todavía sirve. */
+    const porVenir = vivas
+      .filter(p => p.fecha_desde.slice(0,10) >= hoy)
+      .sort((a, b) => a.fecha_desde.localeCompare(b.fecha_desde));
+    const enCurso = vivas
+      .filter(p => p.fecha_desde.slice(0,10) < hoy)
+      .sort((a, b) => (a.fecha_hasta || a.fecha_desde)
+                        .localeCompare(b.fecha_hasta || b.fecha_desde));
+
+    const p = porVenir[0] || enCurso[0];
+    const arranca = p.fecha_desde.slice(0,10);
+    const dias = Math.round((new Date(arranca) - new Date(hoy)) / 86400000);
+    const cuando = arranca < hoy
+                     ? (p.fecha_hasta ? 'Hasta el ' + fechaLinda(p.fecha_hasta.slice(0,10))
+                                      : 'En curso')
+                 : dias === 0 ? 'Hoy'
                  : dias === 1 ? 'Mañana'
                  : dias <= 7  ? 'En ' + dias + ' días'
                  : fechaLinda(p.fecha_desde);

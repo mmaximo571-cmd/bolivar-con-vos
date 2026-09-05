@@ -53,7 +53,8 @@ sobre los otros. Ahora mandan así, y no se abre un quinto:
 | 5/9 | **Estudiemos rediseñado:** buscador arriba, tres herramientas en superficie, y el amarillo una sola vez abajo en la invitación a compartir. `v19` | `db57993` |
 | 5/9 | `PROMPT-DISENO.md`: el molde para que lo que salga de Gemini entre sin traducir | `2a3e0a1` |
 | 5/9 | **La carga rota de cada publicación.** El registro mostró «memoriaDe is not defined» en la portada: HTML nuevo con `app.js` viejo. Ahora recarga una sola vez cuando entra la versión nueva. `v20` | `4f1c0dd` |
-| 5/9 | **Borrar mi cuenta**, y la nota de qué se guarda / quién lo ve / cómo se borra en la pantalla de registro. `tabla-borrar-cuenta.sql` **ya está aplicado** en Supabase | (este commit) |
+| 5/9 | **Borrar mi cuenta**, y la nota de qué se guarda / quién lo ve / cómo se borra en la pantalla de registro. `tabla-borrar-cuenta.sql` **ya está aplicado** en Supabase | `c9a2f41` |
+| 5/9 | El renglón de «lo próximo» elegía lo más viejo y lo llamaba «Hoy». El 21 iba a tapar «Día del estudiante» con un período de tres meses | (este commit) |
 
 **Ojo con lo de las materias libres.** El listado sale de un documento que se
 llama, textualmente, «**Propuesta** de materias libres … para agregar al régimen
@@ -308,8 +309,14 @@ pendiente y sin fecha asignada.
 1. **¿Quién actualiza los horarios en marzo?** Si hay nombre y apellido, se
    construyen completos (2 días). Si no, sale el cuadro oficial de la facultad
    (medio día) y no puede mentir.
-2. **¿Qué muestra la portada el 21?** Ese día la alarma no va a estar: la
-   inscripción de septiembre cierra el 10 y la siguiente abre el 9 de noviembre.
+2. ~~**¿Qué muestra la portada el 21?**~~ ✅ **Contestada el 5/9, y había un
+   bug detrás.** El lugar de la alarma no queda vacío: lo ocupa lo próximo de la
+   agenda. Pero ese renglón elegía mal —ordenaba por `fecha_desde`, así que
+   ganaba siempre lo más viejo— y el 21 iba a decir «Hoy · Desarrollo de
+   seminarios de 2.º cuatrimestre», un período que arrancó el 18/8 y termina el
+   21/11, tapando «Día del estudiante». Arreglado: ahora dice **«Hoy · Día del
+   estudiante»**. No era solo el 21: del 18/8 al 21/11 ese renglón mentía todos
+   los días sin alarma.
 3. **¿Fechas conserva el tiempo real?** Si se cambia por «se refresca al
    volver», esa pantalla baja 212 KB. Es sacar una función: no se toca sin que
    Máximo lo diga.
