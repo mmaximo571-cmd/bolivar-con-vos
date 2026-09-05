@@ -59,8 +59,14 @@
    v18 (4/9/2026) `app.js` suma los hitos y de dónde vino la visita. Sin
    subir el número, quien ya tiene la app sigue anotando solo visitas y
    el 21 el embudo queda a medias: justo los teléfonos que más nos
-   importa medir son los que ya la tienen instalada. */
-const VERSION = 'bolivar-v18';
+   importa medir son los que ya la tienen instalada.
+   v19 (5/9/2026) `estilos.css` e `iconos.js`: Estudiemos deja de tener
+   tres bloques amarillos seguidos y pasa a buscador arriba, tres
+   herramientas en superficie y una sola tarjeta amarilla abajo. Sin
+   subir el numero, las herramientas llegan sin estilo —tres renglones
+   de texto pelado— y el icono de subir no existe, asi que la tarjeta de
+   compartir se queda con el emoji. */
+const VERSION = 'bolivar-v19';
 const ARMAZON = VERSION + '-armazon';
 const PAGINAS = VERSION + '-paginas';
 

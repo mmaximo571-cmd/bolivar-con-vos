@@ -47,46 +47,53 @@
     Lo que a vos te sirvió, a otra persona le puede salvar la cursada.
   </p>
 
-  <!-- El nexo con el organizador. Va acá arriba y no al final porque
-       quien entra a Estudiemos suele venir buscando cómo encarar un
-       final, y el organizador es la otra mitad de esa respuesta. -->
-  <a class="nexo-final" href="../carrera/#finales">
-    <span class="nexo-texto">
-      <strong>¿Querés preparar un final?</strong>
-      Armá el plan con el programa, las fechas de la mesa y cuánto te falta.
-    </span>
-    <span class="nexo-flecha" aria-hidden="true">→</span>
-  </a>
-
-  <div class="buscador" style="margin-bottom:6px">
+  <!-- EL BUSCADOR VA PRIMERO. Quien entra a Estudiemos ya sabe qué
+       materia busca: lo primero que tiene que encontrar es dónde
+       escribirla, no tres carteles antes. -->
+  <div class="buscador">
     <span class="lupa" id="lupa">🔍</span>
     <input id="filtro" type="search" autocomplete="off"
            placeholder="Buscar por materia o tema…" aria-label="Buscar material">
   </div>
 
-  <!-- La guía de Anatomofisiología. Va acá arriba porque es la materia
-       que más se traba en primero de Fono, y quien entra a Estudiemos
-       buscando cómo encararla tiene que encontrarla sin buscar. -->
-  <a class="nexo-final" href="../anatomo/">
-    <span class="nexo-texto">
-      <strong>Anatomofisiología, ordenada</strong>
-      Los seis módulos con su bibliografía, las fechas, y la laringe y el
-      oído en 3D para girarlos.
-    </span>
-    <span class="nexo-flecha" aria-hidden="true">→</span>
-  </a>
+  <div class="titulo-seccion">PARA EMPEZAR</div>
 
-  <!-- Las fichas del Equipo de Fonoaudiología. Van pegadas a la guía de
-       Anatomo porque son la otra mitad de lo mismo: la guía dice qué
-       entra y cómo se aprueba, las fichas te hacen estudiar el tema. -->
-  <a class="nexo-final" href="fichas/">
-    <span class="nexo-texto">
-      <strong>Fichas para estudiar un tema</strong>
-      La laringe, la faringe, el sistema nervioso, ontología, acufenometría
-      y modelos de intervención. Con esquemas para tocar y autoevaluación.
-    </span>
-    <span class="nexo-flecha" aria-hidden="true">→</span>
-  </a>
+  <!-- Las tres puertas. Antes eran tres bloques amarillos seguidos;
+       ahora van en superficie y el amarillo queda para una sola cosa,
+       abajo: la invitación a compartir material. -->
+  <nav class="herramientas" aria-label="Herramientas de estudio">
+
+    <a class="herramienta" href="../carrera/#finales">
+      <span class="herramienta-ico" data-ico="carrera" aria-hidden="true">📅</span>
+      <span class="herramienta-texto">
+        <strong>Preparar un final</strong>
+        <span>El programa, la fecha de la mesa y cuánto te falta.</span>
+      </span>
+      <span class="herramienta-flecha" aria-hidden="true">→</span>
+    </a>
+
+    <a class="herramienta" href="fichas/">
+      <span class="herramienta-ico" data-ico="estudiemos" aria-hidden="true">📐</span>
+      <span class="herramienta-texto">
+        <strong>Fichas para estudiar</strong>
+        <span>Nueve temas con esquemas para tocar y autoevaluación.</span>
+      </span>
+      <span class="herramienta-flecha" aria-hidden="true">→</span>
+    </a>
+
+    <a class="herramienta" href="../anatomo/">
+      <span class="herramienta-insignia">3D interactivo</span>
+      <span class="herramienta-ico" data-ico="plan" aria-hidden="true">🧠</span>
+      <span class="herramienta-texto">
+        <strong>Anatomofisiología</strong>
+        <span>Los módulos con su bibliografía, y la laringe y el oído para girarlos.</span>
+      </span>
+      <span class="herramienta-flecha" aria-hidden="true">→</span>
+    </a>
+
+  </nav>
+
+  <div class="titulo-seccion">EL MATERIAL</div>
 
   <div class="chips" id="chips"></div>
 
@@ -94,6 +101,27 @@
     <div class="esq-tarjeta"><div class="esqueleto esq-linea titulo"></div><div class="esqueleto esq-linea"></div><div class="esqueleto esq-linea media"></div></div>
     <div class="esq-tarjeta"><div class="esqueleto esq-linea titulo"></div><div class="esqueleto esq-linea"></div><div class="esqueleto esq-linea corta"></div></div>
   </div>
+
+  <!-- LA INVITACIÓN A COMPARTIR. Es lo único que esta pantalla le pide a
+       quien entra, así que es lo único amarillo que quedó.
+
+       OJO CON EL BOTÓN: hoy la app NO recibe archivos. La tabla
+       `materiales` deja escribir sólo al equipo, a propósito, y todavía
+       no está decidido quién modera ni qué se hace con material con
+       derechos de autor. Hasta que eso se resuelva, el botón lleva al
+       canal que ya existe y funciona: el mensaje directo de Instagram.
+       Por eso dice «mandanos» y no «subí»: prometer una subida que no
+       existe es peor que no tener el botón. -->
+  <section class="comunidad" aria-labelledby="titulo-comunidad">
+    <span data-ico="subir" aria-hidden="true">📤</span>
+    <h2 id="titulo-comunidad">Sumá tu granito de arena</h2>
+    <p>Ayudá a un compañero compartiendo ese resumen que te salvó la cursada.</p>
+    <a class="comunidad-boton" href="https://ig.me/m/SimonBolivarfts"
+       target="_blank" rel="noopener">
+      <span data-ico="subir" aria-hidden="true"></span>
+      Mandanos tu resumen
+    </a>
+  </section>
 </main>
 
 <div id="pie"></div>
@@ -110,6 +138,15 @@
   document.getElementById('cabecera').innerHTML = htmlCabecera();
   document.getElementById('pie').innerHTML = htmlPie();
   pintarNav('estudiemos');
+
+  /* Los íconos de las herramientas. Mismo criterio que `ponerLupa` en
+     app.js: en el HTML va un emoji, y si el ícono de verdad existe lo
+     reemplaza. Si mañana se saca uno de iconos.js, la pantalla no se
+     rompe: se queda con el emoji. */
+  document.querySelectorAll('[data-ico]').forEach(hueco => {
+    const dibujo = icono(hueco.dataset.ico);
+    if (dibujo) hueco.innerHTML = dibujo;
+  });
 
   const lista  = document.getElementById('lista');
   const chips  = document.getElementById('chips');
@@ -185,8 +222,7 @@
     olvidarMemoria('estudiemos');
     sacarAvisoGuardado();
     lista.innerHTML = `<div class="vacio">
-        Todavía no hay material cargado.<br>
-        Si tenés apuntes o resúmenes para compartir, escribinos y los subimos.
+        Todavía no hay material cargado acá.
       </div>`;
     chips.hidden = true;
     filtro.parentElement.hidden = true;

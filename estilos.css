@@ -3544,3 +3544,111 @@ details.tarjeta .respuesta{margin-top:9px;color:var(--texto-suave);font-size:var
 @media (min-width:520px){
   .grilla-ig{grid-template-columns:repeat(6,1fr)}
 }
+
+/* ============================================================
+   ESTUDIEMOS: LAS HERRAMIENTAS Y LA INVITACIÓN A COMPARTIR
+
+   POR QUÉ EL AMARILLO SE FUE DE ARRIBA. Las tres puertas de Estudiemos
+   —preparar un final, las fichas y Anatomofisiología— eran tres
+   `.nexo-final` seguidos, y `.nexo-final` es amarillo. Tres bloques
+   amarillos uno abajo del otro no jerarquizan nada: si todo grita, no
+   grita nada, y el amarillo dejaba de querer decir «tocá acá».
+
+   Ahora aparece UNA sola vez por pantalla, abajo del todo, en la
+   invitación a compartir material, que es lo único que la pantalla le
+   pide a quien entra. Las herramientas pasan a superficie con borde
+   suave: se leen como estantes, no como carteles.
+   ============================================================ */
+
+.herramientas{
+  display:grid;grid-template-columns:1fr;gap:12px;
+  /* La insignia se sale de la tarjeta por arriba. Sin este respiro
+     queda cortada contra el título de la sección de arriba. */
+  padding-top:10px;margin:0 0 20px
+}
+@media (min-width:560px){ .herramientas{grid-template-columns:1fr 1fr} }
+
+.herramienta{
+  position:relative;display:flex;align-items:center;gap:12px;
+  min-height:48px;              /* la medida del dedo, no la de la vista */
+  padding:14px 15px;text-decoration:none;color:var(--texto);
+  background:var(--superficie);
+  border:1.5px solid var(--linea);border-radius:var(--radio);
+  box-shadow:var(--sombra);
+  transition:transform .12s ease, box-shadow .12s ease
+}
+.herramienta:hover{ transform:translate(-1px,-1px);box-shadow:3px 3px 0 var(--tinta-borde) }
+.herramienta:active{ transform:translate(1px,1px);box-shadow:1px 1px 0 var(--tinta-borde) }
+/* El foco va en celeste, como el del buscador: sobre superficie clara
+   un halo amarillo no se distingue del fondo. */
+.herramienta:focus-visible{ outline:none;box-shadow:0 0 0 3px var(--celeste) }
+
+/* El cajoncito del icono va en un gris de la casa y NO en amarillo.
+   Con amarillo aca, la pantalla tenia cuatro amarillos: tres cajoncitos
+   y la tarjeta de compartir. El amarillo deja de significar «toca aca»
+   cuando esta en todos lados; aca solo tiene que separar el icono del
+   texto, y para eso alcanza un tono. */
+.herramienta-ico{
+  flex:0 0 auto;display:grid;place-items:center;width:40px;height:40px;
+  border-radius:var(--radio-chico);color:var(--texto);
+  background:rgba(26,26,26,.07)
+}
+:root[data-tema="oscuro"] .herramienta-ico{ background:rgba(253,252,247,.10) }
+.herramienta-ico svg.ico{width:21px;height:21px}
+.herramienta-texto{ flex:1;min-width:0 }
+.herramienta-texto strong{
+  display:block;font-family:var(--fuente-titulo);font-size:var(--letra-densa);
+  line-height:1.15;margin-bottom:3px
+}
+.herramienta-texto span{
+  display:block;font-size:var(--letra-nota);line-height:1.4;opacity:.75
+}
+.herramienta-flecha{
+  flex:0 0 auto;font-family:var(--fuente-sub);font-weight:700;font-size:20px;
+  line-height:1;opacity:.4
+}
+
+/* La insignia. Va en negro con letra amarilla y no al revés: la tarjeta
+   ya tiene amarillo en el ícono, y dos amarillos discutiendo a tres
+   centímetros se leen como un error de impresión. */
+.herramienta-insignia{
+  position:absolute;top:-9px;right:-6px;
+  font-family:var(--fuente-sub);font-weight:800;font-size:10px;
+  letter-spacing:.06em;text-transform:uppercase;
+  background:var(--tinta-borde);color:var(--amarillo);
+  border-radius:var(--radio-pastilla);padding:4px 9px;white-space:nowrap
+}
+
+/* ---------- La invitación a compartir ---------- */
+
+.comunidad{
+  background:var(--amarillo);color:var(--sobre-color);
+  border:1.5px solid var(--tinta-borde);border-radius:var(--radio);
+  box-shadow:var(--sombra);padding:22px 18px;margin:24px 0 0
+}
+.comunidad svg.ico{ width:42px;height:42px;display:block;margin-bottom:12px }
+.comunidad h2{
+  font-family:var(--fuente-titulo);font-size:var(--letra-sub);
+  line-height:1.1;margin:0 0 8px
+}
+.comunidad p{ font-size:var(--letra-nota);line-height:1.5;margin:0;max-width:44ch }
+
+.comunidad-boton{
+  display:flex;align-items:center;justify-content:center;gap:8px;
+  width:100%;min-height:48px;box-sizing:border-box;margin-top:18px;
+  padding:13px 18px;text-decoration:none;
+  font-family:var(--fuente-sub);font-weight:800;font-size:var(--letra-nota);
+  letter-spacing:.05em;text-transform:uppercase;
+  background:var(--tinta-borde);color:var(--amarillo);
+  border:1.5px solid var(--tinta-borde);border-radius:var(--radio-pastilla);
+  transition:transform .12s ease
+}
+.comunidad-boton:active{ transform:scale(.97) }
+.comunidad-boton:focus-visible{ outline:3px solid var(--celeste);outline-offset:2px }
+.comunidad-boton svg.ico{ width:18px;height:18px;margin:0 }
+
+/* Quien pidió que no se mueva nada, que no se mueva nada. */
+@media (prefers-reduced-motion:reduce){
+  .herramienta,.comunidad-boton{ transition:none }
+  .herramienta:hover,.herramienta:active,.comunidad-boton:active{ transform:none }
+}
