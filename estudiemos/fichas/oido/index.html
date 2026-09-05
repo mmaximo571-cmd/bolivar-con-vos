@@ -1,0 +1,427 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>El oído · La Bolívar con vos</title>
+<meta name="description" content="Externo, medio e interno: qué hay en cada parte, la cadena osicular y los líquidos, con autoevaluación.">
+<meta name="theme-color" content="#F9E830">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Montserrat:wght@700;800&family=Roboto:wght@400;500&family=Roboto+Mono:wght@400;500&display=swap" rel="stylesheet">
+<!-- Iconos de la app: pestana, Google, y pantalla de inicio del celular -->
+<link rel="icon" type="image/png" sizes="32x32" href="../../../imagenes/icono-32.png">
+<link rel="icon" type="image/png" sizes="96x96" href="../../../imagenes/icono-96.png">
+<link rel="icon" type="image/png" sizes="192x192" href="../../../imagenes/icono-192.png">
+<link rel="apple-touch-icon" href="../../../imagenes/icono-apple.png">
+<link rel="manifest" href="../../../manifest.json">
+
+<!-- Como se ve cuando alguien comparte el link por WhatsApp o Instagram -->
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="La Bolivar con vos">
+<meta property="og:title" content="El oído · La Bolívar con vos">
+<meta property="og:description" content="Externo, medio e interno: qué hay en cada parte, la cadena osicular y los líquidos, con autoevaluación.">
+<meta property="og:image" content="https://bolivar-con-vos.vercel.app/imagenes/compartir.png">
+<meta name="twitter:card" content="summary_large_image">
+
+<!-- EL TEMA, ANTES DE DIBUJAR NADA. Igual que en el resto de la app: si
+     esto viviera en un script del final, la ficha arrancaria clara y
+     pegaria un salto a oscura. -->
+<script>
+(function(){try{
+  var g = localStorage.getItem('bolivar-tema') || 'auto';
+  var oscuro = g === 'oscuro' || (g === 'auto' &&
+    window.matchMedia('(prefers-color-scheme: dark)').matches);
+  document.documentElement.dataset.tema = oscuro ? 'oscuro' : 'claro';
+}catch(e){ document.documentElement.dataset.tema = 'claro'; }})();
+</script>
+
+<style>
+/* ===== LO QUE VINO DEL DISENO, TAL CUAL ===== */
+:root{color-scheme:light dark;--bg:#FFFFFF;--paper:#FDFCF7;--tx:#1A1A1A;--mut:#3A3A3A;--stroke:#1A1A1A;--yellow:#F9E830;--onyel:#1A1A1A;--red:#B52625;--line:#0195B1;--dur:.25s}
+html[data-tema="oscuro"]{--bg:#151412;--paper:#22201D;--tx:#FDFCF7;--mut:#D8D3C8;--stroke:#FDFCF7;--red:#FF9D8F;--line:#5AD8F0}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+html,body{max-width:100%;overflow-x:hidden}
+body{margin:0;background:var(--bg);color:var(--tx);font-family:Roboto,system-ui,sans-serif;-webkit-text-size-adjust:100%}
+a{color:var(--red);text-decoration:underline;text-underline-offset:2px}
+a:hover{color:var(--tx)}
+button{font:inherit;cursor:pointer;color:var(--tx)}
+:focus-visible{outline:3px solid var(--line);outline-offset:2px}
+.js-reveal [data-reveal]{opacity:0;transform:translateY(20px);transition:opacity .6s ease,transform .6s ease}
+.js-reveal [data-reveal].on{opacity:1;transform:none}
+@media print{[data-reveal]{opacity:1!important;transform:none!important}}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}[data-reveal]{opacity:1!important;transform:none!important;transition:none!important}:root{--dur:0s}}
+
+/* ===== LO QUE AGREGA LA APP ===== */
+
+/* La ficha no carga estilos.css. Es una pieza de lectura a pantalla
+   completa con su propio sistema visual, y las 160 KB de la app le
+   pelearian el body, la tipografia y los titulos. Lo unico que se
+   comparte es el tema y la barra de volver. */
+
+.ficha-volver{
+  display:inline-flex; align-items:center; gap:8px;
+  position:sticky; top:0; z-index:20;
+  width:100%; box-sizing:border-box;
+  padding:11px 18px;
+  font-family:Montserrat,sans-serif; font-weight:800;
+  font-size:12px; letter-spacing:.06em; text-transform:uppercase;
+  background:var(--yellow); color:var(--onyel);
+  border-bottom:2px solid var(--stroke);
+  text-decoration:none;
+}
+.ficha-volver:hover{ color:var(--onyel); }
+
+/* Los dos sellos del pie viven en estudiemos/fichas/assets/ y los
+   comparten las nueve fichas: por eso el src sale de la carpeta de la
+   ficha con ../assets/ en vez de tener nueve copias. */
+</style>
+</head>
+<body>
+
+<a class="ficha-volver" href="../../">← Estudiemos</a>
+
+<!-- Aca dibuja ficha.js. Vacio hasta que corre el script del final. -->
+<div id="ficha"></div>
+
+<!-- La ficha, tal como salio del diseno. Vive dentro de un <template>
+     para que el navegador no la muestre a medio armar: todavia tiene los
+     agujeros { asi } sin rellenar. -->
+<template id="plantilla">
+<section style="min-height:100svh;display:flex;flex-direction:column;justify-content:center;padding:44px 18px 32px;max-width:820px;margin:0 auto;border-bottom:2px solid var(--stroke)">
+<div style="display:flex;flex-wrap:wrap;gap:6px;margin-bottom:18px" data-reveal>
+<span style="font-family:Montserrat,sans-serif;font-weight:800;font-size:10px;letter-spacing:.08em;text-transform:uppercase;background:var(--yellow);color:var(--onyel);border:1px solid var(--stroke);border-radius:99px;padding:5px 11px;box-shadow:2px 2px 0 var(--stroke)">Equipo de Fonoaudiología</span>
+<span style="font-family:'Roboto Mono',monospace;font-size:10px;letter-spacing:.06em;border:1px solid var(--stroke);border-radius:99px;padding:5px 11px">FICHA · OÍDO</span>
+</div>
+<h1 style="font-family:'Archivo Black',sans-serif;font-weight:400;font-size:clamp(44px,15vw,92px);line-height:.84;margin:0;text-transform:uppercase;letter-spacing:-.03em" data-reveal data-delay="80">El oído</h1>
+<p style="font-family:Montserrat,sans-serif;font-weight:800;font-size:clamp(14px,4vw,19px);letter-spacing:.02em;text-transform:uppercase;margin:16px 0 0;max-width:30ch" data-reveal data-delay="160">Externo · medio · interno</p>
+<p style="font-size:clamp(15px,4vw,18px);line-height:1.55;color:var(--mut);margin:14px 0 0;max-width:46ch;text-wrap:pretty" data-reveal data-delay="240">Tres pliegues: primero la división entera, después qué hay en cada parte con las piezas para mover, y al final cómo te das cuenta de si te quedó.</p>
+<div style="display:flex;flex-wrap:wrap;gap:10px;margin-top:26px" data-reveal data-delay="320">
+<a href="#e1" style="font-family:Montserrat,sans-serif;font-weight:800;font-size:13px;letter-spacing:.04em;text-transform:uppercase;background:var(--yellow);color:var(--onyel);border:1px solid var(--stroke);border-radius:10px;box-shadow:2px 2px 0 var(--stroke);padding:14px 18px;text-decoration:none">Empezar por el 01</a>
+<a href="#e3" style="font-family:Montserrat,sans-serif;font-weight:800;font-size:13px;letter-spacing:.04em;text-transform:uppercase;color:var(--tx);border:1px solid var(--stroke);border-radius:10px;box-shadow:2px 2px 0 var(--stroke);padding:14px 18px;text-decoration:none">Ir a la autoevaluación</a>
+</div>
+<p style="font-family:'Roboto Mono',monospace;font-size:11px;letter-spacing:.1em;margin:34px 0 0;color:var(--mut)" data-reveal data-delay="400">↓ 01 QUÉ ES · 02 CÓMO FUNCIONA · 03 CÓMO TE DAS CUENTA</p>
+</section>
+
+<!-- 01 -->
+<section id="e1" style="min-height:100svh;padding:60px 18px;max-width:820px;margin:0 auto;border-bottom:2px solid var(--stroke)">
+<p style="font-family:'Roboto Mono',monospace;font-size:11px;letter-spacing:.12em;margin:0 0 8px" data-reveal>PLIEGUE 01</p>
+<h2 style="font-family:'Archivo Black',sans-serif;font-weight:400;font-size:clamp(34px,10vw,60px);line-height:.9;margin:0 0 18px;text-transform:uppercase" data-reveal data-delay="60">Qué es</h2>
+<p style="font-size:clamp(16px,4.4vw,20px);line-height:1.55;margin:0 0 12px;max-width:44ch;text-wrap:pretty" data-reveal data-delay="120">El oído se divide en tres partes, y el orden importa: externo, medio e interno. Es el mismo orden en el que el sonido las atraviesa.</p>
+<p style="font-size:clamp(15px,4vw,18px);line-height:1.6;margin:0 0 26px;max-width:46ch;text-wrap:pretty" data-reveal data-delay="180">Si podés decir qué hay en cada parte y en qué orden, ya tenés la mitad de la ficha.</p>
+<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:12px">
+<sc-for list="{{ intro }}" as="i" hint-placeholder-count="3">
+<div style="background:var(--paper);border:1px solid var(--stroke);border-radius:10px;box-shadow:2px 2px 0 var(--stroke);padding:15px" data-reveal data-delay="{{ i.d }}">
+<p style="font-family:'Roboto Mono',monospace;font-size:11px;letter-spacing:.1em;color:var(--mut);margin:0 0 6px">{{ i.n }}</p>
+<p style="font-family:Montserrat,sans-serif;font-weight:800;font-size:15px;letter-spacing:.03em;text-transform:uppercase;margin:0 0 8px;border-bottom:2px solid var(--line);display:inline-block;padding-bottom:3px">{{ i.t }}</p>
+<p style="font-size:14px;line-height:1.5;margin:0">{{ i.b }}</p>
+</div>
+</sc-for>
+</div>
+</section>
+
+<!-- 02 -->
+<section id="e2" style="min-height:100svh;padding:60px 18px;max-width:820px;margin:0 auto;border-bottom:2px solid var(--stroke)">
+<p style="font-family:'Roboto Mono',monospace;font-size:11px;letter-spacing:.12em;margin:0 0 8px" data-reveal>PLIEGUE 02</p>
+<h2 style="font-family:'Archivo Black',sans-serif;font-weight:400;font-size:clamp(34px,10vw,60px);line-height:.9;margin:0 0 18px;text-transform:uppercase" data-reveal data-delay="60">Cómo<br>funciona</h2>
+<p style="font-size:clamp(15px,4vw,18px);line-height:1.6;margin:0 0 28px;max-width:46ch;text-wrap:pretty" data-reveal data-delay="120">Tres piezas para mover: las tres partes sobre el mismo corte, la cadena osicular en orden y los líquidos del oído interno.</p>
+
+<article style="background:var(--paper);border:1px solid var(--stroke);border-radius:10px;box-shadow:2px 2px 0 var(--stroke);padding:18px;margin-bottom:18px" data-reveal>
+<p style="font-family:'Roboto Mono',monospace;font-size:10.5px;letter-spacing:.1em;color:var(--mut);margin:0 0 4px">2.1</p>
+<h3 style="font-family:'Archivo Black',sans-serif;font-weight:400;font-size:23px;line-height:1;margin:0 0 8px;text-transform:uppercase">Las tres partes</h3>
+<p style="font-size:14.5px;line-height:1.55;margin:0 0 14px">Un solo corte, tres zonas. Tocá cada una y fijate dónde empieza y dónde termina: los límites son lo que se pregunta.</p>
+<div role="group" aria-label="Elegí una parte del oído" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(110px,1fr));gap:8px;margin-bottom:14px">
+<sc-for list="{{ partChips }}" as="c" hint-placeholder-count="3">
+<button type="button" aria-pressed="{{ c.on }}" onClick="{{ c.go }}" style="font-family:Montserrat,sans-serif;font-weight:800;font-size:12.5px;letter-spacing:.03em;text-transform:uppercase;border:1px solid var(--stroke);border-radius:99px;padding:10px 12px;box-shadow:2px 2px 0 var(--stroke);background:{{ c.bg }};color:{{ c.fg }};transition:background var(--dur)">{{ c.label }}</button>
+</sc-for>
+</div>
+<svg viewBox="0 0 320 210" role="img" aria-label="{{ partAlt }}" style="width:100%;display:block;margin:0 auto 6px;height:auto">
+<rect x="4" y="26" width="124" height="150" rx="10" stroke="var(--stroke)" stroke-width="1.6" style="{{ zExt }}"></rect>
+<rect x="130" y="26" width="88" height="150" rx="10" stroke="var(--stroke)" stroke-width="1.6" style="{{ zMed }}"></rect>
+<rect x="220" y="26" width="96" height="150" rx="10" stroke="var(--stroke)" stroke-width="1.6" style="{{ zInt }}"></rect>
+<g fill="var(--paper)" stroke="var(--stroke)" stroke-width="2" stroke-linejoin="round">
+<path d="M22,66C10,86 12,124 28,142C38,154 56,152 62,140C68,126 66,86 54,68C44,56 30,54 22,66Z"></path>
+<path d="M38,88C46,92 48,110 42,124"></path>
+<path d="M62,92h56v26h-56z"></path>
+<path d="M126,72h56c8,0 12,6 12,14v42c0,8-4,14-12,14h-56z"></path>
+<ellipse cx="142" cy="98" rx="7" ry="9"></ellipse>
+<ellipse cx="160" cy="92" rx="8" ry="8"></ellipse>
+<path d="M176,96h10v14h-10z"></path>
+<path d="M184,152C196,172 214,186 244,192" fill="none" stroke-width="9" stroke-linecap="round"></path>
+<path d="M184,152C196,172 214,186 244,192" fill="none" stroke-width="1.6"></path>
+<path d="M256,96a24,24 0 1 1 -17,23a14,14 0 1 1 14,-13" fill="none" stroke-width="7"></path>
+<ellipse cx="256" cy="56" rx="20" ry="12"></ellipse>
+<ellipse cx="286" cy="72" rx="12" ry="20"></ellipse>
+</g>
+<path d="M120,84 126,120" stroke="var(--red)" stroke-width="3.5" fill="none"></path>
+<g font-family="'Roboto Mono',monospace" font-size="8.5" letter-spacing="0.5" fill="var(--mut)">
+<text x="10" y="20">EXTERNO</text>
+<text x="136" y="20">MEDIO</text>
+<text x="226" y="20">INTERNO</text>
+<text x="10" y="192">PABELLÓN · CONDUCTO</text>
+<text x="136" y="192">CAJA · HUESECILLOS</text>
+<text x="226" y="192">CÓCLEA · CONDUCTOS</text>
+</g>
+</svg>
+<p style="font-family:'Roboto Mono',monospace;font-size:10.5px;letter-spacing:.06em;text-align:center;color:var(--mut);margin:0 0 6px">LA LÍNEA ROJA ES LA MEMBRANA TIMPÁNICA</p>
+<div style="border:1px solid var(--stroke);border-left:6px solid var(--yellow);border-radius:10px;padding:12px;margin-top:10px">
+<p style="font-family:Montserrat,sans-serif;font-weight:800;font-size:12.5px;letter-spacing:.06em;text-transform:uppercase;margin:0 0 6px">{{ partName }}</p>
+<p style="font-size:14.5px;line-height:1.6;margin:0 0 8px;text-wrap:pretty">{{ partText }}</p>
+<p style="font-size:13px;line-height:1.5;color:var(--mut);margin:0">{{ partNote }}</p>
+</div>
+</article>
+
+<article style="background:var(--paper);border:1px solid var(--stroke);border-radius:10px;box-shadow:2px 2px 0 var(--stroke);padding:18px;margin-bottom:18px" data-reveal>
+<p style="font-family:'Roboto Mono',monospace;font-size:10.5px;letter-spacing:.1em;color:var(--mut);margin:0 0 4px">2.2</p>
+<h3 style="font-family:'Archivo Black',sans-serif;font-weight:400;font-size:23px;line-height:1;margin:0 0 8px;text-transform:uppercase">Cadena osicular</h3>
+<p style="font-size:14.5px;line-height:1.55;margin:0 0 14px">Tres huesecillos, un orden. Corré la barra: la vibración entra por el tímpano y los recorre siempre en la misma dirección.</p>
+<svg viewBox="0 0 300 120" role="img" aria-label="{{ chainAlt }}" style="width:100%;max-width:420px;display:block;margin:0 auto 6px;height:auto">
+<path d="M24,26 30,94" stroke="var(--red)" stroke-width="4" fill="none"></path>
+<text x="24" y="112" font-family="'Roboto Mono',monospace" font-size="8.5" letter-spacing="0.5" fill="var(--mut)" text-anchor="middle">TÍMPANO</text>
+<g stroke="var(--stroke)" stroke-width="2" stroke-linejoin="round">
+<path d="M62,40c14-4 26,4 26,18c0,16-12,24-26,20z" style="{{ hMar }}"></path>
+<path d="M118,34c18,0 30,12 30,26c0,14-12,24-30,22z" style="{{ hYun }}"></path>
+<path d="M178,44h22v10h18v14h-18v10h-22z" style="{{ hEst }}"></path>
+</g>
+<path d="M242,30 248,90" stroke="var(--line)" stroke-width="4" fill="none"></path>
+<text x="248" y="112" font-family="'Roboto Mono',monospace" font-size="8.5" letter-spacing="0.5" fill="var(--mut)" text-anchor="middle">OÍDO INTERNO</text>
+<g font-family="Montserrat,sans-serif" font-weight="800" font-size="10" letter-spacing="0.4" fill="var(--tx)">
+<text x="75" y="24" text-anchor="middle">MARTILLO</text>
+<text x="133" y="24" text-anchor="middle">YUNQUE</text>
+<text x="198" y="24" text-anchor="middle">ESTRIBO</text>
+</g>
+</svg>
+<label style="display:block;font-family:Montserrat,sans-serif;font-weight:800;font-size:11px;letter-spacing:.07em;text-transform:uppercase;margin-bottom:2px" for="chain">Seguí la vibración</label>
+<input id="chain" type="range" min="0" max="3" value="{{ step }}" onChange="{{ setStep }}" onInput="{{ setStep }}" aria-label="Paso de la cadena osicular" style="width:100%;height:34px;accent-color:var(--line)">
+<div style="display:flex;justify-content:space-between;font-family:'Roboto Mono',monospace;font-size:10px;letter-spacing:.05em;color:var(--mut);margin:-4px 0 14px"><span>TÍMPANO</span><span>OÍDO INTERNO</span></div>
+<div style="border:1px solid var(--stroke);border-left:6px solid var(--yellow);border-radius:10px;padding:12px">
+<p style="font-family:Montserrat,sans-serif;font-weight:800;font-size:12.5px;letter-spacing:.06em;text-transform:uppercase;margin:0 0 6px">{{ stepName }}</p>
+<p style="font-size:14.5px;line-height:1.6;margin:0">{{ stepText }}</p>
+</div>
+</article>
+
+<article style="background:var(--paper);border:1px solid var(--stroke);border-radius:10px;box-shadow:2px 2px 0 var(--stroke);padding:18px" data-reveal>
+<p style="font-family:'Roboto Mono',monospace;font-size:10.5px;letter-spacing:.1em;color:var(--mut);margin:0 0 4px">2.3</p>
+<h3 style="font-family:'Archivo Black',sans-serif;font-weight:400;font-size:23px;line-height:1;margin:0 0 8px;text-transform:uppercase">Los líquidos</h3>
+<p style="font-size:14.5px;line-height:1.55;margin:0 0 14px">Acordate que en el oído interno encontramos líquido, y no es uno solo. Tocá cada uno: lo que hay que saber es en qué rampa está.</p>
+<div role="group" aria-label="Elegí un líquido" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:8px;margin-bottom:14px">
+<sc-for list="{{ liqChips }}" as="c" hint-placeholder-count="2">
+<button type="button" aria-pressed="{{ c.on }}" onClick="{{ c.go }}" style="font-family:Montserrat,sans-serif;font-weight:800;font-size:12.5px;letter-spacing:.03em;text-transform:uppercase;border:1px solid var(--stroke);border-radius:99px;padding:10px 12px;box-shadow:2px 2px 0 var(--stroke);background:{{ c.bg }};color:{{ c.fg }};transition:background var(--dur)">{{ c.label }}</button>
+</sc-for>
+</div>
+<svg viewBox="0 0 300 150" role="img" aria-label="{{ liqAlt }}" style="width:100%;max-width:420px;display:block;margin:0 auto 6px;height:auto">
+<rect x="10" y="16" width="280" height="34" rx="8" stroke="var(--stroke)" stroke-width="1.8" style="{{ rVest }}"></rect>
+<rect x="10" y="56" width="280" height="34" rx="8" stroke="var(--stroke)" stroke-width="1.8" style="{{ rCoc }}"></rect>
+<rect x="10" y="96" width="280" height="34" rx="8" stroke="var(--stroke)" stroke-width="1.8" style="{{ rTimp }}"></rect>
+<g font-family="Montserrat,sans-serif" font-weight="800" font-size="11" letter-spacing="0.5" fill="var(--tx)">
+<text x="24" y="38">RAMPA VESTIBULAR</text>
+<text x="24" y="78">RAMPA COCLEAR</text>
+<text x="24" y="118">RAMPA TIMPÁNICA</text>
+</g>
+<g font-family="'Roboto Mono',monospace" font-size="9" letter-spacing="0.5" fill="var(--mut)">
+<text x="278" y="38" text-anchor="end">PERILINFA</text>
+<text x="278" y="78" text-anchor="end">ENDOLINFA</text>
+<text x="278" y="118" text-anchor="end">PERILINFA</text>
+<text x="10" y="146">ESQUEMA DE LAS TRES RAMPAS, NO A ESCALA</text>
+</g>
+</svg>
+<div style="border:1px solid var(--stroke);border-left:6px solid var(--yellow);border-radius:10px;padding:12px;margin-top:10px">
+<p style="font-family:Montserrat,sans-serif;font-weight:800;font-size:12.5px;letter-spacing:.06em;text-transform:uppercase;margin:0 0 6px">{{ liqName }}</p>
+<p style="font-size:14.5px;line-height:1.6;margin:0 0 8px">{{ liqText }}</p>
+<p style="font-size:13px;line-height:1.5;color:var(--mut);margin:0">La endolinfa está en una sola rampa; la perilinfa, en dos. Ese es el detalle que se olvida.</p>
+</div>
+</article>
+</section>
+
+<!-- 03 -->
+<section id="e3" style="min-height:100svh;padding:60px 18px;max-width:820px;margin:0 auto;border-bottom:2px solid var(--stroke)">
+<p style="font-family:'Roboto Mono',monospace;font-size:11px;letter-spacing:.12em;margin:0 0 8px" data-reveal>PLIEGUE 03</p>
+<h2 style="font-family:'Archivo Black',sans-serif;font-weight:400;font-size:clamp(34px,10vw,60px);line-height:.9;margin:0 0 18px;text-transform:uppercase" data-reveal data-delay="60">Cómo te<br>das cuenta</h2>
+<p style="font-size:clamp(16px,4.4vw,20px);line-height:1.55;margin:0 0 8px;max-width:44ch;text-wrap:pretty" data-reveal data-delay="120">Ocho preguntas. Elegís una opción y aparece la respuesta correcta con el porqué, aciertes o no.</p>
+<p style="font-size:15px;line-height:1.6;color:var(--mut);margin:0 0 26px;max-width:46ch;text-wrap:pretty" data-reveal data-delay="180">El acierto es sólo el camino: lo que hay que estudiar es el porqué.</p>
+<sc-for list="{{ quiz }}" as="q" hint-placeholder-count="8">
+<article style="background:var(--paper);border:1px solid var(--stroke);border-radius:10px;box-shadow:2px 2px 0 var(--stroke);padding:16px;margin-bottom:14px" data-reveal>
+<p style="font-family:'Roboto Mono',monospace;font-size:10.5px;letter-spacing:.1em;color:var(--mut);margin:0 0 6px">{{ q.num }}</p>
+<p style="font-family:Montserrat,sans-serif;font-weight:700;font-size:16px;line-height:1.4;margin:0 0 12px;text-wrap:pretty">{{ q.text }}</p>
+<div role="group" aria-label="Opciones" style="display:flex;flex-direction:column;gap:8px">
+<sc-for list="{{ q.opts }}" as="o" hint-placeholder-count="3">
+<button type="button" onClick="{{ o.go }}" aria-pressed="{{ o.on }}" style="display:flex;gap:9px;align-items:flex-start;text-align:left;font-family:Roboto,sans-serif;font-size:14.5px;line-height:1.45;border:1px solid var(--stroke);border-radius:10px;padding:11px 12px;box-shadow:2px 2px 0 var(--stroke);background:{{ o.bg }};color:{{ o.fg }};transition:background var(--dur)">
+<span style="font-family:'Roboto Mono',monospace;font-size:12px;padding-top:1px">{{ o.mark }}</span>
+<span>{{ o.label }}</span>
+</button>
+</sc-for>
+</div>
+<sc-if value="{{ q.done }}" hint-placeholder-val="{{ false }}">
+<div style="margin-top:12px;border:1px solid var(--stroke);border-left:6px solid var(--yellow);border-radius:10px;padding:12px">
+<p style="font-family:Montserrat,sans-serif;font-weight:800;font-size:11px;letter-spacing:.08em;text-transform:uppercase;margin:0 0 6px">Por qué</p>
+<p style="font-size:14.5px;line-height:1.55;margin:0;text-wrap:pretty">{{ q.why }}</p>
+</div>
+</sc-if>
+</article>
+</sc-for>
+<div style="background:var(--yellow);color:var(--onyel);border:1px solid var(--stroke);border-radius:10px;box-shadow:2px 2px 0 var(--stroke);padding:18px;margin-top:18px" data-reveal>
+<p style="font-family:'Roboto Mono',monospace;font-size:12px;letter-spacing:.06em;margin:0 0 6px">{{ score }}</p>
+<p style="font-family:Montserrat,sans-serif;font-weight:800;font-size:15px;line-height:1.4;margin:0 0 8px">Si algún porqué no te cerró, anotalo y llevalo a la cátedra.</p>
+<p style="font-size:14px;line-height:1.55;margin:0">Preguntar en clase o en la comisión es parte de estudiar, no una señal de que vas atrasada.</p>
+</div>
+<button type="button" onClick="{{ resetQuiz }}" style="width:100%;margin-top:12px;text-align:left;font-family:Montserrat,sans-serif;font-weight:800;font-size:12.5px;letter-spacing:.04em;text-transform:uppercase;background:transparent;border:1px solid var(--stroke);border-radius:10px;box-shadow:2px 2px 0 var(--stroke);padding:13px 15px">Borrar respuestas y volver a empezar</button>
+</section>
+
+<footer style="padding:48px 18px 60px;max-width:820px;margin:0 auto">
+<p style="font-family:'Archivo Black',sans-serif;font-weight:400;font-size:clamp(26px,8vw,44px);line-height:.92;margin:0 0 14px;text-transform:uppercase" data-reveal>Preparemos<br>anato juntes</p>
+<p style="font-size:15px;line-height:1.55;margin:0 0 10px;max-width:44ch" data-reveal data-delay="80">¿Ya te sumaste al grupo de WhatsApp? Sumate y preparemos la materia juntes: pedí el link al Equipo de Fonoaudiología.</p>
+<p style="font-size:13px;line-height:1.55;color:var(--mut);margin:0;max-width:52ch" data-reveal data-delay="140">Material de estudio armado con las placas del Equipo de Fonoaudiología · Agrupación Simón Bolívar. Las partes del oído externo se completaron con bibliografía de anatomía, porque la placa no las escribía: confirmalas con la cátedra. Los esquemas son diagramas, no atlas.</p>
+<div class="ficha-sellos" style="display:flex;flex-wrap:wrap;align-items:center;justify-content:center;gap:14px;margin:28px 0 0;border-top:2px solid var(--stroke);padding-top:26px" data-reveal data-delay="180">
+<img loading="lazy" src="../assets/sello-sb.svg" alt="Sello del Equipo de Fonoaudiología" width="150" height="150" style="width:clamp(112px,30vw,150px);height:auto;display:block;border:1px solid var(--stroke);border-radius:10px;box-shadow:2px 2px 0 var(--stroke)">
+<div style="display:flex;align-items:center;justify-content:center;padding:14px 50px;background:#FDFCF7;border:1px solid var(--stroke);border-radius:10px;box-shadow:2px 2px 0 var(--stroke)">
+<img loading="lazy" src="../assets/sello-sb-conduccion.svg" alt="Simón Bolívar · Conducción del CEFTS" width="514" height="213" style="width:clamp(180px,52vw,258px);height:auto;display:block">
+</div>
+</div>
+</footer>
+</template>
+
+<script src="../ficha.js"></script>
+<script>
+class Component extends DCLogic {
+  state = { part: 'medio', step: 0, liq: 'endolinfa', ans: {} };
+
+  componentDidMount() { this.wire(); }
+  componentDidUpdate() { this.wire(); }
+  componentWillUnmount() { clearTimeout(this._fail); if (this._io) this._io.disconnect(); }
+
+  wire() {
+    const nodes = Array.from(document.querySelectorAll('[data-reveal]'));
+    const show = () => nodes.forEach(n => n.classList.add('on'));
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) { show(); return; }
+    document.documentElement.classList.add('js-reveal');
+    nodes.forEach(n => {
+      const r = n.getBoundingClientRect();
+      if (r.top < (window.innerHeight || 800) && r.bottom > 0) n.classList.add('on');
+    });
+    clearTimeout(this._fail);
+    this._fail = setTimeout(show, 900);
+    if (!this._io) {
+      this._io = new IntersectionObserver((es) => {
+        es.forEach(e => {
+          if (e.isIntersecting) {
+            e.target.style.transitionDelay = (e.target.getAttribute('data-delay') || 0) + 'ms';
+            e.target.classList.add('on');
+            this._io.unobserve(e.target);
+          }
+        });
+      }, { rootMargin: '0px 0px -10% 0px', threshold: 0.12 });
+    }
+    nodes.forEach(n => { if (!n.classList.contains('on') && !n._obs) { n._obs = 1; this._io.observe(n); } });
+  }
+
+  chip(k, cur) {
+    const on = k === cur;
+    return { on, bg: on ? 'var(--yellow)' : 'transparent', fg: on ? 'var(--onyel)' : 'var(--tx)' };
+  }
+
+  renderVals() {
+    const s = this.state, S = (o) => this.setState(o);
+    const V = {};
+
+    V.intro = [
+      { d: 0, n: 'PARTE 01', t: 'Oído externo', b: 'Es la parte que se ve y el conducto que sigue, hasta la membrana timpánica.' },
+      { d: 80, n: 'PARTE 02', t: 'Oído medio', b: 'Encontramos: trompa de Eustaquio, caja del tímpano, cadena osicular y celdas mastoideas.' },
+      { d: 160, n: 'PARTE 03', t: 'Oído interno', b: 'Encontramos: laberinto óseo y laberinto membranoso, conductos semicirculares y cóclea. Y líquido.' }
+    ];
+
+    const parts = {
+      externo: {
+        n: 'Oído externo',
+        t: 'Formado por el pabellón auricular y el conducto auditivo externo, que termina en la membrana timpánica.',
+        note: 'Esto no estaba escrito en la placa: lo completamos con bibliografía de anatomía. Confirmalo con la cátedra antes de darlo por cerrado.',
+        k: 'zExt'
+      },
+      medio: {
+        n: 'Oído medio',
+        t: 'Encontramos: trompa de Eustaquio, caja del tímpano, cadena osicular y celdas mastoideas.',
+        note: 'La cadena osicular son los huesecillos: martillo, yunque y estribo. Están en la pieza 2.2.',
+        k: 'zMed'
+      },
+      interno: {
+        n: 'Oído interno',
+        t: 'Encontramos: laberinto óseo y laberinto membranoso, conductos semicirculares y cóclea.',
+        note: 'Y acordate que acá hay líquido: endolinfa y perilinfa. Están en la pieza 2.3.',
+        k: 'zInt'
+      }
+    };
+    V.partChips = ['externo', 'medio', 'interno'].map(k => ({ label: k, ...this.chip(k, s.part), go: () => S({ part: k }) }));
+    ['zExt', 'zMed', 'zInt'].forEach(k => { V[k] = 'fill:transparent;transition:fill var(--dur)'; });
+    V[parts[s.part].k] = 'fill:var(--yellow);transition:fill var(--dur)';
+    V.partName = parts[s.part].n;
+    V.partText = parts[s.part].t;
+    V.partNote = parts[s.part].note;
+    V.partAlt = 'Corte esquemático del oído dividido en externo, medio e interno. Resaltado: ' + parts[s.part].n + '.';
+
+    V.step = s.step;
+    V.setStep = (e) => S({ step: +e.target.value });
+    ['hMar', 'hYun', 'hEst'].forEach(k => { V[k] = 'fill:var(--paper);transition:fill var(--dur)'; });
+    if (s.step >= 1) V.hMar = 'fill:var(--yellow);transition:fill var(--dur)';
+    if (s.step >= 2) V.hYun = 'fill:var(--yellow);transition:fill var(--dur)';
+    if (s.step >= 3) V.hEst = 'fill:var(--yellow);transition:fill var(--dur)';
+    V.stepName = ['La membrana timpánica', 'Martillo', 'Yunque', 'Estribo'][s.step];
+    V.stepText = [
+      'Todavía no entró a la cadena. El tímpano recibe la vibración y se la pasa al primer huesecillo.',
+      'Primero el martillo: es el que está en contacto con la membrana timpánica.',
+      'Después el yunque, en el medio de la cadena.',
+      'Por último el estribo, el que se relaciona con el oído interno. Martillo, yunque y estribo: siempre en ese orden.'
+    ][s.step];
+    V.chainAlt = 'Esquema de la cadena osicular: martillo, yunque y estribo entre el tímpano y el oído interno.';
+
+    V.liqChips = [
+      { k: 'endolinfa', label: 'Endolinfa' },
+      { k: 'perilinfa', label: 'Perilinfa' }
+    ].map(c => ({ ...c, ...this.chip(c.k, s.liq), go: () => S({ liq: c.k }) }));
+    const endo = s.liq === 'endolinfa';
+    V.rCoc = 'fill:' + (endo ? 'var(--yellow)' : 'transparent') + ';transition:fill var(--dur)';
+    V.rVest = 'fill:' + (endo ? 'transparent' : 'var(--yellow)') + ';transition:fill var(--dur)';
+    V.rTimp = 'fill:' + (endo ? 'transparent' : 'var(--yellow)') + ';transition:fill var(--dur)';
+    V.liqName = endo ? 'Endolinfa' : 'Perilinfa';
+    V.liqText = endo ? 'Está en la rampa coclear.' : 'Está en la rampa timpánica y en la rampa vestibular.';
+    V.liqAlt = 'Esquema de las tres rampas con el líquido de cada una; resaltado: ' + (endo ? 'la rampa coclear' : 'las rampas timpánica y vestibular') + '.';
+
+    const QS = [
+      { id: 'd1', text: '¿En qué tres partes se divide el oído?', o: ['Pabellón, conducto y tímpano', 'Externo, medio e interno', 'Laberinto óseo, membranoso y cóclea'], c: 1, why: 'El oído está dividido en externo, medio e interno. Es el mismo orden en el que el sonido las atraviesa.' },
+      { id: 'd2', text: '¿Qué encontramos en el oído medio?', o: ['Trompa de Eustaquio, caja del tímpano, cadena osicular y celdas mastoideas', 'Conductos semicirculares y cóclea', 'Pabellón auricular y conducto auditivo externo'], c: 0, why: 'En el oído medio encontramos: trompa de Eustaquio, caja del tímpano, cadena osicular y celdas mastoideas.' },
+      { id: 'd3', text: 'La cadena osicular está formada por…', o: ['Martillo, yunque y estribo', 'Martillo, estribo y cóclea', 'Yunque, estribo y trompa de Eustaquio'], c: 0, why: 'Cadena osicular: los huesecillos martillo, yunque y estribo, en ese orden desde la membrana timpánica hacia el oído interno.' },
+      { id: 'd4', text: '¿Qué encontramos en el oído interno?', o: ['Celdas mastoideas y caja del tímpano', 'Laberinto óseo y laberinto membranoso, conductos semicirculares y cóclea', 'Pabellón, conducto y tímpano'], c: 1, why: 'En el oído interno encontramos laberinto óseo y laberinto membranoso, conductos semicirculares y cóclea. Además hay líquido: endolinfa y perilinfa.' },
+      { id: 'd5', text: '¿Dónde está la endolinfa?', o: ['En la rampa coclear', 'En la rampa timpánica', 'En la rampa vestibular'], c: 0, why: 'Endolinfa: rampa coclear. Perilinfa: rampa timpánica y rampa vestibular.' },
+      { id: 'd6', text: '¿Y la perilinfa?', o: ['Solo en la rampa coclear', 'En la rampa timpánica y en la vestibular', 'En los conductos semicirculares únicamente'], c: 1, why: 'Perilinfa: rampa timpánica y vestibular. La endolinfa, en cambio, está en una sola: la rampa coclear.' },
+      { id: 'd7', text: 'El oído externo está formado por…', o: ['Pabellón auricular y conducto auditivo externo', 'Caja del tímpano y celdas mastoideas', 'Cóclea y laberinto'], c: 0, why: 'El oído externo está formado por el pabellón auricular y el conducto auditivo externo, que termina en la membrana timpánica. Ojo: este dato lo completamos con bibliografía porque la placa no lo escribía; chequealo con la cátedra.' },
+      { id: 'd8', text: '¿Qué huesecillo está en contacto con la membrana timpánica?', o: ['El estribo', 'El yunque', 'El martillo'], c: 2, why: 'El orden de la cadena va desde el tímpano hacia el oído interno: martillo, yunque y estribo. El martillo es el primero.' }
+    ];
+    let ok = 0, done = 0;
+    V.quiz = QS.map((q, i) => {
+      const picked = s.ans[q.id];
+      const answered = picked !== undefined;
+      if (answered) { done++; if (picked === q.c) ok++; }
+      return {
+        num: 'PREGUNTA ' + String(i + 1).padStart(2, '0') + ' / 08',
+        text: q.text, done: answered, why: q.why,
+        opts: q.o.map((label, j) => {
+          const isC = j === q.c, chosen = picked === j;
+          let bg = 'var(--paper)', fg = 'var(--tx)', mark = '○';
+          if (answered) {
+            if (isC) { bg = 'var(--yellow)'; fg = 'var(--onyel)'; mark = '✔'; }
+            else if (chosen) { mark = '✕'; }
+            else { mark = '·'; }
+          }
+          return { label, bg, fg, mark, on: chosen, go: () => { if (!answered) S({ ans: { ...this.state.ans, [q.id]: j } }); } };
+        })
+      };
+    });
+    V.score = done === 0 ? 'TODAVÍA NO RESPONDISTE NINGUNA' : 'ACERTASTE ' + ok + ' DE ' + done + ' RESPONDIDAS · 8 EN TOTAL';
+    V.resetQuiz = () => S({ ans: {} });
+
+    return V;
+  }
+}
+arrancarFicha();
+</script>
+</body>
+</html>

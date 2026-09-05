@@ -45,7 +45,8 @@ sobre los otros. Ahora mandan así, y no se abre un quinto:
 | 4/9 | Las materias que se rinden libres en Fonoaudiología, como listado de texto | `b95af25` |
 | 4/9 | «Mi año» parte 1: la pregunta al entrar y la vista «Tu primer año» | `2a0f39f` |
 | 4/9 | **El embudo del 21:** hitos (eligió carrera, marcó materia, instaló, volvió) y de qué link de Instagram vino cada visita. `v18` | `bc97ed6` |
-| 5/9 | **Las ocho fichas de estudio del Equipo de Fonoaudiología**, en `estudiemos/fichas/`. Sin `v` nueva: son pantallas (van por red primero) y un archivo nuevo | (este commit) |
+| 5/9 | **Las ocho fichas de estudio del Equipo de Fonoaudiología**, en `estudiemos/fichas/`. Sin `v` nueva: son pantallas (van por red primero) y un archivo nuevo | `841c836` |
+| 5/9 | La novena ficha, **el oído**, y los dos sellos del pie. El de Conducción va en vector | (este commit) |
 
 **Ojo con lo de las materias libres.** El listado sale de un documento que se
 llama, textualmente, «**Propuesta** de materias libres … para agregar al régimen

@@ -74,14 +74,9 @@ input[type=range]{accent-color:var(--line);width:100%;height:34px}
 }
 .ficha-volver:hover{ color:var(--onyel); }
 
-/* LOS SELLOS TODAVIA NO LLEGARON. En el proyecto de Claude Design viven
-   en assets/sello-sb.svg y assets/sello-sb-conduccion.png, y no vinieron
-   con los .dc.html. Un recuadro vacio con borde se ve peor que nada, asi
-   que el bloque queda escondido.
-
-   CUANDO LOS COPIEN a estudiemos/fichas/assets/, borren estas tres
-   lineas y los sellos aparecen solos en las ocho fichas. */
-.ficha-sellos{ display:none; }
+/* Los dos sellos del pie viven en estudiemos/fichas/assets/ y los
+   comparten las nueve fichas: por eso el src sale de la carpeta de la
+   ficha con ../assets/ en vez de tener nueve copias. */
 </style>
 </head>
 <body>
@@ -472,7 +467,7 @@ input[type=range]{accent-color:var(--line);width:100%;height:34px}
 <div class="ficha-sellos" style="display:flex;flex-wrap:wrap;align-items:center;justify-content:center;gap:14px;margin:28px 0 0;border-top:2px solid var(--stroke);padding-top:26px" data-reveal="" data-delay="180">
 <img loading="lazy" src="../assets/sello-sb.svg" alt="Sello del Equipo de Fonoaudiología" width="150" height="150" style="width:clamp(112px,30vw,150px);height:auto;display:block;border:1px solid var(--stroke);border-radius:10px;box-shadow:2px 2px 0 var(--stroke)">
 <div style="display:flex;align-items:center;justify-content:center;padding:14px 50px;background:#FDFCF7;border:1px solid var(--stroke);border-radius:10px;box-shadow:2px 2px 0 var(--stroke)">
-<img loading="lazy" src="../assets/sello-sb-conduccion.png" alt="Simón Bolívar · Conducción del CEFTS" width="514" height="194" style="width:clamp(180px,52vw,258px);height:auto;display:block">
+<img loading="lazy" src="../assets/sello-sb-conduccion.svg" alt="Simón Bolívar · Conducción del CEFTS" width="514" height="213" style="width:clamp(180px,52vw,258px);height:auto;display:block">
 </div>
 </div>
 </footer>
