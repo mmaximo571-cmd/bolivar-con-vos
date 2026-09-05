@@ -28,6 +28,7 @@ sobre los otros. Ahora mandan así, y no se abre un quinto:
 |---|---|
 | **`BITACORA.md`** | **el ahora.** Única fuente. Se lee al arrancar y se corrige al cerrar |
 | `LEEME.md` | cómo funciona cada cosa. Referencia, no se lee al arrancar |
+| `PROMPT-DISENO.md` | el molde para pedirle pantallas a Gemini y que salgan en HTML de esta app, no en React |
 | Memoria del proyecto | cómo se trabaja y qué no puede esta máquina |
 | [Artifact del plan](https://claude.ai/code/artifact/25f7c752-e67f-465a-bf82-5913218cff95) | **congelado**, registro histórico. Ya no es el documento rector: quedó viejo cuando se rearmó el cronograma el 3/9 |
 
@@ -48,7 +49,9 @@ sobre los otros. Ahora mandan así, y no se abre un quinto:
 | 4/9 | **El embudo del 21:** hitos (eligió carrera, marcó materia, instaló, volvió) y de qué link de Instagram vino cada visita. `v18` | `bc97ed6` |
 | 5/9 | **Las ocho fichas de estudio del Equipo de Fonoaudiología**, en `estudiemos/fichas/`. Sin `v` nueva: son pantallas (van por red primero) y un archivo nuevo | `841c836` |
 | 5/9 | La novena ficha, **el oído**, y los dos sellos del pie. El de Conducción va en vector | `a07cd8f` |
-| 5/9 | **Los siete trípticos originales en PDF** (33 MB), en `estudiemos/tripticos/`. Van en el repo y no en un bucket de Supabase porque el MCP no sube archivos a storage. Si el repo pesa, mudarlos es cambiar la ruta en un lugar | (este commit) |
+| 5/9 | **Los siete trípticos originales en PDF** (33 MB), en `estudiemos/tripticos/`. Van en el repo y no en un bucket de Supabase porque el MCP no sube archivos a storage. Si el repo pesa, mudarlos es cambiar la ruta en un lugar | `be80b2e` |
+| 5/9 | **Estudiemos rediseñado:** buscador arriba, tres herramientas en superficie, y el amarillo una sola vez abajo en la invitación a compartir. `v19` | `db57993` |
+| 5/9 | `PROMPT-DISENO.md`: el molde para que lo que salga de Gemini entre sin traducir | (este commit) |
 
 **Ojo con lo de las materias libres.** El listado sale de un documento que se
 llama, textualmente, «**Propuesta** de materias libres … para agregar al régimen
