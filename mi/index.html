@@ -167,9 +167,29 @@
         <div id="mensaje"></div>
       </div>
 
-      <p style="color:var(--texto-suave);font-size:var(--letra-nota);margin-top:16px">
-        Guardamos solo tu correo y los trámites que marques. Nada más.
-      </p>`;
+      <!-- QUE SE GUARDA, QUIEN LO VE Y COMO SE BORRA. Los tres renglones
+           estan comprobados contra las politicas de la base el 5/9, no
+           escritos de memoria: «guardados» y «preparaciones» solo se dejan
+           leer por su dueño, y «perfiles» -lo unico que ve el equipo- tiene
+           OJO: nada de comillas invertidas aca adentro. Este comentario vive
+           DENTRO de un template literal, y una comilla invertida lo corta al
+           medio: la pantalla entera deja de andar.
+           nombre y rol, sin el correo. Si algun dia cambia una politica,
+           cambia este texto: una nota de privacidad que no coincide con la
+           base es peor que no tenerla. -->
+      <div style="color:var(--texto-suave);font-size:var(--letra-nota);
+                  margin-top:16px;line-height:1.5">
+        <p style="margin:0 0 6px"><b>Qué guardamos:</b> tu correo, el nombre
+          que pongas, los trámites que marques y las materias que estés
+          preparando. Nada de notas ni de cómo te va.</p>
+        <p style="margin:0 0 6px"><b>Quién lo ve:</b> vos. El equipo ve tu
+          nombre en la lista de cuentas; no ve tu correo, ni qué guardaste, ni
+          qué estás preparando.</p>
+        <p style="margin:0 0 6px"><b>Cómo se borra:</b> desde tu cuenta, en un
+          toque, y se va todo junto.</p>
+        <p style="margin:0">La app anda igual sin cuenta. La cuenta sirve para
+          que lo tuyo esté en cualquier teléfono.</p>
+      </div>`;
 
     let modo = 'entrar';
     const tabEntrar = document.getElementById('tab-entrar');
@@ -322,12 +342,108 @@
         <div id="msj-clave"></div>
       </div>
 
-      <button class="boton ancho borde" id="salir" style="margin-top:26px">Cerrar sesión</button>`;
+      <button class="boton ancho borde" id="salir" style="margin-top:26px">Cerrar sesión</button>
+
+      <!-- BORRAR LA CUENTA. Va ultimo y detras de dos puertas -abrir el
+           bloque, y escribir la palabra- porque no se puede deshacer. No
+           es desconfianza del dedo: es que el precio de tocarlo sin querer
+           es el año entero de alguien. -->
+      <div class="titulo-seccion" style="margin-top:30px">BORRAR MI CUENTA</div>
+      <div class="ficha">
+        <p style="margin:0 0 12px;font-size:var(--letra-nota);line-height:1.4;color:var(--texto-suave)">
+          Se va todo junto: la cuenta, tu nombre, los trámites que guardaste y
+          las materias que estabas preparando. <b>No se puede deshacer.</b></p>
+        <button class="boton borde ancho" id="abrir-borrado">Quiero borrar mi cuenta</button>
+
+        <div id="borrado" hidden>
+          <div class="campo" style="margin-top:12px">
+            <label for="confirmar-borrado">Escribí BORRAR para confirmar</label>
+            <input id="confirmar-borrado" type="text" autocomplete="off"
+                   autocapitalize="characters" placeholder="BORRAR">
+          </div>
+          <button class="boton ancho" id="borrar-ya">Borrar mi cuenta para siempre</button>
+          <button class="boton texto ancho" id="cancelar-borrado">Mejor no</button>
+        </div>
+        <div id="msj-borrado"></div>
+      </div>`;
 
     document.getElementById('salir').onclick = async function(){
       this.disabled = true;
       await db.auth.signOut();
       refrescar();
+    };
+
+    /* ---------- Borrar la cuenta ----------
+       El borrado de verdad lo hace `borrar_mi_cuenta()` en la base, no
+       esta pantalla: con la clave pública nadie puede tocar `auth.users`.
+       Lo que sí es de acá son las dos puertas de antes y, sobre todo, el
+       aviso honesto si algo sale mal. Decirle «listo» a alguien cuyos
+       datos siguen ahí es la peor forma de fallar en esto. */
+    const cajaBorrado = document.getElementById('borrado');
+    const msjBorrado  = document.getElementById('msj-borrado');
+    const btnAbrirBor = document.getElementById('abrir-borrado');
+
+    btnAbrirBor.onclick = () => {
+      cajaBorrado.hidden = false;
+      btnAbrirBor.hidden = true;
+      msjBorrado.innerHTML = '';
+      document.getElementById('confirmar-borrado').focus();
+    };
+
+    document.getElementById('cancelar-borrado').onclick = () => {
+      cajaBorrado.hidden = true;
+      btnAbrirBor.hidden = false;
+      document.getElementById('confirmar-borrado').value = '';
+      msjBorrado.innerHTML = '';
+      btnAbrirBor.focus();
+    };
+
+    document.getElementById('borrar-ya').onclick = async function(){
+      const campo = document.getElementById('confirmar-borrado');
+      if (campo.value.trim().toUpperCase() !== 'BORRAR'){
+        msjBorrado.innerHTML = `<div class="aviso error">
+            Escribí la palabra <b>BORRAR</b> para confirmar.</div>`;
+        campo.focus();
+        return;
+      }
+
+      this.disabled = true; this.textContent = 'Borrando…';
+      const { error } = await db.rpc('borrar_mi_cuenta');
+
+      if (error){
+        this.disabled = false; this.textContent = 'Borrar mi cuenta para siempre';
+        /* Si la función todavía no está en la base, no es culpa de quien
+           quiere borrarse: falta correr el SQL. Se lo decimos sin jerga y
+           le damos una salida que no depende de nosotros. */
+        const faltaLaFuncion =
+          /borrar_mi_cuenta|schema cache|does not exist|404|not find/i.test(error.message || '');
+        msjBorrado.innerHTML = faltaLaFuncion
+          ? `<div class="aviso error">
+               Todavía no podemos borrar cuentas desde acá.
+               <b>Escribinos y la borramos a mano en el día.</b><br>
+               <small>Al equipo: falta correr <b>tabla-borrar-cuenta.sql</b> en Supabase.</small>
+             </div>`
+          : `<div class="aviso error">
+               No se pudo borrar: ${esc(error.message || 'error desconocido')}.<br>
+               <b>Tu cuenta sigue estando.</b> Probá de nuevo, y si sigue
+               fallando escribinos.</div>`;
+        return;
+      }
+
+      /* Borrada la fila, el token que tenemos en la mano ya no vale. El
+         signOut puede fallar por eso mismo, y no importa: lo que se está
+         limpiando es el teléfono. Por eso va en try. */
+      try { await db.auth.signOut(); } catch(e){}
+
+      document.getElementById('contenido').innerHTML = `
+        <h1 class="titulo-pantalla">LISTO</h1>
+        <p class="bajada">Tu cuenta y todo lo que tenía adentro se borraron.</p>
+        <div class="ficha">
+          <p style="margin:0 0 12px;font-size:var(--letra-nota);line-height:1.5">
+            La app sigue funcionando sin cuenta: lo que marques queda guardado
+            en este teléfono. Si algún día querés volver, te creás una nueva.</p>
+          <a class="boton ancho" href="../">Ir al inicio</a>
+        </div>`;
     };
 
     /* ---------- Cambiar la contraseña con la sesión abierta ----------
