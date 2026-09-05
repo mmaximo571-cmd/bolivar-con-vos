@@ -297,9 +297,54 @@
       }
 
       if (modo === 'crear' && data.user && !data.session){
+        /* EL CORREO ES EL ESLABÓN FLOJO DE TODO ESTO.
+
+           Supabase manda estos mails con un servidor de prueba que corta
+           después de unos pocos por hora. Hoy, con dos cuentas, llega
+           siempre. El 21, con mucha gente entrando junta, va a haber quien
+           no lo reciba.
+
+           Sin una salida, esa persona queda con la cuenta creada, sin poder
+           entrar y sin nada que tocar. Así que se dicen las dos cosas de
+           una: cómo pedirlo de nuevo, y que mientras tanto la app funciona
+           igual sin cuenta. Lo segundo importa más que lo primero: si el
+           correo no llega, que al menos no se vaya. */
         mensaje.innerHTML = `<div class="aviso ok">
-            Listo. Te mandamos un correo a <strong>${esc(correo)}</strong> para confirmar la cuenta.
-            Abrilo y después volvé acá.</div>`;
+            Listo. Te mandamos un correo a <strong>${esc(correo)}</strong> para
+            confirmar la cuenta. Abrilo y después volvé acá.
+            <br><small>Fijate también en el correo no deseado.</small>
+            <button class="boton texto ancho" id="reenviar" style="margin-top:10px">
+              No me llegó, mandámelo de nuevo</button>
+            <small style="display:block;margin-top:8px;line-height:1.45">
+              Mientras tanto usá la app igual: sin cuenta anda todo, y lo que
+              marques queda guardado en este teléfono.</small>
+          </div>`;
+
+        document.getElementById('reenviar').onclick = async function(){
+          this.disabled = true;
+          this.textContent = 'Mandando…';
+          const { error: fallo } = await db.auth.resend({ type:'signup', email: correo });
+          this.disabled = false;
+          this.textContent = 'No me llegó, mandámelo de nuevo';
+
+          if (fallo){
+            /* El límite del servidor de prueba es lo que más va a saltar,
+               y no es culpa de quien se registra: se lo decimos sin echarle
+               la culpa y con un plazo concreto, que es lo único que
+               tranquiliza. */
+            const esElLimite =
+              /rate limit|too many|only request this after|security purposes/i
+                .test(fallo.message || '');
+            mensaje.insertAdjacentHTML('beforeend', `<div class="aviso error">${
+              esElLimite
+                ? 'Estamos mandando muchos correos juntos. Esperá unos minutos y volvé a tocar el botón. La app la podés usar igual mientras tanto.'
+                : esc('No pudimos reenviarlo: ' + (fallo.message || 'error desconocido'))
+            }</div>`);
+            return;
+          }
+          mensaje.insertAdjacentHTML('beforeend', `<div class="aviso ok">
+              Listo, lo mandamos de nuevo a <strong>${esc(correo)}</strong>.</div>`);
+        };
         return;
       }
       refrescar();
