@@ -1,0 +1,30 @@
+DEJÁ ACÁ LOS ARCHIVOS DE CLAUDE DESIGN
+=====================================
+
+Esta carpeta es un buzón. Lo que caiga acá adentro lo levanta la app
+y lo convierte en pantallas de Estudiemos.
+
+Qué va acá:
+
+  Anatomofisiología Landing.dc.html
+  Tríptico Anatomofisiología.dc.html
+  Laringe.dc.html
+  Faringe.dc.html
+  Oído.dc.html
+  Ontología del Lenguaje.dc.html
+  Audio Acufenometría y SISI.dc.html
+  Bases Sistema Nervioso.dc.html
+  Modelos de Intervención.dc.html
+
+  support.js
+  assets/sello-sb.svg
+  assets/sello-sb-conduccion.png
+
+Los nombres pueden venir con acentos y con espacios: está bien, no hay
+que renombrarlos.
+
+Si es más cómodo, también sirve dejarlos en la carpeta Descargas: los
+busca en los dos lados.
+
+Esta carpeta NO se sube al repositorio. Es material de trabajo: lo que
+se sube es la pantalla que sale de él.
