@@ -26,3 +26,7 @@ $RECYCLE.BIN/
 ~$*
 *.tmp
 *.crdownload
+
+# Cosas de Claude Code: la configuracion del servidor de prueba lleva
+# rutas de esta maquina, no sirven en otra.
+.claude/

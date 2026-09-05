@@ -1,0 +1,407 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Ontología del Lenguaje · La Bolívar con vos</title>
+<meta name="description" content="Lengua, lenguaje y habla; Maturana; teorías de adquisición, con autoevaluación.">
+<meta name="theme-color" content="#F9E830">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Montserrat:wght@700;800&family=Roboto:wght@400;500&family=Roboto+Mono:wght@400;500&display=swap" rel="stylesheet">
+<!-- Iconos de la app: pestana, Google, y pantalla de inicio del celular -->
+<link rel="icon" type="image/png" sizes="32x32" href="../../../imagenes/icono-32.png">
+<link rel="icon" type="image/png" sizes="96x96" href="../../../imagenes/icono-96.png">
+<link rel="icon" type="image/png" sizes="192x192" href="../../../imagenes/icono-192.png">
+<link rel="apple-touch-icon" href="../../../imagenes/icono-apple.png">
+<link rel="manifest" href="../../../manifest.json">
+
+<!-- Como se ve cuando alguien comparte el link por WhatsApp o Instagram -->
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="La Bolivar con vos">
+<meta property="og:title" content="Ontología del Lenguaje · La Bolívar con vos">
+<meta property="og:description" content="Lengua, lenguaje y habla; Maturana; teorías de adquisición, con autoevaluación.">
+<meta property="og:image" content="https://bolivar-con-vos.vercel.app/imagenes/compartir.png">
+<meta name="twitter:card" content="summary_large_image">
+
+<!-- EL TEMA, ANTES DE DIBUJAR NADA. Igual que en el resto de la app: si
+     esto viviera en un script del final, la ficha arrancaria clara y
+     pegaria un salto a oscura. -->
+<script>
+(function(){try{
+  var g = localStorage.getItem('bolivar-tema') || 'auto';
+  var oscuro = g === 'oscuro' || (g === 'auto' &&
+    window.matchMedia('(prefers-color-scheme: dark)').matches);
+  document.documentElement.dataset.tema = oscuro ? 'oscuro' : 'claro';
+}catch(e){ document.documentElement.dataset.tema = 'claro'; }})();
+</script>
+
+<style>
+/* ===== LO QUE VINO DEL DISENO, TAL CUAL ===== */
+:root{color-scheme:light dark;--bg:#FFFFFF;--paper:#FDFCF7;--tx:#1A1A1A;--mut:#3A3A3A;--stroke:#1A1A1A;--yellow:#F9E830;--onyel:#1A1A1A;--red:#B52625;--line:#0195B1;--dur:.25s}
+html[data-tema="oscuro"]{--bg:#151412;--paper:#22201D;--tx:#FDFCF7;--mut:#D8D3C8;--stroke:#FDFCF7;--red:#FF9D8F;--line:#5AD8F0}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+html,body{max-width:100%;overflow-x:hidden}
+body{margin:0;background:var(--bg);color:var(--tx);font-family:Roboto,system-ui,sans-serif;-webkit-text-size-adjust:100%}
+a{color:var(--red);text-decoration:underline;text-underline-offset:2px}
+a:hover{color:var(--tx)}
+button{font:inherit;cursor:pointer;color:var(--tx)}
+:focus-visible{outline:3px solid var(--line);outline-offset:2px}
+.js-reveal [data-reveal]{opacity:0;transform:translateY(20px);transition:opacity .6s ease,transform .6s ease}
+.js-reveal [data-reveal].on{opacity:1;transform:none}
+@media print{[data-reveal]{opacity:1!important;transform:none!important}}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}[data-reveal]{opacity:1!important;transform:none!important;transition:none!important}:root{--dur:0s}}
+
+/* ===== LO QUE AGREGA LA APP ===== */
+
+/* La ficha no carga estilos.css. Es una pieza de lectura a pantalla
+   completa con su propio sistema visual, y las 160 KB de la app le
+   pelearian el body, la tipografia y los titulos. Lo unico que se
+   comparte es el tema y la barra de volver. */
+
+.ficha-volver{
+  display:inline-flex; align-items:center; gap:8px;
+  position:sticky; top:0; z-index:20;
+  width:100%; box-sizing:border-box;
+  padding:11px 18px;
+  font-family:Montserrat,sans-serif; font-weight:800;
+  font-size:12px; letter-spacing:.06em; text-transform:uppercase;
+  background:var(--yellow); color:var(--onyel);
+  border-bottom:2px solid var(--stroke);
+  text-decoration:none;
+}
+.ficha-volver:hover{ color:var(--onyel); }
+
+/* LOS SELLOS TODAVIA NO LLEGARON. En el proyecto de Claude Design viven
+   en assets/sello-sb.svg y assets/sello-sb-conduccion.png, y no vinieron
+   con los .dc.html. Un recuadro vacio con borde se ve peor que nada, asi
+   que el bloque queda escondido.
+
+   CUANDO LOS COPIEN a estudiemos/fichas/assets/, borren estas tres
+   lineas y los sellos aparecen solos en las ocho fichas. */
+.ficha-sellos{ display:none; }
+</style>
+</head>
+<body>
+
+<a class="ficha-volver" href="../../">← Estudiemos</a>
+
+<!-- Aca dibuja ficha.js. Vacio hasta que corre el script del final. -->
+<div id="ficha"></div>
+
+<!-- La ficha, tal como salio del diseno. Vive dentro de un <template>
+     para que el navegador no la muestre a medio armar: todavia tiene los
+     agujeros { asi } sin rellenar. -->
+<template id="plantilla">
+<!-- ===== HERO ===== -->
+<section style="min-height:100svh;display:flex;flex-direction:column;justify-content:center;padding:44px 18px 32px;max-width:820px;margin:0 auto;border-bottom:2px solid var(--stroke)">
+<div style="display:flex;flex-wrap:wrap;gap:6px;margin-bottom:18px" data-reveal>
+<span style="font-family:Montserrat,sans-serif;font-weight:800;font-size:10px;letter-spacing:.08em;text-transform:uppercase;background:var(--yellow);color:var(--onyel);border:1px solid var(--stroke);border-radius:99px;padding:5px 11px;box-shadow:2px 2px 0 var(--stroke)">Equipo de Fonoaudiología</span>
+<span style="font-family:'Roboto Mono',monospace;font-size:10px;letter-spacing:.06em;border:1px solid var(--stroke);border-radius:99px;padding:5px 11px">FICHA · ONTOLOGÍA</span>
+</div>
+<h1 style="font-family:'Archivo Black',sans-serif;font-weight:400;font-size:clamp(38px,12vw,80px);line-height:.84;margin:0;text-transform:uppercase;letter-spacing:-.03em" data-reveal data-delay="80">Preparemos<br>ontología<br>juntes</h1>
+<p style="font-family:Montserrat,sans-serif;font-weight:800;font-size:clamp(14px,4vw,19px);letter-spacing:.02em;text-transform:uppercase;margin:16px 0 0;max-width:30ch" data-reveal data-delay="160">Tres postulados · lengua, lenguaje y habla · Maturana</p>
+<p style="font-size:clamp(15px,4vw,18px);line-height:1.55;color:var(--mut);margin:14px 0 0;max-width:46ch;text-wrap:pretty" data-reveal data-delay="240">Tres pliegues: primero la idea entera, después las distinciones que hay que poder hacer, y al final cómo te das cuenta de si te quedó.</p>
+<div style="display:flex;flex-wrap:wrap;gap:10px;margin-top:26px" data-reveal data-delay="320">
+<a href="#o1" style="font-family:Montserrat,sans-serif;font-weight:800;font-size:13px;letter-spacing:.04em;text-transform:uppercase;background:var(--yellow);color:var(--onyel);border:1px solid var(--stroke);border-radius:10px;box-shadow:2px 2px 0 var(--stroke);padding:14px 18px;text-decoration:none">Empezar por el 01</a>
+<a href="#o3" style="font-family:Montserrat,sans-serif;font-weight:800;font-size:13px;letter-spacing:.04em;text-transform:uppercase;color:var(--tx);border:1px solid var(--stroke);border-radius:10px;box-shadow:2px 2px 0 var(--stroke);padding:14px 18px;text-decoration:none">Ir a la autoevaluación</a>
+</div>
+<p style="font-family:'Roboto Mono',monospace;font-size:11px;letter-spacing:.1em;margin:34px 0 0;color:var(--mut)" data-reveal data-delay="400">↓ 01 QUÉ ES · 02 CÓMO FUNCIONA · 03 CÓMO TE DAS CUENTA</p>
+</section>
+
+<!-- ===== 01 ===== -->
+<section id="o1" style="min-height:100svh;padding:60px 18px;max-width:820px;margin:0 auto;border-bottom:2px solid var(--stroke)">
+<p style="font-family:'Roboto Mono',monospace;font-size:11px;letter-spacing:.12em;margin:0 0 8px" data-reveal>PLIEGUE 01</p>
+<h2 style="font-family:'Archivo Black',sans-serif;font-weight:400;font-size:clamp(34px,10vw,60px);line-height:.9;margin:0 0 18px;text-transform:uppercase" data-reveal data-delay="60">Qué es</h2>
+<p style="font-size:clamp(16px,4.4vw,20px);line-height:1.55;margin:0 0 12px;max-width:44ch;text-wrap:pretty" data-reveal data-delay="120">Los seres humanos habitamos en el lenguaje. La ontología del lenguaje parte de tres postulados básicos, y todo lo demás se apoya ahí.</p>
+<p style="font-size:clamp(15px,4vw,18px);line-height:1.6;margin:0 0 24px;max-width:46ch;text-wrap:pretty" data-reveal data-delay="180">Tocá cada postulado: primero la frase, después lo que dice la ficha sobre esa frase.</p>
+
+<div style="display:flex;flex-direction:column;gap:10px;margin-bottom:24px">
+<sc-for list="{{ posts }}" as="p" hint-placeholder-count="3">
+<div style="background:var(--paper);border:1px solid var(--stroke);border-radius:10px;box-shadow:2px 2px 0 var(--stroke);overflow:hidden" data-reveal data-delay="{{ p.d }}">
+<button type="button" onClick="{{ p.go }}" aria-expanded="{{ p.on }}" style="width:100%;display:flex;gap:12px;align-items:flex-start;text-align:left;background:{{ p.bg }};color:{{ p.fg }};border:0;border-bottom:1px solid var(--stroke);padding:14px 15px;transition:background var(--dur)">
+<span style="font-family:'Roboto Mono',monospace;font-size:12px;padding-top:2px">{{ p.n }}</span>
+<span style="font-family:Montserrat,sans-serif;font-weight:800;font-size:15px;line-height:1.35">{{ p.t }}</span>
+</button>
+<div style="padding:14px 15px">
+<p style="font-size:14.5px;line-height:1.6;margin:0;text-wrap:pretty">{{ p.b }}</p>
+</div>
+</div>
+</sc-for>
+</div>
+
+<div style="background:var(--yellow);color:var(--onyel);border:1px solid var(--stroke);border-radius:10px;box-shadow:2px 2px 0 var(--stroke);padding:18px" data-reveal data-delay="280">
+<p style="font-family:'Roboto Mono',monospace;font-size:10.5px;letter-spacing:.1em;margin:0 0 8px">LA PREGUNTA DE LA FICHA</p>
+<p style="font-family:'Archivo Black',sans-serif;font-weight:400;font-size:clamp(22px,7vw,34px);line-height:1;margin:0 0 10px;text-transform:uppercase">¿Lenguaje es lo mismo que habla?</p>
+<p style="font-size:15px;line-height:1.55;margin:0">Si dudás, es la pregunta correcta. Se responde en el pliegue 02, con lengua, lenguaje y habla al lado.</p>
+</div>
+</section>
+
+<!-- ===== 02 ===== -->
+<section id="o2" style="min-height:100svh;padding:60px 18px;max-width:820px;margin:0 auto;border-bottom:2px solid var(--stroke)">
+<p style="font-family:'Roboto Mono',monospace;font-size:11px;letter-spacing:.12em;margin:0 0 8px" data-reveal>PLIEGUE 02</p>
+<h2 style="font-family:'Archivo Black',sans-serif;font-weight:400;font-size:clamp(34px,10vw,60px);line-height:.9;margin:0 0 18px;text-transform:uppercase" data-reveal data-delay="60">Cómo<br>funciona</h2>
+<p style="font-size:clamp(15px,4vw,18px);line-height:1.6;margin:0 0 28px;max-width:46ch;text-wrap:pretty" data-reveal data-delay="120">Tres piezas para mover: la distinción lengua / lenguaje / habla, lo que agrega Maturana, y las teorías de adquisición.</p>
+
+<!-- 2.1 -->
+<article style="background:var(--paper);border:1px solid var(--stroke);border-radius:10px;box-shadow:2px 2px 0 var(--stroke);padding:18px;margin-bottom:18px" data-reveal>
+<p style="font-family:'Roboto Mono',monospace;font-size:10.5px;letter-spacing:.1em;color:var(--mut);margin:0 0 4px">2.1</p>
+<h3 style="font-family:'Archivo Black',sans-serif;font-weight:400;font-size:23px;line-height:1;margin:0 0 8px;text-transform:uppercase">Lengua, lenguaje y habla</h3>
+<p style="font-size:14.5px;line-height:1.55;margin:0 0 14px">No son sinónimos y no están al mismo nivel. Tocá cada uno: el diagrama te muestra dónde se ubica y de quién es.</p>
+<div role="group" aria-label="Elegí un término" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(110px,1fr));gap:8px;margin-bottom:14px">
+<sc-for list="{{ termChips }}" as="c" hint-placeholder-count="3">
+<button type="button" aria-pressed="{{ c.on }}" onClick="{{ c.go }}" style="font-family:Montserrat,sans-serif;font-weight:800;font-size:12.5px;letter-spacing:.03em;text-transform:uppercase;border:1px solid var(--stroke);border-radius:99px;padding:10px 13px;box-shadow:2px 2px 0 var(--stroke);background:{{ c.bg }};color:{{ c.fg }};transition:background var(--dur)">{{ c.label }}</button>
+</sc-for>
+</div>
+<svg viewBox="0 0 300 190" role="img" aria-label="{{ termAlt }}" style="width:100%;max-width:440px;display:block;margin:0 auto 6px;height:auto">
+<rect x="6" y="8" width="288" height="174" rx="10" stroke="var(--stroke)" stroke-width="2" style="{{ gLenguaje }}"></rect>
+<text x="20" y="30" font-family="Montserrat,sans-serif" font-weight="800" font-size="13" letter-spacing="0.6" fill="var(--tx)">LENGUAJE</text>
+<text x="20" y="46" font-family="'Roboto Mono',monospace" font-size="9" letter-spacing="0.5" fill="var(--mut)">FACULTAD HUMANA</text>
+<rect x="20" y="58" width="126" height="106" rx="10" stroke="var(--stroke)" stroke-width="2" style="{{ gLengua }}"></rect>
+<text x="34" y="80" font-family="Montserrat,sans-serif" font-weight="800" font-size="12" letter-spacing="0.6" fill="var(--tx)">LENGUA</text>
+<text x="34" y="96" font-family="'Roboto Mono',monospace" font-size="9" letter-spacing="0.5" fill="var(--mut)">SOCIAL Y</text>
+<text x="34" y="108" font-family="'Roboto Mono',monospace" font-size="9" letter-spacing="0.5" fill="var(--mut)">COLECTIVA</text>
+<text x="34" y="128" font-family="'Roboto Mono',monospace" font-size="9" letter-spacing="0.5" fill="var(--mut)">SE APROPIA:</text>
+<text x="34" y="140" font-family="'Roboto Mono',monospace" font-size="9" letter-spacing="0.5" fill="var(--mut)">NO SE CREA</text>
+<rect x="158" y="58" width="126" height="106" rx="10" stroke="var(--stroke)" stroke-width="2" style="{{ gHabla }}"></rect>
+<text x="172" y="80" font-family="Montserrat,sans-serif" font-weight="800" font-size="12" letter-spacing="0.6" fill="var(--tx)">HABLA</text>
+<text x="172" y="96" font-family="'Roboto Mono',monospace" font-size="9" letter-spacing="0.5" fill="var(--mut)">INDIVIDUAL</text>
+<text x="172" y="116" font-family="'Roboto Mono',monospace" font-size="9" letter-spacing="0.5" fill="var(--mut)">UN HABLANTE,</text>
+<text x="172" y="128" font-family="'Roboto Mono',monospace" font-size="9" letter-spacing="0.5" fill="var(--mut)">UN CONTEXTO</text>
+</svg>
+<p style="font-family:'Roboto Mono',monospace;font-size:10.5px;letter-spacing:.06em;text-align:center;color:var(--mut);margin:0 0 14px">ESQUEMA ARMADO CON LAS DEFINICIONES DE LA FICHA</p>
+<div style="border:1px solid var(--stroke);border-left:6px solid var(--yellow);border-radius:10px;padding:12px">
+<p style="font-family:Montserrat,sans-serif;font-weight:800;font-size:12.5px;letter-spacing:.06em;text-transform:uppercase;margin:0 0 6px">{{ termName }}</p>
+<p style="font-size:14.5px;line-height:1.6;margin:0 0 8px;text-wrap:pretty">{{ termText }}</p>
+<p style="font-size:13px;line-height:1.5;color:var(--mut);margin:0">{{ termNote }}</p>
+</div>
+</article>
+
+<!-- 2.2 -->
+<article style="background:var(--paper);border:1px solid var(--stroke);border-radius:10px;box-shadow:2px 2px 0 var(--stroke);padding:18px;margin-bottom:18px" data-reveal>
+<p style="font-family:'Roboto Mono',monospace;font-size:10.5px;letter-spacing:.1em;color:var(--mut);margin:0 0 4px">2.2</p>
+<h3 style="font-family:'Archivo Black',sans-serif;font-weight:400;font-size:23px;line-height:1;margin:0 0 8px;text-transform:uppercase">Según Maturana</h3>
+<ul style="margin:0 0 16px;padding-left:18px;font-size:14.5px;line-height:1.65">
+<li>El lenguaje construye al mundo.</li>
+<li>Las emociones se transmiten corporalmente, dando sentido a lo que hacemos y decimos.</li>
+<li>Una palabra puede tener diferentes efectos dependiendo de la acción en la que se dice.</li>
+</ul>
+<div style="border-top:2px solid var(--stroke);padding-top:16px">
+<h4 style="font-family:'Archivo Black',sans-serif;font-weight:400;font-size:20px;line-height:1;margin:0 0 6px;text-transform:uppercase">El amor</h4>
+<p style="font-size:14.5px;line-height:1.6;margin:0 0 14px;text-wrap:pretty">El amor no es solo sentir afecto sino aceptar al otro tal como es, sin querer controlarlo ni negarlo. La ficha describe dos escenarios: tocá cada uno.</p>
+<div role="group" aria-label="Elegí un escenario" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:8px;margin-bottom:14px">
+<sc-for list="{{ amorChips }}" as="c" hint-placeholder-count="2">
+<button type="button" aria-pressed="{{ c.on }}" onClick="{{ c.go }}" style="font-family:Montserrat,sans-serif;font-weight:800;font-size:12px;letter-spacing:.02em;text-transform:uppercase;border:1px solid var(--stroke);border-radius:99px;padding:10px 13px;box-shadow:2px 2px 0 var(--stroke);background:{{ c.bg }};color:{{ c.fg }};transition:background var(--dur)">{{ c.label }}</button>
+</sc-for>
+</div>
+<div style="border:1px solid var(--stroke);border-left:6px solid var(--yellow);border-radius:10px;padding:14px">
+<p style="font-family:Montserrat,sans-serif;font-weight:800;font-size:12.5px;letter-spacing:.06em;text-transform:uppercase;margin:0 0 8px">{{ amorName }}</p>
+<p style="font-size:14.5px;line-height:1.6;margin:0 0 10px;text-wrap:pretty">{{ amorText }}</p>
+<p style="font-family:Montserrat,sans-serif;font-weight:800;font-size:13.5px;line-height:1.45;margin:0">{{ amorClose }}</p>
+</div>
+</div>
+</article>
+
+<!-- 2.3 -->
+<article style="background:var(--paper);border:1px solid var(--stroke);border-radius:10px;box-shadow:2px 2px 0 var(--stroke);padding:18px" data-reveal>
+<p style="font-family:'Roboto Mono',monospace;font-size:10.5px;letter-spacing:.1em;color:var(--mut);margin:0 0 4px">2.3</p>
+<h3 style="font-family:'Archivo Black',sans-serif;font-weight:400;font-size:23px;line-height:1;margin:0 0 8px;text-transform:uppercase">Teorías de adquisición</h3>
+<p style="font-size:14.5px;line-height:1.55;margin:0 0 14px">Cinco teorías, cinco autores. La ficha las nombra: emparejar teoría y autor ya es la mitad del examen.</p>
+<div style="display:flex;flex-direction:column;gap:8px;margin-bottom:12px">
+<sc-for list="{{ teorias }}" as="t" hint-placeholder-count="5">
+<div style="display:flex;flex-wrap:wrap;gap:8px;align-items:center;justify-content:space-between;border:1px solid var(--stroke);border-radius:10px;padding:12px 13px">
+<p style="font-family:Montserrat,sans-serif;font-weight:800;font-size:13.5px;letter-spacing:.03em;text-transform:uppercase;margin:0">{{ t.t }}</p>
+<p style="font-family:'Roboto Mono',monospace;font-size:12px;letter-spacing:.06em;text-transform:uppercase;margin:0;padding:5px 10px;border:1px solid var(--stroke);border-radius:99px">{{ t.a }}</p>
+</div>
+</sc-for>
+</div>
+<p style="font-size:13px;line-height:1.55;color:var(--mut);margin:0">La ficha solo las nombra. El desarrollo de cada teoría lo trabajan en la cátedra: si querés, te lo sumo acá cuando lo tengas.</p>
+</article>
+</section>
+
+<!-- ===== 03 ===== -->
+<section id="o3" style="min-height:100svh;padding:60px 18px;max-width:820px;margin:0 auto;border-bottom:2px solid var(--stroke)">
+<p style="font-family:'Roboto Mono',monospace;font-size:11px;letter-spacing:.12em;margin:0 0 8px" data-reveal>PLIEGUE 03</p>
+<h2 style="font-family:'Archivo Black',sans-serif;font-weight:400;font-size:clamp(34px,10vw,60px);line-height:.9;margin:0 0 18px;text-transform:uppercase" data-reveal data-delay="60">Cómo te<br>das cuenta</h2>
+<p style="font-size:clamp(16px,4.4vw,20px);line-height:1.55;margin:0 0 8px;max-width:44ch;text-wrap:pretty" data-reveal data-delay="120">Ocho preguntas. Elegís una opción y aparece la respuesta correcta con el porqué, aciertes o no.</p>
+<p style="font-size:15px;line-height:1.6;color:var(--mut);margin:0 0 26px;max-width:46ch;text-wrap:pretty" data-reveal data-delay="180">El acierto es sólo el camino: lo que hay que estudiar es el porqué.</p>
+
+<sc-for list="{{ quiz }}" as="q" hint-placeholder-count="8">
+<article style="background:var(--paper);border:1px solid var(--stroke);border-radius:10px;box-shadow:2px 2px 0 var(--stroke);padding:16px;margin-bottom:14px" data-reveal>
+<p style="font-family:'Roboto Mono',monospace;font-size:10.5px;letter-spacing:.1em;color:var(--mut);margin:0 0 6px">{{ q.num }}</p>
+<p style="font-family:Montserrat,sans-serif;font-weight:700;font-size:16px;line-height:1.4;margin:0 0 12px;text-wrap:pretty">{{ q.text }}</p>
+<div role="group" aria-label="Opciones" style="display:flex;flex-direction:column;gap:8px">
+<sc-for list="{{ q.opts }}" as="o" hint-placeholder-count="3">
+<button type="button" onClick="{{ o.go }}" aria-pressed="{{ o.on }}" style="display:flex;gap:9px;align-items:flex-start;text-align:left;font-family:Roboto,sans-serif;font-size:14.5px;line-height:1.45;border:1px solid var(--stroke);border-radius:10px;padding:11px 12px;box-shadow:2px 2px 0 var(--stroke);background:{{ o.bg }};color:{{ o.fg }};transition:background var(--dur)">
+<span style="font-family:'Roboto Mono',monospace;font-size:12px;padding-top:1px">{{ o.mark }}</span>
+<span>{{ o.label }}</span>
+</button>
+</sc-for>
+</div>
+<sc-if value="{{ q.done }}" hint-placeholder-val="{{ false }}">
+<div style="margin-top:12px;border:1px solid var(--stroke);border-left:6px solid var(--yellow);border-radius:10px;padding:12px">
+<p style="font-family:Montserrat,sans-serif;font-weight:800;font-size:11px;letter-spacing:.08em;text-transform:uppercase;margin:0 0 6px">Por qué</p>
+<p style="font-size:14.5px;line-height:1.55;margin:0;text-wrap:pretty">{{ q.why }}</p>
+</div>
+</sc-if>
+</article>
+</sc-for>
+
+<div style="background:var(--yellow);color:var(--onyel);border:1px solid var(--stroke);border-radius:10px;box-shadow:2px 2px 0 var(--stroke);padding:18px;margin-top:18px" data-reveal>
+<p style="font-family:'Roboto Mono',monospace;font-size:12px;letter-spacing:.06em;margin:0 0 6px">{{ score }}</p>
+<p style="font-family:Montserrat,sans-serif;font-weight:800;font-size:15px;line-height:1.4;margin:0 0 8px">Si algún porqué no te cerró, anotalo y llevalo a la cátedra.</p>
+<p style="font-size:14px;line-height:1.55;margin:0">Preguntar en clase o en la comisión es parte de estudiar, no una señal de que vas atrasada.</p>
+</div>
+<button type="button" onClick="{{ resetQuiz }}" style="width:100%;margin-top:12px;text-align:left;font-family:Montserrat,sans-serif;font-weight:800;font-size:12.5px;letter-spacing:.04em;text-transform:uppercase;background:transparent;border:1px solid var(--stroke);border-radius:10px;box-shadow:2px 2px 0 var(--stroke);padding:13px 15px">Borrar respuestas y volver a empezar</button>
+</section>
+
+<footer style="padding:48px 18px 60px;max-width:820px;margin:0 auto">
+<p style="font-family:'Archivo Black',sans-serif;font-weight:400;font-size:clamp(26px,8vw,44px);line-height:.92;margin:0 0 14px;text-transform:uppercase" data-reveal>Preparemos<br>ontología juntes</p>
+<p style="font-size:15px;line-height:1.55;margin:0 0 10px;max-width:44ch" data-reveal data-delay="80">¿Qué otra ficha o grupo de estudio necesitás? La Bolívar te acompaña: pedí el link del grupo al Equipo de Fonoaudiología.</p>
+<p style="font-size:13px;line-height:1.55;color:var(--mut);margin:0;max-width:52ch" data-reveal data-delay="140">Material de estudio armado con las placas del Equipo de Fonoaudiología · Agrupación Simón Bolívar. Las definiciones son las de la ficha: para el desarrollo completo usá la bibliografía y preguntá en la cátedra.</p>
+<div class="ficha-sellos" style="display:flex;flex-wrap:wrap;align-items:center;justify-content:center;gap:14px;margin:28px 0 0;border-top:2px solid var(--stroke);padding-top:26px" data-reveal data-delay="180">
+<img loading="lazy" src="../assets/sello-sb.svg" alt="Sello del Equipo de Fonoaudiología" width="150" height="150" style="width:clamp(112px,30vw,150px);height:auto;display:block;border:1px solid var(--stroke);border-radius:10px;box-shadow:2px 2px 0 var(--stroke)">
+<div style="display:flex;align-items:center;justify-content:center;padding:14px 50px;background:#FDFCF7;border:1px solid var(--stroke);border-radius:10px;box-shadow:2px 2px 0 var(--stroke)">
+<img loading="lazy" src="../assets/sello-sb-conduccion.png" alt="Simón Bolívar · Conducción del CEFTS" width="514" height="194" style="width:clamp(180px,52vw,258px);height:auto;display:block">
+</div>
+</div>
+</footer>
+</template>
+
+<script src="../ficha.js"></script>
+<script>
+class Component extends DCLogic {
+  state = { post: 1, term: 'lenguaje', amor: 'con', ans: {} };
+
+  componentDidMount() { this.wire(); }
+  componentDidUpdate() { this.wire(); }
+  componentWillUnmount() { clearTimeout(this._fail); if (this._io) this._io.disconnect(); }
+
+  wire() {
+    const nodes = Array.from(document.querySelectorAll('[data-reveal]'));
+    const show = () => nodes.forEach(n => n.classList.add('on'));
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) { show(); return; }
+    document.documentElement.classList.add('js-reveal');
+    nodes.forEach(n => {
+      const r = n.getBoundingClientRect();
+      if (r.top < (window.innerHeight || 800) && r.bottom > 0) n.classList.add('on');
+    });
+    clearTimeout(this._fail);
+    this._fail = setTimeout(show, 900);
+    if (!this._io) {
+      this._io = new IntersectionObserver((es) => {
+        es.forEach(e => {
+          if (e.isIntersecting) {
+            e.target.style.transitionDelay = (e.target.getAttribute('data-delay') || 0) + 'ms';
+            e.target.classList.add('on');
+            this._io.unobserve(e.target);
+          }
+        });
+      }, { rootMargin: '0px 0px -10% 0px', threshold: 0.12 });
+    }
+    nodes.forEach(n => { if (!n.classList.contains('on') && !n._obs) { n._obs = 1; this._io.observe(n); } });
+  }
+
+  chip(k, cur) {
+    const on = k === cur;
+    return { on, bg: on ? 'var(--yellow)' : 'transparent', fg: on ? 'var(--onyel)' : 'var(--tx)' };
+  }
+
+  renderVals() {
+    const s = this.state, S = (o) => this.setState(o);
+    const V = {};
+
+    V.posts = [
+      { k: 1, n: '01', d: 0, t: 'Interpretamos a los seres humanos como seres lingüísticos', b: 'El lenguaje es lo que nos hace particulares respecto del resto de los seres vivos. Somos seres que vivimos en el lenguaje, y desarrollamos tres dominios: cuerpo, emocionalidad y lenguaje.' },
+      { k: 2, n: '02', d: 80, t: 'Interpretamos al lenguaje como generativo', b: 'El lenguaje no solo nos permite hablar sobre las cosas: es el que hace posible que las cosas sucedan. El lenguaje crea realidades.' },
+      { k: 3, n: '03', d: 160, t: 'Interpretamos que los seres humanos se crean a sí mismos en el lenguaje y a través de él', b: 'Tenemos una gran capacidad para abarcar un gran número de signos consensuales y para crear nuevos.' }
+    ].map(p => ({ ...p, ...this.chip(p.k, s.post), go: () => S({ post: p.k }) }));
+
+    const terms = {
+      lenguaje: {
+        n: 'Lenguaje',
+        t: 'Es la facultad humana de comunicarse a través de un sistema de signos, el cual implica evolución y estructura. Saussure lo define como multiforme y heteróclito porque cada una de las partes que lo componen tiene sus propias formas.',
+        note: 'Es el marco: la lengua y el habla están adentro. Por eso lenguaje no es lo mismo que habla.'
+      },
+      lengua: {
+        n: 'Lengua',
+        t: 'Es un sistema compartido, social, estable y colectivo, que todos los habitantes de una comunidad comparten y conocen. Es un juego de reglas. Es un elemento social del lenguaje: no se puede modificar ni crear, se apropia.',
+        note: 'Es la parte que no es tuya: ya estaba antes de que llegaras y la tomás como es.'
+      },
+      habla: {
+        n: 'Habla',
+        t: 'Se refiere a la manifestación individual del lenguaje en la comunicación oral. Es la realización específica de la lengua por parte de un hablante en un contexto determinado.',
+        note: 'Es la parte que sí es tuya: una persona, una vez, en un contexto.'
+      }
+    };
+    V.termChips = ['lenguaje', 'lengua', 'habla'].map(k => ({ label: terms[k].n, ...this.chip(k, s.term), go: () => S({ term: k }) }));
+    ['gLenguaje', 'gLengua', 'gHabla'].forEach(k => { V[k] = 'fill:var(--paper);transition:fill var(--dur)'; });
+    V[{ lenguaje: 'gLenguaje', lengua: 'gLengua', habla: 'gHabla' }[s.term]] = 'fill:var(--yellow);transition:fill var(--dur)';
+    V.termName = terms[s.term].n;
+    V.termText = terms[s.term].t;
+    V.termNote = terms[s.term].note;
+    V.termAlt = 'Esquema: el lenguaje como marco, con la lengua y el habla adentro. Resaltado: ' + terms[s.term].n + '.';
+
+    V.amorChips = [
+      { k: 'con', label: 'Cuando hay amor' },
+      { k: 'sin', label: 'Cuando lo perdemos' }
+    ].map(c => ({ ...c, ...this.chip(c.k, s.amor), go: () => S({ amor: c.k }) }));
+    if (s.amor === 'con') {
+      V.amorName = 'Cuando hay amor';
+      V.amorText = 'Aceptar al otro tal como es, sin querer controlarlo ni negarlo. Esto permite formar vínculos humanos, sociedades cooperativas y culturas.';
+      V.amorClose = 'Amar es un acto político y ético que nos permite crear mundos humanos.';
+    } else {
+      V.amorName = 'Cuando lo perdemos';
+      V.amorText = 'Cuando el miedo, la desconfianza o la necesidad de control dominan nuestras relaciones, nos deshumanizamos.';
+      V.amorClose = 'Cuando lo recuperamos renace nuestra capacidad de convivir, dialogar, educar, sanar y construir comunidades.';
+    }
+
+    V.teorias = [
+      { t: 'Teoría innatista', a: 'Chomsky' },
+      { t: 'Teoría conductista', a: 'Skinner' },
+      { t: 'Teoría cognitiva', a: 'Piaget' },
+      { t: 'Teoría sociocultural', a: 'Vigotsky' },
+      { t: 'Teoría interaccionista', a: 'Bruner' }
+    ];
+
+    const QS = [
+      { id: 'o1', text: 'El segundo postulado dice que interpretamos al lenguaje como…', o: ['Descriptivo', 'Generativo', 'Individual'], c: 1, why: 'Interpretamos al lenguaje como generativo: no solo nos permite hablar sobre las cosas, es el que hace posible que las cosas sucedan. El lenguaje crea realidades.' },
+      { id: 'o2', text: '¿Cuáles son los tres dominios que desarrollamos?', o: ['Cuerpo, emocionalidad y lenguaje', 'Lengua, lenguaje y habla', 'Cuerpo, mente y sociedad'], c: 0, why: 'Somos seres que vivimos en el lenguaje y desarrollamos dominios: cuerpo, emocionalidad y lenguaje.' },
+      { id: 'o3', text: '¿Qué es la lengua?', o: ['La manifestación individual del lenguaje', 'Un sistema compartido, social, estable y colectivo; un juego de reglas', 'La facultad humana de comunicarse'], c: 1, why: 'La lengua es un sistema compartido, social, estable y colectivo que todos los habitantes de una comunidad comparten y conocen. Es un juego de reglas, un elemento social del lenguaje: no se puede modificar ni crear, se apropia.' },
+      { id: 'o4', text: '¿Y el habla?', o: ['La manifestación individual del lenguaje en la comunicación oral', 'El conjunto de reglas de una comunidad', 'Un sistema de signos con evolución y estructura'], c: 0, why: 'El habla es la manifestación individual del lenguaje en la comunicación oral: la realización específica de la lengua por parte de un hablante en un contexto determinado.' },
+      { id: 'o5', text: 'Saussure define al lenguaje como…', o: ['Estable y colectivo', 'Multiforme y heteróclito', 'Individual y contextual'], c: 1, why: 'El lenguaje es la facultad humana de comunicarse a través de un sistema de signos, que implica evolución y estructura. Saussure lo define como multiforme y heteróclito porque cada una de las partes que lo componen tiene sus propias formas.' },
+      { id: 'o6', text: 'Según Maturana, el amor es…', o: ['Sentir afecto por el otro', 'Aceptar al otro tal como es, sin querer controlarlo ni negarlo', 'Evitar el conflicto en los vínculos'], c: 1, why: 'El amor no es solo sentir afecto sino aceptar al otro tal como es, sin querer controlarlo ni negarlo. Eso permite formar vínculos humanos, sociedades cooperativas y culturas. Amar es un acto político y ético que nos permite crear mundos humanos.' },
+      { id: 'o7', text: '¿Qué pasa, según la ficha, cuando el miedo, la desconfianza o la necesidad de control dominan nuestras relaciones?', o: ['Nos deshumanizamos', 'Se fortalece la lengua', 'El lenguaje deja de ser generativo'], c: 0, why: 'Cuando perdemos el amor —el miedo, la desconfianza o la necesidad de control dominan nuestras relaciones— nos deshumanizamos. Cuando lo recuperamos renace nuestra capacidad de convivir, dialogar, educar, sanar y construir comunidades.' },
+      { id: 'o8', text: 'La teoría innatista de adquisición del lenguaje es de…', o: ['Skinner', 'Vigotsky', 'Chomsky'], c: 2, why: 'Teoría innatista: Chomsky. Las otras que nombra la ficha: conductista (Skinner), cognitiva (Piaget), sociocultural (Vigotsky) e interaccionista (Bruner).' }
+    ];
+    let ok = 0, done = 0;
+    V.quiz = QS.map((q, i) => {
+      const picked = s.ans[q.id];
+      const answered = picked !== undefined;
+      if (answered) { done++; if (picked === q.c) ok++; }
+      return {
+        num: 'PREGUNTA ' + String(i + 1).padStart(2, '0') + ' / 08',
+        text: q.text, done: answered, why: q.why,
+        opts: q.o.map((label, j) => {
+          const isC = j === q.c, chosen = picked === j;
+          let bg = 'var(--paper)', fg = 'var(--tx)', mark = '○';
+          if (answered) {
+            if (isC) { bg = 'var(--yellow)'; fg = 'var(--onyel)'; mark = '✔'; }
+            else if (chosen) { mark = '✕'; }
+            else { mark = '·'; }
+          }
+          return { label, bg, fg, mark, on: chosen, go: () => { if (!answered) S({ ans: { ...this.state.ans, [q.id]: j } }); } };
+        })
+      };
+    });
+    V.score = done === 0 ? 'TODAVÍA NO RESPONDISTE NINGUNA' : 'ACERTASTE ' + ok + ' DE ' + done + ' RESPONDIDAS · 8 EN TOTAL';
+    V.resetQuiz = () => S({ ans: {} });
+
+    return V;
+  }
+}
+arrancarFicha();
+</script>
+</body>
+</html>

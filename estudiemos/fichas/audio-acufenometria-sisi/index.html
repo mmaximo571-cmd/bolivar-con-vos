@@ -1,0 +1,444 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Acufenometría y SISI · La Bolívar con vos</title>
+<meta name="description" content="Las tres partes del estudio, cómo se clasifica, el estímulo del SISI y cómo se lee, con autoevaluación.">
+<meta name="theme-color" content="#F9E830">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Montserrat:wght@700;800&family=Roboto:wght@400;500&family=Roboto+Mono:wght@400;500&display=swap" rel="stylesheet">
+<!-- Iconos de la app: pestana, Google, y pantalla de inicio del celular -->
+<link rel="icon" type="image/png" sizes="32x32" href="../../../imagenes/icono-32.png">
+<link rel="icon" type="image/png" sizes="96x96" href="../../../imagenes/icono-96.png">
+<link rel="icon" type="image/png" sizes="192x192" href="../../../imagenes/icono-192.png">
+<link rel="apple-touch-icon" href="../../../imagenes/icono-apple.png">
+<link rel="manifest" href="../../../manifest.json">
+
+<!-- Como se ve cuando alguien comparte el link por WhatsApp o Instagram -->
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="La Bolivar con vos">
+<meta property="og:title" content="Acufenometría y SISI · La Bolívar con vos">
+<meta property="og:description" content="Las tres partes del estudio, cómo se clasifica, el estímulo del SISI y cómo se lee, con autoevaluación.">
+<meta property="og:image" content="https://bolivar-con-vos.vercel.app/imagenes/compartir.png">
+<meta name="twitter:card" content="summary_large_image">
+
+<!-- EL TEMA, ANTES DE DIBUJAR NADA. Igual que en el resto de la app: si
+     esto viviera en un script del final, la ficha arrancaria clara y
+     pegaria un salto a oscura. -->
+<script>
+(function(){try{
+  var g = localStorage.getItem('bolivar-tema') || 'auto';
+  var oscuro = g === 'oscuro' || (g === 'auto' &&
+    window.matchMedia('(prefers-color-scheme: dark)').matches);
+  document.documentElement.dataset.tema = oscuro ? 'oscuro' : 'claro';
+}catch(e){ document.documentElement.dataset.tema = 'claro'; }})();
+</script>
+
+<style>
+/* ===== LO QUE VINO DEL DISENO, TAL CUAL ===== */
+:root{color-scheme:light dark;--bg:#FFFFFF;--paper:#FDFCF7;--tx:#1A1A1A;--mut:#3A3A3A;--stroke:#1A1A1A;--yellow:#F9E830;--onyel:#1A1A1A;--red:#B52625;--line:#0195B1;--dur:.25s}
+html[data-tema="oscuro"]{--bg:#151412;--paper:#22201D;--tx:#FDFCF7;--mut:#D8D3C8;--stroke:#FDFCF7;--red:#FF9D8F;--line:#5AD8F0}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+html,body{max-width:100%;overflow-x:hidden}
+body{margin:0;background:var(--bg);color:var(--tx);font-family:Roboto,system-ui,sans-serif;-webkit-text-size-adjust:100%}
+a{color:var(--red);text-decoration:underline;text-underline-offset:2px}
+a:hover{color:var(--tx)}
+button{font:inherit;cursor:pointer;color:var(--tx)}
+:focus-visible{outline:3px solid var(--line);outline-offset:2px}
+input[type=range]{accent-color:var(--line);width:100%;height:34px}
+.js-reveal [data-reveal]{opacity:0;transform:translateY(20px);transition:opacity .6s ease,transform .6s ease}
+.js-reveal [data-reveal].on{opacity:1;transform:none}
+@media print{[data-reveal]{opacity:1!important;transform:none!important}}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}[data-reveal]{opacity:1!important;transform:none!important;transition:none!important}:root{--dur:0s}}
+
+/* ===== LO QUE AGREGA LA APP ===== */
+
+/* La ficha no carga estilos.css. Es una pieza de lectura a pantalla
+   completa con su propio sistema visual, y las 160 KB de la app le
+   pelearian el body, la tipografia y los titulos. Lo unico que se
+   comparte es el tema y la barra de volver. */
+
+.ficha-volver{
+  display:inline-flex; align-items:center; gap:8px;
+  position:sticky; top:0; z-index:20;
+  width:100%; box-sizing:border-box;
+  padding:11px 18px;
+  font-family:Montserrat,sans-serif; font-weight:800;
+  font-size:12px; letter-spacing:.06em; text-transform:uppercase;
+  background:var(--yellow); color:var(--onyel);
+  border-bottom:2px solid var(--stroke);
+  text-decoration:none;
+}
+.ficha-volver:hover{ color:var(--onyel); }
+
+/* LOS SELLOS TODAVIA NO LLEGARON. En el proyecto de Claude Design viven
+   en assets/sello-sb.svg y assets/sello-sb-conduccion.png, y no vinieron
+   con los .dc.html. Un recuadro vacio con borde se ve peor que nada, asi
+   que el bloque queda escondido.
+
+   CUANDO LOS COPIEN a estudiemos/fichas/assets/, borren estas tres
+   lineas y los sellos aparecen solos en las ocho fichas. */
+.ficha-sellos{ display:none; }
+</style>
+</head>
+<body>
+
+<a class="ficha-volver" href="../../">← Estudiemos</a>
+
+<!-- Aca dibuja ficha.js. Vacio hasta que corre el script del final. -->
+<div id="ficha"></div>
+
+<!-- La ficha, tal como salio del diseno. Vive dentro de un <template>
+     para que el navegador no la muestre a medio armar: todavia tiene los
+     agujeros { asi } sin rellenar. -->
+<template id="plantilla">
+<!-- ===== HERO ===== -->
+<section style="min-height:100svh;display:flex;flex-direction:column;justify-content:center;padding:44px 18px 32px;max-width:820px;margin:0 auto;border-bottom:2px solid var(--stroke)">
+<div style="display:flex;flex-wrap:wrap;gap:6px;margin-bottom:18px" data-reveal>
+<span style="font-family:Montserrat,sans-serif;font-weight:800;font-size:10px;letter-spacing:.08em;text-transform:uppercase;background:var(--yellow);color:var(--onyel);border:1px solid var(--stroke);border-radius:99px;padding:5px 11px;box-shadow:2px 2px 0 var(--stroke)">Equipo de Fonoaudiología</span>
+<span style="font-family:'Roboto Mono',monospace;font-size:10px;letter-spacing:.06em;border:1px solid var(--stroke);border-radius:99px;padding:5px 11px">FICHA · AUDIO</span>
+</div>
+<h1 style="font-family:'Archivo Black',sans-serif;font-weight:400;font-size:clamp(40px,13vw,84px);line-height:.84;margin:0;text-transform:uppercase;letter-spacing:-.03em" data-reveal data-delay="80">Preparemos<br>audio<br>juntes</h1>
+<p style="font-family:Montserrat,sans-serif;font-weight:800;font-size:clamp(14px,4vw,19px);letter-spacing:.02em;text-transform:uppercase;margin:16px 0 0;max-width:30ch" data-reveal data-delay="160">Acufenometría · prueba SISI</p>
+<p style="font-size:clamp(15px,4vw,18px);line-height:1.55;color:var(--mut);margin:14px 0 0;max-width:46ch;text-wrap:pretty" data-reveal data-delay="240">Dos pruebas, tres pliegues: primero qué es cada una, después cómo se aplica y cómo se lee, y al final cómo te das cuenta de si te quedó.</p>
+<div style="display:flex;flex-wrap:wrap;gap:10px;margin-top:26px" data-reveal data-delay="320">
+<a href="#a1" style="font-family:Montserrat,sans-serif;font-weight:800;font-size:13px;letter-spacing:.04em;text-transform:uppercase;background:var(--yellow);color:var(--onyel);border:1px solid var(--stroke);border-radius:10px;box-shadow:2px 2px 0 var(--stroke);padding:14px 18px;text-decoration:none">Empezar por el 01</a>
+<a href="#a3" style="font-family:Montserrat,sans-serif;font-weight:800;font-size:13px;letter-spacing:.04em;text-transform:uppercase;color:var(--tx);border:1px solid var(--stroke);border-radius:10px;box-shadow:2px 2px 0 var(--stroke);padding:14px 18px;text-decoration:none">Ir a la autoevaluación</a>
+</div>
+<p style="font-family:'Roboto Mono',monospace;font-size:11px;letter-spacing:.1em;margin:34px 0 0;color:var(--mut)" data-reveal data-delay="400">↓ 01 QUÉ ES · 02 CÓMO FUNCIONA · 03 CÓMO TE DAS CUENTA</p>
+</section>
+
+<!-- ===== 01 ===== -->
+<section id="a1" style="min-height:100svh;padding:60px 18px;max-width:820px;margin:0 auto;border-bottom:2px solid var(--stroke)">
+<p style="font-family:'Roboto Mono',monospace;font-size:11px;letter-spacing:.12em;margin:0 0 8px" data-reveal>PLIEGUE 01</p>
+<h2 style="font-family:'Archivo Black',sans-serif;font-weight:400;font-size:clamp(34px,10vw,60px);line-height:.9;margin:0 0 18px;text-transform:uppercase" data-reveal data-delay="60">Qué es</h2>
+<p style="font-size:clamp(16px,4.4vw,20px);line-height:1.55;margin:0 0 12px;max-width:44ch;text-wrap:pretty" data-reveal data-delay="120">El acúfeno o tinnitus es la percepción de un sonido en ausencia de una fuente sonora externa.</p>
+<p style="font-size:clamp(15px,4vw,18px);line-height:1.6;margin:0 0 24px;max-width:46ch;text-wrap:pretty" data-reveal data-delay="180">No es una enfermedad: es un síntoma. La acufenometría es la prueba con la que se lo describe, y puede ser uni o bilateral.</p>
+
+<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px;margin-bottom:22px">
+<div style="background:var(--yellow);color:var(--onyel);border:1px solid var(--stroke);border-radius:10px;box-shadow:2px 2px 0 var(--stroke);padding:16px" data-reveal data-delay="220">
+<p style="font-family:'Roboto Mono',monospace;font-size:10.5px;letter-spacing:.1em;margin:0 0 6px">DATO CLAVE</p>
+<p style="font-family:Montserrat,sans-serif;font-weight:800;font-size:16px;line-height:1.3;margin:0">Es un síntoma, no un diagnóstico.</p>
+</div>
+<div style="background:var(--paper);border:1px solid var(--stroke);border-radius:10px;box-shadow:2px 2px 0 var(--stroke);padding:16px" data-reveal data-delay="280">
+<p style="font-family:'Roboto Mono',monospace;font-size:10.5px;letter-spacing:.1em;color:var(--mut);margin:0 0 6px">LATERALIDAD</p>
+<p style="font-family:Montserrat,sans-serif;font-weight:800;font-size:16px;line-height:1.3;margin:0">Puede ser uni o bilateral.</p>
+</div>
+</div>
+
+<div style="background:var(--paper);border:1px solid var(--stroke);border-radius:10px;box-shadow:2px 2px 0 var(--stroke);padding:18px;margin-bottom:22px" data-reveal data-delay="320">
+<h3 style="font-family:Montserrat,sans-serif;font-weight:800;font-size:16px;letter-spacing:.02em;text-transform:uppercase;margin:0 0 4px">Las tres partes</h3>
+<p style="font-size:14px;line-height:1.55;color:var(--mut);margin:0 0 14px">La acufenometría tiene tres partes, en este orden.</p>
+<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px">
+<sc-for list="{{ partes }}" as="p" hint-placeholder-count="3">
+<div style="border:1px solid var(--stroke);border-radius:10px;padding:13px;box-shadow:2px 2px 0 var(--stroke)">
+<p style="font-family:'Roboto Mono',monospace;font-size:11px;letter-spacing:.1em;color:var(--mut);margin:0 0 6px">{{ p.n }}</p>
+<p style="font-family:Montserrat,sans-serif;font-weight:800;font-size:14px;letter-spacing:.03em;text-transform:uppercase;margin:0">{{ p.t }}</p>
+</div>
+</sc-for>
+</div>
+</div>
+
+<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:12px">
+<sc-for list="{{ intro }}" as="i" hint-placeholder-count="3">
+<div style="background:var(--paper);border:1px solid var(--stroke);border-radius:10px;box-shadow:2px 2px 0 var(--stroke);padding:14px" data-reveal data-delay="{{ i.d }}">
+<p style="font-family:Montserrat,sans-serif;font-weight:800;font-size:12.5px;letter-spacing:.03em;text-transform:uppercase;margin:0 0 7px;border-bottom:2px solid var(--line);display:inline-block;padding-bottom:3px">{{ i.t }}</p>
+<p style="font-size:14px;line-height:1.5;margin:0">{{ i.b }}</p>
+</div>
+</sc-for>
+</div>
+</section>
+
+<!-- ===== 02 ===== -->
+<section id="a2" style="min-height:100svh;padding:60px 18px;max-width:820px;margin:0 auto;border-bottom:2px solid var(--stroke)">
+<p style="font-family:'Roboto Mono',monospace;font-size:11px;letter-spacing:.12em;margin:0 0 8px" data-reveal>PLIEGUE 02</p>
+<h2 style="font-family:'Archivo Black',sans-serif;font-weight:400;font-size:clamp(34px,10vw,60px);line-height:.9;margin:0 0 18px;text-transform:uppercase" data-reveal data-delay="60">Cómo<br>funciona</h2>
+<p style="font-size:clamp(15px,4vw,18px);line-height:1.6;margin:0 0 28px;max-width:46ch;text-wrap:pretty" data-reveal data-delay="120">Tres piezas para mover con el dedo o con el teclado: cómo se clasifica el acúfeno, cómo es el estímulo del SISI y cómo se lee el resultado.</p>
+
+<!-- 2.1 clasificación -->
+<article style="background:var(--paper);border:1px solid var(--stroke);border-radius:10px;box-shadow:2px 2px 0 var(--stroke);padding:18px;margin-bottom:18px" data-reveal>
+<p style="font-family:'Roboto Mono',monospace;font-size:10.5px;letter-spacing:.1em;color:var(--mut);margin:0 0 4px">2.1</p>
+<h3 style="font-family:'Archivo Black',sans-serif;font-weight:400;font-size:23px;line-height:1;margin:0 0 8px;text-transform:uppercase">Cómo se clasifica</h3>
+<p style="font-size:14.5px;line-height:1.55;margin:0 0 14px">Dos criterios distintos sobre el mismo acúfeno: de dónde viene y cómo se percibe. Cambiá de criterio y fijate que las listas no se mezclan.</p>
+<div role="group" aria-label="Elegí un criterio" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:8px;margin-bottom:14px">
+<sc-for list="{{ critChips }}" as="c" hint-placeholder-count="2">
+<button type="button" aria-pressed="{{ c.on }}" onClick="{{ c.go }}" style="font-family:Montserrat,sans-serif;font-weight:800;font-size:12px;letter-spacing:.02em;text-transform:uppercase;border:1px solid var(--stroke);border-radius:99px;padding:10px 13px;box-shadow:2px 2px 0 var(--stroke);background:{{ c.bg }};color:{{ c.fg }};transition:background var(--dur)">{{ c.label }}</button>
+</sc-for>
+</div>
+<p style="font-family:Montserrat,sans-serif;font-weight:800;font-size:11px;letter-spacing:.08em;text-transform:uppercase;margin:0 0 10px">{{ critTitle }}</p>
+<div style="display:flex;flex-direction:column;gap:8px;margin-bottom:12px">
+<sc-for list="{{ critItems }}" as="i" hint-placeholder-count="3">
+<div style="border:1px solid var(--stroke);border-left:6px solid var(--line);border-radius:10px;padding:11px 12px">
+<p style="font-family:Montserrat,sans-serif;font-weight:800;font-size:13.5px;letter-spacing:.04em;text-transform:uppercase;margin:0 0 3px">{{ i.t }}</p>
+<p style="font-size:13.5px;line-height:1.5;color:var(--mut);margin:0">{{ i.b }}</p>
+</div>
+</sc-for>
+</div>
+<p style="font-size:13px;line-height:1.55;color:var(--mut);margin:0">{{ critNote }}</p>
+</article>
+
+<!-- 2.2 estímulo SISI -->
+<article style="background:var(--paper);border:1px solid var(--stroke);border-radius:10px;box-shadow:2px 2px 0 var(--stroke);padding:18px;margin-bottom:18px" data-reveal>
+<p style="font-family:'Roboto Mono',monospace;font-size:10.5px;letter-spacing:.1em;color:var(--mut);margin:0 0 4px">2.2</p>
+<h3 style="font-family:'Archivo Black',sans-serif;font-weight:400;font-size:23px;line-height:1;margin:0 0 8px;text-transform:uppercase">El estímulo del SISI</h3>
+<p style="font-size:14.5px;line-height:1.55;margin:0 0 14px">Los parámetros escritos, dibujados. Corré la barra: el tono de fondo nunca se corta, y cada 5 segundos se le suma un pulso breve de 1 dB. Son 20 en total, en 4 series de 5.</p>
+<svg viewBox="0 0 320 126" role="img" aria-label="{{ sisiAlt }}" style="width:100%;display:block;margin:0 auto 6px;height:auto">
+<path d="M8,78h304" stroke="var(--stroke)" stroke-width="2.5" fill="none"></path>
+<path d="M8,86h304" stroke="var(--line)" stroke-width="1.4" stroke-dasharray="4 4" fill="none"></path>
+<g>
+<sc-for list="{{ pulses }}" as="p" hint-placeholder-count="20">
+<rect x="{{ p.x }}" y="{{ p.y }}" width="7" height="{{ p.h }}" rx="2" stroke="var(--stroke)" stroke-width="1.4" style="{{ p.st }}"></rect>
+</sc-for>
+</g>
+<g font-family="'Roboto Mono',monospace" font-size="8" letter-spacing="0.5" fill="var(--mut)">
+<sc-for list="{{ series }}" as="s" hint-placeholder-count="4">
+<text x="{{ s.x }}" y="120" text-anchor="middle">{{ s.t }}</text>
+</sc-for>
+<text x="8" y="16" text-anchor="start">PULSOS DE +1 dB</text>
+<text x="8" y="100" text-anchor="start">TONO CONTINUO (LÍNEA DE BASE)</text>
+</g>
+</svg>
+<label style="display:block;font-family:Montserrat,sans-serif;font-weight:800;font-size:11px;letter-spacing:.07em;text-transform:uppercase;margin-bottom:2px" for="sisihits">Estímulos detectados por la persona</label>
+<input id="sisihits" type="range" min="0" max="20" value="{{ hits }}" onChange="{{ setHits }}" onInput="{{ setHits }}" aria-label="Cantidad de estímulos detectados">
+<div style="display:flex;justify-content:space-between;font-family:'Roboto Mono',monospace;font-size:10px;letter-spacing:.05em;color:var(--mut);margin:-4px 0 14px"><span>0 ACIERTOS</span><span>20 ACIERTOS</span></div>
+<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:10px;margin-bottom:14px">
+<sc-for list="{{ params }}" as="p" hint-placeholder-count="6">
+<div style="border:1px solid var(--stroke);border-radius:10px;padding:11px 12px">
+<p style="font-family:'Roboto Mono',monospace;font-weight:500;font-size:17px;letter-spacing:.02em;margin:0 0 3px">{{ p.v }}</p>
+<p style="font-size:12.5px;line-height:1.45;color:var(--mut);margin:0">{{ p.t }}</p>
+</div>
+</sc-for>
+</div>
+<p style="font-family:Montserrat,sans-serif;font-weight:800;font-size:11px;letter-spacing:.08em;text-transform:uppercase;margin:0 0 10px">Pasos de aplicación</p>
+<ol style="margin:0;padding-left:20px;font-size:14.5px;line-height:1.7">
+<li>Umbral tonal</li>
+<li>Frecuencia y nivel</li>
+<li>Instrucción</li>
+<li>Ensayo de práctica</li>
+<li>Aplicación y registro</li>
+</ol>
+</article>
+
+<!-- 2.3 lectura -->
+<article style="background:var(--paper);border:1px solid var(--stroke);border-radius:10px;box-shadow:2px 2px 0 var(--stroke);padding:18px" data-reveal>
+<p style="font-family:'Roboto Mono',monospace;font-size:10.5px;letter-spacing:.1em;color:var(--mut);margin:0 0 4px">2.3</p>
+<h3 style="font-family:'Archivo Black',sans-serif;font-weight:400;font-size:23px;line-height:1;margin:0 0 8px;text-transform:uppercase">Cómo se lee</h3>
+<p style="font-size:14.5px;line-height:1.55;margin:0 0 14px">Cada estímulo correctamente detectado vale 5%. Con la misma barra de arriba se mueve el porcentaje: mirá cuándo cambia de franja.</p>
+<div style="border:1px solid var(--stroke);border-radius:10px;padding:14px;margin-bottom:14px">
+<p style="font-family:'Roboto Mono',monospace;font-size:clamp(26px,9vw,40px);font-weight:500;line-height:1;margin:0 0 4px">{{ pct }}%</p>
+<p style="font-family:'Roboto Mono',monospace;font-size:12px;letter-spacing:.05em;color:var(--mut);margin:0 0 14px">{{ calc }}</p>
+<div style="display:flex;height:26px;border:1px solid var(--stroke);border-radius:99px;overflow:hidden;margin-bottom:8px">
+<div style="flex:20;background:{{ z1 }};border-right:1px solid var(--stroke);transition:background var(--dur)"></div>
+<div style="flex:50;background:{{ z2 }};border-right:1px solid var(--stroke);transition:background var(--dur)"></div>
+<div style="flex:30;background:{{ z3 }};transition:background var(--dur)"></div>
+</div>
+<div style="display:flex;justify-content:space-between;font-family:'Roboto Mono',monospace;font-size:9.5px;letter-spacing:.04em;color:var(--mut)"><span>0</span><span>20</span><span>70</span><span>100</span></div>
+</div>
+<div style="border:1px solid var(--stroke);border-left:6px solid var(--yellow);border-radius:10px;padding:12px">
+<p style="font-family:Montserrat,sans-serif;font-weight:800;font-size:12.5px;letter-spacing:.06em;text-transform:uppercase;margin:0 0 6px">{{ zoneName }}</p>
+<p style="font-size:14.5px;line-height:1.55;margin:0">{{ zoneText }}</p>
+</div>
+<p style="font-size:13px;line-height:1.55;color:var(--mut);margin:12px 0 0">Los límites de las franjas son los de la ficha. Si un caso cae justo en el borde, preguntá en la cátedra cómo se informa.</p>
+</article>
+</section>
+
+<!-- ===== 03 ===== -->
+<section id="a3" style="min-height:100svh;padding:60px 18px;max-width:820px;margin:0 auto;border-bottom:2px solid var(--stroke)">
+<p style="font-family:'Roboto Mono',monospace;font-size:11px;letter-spacing:.12em;margin:0 0 8px" data-reveal>PLIEGUE 03</p>
+<h2 style="font-family:'Archivo Black',sans-serif;font-weight:400;font-size:clamp(34px,10vw,60px);line-height:.9;margin:0 0 18px;text-transform:uppercase" data-reveal data-delay="60">Cómo te<br>das cuenta</h2>
+<p style="font-size:clamp(16px,4.4vw,20px);line-height:1.55;margin:0 0 8px;max-width:44ch;text-wrap:pretty" data-reveal data-delay="120">Ocho preguntas. Elegís una opción y aparece la respuesta correcta con el porqué, aciertes o no.</p>
+<p style="font-size:15px;line-height:1.6;color:var(--mut);margin:0 0 26px;max-width:46ch;text-wrap:pretty" data-reveal data-delay="180">El acierto es sólo el camino: lo que hay que estudiar es el porqué.</p>
+
+<sc-for list="{{ quiz }}" as="q" hint-placeholder-count="8">
+<article style="background:var(--paper);border:1px solid var(--stroke);border-radius:10px;box-shadow:2px 2px 0 var(--stroke);padding:16px;margin-bottom:14px" data-reveal>
+<p style="font-family:'Roboto Mono',monospace;font-size:10.5px;letter-spacing:.1em;color:var(--mut);margin:0 0 6px">{{ q.num }}</p>
+<p style="font-family:Montserrat,sans-serif;font-weight:700;font-size:16px;line-height:1.4;margin:0 0 12px;text-wrap:pretty">{{ q.text }}</p>
+<div role="group" aria-label="Opciones" style="display:flex;flex-direction:column;gap:8px">
+<sc-for list="{{ q.opts }}" as="o" hint-placeholder-count="3">
+<button type="button" onClick="{{ o.go }}" aria-pressed="{{ o.on }}" style="display:flex;gap:9px;align-items:flex-start;text-align:left;font-family:Roboto,sans-serif;font-size:14.5px;line-height:1.45;border:1px solid var(--stroke);border-radius:10px;padding:11px 12px;box-shadow:2px 2px 0 var(--stroke);background:{{ o.bg }};color:{{ o.fg }};transition:background var(--dur)">
+<span style="font-family:'Roboto Mono',monospace;font-size:12px;padding-top:1px">{{ o.mark }}</span>
+<span>{{ o.label }}</span>
+</button>
+</sc-for>
+</div>
+<sc-if value="{{ q.done }}" hint-placeholder-val="{{ false }}">
+<div style="margin-top:12px;border:1px solid var(--stroke);border-left:6px solid var(--yellow);border-radius:10px;padding:12px">
+<p style="font-family:Montserrat,sans-serif;font-weight:800;font-size:11px;letter-spacing:.08em;text-transform:uppercase;margin:0 0 6px">Por qué</p>
+<p style="font-size:14.5px;line-height:1.55;margin:0;text-wrap:pretty">{{ q.why }}</p>
+</div>
+</sc-if>
+</article>
+</sc-for>
+
+<div style="background:var(--yellow);color:var(--onyel);border:1px solid var(--stroke);border-radius:10px;box-shadow:2px 2px 0 var(--stroke);padding:18px;margin-top:18px" data-reveal>
+<p style="font-family:'Roboto Mono',monospace;font-size:12px;letter-spacing:.06em;margin:0 0 6px">{{ score }}</p>
+<p style="font-family:Montserrat,sans-serif;font-weight:800;font-size:15px;line-height:1.4;margin:0 0 8px">Si algún porqué no te cerró, anotalo y llevalo a la cátedra.</p>
+<p style="font-size:14px;line-height:1.55;margin:0">Preguntar en clase o en la comisión es parte de estudiar, no una señal de que vas atrasada.</p>
+</div>
+<button type="button" onClick="{{ resetQuiz }}" style="width:100%;margin-top:12px;text-align:left;font-family:Montserrat,sans-serif;font-weight:800;font-size:12.5px;letter-spacing:.04em;text-transform:uppercase;background:transparent;border:1px solid var(--stroke);border-radius:10px;box-shadow:2px 2px 0 var(--stroke);padding:13px 15px">Borrar respuestas y volver a empezar</button>
+</section>
+
+<footer style="padding:48px 18px 60px;max-width:820px;margin:0 auto">
+<p style="font-family:'Archivo Black',sans-serif;font-weight:400;font-size:clamp(26px,8vw,44px);line-height:.92;margin:0 0 14px;text-transform:uppercase" data-reveal>Preparemos<br>audio juntes</p>
+<p style="font-size:15px;line-height:1.55;margin:0 0 10px;max-width:44ch" data-reveal data-delay="80">¿Qué otra ficha o grupo de estudio necesitás? La Bolívar te acompaña: pedí el link del grupo al Equipo de Fonoaudiología.</p>
+<p style="font-size:13px;line-height:1.55;color:var(--mut);margin:0;max-width:52ch" data-reveal data-delay="140">Material de estudio armado con las placas del Equipo de Fonoaudiología · Agrupación Simón Bolívar. Los esquemas son diagramas y los valores son los de la ficha: para el detalle usá la bibliografía y preguntá en la cátedra.</p>
+<div class="ficha-sellos" style="display:flex;flex-wrap:wrap;align-items:center;justify-content:center;gap:14px;margin:28px 0 0;border-top:2px solid var(--stroke);padding-top:26px" data-reveal data-delay="180">
+<img loading="lazy" src="../assets/sello-sb.svg" alt="Sello del Equipo de Fonoaudiología" width="150" height="150" style="width:clamp(112px,30vw,150px);height:auto;display:block;border:1px solid var(--stroke);border-radius:10px;box-shadow:2px 2px 0 var(--stroke)">
+<div style="display:flex;align-items:center;justify-content:center;padding:14px 50px;background:#FDFCF7;border:1px solid var(--stroke);border-radius:10px;box-shadow:2px 2px 0 var(--stroke)">
+<img loading="lazy" src="../assets/sello-sb-conduccion.png" alt="Simón Bolívar · Conducción del CEFTS" width="514" height="194" style="width:clamp(180px,52vw,258px);height:auto;display:block">
+</div>
+</div>
+</footer>
+</template>
+
+<script src="../ficha.js"></script>
+<script>
+class Component extends DCLogic {
+  state = { crit: 'origen', hits: 4, ans: {} };
+
+  componentDidMount() { this.wire(); }
+  componentDidUpdate() { this.wire(); }
+  componentWillUnmount() { clearTimeout(this._fail); if (this._io) this._io.disconnect(); }
+
+  wire() {
+    const nodes = Array.from(document.querySelectorAll('[data-reveal]'));
+    const show = () => nodes.forEach(n => n.classList.add('on'));
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) { show(); return; }
+    document.documentElement.classList.add('js-reveal');
+    nodes.forEach(n => {
+      const r = n.getBoundingClientRect();
+      if (r.top < (window.innerHeight || 800) && r.bottom > 0) n.classList.add('on');
+    });
+    clearTimeout(this._fail);
+    this._fail = setTimeout(show, 900);
+    if (!this._io) {
+      this._io = new IntersectionObserver((es) => {
+        es.forEach(e => {
+          if (e.isIntersecting) {
+            e.target.style.transitionDelay = (e.target.getAttribute('data-delay') || 0) + 'ms';
+            e.target.classList.add('on');
+            this._io.unobserve(e.target);
+          }
+        });
+      }, { rootMargin: '0px 0px -10% 0px', threshold: 0.12 });
+    }
+    nodes.forEach(n => { if (!n.classList.contains('on') && !n._obs) { n._obs = 1; this._io.observe(n); } });
+  }
+
+  chip(k, cur) {
+    const on = k === cur;
+    return { on, bg: on ? 'var(--yellow)' : 'transparent', fg: on ? 'var(--onyel)' : 'var(--tx)' };
+  }
+
+  renderVals() {
+    const s = this.state, S = (o) => this.setState(o);
+    const V = {};
+
+    V.partes = [
+      { n: 'PARTE 01', t: 'Comparación' },
+      { n: 'PARTE 02', t: 'Equiparación' },
+      { n: 'PARTE 03', t: 'Enmascaramiento' }
+    ];
+    V.intro = [
+      { d: 0, t: 'Acufenometría', b: 'La prueba con la que se describe el acúfeno: comparación, equiparación y enmascaramiento.' },
+      { d: 80, t: 'Clasificación', b: 'Según el lugar de origen: endóticos, perióticos y teleóticos. Según la percepción: tonales y pantonales.' },
+      { d: 160, t: 'SISI', b: '20 estímulos tonales en 4 series de 5, incrementos de 1 dB sobre un tono continuo, entre 500 y 4000 Hz.' }
+    ];
+
+    V.critChips = [
+      { k: 'origen', label: 'Según el lugar de origen' },
+      { k: 'percepcion', label: 'Según la percepción' }
+    ].map(c => ({ ...c, ...this.chip(c.k, s.crit), go: () => S({ crit: c.k }) }));
+    if (s.crit === 'origen') {
+      V.critTitle = 'Pueden clasificarse según el lugar de origen en:';
+      V.critItems = [{ t: 'Endóticos', b: '' }, { t: 'Perióticos', b: '' }, { t: 'Teleóticos', b: '' }];
+      V.critNote = 'La ficha nombra los tres grupos sin describirlos. Qué entra en cada uno lo trabajan en la cátedra: llevá la pregunta a clase.';
+    } else {
+      V.critTitle = 'Tipos según percepción:';
+      V.critItems = [
+        { t: 'Tonales', b: 'Piii, silbido, pitido.' },
+        { t: 'Pantonales', b: 'Ruido blanco, ruido de banda estrecha.' }
+      ];
+      V.critNote = 'Este criterio es lo que la persona escucha; el otro es de dónde viene. Son dos preguntas distintas sobre el mismo acúfeno.';
+    }
+
+    V.hits = s.hits;
+    V.setHits = (e) => S({ hits: +e.target.value });
+    const pulses = [];
+    for (let i = 0; i < 20; i++) {
+      const serie = Math.floor(i / 5);
+      const x = 14 + i * 13.6 + serie * 12;
+      const det = i < s.hits;
+      pulses.push({
+        x: x.toFixed(1), y: det ? 26 : 40, h: det ? 52 : 38,
+        st: 'fill:' + (det ? 'var(--yellow)' : 'var(--paper)') + ';transition:all var(--dur)'
+      });
+    }
+    V.pulses = pulses;
+    V.series = [0, 1, 2, 3].map(i => ({ x: (14 + (i * 5 + 2) * 13.6 + i * 12 + 3.5).toFixed(1), t: 'SERIE ' + (i + 1) }));
+    V.sisiAlt = 'Esquema del estímulo del SISI: un tono continuo con 20 pulsos breves agrupados en 4 series de 5; ' + s.hits + ' pulsos marcados como detectados.';
+    V.params = [
+      { v: '20', t: 'Estímulos tonales' },
+      { v: '4 × 5', t: 'Series de 5 estímulos cada una' },
+      { v: '1 dB', t: 'Por incremento. Pulso breve sobre el tono continuo' },
+      { v: '5 s', t: 'Entre estímulos' },
+      { v: '500–4000 Hz', t: 'Rango de frecuencias' },
+      { v: '5%', t: 'Por cada estímulo correctamente detectado' }
+    ];
+
+    const pct = s.hits * 5;
+    V.pct = pct;
+    V.calc = s.hits + ' ACIERTOS × 5% = ' + pct + '%';
+    const zone = pct <= 20 ? 1 : (pct < 70 ? 2 : 3);
+    V.z1 = zone === 1 ? 'var(--yellow)' : 'transparent';
+    V.z2 = zone === 2 ? 'var(--yellow)' : 'transparent';
+    V.z3 = zone === 3 ? 'var(--yellow)' : 'transparent';
+    V.zoneName = ['', '0–20% · sin reclutamiento', '20–70% · zona dudosa', '70–100% · reclutamiento presente'][zone];
+    V.zoneText = ['',
+      'Audición normal, hipoacusia de conducción o retrococlear.',
+      'Resultado inconcluso: requiere confirmarse con otras pruebas de la batería.',
+      'Compatible con patología coclear y su fenómeno de reclutamiento asociado.'][zone];
+
+    const QS = [
+      { id: 'a1', text: '¿Qué es el acúfeno o tinnitus?', o: ['La percepción de un sonido en ausencia de una fuente sonora externa', 'Una pérdida auditiva de origen coclear', 'Un ruido del ambiente que molesta a la persona'], c: 0, why: 'El acúfeno o tinnitus es la percepción de un sonido en ausencia de una fuente sonora externa. Es un síntoma, y puede ser uni o bilateral.' },
+      { id: 'a2', text: 'El acúfeno es…', o: ['Un diagnóstico', 'Un síntoma', 'Una prueba de la batería'], c: 1, why: 'Es un síntoma. Por eso se describe y se cuantifica, pero no alcanza por sí solo como diagnóstico.' },
+      { id: 'a3', text: 'Endóticos, perióticos y teleóticos es una clasificación según…', o: ['El lugar de origen', 'La percepción', 'La intensidad'], c: 0, why: 'Pueden clasificarse según el lugar de origen en: endóticos, perióticos y teleóticos.' },
+      { id: 'a4', text: 'Un acúfeno descrito como ruido blanco o ruido de banda estrecha es…', o: ['Tonal', 'Pantonal', 'Teleótico'], c: 1, why: 'Tipos según percepción: tonales (piii, silbido, pitido) y pantonales (ruido blanco, ruido de banda estrecha).' },
+      { id: 'a5', text: 'Las tres partes de la acufenometría son…', o: ['Umbral, frecuencia y nivel', 'Comparación, equiparación y enmascaramiento', 'Endótica, periótica y teleótica'], c: 1, why: 'Tres partes: comparación, equiparación y enmascaramiento.' },
+      { id: 'a6', text: 'En el SISI, ¿cómo es el estímulo?', o: ['4 series de 5 estímulos, incrementos de 1 dB sobre un tono continuo', '20 series de 5 estímulos, incrementos de 5 dB', 'Un barrido continuo de 500 a 4000 Hz sin pulsos'], c: 0, why: '20 estímulos tonales en 4 series de 5 cada una, con incrementos de 1 dB: un pulso breve sobre el tono continuo, cada 5 segundos, en el rango de 500 a 4000 Hz.' },
+      { id: 'a7', text: 'Si la persona detecta 17 estímulos, el resultado es…', o: ['85% · reclutamiento presente', '85% · zona dudosa', '17% · sin reclutamiento'], c: 0, why: 'Cada estímulo correctamente detectado vale 5%: 17 × 5% = 85%. Entre 70 y 100% el reclutamiento está presente, compatible con patología coclear y su fenómeno de reclutamiento asociado.' },
+      { id: 'a8', text: 'Un resultado del 45% se informa como…', o: ['Sin reclutamiento', 'Zona dudosa: requiere confirmarse con otras pruebas', 'Reclutamiento presente'], c: 1, why: '20–70% es zona dudosa: resultado inconcluso, requiere confirmarse con otras pruebas de la batería.' }
+    ];
+    let ok = 0, done = 0;
+    V.quiz = QS.map((q, i) => {
+      const picked = s.ans[q.id];
+      const answered = picked !== undefined;
+      if (answered) { done++; if (picked === q.c) ok++; }
+      return {
+        num: 'PREGUNTA ' + String(i + 1).padStart(2, '0') + ' / 08',
+        text: q.text, done: answered, why: q.why,
+        opts: q.o.map((label, j) => {
+          const isC = j === q.c, chosen = picked === j;
+          let bg = 'var(--paper)', fg = 'var(--tx)', mark = '○';
+          if (answered) {
+            if (isC) { bg = 'var(--yellow)'; fg = 'var(--onyel)'; mark = '✔'; }
+            else if (chosen) { mark = '✕'; }
+            else { mark = '·'; }
+          }
+          return { label, bg, fg, mark, on: chosen, go: () => { if (!answered) S({ ans: { ...this.state.ans, [q.id]: j } }); } };
+        })
+      };
+    });
+    V.score = done === 0 ? 'TODAVÍA NO RESPONDISTE NINGUNA' : 'ACERTASTE ' + ok + ' DE ' + done + ' RESPONDIDAS · 8 EN TOTAL';
+    V.resetQuiz = () => S({ ans: {} });
+
+    return V;
+  }
+}
+arrancarFicha();
+</script>
+</body>
+</html>

@@ -1,0 +1,760 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Anatomofisiología · La Bolívar con vos</title>
+<meta name="description" content="Posición anatómica, planos y cortes, ejes, puntos de ubicación y huesos del cráneo y la cara, con autoevaluación.">
+<meta name="theme-color" content="#F9E830">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Montserrat:wght@700;800&family=Roboto:wght@400;500&family=Roboto+Mono:wght@400;500&display=swap" rel="stylesheet">
+<!-- Iconos de la app: pestana, Google, y pantalla de inicio del celular -->
+<link rel="icon" type="image/png" sizes="32x32" href="../../../imagenes/icono-32.png">
+<link rel="icon" type="image/png" sizes="96x96" href="../../../imagenes/icono-96.png">
+<link rel="icon" type="image/png" sizes="192x192" href="../../../imagenes/icono-192.png">
+<link rel="apple-touch-icon" href="../../../imagenes/icono-apple.png">
+<link rel="manifest" href="../../../manifest.json">
+
+<!-- Como se ve cuando alguien comparte el link por WhatsApp o Instagram -->
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="La Bolivar con vos">
+<meta property="og:title" content="Anatomofisiología · La Bolívar con vos">
+<meta property="og:description" content="Posición anatómica, planos y cortes, ejes, puntos de ubicación y huesos del cráneo y la cara, con autoevaluación.">
+<meta property="og:image" content="https://bolivar-con-vos.vercel.app/imagenes/compartir.png">
+<meta name="twitter:card" content="summary_large_image">
+
+<!-- EL TEMA, ANTES DE DIBUJAR NADA. Igual que en el resto de la app: si
+     esto viviera en un script del final, la ficha arrancaria clara y
+     pegaria un salto a oscura. -->
+<script>
+(function(){try{
+  var g = localStorage.getItem('bolivar-tema') || 'auto';
+  var oscuro = g === 'oscuro' || (g === 'auto' &&
+    window.matchMedia('(prefers-color-scheme: dark)').matches);
+  document.documentElement.dataset.tema = oscuro ? 'oscuro' : 'claro';
+}catch(e){ document.documentElement.dataset.tema = 'claro'; }})();
+</script>
+
+<style>
+/* ===== LO QUE VINO DEL DISENO, TAL CUAL ===== */
+:root{color-scheme:light dark;--bg:#FFFFFF;--paper:#FDFCF7;--tx:#1A1A1A;--mut:#3A3A3A;--stroke:#1A1A1A;--yellow:#F9E830;--onyel:#1A1A1A;--red:#B52625;--line:#0195B1;--dur:.25s}
+html[data-tema="oscuro"]{--bg:#151412;--paper:#22201D;--tx:#FDFCF7;--mut:#D8D3C8;--stroke:#FDFCF7;--red:#FF9D8F;--line:#5AD8F0}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+html,body{max-width:100%;overflow-x:hidden}
+body{margin:0;background:var(--bg);color:var(--tx);font-family:Roboto,system-ui,sans-serif;-webkit-text-size-adjust:100%}
+a{color:var(--red);text-decoration:underline;text-underline-offset:2px}
+a:hover{color:var(--tx)}
+button{font:inherit;cursor:pointer;color:var(--tx)}
+:focus-visible{outline:3px solid var(--line);outline-offset:2px}
+input[type=range]{accent-color:var(--line);width:100%;height:34px}
+.js-reveal [data-reveal]{opacity:0;transform:translateY(20px);transition:opacity .6s ease,transform .6s ease}
+.js-reveal [data-reveal].on{opacity:1;transform:none}
+@media print{[data-reveal]{opacity:1!important;transform:none!important}}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}[data-reveal]{opacity:1!important;transform:none!important;transition:none!important}:root{--dur:0s}}
+
+/* ===== LO QUE AGREGA LA APP ===== */
+
+/* La ficha no carga estilos.css. Es una pieza de lectura a pantalla
+   completa con su propio sistema visual, y las 160 KB de la app le
+   pelearian el body, la tipografia y los titulos. Lo unico que se
+   comparte es el tema y la barra de volver. */
+
+.ficha-volver{
+  display:inline-flex; align-items:center; gap:8px;
+  position:sticky; top:0; z-index:20;
+  width:100%; box-sizing:border-box;
+  padding:11px 18px;
+  font-family:Montserrat,sans-serif; font-weight:800;
+  font-size:12px; letter-spacing:.06em; text-transform:uppercase;
+  background:var(--yellow); color:var(--onyel);
+  border-bottom:2px solid var(--stroke);
+  text-decoration:none;
+}
+.ficha-volver:hover{ color:var(--onyel); }
+
+/* LOS SELLOS TODAVIA NO LLEGARON. En el proyecto de Claude Design viven
+   en assets/sello-sb.svg y assets/sello-sb-conduccion.png, y no vinieron
+   con los .dc.html. Un recuadro vacio con borde se ve peor que nada, asi
+   que el bloque queda escondido.
+
+   CUANDO LOS COPIEN a estudiemos/fichas/assets/, borren estas tres
+   lineas y los sellos aparecen solos en las ocho fichas. */
+.ficha-sellos{ display:none; }
+</style>
+</head>
+<body>
+
+<a class="ficha-volver" href="../../">← Estudiemos</a>
+
+<!-- Aca dibuja ficha.js. Vacio hasta que corre el script del final. -->
+<div id="ficha"></div>
+
+<!-- La ficha, tal como salio del diseno. Vive dentro de un <template>
+     para que el navegador no la muestre a medio armar: todavia tiene los
+     agujeros { asi } sin rellenar. -->
+<template id="plantilla">
+<a href="#s1" style="position:absolute;left:-9999px;top:0;background:var(--yellow);color:var(--onyel);padding:10px 14px;font-family:Montserrat,sans-serif;font-weight:800" style-focus="left:8px;top:8px;z-index:9">Saltar al contenido</a>
+
+<!-- ===== HERO ===== -->
+<section style="min-height:100svh;display:flex;flex-direction:column;justify-content:center;padding:44px 18px 32px;max-width:820px;margin:0 auto;border-bottom:2px solid var(--stroke)">
+<div style="display:flex;flex-wrap:wrap;gap:6px;margin-bottom:18px" data-reveal="">
+<span style="font-family:Montserrat,sans-serif;font-weight:800;font-size:10px;letter-spacing:.08em;text-transform:uppercase;background:var(--yellow);color:var(--onyel);border:1px solid var(--stroke);border-radius:99px;padding:5px 11px;box-shadow:2px 2px 0 var(--stroke)">Equipo de Fonoaudiología</span>
+<span style="font-family:'Roboto Mono',monospace;font-size:10px;letter-spacing:.06em;border:1px solid var(--stroke);border-radius:99px;padding:5px 11px">UNLP · FTS · 1° AÑO</span>
+</div>
+<h1 style="font-family:'Archivo Black',sans-serif;font-weight:400;font-size:clamp(40px,13vw,84px);line-height:.84;margin:0;text-transform:uppercase;letter-spacing:-.03em" data-reveal="" data-delay="80">Preparemos<br>anato<br>juntes</h1>
+<p style="font-family:Montserrat,sans-serif;font-weight:800;font-size:clamp(14px,4vw,19px);letter-spacing:.02em;text-transform:uppercase;margin:16px 0 0;max-width:30ch" data-reveal="" data-delay="160">Anatomofisiología Fonoaudiológica · material de estudio</p>
+<p style="font-size:clamp(15px,4vw,18px);line-height:1.55;color:var(--mut);margin:14px 0 0;max-width:46ch;text-wrap:pretty" data-reveal="" data-delay="240">Un tríptico convertido en página: bajá y cada pliegue hace su trabajo. Primero qué es, después cómo funciona con las piezas para mover, y al final cómo te das cuenta de si te quedó.</p>
+<div style="display:flex;flex-wrap:wrap;gap:10px;margin-top:26px" data-reveal="" data-delay="320">
+<a href="#s1" style="font-family:Montserrat,sans-serif;font-weight:800;font-size:13px;letter-spacing:.04em;text-transform:uppercase;background:var(--yellow);color:var(--onyel);border:1px solid var(--stroke);border-radius:10px;box-shadow:2px 2px 0 var(--stroke);padding:14px 18px;text-decoration:none">Empezar por el 01</a>
+<a href="#s3" style="font-family:Montserrat,sans-serif;font-weight:800;font-size:13px;letter-spacing:.04em;text-transform:uppercase;color:var(--tx);border:1px solid var(--stroke);border-radius:10px;box-shadow:2px 2px 0 var(--stroke);padding:14px 18px;text-decoration:none">Ir a la autoevaluación</a>
+</div>
+<p style="font-family:'Roboto Mono',monospace;font-size:11px;letter-spacing:.1em;margin:34px 0 0;color:var(--mut)" data-reveal="" data-delay="400">↓ 01 QUÉ ES · 02 CÓMO FUNCIONA · 03 CÓMO TE DAS CUENTA</p>
+</section>
+
+<!-- ===== 01 QUÉ ES ===== -->
+<section id="s1" style="min-height:100svh;padding:60px 18px;max-width:820px;margin:0 auto;border-bottom:2px solid var(--stroke)">
+<p style="font-family:'Roboto Mono',monospace;font-size:11px;letter-spacing:.12em;margin:0 0 8px" data-reveal="">PLIEGUE 01</p>
+<h2 style="font-family:'Archivo Black',sans-serif;font-weight:400;font-size:clamp(34px,10vw,60px);line-height:.9;margin:0 0 18px;text-transform:uppercase" data-reveal="" data-delay="60">Qué es</h2>
+<p style="font-size:clamp(16px,4.4vw,20px);line-height:1.55;margin:0 0 12px;max-width:44ch;text-wrap:pretty" data-reveal="" data-delay="120">Anatomía es saber dónde está cada cosa del cuerpo y cómo nombrarlo para que la otra persona entienda lo mismo que vos.</p>
+<p style="font-size:clamp(15px,4vw,18px);line-height:1.6;margin:0 0 28px;max-width:46ch;text-wrap:pretty" data-reveal="" data-delay="180">Para eso hace falta un acuerdo previo: describir siempre desde la misma posición de partida. Ese acuerdo se llama <strong style="font-family:Montserrat,sans-serif;font-weight:800">posición anatómica</strong>, y todo lo demás se apoya ahí.</p>
+
+<div style="background:var(--paper);border:1px solid var(--stroke);border-radius:10px;box-shadow:2px 2px 0 var(--stroke);padding:18px;margin-bottom:24px" data-reveal="" data-delay="240">
+<h3 style="font-family:Montserrat,sans-serif;font-weight:800;font-size:17px;letter-spacing:.02em;text-transform:uppercase;margin:0 0 4px">Posición anatómica</h3>
+<p style="font-size:14.5px;line-height:1.55;color:var(--mut);margin:0 0 14px">Tocá las dos opciones y mirá qué le pasa a la palabra «arriba».</p>
+<div role="group" aria-label="Elegí la posición del cuerpo" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:8px;margin-bottom:16px">
+<sc-for list="{{ poseChips }}" as="c" hint-placeholder-count="2">
+<button type="button" aria-pressed="{{ c.on }}" onClick="{{ c.go }}" style="font-family:Montserrat,sans-serif;font-weight:800;font-size:12px;letter-spacing:.02em;text-transform:uppercase;border:1px solid var(--stroke);border-radius:99px;padding:10px 13px;background:{{ c.bg }};color:{{ c.fg }};box-shadow:2px 2px 0 var(--stroke);transition:background var(--dur)">{{ c.label }}</button>
+</sc-for>
+</div>
+<svg viewBox="0 0 140 275" role="img" aria-label="{{ poseAlt }}" style="width:100%;max-width:240px;display:block;margin:0 auto 6px;height:auto">
+<ellipse cx="70" cy="266" rx="34" ry="5" fill="var(--yellow)" stroke="var(--stroke)" stroke-width="1"></ellipse>
+<g fill="var(--paper)" stroke="var(--stroke)" stroke-width="2" stroke-linejoin="round">
+<g transform="{{ headT }}" style="transition:transform var(--dur)"><ellipse cx="70" cy="30" rx="18" ry="22"></ellipse></g>
+<path d="M62,50h16v13h-16z"></path>
+<path d="M48,63c10-4 34-4 44,0l4,41-8,48h-36l-8-48z"></path>
+<g transform="{{ armRT }}" style="transition:transform var(--dur)">
+<path d="M92,66l11,4 5,80-10,3-10-76z"></path>
+<path d="M98,152l11,2 1,15-11,1z"></path>
+<g stroke-width="1.6" opacity="{{ palmO }}" style="transition:opacity var(--dur)"><path d="M100,157h8M100,161h8M100,165h8"></path></g>
+</g>
+<g transform="{{ armLT }}" style="transition:transform var(--dur)">
+<path d="M48,66l-11,4-5,80 10,3 10-76z"></path>
+<path d="M42,152l-11,2-1,15 11,1z"></path>
+<g stroke-width="1.6" opacity="{{ palmO }}" style="transition:opacity var(--dur)"><path d="M32,157h8M32,161h8M32,165h8"></path></g>
+</g>
+<g transform="{{ legRT }}" style="transition:transform var(--dur)">
+<path d="M72,152h15l-3,86-13,1z"></path>
+<path d="M71,238h15v12h-17z"></path>
+</g>
+<path d="M68,152h-15l3,86 13,1z"></path>
+<path d="M69,238h-15v12h17z"></path>
+</g>
+</svg>
+<p style="font-family:'Roboto Mono',monospace;font-size:10.5px;letter-spacing:.06em;text-align:center;color:var(--mut);margin:0 0 16px">VISTA DE FRENTE</p>
+<div style="border-top:2px solid var(--stroke);padding-top:14px">
+<p style="font-family:Montserrat,sans-serif;font-weight:800;font-size:11px;letter-spacing:.08em;text-transform:uppercase;margin:0 0 8px">{{ poseHeadline }}</p>
+<p style="font-size:14.5px;line-height:1.55;margin:0 0 10px;text-wrap:pretty">{{ poseWhy }}</p>
+<ul style="margin:0;padding-left:18px;font-size:14.5px;line-height:1.75">
+<li>Cuerpo en levitación</li>
+<li>Brazos y piernas extendidas</li>
+<li>Manos y pies en supinación</li>
+</ul>
+</div>
+</div>
+
+<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:12px">
+<sc-for list="{{ intro }}" as="i" hint-placeholder-count="4">
+<div style="background:var(--paper);border:1px solid var(--stroke);border-radius:10px;box-shadow:2px 2px 0 var(--stroke);padding:14px" data-reveal="" data-delay="{{ i.d }}">
+<p style="font-family:Montserrat,sans-serif;font-weight:800;font-size:12.5px;letter-spacing:.03em;text-transform:uppercase;margin:0 0 7px;border-bottom:2px solid var(--line);display:inline-block;padding-bottom:3px">{{ i.t }}</p>
+<p style="font-size:14px;line-height:1.5;margin:0">{{ i.b }}</p>
+</div>
+</sc-for>
+</div>
+</section>
+
+<!-- ===== 02 CÓMO FUNCIONA ===== -->
+<section id="s2" style="min-height:100svh;padding:60px 18px;max-width:820px;margin:0 auto;border-bottom:2px solid var(--stroke)">
+<p style="font-family:'Roboto Mono',monospace;font-size:11px;letter-spacing:.12em;margin:0 0 8px" data-reveal="">PLIEGUE 02</p>
+<h2 style="font-family:'Archivo Black',sans-serif;font-weight:400;font-size:clamp(34px,10vw,60px);line-height:.9;margin:0 0 18px;text-transform:uppercase" data-reveal="" data-delay="60">¿Cómo<br>funciona?</h2>
+<p style="font-size:clamp(15px,4vw,18px);line-height:1.6;margin:0 0 28px;max-width:46ch;text-wrap:pretty" data-reveal="" data-delay="120">Cuatro piezas para mover con el dedo o con el teclado. Movelas: cada una muestra algo que en una imagen quieta no se ve.</p>
+
+<article style="background:var(--paper);border:1px solid var(--stroke);border-radius:10px;box-shadow:2px 2px 0 var(--stroke);padding:18px;margin-bottom:18px" data-reveal="">
+<p style="font-family:'Roboto Mono',monospace;font-size:10.5px;letter-spacing:.1em;color:var(--mut);margin:0 0 4px">2.1</p>
+<h3 style="font-family:'Archivo Black',sans-serif;font-weight:400;font-size:23px;line-height:1;margin:0 0 8px;text-transform:uppercase">Planos y cortes</h3>
+<p style="font-size:14.5px;line-height:1.55;margin:0 0 14px">Elegí un plano y después corrélo con la barra. El plano no es un lugar fijo del cuerpo: es una dirección, y puede pasar por donde quieras.</p>
+<div role="group" aria-label="Elegí un plano" style="display:flex;flex-wrap:wrap;gap:7px;margin-bottom:14px">
+<sc-for list="{{ planeChips }}" as="c" hint-placeholder-count="3">
+<button type="button" aria-pressed="{{ c.on }}" onClick="{{ c.go }}" style="font-family:Montserrat,sans-serif;font-weight:800;font-size:12px;letter-spacing:.02em;text-transform:uppercase;border:1px solid var(--stroke);border-radius:99px;padding:9px 13px;box-shadow:2px 2px 0 var(--stroke);background:{{ c.bg }};color:{{ c.fg }};transition:background var(--dur)">{{ c.label }}</button>
+</sc-for>
+</div>
+<svg viewBox="0 0 140 275" role="img" aria-label="{{ planeAlt }}" style="width:100%;max-width:250px;display:block;margin:0 auto 4px;height:auto">
+<defs><pattern id="hatchL" width="7" height="7" patternUnits="userSpaceOnUse" patternTransform="rotate(45)"><line x1="0" y1="0" x2="0" y2="7" stroke="var(--line)" stroke-width="1.6"></line></pattern></defs>
+<g fill="var(--paper)" stroke="var(--stroke)" stroke-width="2" stroke-linejoin="round">
+<sc-if value="{{ planeFront }}" hint-placeholder-val="{{ true }}">
+<g>
+<ellipse cx="70" cy="30" rx="18" ry="22"></ellipse>
+<path d="M62,50h16v13h-16z"></path>
+<path d="M48,63c10-4 34-4 44,0l4,41-8,48h-36l-8-48z"></path>
+<path d="M92,66l11,4 5,80-10,3-10-76z"></path>
+<path d="M98,152l11,2 1,15-11,1z"></path>
+<path d="M48,66l-11,4-5,80 10,3 10-76z"></path>
+<path d="M42,152l-11,2-1,15 11,1z"></path>
+<path d="M72,152h15l-3,86-13,1z"></path>
+<path d="M71,238h15v12h-17z"></path>
+<path d="M68,152h-15l3,86 13,1z"></path>
+<path d="M69,238h-15v12h17z"></path>
+</g>
+</sc-if>
+<sc-if value="{{ planeSide }}" hint-placeholder-val="{{ false }}">
+<g>
+<ellipse cx="64" cy="30" rx="19" ry="22"></ellipse>
+<path d="M82,26l9,7-9,5z"></path>
+<path d="M58,50h16v13h-16z"></path>
+<path d="M52,63c11-4 25-2 31,4l2,37-4,48h-27l-4-48z"></path>
+<path d="M68,66l11,3 3,80-11,3-8-76z"></path>
+<path d="M56,152h20l-2,86-16,1z"></path>
+<path d="M56,238h25v12h-27z"></path>
+</g>
+</sc-if>
+</g>
+<rect x="{{ hx }}" y="{{ hy }}" width="{{ hw }}" height="{{ hh }}" fill="url(#hatchL)" opacity="0.5" style="transition:all var(--dur)"></rect>
+<line x1="{{ lx1 }}" y1="{{ ly1 }}" x2="{{ lx2 }}" y2="{{ ly2 }}" stroke="var(--stroke)" stroke-width="3" stroke-dasharray="9 5" style="transition:all var(--dur)"></line>
+</svg>
+<p style="font-family:'Roboto Mono',monospace;font-size:10.5px;letter-spacing:.06em;text-align:center;color:var(--mut);margin:0 0 12px">{{ planeView }}</p>
+<label style="display:block;font-family:Montserrat,sans-serif;font-weight:800;font-size:11px;letter-spacing:.07em;text-transform:uppercase;margin-bottom:2px" for="lpp">Corré el plano</label>
+
+<input id="lpp" type="range" min="0" max="100" value="{{ pp }}" onChange="{{ setPP }}" onInput="{{ setPP }}" aria-label="Posición del plano"><div style="display:flex;justify-content:space-between;font-family:'Roboto Mono',monospace;font-size:10px;letter-spacing:.05em;color:var(--mut);margin:-4px 0 14px"><span>{{ ppMin }}</span><span>{{ ppMax }}</span></div>
+<div style="border:1px solid var(--stroke);border-left:6px solid var(--yellow);border-radius:10px;padding:12px">
+<p style="font-family:Montserrat,sans-serif;font-weight:800;font-size:11px;letter-spacing:.08em;text-transform:uppercase;margin:0 0 6px">{{ planeName }}</p>
+<p style="font-size:14px;line-height:1.55;margin:0">{{ planeText }}</p>
+</div>
+</article>
+
+<article style="background:var(--paper);border:1px solid var(--stroke);border-radius:10px;box-shadow:2px 2px 0 var(--stroke);padding:18px;margin-bottom:18px" data-reveal="">
+<p style="font-family:'Roboto Mono',monospace;font-size:10.5px;letter-spacing:.1em;color:var(--mut);margin:0 0 4px">2.2</p>
+<h3 style="font-family:'Archivo Black',sans-serif;font-weight:400;font-size:23px;line-height:1;margin:0 0 8px;text-transform:uppercase">Ejes y movimiento</h3>
+<p style="font-size:14.5px;line-height:1.55;margin:0 0 14px">Elegí un eje y movelo vos con la barra. El eje no se mueve: el cuerpo se mueve alrededor de él.</p>
+<div role="group" aria-label="Elegí un eje" style="display:flex;flex-wrap:wrap;gap:7px;margin-bottom:14px">
+<sc-for list="{{ axisChips }}" as="c" hint-placeholder-count="3">
+<button type="button" aria-pressed="{{ c.on }}" onClick="{{ c.go }}" style="font-family:Montserrat,sans-serif;font-weight:800;font-size:12px;letter-spacing:.02em;text-transform:uppercase;border:1px solid var(--stroke);border-radius:99px;padding:9px 13px;box-shadow:2px 2px 0 var(--stroke);background:{{ c.bg }};color:{{ c.fg }};transition:background var(--dur)">{{ c.label }}</button>
+</sc-for>
+</div>
+<svg viewBox="0 0 140 275" role="img" aria-label="{{ axisAlt }}" style="width:100%;max-width:250px;display:block;margin:0 auto 4px;height:auto">
+<g transform="{{ bodyRotT }}" style="transition:transform var(--dur)">
+<g fill="var(--paper)" stroke="var(--stroke)" stroke-width="2" stroke-linejoin="round">
+<sc-if value="{{ axisFront }}" hint-placeholder-val="{{ true }}">
+<g>
+<ellipse cx="70" cy="30" rx="18" ry="22"></ellipse>
+<path d="M62,50h16v13h-16z"></path>
+<path d="M48,63c10-4 34-4 44,0l4,41-8,48h-36l-8-48z"></path>
+<g transform="{{ abdRT }}" style="transition:transform var(--dur)">
+<path d="M92,66l11,4 5,80-10,3-10-76z"></path>
+<path d="M98,152l11,2 1,15-11,1z"></path>
+</g>
+<g transform="{{ abdLT }}" style="transition:transform var(--dur)">
+<path d="M48,66l-11,4-5,80 10,3 10-76z"></path>
+<path d="M42,152l-11,2-1,15 11,1z"></path>
+</g>
+<path d="M72,152h15l-3,86-13,1z"></path>
+<path d="M71,238h15v12h-17z"></path>
+<path d="M68,152h-15l3,86 13,1z"></path>
+<path d="M69,238h-15v12h17z"></path>
+</g>
+</sc-if>
+<sc-if value="{{ axisSide }}" hint-placeholder-val="{{ false }}">
+<g>
+<ellipse cx="64" cy="30" rx="19" ry="22"></ellipse>
+<path d="M82,26l9,7-9,5z"></path>
+<path d="M58,50h16v13h-16z"></path>
+<path d="M52,63c11-4 25-2 31,4l2,37-4,48h-27l-4-48z"></path>
+<path d="M56,152h20l-2,86-16,1z"></path>
+<path d="M56,238h25v12h-27z"></path>
+<g transform="{{ flexT }}" style="transition:transform var(--dur)"><path d="M68,66l11,3 3,80-11,3-8-76z"></path></g>
+</g>
+</sc-if>
+</g>
+</g>
+<sc-if value="{{ axisIsLong }}" hint-placeholder-val="{{ false }}">
+<g>
+<line x1="70" y1="4" x2="70" y2="270" stroke="var(--line)" stroke-width="3" stroke-dasharray="8 6"></line>
+<path d="M46,14a24,10 0 1 0 48,0" fill="none" stroke="var(--line)" stroke-width="3"></path>
+<path d="M94,14l-7,-6 1,12z" fill="var(--line)"></path>
+</g>
+</sc-if>
+<sc-if value="{{ axisIsPoint }}" hint-placeholder-val="{{ false }}">
+<g>
+<circle cx="{{ pcx }}" cy="{{ pcy }}" r="13" fill="none" stroke="var(--line)" stroke-width="3"></circle>
+<circle cx="{{ pcx }}" cy="{{ pcy }}" r="4.5" fill="var(--line)"></circle>
+</g>
+</sc-if>
+</svg>
+<p style="font-family:'Roboto Mono',monospace;font-size:10.5px;letter-spacing:.06em;text-align:center;color:var(--mut);margin:0 0 12px">{{ axisView }}</p>
+<label style="display:block;font-family:Montserrat,sans-serif;font-weight:800;font-size:11px;letter-spacing:.07em;text-transform:uppercase;margin-bottom:2px" for="lav">Mové el cuerpo</label>
+<input id="lav" type="range" min="0" max="100" value="{{ av }}" onChange="{{ setAV }}" onInput="{{ setAV }}" aria-label="Cantidad de movimiento">
+<div style="display:flex;justify-content:space-between;font-family:'Roboto Mono',monospace;font-size:10px;letter-spacing:.05em;color:var(--mut);margin:-4px 0 14px"><span>{{ avMin }}</span><span>{{ avMax }}</span></div>
+<div style="border:1px solid var(--stroke);border-left:6px solid var(--yellow);border-radius:10px;padding:12px">
+<p style="font-family:Montserrat,sans-serif;font-weight:800;font-size:11px;letter-spacing:.08em;text-transform:uppercase;margin:0 0 6px">{{ axisName }}</p>
+<p style="font-size:14px;line-height:1.55;margin:0 0 8px">{{ axisText }}</p>
+<p style="font-size:13px;line-height:1.5;color:var(--mut);margin:0">{{ axisNote }}</p>
+</div>
+</article>
+
+<article style="background:var(--paper);border:1px solid var(--stroke);border-radius:10px;box-shadow:2px 2px 0 var(--stroke);padding:18px;margin-bottom:18px" data-reveal="">
+<p style="font-family:'Roboto Mono',monospace;font-size:10.5px;letter-spacing:.1em;color:var(--mut);margin:0 0 4px">2.3</p>
+<h3 style="font-family:'Archivo Black',sans-serif;font-weight:400;font-size:23px;line-height:1;margin:0 0 8px;text-transform:uppercase">Puntos de ubicación</h3>
+<p style="font-size:14.5px;line-height:1.55;margin:0 0 14px">Ninguna de estas palabras dice un lugar del cuerpo: dicen una dirección desde donde estás mirando. Tocá una y fijate que la vista cambia según la palabra.</p>
+<div role="group" aria-label="Elegí un punto de ubicación" style="display:flex;flex-wrap:wrap;gap:6px;margin-bottom:14px">
+<sc-for list="{{ pointChips }}" as="c" hint-placeholder-count="10">
+<button type="button" aria-pressed="{{ c.on }}" onClick="{{ c.go }}" style="font-family:Montserrat,sans-serif;font-weight:800;font-size:11.5px;letter-spacing:.02em;text-transform:uppercase;border:1px solid var(--stroke);border-radius:99px;padding:8px 11px;box-shadow:2px 2px 0 var(--stroke);background:{{ c.bg }};color:{{ c.fg }};transition:background var(--dur)">{{ c.label }}</button>
+</sc-for>
+</div>
+<svg viewBox="0 0 235 280" role="img" aria-label="{{ pointAlt }}" style="width:100%;max-width:420px;display:block;margin:0 auto 4px;height:auto">
+<defs>
+<marker id="mkL2" markerWidth="7" markerHeight="7" refX="5.5" refY="3.5" orient="auto"><path d="M0,0l7,3.5-7,3.5z" fill="var(--line)"></path></marker>
+<marker id="mkI2" markerWidth="8" markerHeight="8" refX="6" refY="4" orient="auto"><path d="M0,0l8,4-8,4z" fill="var(--tx)"></path></marker>
+</defs>
+<g fill="var(--paper)" stroke="var(--stroke)" stroke-width="2" stroke-linejoin="round">
+<sc-if value="{{ pointFront }}" hint-placeholder-val="{{ true }}">
+<g>
+<ellipse cx="70" cy="30" rx="18" ry="22"></ellipse>
+<path d="M62,50h16v13h-16z"></path>
+<path d="M48,63c10-4 34-4 44,0l4,41-8,48h-36l-8-48z"></path>
+<path d="M92,66l11,4 5,80-10,3-10-76z"></path>
+<path d="M98,152l11,2 1,15-11,1z"></path>
+<path d="M48,66l-11,4-5,80 10,3 10-76z"></path>
+<path d="M42,152l-11,2-1,15 11,1z"></path>
+<path d="M72,152h15l-3,86-13,1z"></path>
+<path d="M71,238h15v12h-17z"></path>
+<path d="M68,152h-15l3,86 13,1z"></path>
+<path d="M69,238h-15v12h17z"></path>
+</g>
+</sc-if>
+<sc-if value="{{ pointSide }}" hint-placeholder-val="{{ false }}">
+<g>
+<ellipse cx="64" cy="30" rx="19" ry="22"></ellipse>
+<path d="M82,26l9,7-9,5z"></path>
+<path d="M58,50h16v13h-16z"></path>
+<path d="M52,63c11-4 25-2 31,4l2,37-4,48h-27l-4-48z"></path>
+<path d="M68,66l11,3 3,80-11,3-8-76z"></path>
+<path d="M56,152h20l-2,86-16,1z"></path>
+<path d="M56,238h25v12h-27z"></path>
+</g>
+</sc-if>
+</g>
+<g stroke="var(--line)" stroke-width="2.5" fill="none">
+<sc-for list="{{ arrows }}" as="a" hint-placeholder-count="4">
+<line x1="{{ a.x1 }}" y1="{{ a.y1 }}" x2="{{ a.x2 }}" y2="{{ a.y2 }}" style="{{ a.st }}"></line>
+</sc-for>
+</g>
+<g font-family="Montserrat,sans-serif" font-weight="800" font-size="11" letter-spacing="0.4">
+<sc-for list="{{ arrows }}" as="a" hint-placeholder-count="4">
+<text x="{{ a.lx }}" y="{{ a.ly }}" text-anchor="{{ a.an }}" fill="{{ a.fill }}">{{ a.label }}</text>
+</sc-for>
+</g>
+</svg>
+<p style="font-family:'Roboto Mono',monospace;font-size:10.5px;letter-spacing:.06em;text-align:center;color:var(--mut);margin:0 0 14px">{{ pointView }}</p>
+<div style="border:1px solid var(--stroke);border-left:6px solid var(--yellow);border-radius:10px;padding:12px">
+<p style="font-family:Montserrat,sans-serif;font-weight:800;font-size:11px;letter-spacing:.08em;text-transform:uppercase;margin:0 0 6px">{{ pointName }}</p>
+<p style="font-size:14px;line-height:1.55;margin:0 0 8px">{{ pointText }}</p>
+<p style="font-size:13px;line-height:1.5;color:var(--mut);margin:0">Sirven de referencia entre estructuras del cuerpo: siempre se dice respecto de otra cosa.</p>
+</div>
+</article>
+
+<article style="background:var(--paper);border:1px solid var(--stroke);border-radius:10px;box-shadow:2px 2px 0 var(--stroke);padding:18px" data-reveal="">
+<p style="font-family:'Roboto Mono',monospace;font-size:10.5px;letter-spacing:.1em;color:var(--mut);margin:0 0 4px">2.4</p>
+<h3 style="font-family:'Archivo Black',sans-serif;font-weight:400;font-size:23px;line-height:1;margin:0 0 8px;text-transform:uppercase">Cráneo y cara</h3>
+<p style="font-size:14.5px;line-height:1.55;margin:0 0 14px">Los mismos huesos, dos agrupaciones. Cambiá el grupo y mirá qué zona se pinta: eso es lo que separa neurocráneo de viscerocráneo.</p>
+<div role="group" aria-label="Elegí un grupo de huesos" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:8px;margin-bottom:14px">
+<sc-for list="{{ groupChips }}" as="c" hint-placeholder-count="2">
+<button type="button" aria-pressed="{{ c.on }}" onClick="{{ c.go }}" style="font-family:Montserrat,sans-serif;font-weight:800;font-size:12px;letter-spacing:.02em;text-transform:uppercase;border:1px solid var(--stroke);border-radius:99px;padding:10px 13px;box-shadow:2px 2px 0 var(--stroke);background:{{ c.bg }};color:{{ c.fg }};transition:background var(--dur)">{{ c.label }}</button>
+</sc-for>
+</div>
+<svg viewBox="0 0 180 210" role="img" aria-label="{{ skullAlt }}" style="width:100%;max-width:250px;display:block;margin:0 auto 4px;height:auto">
+<g stroke="var(--stroke)" stroke-width="1.6" stroke-linejoin="round">
+<path d="M90,8C64,8 44,26 40,54l10,20c14-8 66-8 80,0l10-20C136,26 116,8 90,8z" style="{{ bFront }}"></path>
+<path d="M40,54 26,60c-2,16 2,32 10,42l14-8c-6-12-10-26-10-34z" style="{{ bPar }}"></path>
+<path d="M140,54 154,60c2,16-2,32-10,42l-14-8c6-12 10-26 10-34z" style="{{ bPar }}"></path>
+<path d="M36,96c2,14 10,26 22,34l8-12c-10-8-16-14-16-22z" style="{{ bTemp }}"></path>
+<path d="M144,96c-2,14-10,26-22,34l-8-12c10-8 16-14 16-22z" style="{{ bTemp }}"></path>
+<path d="M84,92h12l-2,13h-8z" style="{{ bNas }}"></path>
+<path d="M42,100 62,106 60,120 44,114z" style="{{ bCig }}"></path>
+<path d="M138,100 118,106 120,120 136,114z" style="{{ bCig }}"></path>
+<path d="M56,126c14-4 54-4 68,0l2,20c-14,6-58,6-72,0z" style="{{ bMax }}"></path>
+<path d="M50,152c14-4 66-4 80,0l-2,20c-8,16-68,16-76,0z" style="{{ bMand }}"></path>
+</g>
+<g fill="var(--tx)" stroke="none">
+<ellipse cx="62" cy="86" rx="16" ry="13"></ellipse>
+<ellipse cx="118" cy="86" rx="16" ry="13"></ellipse>
+<path d="M90,106 82,127 98,127z"></path>
+</g>
+</svg>
+<p style="font-family:'Roboto Mono',monospace;font-size:10.5px;letter-spacing:.06em;text-align:center;color:var(--mut);margin:0 0 14px">CRÁNEO · VISTA DE FRENTE · ESQUEMA</p>
+<p style="font-family:Montserrat,sans-serif;font-weight:800;font-size:11px;letter-spacing:.08em;text-transform:uppercase;margin:0 0 8px">{{ groupTitle }}</p>
+<div role="group" aria-label="Huesos del grupo" style="display:flex;flex-wrap:wrap;gap:6px;margin-bottom:14px">
+<sc-for list="{{ boneChips }}" as="c" hint-placeholder-count="6">
+<button type="button" aria-pressed="{{ c.on }}" onClick="{{ c.go }}" style="font-family:'Roboto Mono',monospace;font-size:11px;letter-spacing:.03em;text-transform:uppercase;border:1px solid var(--stroke);border-radius:99px;padding:8px 11px;background:{{ c.bg }};color:{{ c.fg }};transition:background var(--dur)">{{ c.label }}</button>
+</sc-for>
+</div>
+<div style="border:1px solid var(--stroke);border-left:6px solid var(--yellow);border-radius:10px;padding:12px;margin-bottom:16px">
+<p style="font-size:14px;line-height:1.55;margin:0">{{ boneText }}</p>
+</div>
+<div style="border-top:2px solid var(--stroke);padding-top:16px">
+<h4 style="font-family:'Archivo Black',sans-serif;font-weight:400;font-size:19px;line-height:1;margin:0 0 8px;text-transform:uppercase">Suturas craneales</h4>
+<p style="font-size:14px;line-height:1.55;margin:0 0 14px">Son uniones fibrosas que conectan los huesos del cráneo. Marcan la unión entre los huesos, el crecimiento y cierre de las fontanelas craneales.</p>
+<div role="group" aria-label="Elegí una sutura" style="display:flex;flex-wrap:wrap;gap:7px;margin-bottom:14px">
+<sc-for list="{{ sutChips }}" as="c" hint-placeholder-count="3">
+<button type="button" aria-pressed="{{ c.on }}" onClick="{{ c.go }}" style="font-family:Montserrat,sans-serif;font-weight:800;font-size:12px;letter-spacing:.02em;text-transform:uppercase;border:1px solid var(--stroke);border-radius:99px;padding:9px 13px;box-shadow:2px 2px 0 var(--stroke);background:{{ c.bg }};color:{{ c.fg }};transition:background var(--dur)">{{ c.label }}</button>
+</sc-for>
+</div>
+<svg viewBox="0 0 140 200" role="img" aria-label="{{ sutAlt }}" style="width:100%;max-width:210px;display:block;margin:0 auto 4px;height:auto">
+<ellipse cx="70" cy="96" rx="56" ry="84" fill="var(--paper)" stroke="var(--stroke)" stroke-width="2"></ellipse>
+<g fill="none" stroke="var(--line)" stroke-width="3" stroke-linecap="round">
+<path d="M18,62l6-4 6,5 6-5 6,4 6-4 6,5 6-5 6,4 6-4 6,5 6-5 6,4 6-4 6,5 6-5 6,4" style="{{ sCor }}"></path>
+<path d="M70,64l4,6-4,6 4,6-4,6 4,6-4,6 4,6-4,6 4,6-4,6 4,6-4,6 4,6-4,6" style="{{ sSag }}"></path>
+<path d="M70,152l-6-4-5,5-6-4-5,5-6-4-5,5-6-4M70,152l6-4 5,5 6-4 5,5 6-4 5,5 6-4" style="{{ sLam }}"></path>
+</g>
+<g font-family="'Roboto Mono',monospace" font-size="9" letter-spacing="0.8" fill="var(--mut)">
+<text x="70" y="14" text-anchor="middle">FRENTE</text>
+<text x="70" y="196" text-anchor="middle">ATRÁS</text>
+</g>
+</svg>
+<p style="font-family:'Roboto Mono',monospace;font-size:10.5px;letter-spacing:.06em;text-align:center;color:var(--mut);margin:0 0 14px">CRÁNEO · VISTA DESDE ARRIBA · ESQUEMA</p>
+<div style="border:1px solid var(--stroke);border-left:6px solid var(--yellow);border-radius:10px;padding:12px">
+<p style="font-family:Montserrat,sans-serif;font-weight:800;font-size:11px;letter-spacing:.08em;text-transform:uppercase;margin:0 0 6px">{{ sutName }}</p>
+<p style="font-size:14px;line-height:1.55;margin:0">{{ sutText }}</p>
+</div>
+</div>
+</article>
+</section>
+
+<!-- ===== 03 AUTOEVALUACIÓN ===== -->
+<section id="s3" style="min-height:100svh;padding:60px 18px;max-width:820px;margin:0 auto;border-bottom:2px solid var(--stroke)">
+<p style="font-family:'Roboto Mono',monospace;font-size:11px;letter-spacing:.12em;margin:0 0 8px" data-reveal="">PLIEGUE 03</p>
+<h2 style="font-family:'Archivo Black',sans-serif;font-weight:400;font-size:clamp(34px,10vw,60px);line-height:.9;margin:0 0 18px;text-transform:uppercase" data-reveal="" data-delay="60">Cómo te<br>das cuenta</h2>
+<p style="font-size:clamp(16px,4.4vw,20px);line-height:1.55;margin:0 0 8px;max-width:44ch;text-wrap:pretty" data-reveal="" data-delay="120">Ocho preguntas. Elegís una opción y aparece la respuesta correcta con el porqué, aciertes o no.</p>
+<p style="font-size:15px;line-height:1.6;color:var(--mut);margin:0 0 26px;max-width:46ch;text-wrap:pretty" data-reveal="" data-delay="180">El acierto es sólo el camino: lo que hay que estudiar es el porqué.</p>
+
+<sc-for list="{{ quiz }}" as="q" hint-placeholder-count="8">
+<article style="background:var(--paper);border:1px solid var(--stroke);border-radius:10px;box-shadow:2px 2px 0 var(--stroke);padding:16px;margin-bottom:14px" data-reveal="">
+<p style="font-family:'Roboto Mono',monospace;font-size:10.5px;letter-spacing:.1em;color:var(--mut);margin:0 0 6px">{{ q.num }}</p>
+<p style="font-family:Montserrat,sans-serif;font-weight:700;font-size:16px;line-height:1.4;margin:0 0 12px;text-wrap:pretty">{{ q.text }}</p>
+<div role="group" aria-label="Opciones" style="display:flex;flex-direction:column;gap:8px">
+<sc-for list="{{ q.opts }}" as="o" hint-placeholder-count="3">
+<button type="button" onClick="{{ o.go }}" aria-pressed="{{ o.on }}" style="display:flex;gap:9px;align-items:flex-start;text-align:left;font-family:Roboto,sans-serif;font-size:14.5px;line-height:1.45;border:1px solid var(--stroke);border-radius:10px;padding:11px 12px;box-shadow:2px 2px 0 var(--stroke);background:{{ o.bg }};color:{{ o.fg }};transition:background var(--dur)">
+<span style="font-family:'Roboto Mono',monospace;font-size:12px;padding-top:1px">{{ o.mark }}</span>
+<span>{{ o.label }}</span>
+</button>
+</sc-for>
+</div>
+<sc-if value="{{ q.done }}" hint-placeholder-val="{{ false }}">
+<div style="margin-top:12px;border:1px solid var(--stroke);border-left:6px solid var(--yellow);border-radius:10px;padding:12px">
+<p style="font-family:Montserrat,sans-serif;font-weight:800;font-size:11px;letter-spacing:.08em;text-transform:uppercase;margin:0 0 6px">Por qué</p>
+<p style="font-size:14.5px;line-height:1.55;margin:0;text-wrap:pretty">{{ q.why }}</p>
+</div>
+</sc-if>
+</article>
+</sc-for>
+
+<div style="background:var(--yellow);color:var(--onyel);border:1px solid var(--stroke);border-radius:10px;box-shadow:2px 2px 0 var(--stroke);padding:18px;margin-top:18px" data-reveal="">
+<p style="font-family:'Roboto Mono',monospace;font-size:12px;letter-spacing:.06em;margin:0 0 6px">{{ score }}</p>
+<p style="font-family:Montserrat,sans-serif;font-weight:800;font-size:15px;line-height:1.4;margin:0 0 8px">Si algúna porqué no te cerró, anotalo y llevalo a la cátedra.</p>
+<p style="font-size:14px;line-height:1.55;margin:0">Preguntar en clase o en la comisión es parte de estudiar, no una señal de que vas atrasada.</p>
+</div>
+<button type="button" onClick="{{ resetQuiz }}" style="width:100%;margin-top:12px;text-align:left;font-family:Montserrat,sans-serif;font-weight:800;font-size:12.5px;letter-spacing:.04em;text-transform:uppercase;background:transparent;border:1px solid var(--stroke);border-radius:10px;box-shadow:2px 2px 0 var(--stroke);padding:13px 15px">Borrar respuestas y volver a empezar</button>
+</section>
+
+<footer style="padding:48px 18px 60px;max-width:820px;margin:0 auto">
+<p style="font-family:'Archivo Black',sans-serif;font-weight:400;font-size:clamp(26px,8vw,44px);line-height:.92;margin:0 0 14px;text-transform:uppercase" data-reveal="">Preparemos<br>anato juntes</p>
+<p style="font-size:15px;line-height:1.55;margin:0 0 10px;max-width:44ch" data-reveal="" data-delay="80">Sumate al grupo de WhatsApp para preparar la materia juntes. Pedí el link al Equipo de Fonoaudiología.</p>
+<p style="font-size:13px;line-height:1.55;color:var(--mut);margin:0;max-width:52ch" data-reveal="" data-delay="140">Material de estudio armado con las placas del Equipo de Fonoaudiología · Agrupación Simón Bolívar. Los esquemas son diagramas, no atlas: para el detalle anatómico usá la bibliografía y preguntá en la cátedra.</p>
+<div class="ficha-sellos" style="display:flex;flex-wrap:wrap;align-items:center;justify-content:center;gap:14px;margin:28px 0 0;border-top:2px solid var(--stroke);padding-top:26px" data-reveal="" data-delay="180">
+<img loading="lazy" src="../assets/sello-sb.svg" alt="Sello del Equipo de Fonoaudiología" width="150" height="150" style="width:clamp(112px,30vw,150px);height:auto;display:block;border:1px solid var(--stroke);border-radius:10px;box-shadow:2px 2px 0 var(--stroke)">
+<div style="display:flex;align-items:center;justify-content:center;padding:14px 50px;background:#FDFCF7;border:1px solid var(--stroke);border-radius:10px;box-shadow:2px 2px 0 var(--stroke)">
+<img loading="lazy" src="../assets/sello-sb-conduccion.png" alt="Simón Bolívar · Conducción del CEFTS" width="514" height="194" style="width:clamp(180px,52vw,258px);height:auto;display:block">
+</div>
+</div>
+</footer>
+</template>
+
+<script src="../ficha.js"></script>
+<script>
+class Component extends DCLogic {
+  state = { pose: 'anat', plane: 'sagital', pp: 50, axis: 'sagital', av: 0, sk: 'neuro', bone: null, sut: 'sagital', pt: 'cefalo', ans: {} };
+
+  componentDidMount() { this.wire(); }
+  componentDidUpdate() { this.wire(); }
+
+  wire() {
+    const nodes = Array.from(document.querySelectorAll('[data-reveal]'));
+    const show = () => nodes.forEach(n => n.classList.add('on'));
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) { show(); return; }
+    document.documentElement.classList.add('js-reveal');
+    nodes.forEach(n => {
+      const r = n.getBoundingClientRect();
+      if (r.top < (window.innerHeight || 800) && r.bottom > 0) n.classList.add('on');
+    });
+    clearTimeout(this._fail);
+    this._fail = setTimeout(show, 900);
+    if (!this._io) {
+      this._io = new IntersectionObserver((es) => {
+        es.forEach(e => {
+          if (e.isIntersecting) {
+            const d = e.target.getAttribute('data-delay') || 0;
+            e.target.style.transitionDelay = d + 'ms';
+            e.target.classList.add('on');
+            this._io.unobserve(e.target);
+          }
+        });
+      }, { rootMargin: '0px 0px -10% 0px', threshold: 0.12 });
+    }
+    nodes.forEach(n => { if (!n.classList.contains('on') && !n._obs) { n._obs = 1; this._io.observe(n); } });
+  }
+
+  componentWillUnmount() { clearTimeout(this._fail); if (this._io) this._io.disconnect(); }
+
+  chip(k, cur) {
+    const on = k === cur;
+    return { on, bg: on ? 'var(--yellow)' : 'transparent', fg: on ? 'var(--onyel)' : 'var(--tx)' };
+  }
+
+  renderVals() {
+    const s = this.state, S = (o) => this.setState(o);
+    const V = {};
+
+    V.intro = [
+      { d: 0, t: 'Planos o cortes', b: 'Líneas imaginarias que dividen al cuerpo o a estructuras anatómicas para facilitar nuestro estudio.' },
+      { d: 80, t: 'Ejes', b: 'Tres direcciones que atraviesan el cuerpo. Cada una tiene su par de movimientos: transversal, longitudinal y sagital.' },
+      { d: 160, t: 'Puntos de ubicación', b: 'Importantes para el vocabulario anatómico. Sirven de referencia entre estructuras del cuerpo.' },
+      { d: 240, t: 'Cráneo y cara', b: 'Los huesos de la cabeza se agrupan en neurocráneo y viscerocráneo, y se unen entre sí por las suturas.' }
+    ];
+
+    V.poseChips = [
+      { k: 'anat', label: 'Posición anatómica' },
+      { k: 'otra', label: 'Cualquier otra pose' }
+    ].map(c => ({ ...c, ...this.chip(c.k, s.pose), go: () => S({ pose: c.k }) }));
+    const otra = s.pose === 'otra';
+    V.headT = otra ? 'rotate(-12 70 46)' : 'rotate(0 70 46)';
+    V.armRT = otra ? 'rotate(-115 92 68)' : 'rotate(0 92 68)';
+    V.armLT = otra ? 'rotate(28 48 68)' : 'rotate(0 48 68)';
+    V.legRT = otra ? 'rotate(-14 74 152)' : 'rotate(0 74 152)';
+    V.palmO = otra ? 0 : 1;
+    V.poseAlt = otra
+      ? 'Esquema de un cuerpo de frente en una pose cualquiera: un brazo levantado, el otro separado y una pierna cruzada.'
+      : 'Esquema de un cuerpo de frente en posición anatómica: brazos y piernas extendidas, palmas de las manos hacia adelante.';
+    V.poseHeadline = otra ? 'Así no se puede describir' : 'Este es el punto de partida';
+    V.poseWhy = otra
+      ? 'Con el cuerpo en cualquier pose, «arriba», «adelante» o «al costado» cambian de significado según cómo esté ubicada la persona. Por eso la anatomía describe siempre desde la misma posición.'
+      : 'Desde acá se describe todo. Es la posición de referencia con la que se define el resto del vocabulario:';
+
+    V.planeChips = [
+      { k: 'sagital', label: 'Sagital' },
+      { k: 'coronal', label: 'Coronal o frontal' },
+      { k: 'transversal', label: 'Transversal u horizontal' }
+    ].map(c => ({ ...c, ...this.chip(c.k, s.plane), go: () => S({ plane: c.k, pp: 50 }) }));
+    V.pp = s.pp;
+    V.setPP = (e) => S({ pp: +e.target.value });
+    const t = (s.pp - 50) / 50;
+    V.planeFront = s.plane !== 'coronal';
+    V.planeSide = s.plane === 'coronal';
+    if (s.plane === 'sagital') {
+      const x = 70 + t * 26;
+      V.lx1 = x; V.ly1 = 4; V.lx2 = x; V.ly2 = 268;
+      V.hx = 0; V.hy = 4; V.hw = Math.max(0, x); V.hh = 264;
+      V.planeView = 'VISTA DE FRENTE'; V.ppMin = 'HACIA TU DERECHA'; V.ppMax = 'HACIA TU IZQUIERDA';
+      V.planeName = 'Plano sagital';
+      V.planeText = 'Corre de adelante hacia atrás y divide el cuerpo en una parte derecha y una izquierda. Podés correrlo a cualquier altura del ancho del cuerpo: sigue siendo el plano sagital.';
+      V.planeAlt = 'Cuerpo de frente con una línea vertical de corte que se puede desplazar de un lado al otro.';
+    } else if (s.plane === 'transversal') {
+      const y = 136 + t * 110;
+      V.lx1 = 4; V.ly1 = y; V.lx2 = 136; V.ly2 = y;
+      V.hx = 4; V.hy = 4; V.hw = 132; V.hh = Math.max(0, y - 4);
+      V.planeView = 'VISTA DE FRENTE'; V.ppMin = 'MÁS ARRIBA'; V.ppMax = 'MÁS ABAJO';
+      V.planeName = 'Plano transversal u horizontal';
+      V.planeText = 'Cruza el cuerpo de lado a lado en forma horizontal y lo divide en una parte de arriba y una de abajo. Corrélo: podés cortar por el cuello, por el tórax o por la rodilla.';
+      V.planeAlt = 'Cuerpo de frente con una línea horizontal de corte que se puede subir y bajar.';
+    } else {
+      const x = 66 + t * 18;
+      V.lx1 = x; V.ly1 = 4; V.lx2 = x; V.ly2 = 268;
+      V.hx = 0; V.hy = 4; V.hw = Math.max(0, x); V.hh = 264;
+      V.planeView = 'VISTA DE PERFIL · LA PERSONA MIRA A LA DERECHA';
+      V.ppMin = 'MÁS ATRÁS'; V.ppMax = 'MÁS ADELANTE';
+      V.planeName = 'Plano coronal o frontal';
+      V.planeText = 'Divide el cuerpo en una parte de adelante y una de atrás. De frente no se ve, porque queda paralelo a tu mirada: por eso acá el cuerpo está de perfil. El mismo plano, otra vista.';
+      V.planeAlt = 'Cuerpo de perfil con una línea vertical de corte que se puede mover hacia adelante y hacia atrás.';
+    }
+
+    V.axisChips = [
+      { k: 'transversal', label: 'Transversal' },
+      { k: 'longitudinal', label: 'Longitudinal' },
+      { k: 'sagital', label: 'Sagital' }
+    ].map(c => ({ ...c, ...this.chip(c.k, s.axis), go: () => S({ axis: c.k, av: 0 }) }));
+    V.av = s.av;
+    V.setAV = (e) => S({ av: +e.target.value });
+    const a = s.av / 100;
+    V.axisFront = s.axis !== 'transversal';
+    V.axisSide = s.axis === 'transversal';
+    V.axisIsLong = s.axis === 'longitudinal';
+    V.axisIsPoint = s.axis !== 'longitudinal';
+    V.bodyRotT = 'rotate(0)';
+    V.abdRT = 'rotate(0 92 68)'; V.abdLT = 'rotate(0 48 68)'; V.flexT = 'rotate(0 72 68)';
+    if (s.axis === 'sagital') {
+      V.abdRT = 'rotate(' + (-a * 78).toFixed(1) + ' 92 68)';
+      V.abdLT = 'rotate(' + (a * 78).toFixed(1) + ' 48 68)';
+      V.pcx = 70; V.pcy = 100;
+      V.axisView = 'VISTA DE FRENTE · EL EJE TE APUNTA A VOS';
+      V.avMin = 'BRAZOS PEGADOS AL CUERPO'; V.avMax = 'BRAZOS ALEJADOS DEL CUERPO';
+      V.axisName = 'Eje sagital';
+      V.axisText = 'Atraviesa al cuerpo de atrás hacia adelante. Movimientos de abducción y aducción.';
+      V.axisNote = 'De frente el eje se ve como un punto, porque va en la dirección de tu mirada. El brazo se mueve alrededor de ese punto.';
+      V.axisAlt = 'Cuerpo de frente separando y acercando los brazos alrededor de un eje que apunta hacia el observador.';
+    } else if (s.axis === 'transversal') {
+      V.flexT = 'rotate(' + (-a * 95).toFixed(1) + ' 72 68)';
+      V.pcx = 72; V.pcy = 68;
+      V.axisView = 'VISTA DE PERFIL · EL EJE ATRAVIESA EL HOMBRO';
+      V.avMin = 'BRAZO ABAJO'; V.avMax = 'BRAZO HACIA ADELANTE';
+      V.axisName = 'Eje transversal';
+      V.axisText = 'Atraviesa al cuerpo de un lado al otro. Movimientos de flexión y extensión.';
+      V.axisNote = 'De frente este movimiento casi no se ve: el brazo va hacia adelante, hacia vos. Por eso el cuerpo está de perfil.';
+      V.axisAlt = 'Cuerpo de perfil llevando el brazo hacia adelante alrededor de un eje que atraviesa el hombro de lado a lado.';
+    } else {
+      const sc = (1 - a * 0.55).toFixed(3);
+      V.bodyRotT = 'translate(' + (70 * (1 - sc)).toFixed(2) + ' 0) scale(' + sc + ' 1)';
+      V.axisView = 'VISTA DE FRENTE · EL EJE ES LA LÍNEA VERTICAL';
+      V.avMin = 'DE FRENTE'; V.avMax = 'GIRANDO SOBRE SÍ MISMO';
+      V.axisName = 'Eje longitudinal';
+      V.axisText = 'Atraviesa al cuerpo de arriba a abajo. Movimientos rotacionales.';
+      V.axisNote = 'Al girar alrededor de la línea vertical el cuerpo se ve cada vez más angosto: no se hizo más chico, cambió de orientación.';
+      V.axisAlt = 'Cuerpo de frente girando sobre una línea vertical que lo atraviesa de arriba a abajo.';
+    }
+
+    const pF = {
+      cefalo: 'Céfalo: hacia la cabeza.',
+      caudal: 'Caudal: hacia los pies.',
+      medial: 'Medial: hacia la línea media del cuerpo.',
+      lateral: 'Lateral: hacia el costado, alejándose de la línea media.',
+      proximal: 'Proximal: más cerca del punto donde el miembro se une al cuerpo.',
+      distal: 'Distal: más lejos del punto donde el miembro se une al cuerpo.'
+    };
+    const pS = {
+      superior: 'Superior: hacia arriba.',
+      inferior: 'Inferior: hacia abajo.',
+      anterior: 'Anterior: hacia adelante.',
+      posterior: 'Posterior: hacia atrás.'
+    };
+    const labels = { cefalo: 'Céfalo', caudal: 'Caudal', medial: 'Medial', lateral: 'Lateral', proximal: 'Proximal', distal: 'Distal', superior: 'Superior', inferior: 'Inferior', anterior: 'Anterior', posterior: 'Posterior' };
+    V.pointChips = Object.keys(pF).concat(Object.keys(pS)).map(k => ({ label: labels[k], ...this.chip(k, s.pt), go: () => S({ pt: k }) }));
+    V.pointFront = Object.keys(pF).indexOf(s.pt) >= 0;
+    V.pointSide = !V.pointFront;
+    const gF = [
+      { k: 'cefalo', x1: 198, y1: 120, x2: 198, y2: 24, lx: 198, ly: 14, an: 'middle' },
+      { k: 'caudal', x1: 198, y1: 150, x2: 198, y2: 248, lx: 198, ly: 266, an: 'middle' },
+      { k: 'lateral', x1: 96, y1: 100, x2: 140, y2: 100, lx: 145, ly: 104, an: 'start' },
+      { k: 'medial', x1: 140, y1: 126, x2: 98, y2: 126, lx: 145, ly: 130, an: 'start' },
+      { k: 'proximal', x1: 30, y1: 92, x2: 40, y2: 76, lx: 27, ly: 92, an: 'end' },
+      { k: 'distal', x1: 30, y1: 146, x2: 38, y2: 160, lx: 27, ly: 152, an: 'end' }
+    ];
+    const gS = [
+      { k: 'superior', x1: 198, y1: 120, x2: 198, y2: 24, lx: 198, ly: 14, an: 'middle' },
+      { k: 'inferior', x1: 198, y1: 150, x2: 198, y2: 248, lx: 198, ly: 266, an: 'middle' },
+      { k: 'anterior', x1: 96, y1: 96, x2: 136, y2: 96, lx: 141, ly: 100, an: 'start' },
+      { k: 'posterior', x1: 44, y1: 96, x2: 8, y2: 96, lx: 8, ly: 86, an: 'start' }
+    ];
+    V.arrows = (V.pointFront ? gF : gS).map(g => {
+      const on = g.k === s.pt;
+      return {
+        ...g, label: labels[g.k].toUpperCase(),
+        st: on ? 'stroke:var(--tx);stroke-width:3.5;marker-end:url(#mkI2)' : 'stroke:var(--line);stroke-width:2.5;marker-end:url(#mkL2);opacity:.55',
+        fill: on ? 'var(--tx)' : 'var(--mut)'
+      };
+    });
+    V.pointView = V.pointFront ? 'VISTA DE FRENTE' : 'VISTA DE PERFIL · LA PERSONA MIRA A LA DERECHA';
+    V.pointName = labels[s.pt];
+    V.pointText = pF[s.pt] || pS[s.pt];
+    V.pointAlt = 'Esquema del cuerpo con flechas rotuladas; la flecha de ' + labels[s.pt] + ' está resaltada.';
+
+    V.groupChips = [
+      { k: 'neuro', label: 'Neurocráneo' },
+      { k: 'viscero', label: 'Viscerocráneo' }
+    ].map(c => ({ ...c, ...this.chip(c.k, s.sk), go: () => S({ sk: c.k, bone: null }) }));
+    const neuro = ['frontal', 'parietales', 'temporales', 'occipital', 'esfenoides', 'etmoides'];
+    const viscero = ['maxilar superior', 'mandíbula', 'cigomáticos', 'nasales', 'palatinos', 'vómer', 'cornetes inferiores'];
+    V.boneChips = (s.sk === 'neuro' ? neuro : viscero).map(k => ({ label: k, ...this.chip(k, s.bone), go: () => S({ bone: s.bone === k ? null : k }) }));
+    V.groupTitle = s.sk === 'neuro' ? 'Huesos del neurocráneo — tocá uno' : 'Huesos del viscerocráneo — tocá uno';
+    const paint = { frontal: 'bFront', parietales: 'bPar', temporales: 'bTemp', nasales: 'bNas', cigomáticos: 'bCig', 'maxilar superior': 'bMax', mandíbula: 'bMand' };
+    const inGroup = { bFront: 'neuro', bPar: 'neuro', bTemp: 'neuro', bNas: 'viscero', bCig: 'viscero', bMax: 'viscero', bMand: 'viscero' };
+    const hidden = ['occipital', 'esfenoides', 'etmoides', 'palatinos', 'vómer', 'cornetes inferiores'];
+    const selKey = s.bone ? paint[s.bone] : null;
+    ['bFront', 'bPar', 'bTemp', 'bNas', 'bCig', 'bMax', 'bMand'].forEach(k => {
+      let fill = 'var(--paper)';
+      if (selKey === k) fill = 'var(--yellow)';
+      else if (inGroup[k] === s.sk && !selKey) fill = 'var(--yellow)';
+      V[k] = 'fill:' + fill + ';transition:fill var(--dur)';
+    });
+    if (!s.bone) {
+      V.boneText = s.sk === 'neuro'
+        ? 'Pintado: el neurocráneo, la parte que aloja al encéfalo. Lo forman el frontal, los parietales, los temporales, el occipital, el esfenoides y el etmoides.'
+        : 'Pintado: el viscerocráneo, los huesos de la cara. Lo forman el maxilar superior, la mandíbula, los cigomáticos, los nasales, los palatinos, el vómer y los cornetes inferiores.';
+    } else if (hidden.indexOf(s.bone) >= 0) {
+      V.boneText = 'El ' + s.bone + ' no se ve en la vista de frente: queda atrás o adentro del cráneo. Está en la lista del ' + (s.sk === 'neuro' ? 'neurocráneo' : 'viscerocráneo') + ', y para ubicarlo necesitás otra vista: buscalo en el atlas de la cátedra.';
+    } else {
+      V.boneText = 'Resaltado: ' + s.bone + '. Forma parte del ' + (s.sk === 'neuro' ? 'neurocráneo' : 'viscerocráneo') + '. Este esquema marca la zona, no la forma exacta del hueso.';
+    }
+    V.skullAlt = 'Esquema de cráneo de frente con los huesos del ' + (s.sk === 'neuro' ? 'neurocráneo' : 'viscerocráneo') + ' resaltados en amarillo.';
+
+    V.sutChips = [
+      { k: 'sagital', label: 'Sagital' },
+      { k: 'coronal', label: 'Coronal' },
+      { k: 'lambdoidea', label: 'Lambdoidea' }
+    ].map(c => ({ ...c, ...this.chip(c.k, s.sut), go: () => S({ sut: c.k }) }));
+    ['sSag', 'sCor', 'sLam'].forEach(k => { V[k] = 'opacity:.3;transition:opacity var(--dur),stroke-width var(--dur)'; });
+    V[{ sagital: 'sSag', coronal: 'sCor', lambdoidea: 'sLam' }[s.sut]] = 'opacity:1;stroke-width:4;transition:opacity var(--dur),stroke-width var(--dur)';
+    V.sutName = 'Sutura ' + s.sut;
+    V.sutText = {
+      sagital: 'En el esquema visto desde arriba: corre por el medio, de adelante hacia atrás.',
+      coronal: 'En el esquema visto desde arriba: cruza de lado a lado, en la parte de adelante.',
+      lambdoidea: 'En el esquema visto desde arriba: queda atrás, con forma de V abierta.'
+    }[s.sut] + ' Es una unión fibrosa: no es un hueso ni una articulación móvil.';
+    V.sutAlt = 'Esquema de cráneo visto desde arriba con las suturas sagital, coronal y lambdoidea; la sutura ' + s.sut + ' está resaltada.';
+
+    const QS = [
+      { id: 'q1', text: '¿Qué son los planos o cortes anatómicos?', o: ['Estructuras que se ven al abrir el cuerpo', 'Líneas imaginarias que dividen al cuerpo o a una estructura', 'Los nombres de los huesos del cráneo'], c: 1, why: 'Son líneas imaginarias que dividen al cuerpo o a estructuras anatómicas para facilitar nuestro estudio. No están en el cuerpo: están para poder hablar de él con precisión.' },
+      { id: 'q2', text: 'El eje que atraviesa al cuerpo de arriba a abajo es el…', o: ['Transversal', 'Sagital', 'Longitudinal'], c: 2, why: 'Longitudinal: atraviesa al cuerpo de arriba a abajo. Le corresponden los movimientos rotacionales.' },
+      { id: 'q3', text: '¿Flexión y extensión son los movimientos de qué eje?', o: ['Transversal', 'Longitudinal', 'Sagital'], c: 0, why: 'Transversal: atraviesa al cuerpo de un lado al otro. Movimientos de flexión y extensión.' },
+      { id: 'q4', text: '¿Y abducción y aducción?', o: ['Longitudinal', 'Sagital', 'Transversal'], c: 1, why: 'Sagital: atraviesa al cuerpo de atrás hacia adelante. Movimientos de abducción y aducción.' },
+      { id: 'q5', text: 'En posición anatómica, las manos y los pies están en…', o: ['Pronación', 'Supinación', 'Rotación interna'], c: 1, why: 'Posición anatómica: cuerpo en levitación, brazos y piernas extendidas, manos y pies en supinación. Es la posición de referencia desde la que se describe todo lo demás.' },
+      { id: 'q6', text: 'El maxilar superior pertenece al…', o: ['Neurocráneo', 'Viscerocráneo'], c: 1, why: 'Viscerocráneo: maxilar superior, mandíbula, cigomáticos, nasales, palatinos, vómer y cornetes inferiores. Son los huesos de la cara.' },
+      { id: 'q7', text: '¿Y el esfenoides?', o: ['Neurocráneo', 'Viscerocráneo'], c: 0, why: 'Neurocráneo: frontal, parietales, temporales, occipital, esfenoides y etmoides.' },
+      { id: 'q8', text: '¿Qué son las suturas craneales?', o: ['Uniones fibrosas que conectan los huesos del cráneo', 'Agujeros por donde pasan los nervios', 'Articulaciones móviles del cráneo'], c: 0, why: 'Son uniones fibrosas que conectan los huesos del cráneo. Marcan la unión entre los huesos, el crecimiento y cierre de las fontanelas craneales. Las que vimos: sagital, coronal y lambdoidea.' }
+    ];
+    let ok = 0, done = 0;
+    V.quiz = QS.map((q, i) => {
+      const picked = s.ans[q.id];
+      const answered = picked !== undefined;
+      if (answered) { done++; if (picked === q.c) ok++; }
+      return {
+        num: 'PREGUNTA ' + String(i + 1).padStart(2, '0') + ' / 08',
+        text: q.text, done: answered, why: q.why,
+        opts: q.o.map((label, j) => {
+          const isC = j === q.c, chosen = picked === j;
+          let bg = 'var(--paper)', fg = 'var(--tx)', mark = '○';
+          if (answered) {
+            if (isC) { bg = 'var(--yellow)'; fg = 'var(--onyel)'; mark = '✔'; }
+            else if (chosen) { mark = '✕'; }
+            else { mark = '·'; }
+          }
+          return { label, bg, fg, mark, on: chosen, go: () => { if (!answered) S({ ans: { ...this.state.ans, [q.id]: j } }); } };
+        })
+      };
+    });
+    V.score = done === 0 ? 'TODAVÍA NO RESPONDISTE NINGUNA' : 'ACERTASTE ' + ok + ' DE ' + done + ' RESPONDIDAS · 8 EN TOTAL';
+    V.resetQuiz = () => S({ ans: {} });
+
+    return V;
+  }
+}
+arrancarFicha();
+</script>
+</body>
+</html>

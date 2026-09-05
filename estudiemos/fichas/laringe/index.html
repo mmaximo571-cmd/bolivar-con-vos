@@ -1,0 +1,435 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>La laringe · La Bolívar con vos</title>
+<meta name="description" content="Cartílagos pares e impares, hueso hioides, los tres niveles y sus músculos, con autoevaluación.">
+<meta name="theme-color" content="#F9E830">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Montserrat:wght@700;800&family=Roboto:wght@400;500&family=Roboto+Mono:wght@400;500&display=swap" rel="stylesheet">
+<!-- Iconos de la app: pestana, Google, y pantalla de inicio del celular -->
+<link rel="icon" type="image/png" sizes="32x32" href="../../../imagenes/icono-32.png">
+<link rel="icon" type="image/png" sizes="96x96" href="../../../imagenes/icono-96.png">
+<link rel="icon" type="image/png" sizes="192x192" href="../../../imagenes/icono-192.png">
+<link rel="apple-touch-icon" href="../../../imagenes/icono-apple.png">
+<link rel="manifest" href="../../../manifest.json">
+
+<!-- Como se ve cuando alguien comparte el link por WhatsApp o Instagram -->
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="La Bolivar con vos">
+<meta property="og:title" content="La laringe · La Bolívar con vos">
+<meta property="og:description" content="Cartílagos pares e impares, hueso hioides, los tres niveles y sus músculos, con autoevaluación.">
+<meta property="og:image" content="https://bolivar-con-vos.vercel.app/imagenes/compartir.png">
+<meta name="twitter:card" content="summary_large_image">
+
+<!-- EL TEMA, ANTES DE DIBUJAR NADA. Igual que en el resto de la app: si
+     esto viviera en un script del final, la ficha arrancaria clara y
+     pegaria un salto a oscura. -->
+<script>
+(function(){try{
+  var g = localStorage.getItem('bolivar-tema') || 'auto';
+  var oscuro = g === 'oscuro' || (g === 'auto' &&
+    window.matchMedia('(prefers-color-scheme: dark)').matches);
+  document.documentElement.dataset.tema = oscuro ? 'oscuro' : 'claro';
+}catch(e){ document.documentElement.dataset.tema = 'claro'; }})();
+</script>
+
+<style>
+/* ===== LO QUE VINO DEL DISENO, TAL CUAL ===== */
+:root{color-scheme:light dark;--bg:#FFFFFF;--paper:#FDFCF7;--tx:#1A1A1A;--mut:#3A3A3A;--stroke:#1A1A1A;--yellow:#F9E830;--onyel:#1A1A1A;--red:#B52625;--line:#0195B1;--dur:.25s}
+html[data-tema="oscuro"]{--bg:#151412;--paper:#22201D;--tx:#FDFCF7;--mut:#D8D3C8;--stroke:#FDFCF7;--red:#FF9D8F;--line:#5AD8F0}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+html,body{max-width:100%;overflow-x:hidden}
+body{margin:0;background:var(--bg);color:var(--tx);font-family:Roboto,system-ui,sans-serif;-webkit-text-size-adjust:100%}
+a{color:var(--red);text-decoration:underline;text-underline-offset:2px}
+a:hover{color:var(--tx)}
+button{font:inherit;cursor:pointer;color:var(--tx)}
+:focus-visible{outline:3px solid var(--line);outline-offset:2px}
+.js-reveal [data-reveal]{opacity:0;transform:translateY(20px);transition:opacity .6s ease,transform .6s ease}
+.js-reveal [data-reveal].on{opacity:1;transform:none}
+@media print{[data-reveal]{opacity:1!important;transform:none!important}}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}[data-reveal]{opacity:1!important;transform:none!important;transition:none!important}:root{--dur:0s}}
+
+/* ===== LO QUE AGREGA LA APP ===== */
+
+/* La ficha no carga estilos.css. Es una pieza de lectura a pantalla
+   completa con su propio sistema visual, y las 160 KB de la app le
+   pelearian el body, la tipografia y los titulos. Lo unico que se
+   comparte es el tema y la barra de volver. */
+
+.ficha-volver{
+  display:inline-flex; align-items:center; gap:8px;
+  position:sticky; top:0; z-index:20;
+  width:100%; box-sizing:border-box;
+  padding:11px 18px;
+  font-family:Montserrat,sans-serif; font-weight:800;
+  font-size:12px; letter-spacing:.06em; text-transform:uppercase;
+  background:var(--yellow); color:var(--onyel);
+  border-bottom:2px solid var(--stroke);
+  text-decoration:none;
+}
+.ficha-volver:hover{ color:var(--onyel); }
+
+/* LOS SELLOS TODAVIA NO LLEGARON. En el proyecto de Claude Design viven
+   en assets/sello-sb.svg y assets/sello-sb-conduccion.png, y no vinieron
+   con los .dc.html. Un recuadro vacio con borde se ve peor que nada, asi
+   que el bloque queda escondido.
+
+   CUANDO LOS COPIEN a estudiemos/fichas/assets/, borren estas tres
+   lineas y los sellos aparecen solos en las ocho fichas. */
+.ficha-sellos{ display:none; }
+</style>
+</head>
+<body>
+
+<a class="ficha-volver" href="../../">← Estudiemos</a>
+
+<!-- Aca dibuja ficha.js. Vacio hasta que corre el script del final. -->
+<div id="ficha"></div>
+
+<!-- La ficha, tal como salio del diseno. Vive dentro de un <template>
+     para que el navegador no la muestre a medio armar: todavia tiene los
+     agujeros { asi } sin rellenar. -->
+<template id="plantilla">
+<section style="min-height:100svh;display:flex;flex-direction:column;justify-content:center;padding:44px 18px 32px;max-width:820px;margin:0 auto;border-bottom:2px solid var(--stroke)">
+<div style="display:flex;flex-wrap:wrap;gap:6px;margin-bottom:18px" data-reveal>
+<span style="font-family:Montserrat,sans-serif;font-weight:800;font-size:10px;letter-spacing:.08em;text-transform:uppercase;background:var(--yellow);color:var(--onyel);border:1px solid var(--stroke);border-radius:99px;padding:5px 11px;box-shadow:2px 2px 0 var(--stroke)">Equipo de Fonoaudiología</span>
+<span style="font-family:'Roboto Mono',monospace;font-size:10px;letter-spacing:.06em;border:1px solid var(--stroke);border-radius:99px;padding:5px 11px">FICHA · LARINGE</span>
+</div>
+<h1 style="font-family:'Archivo Black',sans-serif;font-weight:400;font-size:clamp(44px,15vw,92px);line-height:.84;margin:0;text-transform:uppercase;letter-spacing:-.03em" data-reveal data-delay="80">La<br>laringe</h1>
+<p style="font-family:Montserrat,sans-serif;font-weight:800;font-size:clamp(14px,4vw,19px);letter-spacing:.02em;text-transform:uppercase;margin:16px 0 0;max-width:30ch" data-reveal data-delay="160">Cartílagos · hueso hioides · tres niveles</p>
+<p style="font-size:clamp(15px,4vw,18px);line-height:1.55;color:var(--mut);margin:14px 0 0;max-width:46ch;text-wrap:pretty" data-reveal data-delay="240">Tres pliegues: de qué está hecha, los cartílagos y los niveles con las piezas para mover, y la autoevaluación.</p>
+<div style="display:flex;flex-wrap:wrap;gap:10px;margin-top:26px" data-reveal data-delay="320">
+<a href="#l1" style="font-family:Montserrat,sans-serif;font-weight:800;font-size:13px;letter-spacing:.04em;text-transform:uppercase;background:var(--yellow);color:var(--onyel);border:1px solid var(--stroke);border-radius:10px;box-shadow:2px 2px 0 var(--stroke);padding:14px 18px;text-decoration:none">Empezar por el 01</a>
+<a href="#l3" style="font-family:Montserrat,sans-serif;font-weight:800;font-size:13px;letter-spacing:.04em;text-transform:uppercase;color:var(--tx);border:1px solid var(--stroke);border-radius:10px;box-shadow:2px 2px 0 var(--stroke);padding:14px 18px;text-decoration:none">Ir a la autoevaluación</a>
+</div>
+<p style="font-family:'Roboto Mono',monospace;font-size:11px;letter-spacing:.1em;margin:34px 0 0;color:var(--mut)" data-reveal data-delay="400">↓ 01 QUÉ ES · 02 CÓMO FUNCIONA · 03 CÓMO TE DAS CUENTA</p>
+</section>
+
+<section id="l1" style="min-height:100svh;padding:60px 18px;max-width:820px;margin:0 auto;border-bottom:2px solid var(--stroke)">
+<p style="font-family:'Roboto Mono',monospace;font-size:11px;letter-spacing:.12em;margin:0 0 8px" data-reveal>PLIEGUE 01</p>
+<h2 style="font-family:'Archivo Black',sans-serif;font-weight:400;font-size:clamp(34px,10vw,60px);line-height:.9;margin:0 0 18px;text-transform:uppercase" data-reveal data-delay="60">Qué es</h2>
+<p style="font-size:clamp(16px,4.4vw,20px);line-height:1.55;margin:0 0 12px;max-width:44ch;text-wrap:pretty" data-reveal data-delay="120">La laringe no es una pieza sola: está compuesta por músculos, ligamentos, hueso, articulaciones y cartílagos pares e impares.</p>
+<p style="font-size:clamp(15px,4vw,18px);line-height:1.6;margin:0 0 24px;max-width:46ch;text-wrap:pretty" data-reveal data-delay="180">Y tiene un hueso que se comporta distinto a todos los demás del cuerpo.</p>
+
+<div style="background:var(--yellow);color:var(--onyel);border:1px solid var(--stroke);border-radius:10px;box-shadow:2px 2px 0 var(--stroke);padding:18px;margin-bottom:18px" data-reveal data-delay="220">
+<p style="font-family:'Roboto Mono',monospace;font-size:10.5px;letter-spacing:.1em;margin:0 0 8px">HUESO HIOIDES · ¡RECORDÁ!</p>
+<p style="font-family:'Archivo Black',sans-serif;font-weight:400;font-size:clamp(22px,7vw,34px);line-height:1;margin:0 0 10px;text-transform:uppercase">No se articula con ningún otro hueso</p>
+<p style="font-size:15px;line-height:1.55;margin:0">Se relaciona con músculos: los suprahioideos, por arriba, y los infrahioideos, por abajo.</p>
+</div>
+
+<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:12px">
+<sc-for list="{{ intro }}" as="i" hint-placeholder-count="3">
+<div style="background:var(--paper);border:1px solid var(--stroke);border-radius:10px;box-shadow:2px 2px 0 var(--stroke);padding:15px" data-reveal data-delay="{{ i.d }}">
+<p style="font-family:'Roboto Mono',monospace;font-size:11px;letter-spacing:.1em;color:var(--mut);margin:0 0 6px">{{ i.n }}</p>
+<p style="font-family:Montserrat,sans-serif;font-weight:800;font-size:15px;letter-spacing:.03em;text-transform:uppercase;margin:0 0 8px;border-bottom:2px solid var(--line);display:inline-block;padding-bottom:3px">{{ i.t }}</p>
+<p style="font-size:14px;line-height:1.5;margin:0">{{ i.b }}</p>
+</div>
+</sc-for>
+</div>
+</section>
+
+<section id="l2" style="min-height:100svh;padding:60px 18px;max-width:820px;margin:0 auto;border-bottom:2px solid var(--stroke)">
+<p style="font-family:'Roboto Mono',monospace;font-size:11px;letter-spacing:.12em;margin:0 0 8px" data-reveal>PLIEGUE 02</p>
+<h2 style="font-family:'Archivo Black',sans-serif;font-weight:400;font-size:clamp(34px,10vw,60px);line-height:.9;margin:0 0 18px;text-transform:uppercase" data-reveal data-delay="60">Cómo<br>funciona</h2>
+<p style="font-size:clamp(15px,4vw,18px);line-height:1.6;margin:0 0 28px;max-width:46ch;text-wrap:pretty" data-reveal data-delay="120">Tres piezas para mover: los cartílagos por grupo, los tres niveles tomando la glotis como referencia, y los músculos del hioides.</p>
+
+<article style="background:var(--paper);border:1px solid var(--stroke);border-radius:10px;box-shadow:2px 2px 0 var(--stroke);padding:18px;margin-bottom:18px" data-reveal>
+<p style="font-family:'Roboto Mono',monospace;font-size:10.5px;letter-spacing:.1em;color:var(--mut);margin:0 0 4px">2.1</p>
+<h3 style="font-family:'Archivo Black',sans-serif;font-weight:400;font-size:23px;line-height:1;margin:0 0 8px;text-transform:uppercase">Cartílagos</h3>
+<p style="font-size:14.5px;line-height:1.55;margin:0 0 14px">Impares: hay uno solo de cada uno. Pares: hay dos, uno de cada lado. Cambiá de grupo y mirá el esquema: los pares aparecen siempre de a dos.</p>
+<div role="group" aria-label="Elegí un grupo de cartílagos" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:8px;margin-bottom:14px">
+<sc-for list="{{ cartChips }}" as="c" hint-placeholder-count="2">
+<button type="button" aria-pressed="{{ c.on }}" onClick="{{ c.go }}" style="font-family:Montserrat,sans-serif;font-weight:800;font-size:12.5px;letter-spacing:.03em;text-transform:uppercase;border:1px solid var(--stroke);border-radius:99px;padding:10px 12px;box-shadow:2px 2px 0 var(--stroke);background:{{ c.bg }};color:{{ c.fg }};transition:background var(--dur)">{{ c.label }}</button>
+</sc-for>
+</div>
+<svg viewBox="0 0 220 250" role="img" aria-label="{{ cartAlt }}" style="width:100%;max-width:280px;display:block;margin:0 auto 6px;height:auto">
+<g stroke="var(--stroke)" stroke-width="1.8" stroke-linejoin="round">
+<path d="M110,10c16,0 26,14 24,30c-2,14-12,22-24,22c-12,0-22,-8-24,-22c-2,-16 8,-30 24,-30z" style="{{ cEpi }}"></path>
+<path d="M62,74h96c6,0 10,4 10,10v56c0,6-4,10-10,10h-96c-6,0-10,-4-10,-10v-56c0,-6 4,-10 10,-10z" style="{{ cTir }}"></path>
+<path d="M56,158h108c5,0 9,4 9,9v34c0,5-4,9-9,9h-108c-5,0-9,-4-9,-9v-34c0,-5 4,-9 9,-9z" style="{{ cCri }}"></path>
+<path d="M88,96l-10,26h20z" style="{{ cAri }}"></path>
+<path d="M132,96l10,26h-20z" style="{{ cAri }}"></path>
+<circle cx="88" cy="90" r="6" style="{{ cCor }}"></circle>
+<circle cx="132" cy="90" r="6" style="{{ cCor }}"></circle>
+<path d="M70,84l8,-10 4,10z" style="{{ cCun }}"></path>
+<path d="M150,84l-8,-10-4,10z" style="{{ cCun }}"></path>
+</g>
+<g fill="none" stroke="var(--stroke)" stroke-width="1.6" opacity=".7">
+<path d="M60,218h100"></path>
+<path d="M62,232h96"></path>
+</g>
+<g font-family="'Roboto Mono',monospace" font-size="8.5" letter-spacing="0.5" fill="var(--mut)">
+<text x="110" y="246" text-anchor="middle">HACIA LA TRÁQUEA</text>
+<text x="6" y="40">ARRIBA</text>
+<text x="6" y="210">ABAJO</text>
+</g>
+</svg>
+<p style="font-family:'Roboto Mono',monospace;font-size:10.5px;letter-spacing:.06em;text-align:center;color:var(--mut);margin:0 0 12px">LARINGE · ESQUEMA DE FRENTE · NO A ESCALA</p>
+<div role="group" aria-label="Cartílagos del grupo" style="display:flex;flex-wrap:wrap;gap:6px;margin-bottom:12px">
+<sc-for list="{{ cartItems }}" as="c" hint-placeholder-count="3">
+<button type="button" aria-pressed="{{ c.on }}" onClick="{{ c.go }}" style="font-family:'Roboto Mono',monospace;font-size:11px;letter-spacing:.03em;text-transform:uppercase;border:1px solid var(--stroke);border-radius:99px;padding:8px 11px;background:{{ c.bg }};color:{{ c.fg }};transition:background var(--dur)">{{ c.label }}</button>
+</sc-for>
+</div>
+<div style="border:1px solid var(--stroke);border-left:6px solid var(--yellow);border-radius:10px;padding:12px">
+<p style="font-family:Montserrat,sans-serif;font-weight:800;font-size:12.5px;letter-spacing:.06em;text-transform:uppercase;margin:0 0 6px">{{ cartName }}</p>
+<p style="font-size:14.5px;line-height:1.6;margin:0 0 8px">{{ cartText }}</p>
+<p style="font-size:13px;line-height:1.5;color:var(--mut);margin:0">El esquema marca la zona y la cantidad, no la forma exacta de cada cartílago: para eso, el atlas de la cátedra.</p>
+</div>
+</article>
+
+<article style="background:var(--paper);border:1px solid var(--stroke);border-radius:10px;box-shadow:2px 2px 0 var(--stroke);padding:18px;margin-bottom:18px" data-reveal>
+<p style="font-family:'Roboto Mono',monospace;font-size:10.5px;letter-spacing:.1em;color:var(--mut);margin:0 0 4px">2.2</p>
+<h3 style="font-family:'Archivo Black',sans-serif;font-weight:400;font-size:23px;line-height:1;margin:0 0 8px;text-transform:uppercase">Los tres niveles</h3>
+<p style="font-size:14.5px;line-height:1.55;margin:0 0 14px">La laringe se divide en 3 niveles tomando de referencia a la glotis. Tocá cada uno: la glotis es el punto cero, y los otros dos se nombran respecto de ella.</p>
+<div role="group" aria-label="Elegí un nivel" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(120px,1fr));gap:8px;margin-bottom:14px">
+<sc-for list="{{ nivChips }}" as="c" hint-placeholder-count="3">
+<button type="button" aria-pressed="{{ c.on }}" onClick="{{ c.go }}" style="font-family:Montserrat,sans-serif;font-weight:800;font-size:12.5px;letter-spacing:.03em;text-transform:uppercase;border:1px solid var(--stroke);border-radius:99px;padding:10px 12px;box-shadow:2px 2px 0 var(--stroke);background:{{ c.bg }};color:{{ c.fg }};transition:background var(--dur)">{{ c.label }}</button>
+</sc-for>
+</div>
+<svg viewBox="0 0 240 220" role="img" aria-label="{{ nivAlt }}" style="width:100%;max-width:300px;display:block;margin:0 auto 6px;height:auto">
+<g stroke="var(--stroke)" stroke-width="1.8" stroke-linejoin="round">
+<path d="M60,16h120v76h-120z" style="{{ nSup }}"></path>
+<path d="M60,96h120v28h-120z" style="{{ nGlo }}"></path>
+<path d="M60,128h120v72h-120z" style="{{ nSub }}"></path>
+</g>
+<g stroke="var(--red)" stroke-width="3.5" fill="none">
+<path d="M60,110h48"></path>
+<path d="M132,110h48"></path>
+</g>
+<g font-family="Montserrat,sans-serif" font-weight="800" font-size="11" letter-spacing="0.5" fill="var(--tx)">
+<text x="72" y="52">SUPRAGLOTIS</text>
+<text x="72" y="116">GLOTIS</text>
+<text x="72" y="166">SUBGLOTIS</text>
+</g>
+<g font-family="'Roboto Mono',monospace" font-size="8.5" letter-spacing="0.5" fill="var(--mut)">
+<text x="186" y="112">← REFERENCIA</text>
+<text x="60" y="212">HACIA LA TRÁQUEA</text>
+<text x="60" y="12">HACIA LA FARINGE</text>
+</g>
+</svg>
+<div style="border:1px solid var(--stroke);border-left:6px solid var(--yellow);border-radius:10px;padding:12px;margin-top:10px">
+<p style="font-family:Montserrat,sans-serif;font-weight:800;font-size:12.5px;letter-spacing:.06em;text-transform:uppercase;margin:0 0 6px">{{ nivName }}</p>
+<p style="font-size:14.5px;line-height:1.6;margin:0 0 8px">{{ nivText }}</p>
+<p style="font-size:13px;line-height:1.5;color:var(--mut);margin:0">Los nombres de los tres niveles no estaban escritos en la placa: los completamos con bibliografía de anatomía. Confirmalos con la cátedra antes de darlos por cerrados.</p>
+</div>
+</article>
+
+<article style="background:var(--paper);border:1px solid var(--stroke);border-radius:10px;box-shadow:2px 2px 0 var(--stroke);padding:18px" data-reveal>
+<p style="font-family:'Roboto Mono',monospace;font-size:10.5px;letter-spacing:.1em;color:var(--mut);margin:0 0 4px">2.3</p>
+<h3 style="font-family:'Archivo Black',sans-serif;font-weight:400;font-size:23px;line-height:1;margin:0 0 8px;text-transform:uppercase">Hioides y sus músculos</h3>
+<p style="font-size:14.5px;line-height:1.55;margin:0 0 14px">El hioides no se articula con ningún otro hueso: queda sostenido por músculos. Tocá cada grupo y fijate dónde queda respecto del hueso.</p>
+<div role="group" aria-label="Elegí un grupo de músculos" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:8px;margin-bottom:14px">
+<sc-for list="{{ hioChips }}" as="c" hint-placeholder-count="2">
+<button type="button" aria-pressed="{{ c.on }}" onClick="{{ c.go }}" style="font-family:Montserrat,sans-serif;font-weight:800;font-size:12.5px;letter-spacing:.03em;text-transform:uppercase;border:1px solid var(--stroke);border-radius:99px;padding:10px 12px;box-shadow:2px 2px 0 var(--stroke);background:{{ c.bg }};color:{{ c.fg }};transition:background var(--dur)">{{ c.label }}</button>
+</sc-for>
+</div>
+<svg viewBox="0 0 240 180" role="img" aria-label="{{ hioAlt }}" style="width:100%;max-width:280px;display:block;margin:0 auto 6px;height:auto">
+<rect x="20" y="14" width="200" height="52" rx="10" stroke="var(--stroke)" stroke-width="1.8" style="{{ hSupra }}"></rect>
+<path d="M50,84c14,-8 126,-8 140,0c4,3 4,9 0,12c-14,8-126,8-140,0c-4,-3-4,-9 0,-12z" fill="var(--paper)" stroke="var(--stroke)" stroke-width="2.2"></path>
+<rect x="20" y="112" width="200" height="52" rx="10" stroke="var(--stroke)" stroke-width="1.8" style="{{ hInfra }}"></rect>
+<g font-family="Montserrat,sans-serif" font-weight="800" font-size="11" letter-spacing="0.5" fill="var(--tx)">
+<text x="34" y="45">SUPRAHIOIDEOS</text>
+<text x="34" y="143">INFRAHIOIDEOS</text>
+</g>
+<text x="120" y="95" font-family="'Roboto Mono',monospace" font-size="9" letter-spacing="0.6" fill="var(--mut)" text-anchor="middle">HUESO HIOIDES</text>
+</svg>
+<div style="border:1px solid var(--stroke);border-left:6px solid var(--yellow);border-radius:10px;padding:12px;margin-top:10px">
+<p style="font-family:Montserrat,sans-serif;font-weight:800;font-size:12.5px;letter-spacing:.06em;text-transform:uppercase;margin:0 0 6px">{{ hioName }}</p>
+<p style="font-size:14.5px;line-height:1.6;margin:0 0 8px">{{ hioText }}</p>
+<p style="font-size:13px;line-height:1.5;color:var(--mut);margin:0">La placa nombra los dos grupos pero no lista los músculos de cada uno. Cuando tengas la lista de la cátedra, la sumamos acá.</p>
+</div>
+</article>
+</section>
+
+<section id="l3" style="min-height:100svh;padding:60px 18px;max-width:820px;margin:0 auto;border-bottom:2px solid var(--stroke)">
+<p style="font-family:'Roboto Mono',monospace;font-size:11px;letter-spacing:.12em;margin:0 0 8px" data-reveal>PLIEGUE 03</p>
+<h2 style="font-family:'Archivo Black',sans-serif;font-weight:400;font-size:clamp(34px,10vw,60px);line-height:.9;margin:0 0 18px;text-transform:uppercase" data-reveal data-delay="60">Cómo te<br>das cuenta</h2>
+<p style="font-size:clamp(16px,4.4vw,20px);line-height:1.55;margin:0 0 8px;max-width:44ch;text-wrap:pretty" data-reveal data-delay="120">Ocho preguntas. Elegís una opción y aparece la respuesta correcta con el porqué, aciertes o no.</p>
+<p style="font-size:15px;line-height:1.6;color:var(--mut);margin:0 0 26px;max-width:46ch;text-wrap:pretty" data-reveal data-delay="180">El acierto es sólo el camino: lo que hay que estudiar es el porqué.</p>
+<sc-for list="{{ quiz }}" as="q" hint-placeholder-count="8">
+<article style="background:var(--paper);border:1px solid var(--stroke);border-radius:10px;box-shadow:2px 2px 0 var(--stroke);padding:16px;margin-bottom:14px" data-reveal>
+<p style="font-family:'Roboto Mono',monospace;font-size:10.5px;letter-spacing:.1em;color:var(--mut);margin:0 0 6px">{{ q.num }}</p>
+<p style="font-family:Montserrat,sans-serif;font-weight:700;font-size:16px;line-height:1.4;margin:0 0 12px;text-wrap:pretty">{{ q.text }}</p>
+<div role="group" aria-label="Opciones" style="display:flex;flex-direction:column;gap:8px">
+<sc-for list="{{ q.opts }}" as="o" hint-placeholder-count="3">
+<button type="button" onClick="{{ o.go }}" aria-pressed="{{ o.on }}" style="display:flex;gap:9px;align-items:flex-start;text-align:left;font-family:Roboto,sans-serif;font-size:14.5px;line-height:1.45;border:1px solid var(--stroke);border-radius:10px;padding:11px 12px;box-shadow:2px 2px 0 var(--stroke);background:{{ o.bg }};color:{{ o.fg }};transition:background var(--dur)">
+<span style="font-family:'Roboto Mono',monospace;font-size:12px;padding-top:1px">{{ o.mark }}</span>
+<span>{{ o.label }}</span>
+</button>
+</sc-for>
+</div>
+<sc-if value="{{ q.done }}" hint-placeholder-val="{{ false }}">
+<div style="margin-top:12px;border:1px solid var(--stroke);border-left:6px solid var(--yellow);border-radius:10px;padding:12px">
+<p style="font-family:Montserrat,sans-serif;font-weight:800;font-size:11px;letter-spacing:.08em;text-transform:uppercase;margin:0 0 6px">Por qué</p>
+<p style="font-size:14.5px;line-height:1.55;margin:0;text-wrap:pretty">{{ q.why }}</p>
+</div>
+</sc-if>
+</article>
+</sc-for>
+<div style="background:var(--yellow);color:var(--onyel);border:1px solid var(--stroke);border-radius:10px;box-shadow:2px 2px 0 var(--stroke);padding:18px;margin-top:18px" data-reveal>
+<p style="font-family:'Roboto Mono',monospace;font-size:12px;letter-spacing:.06em;margin:0 0 6px">{{ score }}</p>
+<p style="font-family:Montserrat,sans-serif;font-weight:800;font-size:15px;line-height:1.4;margin:0 0 8px">Si algún porqué no te cerró, anotalo y llevalo a la cátedra.</p>
+<p style="font-size:14px;line-height:1.55;margin:0">Preguntar en clase o en la comisión es parte de estudiar, no una señal de que vas atrasada.</p>
+</div>
+<button type="button" onClick="{{ resetQuiz }}" style="width:100%;margin-top:12px;text-align:left;font-family:Montserrat,sans-serif;font-weight:800;font-size:12.5px;letter-spacing:.04em;text-transform:uppercase;background:transparent;border:1px solid var(--stroke);border-radius:10px;box-shadow:2px 2px 0 var(--stroke);padding:13px 15px">Borrar respuestas y volver a empezar</button>
+</section>
+
+<footer style="padding:48px 18px 60px;max-width:820px;margin:0 auto">
+<p style="font-family:'Archivo Black',sans-serif;font-weight:400;font-size:clamp(26px,8vw,44px);line-height:.92;margin:0 0 14px;text-transform:uppercase" data-reveal>Preparemos<br>anato juntes</p>
+<p style="font-size:15px;line-height:1.55;margin:0 0 10px;max-width:44ch" data-reveal data-delay="80">¿Ya te sumaste al grupo de WhatsApp? Sumate y preparemos la materia juntes: pedí el link al Equipo de Fonoaudiología.</p>
+<p style="font-size:13px;line-height:1.55;color:var(--mut);margin:0;max-width:52ch" data-reveal data-delay="140">Material de estudio armado con las placas del Equipo de Fonoaudiología · Agrupación Simón Bolívar. Los nombres de los tres niveles se completaron con bibliografía de anatomía, porque la placa no los escribía: confirmalos con la cátedra. Los esquemas son diagramas, no atlas.</p>
+<div class="ficha-sellos" style="display:flex;flex-wrap:wrap;align-items:center;justify-content:center;gap:14px;margin:28px 0 0;border-top:2px solid var(--stroke);padding-top:26px" data-reveal data-delay="180">
+<img loading="lazy" src="../assets/sello-sb.svg" alt="Sello del Equipo de Fonoaudiología" width="150" height="150" style="width:clamp(112px,30vw,150px);height:auto;display:block;border:1px solid var(--stroke);border-radius:10px;box-shadow:2px 2px 0 var(--stroke)">
+<div style="display:flex;align-items:center;justify-content:center;padding:14px 50px;background:#FDFCF7;border:1px solid var(--stroke);border-radius:10px;box-shadow:2px 2px 0 var(--stroke)">
+<img loading="lazy" src="../assets/sello-sb-conduccion.png" alt="Simón Bolívar · Conducción del CEFTS" width="514" height="194" style="width:clamp(180px,52vw,258px);height:auto;display:block">
+</div>
+</div>
+</footer>
+</template>
+
+<script src="../ficha.js"></script>
+<script>
+class Component extends DCLogic {
+  state = { grupo: 'impares', cart: null, niv: 'glotis', hio: 'supra', ans: {} };
+
+  componentDidMount() { this.wire(); }
+  componentDidUpdate() { this.wire(); }
+  componentWillUnmount() { clearTimeout(this._fail); if (this._io) this._io.disconnect(); }
+
+  wire() {
+    const nodes = Array.from(document.querySelectorAll('[data-reveal]'));
+    const show = () => nodes.forEach(n => n.classList.add('on'));
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) { show(); return; }
+    document.documentElement.classList.add('js-reveal');
+    nodes.forEach(n => {
+      const r = n.getBoundingClientRect();
+      if (r.top < (window.innerHeight || 800) && r.bottom > 0) n.classList.add('on');
+    });
+    clearTimeout(this._fail);
+    this._fail = setTimeout(show, 900);
+    if (!this._io) {
+      this._io = new IntersectionObserver((es) => {
+        es.forEach(e => {
+          if (e.isIntersecting) {
+            e.target.style.transitionDelay = (e.target.getAttribute('data-delay') || 0) + 'ms';
+            e.target.classList.add('on');
+            this._io.unobserve(e.target);
+          }
+        });
+      }, { rootMargin: '0px 0px -10% 0px', threshold: 0.12 });
+    }
+    nodes.forEach(n => { if (!n.classList.contains('on') && !n._obs) { n._obs = 1; this._io.observe(n); } });
+  }
+
+  chip(k, cur) {
+    const on = k === cur;
+    return { on, bg: on ? 'var(--yellow)' : 'transparent', fg: on ? 'var(--onyel)' : 'var(--tx)' };
+  }
+
+  renderVals() {
+    const s = this.state, S = (o) => this.setState(o);
+    const V = {};
+
+    V.intro = [
+      { d: 0, n: 'COMPOSICIÓN', t: 'De qué está hecha', b: 'Músculos, ligamentos, hueso, articulaciones y cartílagos pares e impares.' },
+      { d: 80, n: 'CARTÍLAGOS', t: 'Pares e impares', b: 'Impares: epiglótico, tiroides y cricoides. Pares: aritenoides, corniculados y cuneiformes.' },
+      { d: 160, n: 'NIVELES', t: 'Tres niveles', b: 'La laringe se divide en 3 niveles tomando de referencia a la glotis.' }
+    ];
+
+    const impares = { 'c. epiglótico': 'cEpi', 'c. tiroides': 'cTir', 'c. cricoides': 'cCri' };
+    const pares = { 'c. aritenoides': 'cAri', 'c. corniculados': 'cCor', 'c. cuneiformes': 'cCun' };
+    const grupo = s.grupo === 'impares' ? impares : pares;
+    V.cartChips = [
+      { k: 'impares', label: 'Cartílagos impares' },
+      { k: 'pares', label: 'Cartílagos pares' }
+    ].map(c => ({ ...c, ...this.chip(c.k, s.grupo), go: () => S({ grupo: c.k, cart: null }) }));
+    V.cartItems = Object.keys(grupo).map(k => ({ label: k, ...this.chip(k, s.cart), go: () => S({ cart: s.cart === k ? null : k }) }));
+    const keys = ['cEpi', 'cTir', 'cCri', 'cAri', 'cCor', 'cCun'];
+    const inGroup = Object.values(grupo);
+    const selKey = s.cart ? grupo[s.cart] : null;
+    keys.forEach(k => {
+      let fill = 'var(--paper)';
+      if (selKey === k) fill = 'var(--yellow)';
+      else if (!selKey && inGroup.indexOf(k) >= 0) fill = 'var(--yellow)';
+      V[k] = 'fill:' + fill + ';transition:fill var(--dur)';
+    });
+    if (!s.cart) {
+      V.cartName = s.grupo === 'impares' ? 'Cartílagos impares' : 'Cartílagos pares';
+      V.cartText = s.grupo === 'impares'
+        ? 'Pintados: los impares. Son el cartílago epiglótico, el tiroides y el cricoides: hay uno solo de cada uno.'
+        : 'Pintados: los pares. Son los aritenoides, los corniculados y los cuneiformes: de cada uno hay dos, uno de cada lado.';
+    } else {
+      V.cartName = s.cart;
+      V.cartText = 'Forma parte de los cartílagos ' + s.grupo + ' de la laringe.' + (s.grupo === 'pares' ? ' Por eso en el esquema aparece dos veces: uno de cada lado.' : ' Por eso en el esquema aparece una sola vez.');
+    }
+    V.cartAlt = 'Esquema de la laringe de frente con los cartílagos ' + s.grupo + ' resaltados.';
+
+    const nivs = {
+      supraglotis: { n: 'Supraglotis', t: 'Es el nivel de arriba: queda por encima de la glotis.', k: 'nSup' },
+      glotis: { n: 'Glotis', t: 'Es el nivel de referencia: el punto desde el que se nombran los otros dos. Ahí están las cuerdas vocales.', k: 'nGlo' },
+      subglotis: { n: 'Subglotis', t: 'Es el nivel de abajo: queda por debajo de la glotis, y sigue hacia la tráquea.', k: 'nSub' }
+    };
+    V.nivChips = ['supraglotis', 'glotis', 'subglotis'].map(k => ({ label: k, ...this.chip(k, s.niv), go: () => S({ niv: k }) }));
+    ['nSup', 'nGlo', 'nSub'].forEach(k => { V[k] = 'fill:var(--paper);transition:fill var(--dur)'; });
+    V[nivs[s.niv].k] = 'fill:var(--yellow);transition:fill var(--dur)';
+    V.nivName = nivs[s.niv].n;
+    V.nivText = nivs[s.niv].t;
+    V.nivAlt = 'Esquema de la laringe en tres niveles con la glotis como referencia; resaltado: ' + nivs[s.niv].n + '.';
+
+    V.hioChips = [
+      { k: 'supra', label: 'Suprahioideos' },
+      { k: 'infra', label: 'Infrahioideos' }
+    ].map(c => ({ ...c, ...this.chip(c.k, s.hio), go: () => S({ hio: c.k }) }));
+    const supra = s.hio === 'supra';
+    V.hSupra = 'fill:' + (supra ? 'var(--yellow)' : 'var(--paper)') + ';transition:fill var(--dur)';
+    V.hInfra = 'fill:' + (supra ? 'var(--paper)' : 'var(--yellow)') + ';transition:fill var(--dur)';
+    V.hioName = supra ? 'Músculos suprahioideos' : 'Músculos infrahioideos';
+    V.hioText = supra
+      ? 'Quedan por arriba del hueso hioides: eso es lo que dice el prefijo «supra».'
+      : 'Quedan por abajo del hueso hioides: eso es lo que dice el prefijo «infra».';
+    V.hioAlt = 'Esquema del hueso hioides con los grupos musculares por arriba y por abajo; resaltado: ' + (supra ? 'suprahioideos' : 'infrahioideos') + '.';
+
+    const QS = [
+      { id: 'g1', text: '¿Por qué está compuesta la laringe?', o: ['Solo por cartílagos', 'Por músculos, ligamentos, hueso, articulaciones y cartílagos pares e impares', 'Por tres niveles y una glotis'], c: 1, why: 'La laringe está compuesta por músculos, ligamentos, hueso, articulaciones y cartílagos pares e impares.' },
+      { id: 'g2', text: '¿Qué tiene de particular el hueso hioides?', o: ['Que no se articula con ningún otro hueso', 'Que es el hueso más grande del cuello', 'Que es un cartílago par'], c: 0, why: '¡Recordá! El hioides no se articula con ningún otro hueso. Se relaciona con músculos: suprahioideos e infrahioideos.' },
+      { id: 'g3', text: 'Los cartílagos impares de la laringe son…', o: ['Aritenoides, corniculados y cuneiformes', 'Epiglótico, tiroides y cricoides', 'Tiroides, aritenoides y cuneiformes'], c: 1, why: 'Cartílagos impares: epiglótico, tiroides y cricoides. Hay uno solo de cada uno.' },
+      { id: 'g4', text: 'Los cartílagos pares son…', o: ['Epiglótico, tiroides y cricoides', 'Aritenoides, corniculados y cuneiformes', 'Solo los aritenoides'], c: 1, why: 'Cartílagos pares: aritenoides, corniculados y cuneiformes. De cada uno hay dos, uno de cada lado.' },
+      { id: 'g5', text: 'El cartílago cricoides es…', o: ['Par', 'Impar'], c: 1, why: 'El cricoides está en el grupo de los impares, junto al epiglótico y el tiroides.' },
+      { id: 'g6', text: '¿Qué estructura se toma como referencia para dividir la laringe en 3 niveles?', o: ['El hueso hioides', 'La glotis', 'El cartílago tiroides'], c: 1, why: 'La laringe está dividida en 3 niveles tomando de referencia a la glotis.' },
+      { id: 'g7', text: 'El nivel que queda por debajo de la glotis se llama…', o: ['Supraglotis', 'Subglotis', 'Laringofaringe'], c: 1, why: 'Los tres niveles son supraglotis (arriba), glotis (la referencia) y subglotis (abajo). Ojo: estos nombres los completamos con bibliografía porque la placa no los escribía; chequealos con la cátedra.' },
+      { id: 'g8', text: 'Los músculos infrahioideos quedan…', o: ['Por arriba del hioides', 'Por abajo del hioides', 'Dentro del cartílago tiroides'], c: 1, why: 'El prefijo lo dice: los suprahioideos quedan por arriba del hueso hioides y los infrahioideos por abajo. La ficha nombra los dos grupos sin listar sus músculos.' }
+    ];
+    let ok = 0, done = 0;
+    V.quiz = QS.map((q, i) => {
+      const picked = s.ans[q.id];
+      const answered = picked !== undefined;
+      if (answered) { done++; if (picked === q.c) ok++; }
+      return {
+        num: 'PREGUNTA ' + String(i + 1).padStart(2, '0') + ' / 08',
+        text: q.text, done: answered, why: q.why,
+        opts: q.o.map((label, j) => {
+          const isC = j === q.c, chosen = picked === j;
+          let bg = 'var(--paper)', fg = 'var(--tx)', mark = '○';
+          if (answered) {
+            if (isC) { bg = 'var(--yellow)'; fg = 'var(--onyel)'; mark = '✔'; }
+            else if (chosen) { mark = '✕'; }
+            else { mark = '·'; }
+          }
+          return { label, bg, fg, mark, on: chosen, go: () => { if (!answered) S({ ans: { ...this.state.ans, [q.id]: j } }); } };
+        })
+      };
+    });
+    V.score = done === 0 ? 'TODAVÍA NO RESPONDISTE NINGUNA' : 'ACERTASTE ' + ok + ' DE ' + done + ' RESPONDIDAS · 8 EN TOTAL';
+    V.resetQuiz = () => S({ ans: {} });
+
+    return V;
+  }
+}
+arrancarFicha();
+</script>
+</body>
+</html>

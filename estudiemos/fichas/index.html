@@ -1,0 +1,193 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Fichas de estudio · La Bolívar con vos</title>
+<meta name="description" content="Fichas de estudio del Equipo de Fonoaudiología: anatomofisiología, laringe, faringe, ontología del lenguaje, sistema nervioso, acufenometría y modelos de intervención.">
+<meta name="theme-color" content="#F9E830">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Montserrat:wght@600;700;800&family=Roboto:wght@400;500;700&family=Roboto+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<!-- Iconos de la app: pestana, Google, y pantalla de inicio del celular -->
+<link rel="icon" type="image/png" sizes="32x32" href="../../imagenes/icono-32.png">
+<link rel="icon" type="image/png" sizes="96x96" href="../../imagenes/icono-96.png">
+<link rel="icon" type="image/png" sizes="192x192" href="../../imagenes/icono-192.png">
+<link rel="apple-touch-icon" href="../../imagenes/icono-apple.png">
+<link rel="manifest" href="../../manifest.json">
+
+<!-- Como se ve cuando alguien comparte el link por WhatsApp o Instagram -->
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="La Bolivar con vos">
+<meta property="og:title" content="Fichas de estudio · La Bolívar con vos">
+<meta property="og:description" content="Fichas para estudiar del Equipo de Fonoaudiología: qué es, cómo funciona y cómo te das cuenta de si te quedó.">
+<meta property="og:image" content="https://bolivar-con-vos.vercel.app/imagenes/compartir.png">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="stylesheet" href="../../estilos.css">
+<!-- EL TEMA, ANTES DE DIBUJAR NADA. Va acá arriba y no en app.js a
+     propósito: app.js carga al final del cuerpo, así que la pantalla
+     arrancaría clara y pegaría un salto a oscura. Son tres renglones. -->
+<script>
+(function(){try{
+  var g = localStorage.getItem('bolivar-tema') || 'auto';
+  var oscuro = g === 'oscuro' || (g === 'auto' &&
+    window.matchMedia('(prefers-color-scheme: dark)').matches);
+  document.documentElement.dataset.tema = oscuro ? 'oscuro' : 'claro';
+}catch(e){ document.documentElement.dataset.tema = 'claro'; }})();
+</script>
+</head>
+<body>
+
+<div id="cabecera"></div>
+
+<main class="envoltura" id="contenido" tabindex="-1">
+  <h1 class="titulo-pantalla">Fichas de estudio</h1>
+  <p class="bajada">
+    Las armó el Equipo de Fonoaudiología con las placas que ya venía
+    haciendo. Cada una está cortada en tres: qué es, cómo funciona —con
+    las piezas para tocar y mover— y cómo te das cuenta de si te quedó.
+  </p>
+
+  <!-- No hay buscador ni chips acá: son ocho fichas y entran todas en
+       una pantalla. El día que sean treinta, se copia el buscador de
+       Estudiemos, que ya está resuelto. -->
+
+  <div class="titulo-seccion">FONOAUDIOLOGÍA</div>
+  <div class="lista">
+
+    <a class="tarjeta" href="anatomofisiologia/">
+      <span class="material-tipo guia">Ficha</span>
+      <h3>Anatomofisiología</h3>
+      <p>Posición anatómica, planos y cortes, ejes y movimiento, puntos de
+         ubicación, y los huesos del cráneo y la cara.</p>
+      <div class="meta">
+        <span>Anatomofisiología Fonoaudiológica</span>
+        <span>Con autoevaluación</span>
+      </div>
+      <span class="material-ir">Abrir la ficha →</span>
+    </a>
+
+    <a class="tarjeta" href="anatomofisiologia-triptico/">
+      <span class="material-tipo otro">Tríptico</span>
+      <h3>Anatomofisiología, en tríptico</h3>
+      <p>El mismo material, plegado en tres solapas en vez de una página
+         larga. Si preferís ir por partes, entrá por acá.</p>
+      <div class="meta">
+        <span>Misma materia, otra forma de leerla</span>
+      </div>
+      <span class="material-ir">Abrir el tríptico →</span>
+    </a>
+
+    <a class="tarjeta" href="laringe/">
+      <span class="material-tipo guia">Ficha</span>
+      <h3>La laringe</h3>
+      <p>De qué está hecha, los cartílagos pares e impares, el hueso hioides
+         y sus músculos, y los tres niveles con la glotis de referencia.</p>
+      <div class="meta">
+        <span>Anatomofisiología Fonoaudiológica</span>
+        <span>Con autoevaluación</span>
+      </div>
+      <span class="material-ir">Abrir la ficha →</span>
+    </a>
+
+    <a class="tarjeta" href="faringe/">
+      <span class="material-tipo guia">Ficha</span>
+      <h3>La faringe</h3>
+      <p>Las tres porciones y los músculos, con los esquemas para tocar.</p>
+      <div class="meta">
+        <span>Anatomofisiología Fonoaudiológica</span>
+        <span>Con autoevaluación</span>
+      </div>
+      <span class="material-ir">Abrir la ficha →</span>
+    </a>
+
+    <a class="tarjeta" href="bases-sistema-nervioso/">
+      <span class="material-tipo guia">Ficha</span>
+      <h3>Bases del Sistema Nervioso</h3>
+      <p>Los lóbulos del cerebro y las partes de la neurona.</p>
+      <div class="meta">
+        <span>Con autoevaluación</span>
+      </div>
+      <span class="material-ir">Abrir la ficha →</span>
+    </a>
+
+    <a class="tarjeta" href="ontologia-del-lenguaje/">
+      <span class="material-tipo guia">Ficha</span>
+      <h3>Ontología del Lenguaje</h3>
+      <p>Lengua, lenguaje y habla; qué dice Maturana; y las teorías de
+         adquisición.</p>
+      <div class="meta">
+        <span>Con autoevaluación</span>
+      </div>
+      <span class="material-ir">Abrir la ficha →</span>
+    </a>
+
+    <a class="tarjeta" href="audio-acufenometria-sisi/">
+      <span class="material-tipo guia">Ficha</span>
+      <h3>Acufenometría y SISI</h3>
+      <p>Las tres partes del estudio, cómo se clasifica, cuál es el estímulo
+         del SISI y cómo se lee el resultado.</p>
+      <div class="meta">
+        <span>Audiología</span>
+        <span>Con autoevaluación</span>
+      </div>
+      <span class="material-ir">Abrir la ficha →</span>
+    </a>
+
+  </div>
+
+  <div class="titulo-seccion">TRABAJO SOCIAL</div>
+  <div class="lista">
+
+    <a class="tarjeta" href="modelos-de-intervencion/">
+      <span class="material-tipo guia">Ficha</span>
+      <h3>Modelos de Intervención</h3>
+      <p>Los cuatro componentes que tiene todo modelo, y después la lista
+         completa de modelos.</p>
+      <div class="meta">
+        <span>Trabajo Social I</span>
+        <span>Con autoevaluación</span>
+      </div>
+      <span class="material-ir">Abrir la ficha →</span>
+    </a>
+
+  </div>
+
+  <!-- La guía de la materia entera es otra cosa que la ficha de un tema
+       suelto: una dice cómo se aprueba, la otra explica la laringe. Quien
+       llegó hasta acá abajo probablemente quiera las dos. -->
+  <a class="nexo-final" href="../../anatomo/">
+    <span class="nexo-texto">
+      <strong>¿Buscabas el programa de Anatomofisiología?</strong>
+      Los seis módulos con su bibliografía, las fechas y cómo se aprueba
+      están en la guía de la materia.
+    </span>
+    <span class="nexo-flecha" aria-hidden="true">→</span>
+  </a>
+
+  <p class="aviso-transcripcion">
+    Las fichas las armó el <b>Equipo de Fonoaudiología</b> de la Agrupación
+    Simón Bolívar a partir de sus placas. Son material de estudio, no el
+    programa de la cátedra: <b>si algo no coincide con lo que dijeron en
+    clase, mandá el dato y lo corregimos.</b> Ante la duda, siempre vale lo
+    que dice la cátedra.
+  </p>
+</main>
+
+<div id="pie"></div>
+
+<script>window.RAIZ = '../../';</script>
+<!-- La librería de Supabase vive ACÁ ADENTRO, no en un servidor ajeno. -->
+<script src="../../lib/datos.js"></script>
+<script src="../../config.js"></script>
+<script src="../../iconos.js"></script>
+<script src="../../app.js"></script>
+<script>
+/* Esta pantalla no pide nada a la base: las fichas son archivos, no
+   filas. Lo único que hace falta es la cabecera y el pie de siempre. */
+document.getElementById('cabecera').innerHTML = htmlCabecera();
+document.getElementById('pie').innerHTML = htmlPie();
+pintarNav('estudiemos');
+</script>
+</body>
+</html>
