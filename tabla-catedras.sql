@@ -202,22 +202,32 @@ on conflict (carrera, materia_cod) do update
       actualizado_at = now();
 
 
--- ---------- Las tres que quedaron SIN publicar ----------
+-- ---------- El mail que vino con tildes, ya confirmado ----------
+--
+-- El único mail de la 514 llegó escrito «promoción y prevención», con
+-- tildes, y la parte local de una dirección de Gmail no las acepta:
+-- esa casilla no podía existir. Máximo confirmó el 5/9 que fue un
+-- error de tipeo y que la buena es la misma sin tildes.
+--
+-- OJO: confirmado no es lo mismo que probado. Nadie le escribió
+-- todavía. Si rebota, el mail sale de acá y la cátedra vuelve a
+-- `publicado = false`: un contacto que rebota es peor que ninguno.
+insert into public.catedras (carrera, materia_cod, materia, mails, nota, publicado) values
+('fono','514','Promoción y prevención en audiología',
+ array['promocionyprevencion.audiologia@gmail.com'], null, true)
+on conflict (carrera, materia_cod) do update
+  set mails = excluded.mails, nota = excluded.nota, publicado = excluded.publicado;
+
+-- ---------- Las dos que quedan SIN publicar ----------
 --
 -- Se cargan igual, pero con `publicado = false`: así están anotadas
--- para el panel y NO se muestran en la app. Un contacto que rebota es
--- peor que no tener contacto.
+-- para el panel y NO se muestran en la app.
 --
---   514  el único mail que vino —«promoción y prevención»— lleva
---        tildes, y la parte local de una dirección de Gmail no las
---        acepta: esa casilla no existe. Falta que la confirmen.
 --   513  y  848  vinieron sin ningún mail.
 --
--- Cuando Máximo confirme, se corrige acá, se pone `publicado = true`
--- y se corre de nuevo.
+-- Cuando lleguen, se corrigen acá, se pone `publicado = true` y se
+-- corre de nuevo.
 insert into public.catedras (carrera, materia_cod, materia, mails, nota, publicado) values
-('fono','514','Promoción y prevención en audiología', array[]::text[],
- 'El mail que nos pasaron lleva tildes y por eso no puede existir. Falta confirmarlo.', false),
 ('fono','513','Intervención del lenguaje en población adulta', array[]::text[],
  'Todavía no tenemos el contacto.', false),
 ('fono','848','Taller de metodología II', array[]::text[],

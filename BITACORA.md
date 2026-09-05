@@ -322,7 +322,7 @@ pendiente y sin fecha asignada.
 | **Etiquetar los links de Instagram** con `?de=`: `bolivar-con-vos.vercel.app/?de=historia-carreras`. Un nombre distinto por publicación, en minúscula y con guiones. Sin etiqueta la visita se cuenta igual, pero no se sabe de dónde vino | antes del 21 |
 | Mirar la solapa **Registro** y el campo **«¿Alimenta la alarma?»** en el panel | cuanto antes |
 | Prender *Leaked password protection* en supabase.com → Authentication | cuanto antes |
-| **Confirmar un mail que no puede existir:** el de «Promoción y prevención en audiología» vino con tildes (`promoción…`) y la parte local de una dirección de Gmail no las acepta. Hasta que se confirme, esa cátedra no muestra contacto | cuanto antes |
+| ~~Confirmar el mail con tildes de «Promoción y prevención en audiología»~~ | ✅ confirmado el 5/9: era un error de tipeo. Ya publicado sin tildes. **Falta escribirle una vez** para saber si la casilla existe |
 | ~~Los mails de las cátedras~~ | ✅ entregados el 4/9 |
 | ~~Los tres PDFs del plan de estudios~~ | ✅ entregados el 4/9. Ojo: pesan 1,8 MB y 3,6 MB; hay que decidir si se publican enteros o el plan se muestra como página |
 | ~~Los PDFs de los materiales de estudio~~ | ✅ entregados el 5/9, seis días antes. Ya publicados en `estudiemos/tripticos/` |

@@ -87,7 +87,7 @@ cargarlo hay que resolver lo que está anotado abajo en «Lo que falta decidir»
 - **Introducción al análisis de la estructura social argentina** — intestructurasocial@gmail.com
 - **Fonoaudiología, DDHH y género** — fonoddhhygenero@gmail.com
 - **Intervención del lenguaje en población adulta** — ⚠️ SIN MAIL
-- **Promoción y prevención en audiología** — promociónyprevención.audiologia@gmail.com ⚠️ (lleva tildes, ver abajo)
+- **Promoción y prevención en audiología** — promocionyprevencion.audiologia@gmail.com ✅ (vino con tildes; Máximo confirmó el 5/9 que era un error de tipeo)
 - **Teoría y práctica de la educación** — teoriaypracticaeducacion@gmail.com · gabrielasprella@gmail.com · cesargeronimotello@yahoo.com.ar
 - **Psicología del Desarrollo** — silvinarivas@hotmail.com · gabrielaroitstein@gmail.com
 - **Taller de metodología II** — ⚠️ SIN MAIL
@@ -133,11 +133,11 @@ cargarlo hay que resolver lo que está anotado abajo en «Lo que falta decidir»
 
 ## Lo que falta decidir antes de cargarlo
 
-1. **Un mail con tildes: `promociónyprevención.audiologia@gmail.com`.** Los
-   dominios de Gmail no aceptan tildes en la parte local. O está mal copiado, o
-   la dirección real es `promocionyprevencion.audiologia@gmail.com`. **Hay que
-   confirmarlo antes de publicarlo**: un mail de contacto que rebota es peor que
-   no tener mail.
+1. ~~**Un mail con tildes.**~~ ✅ **Resuelto el 5/9.** Era un error de tipeo:
+   la dirección es `promocionyprevencion.audiologia@gmail.com`, sin tildes. Ya
+   está publicada. Ojo igual: confirmado no es lo mismo que probado, nadie le
+   escribió todavía. Si rebota, el mail se saca y la cátedra vuelve a no
+   publicarse.
 
 2. **Un teléfono suelto** en «Acciones para la salud fonoestomatología»
    (`1149164297`). Decidir si el buscador muestra teléfonos o solo mails.
