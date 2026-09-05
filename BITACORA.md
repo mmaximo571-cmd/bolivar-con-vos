@@ -324,7 +324,7 @@ pendiente y sin fecha asignada.
 | **Confirmar un mail que no puede existir:** el de «Promoción y prevención en audiología» vino con tildes (`promoción…`) y la parte local de una dirección de Gmail no las acepta. Hasta que se confirme, esa cátedra no muestra contacto | cuanto antes |
 | ~~Los mails de las cátedras~~ | ✅ entregados el 4/9 |
 | ~~Los tres PDFs del plan de estudios~~ | ✅ entregados el 4/9. Ojo: pesan 1,8 MB y 3,6 MB; hay que decidir si se publican enteros o el plan se muestra como página |
-| Los PDFs de los materiales de estudio | vie 11 |
+| ~~Los PDFs de los materiales de estudio~~ | ✅ entregados el 5/9, seis días antes. Ya publicados en `estudiemos/tripticos/` |
 | Tres contactos por carrera para Avisanos | mié 16 |
 
 ## Cómo se trabaja
