@@ -74,7 +74,8 @@ entran 2 o 3 sesiones.
 | vie 4 · 3 | ✅ **«Mi año» parte 1:** la pregunta al entrar y la vista «Tu primer año» | — |
 | vie 4 · 4 | ✅ **El embudo del 21** y la bitácora como única fuente | — |
 | vie 4 · 5 | ✅ **Contactos de las cátedras, parte 1:** la tabla, los 142 mails y la ficha de materia. Adelantado del lun 7 | — |
-| sáb 5 | Cátedras parte 2: la pantalla con buscador y la solapa del panel | — |
+| vie 4 · 6 | ✅ **Cátedras parte 2:** la pantalla `catedras/` con buscador y la solapa del panel. El lun 7 queda libre | — |
+| sáb 5 | Libre: el glosario del Kit, o adelantar los horarios | — |
 | dom 6 | Se cierran las cuatro decisiones pendientes | Máximo |
 | lun 7 | Buscador de cátedras | mails de las cátedras |
 | mar 8 | Contactos en la página · **el código no espera nada**, se puede adelantar; lo que espera es el contenido | 3 contactos por carrera |
@@ -244,6 +245,34 @@ tabla todavía solo acepta `visita`, `error` y `busqueda`; hasta que Máximo cor
 
 **Cargado: 75 cátedras publicadas y 142 mails.** 30 de Trabajo Social, 33 de
 Fono y 12 de TGCR.
+
+**La pantalla `catedras/` (parte 2):**
+
+- **No entra en `SECCIONES`.** Son siete secciones y esto es una herramienta de
+  consulta, no una octava. Se llega desde el pie de Mi año y desde Info útil.
+- **Usa el cliente chico** (`lib/datos.js`): solo lee datos públicos. 6 KB en
+  vez de 213.
+- **Arranca en la carrera de la persona**, leída de lo que guardó Mi año. Si
+  nunca entró, Trabajo Social, que es la más numerosa.
+- **Buscar pisa el chip de carrera.** Quien escribe «anatomo» quiere esa
+  materia, no «esa materia si está en la carrera que tenía elegida»: filtrando
+  por las dos cosas, buscar algo de otra carrera no daría nada y parecería que
+  no está cargado. Buscando se agrupa por carrera; sin buscar, por año.
+- **El año vive en la tabla y no se saca de `plan.js`**, para que esta pantalla
+  agrupe sin bajar los tres planes: son 20 KB para un solo dato. Los planes
+  siguen siendo la fuente.
+- **La solapa del panel valida el mail antes de guardar.** Una dirección con
+  tildes o sin arroba no entra — es exactamente el error que nos trajo hasta
+  acá. Y las cátedras sin contacto salen arriba de todo con aviso, porque son
+  las que hay que resolver.
+- **No hace falta subir el service worker:** solo se agregó una página y se
+  tocaron dos, y las páginas se sirven red primero.
+
+**Queda una decisión de contenido:** en Info útil, la entrada «Contacto de las
+cátedras» (trámite 33) todavía apunta a
+[un PDF en Drive](https://drive.google.com/file/d/1C4kn0B_pwvYwh1YBpqxn_chzME6Y4N-u/view?usp=drivesdk).
+Ahora que existe la pantalla, lo lógico es que apunte a `/catedras/`. **No lo
+cambié:** es contenido de Máximo, no código.
 
 **Lo que quedó afuera:** el **Profesorado en Trabajo Social** no existe como
 carrera en la app, así que sus ocho mails no tienen dónde ir. Y el

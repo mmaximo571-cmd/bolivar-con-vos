@@ -208,6 +208,7 @@
       <button class="chip" data-p="materiales" aria-pressed="false">📚 Estudiemos</button>
       <button class="chip" data-p="programas"  aria-pressed="false">📖 Programas</button>
       <button class="chip" data-p="guia"      aria-pressed="false">🧠 Guía de materia</button>
+      <button class="chip" data-p="catedras"  aria-pressed="false">✉️ Cátedras</button>
       <button class="chip" data-p="quienes"    aria-pressed="false">✊ Quiénes somos</button>
       <button class="chip" data-p="consejo"   aria-pressed="false">🏛 Consejo</button>
       <button class="chip" data-p="avisanos"   aria-pressed="false">💬 Avisanos</button>
@@ -2471,13 +2472,176 @@
         se borra solo a los noventa días.</p>`;
   }
 
+  /* ============================================================
+     CÁTEDRAS
+
+     Para corregir un mail sin tocar código. Nació de una necesidad
+     concreta: uno de los que nos pasaron vino con tildes, y la parte
+     local de una dirección de Gmail no las acepta, así que esa casilla
+     no existe. Sin esta solapa, arreglar eso era publicar una versión.
+
+     UN MAIL POR RENGLÓN. Es la forma más difícil de equivocarse:
+     nada de comas, ni de puntos y comas, ni de acordarse del formato.
+     Se limpia al guardar.
+
+     LO QUE NO SE PUEDE HACER ACÁ es agregar una materia que no exista
+     en el plan: la lista sale de lo que ya está cargado. Una materia
+     nueva entra por `tabla-catedras.sql`, que es donde vive el plan.
+     ============================================================ */
+  let catedrasCache = [];
+  let catedraCarrera = 'ts';
+
+  const NOMBRE_CARRERA = { ts:'Trabajo Social', fono:'Fonoaudiología',
+                           tgcr:'Gestión del Riesgo' };
+
+  async function vistaCatedras(){
+    const { data, error } = await db.from('catedras')
+      .select('*').order('carrera').order('anio').order('materia');
+
+    if (error){
+      zona.innerHTML = /catedras|does not exist|relation/i.test(error.message || '')
+        ? `<div class="aviso error">
+             <strong>Falta activar esta sección.</strong><br>
+             Hay que correr <b>tabla-catedras.sql</b> en el SQL Editor de
+             Supabase. Es una sola vez.
+           </div>`
+        : `<div class="aviso error">No se pudo cargar: ${esc(error.message)}</div>`;
+      return;
+    }
+    catedrasCache = data || [];
+
+    /* Las que no tienen mail van ARRIBA de todo y con aviso: son las
+       que hay que resolver, y si quedaran en su lugar del plan habría
+       que buscarlas entre setenta y ocho. */
+    const faltantes = catedrasCache.filter(c => !(c.mails || []).length);
+
+    zona.innerHTML = `
+      <p style="color:var(--texto-suave);font-size:var(--letra-densa);margin-top:0">
+        Los mails que ve la gente en la ficha de cada materia y en la pantalla
+        de Cátedras. <b>Un mail por renglón.</b></p>
+
+      ${faltantes.length ? `
+        <div class="aviso error">
+          <strong>${faltantes.length}
+          ${faltantes.length === 1 ? 'cátedra está' : 'cátedras están'} sin contacto
+          y no se ${faltantes.length === 1 ? 'muestra' : 'muestran'} en la app.</strong><br>
+          ${faltantes.map(c => esc(c.materia) + ' (' + esc(NOMBRE_CARRERA[c.carrera] || c.carrera) + ')').join('<br>')}
+        </div>` : ''}
+
+      <div class="chips" id="cat-chips">
+        ${Object.keys(NOMBRE_CARRERA).map(id => `
+          <button class="chip" data-cat-carrera="${id}"
+                  aria-pressed="${id === catedraCarrera ? 'true' : 'false'}">
+            ${esc(NOMBRE_CARRERA[id])}</button>`).join('')}
+      </div>
+
+      <div class="buscador" style="margin:10px 0 6px">
+        <input id="cat-filtro" type="search" autocomplete="off"
+               placeholder="Buscar una materia…" aria-label="Buscar una materia">
+      </div>
+
+      <div class="lista" id="cat-lista"></div>`;
+
+    document.getElementById('cat-chips').onclick = function(e){
+      const b = e.target.closest('[data-cat-carrera]');
+      if (!b) return;
+      catedraCarrera = b.dataset.catCarrera;
+      document.getElementById('cat-filtro').value = '';
+      vistaCatedras();
+    };
+    document.getElementById('cat-filtro').addEventListener('input', pintarCatedras);
+
+    pintarCatedras();
+  }
+
+  function pintarCatedras(){
+    const caja  = document.getElementById('cat-lista');
+    const busca = (document.getElementById('cat-filtro').value || '')
+                    .trim().toLowerCase();
+
+    /* Igual que en la pantalla pública: buscar pisa el chip de carrera,
+       porque quien escribe el nombre de una materia quiere esa materia
+       y no «esa materia si está en la carrera que tenía elegida». */
+    const filas = busca
+      ? catedrasCache.filter(c => (c.materia || '').toLowerCase().includes(busca))
+      : catedrasCache.filter(c => c.carrera === catedraCarrera);
+
+    if (!filas.length){
+      caja.innerHTML = `<div class="aviso">No hay ninguna materia con eso.</div>`;
+      return;
+    }
+
+    caja.innerHTML = filas.map(c => `
+      <div class="tarjeta" data-cat="${c.id}">
+        <h3 style="margin:0 0 2px">${esc(c.materia)}</h3>
+        <p style="margin:0 0 8px;color:var(--texto-suave);font-size:var(--letra-nota)">
+          ${esc(c.materia_cod)} · ${esc(NOMBRE_CARRERA[c.carrera] || c.carrera)}${c.anio ? ' · ' + c.anio + '° año' : ''}
+          ${c.publicado ? '' : ' · <b>no se muestra</b>'}
+        </p>
+        ${c.nota ? `<div class="aviso" style="margin-bottom:8px">${esc(c.nota)}</div>` : ''}
+        <div class="campo">
+          <label for="cat-mails-${c.id}">Mails, uno por renglón</label>
+          <textarea id="cat-mails-${c.id}" rows="3">${esc((c.mails || []).join('\n'))}</textarea>
+        </div>
+        <div class="campo">
+          <label for="cat-tel-${c.id}">Teléfono (si tiene)</label>
+          <input id="cat-tel-${c.id}" value="${esc(c.telefono || '')}">
+        </div>
+        <button class="mini" data-guardar-cat="${c.id}">Guardar</button>
+        <span id="cat-msj-${c.id}" style="font-size:var(--letra-nota);margin-left:8px"></span>
+      </div>`).join('');
+
+    caja.onclick = async function(e){
+      const b = e.target.closest('[data-guardar-cat]');
+      if (!b) return;
+      const id  = Number(b.dataset.guardarCat);
+      const msj = document.getElementById('cat-msj-' + id);
+
+      /* Un renglón vacío no es un mail, y un espacio de más pegado al
+         final tampoco cambia la dirección: se limpian los dos. */
+      const mails = document.getElementById('cat-mails-' + id).value
+        .split('\n').map(s => s.trim()).filter(Boolean);
+
+      /* Una dirección con tildes o sin arroba no entra: es exactamente
+         el error que nos trajo hasta acá. Mejor frenarlo al guardar que
+         descubrirlo cuando a alguien le rebote el mail. */
+      const mala = mails.find(m => !/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/.test(m));
+      if (mala){
+        msj.innerHTML = `<span style="color:var(--rojo,#c00)">«${esc(mala)}» no es una dirección válida. Ojo con las tildes.</span>`;
+        return;
+      }
+
+      b.disabled = true;
+      msj.textContent = 'Guardando…';
+      const tel = document.getElementById('cat-tel-' + id).value.trim();
+
+      const { error } = await db.from('catedras').update({
+        mails: mails,
+        telefono: tel || null,
+        /* Si tiene contacto se muestra. Es la regla que ya usa la app:
+           lo que no tiene mail no aparece, y en cuanto lo tiene, sí. */
+        publicado: mails.length > 0 || !!tel,
+        actualizado_at: new Date().toISOString()
+      }).eq('id', id);
+
+      b.disabled = false;
+      if (error){ msj.innerHTML = `<span style="color:var(--rojo,#c00)">No se pudo guardar: ${esc(error.message)}</span>`; return; }
+
+      msj.textContent = 'Guardado.';
+      const fila = catedrasCache.find(x => x.id === id);
+      if (fila){ fila.mails = mails; fila.telefono = tel || null;
+                 fila.publicado = mails.length > 0 || !!tel; }
+      setTimeout(() => { msj.textContent = ''; }, 2500);
+    };
+  }
+
   /* ============================================================ */
   function dibujar(){
     zona.innerHTML = '<div class="esq-tarjeta"><div class="esqueleto esq-linea titulo"></div><div class="esqueleto esq-linea"></div><div class="esqueleto esq-linea media"></div></div><div class="esq-tarjeta"><div class="esqueleto esq-linea titulo"></div><div class="esqueleto esq-linea"></div><div class="esqueleto esq-linea corta"></div></div>';
     ({ tramites:vistaTramites, faq:vistaFaq, agenda:vistaAgenda, programas:vistaProgramas,
        materiales:vistaMateriales, guia:vistaGuia, avisanos:vistaAvisanos,
        quienes:vistaQuienes, consejo:vistaConsejo, registro:vistaRegistro,
-       categorias:vistaCategorias }[actual])();
+       categorias:vistaCategorias, catedras:vistaCatedras }[actual])();
   }
 
   dibujar();

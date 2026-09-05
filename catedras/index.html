@@ -1,0 +1,270 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Cátedras · La Bolívar con vos</title>
+<meta name="description" content="A quién le escribís en cada materia de la Facultad de Trabajo Social de la UNLP: los mails de las cátedras, buscables.">
+<meta name="theme-color" content="#F9E830">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Montserrat:wght@600;700;800&family=Roboto:wght@400;500;700&family=Roboto+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<!-- Iconos de la app: pestana, Google, y pantalla de inicio del celular -->
+<link rel="icon" type="image/png" sizes="32x32" href="../imagenes/icono-32.png">
+<link rel="icon" type="image/png" sizes="96x96" href="../imagenes/icono-96.png">
+<link rel="icon" type="image/png" sizes="192x192" href="../imagenes/icono-192.png">
+<link rel="apple-touch-icon" href="../imagenes/icono-apple.png">
+<link rel="manifest" href="../manifest.json">
+
+<!-- Como se ve cuando alguien comparte el link por WhatsApp o Instagram -->
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="La Bolivar con vos">
+<meta property="og:title" content="Cátedras · La Bolívar con vos">
+<meta property="og:description" content="A quién le escribís en cada materia. Los mails de las cátedras, buscables.">
+<meta property="og:image" content="https://bolivar-con-vos.vercel.app/imagenes/compartir.png">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="stylesheet" href="../estilos.css">
+<!-- EL TEMA, ANTES DE DIBUJAR NADA. Va acá arriba y no en app.js a
+     propósito: app.js carga al final del cuerpo, así que la pantalla
+     arrancaría clara y pegaría un salto a oscura. Son tres renglones. -->
+<script>
+(function(){try{
+  var g = localStorage.getItem('bolivar-tema') || 'auto';
+  var oscuro = g === 'oscuro' || (g === 'auto' &&
+    window.matchMedia('(prefers-color-scheme: dark)').matches);
+  document.documentElement.dataset.tema = oscuro ? 'oscuro' : 'claro';
+}catch(e){ document.documentElement.dataset.tema = 'claro'; }})();
+</script>
+</head>
+<body>
+
+<div id="cabecera"></div>
+
+<main class="envoltura" id="contenido" tabindex="-1">
+  <h1 class="titulo-pantalla">Cátedras</h1>
+  <p class="bajada">
+    A quién le escribís cuando tenés una duda de una materia. Son los mails
+    de las cátedras, no los de la agrupación.
+  </p>
+
+  <div class="buscador" style="margin-bottom:6px">
+    <span class="lupa" id="lupa">🔍</span>
+    <input id="filtro" type="search" autocomplete="off"
+           placeholder="Buscar por materia…" aria-label="Buscar una cátedra">
+  </div>
+
+  <div class="chips" id="chips"></div>
+
+  <div id="lista" style="margin-top:10px">
+    <div class="esq-tarjeta"><div class="esqueleto esq-linea titulo"></div><div class="esqueleto esq-linea"></div><div class="esqueleto esq-linea media"></div></div>
+    <div class="esq-tarjeta"><div class="esqueleto esq-linea titulo"></div><div class="esqueleto esq-linea"></div><div class="esqueleto esq-linea corta"></div></div>
+  </div>
+</main>
+
+<div id="pie"></div>
+
+<script>window.RAIZ = '../';</script>
+<!-- El cliente CHICO: esta pantalla solo lee datos públicos. Sin
+     cuenta, sin subir archivos, sin tiempo real. Son 6 KB en vez de
+     213: no hay motivo para bajar la librería grande. -->
+<script src="../lib/datos.js"></script>
+<script src="../config.js"></script>
+<script src="../iconos.js"></script>
+<script src="../app.js"></script>
+<script>
+(async function catedras(){
+
+  document.getElementById('cabecera').innerHTML = htmlCabecera();
+  document.getElementById('pie').innerHTML = htmlPie();
+  /* No está en SECCIONES: es una herramienta de consulta, no una de las
+     siete secciones. Se llega desde Mi año y desde Info útil. Se le pasa
+     'tramites' para que la fila de arriba marque de dónde viene. */
+  pintarNav('tramites');
+
+  const lista  = document.getElementById('lista');
+  const chips  = document.getElementById('chips');
+  const filtro = document.getElementById('filtro');
+
+  const CARRERAS = [
+    { id:'ts',   texto:'Trabajo Social' },
+    { id:'fono', texto:'Fonoaudiología' },
+    { id:'tgcr', texto:'Gestión del Riesgo' }
+  ];
+
+  /* ARRANCA EN LA CARRERA DE LA PERSONA, no en una elegida por
+     nosotros. Si ya usó Mi año, su carrera está guardada ahí y
+     mostrarle otra sería hacerle tocar un chip antes de leer nada.
+     Si nunca entró, arranca en Trabajo Social, que es la más
+     numerosa. */
+  function carreraDeLaPersona(){
+    try {
+      const g = JSON.parse(localStorage.getItem('bolivar-carrera-v2') || '{}');
+      if (g && g.carrera && CARRERAS.some(c => c.id === g.carrera)) return g.carrera;
+    } catch(e){}
+    return 'ts';
+  }
+
+  let todas = [];
+  let carreraActiva = carreraDeLaPersona();
+  let enganchado = false;
+
+  /* ============================================================
+     LO GUARDADO DE LA VISITA ANTERIOR
+
+     Un mail de cátedra no lleva fecha: no es la alarma de inscripción
+     ni el cronograma. Mostrar el de la semana pasada no miente, así
+     que se guarda entero y sin recortar nada.
+
+     Igual el pedido a la base sale siempre, y cuando llega se repinta
+     encima.
+     ============================================================ */
+  const memoria = memoriaDe('catedras');
+  if (memoria && (memoria.datos || []).length){
+    todas = memoria.datos;
+    dibujar();
+    enganchar();
+    avisarMostrandoGuardado(memoria.cuando);
+  }
+
+  let frescos = null;
+  try {
+    const { data, error } = await conPaciencia(
+      db.from('catedras').select('carrera,materia_cod,materia,mails,telefono,anio')
+        .eq('publicado', true).order('carrera').order('anio').order('materia'));
+    if (error) throw error;
+    frescos = data || [];
+  } catch (e) {
+    if (memoria){
+      avisarNoSePudoActualizar(memoria.cuando);
+      return;
+    }
+    /* Si la tabla todavía no existe no es un error del estudiante: es
+       que falta correr el SQL. Se lo decimos al equipo, sin jerga. */
+    if (e && /catedras/.test(e.message || '')){
+      lista.innerHTML = `<div class="vacio">
+          Esta sección todavía no está activada.<br>
+          <small>Al equipo: falta correr <b>tabla-catedras.sql</b> en Supabase.</small>
+        </div>`;
+      chips.hidden = true;
+      filtro.parentElement.hidden = true;
+      return;
+    }
+    mostrarError(lista, e, 'cargar las cátedras');
+    return;
+  }
+
+  if (!frescos.length){
+    /* La red contestó que no hay nada. Es la respuesta más nueva que
+       tenemos: se olvida lo guardado en vez de seguir mostrando
+       contactos que se dieron de baja. */
+    olvidarMemoria('catedras');
+    sacarAvisoGuardado();
+    lista.innerHTML = `<div class="vacio">
+        Todavía no hay contactos cargados.
+      </div>`;
+    chips.hidden = true;
+    filtro.parentElement.hidden = true;
+    return;
+  }
+
+  todas = frescos;
+  guardarEnMemoria('catedras', frescos);
+  dibujar();
+  enganchar();
+  sacarAvisoGuardado();
+
+
+  /* ---------- Los chips de carrera ---------- */
+  function pintarChips(){
+    /* Solo se ofrecen las carreras que de verdad tienen algo cargado:
+       un chip que lleva a una lista vacía es una promesa que no se
+       cumple. */
+    const conDatos = CARRERAS.filter(c => todas.some(x => x.carrera === c.id));
+    if (conDatos.length < 2){ chips.hidden = true; return; }
+    chips.hidden = false;
+    chips.innerHTML = conDatos.map(c => `
+      <button class="chip" data-carrera="${esc(c.id)}"
+              aria-pressed="${c.id === carreraActiva ? 'true' : 'false'}">
+        ${esc(c.texto)}</button>`).join('');
+  }
+
+  /* ---------- La lista ---------- */
+  function dibujar(){
+    pintarChips();
+
+    const busca = normalizar(filtro.value.trim());
+
+    /* BUSCAR PISA EL CHIP DE CARRERA. Quien escribe «anatomo» quiere
+       esa materia, no «esa materia si está en la carrera que tenía
+       elegida»: si filtráramos por las dos cosas, buscar algo de otra
+       carrera no daría nada y parecería que no está cargado. */
+    let filas = busca
+      ? todas.filter(c =>
+          normalizar(c.materia).includes(busca) ||
+          (c.mails || []).some(m => normalizar(m).includes(busca)))
+      : todas.filter(c => c.carrera === carreraActiva);
+
+    if (!filas.length){
+      lista.innerHTML = `<div class="vacio">
+          No encontramos ninguna cátedra con eso.<br>
+          <small>Probá con parte del nombre de la materia.</small>
+        </div>`;
+      return;
+    }
+
+    /* Buscando se agrupa por carrera, porque los resultados vienen de
+       las tres. Sin buscar ya hay una sola carrera y lo que ordena es
+       el año. */
+    const grupos = [];
+    filas.forEach(c => {
+      const rotulo = busca
+        ? (CARRERAS.find(x => x.id === c.carrera) || {}).texto || c.carrera
+        : (c.anio ? c.anio + '° año' : 'Sin año');
+      let g = grupos.find(x => x.rotulo === rotulo);
+      if (!g){ g = { rotulo: rotulo, filas: [] }; grupos.push(g); }
+      g.filas.push(c);
+    });
+
+    lista.innerHTML = grupos.map(g => `
+      <div class="titulo-seccion">${esc(g.rotulo)}</div>
+      ${g.filas.map(c => `
+        <div class="tarjeta" style="margin-bottom:10px">
+          <h3 style="margin:0 0 2px">${esc(c.materia)}</h3>
+          <p class="letra-chica" style="margin:0 0 8px">
+            ${esc(c.materia_cod)}${busca && c.anio ? ' · ' + c.anio + '° año' : ''}
+          </p>
+          <ul class="lista-correl simple" style="margin:0">
+            ${(c.mails || []).map(d =>
+              `<li><a href="mailto:${esc(d)}">${esc(d)}</a></li>`).join('')}
+            ${c.telefono ? `<li>${esc(c.telefono)}</li>` : ''}
+          </ul>
+        </div>`).join('')}
+    `).join('');
+  }
+
+  /* ---------- Enganchar una sola vez ---------- */
+  function enganchar(){
+    if (enganchado) return;
+    enganchado = true;
+
+    filtro.addEventListener('input', function(){
+      anotarBusqueda(filtro.value);
+      dibujar();
+    });
+
+    chips.addEventListener('click', function(e){
+      const b = e.target.closest('[data-carrera]');
+      if (!b) return;
+      carreraActiva = b.dataset.carrera;
+      /* Tocar un chip con algo escrito no haría nada visible, porque
+         buscar pisa la carrera. Se limpia el buscador para que el
+         chip haga lo que dice. */
+      filtro.value = '';
+      dibujar();
+    });
+  }
+
+})();
+</script>
+</body>
+</html>

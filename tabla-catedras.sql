@@ -41,11 +41,20 @@ create table if not exists public.catedras (
   telefono       text,                   -- casi ninguna lo tiene
   nota           text,                   -- "el contacto está sin confirmar", etc.
 
+  /* El año en que se cursa. Está acá y no se saca de `plan.js` para
+     que la pantalla de Cátedras pueda agrupar por año sin bajar los
+     tres planes: son 20 KB para un solo dato. Sale de los planes, que
+     siguen siendo la fuente si alguna vez cambian. */
+  anio           smallint,
+
   publicado      boolean not null default true,
   actualizado_at timestamptz not null default now(),
 
   unique (carrera, materia_cod)
 );
+
+/* Por si la tabla ya existía de antes de que se agregara el año. */
+alter table public.catedras add column if not exists anio smallint;
 
 alter table public.catedras drop constraint if exists catedras_validas;
 alter table public.catedras add constraint catedras_validas check (
@@ -55,6 +64,7 @@ alter table public.catedras add constraint catedras_validas check (
   and coalesce(array_length(mails, 1), 0) <= 8
   and char_length(coalesce(telefono, '')) <= 40
   and char_length(coalesce(nota,     '')) <= 300
+  and (anio is null or anio between 1 and 5)
 );
 
 create index if not exists catedras_carrera_idx on public.catedras (carrera, materia_cod);
@@ -215,7 +225,32 @@ insert into public.catedras (carrera, materia_cod, materia, mails, nota, publica
 on conflict (carrera, materia_cod) do nothing;
 
 
+-- ---------- El año de cada materia ----------
+-- Sale de `carrera/plan.js`, `plan-fono.js` y `plan-tgcr.js`, que
+-- siguen siendo la fuente. Se copia acá para que la pantalla de
+-- Cátedras agrupe por año sin bajar los tres planes.
+update public.catedras c set anio = v.anio
+  from (values
+    ('ts','211 A',1),('ts','214',1),('ts','215 A',1),('ts','213',1),('ts','211 B',1),('ts','212 A',1),
+    ('ts','221',2),('ts','225',2),('ts','222',2),('ts','215 B',2),('ts','223',2),('ts','226',2),('ts','227',2),
+    ('ts','231',3),('ts','234',3),('ts','242',3),('ts','237',3),('ts','224',3),('ts','232',3),
+    ('ts','241',4),('ts','243',4),('ts','233',4),('ts','244',4),('ts','235',4),('ts','245',4),('ts','253',4),
+    ('ts','251',5),('ts','252',5),('ts','212 B',5),('ts','254',5),
+    ('fono','811',1),('fono','812',1),('fono','813',1),('fono','814',1),('fono','815',1),('fono','223',1),
+    ('fono','816',1),('fono','817',1),('fono','818',1),('fono','212 A',1),
+    ('fono','821',2),('fono','822',2),('fono','823',2),('fono','824',2),('fono','825',2),('fono','826',2),
+    ('fono','827',2),('fono','828',2),('fono','829',2),('fono','215 B',2),
+    ('fono','512',3),('fono','532',3),('fono','523',3),('fono','253',3),('fono','831',3),('fono','832',3),
+    ('fono','513',3),('fono','514',3),('fono','244',3),('fono','233',3),
+    ('fono','841',4),('fono','842',4),('fono','843',4),('fono','844',4),('fono','846',4),('fono','848',4),
+    ('tgcr','711',1),('tgcr','712',1),('tgcr','713',1),('tgcr','717',1),
+    ('tgcr','721',2),('tgcr','722',2),('tgcr','723',2),('tgcr','724',2),
+    ('tgcr','731',3),('tgcr','732',3),('tgcr','733',3),('tgcr','734',3)
+  ) as v(carrera, materia_cod, anio)
+ where c.carrera = v.carrera and c.materia_cod = v.materia_cod;
+
+
 -- Para comprobar a mano qué quedó cargado:
 --   select carrera, count(*) filter (where publicado) as publicadas,
---          count(*) as todas
+--          count(*) as todas, count(anio) as con_anio
 --     from public.catedras group by carrera order by carrera;
