@@ -14,7 +14,8 @@ Si algo de acá quedó viejo, se corrige acá mismo al cerrar la sesión.
 - **Lanzamiento: lunes 21 de septiembre de 2026**, Día del Estudiante, con
   campaña en Instagram a 4.213 seguidores. **La fecha no se mueve: se mueve el
   alcance.**
-- Hoy es **4 de septiembre** y vamos **dos días adelantados**.
+- Hoy es **5 de septiembre**. El sábado libre se usó para las fichas de
+  estudio, y con eso **el sábado 12 quedó hecho una semana antes**.
 - La app ya está viva en `bolivar-con-vos.vercel.app`. Vercel publica solo con
   cada `push` a `main`.
 
@@ -46,7 +47,8 @@ sobre los otros. Ahora mandan así, y no se abre un quinto:
 | 4/9 | «Mi año» parte 1: la pregunta al entrar y la vista «Tu primer año» | `2a0f39f` |
 | 4/9 | **El embudo del 21:** hitos (eligió carrera, marcó materia, instaló, volvió) y de qué link de Instagram vino cada visita. `v18` | `bc97ed6` |
 | 5/9 | **Las ocho fichas de estudio del Equipo de Fonoaudiología**, en `estudiemos/fichas/`. Sin `v` nueva: son pantallas (van por red primero) y un archivo nuevo | `841c836` |
-| 5/9 | La novena ficha, **el oído**, y los dos sellos del pie. El de Conducción va en vector | (este commit) |
+| 5/9 | La novena ficha, **el oído**, y los dos sellos del pie. El de Conducción va en vector | `a07cd8f` |
+| 5/9 | **Los siete trípticos originales en PDF** (33 MB), en `estudiemos/tripticos/`. Van en el repo y no en un bucket de Supabase porque el MCP no sube archivos a storage. Si el repo pesa, mudarlos es cambiar la ruta en un lugar | (este commit) |
 
 **Ojo con lo de las materias libres.** El listado sale de un documento que se
 llama, textualmente, «**Propuesta** de materias libres … para agregar al régimen
@@ -77,13 +79,13 @@ entran 2 o 3 sesiones.
 | vie 4 · 4 | ✅ **El embudo del 21** y la bitácora como única fuente | — |
 | vie 4 · 5 | ✅ **Contactos de las cátedras, parte 1:** la tabla, los 142 mails y la ficha de materia. Adelantado del lun 7 | — |
 | vie 4 · 6 | ✅ **Cátedras parte 2:** la pantalla `catedras/` con buscador y la solapa del panel. El lun 7 queda libre | — |
-| sáb 5 | Libre: el glosario del Kit, o adelantar los horarios | — |
+| sáb 5 | ✅ **Las nueve fichas de estudio** y los siete trípticos en PDF. Se comió la tarea del sáb 12 | — |
 | dom 6 | Se cierran las cuatro decisiones pendientes | Máximo |
 | lun 7 | Buscador de cátedras | mails de las cátedras |
 | mar 8 | Contactos en la página · **el código no espera nada**, se puede adelantar; lo que espera es el contenido | 3 contactos por carrera |
 | mié 9 | Plan de estudios en PDF | los 3 PDFs |
 | jue 10 – vie 11 | Horarios: completos (2 días) o cuadro oficial (medio día) | decisión del dom 6 |
-| sáb 12 | Materiales como página web | PDFs de materiales |
+| sáb 12 | ✅ Adelantado al sáb 5. **Queda libre** | — |
 | **dom 13** | **Congelamiento.** Última línea de función nueva | — |
 | lun 14 – dom 20 | Contenido, pruebas y campaña. **Todo arriba el 20** | — |
 | **lun 21** | **Lanzamiento** | — |

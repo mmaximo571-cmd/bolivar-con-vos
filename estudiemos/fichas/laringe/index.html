@@ -60,18 +60,20 @@ button{font:inherit;cursor:pointer;color:var(--tx)}
    pelearian el body, la tipografia y los titulos. Lo unico que se
    comparte es el tema y la barra de volver. */
 
-.ficha-volver{
-  display:inline-flex; align-items:center; gap:8px;
+.ficha-barra{
   position:sticky; top:0; z-index:20;
-  width:100%; box-sizing:border-box;
+  display:flex; flex-wrap:wrap; align-items:center;
+  justify-content:space-between; gap:2px 14px;
   padding:11px 18px;
   font-family:Montserrat,sans-serif; font-weight:800;
   font-size:12px; letter-spacing:.06em; text-transform:uppercase;
-  background:var(--yellow); color:var(--onyel);
+  background:var(--yellow);
   border-bottom:2px solid var(--stroke);
-  text-decoration:none;
 }
-.ficha-volver:hover{ color:var(--onyel); }
+/* El diseno pinta los enlaces de rojo y subrayados. Sobre el amarillo
+   de la barra eso no se lee, asi que aca mandan estos. */
+.ficha-barra a{ color:var(--onyel); text-decoration:none; }
+.ficha-barra a:hover{ text-decoration:underline; }
 
 /* Los dos sellos del pie viven en estudiemos/fichas/assets/ y los
    comparten las nueve fichas: por eso el src sale de la carpeta de la
@@ -80,7 +82,10 @@ button{font:inherit;cursor:pointer;color:var(--tx)}
 </head>
 <body>
 
-<a class="ficha-volver" href="../../">← Estudiemos</a>
+<nav class="ficha-barra">
+<a href="../../">← Estudiemos</a>
+<a href="../../tripticos/laringe.pdf">Bajar el tríptico · PDF 6,6 MB</a>
+</nav>
 
 <!-- Aca dibuja ficha.js. Vacio hasta que corre el script del final. -->
 <div id="ficha"></div>

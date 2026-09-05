@@ -14,3 +14,5 @@
 *.png  binary
 *.webp binary
 *.ico  binary
+*.pdf  binary
+*.svg  text
