@@ -51,7 +51,8 @@ sobre los otros. Ahora mandan así, y no se abre un quinto:
 | 5/9 | La novena ficha, **el oído**, y los dos sellos del pie. El de Conducción va en vector | `a07cd8f` |
 | 5/9 | **Los siete trípticos originales en PDF** (33 MB), en `estudiemos/tripticos/`. Van en el repo y no en un bucket de Supabase porque el MCP no sube archivos a storage. Si el repo pesa, mudarlos es cambiar la ruta en un lugar | `be80b2e` |
 | 5/9 | **Estudiemos rediseñado:** buscador arriba, tres herramientas en superficie, y el amarillo una sola vez abajo en la invitación a compartir. `v19` | `db57993` |
-| 5/9 | `PROMPT-DISENO.md`: el molde para que lo que salga de Gemini entre sin traducir | (este commit) |
+| 5/9 | `PROMPT-DISENO.md`: el molde para que lo que salga de Gemini entre sin traducir | `2a3e0a1` |
+| 5/9 | **La carga rota de cada publicación.** El registro mostró «memoriaDe is not defined» en la portada: HTML nuevo con `app.js` viejo. Ahora recarga una sola vez cuando entra la versión nueva. `v20` | (este commit) |
 
 **Ojo con lo de las materias libres.** El listado sale de un documento que se
 llama, textualmente, «**Propuesta** de materias libres … para agregar al régimen
@@ -317,7 +318,7 @@ pendiente y sin fecha asignada.
 
 | Qué | Para cuándo |
 |---|---|
-| **Correr `tabla-registro.sql` de nuevo** en el SQL Editor. Sin esto los hitos se rechazan y el 21 no hay embudo | **cuanto antes** |
+| ~~Correr `tabla-registro.sql` de nuevo~~ | ✅ hecho. Verificado el 5/9 contra la base: entran los cuatro hitos (9 anotados) |
 | **Etiquetar los links de Instagram** con `?de=`: `bolivar-con-vos.vercel.app/?de=historia-carreras`. Un nombre distinto por publicación, en minúscula y con guiones. Sin etiqueta la visita se cuenta igual, pero no se sabe de dónde vino | antes del 21 |
 | Mirar la solapa **Registro** y el campo **«¿Alimenta la alarma?»** en el panel | cuanto antes |
 | Prender *Leaked password protection* en supabase.com → Authentication | cuanto antes |

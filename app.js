@@ -1140,10 +1140,53 @@ function sacarAvisoGuardado(){
    la invitación tiene dos formas, y no es un descuido.
    ------------------------------------------------------------ */
 
+/* ------------------------------------------------------------
+   EL SERVICE WORKER, Y LA CARGA ROTA DE CADA PUBLICACIÓN
+
+   Registrarlo es un renglón. Lo de abajo es por un error que apareció
+   en el registro el 4/9: «memoriaDe is not defined», en la portada, en
+   dos teléfonos distintos.
+
+   No fue un olvido: la función, su uso y la versión del sw entraron
+   todos en el mismo commit. Es una carrera, y pasa en CADA publicación:
+
+     1. Alguien que ya tiene la app abre la portada.
+     2. Las pantallas van por red primero, así que le llega el HTML NUEVO.
+     3. Pero app.js y estilos.css los sigue sirviendo el service worker
+        VIEJO, de su caja, porque el nuevo recién se está instalando.
+     4. HTML nuevo llamando a una función que el app.js viejo no tiene.
+
+   La carga siguiente ya sale bien, así que se ve como «se rompió una
+   vez y no lo pude repetir». Son dos personas por publicación, y el 21
+   publicamos con cuatro mil personas mirando.
+
+   El arreglo es recargar UNA vez, cuando el service worker nuevo toma
+   el control. Dos frenos, porque una recarga automática mal puesta es
+   un bucle infinito y eso es peor que el error que arregla:
+
+   · Si no había service worker antes, es la primera visita de esta
+     persona: no hay nada viejo mezclado y no se recarga nada.
+   · Si ya pasaron unos segundos, la persona está leyendo. Moverle la
+     pantalla de golpe es peor que un estilo desactualizado; se deja
+     así y la próxima pantalla que abra ya sale entera.
+   ------------------------------------------------------------ */
+
 if ('serviceWorker' in navigator){
+  const habiaUnoAntes = !!navigator.serviceWorker.controller;
+  const arranco = Date.now();
+  let yaRecargue = false;
+
   window.addEventListener('load', function(){
     navigator.serviceWorker.register(RAIZ + 'sw.js', { scope: RAIZ })
       .catch(function(){ /* sin service worker la app anda igual, solo sin guardar */ });
+  });
+
+  navigator.serviceWorker.addEventListener('controllerchange', function(){
+    if (!habiaUnoAntes) return;              /* primera visita: nada que arreglar */
+    if (yaRecargue) return;                  /* el freno del bucle */
+    if (Date.now() - arranco > 5000) return; /* ya está leyendo: no se le mueve */
+    yaRecargue = true;
+    location.reload();
   });
 }
 

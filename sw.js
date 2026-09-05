@@ -65,8 +65,12 @@
    herramientas en superficie y una sola tarjeta amarilla abajo. Sin
    subir el numero, las herramientas llegan sin estilo —tres renglones
    de texto pelado— y el icono de subir no existe, asi que la tarjeta de
-   compartir se queda con el emoji. */
-const VERSION = 'bolivar-v19';
+   compartir se queda con el emoji.
+   v20 (5/9/2026) `app.js`: la recarga unica cuando entra una version
+   nueva, por la carrera que dejaba HTML nuevo con app.js viejo. Sin
+   subir el numero este arreglo no llega, que seria el colmo: es el
+   arreglo de las publicaciones el que no se publicaria. */
+const VERSION = 'bolivar-v20';
 const ARMAZON = VERSION + '-armazon';
 const PAGINAS = VERSION + '-paginas';
 
