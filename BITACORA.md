@@ -23,6 +23,12 @@ Si algo de acá quedó viejo, se corrige acá mismo al cerrar la sesión.
   Avisanos, y ese contenido puede entrar hasta el 20.
 - El sábado 5 se usó para las fichas de estudio, y con eso **el sábado 12
   quedó hecho una semana antes**.
+- **Al cerrar el domingo 6, el cronograma de acá al congelamiento del 13 está
+  vacío salvo una tarea.** El mar 8 y el mié 9 también quedaron adelantados —los
+  contactos, y el plan que se imprime en vez de publicarse en PDF—. Lo único que
+  queda es el **glosario universitario**, que no espera nada de nadie y hoy es
+  una promesa incumplida en la portada, dirigida justo al ingresante que es el
+  público del 21. **Es la última función que entra antes del congelamiento.**
 - La app ya está viva en `bolivar-con-vos.vercel.app`. Vercel publica solo con
   cada `push` a `main`.
 
@@ -71,6 +77,7 @@ sobre los otros. Ahora mandan así, y no se abre un quinto:
 | 6/9 | **Fechas deja el tiempo real y baja 206 KB.** Pasa al cliente chico y se refresca al volver a la pantalla, con freno de 15 s. El JS de esa pantalla: 287 KB → 79 | `df2ea22` |
 | 6/9 | **«Contacto de las cátedras» lleva a `/catedras/`** y no al PDF de Drive. Atrás vino la regla que faltaba: una ficha cuyo enlace no empieza con `http://` es una pantalla de la app y se abre adentro, sin pestaña nueva y con «→». El cartel del cuadrado dice **«En la app»** | `f7ef158` |
 | 6/9 | **Los contactos de Avisanos, cargados** (7 nuevos). Y con eso aparecieron dos cosas rotas: el único contacto real que había estaba sin código de país, así que `wa.me` contestaba «número no válido» y el traspaso terminaba en un error; y el chat decía «SITIO OFICIAL» encima de preguntas frecuentes y de fichas que llevan adentro de la app | `467117d` |
+| 6/9 | **El plan de estudios se imprime, y el PDF de 3,6 MB no se publica.** La pestaña «Plan» ya decía lo mismo que el archivo de la facultad y viaja con la app sin internet. Ahora esa vista se imprime con encabezado propio, sale aunque estés parado en otra pestaña, y en modo oscuro la hoja igual sale blanca. El cuadro del navegador ofrece «Guardar como PDF», así que de ahí salen el papel y el archivo. `v27` | `dbe9fcf` |
 
 **Ojo con lo de las materias libres.** El listado sale de un documento que se
 llama, textualmente, «**Propuesta** de materias libres … para agregar al régimen
@@ -104,8 +111,8 @@ entran 2 o 3 sesiones.
 | sáb 5 | ✅ **Las nueve fichas de estudio** y los siete trípticos en PDF. Se comió la tarea del sáb 12 | — |
 | dom 6 | ✅ **Cerradas las cuatro decisiones**, y las tres que quedaban están hechas y publicadas: la pestaña «Plan», Fechas sin tiempo real, y la ficha de cátedras apuntando a `/catedras/` | — |
 | lun 7 | ✅ Adelantado al vie 4. **Queda libre** | — |
-| mar 8 | Contactos en la página · **el código no espera nada**, se puede adelantar; lo que espera es el contenido | 3 contactos por carrera |
-| mié 9 | Plan de estudios en PDF | los 3 PDFs |
+| mar 8 | ✅ Adelantado al dom 6: los contactos ya están cargados y andando. **Queda libre** | — |
+| mié 9 | ✅ Adelantado al dom 6. **El plan en PDF no va: va impreso.** Ver abajo | — |
 | jue 10 – vie 11 | **Libre**: los horarios se fueron al año que viene. Candidato natural, el **glosario del kit de ingreso**, que no espera nada de Máximo y hoy es una promesa incumplida en la portada | — |
 | sáb 12 | ✅ Adelantado al sáb 5. **Queda libre** | — |
 | **dom 13** | **Congelamiento.** Última línea de función nueva | — |
@@ -305,6 +312,46 @@ carrera en la app, así que sus ocho mails no tienen dónde ir. Y el
 **«Taller de metodología»** de Fono vino como de 3° año, pero en el plan el II
 es de 4° y el de 3° es el Taller I (833). Sin mail, así que no urge.
 
+### El plan de estudios no se publica en PDF: se imprime (6/9)
+
+La tarea del mié 9 decía «Plan de estudios en PDF» y traía una decisión adentro:
+los archivos que dio la facultad pesan **1,8 MB y 3,6 MB**. Contestada: **no se
+publican.**
+
+El motivo es que ya existían. La pestaña **«Plan»** de `carrera/` muestra el
+plan entero desde `carrera/plan.js`, `plan-fono.js` y `plan-tgcr.js` —transcripto
+del mismo PDF—, viaja con la app y anda sin internet. Publicar el archivo era
+hacer bajar 3,6 MB, por celular y adentro del navegador de Instagram, para
+repetir lo que la pantalla ya dice. Y el repositorio ya carga con los 33 MB de
+los trípticos.
+
+Lo que se hizo en su lugar: **esa vista se imprime**. Botón «Imprimir el plan»,
+y un bloque `@media print` colgado de `.pantalla-carrera` —la clase del `<body>`
+de esa pantalla y de ninguna otra— que apaga cabecera, pestañas, botones y las
+otras tres vistas, y deja el plan con un encabezado que dice la carrera, la
+facultad y la fecha. Tres cosas que no son obvias:
+
+- **El plan sale aunque estés parado en «Mapa» o en «Finales».** Quien hace
+  Ctrl+P espera el plan, no una hoja en blanco. El selector `#vista-todo[hidden]`
+  le gana en especificidad al `[hidden]{display:none !important}` de la base.
+- **En papel siempre es de día.** Con el teléfono en modo oscuro la hoja salía
+  con fondo casi negro. Las variables de color se redefinen en el `<body>` dentro
+  del bloque de impresión, así que ganan sobre las del `:root` oscuro. Medido:
+  fondo `#FFF`, texto `#1A1A1A`.
+- **El navegador de Instagram no imprime.** Es un WebView y ahí `print()` no
+  hace nada: no falla, no avisa, no pasa nada. Como es la puerta por la que va a
+  entrar casi todo el mundo el 21, el aviso de «tocá los tres puntitos y abrilo
+  en el navegador» **se muestra por user agent antes de que toque**, y no después
+  de que el botón se quede mudo.
+
+Y de paso **el «Guardar como PDF» sigue existiendo**: está en el mismo cuadro
+del navegador, en «Destino». O sea que de la pantalla salen el papel y el
+archivo, y el archivo sale con lo que la persona tenga marcado.
+
+**Lo que se pierde:** el PDF original tiene el sello y la firma de la facultad,
+y la hoja impresa no. Si alguna vez hace falta el documento oficial para un
+trámite, va como enlace a Drive, no como archivo en el repositorio.
+
 ### El «Kit de Inicio» del cronograma quedó viejo (4/9)
 
 La tarea del sáb 5 decía «Mi año: el Kit de Inicio». Se escribió el 3/9, cuando
@@ -372,7 +419,7 @@ pantalla propia en pestaña nueva rompe el botón de volver.
 | ~~Prender *Leaked password protection*~~ | ❌ **No se puede: es de plan Pro.** Cerrado el 5/9. **NO apagar el alta de cuentas**: el registro de estudiantes es a propósito, ya está hecho en `mi/`, y es lo que va a permitir personalizar la app |
 | ~~Confirmar el mail con tildes de «Promoción y prevención en audiología»~~ | ✅ confirmado el 5/9: era un error de tipeo. Ya publicado sin tildes. **Falta escribirle una vez** para saber si la casilla existe |
 | ~~Los mails de las cátedras~~ | ✅ entregados el 4/9 |
-| ~~Los tres PDFs del plan de estudios~~ | ✅ entregados el 4/9. Ojo: pesan 1,8 MB y 3,6 MB; hay que decidir si se publican enteros o el plan se muestra como página |
+| ~~Los tres PDFs del plan de estudios~~ | ✅ entregados el 4/9, y **decidido el 6/9: no se publican.** El plan se muestra como página —ya existía— y ahora además se imprime. Los archivos quedan afuera del repositorio |
 | ~~Los PDFs de los materiales de estudio~~ | ✅ entregados el 5/9, seis días antes. Ya publicados en `estudiemos/tripticos/` |
 | ~~Tres contactos por carrera para Avisanos~~ | ✅ **entregados el 6/9, diez días antes.** Ya cargados y andando: Trabajo Social 4 (con Maxi), Tecnicatura 2, Fonoaudiología 2. **Falta uno de cada una de esas dos** para llegar a tres, pero con dos ya funciona |
 
