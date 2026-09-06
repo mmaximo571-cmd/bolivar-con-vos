@@ -14,11 +14,13 @@ Si algo de acá quedó viejo, se corrige acá mismo al cerrar la sesión.
 - **Lanzamiento: lunes 21 de septiembre de 2026**, Día del Estudiante, con
   campaña en Instagram a 4.213 seguidores. **La fecha no se mueve: se mueve el
   alcance.**
-- Hoy es **domingo 6 de septiembre**: el día de cerrar las decisiones.
-- **Máximo viaja del miércoles 9 al sábado 12**, a otra provincia. Son cuatro
-  de los siete días que quedan hasta el congelamiento, y son exactamente los
-  días en que el cronograma ponía las tareas que esperan material suyo.
-  **Todo lo que necesite a Máximo hay que cerrarlo antes del miércoles.**
+- Hoy es **domingo 6 de septiembre**, y las decisiones **ya se cerraron**: las
+  cuatro están contestadas y las tres que quedaban abiertas están hechas y
+  publicadas.
+- **Máximo viaja del miércoles 9 al sábado 12**, a otra provincia. Eso ya no
+  aprieta: del mar 8 al sáb 12 no queda ninguna tarea que lo necesite. Lo único
+  que todavía espera material suyo son los **tres contactos por carrera** de
+  Avisanos, y ese contenido puede entrar hasta el 20.
 - El sábado 5 se usó para las fichas de estudio, y con eso **el sábado 12
   quedó hecho una semana antes**.
 - La app ya está viva en `bolivar-con-vos.vercel.app`. Vercel publica solo con
@@ -64,7 +66,10 @@ sobre los otros. Ahora mandan así, y no se abre un quinto:
 | 5/9 | El calendario, con nombre y flechas para quien no lo ve | `7c40e93` |
 | 5/9 | **Las secciones se van abajo y son cuatro** (Inicio · Mi año · Estudiemos · Mi perfil). El calendario y el carrusel bajan al final. `v21` | `cca4d84` |
 | 6/9 | **La portada pregunta en vez de invitar:** «¿Qué estás estudiando?» con las tres carreras, y después «¿Querés cargar tu trayectoria académica?». Se contesta ahí mismo; la carrera elegida se guarda en la llave de «Mi año», así que al entrar ya no se le vuelve a preguntar. Quien ya cargó su cursada sigue viendo la barra. `v23` | `8c7e407` |
-| 6/9 | La bajada de la bienvenida deja de ser solo identidad: cada oración es uno de los tres botones —entrar, y armar la cuenta—. **No promete que la cuenta dé acceso a nada**, porque no lo da: `mi/` dice dos veces que la app anda entera sin cuenta. Sin `v` nueva: es solo `index.html`, que va por red primero | (este commit) |
+| 6/9 | La bajada de la bienvenida deja de ser solo identidad: cada oración es uno de los tres botones —entrar, y armar la cuenta—. **No promete que la cuenta dé acceso a nada**, porque no lo da: `mi/` dice dos veces que la app anda entera sin cuenta. Sin `v` nueva: es solo `index.html`, que va por red primero | `c149000` |
+| 6/9 | La pestaña dice **«Plan»** y deja de recortarse. Queda un píxel de margen en 320 px, y ahora la palabra más ancha de la fila es «FINALES» | `735d552` |
+| 6/9 | **Fechas deja el tiempo real y baja 206 KB.** Pasa al cliente chico y se refresca al volver a la pantalla, con freno de 15 s. El JS de esa pantalla: 287 KB → 79 | `df2ea22` |
+| 6/9 | **«Contacto de las cátedras» lleva a `/catedras/`** y no al PDF de Drive. Atrás vino la regla que faltaba: una ficha cuyo enlace no empieza con `http://` es una pantalla de la app y se abre adentro, sin pestaña nueva y con «→». El cartel del cuadrado dice **«En la app»** | `f7ef158` |
 
 **Ojo con lo de las materias libres.** El listado sale de un documento que se
 llama, textualmente, «**Propuesta** de materias libres … para agregar al régimen
@@ -96,28 +101,30 @@ entran 2 o 3 sesiones.
 | vie 4 · 5 | ✅ **Contactos de las cátedras, parte 1:** la tabla, los 142 mails y la ficha de materia. Adelantado del lun 7 | — |
 | vie 4 · 6 | ✅ **Cátedras parte 2:** la pantalla `catedras/` con buscador y la solapa del panel. El lun 7 queda libre | — |
 | sáb 5 | ✅ **Las nueve fichas de estudio** y los siete trípticos en PDF. Se comió la tarea del sáb 12 | — |
-| dom 6 | Se cierran las cuatro decisiones pendientes | Máximo |
-| lun 7 | Buscador de cátedras | mails de las cátedras |
+| dom 6 | ✅ **Cerradas las cuatro decisiones**, y las tres que quedaban están hechas y publicadas: la pestaña «Plan», Fechas sin tiempo real, y la ficha de cátedras apuntando a `/catedras/` | — |
+| lun 7 | ✅ Adelantado al vie 4. **Queda libre** | — |
 | mar 8 | Contactos en la página · **el código no espera nada**, se puede adelantar; lo que espera es el contenido | 3 contactos por carrera |
 | mié 9 | Plan de estudios en PDF | los 3 PDFs |
-| jue 10 – vie 11 | Horarios: completos (2 días) o cuadro oficial (medio día) | decisión del dom 6 |
+| jue 10 – vie 11 | **Libre**: los horarios se fueron al año que viene. Candidato natural, el **glosario del kit de ingreso**, que no espera nada de Máximo y hoy es una promesa incumplida en la portada | — |
 | sáb 12 | ✅ Adelantado al sáb 5. **Queda libre** | — |
 | **dom 13** | **Congelamiento.** Última línea de función nueva | — |
 | lun 14 – dom 20 | Contenido, pruebas y campaña. **Todo arriba el 20** | — |
 | **lun 21** | **Lanzamiento** | — |
 
-### Lo que este cronograma dejó a la vista
+### Lo que este cronograma dejó a la vista (al 6/9)
 
-**El cuello de botella no es el código: es el contenido.** De las siete tareas
-que quedan, cinco esperan material de Máximo, y en tres de ellas el material
-llega **el mismo día** en que hay que construir con él (mails lun 7 → se
-construye lun 7; PDFs mié 9 → se construye mié 9; PDFs de materiales vie 11 →
-se construye sáb 12). Margen cero: si cualquiera de esas tres se corre un día,
-la tarea se cae del otro lado del congelamiento.
+**El cuello de botella era el contenido, y se destrabó.** Cuando esto se escribió
+el 3/9, de siete tareas cinco esperaban material de Máximo y tres lo recibían el
+mismo día en que había que construir con él. Hoy: los mails llegaron el 4/9, los
+PDFs del plan el 4/9, los de materiales el 5/9, y los horarios se fueron al año
+que viene. **De las siete queda una sola esperando material: los tres contactos
+por carrera de Avisanos, y ese contenido puede entrar hasta el 20** —lo que se
+congela el 13 es el código, no los textos—.
 
-**Lo que hay que hacer:** adelantar cada entrega dos días respecto del día en
-que se construye. No cambia cuánto trabajo hay; cambia que una demora de un día
-deje de costar una función entera.
+**Lo que sale de ahí, ahora que Máximo viaja del 9 al 12:** del mar 8 al sáb 12
+no hay ninguna tarea que lo necesite. El plan en PDF (mié 9) ya tiene sus
+archivos, y el jue 10 – vie 11 quedó libre. Son cuatro días de trabajo que no
+dependen de nadie más, justo los días en que no va a estar.
 
 ## Decisiones ya tomadas — no volver a discutirlas
 
@@ -288,11 +295,9 @@ Fono y 12 de TGCR.
 - **No hace falta subir el service worker:** solo se agregó una página y se
   tocaron dos, y las páginas se sirven red primero.
 
-**Queda una decisión de contenido:** en Info útil, la entrada «Contacto de las
-cátedras» (trámite 33) todavía apunta a
-[un PDF en Drive](https://drive.google.com/file/d/1C4kn0B_pwvYwh1YBpqxn_chzME6Y4N-u/view?usp=drivesdk).
-Ahora que existe la pantalla, lo lógico es que apunte a `/catedras/`. **No lo
-cambié:** es contenido de Máximo, no código.
+~~**Queda una decisión de contenido:**~~ ✅ **Resuelta el 6/9.** La entrada
+«Contacto de las cátedras» (trámite 33) apuntaba a un PDF en Drive y ahora lleva
+a `/catedras/`, con el botón «Buscar mi cátedra». Cambiado en la base.
 
 **Lo que quedó afuera:** el **Profesorado en Trabajo Social** no existe como
 carrera en la app, así que sus ocho mails no tienen dónde ir. Y el
@@ -314,11 +319,17 @@ la tarjeta que lo promete.** Es una promesa incumplida en la portada, dirigida
 justo al ingresante que es el público del 21. Escribir ese glosario es trabajo
 pendiente y sin fecha asignada.
 
-## Decisiones pendientes — se cierran el domingo 6
+## Decisiones pendientes — ✅ cerradas el domingo 6
 
-1. **¿Quién actualiza los horarios en marzo?** Si hay nombre y apellido, se
-   construyen completos (2 días). Si no, sale el cuadro oficial de la facultad
-   (medio día) y no puede mentir.
+**Las cuatro están contestadas.** Las tres que quedaban se cerraron hoy y las
+tres están hechas y publicadas.
+
+1. ~~**¿Quién actualiza los horarios en marzo?**~~ ✅ **Contestada el 6/9: no
+   van.** «Esa tarea se revisará el año que viene, cuando se tengan.» O sea que
+   los horarios **salen del cronograma del 21** y el jue 10 – vie 11 queda
+   libre. Lo que había detrás de la pregunta sigue en pie para marzo: unos
+   horarios propios que nadie actualice mienten el año entero, así que cuando
+   se retome, primero el nombre de quien los mantiene y después el código.
 2. ~~**¿Qué muestra la portada el 21?**~~ ✅ **Contestada el 5/9, y había un
    bug detrás.** El lugar de la alarma no queda vacío: lo ocupa lo próximo de la
    agenda. Pero ese renglón elegía mal —ordenaba por `fecha_desde`, así que
@@ -327,10 +338,27 @@ pendiente y sin fecha asignada.
    21/11, tapando «Día del estudiante». Arreglado: ahora dice **«Hoy · Día del
    estudiante»**. No era solo el 21: del 18/8 al 21/11 ese renglón mentía todos
    los días sin alarma.
-3. **¿Fechas conserva el tiempo real?** Si se cambia por «se refresca al
-   volver», esa pantalla baja 212 KB. Es sacar una función: no se toca sin que
-   Máximo lo diga.
-4. **El texto de la pestaña «Plan completo»**, que no entra y se recorta.
+3. ~~**¿Fechas conserva el tiempo real?**~~ ✅ **Contestada el 6/9: se refresca
+   al volver.** Hecho y publicado. Fechas era la única pantalla que cargaba la
+   librería grande de Supabase por UNA función, `db.channel(...)`: 212.718 bytes
+   por eso. Ahora usa el cliente chico (6.357) y vuelve a pedir los datos cuando
+   la pestaña se hace visible o el teléfono devuelve la página al tocar «atrás»,
+   con un freno de 15 segundos. El JS de la pantalla pasó de 287 KB a 79. Lo que
+   se pierde: quien tenga Fechas abierta **en ese momento** ve la novedad al
+   volver a la pantalla y no al instante.
+4. ~~**El texto de la pestaña «Plan completo»**~~ ✅ **Contestada el 6/9: dice
+   «Plan».** Hecho y publicado. Medido con las cuatro pestañas a la vista: en
+   375 px cada una recibe 78 px de texto y «Plan» ocupa 41; en 320 px reciben 64
+   y la palabra más ancha pasa a ser «FINALES», con 62,8. **Queda un píxel de
+   margen**: cualquier palabra nueva en esa fila se mide antes de escribirla.
+
+**Y se cerró de paso una decisión de contenido que estaba anotada arriba:**
+«Contacto de las cátedras» (ficha 33 de Info útil) ya no lleva al PDF de Drive
+sino a `/catedras/`. El dato está cambiado en la base. Trajo código atrás: todas
+las fichas se dibujaban como enlaces de afuera —pestaña nueva y «↗»—, y ahora la
+regla la decide el enlace (con `http://` va afuera; sin eso, adentro de la app).
+En el navegador de Instagram, que es el navegador real de esta app, abrir una
+pantalla propia en pestaña nueva rompe el botón de volver.
 
 ## Lo que depende de Máximo
 
