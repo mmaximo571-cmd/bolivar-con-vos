@@ -95,12 +95,13 @@ const DEL_ARMAZON = [
   '/iconos.js',
   '/config.js',
   '/lectura.js',
-  /* El cliente chico, que es el que usan seis de las diez pantallas.
+  /* El cliente chico, que es el que usa la mayoría de las pantallas
+     —desde el 6/9/2026 también Fechas—.
      La librería grande (`/lib/supabase.js`, 213 KB) YA NO se guarda de
-     entrada: la necesitan cuatro pantallas y guardarla acá obligaba a
-     bajarla en la primera visita aunque la persona nunca las abriera.
-     Igual queda guardada la primera vez que alguien entra a una de
-     esas cuatro, por la regla de más abajo. */
+     entrada: la necesitan tres pantallas y el panel, y guardarla acá
+     obligaba a bajarla en la primera visita aunque la persona nunca
+     las abriera. Igual queda guardada la primera vez que alguien entra
+     a una de ellas, por la regla de más abajo. */
   '/lib/datos.js',
   '/manifest.json',
   '/imagenes/icono-192.png',

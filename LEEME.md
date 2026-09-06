@@ -1107,23 +1107,29 @@ URL con `fetch`. Eso es `lib/datos.js`: **6.357 bytes**, el 3 %.
 
 | Carga | Pantallas | Por qué |
 |---|---|---|
-| `lib/datos.js` | Inicio, Estudiemos, ¿Quiénes somos?, Consejo, Anatomofisiología | Solo leen cosas publicadas |
-| `lib/supabase.js` | Info útil, Fechas, Mi año, Perfil, Panel | Sesión, archivos o tiempo real |
+| `lib/datos.js` | Inicio, Estudiemos, Fichas, Cátedras, ¿Quiénes somos?, Consejo, Anatomofisiología, **Fechas** | Solo leen cosas publicadas |
+| `lib/supabase.js` | Info útil, Mi año, Perfil, Panel | Sesión o archivos |
 
 **La forma de llamarlo es la misma en los dos** (`db.from('tabla').select('*')`),
 justamente para que cambiar de uno a otro sea tocar el `<script>` de arriba y
 nada más.
 
-Las cinco que siguen con la grande no es por casualidad:
+Las cuatro que siguen con la grande no es por casualidad:
 
 - **Info útil** y **Mi año** guardan cosas de quien inició sesión (trámites
   guardados, preparaciones). El token dura una hora y la librería grande lo
   **renueva sola**; el cliente chico no. Una sesión que no se renueva falla en
   silencio, y eso es lo peor que puede pasar.
-- **Fechas** usa `db.channel(...)` para que lo que publica el equipo aparezca
-  sin recargar. Eso es una conexión en vivo por WebSocket y no se resuelve con
-  `fetch`.
 - **Perfil** inicia sesión y **el Panel** además sube archivos.
+
+**Fechas estuvo en esa lista hasta el 6/9/2026** y salió: era la única que
+cargaba 212 KB por una sola función, `db.channel(...)`, la conexión en vivo que
+hacía aparecer lo que publicaba el equipo sin recargar. Se cambió por
+«se refresca al volver» —cuando la pestaña se vuelve visible o el teléfono
+devuelve la página al tocar «atrás»—, con un freno de 15 segundos para que
+alternar entre dos apps no dispare un pedido por toque. Lo que se pierde es que
+quien tenga Fechas abierta **en ese momento** ve la novedad al volver a la
+pantalla y no al instante; quien entre después la ve igual.
 
 **Si una pantalla del cliente chico necesita algo que no está**, no se agrega a
 medias: o se implementa bien en `lib/datos.js`, o esa pantalla vuelve a la

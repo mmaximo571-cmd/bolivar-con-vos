@@ -44,10 +44,14 @@
 <div id="pie"></div>
 
 <script>window.RAIZ = '../';</script>
-<!-- La librería de Supabase vive ACÁ ADENTRO, no en un servidor ajeno.
-     Versión 2.112.4, congelada. Antes se bajaba de cdn.jsdelivr.net en
-     cada visita: si esa descarga fallaba, la app quedaba en «Cargando…». -->
-<script src="../lib/supabase.js"></script>
+<!-- EL CLIENTE CHICO, y no la librería grande.
+     Esta pantalla solo lee una tabla pública, así que no necesita nada
+     de lo que la librería grande sabe hacer: sesión, subida de
+     archivos, cambios en vivo. Son 212 KB menos por visita, que es lo
+     que más pesa de toda la pantalla.
+     Lo único que se perdió con el cambio es el tiempo real; abajo está
+     con qué se reemplazó. -->
+<script src="../lib/datos.js"></script>
 <script src="../config.js"></script>
 <script src="../iconos.js"></script>
 <script src="../app.js"></script>
@@ -147,10 +151,13 @@
   let   diaElegido = null;
   let   primeraVez = true;
 
-  async function traer(){
+  /* `avisar` es false cuando esto corre al volver a la pantalla: ahí un
+     error no se muestra, porque taparía con un cartel una agenda que
+     ya estaba a la vista y era correcta. */
+  async function traer(avisar = true){
     const { data, error } = await db.from('publicaciones')
       .select('*').eq('publicado', true).order('creado_at', { ascending:false });
-    if (error){ mostrarError(zonas, error, 'cargar la agenda'); return false; }
+    if (error){ if (avisar) mostrarError(zonas, error, 'cargar la agenda'); return false; }
     publicaciones = data;
     return true;
   }
@@ -343,28 +350,56 @@
     })();
   }
 
-  if (await traer()){
-    dibujar();
+  function montarCal(){
     montarCalendario(cajaCal, publicaciones,
       iso => mostrarDia(iso),
       (anio, mes) => abrirMes(`${anio}-${String(mes).padStart(2,'0')}`));
   }
 
-  /* Realtime: si el equipo publica algo, aparece sin recargar */
-  db.channel('agenda-viva')
-    .on('postgres_changes', { event:'*', schema:'public', table:'publicaciones' },
-        async () => {
-          recordarAbiertos();
-          if (!await traer()) return;
-          dibujar();
-          /* El calendario se rehace para que la fecha nueva aparezca
-             marcada. Vuelve al mes en curso, que es aceptable: esto
-             pasa cuando el equipo publica algo, no mientras navegás. */
-          montarCalendario(cajaCal, publicaciones,
-            iso => mostrarDia(iso),
-            (anio, mes) => abrirMes(`${anio}-${String(mes).padStart(2,'0')}`));
-        })
-    .subscribe();
+  if (await traer()){
+    dibujar();
+    montarCal();
+  }
+
+  /* ---------- SE REFRESCA AL VOLVER ----------
+
+     Acá había tiempo real: un canal abierto contra la base que traía
+     lo que el equipo publicaba sin que nadie recargara. Se cambió el
+     6/9/2026 por decisión de Máximo, y lo que se compró con eso son
+     212 KB menos por visita —el canal es lo único que obligaba a bajar
+     la librería grande de Supabase en esta pantalla—.
+
+     Lo que se pierde es chico: quien tenga «Fechas» abierta EN ESE
+     MOMENTO ve la publicación nueva al volver a la pantalla, y no al
+     instante. Quien entre después la ve igual.
+
+     Al volver es literal: cuando la pestaña se vuelve visible, y
+     cuando el teléfono devuelve la página desde su memoria (`pageshow`
+     con `persisted`, que es lo que pasa al tocar «atrás» y es el caso
+     más común de todos). No hay temporizador dando vueltas.        */
+  let ultimoRefresco = Date.now();
+  let refrescando = false;
+
+  async function refrescarAlVolver(){
+    if (refrescando || document.visibilityState !== 'visible') return;
+    /* Cambiar de app y volver enseguida no es «volver a la pantalla»:
+       sin esto, alternar entre dos apps dispara un pedido por toque. */
+    if (Date.now() - ultimoRefresco < 15000) return;
+    refrescando = true;
+    try {
+      recordarAbiertos();
+      /* Sin avisar: si al volver no hay red, lo que corresponde es
+         dejar a la vista lo que ya estaba, no reemplazar la agenda
+         por un cartel de error. */
+      if (!await traer(false)) return;
+      ultimoRefresco = Date.now();
+      dibujar();
+      montarCal();
+    } finally { refrescando = false; }
+  }
+
+  document.addEventListener('visibilitychange', refrescarAlVolver);
+  window.addEventListener('pageshow', e => { if (e.persisted) refrescarAlVolver(); });
 
 })();
 </script>
