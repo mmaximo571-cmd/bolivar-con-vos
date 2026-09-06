@@ -14,8 +14,13 @@ Si algo de acá quedó viejo, se corrige acá mismo al cerrar la sesión.
 - **Lanzamiento: lunes 21 de septiembre de 2026**, Día del Estudiante, con
   campaña en Instagram a 4.213 seguidores. **La fecha no se mueve: se mueve el
   alcance.**
-- Hoy es **5 de septiembre**. El sábado libre se usó para las fichas de
-  estudio, y con eso **el sábado 12 quedó hecho una semana antes**.
+- Hoy es **domingo 6 de septiembre**: el día de cerrar las decisiones.
+- **Máximo viaja del miércoles 9 al sábado 12**, a otra provincia. Son cuatro
+  de los siete días que quedan hasta el congelamiento, y son exactamente los
+  días en que el cronograma ponía las tareas que esperan material suyo.
+  **Todo lo que necesite a Máximo hay que cerrarlo antes del miércoles.**
+- El sábado 5 se usó para las fichas de estudio, y con eso **el sábado 12
+  quedó hecho una semana antes**.
 - La app ya está viva en `bolivar-con-vos.vercel.app`. Vercel publica solo con
   cada `push` a `main`.
 
