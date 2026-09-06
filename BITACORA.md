@@ -24,11 +24,16 @@ Si algo de acá quedó viejo, se corrige acá mismo al cerrar la sesión.
 - El sábado 5 se usó para las fichas de estudio, y con eso **el sábado 12
   quedó hecho una semana antes**.
 - **Al cerrar el domingo 6, el cronograma de acá al congelamiento del 13 está
-  vacío salvo una tarea.** El mar 8 y el mié 9 también quedaron adelantados —los
-  contactos, y el plan que se imprime en vez de publicarse en PDF—. Lo único que
-  queda es el **glosario universitario**, que no espera nada de nadie y hoy es
-  una promesa incumplida en la portada, dirigida justo al ingresante que es el
-  público del 21. **Es la última función que entra antes del congelamiento.**
+  vacío.** El mar 8, el mié 9 y el jue 10 – vie 11 quedaron todos adelantados:
+  los contactos, el plan que se imprime en vez de publicarse en PDF, y el
+  glosario. **La última función del cronograma entró el 6, siete días antes del
+  congelamiento.** Del 7 al 13 no queda ninguna tarea asignada.
+- **Lo que sigue no es construir, es probar.** Con siete días libres antes del
+  13 y una semana más de contenido y campaña, lo que falta es lo que nunca se
+  pudo verificar acá: todo lo que depende del service worker —caché, andar sin
+  señal, que Chrome ofrezca instalar— se prueba en producción, con el teléfono
+  en la mano y con la app entrando por el navegador de Instagram, que es el
+  navegador real de esta app. Eso no lo puede hacer nadie desde esta máquina.
 - La app ya está viva en `bolivar-con-vos.vercel.app`. Vercel publica solo con
   cada `push` a `main`.
 
@@ -79,6 +84,7 @@ sobre los otros. Ahora mandan así, y no se abre un quinto:
 | 6/9 | **Los contactos de Avisanos, cargados** (7 nuevos). Y con eso aparecieron dos cosas rotas: el único contacto real que había estaba sin código de país, así que `wa.me` contestaba «número no válido» y el traspaso terminaba en un error; y el chat decía «SITIO OFICIAL» encima de preguntas frecuentes y de fichas que llevan adentro de la app | `467117d` |
 | 6/9 | **El plan de estudios se imprime, y el PDF de 3,6 MB no se publica.** La pestaña «Plan» ya decía lo mismo que el archivo de la facultad y viaja con la app sin internet. Ahora esa vista se imprime con encabezado propio, sale aunque estés parado en otra pestaña, y en modo oscuro la hoja igual sale blanca. El cuadro del navegador ofrece «Guardar como PDF», así que de ahí salen el papel y el archivo. `v27` | `dbe9fcf` |
 | 6/9 | **El botón de imprimir estaba al final del plan, o sea en ninguna parte.** Quedaba debajo de las cuarenta y dos materias, de las que se rinden libres y de la nota del asterisco: a cinco pantallas de scroll de donde se abre la pestaña. Máximo no lo encontró. Ahora abre la pestaña «Plan», arriba de PRIMER AÑO: a 350 px del principio contra los ~6.000 de antes. `v28` | `0992a25` |
+| 6/9 | **Existe el glosario**, y la tarjeta de la portada deja de mentir. Once palabras que escribió Máximo, en tres grupos, con la respuesta corta en una línea y el detalle abajo. Cinco llevan a donde se hace la cosa. El texto va en el HTML y no en Supabase: es el reglamento, y así se lee sin señal. **Era la última función del cronograma.** `v29` | `19fba30` |
 
 **Ojo con lo de las materias libres.** El listado sale de un documento que se
 llama, textualmente, «**Propuesta** de materias libres … para agregar al régimen
@@ -114,7 +120,7 @@ entran 2 o 3 sesiones.
 | lun 7 | ✅ Adelantado al vie 4. **Queda libre** | — |
 | mar 8 | ✅ Adelantado al dom 6: los contactos ya están cargados y andando. **Queda libre** | — |
 | mié 9 | ✅ Adelantado al dom 6. **El plan en PDF no va: va impreso.** Ver abajo | — |
-| jue 10 – vie 11 | **Libre**: los horarios se fueron al año que viene. Candidato natural, el **glosario del kit de ingreso**, que no espera nada de Máximo y hoy es una promesa incumplida en la portada | — |
+| jue 10 – vie 11 | ✅ Adelantado al dom 6: **el glosario está hecho y publicado**. Los horarios se fueron al año que viene. **Queda libre** | — |
 | sáb 12 | ✅ Adelantado al sáb 5. **Queda libre** | — |
 | **dom 13** | **Congelamiento.** Última línea de función nueva | — |
 | lun 14 – dom 20 | Contenido, pruebas y campaña. **Todo arriba el 20** | — |
@@ -358,6 +364,38 @@ archivo, y el archivo sale con lo que la persona tenga marcado.
 **Lo que se pierde:** el PDF original tiene el sello y la firma de la facultad,
 y la hoja impresa no. Si alguna vez hace falta el documento oficial para un
 trámite, va como enlace a Drive, no como archivo en el repositorio.
+
+### El glosario, y las dos cosas que hay que confirmar (6/9)
+
+Las once definiciones las escribió Máximo y están publicadas tal como las
+mandó, salvo dos retoques y dos dudas. **Viven en `glosario/index.html` y en
+ningún otro lado**: no salen de Supabase a propósito, porque son el reglamento
+—no cambian de un mes para el otro— y así la pantalla se lee sin señal, que es
+cuando el ingresante la necesita: en el pasillo, antes de entrar a Alumnado.
+Si algo de esto cambia, se edita ese archivo.
+
+**Lo que se cambió del original, y por qué:**
+
+- **La dirección del SIU.** El texto decía `guarani.unlp.edu.ar`, que es el
+  genérico de la Universidad. Se puso el de la Facultad —
+  `guarani-trabajosocial.unlp.edu.ar/acceso`— que es el que la app ya usa en el
+  pie, en Info útil y en el linktree. Está anotado en `app.js` que ninguna de
+  esas tres direcciones se pone de memoria.
+- **«Agrupacion» sin tilde**, en la entrada del CEFTS. En la misma oración la
+  otra estaba bien escrita: era un tipeo.
+
+**Las dos que hay que confirmar, y no se tocaron:**
+
+1. **«Agrupación Gustavo Legardon».** Va publicado tal cual lo escribió Máximo.
+   Si el apellido lleva tilde —Legardón—, es un solo carácter en
+   `glosario/index.html`. No se corrigió de memoria: es el nombre de una
+   agrupación compañera, y ni «Legardon» ni «Frente Malvinas Argentinas»
+   aparecían antes en ninguna parte de la app, así que no había con qué
+   contrastarlo.
+2. **Los turnos de examen.** La entrada dice «febrero, marzo, mayo, julio,
+   agosto, septiembre, octubre y diciembre». Son ocho y salen del texto de
+   Máximo; la agenda de la app tiene sus propias fechas cargadas. Si alguna vez
+   se contradicen, manda la agenda, que es la que se actualiza.
 
 ### El «Kit de Inicio» del cronograma quedó viejo (4/9)
 
