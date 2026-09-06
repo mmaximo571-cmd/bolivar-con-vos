@@ -83,8 +83,15 @@
    porque se sirve red primero, pero la hoja sale de lo guardado: sin
    subir el numero, la pregunta aparece adentro de la tarjeta amarilla
    y los tres botones de carrera quedan sin estilo, uno abajo del otro
-   como texto pelado. */
-const VERSION = 'bolivar-v23';
+   como texto pelado.
+   v24 (6/9/2026) `estilos.css` y `app.js`: las fichas de dato en Mi año
+   y el índice de secciones en el pie de todas las pantallas. Sin subir
+   el numero pasan las dos cosas peores del caso: el `app.js` viejo
+   nunca dibuja el índice —o sea que la mitad del cambio no llega— y en
+   Mi año el HTML nuevo pide clases (`ficha-dato`, `progreso-barra`)
+   que la hoja guardada no tiene, así que el promedio y los finales
+   quedan como texto suelto sin caja, sin borde y sin tamaño. */
+const VERSION = 'bolivar-v24';
 const ARMAZON = VERSION + '-armazon';
 const PAGINAS = VERSION + '-paginas';
 

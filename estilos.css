@@ -163,6 +163,12 @@
   --letra-guia:   18px;  /* la bajada de cada pantalla            */
   --letra-sub:    21px;  /* titulos de seccion                    */
   --letra-titulo: 30px;  /* el titulo de la pantalla              */
+  /* La escala terminaba en el titulo de la pantalla, y por eso los
+     numeros grandes —el promedio, la nota— estaban escritos a mano en
+     34 y 32px. Un dato tiene que poder ser mas grande que un titulo:
+     adentro de su ficha ES el titulo, y lo que lo rodea son rotulos de
+     12px. Si el numero se queda en 30 la ficha no tiene jerarquia. */
+  --letra-dato:   38px;  /* el numero solo de una ficha de dato   */
 
   /* --- LA ESCALA DE ESPACIO ---
 
@@ -763,7 +769,7 @@ svg.ico{width:1em;height:1em;display:block;flex:0 0 auto}
    cambia de tamaño y no se mueve nada de lugar.
    ============================================================ */
 .tarjeta, .tarjeta-cuadro, .tarjeta-kit, .boton-cuadro, .ficha,
-.calendario, .carrusel, .alarma, .mi-cursada, .progreso,
+.calendario, .carrusel, .alarma, .mi-cursada, .progreso-barra, .ficha-dato,
 .mapa-marco, .bloque-texto, .buscador input{
   border-color:var(--tinta-borde);
 }
@@ -1023,11 +1029,23 @@ svg.ico{width:1em;height:1em;display:block;flex:0 0 auto}
      gris     = todavía no podés  celeste  = final pendiente
    ============================================================ */
 
-/* --- Barra de progreso --- */
-.progreso{
+/* --- Barra de progreso ---
+
+   ANTES ERA UNA SOLA CAJA con todo adentro: la barra, «8 de 31
+   materias aprobadas», el promedio y «te quedan 2 finales» apilados
+   como renglones de un parrafo. Los cuatro datos pesaban lo mismo, o
+   sea que ninguno se leia primero.
+
+   Ahora son piezas separadas —una por dato— y adentro de cada una hay
+   tres tamanos bien distintos: rotulo de 12, numero de 38, pie de 13.
+   La jerarquia sale del TAMANO y no del color: la app tiene cuatro
+   colores contados y ninguno sobra para teñir fichas. */
+.progreso{ margin-bottom:18px }
+.progreso-barra{
   background:var(--superficie);border:1px solid var(--linea);border-radius:var(--radio);
-  padding:14px;box-shadow:var(--sombra);margin-bottom:18px
+  padding:12px 13px;box-shadow:var(--sombra)
 }
+.progreso-barra .barra{margin-top:10px}
 .barra{background:var(--linea);border-radius:var(--radio-pastilla);height:10px;overflow:hidden}
 /* LA BARRA SE DIBUJA, NO APARECE DIBUJADA.
 
@@ -1062,27 +1080,51 @@ svg.ico{width:1em;height:1em;display:block;flex:0 0 auto}
   .barra-llena{transition:none}
   @starting-style{ .barra-llena{transform:scaleX(calc(var(--llena,0) / 100))} }
 }
-.progreso-datos{
-  display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap;
-  margin-top:9px;font-size:var(--letra-densa);color:var(--texto-suave)
-}
-.progreso-datos strong{
-  font-family:var(--fuente-titulo);font-size:var(--letra-sub);color:var(--texto);
-  vertical-align:-1px;margin-right:2px
-}
-.progreso-extra{margin-top:6px;font-size:var(--letra-densa);color:var(--texto-suave)}
+/* --- LAS FICHAS DE DATO ---
 
-/* El promedio. Es opcional: solo aparece si hay al menos una nota. */
-.promedio{
-  display:flex;align-items:center;gap:12px;
-  margin-top:12px;padding-top:12px;border-top:1px solid var(--linea)
+   Una ficha, un dato. Se dibujan solo las que tienen algo que decir:
+   sin notas cargadas no hay ficha de promedio, y sin finales
+   pendientes no hay ficha de finales. Una ficha con un cero adentro
+   ocupa el mismo lugar que una con informacion y no dice nada.
+
+   La grilla es auto-fit y no dos columnas fijas: en un telefono de
+   375px entran dos y la tercera pasa abajo a lo ancho; en una tablet
+   entran las tres. Si queda una sola, ocupa todo y no queda media
+   fila vacia al lado. */
+.fichas-dato{
+  display:grid;grid-template-columns:repeat(auto-fit,minmax(138px,1fr));
+  gap:10px;margin-top:10px
 }
-.promedio-numero{
-  font-family:var(--fuente-titulo);font-weight:400;font-size:34px;line-height:1;
-  color:var(--celeste)
+/* La que queda sola en la ultima fila ocupa el ancho entero. Sin esto,
+   con tres fichas en un telefono, la tercera se queda en la columna de
+   la izquierda y al lado queda un hueco del tamano de una ficha, que
+   se lee como que algo falta. La regla vale solo mientras las columnas
+   sean dos: mas arriba entran las tres y no sobra ninguna. */
+@media (max-width:559px){
+  .fichas-dato > :last-child:nth-child(odd){ grid-column:1 / -1 }
 }
-.promedio-detalle{font-size:var(--letra-densa);line-height:1.25;color:var(--texto)}
-.promedio-detalle small{color:var(--texto-suave);font-size:var(--letra-nota)}
+.ficha-dato{
+  background:var(--superficie);border:1px solid var(--linea);border-radius:var(--radio);
+  padding:12px 13px;box-shadow:var(--sombra)
+}
+.ficha-rotulo{
+  font-family:var(--fuente-sub);font-weight:700;font-size:var(--letra-mini);
+  letter-spacing:.1em;text-transform:uppercase;color:var(--texto-suave);margin:0
+}
+.ficha-numero{
+  font-family:var(--fuente-titulo);font-weight:400;font-size:var(--letra-dato);
+  line-height:1;color:var(--texto);margin:7px 0 6px
+}
+/* El «%» y el «de 31» que acompanan al numero. Van adentro del numero
+   y no en el pie porque se leen JUNTO con el, pero a la mitad de
+   tamano: si fueran del mismo cuerpo, el dato dejaria de ser uno. */
+.ficha-numero small{
+  font-family:var(--fuente-sub);font-weight:700;font-size:var(--letra-sub);
+  color:var(--texto-suave);margin-left:3px
+}
+.ficha-pie{
+  font-size:var(--letra-chica);line-height:1.3;color:var(--texto-suave);margin:0
+}
 
 /* El campo de nota, adentro de la ficha de una materia aprobada */
 /* --- La nota ya cargada, en el detalle de la materia --- */
@@ -3342,6 +3384,45 @@ details.tarjeta .respuesta{margin-top:9px;color:var(--texto-suave);font-size:var
 }
 .cierre-puerta:active{transform:translate(2px,2px)}
 .cierre-flecha{font-size:20px;line-height:1}
+
+/* ---- EL ÍNDICE DEL PIE ----
+
+   Texto plano, no tarjetas. Es a propósito: una lista de renglones se
+   barre de arriba abajo de un vistazo, y una grilla de cajas obliga a
+   mirar de a una. Acá abajo lo que se busca es una sección puntual,
+   no que algo llame la atención.
+
+   Una sola columna en el teléfono y dos desde los 200px por columna:
+   los nombres son largos («Universidad Nacional de La Plata») y
+   partidos en dos columnas angostas se cortan en tres renglones.
+
+   Los renglones llegan a los 48px como todo lo tocable de la app,
+   aunque la letra sea de 15: en el pie es donde más se toca al lado
+   de lo que se quiso tocar. */
+.cierre-indice{
+  display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));
+  gap:22px 26px;margin-top:34px
+}
+.indice-titulo{
+  font-family:var(--fuente-sub);font-weight:700;font-size:var(--letra-mini);
+  letter-spacing:.1em;text-transform:uppercase;
+  color:var(--sobre-negro-tenue);margin:0 0 4px
+}
+.indice-lista{list-style:none;margin:0;padding:0}
+.indice-lista a{
+  display:flex;align-items:center;gap:6px;min-height:48px;padding:4px 0;
+  color:var(--sobre-negro);text-decoration:none;
+  font-size:var(--letra-densa);line-height:1.3
+}
+.indice-lista a:hover{text-decoration:underline}
+/* La sección donde estás parada. Sin color: el amarillo de esta banda
+   ya está gastado en «decinos», que es lo único que le pedimos a
+   alguien. Alcanza con el peso y la línea. */
+.indice-lista a[aria-current="page"]{
+  font-family:var(--fuente-sub);font-weight:700;
+  text-decoration:underline;text-underline-offset:4px
+}
+.indice-fuera{font-size:var(--letra-chica);color:var(--sobre-negro-tenue)}
 .cierre-firma{
   /* En la tipografia de texto y no en la de datos: es prosa, no un dato,
      y en mono a 13px «CEFTS» se caia solo a un renglon. */

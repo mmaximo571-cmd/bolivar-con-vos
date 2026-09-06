@@ -597,22 +597,47 @@ function pintarProgreso(){
   }
   caja.hidden = false;
 
+  /* UNA FICHA POR DATO, Y SOLO SI TIENE ALGO QUE DECIR. Antes los
+     cuatro datos iban apilados adentro de la misma caja, en forma de
+     oración, y ninguno se leía primero. Las que quedan en cero no se
+     dibujan: una ficha con un cero adentro ocupa lo mismo que una con
+     información. */
+  /* Los rótulos son de una palabra a propósito. Con «Cursando ahora» y
+     «Finales pendientes» uno entraba en un renglón y el otro en dos, y
+     entonces los números de las dos fichas de al lado quedaban a
+     distinta altura. Lo largo va abajo, en el pie, donde no arrastra
+     nada. */
+  const fichas = [];
+  if (cursandoAhora) fichas.push({
+    rotulo:'Cursando',
+    numero:cursandoAhora,
+    pie:cursandoAhora === 1 ? 'materia este cuatrimestre' : 'materias este cuatrimestre'
+  });
+  if (cursadas) fichas.push({
+    rotulo:cursadas === 1 ? 'Final' : 'Finales',
+    numero:cursadas,
+    pie:cursadas === 1 ? 'cursada esperando el final' : 'cursadas esperando el final'
+  });
+  if (prom) fichas.push({
+    rotulo:'Promedio',
+    numero:prom.valor.toFixed(2).replace('.', ','),
+    pie:'con ' + prom.cuantas + (prom.cuantas === 1 ? ' nota cargada' : ' notas cargadas') +
+        ' de ' + prom.deCuantas + (prom.deCuantas === 1 ? ' aprobada' : ' aprobadas')
+  });
+
   caja.innerHTML = `
-    <div class="barra"><div class="barra-llena" style="--llena:${pct}"></div></div>
-    <div class="progreso-datos">
-      <div><strong>${aprobadas}</strong> de ${total} materias aprobadas</div>
-      <div>${pct}% de la carrera</div>
+    <div class="progreso-barra">
+      <p class="ficha-rotulo">De la carrera</p>
+      <p class="ficha-numero">${pct}<small>%</small></p>
+      <p class="ficha-pie">${aprobadas} de ${total} materias aprobadas</p>
+      <div class="barra"><div class="barra-llena" style="--llena:${pct}"></div></div>
     </div>
-    ${prom ? `<div class="promedio">
-        <span class="promedio-numero">${prom.valor.toFixed(2).replace('.', ',')}</span>
-        <span class="promedio-detalle">de promedio<br>
-          <small>con ${prom.cuantas} ${prom.cuantas === 1 ? 'nota cargada' : 'notas cargadas'}
-          de ${prom.deCuantas} ${prom.deCuantas === 1 ? 'materia aprobada' : 'materias aprobadas'}</small>
-        </span>
-      </div>` : ''}
-    ${cursadas ? `<div class="progreso-extra">${cursadas === 1 ? 'Te queda' : 'Te quedan'}
-       <strong>${cursadas}</strong>
-       ${cursadas === 1 ? 'final pendiente' : 'finales pendientes'}.</div>` : ''}`;
+    ${fichas.length ? `<div class="fichas-dato">` + fichas.map(f => `
+      <div class="ficha-dato">
+        <p class="ficha-rotulo">${esc(f.rotulo)}</p>
+        <p class="ficha-numero">${esc(String(f.numero))}</p>
+        <p class="ficha-pie">${esc(f.pie)}</p>
+      </div>`).join('') + `</div>` : ''}`;
 }
 
 /* ============================================================

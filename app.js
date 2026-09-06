@@ -561,6 +561,38 @@ const SECCIONES_ABAJO = [
 ].map(a => Object.assign({}, SECCIONES.find(s => s.id === a.id), a));
 
 /* ------------------------------------------------------------
+   EL ÍNDICE DEL PIE
+
+   La barra de abajo lleva cuatro y el ☰ lleva siete. El pie las
+   lleva TODAS, en texto plano: una lista de texto se barre de un
+   vistazo, y una grilla de tarjetas hay que mirarla de a una. Es lo
+   que hace que el final de la pantalla se sienta como el final de un
+   sitio y no como el punto donde se acabó el contenido.
+
+   Cátedras está acá y no en SECCIONES a propósito: no entra ni en la
+   barra de abajo ni en el ☰ —serían ocho— pero es una pantalla
+   entera, y hoy solo se llega a ella desde adentro de Mi año o de
+   Info útil. En el pie deja de estar enterrada sin mover la
+   navegación de lugar.
+   ------------------------------------------------------------ */
+const INDICE_PIE = SECCIONES.concat([
+  { id:'catedras', texto:'Cátedras y contactos', url:RAIZ+'catedras/' }
+]);
+
+/* Los sistemas de la facultad y de la universidad. No son de la app:
+   por eso van aparte, con la flecha que avisa que se sale, y con el
+   aviso escrito para quien navega escuchando.
+
+   Las tres direcciones son las que la app ya usa en otras pantallas.
+   NO agregar ninguna de memoria: una dirección mal copiada acá se
+   publica en las doce pantallas de una. */
+const SISTEMAS_UNLP = [
+  { texto:'SIU Guaraní',            url:'https://www.guarani-trabajosocial.unlp.edu.ar/acceso' },
+  { texto:'Facultad de Trabajo Social', url:'https://trabajosocial.unlp.edu.ar/' },
+  { texto:'Universidad Nacional de La Plata', url:'https://unlp.edu.ar/' }
+];
+
+/* ------------------------------------------------------------
    CABECERA
    Tres partes: el menu a la izquierda, la marca en el centro y
    Mi cuenta a la derecha. La marca queda centrada de verdad porque
@@ -723,6 +755,13 @@ function vigilarTitulos(){
 function pintarNav(actual){
   const cabecera = document.querySelector('.cabecera');
   if (!cabecera) return;
+
+  /* La sección actual, marcada también en el índice del pie. Se hace
+     desde acá y no adentro de htmlPie() porque las doce pantallas la
+     llaman sin argumentos, y pintarNav —que sí sabe dónde estamos— se
+     ejecuta siempre justo después. */
+  const enPie = document.querySelector('.cierre-indice [data-seccion="' + actual + '"]');
+  if (enPie) enPie.setAttribute('aria-current', 'page');
 
   /* Va al final del cuerpo, no debajo de la cabecera: es una barra fija
      abajo. Se conserva la clase `secciones` a propósito, para que sigan
@@ -1122,6 +1161,24 @@ function htmlPie(){
           <span>Quiénes hacemos esto</span>
           <span class="cierre-flecha" aria-hidden="true">→</span>
         </a>
+
+        <nav class="cierre-indice" aria-label="Todas las secciones">
+          <div class="indice-grupo">
+            <h2 class="indice-titulo">Secciones</h2>
+            <ul class="indice-lista">${INDICE_PIE.map(s =>
+              `<li><a href="${s.url}" data-seccion="${esc(s.id)}">${esc(s.texto)}</a></li>`
+            ).join('')}</ul>
+          </div>
+          <div class="indice-grupo">
+            <h2 class="indice-titulo">Sistemas de la UNLP</h2>
+            <ul class="indice-lista">${SISTEMAS_UNLP.map(s =>
+              `<li><a href="${s.url}" target="_blank" rel="noopener noreferrer">${esc(s.texto)}<span
+                 class="indice-fuera" aria-hidden="true">↗</span><span
+                 class="solo-lectores"> (se abre fuera de la app)</span></a></li>`
+            ).join('')}</ul>
+          </div>
+        </nav>
+
         <p class="cierre-firma">Agrupación Simón Bolívar · Conducción del CEFTS<br>
           Facultad de Trabajo Social · UNLP</p>
       </div>

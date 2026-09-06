@@ -368,6 +368,7 @@ pantalla propia en pestaña nueva rompe el botón de volver.
 | ~~Correr `tabla-registro.sql` de nuevo~~ | ✅ hecho. Verificado el 5/9 contra la base: entran los cuatro hitos (9 anotados) |
 | **Etiquetar los links de Instagram** con `?de=`: `bolivar-con-vos.vercel.app/?de=historia-carreras`. Un nombre distinto por publicación, en minúscula y con guiones. Sin etiqueta la visita se cuenta igual, pero no se sabe de dónde vino | antes del 21 |
 | Mirar la solapa **Registro** y el campo **«¿Alimenta la alarma?»** en el panel | cuanto antes |
+| **La dirección de Aulas Web.** Va en el índice del pie, junto a SIU Guaraní y la Facultad, pero no está escrita en ninguna parte de la app y desde acá no contesta. No se puso ninguna de memoria: una dirección mal copiada en el pie se publica en las doce pantallas de una | cuando la tengas |
 | ~~Prender *Leaked password protection*~~ | ❌ **No se puede: es de plan Pro.** Cerrado el 5/9. **NO apagar el alta de cuentas**: el registro de estudiantes es a propósito, ya está hecho en `mi/`, y es lo que va a permitir personalizar la app |
 | ~~Confirmar el mail con tildes de «Promoción y prevención en audiología»~~ | ✅ confirmado el 5/9: era un error de tipeo. Ya publicado sin tildes. **Falta escribirle una vez** para saber si la casilla existe |
 | ~~Los mails de las cátedras~~ | ✅ entregados el 4/9 |
