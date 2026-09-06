@@ -63,7 +63,8 @@ sobre los otros. Ahora mandan así, y no se abre un quinto:
 | 5/9 | La portada, una vez por día, y botón **Crear mi cuenta** en la bienvenida | `8d3a12b` |
 | 5/9 | El calendario, con nombre y flechas para quien no lo ve | `7c40e93` |
 | 5/9 | **Las secciones se van abajo y son cuatro** (Inicio · Mi año · Estudiemos · Mi perfil). El calendario y el carrusel bajan al final. `v21` | `cca4d84` |
-| 6/9 | **La portada pregunta en vez de invitar:** «¿Qué estás estudiando?» con las tres carreras, y después «¿Querés cargar tu trayectoria académica?». Se contesta ahí mismo; la carrera elegida se guarda en la llave de «Mi año», así que al entrar ya no se le vuelve a preguntar. Quien ya cargó su cursada sigue viendo la barra. `v23` | (este commit) |
+| 6/9 | **La portada pregunta en vez de invitar:** «¿Qué estás estudiando?» con las tres carreras, y después «¿Querés cargar tu trayectoria académica?». Se contesta ahí mismo; la carrera elegida se guarda en la llave de «Mi año», así que al entrar ya no se le vuelve a preguntar. Quien ya cargó su cursada sigue viendo la barra. `v23` | `8c7e407` |
+| 6/9 | La bajada de la bienvenida deja de ser solo identidad: cada oración es uno de los tres botones —entrar, y armar la cuenta—. **No promete que la cuenta dé acceso a nada**, porque no lo da: `mi/` dice dos veces que la app anda entera sin cuenta. Sin `v` nueva: es solo `index.html`, que va por red primero | (este commit) |
 
 **Ojo con lo de las materias libres.** El listado sale de un documento que se
 llama, textualmente, «**Propuesta** de materias libres … para agregar al régimen
