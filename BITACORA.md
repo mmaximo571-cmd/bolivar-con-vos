@@ -54,7 +54,10 @@ sobre los otros. Ahora mandan así, y no se abre un quinto:
 | 5/9 | `PROMPT-DISENO.md`: el molde para que lo que salga de Gemini entre sin traducir | `2a3e0a1` |
 | 5/9 | **La carga rota de cada publicación.** El registro mostró «memoriaDe is not defined» en la portada: HTML nuevo con `app.js` viejo. Ahora recarga una sola vez cuando entra la versión nueva. `v20` | `4f1c0dd` |
 | 5/9 | **Borrar mi cuenta**, y la nota de qué se guarda / quién lo ve / cómo se borra en la pantalla de registro. `tabla-borrar-cuenta.sql` **ya está aplicado** en Supabase | `c9a2f41` |
-| 5/9 | El renglón de «lo próximo» elegía lo más viejo y lo llamaba «Hoy». El 21 iba a tapar «Día del estudiante» con un período de tres meses | (este commit) |
+| 5/9 | El renglón de «lo próximo» elegía lo más viejo y lo llamaba «Hoy». El 21 iba a tapar «Día del estudiante» con un período de tres meses | `e4b1f7c` |
+| 5/9 | La portada, una vez por día, y botón **Crear mi cuenta** en la bienvenida | `8d3a12b` |
+| 5/9 | El calendario, con nombre y flechas para quien no lo ve | `7c40e93` |
+| 5/9 | **Las secciones se van abajo y son cuatro** (Inicio · Mi año · Estudiemos · Mi perfil). El calendario y el carrusel bajan al final. `v21` | (este commit) |
 
 **Ojo con lo de las materias libres.** El listado sale de un documento que se
 llama, textualmente, «**Propuesta** de materias libres … para agregar al régimen

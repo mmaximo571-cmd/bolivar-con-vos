@@ -534,6 +534,33 @@ const SECCIONES = [
 ];
 
 /* ------------------------------------------------------------
+   LAS CUATRO DE LA BARRA DE ABAJO
+
+   Siete secciones arriba no entraban en un celular: la fila se
+   deslizaba, y lo que quedaba afuera —Fechas, Perfil, ¿Quiénes somos?—
+   había que ir a buscarlo con el dedo o por el ☰. Deslizar para
+   descubrir que existe una sección es pedirle a alguien que adivine.
+
+   Ahora son cuatro, abajo, fijas y sin deslizar: las cuatro entran
+   enteras y se llegan con el pulgar, que es donde está la mano cuando
+   se sostiene el teléfono. Las otras tres siguen completas en el ☰, que
+   no perdió nada.
+
+   Por qué estas cuatro: Inicio y Mi año son a dónde se vuelve, y
+   Estudiemos y Mi perfil son lo que estamos empujando para el 21. Info
+   útil y Fechas se usan de a ratos y tienen sus propias puertas adentro
+   de Inicio; ¿Quiénes somos? se lee una vez.
+
+   El texto de acá gana sobre el de SECCIONES: arriba decía «Perfil» y
+   abajo dice «Mi perfil», que es como lo nombró Máximo. */
+const SECCIONES_ABAJO = [
+  { id:'inicio',     texto:'Inicio'     },
+  { id:'carrera',    texto:'Mi año'     },
+  { id:'estudiemos', texto:'Estudiemos' },
+  { id:'mi',         texto:'Mi perfil'  }
+].map(a => Object.assign({}, SECCIONES.find(s => s.id === a.id), a));
+
+/* ------------------------------------------------------------
    CABECERA
    Tres partes: el menu a la izquierda, la marca en el centro y
    Mi cuenta a la derecha. La marca queda centrada de verdad porque
@@ -697,9 +724,13 @@ function pintarNav(actual){
   const cabecera = document.querySelector('.cabecera');
   if (!cabecera) return;
 
-  cabecera.insertAdjacentHTML('afterend',
-    `<nav class="secciones" aria-label="Secciones"><div class="envoltura secciones-fila">` +
-    SECCIONES.map(s => `<a href="${s.url}"${s.id===actual ? ' aria-current="page"' : ''}>
+  /* Va al final del cuerpo, no debajo de la cabecera: es una barra fija
+     abajo. Se conserva la clase `secciones` a propósito, para que sigan
+     valiendo el foco, el toque y el tamaño de los íconos que ya estaban
+     escritos; lo que cambia de lugar lo agrega `abajo`. */
+  document.body.insertAdjacentHTML('beforeend',
+    `<nav class="secciones abajo" aria-label="Secciones"><div class="envoltura secciones-fila">` +
+    SECCIONES_ABAJO.map(s => `<a href="${s.url}"${s.id===actual ? ' aria-current="page"' : ''}>
         <span class="icono">${icono(s.id) || s.icono}</span>${esc(s.texto)}</a>`).join('') +
     `</div></nav>`);
 
@@ -1077,13 +1108,18 @@ function desdeCuando(cuando){
   return 'hace ' + dias + ' días';
 }
 
-/* El renglon del aviso vive debajo de la fila de secciones, que es
-   donde empieza el contenido de todas las pantallas. */
+/* El renglon del aviso vive debajo de la cabecera, que es donde empieza
+   el contenido de todas las pantallas.
+
+   Antes se colgaba de `.secciones`, que estaba justo ahi. Desde que la
+   fila de secciones se fue abajo, colgarse de ella dejaria el aviso al
+   pie: un cartel que dice «esto es de antes» tiene que estar arriba de
+   lo que describe, no despues de todo. */
 function cajaDelAviso(){
   let caja = document.getElementById('aviso-guardado');
   if (caja) return caja;
-  const donde = document.querySelector('.secciones') ||
-                document.querySelector('.cabecera');
+  const donde = document.querySelector('.cabecera') ||
+                document.querySelector('.secciones');
   if (!donde) return null;
   caja = document.createElement('div');
   caja.id = 'aviso-guardado';

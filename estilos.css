@@ -3652,3 +3652,60 @@ details.tarjeta .respuesta{margin-top:9px;color:var(--texto-suave);font-size:var
   .herramienta,.comunidad-boton{ transition:none }
   .herramienta:hover,.herramienta:active,.comunidad-boton:active{ transform:none }
 }
+
+/* ============================================================
+   LA BARRA DE SECCIONES, ABAJO
+
+   Estaba arriba, con las siete secciones en una fila que se deslizaba.
+   Deslizar para descubrir que una seccion existe es pedirle a alguien
+   que adivine, y las tres de la derecha —Fechas, Perfil, Quienes
+   somos— vivian escondidas ahi.
+
+   Ahora son cuatro, fijas al pie, sin deslizar y del mismo ancho. Al
+   pie porque es donde esta el pulgar cuando se sostiene el telefono con
+   una mano, que es como se usa esta app caminando por la facultad.
+
+   Se reusa la clase `secciones` para no reescribir el foco, el toque y
+   el tamano de los iconos, que ya estaban resueltos. Esto de aca solo
+   la cambia de lugar.
+   ============================================================ */
+.secciones.abajo{
+  position:fixed;left:0;right:0;bottom:0;z-index:60;
+  border-top:1px solid var(--linea-negro);border-bottom:none;
+  /* El borde de abajo en los telefonos con muesca: sin esto la fila
+     queda debajo de la barra del sistema y el ultimo renglon no se
+     toca. */
+  padding-bottom:env(safe-area-inset-bottom, 0px)
+}
+/* Cuatro entran enteras: no hay nada escondido y los degradados de los
+   costados serian una mentira. */
+.secciones.abajo .secciones-fila{ overflow-x:visible }
+/* Las cuatro reparten el ancho en partes iguales. El cuerpo baja un
+   punto y afloja el espaciado para que «Estudiemos» y «Mi perfil»
+   entren en un renglon: partidos en dos, la barra queda despareja y se
+   lee peor que con la letra un poco mas chica. */
+.secciones.abajo .secciones-fila a{
+  flex:1 1 0;min-width:0;
+  font-size:11px;letter-spacing:.02em;white-space:nowrap
+}
+.secciones.abajo::before,
+.secciones.abajo::after{ display:none }
+
+/* La seccion en la que estas se marca ARRIBA del renglon y no abajo:
+   abajo queda contra el borde de la pantalla y no se ve. */
+.secciones.abajo .secciones-fila a{
+  border-bottom:none;border-top:3px solid transparent
+}
+.secciones.abajo .secciones-fila a[aria-current="page"]{
+  border-top-color:var(--amarillo)
+}
+
+/* Que la barra no tape el final de ninguna pantalla. La fila mide 63;
+   los 17 de mas son para que la ultima linea no quede pegada al borde
+   de la barra, que se lee como si estuviera cortada. */
+body{ padding-bottom:calc(80px + env(safe-area-inset-bottom, 0px)) }
+/* Antes de entrar no hay barra, asi que tampoco hace falta el hueco. */
+body.antes-de-entrar{ padding-bottom:0 }
+
+/* El globo de «avisanos» sube por encima de la barra */
+.avisanos{ bottom:calc(74px + env(safe-area-inset-bottom, 0px)) }

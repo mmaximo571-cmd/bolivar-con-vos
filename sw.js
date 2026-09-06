@@ -69,8 +69,12 @@
    v20 (5/9/2026) `app.js`: la recarga unica cuando entra una version
    nueva, por la carrera que dejaba HTML nuevo con app.js viejo. Sin
    subir el numero este arreglo no llega, que seria el colmo: es el
-   arreglo de las publicaciones el que no se publicaria. */
-const VERSION = 'bolivar-v20';
+   arreglo de las publicaciones el que no se publicaria.
+   v21 (5/9/2026) `app.js` y `estilos.css`: la fila de secciones se fue
+   abajo y pasó a ser de cuatro. Sin subir el numero, quien ya tiene la
+   app se queda sin ninguna barra: el HTML nuevo ya no dibuja la de
+   arriba y el app.js viejo no sabe dibujar la de abajo. */
+const VERSION = 'bolivar-v21';
 const ARMAZON = VERSION + '-armazon';
 const PAGINAS = VERSION + '-paginas';
 
