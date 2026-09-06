@@ -816,6 +816,104 @@
                       idDeLaAlertaVisible(publicaciones));
   })();
 
+  /* ============================================================
+     LA PORTADA PREGUNTA  ·  qué estudiás y si querés cargar lo hecho
+
+     Acá había una invitación: «Armá tu cursada», una tarjeta que
+     contaba lo que la app podía hacer y esperaba que la tocaran. Una
+     invitación es un cartel; lo que sigue es una pregunta, y una
+     pregunta se contesta donde está la persona, que es la portada.
+
+     Son dos pasos y ninguno cambia de pantalla: primero qué carrera
+     —tres botones—, y recién después, ya sabiendo con quién habla, si
+     quiere cargar la trayectoria. Preguntar las dos cosas juntas sería
+     pedirle que decida entrar a una pantalla que todavía no sabe qué
+     le va a mostrar.
+
+     Lo que contesta acá no se queda acá: se escribe en la misma llave
+     que usa «Mi año», así que al entrar no se le vuelve a preguntar la
+     carrera y cae derecho en el diálogo que carga la trayectoria.
+     ============================================================ */
+  /* Las tres carreras, escritas acá y no leídas de los planes: los
+     planes son materias y correlativas, decenas de kilobytes que la
+     portada no necesita para preguntar un nombre. Si alguna vez hay
+     una cuarta, se agrega en los dos lugares —acá y en carrera/. */
+  const CARRERAS_PORTADA = [
+    { id:'ts',   corto:'Trabajo Social',
+      largo:'Licenciatura en Trabajo Social' },
+    { id:'tgcr', corto:'Gestión del Riesgo',
+      largo:'Tecnicatura en Gestión Comunitaria del Riesgo' },
+    { id:'fono', corto:'Fonoaudiología',
+      largo:'Licenciatura en Fonoaudiología' }
+  ];
+  const LLAVE_CARRERA = 'bolivar-carrera-v2';
+
+  function carreraElegida(){
+    let g = null;
+    try { g = JSON.parse(localStorage.getItem(LLAVE_CARRERA)); } catch(e){}
+    if (!g || !g.eligioCarrera) return null;
+    return CARRERAS_PORTADA.filter(c => c.id === g.carrera)[0] || null;
+  }
+
+  /* Se escribe SIN pisar el resto: en esa llave vive todo lo que la
+     persona marcó en las tres carreras, y la portada solo tiene
+     opinión sobre dos campos. `id` en null es «me equivoqué de
+     botón»: vuelve a la pregunta. */
+  function anotarCarrera(id){
+    let g = null;
+    try { g = JSON.parse(localStorage.getItem(LLAVE_CARRERA)); } catch(e){}
+    if (!g || typeof g !== 'object') g = {};
+    if (id) g.carrera = id;
+    g.eligioCarrera = !!id;
+    /* Modo incógnito o memoria llena: la pregunta se contesta igual,
+       lo único que se pierde es que la app se acuerde. */
+    try { localStorage.setItem(LLAVE_CARRERA, JSON.stringify(g)); } catch(e){}
+  }
+
+  function dibujarPregunta(caja){
+    const c = carreraElegida();
+
+    if (!c){
+      caja.innerHTML = `
+        <div class="mi-cursada pregunta">
+          <strong>¿Qué estás estudiando?</strong>
+          <p>Decinos tu carrera y la app deja de mostrarte lo mismo que
+             a todo el mundo.</p>
+          <div class="pregunta-opciones">
+            ${CARRERAS_PORTADA.map(x => `
+              <button class="pregunta-opcion" type="button" data-carrera="${esc(x.id)}">
+                <b>${esc(x.corto)}</b>
+                <small>${esc(x.largo)}</small>
+              </button>`).join('')}
+          </div>
+        </div>`;
+      return;
+    }
+
+    caja.innerHTML = `
+      <div class="mi-cursada pregunta">
+        <span class="mi-cursada-rotulo">${esc(c.corto)}</span>
+        <strong>¿Querés cargar tu trayectoria académica?</strong>
+        <p>Marcás una vez las materias que ya hiciste y la app te dice
+           qué podés cursar, qué podés promocionar y qué se te destraba
+           con cada final.</p>
+        <a class="boton ancho" href="carrera/">Cargar mi trayectoria</a>
+        <button class="pregunta-volver" type="button" data-volver>
+          No estudio ${esc(c.corto)}
+        </button>
+      </div>`;
+  }
+
+  /* El botón que se tocó desaparece con el paso que lo contenía. Con
+     el dedo eso no se nota; con teclado o lector de pantalla, el foco
+     se cae al principio de la página y hay que volver a bajar hasta
+     acá para enterarse de qué pasó. Se lo lleva a lo que sigue, que
+     además es la forma de que el lector lea la respuesta nueva. */
+  function seguirElFoco(caja){
+    const siguiente = caja.querySelector('.boton, .pregunta-opcion');
+    if (siguiente) siguiente.focus();
+  }
+
   /* ---------- Cómo venís con tu carrera ----------
      El organizador deja un resumen en el teléfono. Acá lo usamos para
      que el inicio sepa quién es cada quien, en vez de mostrarle lo
@@ -826,12 +924,27 @@
     try { r = JSON.parse(localStorage.getItem('bolivar-carrera-resumen')); } catch(e){}
 
     if (!r || !r.total){
-      caja.innerHTML = `
-        <a class="mi-cursada invitacion" href="carrera/">
-          <strong>Armá tu cursada</strong>
-          <p>Marcá las materias que ya hiciste y la app te dice qué podés
-             cursar y qué podés promocionar.</p>
-        </a>`;
+      dibujarPregunta(caja);
+      /* Un solo oyente para los dos pasos: lo que se reemplaza es el
+         contenido de la caja, no la caja. */
+      caja.addEventListener('click', e => {
+        const opcion = e.target.closest('[data-carrera]');
+        if (opcion){
+          anotarCarrera(opcion.dataset.carrera);
+          /* El mismo hito que anota «Mi año» cuando la pregunta se
+             contestaba allá: es el mismo logro, contado una vez por
+             visita, y tiene que seguir siendo la misma fila. */
+          if (typeof anotarHito === 'function') anotarHito('eligió carrera');
+          dibujarPregunta(caja);
+          seguirElFoco(caja);
+          return;
+        }
+        if (e.target.closest('[data-volver]')){
+          anotarCarrera(null);
+          dibujarPregunta(caja);
+          seguirElFoco(caja);
+        }
+      });
       return;
     }
     /* La barra de progreso. Probamos reemplazarla por una casilla por

@@ -77,8 +77,14 @@
    v22 (5/9/2026) `app.js` y `estilos.css`: la alarma de la mesa deja de
    ser una tarjeta en la portada y pasa a ser una alerta flotante en
    todas las pantallas. Sin subir el numero, la tarjeta ya no esta y la
-   alerta todavia no llega: la mesa deja de avisarse en ningun lado. */
-const VERSION = 'bolivar-v22';
+   alerta todavia no llega: la mesa deja de avisarse en ningun lado.
+   v23 (6/9/2026) `estilos.css`: la portada pregunta que carrera hacés
+   en vez de invitar a armar la cursada. El `index.html` llega nuevo
+   porque se sirve red primero, pero la hoja sale de lo guardado: sin
+   subir el numero, la pregunta aparece adentro de la tarjeta amarilla
+   y los tres botones de carrera quedan sin estilo, uno abajo del otro
+   como texto pelado. */
+const VERSION = 'bolivar-v23';
 const ARMAZON = VERSION + '-armazon';
 const PAGINAS = VERSION + '-paginas';
 

@@ -221,6 +221,30 @@ leyenda. Si alguna vez se quiere volver a ver la otra versión, está en el comm
 El organizador igual guarda en `bolivar-carrera-resumen` las cuentas de
 cursadas y cursando, así la portada puede decir «6 de 31 materias · 2 cursando».
 
+### Y mientras no hay barra, hay una pregunta (6/9)
+
+Sin `bolivar-carrera-resumen` no hay nada que mostrar en ese lugar, pero sí algo
+que preguntar. Antes había una invitación —«Armá tu cursada»—, o sea un cartel
+que contaba lo que la app sabía hacer y esperaba que lo tocaran. Ahora la
+portada pregunta, y se contesta ahí mismo, en dos pasos:
+
+1. **«¿Qué estás estudiando?»** con las tres carreras. Los nombres están
+   escritos en `index.html` (`CARRERAS_PORTADA`) y **no** salen de los planes:
+   los planes son decenas de kilobytes de materias y correlativas que la
+   portada no necesita para preguntar un nombre. Si alguna vez hay una cuarta
+   carrera, se agrega en los dos lugares.
+2. **«¿Querés cargar tu trayectoria académica?»**, ya nombrando la carrera, con
+   el botón que entra a `carrera/` y una salida chica («No estudio …») para el
+   toque errado.
+
+Lo que se contesta acá se escribe en `bolivar-carrera-v2`, la misma llave que
+usa «Mi año», tocando **solo** `carrera` y `eligioCarrera` y sin pisar `datos`:
+ahí vive todo lo que la persona marcó en las tres carreras. Por eso al entrar a
+«Mi año» ya no se le vuelve a preguntar la carrera y cae derecho en el diálogo
+que carga la trayectoria.
+
+Quien ya cargó algo **no ve la pregunta**: sigue viendo su barra.
+
 ---
 
 ## Las cuatro reglas del sistema
