@@ -60,6 +60,29 @@
   document.getElementById('pie').innerHTML = htmlPie();
   pintarNav('tramites');
 
+  /* ---------- EL BOTÓN DEL ENLACE ----------
+
+     Un trámite puede llevar afuera (Drive, el SIU, la página de la
+     facultad) o adentro, a una pantalla de esta app. Hasta el 6/9/2026
+     todos salían iguales: pestaña nueva y flecha «↗».
+
+     Para una pantalla de la app eso está mal por dos razones, y la
+     segunda es la que importa el 21: en el navegador de Instagram
+     —que es el navegador real de esta app— abrir en pestaña nueva
+     apila otra vista encima y el botón de volver deja de traerte a
+     donde estabas. Y la flecha «↗» promete salir de la app.
+
+     Es externo si el enlace empieza con http:// o https://. Cualquier
+     otra cosa —`/catedras/`, `../estudiemos/`— es de casa. */
+  function botonDelEnlace(t, margen){
+    if (!t.link_url) return '';
+    const afuera = /^https?:\/\//i.test(t.link_url);
+    const texto  = esc(t.link_titulo || (afuera ? 'Ir al sitio oficial' : 'Abrir'));
+    return `<a class="boton ancho oscuro" style="margin-top:${margen}px"
+        href="${esc(t.link_url)}"${afuera ? ' target="_blank" rel="noopener"' : ''}>
+        ${texto} ${afuera ? '↗' : '→'}</a>`;
+  }
+
   const contenido = document.getElementById('contenido');
   const idTramite = parametro('id');
   const idFaq     = parametro('faq');
@@ -119,9 +142,7 @@
             ${p.detalle ? `<div class="paso-detalle">${escMulti(p.detalle)}</div>` : ''}
           </li>`).join('')}</ol>` : ''}
 
-      ${t.link_url ? `<a class="boton ancho oscuro" style="margin-top:18px"
-          href="${esc(t.link_url)}" target="_blank" rel="noopener">
-          ${esc(t.link_titulo || 'Ir al sitio oficial')} ↗</a>` : ''}
+      ${botonDelEnlace(t, 18)}
 
       <div id="zona-guardar" style="margin-top:12px"></div>
 
@@ -298,9 +319,7 @@
             ${p.detalle ? `<div class="paso-detalle">${escMulti(p.detalle)}</div>` : ''}
           </li>`).join('')}</ol>` : ''}
 
-      ${t.link_url ? `<a class="boton ancho oscuro" style="margin-top:18px"
-          href="${esc(t.link_url)}" target="_blank" rel="noopener">
-          ${esc(t.link_titulo || 'Ir al sitio oficial')} ↗</a>` : ''}
+      ${botonDelEnlace(t, 18)}
 
       <div id="zona-guardar" style="margin-top:12px"></div>
 
@@ -384,10 +403,15 @@
        ahora no se podía saber antes de entrar. */
     const cuadro = x => {
       const tienePasos = Array.isArray(x.pasos) && x.pasos.length;
+      /* Y desde el 6/9/2026 hay un tercer caso: la ficha que no te
+         manda afuera sino a una pantalla de esta app. Decirle «sitio
+         oficial» a `/catedras/` sería mentir dos veces: ni es un sitio
+         ni es de la facultad. */
+      const adentro = x.link_url && !/^https?:\/\//i.test(x.link_url);
       return `<button class="tarjeta-cuadro" data-id="${x.id}">
           <span class="nombre">${esc(x.titulo)}</span>
           <span class="marca-tipo ${tienePasos ? 'guia' : 'enlace'}">${
-            tienePasos ? 'Paso a paso' : 'Sitio oficial'}</span>
+            tienePasos ? 'Paso a paso' : adentro ? 'En la app' : 'Sitio oficial'}</span>
         </button>`;
     };
 

@@ -32,7 +32,12 @@ delete from public.tramites where link_url in (
   'https://drive.google.com/file/d/1DmS8eITZrR2LlZYjm2-v0TkvRysdLn_K/view?usp=drivesdk',
   'https://drive.google.com/drive/folders/1SSUiaGD2rm13k616eIlq3fIgyCufd5a2',
   'https://trabajosocial.unlp.edu.ar/wp-content/uploads/2026/02/PR_192-25_Calendario_Academico_2026-1.pdf',
+  -- El PDF de contactos en Drive, que es a donde apuntaba «Contacto de
+  -- las cátedras» hasta el 6/9/2026. Queda en esta lista aunque ya no se
+  -- inserte: si no, correr el archivo de nuevo dejaría la ficha vieja
+  -- apuntando al PDF y agregaría la nueva al lado.
   'https://drive.google.com/file/d/1C4kn0B_pwvYwh1YBpqxn_chzME6Y4N-u/view?usp=drivesdk',
+  '/catedras/',
   'https://drive.google.com/file/d/1daoouaILFlMrXnrwKAM160xrhGwvOeiR/view?usp=drive_link',
   'https://blogs.ead.unlp.edu.ar/secretariaacademicats/contacto/'
 );
@@ -80,9 +85,13 @@ values
     'calendario, academico, fechas, inscripcion, finales, mesas, receso, cuatrimestre', true, 2),
 
 -- ---------- CÁTEDRAS (categoría 9) ----------
+-- Desde el 6/9/2026 esta ficha NO lleva más al PDF de Drive: lleva a la
+-- pantalla `/catedras/`, que salió el 4/9 con los 142 mails, buscador y
+-- actualización desde el panel. La ruta va sin dominio a propósito: así
+-- la app la abre adentro y no en una pestaña nueva.
 (9, 'Contacto de las cátedras',
-    'Los correos de las cátedras, para escribirles directamente.',
-    'Ver los contactos', 'https://drive.google.com/file/d/1C4kn0B_pwvYwh1YBpqxn_chzME6Y4N-u/view?usp=drivesdk',
+    'Los correos de las cátedras, para escribirles directamente. Buscá la materia y te dice a quién escribirle.',
+    'Buscar mi cátedra', '/catedras/',
     'catedras, contacto, correo, mail, docentes, profesores, escribir', true, 1),
 
 -- ---------- BECAS Y AYUDAS ECONÓMICAS (categoría 3) ----------

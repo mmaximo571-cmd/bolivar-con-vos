@@ -662,6 +662,15 @@ Cada cuadrado dice abajo si adentro hay **«Paso a paso»** o si te manda a un
 **«Sitio oficial»**. Eso importa: de 31 fichas, 12 explican el trámite y 19 son
 un enlace afuera, y antes no había forma de saberlo sin entrar.
 
+Desde el 6/9/2026 hay un tercer cartel, **«En la app»**, y una regla que decide
+sola: **si `link_url` empieza con `http://` o `https://` el enlace es de afuera**
+—pestaña nueva, `rel="noopener"` y flecha «↗»—; **cualquier otra cosa
+(`/catedras/`) es una pantalla de esta app** y se abre acá adentro, con «→».
+No es cosmético: en el navegador de Instagram, que es el navegador real de esta
+app, abrir en pestaña nueva apila otra vista encima y el botón de volver deja de
+traerte a donde estabas. La primera ficha así es «Contacto de las cátedras», que
+llevaba a un PDF en Drive y ahora lleva a `/catedras/`.
+
 Antes esto era una tira de 34 tarjetas sin un solo encabezado. Ahora tiene ocho
 grupos con su cuenta al lado.
 

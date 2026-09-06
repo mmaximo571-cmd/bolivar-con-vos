@@ -330,9 +330,18 @@
       <div class="dos-columnas" style="margin-top:20px">
         <div class="campo"><label for="link_titulo">Texto del botón</label>
           <input id="link_titulo" value="${esc(t.link_titulo || '')}" placeholder="Ir al SIU Guaraní"></div>
+        <!-- `text` y no `url`: desde el 6/9/2026 el enlace también puede
+             ser una pantalla de esta app (`/catedras/`), y `type="url"`
+             marca eso como inválido. Con http:// adelante sale en
+             pestaña nueva y con «↗»; sin eso, adentro de la app. -->
         <div class="campo"><label for="link_url">Enlace</label>
-          <input id="link_url" type="url" value="${esc(t.link_url || '')}" placeholder="https://…"></div>
+          <input id="link_url" type="text" value="${esc(t.link_url || '')}"
+            placeholder="https://…  o  /catedras/"></div>
       </div>
+      <p class="letra-chica" style="margin-top:-6px">
+        Si el enlace lleva <b>afuera</b> va entero, con <code>https://</code>.
+        Si lleva a <b>una pantalla de la app</b>, va la ruta sola
+        (<code>/catedras/</code>): se abre adentro y no en una pestaña nueva.</p>
 
       <div class="campo"><label for="palabras_clave">Palabras clave para el buscador</label>
         <input id="palabras_clave" value="${esc(t.palabras_clave || '')}"
