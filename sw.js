@@ -111,8 +111,13 @@
    `@media print` vive en la hoja, que es armazon. Sin subir el numero,
    quien ya tiene la app toca el boton y le sale impresa la pantalla
    entera —cabecera, pestanas, botones y la vista que estuviera
-   abierta— en vez del plan. */
-const VERSION = 'bolivar-v27';
+   abierta— en vez del plan.
+   v28 (6/9/2026) `estilos.css`: el boton de imprimir se fue al principio
+   de la pestaña «Plan». Estaba al final y no se encontraba: quedaba
+   debajo de las cuarenta y dos materias. Suma `.fila-imprimir`, y quien
+   se haya llevado la hoja de v27 veria el boton y el texto pegados uno
+   al lado del otro sin la fila que los ordena. */
+const VERSION = 'bolivar-v28';
 const ARMAZON = VERSION + '-armazon';
 const PAGINAS = VERSION + '-paginas';
 

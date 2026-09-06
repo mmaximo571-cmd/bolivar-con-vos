@@ -168,6 +168,36 @@
          carrera es, de qué facultad y de dónde salió. -->
     <div class="solo-impresion" id="encabezado-impreso" aria-hidden="true"></div>
 
+    <!-- EL PLAN EN PAPEL.
+         Va ACÁ ARRIBA y no al final. Estaba al final y no se encontraba:
+         quedaba debajo de las cuarenta y dos materias, de la lista de
+         las que se rinden libres y de la nota del asterisco, o sea a
+         cinco pantallas de scroll de donde se abre la pestaña. Un botón
+         que hay que buscar no existe.
+
+         El plan en PDF que dio la facultad pesa 3,6 MB y dice lo mismo
+         que esta pantalla, que ya viaja con la app y anda sin internet.
+         Así que no se publica el PDF: se imprime esto. El cuadro del
+         navegador ofrece «Guardar como PDF» en el mismo lugar, así que
+         de acá sale tanto la hoja para la carpeta como el archivo. -->
+    <div class="fila-imprimir no-imprimir">
+      <button class="boton borde" id="imprimir-plan">Imprimir el plan</button>
+      <p class="letra-chica">
+        Se abre el cuadro de impresión. Ahí mismo, en «Destino», podés elegir
+        <strong>Guardar como PDF</strong> y quedarte el plan en un archivo.
+        Sale con lo que tengas marcado.
+      </p>
+    </div>
+    <!-- El navegador de Instagram no imprime: es un WebView, y ahí
+         `print()` no hace nada. Como esa es la puerta por la que va a
+         entrar casi todo el mundo el 21, el aviso no puede aparecer
+         recién después de que el botón falle. -->
+    <p class="letra-chica no-imprimir" id="aviso-imprimir" hidden>
+      Si tocás y no pasa nada, estás dentro del navegador de Instagram, que no
+      sabe imprimir. Tocá los tres puntitos de arriba y elegí
+      <strong>Abrir en el navegador</strong>: desde ahí sí se puede.
+    </p>
+
     <div id="por-anio"></div>
 
     <div class="titulo-seccion" id="titulo-requisitos" hidden>OTROS REQUISITOS</div>
@@ -181,31 +211,6 @@
     <div id="libres"></div>
 
     <div class="aviso" id="nota-asterisco" hidden></div>
-
-    <!-- EL PLAN EN PAPEL.
-         El plan en PDF pesa 3,6 MB y dice lo mismo que esta pantalla,
-         que ya viaja con la app y anda sin internet. Así que no se
-         publica el PDF: se imprime esto. El diálogo del navegador
-         ofrece «Guardar como PDF» en el mismo lugar, así que de acá
-         sale tanto la hoja para la carpeta como el archivo. -->
-    <button class="boton borde ancho no-imprimir" id="imprimir-plan"
-            style="margin:18px 0 6px">
-      Imprimir el plan
-    </button>
-    <p class="letra-chica no-imprimir">
-      Se abre el cuadro de impresión de tu teléfono o computadora. Ahí mismo,
-      en «Destino», podés elegir <strong>Guardar como PDF</strong> y quedarte
-      el plan completo en un archivo. Sale con lo que tengas marcado.
-    </p>
-    <!-- El navegador de Instagram no imprime: es un WebView, y ahí
-         `print()` no hace nada. Como esa es la puerta por la que va a
-         entrar casi todo el mundo el 21, el aviso no puede aparecer
-         recién después de que el botón falle. -->
-    <p class="letra-chica no-imprimir" id="aviso-imprimir" hidden>
-      Si tocás y no pasa nada, estás dentro del navegador de Instagram, que no
-      sabe imprimir. Tocá los tres puntitos de arriba y elegí
-      <strong>Abrir en el navegador</strong>: desde ahí sí se puede.
-    </p>
 
     <button class="boton borde ancho no-imprimir" id="borrar" style="margin:18px 0 6px">
       Empezar de nuevo

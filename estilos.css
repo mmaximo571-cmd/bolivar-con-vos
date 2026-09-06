@@ -2836,6 +2836,15 @@ details.tarjeta .respuesta{margin-top:9px;color:var(--texto-suave);font-size:var
    ============================================================ */
 .solo-impresion{display:none}
 
+/* La fila de arriba de la pestaña «Plan»: el botón y qué hace. En
+   pantalla angosta el texto se va abajo del botón en vez de quedar en
+   una columna de cuatro palabras de ancho. */
+.fila-imprimir{
+  display:flex;flex-wrap:wrap;align-items:center;gap:10px 14px;
+  margin:0 0 18px
+}
+.fila-imprimir p{flex:1 1 210px;margin:0}
+
 @media print{
   /* EN PAPEL SIEMPRE ES DE DÍA. Si el teléfono está en modo oscuro, la
      hoja saldría con fondo casi negro: tinta desperdiciada y, en la
