@@ -108,6 +108,7 @@
 
     <div class="abajo">
       <button class="boton oscuro ancho" id="btn-entrar">Entrar</button>
+      <a class="boton borde ancho" id="btn-crear" href="mi/?crear">Crear mi cuenta</a>
       <a class="sin-cuenta" id="btn-cuenta" href="mi/">Ya tengo cuenta</a>
     </div>
   </div>
@@ -334,8 +335,21 @@
   function guardado(almacen, llave){
     try { return almacen.getItem(llave); } catch(e){ return null; }
   }
-  function guardar(almacen, llave){
-    try { almacen.setItem(llave, '1'); } catch(e){ /* modo incógnito */ }
+  function guardar(almacen, llave, valor){
+    try { almacen.setItem(llave, valor || '1'); } catch(e){ /* modo incógnito */ }
+  }
+
+  /* QUÉ DÍA ES, PARA UNA ESTUDIANTE.
+
+     El día no se corta a las doce de la noche: quien está estudiando a
+     la una de la mañana sigue en el día de ayer, y hacerle ver la
+     portada dos veces en la misma noche de estudio es justo lo que esto
+     viene a evitar. Se corta a las cinco. */
+  function diaDeEstudio(){
+    const d = new Date(Date.now() - 5 * 3600000);
+    return d.getFullYear() + '-' +
+           String(d.getMonth() + 1).padStart(2, '0') + '-' +
+           String(d.getDate()).padStart(2, '0');
   }
 
   function mostrarApp(){
@@ -349,27 +363,55 @@
 
   function mostrarBienvenida(){
     capaBienvenida.hidden = false;
-    document.getElementById('btn-entrar').addEventListener('click', mostrarApp);
-    /* «Ya tengo cuenta» es un enlace a Perfil: se va de la portada solo,
-       no hay nada que hacerle acá. */
+
+    /* El día se marca al ENTRAR, no al mostrarse. Quien abre y se va sin
+       tocar nada no la vio: la próxima le tiene que aparecer igual. */
+    const marcarElDia = () =>
+      guardar(localStorage, LLAVE_BIENVENIDA, diaDeEstudio());
+
+    document.getElementById('btn-entrar').addEventListener('click', function(){
+      marcarElDia();
+      mostrarApp();
+    });
+
+    /* Los dos caminos a la cuenta se van de la portada solos, pero
+       también cuentan como haber entrado: sin esto, quien se crea la
+       cuenta y vuelve al inicio se come la portada de nuevo en el mismo
+       minuto. */
+    ['btn-crear', 'btn-cuenta'].forEach(id => {
+      const a = document.getElementById(id);
+      if (a) a.addEventListener('click', marcarElDia);
+    });
   }
 
-  /* LA PORTADA SE VE SIEMPRE.
+  /* LA PORTADA SE VE UNA VEZ POR DÍA.
 
-     Antes se veía UNA vez en la vida y después nunca más: se guardaba
-     una llave en localStorage y listo. Ya no. Es una decisión tomada a
-     sabiendas de lo que cuesta: quien abre la app para mirar una fecha
-     ahora paga un toque de más, todas las veces. A cambio, la portada
-     es lo primero que ve siempre.
+     Tuvo las dos formas extremas y ninguna estaba bien.
 
-     Si alguna vez se quiere volver atrás, es una línea:
-       if (guardado(localStorage, LLAVE_BIENVENIDA)) mostrarApp(); else ...
-     y volver a guardar la llave en el botón Entrar.
+     Primero se veía UNA vez en la vida: cómodo para quien la usa todos
+     los días, y el mensaje —«la salida siempre es colectiva»— dicho una
+     sola vez y nunca más.
+
+     Después pasó a verse SIEMPRE, a sabiendas de lo que costaba: quien
+     abría la app para mirar una fecha pagaba un toque de más, todas las
+     veces. Con la app instalada eso son varias veces por día.
+
+     Desde el 5/9 se ve una vez por día. La primera vez que alguien la
+     abre en el día ve la portada entera; si vuelve esa misma tarde,
+     entra derecho. El mensaje se sigue diciendo todos los días —que era
+     el punto— pero deja de cobrarse en cada apertura.
+
+     La llave guarda el DÍA, no un «sí»: por eso `guardar` acepta valor.
+
+     Para volver a cualquiera de las dos formas anteriores:
+       siempre         -> borrar la comparación de abajo y no guardar nada
+       una en la vida  -> guardar '1' y comparar con `guardado(...)` a secas
 
      Con ?directo en la dirección se saltea, para poder probar el resto
      de la portada sin pasar por acá en cada recarga. */
   function seguirDespuesDeLaApertura(){
     if (/[?&]directo\b/.test(location.search)) mostrarApp();
+    else if (guardado(localStorage, LLAVE_BIENVENIDA) === diaDeEstudio()) mostrarApp();
     else mostrarBienvenida();
   }
 

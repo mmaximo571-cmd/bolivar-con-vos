@@ -211,6 +211,12 @@
     tabEntrar.onclick = () => cambiarModo('entrar');
     tabCrear .onclick = () => cambiarModo('crear');
 
+    /* La portada tiene un botón «Crear mi cuenta» que trae hasta acá con
+       ?crear. Sin esta línea la pantalla abre en «Entrar», y quien venía
+       justamente a crearse una cuenta tiene que darse cuenta solo de que
+       hay una solapa al lado. */
+    if (/[?&]crear\b/.test(location.search)) cambiarModo('crear');
+
     /* ---------- Me olvidé la contraseña ----------
        Manda un correo con un enlace. Al volver por ese enlace, Supabase
        deja una sesión de recuperación y la app pide la contraseña nueva
