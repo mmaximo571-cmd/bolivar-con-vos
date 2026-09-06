@@ -1162,6 +1162,9 @@
 
     const delDia = iso => enCalendario.filter(p => iso >= p.desde && iso <= p.hasta);
 
+    const DIAS_LARGO = ['lunes','martes','miércoles','jueves',
+                        'viernes','sábado','domingo'];
+
     function dibujar(){
       const primero = new Date(anio, mes-1, 1);
       const cuantos = new Date(anio, mes, 0).getDate();
@@ -1189,11 +1192,29 @@
                      siguiente ? ' sigue-der' : ''}"></span>`;
         }
 
+        /* CÓMO SE LEE ESTE DÍA EN VOZ ALTA.
+
+           Adentro del botón hay un número y una barrita de color. Para
+           quien ve, eso alcanza: la posición en la grilla dice qué día
+           de la semana es y el color dice de qué se trata. Para un
+           lector de pantalla no hay grilla ni color: hay un botón que
+           dice «14». Treinta botones que dicen un número cada uno.
+
+           Así que el día se nombra entero, y se dice qué hay. El texto
+           va en aria-label y no en el botón porque la pantalla ya lo
+           muestra de otra forma: repetirlo a la vista sería ruido. */
+        const nombreDelDia = DIAS_LARGO[(new Date(anio, mes-1, d).getDay() + 6) % 7];
+        const esHoy = hoyIso === hoyISO();
+        const comoSeLee = nombreDelDia + ' ' + d + ' de ' + MESES_LARGO[mes-1] +
+          (esHoy ? ', hoy' : '') +
+          (cosas.length ? ': ' + cosas.map(c => c.titulo).join('; ') : '');
+
         celdas += `<button class="cal-dia${fam ? ' con-cosas ' + fam : ''}${
-            hoyIso === hoyISO() ? ' hoy' : ''}"
+            esHoy ? ' hoy' : ''}"
             data-iso="${hoyIso}" aria-pressed="${hoyIso === elegido}"
+            aria-label="${esc(comoSeLee)}"
             ${fam ? '' : 'tabindex="-1"'}>
-            <span class="cal-numero">${d}</span>${barra}
+            <span class="cal-numero" aria-hidden="true">${d}</span>${barra}
           </button>`;
       }
 
@@ -1266,6 +1287,48 @@
         elegido = (elegido === dia.dataset.iso) ? null : dia.dataset.iso;
         dibujar();
       }
+    });
+
+    /* MOVERSE CON LAS FLECHAS.
+
+       Con el tabulador solo se para en los días que tienen algo, que es
+       lo correcto: nadie quiere tabular treinta veces para cruzar un
+       mes. Pero entonces los días vacíos quedaban fuera del alcance del
+       teclado, y «¿el 17 está libre?» es una pregunta legítima.
+
+       Las flechas recorren el mes entero, día por día y semana por
+       semana. No cambian de mes: en el borde no pasa nada, y para eso
+       están los botones ‹ › de arriba, que ya se alcanzan tabulando. Es
+       menos de lo que hace un calendario de escritorio, y es todo lo
+       que hace falta acá.
+
+       No se toca el tabindex al pasar: un día vacío recibe el foco
+       porque se lo damos nosotros, pero sigue sin sumar una parada de
+       tabulador para quien no vino a explorar el mes. */
+    caja.addEventListener('keydown', e => {
+      const dia = e.target.closest && e.target.closest('.cal-dia');
+      if (!dia || dia.classList.contains('vacio')) return;
+
+      const pasos = { ArrowRight:1, ArrowLeft:-1, ArrowDown:7, ArrowUp:-7 };
+      const dias = caja.querySelectorAll('.cal-dia:not(.vacio)');
+      let destino = null;
+
+      if (Object.prototype.hasOwnProperty.call(pasos, e.key)){
+        const n = +dia.dataset.iso.slice(8) + pasos[e.key];
+        destino = caja.querySelector(
+          '.cal-dia[data-iso$="-' + String(n).padStart(2,'0') + '"]');
+      } else if (e.key === 'Home'){
+        destino = dias[0];
+      } else if (e.key === 'End'){
+        destino = dias[dias.length - 1];
+      } else {
+        return;
+      }
+
+      /* Fuera del mes no hay a dónde ir, y ahí el freno es no hacer
+         nada: mover el foco a otro lado sorprende más que quedarse. */
+      e.preventDefault();
+      if (destino) destino.focus();
     });
 
     dibujar();
