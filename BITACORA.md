@@ -392,10 +392,12 @@ Si algo de esto cambia, se edita ese archivo.
    agrupación compañera, y ni «Legardon» ni «Frente Malvinas Argentinas»
    aparecían antes en ninguna parte de la app, así que no había con qué
    contrastarlo.
-2. **Los turnos de examen.** La entrada dice «febrero, marzo, mayo, julio,
-   agosto, septiembre, octubre y diciembre». Son ocho y salen del texto de
-   Máximo; la agenda de la app tiene sus propias fechas cargadas. Si alguna vez
-   se contradicen, manda la agenda, que es la que se actualiza.
+2. ~~**Los turnos de examen.**~~ ✅ **Corregido el 6/9: son nueve, faltaba
+   noviembre.** La entrada dice ahora «febrero, marzo, mayo, julio, agosto,
+   septiembre, octubre, noviembre y diciembre», y lo dice con el número
+   adelante —«que son nueve»— para que a la próxima se note si falta uno. La
+   agenda de la app tiene sus propias fechas cargadas: si alguna vez se
+   contradicen, manda la agenda, que es la que se actualiza.
 
 ### El «Kit de Inicio» del cronograma quedó viejo (4/9)
 
