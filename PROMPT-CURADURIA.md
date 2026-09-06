@@ -56,6 +56,13 @@ nueva.
 Tres Gems alcanzan para todo: **Curaduría**, **Ideas** y **Diseño** (este
 último con el molde de `PROMPT-DISENO.md` pegado abajo del cargador).
 
+**Los tres textos ya están armados y listos para pegar** en la carpeta
+`gemini/`: `1-curaduria.txt`, `2-ideas.txt` y `3-diseno.txt`. Cada uno trae el
+cargador arriba y el molde abajo, así que se abre el archivo, se copia entero y
+se pega. Ahí los moldes están escritos como instrucción permanente y no como
+plantilla para completar: **el Gem te pide lo que falte**. Si le tirás un pedido
+suelto desde el celular sin criterios, te los pregunta antes de contestar.
+
 ---
 
 ## 2. Molde de curaduría
