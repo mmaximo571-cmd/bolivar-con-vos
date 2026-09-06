@@ -762,6 +762,10 @@ function pintarNav(actual){
   pintarTema();
 
   pintarAvisanos();
+  /* No se espera: si la base tarda, la pantalla ya está entera y la
+     alerta aparece cuando llega. Lo que no puede pasar es que una
+     consulta demore el dibujo de la navegación. */
+  pintarAlertaMesa();
   vigilarTitulos();
   ponerLupa();
 
@@ -861,6 +865,131 @@ function pintarNav(actual){
    ------------------------------------------------------------ */
 const AVISANOS_URL = RAIZ + 'quienes/';
 
+/* ------------------------------------------------------------
+   LA ALERTA DE LA MESA
+
+   La ventana para anotarse a una mesa dura EXACTAMENTE cuatro días,
+   nueve veces al año, y la mesa es cuatro a seis días después.
+   Perdérsela es perder la mesa y esperar un mes. Es lo más útil que
+   hace esta app y sale de un dato que ya estaba cargado.
+
+   Vivía como una tarjeta amarilla arriba de la portada. El problema
+   era el alcance: quien entraba directo a Info útil o a Estudiemos
+   —que es la mitad de las visitas, porque los links de Instagram
+   apuntan ahí— no la veía nunca. Ahora flota arriba del botón de
+   Avisanos y aparece en todas las pantallas.
+
+   POR QUÉ PREGUNTA EN VEZ DE AVISAR. Decía «Faltan 2 días para
+   anotarte», que le habla a quien ya sabe que se tiene que anotar.
+   «¿Vas a rendir un final?» le habla a quien todavía no decidió, que
+   es a quien de verdad se le pasa la fecha. Por eso lleva al
+   organizador de finales y no al SIU: si te preguntan si vas a rendir,
+   esperás ayuda para rendir, no un formulario. El SIU queda a un toque
+   de ahí.
+
+   SE PUEDE CERRAR, y se acuerda. Un cartel fijo en todas las pantallas
+   que no se puede sacar deja de leerse a la segunda pantalla. Se
+   guarda cuál se cerró, así la próxima mesa vuelve a avisar.
+   ------------------------------------------------------------ */
+
+function alarmaDeMesa(publicaciones, hoy){
+  const enDias = (desde, hasta) =>
+    Math.round((new Date(hasta) - new Date(desde)) / 86400000);
+
+  /* Igual que antes: manda la columna `alarma` del panel, y el título
+     solo se mira cuando nadie decidió nada todavía. */
+  const mesDelTitulo = t => (/ de ([a-záéíóúñ]+)\s*$/i.exec(t || '') || [])[1];
+  const rolDe = p =>
+      p.alarma                                          ? (p.alarma === 'ninguna' ? null : p.alarma)
+    : /^inscripci[óo]n a la mesa/i.test(p.titulo || '') ? 'inscripcion'
+    : /^mesa de examen/i.test(p.titulo || '')           ? 'mesa'
+    : null;
+
+  const inscripciones = (publicaciones || [])
+    .filter(p => rolDe(p) === 'inscripcion' && p.fecha_desde)
+    .map(p => ({
+      id: p.id,
+      periodo: (p.periodo || mesDelTitulo(p.titulo) || '').toLowerCase(),
+      abre:   p.fecha_desde.slice(0,10),
+      cierra: (p.fecha_hasta || p.fecha_desde).slice(0,10)
+    }))
+    .sort((a,b) => a.abre.localeCompare(b.abre));
+
+  const abierta  = inscripciones.find(i => hoy >= i.abre && hoy <= i.cierra);
+  const porAbrir = inscripciones.find(i => i.abre > hoy && enDias(hoy, i.abre) <= 5);
+  const i = abierta || porAbrir;
+  if (!i) return null;
+
+  if (abierta){
+    const quedan = enDias(hoy, i.cierra);
+    return { id:i.id, urgente: quedan <= 1,
+      detalle: quedan === 0 ? 'Hoy cierra la inscripción'
+             : quedan === 1 ? 'Mañana cierra la inscripción'
+             : 'Te quedan ' + quedan + ' días para anotarte' };
+  }
+  const faltan = enDias(hoy, i.abre);
+  return { id:i.id, urgente:false,
+    detalle: faltan === 1 ? 'La inscripción abre mañana'
+                          : 'La inscripción abre en ' + faltan + ' días' };
+}
+
+/* Qué inscripción está ocupando la alerta flotante ahora mismo, o null.
+
+   La usa la portada para no decir lo mismo dos veces: si la alerta ya
+   dice «¿Vas a rendir un final?», el renglón de lo próximo tiene que
+   mostrar lo que viene DESPUÉS de eso, no repetirlo tres centímetros
+   más abajo.
+
+   Mira también si la cerraron: si la alerta no está, el renglón vuelve
+   a hacerse cargo de avisar. */
+function idDeLaAlertaVisible(publicaciones){
+  const a = alarmaDeMesa(publicaciones, hoyISO());
+  if (!a) return null;
+  try {
+    if (localStorage.getItem('bolivar-alerta-mesa') === String(a.id)) return null;
+  } catch(e){}
+  return a.id;
+}
+
+async function pintarAlertaMesa(){
+  if (document.getElementById('alerta-mesa')) return;
+  if (typeof db === 'undefined' || !db) return;
+
+  let filas = null;
+  try {
+    const { data, error } = await db.from('publicaciones')
+      .select('id,titulo,alarma,periodo,fecha_desde,fecha_hasta')
+      .eq('publicado', true);
+    if (error) return;
+    filas = data;
+  } catch(e){ return; }        /* sin red no hay alerta, y está bien */
+
+  const a = alarmaDeMesa(filas, hoyISO());
+  if (!a) return;
+
+  /* Si ya la cerró para esta mesa, no vuelve. Se guarda el id de la
+     publicación y no un «sí»: la mesa de noviembre es otra alerta. */
+  try {
+    if (localStorage.getItem('bolivar-alerta-mesa') === String(a.id)) return;
+  } catch(e){}
+
+  document.body.insertAdjacentHTML('beforeend', `
+    <div class="alerta-mesa${a.urgente ? ' urgente' : ''}" id="alerta-mesa" role="status">
+      <a class="alerta-mesa-ir" href="${RAIZ}carrera/#finales">
+        <strong>¿Vas a rendir un final?</strong>
+        <span>${esc(a.detalle)}</span>
+      </a>
+      <button type="button" class="alerta-mesa-cerrar" id="cerrar-alerta-mesa"
+              aria-label="Cerrar el aviso de la mesa">✕</button>
+    </div>`);
+
+  document.getElementById('cerrar-alerta-mesa').addEventListener('click', () => {
+    try { localStorage.setItem('bolivar-alerta-mesa', String(a.id)); } catch(e){}
+    const caja = document.getElementById('alerta-mesa');
+    if (caja) caja.remove();
+  });
+}
+
 function pintarAvisanos(){
   if (document.querySelector('.avisanos')) return;
 
@@ -936,6 +1065,10 @@ function pintarAvisanos(){
        alguien la activó hace un minuto, el globo ya no sale. */
     if (yaSalio || !sinHover || menosMovimiento()) return;
     if (globoFuera !== null) return;
+    /* Si la alerta de la mesa está arriba del botón, el globo saldría
+       encima. Y en esa pelea gana la mesa: el globo explica para qué
+       sirve un botón, la mesa vence en cuatro días. */
+    if (document.getElementById('alerta-mesa')) return;
     boton.classList.add('dice');
     try { sessionStorage.setItem('bolivar-avisanos-visto', '1'); } catch(e){}
     globoFuera = setTimeout(esconderGlobo, 4000);

@@ -73,8 +73,12 @@
    v21 (5/9/2026) `app.js` y `estilos.css`: la fila de secciones se fue
    abajo y pasó a ser de cuatro. Sin subir el numero, quien ya tiene la
    app se queda sin ninguna barra: el HTML nuevo ya no dibuja la de
-   arriba y el app.js viejo no sabe dibujar la de abajo. */
-const VERSION = 'bolivar-v21';
+   arriba y el app.js viejo no sabe dibujar la de abajo.
+   v22 (5/9/2026) `app.js` y `estilos.css`: la alarma de la mesa deja de
+   ser una tarjeta en la portada y pasa a ser una alerta flotante en
+   todas las pantallas. Sin subir el numero, la tarjeta ya no esta y la
+   alerta todavia no llega: la mesa deja de avisarse en ningun lado. */
+const VERSION = 'bolivar-v22';
 const ARMAZON = VERSION + '-armazon';
 const PAGINAS = VERSION + '-paginas';
 

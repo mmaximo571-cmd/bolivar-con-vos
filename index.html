@@ -739,8 +739,14 @@
      Es un renglón, no una tarjeta: si fuera igual de grande que la
      alarma de inscripción, competiría con ella el día que las dos
      tengan algo que decir. */
-  function proximoDeLaAgenda(caja, publicaciones, hoy){
+  function proximoDeLaAgenda(caja, publicaciones, hoy, saltear){
     const vivas = (publicaciones || [])
+      /* `saltear` es la inscripción que la alerta flotante ya está
+         diciendo arriba del botón de Avisanos. Repetirla acá seria
+         decir lo mismo dos veces en la misma pantalla. Si la alerta se
+         cerró, `saltear` viene en null y este renglón vuelve a
+         hacerse cargo de avisar. */
+      .filter(p => p.id !== saltear)
       .filter(p => p.fecha_desde && (p.fecha_hasta || p.fecha_desde).slice(0,10) >= hoy);
     if (!vivas.length){ caja.innerHTML = ''; return; }
 
@@ -787,94 +793,27 @@
       </a>`;
   }
 
-  (function pintarAlarma(){
-    /* Sin red no hay alarma. Ni siquiera la de la visita anterior: la
-       alarma es un llamado a hacer algo AHORA, y no hay forma honesta
-       de decir «anotate, cierra en tres días» al lado de un cartel que
-       aclara que el dato es viejo. Callarse es lo correcto. */
+  /* ============================================================
+     LO PROXIMO DE LA AGENDA
+
+     Aca vivia la alarma de inscripcion: una tarjeta amarilla, grande,
+     arriba de todo. Desde el 5/9 esa alarma es una alerta flotante que
+     aparece en TODAS las pantallas, arriba del boton de Avisanos, y no
+     solo en la portada. Se mudo a app.js, que es de donde cuelga todo
+     lo que se ve en cualquier pantalla.
+
+     Lo que queda aca es lo otro que ocupaba este lugar cuando no habia
+     inscripcion a la vista: el renglon de lo proximo. Ahora se muestra
+     siempre, que es lo que corresponde: es lo unico de la portada que
+     dice que pasa esta semana.
+     ============================================================ */
+  (function pintarProximo(){
+    /* Sin red no se dibuja. Lo proximo lleva fecha, y una fecha vieja
+       al lado de un cartel que aclara que el dato es de antes no ayuda
+       a nadie: callarse es lo correcto. */
     if (!huboRed) return;
-    const caja = document.getElementById('alarma');
-    const hoy  = hoyISO();
-    const enDias = (desde, hasta) =>
-      Math.round((new Date(hasta) - new Date(desde)) / 86400000);
-
-    /* CÓMO SE SABE QUE UNA PUBLICACIÓN ES UNA INSCRIPCIÓN A MESA
-
-       Hasta el 3/9/2026 salía de un regex sobre el título, y por eso
-       podía fallar sin que nadie se enterara: alcanzaba con escribir
-       «Inscripcion» sin tilde, o «Inscripción a mesa», para que la
-       alarma no apareciera nunca. Lo que falta no se ve, así que el
-       error recién aparecía cuando alguien se perdía la mesa.
-
-       Ahora sale de la columna `alarma`, que se elige en el panel.
-       El título se sigue mirando, pero solo cuando nadie decidió nada
-       todavía, así las publicaciones viejas siguen andando. Si en el
-       panel eligieron «no tiene que ver con las mesas», se respeta y
-       el título no se mira. */
-    const mesDelTitulo = (t) => (/ de ([a-záéíóúñ]+)\s*$/i.exec(t || '') || [])[1];
-    const rolDe = (p) =>
-        p.alarma                                            ? (p.alarma === 'ninguna' ? null : p.alarma)
-      : /^inscripci[óo]n a la mesa/i.test(p.titulo || '')   ? 'inscripcion'
-      : /^mesa de examen/i.test(p.titulo || '')             ? 'mesa'
-      : null;
-    const cualMesa = (p) => (p.periodo || mesDelTitulo(p.titulo) || '').toLowerCase();
-
-    const inscripciones = publicaciones
-      .filter(p => rolDe(p) === 'inscripcion' && p.fecha_desde)
-      .map(p => ({ ...p,
-        mesaDe: cualMesa(p),
-        abre:   p.fecha_desde.slice(0,10),
-        cierra: (p.fecha_hasta || p.fecha_desde).slice(0,10) }))
-      .sort((a,b) => a.abre.localeCompare(b.abre));
-
-    /* La que está abierta ahora, o la próxima si abre en 5 días o menos */
-    const abierta = inscripciones.find(i => hoy >= i.abre && hoy <= i.cierra);
-    const porAbrir = inscripciones.find(i => i.abre > hoy && enDias(hoy, i.abre) <= 5);
-    const i = abierta || porAbrir;
-
-    /* Sin inscripción a la vista, el lugar no se desperdicia: muestra lo
-       próximo que hay en la agenda. La app no manda notificaciones, así
-       que lo que se ve al abrir es lo único que avisa. */
-    if (!i){ proximoDeLaAgenda(caja, publicaciones, hoy); return; }
-
-    /* La mesa correspondiente, para decir para cuándo es */
-    const mesa = i.mesaDe && publicaciones.find(p =>
-      rolDe(p) === 'mesa' && cualMesa(p) === i.mesaDe);
-
-    /* Si nadie cargó de qué mesa se trata, la alarma igual avisa: se
-       pierde el nombre del mes, no el aviso. Antes, en ese caso, el
-       texto decía «la mesa de undefined». */
-    const frase = i.mesaDe ? `a la mesa de ${esc(i.mesaDe)}` : 'a la próxima mesa';
-
-    let titulo, cuerpo, urgente;
-    if (abierta){
-      const quedan = enDias(hoy, i.cierra);
-      urgente = quedan <= 1;
-      titulo = quedan === 0 ? 'Hoy cierra la inscripción'
-             : quedan === 1 ? 'Mañana cierra la inscripción'
-             : `Quedan ${quedan} días para anotarte`;
-      cuerpo = `La inscripción ${frase} está abierta ` +
-               `hasta el ${esc(fechaLinda(i.cierra))}.`;
-    } else {
-      const faltan = enDias(hoy, i.abre);
-      urgente = false;
-      titulo = faltan === 1 ? 'Mañana abre la inscripción'
-                            : `Faltan ${faltan} días para anotarte`;
-      cuerpo = `La inscripción ${frase} abre el ` +
-               `${esc(fechaLinda(i.abre))} y cierra el ${esc(fechaLinda(i.cierra))}.`;
-    }
-    if (mesa) cuerpo += ` La mesa es el ${esc(fechaLinda(mesa.fecha_desde))}.`;
-
-    caja.innerHTML = `
-      <div class="alarma${urgente ? ' urgente' : ''}">
-        <div class="alarma-texto">
-          <strong>${esc(titulo)}</strong>
-          <p>${cuerpo}</p>
-        </div>
-        <a class="boton oscuro ancho"
-           href="https://autogestion.guarani.unlp.edu.ar/"
-           target="_blank" rel="noopener">Anotarme en el SIU Guaraní ↗</a>
-      </div>`;
+    proximoDeLaAgenda(document.getElementById('alarma'), publicaciones, hoyISO(),
+                      idDeLaAlertaVisible(publicaciones));
   })();
 
   /* ---------- Cómo venís con tu carrera ----------
