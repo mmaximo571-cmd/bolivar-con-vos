@@ -3241,6 +3241,23 @@ details.tarjeta .respuesta{margin-top:9px;color:var(--texto-suave);font-size:var
 @media (hover:hover) and (pointer:fine){
   .chat-opcion:hover{background:var(--amarillo);color:var(--sobre-color)}
 }
+/* LAS CUATRO PREGUNTAS DEL SALUDO NO SON PASTILLAS.
+
+   La pastilla en mayúsculas está bien para «Trabajo Social» o
+   «Gestión del Riesgo»: son rótulos de dos palabras. Una pregunta
+   entera en mayúsculas y partida en dos renglones centrados se lee
+   como un cartel, no como algo que alguien diría, y es justo lo
+   contrario de lo que estas cuatro vienen a hacer.
+
+   Un renglón entero cada una, alineadas a la izquierda y en caja
+   normal: se barren de un vistazo y se leen como preguntas. Y a 48px,
+   que es lo que mide todo lo tocable en esta app. */
+.chat-opcion.pregunta{
+  flex:1 1 100%;justify-content:flex-start;text-align:left;
+  text-transform:none;letter-spacing:0;
+  font-size:var(--letra-nota);line-height:1.3;
+  min-height:48px;padding:10px 14px;border-radius:var(--radio)
+}
 
 /* Las fichas que encontró: la misma marca de «Paso a paso» o «Sitio
    oficial» que en Info útil, para que se entienda que es lo mismo. */

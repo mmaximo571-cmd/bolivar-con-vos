@@ -96,8 +96,16 @@
    nuevo igual —se sirve red primero— y ya escribe cuántas
    correlativas faltan, así que sin subir el numero el texto se lee
    pero las treinta y una materias siguen pareciendo la misma cosa,
-   que es justo lo que este cambio viene a resolver. */
-const VERSION = 'bolivar-v25';
+   que es justo lo que este cambio viene a resolver.
+   v26 (6/9/2026) `estilos.css` y `lib/avisanos.js`: el saludo del chat
+   abre con cuatro preguntas escritas como las diria una persona, en un
+   renglon cada una. `avisanos.js` no esta en esta lista pero igual
+   queda guardado la primera vez que alguien abre el chat, asi que sin
+   subir el numero quien ya lo abrio sigue viendo las cuatro pastillas
+   viejas; y si llegara el archivo nuevo con la hoja vieja, la clase
+   `pregunta` no existe y las cuatro preguntas salen en mayusculas y
+   partidas al medio. */
+const VERSION = 'bolivar-v26';
 const ARMAZON = VERSION + '-armazon';
 const PAGINAS = VERSION + '-paginas';
 
