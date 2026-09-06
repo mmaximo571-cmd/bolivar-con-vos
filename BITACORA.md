@@ -70,6 +70,7 @@ sobre los otros. Ahora mandan así, y no se abre un quinto:
 | 6/9 | La pestaña dice **«Plan»** y deja de recortarse. Queda un píxel de margen en 320 px, y ahora la palabra más ancha de la fila es «FINALES» | `735d552` |
 | 6/9 | **Fechas deja el tiempo real y baja 206 KB.** Pasa al cliente chico y se refresca al volver a la pantalla, con freno de 15 s. El JS de esa pantalla: 287 KB → 79 | `df2ea22` |
 | 6/9 | **«Contacto de las cátedras» lleva a `/catedras/`** y no al PDF de Drive. Atrás vino la regla que faltaba: una ficha cuyo enlace no empieza con `http://` es una pantalla de la app y se abre adentro, sin pestaña nueva y con «→». El cartel del cuadrado dice **«En la app»** | `f7ef158` |
+| 6/9 | **Los contactos de Avisanos, cargados** (7 nuevos). Y con eso aparecieron dos cosas rotas: el único contacto real que había estaba sin código de país, así que `wa.me` contestaba «número no válido» y el traspaso terminaba en un error; y el chat decía «SITIO OFICIAL» encima de preguntas frecuentes y de fichas que llevan adentro de la app | `467117d` |
 
 **Ojo con lo de las materias libres.** El listado sale de un documento que se
 llama, textualmente, «**Propuesta** de materias libres … para agregar al régimen
@@ -372,7 +373,7 @@ pantalla propia en pestaña nueva rompe el botón de volver.
 | ~~Los mails de las cátedras~~ | ✅ entregados el 4/9 |
 | ~~Los tres PDFs del plan de estudios~~ | ✅ entregados el 4/9. Ojo: pesan 1,8 MB y 3,6 MB; hay que decidir si se publican enteros o el plan se muestra como página |
 | ~~Los PDFs de los materiales de estudio~~ | ✅ entregados el 5/9, seis días antes. Ya publicados en `estudiemos/tripticos/` |
-| Tres contactos por carrera para Avisanos | mié 16 |
+| ~~Tres contactos por carrera para Avisanos~~ | ✅ **entregados el 6/9, diez días antes.** Ya cargados y andando: Trabajo Social 4 (con Maxi), Tecnicatura 2, Fonoaudiología 2. **Falta uno de cada una de esas dos** para llegar a tres, pero con dos ya funciona |
 
 ## Cómo se trabaja
 
