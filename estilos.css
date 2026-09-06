@@ -1312,6 +1312,21 @@ svg.ico{width:1em;height:1em;display:block;flex:0 0 auto}
   border-left-color:var(--linea);border-left-style:dashed;
   background:var(--apagado)
 }
+/* EN EL PLAN COMPLETO, LO TRABADO PIERDE LA SEGUNDA TINTA.
+
+   En «Mi cursada» las trabadas van juntas, abajo de su propio rótulo,
+   y con la superficie apagada alcanza. En el plan van intercaladas con
+   todo lo demás —dieciséis de treinta y una— y ahí ese gris es un
+   susurro: quedaban idénticas a las que sí se pueden cursar.
+
+   Lo que se apaga es la SOMBRA, no el texto. En serigrafía la segunda
+   tinta corrida es lo que levanta la pieza del papel; sacarla la deja
+   apoyada, que es exactamente «esta todavía no». Y cada palabra
+   —empezando por la que dice cuántas correlativas faltan— se sigue
+   leyendo con el mismo contraste que antes, que es la regla anotada
+   acá arriba. */
+#por-anio .tarjeta.materia.trabada{ box-shadow:none }
+
 .tarjeta.materia.final     {border-left-color:var(--linea-saberes)}
 .tarjeta.materia .motivo{margin:0;color:var(--texto-suave);font-size:var(--letra-densa);line-height:1.35}
 .tarjeta.materia .motivo strong{color:var(--texto)}

@@ -1376,8 +1376,48 @@ function pintarPlanCompleto(){
       <div class="lista">` +
       suyas.map(m => {
         const e = estadoCrudo(m.cod);
-        return `<button class="tarjeta materia estado-${e}" data-cod="${esc(m.cod)}">
+
+        /* SOLO LAS PENDIENTES DICEN SI SE PUEDEN CURSAR.
+
+           La pastilla contesta «¿cómo vengo con esta?» —pendiente,
+           cursando, aprobada—, que no es la pregunta que uno se hace
+           mirando el plan entero. Ahí la pregunta es «¿puedo
+           anotarme?», y hasta ahora las treinta y una decían
+           «Pendiente» por igual: las que estaban a mano y las que
+           faltaban cuatro años.
+
+           En las otras tres no va: la pastilla ya lo dijo, y agregar
+           un renglón para repetirlo alarga el plan de gusto.
+
+           Las trabadas llevan la misma marca que en «Mi cursada» —el
+           borde cortado y la superficie apagada—, que es como esta app
+           ya dice «todavía no». NO se apaga el texto: el renglón que
+           dice cuánto falta es justo el que hay que poder leer (está
+           anotado en `estilos.css`, en `.tarjeta.materia.trabada`). */
+        let situ = '', trabada = '';
+        if (e === 'pendiente'){
+          const faltan = situacion(m).faltaCursar.length;
+          if (faltan){
+            trabada = ' trabada';
+            situ = `<p class="motivo">Te ${faltan === 1 ? 'falta' : 'faltan'}
+                      <strong>${faltan} ${faltan === 1 ? 'correlativa' : 'correlativas'}</strong>
+                      para poder cursarla.</p>`;
+          } else {
+            /* Las mismas dos frases que usa «Mi cursada», y a propósito
+               hablan SOLO de correlativas. Decir «ya la podés cursar»
+               sería prometer de más: que no te falte ninguna no
+               significa que se dicte este cuatrimestre. El período lo
+               dice el renglón de abajo, y quién decide es «Mi cursada»,
+               que sí mira en qué mes estamos. */
+            situ = refsDe(m).length
+              ? `<p class="motivo">Tenés aprobadas todas sus correlativas.</p>`
+              : `<p class="motivo">No tiene correlativas.</p>`;
+          }
+        }
+
+        return `<button class="tarjeta materia estado-${e}${trabada}" data-cod="${esc(m.cod)}">
             <h3>${esc(m.nombre)}</h3>
+            ${situ}
             <div class="meta">
               <span class="pastilla ${e}">${ESTADOS[e].corto}</span>
               <span>${DICTADO[m.dictado]}</span>

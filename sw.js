@@ -90,8 +90,14 @@
    nunca dibuja el índice —o sea que la mitad del cambio no llega— y en
    Mi año el HTML nuevo pide clases (`ficha-dato`, `progreso-barra`)
    que la hoja guardada no tiene, así que el promedio y los finales
-   quedan como texto suelto sin caja, sin borde y sin tamaño. */
-const VERSION = 'bolivar-v24';
+   quedan como texto suelto sin caja, sin borde y sin tamaño.
+   v25 (6/9/2026) `estilos.css`: en la solapa Plan, las materias
+   trabadas pierden la segunda tinta. El `carrera/index.html` llega
+   nuevo igual —se sirve red primero— y ya escribe cuántas
+   correlativas faltan, así que sin subir el numero el texto se lee
+   pero las treinta y una materias siguen pareciendo la misma cosa,
+   que es justo lo que este cambio viene a resolver. */
+const VERSION = 'bolivar-v25';
 const ARMAZON = VERSION + '-armazon';
 const PAGINAS = VERSION + '-paginas';
 
