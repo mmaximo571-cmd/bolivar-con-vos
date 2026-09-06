@@ -36,7 +36,10 @@
 }catch(e){ document.documentElement.dataset.tema = 'claro'; }})();
 </script>
 </head>
-<body>
+<!-- La clase es para el bloque de impresión de `estilos.css`: al
+     imprimir se apaga todo menos el plan, y esas reglas no pueden
+     alcanzar a las otras once pantallas. -->
+<body class="pantalla-carrera">
 
 <div id="cabecera"></div>
 
@@ -157,6 +160,14 @@
 
   <!-- ---------- VISTA: PLAN COMPLETO ---------- -->
   <section id="vista-todo" hidden>
+
+    <!-- EL ENCABEZADO DE LA HOJA IMPRESA.
+         En la pantalla no está: acá arriba ya dice «Mi año» y cuál es
+         la carrera. Pero la hoja sale sola de la app y termina en una
+         carpeta o en una cartelera, así que tiene que decir de qué
+         carrera es, de qué facultad y de dónde salió. -->
+    <div class="solo-impresion" id="encabezado-impreso" aria-hidden="true"></div>
+
     <div id="por-anio"></div>
 
     <div class="titulo-seccion" id="titulo-requisitos" hidden>OTROS REQUISITOS</div>
@@ -171,10 +182,35 @@
 
     <div class="aviso" id="nota-asterisco" hidden></div>
 
-    <button class="boton borde ancho" id="borrar" style="margin:18px 0 6px">
+    <!-- EL PLAN EN PAPEL.
+         El plan en PDF pesa 3,6 MB y dice lo mismo que esta pantalla,
+         que ya viaja con la app y anda sin internet. Así que no se
+         publica el PDF: se imprime esto. El diálogo del navegador
+         ofrece «Guardar como PDF» en el mismo lugar, así que de acá
+         sale tanto la hoja para la carpeta como el archivo. -->
+    <button class="boton borde ancho no-imprimir" id="imprimir-plan"
+            style="margin:18px 0 6px">
+      Imprimir el plan
+    </button>
+    <p class="letra-chica no-imprimir">
+      Se abre el cuadro de impresión de tu teléfono o computadora. Ahí mismo,
+      en «Destino», podés elegir <strong>Guardar como PDF</strong> y quedarte
+      el plan completo en un archivo. Sale con lo que tengas marcado.
+    </p>
+    <!-- El navegador de Instagram no imprime: es un WebView, y ahí
+         `print()` no hace nada. Como esa es la puerta por la que va a
+         entrar casi todo el mundo el 21, el aviso no puede aparecer
+         recién después de que el botón falle. -->
+    <p class="letra-chica no-imprimir" id="aviso-imprimir" hidden>
+      Si tocás y no pasa nada, estás dentro del navegador de Instagram, que no
+      sabe imprimir. Tocá los tres puntitos de arriba y elegí
+      <strong>Abrir en el navegador</strong>: desde ahí sí se puede.
+    </p>
+
+    <button class="boton borde ancho no-imprimir" id="borrar" style="margin:18px 0 6px">
       Empezar de nuevo
     </button>
-    <p class="letra-chica">
+    <p class="letra-chica no-imprimir">
       Lo que marcás se guarda en este teléfono, y cada carrera por separado.
       No se sube a ningún lado salvo que vos crees una copia de respaldo,
       acá abajo.
@@ -1470,6 +1506,16 @@ function pintarPlanCompleto(){
   const hayNota  = !!PLAN.notaAsterisco && MATERIAS.some(m => m.marcada);
   cajaNota.hidden = !hayNota;
   cajaNota.innerHTML = hayNota ? `<strong>(*)</strong> ${esc(PLAN.notaAsterisco)}` : '';
+
+  /* El encabezado de la hoja impresa. Se arma acá y no una sola vez al
+     arrancar porque cambia con la carrera, igual que el resto de la
+     vista. La fecha va porque la hoja lleva lo que la persona tenga
+     marcado hoy: dentro de un cuatrimestre ese papel miente. */
+  document.getElementById('encabezado-impreso').innerHTML =
+    `<strong>${esc(PLAN.carrera)}</strong>` +
+    `<span>Plan de estudios · ${esc(PLAN.facultad)}</span>` +
+    `<span>Impreso el ${fechaLinda(hoyISO())} desde ` +
+    `bolivar-con-vos.vercel.app · La Bolívar con vos</span>`;
 }
 
 /* ============================================================
@@ -2974,6 +3020,36 @@ function empezarDeNuevo(){
 
 ['borrar','borrar-cursada'].forEach(id =>
   document.getElementById(id).addEventListener('click', empezarDeNuevo));
+
+/* ============================================================
+   IMPRIMIR EL PLAN
+
+   El plan en PDF pesa 3,6 MB y dice lo mismo que esta vista, que ya
+   viaja con la app. En vez de publicar el archivo, se imprime la
+   pantalla: el mismo cuadro del navegador ofrece «Guardar como PDF»,
+   así que de acá sale el papel y el archivo.
+
+   Qué imprime: `vista-todo` entero, aunque la persona esté parada en
+   otra pestaña. Por eso el bloque de `estilos.css` la fuerza visible
+   al imprimir: si alguien hace Ctrl+P desde «Mapa», lo que espera que
+   salga es el plan, no una hoja en blanco.
+   ============================================================ */
+document.getElementById('imprimir-plan').addEventListener('click', () => {
+  /* Si estaba en otra pestaña, esto la deja donde va a imprimir: el
+     CSS ya la mostraría igual, pero la vista previa del navegador
+     saldría de una pantalla que la persona no está mirando. */
+  verPestana('todo');
+  print();
+});
+
+/* El navegador de Instagram es un WebView y `print()` ahí no hace nada:
+   no falla, no avisa, no pasa nada. Como es el navegador por el que va
+   a entrar casi todo el mundo el 21, el aviso se muestra ANTES de que
+   toque, y no después de que el botón se quede mudo. */
+if (/Instagram|FBAN|FBAV|FB_IAB/i.test(navigator.userAgent || '') ||
+    typeof print !== 'function'){
+  document.getElementById('aviso-imprimir').hidden = false;
+}
 
 /* ============================================================
    ARRANQUE

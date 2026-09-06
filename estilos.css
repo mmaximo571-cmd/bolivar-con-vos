@@ -2820,6 +2820,83 @@ details.tarjeta .respuesta{margin-top:9px;color:var(--texto-suave);font-size:var
   .aparece{opacity:1 !important;transform:none !important;transition:none !important}
 }
 
+/* ============================================================
+   EL PLAN DE ESTUDIOS, EN PAPEL
+
+   El plan en PDF que dio la facultad pesa 3,6 MB y dice lo mismo que
+   la pestaña «Plan» de `carrera/`, que ya viaja con la app y anda sin
+   internet. Se decidió no publicar el archivo y hacer imprimible la
+   pantalla: el mismo cuadro del navegador ofrece «Guardar como PDF»,
+   así que de acá sale el papel Y el archivo, y el repositorio no
+   engorda 3,6 MB para decir algo que ya sabía.
+
+   Todo va colgado de `.pantalla-carrera`, que es la clase del `<body>`
+   de esa pantalla y de ninguna otra: estas reglas apagan media app, y
+   no pueden alcanzar a las otras once.
+   ============================================================ */
+.solo-impresion{display:none}
+
+@media print{
+  /* EN PAPEL SIEMPRE ES DE DÍA. Si el teléfono está en modo oscuro, la
+     hoja saldría con fondo casi negro: tinta desperdiciada y, en la
+     mayoría de las impresoras, un plan ilegible. Las variables se
+     redefinen en el `<body>`, así que ganan sobre las del `:root`
+     oscuro para todo lo que está adentro. */
+  body.pantalla-carrera{
+    --fondo:       #FFFFFF;
+    --superficie:  #FFFFFF;
+    --superficie-2:#F5F0E8;
+    --texto:       #1A1A1A;
+    --texto-suave: #4E4E4E;
+    --linea:       #D8E5EA;
+    --tinta-borde: #1A1A1A;
+    --rojo:        #B52625;
+    --apagado:     #F5F0E8;
+    background:#FFFFFF;color:#1A1A1A
+  }
+
+  /* Lo que no va al papel: la navegación, las otras vistas, y los
+     botones, que en una hoja no se pueden tocar. */
+  .pantalla-carrera #cabecera,
+  .pantalla-carrera #pie,
+  .pantalla-carrera .pestanas,
+  .pantalla-carrera .titulo-pantalla,
+  .pantalla-carrera .bajada,
+  .pantalla-carrera #bienvenida-anio,
+  .pantalla-carrera #selector-carrera,
+  .pantalla-carrera #progreso,
+  .pantalla-carrera #vista-plan,
+  .pantalla-carrera #vista-final,
+  .pantalla-carrera #vista-mapa,
+  .pantalla-carrera #respaldo,
+  .pantalla-carrera .nexo-final,
+  .pantalla-carrera .hoja-fondo,
+  .pantalla-carrera .no-imprimir{display:none !important}
+
+  /* EL PLAN SALE AUNQUE ESTÉS EN OTRA PESTAÑA. Quien hace Ctrl+P
+     parado en «Mapa» espera el plan, no una hoja en blanco. El
+     selector lleva el `[hidden]` adentro para ganarle en especificidad
+     a `[hidden]{display:none !important}` de más arriba. */
+  .pantalla-carrera #vista-todo,
+  .pantalla-carrera #vista-todo[hidden]{display:block !important}
+
+  .pantalla-carrera .solo-impresion{display:block;margin-bottom:14px}
+  .pantalla-carrera #encabezado-impreso strong{
+    display:block;font-family:'Archivo Black',system-ui,sans-serif;
+    font-size:17pt;line-height:1.2
+  }
+  .pantalla-carrera #encabezado-impreso span{
+    display:block;font-size:9pt;color:#4E4E4E;margin-top:3px
+  }
+
+  /* Una materia partida entre dos hojas no se lee. Y un «TERCER AÑO»
+     solo al pie de la página tampoco sirve de nada. */
+  .pantalla-carrera .tarjeta{box-shadow:none;break-inside:avoid}
+  .pantalla-carrera .titulo-seccion{break-after:avoid}
+
+  @page{margin:14mm}
+}
+
 /* Sobre la banda negra, los botones de borde tienen que invertirse: el
    --texto de la app es oscuro en modo claro, así que ahí quedaban
    negros sobre negro. Contraste 1,00: invisibles. */

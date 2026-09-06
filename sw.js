@@ -104,8 +104,15 @@
    subir el numero quien ya lo abrio sigue viendo las cuatro pastillas
    viejas; y si llegara el archivo nuevo con la hoja vieja, la clase
    `pregunta` no existe y las cuatro preguntas salen en mayusculas y
-   partidas al medio. */
-const VERSION = 'bolivar-v26';
+   partidas al medio.
+   v27 (6/9/2026) `estilos.css`: el plan de estudios se puede imprimir.
+   La pantalla `carrera/` llega nueva porque se sirve red primero, asi
+   que el boton «Imprimir el plan» aparece igual; pero el bloque
+   `@media print` vive en la hoja, que es armazon. Sin subir el numero,
+   quien ya tiene la app toca el boton y le sale impresa la pantalla
+   entera —cabecera, pestanas, botones y la vista que estuviera
+   abierta— en vez del plan. */
+const VERSION = 'bolivar-v27';
 const ARMAZON = VERSION + '-armazon';
 const PAGINAS = VERSION + '-paginas';
 
