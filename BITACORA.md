@@ -78,6 +78,7 @@ sobre los otros. Ahora mandan así, y no se abre un quinto:
 | 6/9 | **«Contacto de las cátedras» lleva a `/catedras/`** y no al PDF de Drive. Atrás vino la regla que faltaba: una ficha cuyo enlace no empieza con `http://` es una pantalla de la app y se abre adentro, sin pestaña nueva y con «→». El cartel del cuadrado dice **«En la app»** | `f7ef158` |
 | 6/9 | **Los contactos de Avisanos, cargados** (7 nuevos). Y con eso aparecieron dos cosas rotas: el único contacto real que había estaba sin código de país, así que `wa.me` contestaba «número no válido» y el traspaso terminaba en un error; y el chat decía «SITIO OFICIAL» encima de preguntas frecuentes y de fichas que llevan adentro de la app | `467117d` |
 | 6/9 | **El plan de estudios se imprime, y el PDF de 3,6 MB no se publica.** La pestaña «Plan» ya decía lo mismo que el archivo de la facultad y viaja con la app sin internet. Ahora esa vista se imprime con encabezado propio, sale aunque estés parado en otra pestaña, y en modo oscuro la hoja igual sale blanca. El cuadro del navegador ofrece «Guardar como PDF», así que de ahí salen el papel y el archivo. `v27` | `dbe9fcf` |
+| 6/9 | **El botón de imprimir estaba al final del plan, o sea en ninguna parte.** Quedaba debajo de las cuarenta y dos materias, de las que se rinden libres y de la nota del asterisco: a cinco pantallas de scroll de donde se abre la pestaña. Máximo no lo encontró. Ahora abre la pestaña «Plan», arriba de PRIMER AÑO: a 350 px del principio contra los ~6.000 de antes. `v28` | `0992a25` |
 
 **Ojo con lo de las materias libres.** El listado sale de un documento que se
 llama, textualmente, «**Propuesta** de materias libres … para agregar al régimen
@@ -343,6 +344,12 @@ facultad y la fecha. Tres cosas que no son obvias:
   entrar casi todo el mundo el 21, el aviso de «tocá los tres puntitos y abrilo
   en el navegador» **se muestra por user agent antes de que toque**, y no después
   de que el botón se quede mudo.
+- **El botón va arriba de la pestaña, no al final.** Salió al final en la
+  primera versión y Máximo no lo encontró: quedaba debajo de las cuarenta y dos
+  materias, a cinco pantallas de scroll. Vale como regla y no como anécdota: en
+  esta pantalla, **lo que va después del plan no lo ve nadie**. El botón de
+  «Empezar de nuevo» sigue ahí abajo a propósito —eso se busca cuando se
+  necesita—, pero nada que uno tenga que descubrir puede vivir en esa zona.
 
 Y de paso **el «Guardar como PDF» sigue existiendo**: está en el mismo cuadro
 del navegador, en «Destino». O sea que de la pantalla salen el papel y el
