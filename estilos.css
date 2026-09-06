@@ -2821,6 +2821,45 @@ details.tarjeta .respuesta{margin-top:9px;color:var(--texto-suave);font-size:var
 }
 
 /* ============================================================
+   EL GLOSARIO
+
+   Once palabras que en la facultad se dicen como si todo el mundo las
+   supiera, y que el primer día no sabe nadie. Reusa `.modulo`, que es
+   la tarjeta de la guía de una materia: título arriba, cuerpo abajo.
+   Lo único propio son dos cosas.
+
+   LA PRIMERA ORACIÓN NO ES UN TÍTULO NI ES EL PÁRRAFO. Es la respuesta
+   corta —«qué es», en una línea—, y el párrafo de abajo es el detalle.
+   Quien busca una palabra suelta lee esa línea y se va; quien está
+   perdido de verdad sigue. Por eso va más grande que el cuerpo y no en
+   mayúsculas: es una respuesta, no una etiqueta.
+   ============================================================ */
+.glosario-corta{
+  font-family:var(--fuente-sub);font-weight:700;
+  font-size:var(--letra-base);line-height:1.4;
+  margin:2px 0 10px
+}
+.modulo .glosario-corta + p{margin-top:0}
+
+/* EL ENLACE A DONDE SE HACE LA COSA. La mitad de estas palabras nombran
+   algo que en la app se puede hacer: anotarse, ver las fechas, mirar
+   las correlativas. Un glosario que explica y no lleva es media
+   respuesta. Va al pie de la tarjeta, separado por la línea, para que
+   se lea como «y ahora, andá acá». */
+.glosario-ir{
+  margin:12px 0 0;padding-top:11px;border-top:1px solid var(--linea);
+  font-size:var(--letra-nota)
+}
+.glosario-ir a{
+  display:inline-flex;align-items:center;gap:7px;min-height:32px;
+  font-family:var(--fuente-sub);font-weight:700;
+  color:var(--texto);text-decoration:none;border-bottom:1.5px solid var(--celeste)
+}
+@media (hover:hover) and (pointer:fine){
+  .glosario-ir a:hover{opacity:.75}
+}
+
+/* ============================================================
    EL PLAN DE ESTUDIOS, EN PAPEL
 
    El plan en PDF que dio la facultad pesa 3,6 MB y dice lo mismo que

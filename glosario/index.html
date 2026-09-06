@@ -1,0 +1,304 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Glosario universitario · La Bolívar con vos</title>
+<meta name="description" content="Qué es una cursada, un final, una promoción, una correlativa. El vocabulario de la Facultad de Trabajo Social explicado en criollo, por la Agrupación Simón Bolívar.">
+<meta name="theme-color" content="#F9E830">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Montserrat:wght@600;700;800&family=Roboto:wght@400;500;700&family=Roboto+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<!-- Iconos de la app: pestana, Google, y pantalla de inicio del celular -->
+<link rel="icon" type="image/png" sizes="32x32" href="../imagenes/icono-32.png">
+<link rel="icon" type="image/png" sizes="96x96" href="../imagenes/icono-96.png">
+<link rel="icon" type="image/png" sizes="192x192" href="../imagenes/icono-192.png">
+<link rel="apple-touch-icon" href="../imagenes/icono-apple.png">
+<link rel="manifest" href="../manifest.json">
+
+<!-- Como se ve cuando alguien comparte el link por WhatsApp o Instagram -->
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="La Bolivar con vos">
+<meta property="og:title" content="Glosario universitario · La Bolívar con vos">
+<meta property="og:description" content="Qué es una cursada, un final, una promoción, una correlativa. El vocabulario de la facu, explicado entre nosotres.">
+<meta property="og:image" content="https://bolivar-con-vos.vercel.app/imagenes/compartir.png">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="stylesheet" href="../estilos.css">
+<!-- EL TEMA, ANTES DE DIBUJAR NADA. Va acá arriba y no en app.js a
+     propósito: app.js carga al final del cuerpo, así que la pantalla
+     arrancaría clara y pegaría un salto a oscura. Son tres renglones. -->
+<script>
+(function(){try{
+  var g = localStorage.getItem('bolivar-tema') || 'auto';
+  var oscuro = g === 'oscuro' || (g === 'auto' &&
+    window.matchMedia('(prefers-color-scheme: dark)').matches);
+  document.documentElement.dataset.tema = oscuro ? 'oscuro' : 'claro';
+}catch(e){ document.documentElement.dataset.tema = 'claro'; }})();
+</script>
+</head>
+<body class="lectura sin-js">
+
+<div id="cabecera"></div>
+
+<!-- ============================================================
+     EL GLOSARIO
+
+     ESTE TEXTO NO SALE DE SUPABASE, Y ES A PROPÓSITO. Las once
+     definiciones son el reglamento de la facultad: no cambian de un
+     mes para el otro, y no hay nadie que las tenga que ir actualizando
+     desde el panel. Si vivieran en la base, esta pantalla no se podría
+     leer sin señal —que es justo cuando el ingresante la necesita, en
+     el pasillo, antes de entrar a Alumnado—. Escritas acá viajan con
+     la app y andan siempre.
+
+     Cuando algo de esto cambie de verdad —un régimen, una ventana de
+     inscripción—, se edita este archivo. Es el único lugar donde vive.
+
+     Va escrito en el HTML y no dibujado desde JavaScript por lo mismo:
+     un glosario que depende de que corra un script es un glosario que
+     alguna vez va a salir en blanco.
+     ============================================================ -->
+<main id="contenido" tabindex="-1">
+
+  <div class="banda tinta">
+    <div class="envoltura">
+      <p class="ceja-lectura aparece">
+        <a class="volver-lectura" href="../tramites/">← Info útil</a>
+      </p>
+      <h1 class="grito aparece">El vocabulario<br>de la <em>facu</em></h1>
+      <p class="bajada-lectura aparece">
+        Once palabras que en la facultad se dicen como si todo el mundo las
+        supiera, y que el primer día no sabe nadie. Nadie nació sabiendo qué
+        es una promoción: preguntar no es no estar a la altura.
+      </p>
+    </div>
+  </div>
+
+  <div class="banda papel">
+    <div class="envoltura">
+
+      <!-- ---------- CÓMO SE APRUEBA UNA MATERIA ---------- -->
+      <div class="titulo-seccion aparece">CÓMO SE APRUEBA UNA MATERIA</div>
+
+      <article class="modulo aparece">
+        <div class="modulo-cabeza"><h3>La cursada</h3></div>
+        <p class="glosario-corta">
+          El trayecto cuatrimestral o anual de una materia, con clases teóricas
+          y prácticas.
+        </p>
+        <p>
+          Para aprobar una cursada tenés que cumplir con el <strong>75% de
+          asistencia</strong> a las clases de Trabajos Prácticos y aprobar dos
+          exámenes parciales —o sus recuperatorios— con nota mínima de 4
+          (cuatro). Al aprobar la cursada, la materia queda en estado
+          <strong>«Regular»</strong>.
+        </p>
+      </article>
+
+      <article class="modulo aparece">
+        <div class="modulo-cabeza"><h3>Condición de regular</h3></div>
+        <p class="glosario-corta">
+          El estado que te permite rendir el examen final durante 3 años.
+        </p>
+        <p>
+          Cuando aprobás la cursada de una materia conservás la regularidad por
+          <strong>3 (tres) años calendario</strong>. Durante esa ventana podés
+          presentarte a las mesas de finales oficiales. Si pasan los 3 años y no
+          rendiste el final, la cursada <strong>vence</strong>: tenés que
+          volver a cursarla o pedir una prórroga de cursada.
+        </p>
+      </article>
+
+      <article class="modulo aparece">
+        <div class="modulo-cabeza"><h3>Examen final regular</h3></div>
+        <p class="glosario-corta">
+          La evaluación final de una materia que ya tenés cursada.
+        </p>
+        <p>
+          Se rinde en los turnos de exámenes oficiales: febrero, marzo, mayo,
+          julio, agosto, septiembre, octubre y diciembre. Te tenés que
+          inscribir por el SIU Guaraní durante la ventana de 4 días previa. Se
+          aprueba con nota 4 o superior.
+        </p>
+      </article>
+
+      <article class="modulo aparece">
+        <div class="modulo-cabeza"><h3>Promoción directa</h3></div>
+        <p class="glosario-corta">
+          Aprobar la materia durante el cuatrimestre, sin examen final.
+        </p>
+        <p>
+          Algunas cátedras tienen régimen de promoción. Pide notas altas en los
+          parciales —en general 6 o 7 de promedio según la cátedra, y sin haber
+          ido a recuperatorio— y <strong>80% o más de asistencia</strong>. Si
+          cumplís los requisitos, no rendís final.
+        </p>
+      </article>
+
+      <article class="modulo aparece">
+        <div class="modulo-cabeza"><h3>Examen final libre</h3></div>
+        <p class="glosario-corta">
+          Rendir una materia completa sin haber aprobado la cursada.
+        </p>
+        <p>
+          Si no cursaste la materia, o se te venció la regularidad, podés
+          rendirla en condición de libre en las mesas habilitadas. Son dos
+          instancias: una escrita <strong>eliminatoria</strong> y después una
+          oral, y ahí entra todo el programa de la cátedra.
+        </p>
+      </article>
+
+      <!-- ---------- CÓMO TE ANOTÁS ---------- -->
+      <div class="titulo-seccion aparece">CÓMO TE ANOTÁS</div>
+
+      <article class="modulo aparece">
+        <div class="modulo-cabeza"><h3>Correlatividades</h3></div>
+        <p class="glosario-corta">
+          El orden: qué materias tenés que tener aprobadas para cursar las
+          siguientes.
+        </p>
+        <p>
+          El plan de estudios establece qué materias previas necesitás tener con
+          cursada regular o con final aprobado antes de anotarte a una materia
+          nueva. Es lo que hace que el plan se recorra en un orden y no en
+          cualquiera.
+        </p>
+        <p class="glosario-ir">
+          <a href="../carrera/">Mirá qué podés cursar vos, en «Mi año» →</a>
+        </p>
+      </article>
+
+      <article class="modulo aparece">
+        <div class="modulo-cabeza"><h3>SIU Guaraní</h3></div>
+        <p class="glosario-corta">
+          El sistema web oficial de gestión académica de la UNLP.
+        </p>
+        <p>
+          Ahí hacés todas las inscripciones a materias y a exámenes finales,
+          pedís certificados de alumno regular con QR y consultás tu historia
+          académica completa. La Facultad de Trabajo Social tiene su propia
+          dirección de Guaraní, que es la que usa toda esta app.
+        </p>
+        <p class="glosario-ir">
+          <a href="https://www.guarani-trabajosocial.unlp.edu.ar/acceso"
+             target="_blank" rel="noopener">Entrar al SIU Guaraní ↗</a>
+        </p>
+      </article>
+
+      <article class="modulo aparece">
+        <div class="modulo-cabeza"><h3>Certificado de alumno regular</h3></div>
+        <p class="glosario-corta">
+          El documento oficial digital, con código de verificación nacional.
+        </p>
+        <p>
+          Se descarga al instante en PDF desde el SIU Guaraní, en
+          <strong>Trámites → Solicitar constancias</strong>. Es el que te piden
+          para el Boleto Estudiantil, las asignaciones familiares, la obra
+          social y las becas.
+        </p>
+        <p class="glosario-ir">
+          <a href="../tramites/">Cómo se saca, paso a paso →</a>
+        </p>
+      </article>
+
+      <article class="modulo aparece">
+        <div class="modulo-cabeza"><h3>Mesa de examen y ventana de inscripción</h3></div>
+        <p class="glosario-corta">
+          La semana de exámenes, y los 4 días clave para anotarte.
+        </p>
+        <p>
+          La ventana para anotarte por el SIU abre <strong>exactamente una
+          semana antes</strong> de la mesa y dura solo 4 días. Anotarse a
+          tiempo es lo que más finales hace perder: una vez cerrada la
+          inscripción, Alumnado no puede agregar a nadie.
+        </p>
+        <p class="glosario-ir">
+          <a href="../agenda/">Las fechas de este año →</a>
+        </p>
+      </article>
+
+      <article class="modulo aparece">
+        <div class="modulo-cabeza"><h3>Comisión y banda horaria</h3></div>
+        <p class="glosario-corta">
+          El horario concreto en el que cursás los Trabajos Prácticos.
+        </p>
+        <p>
+          Las materias se dividen en clases teóricas, que son comunes, y
+          comisiones de prácticos de 25 a 35 estudiantes. Al anotarte elegís
+          turno mañana, tarde o noche según lo que haya disponible.
+        </p>
+      </article>
+
+      <!-- ---------- QUIÉNES TE ACOMPAÑAN ---------- -->
+      <div class="titulo-seccion aparece">QUIÉNES TE ACOMPAÑAN</div>
+
+      <article class="modulo aparece">
+        <div class="modulo-cabeza"><h3>CEFTS · el Centro de Estudiantes</h3></div>
+        <p class="glosario-corta">
+          La herramienta gremial colectiva de les estudiantes de la Facultad de
+          Trabajo Social.
+        </p>
+        <p>
+          Está conducido por el <strong>Frente Malvinas Argentinas</strong>,
+          compuesto por la Agrupación Simón Bolívar y la Agrupación Gustavo
+          Legardon. El Centro defiende tus derechos, el boleto y el
+          presupuesto; acompaña con apuntes a precio de costo y grupos de
+          estudio; y lleva tu voz al Consejo Directivo de la facultad.
+        </p>
+        <p class="glosario-ir">
+          <a href="../quienes/">Quiénes somos →</a>
+        </p>
+      </article>
+
+    </div>
+  </div>
+
+  <!-- ---------- SI TE FALTA UNA PALABRA ----------
+       El glosario que se puede corregir es el que sirve: estas once
+       salieron de lo que más se pregunta, no de un reglamento leído de
+       arriba abajo. Falta alguna, seguro. -->
+  <div class="banda sol">
+    <div class="envoltura">
+      <h2 class="grito aparece" style="font-size:clamp(28px,7.4vw,52px)">
+        ¿Te falta<br>una palabra?</h2>
+      <p class="bajada-lectura aparece">
+        Estas once salieron de lo que más nos preguntan en el pasillo. Si hay
+        algo que no entendés y no está acá, decínoslo: lo escribimos y queda
+        para el que venga atrás.
+      </p>
+      <a class="puerta aparece" href="../quienes/">
+        <span class="puerta-texto">
+          <strong>Escribinos</strong>
+          <span>Todas nuestras formas de contacto</span>
+        </span>
+        <span class="puerta-flecha" aria-hidden="true">→</span>
+      </a>
+    </div>
+  </div>
+
+</main>
+
+<div id="pie"></div>
+
+<script>window.RAIZ = '../';</script>
+<script src="../lib/datos.js"></script>
+<script src="../config.js"></script>
+<script src="../iconos.js"></script>
+<script src="../app.js"></script>
+<script src="../lectura.js"></script>
+<script>
+(function glosario(){
+  document.getElementById('cabecera').innerHTML = htmlCabecera();
+  document.getElementById('pie').innerHTML = htmlPie();
+  /* Se marca «Info útil»: el glosario vive adentro de esa sección, y la
+     tarjeta del kit de la portada es la otra puerta. Sin esto no queda
+     ninguna marcada ni arriba ni en el índice del pie. */
+  pintarNav('tramites');
+  document.body.classList.remove('sin-js');
+  /* El texto ya está en el HTML: esto solo lo hace aparecer. Si no
+     corriera, `.sin-js` en el `<body>` lo deja visible igual. */
+  vigilarAparicion();
+})();
+</script>
+</body>
+</html>

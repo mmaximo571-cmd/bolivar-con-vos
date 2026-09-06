@@ -116,8 +116,15 @@
    de la pestaña «Plan». Estaba al final y no se encontraba: quedaba
    debajo de las cuarenta y dos materias. Suma `.fila-imprimir`, y quien
    se haya llevado la hoja de v27 veria el boton y el texto pegados uno
-   al lado del otro sin la fila que los ordena. */
-const VERSION = 'bolivar-v28';
+   al lado del otro sin la fila que los ordena.
+   v29 (6/9/2026) `estilos.css` e `index.html`: existe el glosario. La
+   pantalla `glosario/` es nueva y se sirve red primero, asi que llega
+   sola; pero la tarjeta del kit de la portada apuntaba a `quienes/` y
+   esa portada SI esta guardada, y las clases `.glosario-corta` y
+   `.glosario-ir` viven en la hoja, que es armazon. Sin subir el
+   numero, quien ya tiene la app sigue yendo a la pagina de la
+   agrupacion desde una tarjeta que dice «glosario». */
+const VERSION = 'bolivar-v29';
 const ARMAZON = VERSION + '-armazon';
 const PAGINAS = VERSION + '-paginas';
 
