@@ -73,7 +73,10 @@
     <button class="pestana" id="tab-plan"  role="tab" aria-selected="true">Mi cursada</button>
     <button class="pestana" id="tab-final" role="tab" aria-selected="false">Finales</button>
     <button class="pestana" id="tab-mapa"  role="tab" aria-selected="false">Mapa</button>
-    <button class="pestana" id="tab-todo"  role="tab" aria-selected="false">Plan completo</button>
+    <!-- Dice «Plan» y no «Plan completo» porque la palabra larga no entraba
+         en su pestaña y se recortaba: son cuatro repartiéndose 343 px.
+         «Completo» no agregaba nada al lado de «Mi cursada» y «Mapa». -->
+    <button class="pestana" id="tab-todo"  role="tab" aria-selected="false">Plan</button>
   </div>
 
   <!-- ---------- VISTA: MI CURSADA ----------
@@ -88,7 +91,7 @@
        Ahora son dos cosas. Un DIÁLOGO de hasta tres pasos —en qué año
        estás, qué te quedó de atrás, qué cursás ahora— y, cuando
        terminó, un RESUMEN de tu año. El listado no se pierde: vive
-       entero en «Plan completo», que es la solapa que existe para eso.
+       entero en «Plan», que es la solapa que existe para eso.
        -->
   <section id="vista-plan">
 
@@ -111,7 +114,7 @@
       <div id="consejo"></div>
 
       <!-- LA SALIDA PARA CUANDO CARGASTE MAL.
-           El mismo botón vive al pie de Plan completo desde antes, pero
+           El mismo botón vive al pie de la solapa Plan desde antes, pero
            ahí no lo encuentra nadie: quien se da cuenta de que se
            equivocó está acá, recién terminado el diálogo y mirando un
            año que no es el suyo. «Actualizar mi año» sirve para
@@ -349,7 +352,7 @@ function persistir(){
    hay que poder preguntarle a las correlativas «si contestás esto,
    ¿qué se te abre?» ANTES de escribir nada: si escribiéramos derecho,
    volver un paso atrás dejaría marcas puestas, y alguien que se va a
-   Plan completo a mitad del diálogo vería materias aprobadas que
+   la solapa Plan a mitad del diálogo vería materias aprobadas que
    todavía no confirmó.
 
    Por eso hay una sola perilla, acá, y todo el resto del sistema
@@ -1153,7 +1156,7 @@ function pintarParaAnotarse(){
       <span class="nexo-texto">
         <strong>${trabadas === 1 ? 'Otra materia se destraba' : 'Otras se destraban'}
           a medida que aprobás</strong>
-        <span>Verlas en el plan completo</span>
+        <span>Verlas en el plan</span>
       </span>
       <span class="nexo-flecha" aria-hidden="true">→</span>
     </button>` : '';

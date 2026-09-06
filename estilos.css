@@ -1199,11 +1199,16 @@ svg.ico{width:1em;height:1em;display:block;flex:0 0 auto}
    más, la palabra más larga dejaba de entrar y se cortaba. Quedan en
    --letra-nota, que son los mismos 14 px que tenían antes del 4/9/2026.
 
-   PENDIENTE, y viene de antes de este cambio: «PLAN COMPLETO» es más
-   ancha que su pestaña y se recorta unos 2 px. Se probó `overflow-wrap`
-   y sale peor —parte la palabra y deja una «O» sola en un tercer
-   renglón—, así que el arreglo de verdad es acortar el texto de esa
-   pestaña, y eso lo decide Máximo. */
+   Estuvo recortada por eso: «PLAN COMPLETO» era más ancha que su
+   pestaña y se comía unos 2 px. `overflow-wrap` salía peor —partía la
+   palabra y dejaba una «O» sola en un tercer renglón—, así que el
+   arreglo fue acortar el texto: el 6/9/2026 esa pestaña pasó a decir
+   «Plan». Medido con las cuatro a la vista: en 375 px cada una recibe
+   78 px de texto y «Plan» ocupa 41; en 320 px, la pantalla más angosta
+   que existe, reciben 64 y la más ancha pasa a ser «FINALES», que mide
+   62,8. O sea que el margen que queda es un píxel: cualquier palabra
+   nueva acá se mide antes, y no se mira si «entra en la pantalla» sino
+   si entra en un cuarto de 288 px. */
 .pestana{
   flex:1 1 0;min-width:0;
   background:transparent;border:none;border-bottom:3px solid var(--linea);
@@ -3347,7 +3352,7 @@ details.tarjeta .respuesta{margin-top:9px;color:var(--texto-suave);font-size:var
 /* ---- El renglon de las materias trabadas ----
    «Mi cursada» contesta «¿a que me anoto?», asi que lista solo lo que
    se puede hacer. Las trabadas —dieciocho de veinticinco en Trabajo
-   Social— viven en Plan completo. Este renglon dice cuantas son y
+   Social— viven en la solapa Plan. Este renglon dice cuantas son y
    lleva hasta ahi.
 
    Es deliberadamente callado: si compitiera con las tarjetas de arriba

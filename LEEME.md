@@ -821,8 +821,9 @@ no se sube a ningún lado y nadie del equipo lo ve.
 «la estoy cursando ahora». Debajo sigue **«El año que viene»**, con lo que podés
 promocionar, lo que podés cursar y lo que todavía está trabado.
 
-**Mapa** es el plan de correlatividades de izquierda a derecha. **Plan completo**
-es el listado año por año.
+**Mapa** es el plan de correlatividades de izquierda a derecha. **Plan** —hasta el
+6/9/2026 se llamaba «Plan completo», y así no entraba en la pestaña— es el
+listado año por año.
 
 ### El promedio
 
