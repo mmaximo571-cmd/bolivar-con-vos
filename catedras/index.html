@@ -85,6 +85,14 @@
   const chips  = document.getElementById('chips');
   const filtro = document.getElementById('filtro');
 
+  /* LLEGAR CON LA MATERIA YA ESCRITA. El buscador del inicio encuentra
+     cátedras, y sin esto el resultado te dejaba parado arriba de la
+     lista entera para que escribieras a mano lo mismo que acababas de
+     escribir. `dibujar()` lee el valor del campo, así que alcanza con
+     ponerlo antes: no hay que tocar nada más. */
+  const buscado = parametro('q');
+  if (buscado) filtro.value = buscado;
+
   const CARRERAS = [
     { id:'ts',   texto:'Trabajo Social' },
     { id:'fono', texto:'Fonoaudiología' },

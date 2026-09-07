@@ -174,7 +174,8 @@ setTimeout(function(){
     <div class="buscador">
       <span class="lupa" id="lupa">🔍</span>
       <input id="busqueda" type="search" autocomplete="off"
-             placeholder="¿Qué necesitás resolver?" aria-label="Buscar trámites y preguntas">
+             placeholder="¿Qué necesitás resolver?"
+             aria-label="Buscar en toda la app: trámites, preguntas, fechas, cátedras y glosario">
     </div>
   </div>
 </div>
@@ -1564,8 +1565,142 @@ setTimeout(function(){
      tipear, no en cada tecla. */
   entrada.addEventListener('input', function(){ anotarBusqueda(entrada.value); });
 
-  entrada.addEventListener('input', function(){
-    const q = normalizar(entrada.value.trim());
+  /* ============================================================
+     QUÉ MIRA EL BUSCADOR
+
+     Hasta el 7/9/2026 miraba dos cosas: los trámites y las preguntas
+     frecuentes. O sea que quien escribía «mesa de septiembre»,
+     «promoción» o «anatomo» recibía SIN RESULTADOS, aunque las tres
+     estuvieran cargadas en la app: en Fechas, en el glosario y en
+     Cátedras. Un buscador que no encuentra algo que la app sí tiene es
+     peor que no tener buscador, porque enseña que eso no está.
+
+     Ahora mira seis. Cinco no cuestan un solo byte de más:
+
+     · trámites y preguntas — ya estaban
+     · fechas — vienen del mismo pedido que dibuja la portada
+     · glosario y pantallas — texto fijo que viaja con la app
+
+     La sexta, las cátedras, es la única que sale a la red, y sale
+     RECIÉN cuando alguien escribe la segunda letra. Quien entra a la
+     portada y no busca nada no paga nada por esto, que es la regla de
+     toda la app: el peso está en el navegador, no en la base.
+     ============================================================ */
+
+  /* Las once palabras del glosario, copiadas y no leídas de
+     `glosario/index.html`: para poder buscarlas habría que bajar esa
+     pantalla entera —21 KB— en cada visita al inicio. Es la misma
+     decisión que ya está tomada allá, y por el mismo motivo: el texto
+     del reglamento viaja con la app y no cambia de un mes al otro.
+
+     Si se agrega una palabra en el glosario, se agrega acá. Son dos
+     renglones y pasa una vez por año. `mas` son las palabras con las
+     que la gente la busca, que casi nunca son el título. */
+  const GLOSARIO = [
+    { id:'cursada', palabra:'La cursada',
+      corta:'El trayecto cuatrimestral o anual de una materia, con clases teóricas y prácticas.',
+      mas:'cursar asistencia 75 parciales recuperatorio trabajos practicos' },
+    { id:'regular', palabra:'Condición de regular',
+      corta:'El estado que te permite rendir el examen final durante 3 años.',
+      mas:'regularidad vence vencimiento tres anos alumno regular' },
+    { id:'final-regular', palabra:'Examen final regular',
+      corta:'La evaluación final de una materia que ya tenés cursada.',
+      mas:'rendir final mesa nota' },
+    { id:'promocion', palabra:'Promoción directa',
+      corta:'Aprobar la materia durante el cuatrimestre, sin examen final.',
+      mas:'promocionar promociona promo sin final siete' },
+    { id:'final-libre', palabra:'Examen final libre',
+      corta:'Rendir una materia completa sin haber aprobado la cursada.',
+      mas:'libre rendir libre sin cursar' },
+    { id:'correlatividades', palabra:'Correlatividades',
+      corta:'El orden: qué materias tenés que tener aprobadas para cursar las siguientes.',
+      mas:'correlativas que puedo cursar requisitos destraba habilitada' },
+    { id:'siu-guarani', palabra:'SIU Guaraní',
+      corta:'El sistema web oficial de gestión académica de la UNLP.',
+      mas:'guarani siu inscribirme sistema clave usuario historia academica' },
+    { id:'certificado', palabra:'Certificado de alumno regular',
+      corta:'El documento oficial digital, con código de verificación nacional.',
+      mas:'constancia certificado alumno regular papel trabajo' },
+    { id:'mesa', palabra:'Mesa de examen y ventana de inscripción',
+      corta:'La semana de exámenes, y los 4 días clave para anotarte.',
+      mas:'mesa turno llamado anotarse inscripcion final' },
+    { id:'comision', palabra:'Comisión y banda horaria',
+      corta:'El horario concreto en el que cursás los Trabajos Prácticos.',
+      mas:'comision horario banda turno manana tarde noche cambio' },
+    { id:'cefts', palabra:'CEFTS · el Centro de Estudiantes',
+      corta:'La herramienta gremial colectiva de les estudiantes de la Facultad de Trabajo Social.',
+      mas:'centro de estudiantes cefts gremial agrupacion' }
+  ];
+
+  /* Las pantallas salen de INDICE_PIE, que ya es la lista completa y
+     está en app.js: repetirla acá sería tener dos listas que se
+     desincronizan. Lo único propio son las palabras con las que
+     alguien busca una pantalla, que no son su nombre: nadie escribe
+     «Mi año», escribe «correlativas» o «plan de estudios». */
+  const PALABRAS_DE_PANTALLA = {
+    inicio:     'portada principal',
+    tramites:   'info util tramites guias paso a paso preguntas frecuentes como se hace boleto beca',
+    carrera:    'mi ano plan de estudios correlativas materias organizador cursada promedio mapa final',
+    estudiemos: 'materiales resumenes apuntes grupos de estudio fichas bibliografia',
+    agenda:     'fechas calendario cronograma mesas de examen finales asueto receso inscripcion',
+    mi:         'perfil mi cuenta mis datos entrar salir registrarme',
+    quienes:    'quienes somos agrupacion simon bolivar contacto avisanos escribinos consejo',
+    catedras:   'catedras mails mail contacto profesores titular equipo docente correo',
+    glosario:   'glosario vocabulario palabras que significa que es diccionario'
+  };
+
+  /* ---------- Las cátedras, recién cuando hace falta ----------
+
+     No entran en el pedido grande de arriba a propósito: son 60 filas
+     que la portada no usa para nada, y hacerlas viajar en cada visita
+     para el caso de que alguien busque una materia es cobrarle a todo
+     el mundo lo que usa una parte.
+
+     Si la persona ya pasó por Cátedras alguna vez, están guardadas en
+     el teléfono y aparecen sin pedir nada. Si no, se piden una sola
+     vez, y cuando llegan se vuelve a dibujar lo que haya escrito: no
+     se hace esperar a nadie mirando una pantalla en blanco. */
+  let catedras = null, yaPediCatedras = false;
+
+  function pedirCatedras(){
+    if (yaPediCatedras || !db) return;
+    yaPediCatedras = true;
+
+    const guardado = memoriaDe('catedras');
+    if (guardado && (guardado.datos || []).length) catedras = guardado.datos;
+
+    db.from('catedras').select('carrera,materia_cod,materia,mails,anio')
+      .eq('publicado', true)
+      .then(function(r){
+        if (r.error || !r.data || !r.data.length) return;
+        catedras = r.data;
+        /* Solo si todavía hay algo escrito: si ya borró la búsqueda,
+           redibujar le haría aparecer resultados de la nada. */
+        if (entrada.value.trim().length >= 2) buscar();
+      }, function(){ /* sin red se busca en lo demás, que es casi todo */ });
+  }
+
+  /* Una tarjeta de resultado. Todas iguales por fuera: lo único que
+     cambia es el rótulo de abajo, que dice de qué parte de la app
+     salió. Es lo que evita que «Promoción directa» y «Promoción de
+     materias» parezcan la misma cosa. */
+  function resultado(url, titulo, detalle, rotulo){
+    return `
+      <a class="tarjeta" href="${esc(url)}">
+        <h3>${esc(titulo)}</h3>
+        ${detalle ? `<p>${esc(detalle)}</p>` : ''}
+        <div class="meta"><span>${esc(rotulo)}</span></div>
+      </a>`;
+  }
+
+  function recortar(t, largo){
+    const s = String(t || '').trim();
+    return s.length > largo ? s.slice(0, largo) + '…' : s;
+  }
+
+  function buscar(){
+    const escrito = entrada.value.trim();
+    const q = normalizar(escrito);
 
     if (q.length < 2){
       zonaRes.hidden = true;
@@ -1575,38 +1710,82 @@ setTimeout(function(){
     zonaRes.hidden = false;
     zonaNormal.hidden = true;  zonaFondo.hidden = true;
 
-    const tHit = tramites.filter(t =>
-      normalizar(t.titulo + ' ' + (t.resumen || '') + ' ' + (t.palabras_clave || '')).includes(q));
-    const fHit = preguntas.filter(p =>
-      normalizar(p.pregunta + ' ' + p.respuesta).includes(q));
+    pedirCatedras();
 
-    const total = tHit.length + fHit.length;
+    const hoy = hoyISO();
+    const tiene = (...partes) => normalizar(partes.filter(Boolean).join(' ')).includes(q);
+
+    /* El tope por tipo existe para que un tipo no se coma la lista:
+       buscar «inscripción» daba doce trámites y empujaba fuera de la
+       pantalla la fecha de la mesa, que era lo que se estaba
+       buscando. */
+    const tHit = tramites.filter(t => tiene(t.titulo, t.resumen, t.palabras_clave)).slice(0, 6);
+    const fHit = preguntas.filter(p => tiene(p.pregunta, p.respuesta)).slice(0, 4);
+
+    /* Las fechas que todavía vienen van primero, y las que ya pasaron
+       después: buscar «mesa de examen» tiene que traer la que viene,
+       no la de febrero. Pero las viejas no se esconden, porque a veces
+       lo que se busca es justamente qué decía aquel comunicado. */
+    const pHit = publicaciones
+      .filter(p => tiene(p.titulo, p.cuerpo, p.lugar))
+      .sort((a, b) => {
+        const va = (a.fecha_hasta || a.fecha_desde || '') >= hoy ? 0 : 1;
+        const vb = (b.fecha_hasta || b.fecha_desde || '') >= hoy ? 0 : 1;
+        if (va !== vb) return va - vb;
+        return String(a.fecha_desde || '').localeCompare(String(b.fecha_desde || ''));
+      })
+      .slice(0, 4);
+
+    const cHit = (catedras || [])
+      .filter(c => tiene(c.materia, c.materia_cod, (c.mails || []).join(' ')))
+      .slice(0, 4);
+
+    const gHit = GLOSARIO.filter(g => tiene(g.palabra, g.corta, g.mas)).slice(0, 3);
+
+    const sHit = INDICE_PIE
+      .filter(s => tiene(s.texto, PALABRAS_DE_PANTALLA[s.id]))
+      .slice(0, 3);
+
+    const total = tHit.length + fHit.length + pHit.length +
+                  cHit.length + gHit.length + sHit.length;
+
     tituloRes.textContent = total
       ? `${total} ${total === 1 ? 'RESULTADO' : 'RESULTADOS'}`
       : 'SIN RESULTADOS';
 
     if (!total){
       listaRes.innerHTML = `<div class="vacio">
-          No encontramos nada con «${esc(entrada.value.trim())}».<br>
+          No encontramos nada con «${esc(escrito)}».<br>
           Probá con otra palabra, o escribinos por Instagram y lo resolvemos a mano.
         </div>`;
       return;
     }
 
+    /* El orden es de lo más resolutivo a lo más general: primero lo que
+       contesta la pregunta entera (un trámite), al final la pantalla
+       donde seguir mirando. */
     listaRes.innerHTML =
-      tHit.map(t => `
-        <a class="tarjeta" href="tramites/?id=${t.id}">
-          <h3>${esc(t.titulo)}</h3>
-          ${t.resumen ? `<p>${esc(t.resumen)}</p>` : ''}
-          <div class="meta"><span>Trámite</span></div>
-        </a>`).join('') +
-      fHit.map(p => `
-        <a class="tarjeta" href="tramites/?faq=${p.id}">
-          <h3>${esc(p.pregunta)}</h3>
-          <p>${esc(p.respuesta.slice(0,140))}${p.respuesta.length > 140 ? '…' : ''}</p>
-          <div class="meta"><span>Pregunta frecuente</span></div>
-        </a>`).join('');
-  });
+      tHit.map(t => resultado('tramites/?id=' + t.id, t.titulo,
+        t.resumen, 'Trámite')).join('') +
+
+      fHit.map(p => resultado('tramites/?faq=' + p.id, p.pregunta,
+        recortar(p.respuesta, 140), 'Pregunta frecuente')).join('') +
+
+      pHit.map(p => resultado('agenda/?id=' + p.id, p.titulo,
+        [rangoLindo(p.fecha_desde, p.fecha_hasta), p.hora, p.lugar]
+          .filter(Boolean).join(' · ') || recortar(p.cuerpo, 120),
+        (p.fecha_hasta || p.fecha_desde || '') >= hoy ? 'Fecha' : 'Fecha que ya pasó')).join('') +
+
+      cHit.map(c => resultado('catedras/?q=' + encodeURIComponent(c.materia),
+        c.materia, (c.mails || []).join(' · '), 'Cátedra')).join('') +
+
+      gHit.map(g => resultado('glosario/#' + g.id, g.palabra,
+        g.corta, 'Glosario')).join('') +
+
+      sHit.map(s => resultado(s.url, s.texto, '', 'Pantalla de la app')).join('');
+  }
+
+  entrada.addEventListener('input', buscar);
 
 })();
 </script>
