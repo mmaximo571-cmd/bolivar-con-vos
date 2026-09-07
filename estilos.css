@@ -1575,6 +1575,82 @@ svg.ico{width:1em;height:1em;display:block;flex:0 0 auto}
 .mapa-arista.cursa     {stroke:var(--amarillo);stroke-width:2.4}
 .mapa-arista.resaltada {stroke:var(--negro);stroke-width:2.4}
 
+/* ------------------------------------------------------------
+   QUÉ PIDE Y QUÉ ABRE
+
+   TRES ANILLOS Y NINGÚN COLOR NUEVO. El color de cada nodo ya está
+   ocupado diciendo cómo venís con esa materia —aprobada, te falta el
+   final, podés cursarla—: pintar encima la relación taparía el estado,
+   que es el dato principal. Así que la relación se dibuja alrededor,
+   con tinta, que es lo que hace esta app cuando algo se resalta.
+
+   Y NO SE APAGA NADA. La primera versión bajaba a opacidad las
+   materias sin relación, que es lo que hace todo el mundo y se ve muy
+   bien en una captura. Pero apagar texto es bajarle el contraste: a
+   .35 el nombre de una materia deja de leerse, y el mapa entero pasa a
+   ser ilegible salvo cinco nodos. Los anillos alcanzan, porque además
+   la dirección la da la posición: lo que la materia pide está siempre
+   a su izquierda y lo que abre siempre a su derecha.
+
+   El outline no ocupa lugar en la página, así que ninguno de los tres
+   mueve el mapa ni un píxel al aparecer.
+
+   EL DESPLAZAMIENTO NO ES ESTÉTICO. El outline se dibuja AFUERA del
+   nodo, o sea sobre el fondo del mapa y no sobre el relleno del nodo, y
+   eso es lo que salva la medición: la tinta contra el relleno amarillo
+   de «te falta el final» da 1,1 de noche —invisible— y contra el fondo
+   del mapa da 13,9. Con el desplazamiento en cero el anillo tocaría el
+   relleno y volvería a perderse. Medido en los dos temas: 16,9 de día
+   y 13,9 de noche, contra los 3 que pide la norma.
+
+   Los 2 px de separación entran de sobra: entre dos filas de nodos hay
+   12 px, y dos anillos vecinos ocupan 4 de cada lado.
+   ------------------------------------------------------------ */
+.mapa-nodo.elegida{outline:3px solid var(--texto);outline-offset:3px}
+.mapa-nodo.pide   {outline:2px solid var(--texto);outline-offset:2px}
+.mapa-nodo.abre   {outline:2px dashed var(--texto);outline-offset:2px}
+
+/* El renglón que dice qué está marcado. Sin nada elegido es la única
+   pista de que el mapa se puede tocar, así que no se esconde. */
+.mapa-elegida{
+  display:flex;align-items:center;justify-content:space-between;gap:12px;
+  margin:0 0 10px;padding:9px 12px;
+  background:var(--superficie);border:1px solid var(--linea);
+  border-radius:var(--radio);font-size:var(--letra-nota)
+}
+.mapa-elegida.con-materia{min-height:48px}
+.mapa-elegida-guia{color:var(--texto-suave)}
+/* Dos renglones y corta. Los nombres largos de verdad —«Teoría de las
+   culturas y antropologías de las sociedades contemporáneas»— hacían
+   un renglón de cuatro líneas que empujaba el mapa entero fuera de la
+   pantalla del celular, y encima para repetir el nombre de la materia
+   que la persona ACABA de tocar y que sigue teniendo ahí, con su
+   anillo, tres dedos más abajo. Lo que este renglón tiene que decir
+   son los dos números. */
+.mapa-elegida-texto strong{
+  display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;
+  overflow:hidden;
+  font-family:var(--fuente-sub);font-size:var(--letra-densa);line-height:1.25
+}
+.mapa-elegida-cuentas{
+  display:block;margin-top:3px;
+  color:var(--texto-suave);font-size:var(--letra-chica)
+}
+.mapa-elegida .boton{
+  flex:0 0 auto;min-height:48px;padding:9px 15px;font-size:var(--letra-chica)
+}
+
+/* Los dos números llevan puesto el anillo que hay que buscar en el
+   mapa. Es la referencia, dicha con el ejemplo: una fila de
+   referencias más abajo de la que ya está sería la tercera cosa que
+   leer antes de mirar el mapa. */
+.mapa-pide, .mapa-abre{
+  display:inline-block;padding:0 6px;margin:0 1px;
+  font-family:var(--fuente-datos);color:var(--texto)
+}
+.mapa-pide{border:2px solid var(--texto)}
+.mapa-abre{border:2px dashed var(--texto)}
+
 /* ============================================================
    APERTURA · la animacion de cuando abris la app
    Dura poco menos de un segundo y se va sola. Se ve una vez por

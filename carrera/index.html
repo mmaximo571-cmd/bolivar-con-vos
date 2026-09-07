@@ -152,6 +152,17 @@
       <span><i class="trabada"></i>Todavía no</span>
     </div>
 
+    <!-- QUÉ PIDE Y QUÉ ABRE.
+         El mapa dibujaba las flechas, pero con cuarenta materias en
+         pantalla seguir una flecha con el ojo no es leer: es adivinar.
+         Y el resaltado que había era solo al pasar el mouse por encima,
+         o sea que en el celular —que es donde se usa esta app— no
+         existía.
+         Este renglón es lo que hace que la marca se entienda: sin nada
+         elegido explica que se puede tocar, y con algo elegido dice qué
+         significan los dos anillos. -->
+    <div class="mapa-elegida" id="mapa-elegida"></div>
+
     <div class="mapa-marco" id="mapa-marco">
       <div class="mapa-lienzo" id="mapa-lienzo"></div>
     </div>
@@ -1647,19 +1658,44 @@ function pintarMapa(){
          <span class="nom">${esc(m.nombre)}</span>
        </button>`).join('')).join('');
 
-  /* En pantalla grande se resaltan las conexiones de la materia que
-     tenés debajo del dedo o del mouse. En el celular no molesta. */
+  /* ---- 4. Qué pide y qué abre ----
+
+     Antes esto era solo `mouseenter`, y encendía únicamente las
+     LÍNEAS. Dos problemas. El primero: en el celular no hay mouse, así
+     que la mitad de lo que el mapa sabe no se lo contaba a nadie —y el
+     celular es el aparato de esta app—. El segundo: una línea
+     encendida dice «hay relación» y no dice cuál, y las dos preguntas
+     que trae alguien al mapa son distintas —«¿qué me falta para
+     cursar esta?» y «¿si apruebo esta, qué se me abre?»—.
+
+     Ahora se marcan los NODOS, con dos anillos que se distinguen:
+     entero lo que la materia pide, punteado lo que le abre la puerta.
+     Y se marca al TOCAR, no solo al pasar por encima: tocar una
+     materia abre igual su ficha como antes, y al cerrarla el mapa
+     quedó marcado. Nada cambió de lugar; lo que había se quedó donde
+     estaba y ahora también funciona con el dedo. */
   lienzo.querySelectorAll('.mapa-nodo').forEach(nodo => {
-    nodo.addEventListener('mouseenter', () => marcarLineas(nodo.dataset.cod));
-    nodo.addEventListener('mouseleave', () => marcarLineas(null));
+    /* Pasar por encima muestra la de abajo del mouse, y al salir se
+       vuelve a la que está elegida, no a nada: si no, mover el mouse
+       por arriba del mapa borraba lo que la persona había tocado. */
+    nodo.addEventListener('mouseenter', () => marcar(nodo.dataset.cod));
+    nodo.addEventListener('mouseleave', () => marcar(mapaElegida));
+    /* Marcar acá y no confiar en el `mouseenter`: con el dedo no hay
+       `mouseenter`, y es justamente el caso que había que arreglar. */
+    nodo.addEventListener('click', () => {
+      mapaElegida = nodo.dataset.cod;
+      marcar(mapaElegida);
+    });
   });
 
-  function marcarLineas(cod){
-    lienzo.querySelectorAll('.mapa-arista').forEach(l => {
-      const [a, b] = l.dataset.une.split('|');
-      l.classList.toggle('resaltada', cod !== null && (a === cod || b === cod));
-    });
-  }
+  /* Tocar el fondo suelta la materia. Es la salida: sin esto la marca
+     se queda puesta para siempre y no hay forma de volver al mapa
+     limpio salvo cambiando de pestaña. */
+  lienzo.addEventListener('click', e => {
+    if (e.target.closest('.mapa-nodo')) return;
+    mapaElegida = null;
+    marcar(null);
+  });
 
   /* Aviso de deslizar, solo si de verdad no entra en la pantalla */
   const marco = document.getElementById('mapa-marco');
@@ -1668,6 +1704,83 @@ function pintarMapa(){
   aviso.hidden = !noEntra;
   if (noEntra) aviso.textContent =
     'Deslizá el mapa hacia el costado para ver los años siguientes.';
+
+  marcar(mapaElegida);
+}
+
+/* Cuál está marcada. Vive afuera de `pintarMapa` porque el mapa se
+   vuelve a dibujar entero cada vez que se marca una materia como
+   aprobada: si viviera adentro, marcar un estado soltaría lo que la
+   persona estaba mirando. */
+let mapaElegida = null;
+
+function marcar(cod){
+  const lienzo = document.getElementById('mapa-lienzo');
+  if (!lienzo) return;
+
+  const m     = cod ? POR_COD[cod] : null;
+  const pide  = m ? refsMapa(m)          : [];
+  const abre  = m ? (HABILITA[cod] || []) : [];
+
+  lienzo.querySelectorAll('.mapa-nodo').forEach(n => {
+    const c = n.dataset.cod;
+    n.classList.toggle('elegida', c === cod);
+    n.classList.toggle('pide',    pide.indexOf(c) !== -1);
+    n.classList.toggle('abre',    abre.indexOf(c) !== -1);
+  });
+
+  lienzo.querySelectorAll('.mapa-arista').forEach(l => {
+    const [a, b] = l.dataset.une.split('|');
+    l.classList.toggle('resaltada', !!cod && (a === cod || b === cod));
+  });
+
+  const caja = document.getElementById('mapa-elegida');
+  if (!caja) return;
+
+  if (!m){
+    caja.className = 'mapa-elegida';
+    caja.innerHTML = `<span class="mapa-elegida-guia">
+        Tocá una materia y el mapa te marca cuáles pide y cuáles te abre.
+      </span>`;
+    return;
+  }
+
+  /* Se dice CUÁNTAS son, y no solo que están marcadas. Buscar «dos
+     anillos» en un mapa de cuarenta materias es una tarea que termina;
+     buscar «los anillos» no termina nunca, porque no se sabe cuándo se
+     encontraron todos.
+
+     Y los dos números llevan puesto su propio anillo: es la leyenda,
+     dicha con el ejemplo en vez de con una fila de referencias más. */
+  /* EL TRABAJO INTEGRADOR FINAL NO DICE UN NÚMERO. Pide todas las
+     materias de 1° a 4°, y el mapa no dibuja esas cuarenta flechas
+     porque no explican nada. Pero entonces `pide` acá vale 4 —las que
+     sí se dibujan, las de cursada— y poner «Pide 4» sería mentir con
+     un número, que es la peor forma de mentir: se lee como exacto.
+     Se dice la regla, igual que en la ficha. */
+  const todasDeUnoACuatro = m.paraFinal === 'todas-1-a-4';
+
+  caja.className = 'mapa-elegida con-materia';
+  caja.innerHTML = `
+    <div class="mapa-elegida-texto">
+      <strong>${esc(m.nombre)}</strong>
+      <span class="mapa-elegida-cuentas">
+        ${todasDeUnoACuatro
+          ? 'Pide todas las de 1° a 4°'
+          : (pide.length
+              ? `Pide <b class="mapa-pide">${pide.length}</b>`
+              : 'No pide ninguna')} ·
+        ${abre.length
+          ? `abre <b class="mapa-abre">${abre.length}</b>`
+          : 'no abre ninguna'}
+      </span>
+    </div>
+    <button type="button" class="boton borde" id="mapa-soltar">Soltar</button>`;
+
+  caja.querySelector('#mapa-soltar').addEventListener('click', () => {
+    mapaElegida = null;
+    marcar(null);
+  });
 }
 
 /* ============================================================
