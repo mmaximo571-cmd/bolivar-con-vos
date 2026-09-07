@@ -1014,6 +1014,25 @@ svg.ico{width:1em;height:1em;display:block;flex:0 0 auto}
 .tarjeta.destacada{outline:2px solid var(--texto);outline-offset:2px}
 
 /* ============================================================
+   PASAR UNA FECHA AL CALENDARIO
+   ============================================================ */
+
+/* Va separado por una línea porque no es parte de la publicación: es
+   lo que se puede HACER con ella. Sin la línea se leía como un pie de
+   la nota. */
+.agendarlo{
+  margin-top:26px;padding-top:18px;border-top:1px solid var(--linea)
+}
+.agendarlo .titulo-seccion{margin-top:0}
+
+/* Dos botones al lado, uno abajo del otro cuando no entran. El amarillo
+   es el de Google y no por preferencia de marca: es el único de los dos
+   que anda seguro adentro del navegador de Instagram, que es donde esta
+   app se usa de verdad. */
+.botones-agenda{display:flex;flex-wrap:wrap;gap:10px;margin-bottom:10px}
+.botones-agenda .boton{flex:1 1 190px;min-height:48px}
+
+/* ============================================================
    BARRA DE NAVEGACION INFERIOR
    ============================================================ */
 

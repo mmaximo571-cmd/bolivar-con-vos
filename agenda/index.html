@@ -123,7 +123,14 @@
       ${p.cuerpo ? `<div style="font-size:16.5px;line-height:1.5">${escMulti(p.cuerpo)}</div>` : ''}
 
       ${p.link_url ? `<a class="boton ancho oscuro" style="margin-top:20px"
-          href="${esc(p.link_url)}" target="_blank" rel="noopener">Abrir el enlace ↗</a>` : ''}`;
+          href="${esc(p.link_url)}" target="_blank" rel="noopener">Abrir el enlace ↗</a>` : ''}
+
+      ${htmlAgendarlo(p)}`;
+
+    /* El .ics se arma acá, con la publicación que ya está en memoria.
+       El botón de Google no necesita nada: es un enlace común. */
+    const botonICS = contenido.querySelector('[data-agendar]');
+    if (botonICS) botonICS.addEventListener('click', () => bajarICS([p], p.titulo));
 
     document.title = p.titulo + ' · La Bolívar con vos';
     return;
@@ -136,10 +143,12 @@
     <h1 class="titulo-pantalla">FECHAS Y<br>NOVEDADES</h1>
     <p class="bajada">Fechas, comunicados y actividades. Se actualiza sola.</p>
     <div class="calendario-centro" id="calendario"></div>
+    <div id="bajar-todo"></div>
     <div id="zonas"><div class="esq-tarjeta"><div class="esqueleto esq-linea titulo"></div><div class="esqueleto esq-linea"></div><div class="esqueleto esq-linea media"></div></div><div class="esq-tarjeta"><div class="esqueleto esq-linea titulo"></div><div class="esqueleto esq-linea"></div><div class="esqueleto esq-linea corta"></div></div></div>`;
 
-  const cajaCal = document.getElementById('calendario');
-  const zonas   = document.getElementById('zonas');
+  const cajaCal   = document.getElementById('calendario');
+  const cajaBajar = document.getElementById('bajar-todo');
+  const zonas     = document.getElementById('zonas');
 
   let publicaciones = [];
 
@@ -350,6 +359,34 @@
     })();
   }
 
+  /* ---------- Bajarse todo el cronograma de una ----------
+
+     Va abajo del calendario y no al final de la lista: al final no lo
+     encuentra nadie, porque los meses vienen plegados y la pantalla
+     termina cuatro dedos más abajo del calendario.
+
+     Se bajan SOLO las que todavía vienen. Meterle a alguien en el
+     teléfono las cuarenta y seis fechas del año, incluidas las de
+     marzo, es ensuciarle el calendario, no ayudarlo. Y va en botón de
+     contorno, no amarillo: el amarillo de esta pantalla ya es el día
+     que se toca en la grilla. */
+  function pintarBajarTodo(){
+    const vienen = publicaciones.filter(todaviaViene);
+    if (!vienen.length){ cajaBajar.innerHTML = ''; return; }
+
+    cajaBajar.innerHTML = `
+      <button type="button" class="boton borde ancho" id="btn-bajar-todo">
+        Bajar las ${vienen.length} fechas que vienen
+      </button>
+      <p class="letra-chica" style="margin:8px 0 22px;text-align:center">
+        Un archivo que abre tu calendario y las anota todas, cada una con
+        aviso dos días antes.
+      </p>`;
+
+    document.getElementById('btn-bajar-todo').addEventListener('click',
+      () => bajarICS(vienen, 'Fechas de la FTS UNLP'));
+  }
+
   function montarCal(){
     montarCalendario(cajaCal, publicaciones,
       iso => mostrarDia(iso),
@@ -359,6 +396,7 @@
   if (await traer()){
     dibujar();
     montarCal();
+    pintarBajarTodo();
   }
 
   /* ---------- SE REFRESCA AL VOLVER ----------
@@ -395,6 +433,7 @@
       ultimoRefresco = Date.now();
       dibujar();
       montarCal();
+      pintarBajarTodo();
     } finally { refrescando = false; }
   }
 
