@@ -407,6 +407,59 @@ Al abrir `index.html` pasan tres cosas, en este orden:
    detrás** del contenido, apoyada abajo, como si la app estuviera parada sobre
    la facultad. Está al 28% para que el texto siga leyéndose encima.
 
+### El buscador mira toda la app (7/9/2026)
+
+Hasta el 7 de septiembre miraba **dos** cosas: los trámites y las preguntas
+frecuentes. O sea que quien escribía «mesa de septiembre», «promoción» o
+«anatomo» recibía **SIN RESULTADOS**, y las tres estaban cargadas: en Fechas, en
+el glosario y en Cátedras. Un buscador que no encuentra algo que la app sí tiene
+es peor que no tener buscador, porque enseña que eso no está.
+
+Ahora mira **seis**, y cada resultado dice de dónde salió:
+
+| Qué | De dónde sale | A dónde lleva |
+|---|---|---|
+| Trámite | `tramites` | `tramites/?id=` |
+| Pregunta frecuente | `faq` | `tramites/?faq=` |
+| Fecha | `publicaciones` | `agenda/?id=` |
+| Cátedra | `catedras` | `catedras/?q=` con la materia escrita |
+| Glosario | texto fijo en `index.html` | `glosario/#promocion` |
+| Pantalla de la app | `INDICE_PIE` de `app.js` | la pantalla |
+
+**Cinco no cuestan un solo byte de más.** Trámites y preguntas ya estaban; las
+fechas vienen del mismo pedido que dibuja la portada; el glosario y las
+pantallas son texto que ya viaja con la app. **Las cátedras son las únicas que
+salen a la red, y salen recién cuando alguien escribe la segunda letra**: quien
+entra a la portada y no busca nada no paga nada por esto. Si ya pasó alguna vez
+por Cátedras, salen de lo guardado y no se pide nada. Cuando llegan, se
+redibuja lo que haya escrito.
+
+**Los resultados llevan al lugar exacto, no a la puerta.** Para eso se agregaron
+dos cosas chicas:
+
+- **El glosario tiene una dirección por palabra** (`#cursada`, `#promocion`,
+  `#correlatividades`). Son los nombres de la palabra y no números, así que
+  agregar una definición en el medio no rompe las direcciones que ya andan dando
+  vuelta por WhatsApp. Y quien llega por una dirección **ve esa palabra ya
+  aparecida**: la animación al desplazar sirve para quien baja leyendo, y para
+  quien salta ahí es un estorbo —encontraría una pieza en opacidad cero, o sea
+  la pantalla vacía justo donde estaba la respuesta—.
+- **Cátedras acepta `?q=`** y llega con la materia ya escrita en su buscador.
+  Sin eso, el resultado te dejaba parado arriba de una lista de sesenta.
+
+**Las once palabras del glosario están copiadas en `index.html`**, no leídas de
+`glosario/index.html`. Para poder buscarlas habría que bajar esa pantalla entera
+—21 KB— en cada visita al inicio. Es la misma decisión que ya está tomada allá:
+el texto del reglamento viaja con la app. **Si se agrega una palabra en el
+glosario, se agrega también en esa lista.** Son dos renglones y pasa una vez por
+año.
+
+Cada tipo tiene su tope. Sin eso, buscar «inscripción» daba doce trámites y
+empujaba fuera de la pantalla la fecha de la mesa, que era lo que se estaba
+buscando. Y las fechas que todavía vienen van antes que las que ya pasaron, pero
+las viejas no se esconden: a veces lo que se busca es qué decía aquel
+comunicado.
+
 ### La navegación se mudó arriba
 
 Antes había una barra fija abajo de la pantalla. Ahora las secciones están arriba,
@@ -651,6 +704,45 @@ combinaciones pasan, con 3,6 de mínimo.
 escrito y sin usar: el inicio se había hecho su propia copia inline. El del
 inicio sigue aparte a propósito, porque hace otra cosa (solo mesas y asuetos, y
 muestra la publicación abajo en vez de mandarte a una lista).
+
+#### Pasar una fecha al calendario del celular (7/9/2026)
+
+**La app avisaba, y avisar sirve solo si estás mirando la app ese día.** La
+alarma de inscripción es lo más útil que hace, pero depende de que el estudiante
+entre en la ventana de cuatro días. Ahora la fecha se puede anotar en el
+teléfono y **suena sola dos días antes, con la app cerrada**.
+
+Están en dos lugares:
+
+- En el **detalle de cada publicación** que todavía viene. Las que ya pasaron no
+  lo muestran: ofrecer anotar una mesa de febrero es peor que no ofrecer nada.
+- **Abajo del calendario**, un botón que se baja todas las que faltan de una.
+  Solo las que vienen: meterle a alguien las cuarenta y seis fechas del año es
+  ensuciarle el calendario, no ayudarlo. Va abajo del calendario y no al final
+  de la lista porque al final no lo encuentra nadie: los meses vienen plegados y
+  la pantalla termina cuatro dedos más abajo.
+
+**Hay dos caminos y no uno, a propósito.** El navegador real de esta app es el
+de Instagram, que **bloquea bajar archivos casi siempre**: si el único camino
+fuera el `.ics`, en el navegador donde más se usa la app el botón no haría nada
+visible. El enlace de **Google Calendar** es una dirección web común y anda ahí
+adentro, y por eso es el botón amarillo. El **`.ics`** queda para el calendario
+del iPhone, el de la computadora y quien no use Google.
+
+Todo esto vive en `app.js`, en el bloque «PASAR UNA FECHA AL CALENDARIO», y lo
+usa cualquier pantalla que muestre una fecha con `htmlAgendarlo(publicacion)`.
+Tres cosas de ahí que son fáciles de romper:
+
+- **El final de un evento de días enteros es exclusivo.** Una mesa del 14 al 18
+  se anota como «del 14 al 19», o el calendario la dibuja un día más corta. Es
+  el error clásico de los `.ics` y por eso la cuenta está en un solo lugar,
+  `puntasDelEvento()`.
+- **Los renglones se cortan a 75 BYTES, no a 75 letras.** Cada acento pesa dos:
+  cortar por letras da renglones de 90 bytes y hay calendarios que ahí se
+  plantan.
+- **La coma, el punto y coma y la barra van escapadas** en el texto, y los
+  saltos de línea se escriben con las dos letras. Adentro de un `.ics` esos
+  caracteres son señales.
 
 ### La pantalla de Info útil (`tramites/`)
 
@@ -900,6 +992,49 @@ que dice el LEEME más arriba sobre la diferencia entre cursar y promocionar.
 
 Tocando cualquier materia del mapa se abre la misma ficha de siempre. En el
 celular el mapa se desliza hacia el costado; la página no se mueve.
+
+#### Qué pide y qué abre (7/9/2026)
+
+**El mapa dibujaba las flechas y no contestaba la pregunta.** Con cuarenta
+materias en pantalla, seguir una flecha con el ojo no es leer: es adivinar. Y el
+resaltado que había era solo al pasar el mouse por encima, así que **en el
+celular —que es el aparato de esta app— no existía**.
+
+Ahora, al tocar una materia, se marcan las otras con **tres anillos que se
+distinguen**:
+
+- **Anillo grueso** — la materia que tocaste.
+- **Anillo entero** — las que esa materia **pide**. Están siempre a su izquierda.
+- **Anillo punteado** — las que **se te abren** al aprobarla. Siempre a su derecha.
+
+Arriba del mapa aparece un renglón que dice **cuántas son de cada una**, con los
+mismos dos anillos puestos en los números: es la referencia dicha con el
+ejemplo, en vez de una fila de referencias más. Y trae el botón **«Soltar»**,
+que es la salida; tocar el fondo del mapa hace lo mismo. Sin nada elegido, ese
+renglón dice que el mapa se puede tocar, que es lo único que hace descubrible la
+función.
+
+**Tocar sigue abriendo la ficha**, como siempre: la marca queda puesta abajo, y
+está cuando cerrás la ficha. No se cambió ningún gesto de lugar.
+
+Tres decisiones que conviene no revisar:
+
+- **No se apaga nada.** La versión obvia baja a opacidad las materias sin
+  relación. Se ve muy bien en una captura y deja el mapa ilegible: a `.35` el
+  nombre de una materia no se lee, y quedan cinco nodos legibles de cuarenta.
+- **El anillo va por afuera del nodo, no encima.** Es lo que salva la medición:
+  la tinta contra el relleno amarillo de «te falta el final» da **1,1 de
+  noche** —invisible—, y contra el fondo del mapa da **13,9**. El `outline` de
+  CSS se dibuja fuera del borde, así que cae sobre el fondo y no sobre el
+  relleno. Con el desplazamiento en cero volvería a perderse.
+- **El Trabajo Integrador Final no dice un número.** Pide todas las materias de
+  1° a 4°, y el mapa no dibuja esas cuarenta flechas. Poner «Pide 4» —las que
+  sí se dibujan— sería mentir con un número, que se lee como exacto. Dice la
+  regla, igual que la ficha.
+
+Cuál está marcada vive **afuera** de `pintarMapa()`, en `mapaElegida`: el mapa se
+vuelve a dibujar entero cada vez que se marca un estado, y si viviera adentro,
+marcar una materia como aprobada soltaría lo que la persona estaba mirando.
 
 Cuando una carrera no tiene algo, la sección desaparece en vez de quedar vacía:
 Gestión del Riesgo no muestra el filtro «Anuales» porque no tiene materias

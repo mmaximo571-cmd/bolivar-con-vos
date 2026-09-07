@@ -14,9 +14,16 @@ Si algo de acá quedó viejo, se corrige acá mismo al cerrar la sesión.
 - **Lanzamiento: lunes 21 de septiembre de 2026**, Día del Estudiante, con
   campaña en Instagram a 4.213 seguidores. **La fecha no se mueve: se mueve el
   alcance.**
-- Hoy es **domingo 6 de septiembre**, y las decisiones **ya se cerraron**: las
+- Hoy es **lunes 7 de septiembre**, y las decisiones **ya se cerraron**: las
   cuatro están contestadas y las tres que quedaban abiertas están hechas y
   publicadas.
+- **El 7 entraron tres cosas que no estaban en el cronograma**, y no son
+  invento: salieron de mirar la versión que Máximo armó en AI Studio
+  (`Desktop/MÁXIMO/bolivar-con-vos 2.0`, React + Tailwind, 9.000 líneas). De
+  ahí se tomaron **ideas, no código**: pasar una fecha al calendario, que el
+  buscador mire toda la app, y que el mapa diga qué pide y qué abre cada
+  materia. Lo que **no** se tomó y por qué está anotado abajo, en «Decisiones
+  ya tomadas».
 - **Máximo viaja del miércoles 9 al sábado 12**, a otra provincia. Eso ya no
   aprieta: del mar 8 al sáb 12 no queda ninguna tarea que lo necesite. Lo único
   que todavía espera material suyo son los **tres contactos por carrera** de
@@ -87,6 +94,9 @@ sobre los otros. Ahora mandan así, y no se abre un quinto:
 | 6/9 | **Existe el glosario**, y la tarjeta de la portada deja de mentir. Once palabras que escribió Máximo, en tres grupos, con la respuesta corta en una línea y el detalle abajo. Cinco llevan a donde se hace la cosa. El texto va en el HTML y no en Supabase: es el reglamento, y así se lee sin señal. **Era la última función del cronograma.** `v29` | `19fba30` |
 | 6/9 | Los turnos de examen **son nueve, faltaba noviembre.** Y ahora lo dice con el número adelante, para que a la próxima se note. Sin `v`: es solo la pantalla | `1e7f1ba` |
 | 6/9 | **El glosario tenía una sola puerta.** Se llegaba únicamente por la tarjeta del kit de la portada, y volvía a «Info útil», que no llevaba para allá: una salida a un lugar sin entrada. Ahora está en el índice del pie —las doce pantallas— y con una puerta al final de Info útil. `v30` | `fe4c3b8` |
+| 7/9 | **Una fecha se pasa al calendario del celular.** La app avisaba cuándo abría la inscripción a una mesa, pero avisar sirve solo si estás mirando la app ese día; ahora queda anotada en el teléfono y suena sola dos días antes. Dos caminos y no uno: el enlace de Google es una dirección web común y anda adentro del navegador de Instagram, el `.ics` queda para el iPhone y la compu. En el detalle de cada publicación que todavía viene, y abajo del calendario un botón que se baja todas las que faltan. `v32` | `3c40f05` |
+| 7/9 | **El buscador miraba dos cosas de seis.** «Mesa de septiembre», «promoción» y «anatomo» daban SIN RESULTADOS y las tres estaban cargadas. Ahora mira trámites, preguntas, fechas, glosario, pantallas y cátedras. Cinco no cuestan un byte de más; las cátedras salen a la red recién cuando alguien escribe la segunda letra. Y los resultados llevan al lugar exacto: el glosario tiene una dirección por palabra (`#promocion`) y Cátedras acepta `?q=` | `82730c8` |
+| 7/9 | **El mapa dibujaba las flechas pero no contestaba la pregunta.** Con cuarenta materias, seguir una flecha con el ojo es adivinar, y el resaltado que había era solo al pasar el mouse: en el celular no existía. Ahora se marcan los nodos con dos anillos —entero lo que pide, punteado lo que abre— y se marca al TOCAR, sin sacarle a la ficha su lugar. Arriba dice cuántas son de cada una. **No se apaga nada**: bajar a opacidad las materias sin relación deja el mapa ilegible. `v32` | `619892f` |
 
 **Ojo con lo de las materias libres.** El listado sale de un documento que se
 llama, textualmente, «**Propuesta** de materias libres … para agregar al régimen
@@ -166,6 +176,27 @@ dependen de nadie más, justo los días en que no va a estar.
   CSS usa cuatro: `700` (63 veces), `400` (11), `800` (1) y `500` (1).
   **Montserrat 600 se baja y no se usa en ningún lado.** Media sesión, riesgo
   casi cero, y pega justo en la llegada desde Instagram.
+
+### Qué NO se trajo de la versión 2.0 de AI Studio (7/9)
+
+Se miró entera y se tomaron tres cosas. Lo demás quedó afuera **a propósito**,
+para no volver a discutirlo cada vez que alguien abra esa carpeta:
+
+- **La barra de navegación de abajo.** Ya la sacamos y ganamos 64 px en cada
+  pantalla. Está explicado en `LEEME.md`, «La navegación se mudó arriba».
+- **El «Asistente Simón».** Es un chat con ocho `if` de palabras clave. Promete
+  conversación y contesta un FAQ; lo mismo lo hace el buscador sin prometer de
+  más. Y ya tenemos Avisanos, que lleva a una persona de verdad.
+- **Los colores tal cual.** La 2.0 escribe `#0195B1` a mano como color de
+  estado («aprobada»), y acá el celeste es el foco del teclado. Además usa
+  texto de 10 y 11 px, por debajo de nuestro mínimo (`--letra-mini`, 12).
+- **Su calculadora de vencimiento de regularidad.** La idea sirve; el dato no:
+  dice «3 años y **5** llamados anuales» y nosotros ya corregimos que los
+  turnos son **nueve**. Si se hace, los plazos los confirma el Equipo. Máximo
+  dijo que los tiene: **falta que los pase.**
+- **El mapa de correlativas y el modal de nota.** No hacía falta traerlos: lo
+  nuestro ya los tenía y en varias cosas mejor (el promedio nuestro aclara
+  sobre cuántas notas está hecho; el de la 2.0 no).
 
 ### Guardado entre visitas (3/9)
 

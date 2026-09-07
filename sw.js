@@ -136,8 +136,29 @@
    van con la tinta fija, como ya lo hacen `.banda.tinta` y `.banda.sol`.
    El `index.html` llega nuevo igual —se sirve red primero— pero la
    hoja es armazon: sin subir el numero, quien ya tiene la app sigue
-   sin poder leer de noche uno de los tres botones de la portada. */
-const VERSION = 'bolivar-v31';
+   sin poder leer de noche uno de los tres botones de la portada.
+   v32 (7/9/2026) `app.js` y `estilos.css`: tres cosas que llegaron de
+   la version que Maximo armo en AI Studio. Las tres tocan armazon y
+   ninguna de las tres se ve sin subir el numero:
+   · Pasar una fecha al calendario del celular. Los botones los pinta
+     `htmlAgendarlo()`, que vive en `app.js`, y las clases `.agendarlo`
+     y `.botones-agenda` en la hoja. Sin el numero nuevo, `agenda/`
+     llega fresca de la red y no dibuja ningun boton, porque la
+     funcion que los arma no existe en el `app.js` guardado.
+   · El buscador del inicio mira seis cosas en vez de dos. Esto vive en
+     `index.html`, que se sirve red primero, PERO usa `INDICE_PIE` y
+     `memoriaDe()` de `app.js`. Con el `app.js` viejo, `INDICE_PIE`
+     existe hace rato asi que no rompe; lo que no aparece es nada
+     nuevo, porque toda la logica esta en la portada. Sube igual por
+     los otros dos.
+   · El mapa marca que pide y que abre cada materia. La pantalla
+     `carrera/` llega nueva —red primero— pero los tres anillos y el
+     renglon de arriba del mapa son `.mapa-nodo.pide`, `.abre`,
+     `.elegida` y `.mapa-elegida`, todas en la hoja. Sin subir el
+     numero, quien ya tiene la app toca una materia, el renglon le
+     aparece sin caja y los anillos no se dibujan: o sea la funcion
+     entera invisible. */
+const VERSION = 'bolivar-v32';
 const ARMAZON = VERSION + '-armazon';
 const PAGINAS = VERSION + '-paginas';
 
