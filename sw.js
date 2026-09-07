@@ -128,8 +128,16 @@
    las doce pantallas. Tenia UNA sola puerta —la tarjeta del kit, en la
    portada— y quien lo leyo una vez no tenia como volver. El indice del
    pie lo dibuja `app.js`, que es armazon: sin subir el numero, quien ya
-   tiene la app sigue sin ver la entrada en ninguna pantalla. */
-const VERSION = 'bolivar-v30';
+   tiene la app sigue sin ver la entrada en ninguna pantalla.
+   v31 (6/9/2026) `estilos.css`: de noche, «Crear mi cuenta» no se veia.
+   La placa amarilla de la portada no cambia con el tema, pero el boton
+   de contorno hereda --texto, que de noche es casi blanco: contraste
+   1,10 sobre el amarillo, medido. Ahora el boton y el anillo del foco
+   van con la tinta fija, como ya lo hacen `.banda.tinta` y `.banda.sol`.
+   El `index.html` llega nuevo igual —se sirve red primero— pero la
+   hoja es armazon: sin subir el numero, quien ya tiene la app sigue
+   sin poder leer de noche uno de los tres botones de la portada. */
+const VERSION = 'bolivar-v31';
 const ARMAZON = VERSION + '-armazon';
 const PAGINAS = VERSION + '-paginas';
 

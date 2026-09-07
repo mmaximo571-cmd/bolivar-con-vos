@@ -71,6 +71,42 @@
   </div>
 </div>
 
+<!-- LA SALIDA DE EMERGENCIA DE LA APERTURA.
+
+     Va en un <script> propio y va ACÁ, arriba de todo, a propósito.
+
+     El guion grande del final arma la cabecera con htmlCabecera(), que
+     vive en app.js, y lo hace ANTES de programar el cierre de la
+     apertura. Si app.js no llegó —la primera apertura después de subir
+     una versión, con el service worker viejo todavía al mando; pasó de
+     verdad el 01/09/2026— esa línea tira «htmlCabecera is not defined»,
+     el guion entero se muere ahí, y como el cierre de la apertura
+     todavía no se programó, la pantalla amarilla del logo se queda
+     puesta para siempre. No es que la app arranque a medias: no se
+     llega ni a la portada ni a los accesos, que están escritos a mano
+     en este mismo archivo y no necesitan nada de app.js.
+
+     Esto se arma solo, no depende de ningún otro archivo, y no se nota
+     cuando todo anda: a los cinco segundos mira si alguien ya mostró
+     algo y, si nadie mostró nada, saca la apertura y deja ver la app.
+     El camino normal termina bastante antes (1,2 s de animación, más
+     1,4 de red de seguridad, más 0,6 del fundido). -->
+<script>
+setTimeout(function(){
+  try{
+    var apertura = document.getElementById('apertura');
+    var app = document.getElementById('app');
+    var bienvenida = document.getElementById('bienvenida');
+    if (!apertura) return;                        /* el camino normal ya la sacó */
+    if (bienvenida && !bienvenida.hidden) return; /* la portada está a la vista  */
+    if (app && !app.hidden) return;               /* la app está a la vista      */
+    apertura.remove();
+    if (app) app.hidden = false;
+    document.body.classList.remove('antes-de-entrar');
+  }catch(e){}
+}, 5000);
+</script>
+
 <!-- ============ 2. PORTADA (se ve siempre) ============
      Toma la identidad de «¿Quiénes somos?»: banda de color pleno, ceja
      arriba, y el titular gigante con una palabra en otro color. Las

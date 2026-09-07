@@ -1715,6 +1715,29 @@ body.antes-de-entrar{padding-bottom:0}  /* apertura y bienvenida a pantalla comp
   color:var(--sobre-color);text-decoration:underline;text-underline-offset:3px
 }
 
+/* LO MISMO PARA «CREAR MI CUENTA», QUE SE HABÍA QUEDADO AFUERA.
+
+   `.boton.borde` hereda --texto a propósito, para que sobre un fondo
+   transparente se lea de día y de noche. Pero acá el fondo NO es
+   transparente ni sigue al tema: es la placa amarilla, que es fija. De
+   noche --texto es #F2EFE2 y el botón quedaba casi blanco sobre
+   amarillo: contraste 1,10, medido. Invisible, igual que el renglón de
+   abajo antes de que le pusieran el color fijo.
+
+   El arreglo ya estaba escrito dos veces en esta hoja —`.banda.tinta
+   .boton.borde` y `.banda.sol .boton.borde`— pero la bienvenida no es
+   una banda, así que no lo heredaba. Con la tinta da 13,77. */
+.bienvenida .boton.borde{color:var(--sobre-color);border-color:var(--sobre-color)}
+
+/* Y EL ANILLO DEL FOCO, POR LA MISMA RAZÓN.
+
+   El anillo general es celeste, y sobre este amarillo da 2,80: abajo
+   del 3 que pide la norma para lo que no es texto. Sobre la placa
+   manda la tinta, que da 13,77. Es exactamente lo que ya se hace
+   sobre la cabecera negra, donde el que manda es el amarillo. */
+.bienvenida a:focus-visible,
+.bienvenida button:focus-visible{outline-color:var(--sobre-color)}
+
 /* ============================================================
    INICIO · tarjeta grande y recuadros
    ============================================================ */
