@@ -123,8 +123,13 @@
    esa portada SI esta guardada, y las clases `.glosario-corta` y
    `.glosario-ir` viven en la hoja, que es armazon. Sin subir el
    numero, quien ya tiene la app sigue yendo a la pagina de la
-   agrupacion desde una tarjeta que dice «glosario». */
-const VERSION = 'bolivar-v29';
+   agrupacion desde una tarjeta que dice «glosario».
+   v30 (6/9/2026) `app.js`: el glosario entra al indice del pie, o sea a
+   las doce pantallas. Tenia UNA sola puerta —la tarjeta del kit, en la
+   portada— y quien lo leyo una vez no tenia como volver. El indice del
+   pie lo dibuja `app.js`, que es armazon: sin subir el numero, quien ya
+   tiene la app sigue sin ver la entrada en ninguna pantalla. */
+const VERSION = 'bolivar-v30';
 const ARMAZON = VERSION + '-armazon';
 const PAGINAS = VERSION + '-paginas';
 

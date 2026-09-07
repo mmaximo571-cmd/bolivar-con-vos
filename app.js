@@ -575,8 +575,15 @@ const SECCIONES_ABAJO = [
    Info útil. En el pie deja de estar enterrada sin mover la
    navegación de lugar.
    ------------------------------------------------------------ */
+/* Las dos pantallas que no son una sección pero tampoco viven adentro
+   de otra: se llega por una tarjeta y nada más. Sin esto, el glosario
+   tenía UNA sola puerta en toda la app —la tarjeta del kit, en la
+   portada—, y quien lo leyó una vez no tenía cómo volver. El índice del
+   pie está en las doce pantallas: es la forma más barata de que algo
+   deje de esconderse. */
 const INDICE_PIE = SECCIONES.concat([
-  { id:'catedras', texto:'Cátedras y contactos', url:RAIZ+'catedras/' }
+  { id:'catedras', texto:'Cátedras y contactos', url:RAIZ+'catedras/' },
+  { id:'glosario', texto:'Glosario universitario', url:RAIZ+'glosario/' }
 ]);
 
 /* Los sistemas de la facultad y de la universidad. No son de la app:

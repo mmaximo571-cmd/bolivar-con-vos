@@ -41,6 +41,26 @@
 <main class="envoltura" id="contenido" tabindex="-1">
   <div class="esq-tarjeta"><div class="esqueleto esq-linea titulo"></div><div class="esqueleto esq-linea"></div><div class="esqueleto esq-linea media"></div></div><div class="esq-tarjeta"><div class="esqueleto esq-linea titulo"></div><div class="esqueleto esq-linea"></div><div class="esqueleto esq-linea corta"></div></div>
 </main>
+
+<!-- LA PUERTA AL GLOSARIO.
+     El glosario vive adentro de esta sección —esta pantalla y aquella
+     marcan «Info útil» arriba y en el pie— pero hasta ahora no se
+     llegaba desde acá: la única puerta era una tarjeta de la portada.
+     Y la pantalla del glosario vuelve justamente para este lado.
+
+     Va AFUERA de <main> a propósito: el JS de esta pantalla reescribe
+     #contenido entero cada vez que se busca o se cambia de categoría,
+     y adentro se lo llevaría puesto. Por eso se envuelve aparte. -->
+<div class="envoltura">
+  <a class="nexo-final" href="../glosario/">
+    <span class="nexo-texto">
+      <strong>¿No entendés una palabra?</strong>
+      Qué es una cursada, un final, una promoción, una correlativa. El
+      vocabulario de la facu, explicado entre nosotres.
+    </span>
+    <span class="nexo-flecha" aria-hidden="true">→</span>
+  </a>
+</div>
 <div id="pie"></div>
 
 <script>window.RAIZ = '../';</script>
