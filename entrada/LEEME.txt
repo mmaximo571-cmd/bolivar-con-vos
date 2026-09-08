@@ -1,0 +1,73 @@
+DEJÁ ACÁ LO QUE TRAIGAS DE AFUERA
+=================================
+
+Esta carpeta es un buzón. Sirve para cuando estás lejos de esta máquina:
+dejás lo que hiciste en AI Studio, en Gemini o donde sea, y cuando te
+sentás, en una sola sesión se vacía y entra en la app.
+
+Nada de lo que caiga acá se sube al repositorio. Lo que se sube es lo que
+sale de acá, ya convertido.
+
+
+EL NOMBRE DEL ARCHIVO DICE QUÉ HACER CON ÉL
+-------------------------------------------
+
+Poné el prefijo y listo. No hace falta explicar nada adentro.
+
+  pantalla-<nombre>     una pantalla o un pedazo de pantalla, para que
+                        entre en la app
+
+  material-<carrera>-<año>-<materia>
+                        apuntes, resúmenes, parciales, programas: contenido
+                        para la tabla de materiales
+
+  texto-<pantalla>      texto para reemplazar algo que ya existe
+
+  idea-<nombre>         para después del 21. No se toca ahora, pero no se
+                        pierde
+
+Ejemplos:
+
+  pantalla-avisanos-nueva.html
+  material-ts-1-trabajo-social-1.md
+  texto-inicio.md
+  idea-mapa-de-correlativas.md
+
+La extensión da igual: .html, .md, .txt, .png, una foto sacada con el
+teléfono. Si es una imagen de algo que querés que exista, alcanza.
+
+
+UNA REGLA SOLA: UN ARCHIVO, UNA COSA
+------------------------------------
+
+No dejes acá un proyecto entero exportado de AI Studio. Un proyecto de
+React de miles de líneas cuesta más leerlo que volver a hacer la pantalla
+—ya pasó con la versión 2.0, y por eso de ahí se tomaron ideas y no
+código—. Si lo que tenés es eso, dejá en su lugar una captura de pantalla
+y dos renglones de qué hace.
+
+
+SI LO ESTÁS PIDIENDO EN AI STUDIO, PEDILO BIEN
+----------------------------------------------
+
+AI Studio es Gemini, y Gemini contesta React con Tailwind salvo que le
+digas otra cosa. Para eso está PROMPT-DISENO.md en la raíz: copiá el
+bloque de «Para copiar y pegar antes de cada pedido» y pegalo ANTES de
+cada pedido.
+
+Si hacés eso, lo que sale ya viene en el idioma de esta app y entra casi
+sin tocar. Si no lo hacés, alguien tiene que traducirlo después, y esa es
+la parte cara.
+
+Ojo con una cosa: si en AI Studio usás el modo que arma aplicaciones
+solas, te va a dar React igual, con molde o sin molde. Para esto conviene
+el chat común, pidiendo un solo bloque de HTML.
+
+
+LO QUE NO ENTRA POR ACÁ
+-----------------------
+
+Los soportes de campaña —placas de Instagram, historias, folletos
+impresos— no necesitan pasar por la app. Esos van derecho a Instagram o a
+la imprenta. Este buzón es para lo que termina adentro de
+bolivar-con-vos.vercel.app.

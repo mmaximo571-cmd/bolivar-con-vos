@@ -1,0 +1,4 @@
+# El buzon es material de trabajo, no se sube. Solo viajan estos dos archivos.
+*
+!.gitignore
+!LEEME.txt
