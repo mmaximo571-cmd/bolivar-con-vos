@@ -35,6 +35,10 @@ Si algo de acá quedó viejo, se corrige acá mismo al cerrar la sesión.
   los contactos, el plan que se imprime en vez de publicarse en PDF, y el
   glosario. **La última función del cronograma entró el 6, siete días antes del
   congelamiento.** Del 7 al 13 no queda ninguna tarea asignada.
+- **El 8/9 esto cambió: sí se sigue construyendo.** El congelamiento se corrió
+  al miércoles 16 o jueves 17 porque faltan herramientas por hacer. Lo que se
+  achica es la ventana de pruebas: de ocho días pasa a tres o cuatro. Ver el
+  cronograma.
 - **Lo que sigue no es construir, es probar.** Con siete días libres antes del
   13 y una semana más de contenido y campaña, lo que falta es lo que nunca se
   pudo verificar acá: todo lo que depende del service worker —caché, andar sin
@@ -135,8 +139,10 @@ entran 2 o 3 sesiones.
 | mié 9 | ✅ Adelantado al dom 6. **El plan en PDF no va: va impreso.** Ver abajo | — |
 | jue 10 – vie 11 | ✅ Adelantado al dom 6: **el glosario está hecho y publicado**. Los horarios se fueron al año que viene. **Queda libre** | — |
 | sáb 12 | ✅ Adelantado al sáb 5. **Queda libre** | — |
-| **dom 13** | **Congelamiento.** Última línea de función nueva | — |
-| lun 14 – dom 20 | Contenido, pruebas y campaña. **Todo arriba el 20** | — |
+| ~~dom 13~~ | ~~Congelamiento~~. **Movido el 8/9:** hacen falta más días para las herramientas nuevas | — |
+| dom 13 – jue 17 | **Herramientas nuevas.** Última ventana de código | — |
+| **mié 16 o jue 17** | **Congelamiento.** Última línea de función nueva | — |
+| vie 18 – dom 20 | Contenido, pruebas y campaña. **Todo arriba el 20** | — |
 | **lun 21** | **Lanzamiento** | — |
 
 ### Lo que este cronograma dejó a la vista (al 6/9)
