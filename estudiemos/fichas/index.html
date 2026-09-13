@@ -40,9 +40,9 @@
 
 <div id="cabecera"></div>
 
-<main class="envoltura" id="contenido" tabindex="-1">
-  <h1 class="titulo-pantalla">Fichas de estudio</h1>
-  <p class="bajada">
+<main class="envoltura mov" id="contenido" tabindex="-1">
+  <h1 class="titulo-pantalla"><span class="mov-renglon"><span>Fichas de estudio</span></span></h1>
+  <p class="bajada" data-entra>
     Las armó el Equipo de Fonoaudiología con las placas que ya venía
     haciendo. Cada una está cortada en tres: qué es, cómo funciona —con
     las piezas para tocar y mover— y cómo te das cuenta de si te quedó.
@@ -255,6 +255,7 @@
 <script src="../../config.js"></script>
 <script src="../../iconos.js"></script>
 <script src="../../app.js"></script>
+<script src="../../movimiento.js"></script>
 <script>
 /* Esta pantalla no pide nada a la base: las fichas son archivos, no
    filas. Lo único que hace falta es la cabecera y el pie de siempre. */
@@ -275,6 +276,16 @@ function ordenarFichas(){
 }
 ordenarFichas();
 document.addEventListener('bolivar:carrera', ordenarFichas);
+
+/* Las fichas entran al llegar. Solo las de más abajo: las que se ven
+   al abrir ya están, que son ocho archivos escritos y no hay nada que
+   esperar. El `typeof` es por el service worker: si todavía entrega la
+   versión de ayer, movimiento.js puede no estar, y la pantalla sigue. */
+if (typeof entrarAlLlegar === 'function'){
+  entrarAlLlegar(document.getElementById('contenido'),
+    ':scope > .titulo-seccion, .lista > .tarjeta, .nexo-final, .aviso-transcripcion',
+    { soloAbajo: true });
+}
 </script>
 </body>
 </html>

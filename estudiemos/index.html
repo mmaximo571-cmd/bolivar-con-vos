@@ -40,11 +40,11 @@
 
 <div id="cabecera"></div>
 
-<main class="envoltura mov-estudiemos" id="contenido" tabindex="-1">
+<main class="envoltura mov" id="contenido" tabindex="-1">
   <!-- El renglón va adentro de una máscara (overflow:hidden) para que la
        palabra suba desde abajo de su propia línea y no desde el vacío. -->
   <h1 class="titulo-pantalla"><span class="mov-renglon"><span>Estudiemos</span></span></h1>
-  <p class="bajada">
+  <p class="bajada" data-entra>
     Apuntes, resúmenes y parciales que compartimos entre todas y todos.
     Lo que a vos te sirvió, a otra persona le puede salvar la cursada.
   </p>
@@ -52,7 +52,7 @@
   <!-- EL BUSCADOR VA PRIMERO. Quien entra a Estudiemos ya sabe qué
        materia busca: lo primero que tiene que encontrar es dónde
        escribirla, no tres carteles antes. -->
-  <div class="buscador">
+  <div class="buscador" data-entra="2">
     <span class="lupa" id="lupa">🔍</span>
     <input id="filtro" type="search" autocomplete="off"
            placeholder="Buscar por materia o tema…" aria-label="Buscar material">
@@ -63,7 +63,7 @@
        hay dos caminos mejores: el tabulador pasa por cada tarjeta, y las
        flechas del teclado mueven el riel. Dos botones más en el orden de
        tabulación serían dos paradas que no llevan a ningún lado. -->
-  <div class="titulo-seccion con-cuenta">PARA EMPEZAR
+  <div class="titulo-seccion con-cuenta" data-entra="3">PARA EMPEZAR
     <span class="riel-mando">
       <span class="riel-cuenta" id="riel-cuenta" aria-hidden="true"></span>
       <button class="riel-flecha" id="riel-antes" type="button"
@@ -182,6 +182,7 @@
 <script src="../config.js"></script>
 <script src="../iconos.js"></script>
 <script src="../app.js"></script>
+<script src="../movimiento.js"></script>
 <!-- Los planes, solo para saber de qué carrera es cada materia -->
 <script src="../carrera/plan.js"></script>
 <script src="../carrera/plan-tgcr.js"></script>
@@ -411,150 +412,24 @@
   pintarCuenta();
   pintarFlechas();
 
-  /* ============================================================
-     LAS PALABRAS QUE SE ENCIENDEN AL BAJAR (13/9, movimiento)
+  /* EL MOVIMIENTO AL BAJAR (13/9). Vive en movimiento.js, que es de
+     las tres pantallas que se recorren; acá solo se dice qué se mueve.
 
-     La invitación a compartir es lo único que esta pantalla le pide a
-     alguien, así que es lo que se lee de a una palabra: cada una
-     arranca apagada (0,2) y se prende según cuánto se bajó. El párrafo
-     usa lo mismo, un poco más tarde.
+     · La invitación a compartir es lo único que esta pantalla le pide a
+       alguien, así que se lee de a una palabra. El párrafo, un poco
+       después que el titular.
+     · El material entra al llegar, una vez. Se vigila `#lista` entera:
+       se redibuja con cada tecla, y lo que ya entró queda quieto.
 
-     Arranca cuando el borde de arriba está al 80 % de la pantalla y
-     termina al 30 %. Con un detalle: la invitación es lo último de la
-     página, y en una pantalla alta puede no llegar nunca al 30 %. Ahí
-     el final se corre a donde sí llega, porque un titular que no se
-     termina de encender nunca es un titular gris para siempre.
-
-     El «scrub 0,5» se imita con un seguimiento que alcanza al scroll en
-     medio segundo: sin eso, las palabras copian cada tirón del dedo.
-
-     NADA SE APAGA SI NO CORRE EL DIBUJO. El 0,2 inicial lo escribe el
-     primer cuadro, no este código: si el navegador no dibuja, las
-     palabras se quedan como vinieron, que es encendidas.
-     ============================================================ */
-  function encenderAlBajar(){
-    const bloque = document.querySelector('.comunidad');
-    if (!bloque || menosMovimiento()) return;
-    const partir = el => {
-      const palabras = el.textContent.trim().split(/\s+/);
-      el.innerHTML = palabras.map(p => `<span class="mov-palabra">${esc(p)}</span>`).join(' ');
-      return [...el.querySelectorAll('.mov-palabra')];
-    };
-    const grupos = [
-      { el: bloque.querySelector('h2'), tarde: 0 },
-      { el: bloque.querySelector('p'),  tarde: .12 }
-    ].filter(g => g.el).map(g => ({ ...g, palabras: partir(g.el), ahora: -1 }));
-
-    const metaDe = (el, tarde) => {
-      const alto = innerHeight;
-      const arriba = el.getBoundingClientRect().top;
-      /* Dónde queda ese borde con la página bajada hasta el fondo. */
-      const enElFondo = arriba - (document.documentElement.scrollHeight - alto - scrollY);
-      const fin = Math.max(alto * .3, enElFondo);
-      const inicio = Math.max(alto * .8, fin + alto * .2);
-      return Math.max(0, Math.min(1, (inicio - arriba) / (inicio - fin) - tarde));
-    };
-
-    let andando = false, ultimo = 0;
-    const cuadro = t => {
-      const dt = ultimo ? Math.min(100, t - ultimo) : 0;
-      ultimo = t;
-      /* Alcanza el 95 % del camino en medio segundo. */
-      const seguir = 1 - Math.exp(-dt / 167);
-      let falta = false;
-      grupos.forEach(g => {
-        const meta = metaDe(g.el, g.tarde);
-        g.ahora = g.ahora < 0 ? meta : g.ahora + (meta - g.ahora) * seguir;
-        if (Math.abs(meta - g.ahora) > .002) falta = true; else g.ahora = meta;
-        const n = g.palabras.length;
-        g.palabras.forEach((w, i) => {
-          const luz = Math.max(0, Math.min(1, g.ahora * n - i));
-          w.style.opacity = (.2 + .8 * luz).toFixed(3);
-        });
-      });
-      if (falta) requestAnimationFrame(cuadro);
-      else { andando = false; ultimo = 0; }
-    };
-    const despertar = () => {
-      if (andando) return;
-      andando = true;
-      requestAnimationFrame(cuadro);
-    };
-    addEventListener('scroll', despertar, { passive: true });
-    addEventListener('resize', despertar);
-    /* La lista de arriba cambia de alto cuando llega el material o se
-       filtra, y eso mueve la invitación sin que nadie haya scrolleado. */
-    return despertar;
-  }
-  const reencender = encenderAlBajar() || (() => {});
-  reencender();
-
-  /* ============================================================
-     EL MATERIAL ENTRA AL LLEGAR, UNA SOLA VEZ (13/9, movimiento)
-
-     Cada tarjeta y cada título de materia sube 32 px y aparece cuando
-     su borde cruza el 85 % de la pantalla, escalonados de a 0,08 s.
-
-     «UNA SOLA VEZ» ES MÁS DIFÍCIL DE LO QUE PARECE ACÁ. La lista se
-     redibuja entera con cada tecla del buscador y cada chip, y además
-     dos veces al abrir (lo guardado y lo de la red). Si «ya se vio» se
-     guardara en el nodo, cada tecla volvería a hacer entrar todo. Se
-     guarda por contenido: lo que ya entró una vez, en el redibujo
-     aparece quieto en su lugar.
-     ============================================================ */
-  const yaEntraron = new Set();
-  let vigia = null;
-  /* El título de materia se reconoce SIN su cuenta: «Epistemología 2»
-     pasa a ser «Epistemología 1» al filtrar, y es el mismo título. */
-  const claveDe = p => {
-    const c = p.cloneNode(true);
-    c.querySelectorAll('.cuenta-grupo').forEach(n => n.remove());
-    return c.textContent.replace(/\s+/g, ' ').trim();
-  };
-  function hacerEntrar(){
-    if (vigia) vigia.disconnect();
-    if (menosMovimiento() || !('IntersectionObserver' in window)) return;
-    const piezas = [...lista.querySelectorAll(':scope > .titulo-seccion, .lista > .tarjeta')]
-      .filter(p => !yaEntraron.has(claveDe(p)));
-    if (!piezas.length) return;
-    piezas.forEach(p => p.classList.add('mov-entra'));
-
-    const mostrar = (p, espera) => {
-      yaEntraron.add(claveDe(p));
-      if (espera) p.style.transitionDelay = espera + 'ms';
-      p.classList.add('mov-visto');
-      /* Terminado, se devuelven la transición y el hover a la tarjeta. */
-      setTimeout(() => {
-        p.classList.remove('mov-entra', 'mov-visto');
-        p.style.transitionDelay = '';
-      }, 600 + espera + 60);
-    };
-
-    let aviso = false, enTanda = 0, ultima = -Infinity;
-    const este = vigia = new IntersectionObserver((entradas, obs) => {
-      aviso = true;
-      const llegan = entradas.filter(e => e.isIntersecting)
-        .sort((a, b) => a.boundingClientRect.top - b.boundingClientRect.top);
-      if (!llegan.length) return;
-      const ahora = performance.now();
-      if (ahora - ultima > 300) enTanda = 0;
-      ultima = ahora;
-      llegan.forEach(e => {
-        mostrar(e.target, Math.min(enTanda, 5) * 80);
-        enTanda++;
-        obs.unobserve(e.target);
-      });
-    }, { rootMargin: '0px 0px -15% 0px' });
-    piezas.forEach(p => este.observe(p));
-
-    /* Misma red que lectura.js: si el observador no aviso NADA en un
-       segundo y medio, no está andando, y la lista no puede quedar
-       invisible. Se muestra todo de una. */
-    setTimeout(() => {
-      if (aviso || vigia !== este) return;
-      este.disconnect();
-      piezas.forEach(p => { if (p.isConnected) mostrar(p, 0); });
-    }, 1500);
+     El `typeof` es por el service worker: con el armazón de ayer,
+     movimiento.js puede no estar, y la pantalla tiene que seguir. */
+  if (typeof entrarAlLlegar === 'function'){
+    const invitacion = document.querySelector('.comunidad');
+    if (invitacion) encenderAlBajar([
+      { el: invitacion.querySelector('h2'), tarde: 0 },
+      { el: invitacion.querySelector('p'),  tarde: .12 }
+    ]);
+    entrarAlLlegar(lista, ':scope > .titulo-seccion, .lista > .tarjeta');
   }
   document.addEventListener('bolivar:carrera', pintarCintas);
 
@@ -702,7 +577,6 @@
 
     if (!visibles.length){
       lista.innerHTML = `<div class="vacio">No hay material que coincida con esa búsqueda.</div>`;
-      reencender();
       return;
     }
 
@@ -748,8 +622,6 @@
         }).join('') + `</div>`;
     });
     lista.innerHTML = html;
-    hacerEntrar();
-    reencender();
   }
 
 })();

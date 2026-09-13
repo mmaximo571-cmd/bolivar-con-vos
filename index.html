@@ -117,20 +117,26 @@ setTimeout(function(){
      Los circulitos celestes que había antes alrededor del logo se
      fueron: en las placas del Instagram el celeste no aparece nunca,
      el par es amarillo y negro con el rojo como acento chico. -->
-<section class="bienvenida" id="bienvenida" hidden>
+<!-- EL MOVIMIENTO DE LA BIENVENIDA (13/9). El grito entra de a un
+     renglón desde su máscara, después la bajada y los botones, y el logo
+     se asienta al final. Es CSS puro: arranca cuando se saca el `hidden`,
+     no antes, así que no se gasta detrás de la animación de apertura. -->
+<section class="bienvenida mov" id="bienvenida" hidden>
   <div class="bienvenida-adentro">
     <div class="arriba">
 
-      <img class="dibujo" src="imagenes/marca-roja.webp"
+      <img class="dibujo" src="imagenes/marca-roja.webp" data-entra="final"
            alt="Agrupación Simón Bolívar" width="168" height="139">
 
-      <p class="ceja-lectura">Agrupación Simón Bolívar · Conducción del CEFTS</p>
+      <p class="ceja-lectura" data-entra>Agrupación Simón Bolívar · Conducción del CEFTS</p>
 
       <!-- El titular no se inventó para la portada: sale de un bloque de
            «¿Quiénes somos?». Es de la casa. Los tres saltos de línea son a
            mano y no accidentales: así se lee como un afiche y no como un
            párrafo que quedó grande. -->
-      <h1 class="grito">La salida<br>siempre es<br><em>colectiva</em></h1>
+      <h1 class="grito"><span class="mov-renglon"><span>La salida</span></span><span
+          class="mov-renglon"><span>siempre es</span></span><span
+          class="mov-renglon"><span><em>colectiva</em></span></span></h1>
 
       <!-- SIGUE ABRIENDO EN QUIÉNES SOMOS, PERO YA NO TERMINA AHÍ.
 
@@ -148,7 +154,7 @@ setTimeout(function(){
            lo único que puede decir esta oración. Si algún día la cuenta
            empieza a hacer falta para algo, se cambian los dos textos
            juntos o quedan diciendo cosas distintas. -->
-      <p class="bajada-lectura">
+      <p class="bajada-lectura" data-entra="2">
         Somos estudiantes de esta facultad, como vos. Entrá y conectate con
         la FTS: el organizador de tu carrera, los materiales para estudiar
         y las fechas que no te podés perder. Armá tu cuenta y lo tuyo te
@@ -156,7 +162,7 @@ setTimeout(function(){
       </p>
     </div>
 
-    <div class="abajo">
+    <div class="abajo" data-entra="3">
       <button class="boton oscuro ancho" id="btn-entrar">Entrar</button>
       <a class="boton borde ancho" id="btn-crear" href="mi/?crear">Crear mi cuenta</a>
       <a class="sin-cuenta" id="btn-cuenta" href="mi/">Ya tengo cuenta</a>
@@ -333,6 +339,7 @@ setTimeout(function(){
 <script src="config.js"></script>
 <script src="iconos.js"></script>
 <script src="app.js"></script>
+<script src="movimiento.js"></script>
 <script>
 (async function inicio(){
 
@@ -1650,6 +1657,19 @@ setTimeout(function(){
   const zonaNormal = document.getElementById('zona-normal');
   const zonaFondo   = document.getElementById('zona-fondo');
   const listaRes   = document.getElementById('resultados');
+
+  /* EL MOVIMIENTO AL BAJAR (13/9). Lo de más abajo —el kit, las
+     novedades, el calendario, Instagram— entra al llegar. `soloAbajo`
+     porque lo que se ve al abrir NO espera: los accesos están escritos
+     a mano justamente para verse desde el primer cuadro, y hacerlos
+     aparecer sería inventar la demora que se sacó.
+     El `typeof` es la regla de «MENOS MOVIMIENTO, CON PLAN B» de arriba:
+     con un armazón de ayer, movimiento.js puede no estar. */
+  if (typeof entrarAlLlegar === 'function'){
+    entrarAlLlegar(zonaFondo,
+      '.titulo-seccion, #kit > *, #novedades > .tarjeta, .calendario, .carrusel, #grilla-ig > *',
+      { soloAbajo: true });
+  }
   const tituloRes  = document.getElementById('titulo-resultados');
 
   /* Lo que la gente busca acá es la lista de lo que falta cargar en

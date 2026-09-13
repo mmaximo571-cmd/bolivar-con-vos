@@ -192,7 +192,11 @@
    flechas del riel, bloques que entran). La pantalla nueva trae la
    máscara del titular y dos botones de flecha; con la hoja vieja, las
    flechas salen como botones grises del sistema al lado del contador. */
-const VERSION = 'bolivar-v38';
+/* v39 (13/9/2026) `movimiento.js` nuevo en el armazón, y `estilos.css`:
+   el movimiento de Estudiemos se lleva a Inicio y a Fichas. Las
+   pantallas llaman a entrarAlLlegar con `typeof` delante, así que con
+   el armazón viejo siguen andando, quietas. */
+const VERSION = 'bolivar-v39';
 const ARMAZON = VERSION + '-armazon';
 const PAGINAS = VERSION + '-paginas';
 
@@ -203,6 +207,7 @@ const DEL_ARMAZON = [
   '/iconos.js',
   '/config.js',
   '/lectura.js',
+  '/movimiento.js',
   /* El cliente chico, que es el que usa la mayoría de las pantallas
      —desde el 6/9/2026 también Fechas—.
      La librería grande (`/lib/supabase.js`, 213 KB) YA NO se guarda de
