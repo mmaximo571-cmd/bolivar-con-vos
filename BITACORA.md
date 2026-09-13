@@ -70,7 +70,7 @@ sobre los otros. Ahora mandan así, y no se abre un quinto:
 | `PROMPT-DISENO.md` | el molde para pedirle pantallas a Gemini y que salgan en HTML de esta app, no en React |
 | `PROMPT-FICHAS.md` | el molde de una ficha de estudio: NotebookLM ordena el contenido, Claude Design lo dibuja, y **nunca al revés** |
 | `PROMPT-TRAYECTO.md` | **el contenido de una pantalla sola** (13/9): las seis preguntas que el Trayecto Optativo tiene que contestar, y las cinco que todavía son `[FALTA]`. Se usa junto con `PROMPT-DISENO.md`, no en lugar de él |
-| `PROMPT-FONOTECA.md` | **la Fonoteca** (13/9): los nueve tonos de la etapa 1, y las tres cosas que no se negocian —el volumen, que sirva sin sonido, y el navegador de Instagram—. También va junto con `PROMPT-DISENO.md` |
+| `PROMPT-FONOTECA.md` | **la Fonoteca** (13/9): el simulador de práctica audiológica. Las reglas clínicas del audiograma transcriptas del material de la facultad, las cuatro solapas con lo que depende cada una, y la regla que manda: **nada se publica sin el visto de la profesional**. También va junto con `PROMPT-DISENO.md` |
 | `entrada/` | **el buzón** (8/9). Lo que se trae de AI Studio o de donde sea se deja acá y se vacía en una sola sesión. No decide nada: es material de trabajo, no se sube |
 | Memoria del proyecto | cómo se trabaja y qué no puede esta máquina |
 | [Artifact del plan](https://claude.ai/code/artifact/25f7c752-e67f-465a-bf82-5913218cff95) | **congelado**, registro histórico. Ya no es el documento rector: quedó viejo cuando se rearmó el cronograma el 3/9 |
@@ -193,22 +193,24 @@ entran 2 o 3 sesiones.
 | ~~dom 13~~ | ~~Congelamiento~~. **Movido el 8/9:** hacen falta más días para las herramientas nuevas | — |
 | dom 13 · 1 | ✅ **Las seis deudas chicas, contestadas.** Legardón con tilde y Aulas Web publicados; Avisanos cerrado en dos contactos; el asterisco medido; las etiquetas de campaña explicadas; y el molde del Trayecto Optativo escrito | — |
 | dom 13 – jue 17 | **Herramientas nuevas.** Última ventana de código. **La lista está a medio escribir:** ver abajo | — |
-| ¿lun 15? | **El Trayecto Optativo tiene pantalla.** Máximo la diseña con Claude Design desde `PROMPT-TRAYECTO.md`; acá entran el HTML y las tres puertas | **el contenido y el `.dc.html`** |
+| dom 13 · 2 | ✅ **El Trayecto Optativo tiene pantalla.** Diseñado, escrito y publicado el mismo día que el molde. Ver arriba | — |
+| lun 14 – mié 16 | **La Fonoteca**, que es el simulador de práctica audiológica. Cuatro solapas, y dos esperan grabaciones que no existen | **el visto de la profesional, caso por caso** |
 | **mié 16 o jue 17** | **Congelamiento.** Última línea de función nueva | — |
 | vie 18 – dom 20 | Contenido, pruebas, etiquetas de campaña. **Todo arriba el 20** | — |
 | **lun 21** | **Lanzamiento** | — |
 
 ### Las «herramientas nuevas»: lo que hay y lo que falta (13/9)
 
-El 8/9 se corrieron cuatro días para esto y **la lista nunca se escribió**. Al
-13/9 tiene un solo renglón confirmado:
+El 8/9 se corrieron cuatro días para esto y **la lista nunca se escribió**. Se
+escribió el 13, y ese mismo día se hizo la primera:
 
-1. **El Trayecto Optativo en Info útil.** Molde escrito en
-   `PROMPT-TRAYECTO.md`. **No es una materia** —son actividades que se
-   acreditan— y la app lo dibuja como una porque el plan lo lista con código
-   `255`, 120 horas, 5.º año. Hoy el estudiante de 5.º ve un casillero y no
-   tiene dónde averiguar qué hacer con él: la palabra no aparece explicada en
-   ninguna pantalla. Espera contenido y diseño de afuera.
+1. ~~**El Trayecto Optativo en Info útil.**~~ ✅ **Hecho y publicado el 13/9**,
+   el mismo día que se escribió el molde. **No es una materia** —son actividades
+   que se acreditan— y la app lo dibujaba como una porque el plan lo lista con
+   código `255`, 120 horas, 5.º año. El estudiante de 5.º veía un casillero sin
+   ninguna explicación en toda la app. Ahora `trayecto/` contesta siete
+   preguntas y tiene tres puertas. Cuatro de las respuestas siguen sin
+   confirmarse, y la pantalla lo dice en vez de inventarlas.
 
 2. **La Fonoteca**, cuarta herramienta de Estudiemos. Molde en
    `PROMPT-FONOTECA.md`, **reescrito entero el 13/9 a la tarde** cuando Máximo
