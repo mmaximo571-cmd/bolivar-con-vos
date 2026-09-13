@@ -164,6 +164,14 @@
        existe es peor que no tener el botón. -->
   <section class="comunidad" aria-labelledby="titulo-comunidad">
     <span data-ico="subir" aria-hidden="true">📤</span>
+    <!-- CUANDO NO HAY MATERIAL, ESTE BLOQUE ES EL ESTADO VACÍO. Antes eran
+         dos cosas: un «Todavía no hay material» gris sin nada que hacer,
+         y la invitación aparte, abajo. Juntos dicen qué falta y cuál es el
+         paso para llenarlo. Es un renglón aparte y no un cambio del
+         titular porque el titular ya viene partido en palabras para
+         encenderse al bajar. -->
+    <p class="comunidad-vacio" id="comunidad-vacio" hidden>
+      Todavía no hay apuntes cargados. El primero puede ser el tuyo.</p>
     <h2 id="titulo-comunidad">Sumá tu granito de arena</h2>
     <p>Ayudá a un compañero compartiendo ese resumen que te salvó la cursada.</p>
     <a class="comunidad-boton" href="https://ig.me/m/SimonBolivarfts"
@@ -427,7 +435,9 @@
     const invitacion = document.querySelector('.comunidad');
     if (invitacion) encenderAlBajar([
       { el: invitacion.querySelector('h2'), tarde: 0 },
-      { el: invitacion.querySelector('p'),  tarde: .12 }
+      /* Sin el renglón del estado vacío, que va primero y casi siempre
+         escondido: partir ese dejaría el párrafo de verdad sin encender. */
+      { el: invitacion.querySelector('p:not(.comunidad-vacio)'),  tarde: .12 }
     ]);
     entrarAlLlegar(lista, ':scope > .titulo-seccion, .lista > .tarjeta');
   }
@@ -512,9 +522,9 @@
        mostrando material que se dio de baja. */
     olvidarMemoria('estudiemos');
     sacarAvisoGuardado();
-    lista.innerHTML = `<div class="vacio">
-        Todavía no hay material cargado acá.
-      </div>`;
+    lista.innerHTML = '';
+    lista.hidden = true;
+    document.getElementById('comunidad-vacio').hidden = false;
     chips.hidden = true;
     filtro.parentElement.hidden = true;
     return;
@@ -540,6 +550,8 @@
 
     chips.hidden = false;
     filtro.parentElement.hidden = false;
+    lista.hidden = false;
+    document.getElementById('comunidad-vacio').hidden = true;
 
     chips.innerHTML =
       `<button class="chip" data-materia="">Todas</button>` +
@@ -563,6 +575,17 @@
       dibujar();
     });
     filtro.addEventListener('input', dibujar);
+
+    /* La salida de «no hay resultados». Suelta la búsqueda y la materia
+       juntas: con las dos puestas no se sabe cuál de las dos vació la
+       lista. No se enfoca el buscador, que en el teléfono abriría el
+       teclado encima de lo que se acaba de destapar. */
+    lista.addEventListener('click', e => {
+      if (!e.target.closest('[data-limpiar]')) return;
+      filtro.value = '';
+      materiaActiva = '';
+      dibujar();
+    });
   }
 
   function dibujar(){
@@ -576,7 +599,11 @@
               .filter(Boolean).join(' ')).includes(q)));
 
     if (!visibles.length){
-      lista.innerHTML = `<div class="vacio">No hay material que coincida con esa búsqueda.</div>`;
+      lista.innerHTML = `<div class="vacio">
+          No hay material que coincida con esa búsqueda.<br>
+          <button class="boton borde" type="button" data-limpiar
+                  style="margin-top:14px">Ver todo el material</button>
+        </div>`;
       return;
     }
 

@@ -196,7 +196,10 @@
    el movimiento de Estudiemos se lleva a Inicio y a Fichas. Las
    pantallas llaman a entrarAlLlegar con `typeof` delante, así que con
    el armazón viejo siguen andando, quietas. */
-const VERSION = 'bolivar-v39';
+/* v40 (13/9/2026) `estilos.css`: el renglón del estado vacío adentro de
+   la invitación de Estudiemos. Con la hoja vieja sale en letra común,
+   pegado al titular y sin su margen. */
+const VERSION = 'bolivar-v40';
 const ARMAZON = VERSION + '-armazon';
 const PAGINAS = VERSION + '-paginas';
 

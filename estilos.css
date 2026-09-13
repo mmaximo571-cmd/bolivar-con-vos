@@ -4311,6 +4311,8 @@ details.area[open] > summary::after{transform:rotate(45deg)}
   line-height:1.1;margin:0 0 8px
 }
 .comunidad p{ font-size:var(--letra-nota);line-height:1.5;margin:0;max-width:44ch }
+/* El renglón del estado vacío va arriba del titular, en negrita. */
+.comunidad p.comunidad-vacio{ font-weight:700;margin:0 0 10px }
 
 .comunidad-boton{
   display:flex;align-items:center;justify-content:center;gap:8px;

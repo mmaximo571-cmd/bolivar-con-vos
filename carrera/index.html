@@ -107,14 +107,16 @@
     <div id="resumen-cursada" hidden>
       <div id="resumen-encabezado"></div>
       <div id="cursando-ahora"></div>
+      <!-- Los finales van ANTES de «Te podés anotar»: son lo que pide
+           una decisión con fecha, y abajo de los desplegables quedaban a
+           más de una pantalla de scroll. -->
+      <div id="consejo"></div>
       <div id="para-anotarse"></div>
 
       <label class="interruptor" id="caja-suponer" hidden>
         <input type="checkbox" id="suponer">
         <span>Dar por aprobadas las cursadas que estoy haciendo ahora</span>
       </label>
-
-      <div id="consejo"></div>
 
       <!-- LA SALIDA PARA CUANDO CARGASTE MAL.
            El mismo botón vive al pie de la solapa Plan desde antes, pero
@@ -1267,7 +1269,15 @@ function pintarCursada(){
   const preguntando = !!borrador;
   document.getElementById('dialogo-cursada').hidden = !preguntando;
   document.getElementById('resumen-cursada').hidden =  preguntando;
-  document.getElementById('bajada-anio').hidden     =  preguntando;
+  /* La bajada explica cómo se usa la pantalla, y eso le sirve a quien
+     todavía no contestó. A quien vuelve le empuja «Estás cursando» y
+     «Te podés anotar» abajo del borde del teléfono (13/9, revisión
+     contra la lista de Dashboard de checklist.design).
+     Se apaga por tener algo MARCADO y no por haber cerrado el diálogo:
+     «Prefiero marcarlas yo» también lo cierra, y quien se fue por ahí
+     es justo quien necesita leer cómo se marca. */
+  const yaMarco = MATERIAS.some(m => estadoCrudo(m.cod) !== 'pendiente');
+  document.getElementById('bajada-anio').hidden     =  preguntando || yaMarco;
 
   if (preguntando){
     /* Una pregunta a la vez, también acá: la barra de progreso arriba
