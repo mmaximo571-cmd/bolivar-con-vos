@@ -181,7 +181,14 @@
    errorEnCastellano). `mi/` y `carrera/` llegan nuevas y llaman a
    errorEnCastellano justo cuando algo falla: con el `app.js` viejo esa
    llamada tira ReferenceError y en vez de un aviso no aparece nada. */
-const VERSION = 'bolivar-v36';
+/* v37 (13/9/2026) `estilos.css`: las herramientas de Estudiemos pasan de
+   grilla a riel que se desliza, con la cinta de datos abajo de cada
+   tarjeta. La pantalla `estudiemos/` llega nueva —se sirve red
+   primero— pero la hoja es armazon, y ahi esta TODO lo del riel. Sin
+   subir el numero pasa lo peor: el HTML nuevo trae cuatro tarjetas
+   apiladas a lo ancho sin `overflow-x`, o sea la fila desbordando la
+   pantalla, y la cinta de datos sin la linea que la separa. */
+const VERSION = 'bolivar-v37';
 const ARMAZON = VERSION + '-armazon';
 const PAGINAS = VERSION + '-paginas';
 

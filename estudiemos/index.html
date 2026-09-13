@@ -56,7 +56,9 @@
            placeholder="Buscar por materia o tema…" aria-label="Buscar material">
   </div>
 
-  <div class="titulo-seccion">PARA EMPEZAR</div>
+  <div class="titulo-seccion con-cuenta">PARA EMPEZAR
+    <span class="riel-cuenta" id="riel-cuenta" aria-hidden="true"></span>
+  </div>
 
   <!-- Las tres puertas. Antes eran tres bloques amarillos seguidos;
        ahora van en superficie y el amarillo queda para una sola cosa,
@@ -64,31 +66,47 @@
   <nav class="herramientas" aria-label="Herramientas de estudio">
 
     <a class="herramienta" href="../carrera/#finales">
-      <span class="herramienta-ico" data-ico="carrera" aria-hidden="true">📅</span>
+      <span class="herramienta-cabeza">
+        <span class="herramienta-ico" data-ico="carrera" aria-hidden="true">📅</span>
+      </span>
       <span class="herramienta-texto">
         <strong>Preparar un final</strong>
         <span>El programa, la fecha de la mesa y cuánto te falta.</span>
       </span>
-      <span class="herramienta-flecha" aria-hidden="true">→</span>
+      <span class="herramienta-cinta" data-cinta="finales">
+        <span class="cinta-dato"><b>9 turnos de examen</b><span>Para las tres carreras</span></span>
+        <span class="herramienta-flecha" aria-hidden="true">→</span>
+      </span>
     </a>
 
     <a class="herramienta" href="fichas/">
-      <span class="herramienta-ico" data-ico="estudiemos" aria-hidden="true">📐</span>
+      <span class="herramienta-cabeza">
+        <span class="herramienta-ico" data-ico="estudiemos" aria-hidden="true">📐</span>
+        <span class="herramienta-insignia">Con autoevaluación</span>
+      </span>
       <span class="herramienta-texto">
         <strong>Fichas para estudiar</strong>
         <span>Nueve temas con esquemas para tocar y autoevaluación.</span>
       </span>
-      <span class="herramienta-flecha" aria-hidden="true">→</span>
+      <span class="herramienta-cinta" data-cinta="fichas">
+        <span class="cinta-dato"><b>9 fichas</b><span>8 de Fono / 1 de TS</span></span>
+        <span class="herramienta-flecha" aria-hidden="true">→</span>
+      </span>
     </a>
 
     <a class="herramienta" href="../anatomo/">
-      <span class="herramienta-insignia">3D interactivo</span>
-      <span class="herramienta-ico" data-ico="plan" aria-hidden="true">🧠</span>
+      <span class="herramienta-cabeza">
+        <span class="herramienta-ico" data-ico="plan" aria-hidden="true">🧠</span>
+        <span class="herramienta-insignia">3D interactivo</span>
+      </span>
       <span class="herramienta-texto">
         <strong>Anatomofisiología</strong>
         <span>Los módulos con su bibliografía, y la laringe y el oído para girarlos.</span>
       </span>
-      <span class="herramienta-flecha" aria-hidden="true">→</span>
+      <span class="herramienta-cinta" data-cinta="anatomo">
+        <span class="cinta-dato"><b>2 modelos 3D</b><span>De Fonoaudiología</span></span>
+        <span class="herramienta-flecha" aria-hidden="true">→</span>
+      </span>
     </a>
 
     <!-- LA FONOTECA, cuarta herramienta (decidido el 13/9). Va ESCONDIDA
@@ -96,12 +114,18 @@
          una pantalla que dice «en revisión» es una promesa que no se
          cumple. Para destaparla, sacar el `hidden`. -->
     <a class="herramienta" href="fonoteca/" hidden>
-      <span class="herramienta-ico" data-ico="plan" aria-hidden="true">🎧</span>
+      <span class="herramienta-cabeza">
+        <span class="herramienta-ico" data-ico="plan" aria-hidden="true">🎧</span>
+        <span class="herramienta-insignia">Con devolución</span>
+      </span>
       <span class="herramienta-texto">
         <strong>Fonoteca</strong>
         <span>Audiogramas para practicar: diagnosticás cada oído y ves por qué.</span>
       </span>
-      <span class="herramienta-flecha" aria-hidden="true">→</span>
+      <span class="herramienta-cinta" data-cinta="fonoteca">
+        <span class="cinta-dato"><b>6 casos</b><span>De Fonoaudiología</span></span>
+        <span class="herramienta-flecha" aria-hidden="true">→</span>
+      </span>
     </a>
 
   </nav>
@@ -187,6 +211,69 @@
      lee: `pintar` corre antes que esa línea, y un `let` todavía sin
      ejecutar no es «undefined», es un error que corta la pantalla. */
   let enganchado = false;
+
+  /* ============================================================
+     EL RIEL DE HERRAMIENTAS (13/9)
+
+     Dos cosas, las dos chicas: el contador que dice en cuál estás
+     parado, y la cinta de datos que cambia según tu carrera.
+
+     LO DE «DE LA TUYA» ES EL MOTIVO DE TODO ESTO. Nueve fichas suena
+     igual para todo el mundo; «8 de la tuya» y «1 de la tuya» no. El
+     dato existe —ocho fichas son de Fonoaudiología y una de Trabajo
+     Social— y hasta ahora no lo decía ninguna pantalla.
+
+     Para Gestión del Riesgo NO se escribe «ninguna de la tuya»: se
+     muestra el reparto. Un cartel que le dice a alguien que acá no hay
+     nada para él lo echa de la pantalla, y además es mentira: el
+     material de otra carrera se puede leer igual.
+     ============================================================ */
+  const CINTAS = {
+    fichas: {
+      cuanto: '9 fichas',
+      fono: '8 de la tuya', ts: '1 de la tuya', otra: '8 de Fono / 1 de TS'
+    },
+    anatomo: {
+      cuanto: '2 modelos 3D',
+      fono: 'Es de la tuya', otra: 'De Fonoaudiología'
+    },
+    fonoteca: {
+      cuanto: '6 casos',
+      fono: 'Es de la tuya', otra: 'De Fonoaudiología'
+    }
+  };
+
+  function pintarCintas(){
+    const id = carreraActual().id;
+    Object.keys(CINTAS).forEach(clave => {
+      const dato = document.querySelector(`[data-cinta="${clave}"] .cinta-dato`);
+      if (!dato) return;
+      const t = CINTAS[clave];
+      dato.innerHTML = `<b>${t.cuanto}</b><span>${t[id] || t.otra}</span>`;
+    });
+  }
+
+  /* El contador. Se saca de cuánto se corrió la fila y no de un
+     observador: son tres o cuatro tarjetas y la cuenta tiene que dar
+     igual con el dedo, con la rueda y con el tabulador. */
+  const riel = document.querySelector('.herramientas');
+  const cuenta = document.getElementById('riel-cuenta');
+  function pintarCuenta(){
+    if (!riel || !cuenta) return;
+    const visibles = [...riel.querySelectorAll('.herramienta')].filter(a => !a.hidden);
+    if (visibles.length < 2){ cuenta.textContent = ''; return; }
+    const ancho = visibles[0].offsetWidth + 12;
+    const cual = Math.min(visibles.length, Math.round(riel.scrollLeft / ancho) + 1);
+    const dosCifras = n => String(n).padStart(2, '0');
+    cuenta.textContent = dosCifras(cual) + '/' + dosCifras(visibles.length);
+  }
+  if (riel){
+    riel.addEventListener('scroll', pintarCuenta, { passive:true });
+    window.addEventListener('resize', pintarCuenta);
+  }
+  pintarCintas();
+  pintarCuenta();
+  document.addEventListener('bolivar:carrera', pintarCintas);
 
   /* ============================================================
      PRIMERO LO DE TU CARRERA

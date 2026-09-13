@@ -4180,28 +4180,68 @@ details.area[open] > summary::after{transform:rotate(45deg)}
    suave: se leen como estantes, no como carteles.
    ============================================================ */
 
+/* ---------- El riel (13/9) ----------
+
+   Las herramientas pasaron de grilla a fila que se desliza, con una
+   tarjeta y media a la vista. El asomo de la siguiente NO es estética:
+   es lo único que avisa que hay más. Sin él, lo que queda fuera de
+   pantalla no lo encuentra nadie —ya pasó con el botón de imprimir el
+   plan, que estaba al final y era como no estar—.
+
+   A cambio de deslizar, cada tarjeta dice más: qué hay adentro y cuánto
+   de eso es de tu carrera. Ese renglón va en monoespaciada, que es la
+   letra que esta app usa para los datos, y es lo que hace que la fila
+   se lea como un instrumento y no como un carrusel de promociones. */
 .herramientas{
-  display:grid;grid-template-columns:1fr;gap:12px;
-  /* La insignia se sale de la tarjeta por arriba. Sin este respiro
-     queda cortada contra el título de la sección de arriba. */
-  padding-top:10px;margin:0 0 20px
+  display:flex;gap:12px;
+  overflow-x:auto;overscroll-behavior-x:contain;
+  scroll-snap-type:x mandatory;-webkit-overflow-scrolling:touch;
+  /* El respiro de arriba es para la sombra dura; el de los costados,
+     para que la primera y la última no queden pegadas al margen. */
+  padding:4px 0 14px;margin:0 0 6px;
+  scrollbar-width:none
 }
-@media (min-width:560px){ .herramientas{grid-template-columns:1fr 1fr} }
+.herramientas::-webkit-scrollbar{ display:none }
+
+/* El renglón de la sección lleva el contador a la derecha: «01/03» dice
+   dónde estás parado, que es información y no adorno. */
+.titulo-seccion.con-cuenta{ display:flex;align-items:baseline;justify-content:space-between;gap:12px }
+.riel-cuenta{
+  font-family:var(--fuente-datos);font-size:var(--letra-mini);font-weight:700;
+  letter-spacing:.08em;color:var(--texto-suave);font-variant-numeric:tabular-nums
+}
 
 .herramienta{
-  position:relative;display:flex;align-items:center;gap:12px;
+  flex:0 0 78%;max-width:320px;scroll-snap-align:start;
+  position:relative;display:flex;flex-direction:column;
   min-height:48px;              /* la medida del dedo, no la de la vista */
-  padding:14px 15px;text-decoration:none;color:var(--texto);
+  padding:13px 15px 0;text-decoration:none;color:var(--texto);
   background:var(--superficie);
   border:1.5px solid var(--linea);border-radius:var(--radio);
   box-shadow:var(--sombra);
   transition:transform .12s ease, box-shadow .12s ease
 }
+/* En pantalla ancha las tarjetas no se estiran: entran más en la misma
+   fila, que es la misma fila y no una segunda manera de verla. */
+@media (min-width:560px){ .herramienta{ flex-basis:300px } }
 .herramienta:hover{ transform:translate(-1px,-1px);box-shadow:3px 3px 0 var(--tinta-borde) }
 .herramienta:active{ transform:translate(1px,1px);box-shadow:1px 1px 0 var(--tinta-borde) }
 /* El foco va en celeste, como el del buscador: sobre superficie clara
    un halo amarillo no se distingue del fondo. */
 .herramienta:focus-visible{ outline:none;box-shadow:0 0 0 3px var(--celeste) }
+
+/* El cajoncito del icono va en un gris de la casa y NO en amarillo.
+   Con amarillo aca, la pantalla tenia cuatro amarillos: tres cajoncitos
+   y la tarjeta de compartir. El amarillo deja de significar «toca aca»
+   cuando esta en todos lados; aca solo tiene que separar el icono del
+   texto, y para eso alcanza un tono. */
+/* El primer renglón: el cajoncito del ícono y, si la hay, la insignia.
+   La insignia dejó de estar posicionada por afuera de la tarjeta: el
+   riel tiene `overflow-x`, y eso recorta lo que sobresale. */
+.herramienta-cabeza{
+  display:flex;align-items:center;justify-content:space-between;gap:10px;
+  margin-bottom:11px
+}
 
 /* El cajoncito del icono va en un gris de la casa y NO en amarillo.
    Con amarillo aca, la pantalla tenia cuatro amarillos: tres cajoncitos
@@ -4215,24 +4255,43 @@ details.area[open] > summary::after{transform:rotate(45deg)}
 }
 :root[data-tema="oscuro"] .herramienta-ico{ background:rgba(253,252,247,.10) }
 .herramienta-ico svg.ico{width:21px;height:21px}
-.herramienta-texto{ flex:1;min-width:0 }
+.herramienta-texto{ flex:1 0 auto;min-width:0 }
 .herramienta-texto strong{
-  display:block;font-family:var(--fuente-titulo);font-size:var(--letra-densa);
-  line-height:1.15;margin-bottom:3px
+  display:block;font-family:var(--fuente-titulo);font-size:var(--letra-guia);
+  line-height:1.1;margin-bottom:5px
 }
 .herramienta-texto span{
-  display:block;font-size:var(--letra-nota);line-height:1.4;opacity:.75
+  display:block;font-size:var(--letra-nota);line-height:1.45;opacity:.75
 }
+
+/* LA CINTA DE DATOS. Es lo que esta fila tiene y la de antes no: qué hay
+   adentro y cuánto de eso es de tu carrera. Va abajo de todo, separada
+   por una línea fina, como la chapa de especificaciones de un aparato.
+   La letra es la monoespaciada de los datos: acá no se opina, se mide. */
+.herramienta-cinta{
+  display:flex;align-items:center;justify-content:space-between;gap:10px;
+  margin-top:auto;padding:10px 0;border-top:1px solid var(--linea);
+  font-family:var(--fuente-datos);font-size:var(--letra-mini);font-weight:500;
+  letter-spacing:.06em;text-transform:uppercase;color:var(--texto-suave)
+}
+/* Dos renglones a propósito: arriba cuánto hay, abajo de quién es. En
+   un solo renglón no entra en 375 px —la monoespaciada es ancha— y
+   achicar la letra no es opción: esta app subió la tipografía un punto
+   el 3/9 justo para que se lea en un celular a pulso. */
+.cinta-dato{ display:grid;gap:1px;line-height:1.35;min-width:0 }
+.cinta-dato b{ font-weight:700;color:var(--texto) }
+/* La flecha es decorativa —la tarjeta entera es el enlace— pero igual
+   tiene que verse: medida sobre la superficie real, con .45 daba 2,81 y
+   no llegaba a 3. Con .6 pasa. */
 .herramienta-flecha{
-  flex:0 0 auto;font-family:var(--fuente-sub);font-weight:700;font-size:20px;
-  line-height:1;opacity:.4
+  flex:0 0 auto;font-family:var(--fuente-sub);font-weight:700;font-size:18px;
+  line-height:1;opacity:.6
 }
 
 /* La insignia. Va en negro con letra amarilla y no al revés: la tarjeta
    ya tiene amarillo en el ícono, y dos amarillos discutiendo a tres
    centímetros se leen como un error de impresión. */
 .herramienta-insignia{
-  position:absolute;top:-9px;right:-6px;
   font-family:var(--fuente-sub);font-weight:800;font-size:10px;
   letter-spacing:.06em;text-transform:uppercase;
   background:var(--tinta-borde);color:var(--amarillo);
