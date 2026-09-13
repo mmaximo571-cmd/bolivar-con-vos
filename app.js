@@ -1510,14 +1510,58 @@ function htmlPie(){
     </footer>`;
 }
 
+/* ------------------------------------------------------------
+   QUÉ LE DECIMOS CUANDO ALGO FALLA
+
+   Supabase y el navegador contestan en inglés y en jerga: «Failed to
+   fetch», «JWT expired», «Error 503». Quien entra desde Instagram con
+   datos móviles lee eso y cree que la app está rota, cuando casi
+   siempre es la señal. Acá se traduce a qué pasó y qué hacer.
+
+   Devuelve { texto, conocido }. Si no lo reconoce, conocido es false y
+   quien lo muestra puede sumar el detalle técnico en chiquito: dentro
+   de Instagram no hay consola, y la captura de pantalla que nos
+   manden es lo único que tenemos para saber qué fue.
+   ------------------------------------------------------------ */
+function explicarError(error){
+  const m = String((error && (error.message || error.error_description)) || error || '');
+  const c = String((error && (error.code || error.status)) || '');
+
+  /* El de conPaciencia ya viene en castellano y dice qué hacer. */
+  if (/tardando demasiado/.test(m)) return { texto: m, conocido: true };
+
+  if (c === 'sin-red' || navigator.onLine === false ||
+      /failed to fetch|networkerror|load failed|network request failed/i.test(m))
+    return { conocido: true,
+      texto: 'No hay señal, o está muy débil. Probá de nuevo cuando vuelva.' };
+
+  if (c === '401' || c === 'PGRST301' || /jwt|token.*expired/i.test(m))
+    return { conocido: true,
+      texto: 'Se cerró tu sesión. Volvé a entrar desde Mi perfil.' };
+
+  if (/^5\d\d$/.test(c) || /^Error 5\d\d$/.test(m))
+    return { conocido: true,
+      texto: 'El servidor está tardando en contestar. Puede estar despertando. Probá en un minuto.' };
+
+  return { conocido: false,
+    texto: 'Algo falló de nuestro lado. Probá de nuevo en un rato.' };
+}
+
+/* Lo mismo, en una línea, para los avisos cortos de un botón. */
+function errorEnCastellano(error){ return explicarError(error).texto; }
+
 /* Mensaje de error visible, en castellano, sin jerga */
 function mostrarError(contenedor, error, queEstabaHaciendo){
   console.error(queEstabaHaciendo, error);
-  const detalle = error && (error.message || error.error_description) || 'Error desconocido';
+  const { texto, conocido } = explicarError(error);
+  const sinRed = /señal/.test(texto);
+  const detalle = error && (error.message || error.error_description);
   contenedor.innerHTML =
-    `<div class="aviso error"><strong>No se pudo ${esc(queEstabaHaciendo)}.</strong><br>
-     ${esc(detalle)}<br>
-     <small>Si esto sigue pasando, avisale al equipo de la agrupación.</small></div>`;
+    `<div class="aviso error"><strong>No pudimos ${esc(queEstabaHaciendo)}.</strong><br>
+     ${esc(texto)}${sinRed ? ' Las pantallas que ya abriste antes siguen andando.' : ''}<br>
+     <small>Si sigue pasando, <a href="https://www.instagram.com/SimonBolivarfts"
+       target="_blank" rel="noopener">contanos por Instagram</a>.${
+       !conocido && detalle ? `<br>Detalle: ${esc(detalle)}` : ''}</small></div>`;
 }
 
 /* ------------------------------------------------------------

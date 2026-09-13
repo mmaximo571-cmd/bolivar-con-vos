@@ -2262,8 +2262,8 @@ function pintarRespaldo(){
       } catch(e){
         this.disabled = false; this.textContent = 'Crear mi código de respaldo';
         document.getElementById('respaldo-mensaje').innerHTML =
-          '<div class="aviso error">No se pudo crear la copia: ' +
-          esc(e.message || 'sin conexión') + '.</div>';
+          '<div class="aviso error">No pudimos crear la copia. ' +
+          esc(errorEnCastellano(e)) + '</div>';
       }
     };
     document.getElementById('pedir-codigo').onclick = pedirCodigo;
@@ -2354,8 +2354,8 @@ function pedirCodigo(){
       location.reload();
     } catch(e){
       this.disabled = false; this.textContent = 'Traer mi año';
-      msj.innerHTML = '<div class="aviso error">No se pudo buscar: ' +
-        esc(e.message || 'sin conexión') + '.</div>';
+      msj.innerHTML = '<div class="aviso error">No pudimos buscar el código. ' +
+        esc(errorEnCastellano(e)) + '</div>';
     }
   };
 }
@@ -2545,7 +2545,7 @@ function guardarPrep(cambios, alTerminar){
   relojGuardado = setTimeout(async () => {
     const { error } = await db.from('preparaciones')
       .update(cambios).eq('id', prepActual.id);
-    if (error) avisoFinal('No se pudo guardar: ' + error.message);
+    if (error) avisoFinal('No pudimos guardar el cambio. ' + errorEnCastellano(error));
     else if (alTerminar) alTerminar();
   }, 600);
 }
@@ -2787,7 +2787,7 @@ async function vistaNueva(cod){
       this.disabled = false; this.textContent = 'Empezar a prepararla';
       avisoFinal(/duplicate|unique/i.test(error.message)
         ? 'Ya estabas preparando esta materia. Volvé y abrila.'
-        : 'No se pudo crear: ' + error.message);
+        : 'No pudimos empezar la preparación. ' + errorEnCastellano(error));
       return;
     }
     prepActual = data;

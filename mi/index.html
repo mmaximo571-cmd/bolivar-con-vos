@@ -119,7 +119,9 @@
       const { error } = await db.auth.updateUser({ password: clave });
       if (error){
         this.disabled = false; this.textContent = 'Guardar la contraseña';
-        mensaje.innerHTML = `<div class="aviso error">No se pudo guardar: ${esc(error.message)}</div>`;
+        mensaje.innerHTML = `<div class="aviso error">No pudimos guardar la contraseña. ${esc(
+          /at least \d+ characters|weak/i.test(error.message || '')
+            ? 'Tiene que tener al menos 6 caracteres.' : errorEnCastellano(error))}</div>`;
         return;
       }
       /* Se limpia el enlace de la dirección: si queda, al recargar
@@ -247,7 +249,7 @@
         mensaje.innerHTML = `<div class="aviso error">${esc(
           /rate limit|only request this after/i.test(error.message)
             ? 'Se mandaron muchos correos seguidos. Esperá unos minutos.'
-            : 'No se pudo mandar el correo: ' + error.message)}</div>`;
+            : 'No pudimos mandar el correo. ' + errorEnCastellano(error))}</div>`;
         return;
       }
       /* Se contesta lo mismo exista o no la cuenta: si dijéramos "ese
@@ -294,10 +296,10 @@
         || (/at least \d+ characters/i.test(error.message)
               ? 'La contraseña tiene que tener al menos 6 caracteres.' : '')
         || (/rate limit|too many requests|only request this after/i.test(error.message)
-              ? 'Probamos muchas veces seguidas. Esperá unos minutos y volvé a intentar.' : '')
+              ? 'Hubo muchos intentos seguidos. Esperá unos minutos y volvé a intentar.' : '')
         || (/unable to validate email|invalid format/i.test(error.message)
               ? 'Ese correo no parece estar bien escrito.' : '')
-        || error.message;
+        || errorEnCastellano(error);
         mensaje.innerHTML = `<div class="aviso error">${esc(traduccion)}</div>`;
         return;
       }
@@ -344,7 +346,7 @@
             mensaje.insertAdjacentHTML('beforeend', `<div class="aviso error">${
               esElLimite
                 ? 'Estamos mandando muchos correos juntos. Esperá unos minutos y volvé a tocar el botón. La app la podés usar igual mientras tanto.'
-                : esc('No pudimos reenviarlo: ' + (fallo.message || 'error desconocido'))
+                : esc('No pudimos reenviarlo. ' + errorEnCastellano(fallo))
             }</div>`);
             return;
           }
@@ -475,9 +477,8 @@
                <small>Al equipo: falta correr <b>tabla-borrar-cuenta.sql</b> en Supabase.</small>
              </div>`
           : `<div class="aviso error">
-               No se pudo borrar: ${esc(error.message || 'error desconocido')}.<br>
-               <b>Tu cuenta sigue estando.</b> Probá de nuevo, y si sigue
-               fallando escribinos.</div>`;
+               No pudimos borrar tu cuenta. ${esc(errorEnCastellano(error))}<br>
+               <b>Tu cuenta sigue estando.</b> Si sigue fallando, escribinos.</div>`;
         return;
       }
 
@@ -536,7 +537,9 @@
         msjClave.innerHTML = `<div class="aviso error">${esc(
           /should be different|same/i.test(error.message)
             ? 'Esa es la que ya tenías. Poné una distinta.'
-            : 'No se pudo cambiar: ' + error.message)}</div>`;
+            : /at least \d+ characters|weak/i.test(error.message || '')
+              ? 'La contraseña tiene que tener al menos 6 caracteres.'
+              : 'No pudimos cambiar la contraseña. ' + errorEnCastellano(error))}</div>`;
         return;
       }
       campo.value = '';

@@ -177,7 +177,11 @@
    el inicio tiene la fila de chips. Las pantallas llegan nuevas, pero
    el inicio llama a funciones que viven en `app.js`: sin subir el
    número, quien ya tiene la app abre un inicio que se rompe. */
-const VERSION = 'bolivar-v35';
+/* v36 (13/9/2026) `app.js`: los errores se traducen (explicarError,
+   errorEnCastellano). `mi/` y `carrera/` llegan nuevas y llaman a
+   errorEnCastellano justo cuando algo falla: con el `app.js` viejo esa
+   llamada tira ReferenceError y en vez de un aviso no aparece nada. */
+const VERSION = 'bolivar-v36';
 const ARMAZON = VERSION + '-armazon';
 const PAGINAS = VERSION + '-paginas';
 
