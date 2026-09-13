@@ -267,7 +267,13 @@ usó con la versión 2.0 de AI Studio.
 - **No toca `app.js` ni `estilos.css`**, así que no hace falta subir la
   versión del service worker. Si termina necesitando estilos en la hoja
   general, entonces sí.
-- **Falta decidir la puerta.** Estudiemos tiene **tres** herramientas en
-  superficie y que sean tres fue decisión del 5/9. Esta es la cuarta
-  tarjeta, o se llega desde «Fichas para estudiar». **Se decide antes de
-  escribir el HTML.**
+- ~~**Falta decidir la puerta.**~~ **Decidido el 13/9: es la cuarta
+  tarjeta de Estudiemos.** Está escrita y **escondida** (`hidden`) hasta
+  que la profesional apruebe el primer caso.
+- **Hecho el 13/9, sin Claude Design** (lo decidió Máximo): la solapa 1
+  con los seis casos, todos con `aprobado:false`. La profesional los mira
+  en `estudiemos/fonoteca/?revision`, que muestra el diagnóstico escrito,
+  los números y un chequeo automático. Dos cosas quedaron marcadas
+  `[A CONFIRMAR]` en el código: qué pasa con el PTP entre 90 y 91, y que
+  «ósea conservada» y «GAP» se miden sobre 500, 1000 y 2000 Hz.
+  **Falta el generador de tonos** (parte 2).

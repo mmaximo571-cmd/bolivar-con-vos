@@ -1,0 +1,605 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Fonoteca · La Bolívar con vos</title>
+<meta name="description" content="Un entrenador para aprender a leer audiogramas: mirás el gráfico, diagnosticás cada oído y después ves por qué.">
+<meta name="theme-color" content="#F9E830">
+<!-- Mientras los casos estén en revisión, que no aparezca en buscadores -->
+<meta name="robots" content="noindex">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Montserrat:wght@600;700;800&family=Roboto:wght@400;500;700&family=Roboto+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<link rel="icon" type="image/png" sizes="32x32" href="../../imagenes/icono-32.png">
+<link rel="icon" type="image/png" sizes="96x96" href="../../imagenes/icono-96.png">
+<link rel="icon" type="image/png" sizes="192x192" href="../../imagenes/icono-192.png">
+<link rel="apple-touch-icon" href="../../imagenes/icono-apple.png">
+<link rel="manifest" href="../../manifest.json">
+<link rel="stylesheet" href="../../estilos.css">
+<script>
+(function(){try{
+  var g = localStorage.getItem('bolivar-tema') || 'auto';
+  var oscuro = g === 'oscuro' || (g === 'auto' &&
+    window.matchMedia('(prefers-color-scheme: dark)').matches);
+  document.documentElement.dataset.tema = oscuro ? 'oscuro' : 'claro';
+}catch(e){ document.documentElement.dataset.tema = 'claro'; }})();
+</script>
+<!-- LOS ESTILOS VAN ACÁ Y NO EN estilos.css, A PROPÓSITO. Lo pide
+     PROMPT-FONOTECA.md: esta pantalla se sirve red primero y llega
+     siempre nueva, pero la hoja general es armazón del service worker y
+     tocarla obliga a subir la versión. Todo lo de acá se usa solo acá. -->
+<style>
+/* Los dos oídos. Rojo y azul son la convención clínica, no una decisión
+   de marca: el derecho es rojo y el izquierdo azul en cualquier
+   audiograma que vayan a ver en la cátedra. El color nunca es la única
+   pista: el derecho es círculo y `<`, el izquierdo cruz y `>`. */
+:root{ --oido-der: var(--rojo); --oido-izq: #1D5BB8 }
+:root[data-tema="oscuro"]{ --oido-izq: #86ADF2 }
+
+.fono-aviso{
+  border:1.5px dashed var(--tinta-borde);border-radius:var(--radio);
+  padding:13px;margin:0 0 16px;font-size:var(--letra-nota);line-height:1.55
+}
+.fono-casos{display:flex;flex-wrap:wrap;gap:8px;margin:0 0 16px}
+.fono-historia{
+  background:var(--superficie);border:1.5px solid var(--tinta-borde);border-radius:var(--radio);
+  box-shadow:var(--sombra);padding:14px 15px;margin:0 0 16px
+}
+.fono-historia dl{margin:0;display:grid;grid-template-columns:auto 1fr;gap:6px 12px}
+.fono-historia dt{
+  font-family:var(--fuente-datos);font-size:var(--letra-mini);font-weight:700;
+  letter-spacing:.1em;text-transform:uppercase;color:var(--texto-suave);padding-top:2px
+}
+.fono-historia dd{margin:0;font-size:var(--letra-nota);line-height:1.5}
+
+.fono-grafico{
+  background:var(--superficie);border:1.5px solid var(--tinta-borde);border-radius:var(--radio);
+  padding:10px 6px 6px;margin:0 0 10px
+}
+.fono-grafico svg{display:block;width:100%;height:auto;max-width:520px;margin:0 auto}
+.fono-grilla{stroke:var(--linea);stroke-width:1}
+.fono-grilla.gruesa{stroke:var(--texto-suave);stroke-opacity:.45}
+.fono-grilla.inter{stroke-dasharray:3 3}
+.fono-normal{fill:var(--texto);fill-opacity:.05}
+.fono-marco{fill:none;stroke:var(--texto);stroke-width:1.2}
+.fono-eje{font-family:var(--fuente-datos);font-size:10px;fill:var(--texto-suave)}
+.fono-eje.titulo{font-weight:700;fill:var(--texto)}
+.der{stroke:var(--oido-der);color:var(--oido-der)}
+.izq{stroke:var(--oido-izq);color:var(--oido-izq)}
+.fono-linea{fill:none;stroke-width:1.8}
+.fono-simbolo{fill:var(--superficie);stroke-width:2}
+.fono-osea{fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+
+.fono-leyenda{
+  display:flex;flex-wrap:wrap;gap:6px 16px;margin:0 0 6px;padding:0;list-style:none;
+  font-size:var(--letra-chica);color:var(--texto-suave)
+}
+.fono-leyenda svg{width:18px;height:18px;vertical-align:-4px;margin-right:4px}
+.fono-ptp{
+  display:flex;gap:10px;margin:0 0 14px;flex-wrap:wrap;
+  font-family:var(--fuente-datos);font-size:var(--letra-chica)
+}
+.fono-ptp span{border:1px solid var(--linea);border-radius:var(--radio-pastilla);padding:5px 10px}
+.fono-ptp b.der{color:var(--oido-der)} .fono-ptp b.izq{color:var(--oido-izq)}
+
+.fono-valores{margin:0 0 20px;font-size:var(--letra-chica)}
+.fono-valores summary{cursor:pointer;font-family:var(--fuente-sub);font-weight:700;padding:8px 0;min-height:24px}
+.fono-tabla{overflow-x:auto}
+.fono-tabla table{border-collapse:collapse;font-family:var(--fuente-datos);min-width:100%}
+.fono-tabla th,.fono-tabla td{border:1px solid var(--linea);padding:5px 7px;text-align:center;white-space:nowrap}
+.fono-tabla th[scope="row"]{text-align:left}
+
+.fono-oido{border:0;margin:0 0 14px;padding:0}
+.fono-oido legend{
+  font-family:var(--fuente-titulo);font-size:var(--letra-base);padding:0;margin:0 0 8px
+}
+.fono-oido legend .der, .fono-oido legend .izq{font-size:var(--letra-chica);margin-left:6px}
+.fono-rotulo{
+  display:block;font-family:var(--fuente-datos);font-size:var(--letra-mini);font-weight:700;
+  letter-spacing:.1em;text-transform:uppercase;color:var(--texto-suave);margin:6px 0 6px
+}
+.fono-opciones{display:flex;flex-wrap:wrap;gap:6px}
+.fono-opciones .chip{min-height:40px;cursor:pointer}
+.fono-opciones .chip[disabled]{opacity:.4;cursor:not-allowed}
+
+.fono-falta{font-size:var(--letra-nota);color:var(--texto-suave);margin:4px 0 10px;min-height:1.5em}
+
+.fono-devolucion{margin:18px 0 0}
+.fono-devolucion h3{font-family:var(--fuente-titulo);font-size:var(--letra-base);margin:0 0 8px}
+.fono-dev-oido{
+  background:var(--superficie);border:1.5px solid var(--tinta-borde);border-radius:var(--radio);
+  padding:14px 15px;margin:0 0 12px
+}
+.fono-veredicto{margin:0 0 6px;font-size:var(--letra-nota);line-height:1.5}
+.fono-veredicto b{font-family:var(--fuente-sub)}
+.fono-rasgos{margin:10px 0 0;padding-left:18px;font-size:var(--letra-nota);line-height:1.55}
+.fono-rasgos li{margin-bottom:5px}
+
+.fono-revision{
+  border:2px solid var(--rojo);border-radius:var(--radio);padding:13px;margin:0 0 16px;
+  font-size:var(--letra-nota);line-height:1.55
+}
+.fono-revision strong{font-family:var(--fuente-sub)}
+</style>
+</head>
+<body class="lectura sin-js">
+
+<div id="cabecera"></div>
+
+<!-- ============================================================
+     LA FONOTECA · solapa 1: audiometría tonal y PTP
+
+     Un entrenador para leer audiogramas. El molde completo —las reglas
+     clínicas, por qué seis casos propios y no los del TP, lo que viene
+     después— está en `PROMPT-FONOTECA.md`. Se armó el 13/9 sin pasar por
+     Claude Design, con las piezas que ya tiene la app.
+
+     NINGÚN CASO SE VE SIN EL VISTO DE LA PROFESIONAL. Cada caso lleva
+     `aprobado:false` hasta que ella lo confirme. Mientras tanto la
+     pantalla dice que están en revisión, y la tarjeta de Estudiemos
+     sigue escondida. Ella los mira entrando con `?revision`, que los
+     muestra todos con el diagnóstico escrito, los números y un chequeo
+     automático. Para publicar uno: `aprobado:true` en su línea.
+
+     SOLO HAY UNA SOLAPA, Y POR ESO NO HAY SOLAPAS. Las otras tres no
+     existen todavía, y una pestaña que lleva a una pantalla vacía es la
+     tarjeta del glosario otra vez. Cuando haya una segunda, se agregan.
+
+     SIN SONIDO FUNCIONA ENTERA. Es toda visual. El generador de tonos
+     es la parte 2 del molde y todavía no está.
+     ============================================================ -->
+<main id="contenido" tabindex="-1">
+
+  <div class="banda tinta">
+    <div class="envoltura">
+      <p class="ceja-lectura">
+        <a class="volver-lectura" href="../">← Estudiemos</a>
+      </p>
+      <h1 class="grito">Fono<em>teca</em></h1>
+      <p class="bajada-lectura">
+        Mirá el audiograma, diagnosticá cada oído y después fijate por qué.
+      </p>
+    </div>
+  </div>
+
+  <div class="banda papel">
+    <div class="envoltura">
+
+      <div class="titulo-seccion">AUDIOMETRÍA TONAL</div>
+
+      <div id="fono-revision-aviso"></div>
+
+      <noscript>
+        <p class="fono-aviso">Esta herramienta necesita JavaScript para dibujar
+          los audiogramas.</p>
+      </noscript>
+
+      <div id="fono-app"></div>
+
+      <p class="trayecto-nota">
+        Los casos los inventamos nosotros siguiendo las reglas de la cátedra, y
+        cada uno sale recién cuando lo confirma la profesional de
+        Fonoaudiología. <b>No son los del TP.</b>
+        Si algo no coincide con lo que te dijeron en clase, vale lo de la
+        cátedra: avisanos y lo corregimos.
+      </p>
+
+    </div>
+  </div>
+
+</main>
+
+<div id="pie"></div>
+
+<script>window.RAIZ = '../../';</script>
+<script src="../../lib/datos.js"></script>
+<script src="../../config.js"></script>
+<script src="../../iconos.js"></script>
+<script src="../../app.js"></script>
+<script>
+(function fonoteca(){
+  document.getElementById('cabecera').innerHTML = htmlCabecera();
+  document.getElementById('pie').innerHTML = htmlPie();
+  pintarNav('estudiemos');
+  document.body.classList.remove('sin-js');
+
+  /* ============================================================
+     LOS CASOS
+
+     Cada oído trae siete umbrales de vía aérea —125, 250, 500, 1000,
+     2000, 4000 y 8000 Hz— y cinco de vía ósea —de 250 a 4000, porque
+     en 125 y en 8000 no se mide—, en dB HL. Y el diagnóstico ESCRITO,
+     que es el que revisa la profesional: la pantalla no lo deduce, lo
+     muestra. El cálculo solo sirve para avisar en `?revision` si los
+     números y lo escrito no cuentan lo mismo.
+
+     Sumar un caso es copiar una línea. Dos conductivas, dos
+     neurosensoriales y dos mixtas, con distinto grado y distinta forma.
+     ============================================================ */
+  const CASOS = [
+    { aprobado:false, edad:'6 años',
+      motivo:'La maestra cuenta que no responde cuando la llaman desde el fondo del aula. Tuvo resfríos seguidos todo el invierno.',
+      otoscopia:'Oído derecho: membrana timpánica opaca y retraída. Oído izquierdo: sin particularidades.',
+      od:{ aerea:[35,35,30,35,30,25,25], osea:[10,5,10,10,10], tipo:'conductiva', grado:'leve' },
+      oi:{ aerea:[15,10,10,15,10,10,15], osea:[10,5,10,10,5],  tipo:'normal',     grado:'normal' } },
+
+    { aprobado:false, edad:'34 años',
+      motivo:'Escucha menos del oído izquierdo desde hace dos años y empeoró después del embarazo. Dice que en lugares ruidosos entiende mejor.',
+      otoscopia:'Ambos oídos sin particularidades.',
+      od:{ aerea:[10,10,5,10,15,10,15],  osea:[5,5,10,10,10],    tipo:'normal',     grado:'normal' },
+      oi:{ aerea:[50,50,50,45,40,45,50], osea:[10,10,15,20,10],  tipo:'conductiva', grado:'moderada' } },
+
+    { aprobado:false, edad:'72 años',
+      motivo:'La familia dice que sube mucho el volumen del televisor. En las reuniones oye que hablan pero no entiende qué dicen.',
+      otoscopia:'Ambos oídos sin particularidades.',
+      od:{ aerea:[15,15,20,25,40,60,70], osea:[15,15,25,35,55], tipo:'neurosensorial', grado:'leve' },
+      oi:{ aerea:[20,15,20,30,45,65,75], osea:[15,20,25,40,60], tipo:'neurosensorial', grado:'leve' } },
+
+    { aprobado:false, edad:'45 años',
+      motivo:'Episodios de vértigo que duran horas, zumbido y sensación de oído tapado, siempre del lado derecho.',
+      otoscopia:'Ambos oídos sin particularidades.',
+      od:{ aerea:[60,60,55,50,40,35,40], osea:[55,50,45,35,30], tipo:'neurosensorial', grado:'moderada' },
+      oi:{ aerea:[10,10,10,5,10,15,20],  osea:[5,10,5,10,10],   tipo:'normal',         grado:'normal' } },
+
+    { aprobado:false, edad:'58 años',
+      motivo:'Otitis a repetición en el oído derecho desde chico. Trabajó treinta años en un taller metalúrgico.',
+      otoscopia:'Oído derecho: perforación timpánica central, seca. Oído izquierdo: sin particularidades.',
+      od:{ aerea:[45,50,55,55,65,75,80], osea:[25,30,30,45,60], tipo:'mixta',          grado:'moderada' },
+      oi:{ aerea:[25,25,30,30,40,55,60], osea:[25,25,30,35,50], tipo:'neurosensorial', grado:'leve' } },
+
+    { aprobado:false, edad:'40 años',
+      motivo:'Hace meses que le supura el oído izquierdo, con mal olor, y de ese lado escucha muy poco.',
+      otoscopia:'Oído izquierdo: retracción de la pars flaccida con restos blanquecinos. Oído derecho: sin particularidades.',
+      od:{ aerea:[15,15,10,10,15,20,25], osea:[10,10,5,10,15],  tipo:'normal', grado:'normal' },
+      oi:{ aerea:[70,75,75,80,80,85,90], osea:[35,40,45,50,55], tipo:'mixta',  grado:'severa' } }
+  ];
+
+  const FRECS      = [125, 250, 500, 1000, 2000, 4000, 8000];
+  const FRECS_OSEA = [250, 500, 1000, 2000, 4000];
+  const OIDOS = [
+    { k:'od', nombre:'Oído derecho',   clase:'der', simbolo:'○ y <' },
+    { k:'oi', nombre:'Oído izquierdo', clase:'izq', simbolo:'✕ y >' }
+  ];
+  const TIPOS = ['normal', 'conductiva', 'neurosensorial', 'mixta'];
+  const NOMBRE_TIPO = { normal:'Normal', conductiva:'Conductiva',
+                        neurosensorial:'Neurosensorial', mixta:'Mixta' };
+  const GRADOS = ['leve', 'moderada', 'severa', 'profunda'];
+  const NOMBRE_GRADO = { normal:'audición normal', leve:'leve', moderada:'moderada',
+                         severa:'severa', profunda:'profunda' };
+
+  const enRevision = new URLSearchParams(location.search).has('revision');
+  const casos = CASOS.filter(c => enRevision || c.aprobado);
+
+  /* ============================================================
+     LAS REGLAS, tal cual el material de la facultad
+
+     El grado sale del PTP de la vía aérea (500, 1000 y 2000 Hz):
+     0 a 20 normal, 21 a 40 leve, 41 a 60 moderada, 61 a 90 severa, más
+     de 90 profunda. El material dice «más de 91»; el 90,x que queda en
+     el medio se cuenta como profunda. [A CONFIRMAR]
+
+     «Ósea conservada» y «GAP» se miden acá sobre las mismas tres
+     frecuencias del PTP. Eso es una interpretación nuestra para poder
+     calcular, no una regla de la cátedra. [A CONFIRMAR]
+     ============================================================ */
+  const prom3 = (a, b, c) => (a + b + c) / 3;
+  const ptp = o => prom3(o.aerea[2], o.aerea[3], o.aerea[4]);
+  const oseaMedia = o => prom3(o.osea[1], o.osea[2], o.osea[3]);
+  const gaps = o => FRECS_OSEA.map((f, i) => ({ f: f, db: o.aerea[i + 1] - o.osea[i] }));
+  const gradoDe = db => db <= 20 ? 'normal' : db <= 40 ? 'leve' : db <= 60 ? 'moderada'
+                      : db <= 90 ? 'severa' : 'profunda';
+  const coma = n => String(Math.round(n * 10) / 10).replace('.', ',');
+  const hz = f => f >= 1000 ? (f / 1000) + 'k' : String(f);
+
+  function tipoCalculado(o){
+    if (ptp(o) <= 20) return 'normal';
+    const g = gaps(o);
+    const gapMedio = prom3(g[1].db, g[2].db, g[3].db);
+    if (gapMedio >= 20) return oseaMedia(o) > 20 ? 'mixta' : 'conductiva';
+    return 'neurosensorial';
+  }
+
+  function forma(o){
+    const d = prom3(o.aerea[4], o.aerea[5], o.aerea[6]) - prom3(o.aerea[0], o.aerea[1], o.aerea[2]);
+    return d >= 15 ? 'La curva cae en los agudos.'
+         : d <= -15 ? 'La curva cae en los graves.'
+         : 'La curva es bastante pareja en todas las frecuencias.';
+  }
+
+  /* Una lista en castellano: «250, 500 y 1000» */
+  function enumerar(xs){
+    return xs.length < 2 ? xs.join('') : xs.slice(0, -1).join(', ') + ' y ' + xs[xs.length - 1];
+  }
+
+  /* ============================================================
+     EL GRÁFICO
+
+     Arriba las frecuencias, a la izquierda los dB de –10 a 120, y más
+     abajo es peor. Las interoctavas (750, 1500, 3000, 6000) punteadas,
+     como en el tablero que pasó la profesional. La vía aérea va SOBRE el
+     eje de cada frecuencia y unida con línea; la ósea AL COSTADO y sin
+     línea: la `<` del derecho a la izquierda del eje, la `>` del
+     izquierdo a la derecha.
+     ============================================================ */
+  const X = i => 58 + i * 42;
+  const Y = db => 34 + (db + 10) * 2;
+
+  function svgAudiograma(c, n){
+    let s = '';
+    s += `<rect class="fono-normal" x="44" y="${Y(-10)}" width="280" height="${Y(20) - Y(-10)}"/>`;
+    for (let db = -10; db <= 120; db += 10){
+      s += `<line class="fono-grilla${db === 0 ? ' gruesa' : ''}" x1="44" x2="324" y1="${Y(db)}" y2="${Y(db)}"/>`;
+      s += `<text class="fono-eje" x="39" y="${Y(db) + 3.5}" text-anchor="end">${db}</text>`;
+    }
+    FRECS.forEach((f, i) => {
+      s += `<line class="fono-grilla gruesa" x1="${X(i)}" x2="${X(i)}" y1="${Y(-10)}" y2="${Y(120)}"/>`;
+      s += `<text class="fono-eje" x="${X(i)}" y="${Y(-10) - 7}" text-anchor="middle">${hz(f)}</text>`;
+    });
+    [2, 3, 4, 5].forEach(i => {
+      s += `<line class="fono-grilla inter" x1="${X(i + .5)}" x2="${X(i + .5)}" y1="${Y(-10)}" y2="${Y(120)}"/>`;
+    });
+    s += `<rect class="fono-marco" x="44" y="${Y(-10)}" width="280" height="${Y(120) - Y(-10)}"/>`;
+    s += `<text class="fono-eje titulo" x="184" y="10" text-anchor="middle">Frecuencia (Hz)</text>`;
+    s += `<text class="fono-eje titulo" x="10" y="${Y(55)}" text-anchor="middle" transform="rotate(-90 10 ${Y(55)})">dB HL</text>`;
+
+    /* El izquierdo primero, así el derecho queda encima si coinciden */
+    [c.oi, c.od].forEach((o, k) => {
+      const der = k === 1, clase = der ? 'der' : 'izq';
+      const puntos = o.aerea.map((db, i) => X(i) + ',' + Y(db)).join(' ');
+      s += `<polyline class="fono-linea ${clase}" points="${puntos}"/>`;
+      o.aerea.forEach((db, i) => {
+        const x = X(i), y = Y(db);
+        s += der
+          ? `<circle class="fono-simbolo ${clase}" cx="${x}" cy="${y}" r="5.5"/>`
+          : `<path class="fono-osea ${clase}" d="M${x - 5} ${y - 5}L${x + 5} ${y + 5}M${x + 5} ${y - 5}L${x - 5} ${y + 5}"/>`;
+      });
+      o.osea.forEach((db, j) => {
+        const x = X(j + 1), y = Y(db);
+        s += der
+          ? `<path class="fono-osea ${clase}" d="M${x - 7} ${y - 6}L${x - 13} ${y}L${x - 7} ${y + 6}"/>`
+          : `<path class="fono-osea ${clase}" d="M${x + 7} ${y - 6}L${x + 13} ${y}L${x + 7} ${y + 6}"/>`;
+      });
+    });
+
+    return `<svg viewBox="0 0 334 ${Y(120) + 6}" role="img" aria-labelledby="fono-svg-t${n}">
+      <title id="fono-svg-t${n}">Audiograma del caso ${n}. Los valores exactos están en la tabla de abajo.</title>
+      ${s}</svg>`;
+  }
+
+  const LEYENDA = `
+    <ul class="fono-leyenda">
+      <li><svg viewBox="0 0 20 20" aria-hidden="true"><circle class="fono-simbolo der" cx="10" cy="10" r="5.5"/></svg>Aérea derecha</li>
+      <li><svg viewBox="0 0 20 20" aria-hidden="true"><path class="fono-osea izq" d="M5 5L15 15M15 5L5 15"/></svg>Aérea izquierda</li>
+      <li><svg viewBox="0 0 20 20" aria-hidden="true"><path class="fono-osea der" d="M13 4L7 10L13 16"/></svg>Ósea derecha</li>
+      <li><svg viewBox="0 0 20 20" aria-hidden="true"><path class="fono-osea izq" d="M7 4L13 10L7 16"/></svg>Ósea izquierda</li>
+    </ul>`;
+
+  function tablaValores(c){
+    const celdas = (o, via) => FRECS.map(f => {
+      if (via === 'aerea') return `<td>${o.aerea[FRECS.indexOf(f)]}</td>`;
+      const j = FRECS_OSEA.indexOf(f);
+      return `<td>${j === -1 ? '—' : o.osea[j]}</td>`;
+    }).join('');
+    return `
+      <details class="fono-valores">
+        <summary>Ver los valores en una tabla</summary>
+        <div class="fono-tabla"><table>
+          <thead><tr><th scope="col">dB HL</th>${FRECS.map(f => `<th scope="col">${f}</th>`).join('')}</tr></thead>
+          <tbody>
+            <tr><th scope="row">Derecho, aérea</th>${celdas(c.od, 'aerea')}</tr>
+            <tr><th scope="row">Derecho, ósea</th>${celdas(c.od, 'osea')}</tr>
+            <tr><th scope="row">Izquierdo, aérea</th>${celdas(c.oi, 'aerea')}</tr>
+            <tr><th scope="row">Izquierdo, ósea</th>${celdas(c.oi, 'osea')}</tr>
+          </tbody>
+        </table></div>
+      </details>`;
+  }
+
+  /* ============================================================
+     LA PANTALLA
+     ============================================================ */
+  const app = document.getElementById('fono-app');
+
+  if (enRevision){
+    document.getElementById('fono-revision-aviso').innerHTML = `
+      <div class="fono-revision">
+        <strong>Modo revisión.</strong> Se ven los ${CASOS.length} casos, aprobados o no,
+        cada uno con su diagnóstico escrito abajo del gráfico. <b>Todavía no es
+        para estudiar.</b> Aprobados: ${CASOS.filter(c => c.aprobado).length} de ${CASOS.length}.
+      </div>`;
+  }
+
+  if (!casos.length){
+    app.innerHTML = `
+      <p class="fono-aviso">
+        <b>Los casos están en revisión.</b> Antes de publicar un audiograma lo
+        mira la profesional de Fonoaudiología, caso por caso: uno mal
+        clasificado te enseña mal justo lo que después vas a diagnosticar.
+        Vuelven apenas estén confirmados.
+      </p>`;
+    return;
+  }
+
+  let actual = 0;
+  let resp = null;
+  let corregido = false;
+
+  function nuevaRespuesta(){
+    resp = { od:{ tipo:null, grado:null }, oi:{ tipo:null, grado:null } };
+    corregido = false;
+  }
+
+  function faltan(){
+    const f = [];
+    OIDOS.forEach(o => {
+      const r = resp[o.k];
+      if (!r.tipo) f.push('el tipo del ' + o.nombre.toLowerCase());
+      else if (r.tipo !== 'normal' && !r.grado) f.push('el grado del ' + o.nombre.toLowerCase());
+    });
+    return f;
+  }
+
+  function pintar(){
+    const c = casos[actual];
+    const n = actual + 1;
+
+    app.innerHTML = `
+      <div class="fono-casos" role="group" aria-label="Elegí un caso">
+        ${casos.map((x, i) => `<button type="button" class="chip" data-caso="${i}"
+            aria-pressed="${i === actual ? 'true' : 'false'}">Caso ${i + 1}</button>`).join('')}
+      </div>
+
+      <section class="fono-historia" aria-labelledby="fono-hist-t">
+        <span class="fono-rotulo" id="fono-hist-t">Historia clínica · caso ${n}</span>
+        <dl>
+          <dt>Edad</dt><dd>${esc(c.edad)}</dd>
+          <dt>Consulta</dt><dd>${esc(c.motivo)}</dd>
+          <dt>Otoscopia</dt><dd>${esc(c.otoscopia)}</dd>
+        </dl>
+      </section>
+
+      ${LEYENDA}
+      <div class="fono-grafico">${svgAudiograma(c, n)}</div>
+      <p class="fono-ptp">
+        <span>PTP <b class="der">derecho</b> ${coma(ptp(c.od))} dB HL</span>
+        <span>PTP <b class="izq">izquierdo</b> ${coma(ptp(c.oi))} dB HL</span>
+      </p>
+      ${tablaValores(c)}
+
+      ${enRevision ? revision(c) : ''}
+
+      <div class="titulo-seccion">TU DIAGNÓSTICO</div>
+      ${OIDOS.map(o => `
+        <fieldset class="fono-oido">
+          <legend>${o.nombre} <span class="${o.clase}" aria-hidden="true">${o.simbolo}</span></legend>
+          <span class="fono-rotulo" id="fono-${o.k}-tipo">Tipo</span>
+          <div class="fono-opciones" role="group" aria-labelledby="fono-${o.k}-tipo">
+            ${TIPOS.map(t => `<button type="button" class="chip" data-oido="${o.k}" data-campo="tipo"
+                data-valor="${t}" aria-pressed="${resp[o.k].tipo === t ? 'true' : 'false'}">${NOMBRE_TIPO[t]}</button>`).join('')}
+          </div>
+          <span class="fono-rotulo" id="fono-${o.k}-grado">Grado</span>
+          <div class="fono-opciones" role="group" aria-labelledby="fono-${o.k}-grado">
+            ${GRADOS.map(g => `<button type="button" class="chip" data-oido="${o.k}" data-campo="grado"
+                data-valor="${g}" ${resp[o.k].tipo === 'normal' ? 'disabled' : ''}
+                aria-pressed="${resp[o.k].grado === g ? 'true' : 'false'}">${g[0].toUpperCase() + g.slice(1)}</button>`).join('')}
+          </div>
+        </fieldset>`).join('')}
+
+      <p class="fono-falta" id="fono-falta" aria-live="polite">${
+        faltan().length ? 'Te falta marcar ' + enumerar(faltan()) + '.' : ''}</p>
+      <button type="button" class="boton ancho" id="fono-corregir">Ver la devolución</button>
+
+      <div class="fono-devolucion" id="fono-devolucion" tabindex="-1">${corregido ? devolucion(c) : ''}</div>`;
+  }
+
+  /* ---------- La devolución: lo que enseña ---------- */
+  function devolucion(c){
+    return `<div class="titulo-seccion">LA DEVOLUCIÓN</div>` + OIDOS.map(ov => {
+      const o = c[ov.k], r = resp[ov.k];
+      const p = ptp(o), om = oseaMedia(o);
+      const conGap = gaps(o).filter(g => g.db >= 20);
+      const mayor = gaps(o).reduce((a, b) => b.db > a.db ? b : a);
+
+      const bienTipo = r.tipo === o.tipo;
+      let lineas = `<p class="fono-veredicto">${bienTipo
+        ? `✔ <b>Tipo: ${NOMBRE_TIPO[o.tipo].toLowerCase()}.</b> Bien.`
+        : `✘ <b>Tipo:</b> marcaste ${NOMBRE_TIPO[r.tipo].toLowerCase()}, y es <b>${NOMBRE_TIPO[o.tipo].toLowerCase()}</b>.`}</p>`;
+      if (o.tipo !== 'normal' || r.tipo !== 'normal'){
+        const marcado = r.tipo === 'normal' ? 'normal' : r.grado;
+        lineas += `<p class="fono-veredicto">${marcado === o.grado
+          ? `✔ <b>Grado: ${NOMBRE_GRADO[o.grado]}.</b> Bien.`
+          : `✘ <b>Grado:</b> marcaste ${NOMBRE_GRADO[marcado]}, y es <b>${NOMBRE_GRADO[o.grado]}</b>.`}</p>`;
+      }
+
+      const entonces = {
+        normal: 'la vía aérea está dentro de lo normal, con un PTP de 20 dB HL o menos: no hay hipoacusia.',
+        conductiva: 'vía aérea descendida, vía ósea conservada y GAP de 20 dB o más: conductiva.',
+        neurosensorial: 'vía aérea y vía ósea descendidas juntas, sin GAP de 20 dB: neurosensorial.',
+        mixta: 'vía aérea y vía ósea descendidas, y además GAP de 20 dB o más: mixta.'
+      }[o.tipo];
+
+      return `
+        <div class="fono-dev-oido">
+          <h3>${ov.nombre}</h3>
+          ${lineas}
+          <ul class="fono-rasgos">
+            <li><b>Vía aérea:</b> PTP de ${coma(p)} dB HL (promedio de 500, 1000 y 2000 Hz),
+              o sea ${o.grado === 'normal' ? 'audición normal' : 'hipoacusia ' + NOMBRE_GRADO[o.grado]}. ${forma(o)}</li>
+            <li><b>Vía ósea:</b> promedio de ${coma(om)} dB HL en esas tres frecuencias:
+              ${om <= 20 ? 'conservada' : 'descendida'}.</li>
+            <li><b>GAP:</b> ${conGap.length
+              ? `de 20 dB o más en ${enumerar(conGap.map(g => g.f))} Hz (${enumerar(conGap.map(g => g.db))} dB).`
+              : `no llega a 20 dB en ninguna frecuencia; el mayor es de ${mayor.db} dB, en ${mayor.f} Hz.`}</li>
+            <li><b>Entonces:</b> ${entonces}</li>
+          </ul>
+        </div>`;
+    }).join('');
+  }
+
+  /* ---------- Lo que ve la profesional en ?revision ---------- */
+  function revision(c){
+    const filas = OIDOS.map(ov => {
+      const o = c[ov.k];
+      const calc = tipoCalculado(o), gcalc = gradoDe(ptp(o));
+      const coincide = calc === o.tipo && gcalc === o.grado;
+      return `<li><b>${ov.nombre}:</b> ${NOMBRE_TIPO[o.tipo].toLowerCase()}, ${NOMBRE_GRADO[o.grado]}
+        (PTP ${coma(ptp(o))}). ${coincide
+          ? 'El cálculo coincide.'
+          : `<b>⚠ El cálculo da ${NOMBRE_TIPO[calc].toLowerCase()}, ${NOMBRE_GRADO[gcalc]}.</b>`}</li>`;
+    }).join('');
+    return `
+      <div class="fono-revision">
+        <strong>Para la revisión · ${c.aprobado ? 'aprobado' : 'sin aprobar'}</strong>
+        <ul class="fono-rasgos">${filas}</ul>
+      </div>`;
+  }
+
+  /* ---------- Los toques ---------- */
+  app.addEventListener('click', e => {
+    const caso = e.target.closest('[data-caso]');
+    if (caso){
+      actual = +caso.dataset.caso;
+      nuevaRespuesta();
+      pintar();
+      const elegido = app.querySelector('[data-caso][aria-pressed="true"]');
+      if (elegido) elegido.focus();
+      return;
+    }
+
+    const op = e.target.closest('[data-campo]');
+    if (op && !op.disabled){
+      const r = resp[op.dataset.oido];
+      r[op.dataset.campo] = op.dataset.valor;
+      if (op.dataset.campo === 'tipo' && op.dataset.valor === 'normal') r.grado = null;
+      /* Cambiar una respuesta después de ver la devolución la esconde:
+         si no, quedaría corrigiendo lo que ya no marcaste. */
+      corregido = false;
+      const clave = op.dataset.oido + op.dataset.campo + op.dataset.valor;
+      pintar();
+      const igual = [...app.querySelectorAll('[data-campo]')]
+        .find(b => b.dataset.oido + b.dataset.campo + b.dataset.valor === clave);
+      if (igual) igual.focus();
+      return;
+    }
+
+    if (e.target.closest('#fono-corregir')){
+      if (faltan().length){
+        document.getElementById('fono-falta').textContent =
+          'Antes de ver la devolución, marcá ' + enumerar(faltan()) + '.';
+        return;
+      }
+      corregido = true;
+      pintar();
+      const dev = document.getElementById('fono-devolucion');
+      dev.focus();
+      dev.scrollIntoView({ block:'start' });
+    }
+  });
+
+  nuevaRespuesta();
+  pintar();
+})();
+</script>
+</body>
+</html>
