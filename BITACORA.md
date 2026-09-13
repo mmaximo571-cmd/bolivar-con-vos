@@ -210,16 +210,35 @@ El 8/9 se corrieron cuatro días para esto y **la lista nunca se escribió**. Al
    tiene dónde averiguar qué hacer con él: la palabra no aparece explicada en
    ninguna pantalla. Espera contenido y diseño de afuera.
 
-2. **La Fonoteca**, cuarta herramienta de Estudiemos. Molde escrito en
-   `PROMPT-FONOTECA.md`, y **partida en dos etapas el 13/9**. Para el 21 va
-   **solo lo que genera el navegador**: nueve tonos —las seis frecuencias de la
-   audiometría, ruido blanco, el estímulo del SISI y a qué se parece un
-   acúfeno—, cero archivos, cero permisos, anda sin señal. **Las voces y los
-   casos clínicos quedan para después:** la cátedra tiene una aplicación con
-   material y hay que preguntar si lo comparte. Hasta que contesten, la etapa 2
-   **no se anuncia**, porque una pantalla que promete voces que no existen es la
-   tarjeta del glosario otra vez. Máximo ya la armó en AI Studio: va la captura
-   a `entrada/`, no el proyecto de React.
+2. **La Fonoteca**, cuarta herramienta de Estudiemos. Molde en
+   `PROMPT-FONOTECA.md`, **reescrito entero el 13/9 a la tarde** cuando Máximo
+   pasó su diseño de AI Studio, el TP de la cátedra y los aportes de la
+   profesional de fono. **No es una colección de sonidos: es un entrenador para
+   leer audiogramas**, y el generador de tonos es una parte chica. Cuatro
+   solapas —audiometría tonal y PTP, GRBAS, fonética rioplatense y
+   anquiloglosia—, y Máximo las quiere las cuatro el 21.
+
+   **Lo que hay que mirar de frente: dos de las cuatro dependen de audio que no
+   existe.** GRBAS es evaluación perceptual —se escucha una voz y se le pone un
+   número— y «pares mínimos» también es escuchar. La cátedra tiene una
+   aplicación con material y hay que preguntar si lo comparte. Sin eso, esas dos
+   solapas son pantallas de definiciones, y **eso está bien si lo dicen**: lo
+   que no puede pasar es una solapa que diga «escuchá la voz» y no tenga
+   ninguna.
+
+   **La solapa 1 no depende de nadie y sostiene sola la herramienta.** Los
+   símbolos, los cinco grados y las tres reglas de clasificación los pasó Máximo
+   desde el material de la facultad y están transcriptos en el molde. **Seis
+   casos propios, distintos a los ocho del TP** —eso lo pidió la profesional y
+   además el TP es material de la cátedra—, y **ninguno se publica sin su visto
+   caso por caso**: un audiograma mal clasificado le enseña mal a alguien que
+   después diagnostica.
+
+   Queda anotado para después: el **Rinne y el Weber** del TP, el
+   **enmascaramiento** —que es lo que ella llama «otros signos», y son las dos
+   filas que el tablero de AudGen tiene y nosotros no—, y un **editor** para que
+   ella cargue casos sola. Hoy sumar un caso es agregar una línea de números y
+   se la pide a alguien; en el tablero que ella pasó, se editan.
 
 **Y la Fonoteca abre una decisión de una línea que hay que tomar antes de
 escribir el HTML:** Estudiemos tiene **tres** herramientas en superficie y que
