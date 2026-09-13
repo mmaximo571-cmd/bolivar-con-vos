@@ -70,6 +70,7 @@ sobre los otros. Ahora mandan así, y no se abre un quinto:
 | `PROMPT-DISENO.md` | el molde para pedirle pantallas a Gemini y que salgan en HTML de esta app, no en React |
 | `PROMPT-FICHAS.md` | el molde de una ficha de estudio: NotebookLM ordena el contenido, Claude Design lo dibuja, y **nunca al revés** |
 | `PROMPT-TRAYECTO.md` | **el contenido de una pantalla sola** (13/9): las seis preguntas que el Trayecto Optativo tiene que contestar, y las cinco que todavía son `[FALTA]`. Se usa junto con `PROMPT-DISENO.md`, no en lugar de él |
+| `PROMPT-FONOTECA.md` | **la Fonoteca** (13/9): los nueve tonos de la etapa 1, y las tres cosas que no se negocian —el volumen, que sirva sin sonido, y el navegador de Instagram—. También va junto con `PROMPT-DISENO.md` |
 | `entrada/` | **el buzón** (8/9). Lo que se trae de AI Studio o de donde sea se deja acá y se vacía en una sola sesión. No decide nada: es material de trabajo, no se sube |
 | Memoria del proyecto | cómo se trabaja y qué no puede esta máquina |
 | [Artifact del plan](https://claude.ai/code/artifact/25f7c752-e67f-465a-bf82-5913218cff95) | **congelado**, registro histórico. Ya no es el documento rector: quedó viejo cuando se rearmó el cronograma el 3/9 |
@@ -206,6 +207,24 @@ El 8/9 se corrieron cuatro días para esto y **la lista nunca se escribió**. Al
    `255`, 120 horas, 5.º año. Hoy el estudiante de 5.º ve un casillero y no
    tiene dónde averiguar qué hacer con él: la palabra no aparece explicada en
    ninguna pantalla. Espera contenido y diseño de afuera.
+
+2. **La Fonoteca**, cuarta herramienta de Estudiemos. Molde escrito en
+   `PROMPT-FONOTECA.md`, y **partida en dos etapas el 13/9**. Para el 21 va
+   **solo lo que genera el navegador**: nueve tonos —las seis frecuencias de la
+   audiometría, ruido blanco, el estímulo del SISI y a qué se parece un
+   acúfeno—, cero archivos, cero permisos, anda sin señal. **Las voces y los
+   casos clínicos quedan para después:** la cátedra tiene una aplicación con
+   material y hay que preguntar si lo comparte. Hasta que contesten, la etapa 2
+   **no se anuncia**, porque una pantalla que promete voces que no existen es la
+   tarjeta del glosario otra vez. Máximo ya la armó en AI Studio: va la captura
+   a `entrada/`, no el proyecto de React.
+
+**Y la Fonoteca abre una decisión de una línea que hay que tomar antes de
+escribir el HTML:** Estudiemos tiene **tres** herramientas en superficie y que
+sean tres fue decisión del 5/9 —el amarillo quedó para una sola cosa, abajo—.
+Una cuarta tarjeta cambia esa fila. O es la cuarta, o se llega desde «Fichas
+para estudiar», que es de donde viene el tema. Las dos se defienden; lo que no
+se puede es descubrirlo con el HTML ya escrito.
 
 **Lo que falta es decidir si hay algo más**, y decidirlo ya: quedan tres o
 cuatro días de código. Con la ventana así, **cada herramienta tiene que caber en
