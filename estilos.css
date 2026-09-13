@@ -4224,7 +4224,11 @@ details.area[open] > summary::after{transform:rotate(45deg)}
 /* En pantalla ancha las tarjetas no se estiran: entran más en la misma
    fila, que es la misma fila y no una segunda manera de verla. */
 @media (min-width:560px){ .herramienta{ flex-basis:300px } }
-.herramienta:hover{ transform:translate(-1px,-1px);box-shadow:3px 3px 0 var(--tinta-borde) }
+/* El hover, solo con mouse: en un celular queda pegado después de tocar,
+   y al volver de una herramienta la tarjeta seguía levantada. */
+@media (hover:hover) and (pointer:fine){
+  .herramienta:hover{ transform:translate(-1px,-1px);box-shadow:3px 3px 0 var(--tinta-borde) }
+}
 .herramienta:active{ transform:translate(1px,1px);box-shadow:1px 1px 0 var(--tinta-borde) }
 /* El foco va en celeste, como el del buscador: sobre superficie clara
    un halo amarillo no se distingue del fondo. */
@@ -4363,7 +4367,7 @@ details.area[open] > summary::after{transform:rotate(45deg)}
   --mov-micro:    .2s;
   --mov-estandar:  .45s;
   --mov-destacada: .8s;
-  --mov-bloque:    .6s;
+  --mov-bloque:    .35s;  /* era .6: es una lista donde se busca, no un hero */
   --mov-entra: cubic-bezier(0.16, 1, 0.3, 1);   /* lo que llega       */
   --mov-hover: cubic-bezier(0.4, 0, 0.2, 1);    /* lo que se va, hover */
   --mov-paso:  .08s;                             /* entre hermanos     */
@@ -4384,10 +4388,12 @@ details.area[open] > summary::after{transform:rotate(45deg)}
   color:var(--texto);background:var(--superficie);
   border:1.5px solid var(--linea);border-radius:var(--radio-pastilla);
   cursor:pointer;
-  transition:opacity var(--mov-micro) var(--mov-hover),
-             transform var(--mov-micro) var(--mov-hover)
+  /* Apretar es la devolución de un toque: la duración y la curva de la
+     casa para eso, que arranca rápido. `--mov-hover` arrancaba lento. */
+  transition:opacity var(--t-chico) var(--sale),
+             transform var(--t-toque) var(--sale)
 }
-.riel-flecha:active{ transform:scale(.92) }
+.riel-flecha:active{ transform:scale(.96) }
 /* En los extremos no desaparece: se apaga. Si desapareciera, la otra
    flecha saltaría de lugar y el dedo la perdería. */
 .riel-flecha:disabled{ opacity:.3;cursor:default;transform:none }
@@ -4422,9 +4428,12 @@ details.area[open] > summary::after{transform:rotate(45deg)}
   .mov [data-entra="final"]{
     animation:mov-asienta var(--mov-destacada) var(--mov-entra) .5s backwards
   }
+  /* Las herramientas NO usan la duración destacada (13/9, revisión de
+     animaciones): son las puertas que se vienen a tocar, y con 0,5 s de
+     espera y 0,8 de viaje la última se asentaba al segundo y medio. */
   .mov .herramienta{
-    animation:mov-asienta var(--mov-destacada) var(--mov-entra) backwards;
-    animation-delay:calc(.5s + var(--i, 0) * var(--mov-paso));
+    animation:mov-asienta .35s var(--mov-entra) backwards;
+    animation-delay:calc(.15s + var(--i, 0) * 40ms);
     transition:transform var(--mov-micro) var(--mov-hover),
                box-shadow var(--mov-micro) var(--mov-hover)
   }
@@ -4436,7 +4445,7 @@ details.area[open] > summary::after{transform:rotate(45deg)}
      el JS y la saca apenas terminó: mientras está puesta pisa la
      transición de la tarjeta, y el hover tiene que volver a ser suyo. */
   .mov-entra{
-    opacity:0;transform:translateY(32px);
+    opacity:0;transform:translateY(12px);
     transition:opacity var(--mov-bloque) var(--mov-entra),
                transform var(--mov-bloque) var(--mov-entra)
   }

@@ -52,7 +52,10 @@
   <!-- EL BUSCADOR VA PRIMERO. Quien entra a Estudiemos ya sabe qué
        materia busca: lo primero que tiene que encontrar es dónde
        escribirla, no tres carteles antes. -->
-  <div class="buscador" data-entra="2">
+  <!-- Y POR ESO NO ENTRA CON MOVIMIENTO (13/9, revisión de animaciones):
+       con turno tardaba un segundo en asentarse, y el buscador es interfaz,
+       no escenografía. Está quieto desde el primer cuadro. -->
+  <div class="buscador">
     <span class="lupa" id="lupa">🔍</span>
     <input id="filtro" type="search" autocomplete="off"
            placeholder="Buscar por materia o tema…" aria-label="Buscar material">
@@ -299,8 +302,10 @@
      mouse apretado.
 
      EL VIAJE LO HACE ESTE CÓDIGO Y NO `scrollBy({behavior:'smooth'})`.
-     El suave del navegador no deja elegir curva ni duración, y lo pedido
-     son 0,6 s con la curva de entrada. Mientras dura se apaga el imán:
+     El suave del navegador no deja elegir curva ni duración. Eran 0,6 s
+     y bajó a 0,26 (13/9, revisión de animaciones): mover el riel es
+     interfaz y se repite, y con las flechas del teclado 0,6 s por tecla
+     se sentía pesado. Mientras dura se apaga el imán:
      con el imán prendido, cada paso intermedio salta a la tarjeta más
      cercana y el viaje se ve a los tirones.
      ============================================================ */
@@ -329,9 +334,10 @@
       riel.scrollLeft = destino;
       return;
     }
-    const DURA = 600, arranque = performance.now();
-    /* power3.out, la equivalente de cubic-bezier(0.16, 1, 0.3, 1). */
-    const curva = x => 1 - Math.pow(1 - x, 3);
+    const DURA = 260, arranque = performance.now();
+    /* quint.out, la que más se parece a cubic-bezier(0.16, 1, 0.3, 1),
+       la curva de entrada. Decía power3, que es bastante más blanda. */
+    const curva = x => 1 - Math.pow(1 - x, 5);
     /* Al llegar se repintan contador y flechas acá mismo, sin esperar el
        evento de scroll: si el navegador no dibujó, ese evento no sale, y
        la flecha de volver queda apagada con el riel ya corrido. */
@@ -349,7 +355,7 @@
     };
     viaje = requestAnimationFrame(cuadro);
     /* Si el navegador no está dibujando (pestaña de fondo, un webview
-       congelado), el viaje no avanza: a los 0,75 s se llega en seco y
+       congelado), el viaje no avanza: a los 0,41 s se llega en seco y
        el imán vuelve. Un riel sin imán quedaría parado entre tarjetas. */
     redViaje = setTimeout(terminar, DURA + 150);
   }

@@ -199,7 +199,11 @@
 /* v40 (13/9/2026) `estilos.css`: el renglón del estado vacío adentro de
    la invitación de Estudiemos. Con la hoja vieja sale en letra común,
    pegado al titular y sin su margen. */
-const VERSION = 'bolivar-v40';
+/* v41 (13/9/2026) `estilos.css` y `movimiento.js`: la revisión de
+   animaciones. El hover de las herramientas pasa a ser solo con mouse,
+   las entradas se acortan y el encendido de palabras parte de 0,45. Sin
+   subir el número, en el celular la tarjeta sigue quedando levantada. */
+const VERSION = 'bolivar-v41';
 const ARMAZON = VERSION + '-armazon';
 const PAGINAS = VERSION + '-paginas';
 

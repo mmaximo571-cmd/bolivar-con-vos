@@ -4,7 +4,7 @@
    Nació en Estudiemos y se llevó a Inicio y a Fichas. Son dos cosas,
    las dos sin librería (ver el comentario de `.mov` en estilos.css):
 
-     entrarAlLlegar   las piezas suben 32 px y aparecen al cruzar el
+     entrarAlLlegar   las piezas suben 12 px y aparecen al cruzar el
                       85 % de la pantalla, UNA sola vez.
      encenderAlBajar  las palabras de un titular arrancan apagadas y se
                       prenden de a una según cuánto se bajó.
@@ -48,11 +48,14 @@ function entrarAlLlegar(raiz, selector, opciones){
     yaEntraron.add(claveDeEntrada(p));
     if (espera) p.style.transitionDelay = espera + 'ms';
     p.classList.add('mov-visto');
-    /* Terminado, se devuelven la transición y el hover a la pieza. */
+    /* Terminado, se devuelven la transición y el hover a la pieza. La
+       duración se lee de `--mov-bloque`: estaba escrita a mano (600), y
+       al bajar la variable la clase se sacaba tarde. */
+    const dura = parseFloat(getComputedStyle(p).getPropertyValue('--mov-bloque')) * 1000 || 600;
     setTimeout(() => {
       p.classList.remove('mov-entra', 'mov-visto');
       p.style.transitionDelay = '';
-    }, 600 + espera + 60);
+    }, dura + espera + 60);
   };
 
   const vigia = new IntersectionObserver((entradas, obs) => {
@@ -64,7 +67,7 @@ function entrarAlLlegar(raiz, selector, opciones){
     if (ahora - ultima > 300) enTanda = 0;
     ultima = ahora;
     llegan.forEach(e => {
-      mostrar(e.target, Math.min(enTanda, 5) * 80);
+      mostrar(e.target, Math.min(enTanda, 3) * 40);
       enTanda++;
       obs.unobserve(e.target);
       mirando.delete(e.target);
@@ -127,7 +130,12 @@ function entrarAlLlegar(raiz, selector, opciones){
    alcanza al scroll en medio segundo: sin eso, las palabras copian
    cada tirón del dedo.
 
-   NADA SE APAGA SI NO CORRE EL DIBUJO. El 0,2 inicial lo escribe el
+   EL PISO ES 0,45 Y NO 0,2 (13/9, revisión de animaciones). Es lo único
+   que la pantalla le pide a quien entra: negro al 20 % sobre amarillo no
+   se leía hasta haber bajado bastante. Que se encienda, sí; que se borre,
+   no.
+
+   NADA SE APAGA SI NO CORRE EL DIBUJO. El 0,45 inicial lo escribe el
    primer cuadro: si el navegador no dibuja, las palabras se quedan
    como vinieron, que es encendidas.
 
@@ -169,7 +177,7 @@ function encenderAlBajar(piezas){
       const n = g.palabras.length;
       g.palabras.forEach((w, i) => {
         const luz = Math.max(0, Math.min(1, g.ahora * n - i));
-        w.style.opacity = (.2 + .8 * luz).toFixed(3);
+        w.style.opacity = (.45 + .55 * luz).toFixed(3);
       });
     });
     if (falta) requestAnimationFrame(cuadro);
