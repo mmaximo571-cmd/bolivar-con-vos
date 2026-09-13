@@ -238,7 +238,10 @@ setTimeout(function(){
     <div class="titulo-seccion">A DÓNDE IR</div>
     <div class="rejilla-3x3" id="accesos">
       <a class="boton-cuadro destacado" href="carrera/">
-        <span class="icono">🎓</span><span class="nombre">Mi año</span></a>
+        <span class="icono">🎓</span>
+        <span class="cuadro-flecha" aria-hidden="true">→</span>
+        <span class="nombre">Mi año</span>
+        <span class="cuadro-bajada">Qué podés cursar y promocionar</span></a>
       <div class="esq-cuadro"></div>
       <div class="esq-cuadro"></div><div class="esq-cuadro"></div>
       <div class="esq-cuadro"></div><div class="esq-cuadro"></div>
@@ -1462,18 +1465,53 @@ setTimeout(function(){
      leído ahí no es «vacío», es un error que corta el inicio entero. */
   function herramientasDe(id){ return ({
     ts: [
-      { ico:'inscripciones', emoji:'🧭', nombre:'Trayecto optativo', url:'trayecto/' },
-      { ico:'tramites',      emoji:'✉️', nombre:'Cátedras',          url:'catedras/' }
+      { ico:'inscripciones', emoji:'🧭', nombre:'Trayecto optativo', url:'trayecto/',
+        bajada:'Las 120 horas y qué se acredita' },
+      { ico:'tramites',      emoji:'✉️', nombre:'Cátedras',          url:'catedras/',
+        bajada:'El mail de cada materia' }
     ],
     fono: [
-      { ico:'plan',          emoji:'🧠', nombre:'Anatomofisiología', url:'anatomo/' },
-      { ico:'estudiemos',    emoji:'📐', nombre:'Fichas',            url:'estudiemos/fichas/' }
+      { ico:'plan',          emoji:'🧠', nombre:'Anatomofisiología', url:'anatomo/',
+        bajada:'El programa, módulo por módulo' },
+      { ico:'estudiemos',    emoji:'📐', nombre:'Fichas',            url:'estudiemos/fichas/',
+        bajada:'Resúmenes para repasar' }
     ],
     tgcr: [
-      { ico:'tramites',      emoji:'✉️', nombre:'Cátedras',          url:'catedras/' },
-      { ico:'estudiemos',    emoji:'📚', nombre:'Estudiemos',        url:'estudiemos/' }
+      { ico:'tramites',      emoji:'✉️', nombre:'Cátedras',          url:'catedras/',
+        bajada:'El mail de cada materia' },
+      { ico:'estudiemos',    emoji:'📚', nombre:'Estudiemos',        url:'estudiemos/',
+        bajada:'Apuntes y resúmenes compartidos' }
     ]
   })[id] || []; }
+
+  /* LA BAJADA DE CADA PUERTA. El nombre de una categoría dice de qué
+     trata; la bajada dice qué hay adentro, que es lo que decide si se
+     toca o no. «Dónde curso» solo no avisa que ahí están los horarios.
+
+     Va escrita a mano y por id, no sacada de la base: son seis palabras
+     por puerta y conviene elegirlas. Si aparece una categoría nueva sin
+     bajada, se cuenta lo que tiene, que siempre es verdad.
+
+     Va adentro de la función por lo mismo que `herramientasDe`: un
+     `const` suelto acá abajo todavía no existe cuando se pinta lo
+     guardado, y corta el inicio entero. */
+  function bajadaDeCategoria(c){
+    const escritas = {
+    5:  'Planes, idioma y tramo optativo',
+    1:  'Materias, finales y SIU Guaraní',
+    8:  'Horarios, calendario y servicios',
+    9:  'Cómo escribirle a cada cátedra',
+    10: 'Proyectos y convocatorias',
+    4:  'Constancias, equivalencias y diploma',
+    3:  'Facultad, UNLP, PROGRESAR y comedor',
+    11: 'Cómo pedir el boleto gratuito',
+    12: 'Tus derechos al alquilar',
+    13: 'DAE, DIVE y ventanilla de alumnos'
+    };
+    if (escritas[c.id]) return escritas[c.id];
+    const n = tramites.filter(t => t.categoria_id === c.id).length;
+    return n === 1 ? '1 guía paso a paso' : n + ' guías paso a paso';
+  }
 
   function pintarAccesos(){
     /* El organizador primero y destacado; después lo de la carrera y
@@ -1483,22 +1521,29 @@ setTimeout(function(){
       preguntas.some(p => p.categoria_id === c.id));
 
     const propias = herramientasDe(carreraActual().id).map(h => ({
-      dibujo: icono(h.ico) || h.emoji, nombre: h.nombre, url: h.url }));
+      dibujo: icono(h.ico) || h.emoji, nombre: h.nombre, url: h.url,
+      bajada: h.bajada }));
 
     /* iconoDeCategoria devuelve el SVG si ya lo cargamos, y si no el
        emoji de la base. Así se pueden ir reemplazando de a uno. */
     const accesos = [{ dibujo: icono('carrera') || '🎓',
                        nombre:'Mi año',
+                       bajada:'Qué podés cursar y promocionar',
                        url:'carrera/', destacado:true }].concat(propias,
       conContenido.slice(0, 8 - propias.length).map(c => ({
         dibujo: iconoDeCategoria(c), nombre: c.nombre,
+        bajada: bajadaDeCategoria(c),
         url: 'tramites/?categoria=' + c.id
       })));
 
+    /* La flecha y la bajada van siempre en el HTML; en el celular el
+       CSS las esconde, porque en un cuadro de 100 px no entran. */
     document.getElementById('accesos').innerHTML = accesos.map(a =>
       `<a class="boton-cuadro${a.destacado ? ' destacado' : ''}" href="${a.url}">
          <span class="icono">${a.dibujo}</span>
+         <span class="cuadro-flecha" aria-hidden="true">→</span>
          <span class="nombre">${esc(a.nombre)}</span>
+         <span class="cuadro-bajada">${esc(a.bajada || '')}</span>
        </a>`).join('');
   }
   pintarAccesos();
