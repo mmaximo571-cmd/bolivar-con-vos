@@ -1,0 +1,567 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Trayecto optativo · La Bolívar con vos</title>
+<meta name="description" content="El Trayecto Optativo de Trabajo Social no es una materia: son 120 horas de actividades que se acreditan. Qué cuenta, cuánto vale cada una y a quién preguntar.">
+<meta name="theme-color" content="#F9E830">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Montserrat:wght@600;700;800&family=Roboto:wght@400;500;700&family=Roboto+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<!-- Iconos de la app: pestana, Google, y pantalla de inicio del celular -->
+<link rel="icon" type="image/png" sizes="32x32" href="../imagenes/icono-32.png">
+<link rel="icon" type="image/png" sizes="96x96" href="../imagenes/icono-96.png">
+<link rel="icon" type="image/png" sizes="192x192" href="../imagenes/icono-192.png">
+<link rel="apple-touch-icon" href="../imagenes/icono-apple.png">
+<link rel="manifest" href="../manifest.json">
+
+<!-- Como se ve cuando alguien comparte el link por WhatsApp o Instagram -->
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="La Bolivar con vos">
+<meta property="og:title" content="Trayecto optativo · La Bolívar con vos">
+<meta property="og:description" content="En el mapa parece una materia y no lo es: son 120 horas de actividades que se acreditan. Qué cuenta y cuánto vale cada una.">
+<meta property="og:image" content="https://bolivar-con-vos.vercel.app/imagenes/compartir.png">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="stylesheet" href="../estilos.css">
+<!-- EL TEMA, ANTES DE DIBUJAR NADA. Mismo motivo que en glosario/. -->
+<script>
+(function(){try{
+  var g = localStorage.getItem('bolivar-tema') || 'auto';
+  var oscuro = g === 'oscuro' || (g === 'auto' &&
+    window.matchMedia('(prefers-color-scheme: dark)').matches);
+  document.documentElement.dataset.tema = oscuro ? 'oscuro' : 'claro';
+}catch(e){ document.documentElement.dataset.tema = 'claro'; }})();
+</script>
+</head>
+<body class="lectura sin-js">
+
+<div id="cabecera"></div>
+
+<!-- ============================================================
+     EL TRAYECTO OPTATIVO
+
+     Existe porque el plan lo lista como la materia 255 —120 horas,
+     5.º año— y el mapa de correlativas dibuja materias, así que el
+     estudiante ve un casillero y ningún lugar donde averiguar qué
+     hacer con él. No se cursa ni se rinde: son actividades que se
+     acreditan. El molde del contenido está en `PROMPT-TRAYECTO.md`, y
+     el dibujo salió de Claude Design el 13/9.
+
+     ESTE TEXTO NO SALE DE SUPABASE, igual que el glosario y por lo
+     mismo: es reglamento, no cambia de un mes al otro, y se consulta
+     en el pasillo antes de entrar a Alumnado, que es donde no hay
+     señal. Cuando la resolución cambie, se edita este archivo.
+
+     LA CALCULADORA ES LO ÚNICO QUE PIDE JAVASCRIPT, y aun así la lista
+     de actividades con sus horas está escrita acá: sin script se lee
+     como una lista, que es lo que importa. Lo que se esconde sin
+     script es solo la cuenta (`.solo-js`).
+
+     LO QUE NO SABEMOS SE DICE. Va una sección entera para eso. Un
+     requisito inventado con seguridad le hace perder a alguien un
+     cuatrimestre; una duda escrita lo manda a preguntar.
+
+     DIFERENCIA CON EL DISEÑO: en Claude Design las preguntas venían
+     plegadas y había que tocarlas para ver la respuesta. Acá van
+     abiertas, como en el glosario: la respuesta corta arriba se barre
+     de un vistazo, y es lo que pide el molde. Plegarlas escondía justo
+     la línea que resuelve la duda.
+     ============================================================ -->
+<main id="contenido" tabindex="-1">
+
+  <div class="banda tinta">
+    <div class="envoltura">
+      <p class="ceja-lectura aparece">
+        <a class="volver-lectura" href="../tramites/">← Info útil</a>
+      </p>
+      <h1 class="grito aparece">Trayecto<br><em>optativo</em></h1>
+      <p class="bajada-lectura aparece">
+        En el mapa de correlativas parece una materia. No lo es: son
+        actividades que se acreditan.
+      </p>
+    </div>
+  </div>
+
+  <div class="banda papel">
+    <div class="envoltura">
+
+      <p class="trayecto-intro aparece">
+        El plan lo lista como asignatura y el mapa dibuja asignaturas, así que
+        te aparece un casillero. Pero el Trayecto no se cursa ni se rinde. Acá
+        está qué hacer con él, con la resolución en la mano.
+      </p>
+
+      <!-- ---------- LAS PREGUNTAS ---------- -->
+      <div class="titulo-seccion aparece">LAS PREGUNTAS</div>
+
+      <article class="modulo aparece" id="que-es">
+        <div class="modulo-cabeza"><h3>¿Qué es el Trayecto Optativo?</h3></div>
+        <p class="glosario-corta">
+          Un tramo de 120 horas que se completa con actividades acreditables,
+          no con cursadas.
+        </p>
+        <p>
+          Está en el Plan de Estudios 2015 para darte una formación más
+          profunda en las temáticas que te interesen: más flexibilidad, la
+          posibilidad de cursar asignaturas en otras carreras o cátedras libres
+          de la Universidad, y que cuenten las actividades académicas que hacés
+          durante la carrera.
+        </p>
+      </article>
+
+      <article class="modulo aparece" id="por-que-materia">
+        <div class="modulo-cabeza"><h3>¿Por qué me aparece como una materia?</h3></div>
+        <p class="glosario-corta">
+          Porque en el plan figura como asignatura, y el mapa de correlativas
+          dibuja asignaturas.
+        </p>
+        <p>
+          Te aparece un casillero con código <strong>255</strong>, 120 horas y
+          5.º año. Ese casillero no se cursa ni se rinde: se completa
+          presentando actividades acreditadas.
+        </p>
+        <p class="glosario-ir">
+          <a href="../carrera/">Tu plan, en «Mi año» →</a>
+        </p>
+      </article>
+
+      <article class="modulo aparece" id="requisito">
+        <div class="modulo-cabeza"><h3>¿Qué necesito tener aprobado para empezar?</h3></div>
+        <p class="glosario-corta">
+          Trabajo Social I aprobada con examen final.
+        </p>
+        <p>
+          Es el requisito que fija el reglamento del tramo. No hay otra
+          correlatividad enunciada ahí.
+        </p>
+      </article>
+
+      <article class="modulo aparece" id="horas">
+        <div class="modulo-cabeza"><h3>¿Cuántas horas son y cómo se reparten?</h3></div>
+        <p class="glosario-corta">
+          120 horas en total. Al menos 24 —el 20 %— tienen que ser actividades
+          programadas.
+        </p>
+        <p>
+          El tramo se compone con seminarios optativos de grado y actividades
+          programadas. Para completarlo hay que acreditar
+          <strong>120 horas</strong> de actividades optativas.
+        </p>
+      </article>
+
+      <article class="modulo aparece" id="actividades">
+        <div class="modulo-cabeza"><h3>¿Qué actividades valen y cuánto vale cada una?</h3></div>
+        <p class="glosario-corta">
+          Están en la resolución, con su valor en horas. Las tenés acá abajo,
+          para sumarlas.
+        </p>
+        <p>
+          Van desde los seminarios optativos de grado (24 horas) hasta
+          publicaciones y reseñas en revistas con referato (6 horas), pasando
+          por movilidad estudiantil, pasantías, proyectos de investigación y de
+          extensión, y publicaciones de la Facultad.
+        </p>
+        <p class="glosario-ir">
+          <a href="#calculadora">Armá tus 120 horas ↓</a>
+        </p>
+      </article>
+
+      <article class="modulo aparece" id="acreditar">
+        <div class="modulo-cabeza"><h3>¿Qué tengo que presentar para que me la acrediten?</h3></div>
+        <p class="glosario-corta">
+          Aval académico-institucional y certificación fehaciente. Las dos
+          cosas.
+        </p>
+        <p>
+          Toda actividad que se acredite dentro del tramo tiene que tener las
+          dos. Sin eso no entra, por más que la hayas hecho.
+        </p>
+      </article>
+
+      <article class="modulo aparece" id="fuera-del-listado">
+        <div class="modulo-cabeza"><h3>¿Y si hice algo que no está en el listado?</h3></div>
+        <p class="glosario-corta">
+          Se puede presentar igual: lo evalúa la Comisión de Enseñanza.
+        </p>
+        <p>
+          Una actividad que no está en el listado la evalúa la Comisión de
+          Enseñanza, y la avala o no la Secretaría Académica.
+        </p>
+      </article>
+
+      <!-- ---------- ARMÁ TUS 120 HORAS ----------
+           Cada área es un <details>: sin script se abre y se cierra
+           igual. Los botones llevan en `data-` lo que la cuenta
+           necesita, así los números viven en un solo lugar —el texto
+           que se ve— y no copiados en una lista aparte del script.
+             data-hs   horas que vale la actividad
+             data-max  cuántas veces se puede acreditar: 4 los
+                       seminarios, 2 las de 6 horas, 1 las demás
+           y cada área lleva su tope en `data-tope`. -->
+      <div class="titulo-seccion aparece" id="calculadora">ARMÁ TUS 120 HORAS</div>
+
+      <p class="trayecto-nota aparece">
+        Tocá las actividades que hiciste o que pensás hacer y mirá cuánto te
+        falta. La cuenta usa los valores de la resolución. Los seminarios
+        optativos de grado se tocan hasta cuatro veces, porque son cuatro; y
+        cada área suma hasta 12 horas, así que cuando llega al tope las demás
+        se apagan.
+      </p>
+
+      <div class="trayecto-cuenta solo-js aparece">
+        <p class="cuenta-ceja">SUMA SELECCIONADA</p>
+        <p class="cuenta-total"><span id="cuenta-horas">0</span> <small>de 120 hs</small></p>
+        <div class="cuenta-barra" aria-hidden="true"><div id="cuenta-relleno"></div></div>
+        <p class="cuenta-falta" id="cuenta-falta" aria-live="polite">
+          Todavía no seleccionaste nada.
+        </p>
+      </div>
+
+      <details class="modulo area aparece" data-tope="96">
+        <summary>
+          <span class="area-nombre">Seminarios de grado</span>
+          <span class="area-cuenta">hasta 96 hs</span>
+        </summary>
+        <div class="area-lista">
+          <button type="button" class="actividad" data-k="sem" data-hs="24" data-max="4" aria-pressed="false">
+            <span class="actividad-marca" aria-hidden="true">○</span>
+            <span class="actividad-nombre">Seminarios optativos de grado</span>
+            <span class="actividad-hs">24 hs</span>
+          </button>
+        </div>
+        <p class="area-aviso">Son cuatro para completarlos.</p>
+      </details>
+
+      <details class="modulo area aparece" data-tope="12">
+        <summary>
+          <span class="area-nombre">Área Académica</span>
+          <span class="area-cuenta">hasta 12 hs</span>
+        </summary>
+        <div class="area-lista">
+          <button type="button" class="actividad" data-k="mov" data-hs="12" data-max="1" aria-pressed="false">
+            <span class="actividad-marca" aria-hidden="true">○</span>
+            <span class="actividad-nombre">Movilidad estudiantil</span>
+            <span class="actividad-hs">12 hs</span>
+          </button>
+          <button type="button" class="actividad" data-k="aco" data-hs="6" data-max="2" aria-pressed="false">
+            <span class="actividad-marca" aria-hidden="true">○</span>
+            <span class="actividad-nombre">Acompañamiento a estudiantes de intercambio</span>
+            <span class="actividad-hs">6 hs</span>
+          </button>
+        </div>
+        <p class="area-aviso">Cada área suma hasta 12 horas.</p>
+      </details>
+
+      <details class="modulo area aparece" data-tope="12">
+        <summary>
+          <span class="area-nombre">Área de Publicaciones y Comunicación</span>
+          <span class="area-cuenta">hasta 12 hs</span>
+        </summary>
+        <div class="area-lista">
+          <button type="button" class="actividad" data-k="art" data-hs="6" data-max="2" aria-pressed="false">
+            <span class="actividad-marca" aria-hidden="true">○</span>
+            <span class="actividad-nombre">Desarrollo de un artículo para una de las publicaciones de la FTS</span>
+            <span class="actividad-hs">6 hs</span>
+          </button>
+          <button type="button" class="actividad" data-k="cob" data-hs="6" data-max="2" aria-pressed="false">
+            <span class="actividad-marca" aria-hidden="true">○</span>
+            <span class="actividad-nombre">Cobertura de eventos de relevancia académica para el portal digital Entredichos</span>
+            <span class="actividad-hs">6 hs</span>
+          </button>
+          <button type="button" class="actividad" data-k="edi" data-hs="12" data-max="1" aria-pressed="false">
+            <span class="actividad-marca" aria-hidden="true">○</span>
+            <span class="actividad-nombre">Participación en el Comité Editorial de Voces Emergentes o alguna otra publicación de la FTS donde haya participación estudiantil</span>
+            <span class="actividad-hs">12 hs</span>
+          </button>
+        </div>
+        <p class="area-aviso">Cada área suma hasta 12 horas.</p>
+      </details>
+
+      <details class="modulo area aparece" data-tope="12">
+        <summary>
+          <span class="area-nombre">Área de Investigación</span>
+          <span class="area-cuenta">hasta 12 hs</span>
+        </summary>
+        <div class="area-lista">
+          <button type="button" class="actividad" data-k="pin" data-hs="12" data-max="1" aria-pressed="false">
+            <span class="actividad-marca" aria-hidden="true">○</span>
+            <span class="actividad-nombre">Pasantías de investigación acreditadas según reglamentación de la Secretaría de Investigación y Posgrado</span>
+            <span class="actividad-hs">12 hs</span>
+          </button>
+          <button type="button" class="actividad" data-k="coi" data-hs="12" data-max="1" aria-pressed="false">
+            <span class="actividad-marca" aria-hidden="true">○</span>
+            <span class="actividad-nombre">Colaboración de al menos un año en Proyecto de Investigación</span>
+            <span class="actividad-hs">12 hs</span>
+          </button>
+          <button type="button" class="actividad" data-k="uni" data-hs="6" data-max="2" aria-pressed="false">
+            <span class="actividad-marca" aria-hidden="true">○</span>
+            <span class="actividad-nombre">Participación en actividades de las unidades de investigación</span>
+            <span class="actividad-hs">6 hs</span>
+          </button>
+        </div>
+        <p class="area-aviso">Cada área suma hasta 12 horas.</p>
+      </details>
+
+      <details class="modulo area aparece" data-tope="12">
+        <summary>
+          <span class="area-nombre">Área de Extensión</span>
+          <span class="area-cuenta">hasta 12 hs</span>
+        </summary>
+        <div class="area-lista">
+          <button type="button" class="actividad" data-k="pex" data-hs="12" data-max="1" aria-pressed="false">
+            <span class="actividad-marca" aria-hidden="true">○</span>
+            <span class="actividad-nombre">Pasantías de extensión acreditadas según reglamentación de la Secretaría de Extensión</span>
+            <span class="actividad-hs">12 hs</span>
+          </button>
+          <button type="button" class="actividad" data-k="coe" data-hs="12" data-max="1" aria-pressed="false">
+            <span class="actividad-marca" aria-hidden="true">○</span>
+            <span class="actividad-nombre">Colaboración de al menos un año en Proyecto de Extensión</span>
+            <span class="actividad-hs">12 hs</span>
+          </button>
+          <button type="button" class="actividad" data-k="sce" data-hs="12" data-max="1" aria-pressed="false">
+            <span class="actividad-marca" aria-hidden="true">○</span>
+            <span class="actividad-nombre">Seminarios y Cursos de Extensión</span>
+            <span class="actividad-hs">12 hs</span>
+          </button>
+        </div>
+        <p class="area-aviso">Cada área suma hasta 12 horas.</p>
+      </details>
+
+      <details class="modulo area aparece" data-tope="12">
+        <summary>
+          <span class="area-nombre">Otras actividades</span>
+          <span class="area-cuenta">hasta 12 hs</span>
+        </summary>
+        <div class="area-lista">
+          <button type="button" class="actividad" data-k="org" data-hs="6" data-max="2" aria-pressed="false">
+            <span class="actividad-marca" aria-hidden="true">○</span>
+            <span class="actividad-nombre">Organización de eventos científicos acreditados por una Institución Universitaria</span>
+            <span class="actividad-hs">6 hs</span>
+          </button>
+          <button type="button" class="actividad" data-k="pon" data-hs="6" data-max="2" aria-pressed="false">
+            <span class="actividad-marca" aria-hidden="true">○</span>
+            <span class="actividad-nombre">Ponencias en eventos científicos y/o académicos, acreditados por sistema universitario (hasta dos autores)</span>
+            <span class="actividad-hs">6 hs</span>
+          </button>
+          <button type="button" class="actividad" data-k="pil" data-hs="12" data-max="1" aria-pressed="false">
+            <span class="actividad-marca" aria-hidden="true">○</span>
+            <span class="actividad-nombre">Pasantía institucional o laboral en entidad reconocida en ámbitos de Trabajo Social, avalada por el sistema universitario</span>
+            <span class="actividad-hs">12 hs</span>
+          </button>
+          <button type="button" class="actividad" data-k="pub" data-hs="6" data-max="2" aria-pressed="false">
+            <span class="actividad-marca" aria-hidden="true">○</span>
+            <span class="actividad-nombre">Publicaciones, reseñas en revistas con referato</span>
+            <span class="actividad-hs">6 hs</span>
+          </button>
+        </div>
+        <p class="area-aviso">Cada área suma hasta 12 horas.</p>
+      </details>
+
+      <button type="button" class="trayecto-borrar solo-js" id="cuenta-borrar">Borrar la selección</button>
+      <p class="trayecto-nota solo-js">
+        La cuenta es para orientarte y queda guardada en este teléfono. La que
+        vale es la que hace Alumnado con tus certificados.
+      </p>
+
+      <!-- ---------- LAS REGLAS ---------- -->
+      <div class="titulo-seccion aparece">LAS REGLAS DE LA LETRA CHICA</div>
+
+      <article class="modulo regla aparece">
+        <div class="modulo-cabeza">
+          <span class="modulo-numero">REGLA 01</span>
+          <h3>24 de las 120 horas son actividades programadas</h3>
+        </div>
+        <p>Un 20 % del tramo tiene que ser de actividades programadas. El resto se completa con seminarios optativos de grado.</p>
+      </article>
+
+      <article class="modulo regla aparece">
+        <div class="modulo-cabeza">
+          <span class="modulo-numero">REGLA 02</span>
+          <h3>Hasta 2 ítems iguales, y solo en las de 6 horas</h3>
+        </div>
+        <p>Lo aclara la resolución al pie del listado: solo se pueden acreditar hasta 2 ítems iguales en las actividades que valen 6 horas.</p>
+      </article>
+
+      <article class="modulo regla aparece">
+        <div class="modulo-cabeza">
+          <span class="modulo-numero">REGLA 03</span>
+          <h3>Cada área suma hasta 12 horas</h3>
+        </div>
+        <p>Podés combinar actividades de distintas áreas, pero ninguna aporta más de 12 horas al tramo. Los seminarios optativos de grado van aparte: son cuatro para completarlos.</p>
+      </article>
+
+      <article class="modulo regla aparece">
+        <div class="modulo-cabeza">
+          <span class="modulo-numero">REGLA 04</span>
+          <h3>Sin aval y certificación, no se acredita</h3>
+        </div>
+        <p>Toda actividad que se acredite dentro del tramo tiene que tener aval académico-institucional y certificación fehaciente.</p>
+      </article>
+
+      <!-- ---------- LO QUE NO SABEMOS ---------- -->
+      <div class="titulo-seccion aparece" id="sin-confirmar">ESTO TODAVÍA NO LO TENEMOS CONFIRMADO</div>
+
+      <p class="trayecto-nota aparece">
+        Preferimos decirlo antes que darte una respuesta linda y dudosa.
+        Preguntalo en Alumnado o en la Secretaría de la que dependa la
+        actividad.
+      </p>
+      <ul class="trayecto-dudas">
+        <li class="aparece">Qué actividades del listado cuentan como «actividades programadas» para las 24 horas: la resolución nombra la categoría pero no la define ítem por ítem.</li>
+        <li class="aparece">Cuál es la oferta de seminarios optativos de grado de este año y cuándo es la inscripción.</li>
+        <li class="aparece">Si las horas se presentan todas juntas al final o se pueden ir acreditando de a una, a medida que las hacés.</li>
+        <li class="aparece">Cuánto tarda la acreditación desde que entregás los certificados hasta que aparece en el sistema.</li>
+      </ul>
+
+      <!-- ---------- DÓNDE SE PREGUNTA ---------- -->
+      <div class="titulo-seccion aparece" id="donde">DÓNDE SE PREGUNTA</div>
+
+      <article class="modulo aparece">
+        <div class="modulo-cabeza"><h3>No hay una sola ventanilla</h3></div>
+        <p class="glosario-corta">
+          Cada actividad se gestiona con la Secretaría, Dirección o Área de la
+          que depende.
+        </p>
+        <p>
+          Para hacer las actividades y acreditar las horas hay que comunicarse
+          con cada una. Si la actividad no está en el listado, el camino es la
+          Comisión de Enseñanza y la Secretaría Académica. Para todo lo demás,
+          <strong>Alumnado</strong>.
+        </p>
+      </article>
+
+    </div>
+  </div>
+
+  <!-- ---------- LA SALIDA PARA LO QUE LA PANTALLA NO PREVIÓ ----------
+       El molde lo pide así: aunque algún día las cinco dudas estén
+       contestadas, esta banda va igual. -->
+  <div class="banda sol">
+    <div class="envoltura">
+      <h2 class="grito aparece" style="font-size:clamp(28px,7.4vw,52px)">
+        ¿Te quedó<br>una duda?</h2>
+      <p class="bajada-lectura aparece">
+        Preguntanos en el Centro de Estudiantes. Y si algo de acá no coincide
+        con lo que te dicen en la Facultad, vale lo que te dicen en la
+        Facultad: avisanos y lo corregimos.
+      </p>
+      <a class="puerta aparece" href="../quienes/">
+        <span class="puerta-texto">
+          <strong>Escribinos</strong>
+          <span>Todas nuestras formas de contacto</span>
+        </span>
+        <span class="puerta-flecha" aria-hidden="true">→</span>
+      </a>
+    </div>
+  </div>
+
+</main>
+
+<div id="pie"></div>
+
+<script>window.RAIZ = '../';</script>
+<script src="../lib/datos.js"></script>
+<script src="../config.js"></script>
+<script src="../iconos.js"></script>
+<script src="../app.js"></script>
+<script src="../lectura.js"></script>
+<script>
+(function trayecto(){
+  document.getElementById('cabecera').innerHTML = htmlCabecera();
+  document.getElementById('pie').innerHTML = htmlPie();
+  /* Vive adentro de Info útil, igual que el glosario. */
+  pintarNav('tramites');
+  document.body.classList.remove('sin-js');
+  vigilarAparicion();
+
+  /* Quien llega con dirección (`#calculadora`, `#requisito`) la ve ya:
+     mismo motivo que en glosario/. */
+  const pedida = location.hash && document.getElementById(location.hash.slice(1));
+  if (pedida){
+    pedida.classList.add('visible');
+    pedida.style.transitionDelay = '0ms';
+    pedida.scrollIntoView({ block:'start' });
+  }
+
+  /* ---------- LA CUENTA DE LAS 120 HORAS ----------
+     SE GUARDA EN EL TELÉFONO. Las horas se juntan a lo largo de años:
+     una cuenta que se borra al cerrar la pestaña no le sirve a nadie.
+     Es solo `{clave: veces}` y no sale del teléfono. */
+  const CLAVE = 'bolivar-trayecto';
+  let sel = {};
+  try { sel = JSON.parse(localStorage.getItem(CLAVE)) || {}; } catch(e){ sel = {}; }
+
+  const areas = Array.from(document.querySelectorAll('.area'));
+  const horas = document.getElementById('cuenta-horas');
+  const relleno = document.getElementById('cuenta-relleno');
+  const falta = document.getElementById('cuenta-falta');
+
+  const botones = a => Array.from(a.querySelectorAll('.actividad'));
+  const usadoEn = a => botones(a).reduce((s, b) => s + (sel[b.dataset.k] || 0) * +b.dataset.hs, 0);
+
+  function pintar(){
+    let total = 0, repetida = false;
+
+    areas.forEach(a => {
+      const tope = +a.dataset.tope, usado = usadoEn(a), lleno = usado >= tope;
+      total += usado;
+      a.querySelector('.area-cuenta').textContent = usado + ' / ' + tope + ' hs';
+      /* Los seminarios tienen su propio aviso escrito en el HTML: son
+         la única área que no es «hasta 12». */
+      const aviso = a.querySelector('.area-aviso');
+      if (tope === 12) aviso.textContent = lleno
+        ? 'Llegaste al tope de esta área. Para sumar más, elegí otra.'
+        : 'Cada área suma hasta 12 horas.';
+      aviso.classList.toggle('lleno', lleno);
+
+      botones(a).forEach(b => {
+        const hs = +b.dataset.hs, max = +b.dataset.max, n = sel[b.dataset.k] || 0;
+        const trabada = n < max && usado + hs > tope;
+        if (hs === 6 && n >= 2) repetida = true;
+        b.setAttribute('aria-pressed', n > 0 ? 'true' : 'false');
+        b.setAttribute('aria-disabled', trabada && n === 0 ? 'true' : 'false');
+        b.querySelector('.actividad-marca').textContent =
+          n === 0 ? (trabada ? '—' : '○') : (n >= max ? '✔' : '✔' + n);
+        b.querySelector('.actividad-hs').textContent =
+          n > 1 ? (hs * n) + ' hs (×' + n + ')' : hs + ' hs';
+      });
+    });
+
+    horas.textContent = total;
+    relleno.style.transform = 'scaleX(' + Math.min(1, total / 120) + ')';
+    let texto;
+    if (total === 0) texto = 'Todavía no seleccionaste nada. Tocá una actividad para sumarla: los seminarios se tocan hasta cuatro veces y las de 6 horas hasta dos.';
+    else if (total < 120) texto = 'Te faltan ' + (120 - total) + ' horas. Acordate de que 24 de las 120 tienen que ser actividades programadas.';
+    else texto = 'Llegaste a las 120 horas en esta cuenta. Revisá que 24 sean actividades programadas y que tengas el aval y la certificación de cada una.';
+    if (repetida) texto += ' Ojo: solo se pueden acreditar hasta 2 ítems iguales en las actividades de 6 horas.';
+    falta.textContent = texto;
+
+    try { localStorage.setItem(CLAVE, JSON.stringify(sel)); } catch(e){}
+  }
+
+  /* Tocar suma una vez más; al llegar al máximo, el siguiente toque la
+     saca. Es un ciclo y no un «+/−» porque en el celular dos botones
+     chicos por renglón no se aciertan. */
+  areas.forEach(a => botones(a).forEach(b => b.addEventListener('click', () => {
+    const k = b.dataset.k, hs = +b.dataset.hs, max = +b.dataset.max, n = sel[k] || 0;
+    const trabada = n < max && usadoEn(a) + hs > +a.dataset.tope;
+    if (n >= max || trabada) delete sel[k];
+    else sel[k] = n + 1;
+    pintar();
+  })));
+
+  /* Si ya había algo guardado, se abren las áreas que tienen horas:
+     quien vuelve quiere ver lo que marcó, no seis cajas cerradas. */
+  areas.forEach(a => { if (usadoEn(a) > 0) a.open = true; });
+
+  document.getElementById('cuenta-borrar').addEventListener('click', () => {
+    sel = {};
+    pintar();
+  });
+
+  pintar();
+})();
+</script>
+</body>
+</html>

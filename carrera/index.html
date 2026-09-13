@@ -1932,6 +1932,19 @@ function abrirHoja(cod){
       ? `<p class="letra-chica">(*) ${esc(PLAN.notaAsterisco)}</p>` : ''}
     ${m.libre && PLAN.notaLibres
       ? `<p class="letra-chica"><strong>Se rinde libre.</strong> ${esc(PLAN.notaLibres)}</p>` : ''}
+    ${/* EL CASILLERO DEL TRAYECTO OPTATIVO. Es donde la pregunta aparece
+         de verdad: el estudiante lo toca en su plan porque no sabe qué
+         es. Se reconoce por el nombre y no solo por el código, porque
+         los otros planes también numeran sus materias. */
+      /trayecto optativo/i.test(m.nombre) ? `
+      <a class="nexo-final" href="../trayecto/">
+        <span class="nexo-texto">
+          <strong>Esto no es una materia</strong>
+          No se cursa ni se rinde: son actividades que se acreditan. Qué
+          cuenta y cuánto vale cada una.
+        </span>
+        <span class="nexo-flecha" aria-hidden="true">→</span>
+      </a>` : ''}
 
     <div class="veredicto ${s.clase}">${NOMBRE_CLASE[s.clase]}</div>
 

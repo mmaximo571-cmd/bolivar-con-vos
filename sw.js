@@ -166,7 +166,13 @@
    los cuatro. Va tambien la tilde de «Legardon» en `glosario/`, que no
    necesitaria numero nuevo —las pantallas se sirven red primero— pero
    viaja en el mismo empujon. */
-const VERSION = 'bolivar-v33';
+/* v34 (13/9/2026) `app.js` y `estilos.css`: existe `trayecto/`. La
+   pantalla es nueva y llega sola, pero la puerta del indice del pie
+   vive en `app.js` y la calculadora de las 120 horas se dibuja con
+   clases de la hoja. Es el caso del v29 y el v30 juntos: sin subir el
+   numero, quien ya tiene la app no ve la puerta y ve la pantalla sin
+   estilos. */
+const VERSION = 'bolivar-v34';
 const ARMAZON = VERSION + '-armazon';
 const PAGINAS = VERSION + '-paginas';
 

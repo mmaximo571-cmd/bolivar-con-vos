@@ -120,6 +120,8 @@ sobre los otros. Ahora mandan así, y no se abre un quinto:
 
 | 13/9 | **Las pruebas dejan de contarse como visitas.** `anotar()` no distinguía esta máquina de producción, y de la visita se guarda solo el `pathname` —a propósito, para no poder seguir a nadie—, así que una carga de prueba quedaba en la misma tabla que alguien entrando de Instagram y **no había forma de separarlas después**. Con el 18 al 20 dedicados a probar, eso ensuciaba justo el número del 21. El freno es una lista de lo que NO cuenta (localhost, la IP de casa, un archivo abierto a mano) y no de lo que sí: al revés, el día que la app se mude a un dominio propio el registro se apagaría en silencio. **Sin `v` nueva a propósito:** el `app.js` viejo cuenta las visitas bien —son visitas reales—, y el freno solo hace falta donde se prueba, que siempre carga fresco | `HEAD` |
 
+| 13/9 | **El Trayecto Optativo tiene pantalla.** `trayecto/`, dibujada en Claude Design: siete preguntas con la respuesta corta arriba, una cuenta de las 120 horas por área que queda guardada en el teléfono, las cuatro reglas, las cuatro dudas que todavía no tenemos confirmadas y a quién preguntar. Tres puertas: Info útil, el índice del pie y **el casillero del plan en «Mi año»**. El texto va en el HTML, como el glosario. **Una diferencia con el diseño:** las preguntas iban plegadas y acá van abiertas. El conteo de materias del progreso no se tocó: sigue siendo la deuda postergada. `v34` | `HEAD` |
+
 **Ojo con lo de las materias libres.** El listado sale de un documento que se
 llama, textualmente, «**Propuesta** de materias libres … para agregar al régimen
 de regularidad o anexar al plan de estudios». No está aprobado, y la app lo dice

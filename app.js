@@ -801,7 +801,8 @@ const SECCIONES_ABAJO = [
    deje de esconderse. */
 const INDICE_PIE = SECCIONES.concat([
   { id:'catedras', texto:'Cátedras y contactos', url:RAIZ+'catedras/' },
-  { id:'glosario', texto:'Glosario universitario', url:RAIZ+'glosario/' }
+  { id:'glosario', texto:'Glosario universitario', url:RAIZ+'glosario/' },
+  { id:'trayecto', texto:'Trayecto optativo', url:RAIZ+'trayecto/' }
 ]);
 
 /* Los sistemas de la facultad y de la universidad. No son de la app:
