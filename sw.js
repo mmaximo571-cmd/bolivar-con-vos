@@ -158,7 +158,15 @@
      numero, quien ya tiene la app toca una materia, el renglon le
      aparece sin caja y los anillos no se dibujan: o sea la funcion
      entera invisible. */
-const VERSION = 'bolivar-v32';
+/* v33 (13/9/2026) `app.js`: Aulas Web entra al indice del pie, o sea a
+   las doce pantallas. Es el mismo caso que v30 con el glosario: la
+   lista `SISTEMAS_UNLP` vive en `app.js`, que es armazon, asi que sin
+   subir el numero quien ya tiene la app sigue viendo tres sistemas y
+   no cuatro. Y es la direccion donde cursa: es el enlace mas usado de
+   los cuatro. Va tambien la tilde de «Legardon» en `glosario/`, que no
+   necesitaria numero nuevo —las pantallas se sirven red primero— pero
+   viaja en el mismo empujon. */
+const VERSION = 'bolivar-v33';
 const ARMAZON = VERSION + '-armazon';
 const PAGINAS = VERSION + '-paginas';
 

@@ -14,9 +14,14 @@ Si algo de acá quedó viejo, se corrige acá mismo al cerrar la sesión.
 - **Lanzamiento: lunes 21 de septiembre de 2026**, Día del Estudiante, con
   campaña en Instagram a 4.213 seguidores. **La fecha no se mueve: se mueve el
   alcance.**
-- Hoy es **lunes 7 de septiembre**, y las decisiones **ya se cerraron**: las
-  cuatro están contestadas y las tres que quedaban abiertas están hechas y
-  publicadas.
+- Hoy es **domingo 13 de septiembre**. Quedan **ocho días** para el
+  lanzamiento y **tres o cuatro de código**: el congelamiento es el mié 16 o
+  el jue 17. Lo último que entró a la app fue del **7/9** (calendario del
+  celular, buscador y mapa); el 8 solo se escribieron papeles —el buzón
+  `entrada/` y `PROMPT-FICHAS.md`— y del **9 al 12 no se trabajó** porque
+  Máximo viajaba. Todo lo que hay está pusheado a `main`.
+- Las cuatro decisiones de septiembre **siguen cerradas**: están contestadas y
+  hechas.
 - **El 7 entraron tres cosas que no estaban en el cronograma**, y no son
   invento: salieron de mirar la versión que Máximo armó en AI Studio
   (`Desktop/MÁXIMO/bolivar-con-vos 2.0`, React + Tailwind, 9.000 líneas). De
@@ -39,6 +44,11 @@ Si algo de acá quedó viejo, se corrige acá mismo al cerrar la sesión.
   al miércoles 16 o jueves 17 porque faltan herramientas por hacer. Lo que se
   achica es la ventana de pruebas: de ocho días pasa a tres o cuatro. Ver el
   cronograma.
+- **Y quedó un agujero: esas «herramientas nuevas» no están escritas en ningún
+  lado.** El cronograma reserva del 13 al 17 para hacerlas, pero no dice
+  cuáles son ni en qué orden. Con tres o cuatro días de código, la lista es
+  lo primero que hay que fijar: sin lista, cada sesión la reinventa. Se
+  escribe acá, no en el chat.
 - **Lo que sigue no es construir, es probar.** Con siete días libres antes del
   13 y una semana más de contenido y campaña, lo que falta es lo que nunca se
   pudo verificar acá: todo lo que depende del service worker —caché, andar sin
@@ -58,6 +68,8 @@ sobre los otros. Ahora mandan así, y no se abre un quinto:
 | **`BITACORA.md`** | **el ahora.** Única fuente. Se lee al arrancar y se corrige al cerrar |
 | `LEEME.md` | cómo funciona cada cosa. Referencia, no se lee al arrancar |
 | `PROMPT-DISENO.md` | el molde para pedirle pantallas a Gemini y que salgan en HTML de esta app, no en React |
+| `PROMPT-FICHAS.md` | el molde de una ficha de estudio: NotebookLM ordena el contenido, Claude Design lo dibuja, y **nunca al revés** |
+| `PROMPT-TRAYECTO.md` | **el contenido de una pantalla sola** (13/9): las seis preguntas que el Trayecto Optativo tiene que contestar, y las cinco que todavía son `[FALTA]`. Se usa junto con `PROMPT-DISENO.md`, no en lugar de él |
 | `entrada/` | **el buzón** (8/9). Lo que se trae de AI Studio o de donde sea se deja acá y se vacía en una sola sesión. No decide nada: es material de trabajo, no se sube |
 | Memoria del proyecto | cómo se trabaja y qué no puede esta máquina |
 | [Artifact del plan](https://claude.ai/code/artifact/25f7c752-e67f-465a-bf82-5913218cff95) | **congelado**, registro histórico. Ya no es el documento rector: quedó viejo cuando se rearmó el cronograma el 3/9 |
@@ -103,6 +115,8 @@ sobre los otros. Ahora mandan así, y no se abre un quinto:
 | 7/9 | **El buscador miraba dos cosas de seis.** «Mesa de septiembre», «promoción» y «anatomo» daban SIN RESULTADOS y las tres estaban cargadas. Ahora mira trámites, preguntas, fechas, glosario, pantallas y cátedras. Cinco no cuestan un byte de más; las cátedras salen a la red recién cuando alguien escribe la segunda letra. Y los resultados llevan al lugar exacto: el glosario tiene una dirección por palabra (`#promocion`) y Cátedras acepta `?q=` | `82730c8` |
 | 7/9 | **El mapa dibujaba las flechas pero no contestaba la pregunta.** Con cuarenta materias, seguir una flecha con el ojo es adivinar, y el resaltado que había era solo al pasar el mouse: en el celular no existía. Ahora se marcan los nodos con dos anillos —entero lo que pide, punteado lo que abre— y se marca al TOCAR, sin sacarle a la ficha su lugar. Arriba dice cuántas son de cada una. **No se apaga nada**: bajar a opacidad las materias sin relación deja el mapa ilegible. `v32` | `619892f` |
 
+| 13/9 | **Dos datos que faltaban, publicados.** «Agrupación Gustavo **Legardón**» lleva tilde —confirmado, era un carácter en el glosario— y **Aulas Web** ya está en el índice del pie de las doce pantallas: `aulaswebgrado.ead.unlp.edu.ar`. Los sistemas de la UNLP pasan a cuatro. **`v33`**, por el mismo motivo que el `v30` del glosario: el pie lo dibuja `app.js`, que es armazón, y sin subir el número quien ya tiene la app sigue viendo tres sistemas | `HEAD` |
+
 **Ojo con lo de las materias libres.** El listado sale de un documento que se
 llama, textualmente, «**Propuesta** de materias libres … para agregar al régimen
 de regularidad o anexar al plan de estudios». No está aprobado, y la app lo dice
@@ -110,13 +124,45 @@ con todas las letras. Si alguien confirma que se aprobó (o que no), hay que
 cambiar `notaLibres` en `carrera/plan-fono.js`, que es el único lugar donde vive
 ese texto.
 
-Y quedó abierta una pregunta que vale para Trabajo Social: **qué significa el
-asterisco (*)** que llevan diez materias en `plan.js`. Cuatro de las seis que TS
-comparte con Fono están marcadas con asterisco Y figuran como libres en la
-propuesta de Fono; las otras dos, no. O sea que apunta a lo mismo pero no
-alcanza para afirmarlo. La pregunta para Alumnado es: «En el plan 2015, ¿qué
-indica el asterisco de algunas materias cuatrimestrales? ¿Que se pueden rendir
-libres?». Hasta que haya respuesta, la nota del asterisco se deja como está.
+### El asterisco (*) del plan de Trabajo Social
+
+**Qué es, en una línea:** una marca que está **en el PDF de la facultad**, al
+lado de diez materias del plan 2015. No la inventó la app: la app la copió tal
+cual (`marcada:true` en `carrera/plan.js`) y **no sabe qué significa**, así que
+lo dice: «Todavía no tenemos confirmado qué condición indica: si te toca alguna,
+preguntá en Alumnado» (`notaAsterisco`, el único lugar donde vive ese texto).
+
+**Lo que se midió el 13/9, y es un patrón limpio.** Las diez marcadas son
+**todas** las cuatrimestrales de **64 horas de 2.º año en adelante**, sin una
+sola excepción:
+
+| | |
+|---|---|
+| 2.º año | Introducción a la Psicología · Teoría del Estado · Economía Política |
+| 3.º año | Trabajo Social y Sujetos Colectivos |
+| 4.º año | Psicología del desarrollo · Teoría y Práctica de la Educación · Derecho de infancia · Salud Colectiva |
+| 5.º año | Filosofía Social · Debate contemporáneo y Trabajo Social |
+
+Y las únicas cuatrimestrales de 64 h que **no** llevan asterisco son **las
+cuatro de 1.º año**. Las de 96 y 128 horas no llevan ninguna. O sea: el
+asterisco no señala materias sueltas, señala **una categoría entera** —64 horas,
+cuatrimestral, de 2.º para arriba—. Eso descarta que sea una nota al pie de tres
+o cuatro casos particulares.
+
+**Por qué igual no se puede escribir qué significa.** Que sean todas de la misma
+categoría dice que hay una regla, no cuál es. Las dos hipótesis siguen abiertas:
+que se puedan **rendir libres**, o que sean las que se **eligen** para completar
+el trayecto. El indicio a favor de «libres» es que cuatro de las seis materias
+que TS comparte con Fonoaudiología están marcadas con asterisco **y** figuran
+como libres en la propuesta de Fono —pero las otras dos, no—. Apunta para ese
+lado y no alcanza.
+
+**La pregunta para Alumnado, tal cual:** «En el plan 2015 de la Licenciatura en
+Trabajo Social, las materias cuatrimestrales de 64 horas de 2.º a 5.º año
+figuran con un asterisco. ¿Qué condición indica ese asterisco? ¿Que se pueden
+rendir libres?». Hasta que haya respuesta, `notaAsterisco` se deja como está:
+decir «no sabemos, preguntá» es correcto; adivinar en la pantalla de alguien que
+está armando su cursada, no.
 
 ## El cronograma
 
@@ -140,10 +186,31 @@ entran 2 o 3 sesiones.
 | jue 10 – vie 11 | ✅ Adelantado al dom 6: **el glosario está hecho y publicado**. Los horarios se fueron al año que viene. **Queda libre** | — |
 | sáb 12 | ✅ Adelantado al sáb 5. **Queda libre** | — |
 | ~~dom 13~~ | ~~Congelamiento~~. **Movido el 8/9:** hacen falta más días para las herramientas nuevas | — |
-| dom 13 – jue 17 | **Herramientas nuevas.** Última ventana de código | — |
+| dom 13 · 1 | ✅ **Las seis deudas chicas, contestadas.** Legardón con tilde y Aulas Web publicados; Avisanos cerrado en dos contactos; el asterisco medido; las etiquetas de campaña explicadas; y el molde del Trayecto Optativo escrito | — |
+| dom 13 – jue 17 | **Herramientas nuevas.** Última ventana de código. **La lista está a medio escribir:** ver abajo | — |
+| ¿lun 15? | **El Trayecto Optativo tiene pantalla.** Máximo la diseña con Claude Design desde `PROMPT-TRAYECTO.md`; acá entran el HTML y las tres puertas | **el contenido y el `.dc.html`** |
 | **mié 16 o jue 17** | **Congelamiento.** Última línea de función nueva | — |
-| vie 18 – dom 20 | Contenido, pruebas y campaña. **Todo arriba el 20** | — |
+| vie 18 – dom 20 | Contenido, pruebas, etiquetas de campaña. **Todo arriba el 20** | — |
 | **lun 21** | **Lanzamiento** | — |
+
+### Las «herramientas nuevas»: lo que hay y lo que falta (13/9)
+
+El 8/9 se corrieron cuatro días para esto y **la lista nunca se escribió**. Al
+13/9 tiene un solo renglón confirmado:
+
+1. **El Trayecto Optativo en Info útil.** Molde escrito en
+   `PROMPT-TRAYECTO.md`. **No es una materia** —son actividades que se
+   acreditan— y la app lo dibuja como una porque el plan lo lista con código
+   `255`, 120 horas, 5.º año. Hoy el estudiante de 5.º ve un casillero y no
+   tiene dónde averiguar qué hacer con él: la palabra no aparece explicada en
+   ninguna pantalla. Espera contenido y diseño de afuera.
+
+**Lo que falta es decidir si hay algo más**, y decidirlo ya: quedan tres o
+cuatro días de código. Con la ventana así, **cada herramienta tiene que caber en
+una sesión**; lo que no entre se parte en dos o se corta el alcance. Y el
+**mié 16 al mediodía se cierra la lista**: lo que no esté empezado ahí pasa a
+`entrada/` como `idea-*` y es post-21. Cerrarla el 16 y no el 17 deja el jueves
+para el error que aparezca, que siempre aparece.
 
 ### Lo que este cronograma dejó a la vista (al 6/9)
 
@@ -424,14 +491,13 @@ Si algo de esto cambia, se edita ese archivo.
 - **«Agrupacion» sin tilde**, en la entrada del CEFTS. En la misma oración la
   otra estaba bien escrita: era un tipeo.
 
-**Las dos que hay que confirmar, y no se tocaron:**
+**Las dos que había que confirmar: ✅ las dos cerradas.**
 
-1. **«Agrupación Gustavo Legardon».** Va publicado tal cual lo escribió Máximo.
-   Si el apellido lleva tilde —Legardón—, es un solo carácter en
-   `glosario/index.html`. No se corrigió de memoria: es el nombre de una
-   agrupación compañera, y ni «Legardon» ni «Frente Malvinas Argentinas»
-   aparecían antes en ninguna parte de la app, así que no había con qué
-   contrastarlo.
+1. ~~**«Agrupación Gustavo Legardon».**~~ ✅ **Confirmado el 13/9: lleva tilde.**
+   Dice **Legardón** en `glosario/index.html`. Era un solo carácter, y no se
+   corrigió de memoria a propósito: es el nombre de una agrupación compañera, y
+   ni «Legardon» ni «Frente Malvinas Argentinas» aparecían en ninguna otra parte
+   de la app, así que no había con qué contrastarlo.
 2. ~~**Los turnos de examen.**~~ ✅ **Corregido el 6/9: son nueve, faltaba
    noviembre.** La entrada dice ahora «febrero, marzo, mayo, julio, agosto,
    septiembre, octubre, noviembre y diciembre», y lo dice con el número
@@ -500,15 +566,54 @@ pantalla propia en pestaña nueva rompe el botón de volver.
 | Qué | Para cuándo |
 |---|---|
 | ~~Correr `tabla-registro.sql` de nuevo~~ | ✅ hecho. Verificado el 5/9 contra la base: entran los cuatro hitos (9 anotados) |
-| **Etiquetar los links de Instagram** con `?de=`: `bolivar-con-vos.vercel.app/?de=historia-carreras`. Un nombre distinto por publicación, en minúscula y con guiones. Sin etiqueta la visita se cuenta igual, pero no se sabe de dónde vino | antes del 21 |
+| **Etiquetar los links de Instagram** con `?de=`. Ver «Las etiquetas de campaña» abajo: no hay nada que generar, el link se escribe a mano | antes del 21 |
 | Mirar la solapa **Registro** y el campo **«¿Alimenta la alarma?»** en el panel | cuanto antes |
-| **La dirección de Aulas Web.** Va en el índice del pie, junto a SIU Guaraní y la Facultad, pero no está escrita en ninguna parte de la app y desde acá no contesta. No se puso ninguna de memoria: una dirección mal copiada en el pie se publica en las doce pantallas de una | cuando la tengas |
+| ~~La dirección de Aulas Web~~ | ✅ **entregada el 13/9 y publicada:** `https://aulaswebgrado.ead.unlp.edu.ar/`. Está en el índice del pie de las doce pantallas. Los sistemas ahora son cuatro y el orden no es alfabético: primero los dos donde se entra con usuario y contraseña —SIU y Aulas Web—, después las dos instituciones |
 | ~~Prender *Leaked password protection*~~ | ❌ **No se puede: es de plan Pro.** Cerrado el 5/9. **NO apagar el alta de cuentas**: el registro de estudiantes es a propósito, ya está hecho en `mi/`, y es lo que va a permitir personalizar la app |
 | ~~Confirmar el mail con tildes de «Promoción y prevención en audiología»~~ | ✅ confirmado el 5/9: era un error de tipeo. Ya publicado sin tildes. **Falta escribirle una vez** para saber si la casilla existe |
 | ~~Los mails de las cátedras~~ | ✅ entregados el 4/9 |
 | ~~Los tres PDFs del plan de estudios~~ | ✅ entregados el 4/9, y **decidido el 6/9: no se publican.** El plan se muestra como página —ya existía— y ahora además se imprime. Los archivos quedan afuera del repositorio |
 | ~~Los PDFs de los materiales de estudio~~ | ✅ entregados el 5/9, seis días antes. Ya publicados en `estudiemos/tripticos/` |
-| ~~Tres contactos por carrera para Avisanos~~ | ✅ **entregados el 6/9, diez días antes.** Ya cargados y andando: Trabajo Social 4 (con Maxi), Tecnicatura 2, Fonoaudiología 2. **Falta uno de cada una de esas dos** para llegar a tres, pero con dos ya funciona |
+| ~~Tres contactos por carrera para Avisanos~~ | ✅ **cerrado el 13/9: quedan en dos y está bien.** Trabajo Social 4 (con Maxi), Tecnicatura 2, Fonoaudiología 2. **No hay más gente disponible**, y los que faltan se incorporan a fin de año, de cara al ingreso 2027. Con dos por carrera funciona: no es una tarea pendiente del 21 |
+
+### Las etiquetas de campaña (13/9)
+
+El 13/9 quedó claro que esto se había entendido como una herramienta que
+faltaba construir. **No hay nada que generar.** La etiqueta es texto que se
+escribe al final de la dirección, a mano, en el momento de programar la
+publicación:
+
+```
+https://bolivar-con-vos.vercel.app/?de=dia-del-estudiante
+```
+
+Eso es todo. `?de=` y un nombre. La app lo lee en `deDondeVino()` de `app.js`,
+lo guarda con la visita y aparece en la solapa **Registro** del panel.
+
+**Tres reglas y una trampa:**
+
+- **Solo minúsculas, números y guiones.** El código limpia todo lo demás y
+  recorta a 40 caracteres. `?de=promoción` se guarda como `promocin`: los
+  acentos y los espacios **desaparecen sin avisar**. Nunca una tilde, nunca
+  una ñ, nunca un espacio.
+- **Un nombre distinto por publicación.** Si dos posteos llevan la misma
+  etiqueta, se suman y no se sabe cuál funcionó. Si dos llevan la misma a
+  propósito —una historia y el posteo del mismo tema—, que sea porque querés
+  medirlos juntos.
+- **La etiqueta va después del `?` y antes del `#`.** Sirve en cualquier
+  pantalla, no solo en la portada, y conviene: el link de cada publicación
+  tiene que caer **donde está la cosa de la que habla**, no siempre en el
+  inicio. La forma es
+  `https://bolivar-con-vos.vercel.app/glosario/?de=que-es-una-promocion#promocion`.
+- **La trampa:** sin etiqueta **la visita se cuenta igual**. O sea que el
+  registro no va a mostrar un hueco ni un error: va a mostrar visitas sin
+  origen, y eso se ve recién cuando lo mirás. Un link sin etiquetar no falla,
+  solo no informa.
+
+**Lo que falta es la lista de publicaciones de la campaña**, que no está
+escrita en ningún archivo de este repositorio. Cuando esté, se escribe una
+etiqueta por publicación y se pegan los links armados. Eso no es trabajo de
+código: se puede hacer el 18, el 19 o el 20.
 
 ## Cómo se trabaja
 

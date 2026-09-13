@@ -780,11 +780,18 @@ const INDICE_PIE = SECCIONES.concat([
    por eso van aparte, con la flecha que avisa que se sale, y con el
    aviso escrito para quien navega escuchando.
 
-   Las tres direcciones son las que la app ya usa en otras pantallas.
-   NO agregar ninguna de memoria: una dirección mal copiada acá se
-   publica en las doce pantallas de una. */
+   Las cuatro direcciones son las que la app ya usa en otras pantallas,
+   salvo Aulas Web, que la pasó Máximo el 13/9 —no estaba escrita en
+   ninguna parte y desde acá no se podía adivinar—. NO agregar ninguna
+   de memoria: una dirección mal copiada acá se publica en las doce
+   pantallas de una.
+
+   El orden no es alfabético: primero los dos sistemas donde el
+   estudiante entra con usuario y contraseña, después las dos
+   instituciones. */
 const SISTEMAS_UNLP = [
   { texto:'SIU Guaraní',            url:'https://www.guarani-trabajosocial.unlp.edu.ar/acceso' },
+  { texto:'Aulas Web',              url:'https://aulaswebgrado.ead.unlp.edu.ar/' },
   { texto:'Facultad de Trabajo Social', url:'https://trabajosocial.unlp.edu.ar/' },
   { texto:'Universidad Nacional de La Plata', url:'https://unlp.edu.ar/' }
 ];
