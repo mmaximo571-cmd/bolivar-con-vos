@@ -76,12 +76,32 @@
   font-size:var(--letra-chica);color:var(--texto-suave)
 }
 .fono-leyenda svg{width:18px;height:18px;vertical-align:-4px;margin-right:4px}
-.fono-ptp{
-  display:flex;gap:10px;margin:0 0 14px;flex-wrap:wrap;
-  font-family:var(--fuente-datos);font-size:var(--letra-chica)
+/* Los filtros del gráfico (13/9, del diseño de Claude Design). Con
+   cuarenta símbolos encimados, un principiante no distingue qué curva es
+   de qué oído. Aislar uno, o sacar la ósea de la vista, es la forma más
+   barata de que el gráfico se lea. NO cambia ningún dato: cambia qué se
+   dibuja. */
+.fono-filtros{display:flex;flex-wrap:wrap;gap:6px;margin:0 0 8px}
+
+/* El PTP en grande. Es el número del que sale el grado, así que se lee
+   antes que la tabla y no como una pastilla más. */
+.fono-ptp{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:0 0 14px}
+.fono-ptp div{
+  background:var(--superficie);border:1.5px solid var(--tinta-borde);
+  border-radius:var(--radio);box-shadow:var(--sombra);padding:11px 13px
 }
-.fono-ptp span{border:1px solid var(--linea);border-radius:var(--radio-pastilla);padding:5px 10px}
-.fono-ptp b.der{color:var(--oido-der)} .fono-ptp b.izq{color:var(--oido-izq)}
+.fono-ptp .fono-rotulo{margin:0 0 2px}
+.fono-ptp .fono-cifra{
+  font-family:var(--fuente-datos);font-weight:700;font-size:var(--letra-sub);
+  line-height:1.1;display:block
+}
+.fono-ptp .fono-cifra small{font-size:var(--letra-chica);font-weight:500}
+.fono-ptp .der .fono-cifra{color:var(--oido-der)}
+.fono-ptp .izq .fono-cifra{color:var(--oido-izq)}
+.fono-ptp .fono-osea-media{
+  display:block;margin-top:5px;font-size:var(--letra-mini);color:var(--texto-suave);
+  font-family:var(--fuente-datos);line-height:1.4
+}
 
 .fono-valores{margin:0 0 20px;font-size:var(--letra-chica)}
 .fono-valores summary{cursor:pointer;font-family:var(--fuente-sub);font-weight:700;padding:8px 0;min-height:24px}
@@ -90,17 +110,34 @@
 .fono-tabla th,.fono-tabla td{border:1px solid var(--linea);padding:5px 7px;text-align:center;white-space:nowrap}
 .fono-tabla th[scope="row"]{text-align:left}
 
-.fono-oido{border:0;margin:0 0 14px;padding:0}
-.fono-oido legend{
-  font-family:var(--fuente-titulo);font-size:var(--letra-base);padding:0;margin:0 0 8px
+/* Cada oído, una tarjeta con su canto de color (13/9). Antes eran cuatro
+   filas de botones seguidas y se sentía un formulario: no se veía dónde
+   terminaba un oído y empezaba el otro. El canto lleva el color del oído,
+   que acá SÍ puede ser color solo: no distingue un dato, agrupa una
+   tarjeta que además está rotulada con todas las letras. */
+.fono-oido{
+  border:1.5px solid var(--tinta-borde);border-left:5px solid var(--texto);
+  border-radius:var(--radio);background:var(--superficie);box-shadow:var(--sombra);
+  margin:0 0 14px;padding:13px 15px
 }
-.fono-oido legend .der, .fono-oido legend .izq{font-size:var(--letra-chica);margin-left:6px}
+.fono-oido.der{border-left-color:var(--oido-der)}
+.fono-oido.izq{border-left-color:var(--oido-izq)}
+.fono-oido legend{
+  font-family:var(--fuente-titulo);font-size:var(--letra-base);padding:0;margin:0
+}
+.fono-simbolos{
+  display:block;font-family:var(--fuente-datos);font-size:var(--letra-mini);
+  letter-spacing:.06em;text-transform:uppercase;color:var(--texto-suave);margin:3px 0 0
+}
 .fono-rotulo{
   display:block;font-family:var(--fuente-datos);font-size:var(--letra-mini);font-weight:700;
-  letter-spacing:.1em;text-transform:uppercase;color:var(--texto-suave);margin:6px 0 6px
+  letter-spacing:.1em;text-transform:uppercase;color:var(--texto-suave);margin:10px 0 6px
 }
-.fono-opciones{display:flex;flex-wrap:wrap;gap:6px}
-.fono-opciones .chip{min-height:40px;cursor:pointer}
+/* Dos columnas: las cuatro opciones de tipo entran en dos renglones
+   parejos y se barren de un vistazo, en vez de acomodarse solas según
+   cuánto mida cada palabra. */
+.fono-opciones{display:grid;grid-template-columns:1fr 1fr;gap:6px}
+.fono-opciones .chip{min-height:44px;cursor:pointer;justify-content:center}
 .fono-opciones .chip[disabled]{opacity:.4;cursor:not-allowed}
 
 .fono-falta{font-size:var(--letra-nota);color:var(--texto-suave);margin:4px 0 10px;min-height:1.5em}
@@ -257,9 +294,14 @@
 
   const FRECS      = [125, 250, 500, 1000, 2000, 4000, 8000];
   const FRECS_OSEA = [250, 500, 1000, 2000, 4000];
+  /* `enPalabras` está escrito y no dibujado a propósito: el color y el
+     símbolo son la convención, pero quien no distingue rojo de azul
+     —o quien navega escuchando— necesita que diga cuál es cuál. */
   const OIDOS = [
-    { k:'od', nombre:'Oído derecho',   clase:'der', simbolo:'○ y <' },
-    { k:'oi', nombre:'Oído izquierdo', clase:'izq', simbolo:'✕ y >' }
+    { k:'od', nombre:'Oído derecho',   clase:'der', simbolo:'○ y <',
+      enPalabras:'Círculo y signo menor que · rojo' },
+    { k:'oi', nombre:'Oído izquierdo', clase:'izq', simbolo:'✕ y >',
+      enPalabras:'Cruz y signo mayor que · azul' }
   ];
   const TIPOS = ['normal', 'conductiva', 'neurosensorial', 'mixta'];
   const NOMBRE_TIPO = { normal:'Normal', conductiva:'Conductiva',
@@ -346,6 +388,9 @@
     /* El izquierdo primero, así el derecho queda encima si coinciden */
     [c.oi, c.od].forEach((o, k) => {
       const der = k === 1, clase = der ? 'der' : 'izq';
+      /* Los filtros no borran datos: deciden qué se dibuja. La tabla de
+         abajo sigue teniendo los cuatro trazados siempre. */
+      if (verOido !== 'ambos' && verOido !== (der ? 'od' : 'oi')) return;
       const puntos = o.aerea.map((db, i) => X(i) + ',' + Y(db)).join(' ');
       s += `<polyline class="fono-linea ${clase}" points="${puntos}"/>`;
       o.aerea.forEach((db, i) => {
@@ -354,6 +399,7 @@
           ? `<circle class="fono-simbolo ${clase}" cx="${x}" cy="${y}" r="5.5"/>`
           : `<path class="fono-osea ${clase}" d="M${x - 5} ${y - 5}L${x + 5} ${y + 5}M${x + 5} ${y - 5}L${x - 5} ${y + 5}"/>`;
       });
+      if (!verOsea) return;
       o.osea.forEach((db, j) => {
         const x = X(j + 1), y = Y(db);
         s += der
@@ -424,6 +470,11 @@
   let actual = 0;
   let resp = null;
   let corregido = false;
+  /* Qué se dibuja. Arranca con todo a la vista: el ejercicio es leer el
+     audiograma entero, y los filtros son la ayuda para cuando no se
+     entiende, no el punto de partida. */
+  let verOido = 'ambos';
+  let verOsea = true;
 
   function nuevaRespuesta(){
     resp = { od:{ tipo:null, grado:null }, oi:{ tipo:null, grado:null } };
@@ -460,19 +511,40 @@
       </section>
 
       ${LEYENDA}
+      <p class="fono-falta">La vía ósea se mide sólo entre 250 y 4000 Hz: en
+        125 y en 8000 no hay símbolo porque no se mide, no porque falte el dato.</p>
+
+      <div class="fono-filtros" role="group" aria-label="Qué se ve en el gráfico">
+        ${[['ambos','Los dos oídos'],['od','Sólo derecho'],['oi','Sólo izquierdo']]
+          .map(([v, t]) => `<button type="button" class="chip" data-ver="${v}"
+            aria-pressed="${verOido === v ? 'true' : 'false'}">${t}</button>`).join('')}
+        <button type="button" class="chip" data-osea="1" aria-pressed="${verOsea ? 'true' : 'false'}">
+          Vía ósea: ${verOsea ? 'a la vista' : 'oculta'}</button>
+      </div>
+
       <div class="fono-grafico">${svgAudiograma(c, n)}</div>
-      <p class="fono-ptp">
-        <span>PTP <b class="der">derecho</b> ${coma(ptp(c.od))} dB HL</span>
-        <span>PTP <b class="izq">izquierdo</b> ${coma(ptp(c.oi))} dB HL</span>
-      </p>
+
+      <div class="fono-ptp">
+        ${OIDOS.map(o => `
+          <div class="${o.clase}">
+            <span class="fono-rotulo">PTP ${o.nombre.toLowerCase()}</span>
+            <span class="fono-cifra">${coma(ptp(c[o.k]))} <small>dB HL</small></span>
+            <span class="fono-osea-media">Vía ósea, mismo promedio:
+              ${coma(oseaMedia(c[o.k]))} dB HL</span>
+          </div>`).join('')}
+      </div>
+      <p class="fono-falta">El PTP es el promedio de 500, 1000 y 2000 Hz, y es
+        de donde sale el grado.</p>
       ${tablaValores(c)}
 
       ${enRevision ? revision(c) : ''}
 
       <div class="titulo-seccion">TU DIAGNÓSTICO</div>
       ${OIDOS.map(o => `
-        <fieldset class="fono-oido">
-          <legend>${o.nombre} <span class="${o.clase}" aria-hidden="true">${o.simbolo}</span></legend>
+        <fieldset class="fono-oido ${o.clase}">
+          <legend>${o.nombre}</legend>
+          <span class="fono-simbolos">${o.enPalabras}
+            <span class="${o.clase}" aria-hidden="true">${o.simbolo}</span></span>
           <span class="fono-rotulo" id="fono-${o.k}-tipo">Tipo</span>
           <div class="fono-opciones" role="group" aria-labelledby="fono-${o.k}-tipo">
             ${TIPOS.map(t => `<button type="button" class="chip" data-oido="${o.k}" data-campo="tipo"
@@ -564,6 +636,19 @@
       pintar();
       const elegido = app.querySelector('[data-caso][aria-pressed="true"]');
       if (elegido) elegido.focus();
+      return;
+    }
+
+    /* Los filtros del gráfico. No tocan la respuesta ni la devolución:
+       solo cambian qué se dibuja, así que se repinta y se devuelve el
+       foco al mismo botón para no perder a quien navega con teclado. */
+    const ver = e.target.closest('[data-ver]');
+    const osea = e.target.closest('[data-osea]');
+    if (ver || osea){
+      if (ver) verOido = ver.dataset.ver; else verOsea = !verOsea;
+      pintar();
+      const vuelve = app.querySelector(ver ? `[data-ver="${verOido}"]` : '[data-osea]');
+      if (vuelve) vuelve.focus();
       return;
     }
 
