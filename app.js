@@ -813,6 +813,9 @@ const SECCIONES = [
   { id:'carrera',    texto:'Mi año',          icono:'🎓', url:RAIZ+'carrera/' },
   { id:'estudiemos', texto:'Estudiemos',      icono:'📚', url:RAIZ+'estudiemos/' },
   { id:'agenda',     texto:'Fechas',          icono:'📅', url:RAIZ+'agenda/' },
+  /* De las tres carreras: el buffet y la fotocopiadora. Va en el ☰ y en
+     el pie, no en la barra de abajo, que sigue con cuatro. */
+  { id:'espacios',   texto:'Espacios autogestivos', icono:'🤝', url:RAIZ+'espacios/' },
   { id:'mi',         texto:'Perfil',          icono:'👤', url:RAIZ+'mi/' },
   { id:'quienes',    texto:'¿Quiénes somos?', icono:'✊', url:RAIZ+'quienes/' }
 ];

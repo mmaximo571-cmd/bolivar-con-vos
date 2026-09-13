@@ -203,7 +203,10 @@
    animaciones. El hover de las herramientas pasa a ser solo con mouse,
    las entradas se acortan y el encendido de palabras parte de 0,45. Sin
    subir el número, en el celular la tarjeta sigue quedando levantada. */
-const VERSION = 'bolivar-v41';
+/* v42 (13/9/2026) `app.js` y `estilos.css`: existe `espacios/` (buffet y
+   fotocopiadora). La puerta del ☰ y del pie vive en `app.js` y las
+   tarjetas usan clases de la hoja: es el caso del v34. */
+const VERSION = 'bolivar-v42';
 const ARMAZON = VERSION + '-armazon';
 const PAGINAS = VERSION + '-paginas';
 

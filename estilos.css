@@ -3063,6 +3063,30 @@ details.tarjeta .respuesta{margin-top:9px;color:var(--texto-suave);font-size:var
   .glosario-ir a:hover{opacity:.75}
 }
 
+/* ---- Espacios autogestivos ----
+   Misma tarjeta `.modulo` del glosario. El ícono va al lado del nombre
+   y los botones abajo, en fila, que se apilan si no entran. */
+.espacio .modulo-cabeza{align-items:center;flex-wrap:nowrap}
+.espacio h3{flex:1 1 auto}
+.espacio-icono{font-size:28px;line-height:1;flex:0 0 auto}
+.espacio-horario{
+  font-family:var(--fuente-datos);font-size:var(--letra-chica);
+  color:var(--texto-suave);margin:4px 0 10px;
+  /* El horario baja entero debajo del «abierto», nunca partido en «8 / a 20». */
+  display:flex;flex-wrap:wrap;align-items:center;gap:6px 8px
+}
+.espacio-horario > span:last-child{white-space:nowrap}
+.espacio-estado{
+  display:inline-block;font-family:var(--fuente-sub);font-weight:700;
+  text-transform:uppercase;letter-spacing:.05em;
+  padding:2px 8px;border-radius:var(--radio-pastilla);
+  border:1.5px solid var(--linea);color:var(--texto)
+}
+.espacio-estado.abierto{background:var(--amarillo);border-color:var(--amarillo);color:var(--sobre-color)}
+.espacio-telefono{font-family:var(--fuente-datos);font-weight:700;margin:10px 0 0}
+.espacio-acciones{display:flex;flex-wrap:wrap;gap:10px;margin-top:14px}
+.espacio-acciones .boton{min-height:44px}
+
 /* ============================================================
    EL TRAYECTO OPTATIVO
 

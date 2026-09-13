@@ -1,0 +1,149 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Espacios autogestivos · La Bolívar con vos</title>
+<meta name="description" content="El buffet y la fotocopiadora de la Facultad de Trabajo Social: horarios, la app del buffet y el WhatsApp de la fotocopiadora.">
+<meta name="theme-color" content="#F9E830">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Montserrat:wght@600;700;800&family=Roboto:wght@400;500;700&family=Roboto+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<!-- Iconos de la app: pestana, Google, y pantalla de inicio del celular -->
+<link rel="icon" type="image/png" sizes="32x32" href="../imagenes/icono-32.png">
+<link rel="icon" type="image/png" sizes="96x96" href="../imagenes/icono-96.png">
+<link rel="icon" type="image/png" sizes="192x192" href="../imagenes/icono-192.png">
+<link rel="apple-touch-icon" href="../imagenes/icono-apple.png">
+<link rel="manifest" href="../manifest.json">
+
+<!-- Como se ve cuando alguien comparte el link por WhatsApp o Instagram -->
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="La Bolivar con vos">
+<meta property="og:title" content="Espacios autogestivos · La Bolívar con vos">
+<meta property="og:description" content="El buffet y la fotocopiadora de la facu: horarios y cómo contactarlos.">
+<meta property="og:image" content="https://bolivar-con-vos.vercel.app/imagenes/compartir.png">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="stylesheet" href="../estilos.css">
+<!-- EL TEMA, ANTES DE DIBUJAR NADA. Mismo motivo que en el glosario. -->
+<script>
+(function(){try{
+  var g = localStorage.getItem('bolivar-tema') || 'auto';
+  var oscuro = g === 'oscuro' || (g === 'auto' &&
+    window.matchMedia('(prefers-color-scheme: dark)').matches);
+  document.documentElement.dataset.tema = oscuro ? 'oscuro' : 'claro';
+}catch(e){ document.documentElement.dataset.tema = 'claro'; }})();
+</script>
+</head>
+<body class="lectura sin-js">
+
+<div id="cabecera"></div>
+
+<!-- ============================================================
+     ESPACIOS AUTOGESTIVOS
+
+     Es de las tres carreras: el buffet y la fotocopiadora son de toda
+     la facultad, así que esta pantalla no mira la carrera elegida.
+
+     ESCRITO EN EL HTML Y NO EN SUPABASE, como el glosario: son dos
+     espacios, un horario y un teléfono. Así se lee sin señal, que es
+     justo cuando alguien está en el pasillo buscando el número.
+
+     LAS DIRECCIONES LAS PASÓ MÁXIMO EL 13/9/2026: la app del buffet y el
+     celular de la fotocopiadora. No cambiarlas de memoria. Si cambia el
+     número, se cambia acá en los dos enlaces (WhatsApp y llamar).
+     ============================================================ -->
+<main id="contenido" tabindex="-1">
+
+  <div class="banda tinta">
+    <div class="envoltura">
+      <p class="ceja-lectura aparece">Las tres carreras</p>
+      <h1 class="grito aparece">Espacios<br><em>autogestivos</em></h1>
+      <p class="bajada-lectura aparece">
+        El buffet y la fotocopiadora los sostenemos les estudiantes. Abren
+        de <strong>lunes a viernes de 8 a 20</strong>.
+      </p>
+    </div>
+  </div>
+
+  <div class="banda papel">
+    <div class="envoltura">
+
+      <article class="modulo espacio aparece" id="buffet">
+        <div class="modulo-cabeza">
+          <span class="espacio-icono" aria-hidden="true">☕</span>
+          <h3>Buffet</h3>
+        </div>
+        <p class="espacio-horario" data-horario><span>Lunes a viernes · 8 a 20 h</span></p>
+        <p>
+          Comida y café a precios accesibles. Tiene su propia app: ahí mirás
+          qué hay y hacés tu pedido.
+        </p>
+        <div class="espacio-acciones">
+          <a class="boton" href="https://buffet-cefts.vercel.app/"
+             target="_blank" rel="noopener">Abrir la app del buffet ↗
+            <span class="solo-lectores">(se abre en otra pestaña)</span></a>
+        </div>
+      </article>
+
+      <article class="modulo espacio aparece" id="fotocopiadora">
+        <div class="modulo-cabeza">
+          <span class="espacio-icono" aria-hidden="true">🖨️</span>
+          <h3>Fotocopiadora FTS</h3>
+        </div>
+        <p class="espacio-horario" data-horario><span>Lunes a viernes · 8 a 20 h</span></p>
+        <p>
+          Apuntes a precio de costo e impresiones. Escribiles antes y te lo
+          dejan listo.
+        </p>
+        <p class="espacio-telefono">+54 9 221 202-7248</p>
+        <div class="espacio-acciones">
+          <a class="boton" href="https://wa.me/5492212027248"
+             target="_blank" rel="noopener">Escribir por WhatsApp</a>
+          <a class="boton borde" href="tel:+5492212027248">Llamar</a>
+        </div>
+      </article>
+
+    </div>
+  </div>
+
+</main>
+
+<div id="pie"></div>
+
+<script>window.RAIZ = '../';</script>
+<script src="../lib/datos.js"></script>
+<script src="../config.js"></script>
+<script src="../iconos.js"></script>
+<script src="../app.js"></script>
+<script src="../lectura.js"></script>
+<script>
+(function espacios(){
+  document.getElementById('cabecera').innerHTML = htmlCabecera();
+  document.getElementById('pie').innerHTML = htmlPie();
+  pintarNav('espacios');
+  document.body.classList.remove('sin-js');
+  vigilarAparicion();
+
+  /* ¿ESTÁ ABIERTO AHORA? Se calcula con la hora de Argentina y no con la
+     del teléfono: quien lo abre de viaje o con la hora mal puesta igual
+     tiene que ver la de la facultad. No sabe de feriados ni de receso;
+     por eso dice «abierto ahora» solo como pista, y el horario completo
+     sigue escrito al lado. Si esto fallara, queda el texto del HTML. */
+  try {
+    const partes = new Intl.DateTimeFormat('es-AR', {
+      timeZone:'America/Argentina/Buenos_Aires', weekday:'short',
+      hour:'numeric', hour12:false }).formatToParts(new Date());
+    const dia = partes.find(p => p.type === 'weekday').value.toLowerCase();
+    const hora = parseInt(partes.find(p => p.type === 'hour').value, 10);
+    const habil = !/^(sáb|sab|dom)/.test(dia);
+    const abierto = habil && hora >= 8 && hora < 20;
+    document.querySelectorAll('[data-horario]').forEach(el => {
+      el.insertAdjacentHTML('afterbegin', abierto
+        ? '<span class="espacio-estado abierto">Abierto ahora</span> '
+        : '<span class="espacio-estado">Cerrado ahora</span> ');
+    });
+  } catch(e){}
+})();
+</script>
+</body>
+</html>
