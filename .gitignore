@@ -27,6 +27,14 @@ $RECYCLE.BIN/
 *.tmp
 *.crdownload
 
+# graphify: rutas de esta maquina, cache y copias de respaldo locales.
+# El grafo en si (graph.json, GRAPH_REPORT.md, graph.html) si se sube.
+graphify-out/.graphify_python
+graphify-out/.graphify_root
+graphify-out/*.sig
+graphify-out/cache/
+graphify-out/20*/
+
 # Cosas de Claude Code: la configuracion del servidor de prueba lleva
 # rutas de esta maquina, no sirven en otra.
 .claude/

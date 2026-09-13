@@ -20,6 +20,8 @@ Reglas:
   y solo la parte que indica `source_location`.
 - Después de cambiar código, `graphify update .` (solo AST, no gasta
   tokens). Si cambian documentos o pantallas a fondo, `/graphify --update`.
+  Ojo: `update` rebautiza los grupos con el nombre de su nodo central; a
+  las consultas no les afecta, así que no hace falta re-etiquetarlos.
 - El grafo sabe poco de lo que está al final de `BITACORA.md` y `LEEME.md`:
   si la pregunta es sobre una decisión vieja y el grafo no la trae, buscar
   con Grep en esos archivos, nunca leerlos enteros.
