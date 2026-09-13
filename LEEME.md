@@ -245,6 +245,38 @@ que carga la trayectoria.
 
 Quien ya cargó algo **no ve la pregunta**: sigue viendo su barra.
 
+### La carrera, para toda la app (13/9)
+
+La carrera ya no se elige solo en la portada y en «Mi año». Las tres carreras,
+la llave y la forma de escribirla viven ahora en `app.js` (`CARRERAS_APP`,
+`carreraActual`, `carreraElegidaApp`, `anotarCarreraApp`), y se elige en:
+
+- **El menú ☰ de todas las pantallas**, en «Elegí tu carrera».
+- **Una fila de tres botones en el inicio**, arriba de «A dónde ir». Solo aparece
+  cuando la persona ya eligió: mientras no, la pregunta de arriba es la que elige.
+- **La pregunta del inicio** y **el chat de Avisanos**. El chat tampoco vuelve a
+  preguntar si la carrera ya está elegida.
+
+Quien no contestó ve **Trabajo Social** y el inicio le sigue preguntando.
+
+Al cambiar la carrera sale el aviso `bolivar:carrera` y se acomodan solas:
+
+| Pantalla | Qué cambia |
+|---|---|
+| Inicio | Los **tres primeros accesos** (`herramientasDe` en `index.html`) y la barra de progreso, que no se muestra si el resumen es de otra carrera |
+| Mi año | El plan entero, igual que con sus propios botones |
+| Cátedras | La lista (sus botones siguen sirviendo para mirar otra carrera sin cambiar la tuya) |
+| Estudiemos | **Primero el material de tu carrera** y abajo «De otras carreras» |
+| Fichas | El grupo de tu carrera va primero |
+
+Los accesos por carrera hoy son: TS → Trayecto optativo y Cátedras; Fono →
+Anatomofisiología y Fichas; Gestión del Riesgo → Cátedras y Estudiemos, **hasta que
+tenga herramientas propias**. Para sumarlas se toca solo `herramientasDe`.
+
+Estudiemos reconoce la carrera buscando el nombre de la materia en los tres
+planes, con el nombre igual. Lo que no encuentra se queda arriba: no se esconde
+lo que no se reconoce.
+
 ---
 
 ## Las cuatro reglas del sistema

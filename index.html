@@ -211,7 +211,10 @@ setTimeout(function(){
 <div class="zona-fondo" id="zona-fondo">
   <div class="envoltura">
 
-    <!-- Los nueve accesos.
+    <!-- Los nueve accesos. Los tres primeros dependen de la carrera
+         (HERRAMIENTAS_CARRERA, en el guion) y los pinta el guion apenas
+         arranca; «Mi año» queda escrito porque es el primero en las tres.
+         Lo que sigue es la historia de por qué no son esqueleto:
          LOS DOS PRIMEROS VAN ESCRITOS, NO COMO ESQUELETO. «Mi año» y
          «Estudiemos» están puestos a mano en el guion de más abajo: no
          salen de ninguna consulta y no hay absolutamente nada que
@@ -223,12 +226,20 @@ setTimeout(function(){
          rejilla entera con estos dos primeros en el mismo lugar.
          Los otros siete sí dependen de qué categorías tengan contenido,
          así que esos sí son esqueleto. -->
+    <!-- LA CARRERA, EN UNA FILA. Solo aparece cuando la persona ya
+         eligió: mientras no, la pregunta de arriba es la que elige, y
+         dos lugares preguntando lo mismo es ruido. Cambiarla acá cambia
+         los tres primeros accesos de abajo. -->
+    <div class="fila-carrera" id="fila-carrera" hidden>
+      <span class="fila-carrera-rotulo" id="fila-carrera-rotulo">Carrera</span>
+      <div class="carrera-chips" role="group" aria-labelledby="fila-carrera-rotulo"></div>
+    </div>
+
     <div class="titulo-seccion">A DÓNDE IR</div>
     <div class="rejilla-3x3" id="accesos">
       <a class="boton-cuadro destacado" href="carrera/">
         <span class="icono">🎓</span><span class="nombre">Mi año</span></a>
-      <a class="boton-cuadro" href="estudiemos/">
-        <span class="icono">📚</span><span class="nombre">Estudiemos</span></a>
+      <div class="esq-cuadro"></div>
       <div class="esq-cuadro"></div><div class="esq-cuadro"></div>
       <div class="esq-cuadro"></div><div class="esq-cuadro"></div>
       <div class="esq-cuadro"></div><div class="esq-cuadro"></div>
@@ -885,41 +896,15 @@ setTimeout(function(){
      que usa «Mi año», así que al entrar no se le vuelve a preguntar la
      carrera y cae derecho en el diálogo que carga la trayectoria.
      ============================================================ */
-  /* Las tres carreras, escritas acá y no leídas de los planes: los
-     planes son materias y correlativas, decenas de kilobytes que la
-     portada no necesita para preguntar un nombre. Si alguna vez hay
-     una cuarta, se agrega en los dos lugares —acá y en carrera/. */
-  const CARRERAS_PORTADA = [
-    { id:'ts',   corto:'Trabajo Social',
-      largo:'Licenciatura en Trabajo Social' },
-    { id:'tgcr', corto:'Gestión del Riesgo',
-      largo:'Tecnicatura en Gestión Comunitaria del Riesgo' },
-    { id:'fono', corto:'Fonoaudiología',
-      largo:'Licenciatura en Fonoaudiología' }
-  ];
-  const LLAVE_CARRERA = 'bolivar-carrera-v2';
-
-  function carreraElegida(){
-    let g = null;
-    try { g = JSON.parse(localStorage.getItem(LLAVE_CARRERA)); } catch(e){}
-    if (!g || !g.eligioCarrera) return null;
-    return CARRERAS_PORTADA.filter(c => c.id === g.carrera)[0] || null;
-  }
-
-  /* Se escribe SIN pisar el resto: en esa llave vive todo lo que la
-     persona marcó en las tres carreras, y la portada solo tiene
-     opinión sobre dos campos. `id` en null es «me equivoqué de
-     botón»: vuelve a la pregunta. */
-  function anotarCarrera(id){
-    let g = null;
-    try { g = JSON.parse(localStorage.getItem(LLAVE_CARRERA)); } catch(e){}
-    if (!g || typeof g !== 'object') g = {};
-    if (id) g.carrera = id;
-    g.eligioCarrera = !!id;
-    /* Modo incógnito o memoria llena: la pregunta se contesta igual,
-       lo único que se pierde es que la app se acuerde. */
-    try { localStorage.setItem(LLAVE_CARRERA, JSON.stringify(g)); } catch(e){}
-  }
+  /* Las tres carreras, la llave y cómo se escribe viven en app.js
+     (CARRERAS_APP), porque desde el 13/9 la carrera se elige también
+     en el menú de todas las pantallas. Siguen sin leerse de los
+     planes: son decenas de kilobytes que la portada no necesita. */
+  const CARRERAS_PORTADA = CARRERAS_APP;
+  const carreraElegida = carreraElegidaApp;
+  /* Anota y avisa: el aviso `bolivar:carrera` es el que repinta la
+     pregunta, la fila de chips y los accesos (más abajo). */
+  const anotarCarrera = anotarCarreraApp;
 
   function dibujarPregunta(caja){
     const c = carreraElegida();
@@ -969,33 +954,41 @@ setTimeout(function(){
      El organizador deja un resumen en el teléfono. Acá lo usamos para
      que el inicio sepa quién es cada quien, en vez de mostrarle lo
      mismo a un ingresante y a alguien de quinto. */
-  (function pintarMiCursada(){
+  /* Un solo oyente para los dos pasos y para siempre: lo que se
+     reemplaza es el contenido de la caja, no la caja. Anotar ya
+     repinta (por el aviso `bolivar:carrera`), así que acá solo queda
+     llevar el foco. El hito «eligió carrera» lo anota app.js. */
+  document.getElementById('mi-cursada').addEventListener('click', e => {
+    const caja = e.currentTarget;
+    const opcion = e.target.closest('[data-carrera]');
+    if (opcion){
+      anotarCarrera(opcion.dataset.carrera);
+      seguirElFoco(caja);
+      return;
+    }
+    if (e.target.closest('[data-volver]')){
+      anotarCarrera(null);
+      seguirElFoco(caja);
+    }
+  });
+
+  function pintarMiCursada(){
     const caja = document.getElementById('mi-cursada');
     let r = null;
     try { r = JSON.parse(localStorage.getItem('bolivar-carrera-resumen')); } catch(e){}
 
-    if (!r || !r.total){
+    /* EL RESUMEN ES DE UNA CARRERA. «Mi año» lo deja de la última que
+       se miró; si la persona ahora eligió otra, mostrarle la barra de
+       aquella sería mostrarle el progreso equivocado. Los resúmenes
+       viejos no traen `id`, pero traen el nombre corto, que es el
+       mismo que CARRERAS_APP. */
+    const elegida = carreraElegida();
+    const idResumen = r && (r.id ||
+      (CARRERAS_PORTADA.filter(c => c.corto === r.carrera)[0] || {}).id);
+    const deOtra = elegida && idResumen && idResumen !== elegida.id;
+
+    if (!r || !r.total || deOtra){
       dibujarPregunta(caja);
-      /* Un solo oyente para los dos pasos: lo que se reemplaza es el
-         contenido de la caja, no la caja. */
-      caja.addEventListener('click', e => {
-        const opcion = e.target.closest('[data-carrera]');
-        if (opcion){
-          anotarCarrera(opcion.dataset.carrera);
-          /* El mismo hito que anota «Mi año» cuando la pregunta se
-             contestaba allá: es el mismo logro, contado una vez por
-             visita, y tiene que seguir siendo la misma fila. */
-          if (typeof anotarHito === 'function') anotarHito('eligió carrera');
-          dibujarPregunta(caja);
-          seguirElFoco(caja);
-          return;
-        }
-        if (e.target.closest('[data-volver]')){
-          anotarCarrera(null);
-          dibujarPregunta(caja);
-          seguirElFoco(caja);
-        }
-      });
       return;
     }
     /* La barra de progreso. Probamos reemplazarla por una casilla por
@@ -1018,7 +1011,8 @@ setTimeout(function(){
           <span>${pct}%</span>
         </div>
       </a>`;
-  })();
+  }
+  pintarMiCursada();
 
   /* ---------- Kit de ingreso ----------
      Las primeras cosas que necesita quien recién llega. Los enlaces
@@ -1458,22 +1452,45 @@ setTimeout(function(){
   /* Igual que el kit: se llama con lo guardado y otra vez con lo de la
      red. Los accesos son puertas, y una puerta vieja sigue abriendo
      donde abría. */
+  /* LOS TRES PRIMEROS SON DE LA CARRERA. «Mi año» va primero y
+     destacado en las tres; los otros dos son lo propio de cada una.
+     Gestión del Riesgo todavía no tiene herramientas propias y lleva
+     dos comunes: cuando se sumen, se cambian ACÁ y en ningún otro lado.
+     Estudiemos no se pierde en las otras dos: está en la barra de abajo.
+     Es una función y no un `const` suelto porque `pintarAccesos` se
+     llama ARRIBA de esta línea, con lo guardado: un `const` todavía no
+     leído ahí no es «vacío», es un error que corta el inicio entero. */
+  function herramientasDe(id){ return ({
+    ts: [
+      { ico:'inscripciones', emoji:'🧭', nombre:'Trayecto optativo', url:'trayecto/' },
+      { ico:'tramites',      emoji:'✉️', nombre:'Cátedras',          url:'catedras/' }
+    ],
+    fono: [
+      { ico:'plan',          emoji:'🧠', nombre:'Anatomofisiología', url:'anatomo/' },
+      { ico:'estudiemos',    emoji:'📐', nombre:'Fichas',            url:'estudiemos/fichas/' }
+    ],
+    tgcr: [
+      { ico:'tramites',      emoji:'✉️', nombre:'Cátedras',          url:'catedras/' },
+      { ico:'estudiemos',    emoji:'📚', nombre:'Estudiemos',        url:'estudiemos/' }
+    ]
+  })[id] || []; }
+
   function pintarAccesos(){
-    /* El organizador primero y destacado; después las categorías que
-       tengan algo adentro, hasta completar los nueve. */
+    /* El organizador primero y destacado; después lo de la carrera y
+       las categorías que tengan algo adentro, hasta completar los nueve. */
     const conContenido = categorias.filter(c =>
       tramites.some(t => t.categoria_id === c.id) ||
       preguntas.some(p => p.categoria_id === c.id));
+
+    const propias = herramientasDe(carreraActual().id).map(h => ({
+      dibujo: icono(h.ico) || h.emoji, nombre: h.nombre, url: h.url }));
 
     /* iconoDeCategoria devuelve el SVG si ya lo cargamos, y si no el
        emoji de la base. Así se pueden ir reemplazando de a uno. */
     const accesos = [{ dibujo: icono('carrera') || '🎓',
                        nombre:'Mi año',
-                       url:'carrera/', destacado:true },
-                     { dibujo: icono('estudiemos') || '📚',
-                       nombre:'Estudiemos',
-                       url:'estudiemos/' }].concat(
-      conContenido.slice(0, 7).map(c => ({
+                       url:'carrera/', destacado:true }].concat(propias,
+      conContenido.slice(0, 8 - propias.length).map(c => ({
         dibujo: iconoDeCategoria(c), nombre: c.nombre,
         url: 'tramites/?categoria=' + c.id
       })));
@@ -1485,6 +1502,36 @@ setTimeout(function(){
        </a>`).join('');
   }
   pintarAccesos();
+
+  /* ---------- La fila de la carrera ---------- */
+  function pintarFilaCarrera(){
+    const fila = document.getElementById('fila-carrera');
+    const elegida = carreraElegida();
+    fila.hidden = !elegida;
+    if (!elegida) return;
+    fila.querySelector('.carrera-chips').innerHTML = CARRERAS_PORTADA.map(c => `
+      <button type="button" class="carrera-chip" data-carrera-chip="${esc(c.id)}"
+              title="${esc(c.largo)}"
+              aria-pressed="${c.id === elegida.id ? 'true' : 'false'}">${esc(c.corto)}</button>`).join('');
+  }
+  pintarFilaCarrera();
+
+  document.getElementById('fila-carrera').addEventListener('click', e => {
+    const b = e.target.closest('[data-carrera-chip]');
+    if (!b) return;
+    anotarCarrera(b.dataset.carreraChip);
+    /* Los botones se redibujaron: el foco vuelve al que quedó elegido. */
+    const elegido = document.querySelector('[data-carrera-chip][aria-pressed="true"]');
+    if (elegido) elegido.focus();
+  });
+
+  /* Se elija donde se elija —la pregunta, la fila o el menú—, el
+     inicio entero se acomoda a la carrera nueva. */
+  document.addEventListener('bolivar:carrera', () => {
+    pintarMiCursada();
+    pintarFilaCarrera();
+    pintarAccesos();
+  });
 
   /* ---------- Novedades ---------- */
   (function pintarNovedades(){

@@ -132,6 +132,10 @@
 <script src="../config.js"></script>
 <script src="../iconos.js"></script>
 <script src="../app.js"></script>
+<!-- Los planes, solo para saber de qué carrera es cada materia -->
+<script src="../carrera/plan.js"></script>
+<script src="../carrera/plan-tgcr.js"></script>
+<script src="../carrera/plan-fono.js"></script>
 <script>
 (async function estudiemos(){
 
@@ -170,6 +174,35 @@
      lee: `pintar` corre antes que esa línea, y un `let` todavía sin
      ejecutar no es «undefined», es un error que corta la pantalla. */
   let enganchado = false;
+
+  /* ============================================================
+     PRIMERO LO DE TU CARRERA
+
+     `materiales` no tiene columna de carrera: tiene el nombre de la
+     materia escrito a mano. Se lo busca en los tres planes, con el
+     nombre igual (sin tildes, mayúsculas ni lo que va entre
+     paréntesis). Igual y no «contiene»: «Trabajo Social I» está
+     adentro de «Trabajo Social II» y sería otra materia.
+
+     Lo que no aparece en ningún plan —un nombre escrito distinto, un
+     taller— NO se manda abajo: no sabemos de quién es, y esconder algo
+     por no reconocerlo es peor que mostrarlo de más. Baja solo lo que
+     con seguridad es de otra carrera.
+     ============================================================ */
+  const PLANES = [window.PLAN_TS, window.PLAN_TGCR, window.PLAN_FONO].filter(Boolean);
+  const limpiarMateria = s =>
+    normalizar(String(s || '').replace(/\([^)]*\)/g, '')).replace(/\s+/g, ' ').trim();
+  function esDeOtraCarrera(materia){
+    const n = limpiarMateria(materia);
+    const de = PLANES.filter(p => p.materias.some(m => limpiarMateria(m.nombre) === n))
+      .map(p => p.id);
+    return de.length > 0 && de.indexOf(carreraActual().id) === -1;
+  }
+
+  /* Si la eligen en el menú ☰ con la pantalla abierta, se reordena. */
+  document.addEventListener('bolivar:carrera', () => {
+    if (materiales.length) pintar(materiales);
+  });
 
   /* ============================================================
      LO GUARDADO DE LA VISITA ANTERIOR
@@ -239,8 +272,9 @@
      así que lo fresco entra filtrado como ella lo dejó. */
   function pintar(datos){
     materiales = datos;
+    /* Las de tu carrera primero; adentro de cada grupo, alfabético. */
     materias = [...new Set(materiales.map(m => m.materia))].sort((a, b) =>
-      a.localeCompare(b, 'es'));
+      (esDeOtraCarrera(a) - esDeOtraCarrera(b)) || a.localeCompare(b, 'es'));
 
     /* Si la materia que estaba elegida ya no tiene material, se vuelve
        a «Todas» en vez de dejar la pantalla vacía sin explicación. */
@@ -292,9 +326,18 @@
        primero pienso "necesito algo de Epistemología", no "necesito
        un resumen". */
     let html = '';
+    let hayPropias = false, yaSeparado = false;
     materias.forEach(materia => {
       const suyos = visibles.filter(m => m.materia === materia);
       if (!suyos.length) return;
+      const otra = esDeOtraCarrera(materia);
+      /* El corte se marca una vez, y solo si arriba quedó algo tuyo:
+         si todo es de otra carrera, el cartel no separa nada. */
+      if (otra && !yaSeparado){
+        yaSeparado = true;
+        if (hayPropias) html += `<div class="titulo-seccion otras-carreras">De otras carreras</div>`;
+      }
+      if (!otra) hayPropias = true;
       html += `<div class="titulo-seccion">${esc(materia)}
           <span class="cuenta-grupo">${suyos.length}</span></div>
         <div class="lista">` +

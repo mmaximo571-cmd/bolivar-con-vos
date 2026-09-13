@@ -116,6 +116,16 @@
   let carreraActiva = carreraDeLaPersona();
   let enganchado = false;
 
+  /* Si la eligen en el menú ☰ con la pantalla abierta, la lista
+     acompaña. Los chips de acá, en cambio, NO cambian la carrera de la
+     persona: sirven para mirar la de otra y volver. */
+  document.addEventListener('bolivar:carrera', e => {
+    if (!e.detail || !e.detail.id) return;
+    carreraActiva = e.detail.id;
+    filtro.value = '';
+    if (todas.length) dibujar();
+  });
+
   /* ============================================================
      LO GUARDADO DE LA VISITA ANTERIOR
 

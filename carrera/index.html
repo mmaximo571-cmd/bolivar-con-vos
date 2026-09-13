@@ -632,7 +632,9 @@ function pintarProgreso(){
   const cursandoAhora = MATERIAS.filter(m => estadoCrudo(m.cod) === 'cursando').length;
   try {
     localStorage.setItem('bolivar-carrera-resumen', JSON.stringify({
-      carrera: PLAN.nombreCorto, aprobadas: aprobadas, total: total,
+      /* `id` le dice al inicio de qué carrera es: si la persona
+         después elige otra, no le muestra esta barra. */
+      id: PLAN.id, carrera: PLAN.nombreCorto, aprobadas: aprobadas, total: total,
       cursadas: cursadas, cursando: cursandoAhora
     }));
   } catch(e){ /* modo incógnito: la tarjeta muestra la invitación */ }
@@ -2437,6 +2439,25 @@ document.getElementById('selector-carrera').addEventListener('click', e => {
   const b = e.target.closest('.chip');
   if (!b || b.dataset.carrera === PLAN.id) return;
   elegirCarrera(b.dataset.carrera);
+  pintarSelectorCarrera();
+  pintarTodo();
+  scrollTo(0, 0);
+});
+
+/* LA CARRERA ELEGIDA EN EL MENÚ ☰. El menú escribe la llave por su
+   cuenta, pero esta pantalla tiene `guardado` en memoria y lo vuelve
+   a escribir con cada toque: si no se entera, el próximo toque
+   pisaría la carrera nueva con la vieja. Entonces hace lo mismo que
+   sus propios chips, y si todavía estaba preguntando, deja de
+   preguntar. */
+document.addEventListener('bolivar:carrera', e => {
+  const id = e.detail && e.detail.id;
+  if (!id) return;
+  const estabaPreguntando = !guardado.eligioCarrera;
+  if (id !== PLAN.id) elegirCarrera(id);
+  guardado.eligioCarrera = true;
+  persistir();
+  if (estabaPreguntando) mostrarBienvenida(false);
   pintarSelectorCarrera();
   pintarTodo();
   scrollTo(0, 0);

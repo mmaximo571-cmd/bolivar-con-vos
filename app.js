@@ -741,8 +741,74 @@ function esDelEquipo(perfil){ return !!perfil && perfil.rol === 'equipo'; }
    Son siete, así que la fila de arriba se desliza en el celular. Se
    ven las primeras cinco y las otras dos están a un empujón.
    ------------------------------------------------------------ */
+/* ============================================================
+   LA CARRERA DE LA PERSONA · una sola, para toda la app
+
+   Vive en `bolivar-carrera-v2`, la llave de «Mi año». Acá solo se
+   tocan dos campos —`carrera` y `eligioCarrera`— y NUNCA `datos`, que
+   es todo lo que la persona marcó en las tres carreras, cada una por
+   separado.
+
+   Se elige en tres lugares —la pregunta del inicio, la fila de chips
+   del inicio y el menú ☰— y los tres escriben por `anotarCarreraApp`.
+   Cuando cambia, avisa con el evento `bolivar:carrera` y cada
+   pantalla que depende de la carrera se repinta sola: Inicio, Mi año,
+   Cátedras y Estudiemos. Las demás no muestran nada por carrera.
+
+   Quien todavía no contestó ve Trabajo Social, que es la más
+   numerosa, pero sigue sin haber elegido: el inicio le sigue
+   preguntando. `carreraElegidaApp` distingue eso; `carreraActual`, no.
+
+   Si alguna vez hay una cuarta carrera, se agrega acá y en carrera/.
+   ============================================================ */
+const CARRERAS_APP = [
+  { id:'ts',   corto:'Trabajo Social',     menu:'Lic. en Trabajo Social',
+    largo:'Licenciatura en Trabajo Social' },
+  { id:'tgcr', corto:'Gestión del Riesgo', menu:'Tec. en Gestión del Riesgo',
+    largo:'Tecnicatura en Gestión Comunitaria del Riesgo' },
+  { id:'fono', corto:'Fonoaudiología',     menu:'Lic. en Fonoaudiología',
+    largo:'Licenciatura en Fonoaudiología' }
+];
+const LLAVE_CARRERA_APP = 'bolivar-carrera-v2';
+
+/* Modo incógnito o memoria llena: lo elegido vale igual mientras dure
+   la visita, aunque el teléfono no se lo acuerde. */
+let __carreraEnVivo = null;
+
+function leerCarreraGuardada(){
+  let g = null;
+  try { g = JSON.parse(localStorage.getItem(LLAVE_CARRERA_APP)); } catch(e){}
+  if (!g || typeof g !== 'object') g = __carreraEnVivo || {};
+  return g;
+}
+
+function carreraElegidaApp(){
+  const g = leerCarreraGuardada();
+  if (!g.eligioCarrera) return null;
+  return CARRERAS_APP.filter(c => c.id === g.carrera)[0] || null;
+}
+
+function carreraActual(){
+  return carreraElegidaApp() || CARRERAS_APP[0];
+}
+
+/* `id` en null es «no estudio esto»: vuelve a no haber elegido. */
+function anotarCarreraApp(id){
+  const g = leerCarreraGuardada();
+  const antes = g.eligioCarrera ? g.carrera : null;
+  if (id) g.carrera = id;
+  g.eligioCarrera = !!id;
+  __carreraEnVivo = g;
+  try { localStorage.setItem(LLAVE_CARRERA_APP, JSON.stringify(g)); } catch(e){}
+
+  if (antes === (id || null)) return;
+  /* El primer hito del embudo, se elija donde se elija. */
+  if (!antes && id && typeof anotarHito === 'function') anotarHito('eligió carrera');
+  document.dispatchEvent(new CustomEvent('bolivar:carrera', { detail:{ id: id || null } }));
+}
+
 const SECCIONES = [
-  { id:'inicio',     texto:'Inicio',          icono:'🏠', url:RAIZ },
+  { id:'inicio',    texto:'Inicio',          icono:'🏠', url:RAIZ },
   { id:'tramites',   texto:'Info útil',       icono:'🧭', url:RAIZ+'tramites/' },
   { id:'carrera',    texto:'Mi año',          icono:'🎓', url:RAIZ+'carrera/' },
   { id:'estudiemos', texto:'Estudiemos',      icono:'📚', url:RAIZ+'estudiemos/' },
@@ -1018,6 +1084,13 @@ function pintarNav(actual){
         ${SECCIONES.map(s => `<a href="${s.url}"${s.id===actual ? ' aria-current="page"' : ''}>
             <span class="icono">${icono(s.id) || s.icono}</span>${esc(s.texto)}</a>`).join('')}
       </div>
+      <div class="menu-carrera">
+        <span class="menu-tema-rotulo" id="menu-carrera-rotulo">Elegí tu carrera</span>
+        <div class="carrera-opciones" role="group" aria-labelledby="menu-carrera-rotulo">
+          ${CARRERAS_APP.map(c => `<button type="button" data-carrera-op="${esc(c.id)}"
+              title="${esc(c.largo)}">${esc(c.menu)}</button>`).join('')}
+        </div>
+      </div>
       <div class="menu-tema">
         <span class="menu-tema-rotulo">Colores de la pantalla</span>
         <div class="tema-opciones" role="group" aria-label="Colores de la pantalla">
@@ -1120,6 +1193,25 @@ function pintarNav(actual){
   fondo.addEventListener('click', () => abrir(false));
   document.addEventListener('keydown', e => {
     if (e.key === 'Escape' && !panel.hidden) abrir(false);
+  });
+
+  /* La carrera se marca cada vez que se abre el menú, no solo al
+     dibujarlo: «Mi año» y el inicio también la cambian, y el menú
+     tiene que decir la que hay ahora. Al elegir, el menú se cierra
+     para que se vea la pantalla cambiando. */
+  const pintarCarreraMenu = () => {
+    const actual = carreraActual().id;
+    panel.querySelectorAll('[data-carrera-op]').forEach(b =>
+      b.setAttribute('aria-pressed', b.dataset.carreraOp === actual ? 'true' : 'false'));
+  };
+  pintarCarreraMenu();
+  if (boton) boton.addEventListener('click', pintarCarreraMenu);
+  panel.querySelector('.carrera-opciones').addEventListener('click', e => {
+    const b = e.target.closest('[data-carrera-op]');
+    if (!b) return;
+    anotarCarreraApp(b.dataset.carreraOp);
+    pintarCarreraMenu();
+    abrir(false);
   });
 }
 

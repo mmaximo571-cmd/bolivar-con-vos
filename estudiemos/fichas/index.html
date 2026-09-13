@@ -52,7 +52,7 @@
        una pantalla. El día que sean treinta, se copia el buscador de
        Estudiemos, que ya está resuelto. -->
 
-  <div class="titulo-seccion">FONOAUDIOLOGÍA</div>
+  <div class="titulo-seccion" id="fichas-fono">FONOAUDIOLOGÍA</div>
   <div class="lista">
 
     <a class="tarjeta" href="anatomofisiologia/">
@@ -148,7 +148,7 @@
 
   </div>
 
-  <div class="titulo-seccion">TRABAJO SOCIAL</div>
+  <div class="titulo-seccion" id="fichas-ts">TRABAJO SOCIAL</div>
   <div class="lista">
 
     <a class="tarjeta" href="modelos-de-intervencion/">
@@ -261,6 +261,20 @@
 document.getElementById('cabecera').innerHTML = htmlCabecera();
 document.getElementById('pie').innerHTML = htmlPie();
 pintarNav('estudiemos');
+
+/* PRIMERO LO DE TU CARRERA. En el HTML va Fono primero porque es donde
+   hay más; si estudiás Trabajo Social, tu grupo sube arriba. Se mueve
+   el título con su lista, y se vuelve a acomodar si la carrera cambia
+   desde el menú con la pantalla abierta. */
+function ordenarFichas(){
+  const ts = document.getElementById('fichas-ts');
+  const fono = document.getElementById('fichas-fono');
+  const [primero, segundo] = carreraActual().id === 'ts' ? [ts, fono] : [fono, ts];
+  const listaPrimero = primero.nextElementSibling;
+  segundo.before(primero, listaPrimero);
+}
+ordenarFichas();
+document.addEventListener('bolivar:carrera', ordenarFichas);
 </script>
 </body>
 </html>

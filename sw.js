@@ -172,7 +172,12 @@
    clases de la hoja. Es el caso del v29 y el v30 juntos: sin subir el
    numero, quien ya tiene la app no ve la puerta y ve la pantalla sin
    estilos. */
-const VERSION = 'bolivar-v34';
+/* v35 (13/9/2026) `app.js` y `estilos.css`: la carrera se elige desde
+   el menú ☰ de todas las pantallas (CARRERAS_APP, anotarCarreraApp) y
+   el inicio tiene la fila de chips. Las pantallas llegan nuevas, pero
+   el inicio llama a funciones que viven en `app.js`: sin subir el
+   número, quien ya tiene la app abre un inicio que se rompe. */
+const VERSION = 'bolivar-v35';
 const ARMAZON = VERSION + '-armazon';
 const PAGINAS = VERSION + '-paginas';
 

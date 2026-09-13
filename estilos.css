@@ -623,6 +623,58 @@ svg.ico{width:1em;height:1em;display:block;flex:0 0 auto}
 }
 .tema-opciones button:focus-visible{outline:2px solid var(--amarillo);outline-offset:-3px}
 
+/* --- La carrera, adentro del menú ---
+   Va entre las secciones y los colores: se toca más seguido que los
+   colores y menos que las secciones. Uno abajo del otro y con el nombre
+   entero, porque «Tec. en Gestión del Riesgo» no entra en un tercio de
+   300 px. Mismos colores fijos que el tema: el menú es siempre oscuro. */
+.menu-carrera{padding:16px 18px 14px;border-top:1px solid var(--linea-negro)}
+.carrera-opciones{display:flex;flex-direction:column;gap:4px}
+.carrera-opciones button{
+  appearance:none;border:0;background:transparent;cursor:pointer;text-align:left;
+  font-family:var(--fuente-sub);font-weight:700;font-size:var(--letra-chica);
+  letter-spacing:.03em;color:var(--sobre-negro-suave);
+  padding:11px 14px;min-height:44px;border-radius:var(--radio-chico)
+}
+@media (hover:hover) and (pointer:fine){
+  .carrera-opciones button:hover{background:rgba(255,255,255,.08)}
+}
+.carrera-opciones button[aria-pressed="true"]{background:var(--amarillo);color:var(--sobre-color)}
+.carrera-opciones button:focus-visible{outline:2px solid var(--amarillo);outline-offset:2px}
+
+/* --- La carrera, en el inicio ---
+   Tres partes iguales y no chips que se deslizan: los tres nombres
+   juntos miden más que un celular, y una carrera escondida a la derecha
+   es una carrera que no existe. Si un nombre no entra, baja a dos
+   renglones adentro de su botón. */
+.fila-carrera{margin:26px 0 0}
+.fila-carrera-rotulo{
+  display:block;font-family:var(--fuente-datos);font-weight:700;font-size:var(--letra-chica);
+  letter-spacing:.16em;text-transform:uppercase;color:var(--texto-suave);margin-bottom:9px
+}
+.carrera-chips{display:flex;gap:6px}
+.carrera-chip{
+  flex:1 1 0;min-width:0;appearance:none;cursor:pointer;
+  background:var(--superficie);border:1px solid var(--linea);border-radius:var(--radio);
+  padding:7px 6px;min-height:44px;line-height:1.15;text-align:center;
+  font-family:var(--fuente-sub);font-size:var(--letra-densa);color:var(--texto);
+  /* En 375 px, «Fonoaudiología» en negrita mide más que su tercio: se
+     salía del botón, y cortándola quedaba «Fonoaudiol / ogía». La letra
+     baja un poco solo en pantallas angostas; el corte queda de red por
+     si algún teléfono es todavía más chico. */
+  overflow-wrap:anywhere
+}
+@media (max-width:420px){
+  .carrera-chip{font-size:clamp(11.5px, 3.3vw, 13px);letter-spacing:-.01em}
+}
+.carrera-chip[aria-pressed="true"]{
+  background:var(--amarillo);border-color:var(--amarillo);color:var(--sobre-color);font-weight:700
+}
+.fila-carrera + .titulo-seccion{margin-top:26px}
+
+/* En Estudiemos, lo de las otras carreras va después y separado */
+.titulo-seccion.otras-carreras{border-top:1px solid var(--linea);padding-top:22px}
+
 .menu-pie{
   padding:16px 18px 0;font-size:var(--letra-chica);line-height:1.5;color:var(--sobre-negro-tenue)
 }
