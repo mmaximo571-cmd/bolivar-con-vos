@@ -40,8 +40,10 @@
 
 <div id="cabecera"></div>
 
-<main class="envoltura" id="contenido" tabindex="-1">
-  <h1 class="titulo-pantalla">Estudiemos</h1>
+<main class="envoltura mov-estudiemos" id="contenido" tabindex="-1">
+  <!-- El renglón va adentro de una máscara (overflow:hidden) para que la
+       palabra suba desde abajo de su propia línea y no desde el vacío. -->
+  <h1 class="titulo-pantalla"><span class="mov-renglon"><span>Estudiemos</span></span></h1>
   <p class="bajada">
     Apuntes, resúmenes y parciales que compartimos entre todas y todos.
     Lo que a vos te sirvió, a otra persona le puede salvar la cursada.
@@ -56,8 +58,19 @@
            placeholder="Buscar por materia o tema…" aria-label="Buscar material">
   </div>
 
+  <!-- LAS FLECHAS NO SE ENFOCAN CON EL TABULADOR, a propósito. Son el
+       atajo del mouse, que no puede deslizar con el dedo. Con teclado ya
+       hay dos caminos mejores: el tabulador pasa por cada tarjeta, y las
+       flechas del teclado mueven el riel. Dos botones más en el orden de
+       tabulación serían dos paradas que no llevan a ningún lado. -->
   <div class="titulo-seccion con-cuenta">PARA EMPEZAR
-    <span class="riel-cuenta" id="riel-cuenta" aria-hidden="true"></span>
+    <span class="riel-mando">
+      <span class="riel-cuenta" id="riel-cuenta" aria-hidden="true"></span>
+      <button class="riel-flecha" id="riel-antes" type="button"
+              tabindex="-1" aria-hidden="true">←</button>
+      <button class="riel-flecha" id="riel-despues" type="button"
+              tabindex="-1" aria-hidden="true">→</button>
+    </span>
   </div>
 
   <!-- Las tres puertas. Antes eran tres bloques amarillos seguidos;
@@ -267,12 +280,282 @@
     const dosCifras = n => String(n).padStart(2, '0');
     cuenta.textContent = dosCifras(cual) + '/' + dosCifras(visibles.length);
   }
+  /* ============================================================
+     LAS FLECHAS, EL TECLADO Y EL ARRASTRE (13/9, movimiento)
+
+     El riel sigue siendo un scroll nativo con imán (scroll-snap): con
+     el dedo no hay nada mejor que eso, y el contador de arriba ya se
+     calcula del scrollLeft. Lo que se suma es para quien NO tiene dedo:
+     flechas para el mouse, flechas del teclado, y arrastrar con el
+     mouse apretado.
+
+     EL VIAJE LO HACE ESTE CÓDIGO Y NO `scrollBy({behavior:'smooth'})`.
+     El suave del navegador no deja elegir curva ni duración, y lo pedido
+     son 0,6 s con la curva de entrada. Mientras dura se apaga el imán:
+     con el imán prendido, cada paso intermedio salta a la tarjeta más
+     cercana y el viaje se ve a los tirones.
+     ============================================================ */
+  const antes = document.getElementById('riel-antes');
+  const despues = document.getElementById('riel-despues');
+  const tarjetasRiel = () => [...riel.querySelectorAll('.herramienta')].filter(a => !a.hidden);
+  const pasoRiel = () => { const t = tarjetasRiel(); return t.length ? t[0].offsetWidth + 12 : 1; };
+  const topeRiel = () => Math.max(0, riel.scrollWidth - riel.clientWidth);
+
+  function pintarFlechas(){
+    if (!riel || !antes) return;
+    const tope = topeRiel();
+    /* Si entran todas a la vista, no hay nada que deslizar. */
+    antes.parentElement.toggleAttribute('data-sin-riel', tope < 2);
+    antes.disabled = riel.scrollLeft <= 2;
+    despues.disabled = riel.scrollLeft >= tope - 2;
+  }
+
+  let viaje = 0, redViaje = 0;
+  function llevarRiel(destino){
+    destino = Math.max(0, Math.min(topeRiel(), destino));
+    cancelAnimationFrame(viaje); clearTimeout(redViaje);
+    const desde = riel.scrollLeft;
+    if (menosMovimiento() || Math.abs(destino - desde) < 1){
+      riel.style.scrollSnapType = '';
+      riel.scrollLeft = destino;
+      return;
+    }
+    const DURA = 600, arranque = performance.now();
+    /* power3.out, la equivalente de cubic-bezier(0.16, 1, 0.3, 1). */
+    const curva = x => 1 - Math.pow(1 - x, 3);
+    /* Al llegar se repintan contador y flechas acá mismo, sin esperar el
+       evento de scroll: si el navegador no dibujó, ese evento no sale, y
+       la flecha de volver queda apagada con el riel ya corrido. */
+    const terminar = () => {
+      cancelAnimationFrame(viaje); clearTimeout(redViaje);
+      riel.scrollLeft = destino;
+      riel.style.scrollSnapType = '';
+      pintarCuenta(); pintarFlechas();
+    };
+    riel.style.scrollSnapType = 'none';
+    const cuadro = ahora => {
+      const x = Math.min(1, (ahora - arranque) / DURA);
+      riel.scrollLeft = desde + (destino - desde) * curva(x);
+      if (x < 1) viaje = requestAnimationFrame(cuadro); else terminar();
+    };
+    viaje = requestAnimationFrame(cuadro);
+    /* Si el navegador no está dibujando (pestaña de fondo, un webview
+       congelado), el viaje no avanza: a los 0,75 s se llega en seco y
+       el imán vuelve. Un riel sin imán quedaría parado entre tarjetas. */
+    redViaje = setTimeout(terminar, DURA + 150);
+  }
+  const irA = indice => llevarRiel(indice * pasoRiel());
+  const indiceActual = () => Math.round(riel.scrollLeft / pasoRiel());
+
+  if (riel && antes){
+    antes.addEventListener('click', () => irA(indiceActual() - 1));
+    despues.addEventListener('click', () => irA(indiceActual() + 1));
+
+    /* Con teclado: parado en una tarjeta, las flechas pasan a la de al
+       lado y el foco va con ella. `preventScroll` porque del viaje se
+       encarga llevarRiel, con su curva; si no, el navegador salta. */
+    riel.addEventListener('keydown', e => {
+      if (e.key !== 'ArrowRight' && e.key !== 'ArrowLeft') return;
+      const t = tarjetasRiel();
+      const aca = t.indexOf(e.target.closest('.herramienta'));
+      if (aca === -1) return;
+      const va = Math.max(0, Math.min(t.length - 1, aca + (e.key === 'ArrowRight' ? 1 : -1)));
+      e.preventDefault();
+      t[va].focus({ preventScroll: true });
+      irA(va);
+    });
+
+    /* Arrastre con MOUSE, y solo con mouse: en el celular el scroll
+       nativo ya lo hace mejor, con inercia. Hasta los 5 px no es un
+       arrastre, es un clic, y el enlace tiene que abrir. */
+    let agarre = null, arrastro = false;
+    riel.addEventListener('pointerdown', e => {
+      if (e.pointerType !== 'mouse' || e.button !== 0) return;
+      agarre = { x: e.clientX, desde: riel.scrollLeft, id: e.pointerId };
+      arrastro = false;
+    });
+    riel.addEventListener('pointermove', e => {
+      if (!agarre) return;
+      const dx = e.clientX - agarre.x;
+      if (!arrastro && Math.abs(dx) > 5){
+        arrastro = true;
+        cancelAnimationFrame(viaje); clearTimeout(redViaje);
+        riel.setPointerCapture(agarre.id);
+        riel.style.scrollSnapType = 'none';
+        riel.classList.add('arrastrando');
+      }
+      if (arrastro) riel.scrollLeft = agarre.desde - dx;
+    });
+    const soltar = () => {
+      if (!agarre) return;
+      agarre = null;
+      if (!arrastro) return;
+      riel.classList.remove('arrastrando');
+      irA(indiceActual());   /* se acomoda en la tarjeta más cercana */
+    };
+    riel.addEventListener('pointerup', soltar);
+    riel.addEventListener('pointercancel', soltar);
+    /* El clic que viene después de soltar un arrastre no es un clic. */
+    riel.addEventListener('click', e => {
+      if (arrastro){ e.preventDefault(); e.stopPropagation(); arrastro = false; }
+    }, true);
+    riel.addEventListener('dragstart', e => e.preventDefault());
+  }
+
   if (riel){
-    riel.addEventListener('scroll', pintarCuenta, { passive:true });
-    window.addEventListener('resize', pintarCuenta);
+    const alMover = () => { pintarCuenta(); pintarFlechas(); };
+    riel.addEventListener('scroll', alMover, { passive:true });
+    window.addEventListener('resize', alMover);
   }
   pintarCintas();
   pintarCuenta();
+  pintarFlechas();
+
+  /* ============================================================
+     LAS PALABRAS QUE SE ENCIENDEN AL BAJAR (13/9, movimiento)
+
+     La invitación a compartir es lo único que esta pantalla le pide a
+     alguien, así que es lo que se lee de a una palabra: cada una
+     arranca apagada (0,2) y se prende según cuánto se bajó. El párrafo
+     usa lo mismo, un poco más tarde.
+
+     Arranca cuando el borde de arriba está al 80 % de la pantalla y
+     termina al 30 %. Con un detalle: la invitación es lo último de la
+     página, y en una pantalla alta puede no llegar nunca al 30 %. Ahí
+     el final se corre a donde sí llega, porque un titular que no se
+     termina de encender nunca es un titular gris para siempre.
+
+     El «scrub 0,5» se imita con un seguimiento que alcanza al scroll en
+     medio segundo: sin eso, las palabras copian cada tirón del dedo.
+
+     NADA SE APAGA SI NO CORRE EL DIBUJO. El 0,2 inicial lo escribe el
+     primer cuadro, no este código: si el navegador no dibuja, las
+     palabras se quedan como vinieron, que es encendidas.
+     ============================================================ */
+  function encenderAlBajar(){
+    const bloque = document.querySelector('.comunidad');
+    if (!bloque || menosMovimiento()) return;
+    const partir = el => {
+      const palabras = el.textContent.trim().split(/\s+/);
+      el.innerHTML = palabras.map(p => `<span class="mov-palabra">${esc(p)}</span>`).join(' ');
+      return [...el.querySelectorAll('.mov-palabra')];
+    };
+    const grupos = [
+      { el: bloque.querySelector('h2'), tarde: 0 },
+      { el: bloque.querySelector('p'),  tarde: .12 }
+    ].filter(g => g.el).map(g => ({ ...g, palabras: partir(g.el), ahora: -1 }));
+
+    const metaDe = (el, tarde) => {
+      const alto = innerHeight;
+      const arriba = el.getBoundingClientRect().top;
+      /* Dónde queda ese borde con la página bajada hasta el fondo. */
+      const enElFondo = arriba - (document.documentElement.scrollHeight - alto - scrollY);
+      const fin = Math.max(alto * .3, enElFondo);
+      const inicio = Math.max(alto * .8, fin + alto * .2);
+      return Math.max(0, Math.min(1, (inicio - arriba) / (inicio - fin) - tarde));
+    };
+
+    let andando = false, ultimo = 0;
+    const cuadro = t => {
+      const dt = ultimo ? Math.min(100, t - ultimo) : 0;
+      ultimo = t;
+      /* Alcanza el 95 % del camino en medio segundo. */
+      const seguir = 1 - Math.exp(-dt / 167);
+      let falta = false;
+      grupos.forEach(g => {
+        const meta = metaDe(g.el, g.tarde);
+        g.ahora = g.ahora < 0 ? meta : g.ahora + (meta - g.ahora) * seguir;
+        if (Math.abs(meta - g.ahora) > .002) falta = true; else g.ahora = meta;
+        const n = g.palabras.length;
+        g.palabras.forEach((w, i) => {
+          const luz = Math.max(0, Math.min(1, g.ahora * n - i));
+          w.style.opacity = (.2 + .8 * luz).toFixed(3);
+        });
+      });
+      if (falta) requestAnimationFrame(cuadro);
+      else { andando = false; ultimo = 0; }
+    };
+    const despertar = () => {
+      if (andando) return;
+      andando = true;
+      requestAnimationFrame(cuadro);
+    };
+    addEventListener('scroll', despertar, { passive: true });
+    addEventListener('resize', despertar);
+    /* La lista de arriba cambia de alto cuando llega el material o se
+       filtra, y eso mueve la invitación sin que nadie haya scrolleado. */
+    return despertar;
+  }
+  const reencender = encenderAlBajar() || (() => {});
+  reencender();
+
+  /* ============================================================
+     EL MATERIAL ENTRA AL LLEGAR, UNA SOLA VEZ (13/9, movimiento)
+
+     Cada tarjeta y cada título de materia sube 32 px y aparece cuando
+     su borde cruza el 85 % de la pantalla, escalonados de a 0,08 s.
+
+     «UNA SOLA VEZ» ES MÁS DIFÍCIL DE LO QUE PARECE ACÁ. La lista se
+     redibuja entera con cada tecla del buscador y cada chip, y además
+     dos veces al abrir (lo guardado y lo de la red). Si «ya se vio» se
+     guardara en el nodo, cada tecla volvería a hacer entrar todo. Se
+     guarda por contenido: lo que ya entró una vez, en el redibujo
+     aparece quieto en su lugar.
+     ============================================================ */
+  const yaEntraron = new Set();
+  let vigia = null;
+  /* El título de materia se reconoce SIN su cuenta: «Epistemología 2»
+     pasa a ser «Epistemología 1» al filtrar, y es el mismo título. */
+  const claveDe = p => {
+    const c = p.cloneNode(true);
+    c.querySelectorAll('.cuenta-grupo').forEach(n => n.remove());
+    return c.textContent.replace(/\s+/g, ' ').trim();
+  };
+  function hacerEntrar(){
+    if (vigia) vigia.disconnect();
+    if (menosMovimiento() || !('IntersectionObserver' in window)) return;
+    const piezas = [...lista.querySelectorAll(':scope > .titulo-seccion, .lista > .tarjeta')]
+      .filter(p => !yaEntraron.has(claveDe(p)));
+    if (!piezas.length) return;
+    piezas.forEach(p => p.classList.add('mov-entra'));
+
+    const mostrar = (p, espera) => {
+      yaEntraron.add(claveDe(p));
+      if (espera) p.style.transitionDelay = espera + 'ms';
+      p.classList.add('mov-visto');
+      /* Terminado, se devuelven la transición y el hover a la tarjeta. */
+      setTimeout(() => {
+        p.classList.remove('mov-entra', 'mov-visto');
+        p.style.transitionDelay = '';
+      }, 600 + espera + 60);
+    };
+
+    let aviso = false, enTanda = 0, ultima = -Infinity;
+    const este = vigia = new IntersectionObserver((entradas, obs) => {
+      aviso = true;
+      const llegan = entradas.filter(e => e.isIntersecting)
+        .sort((a, b) => a.boundingClientRect.top - b.boundingClientRect.top);
+      if (!llegan.length) return;
+      const ahora = performance.now();
+      if (ahora - ultima > 300) enTanda = 0;
+      ultima = ahora;
+      llegan.forEach(e => {
+        mostrar(e.target, Math.min(enTanda, 5) * 80);
+        enTanda++;
+        obs.unobserve(e.target);
+      });
+    }, { rootMargin: '0px 0px -15% 0px' });
+    piezas.forEach(p => este.observe(p));
+
+    /* Misma red que lectura.js: si el observador no aviso NADA en un
+       segundo y medio, no está andando, y la lista no puede quedar
+       invisible. Se muestra todo de una. */
+    setTimeout(() => {
+      if (aviso || vigia !== este) return;
+      este.disconnect();
+      piezas.forEach(p => { if (p.isConnected) mostrar(p, 0); });
+    }, 1500);
+  }
   document.addEventListener('bolivar:carrera', pintarCintas);
 
   /* ============================================================
@@ -419,6 +702,7 @@
 
     if (!visibles.length){
       lista.innerHTML = `<div class="vacio">No hay material que coincida con esa búsqueda.</div>`;
+      reencender();
       return;
     }
 
@@ -464,6 +748,8 @@
         }).join('') + `</div>`;
     });
     lista.innerHTML = html;
+    hacerEntrar();
+    reencender();
   }
 
 })();

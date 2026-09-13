@@ -4333,6 +4333,115 @@ details.area[open] > summary::after{transform:rotate(45deg)}
 }
 
 /* ============================================================
+   EL MOVIMIENTO DE ESTUDIEMOS (13/9)
+
+   Pedido por Máximo mirando una landing de referencia: no el diseño,
+   el LENGUAJE de movimiento. Vive solo en esta pantalla, colgado de
+   `.mov-estudiemos`, y a propósito no toca las curvas del resto.
+
+   ESTO ROMPE UNA REGLA DE ARRIBA, Y ES A SABIENDAS. En :root dice
+   «nada de interfaz pasa de 300 ms». Eso sigue valiendo para la
+   interfaz —menús, hojas, lo que la persona abre—. Lo de acá no es
+   interfaz: es la entrada a la pantalla y cosas que se revelan al
+   leer, y lo pedido son 0,8 s para lo destacado. Si se siente lento en
+   un celular real, se baja `--mov-destacada` y nada más.
+
+   SIN GSAP. La referencia usa GSAP con ScrollTrigger, que son unos
+   70 KB, y esta app ya baja 135 KB de código para mostrar 5 de datos:
+   el navegador del lanzamiento es el de Instagram en un celular. Lo
+   que hace ScrollTrigger acá son cuarenta renglones en la pantalla.
+
+   Las duraciones, las curvas y las distancias son las de la
+   referencia, en variables, para que no se escriban de nuevo a mano.
+   ============================================================ */
+.mov-estudiemos{
+  --mov-micro:     .2s;
+  --mov-estandar:  .45s;
+  --mov-destacada: .8s;
+  --mov-bloque:    .6s;
+  --mov-entra: cubic-bezier(0.16, 1, 0.3, 1);   /* lo que llega       */
+  --mov-hover: cubic-bezier(0.4, 0, 0.2, 1);    /* lo que se va, hover */
+  --mov-paso:  .08s;                             /* entre hermanos     */
+}
+
+/* La máscara del titular. `display:block` en las dos capas: el
+   transform no se aplica bien sobre un inline. */
+.mov-renglon,.mov-renglon > span{ display:block }
+.mov-renglon{ overflow:hidden }
+
+/* Las flechas del riel. 32 px: pasa de sobra el mínimo de 24 de AA, y
+   no compite con el título de sección, que es chico. */
+.riel-mando{ display:inline-flex;align-items:center;gap:6px }
+.riel-cuenta{ margin-right:4px }
+.riel-flecha{
+  width:32px;height:32px;display:grid;place-items:center;padding:0;
+  font-family:var(--fuente-sub);font-weight:700;font-size:16px;line-height:1;
+  color:var(--texto);background:var(--superficie);
+  border:1.5px solid var(--linea);border-radius:var(--radio-pastilla);
+  cursor:pointer;
+  transition:opacity var(--mov-micro) var(--mov-hover),
+             transform var(--mov-micro) var(--mov-hover)
+}
+.riel-flecha:active{ transform:scale(.92) }
+/* En los extremos no desaparece: se apaga. Si desapareciera, la otra
+   flecha saltaría de lugar y el dedo la perdería. */
+.riel-flecha:disabled{ opacity:.3;cursor:default;transform:none }
+.riel-mando[data-sin-riel] .riel-flecha{ display:none }
+/* Mientras se arrastra con el mouse, que no se seleccione texto ni se
+   vea la mano de «enlace» encima de las tarjetas. */
+.herramientas.arrastrando{ cursor:grabbing;user-select:none }
+.herramientas.arrastrando .herramienta{ pointer-events:none }
+
+@media (prefers-reduced-motion:no-preference){
+  /* 1. LA ENTRADA, SIN SCROLL. Primero el titular, después la bajada y
+     el buscador (a 0,25 s), y al final las tarjetas del riel.
+     `backwards` y no `both`: terminada la entrada, el transform vuelve
+     a ser del hover. Con `both` la tarjeta quedaría clavada en su
+     último cuadro y el hover dejaría de moverla. */
+  .mov-estudiemos .mov-renglon > span{
+    animation:mov-sube-renglon var(--mov-destacada) var(--mov-entra) backwards
+  }
+  .mov-estudiemos > .bajada{
+    animation:mov-sube var(--mov-destacada) var(--mov-entra) .25s backwards
+  }
+  .mov-estudiemos > .buscador{
+    animation:mov-sube var(--mov-destacada) var(--mov-entra) .33s backwards
+  }
+  .mov-estudiemos > .con-cuenta{
+    animation:mov-sube var(--mov-destacada) var(--mov-entra) .41s backwards
+  }
+  .mov-estudiemos .herramienta{
+    animation:mov-asienta var(--mov-destacada) var(--mov-entra) backwards;
+    animation-delay:calc(.5s + var(--i, 0) * var(--mov-paso));
+    transition:transform var(--mov-micro) var(--mov-hover),
+               box-shadow var(--mov-micro) var(--mov-hover)
+  }
+  .mov-estudiemos .herramienta:nth-child(2){ --i:1 }
+  .mov-estudiemos .herramienta:nth-child(3){ --i:2 }
+  .mov-estudiemos .herramienta:nth-child(4){ --i:3 }
+
+  /* 3. LOS BLOQUES QUE ENTRAN AL LLEGAR, UNA SOLA VEZ. La clase la pone
+     el JS y la saca apenas terminó: mientras está puesta pisa la
+     transición de la tarjeta, y el hover tiene que volver a ser suyo. */
+  .mov-estudiemos .mov-entra{
+    opacity:0;transform:translateY(32px);
+    transition:opacity var(--mov-bloque) var(--mov-entra),
+               transform var(--mov-bloque) var(--mov-entra)
+  }
+  .mov-estudiemos .mov-entra.mov-visto{ opacity:1;transform:none }
+}
+
+@keyframes mov-sube-renglon{ from{ transform:translateY(100%);opacity:0 } }
+@keyframes mov-sube{ from{ transform:translateY(24px);opacity:0 } }
+@keyframes mov-asienta{ from{ transform:scale(.96);opacity:0 } }
+
+/* Al imprimir no corre nada: lo que no se reveló saldría en blanco. */
+@media print{
+  .mov-entra{ opacity:1 !important;transform:none !important }
+  .mov-palabra{ opacity:1 !important }
+}
+
+/* ============================================================
    LA BARRA DE SECCIONES, ABAJO
 
    Estaba arriba, con las siete secciones en una fila que se deslizaba.

@@ -188,7 +188,11 @@
    subir el numero pasa lo peor: el HTML nuevo trae cuatro tarjetas
    apiladas a lo ancho sin `overflow-x`, o sea la fila desbordando la
    pantalla, y la cinta de datos sin la linea que la separa. */
-const VERSION = 'bolivar-v37';
+/* v38 (13/9/2026) `estilos.css`: el movimiento de Estudiemos (entrada,
+   flechas del riel, bloques que entran). La pantalla nueva trae la
+   máscara del titular y dos botones de flecha; con la hoja vieja, las
+   flechas salen como botones grises del sistema al lado del contador. */
+const VERSION = 'bolivar-v38';
 const ARMAZON = VERSION + '-armazon';
 const PAGINAS = VERSION + '-paginas';
 
