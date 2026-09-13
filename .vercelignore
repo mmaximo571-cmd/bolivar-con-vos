@@ -1,0 +1,4 @@
+# Herramientas de trabajo que no son parte del sitio publicado.
+graphify-out/
+.graphifyignore
+CLAUDE.md

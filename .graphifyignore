@@ -1,0 +1,14 @@
+# Lo que el grafo NO mira.
+# Librerias de terceros: meten miles de nodos y tapan la app.
+lib/pdf.js
+lib/pdf.worker.js
+lib/supabase.js
+# Material de estudio e imagenes: es contenido, no la app.
+estudiemos/tripticos/
+estudiemos/fichas/*/
+estudiemos/disenos/
+imagenes/
+marca/
+# El propio grafo y sus instrucciones
+graphify-out/
+CLAUDE.md
