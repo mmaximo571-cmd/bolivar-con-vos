@@ -70,7 +70,7 @@ sobre los otros. Ahora mandan así, y no se abre un quinto:
 | `PROMPT-DISENO.md` | el molde para pedirle pantallas a Gemini y que salgan en HTML de esta app, no en React |
 | `PROMPT-FICHAS.md` | el molde de una ficha de estudio: NotebookLM ordena el contenido, Claude Design lo dibuja, y **nunca al revés** |
 | `PROMPT-TRAYECTO.md` | **el contenido de una pantalla sola** (13/9): las seis preguntas que el Trayecto Optativo tiene que contestar, y las cinco que todavía son `[FALTA]`. Se usa junto con `PROMPT-DISENO.md`, no en lugar de él |
-| `PROMPT-FONOTECA.md` | **la Fonoteca** (13/9): el simulador de práctica audiológica. Las reglas clínicas del audiograma transcriptas del material de la facultad, las cuatro solapas con lo que depende cada una, y la regla que manda: **nada se publica sin el visto de la profesional**. También va junto con `PROMPT-DISENO.md` |
+| `PROMPT-FONOTECA.md` | **la Fonoteca** (13/9): el simulador de práctica audiológica. Las cuatro solapas con lo que depende cada una, y la regla que manda: **nada se publica sin el visto de la profesional**. Como la solapa 1 ya está escrita, el Paso 1 **no es para armarla sino para rediseñarla**, y el Paso 2 es la planilla que se le manda a ella. Va junto con `PROMPT-DISENO.md` |
 | `entrada/` | **el buzón** (8/9). Lo que se trae de AI Studio o de donde sea se deja acá y se vacía en una sola sesión. No decide nada: es material de trabajo, no se sube |
 | Memoria del proyecto | cómo se trabaja y qué no puede esta máquina |
 | [Artifact del plan](https://claude.ai/code/artifact/25f7c752-e67f-465a-bf82-5913218cff95) | **congelado**, registro histórico. Ya no es el documento rector: quedó viejo cuando se rearmó el cronograma el 3/9 |
