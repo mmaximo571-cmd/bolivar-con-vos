@@ -130,8 +130,36 @@ function queAparato(){
   return 'escritorio';
 }
 
+/* Las pruebas NO se anotan (13/9). De la visita se guarda el `pathname`
+   y nada más —a propósito, para no poder seguir a nadie—, así que una
+   carga desde esta máquina quedaba en la misma tabla que alguien
+   entrando de Instagram y no había forma de distinguirlas después. Con
+   el 18 al 20 dedicados a probar la app en el teléfono y en el servidor
+   de acá, eso ensuciaba justo el número que se va a mirar el 21.
+
+   El freno mira el host y no un ajuste que haya que acordarse de
+   apagar: localhost, 127.0.0.1, la IP de la red de casa, un archivo
+   abierto a mano.
+
+   Está escrito como lista de lo que NO cuenta y no como lista de lo que
+   sí, a propósito. Al revés sería más prolijo pero falla del lado malo:
+   el día que la app se mude a un dominio propio y nadie se acuerde de
+   agregarlo acá, el registro se apagaría **en silencio** y eso recién se
+   ve cuando se lo va a mirar. Así, lo peor que pasa es que se cuenten
+   visitas de más. Ojo con una: una *preview* de Vercel cuenta como
+   visita real. Hoy no pasa, porque acá se pushea derecho a `main` y no
+   hay pull requests, pero si algún día los hay, el número de esos días
+   va a estar inflado. */
+function esPrueba(){
+  const h = location.hostname;
+  return location.protocol === 'file:' ||
+         !h || h === 'localhost' || h === '127.0.0.1' || h === '[::1]' ||
+         /\.local$/i.test(h) || /^192\.168\./.test(h) || /^10\./.test(h);
+}
+
 function anotar(tipo, detalle){
   try {
+    if (esPrueba()) return;
     const cfg = window.BOLIVAR_CONFIG;
     if (!cfg || !cfg.url || !cfg.anonKey) return;
     fetch(cfg.url.replace(/\/+$/, '') + '/rest/v1/sucesos', {

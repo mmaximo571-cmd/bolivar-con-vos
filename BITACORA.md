@@ -117,6 +117,8 @@ sobre los otros. Ahora mandan así, y no se abre un quinto:
 
 | 13/9 | **Dos datos que faltaban, publicados.** «Agrupación Gustavo **Legardón**» lleva tilde —confirmado, era un carácter en el glosario— y **Aulas Web** ya está en el índice del pie de las doce pantallas: `aulaswebgrado.ead.unlp.edu.ar`. Los sistemas de la UNLP pasan a cuatro. **`v33`**, por el mismo motivo que el `v30` del glosario: el pie lo dibuja `app.js`, que es armazón, y sin subir el número quien ya tiene la app sigue viendo tres sistemas | `HEAD` |
 
+| 13/9 | **Las pruebas dejan de contarse como visitas.** `anotar()` no distinguía esta máquina de producción, y de la visita se guarda solo el `pathname` —a propósito, para no poder seguir a nadie—, así que una carga de prueba quedaba en la misma tabla que alguien entrando de Instagram y **no había forma de separarlas después**. Con el 18 al 20 dedicados a probar, eso ensuciaba justo el número del 21. El freno es una lista de lo que NO cuenta (localhost, la IP de casa, un archivo abierto a mano) y no de lo que sí: al revés, el día que la app se mude a un dominio propio el registro se apagaría en silencio. **Sin `v` nueva a propósito:** el `app.js` viejo cuenta las visitas bien —son visitas reales—, y el freno solo hace falta donde se prueba, que siempre carga fresco | `HEAD` |
+
 **Ojo con lo de las materias libres.** El listado sale de un documento que se
 llama, textualmente, «**Propuesta** de materias libres … para agregar al régimen
 de regularidad o anexar al plan de estudios». No está aprobado, y la app lo dice
