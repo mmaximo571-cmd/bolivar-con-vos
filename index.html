@@ -1048,9 +1048,12 @@ setTimeout(function(){
       { titulo:'Glosario universitario',
         texto:'Qué es una cursada, un final, una promoción, una correlativa. El vocabulario de la facu, explicado entre nosotres.',
         url:'glosario/' },
-      { titulo:'Aulas y fotocopiadoras',
-        texto:'Dónde queda cada cosa adentro de la facultad, los horarios de la sala de informática y dónde conseguir los apuntes.',
-        url: buscarCat('Dónde curso') }
+      /* Llevaba a «Dónde curso» y prometía aulas y sala de informática.
+         Desde el 13/9 lleva a Espacios autogestivos, así que el texto
+         dice lo que hay ahí: las aulas siguen en Info útil. */
+      { titulo:'Buffet y fotocopiadora',
+        texto:'Horarios, la app del buffet y el WhatsApp de la fotocopiadora para pedir tus apuntes.',
+        url:'espacios/' }
     ];
     document.getElementById('kit').innerHTML = kit.map((k, n) => `
       <a class="tarjeta-kit" href="${k.url}">
