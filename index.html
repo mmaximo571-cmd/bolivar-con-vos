@@ -1536,15 +1536,30 @@ setTimeout(function(){
 
     /* iconoDeCategoria devuelve el SVG si ya lo cargamos, y si no el
        emoji de la base. Así se pueden ir reemplazando de a uno. */
+    /* ESPACIOS AUTOGESTIVOS VA ÚLTIMO Y EN LAS TRES CARRERAS: el buffet
+       y la fotocopiadora son de toda la facultad. Le hace lugar a la
+       categoría repetida: con Trabajo Social «Cátedras» salía dos veces,
+       una como herramienta y otra como categoría, y las dos llevan al
+       mismo mail. Si la carrera ya tiene la herramienta, la categoría 9
+       no entra. */
+    const espacios = { dibujo: icono('espacios') || '🤝',
+                       nombre:'Espacios autogestivos',
+                       bajada:'Buffet y fotocopiadora',
+                       url:'espacios/' };
+    const yaTieneCatedras = propias.some(p => p.url === 'catedras/');
+    const categoriasQueEntran = conContenido
+      .filter(c => !(yaTieneCatedras && c.id === 9))
+      .slice(0, 7 - propias.length);
+
     const accesos = [{ dibujo: icono('carrera') || '🎓',
                        nombre:'Mi año',
                        bajada:'Qué podés cursar y promocionar',
                        url:'carrera/', destacado:true }].concat(propias,
-      conContenido.slice(0, 8 - propias.length).map(c => ({
+      categoriasQueEntran.map(c => ({
         dibujo: iconoDeCategoria(c), nombre: c.nombre,
         bajada: bajadaDeCategoria(c),
         url: 'tramites/?categoria=' + c.id
-      })));
+      })), espacios);
 
     /* La flecha y la bajada van siempre en el HTML; en el celular el
        CSS las esconde, porque en un cuadro de 100 px no entran. */
