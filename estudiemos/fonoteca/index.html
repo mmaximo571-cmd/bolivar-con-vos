@@ -172,12 +172,12 @@
      después— está en `PROMPT-FONOTECA.md`. Se armó el 13/9 sin pasar por
      Claude Design, con las piezas que ya tiene la app.
 
-     NINGÚN CASO SE VE SIN EL VISTO DE LA PROFESIONAL. Cada caso lleva
-     `aprobado:false` hasta que ella lo confirme. Mientras tanto la
-     pantalla dice que están en revisión, y la tarjeta de Estudiemos
-     sigue escondida. Ella los mira entrando con `?revision`, que los
-     muestra todos con el diagnóstico escrito, los números y un chequeo
-     automático. Para publicar uno: `aprobado:true` en su línea.
+     LOS SEIS CASOS SE PUBLICARON SIN EL VISTO DE LA PROFESIONAL. La regla
+     era que ninguno se viera sin su visto, y el 13/9 Máximo decidió
+     mostrarlos igual, para que la Fonoteca esté a la vista y se puedan
+     hacer aportes. El chequeo automático de `?revision` da los seis
+     coincidentes. Si ella corrige uno, se arregla su línea; si hace falta
+     esconderlo mientras tanto, `aprobado:false` en esa línea.
 
      SOLO HAY UNA SOLAPA, Y POR ESO NO HAY SOLAPAS. Las otras tres no
      existen todavía, y una pestaña que lleva a una pantalla vacía es la
@@ -255,37 +255,37 @@
      neurosensoriales y dos mixtas, con distinto grado y distinta forma.
      ============================================================ */
   const CASOS = [
-    { aprobado:false, edad:'6 años',
+    { aprobado:true, edad:'6 años',
       motivo:'La maestra cuenta que no responde cuando la llaman desde el fondo del aula. Tuvo resfríos seguidos todo el invierno.',
       otoscopia:'Oído derecho: membrana timpánica opaca y retraída. Oído izquierdo: sin particularidades.',
       od:{ aerea:[35,35,30,35,30,25,25], osea:[10,5,10,10,10], tipo:'conductiva', grado:'leve' },
       oi:{ aerea:[15,10,10,15,10,10,15], osea:[10,5,10,10,5],  tipo:'normal',     grado:'normal' } },
 
-    { aprobado:false, edad:'34 años',
+    { aprobado:true, edad:'34 años',
       motivo:'Escucha menos del oído izquierdo desde hace dos años y empeoró después del embarazo. Dice que en lugares ruidosos entiende mejor.',
       otoscopia:'Ambos oídos sin particularidades.',
       od:{ aerea:[10,10,5,10,15,10,15],  osea:[5,5,10,10,10],    tipo:'normal',     grado:'normal' },
       oi:{ aerea:[50,50,50,45,40,45,50], osea:[10,10,15,20,10],  tipo:'conductiva', grado:'moderada' } },
 
-    { aprobado:false, edad:'72 años',
+    { aprobado:true, edad:'72 años',
       motivo:'La familia dice que sube mucho el volumen del televisor. En las reuniones oye que hablan pero no entiende qué dicen.',
       otoscopia:'Ambos oídos sin particularidades.',
       od:{ aerea:[15,15,20,25,40,60,70], osea:[15,15,25,35,55], tipo:'neurosensorial', grado:'leve' },
       oi:{ aerea:[20,15,20,30,45,65,75], osea:[15,20,25,40,60], tipo:'neurosensorial', grado:'leve' } },
 
-    { aprobado:false, edad:'45 años',
+    { aprobado:true, edad:'45 años',
       motivo:'Episodios de vértigo que duran horas, zumbido y sensación de oído tapado, siempre del lado derecho.',
       otoscopia:'Ambos oídos sin particularidades.',
       od:{ aerea:[60,60,55,50,40,35,40], osea:[55,50,45,35,30], tipo:'neurosensorial', grado:'moderada' },
       oi:{ aerea:[10,10,10,5,10,15,20],  osea:[5,10,5,10,10],   tipo:'normal',         grado:'normal' } },
 
-    { aprobado:false, edad:'58 años',
+    { aprobado:true, edad:'58 años',
       motivo:'Otitis a repetición en el oído derecho desde chico. Trabajó treinta años en un taller metalúrgico.',
       otoscopia:'Oído derecho: perforación timpánica central, seca. Oído izquierdo: sin particularidades.',
       od:{ aerea:[45,50,55,55,65,75,80], osea:[25,30,30,45,60], tipo:'mixta',          grado:'moderada' },
       oi:{ aerea:[25,25,30,30,40,55,60], osea:[25,25,30,35,50], tipo:'neurosensorial', grado:'leve' } },
 
-    { aprobado:false, edad:'40 años',
+    { aprobado:true, edad:'40 años',
       motivo:'Hace meses que le supura el oído izquierdo, con mal olor, y de ese lado escucha muy poco.',
       otoscopia:'Oído izquierdo: retracción de la pars flaccida con restos blanquecinos. Oído derecho: sin particularidades.',
       od:{ aerea:[15,15,10,10,15,20,25], osea:[10,10,5,10,15],  tipo:'normal', grado:'normal' },
