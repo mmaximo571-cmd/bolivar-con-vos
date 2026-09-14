@@ -14,9 +14,12 @@ Si algo de acá quedó viejo, se corrige acá mismo al cerrar la sesión.
 - **Lanzamiento: lunes 21 de septiembre de 2026**, Día del Estudiante, con
   campaña en Instagram a 4.213 seguidores. **La fecha no se mueve: se mueve el
   alcance.**
+- **El esquema de trabajo del 14 al 21 se fijó el 13/9 a la noche** y está en
+  el cronograma, abajo: congelamiento el **jueves 17 a la noche**, unas 15
+  sesiones de código, cada una con su objetivo. **Esa tabla manda sobre lo que
+  diga cualquier otro renglón de esta sección.**
 - Hoy es **domingo 13 de septiembre**. Quedan **ocho días** para el
-  lanzamiento y **tres o cuatro de código**: el congelamiento es el mié 16 o
-  el jue 17. Lo último que entró a la app fue del **7/9** (calendario del
+  lanzamiento y **cuatro de código**. Lo último que entró a la app fue del **7/9** (calendario del
   celular, buscador y mapa); el 8 solo se escribieron papeles —el buzón
   `entrada/` y `PROMPT-FICHAS.md`— y del **9 al 12 no se trabajó** porque
   Máximo viajaba. Todo lo que hay está pusheado a `main`.
@@ -207,12 +210,63 @@ entran 2 o 3 sesiones.
 | sáb 12 | ✅ Adelantado al sáb 5. **Queda libre** | — |
 | ~~dom 13~~ | ~~Congelamiento~~. **Movido el 8/9:** hacen falta más días para las herramientas nuevas | — |
 | dom 13 · 1 | ✅ **Las seis deudas chicas, contestadas.** Legardón con tilde y Aulas Web publicados; Avisanos cerrado en dos contactos; el asterisco medido; las etiquetas de campaña explicadas; y el molde del Trayecto Optativo escrito | — |
-| dom 13 – jue 17 | **Herramientas nuevas.** Última ventana de código. **La lista está a medio escribir:** ver abajo | — |
 | dom 13 · 2 | ✅ **El Trayecto Optativo tiene pantalla.** Diseñado, escrito y publicado el mismo día que el molde. Ver arriba | — |
-| lun 14 – mié 16 | **La Fonoteca**, que es el simulador de práctica audiológica. Cuatro solapas, y dos esperan grabaciones que no existen | **el visto de la profesional, caso por caso** |
-| **mié 16 o jue 17** | **Congelamiento.** Última línea de función nueva | — |
-| vie 18 – dom 20 | Contenido, pruebas, etiquetas de campaña. **Todo arriba el 20** | — |
-| **lun 21** | **Lanzamiento** | — |
+| dom 13 · 3 | ✅ Fonoteca solapa 1 (casos escondidos), Estudiemos con movimiento, Espacios autogestivos, grafo. **Y el cuestionario que fijó el esquema de abajo** | — |
+
+**El esquema del 13/9 a la noche.** Salió de un cuestionario con Máximo y
+reemplaza lo que había acá. Lo que manda:
+
+- **Congelamiento: jueves 17 a la noche** (no el 16).
+- **Seis sesiones por día.** Del lun 14 al mié 16, **mitad contenido y mitad
+  código**: tres de cada. El jueves 17, las seis son de código.
+  **Unas 15 sesiones de código en total.** Cada renglón de abajo es una
+  sesión, y cada sesión es un objetivo y un commit.
+- **Todo entra el 21** (decisión de Máximo), salvo lo primero que se
+  recorta: **Prácticas y territorio de la Tecnicatura pasa a después del 21.**
+  Si igual no entra, lo siguiente que se recorta se decide el jue 17 a la
+  mañana, no antes.
+
+| Día · sesión de código | Objetivo | Espera de Máximo |
+|---|---|---|
+| lun 14 · 1 | **Fonoteca: generador de tonos**, lo que le falta a la solapa 1 | — |
+| lun 14 · 2 | **Trayecto Optativo: rastrear en la página de la facultad** los cuatro puntos sin confirmar. Lo que se encuentre con fuente, entra; lo que no, sigue diciendo que falta | — |
+| lun 14 · 3 | **Fonoteca solapa 2: GRBAS**, como definiciones. Dice que el audio llega después | — |
+| mar 15 · 1 | **Fonoteca solapa 3: fonética rioplatense**, como definiciones | — |
+| mar 15 · 2 | **Fonoteca solapa 4: anquiloglosia** | — |
+| mar 15 · 3 | **Fichas de Fono, tanda 1** (dos o tres) | textos de NotebookLM con `PROMPT-FICHAS.md` |
+| mié 16 · 1 | **Fichas de Fono, tanda 2** | ídem |
+| mié 16 · 2 | **Fichas de la Tecnicatura, tanda 1**. Es su primera cosa propia en Estudiemos | ídem |
+| mié 16 · 3 | **Aviso en Mi año, parte 1:** con lo que la persona ya marcó, qué se le está por vencer y adónde ir. Sin cuenta, en el celular. **Antes, preguntas cortas**: es un módulo nuevo | **los plazos de regularidad**, a más tardar el mié 16 a la mañana |
+| jue 17 · 1 | **Aviso en Mi año, parte 2** | — |
+| jue 17 · 2 | **Fichas de la Tecnicatura, tanda 2** | textos |
+| jue 17 · 3 | **Fichas, tanda 3** (la carrera que tenga más material esperando) | textos |
+| jue 17 · 4 | **Fonoteca: prender o no.** Si llegó el visto, se muestran los casos y la cuarta tarjeta; si no, se decide ahí si sale sin casos o escondida | **el visto de la profesional** |
+| jue 17 · 5 | Colchón: el error que aparezca | — |
+| **jue 17 · 6** | **Congelamiento.** `v` del service worker, `graphify update .`, bitácora al día | — |
+| vie 18 | **Pruebas en celulares reales, entrando desde Instagram:** el Android de Máximo y un iPhone prestado. Y **una sesión corta para armar la lista de posteos**: qué publicación lleva a qué pantalla | los dos teléfonos |
+| sáb 19 | Arreglos de lo que salió el 18. Links de campaña con `?de=` escritos | la lista de posteos |
+| dom 20 | **Todo arriba.** Verificar la segunda carga (el service worker entrega lo nuevo recién ahí) | — |
+| **lun 21** | **Lanzamiento.** Máximo está todo el día: se mira la solapa Registro y, si aparece un error, **arreglo chico, probado corriendo, y push** | — |
+
+**Lo que Máximo tiene que hacer afuera, en orden:**
+
+1. **Hoy o el lun 14:** mandarle a la profesional el link
+   `estudiemos/fonoteca/?revision` con los seis casos. Todavía no se los pasó,
+   y sin visto los casos no salen.
+2. **Lun 14 – mié 16 (las sesiones de contenido):** pasar los PDFs de Fono y
+   de la Tecnicatura por NotebookLM con `PROMPT-FICHAS.md`. Son más de seis
+   fichas. Cada texto tiene que estar listo antes de su sesión.
+3. **Mié 16 a la mañana:** los plazos de regularidad (años y turnos). Sin eso
+   el aviso de Mi año no se puede escribir.
+4. **Vie 18:** conseguir el iPhone.
+
+**Después del 21, ya decidido que no entra:** Prácticas y territorio de la
+Tecnicatura, las fichas que no lleguen, el audio de GRBAS y pares mínimos,
+Rinne y Weber, enmascaramiento, el editor de casos para la profesional, el
+Trayecto dentro del conteo de materias (`carrera/plan.js`), bajar las fuentes
+y partir `estilos.css`. Y **pensar con tiempo la permanencia**: «que no
+abandonen» y «estudiar con más herramientas» empiezan el 21 con el aviso de
+Mi año, pero no terminan ahí.
 
 ### Las «herramientas nuevas»: lo que hay y lo que falta (13/9)
 
