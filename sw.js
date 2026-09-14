@@ -206,7 +206,9 @@
 /* v42 (13/9/2026) `app.js` y `estilos.css`: existe `espacios/` (buffet y
    fotocopiadora). La puerta del ☰ y del pie vive en `app.js` y las
    tarjetas usan clases de la hoja: es el caso del v34. */
-const VERSION = 'bolivar-v42';
+/* v43 (13/9/2026) `iconos.js`: el ícono de Espacios autogestivos. Sin
+   subir el número, quien ya tiene la app sigue viendo el emoji 🤝. */
+const VERSION = 'bolivar-v43';
 const ARMAZON = VERSION + '-armazon';
 const PAGINAS = VERSION + '-paginas';
 
