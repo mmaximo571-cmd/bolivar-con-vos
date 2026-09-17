@@ -234,7 +234,7 @@ reemplaza lo que había acá. Lo que manda:
 | Día · sesión de código | Objetivo | Espera de Máximo |
 |---|---|---|
 | lun 14 · 1 | ✅ **Fonoteca: generador de tonos.** Hecho el **jue 17**: del 14 al 16 no se trabajó. Arranca bajo, rampa de 30 ms, se corta solo a los 3 s, elige oído | — |
-| lun 14 · 2 | **Trayecto Optativo: rastrear en la página de la facultad** los cuatro puntos sin confirmar. Lo que se encuentre con fuente, entra; lo que no, sigue diciendo que falta | — |
+| lun 14 · 2 | ✅ Hecho el jue 17. En la web de la FTS no hay nada nuevo sobre 3 de las 4 dudas; sí la oferta del 2.º cuatrimestre 2026 (publicación del 3/9), que entró como sección «Lo que hay este cuatrimestre» con horas y link. La duda de los seminarios sigue. Era: **Trayecto Optativo: rastrear en la página de la facultad** los cuatro puntos sin confirmar. Lo que se encuentre con fuente, entra; lo que no, sigue diciendo que falta | — |
 | lun 14 · 3 | **Fonoteca solapa 2: GRBAS**, como definiciones. Dice que el audio llega después | — |
 | mar 15 · 1 | **Fonoteca solapa 3: fonética rioplatense**, como definiciones | — |
 | mar 15 · 2 | **Fonoteca solapa 4: anquiloglosia** | — |
