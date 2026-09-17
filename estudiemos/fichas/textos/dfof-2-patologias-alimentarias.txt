@@ -1,0 +1,103 @@
+0 · PORTADA
+- TÍTULO: PATOLOGÍAS ALIMENTARIAS
+- SUBTÍTULO: Disfagia · Selectividad · Rechazo · Parámetro SECC
+- ENTRADA: Vas a dominar el diagnóstico diferencial de la disfagia, los desórdenes pediátricos y el uso del parámetro SECC.
+- MATERIA: Desarrollo de la Función Oral Faríngea
+- PDF USADOS: Cuadernillo Desarrollo de la función oral faríngea.pdf
+
+1 · QUÉ ES
+- DEFINICIÓN:
+  Son condiciones complejas que alteran la capacidad del niño para alimentarse de manera efectiva, segura y agradable (pág. 116, 121). Incluyen dificultades neuromusculares reales de transporte del bolo (disfagia, pág. 118) y rechazos conductuales o sensoriales de ingesta (desórdenes, pág. 121). Su abordaje clínico requiere el uso del parámetro SECC (pág. 117).
+- LO QUE MÁS SE CONFUNDE:
+  La **disfagia** es una alteración real que compromete la seguridad del paciente por riesgo de aspiración pulmonar (pág. 118), mientras que las **disgnacias y disfunciones orales** afectan la competencia masticatoria pero no implican riesgo de deshidratación, desnutrición o aspiración (pág. 124, 125).
+- PIEZAS:
+  1. **Disfagia orofaríngea**: Dificultades en la fase inicial de la deglución afectando la coordinación oro-faríngea (pág. 120).
+  2. **Disfagia esofágica**: Dificultades en el tránsito del bolo alimenticio a través del cuerpo del esófago hacia el estómago (pág. 120).
+  3. **Desórdenes pediátricos (PFD)**: Ingesta inapropiada para la edad asociada a disfunciones médicas, nutricionales o psicosociales (pág. 116).
+  4. **Selectividad alimentaria**: Limitación de la dieta a 10-15 alimentos o menos, manifestando aversión sensorial (pág. 121).
+  5. **Rechazo alimentario**: Temor o negativa sistemática a comer surgido tras eventos traumáticos orales o sondas tempranas (pág. 121).
+  6. **Disgnacias**: Pérdida del equilibrio morfofuncional por anomalías dentarias, oclusales y de la forma facial (pág. 124).
+
+2 · CÓMO FUNCIONA
+
+MÁQUINA 1 · EL PARÁMETRO INTEGRAL SECC
+- QUÉ SE ELIGE: El indicador clínico para evaluar la deglución (pág. 117)
+- BOTONES: Seguridad, Eficiencia, Competencia, Confortabilidad
+- POR CADA OPCIÓN:
+  - **Seguridad**: Es el indicador más crítico del proceso (pág. 117, 118). Evalúa la ausencia completa de falsas vías (ingreso del bolo a vía aérea), distinguiéndose porque su compromiso pone en riesgo la vida del paciente (pág. 117, 118).
+  - **Eficiencia**: Capacidad de mantener una óptima hidratación y nutrición (pág. 117). Se valora con tablas de desarrollo pondoestatural de peso y talla, distinguiéndose de la seguridad por apuntar al balance metabólico (pág. 117).
+  - **Competencia**: Coordinación y sincronismo del sistema de válvulas deglutorias (pág. 117). Evalúa la presencia de derrames orales o sialorrea por deficiente control, distinguiéndose porque mide el desempeño motor muscular local (pág. 117).
+  - **Confortabilidad**: Calidad agradable de la experiencia alimentaria (pág. 117). Monitorea el nivel de estrés del cuidador y del niño durante la toma, distinguiéndose por evaluar el componente conductual y emocional (pág. 117, 122).
+- ESQUEMA: Un tablero de control clínico. Al tocar cada botón de la sigla S-E-C-C, se ilumina un cuadrante de color (Rojo Seguridad, Verde Eficiencia, Azul Competencia, Amarillo Confortabilidad) con los correspondientes signos a chequear.
+
+MÁQUINA 2 · NIVELES DE INTERVENCIÓN EN DISFAGIA
+- QUÉ SE ELIGE: El abordaje alimentario según la gravedad de la disfagia (pág. 118-119)
+- BOTONES: Grado Leve (Vía Natural), Grado Moderado (Vía Complementaria), Grado Severo (Vía No Oral)
+- POR CADA OPCIÓN:
+  - **Grado Leve (Vía Natural)**: La alimentación se sostiene por boca (pág. 118). Requiere de forma obligatoria modificaciones en la textura de sólidos y viscosidad de líquidos, distinguiéndose por mantener el uso total del aparato deglutorio (pág. 118, 119).
+  - **Grado Moderado (Vía Complementaria)**: Combina la boca con vías artificiales de soporte (pág. 119). Se recurre a este modelo para garantizar que el niño cubra la demanda calórica diaria, distinguiéndose porque la boca sola no es suficiente ni eficiente (pág. 119).
+  - **Grado Severo (Vía No Oral)**: Alimentación exclusiva por métodos artificiales alternativos (pág. 119). Utiliza sondas nasogástricas o botones de gastrostomía, distinguiéndose de los anteriores porque se prohíbe todo ingreso de bolo por boca ante el inminente riesgo de aspiración pulmonar (pág. 118, 119).
+- ESQUEMA: Un boceto de un paciente pediátrico. Al presionar "Leve", se resalta la boca verde con texturas modificadas; al "Moderado", se destaca un vaso y una sonda combinados; al "Severo", se ilumina en rojo el bloqueo oral y en verde la vía de acceso directo al estómago.
+
+3 · CÓMO TE DAS CUENTA
+
+1. ¿Qué parámetro de la escala SECC se encuentra directamente comprometido ante el riesgo inminente de aspiración faríngea?
+A) La competencia labial anterior.
+B) La eficiencia pondoestatural calórica.
+C) La seguridad del proceso deglutorio.
+- CORRECTA: C
+- POR QUÉ: El criterio de valoración clínica prioriza la seguridad por encima del resto de parámetros, asociándola de forma unívoca con la entrada del alimento a la laringe (pág. 117, 118).
+
+2. ¿Cuál de las siguientes patologías orales altera la masticación pero no conlleva riesgos de deshidratación, desnutrición ni aspiración?
+A) La disfagia esofágica obstructiva.
+B) La disgnacia por pérdida del equilibrio morfofuncional.
+C) El trastorno de regulación del lactante prematuro.
+- CORRECTA: B
+- POR QUÉ: El criterio de diagnóstico diferencial define a las disgnacias como anomalías dentoesqueleticas que comprometen la masticación sin poner en riesgo la vía aérea ni el balance hídrico del niño (pág. 124).
+
+3. ¿Qué comportamiento define conceptualmente a la "selectividad alimentaria" en un desorden alimenticio pediátrico (PFD)?
+A) El consumo de alimentos exclusivamente mediante sonda nasogástrica.
+B) Limitar la dieta a 10-15 alimentos o menos, mostrando una marcada aversión sensorial de texturas o sabor.
+C) El llanto desorganizado antes de la mamada por calostro ausente.
+- CORRECTA: B
+- POR QUÉ: El criterio conductual de Chatoor asocia la selectividad con restricciones dietarias severas basadas en el rechazo a las cualidades físicas de los alimentos (pág. 121).
+
+4. Al evaluar a un paciente que sufrió asfixia traumática o procedimientos orales dolorosos, ¿qué alteración conductual es común detectar?
+A) Una dislalia por yeísmo deslateralizado.
+B) Rechazo a alimentarse por trauma asociado.
+C) Aumento desmedido de la presión intraoral voluntaria.
+- CORRECTA: B
+- POR QUÉ: El criterio etiológico asocia las aversiones conductuales al trauma secundario de eventos invasivos tempranos o alimentación forzada (pág. 121).
+
+5. ¿De qué manera repercute un estilo de alimentación "negligente" del cuidador sobre la salud del niño?
+A) Favorece la osificación de las suturas de la bóveda craneana de forma precoz.
+B) Ignora tanto las señales de hambre del niño como sus necesidades físicas y emocionales.
+C) Elimina de forma total las disfunciones respiratorias de origen funcional.
+- CORRECTA: B
+- POR QUÉ: El criterio psicosocial establece que el estilo negligente abandona las demandas básicas del lactante, cronificando los desórdenes alimentarios (pág. 122).
+
+6. ¿Cómo se clasifica a la disfagia que compromete la fase inicial de la deglución y el sincronismo orofaríngeo?
+A) Disfagia orofaringea.
+B) Disfagia esofágica de tránsito.
+C) Disfagia neurogénica traumática posnatal.
+- CORRECTA: A
+- POR QUÉ: El criterio de localización anatómica asocia la dificultad inicial de coordinación bucal y de compuertas faríngeas con la disfagia orofaríngea (pág. 120).
+
+7. Ante un cuadro de disfagia severa con riesgo inminente de vida por aspiraciones repetidas, ¿qué vía de alimentación se prescribe?
+A) Alimentación por vía oral exclusiva con líquidos claros.
+B) Vías no orales alternas como sonda nasogástrica o gastrostomía.
+C) Alimentación mixta con mamadera de pezón artificial por goteo.
+- CORRECTA: B
+- POR QUÉ: El criterio de seguridad nutricional obliga a excluir el tránsito bucal para aislar la vía aérea de penetraciones de bolo (pág. 119).
+
+8. ¿Qué disfunción respiratoria de origen funcional suele actuar como causa directa de las disfunciones alimentarias orales?
+A) La inmadurez cardiovascular transitoria.
+B) Los trastornos respiratorios como rinitis, alergias e hipertrofia de adenoides y amígdalas.
+C) La apnea del sueño por prematurez extrema de 36 semanas.
+- CORRECTA: B
+- POR QUÉ: El criterio de etiología mecánica señala que respirar por la boca (por obstrucción de adenoides) desbalancea la mandíbula y altera el tono lingual en la deglución (pág. 125, 126).
+
+4 · LO QUE HAY QUE ACLARAR
+* **Banderas rojas de comportamiento**: Se enlistan síntomas de alarma, pero la duración o el protocolo de derivación a salud mental queda `[FALTA]` (pág. 116).
+* **Viscosidades y texturas recomendadas**: Se menciona la necesidad de modificar la textura de alimentos, pero la escala estandarizada de reología queda `[FALTA]` (pág. 118).
+* **Con la cátedra**: Conviene confirmar si se evaluará el reconocimiento de la escala de inteligibilidad del habla en pacientes con trastornos asociados a dificultades de deglución.

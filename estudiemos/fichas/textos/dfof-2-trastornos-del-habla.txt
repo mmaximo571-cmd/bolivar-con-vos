@@ -1,0 +1,103 @@
+0 · PORTADA
+- TÍTULO: TRASTORNOS DEL HABLA
+- SUBTÍTULO: Articulación · Fonología · Inconsistencia · Dispraxia
+- ENTRADA: Vas a dominar el diagnóstico diferencial de los THA, sus clasificaciones primarias y secundarias y la severidad clínica.
+- MATERIA: Desarrollo de la Función Oral Faríngea
+- PDF USADOS: Cuadernillo Desarrollo de la función oral faríngea.pdf
+
+1 · QUÉ ES
+- DEFINICIÓN:
+  Son dificultades persistentes en la producción del habla que no se deben a alteraciones neurológicas, motores, perceptivas ni malformaciones de los órganos fonoarticulatorios (pág. 97). Se manifiestan en la ausencia de sonidos o en la incapacidad para organizar la secuencia correcta de sonidos en las palabras (pág. 97). Afectan directamente la inteligibilidad del niño (pág. 97).
+- LO QUE MÁS SE CONFUNDE:
+  El **trastorno de articulación (dislalia)** es un problema puramente fonético y motor donde el sonido afectado no se puede realizar ni de forma aislada (pág. 112, 113), mientras que el **trastorno fonológico** es organizativo: el niño puede pronunciar el sonido de forma aislada pero lo omite o sustituye al hablar (pág. 112).
+- PIEZAS:
+  1. **Dislalia**: Alteración específica y persistente de uno o varios sonidos del habla que se manifiesta en distorsiones, sustituciones u omisiones (pág. 103).
+  2. **Retraso fonológico**: Presencia de procesos de simplificación normales de niños más pequeños que persisten de forma retrasada (pág. 105).
+  3. **Trastorno desviado consistente**: Presencia constante de una o más reglas fonológicas que no se alinean con el desarrollo típico del habla (pág. 107).
+  4. **Trastorno inconsistente del habla**: Variación masiva en la pronunciación de las mismas palabras en una misma sesión ante estímulos idénticos (pág. 109).
+  5. **Dispraxia verbal**: Trastorno neurológico infantil con alteración en la planificación y programación de secuencias motoras del habla (pág. 110).
+  6. **Hablante tardío**: Retraso en el inicio del habla con vocabulario reducido a los 2 años sin combinación de frases (pág. 113).
+
+2 · CÓMO FUNCIONA
+
+MÁQUINA 1 · TAXONOMÍA DE DODD Y WILLIAMS
+- QUÉ SE ELIGE: El tipo de déficit primario del habla en evaluación (pág. 102-110)
+- BOTONES: Dislalia, Retraso Fonológico, Trastorno Inconsistente, Dispraxia Verbal
+- POR CADA OPCIÓN:
+  - **Dislalia**: Alteración de sonidos aislados como /r/, /ɾ/, /s/ y /θ/ (pág. 103). El niño no posee el patrón motor para ejecutar el fonema, distinguiéndose de los fonológicos porque el error persiste en la repetición aislada (pág. 112).
+  - **Retraso Fonológico**: Persistencia de procesos de simplificación evolutivos típicos de niños menores (pág. 105). Su nivel de consonantes correctas varía entre leve y severo, distinguiéndose porque sigue el curso normal del habla de forma rezagada (pág. 106).
+  - **Trastorno Inconsistente**: Variación en la producción de una palabra en la misma sesión superior al 40% (pág. 109). El origen está en la dificultad para armar la plantilla fonológica antes de programar el motor, distinguiéndose porque no presenta problemas oromotores (pág. 110).
+  - **Dispraxia Verbal**: Alteración nuclear de planificación y programación de parámetros espaciotemporales (pág. 110). Confluyen déficits oromotores y de entonación, distinguiéndose de la inconsistencia por ser un multidéficit con compromiso de tareas voluntarias (pág. 110, 111).
+- ESQUEMA: Un diagrama de flujo del procesamiento del habla (Selección de fonemas -> Programa motor -> Ejecución muscular). Al tocar un botón, se bloquea con color rojo la etapa de la cadena de procesamiento afectada por cada patología.
+
+MÁQUINA 2 · CLASIFICACIÓN GNÓSICA (NARBONA)
+- QUÉ SE ELIGE: El origen etiológico y el carácter del trastorno del habla (pág. 99-100)
+- BOTONES: Trastornos Primarios, Secundarios Congénitos, Secundarios Adquiridos
+- POR CADA OPCIÓN:
+  - **Trastornos Primarios**: Trastornos congénitos específicos que no se atribuyen a ninguna otra condición médica o neurológica evidente (pág. 99, 101). Se distinguen de los secundarios porque se centran de forma exclusiva en el desarrollo del habla (pág. 99).
+  - **Secundarios Congénitos**: Anomalías de origen prenatal que repercuten en el habla (pág. 100). Incluyen disglosias por malformaciones craneofaciales durante la etapa intrauterina, distinguiéndose porque la causa anatómica es evidente al nacer (pág. 100).
+  - **Secundarios Adquiridos**: Pérdida o alteración del habla por eventos externos ocurridos de forma posnatal (pág. 100). Incluyen traumatismos corporales, cirugías, pérdidas auditivas tardías o afasias por daño cerebral, distinguiéndose porque el niño ya había iniciado su desarrollo (pág. 100).
+- ESQUEMA: Tres columnas con iconos correspondientes a un cerebro intacto sin causa médica (Primarios), un bebé con labio fisurado (Secundario Congénito) y un niño con un vendaje post-trauma (Secundario Adquirido).
+
+3 · CÓMO TE DAS CUENTA
+
+1. ¿Qué prueba clínica se administra para diagnosticar de forma precisa un trastorno inconsistente del habla?
+A) Una audiometría tonal profunda en cabina insonorizada.
+B) Tres pruebas de denominación de imágenes en una misma sesión evaluando la variación de pronunciación.
+C) El test del Moro y prensión palmar en decúbito ventral.
+- CORRECTA: B
+- POR QUÉ: El criterio diagnóstico establece que si un niño pronuncia de manera diferente más de 10 palabras (más del 40% de variación) se confirma el trastorno inconsistente (pág. 109).
+
+2. Un niño de 6 años dice "pamén" en lugar de "también", pero al pedírselo es capaz de pronunciar todos los sonidos aislados sin error. ¿Qué patología presenta?
+A) Presenta un trastorno de articulación o dislalia.
+B) No tiene trastorno de articulación; se clasifica como una dificultad organizativa fonológica.
+C) Presenta una dispraxia verbal de nivel 3.
+- CORRECTA: B
+- POR QUÉ: El criterio fonético-fonológico indica que al estar el repertorio fonético completo, la alteración radica en la distribución de sonidos en la palabra y no en el patrón motor (pág. 104).
+
+3. Al evaluar la dislalia en hablantes de español, ¿cuáles son los sonidos que se ven afectados con mayor frecuencia?
+A) Los sonidos bilabiales /p/, /b/ y /m/.
+B) Los sonidos /r/, /ɾ/, /s/ y /θ/.
+C) Los fonemas vocálicos /a/ y /o/.
+- CORRECTA: B
+- POR QUÉ: El criterio de desarrollo fonológico típico establece que los fonemas vibrantes, alveolares y fricativos son de adquisición tardía y por ende los más alterados (pág. 103).
+
+4. ¿Qué alteración nuclear define a la dispraxia verbal pediátrica según la definición de la ASHA?
+A) Una malformación ósea adquirida por trauma lingual.
+B) La alteración en la planificación y programación de los parámetros espaciotemporales de secuencias motoras.
+C) La ausencia completa de secreción de saliva por las glándulas parótidas.
+- CORRECTA: B
+- POR QUÉ: El criterio neurológico motor sitúa el origen de la dispraxia en la falla de planificación de movimientos articulados precisos en ausencia de parálisis neuromuscular (pág. 110).
+
+5. ¿Cómo se denominan los procesos de simplificación que afectan a la estructura silábica, como las omisiones de consonantes finales?
+A) Procesos sistémicos o de sustitución.
+B) Procesos estructurales de simplificación.
+C) Procesos de deslateralización por yeísmo.
+- CORRECTA: B
+- POR QUÉ: El criterio de clasificación fonológica asocia las omisiones y asimilaciones con los procesos estructurales de la sílaba, y los cambios de fonemas con los sistémicos (pág. 106).
+
+6. Al evaluar a un "hablante tardío", ¿qué pauta de vocabulario se espera encontrar típicamente a los 2 años de edad?
+A) Un vocabulario de más de 300 palabras combinadas en oraciones complejas.
+B) Un vocabulario significativamente reducido y ausencia de frases de combinación.
+C) La pérdida absoluta de la comprensión de instrucciones simples.
+- CORRECTA: B
+- POR QUÉ: El criterio de desarrollo del lenguaje define al hablante tardío por el retraso de vocabulario expresivo (menos de 50 palabras) con comprensión conservada (pág. 113).
+
+7. ¿Qué caracteriza a los trastornos del habla clasificados como "secundarios"?
+A) Que se detectan exclusivamente de forma tardía en la adultez a los 40 años.
+B) Que resultan de otras condiciones patológicas como pérdidas auditivas o malformaciones.
+C) Que no pueden atribuirse a ninguna causa médica o neurológica evidente.
+- CORRECTA: B
+- POR QUÉ: El criterio etiológico asocia los trastornos secundarios a una causa médica evidente que actúa como patología de base (pág. 100).
+
+8. ¿Qué nivel de severidad de retraso fonológico se caracteriza por un contraste marcado entre el discurso complejo deficiente y la repetición aislada de sílabas buena?
+A) Nivel 1 de Monfort.
+B) Nivel 2 de Monfort.
+C) Nivel 3 de Monfort.
+- CORRECTA: C
+- POR QUÉ: El criterio de severidad clínica define al Nivel 3 como el de menor inteligibilidad y máxima desorganización discursiva frente a la conservación de la imitación silábica simple (pág. 107).
+
+4 · LO QUE HAY QUE ACLARAR
+* **Test estandarizados específicos**: Se menciona que es posible evaluar a los pacientes con pruebas estandarizadas comunes, pero sus nombres comerciales en español quedan `[FALTA]` (pág. 98).
+* **Tratamiento logopédico detallado**: Se enumeran las intervenciones terapéuticas (fortalecimiento del soplo, masajes), pero el protocolo de sesiones queda `[FALTA]` (pág. 101).
+* **Con la cátedra**: Se recomienda verificar si el yeísmo o la sustitución común de /θ/ por /s/ fuera del centro de España serán considerados como errores en las evaluaciones teóricas de la materia.

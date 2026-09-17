@@ -1,0 +1,103 @@
+0 · PORTADA
+- TÍTULO: OSTEOGÉNESIS FACIAL
+- SUBTÍTULO: Osificación · Crecimiento · Remodelación · Biotipos
+- ENTRADA: Vas a dominar los mecanismos de remodelación y desplazamiento óseo facial, la dinámica mandibular y los tres biotipos faciales.
+- MATERIA: Desarrollo de la Función Oral Faríngea
+- PDF USADOS: Cuadernillo Desarrollo de la función oral faríngea.pdf
+
+1 · QUÉ ES
+- DEFINICIÓN:
+  Es el proceso de formación y crecimiento posnatal de las estructuras óseas del complejo craneofacial (pág. 135). Ocurre de forma diferenciada mediante osificación directa (intramembranosa) o indirecta (endocondral) (pág. 136). El crecimiento facial no es simultáneo y determina la configuración del biotipo del individuo (pág. 135, 143).
+- LO QUE MÁS SE CONFUNDE:
+  La **remodelación** consiste en la aposición local de hueso por osteoblastos en una cara y la reabsorción por osteoclastos en otra (pág. 137), mientras que el **desplazamiento** es el movimiento espacial completo de un hueso empujado por el crecimiento de los huesos vecinos (pág. 137).
+- PIEZAS:
+  1. **Osteoblastos**: Células encargadas de generar tejido óseo nuevo por aposición superficial (pág. 135, 137).
+  2. **Osteoclastos**: Células encargadas de reabsorber y remover matriz ósea para posibilitar el cambio de forma (pág. 137).
+  3. **Crecimiento sutural**: Osificación del tejido conjuntivo entre huesos de la bóveda craneana y la cara (pág. 136).
+  4. **Crecimiento cartilaginoso**: Osificación de cartílagos en base de cráneo, tabique nasal y cóndilo mandibular (pág. 136).
+  5. **Sincondrosis esfeno-occipital**: Región cartilaginosa de la base craneal que continúa creciendo hasta los 18 años (pág. 139).
+  6. **Cartílago condilar**: Estructura independiente de la mandíbula que le permite un crecimiento constante y rápido (pág. 142).
+
+2 · CÓMO FUNCIONA
+
+MÁQUINA 1 · DINÁMICA DE CRECIMIENTO CRANEOFACIAL
+- QUÉ SE ELIGE: El sector anatómico y su mecanismo de osificación (pág. 138-142)
+- BOTONES: Bóveda Craneana, Base del Cráneo, Complejo Nasomaxilar, Mandíbula
+- POR CADA OPCIÓN:
+  - **Bóveda Craneana**: Crece por crecimiento sutural y periostal/endostal (pág. 138). Presenta una rápida expansión que frena a los 7-8 años, distinguiéndose de la base porque no utiliza cartílagos de soporte (pág. 138).
+  - **Base del Cráneo**: Experimenta crecimiento cartilaginoso protector (pág. 139). Su sincondrosis esfeno-occipital se mantiene activa hasta los 18 años, distinguiéndose de la bóveda por guiar el crecimiento sagital profundo (pág. 139).
+  - **Complejo Nasomaxilar**: Crece vertical, transversal y sagitalmente por suturas y tabique nasal (pág. 140, 141). Su desarrollo es moldeado por funciones biológicas (respiración, masticación), distinguiéndose por su desplazamiento hacia inferior y anterior (pág. 140).
+  - **Mandíbula**: Crecimiento independiente comandado por el cartílago condilar (pág. 142). De origen endoconjuntivo intramembranoso, distinguiéndose porque su crecimiento es altamente adaptativo al biotipo y la fuerza masticatoria (pág. 142).
+- ESQUEMA: Un cráneo infantil completo. Al tocar cada botón, se ilumina en color la zona de crecimiento (suturas superiores, cartílagos profundos de base, maxilar nasomaxilar delantero o mandíbula inferior) con flechas indicando sus direcciones de desplazamiento.
+
+MÁQUINA 2 · COMPORTAMIENTO CLÍNICO DE BIOTIPOS
+- QUÉ SE ELIGE: La morfología facial del sujeto según su dirección de crecimiento (pág. 143)
+- BOTONES: Mesofacial (Promedio), Braquifacial (Horizontal), Dolicofacial (Vertical)
+- POR CADA OPCIÓN:
+  - **Mesofacial (Promedio)**: Rostro equilibrado y simétrico (pág. 143). Sus dimensiones verticales y sagitales son de rango promedio, distinguiéndose por presentar musculatura y cavidades normales (pág. 143).
+  - **Braquifacial (Horizontal)**: Crecimiento óseo con dominancia horizontal (pág. 143). Presenta un rostro corto y ancho (euriprosopo) con mordida profunda y cavidades nasales amplias, distinguiéndose por una musculatura masticatoria muy fuerte (pág. 143).
+  - **Dolicofacial (Vertical)**: Crecimiento óseo con dominancia vertical (pág. 143). Presenta un rostro alargado y estrecho (leptoprosopo) con tendencia a mordida abierta, distinguiéndose por una musculatura flácida con labios tensos (pág. 143).
+- ESQUEMA: Un boceto de tres contornos faciales (uno óvalo, uno cuadrado-ancho y uno estirado verticalmente). Al tocar cada botón, se destacan las líneas de proporción de los tercios faciales y el grado de tensión de los labios en reposo.
+
+3 · CÓMO TE DAS CUENTA
+
+1. ¿Qué diferencia conceptual existe entre los mecanismos óseos de remodelación y desplazamiento?
+A) La remodelación cambia la composición del diente; el desplazamiento osifica la raíz.
+B) La remodelación altera localmente la forma por aposición/reabsorción; el desplazamiento mueve el hueso entero por crecimiento de vecinos.
+C) El desplazamiento es un proceso prenatal y la remodelación ocurre únicamente post-alta de los 2 kg.
+- CORRECTA: B
+- POR QUÉ: El criterio de dinámica ósea asocia la remodelación celular con el balance local de osteoblastos/osteoclastos y el desplazamiento con un cambio espacial pasivo (pág. 137).
+
+2. ¿Qué región de la base del cráneo se caracteriza por ser la única que continúa creciendo de forma cartilaginosa hasta los 18 años?
+A) La sutura palatina media.
+B) La sincondrosis esfeno-occipital.
+C) El cartílago de Meckel distal.
+- CORRECTA: B
+- POR QUÉ: El criterio cronológico del desarrollo de la base craneal destaca la sincondrosis como el principal cartílago de crecimiento remanente en la adolescencia (pág. 139).
+
+3. ¿Qué tipo de osificación ósea ocurre cuando el tejido mesenquimático se convierte de forma directa en hueso, sin pasar por cartílago?
+A) Osificación indirecta o endocondral.
+B) Osificación directa o intramembranosa.
+C) Osificación cartilaginosa sutural.
+- CORRECTA: B
+- POR QUÉ: El criterio histológico clasifica la osificación en directa (membranosa) cuando el mesénquima produce osteoblastos directamente, e indirecta cuando requiere un molde cartilaginoso previo (pág. 136).
+
+4. Al estudiar los tres tercios estéticos del rostro (superior, medio e inferior), ¿cómo deben comportarse idealmente para ser armónicos?
+A) El tercio inferior debe duplicar el tamaño del superior.
+B) Los tres tercios deben ser equivalentes en proporción.
+C) El tercio medio debe desaparecer al osificarse el tabique nasal.
+- CORRECTA: B
+- POR QUÉ: El criterio de análisis facial estético establece que las proporciones verticales de los tercios deben mantener una simetría y equivalencia matemática (pág. 144).
+
+5. ¿Qué biotipo facial se caracteriza por presentar un crecimiento predominantemente vertical, cara estrecha y musculatura flácida?
+A) Biotipo Mesoficial.
+B) Biotipo Braquifacial.
+C) Biotipo Dolicofacial.
+- CORRECTA: C
+- POR QUÉ: El criterio morfológico asocia el cráneo largo (dolicocéfalo), el rostro estrecho (leptoprosopo) y la flacidez neuromuscular con el biotipo dolicofacial (pág. 143).
+
+6. ¿Qué estructura anatómica es la responsable de comandar el crecimiento constante, vertical y adaptativo de la mandíbula?
+A) El cartílago de Reichert del hioides.
+B) El cartílago condilar de la mandíbula.
+C) La sutura frontomaxilar anterior.
+- CORRECTA: B
+- POR QUÉ: El de fisiología mandibular asocia la independencia de crecimiento de la mandíbula con la plasticidad y aposición continua del cartílago del cóndilo (pág. 142).
+
+7. Al realizar un análisis labial normal en reposo, ¿qué proporción de los incisivos superiores debe cubrir el labio superior?
+A) Debe cubrir de forma exacta la totalidad de la corona.
+B) Debe cubrir aproximadamente dos tercios de la cara vestibular de la corona.
+C) No debe tocar en absoluto la superficie dental del incisivo.
+- CORRECTA: B
+- POR QUÉ: El criterio de estética y competencia funcional labial define como normal el solapamiento parcial de la corona dental por el borde del labio en reposo (pág. 145).
+
+8. ¿Hacia qué dirección espacial se desplaza de forma general el viscerocráneo o cara durante el desarrollo posnatal típico?
+A) Crece únicamente hacia posterior y superior.
+B) Se desplaza y crece hacia inferior y anterior.
+C) Se mantiene completamente estático bloqueado por la sincondrosis.
+- CORRECTA: B
+- POR QUÉ: El criterio de crecimiento facial establece que el complejo nasomaxilar y mandibular se proyectan hacia adelante y abajo alejándose de la base del cráneo (pág. 141, 142).
+
+4 · LO QUE HAY QUE ACLARAR
+* **Causas genéticas de biotipos**: Se clasifican los tres biotipos y su herencia, pero los genes o síndromes moleculares asociados quedan `[FALTA]` (pág. 143).
+* **Osificación temporal de fontanelas**: Se menciona que las fontanelas se osifican dando origen a suturas, pero los meses específicos de cierre de cada fontanela están `[FALTA]` (pág. 138, 139).
+* **Con la cátedra**: Conviene confirmar si para el examen se evaluarán las diferencias métricas exactas del plano estético lateral y la angulación nasal de Ricketts en el análisis de perfil.

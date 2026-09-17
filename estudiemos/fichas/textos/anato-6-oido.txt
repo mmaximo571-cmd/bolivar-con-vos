@@ -1,0 +1,112 @@
+### 0 · PORTADA
+- TÍTULO: ANATOMÍA DEL OÍDO
+- SUBTÍTULO: Tímpano · Huesecillos · Cóclea · Corti
+- ENTRADA: Vas a dominar la transmisión mecánica del oído medio, las paredes de la caja del tímpano y el mecanismo de traducción celular del órgano de Corti.
+- MATERIA: Anatomofisiología Fonoaudiológica (CUADERNILLO ANATOMOFISIOLOGÍA 2DA ED.pdf, pág. 1)
+- PDF USADOS:
+  - CUADERNILLO ANATOMOFISIOLOGÍA 2DA ED.pdf
+
+---
+
+### 1 · QUÉ ES
+- DEFINICIÓN:
+  El **oído** es un órgano transductor de señal que capta las perturbaciones de sonido del medio, transformándolas en señales eléctricas para que el cerebro las interprete (CUADERNILLO ANATOMOFISIOLOGÍA 2DA ED.pdf, pág. 102). Se compone de tres partes: oído externo, oído medio y oído interno (CUADERNILLO ANATOMOFISIOLOGÍA 2DA ED.pdf, pág. 100).
+- LO QUE MÁS SE CONFUNDE:
+  Los tres huesecillos del oído medio se articulan entre sí con formas articulares muy específicas que se rinden mal: la unión **Martillo + Yunque** es un **encaje recíproco**, mientras que la unión **Yunque + Estribo** es una **enartrosis** (CUADERNILLO ANATOMOFISIOLOGÍA 2DA ED.pdf, pág. 106).
+- PIEZAS:
+  1. **Pars fláccida**: Porción superior de la membrana timpánica, también llamada membrana de Scharpnell, caracterizada por ser más delgada y menos tensa (CUADERNILLO ANATOMOFISIOLOGÍA 2DA ED.pdf, pág. 107).
+  2. **Tegmen tympani**: Lámina ósea que conforma la pared superior de la caja del tímpano y la separa de la cavidad craneana (CUADERNILLO ANATOMOFISIOLOGÍA 2DA ED.pdf, pág. 104).
+  3. **Trompa de Eustaquio**: Conducto fibrocartilaginoso y óseo que conecta el oído medio con la rinofaringe para equilibrar las presiones de aire (CUADERNILLO ANATOMOFISIOLOGÍA 2DA ED.pdf, pág. 108).
+  4. **Utrículo**: Vesícula del vestíbulo membranoso que posee una mancha acústica sensible a los cambios de posición de la cabeza y gravedad (CUADERNILLO ANATOMOFISIOLOGÍA 2DA ED.pdf, pág. 115, 116).
+  5. **Órgano de Corti**: Estructura situada sobre la membrana basilar responsable de transducir las vibraciones sonoras en señales eléctricas (CUADERNILLO ANATOMOFISIOLOGÍA 2DA ED.pdf, pág. 119).
+  6. **Células ciliadas internas**: Células sensoriales (aprox. 3.500) del órgano de Corti que al doblarse generan impulsos que se transmiten al nervio coclear (CUADERNILLO ANATOMOFISIOLOGÍA 2DA ED.pdf, pág. 119).
+
+---
+
+### 2 · CÓMO FUNCIONA
+
+#### MÁQUINA 1 · LAS SUBDIVISIONES DEL OÍDO
+- QUÉ SE ELIGE: El compartimento del sistema auditivo (CUADERNILLO ANATOMOFISIOLOGÍA 2DA ED.pdf, pág. 100, 103, 111)
+- BOTONES: Externo, Medio, Interno
+- POR CADA OPCIÓN:
+  - **Externo**: Pabellón y conducto auditivo externo (CUADERNILLO ANATOMOFISIOLOGÍA 2DA ED.pdf, pág. 100). Recoge las ondas sonoras del medio y las converge hacia el tímpano, distinguiéndose por poseer un armazón de cartílago y piel con glándulas de cera protectoras (CUADERNILLO ANATOMOFISIOLOGÍA 2DA ED.pdf, pág. 100, 101, 102).
+  - **Medio**: Cavidad de aire dentro del hueso temporal (CUADERNILLO ANATOMOFISIOLOGÍA 2DA ED.pdf, pág. 103). Transforma las ondas acústicas en vibraciones mecánicas mediante la cadena de tres huesecillos, distinguiéndose por comunicarse directamente con la faringe para regular presiones (CUADERNILLO ANATOMOFISIOLOGÍA 2DA ED.pdf, pág. 103, 111).
+  - **Interno**: Laberinto óseo y membranoso profundo (CUADERNILLO ANATOMOFISIOLOGÍA 2DA ED.pdf, pág. 111). Contiene el vestíbulo, conductos semicirculares y la cóclea llenos de endolinfa y perilinfa, distinguiéndose por albergar los receptores finales de la audición y el equilibrio (CUADERNILLO ANATOMOFISIOLOGÍA 2DA ED.pdf, pág. 111, 112).
+- ESQUEMA: Tres cajas concéntricas o unidas de izquierda a derecha. Caja 1 (externo - con forma de pabellón y conducto), Caja 2 (medio - con una cadena de tres palancas representando los huesecillos) y Caja 3 (interno - con forma de caracol enrollado) (CUADERNILLO ANATOMOFISIOLOGÍA 2DA ED.pdf, pág. 100).
+
+#### MÁQUINA 2 · COMPARTIMENTOS DEL CAI
+- QUÉ SE ELIGE: El cuadrante del Conducto Auditivo Interno y sus fibras (CUADERNILLO ANATOMOFISIOLOGÍA 2DA ED.pdf, pág. 113)
+- BOTONES: Anterosuperior, Posterosuperior, Anteroinferior, Posteroinferior
+- POR CADA OPCIÓN:
+  - **Anterosuperior**: Cuadrante anterior y superior (CUADERNILLO ANATOMOFISIOLOGÍA 2DA ED.pdf, pág. 113). Contiene de forma exclusiva las fibras del Nervio Facial (VII par), distinguiéndose por no llevar fibras del nervio auditivo (CUADERNILLO ANATOMOFISIOLOGÍA 2DA ED.pdf, pág. 113).
+  - **Posterosuperior**: Cuadrante posterior y superior (CUADERNILLO ANATOMOFISIOLOGÍA 2DA ED.pdf, pág. 113). Aloja las fibras utriculares, distinguiéndose por relacionarse con la función del equilibrio estático del utrículo (CUADERNILLO ANATOMOFISIOLOGÍA 2DA ED.pdf, pág. 113).
+  - **Anteroinferior**: Cuadrante anterior e inferior (CUADERNILLO ANATOMOFISIOLOGÍA 2DA ED.pdf, pág. 113). Aloja de forma exclusiva las fibras cocleares, distinguiéndose por transportar la información de las frecuencias audibles del caracol (CUADERNILLO ANATOMOFISIOLOGÍA 2DA ED.pdf, pág. 113).
+  - **Posteroinferior**: Cuadrante posterior e inferior (CUADERNILLO ANATOMOFISIOLOGÍA 2DA ED.pdf, pág. 113). Aloja las fibras saculares, distinguiéndose por relacionarse con la función del equilibrio de aceleración lineal del sáculo (CUADERNILLO ANATOMOFISIOLOGÍA 2DA ED.pdf, pág. 113).
+- ESQUEMA: Un círculo dividido en cruz que representa las cuatro paredes del conducto auditivo interno. Se rotulan los cuadrantes con sus iniciales y se dibuja un nervio saliendo de cada uno: arriba-izquierda Facial, arriba-derecha Utricular, abajo-izquierda Coclear y abajo-derecha Sacular (CUADERNILLO ANATOMOFISIOLOGÍA 2DA ED.pdf, pág. 113).
+
+---
+
+### 3 · CÓMO TE DAS CUENTA
+
+#### 1. ¿Cómo se clasifican respectivamente las articulaciones mecánicas Martillo-Yunque y Yunque-Estribo de la cadena de huesecillos?
+A) Ambas son enartrosis de amplio rango de movimiento.
+B) Martillo-Yunque es un encaje recíproco y Yunque-Estribo es una enartrosis.
+C) Martillo-Yunque es una trocoide y Yunque-Estribo es una artrodia plana.
+- CORRECTA: B
+- WHY: El criterio de clasificación articular define de forma exacta estas dos uniones sinoviales exclusivas de la caja del tímpano (CUADERNILLO ANATOMOFISIOLOGÍA 2DA ED.pdf, pág. 106).
+
+#### 2. Si analizás la membrana timpánica de forma clínica, ¿cómo se denomina su porción superior caracterizada por ser más delgada y menos tensa?
+A) Pars condensa o porción inferior.
+B) Pars fláccida o membrana de Scharpnell.
+C) Rodete anular de Gerlach superior.
+- CORRECTA: B
+- WHY: El criterio morfológico divide al tímpano en la pars condensa (zona gruesa tensa inferior) y la pars fláccida (zona superior delgada) (CUADERNILLO ANATOMOFISIOLOGÍA 2DA ED.pdf, pág. 107).
+
+#### 3. ¿Qué fibras nerviosas atraviesan de manera exclusiva el compartimento anterosuperior del conducto auditivo interno?
+A) Las fibras cocleares de la audición.
+B) Las fibras del Nervio Facial.
+C) Las fibras utriculares del equilibrio.
+- CORRECTA: B
+- WHY: El criterio neurológico de segmentación interna determina de manera estricta la distribución de los cuadrantes del CAI, ubicando al nervio facial hacia anterior y superior (CUADERNILLO ANATOMOFISIOLOGÍA 2DA ED.pdf, pág. 113).
+
+#### 4. ¿Qué membrana del caracol sirve de soporte directo para sostener el órgano de Corti de donde nacen las fibras del nervio auditivo?
+A) La membrana vestibular o de Reissner.
+B) La membrana basilar.
+C) La membrana tectoria superior.
+- CORRECTA: B
+- WHY: El criterio histofuncional indica que la membrana basilar funciona como piso del conducto coclear brindando asiento al órgano sensorial de Corti (CUADERNILLO ANATOMOFISIOLOGÍA 2DA ED.pdf, pág. 119).
+
+#### 5. ¿Qué rol específico desempeñan las aproximadamente 12.000 células ciliadas externas ubicadas en el órgano de Corti?
+A) Se encargan de generar la señal eléctrica inicial que viaja directo al cerebro.
+B) Amplifican las señales sonoras antes de llegar a las células ciliadas internas para aumentar la sensibilidad.
+C) Conducen la perilinfa hacia el helicotrema terminal.
+- CORRECTA: B
+- WHY: El criterio de fisiología auditiva distingue a las células ciliadas externas por su función amplificadora de sonidos de baja intensidad, a diferencia de las internas que transducen la señal (CUADERNILLO ANATOMOFISIOLOGÍA 2DA ED.pdf, pág. 119).
+
+#### 6. ¿Qué pared de la caja del tímpano aloja al promontorio, la ventana oval y la ventana redonda que comunican con el oído interno?
+A) La pared superior o tegmen tympani.
+B) La pared interna o laberíntica.
+C) La pared anterior o tubárica.
+- CORRECTA: B
+- WHY: El criterio de límites anatómicos asocia estas ventanas de comunicación del oído medio con el oído interno directamente a la pared medial o interna de la caja (CUADERNILLO ANATOMOFISIOLOGÍA 2DA ED.pdf, pág. 104).
+
+#### 7. ¿Qué acción muscular sobre la cadena de huesecillos se encarga de aumentar la tensión de la membrana timpánica y la presión del líquido interno?
+A) El músculo del estribo.
+B) El músculo del martillo o tensor del tímpano.
+C) El músculo periestafilino externo.
+- CORRECTA: B
+- WHY: El criterio mecánico establece que el músculo del martillo tensa el tímpano y empuja el estribo en la ventana oval, aumentando la presión del oído interno (CUADERNILLO ANATOMOFISIOLOGÍA 2DA ED.pdf, pág. 106).
+
+#### 8. ¿Qué músculos del velo del paladar controlan de forma directa la apertura y el cierre de la trompa de Eustaquio durante la deglución?
+A) El músculo del martillo y el del estribo.
+B) El periestafilino externo e interno.
+C) El palatogloso y palatofaríngeo posteriores.
+- CORRECTA: B
+- WHY: El criterio funcional indica que estos dos músculos del velo del paladar se contraen al tragar para abrir la trompa y ventilar la caja timpánica (CUADERNILLO ANATOMOFISIOLOGÍA 2DA ED.pdf, pág. 109).
+
+---
+
+### 4 · LO QUE HAY QUE ACLARAR
+* **Mecánica del helicotrema**: El comportamiento físico detallado del flujo perilinfático al cruzar el helicotrema está `[FALTA]` en este cuadernillo (CUADERNILLO ANATOMOFISIOLOGÍA 2DA ED.pdf, pág. 118).
+* **Parálisis facial periférica en oído**: Los efectos de la parálisis del nervio facial sobre la función protectora del músculo del estribo (inervado por el VII par) están `[FALTA]` en este módulo (CUADERNILLO ANATOMOFISIOLOGÍA 2DA ED.pdf, pág. 33, 106).
+* **Con la cátedra**: Preguntá si para la evaluación de oído interno te van a exigir memorizar las fosas (coclear, semioval y hemisférica) de la pared interna del vestíbulo o si solo entra la distribución de las fibras en los cuadrantes del CAI.

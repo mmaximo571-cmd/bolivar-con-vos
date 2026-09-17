@@ -1,0 +1,102 @@
+0 · PORTADA
+- TÍTULO: ANQUILOGLOSIA
+- SUBTÍTULO: Frenillo · Lengua · Movilidad · Succión
+- ENTRADA: Vas a entender el impacto anatómico y funcional de un frenillo lingual corto en el habla y la lactancia.
+- MATERIA: Desarrollo de la Función Oral Faríngea
+- PDF USADOS: Cuadernillo Desarrollo de la función oral faríngea.pdf
+
+1 · QUÉ ES
+- DEFINICIÓN:
+  Es una condición congénita conocida como lengua anclada o atada, caracterizada por un frenillo lingual corto (pág. 62). Esta alteración impide o dificulta los movimientos normales de la lengua necesarios para succionar, masticar y hablar (pág. 62, 63). Su tratamiento definitivo puede requerir la intervención quirúrgica llamada frenectomía (pág. 63).
+- LO QUE MÁS SE CONFUNDE:
+  La observación clínica del frenillo corto no se basa solo en su longitud estática, sino en la **forma de corazón** que adopta la punta de la lengua al intentar anteriorizarla o sacarla de la boca (pág. 63).
+- PIEZAS:
+  1. **Frenillo lingual**: Pliegue de mucosa que se extiende en la línea media desde la cara ventral de la lengua hasta el piso de la boca (pág. 62).
+  2. **Anquiloglosia parcial**: Limitación de movilidad de grado variable por frenillo corto (pág. 62).
+  3. **Anquiloglosia completa**: Fijación total de la lengua al piso de la boca (pág. 62).
+  4. **Adaptación del pezón**: Mecanismo de sellado que se dificulta en el bebé por la reducida excursión lingual (pág. 62).
+  5. **Músculos buccinadores**: Tejido de las mejillas que presenta una actividad exacerbada de compensación ante la baja presión intraoral (pág. 62).
+  6. **Frenectomía**: Procedimiento quirúrgico que consiste en la sección o corte del frenillo corto para liberar la lengua (pág. 63).
+
+2 · CÓMO FUNCIONA
+
+MÁQUINA 1 · ALTERACIONES EN LA LACTANCIA
+- QUÉ SE ELIGE: El efecto fisiológico del frenillo corto al amamantar (pág. 62)
+- BOTONES: Presión Intraoral, Sello Labial, Compensaciones Musculares
+- POR CADA OPCIÓN:
+  - **Presión Intraoral**: Se reduce notablemente por la falta de acoplamiento lingual (pág. 62). Impide que el bebé genere el vacío necesario para succionar la leche de forma eficiente, distinguiéndose de la deglución normal donde el vacío está conservado (pág. 62).
+  - **Sello Labial**: Se altera al adosarse de forma inadecuada al pezón materno (pág. 62, 76). Provoca labios invertidos y fugas de aire, distinguiéndose porque obliga al lactante a morder el pezón con las encías para sostenerlo (pág. 62).
+  - **Compensaciones Musculares**: Actividad exacerbada y dolorosa de las mejillas y lengua retraída (pág. 62). Provoca tensión oral excesiva y fatiga muscular rápida, distinguiéndose porque desvía la fisiología muscular habitual utilizando músculos secundarios (pág. 62).
+- ESQUEMA: Un perfil de la boca de un lactante acoplado a la areola. Al presionar el botón 1, se muestra en rojo la pérdida de vacío intraoral; al botón 2, la eversión incorrecta de los labios; y al botón 3, la contracción exagerada de los músculos de las mejillas en color oscuro.
+
+MÁQUINA 2 · COMPROMISO EN EL HABLA Y MASTICACIÓN
+- QUÉ SE ELIGE: El impacto funcional en la etapa de crecimiento infantil (pág. 62-63)
+- BOTONES: Fonemas Afectados, Estrategias de Habla, Ciclo Masticatorio
+- POR CADA OPCIÓN:
+  - **Fonemas Afectados**: Consonantes dentolinguales específicas (pág. 62). Altera la pronunciación de /d/, /l/, /n/, /r/, /s/, /t/ y /z/, distinguiéndose de las consonantes bilabiales como /p/ o /m/ que se pronuncian sin ninguna dificultad (pág. 62).
+  - **Estrategias de Habla**: Uso de movimientos compensatorios (pág. 63). El paciente realiza un esfuerzo físico excesivo con labios y mandíbula para hablar, distinguiéndose porque altera la señal acústica natural aun cuando logre aproximarse al sonido (pág. 63).
+  - **Ciclo Masticatorio**: Limitación en la trituración del bolo (pág. 63). Dificulta los movimientos de traslado lateral del alimento hacia las piezas dentarias, distinguiéndose por provocar atipias notables en la musculatura perioral durante la deglución de sólidos (pág. 63).
+- ESQUEMA: Un rostro frontal con la boca abierta. Al tocar "Fonemas", se destacan en color los puntos de contacto dentolinguales bloqueados. Al tocar "Estrategias", se dibuja un vector de fuerza exagerado en la mandíbula inferior indicando sobreesfuerzo.
+
+3 · CÓMO TE DAS CUENTA
+
+1. ¿Qué forma característica adopta la lengua de un paciente con anquiloglosia al intentar sacarla de la boca?
+A) Forma de cilindro alargado.
+B) Forma de corazón.
+C) Forma de raqueta asimétrica.
+- CORRECTA: B
+- POR QUÉ: El criterio de inspección clínica asocia la tracción central del frenillo corto con la muesca media apical que le da forma de corazón a la lengua (pág. 63).
+
+2. ¿Cuál de los siguientes fonemas consonánticos se verá directamente dificultado en su pronunciación por un frenillo corto?
+A) El fonema bilabial /p/.
+B) El fonema labiodental /f/.
+C) El fonema dentolingual /t/.
+- CORRECTA: C
+- POR QUÉ: El criterio de punto de articulación indica que los fonemas que requieren el adosamiento o elevación del ápice lingual a los dientes superiores son los afectados (pág. 62).
+
+3. Al amamantar, ¿qué comportamiento compensatorio patológico suele realizar un bebé con frenillo corto ante la areola?
+A) Retracción involuntaria de las mejillas y deglución silenciosa rápida.
+B) Tendencia a morder el pezón con las encías y mantener los labios invertidos.
+C) Sello hermético exclusivo con la punta de la nariz.
+- CORRECTA: B
+- POR QUÉ: El criterio funcional establece que al no poder elevar el ápice de la lengua, el bebé muerde para sujetar el pecho y compensa con los buccinadores (pág. 62).
+
+4. En cuanto al habla, ¿cuál es el impacto acústico de las adaptaciones de labios y mandíbula que hace un niño con frenillo corto?
+A) Corrigen por completo el timbre sin requerir esfuerzo muscular alguno.
+B) Provocan un esfuerzo mayor y alteran la señal acústica del habla del niño.
+C) Impiden de forma total y absoluta la pronunciación de fonemas bilabiales.
+- CORRECTA: B
+- POR QUÉ: El criterio foniátrico describe que las compensaciones logran producir el sonido de forma desviada a costa de tensionar el sistema y deformar la acústica (pág. 63).
+
+5. ¿Qué alteración ocurre en la masticación de sólidos debido a un frenillo lingual corto?
+A) Pérdida completa de la secreción de saliva por las glándulas mayores.
+B) Dificultad para trasladar los alimentos adecuadamente y atipias en la musculatura perioral.
+C) Fractura inmediata de los incisivos centrales inferiores al morder.
+- CORRECTA: B
+- POR QUÉ: El criterio funcional señala que la limitación en la lateralización lingual impide llevar el bolo a las muelas, forzando muecas periorales para compensar (pág. 63).
+
+6. ¿Cómo se clasifica a la anquiloglosia en la cual la lengua está fijada por completo al piso de la boca?
+A) Anquiloglosia parcial.
+B) Anquiloglosia completa o total.
+C) Anquiloglosia atípica alveolar.
+- CORRECTA: B
+- POR QUÉ: El criterio de clasificación diferencia la fijación absoluta (completa) de las limitaciones restrictivas de longitud variable (parciales) (pág. 62).
+
+7. ¿Qué intervención quirúrgica se menciona como alternativa común para solucionar clínicamente un frenillo corto?
+A) La palatoplastia de Veau.
+B) La frenectomía.
+C) La glosectomía parcial.
+- CORRECTA: B
+- POR QUÉ: El criterio quirúrgico define a la frenectomía como el procedimiento específico para liberar la tensión apical de la lengua cortando el frenillo (pág. 63).
+
+8. ¿Por qué se produce una tensión oral excesiva en las mejillas de los lactantes con anquiloglosia?
+A) Por la debilidad total de las glándulas salivales sublinguales.
+B) Por la actividad exacerbada de compensación de los músculos buccinadores.
+C) Por la falta de osificación directa de la mandíbula inferior.
+- CORRECTA: B
+- POR QUÉ: El criterio neuromuscular asocia el sobreesfuerzo de los buccinadores al intentar compensar la falta de presión intraoral generada por la lengua (pág. 62).
+
+4 · LO QUE HAY QUE ACLARAR
+* **Técnica de frenectomía**: Se menciona que la cirugía del frenillo es la alternativa de solución, pero los pasos quirúrgicos o instrumentos a utilizar están `[FALTA]` (pág. 63).
+* **Escala de clasificación de anquiloglosia**: Se dividen de forma simple en parcial o completa, pero los criterios numéricos de diagnóstico de grados clínicos quedan `[FALTA]` (pág. 62).
+* **Con la cátedra**: Se recomienda verificar si se evaluará la observación clínica de las fotos correspondientes a la cara ventral normal de la lengua vs. el frenillo lingual corto del lactante que figuran en el manual.

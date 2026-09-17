@@ -1,0 +1,103 @@
+0 · PORTADA
+- TÍTULO: FISURAS CRANEOFACIALES
+- SUBTÍTULO: Malformaciones · Paladar · Alimentación · Intervención
+- ENTRADA: Vas a dominar la clasificación de las FLAP, su impacto en la succión y el habla, y el protocolo de abordaje fonoaudiológico.
+- MATERIA: Desarrollo de la Función Oral Faríngea
+- PDF USADOS: Cuadernillo Desarrollo de la función oral faríngea.pdf
+
+1 · QUÉ ES
+- DEFINICIÓN:
+  Son malformaciones craneofaciales congénitas producidas por defectos embriológicos de fusión de los procesos faciales (pág. 126). Ocurren por la acción de una noxa entre la 4ta y 12va semana de gestación (pág. 126). Afectan de forma directa la respiración, la deglución, la fonoarticulación y la audición (pág. 126).
+- LO QUE MÁS SE CONFUNDE:
+  La **fisura submucosa** es una malformación ósea donde la mucosa palatina está intacta pero los músculos del velo no se unieron en la línea media (pág. 130), manifestándose por úvula bífida y escape de aire nasal al hablar (pág. 130).
+- PIEZAS:
+  1. **Noxa embrionaria**: Factor nocivo que interrumpe la fusión, con la sexta semana de gestación catalogada como la de mayor riesgo (pág. 126).
+  2. **Paladar primario comprometido**: Afecta el labio superior y la premaxila, impactando los fonemas labiales y dentales (pág. 126, 132).
+  3. **Paladar secundario comprometido**: Hendidura que afecta el paladar duro y blando, produciendo un escape de aire nasal en fonemas orales (pág. 126, 130, 132).
+  4. **Fisura palatina total**: Hendidura bilateral o unilateral completa que comunica directamente la cavidad oral con las fosas nasales (pág. 130).
+  5. **Placa obturatriz**: Dispositivo ortopédico transitorio que tapa la hendidura para evitar el reflujo faringo-nasal del alimento (pág. 133).
+  6. **Úvula bífida**: Bifurcación o asimetría de la úvula asociada de forma constante a la fisura submucosa (pág. 130).
+
+2 · CÓMO FUNCIONA
+
+MÁQUINA 1 · CLASIFICACIONES EMBRIOLÓGICAS DE FISURAS
+- QUÉ SE ELIGE: El sistema de categorización clínica de la hendidura (pág. 127-130)
+- BOTONES: Pfeiffer, Davis y Ritchie, Kernahan y Stark (Esquema), V. Veau
+- POR CADA OPCIÓN:
+  - **Pfeiffer**: Clasifica en 8 variantes (a a la h) desde la labial incompleta hasta la bilateral total (pág. 127). Se distingue por su amplio espectro descriptivo inicial de prepaladar y paladar (pág. 127).
+  - **Davis y Ritchie**: Divide en tres grandes grupos (pre-alveolar, pos-alveolar y alveolar, pág. 127). Se distingue por utilizar el reborde alveolar óseo como la frontera de división principal (pág. 127).
+  - **Kernahan y Stark (Esquema)**: Sistema de clasificación gráfica en forma de diagrama diagramado (pág. 130). Divide de forma estricta entre paladar primario unilateral/bilateral y secundario submucoso o completo, distinguiéndose por su precisión esquemática (pág. 130).
+  - **V. Veau**: Divide de forma binaria entre Labio Leporino (5 categorías) y Fisuras Palatinas (8 categorías, pág. 128, 129). Se distingue por su enfoque clínico quirúrgico del vientre labial y la estafilosquisis (pág. 128, 129).
+- ESQUEMA: Un boceto de la arcada superior y labio. Al tocar un botón, se dibuja la línea de corte representativa que sigue cada una de las clasificaciones estudiadas.
+
+MÁQUINA 2 · COMPROMISO ALIMENTARIO EN EL LACTANTE
+- QUÉ SE ELIGE: El déficit funcional en el lactante con FLAP (pág. 131, 133)
+- BOTONES: Sinergia de Succión, Sello de Areola, Reflujo Nasal
+- POR CADA OPCIÓN:
+  - **Sinergia de Succión**: Es débil y desorganizada al nacer (pág. 133). Presenta un ritmo irregular por falta de contracción del orbicular de los labios, distinguiéndose por fatigar rápido al lactante alargando las tomas (pág. 131, 133).
+  - **Sello de Areola**: Imposibilidad de generar presión negativa intraoral (pág. 133). Se dificulta por la hendidura labial o gingival, distinguiéndose porque obliga a utilizar tetinas específicas que simulen el pecho materno por goteo (pág. 133).
+  - **Reflujo Nasal**: Escape del alimento líquido hacia las fosas nasales (pág. 131, 133). Se asocia a la insuficiencia velofaríngea de la hendidura secundaria, distinguiéndose porque acumula residuos alimentarios en la rinofaringe (pág. 131, 133).
+- ESQUEMA: Un lactante de perfil alimentándose. Al tocar "Sello", se muestra en rojo la hendidura labial con escapes de aire; al tocar "Reflujo", se dibuja una flecha de flujo de leche subiendo de la boca a la fosa nasal superior.
+
+3 · CÓMO TE DAS CUENTA
+
+1. ¿Qué hito de desarrollo prenatal de la cara resulta de mayor riesgo frente a la acción de una noxa para causar FLAP?
+A) La tercera semana durante la formación de la línea primitiva.
+B) La sexta semana de gestación.
+C) El momento exacto de la fecundación bicelular.
+- CORRECTA: B
+- POR QUÉ: El criterio cronológico-embrionario sitúa a la sexta semana como el momento de máximo riesgo en la fusión de los procesos maxilares y nasomediales (pág. 126).
+
+2. ¿Qué estructura anatómica se encuentra intacta en la fisura palatina submucosa clásica?
+A) El hueso palatino de forma completa.
+B) La mucosa que recubre el paladar (piel de la boca).
+C) Los músculos constrictores superiores de la faringe.
+- CORRECTA: B
+- POR QUÉ: El criterio anatomopatológico define a la fisura submucosa por la conservación del plano mucoso superficial, ocultando la hendidura ósea y muscular subyacente (pág. 130).
+
+3. Al hablar un niño con fisura de paladar secundario, ¿qué tipo de alteración fonoarticulatoria es típica?
+A) Pérdida completa de la audición coclear posnatal inmediata.
+B) Escape de aire nasal al intentar pronunciar fonemas orales.
+C) Incapacidad absoluta para articular fonemas bilabiales como /p/.
+- CORRECTA: B
+- POR QUÉ: El criterio foniátrico asocia la falta de cierre del esfínter velofaríngeo con el desvío de la corriente de aire hacia la cavidad nasal en sonidos orales (pág. 132).
+
+4. ¿Para qué se utiliza específicamente la placa obturatriz en el tratamiento del lactante con fisura palatina?
+A) Para acelerar la erupción de los molares permanentes de Clase 1.
+B) Para evitar el reflujo faringo-nasal del alimento y estimular la succión coordinada.
+C) Para fijar mecánicamente el hueso hioides en el cuello.
+- CORRECTA: B
+- POR QUÉ: El criterio de intervención ortopédica define que la placa actúa como un techo artificial transitorio facilitando el vacío y aislando la nariz (pág. 133).
+
+5. ¿Cuál es el rango de edad recomendado para realizar la cirugía primaria de cierre del labio y rinoplastia?
+A) Entre los tres y nueve meses de edad.
+B) Entre los ocho y veinticuatro meses de edad.
+C) Coincide de forma obligatoria con los 36 meses del niño.
+- CORRECTA: A
+- POR QUÉ: El criterio quirúrgico cronológico prioriza el cierre labial temprano para modelar el labio-yugal, postergando el paladar duro para más adelante (pág. 134).
+
+6. Al evaluar el habla de un niño con fisura de paladar primario exclusiva, ¿qué consonantes se verán afectadas?
+A) Las consonantes velares /k/ y /g/ de forma prioritaria.
+B) Los fonemas labiales, dentales, alveolares y post-alveolares.
+C) Únicamente las vocales nasales de la escala de Heuser.
+- CORRECTA: B
+- POR QUÉ: El criterio de punto de articulación indica que al estar afectado el sector anterior del labio y premaxila, se comprometen los fonemas anteriores (pág. 132).
+
+7. ¿Qué maniobra se enseña a los adultos cuidadores para facilitar la adaptación de la placa obturatriz en la boca del bebé?
+A) Ejercicios de soplo y respiración tranquila forzada.
+B) Masajes periorales e intraorales sistemáticos.
+C) Sección completa del frenillo lingual corto.
+- CORRECTA: B
+- POR QUÉ: El criterio neuromuscular asocia los masajes con el ablandamiento de tejidos y la desensibilización propioceptiva previa a calzar la placa (pág. 133).
+
+8. ¿Qué signo visual del paladar del recién nacido está siempre asociado a la presencia de una división palatina submucosa?
+A) Una coloración amarilla intensa de las glándulas salivales mayores.
+B) La presencia de una úvula bífida o asimétrica.
+C) La ausencia completa de los cuatro incisivos superiores primarios.
+- CORRECTA: B
+- POR QUÉ: El criterio de inspección bucal asocia la úvula bífida como el marcador superficial que delata la falta de unión muscular profunda en el velo (pág. 130).
+
+4 · LO QUE HAY QUE ACLARAR
+* **Noxas específicas causantes**: Se menciona que las fisuras se producen ante la acción de una noxa, pero el listado de toxinas o eventos ambientales queda `[FALTA]` (pág. 126).
+* **Frecuencia estadística por sexo**: Se asocian las malformaciones al macizo facial, pero la tasa de prevalencia por género de las FLAP queda `[FALTA]` (pág. 126).
+* **Con la cátedra**: Conviene confirmar si se exigirá identificar las variantes gráficas de la clasificación de Koepp-Baken o Kernahan presentadas en las imágenes anexas del cuadernillo.

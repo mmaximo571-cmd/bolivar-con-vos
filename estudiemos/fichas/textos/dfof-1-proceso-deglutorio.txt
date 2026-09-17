@@ -1,0 +1,104 @@
+0 · PORTADA
+- TÍTULO: PROCESO DEGLUTORIO
+- SUBTÍTULO: Fases · Válvulas · Sincronismo · Maduración
+- ENTRADA: Vas a entender la fisiología de la deglución en sus cuatro etapas, el sistema de válvulas mecánicas y los pares craneales involucrados.
+- MATERIA: Desarrollo de la Función Oral Faríngea
+- PDF USADOS: Cuadernillo Desarrollo de la función oral faríngea.pdf
+
+1 · QUÉ ES
+- DEFINICIÓN:
+  Es una actividad neuromuscular compleja que se desencadena como respuesta motora cuando el centro deglutorio recibe información sensorial periférica (pág. 18). Consiste en el transporte coordinado de saliva y alimentos desde la boca hasta el estómago (pág. 18, 94). Involucra la participación de más de 30 músculos y 6 pares craneales (pág. 18).
+- LO QUE MÁS SE CONFUNDE:
+  La **fase oral** es un proceso puramente voluntario bajo control cortical del sujeto (pág. 21), mientras que la **fase faríngea** es completamente automática, se ejecuta en un solo segundo e inhibe temporalmente la respiración (apnea protectora, pág. 21).
+- PIEZAS:
+  1. **Fase anticipatoria**: Etapa inicial preparatoria donde el sistema nervioso activa la salivación y coordinación neuromuscular previa al ingreso del alimento (pág. 19).
+  2. **Subfase oral preparatoria**: Etapa de sellado labial, masticación, insalivación y armado del bolo alimenticio (pág. 21).
+  3. **Subfase oral de transporte**: Propulsión del bolo por el cuerpo lingual hacia la faringe que dura menos de un segundo (pág. 21).
+  4. **Fase faríngea**: Etapa automática que se inicia al cruzar el istmo de las fauces, protegiendo la vía aérea de penetraciones (pág. 21).
+  5. **Fase esofágica**: Tránsito del bolo a través del esófago mediante movimientos peristálticos que dura de 8 a 10 segundos (pág. 23).
+  6. **Esfínter esofágico superior**: Válvula muscular arrastrada por el ascenso laríngeo que amplía el conducto hacia el estómago (pág. 23).
+
+2 · CÓMO FUNCIONA
+
+MÁQUINA 1 · LAS FASES DE LA DEGLUCIÓN EN ACCIÓN
+- QUÉ SE ELIGE: El estadio del recorrido del bolo alimenticio (pág. 19-23)
+- BOTONES: Fase Anticipatoria, Fase Oral (Voluntaria), Fase Faríngea (Automática), Fase Esofágica
+- POR CADA OPCIÓN:
+  - **Fase Anticipatoria**: Ocurre antes de que el alimento alcance la boca (pág. 19). Los receptores olfativos, visuales y la expectativa gatillan la salivación, distinguiéndose porque prepara el tracto digestivo completo de forma refleja (pág. 19, 20).
+  - **Fase Oral (Voluntaria)**: El bolo se procesa dentro de la cavidad bucal (pág. 21). Comprende el sellado labial y la propulsión de la lengua, distinguiéndose de las otras por ser la única fase controlada conscientemente (pág. 21).
+  - **Fase Faríngea (Automática)**: Abarca desde el istmo de las fauces hasta el esfínter esofágico (pág. 21). Dura un segundo y produce apnea protectora con triple barrera, distinguiéndose porque el bolo es arrastrado de forma involuntaria por peristaltismo constrictor (pág. 21, 22).
+  - **Fase Esofágica**: Tránsito del bolo de la faringe laríngea al estómago (pág. 23). Dura de 8 a 10 segundos impulsado por ondas peristálticas primarias, distinguiéndose porque solo el reflejo del vómito puede hacer retroceder el bolo (pág. 23).
+- ESQUEMA: Un corte sagital del cuello mostrando la vía aerodigestiva. Al presionar cada botón, se ilumina el sector anatómico activo por donde transita el bolo alimenticio y se muestra una barra de tiempo en segundos.
+
+MÁQUINA 2 · SISTEMA DE VÁLVULAS PROTECTORAS
+- QUÉ SE ELIGE: El cierre coordinado para evitar desviaciones del bolo (pág. 18, 21, 23)
+- BOTONES: Labios (1ª Válvula), Esfínter Palatogloso (2ª Válvula), Esfínter Velofaríngeo (3ª Válvula), Triple Barrera Laríngea (4ª Válvula)
+- POR CADA OPCIÓN:
+  - **Labios (1ª Válvula)**: Sellado hermético anterior de la cavidad bucal (pág. 21). Impide el escape del alimento hacia el exterior, distinguiéndose por marcar el inicio físico del control oral (pág. 21).
+  - **Esfínter Palatogloso (2ª Válvula)**: Contacto de la base lingual con el velo palatino (pág. 21). Cierra la boca por detrás reteniendo el bolo mientras se mastica, distinguiéndose porque impide que caiga a la faringe antes de tragar (pág. 21).
+  - **Esfínter Velofaríngeo (3ª Válvula)**: Adosamiento del velo del paladar a la pared posterior faríngea (pág. 21). Cierra la comunicación nasal, distinguiéndose porque evita de forma absoluta el reflujo o escape de alimentos por la nariz (pág. 21).
+  - **Triple Barrera Laríngea (4ª Válvula)**: Descenso de epiglotis y ascenso anterior laríngeo (pág. 22). Cierra herméticamente la vía aérea inferior, distinguiéndose por ser el mecanismo de seguridad que previene la aspiración pulmonar del alimento (pág. 21, 22).
+- ESQUEMA: Una representación anatómica simplificada de las 4 compuertas del canal digestivo. Al presionar cada botón, la compuerta correspondiente cambia de verde (abierta) a rojo (cerrada) indicando el flujo del bolo.
+
+3 · CÓMO TE DAS CUENTA
+
+1. ¿Qué evento respiratorio es gatillado por el sistema nervioso central cuando el bolo cruza el istmo de las fauces?
+A) Taquipnea severa voluntaria.
+B) Inhibición de la respiración (apnea protectora).
+C) Inspiración profunda silenciosa del 10% del ciclo.
+- CORRECTA: B
+- POR QUÉ: El criterio de seguridad deglutoria indica que el SNC detiene momentáneamente la respiración (apnea) para evitar que el flujo de aire arrastre partículas hacia la laringe abierta (pág. 21).
+
+2. ¿Cuál es la duración fisiológica normal de la fase faríngea de la deglución?
+A) Dura exactamente un segundo.
+B) Dura entre 8 y 10 segundos.
+C) Dura más de un minuto en recién nacidos.
+- CORRECTA: A
+- POR QUÉ: El criterio dinámico deglutorio define a la fase faríngea como un reflejo veloz que se ejecuta de forma automática en un segundo para reanudar la respiración al instante (pág. 21).
+
+3. Al masticar, ¿qué esfínter actúa como segunda válvula cerrando la cavidad oral por detrás para que el bolo no caiga antes de tiempo?
+A) El esfínter velofaríngeo anterior.
+B) El esfínter palatogloso.
+C) El esfínter esofágico superior.
+- CORRECTA: B
+- POR QUÉ: El criterio de válvulas indica que el palatogloso sella el istmo de las fauces previniendo el derrame prematuro del bolo hacia la hipofaringe antes del disparo reflejo (pág. 21).
+
+4. ¿Qué movimiento laríngeo-hioideo coordina el descenso de la epiglotis durante la respuesta faríngea?
+A) El descenso laríngeo completo gracias al músculo estilohioideo.
+B) El ascenso de la laringe desplazando el hioides hacia delante contra la epiglotis.
+C) El desplazamiento posterior del perimisio cervical externo.
+- CORRECTA: B
+- POR QUÉ: El criterio mecánico de protección de la vía aérea asocia el ascenso y anteriorización hioidea con la tracción que cierra la tapa laríngea (epiglotis) (pág. 22).
+
+5. ¿Qué par craneal de los implicados en la deglución se menciona de forma explícita en el listado bajo el nombre de nervio trigémino?
+A) El par V (Trigémino).
+B) El par VII (Facial).
+C) El par X (Vago).
+- CORRECTA: A
+- POR QUÉ: El criterio de inervación deglutoria asocia al par V (trigémino) con la inervación motora y sensitiva de las fases orales iniciales (pág. 23).
+
+6. ¿A qué edad gestacional aproximada se produce la separación biológica independiente de los sistemas respiratorio y de deglución?
+A) A las 34 semanas de gestación.
+B) Aproximadamente a los 26 días de vida intrauterina.
+C) Coincide con la primera semana de segmentación del cigoto.
+- CORRECTA: B
+- POR QUÉ: El criterio de ontogenia fetal establece que a los 26 días de vida embrionaria las vías se independizan permitiendo el posterior desarrollo coordinado de la triada (pág. 95).
+
+7. ¿Qué ondas musculares se inician en el músculo constrictor superior faríngeo para hacer progresar el bolo por el esófago?
+A) Las ondas tónicas cervicales reflejas.
+B) Las ondas peristálticas.
+C) Las ondas de masticación atípica.
+- CORRECTA: B
+- POR QUÉ: El criterio fisiológico describe al peristaltismo constrictor como la onda propulsiva involuntaria que viaja hasta el estómago (pág. 23).
+
+8. ¿Qué coordinación biológica indispensable debe ejecutar con éxito el recién nacido al momento de alimentarse?
+A) La triada de succión, deglución y respiración de forma sincronizada.
+B) La osificación sutural media palatina.
+C) El balbuceo limitado de los 12 meses de vida.
+- CORRECTA: A
+- POR QUÉ: El de madurez vital del neonato exige coordinar la succión-deglución con la respiración sin generar apneas prolongadas ni ahogos (pág. 96).
+
+4 · LO QUE HAY QUE ACLARAR
+* **Músculos específicos de la laringe**: Se enlista que los músculos laríngeos participan en la fase faríngea, pero sus nombres individuales quedan `[FALTA]` (pág. 24).
+* **Nombres específicos de los 6 pares craneales**: Se enlista la numeración romana de los pares implicados (V, VII, IX, X, XI), pero la lista completa de sus nombres anatómicos detallados está `[FALTA]` (pág. 23).
+* **Con la cátedra**: Conviene confirmar si se exigirá aprender la dosificación muscular y el comportamiento pasivo de los esfínteres en el transporte de líquidos de diferente viscosidad.

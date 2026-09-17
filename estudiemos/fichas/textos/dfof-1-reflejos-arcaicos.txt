@@ -1,0 +1,104 @@
+0 · PORTADA
+- TÍTULO: REFLEJOS ARCAICOS
+- SUBTÍTULO: Reacciones · Estímulos · Desarrollo · Maduración
+- ENTRADA: Vas a conocer todos los reflejos del recién nacido, su tiempo de desaparición y su valor como marcadores del sistema nervioso.
+- MATERIA: Desarrollo de la Función Oral Faríngea
+- PDF USADOS: Cuadernillo Desarrollo de la función oral faríngea.pdf
+
+1 · QUÉ ES
+- DEFINICIÓN:
+  Son reacciones automáticas e involuntarias del sistema nervioso desencadenadas por estímulos que afectan a diversos receptores de la piel o mucosas (pág. 66). Actúan como marcadores cualitativos del tono muscular y del buen desarrollo neurológico y funcional del niño (pág. 66). Su presencia al nacer y posterior desaparición indica la maduración neuromuscular típica (pág. 66, 67).
+- LO QUE MÁS SE CONFUNDE:
+  El **reflejo de succión** está presente al nacer de manera descoordinada y debe desaparecer de forma voluntaria hacia los 6-8 meses (pág. 67), mientras que el **reflejo de deglución** aparece en la semana 21 de gestación y dura para toda la vida (pág. 67).
+- PIEZAS:
+  1. **Reflejos arcaicos**: Respuestas innatas con las que nacemos; su ausencia indica daño neurológico grave (pág. 66).
+  2. **Reflejo de búsqueda**: Giro de la cabeza del bebé hacia el estímulo al rozar suavemente la mejilla con el pezón (pág. 68).
+  3. **Reflejo tónico cervical**: Extensión de miembros del lado de la cara y flexión de los opuestos al girar la cabeza; desaparece a los 2-3 meses (pág. 67).
+  4. **Reflejo mano-boca**: Rotación cefálica y apertura bucal al tocar la palma; desaparece hacia el cuarto mes (pág. 67).
+  5. **Reflejo de protrusión lingual**: Empuje lingual interdental ante estímulos en la punta de la lengua; desaparece al cuarto mes (pág. 67).
+  6. **Reflejo del Moro**: Respuesta defensiva de sobresalto que causa una brusca extensión cefálica ante imprevistos (pág. 67).
+
+2 · CÓMO FUNCIONA
+
+MÁQUINA 1 · CRONOLOGÍA DE DESAPARICIÓN DE REFLEJOS
+- QUÉ SE ELIGE: El tiempo estimado en que un reflejo debe integrarse o desaparecer (pág. 67)
+- BOTONES: 2 a 3 Meses, 4 Meses, 6 a 8 Meses, Permanente (Toda la vida)
+- POR CADA OPCIÓN:
+  - **2 a 3 Meses**: Período de integración del reflejo tónico cervical simétrico postural (pág. 67). Distinguiéndose porque su persistencia impide el control voluntario del tronco y el eje medio (pág. 67).
+  - **4 Meses**: Límite de desaparición de los reflejos mano-boca y de protrusión lingual (pág. 67). Distinguiéndose porque abre paso a la posibilidad de introducir alimentos semisólidos sin que la lengua los expulse (pág. 67).
+  - **6 a 8 Meses**: Período de desaparición del reflejo de succión arcaico (pág. 67). Se distingue porque es reemplazado por la succión madura neuromuscular voluntaria (pág. 67).
+  - **Permanente (Toda la vida)**: El reflejo de deglución, presente desde la semana 21 de gestación (pág. 67). Se distingue de todos los otros porque nunca debe desaparecer, siendo crucial para el manejo de saliva y bolo (pág. 67).
+- ESQUEMA: Una línea de tiempo horizontal. Al tocar cada botón, un círculo se ilumina sobre la edad correspondiente de la línea, desplegando los iconos del bebé realizando cada patrón motor.
+
+MÁQUINA 2 · REFLEJOS SUPERFICIALES ESPINALES
+- QUÉ SE ELIGE: La respuesta motora a un estímulo externo de piel o mucosa (pág. 68)
+- BOTONES: Incurvación del Tronco, Prensión Palmar/Plantar, Marcha Automática, Reptación
+- POR CADA OPCIÓN:
+  - **Incurvación del Tronco**: Estimulación táctil en la zona costolumbar de la espalda (pág. 68). Provoca la inclinación de la columna hacia el lado estimulado, distinguiéndose de los reflejos de las extremidades por ser un movimiento puramente axial (pág. 68).
+  - **Prensión Palmar/Plantar**: Estimulación táctil en la palma o planta (pág. 68). Provoca el cierre reflejo de los dedos alrededor del objeto, distinguiéndose porque son regulados directamente por la médula espinal (pág. 68).
+  - **Marcha Automática**: Sostén vertical con pies apoyados en superficie firme (pág. 68). Provoca movimientos reflejos alternados de caminata, distinguiéndose por simular la marcha bípeda antes del control cortical (pág. 68).
+  - **Reptación**: Presión firme sobre la planta de los pies con el bebé boca abajo (pág. 68). Provoca la extensión sincronizada de miembros inferiores impulsando el cuerpo adelante, distinguiéndose porque requiere la posición de decúbito ventral (pág. 68).
+- ESQUEMA: Un boceto del cuerpo del bebé de espaldas y de frente. Al tocar un botón, se dibuja un destello de color en la zona de estímulo (costilla, palma, planta) y una flecha dinámica que representa la dirección de la respuesta motora.
+
+3 · CÓMO TE DAS CUENTA
+
+1. ¿Qué complicación fisiológica puede generar la persistencia patológica del reflejo de succión más allá de los 8 meses?
+A) Cierre inmediato de la glándula tiroides.
+B) Ahogos, apnea, disfagia, tos y vómitos por descoordinación.
+C) Osificación prematura de las suturas craneales.
+- CORRECTA: B
+- POR QUÉ: El criterio de maduración neuromuscular indica que la succión debe volverse voluntaria; si persiste el reflejo arcaico, choca con la respiración provocando fatiga y penetración (pág. 67).
+
+2. ¿Cuál de los siguientes reflejos se caracteriza por durar de forma ininterrumpida durante toda la vida del individuo?
+A) El reflejo de búsqueda.
+B) El reflejo de deglución.
+C) El reflejo de protrusión lingual.
+- CORRECTA: B
+- POR QUÉ: El criterio de supervivencia establece que el reflejo de deglución, presente desde la semana 21 de gestación, acompaña al sujeto de por vida sin integrarse ni desaparecer (pág. 67).
+
+3. Al rozar suavemente la mejilla de un recién nacido con el pezón, ¿qué respuesta motora define al reflejo de búsqueda?
+A) Extensión brusca de ambos brazos hacia atrás.
+B) Giro de la cabeza del bebé en dirección al estímulo para alimentarse.
+C) Protrusión de la lengua en posición interdental rígida.
+- CORRECTA: B
+- POR QUÉ: El criterio funcional define a la búsqueda como un mecanismo de rastreo sensorial diseñado para facilitar el encuentro con la fuente de alimento (pág. 68).
+
+4. ¿Qué alteración neurológica sugiere la ausencia total de reflejos arcaicos en un recién nacido a término?
+A) Inmadurez hepática o renal transitoria únicamente.
+B) Posible daño o lesión neurológica a nivel central o espinal.
+C) Falta de erupción de las piezas dentarias primarias.
+- CORRECTA: B
+- POR QUÉ: El criterio diagnóstico establece que la ausencia de respuestas automáticas innatas al nacer es un marcador inequívoco de sufrimiento o lesión del sistema nervioso (pág. 66).
+
+5. ¿Hacia qué mes del desarrollo infantil típico debe desaparecer el reflejo de protrusión lingual?
+A) Desaparece hacia el cuarto mes de vida.
+B) Desaparece de forma obligatoria a los 36 meses.
+C) Desaparece al finalizar la primera semana de gestación.
+- CORRECTA: A
+- POR QUÉ: El criterio del desarrollo alimentario ubica en el cuarto mes la desaparición de la protrusión para permitir la introducción de alimentos con cuchara sin expulsión (pág. 67).
+
+6. Al estimular la zona costolumbar de la espalda del bebé, ¿en qué consiste la respuesta del reflejo de incurvación del tronco?
+A) Extensión simultánea de los cuatro miembros hacia adelante.
+B) Inclinación de la columna vertebral hacia el lado estimulado.
+C) Cierre hermético de ambas palmas de las manos.
+- CORRECTA: B
+- POR QUÉ: El criterio de evaluación espinal asocia la inclinación del eje corporal lateral con el estímulo táctil directo sobre los receptores cutáneos costolumbares (pág. 68).
+
+7. ¿Qué reflejo postural responde con extensión de miembros en la dirección de la cara y flexión de los opuestos al rotar la cabeza?
+A) El reflejo del Moro.
+B) El reflejo mano-boca.
+C) El reflejo tónico cervical simétrico.
+- CORRECTA: C
+- POR QUÉ: El criterio de fisiología postural define a esta sinergia de miembros y cuello como el reflejo tónico cervical simétrico que integra la postura hasta los 2-3 meses (pág. 67).
+
+8. ¿Qué estructura regula directamente los reflejos superficiales de prensión palmar y plantar?
+A) El cerebelo y la corteza visual únicamente.
+B) La médula espinal de manera refleja.
+C) La glándula tiroides y el timo superior.
+- CORRECTA: B
+- POR QUÉ: El criterio de neuroanatomía refleja clasifica las prensiones distales de miembros como arcos reflejos de nivel segmentario medular (pág. 68).
+
+4 · LO QUE HAY QUE ACLARAR
+* **Mecanismos de integración del reflejo del Moro**: Se describe como una respuesta defensiva de sobresalto ante imprevistos, pero su fecha exacta de desaparición o integración queda `[FALTA]` (pág. 67).
+* **Ausencia de reflejo de reptación**: Se señala que la prensión palmar ausente indica lesión neurológica, pero las implicancias de la falta del reflejo de reptación quedan `[FALTA]` (pág. 68).
+* **Con la cátedra**: Conviene confirmar si los exámenes parciales incluirán la simulación de maniobras clínicas de evaluación de reflejos o solo la descripción teórica de estímulo-respuesta y edad.

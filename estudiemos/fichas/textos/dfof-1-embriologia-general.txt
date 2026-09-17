@@ -1,0 +1,103 @@
+0 · PORTADA
+- TÍTULO: EMBRIOLOGÍA GENERAL
+- SUBTÍTULO: Fecundación · Segmentación · Blastocisto · Implantación
+- ENTRADA: Vas a dominar cronológicamente lo que ocurre en las primeras dos semanas de vida intrauterina desde una sola célula.
+- MATERIA: Desarrollo de la Función Oral Faríngea
+- PDF USADOS: Cuadernillo Desarrollo de la función oral faríngea.pdf
+
+1 · QUÉ ES
+- DEFINICIÓN:
+  Es el estudio de los factores moleculares, celulares y estructurales que contribuyen a la formación de un organismo (pág. 24). Comprende la investigación de los fenómenos del desarrollo prenatal que tienen consecuencias directas en la salud a largo plazo (pág. 24). Comienza desde el primer momento de la fecundación con la formación del cigoto (pág. 26).
+- LO QUE MÁS SE CONFUNDE:
+  La **mórula** es una bola compacta de unas 16 células mantenidas por uniones herméticas sin cavidad interna (pág. 27), mientras que el **blastocisto** posee una cavidad interna con líquido llamada blastocele que separa la masa celular interna de la externa (pág. 28).
+- PIEZAS:
+  1. **Cigoto**: Célula diploide resultante de la unión de los gametos masculino y femenino (pág. 26).
+  2. **Blastómeros**: Células hijas que se vuelven más pequeñas con cada división mitótica de segmentación (pág. 26).
+  3. **Mórula**: Estructura de unas 16 células que se divide internamente para formar el embrión y externamente la placenta (pág. 27).
+  4. **Trofoblasto**: Masa celular externa del blastocisto que aplanará su pared y participará de la implantación uterina (pág. 28).
+  5. **Embrioblasto**: Masa celular interna del blastocisto situada en un polo que dará origen a los tejidos del embrión (pág. 28).
+  6. **Blastocele**: Cavidad con líquido que penetra la mórula al ingresar a la cavidad uterina (pág. 28).
+
+2 · CÓMO FUNCIONA
+
+MÁQUINA 1 · LA SEGMENTACIÓN CELULAR
+- QUÉ SE ELIGE: El estado morfológico del embrión en la primera semana (pág. 26-28)
+- BOTONES: Fase Bicelular, Mórula, Blastocisto
+- POR CADA OPCIÓN:
+  - **Fase Bicelular**: Primer estado tras la fecundación (pág. 26). Presenta dos blastómeros idénticos, distinguiéndose de los siguientes porque no ha iniciado la compactación celular (pág. 26).
+  - **Mórula**: Bola compacta de unas 16 células (pág. 27). Formada tras la tercera segmentación, distinguiéndose porque separa por primera vez las células internas de las externas del trofoblasto (pág. 27).
+  - **Blastocisto**: Bola hueca que entra a la cavidad uterina (pág. 28). Contiene la cavidad del blastocele, distinguiéndose porque posee un polo embrionario con embrioblasto y un polo abembrionario (pág. 28).
+- ESQUEMA: Un círculo simple con dos células internas (botón 1), luego un círculo con múltiples células apretadas (botón 2), y finalmente un círculo hueco con un grupo de células acumuladas en la pared superior (botón 3).
+
+MÁQUINA 2 · DIFERENCIACIÓN EN EL DÍA 8
+- QUÉ SE ELIGE: La división del tejido celular al implantarse (pág. 29-30)
+- BOTONES: Sincitiotrofoblasto, Citotrofoblasto, Hipoblasto, Epiblasto
+- POR CADA OPCIÓN:
+  - **Sincitiotrofoblasto**: Capa externa multinucleada del trofoblasto (pág. 29). Carece de límites celulares definidos y no muestra actividad mitótica, distinguiéndose porque invade el endometrio (pág. 29).
+  - **Citotrofoblasto**: Capa interna del trofoblasto con células mononucleadas (pág. 29). Muestra alta actividad mitótica de proliferación, distinguiéndose por dar origen a las células que migran al sincitio (pág. 29).
+  - **Hipoblasto**: Capa celular del embrioblasto próxima a la cavidad del blastocisto (pág. 30). Inicia la formación de la pared del saco vitelino, distinguiéndose de la epiblástica por su posición ventral (pág. 30).
+  - **Epiblasto**: Capa del embrioblasto adyacente a la cavidad amniótica (pág. 30). Forma parte del disco bilaminar plano, distinguiéndose porque dará origen a las futuras capas germinativas (pág. 30).
+- ESQUEMA: Un corte histológico simple del útero. Se ven células epiteliales uterinas arriba. Abajo se ve un disco de dos colores (azul epiblasto, amarillo hipoblasto) y una corona externa de células verdes (citotrofoblasto) envueltas en una masa difusa (sincitiotrofoblasto).
+
+3 · CÓMO TE DAS CUENTA
+
+1. ¿Qué característica morfológica fundamental diferencia a la mórula de un blastocisto?
+A) La mórula presenta 107 células y el blastocisto solo posee dos blastómeras.
+B) La mórula es una masa compacta sin cavidad; el blastocisto posee la cavidad con líquido llamada blastocele.
+C) El blastocisto carece por completo de células en mitosis activa.
+- CORRECTA: B
+- POR QUÉ: El criterio del desarrollo define al blastocisto por la confluencia de espacios lagunares intercelulares que forman el blastocele, rompiendo la estructura compacta de la mórula (pág. 27, 28).
+
+2. Durante el día 8, ¿cómo se diferencia el citotrofoblasto del sincitiotrofoblasto?
+A) El citotrofoblasto posee células mononucleadas en mitosis; el sincitiotrofoblasto es multinucleado y no muestra mitosis.
+B) El sincitiotrofoblasto contiene células cúbicas del epiblasto.
+C) El citotrofoblasto pierde por completo sus límites celulares definidos al contacto con el útero.
+- CORRECTA: A
+- POR QUÉ: El criterio de diferenciación del trofoblasto asocia la mitosis proliferativa con la capa celular interna (citotrofoblasto) y la invasión multinucleada con la externa (sincitiotrofoblasto) (pág. 29).
+
+3. Al formarse el disco germinal bilaminar, ¿qué capas celulares lo constituyen?
+A) El citotrofoblasto y el sincitiotrofoblasto.
+B) El ectodermo, mesodermo y endodermo embrionarios.
+C) Las capas hipoblástica y epiblástica del embrioblasto.
+- CORRECTA: C
+- POR QUÉ: El criterio anatómico del embrioblasto determina que sus células se dividen en dos capas (hipoblasto e epiblasto) para configurar el disco plano inicial antes de la gastrulación (pág. 30).
+
+4. En el día 9 del desarrollo embrionario, ¿qué estructura característica aparece en el sincitiotrofoblasto?
+A) El saco vitelino definitivo con eritrocitos.
+B) Vacuolas que se fusionan para formar grandes lagunas (periodo de lagunas).
+C) El conducto neuroentérico en contacto con la cavidad coriónica.
+- CORRECTA: B
+- POR QUÉ: El criterio cronológico del trofoblasto establece que en el día 9 las vacuolas aparecen específicamente en el polo embrionario del sincitiotrofoblasto (pág. 30).
+
+5. ¿Qué población celular nueva aparece entre los días 11 y 12 entre el citotrofoblasto y la membrana exocelómica?
+A) Las células prenotocordales epiblásticas.
+B) El mesodermo extraembrionario derivado del saco vitelino.
+C) El endodermo visceral anterior definitivo.
+- CORRECTA: B
+- POR QUÉ: El criterio del desarrollo extraembrionario define la aparición de esta población que luego formará la cavidad coriónica (pág. 31).
+
+6. ¿De qué estructura deriva el saco vitelino definitivo o secundario en el día 13 del desarrollo?
+A) Directamente de la cavidad amniótica epiblástica.
+B) De células producidas por el hipoblasto que migran por el interior de la membrana exocelómica.
+C) De la desintegración del conducto vitelino primitivo.
+- CORRECTA: B
+- POR QUÉ: El criterio ontogénico describe la formación del saco definitivo a partir de la migración de la capa ventral del hipoblasto (pág. 32).
+
+7. ¿Qué estructura conecta temporalmente las cavidades amniótica y del saco vitelino en el embrión?
+A) La membrana exocelómica de Heuser.
+B) El conducto neuroentérico.
+C) La sincondrosis esfeno-occipital.
+- CORRECTA: B
+- POR QUÉ: El criterio anatómico establece que el conducto neuroentérico es una muesca en el epiblasto que genera esta comunicación pasajera (pág. 36).
+
+8. ¿Qué estructura une al embrión con su capa trofoblástica alrededor de los días 19 o 20 de gestación?
+A) El pedículo de fijación.
+B) El divertículo alantoentérico.
+C) La placa coriónica parietal.
+- CORRECTA: A
+- POR QUÉ: El criterio de inserción describe al pedículo como el elemento de anclaje que luego se transformará en el cordón umbilical (pág. 42).
+
+4 · LO QUE HAY QUE ACLARAR
+* **Mecanismos genéticos moleculares**: La regulación genética precisa de las divisiones de segmentación de la primera semana está `[FALTA]` en el material (pág. 26).
+* **Osificación de huesos del cráneo**: Aunque se menciona la importancia médica de la embriología, la correlación detallada de osificación craneal pre-natal queda `[FALTA]` en este apartado (pág. 24).
+* **Con la cátedra**: Se sugiere reconfirmar si las fechas exactas de implantación celular de la segunda semana se evaluarán con tolerancia de días o de forma estricta según el modelo de Langman presentado.

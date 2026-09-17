@@ -1,35 +1,35 @@
-# Graph Report - conectar-cult-ui-c06d97  (2026-09-17)
+# Graph Report - espacios-autogestivos-section-6f50db  (2026-09-17)
 
 ## Corpus Check
-- 39 files · ~135,146 words
+- 40 files · ~136,926 words
 - Verdict: corpus is large enough that graph structure adds value.
 
 ## Summary
-- 412 nodes · 581 edges · 54 communities (29 shown, 16 thin omitted)
+- 421 nodes · 597 edges · 54 communities (29 shown, 16 thin omitted)
 - Extraction: 91% EXTRACTED · 9% INFERRED · 0% AMBIGUOUS · INFERRED: 52 edges (avg confidence: 0.84)
 - Token cost: 0 input · 0 output
 
 ## Graph Freshness
-- Built from commit: `2058e16c`
+- Built from commit: `84f9635f`
 - Run `git rev-parse HEAD` and compare to check if the graph is stale.
 - Run `graphify update .` after code changes (no API cost).
 
 ## Community Hubs (Navigation)
 - La Fonoteca: simulador de práctica audiológica
 - Pantalla Mi año (carrera)
-- pintarNav
 - Pantalla Info útil (trámites y FAQ)
+- Pantalla Estudiemos (landing de herramientas)
 - app.js
 - avisanos.js
 - Detalle de publicación (?id=)
 - leer-programa.js
 - Mi perfil (mi/index.html)
 - manifest.json
-- anotar
+- pintarNav
 - esc
 - eventoICS
 - montarCalendario
-- Pantalla Cátedras
+- leer.js
 - invitarAInstalar
 - ficha.js
 - pantallaMiCuenta
@@ -38,7 +38,7 @@
 - tabla-respaldos.sql
 - movimiento.js
 - tabla-organizador.sql
-- crearCliente
+- ponerAviso
 - LEEME · La Bolívar con vos
 - tabla-quienes.sql
 - CASOS (audiogramas clínicos con diagnóstico escrito)
@@ -74,16 +74,16 @@
 10. `eventoICS()` - 8 edges
 
 ## Surprising Connections (you probably didn't know these)
-- `Pantalla Info útil (trámites y FAQ)` --calls--> `parametro()`  [EXTRACTED]
-  tramites/index.html → app.js
-- `Pantalla Info útil (trámites y FAQ)` --calls--> `normalizar()`  [EXTRACTED]
-  tramites/index.html → app.js
 - `Pantalla Fonoteca (práctica de audiogramas)` --calls--> `pintarNav()`  [EXTRACTED]
   estudiemos/fonoteca/index.html → app.js
+- `Pantalla Estudiemos (landing de herramientas)` --calls--> `pintarNav()`  [EXTRACTED]
+  estudiemos/index.html → app.js
 - `Pantalla Glosario universitario` --calls--> `pintarNav()`  [EXTRACTED]
   glosario/index.html → app.js
 - `Pantalla Info útil (trámites y FAQ)` --calls--> `pintarNav()`  [EXTRACTED]
   tramites/index.html → app.js
+- `vistaTramites (editor de trámites)` --calls--> `mostrarError()`  [EXTRACTED]
+  panel/index.html → app.js
 
 ## Import Cycles
 - None detected.
@@ -106,20 +106,20 @@ Cohesion: 0.07
 Nodes (32): Versión 2.0 de AI Studio (React + Tailwind), La carrera se elige una vez (bolivar-carrera-v2), Congelamiento de código (16-17/9), El embudo del 21 (hitos y origen de Instagram), Lanzamiento 21 de septiembre (Día del Estudiante), anotar(): registro de visitas, búsquedas y errores, Riel deslizable de herramientas de Estudiemos, Vercel (bolivar-con-vos.vercel.app, publica con push a main) (+24 more)
 
 ### Community 1 - "Pantalla Mi año (carrera)"
+Cohesion: 0.08
+Nodes (30): Pantalla Agenda (Fechas y novedades), localStorage bolivar-carrera-resumen, Tema claro/oscuro (localStorage bolivar-tema), Pantalla Mi año (carrera), abrirDialogo (asistente de carga por pasos), elegirCarrera, marcar (cambiar estado de materia), pedirCodigo (recuperar respaldo) (+22 more)
+
+### Community 2 - "Pantalla Info útil (trámites y FAQ)"
 Cohesion: 0.09
-Nodes (27): Pantalla Agenda (Fechas y novedades), localStorage bolivar-carrera-resumen, Tema claro/oscuro (localStorage bolivar-tema), Pantalla Mi año (carrera), abrirDialogo (asistente de carga por pasos), elegirCarrera, marcar (cambiar estado de materia), pedirCodigo (recuperar respaldo) (+19 more)
+Nodes (24): anotarBusqueda(), bajarICS(), carreraActual(), nombreDeArchivo(), normalizar(), parametro(), PLANES (PLAN_TS, PLAN_TGCR, PLAN_FONO), Pantalla Cátedras (+16 more)
 
-### Community 2 - "pintarNav"
-Cohesion: 0.10
-Nodes (24): carreraActual(), marcarTitulos(), menosMovimiento(), pintarAvisanos(), esconderGlobo(), mostrarGlobo(), pintarNav(), abrir() (+16 more)
-
-### Community 3 - "Pantalla Info útil (trámites y FAQ)"
+### Community 3 - "Pantalla Estudiemos (landing de herramientas)"
 Cohesion: 0.11
-Nodes (23): Pantalla Anatomofisiología (guía de materia), bloqueModelo / sinFechas, conPaciencia(), guardarEnMemoria(), memoriaDe(), Pantalla El Consejo Directivo, subirFoto / achicarFoto (storage fotos), vistaCategorias (+15 more)
+Nodes (23): Pantalla Anatomofisiología (guía de materia), bloqueModelo / sinFechas, conPaciencia(), guardarEnMemoria(), memoriaDe(), Pantalla El Consejo Directivo, Pantalla Fichas de estudio, Pantalla Fonoteca (práctica de audiogramas) (+15 more)
 
 ### Community 4 - "app.js"
 Cohesion: 0.10
-Nodes (22): aplicarTema(), avisarMostrandoGuardado(), avisarNoSePudoActualizar(), cajaDelAviso(), CARRERAS_APP, desdeCuando(), errorEnCastellano(), explicarError() (+14 more)
+Nodes (24): anotar(), anotarCarreraApp(), anotarError(), anotarHito(), avisarQueNoArranca(), carreraElegidaApp(), CARRERAS_APP, contarVisita() (+16 more)
 
 ### Community 5 - "avisanos.js"
 Cohesion: 0.20
@@ -141,13 +141,13 @@ Nodes (33): esDelEquipo(), sesionActual(), explicarError() / errores en castella
 Cohesion: 0.15
 Nodes (12): background_color, description, display, icons, id, lang, name, orientation (+4 more)
 
-### Community 10 - "anotar"
-Cohesion: 0.18
-Nodes (12): anotar(), anotarCarreraApp(), anotarError(), anotarHito(), avisarQueNoArranca(), carreraElegidaApp(), contarVisita(), deDondeVino() (+4 more)
+### Community 10 - "pintarNav"
+Cohesion: 0.21
+Nodes (12): aplicarTema(), marcarTitulos(), menosMovimiento(), pintarAvisanos(), esconderGlobo(), mostrarGlobo(), pintarNav(), abrir() (+4 more)
 
 ### Community 11 - "esc"
-Cohesion: 0.24
-Nodes (10): alarmaDeMesa(), esc(), escMulti(), hoyISO(), htmlAgendarlo(), htmlPie(), idDeLaAlertaVisible(), referencia() (+2 more)
+Cohesion: 0.18
+Nodes (13): alarmaDeMesa(), errorEnCastellano(), esc(), escMulti(), explicarError(), hoyISO(), htmlAgendarlo(), htmlPie() (+5 more)
 
 ### Community 12 - "eventoICS"
 Cohesion: 0.29
@@ -157,13 +157,13 @@ Nodes (10): archivoICS(), detalleDelEvento(), doblarRenglon(), escaparICS(), eve
 Cohesion: 0.33
 Nodes (10): armarISO(), caeEnElDia(), fechaLinda(), montarCalendario(), dibujar(), elegir(), irAlMes(), publicacionesDe() (+2 more)
 
-### Community 14 - "Pantalla Cátedras"
-Cohesion: 0.25
-Nodes (8): anotarBusqueda(), bajarICS(), nombreDeArchivo(), normalizar(), parametro(), Pantalla Cátedras, vistaCatedras, Tabla Supabase catedras
+### Community 14 - "leer.js"
+Cohesion: 0.44
+Nodes (8): campos(), esc(), leer(), linea(), maquinas(), noEsta(), pintar(), preguntas()
 
 ### Community 15 - "invitarAInstalar"
-Cohesion: 0.33
-Nodes (6): anotarQueSeVio(), esiOS(), invitarAInstalar(), seDijoQueNo(), sePuedeInvitarAInstalar(), yaEstaInstalada()
+Cohesion: 0.40
+Nodes (5): anotarQueSeVio(), esiOS(), invitarAInstalar(), seDijoQueNo(), sePuedeInvitarAInstalar()
 
 ### Community 16 - "ficha.js"
 Cohesion: 0.57
@@ -189,9 +189,9 @@ Nodes (3): claveDeEntrada(), entrarAlLlegar(), revisar()
 Cohesion: 0.50
 Nodes (3): auth.users, public.preparaciones, public.programas
 
-### Community 23 - "crearCliente"
-Cohesion: 0.60
-Nodes (4): crearCliente(), consulta(), guardia(), pedir()
+### Community 23 - "ponerAviso"
+Cohesion: 0.50
+Nodes (5): avisarMostrandoGuardado(), avisarNoSePudoActualizar(), cajaDelAviso(), desdeCuando(), ponerAviso()
 
 ### Community 24 - "LEEME · La Bolívar con vos"
 Cohesion: 0.67
@@ -226,16 +226,16 @@ Nodes (3): vistaAvisanos (contactos y consultas), Tabla Supabase consultas, Tabl
 _Questions this graph is uniquely positioned to answer:_
 
 - **Why does `Pantalla Inicio` connect `Pantalla Mi año (carrera)` to `app.js`, `Detalle de publicación (?id=)`, `Mi perfil (mi/index.html)`, `manifest.json`, `movimiento.js`?**
-  _High betweenness centrality (0.116) - this node is a cross-community bridge._
-- **Why does `Pantalla Mi año (carrera)` connect `Pantalla Mi año (carrera)` to `pintarNav`, `app.js`, `Detalle de publicación (?id=)`, `Mi perfil (mi/index.html)`, `Pantalla Cátedras`?**
-  _High betweenness centrality (0.104) - this node is a cross-community bridge._
+  _High betweenness centrality (0.111) - this node is a cross-community bridge._
+- **Why does `Pantalla Mi año (carrera)` connect `Pantalla Mi año (carrera)` to `Pantalla Info útil (trámites y FAQ)`, `Pantalla Estudiemos (landing de herramientas)`, `app.js`, `Detalle de publicación (?id=)`, `Mi perfil (mi/index.html)`?**
+  _High betweenness centrality (0.099) - this node is a cross-community bridge._
 - **Why does `Trayecto Optativo (trayecto/index.html)` connect `Mi perfil (mi/index.html)` to `Pantalla Info útil (trámites y FAQ)`?**
-  _High betweenness centrality (0.102) - this node is a cross-community bridge._
+  _High betweenness centrality (0.098) - this node is a cross-community bridge._
 - **What connects `__hitosDeEstaVisita`, `MESES`, `MESES_LARGO` to the rest of the system?**
   _86 weakly-connected nodes found - possible documentation gaps or missing edges._
 - **Should `La Fonoteca: simulador de práctica audiológica` be split into smaller, more focused modules?**
   _Cohesion score 0.06854838709677419 - nodes in this community are weakly interconnected._
 - **Should `Pantalla Mi año (carrera)` be split into smaller, more focused modules?**
-  _Cohesion score 0.08712121212121213 - nodes in this community are weakly interconnected._
-- **Should `pintarNav` be split into smaller, more focused modules?**
-  _Cohesion score 0.09782608695652174 - nodes in this community are weakly interconnected._
+  _Cohesion score 0.07657657657657657 - nodes in this community are weakly interconnected._
+- **Should `Pantalla Info útil (trámites y FAQ)` be split into smaller, more focused modules?**
+  _Cohesion score 0.09057971014492754 - nodes in this community are weakly interconnected._

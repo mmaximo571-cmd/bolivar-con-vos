@@ -1,0 +1,104 @@
+0 · PORTADA
+- TÍTULO: ARCOS FARÍNGEOS
+- SUBTÍTULO: Cresta Neural · Cartílagos · Músculos · Inervación
+- ENTRADA: Vas a dominar la anatomía y derivados de los arcos faríngeos, claves para la cabeza, la cara y el cuello.
+- MATERIA: Desarrollo de la Función Oral Faríngea
+- PDF USADOS: Cuadernillo Desarrollo de la función oral faríngea.pdf
+
+1 · QUÉ ES
+- DEFINICIÓN:
+  Son engrosamientos bilaterales que comienzan a formarse en la cuarta semana de gestación cuando las células de la cresta neural migran a la región de la cabeza y cuello (pág. 54). Existen seis arcos faríngeos originales (el quinto desaparece) separados por hendiduras por fuera y bolsas por dentro (pág. 54).
+- LO QUE MÁS SE CONFUNDE:
+  El **primer arco** está inervado por el nervio trigémino (V par) y origina los músculos masticadores, mientras que el **segundo arco** está inervado por el nervio facial (VII par) y origina los músculos de la mímica facial (pág. 54).
+- PIEZAS:
+  1. **Primer arco (Arco mandibular)**: Se asocia al cartílago de Meckel y forma los músculos de masticación inervados por el trigémino (pág. 54).
+  2. **Segundo arco (Arco hioideo)**: Contiene el cartílago de Reichert y forma la musculatura de la mímica facial inervada por el facial (pág. 54).
+  3. **Tercer arco faríngeo**: Contribuye al asta mayor del hioides y al músculo estilofaríngeo (pág. 54).
+  4. **Cuarto y sexto arco**: Se asocian para formar los cartílagos de la laringe e intrínsecos de la faringe y paladar (pág. 54).
+  5. **Bolsas faríngeas**: Evaginaciones endodérmicas internas localizadas a los lados de la faringe primitiva (pág. 55).
+  6. **Hendiduras faríngeas**: Invaginaciones ectodérmicas externas de las cuales solo la primera origina una estructura definitiva (pág. 56).
+
+2 · CÓMO FUNCIONA
+
+MÁQUINA 1 · DERIVADOS ESQUELÉTICOS Y MUSCULARES
+- QUÉ SE ELIGE: El arco embriológico de procedencia de una estructura (pág. 54)
+- BOTONES: Primer Arco (Mandibular), Segundo Arco (Hioideo), Tercer Arco, Cuarto y Sexto Arco
+- POR CADA OPCIÓN:
+  - **Primer Arco (Mandibular)**: Da origen al maxilar, cigomático, martillo y cartílago de Meckel (pág. 54). Su musculatura incluye los masticatorios, milohioideo y vientre anterior del digástrico, distinguiéndose por su inervación del trigémino (pág. 54).
+  - **Segundo Arco (Hioideo)**: Contiene el cartílago de Reichert que osifica en estribo, proceso estiloides y asta menor del hioides (pág. 54). Sus músculos son el estilohioideo, vientre posterior del digástrico y mímica, distinguiéndose por su inervación del facial (pág. 54).
+  - **Tercer Arco**: Origina el asta mayor del hioides (pág. 54). Su único músculo derivado es el estilofaríngeo, distinguiéndose por ser inervado por el glosofaríngeo (IX par) (pág. 54).
+  - **Cuarto y Sexto Arco**: Forman los cartílagos laríngeos (pág. 54). Sus músculos son el elevador del velo, constrictores de la faringe y laringe, distinguiéndose por su inervación del vago (X par) (pág. 54).
+- ESQUEMA: Un embrión de perfil con cuatro bandas horizontales de colores en el cuello (arcos 1 al 4, apareciendo de a uno de arriba hacia abajo con su correspondiente nervio V, VII, IX, X).
+
+MÁQUINA 2 · BOLSAS Y HENDIDURAS FARÍNGEAS
+- QUÉ SE ELIGE: El derivado definitivo de los espacios inter-arcos (pág. 55-56)
+- BOTONES: Primera Bolsa, Segunda Bolsa, Tercera y Cuarta Bolsa, Primera Hendidura
+- POR CADA OPCIÓN:
+  - **Primera Bolsa**: Forma el receso tubotimpánico (pág. 55). Da origen a la cavidad timpánica y a la trompa de Eustaquio, distinguiéndose porque comunica el oído medio con la faringe (pág. 55).
+  - **Segunda Bolsa**: Desarrolla las amígdalas palatinas (pág. 55). Su endodermo forma yemas que se introducen en el mesénquima, distinguiéndose por participar de la inmunidad local (pág. 55).
+  - **Tercera y Cuarta Bolsa**: La tercera forma paratiroides inferiores y timo; la cuarta forma paratiroides superiores (pág. 55). Se distinguen porque sus derivados deben migrar hacia el tórax y cuello inferior (pág. 55).
+  - **Primera Hendidura**: Es la única hendidura que persiste en el adulto (pág. 56). Forma el conducto auditivo externo, distinguiéndose de las otras que se fusionan para formar el seno cervical que desaparece (pág. 56).
+- ESQUEMA: Una vista interna de la faringe embrionaria. Se muestran sacos ciegos internos (bolsas) y surcos externos (hendiduras). Al presionar un botón, se destaca en color el espacio seleccionado y se muestra un boceto del órgano maduro correspondiente.
+
+3 · CÓMO TE DAS CUENTA
+
+1. ¿Qué par craneal inerva de forma exclusiva a los músculos masticadores derivados del primer arco faríngeo?
+A) El nervio facial (VII).
+B) El nervio trigémino (V).
+C) El nervio glosofaríngeo (IX).
+- CORRECTA: B
+- POR QUÉ: El criterio de inervación segmentaria asigna al nervio trigémino el control de todas las estructuras motoras que se originan del cartílago de Meckel (pág. 54).
+
+2. ¿Cuál de las siguientes estructuras musculares proviene del segundo arco faríngeo?
+A) El vientre anterior del músculo digástrico.
+B) El vientre posterior del músculo digástrico.
+C) El músculo estilofaríngeo.
+- CORRECTA: B
+- POR QUÉ: El criterio de clasificación diferencia el vientre anterior (primer arco, trigémino) del vientre posterior (segundo arco, facial) (pág. 54).
+
+3. ¿Qué glándula de secreción endocrina deriva específicamente de la tercera bolsa faríngea?
+A) Las paratiroides superiores.
+B) Las paratiroides inferiores.
+C) El cuerpo últimobranquial.
+- CORRECTA: B
+- POR QUÉ: El criterio embriológico indica que las paratiroides inferiores se originan de la tercera bolsa y migran junto al timo, mientras las superiores se forman de la cuarta bolsa (pág. 55).
+
+4. ¿Qué estructura del oído externo se genera a partir de la primera hendidura faríngea?
+A) El receso tubotimpánico completo.
+B) La trompa de Eustaquio.
+C) El conducto auditivo externo.
+- CORRECTA: C
+- POR QUÉ: El criterio anatómico define que la primera hendidura es la única ectodérmica que persiste, modelando el conducto auditivo externo (pág. 56).
+
+5. ¿Qué par craneal se encarga de inervar al músculo estilofaríngeo, derivado del tercer arco?
+A) El nervio trigémino (V).
+B) El nervio glosofaríngeo (IX).
+C) El nervio vago (X).
+- CORRECTA: B
+- POR QUÉ: El criterio neurológico asocia de forma exclusiva el tercer arco faríngeo y el músculo estilofaríngeo con el nervio glosofaríngeo (pág. 54).
+
+6. Al dañarse el desarrollo del cuarto arco faríngeo, ¿qué músculo del paladar blando se verá afectado?
+A) El músculo tensor del velo del paladar.
+B) El músculo elevador del velo del paladar.
+C) El músculo milohioideo.
+- CORRECTA: B
+- POR QUÉ: El criterio miológico diferencia al elevador del velo (cuarto arco, inervado por el vago) del tensor del velo (primer arco, inervado por el trigémino) (pág. 54).
+
+7. ¿Qué estructura esquelética del oído medio se deriva del cartílago de Reichert del segundo arco?
+A) El martillo.
+B) El estribo.
+C) La premaxila.
+- CORRECTA: B
+- POR QUÉ: El criterio de osificación asocia el estribo y el proceso estiloides al segundo arco, mientras el martillo deriva del primer arco (pág. 54).
+
+8. ¿Qué ocurre con las hendiduras faríngeas segunda, tercera y cuarta durante el desarrollo típico?
+A) Originan las amígdalas palatinas del adulto.
+B) Se fusionan y forman el seno cervical que luego desaparece.
+C) Dan origen a las glándulas paratiroides inferiores.
+- CORRECTA: B
+- POR QUÉ: El criterio morfológico establece que estas hendiduras pierden contacto externo y se obliteran sin dejar derivados persistentes (pág. 56).
+
+4 · LO QUE HAY QUE ACLARAR
+* **Quinto arco faríngeo**: El cuadernillo menciona que existen seis arcos faríngeos pero el quinto desaparece, aunque las razones de su degeneración quedan `[FALTA]` (pág. 54).
+* **Músculos intrínsecos de laringe**: Se menciona que el sexto arco contribuye al desarrollo de los músculos de la laringe, pero sus nombres individuales quedan `[FALTA]` (pág. 54).
+* **Con la cátedra**: Conviene confirmar si los detalles histológicos del timo y su migración serán evaluados o solo se requiere conocer su origen embriológico en la tercera bolsa faríngea.

@@ -1,0 +1,110 @@
+### 0 · PORTADA
+- TÍTULO: ENCRUCIJADA FARINGOLARÍNGEA
+- SUBTÍTULO: Faringe · Laringe · Hioides · Cuerdas
+- ENTRADA: Vas a comprender cómo se coordinan la respiración y la deglución, la anatomía del hioides y el mecanismo de producción de la voz.
+- MATERIA: Anatomofisiología Fonoaudiológica (CUADERNILLO ANATOMOFISIOLOGÍA 2DA ED.pdf, pág. 1)
+- PDF USADOS:
+  - CUADERNILLO ANATOMOFISIOLOGÍA 2DA ED.pdf
+
+---
+
+### 1 · QUÉ ES
+- DEFINICIÓN:
+  La **faringe** es un conducto musculomembranoso impar y simétrico que conecta la cavidad oral con el esófago, y las fosas nasales con la laringe (CUADERNILLO ANATOMOFISIOLOGÍA 2DA ED.pdf, pág. 48, 49). La **laringe** es un conducto aéreo y el órgano esencial de la fonación, compuesto por múltiples piezas cartilaginosas móviles (CUADERNILLO ANATOMOFISIOLOGÍA 2DA ED.pdf, pág. 52).
+- LO QUE MÁS SE CONFUNDE:
+  El **hueso hioides** es un hueso impar y flotante situado en el cuello que posee la característica única de **no articularse de forma directa** con ningún otro hueso (CUADERNILLO ANATOMOFISIOLOGÍA 2DA ED.pdf, pág. 57).
+- PIEZAS:
+  1. **Nasofaringe**: Porción superior de la faringe que tiene una función exclusivamente respiratoria (CUADERNILLO ANATOMOFISIOLOGÍA 2DA ED.pdf, pág. 49, 50).
+  2. **Músculos constrictores**: Músculos faríngeos (superior, medio e inferior) que se contraen activamente durante la deglución para propulsar el bolo (CUADERNILLO ANATOMOFISIOLOGÍA 2DA ED.pdf, pág. 51).
+  3. **Cartílago epiglótico**: Pieza elástica móvil de la laringe que actúa como válvula para impedir el paso de comida hacia la vía aérea (CUADERNILLO ANATOMOFISIOLOGÍA 2DA ED.pdf, pág. 50, 52, 54).
+  4. **Nervio laríngeo inferior**: Ramo nervioso de la laringe encargado exclusivo de la función motora de las cuerdas vocales (CUADERNILLO ANATOMOFISIOLOGÍA 2DA ED.pdf, pág. 54).
+  5. **Cuerdas vocales verdaderas**: Pliegues de la laringe compuestos por un ligamento, un músculo y mucosa cuya vibración con el aire produce el sonido (CUADERNILLO ANATOMOFISIOLOGÍA 2DA ED.pdf, pág. 55, 56).
+  6. **Músculos suprahioideos**: Grupo de músculos (estilohioideo, milohioideo, digástrico, genihioideo) que elevan el hueso hioides (CUADERNILLO ANATOMOFISIOLOGÍA 2DA ED.pdf, pág. 58).
+
+---
+
+### 2 · CÓMO FUNCIONA
+
+#### MÁQUINA 1 · PRODUCCIÓN DEL SONIDO LARÍNGEO
+- QUÉ SE ELIGE: El comportamiento del espacio glótico según la acción (CUADERNILLO ANATOMOFISIOLOGÍA 2DA ED.pdf, pág. 55, 56)
+- BOTONES: Respiración, Fonación, Protección
+- POR CADA OPCIÓN:
+  - **Respiración**: Entrada y salida de aire (CUADERNILLO ANATOMOFISIOLOGÍA 2DA ED.pdf, pág. 56). Las cuerdas vocales se encuentran relajadas y completamente alejadas (abducción), distinguiéndose porque la abertura glótica queda abierta al máximo (CUADERNILLO ANATOMOFISIOLOGÍA 2DA ED.pdf, pág. 56).
+  - **Fonación**: Emisión activa de sonido (CUADERNILLO ANATOMOFISIOLOGÍA 2DA ED.pdf, pág. 55, 56). Las cuerdas vocales se aproximan (aducción) sin cerrarse del todo; el aire espirado las hace vibrar, distinguiéndose de la respiración muda (CUADERNILLO ANATOMOFISIOLOGÍA 2DA ED.pdf, pág. 55).
+  - **Protección**: Acto de tragar alimentos (CUADERNILLO ANATOMOFISIOLOGÍA 2DA ED.pdf, pág. 56). Las cuerdas se cierran de forma automática y hermética como puerta de seguridad, distinguiéndose de las otras funciones porque impide el paso de fluidos al pulmón (CUADERNILLO ANATOMOFISIOLOGÍA 2DA ED.pdf, pág. 56).
+- ESQUEMA: Una vista superior de la glotis. Se dibujan dos bandas blancas oblicuas (cuerdas vocales) formando una V abierta para la respiración (aparece de a uno). Una V cerrada casi por completo con una pequeña hendidura en el medio para la fonación (aparece de a uno). Un cierre total sin hendidura y con la epiglotis tapando el orificio para la protección (aparece de a uno) (CUADERNILLO ANATOMOFISIOLOGÍA 2DA ED.pdf, pág. 55, 56).
+
+#### MÁQUINA 2 · GRUPOS MUSCULARES DEL HIOIDES
+- QUÉ SE ELIGE: La dirección de tracción sobre el hueso flotante (CUADERNILLO ANATOMOFISIOLOGÍA 2DA ED.pdf, pág. 57, 58)
+- BOTONES: Suprahioideos, Infrahioideos
+- POR CADA OPCIÓN:
+  - **Suprahioideos**: Músculos situados por encima del hioides (CUADERNILLO ANATOMOFISIOLOGÍA 2DA ED.pdf, pág. 57). Su contracción eleva el hueso hioides e interviene en el descenso mandibular, distinguiéndose por su posición anterosuperior (CUADERNILLO ANATOMOFISIOLOGÍA 2DA ED.pdf, pág. 57, 58).
+  - **Infrahioideos**: Músculos situados por debajo del hioides (CUADERNILLO ANATOMOFISIOLOGÍA 2DA ED.pdf, pág. 57). Su contracción desciende el hioides y fija la laringe, distinguiéndose porque toman inserción en estructuras inferiores como el esternón y el omóplato (CUADERNILLO ANATOMOFISIOLOGÍA 2DA ED.pdf, pág. 58).
+- ESQUEMA: Un dibujo lineal del hueso hioides en el centro con forma de U. Hacia arriba salen cuatro flechas que apuntan a la mandíbula y cráneo (suprahioideos). Hacia abajo salen cuatro flechas que apuntan al esternón y cartílago tiroides (infrahioideos) (CUADERNILLO ANATOMOFISIOLOGÍA 2DA ED.pdf, pág. 58).
+
+---
+
+### 3 · CÓMO TE DAS CUENTA
+
+#### 1. ¿Qué característica morfológica y posicional define de manera única al hueso hioides?
+A) Que es un hueso plano e inmóvil que se fusiona al temporal a los 18 años.
+B) Que es un hueso impar, móvil y flotante que no se articula con ningún otro hueso.
+C) Que es un hueso par que rodea lateralmente a la glándula tiroides.
+- CORRECTA: B
+- WHY: El criterio osteológico establece que el hioides se mantiene suspendido en el cuello únicamente mediante ligamentos y músculos, sin uniones óseas directas (CUADERNILLO ANATOMOFISIOLOGÍA 2DA ED.pdf, pág. 57).
+
+#### 2. Si analizás las porciones topográficas de la faringe, ¿cuál de ellas tiene un rol puramente respiratorio?
+A) La laringofaringe.
+B) La nasofaringe.
+C) La orofaringe.
+- CORRECTA: B
+- WHY: El criterio fisiológico indica que mientras la bucofaringe y laringofaringe son compartidas con el digestivo, la nasofaringe es exclusivamente respiratoria (CUADERNILLO ANATOMOFISIOLOGÍA 2DA ED.pdf, pág. 50).
+
+#### 3. ¿Qué par craneal o nervio es responsable directo de la inervación sensitiva, motora y vasomotora superior de la laringe?
+A) El nervio laríngeo recurrente.
+B) El nervio laríngeo superior.
+C) El nervio glosofaríngeo (IX).
+- CORRECTA: B
+- WHY: El criterio neurológico define que el nervio laríngeo superior se encarga de estas tres funciones complejas en los niveles altos de la laringe (CUADERNILLO ANATOMOFISIOLOGÍA 2DA ED.pdf, pág. 54).
+
+#### 4. ¿De qué elementos anatómicos está compuesta estructuralmente una cuerda vocal verdadera?
+A) De un cartílago hialino, un tendón y una membrana sinovial protectora.
+B) De un ligamento, un músculo y una capa de mucosa elástica.
+C) De tejido conjuntivo fibroso laxo sin irrigación sanguínea.
+- CORRECTA: B
+- WHY: El criterio histológico determina que cada pliegue o cortina vocal verdadera posee esta constitución de tres capas para permitir su vibración (CUADERNILLO ANATOMOFISIOLOGÍA 2DA ED.pdf, pág. 55).
+
+#### 5. ¿Qué acción mecánica realiza el cartílago epiglótico durante el acto voluntario de tragar?
+A) Asciende y vibra para generar el tono fundamental de la voz.
+B) Desciende y desvía la comida impidiendo su entrada al tracto respiratorio.
+C) Se osifica para dar un soporte rígido a la base de la lengua.
+- CORRECTA: B
+- WHY: El criterio valvular define que la epiglotis actúa desviando el bolo alimenticio hacia los lados del orificio laríngeo para asegurar una deglución segura (CUADERNILLO ANATOMOFISIOLOGÍA 2DA ED.pdf, pág. 53).
+
+#### 6. ¿Cuáles son las cuerdas vocales que carecen de participación directa en la producción del habla y cumplen un rol protector?
+A) Las cuerdas vocales verdaderas.
+B) Las cuerdas vocales falsas o pliegues vestibulares.
+C) Los pliegues ariepiglóticos mediales.
+- CORRECTA: B
+- WHY: El criterio funcional divide los pliegues en verdaderos (fonadores esenciales) y falsos (protectores que ayudan a cerrar la glotis al deglutir) (CUADERNILLO ANATOMOFISIOLOGÍA 2DA ED.pdf, pág. 56).
+
+#### 7. ¿Qué tipo de músculos de la faringe intervienen de forma directa reduciendo su diámetro para propulsar el bolo alimenticio?
+A) Los músculos elevadores faríngeos.
+B) Los músculos constrictores.
+C) Los músculos suprahioideos laterales.
+- CORRECTA: B
+- WHY: El criterio funcional indica que los constrictores (superior, medio e inferior) estrechan el conducto durante el peristaltismo de deglución (CUADERNILLO ANATOMOFISIOLOGÍA 2DA ED.pdf, pág. 50, 51).
+
+#### 8. ¿Qué grupo muscular suprahioideo inervado de forma mixta por el nervio facial y el trigémino desciende la mandíbula?
+A) El músculo estilohioideo.
+B) El músculo digástrico.
+C) El músculo esternohioideo.
+- CORRECTA: B
+- WHY: El criterio de inervación y acción determina que el digástrico posee dos vientres inervados por el facial y trigémino respectivamente, deprimiendo la mandíbula (CUADERNILLO ANATOMOFISIOLOGÍA 2DA ED.pdf, pág. 58).
+
+---
+
+### 4 · LO QUE HAY QUE ACLARAR
+* **Niveles de la laringe**: Las subdivisiones detalladas y límites anatómicos de los niveles supraglótico, glótico y subglótico figuran `[FALTA]` en este módulo (CUADERNILLO ANATOMOFISIOLOGÍA 2DA ED.pdf, pág. 54).
+* **Músculos intrínsecos laríngeos**: La lista completa y acciones individuales de los músculos encargados de la tensión y longitud de las cuerdas vocales está `[FALTA]` en el texto (CUADERNILLO ANATOMOFISIOLOGÍA 2DA ED.pdf, pág. 54).
+* **Con la cátedra**: Recomiendo que confirmes si van a evaluar la longitud promedio exacta de la faringe (14 cm en hombres y 13 cm en mujeres) en el parcial o si solo exigen conocer sus límites y relaciones óseas.

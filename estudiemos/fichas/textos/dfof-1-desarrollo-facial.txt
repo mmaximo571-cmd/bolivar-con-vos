@@ -1,0 +1,102 @@
+0 · PORTADA
+- TÍTULO: DESARROLLO FACIAL
+- SUBTÍTULO: Estomodeo · Fusión · Paladar · Lengua
+- ENTRADA: Vas a entender la formación tridimensional de la cara, el cierre palatino y el origen celular de la lengua.
+- MATERIA: Desarrollo de la Función Oral Faríngea
+- PDF USADOS: Cuadernillo Desarrollo de la función oral faríngea.pdf
+
+1 · QUÉ ES
+- DEFINICIÓN:
+  Es el proceso de modelado de las estructuras faciales que comienza a partir del estomodeo o boca primitiva (pág. 56). Involucra la proliferación y fusión sistemática de los procesos maxilares, mandibulares y nasales (pág. 56, 58). El paladar se consolida en dos etapas diferenciadas: primario y secundario (pág. 59).
+- LO QUE MÁS SE CONFUNDE:
+  El **paladar primario** deriva de los procesos nasales medios (pág. 59) y forma la región anterior hasta el agujero incisivo, mientras que el **paladar secundario** deriva de los procesos palatinos (pág. 59) y forma el resto del paladar duro y todo el paladar blando (pág. 60).
+- PIEZAS:
+  1. **Estomodeo**: Boca primitiva delimitada por procesos frontonasales, maxilares y mandibulares (pág. 56).
+  2. **Placodas nasales**: Engrosamientos ectodérmicos que se invaginan para formar las fosas nasales (pág. 56).
+  3. **Procesos nasomediales**: Fusión central que origina la región incisiva, premaxila, filtro del labio y paladar primario (pág. 57).
+  4. **Procesos nasolaterales**: Estructuras que darán origen a las alas de la nariz (pág. 56).
+  5. **Procesos palatinos**: Crestas que emergen de los procesos maxilares para formar el paladar secundario (pág. 59).
+  6. **Células de somitos occipitales**: Población celular que migra al piso faríngeo para constituir la musculatura de la lengua (pág. 61).
+
+2 · CÓMO FUNCIONA
+
+MÁQUINA 1 · ETAPAS DE CONSOLIDACIÓN PALATINA
+- QUÉ SE ELIGE: El proceso de división y fusión palatina (pág. 59-60)
+- BOTONES: Paladar Primario, Paladar Secundario, Paladar Definitivo
+- POR CADA OPCIÓN:
+  - **Paladar Primario**: Proviene de los procesos nasales medios (pág. 59). Forma la porción triangular delantera del paladar duro hasta el agujero incisivo, distinguiéndose de la secundaria porque es la primera separación de la boca y la nariz (pág. 59).
+  - **Paladar Secundario**: Proviene de las crestas palatinas de los procesos maxilares (pág. 59). Se cierra desde la región media hacia adelante y atrás, distinguiéndose porque constituye todo el paladar blando y la úvula (pág. 59, 60).
+  - **Paladar Definitivo**: Unión consolidada de ambos paladares en forma de "Y" (pág. 60). Su vértice corresponde al agujero palatino anterior o incisivo, distinguiéndose porque representa la estructura madura del techo bucal (pág. 60).
+- ESQUEMA: Un paladar visto desde abajo en corte transaxial. Se destaca en color rojo la cuña triangular delantera (botón 1), luego las dos placas laterales y el velo posterior en azul (botón 2), y finalmente la unión completa demarcando la "Y" ósea (botón 3).
+
+MÁQUINA 2 · FORMACIÓN DE LA LENGUA
+- QUÉ SE ELIGE: El componente embriológico que aporta al desarrollo lingual (pág. 61)
+- BOTONES: Primer Arco (Tubérculo Impar), Eminencia Hipobranquial, Somitos Occipitales
+- POR CADA OPCIÓN:
+  - **Primer Arco (Tubérculo Impar)**: Genera tres eminencias en el piso de la faringe: el tubérculo impar y dos protuberancias laterales (pág. 61). Distinguiéndose de los demás porque constituye el cuerpo de la lengua anterior (pág. 61).
+  - **Eminencia Hipobranquial**: Proviene del mesénquima del segundo, tercer y parte del cuarto arco faríngeo (pág. 61). Distinguiéndose porque el tercer arco aporta la mayor cantidad de tejido para configurar la raíz posterior lingual (pág. 61).
+  - **Somitos Occipitales**: Células musculares externas que migran hacia la estructura mesenquimática lingual (pág. 61). Distinguiéndose porque aportan los músculos de la lengua que le dan movilidad y funcionalidad (pág. 61).
+- ESQUEMA: El piso de la faringe primitiva visto desde arriba. Se destacan tres protuberancias anteriores en color naranja (cuerpo), una masa central posterior verde (raíz) y una flecha indicando la migración celular desde el sector occipital posterior.
+
+3 · CÓMO TE DAS CUENTA
+
+1. ¿De qué procesos embrionarios se origina específicamente el paladar primario de la cara?
+A) De los procesos palatinos derivados de las maxilas.
+B) De la fusión de los procesos nasales medios.
+C) Del extremo anterior del cartílago de Meckel.
+- CORRECTA: B
+- POR QUÉ: El criterio de origen del paladar asocia la cuña central triangular del paladar primario exclusivamente con la fusión de los procesos nasales medios (pág. 59).
+
+2. ¿Qué estructura anatómica del adulto demarca el vértice de unión entre el paladar primario y el secundario?
+A) El rafe medio del paladar blando.
+B) El agujero palatino anterior o agujero incisivo.
+C) La papila bífida del velo faríngeo.
+- CORRECTA: B
+- POR QUÉ: El criterio de segmentación ósea establece que la línea de fusión definitiva tiene forma de "Y", indicando el agujero incisivo el límite anterior (pág. 60).
+
+3. Al estudiar la raíz de la lengua, ¿qué arco faríngeo realiza el aporte más significativo para su estructura final?
+A) El primer arco faríngeo.
+B) El segundo arco faríngeo.
+C) El tercer arco faríngeo.
+- CORRECTA: C
+- POR QUÉ: El criterio del origen lingual define que aunque el segundo, tercero y cuarto arco forman la eminencia hipobranquial, el tercer arco juega el papel más significativo en la raíz (pág. 61).
+
+4. ¿De dónde provienen embriológicamente los músculos que permiten la movilidad voluntaria de la lengua?
+A) Del cartílago de Meckel del primer arco.
+B) De las células de los somitos occipitales que migran.
+C) Del sincitiotrofoblasto uterino.
+- CORRECTA: B
+- POR QUÉ: El criterio histogenético indica que los miocitos linguales no son locales de los arcos, sino que migran desde los somitos occipitales hacia el piso bucal (pág. 61).
+
+5. ¿Qué estructuras de la nariz se desarrollan específicamente a partir de los procesos nasales laterales?
+A) La porción central del labio superior.
+B) Las alas de la nariz.
+C) El tabique nasal cartilaginoso únicamente.
+- CORRECTA: B
+- POR QUÉ: El criterio de diferenciación nasal asigna las alas de la nariz a los procesos laterales, y la premaxila y labio central a los medios (pág. 56).
+
+6. ¿Qué proceso embrionario da origen a los procesos palatinos que conforman el paladar secundario?
+A) El proceso frontonasal medio.
+B) Los procesos maxilares.
+C) El arco hioideo posterior.
+- CORRECTA: B
+- POR QUÉ: El criterio de desarrollo palatino establece que los procesos palatinos emergen bilateralmente como repliegues de los procesos maxilares (pág. 59).
+
+7. ¿Qué demarca en la lengua del adulto el límite entre el cuerpo (anterior) y la raíz (posterior)?
+A) La presencia exclusiva de papilas filiformes.
+B) Una estructura en forma de "V" conocida como "V" lingual.
+C) El ligamento del perimisio lingual.
+- CORRECTA: B
+- POR QUÉ: El criterio de anatomía lingual señala que la "V" lingual con su vértice en el conducto tirogloso divide el origen embriológico del cuerpo y la raíz (pág. 61).
+
+8. ¿Qué estructura transitoria separa inicialmente el estomodeo de la faringe primitiva en la cuarta semana?
+A) La membrana exocelómica.
+B) La membrana bucofaríngea.
+C) La línea primitiva del nódulo.
+- CORRECTA: B
+- POR QUÉ: El criterio del tránsito embriológico define a la membrana bucofaríngea como el límite transitorio que luego se rompe para comunicar cavidades (pág. 53).
+
+4 · LO QUE HAY QUE ACLARAR
+* **Músculos de la mímica facial**: El cuadernillo menciona que migran y se diferencian pero su listado y origen celular específico en el mesodermo paraxial queda `[FALTA]` (pág. 58).
+* **Desaparición de lámina epitelial**: Se menciona que la lámina epitelial de fusión desaparece para permitir la consolidación mesenquimática, pero los factores celulares que la inducen están `[FALTA]` (pág. 57).
+* **Con la cátedra**: Conviene confirmar si en el examen se exigirá identificar las imágenes de cortes coronales de desarrollo palatino correspondientes a las semanas 5, 7.5 y 10 presentadas en las figuras del apunte.

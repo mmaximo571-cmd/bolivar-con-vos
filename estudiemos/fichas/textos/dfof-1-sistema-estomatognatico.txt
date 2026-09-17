@@ -1,0 +1,103 @@
+0 · PORTADA
+- TÍTULO: SISTEMA ESTOMATOGNÁTICO
+- SUBTÍTULO: Unidad · Órganos · Funciones · Postura
+- ENTRADA: Vas a entender cómo funciona esta unidad morfofuncional integrada y cómo se relaciona con la postura y la supervivencia.
+- MATERIA: Desarrollo de la Función Oral Faríngea
+- PDF USADOS: Cuadernillo Desarrollo de la función oral faríngea.pdf
+
+1 · QUÉ ES
+- DEFINICIÓN:
+  Es la unidad morfofuncional integrada y coordinada, constituida por estructuras óseas, musculares, angiológicas, nerviosas, glandulares y dentales (pág. 4). Se organiza alrededor de varias articulaciones y se vincula orgánica y funcionalmente con los sistemas digestivo, respiratorio, fonológico y estético-facial (pág. 4). Su correcto desempeño asegura funciones de supervivencia ligadas a la nutrición y respiración (pág. 8).
+- LO QUE MÁS SE CONFUNDE:
+  El **sistema** involucra un conjunto de órganos asociados para cumplir un fin que se rige por leyes o principios, mientras que un **aparato** es solo un conjunto de órganos que contribuyen a una misma función (pág. 4).
+- PIEZAS:
+  1. **Fosas nasales**: Cavidades neumáticas de las vías superiores para la respiración y olfación (pág. 7).
+  2. **Cavidad bucal**: Estomodeo encargado del procesamiento de alimentos (succión, masticación, deglución) y emisión del habla (pág. 7).
+  3. **Faringe**: Cavidad activa para la deglución, fonación y canal respiratorio (pág. 7).
+  4. **Laringe**: Órgano que participa directamente en la respiración y la fonación (pág. 7).
+  5. **Neuromusculatura**: Tejido crucial para coordinar movimientos y sostener la postura de reposo cráneocérvico-mandibular (pág. 6).
+
+2 · CÓMO FUNCIONA
+
+MÁQUINA 1 · UNIDADES FUNCIONALES
+- QUÉ SE ELIGE: La participación muscular en la postura y función mandibular (pág. 9)
+- BOTONES: Cráneo-cervical, Cráneo-mandibular, Cráneo-facial, Linguo-hioidea
+- POR CADA OPCIÓN:
+  - **Cráneo-cervical**: Unidad muscular que relaciona el cráneo con el cuello (pág. 9). Determina el sostén postural inicial, distinguiéndose de las otras porque regula la inclinación cráneo-vertebral (pág. 9).
+  - **Cráneo-mandibular**: Unidad muscular que conecta la mandíbula con la base craneal (pág. 9). Determina la postura de reposo y los desplazamientos de masticación, distinguiéndose porque establece la relación cóndilo-discal (pág. 10).
+  - **Cráneo-facial**: Unidad de músculos faciales e inserciones anteriores (pág. 9). Ejecuta expresiones y mímica facial, distinguiéndose porque no interviene directamente en la masticación pesada sino en el sellado y gesticulación (pág. 9).
+  - **Linguo-hioidea**: Unidad muscular que une la lengua y el hioides (pág. 9). Controla la deglución y la posición de reposo de la lengua, distinguiéndose porque estabiliza mecánicamente la vía aérea (pág. 12).
+- ESQUEMA: Un cráneo superior simple (de perfil). De su base salen cuatro líneas de fuerza musculares (flechas de colores que aparecen de a una) hacia el cuello, la mandíbula, la cara anterior y el hueso hioides abajo.
+
+MÁQUINA 2 · DETERMINANTES DEL DESARROLLO
+- QUÉ SE ELIGE: El factor de influencia en el crecimiento estomatognático (pág. 3, 13)
+- BOTONES: Medio ambiente, Psicoemocional, Morfología, Fisiología
+- POR CADA OPCIÓN:
+  - **Medio ambiente**: Factor exógeno compuesto por hábitat, alimentación y costumbres (pág. 13). Modela las pautas funcionales del sistema desde afuera, distinguiéndose por ser totalmente externo al organismo (pág. 3).
+  - **Psicoemocional**: Factor endógeno condicionado por las relaciones interpersonales tempranas (pág. 3, 13). Afecta la ejecución de las funciones alimentarias y el tono muscular por estrés, distinguiéndose por ser una respuesta puramente interna del sujeto (pág. 3).
+  - **Morfología**: El diseño anatómico específico del sistema (pág. 13). Establece las bases estructurales iniciales del movimiento, distinguiéndose porque puede modificarse progresivamente por el ejercicio funcional sistemático (pág. 13).
+  - **Fisiología**: La actividad nerviosa central y periférica que almacena mapas sensoriomotores (pág. 13). Permite la ejecución automática e inconsciente de funciones vitales, distinguiéndose de la morfología porque representa la función activa y no el hueso o músculo estático (pág. 13).
+- ESQUEMA: Un óvalo central que representa la "Salud del SE". Cuatro cajas externas apuntando con flechas de entrada bilaterales al óvalo (aparecen de a una).
+
+3 · CÓMO TE DAS CUENTA
+
+1. ¿Cuál es la diferencia conceptual exacta entre un "sistema" y un "aparato" según el cuadernillo?
+A) El sistema se asocia para una función y el aparato se rige por leyes anatómicas específicas.
+B) El sistema involucra órganos bajo leyes o principios comunes; el aparato solo contribuye a una misma función.
+C) El aparato es una unidad morfofuncional autorregulada y el sistema es la suma de órganos sueltos.
+- CORRECTA: B
+- POR QUÉ: El criterio teórico del cuadernillo define textualmente que un sistema se rige por leyes o principios asociados, a diferencia de la mera contribución funcional de un aparato (pág. 4).
+
+2. ¿Qué ocurre conceptualmente ante una alteración morfológica o sensomotora en la unidad cráneo-mandibular?
+A) Se produce una parálisis completa de todas las funciones de la cavidad bucal.
+B) Provoca adaptaciones de compensación en las otras unidades para equilibrar el sistema.
+C) Se detiene inmediatamente la respiración nasal del individuo.
+- CORRECTA: B
+- POR QUÉ: El criterio neuromuscular establece una interdependencia entre unidades funcionales; el desequilibrio de una obliga a las demás a generar adaptaciones eficientes para cumplir la demanda vital (pág. 9, 10).
+
+3. Al definir la salud del sistema orgánico, ¿qué postula la Organización Mundial de la Salud (OMS)?
+A) Que es únicamente la ausencia completa de enfermedades infectocontagiosas graves.
+B) Que implica un estado de bienestar físico, mental y social completo del individuo.
+C) Que depende exclusivamente de la estructura biológica heredada genéticamente.
+- CORRECTA: B
+- POR QUÉ: El criterio de salud colectiva adoptado de la OMS va más allá de lo orgánico, integrando la adaptación social y el bienestar psicológico (pág. 3, 12).
+
+4. Si una persona tiene una postura mandibular de reposo alterada, ¿qué estructura neuromuscular-articular se verá directamente influenciada?
+A) El esfínter palatogloso externo únicamente.
+B) Las articulaciones témporo-mandibulares al establecer la relación cóndilo-discal.
+C) El conducto lacrimonasal de la cavidad nasal.
+- CORRECTA: B
+- POR QUÉ: El criterio funcional establece que la postura de reposo mandibular condiciona los desplazamientos y ejerce influencia directa en la relación cóndilo-discal-meniscal de la ATM (pág. 10).
+
+5. ¿Cuál de las siguientes es considerada una función estomatognática destinada específicamente a asegurar la nutrición?
+A) El habla articulada.
+B) La expresión estético-facial.
+C) La deglución.
+- CORRECTA: C
+- POR QUÉ: El criterio funcional divide las funciones en las que aseguran la nutrición (respirar, tragar, succionar, masticar) y aquellas de función social (hablar) (pág. 12).
+
+6. ¿Cómo se manifiesta conceptualmente una "disfunción" en el sistema estomatognático?
+A) Como la detención total e irreversible de una función nutricional vital.
+B) Como una función ejecutada de manera contraria a lo esperado para lograr cumplir con la necesidad.
+C) Como la destrucción inmediata de las piezas dentarias por hiperactividad muscular.
+- CORRECTA: B
+- POR QUÉ: El criterio clínico indica que en la disfunción el objetivo se logra a pesar de que el funcionamiento sistémico sea disfuncional y dañe la integridad del sistema (pág. 14).
+
+7. ¿Qué define de manera específica a una "parafunción" en contraste con una disfunción?
+A) Es una actividad excesiva sin relación con necesidades nutricionales del organismo.
+B) Es una alteración involuntaria provocada por la ingesta de alimentos sólidos duros.
+C) Es una malformación ósea congénita del maxilar inferior.
+- CORRECTA: A
+- POR QUÉ: El criterio de clasificación define las parafunciones como actividades repetitivas y compulsivas (apretar, morder, rechinar) ajenas a la nutrición que alteran la autorregulación (pág. 16).
+
+8. ¿Qué principio neuro-muscular-funcional rige la autorregulación del sistema estomatognático según el texto?
+A) Máxima fuerza de mordida con el mayor consumo de oxígeno posible.
+B) Eficiencia funcional con mínimo gasto energético y preservación de estructuras.
+C) Control voluntario y consciente de todas las fases del tránsito faríngeo.
+- CORRECTA: B
+- POR QUÉ: El criterio de biofisiología del sistema estomatognático busca cumplir sus funciones de nutrición minimizando el desgaste estructural (pág. 8).
+
+4 · LO QUE HAY QUE ACLARAR
+* **Leyes o principios del sistema**: Se menciona que el sistema se rige por leyes o principios que lo diferencian de un aparato, pero el cuadernillo los deja `[FALTA]` en su enumeración detallada (pág. 4).
+* **Intervenciones disfuncionales**: Se definen las causas de las disfunciones estomatognáticas, pero el protocolo clínico exacto de reeducación queda `[FALTA]` (pág. 14).
+* **Con la cátedra**: Conviene confirmar si en las evaluaciones de este módulo se exigirá el listado completo de los músculos que componen cada una de las unidades funcionales más allá de los presentados de forma general.

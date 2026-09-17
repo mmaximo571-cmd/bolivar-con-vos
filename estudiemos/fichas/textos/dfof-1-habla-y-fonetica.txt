@@ -1,0 +1,103 @@
+0 · PORTADA
+- TÍTULO: HABLA Y FONÉTICA
+- SUBTÍTULO: Sonidos · Puntos · Modos · Procesamiento
+- ENTRADA: Vas a dominar la clasificación de los sonidos del español, sus puntos y modos de articulación y el modelo de procesamiento de Levelt.
+- MATERIA: Desarrollo de la Función Oral Faríngea
+- PDF USADOS: Cuadernillo Desarrollo de la función oral faríngea.pdf
+
+1 · QUÉ ES
+- DEFINICIÓN:
+  Es la conversión de un significado en sonidos audibles estructurados que permiten la comunicación entre interlocutores que comparten un mismo código lingüístico (pág. 86). Requiere de la interacción de órganos articulatorios activos y pasivos para modificar la forma y el volumen del conducto bucal (pág. 87). Comprende niveles de procesamiento cognitivo, lingüístico y motor (pág. 89).
+- LO QUE MÁS SE CONFUNDE:
+  Los **órganos articulatorios activos** son los que realizan el movimiento (lengua, faringe, paladar blando, labios y mandíbula inferior, pág. 87), mientras que los **pasivos** son los que permanecen fijos sirviendo de punto de contacto (dientes superiores incisivos, alveolos y paladar duro, pág. 87).
+- PIEZAS:
+  1. **Fonética**: Ciencia que estudia la sustancia de expresión del signo, abordando la producción, constitución acústica y percepción de sonidos (pág. 88).
+  2. **Fonología**: Rama que estudia la forma de expresión del signo, analizando de manera abstracta cómo se organizan los sonidos en un sistema específico (pág. 88).
+  3. **Puntos de articulación**: Lugares específicos de la boca donde se producen los contactos o estrechamientos para configurar los sonidos (pág. 87, 88).
+  4. **Modos de articulación**: La forma en que se modifica o se interrumpe la salida de la corriente de aire (oclusivo, fricativo, etc., pág. 88).
+  5. **Fricativos**: Sonidos producidos por un estrechamiento del canal vocal que genera fricción por turbulencia del aire (pág. 88).
+  6. **Vibrantes**: Sonidos donde el ápice de la lengua vibra contra los alveolos produciendo una o más oclusiones breves (pág. 88).
+
+2 · CÓMO FUNCIONA
+
+MÁQUINA 1 · PUNTOS DE ARTICULACIÓN DEL ESPAÑOL
+- QUÉ SE ELIGE: El sitio de contacto u obstrucción del canal bucal (pág. 87, 88)
+- BOTONES: Bilabiales, Alveolares, Palatales, Velares
+- POR CADA OPCIÓN:
+  - **Bilabiales**: Los labios intervienen como órganos activos estrechándose o cerrándose por completo (pág. 88). Produce sonidos como /p/, /m/ y /b/, distinguiéndose de los dentales por no requerir contacto lingual (pág. 88).
+  - **Alveolares**: El ápice anterior de la lengua toca los alveolos (protuberancias de los dientes inferiores, pág. 88). Produce sonidos linguo-alveolares como /s/, /l/, /n/, /r/ y /ɾ/, distinguiéndose por su punto de contacto superior (pág. 88).
+  - **Palatales**: La punta o región predorsal de la lengua se eleva hacia el paladar duro (pág. 88). Produce sonidos como /ʝ/, /ʎ/, /c͡ç/ y /ɲ/, distinguiéndose por ocurrir en el límite medio del techo bucal (pág. 88).
+  - **Velares**: El dorso posterior de la lengua se sitúa en la región del velo del paladar (pág. 88). Produce sonidos linguo-velares como /x/, /g/ y /k/, distinguiéndose de los anteriores por su posición posterior profunda (pág. 88).
+- ESQUEMA: Un corte sagital de la cavidad oral (boca de perfil). Al presionar cada botón, se ilumina un punto de color sobre la zona de contacto correspondiente (labios, alveolos anteriores, paladar duro medio, velo posterior).
+
+MÁQUINA 2 · COMPONENTES DEL SISTEMA DE LEVELT (1989)
+- QUÉ SE ELIGE: El nivel de procesamiento cerebral para emitir el habla (pág. 89)
+- BOTONES: Conceptualizador, Formulador, Articulador
+- POR CADA OPCIÓN:
+  - **Conceptualizador**: Nivel inicial de la intención comunicativa (pág. 89). Selecciona la información relevante y los aspectos pragmáticos preparando el mensaje, distinguiéndose de los siguientes por ser un proceso pre-lingüístico (pág. 89).
+  - **Formulador**: Nivel de codificación gramatical y fonológica (pág. 89). Recupera la forma fonológica del léxico y establece el marco sintáctico (plan fonético), distinguiéndose porque arma la plantilla de sonidos sin mover los músculos (pág. 89).
+  - **Articulador**: Nivel de ejecución motora final (pág. 89). Traduce el plan fonético en órdenes motoras directas para los músculos orofaciales, distinguiéndose de los otros porque produce el sonido físico audible (pág. 89).
+- ESQUEMA: Tres bloques apilados verticalmente de arriba hacia abajo (Mensaje Preparado -> Plan Fonético -> Ejecución Motora). Al presionar un botón, se resalta su bloque correspondiente y se muestran flechas de flujo de datos.
+
+3 · CÓMO TE DAS CUENTA
+
+1. ¿Cuál de los siguientes es considerado un órgano articulatorio pasivo según el cuadernillo?
+A) La lengua activa.
+B) Los incisivos superiores fijos.
+C) El paladar blando móvil.
+- CORRECTA: B
+- POR QUÉ: El criterio de clasificación distingue los órganos pasivos por permanecer inmóviles sirviendo de tope al órgano activo que realiza la excursión (pág. 87).
+
+2. ¿Qué componente del modelo de Levelt se encarga de la codificación gramatical y la preparación del plan fonético?
+A) El conceptualizador inicial.
+B) El formulador.
+C) El articulador motor.
+- CORRECTA: B
+- POR QUÉ: El criterio de procesamiento psicolingüístico asigna al formulador la tarea de recuperar el léxico y estructurar la secuencia sintáctica y fonológica (pág. 89).
+
+3. Al pronunciar el fonema alveolar /s/, ¿qué punto de la boca sirve como contacto o estrechamiento?
+A) El dorso posterior del velo.
+B) Los alveolos anteriores con la punta lingual.
+C) Los incisivos inferiores cruzados únicamente.
+- CORRECTA: B
+- POR QUÉ: El criterio de clasificación por punto define a la /s/ como una consonante linguo-alveolar donde el ápice lingual busca la protuberancia alveolar (pág. 88).
+
+4. ¿Qué diferencia conceptual existe entre la Fonética y la Fonología?
+A) La Fonética es el código abstracto; la Fonología es el canal auditivo directo.
+B) La Fonética aborda la sustancia física del sonido; la Fonología estudia de forma abstracta su organización en el sistema.
+C) La Fonética se limita exclusivamente al estudio de los somitos occipitales linguales.
+- CORRECTA: B
+- POR QUÉ: El criterio teórico lingüístico distingue el análisis físico y de variantes individuales (Fonética) del sistema abstracto común (Fonología) (pág. 88).
+
+5. ¿Qué modo de articulación se caracteriza por obstruir completamente la fluidez del aire para luego liberarlo de forma explosiva?
+A) El modo oclusivo.
+B) El modo fricativo.
+C) El modo africado.
+- CORRECTA: A
+- POR QUÉ: El criterio de modo de articulación asocia la obstrucción total seguida de liberación rápida con la explosión de sonidos como /p/, /t/, /k/ (pág. 88).
+
+6. Al pronunciar los sonidos velares como /k/ o /g/, ¿qué parte de la lengua actúa como órgano activo?
+A) La región predorsal lingual.
+B) El dorso de la lengua.
+C) El ápice anterior lingual.
+- CORRECTA: B
+- POR QUÉ: El criterio anatómico motor indica que el dorso posterior es el que se eleva para contactar con el velo palatino pasivo (pág. 88).
+
+7. ¿Qué tipo de sonido se produce por la vibración del ápice de la lengua contra los alveolos, como en la /r/?
+A) Sonido lateral.
+B) Sonido vibrante.
+C) Sonido aproximante.
+- CORRECTA: B
+- POR QUÉ: El criterio de modo define al sonido vibrante por las breves oclusiones consecutivas del ápice lingual contra la zona alveolar (pág. 88).
+
+8. ¿Qué par craneal o nervio se menciona como responsable de la sensación y motricidad en la articulación lingual en el anexo de deglución?
+A) El par V trigémino lingual.
+B) El par XI accesorio únicamente.
+C) La glándula tiroides anterior.
+- CORRECTA: A
+- POR QUÉ: El criterio neurológico asocia las sensaciones y conducción lingual con la rama lingual del nervio trigémino (pág. 23).
+
+4 · LO QUE HAY QUE ACLARAR
+* **Sonidos sordos y sonoros**: Se menciona la acción de las cuerdas vocales en la clasificación, pero el listado detallado de fonemas correspondientes a sordos o sonoros queda `[FALTA]` (pág. 88).
+* **Modos de articulación lateral y nasal**: Se enumeran de forma genérica, pero la descripción del comportamiento del velo para cada uno de ellos está `[FALTA]` (pág. 88).
+* **Con la cátedra**: Conviene confirmar si se exigirá transcribir palabras fonéticamente utilizando el alfabeto fonético internacional en las preguntas del examen escrito.

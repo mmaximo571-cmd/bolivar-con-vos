@@ -1,0 +1,109 @@
+### 0 · PORTADA
+- TÍTULO: MECÁNICA RESPIRATORIA
+- SUBTÍTULO: Tórax · Costillas · Diafragma · Ciclos
+- ENTRADA: Vas a entender la estructura ósea del tórax, el rol fundamental del diafragma y la diferencia de los ciclos respiratorios entre la respiración tranquila y el habla.
+- MATERIA: Anatomofisiología Fonoaudiológica (CUADERNILLO ANATOMOFISIOLOGÍA 2DA ED.pdf, pág. 1)
+- PDF USADOS:
+  - CUADERNILLO ANATOMOFISIOLOGÍA 2DA ED.pdf
+
+---
+
+### 1 · QUÉ ES
+- DEFINICIÓN:
+  La **respiración** es una función innata, vital, automática, voluntaria e involuntaria cuyo principal objetivo es mantener equilibradas las cantidades de oxígeno y dióxido de carbono en la sangre (CUADERNILLO ANATOMOFISIOLOGÍA 2DA ED.pdf, pág. 73). El tórax es la cavidad protectora que resguarda los pulmones y el corazón (CUADERNILLO ANATOMOFISIOLOGÍA 2DA ED.pdf, pág. 69).
+- LO QUE MÁS SE CONFUNDE:
+  El **diafragma** es el músculo principal de la inspiración (CUADERNILLO ANATOMOFISIOLOGÍA 2DA ED.pdf, pág. 82). En reposo se presenta elevado en forma de dos cúpulas, pero al contraerse **se achata y aplana**, desplazando el contenido abdominal hacia adelante y abajo (CUADERNILLO ANATOMOFISIOLOGÍA 2DA ED.pdf, pág. 82).
+- PIEZAS:
+  1. **Esternón**: Hueso alargado y plano anterior del tórax constituido por el manubrio, cuerpo y apéndice xifoides (CUADERNILLO ANATOMOFISIOLOGÍA 2DA ED.pdf, pág. 69).
+  2. **Costillas verdaderas**: Costillas de la primera a la séptima que se unen al esternón de forma directa mediante un cartílago individual (CUADERNILLO ANATOMOFISIOLOGÍA 2DA ED.pdf, pág. 71).
+  3. **Costillas falsas**: Costillas de la octava a la décima que se unen al esternón de forma indirecta mediante un cartílago conjunto (CUADERNILLO ANATOMOFISIOLOGÍA 2DA ED.pdf, pág. 71).
+  4. **Costillas flotantes**: Costillas undécima y duodécima que no se unen al esternón por delante y quedan libres (CUADERNILLO ANATOMOFISIOLOGÍA 2DA ED.pdf, pág. 71).
+  5. **Zona de conducción**: Conjunto de vías (nariz, cavidad nasal, oral, faringe, laringe, tráquea, bronquios y bronquiolos) encargadas de transportar el aire (CUADERNILLO ANATOMOFISIOLOGÍA 2DA ED.pdf, pág. 76).
+  6. **Ciclo nasal**: Alternancia de la mucosa nasal que varía la permeabilidad de cada fosa cada seis horas, ausente en niños por inmadurez (CUADERNILLO ANATOMOFISIOLOGÍA 2DA ED.pdf, pág. 78).
+
+---
+
+### 2 · CÓMO FUNCIONA
+
+#### MÁQUINA 1 · COMPARATIVA DE CICLOS RESPIRATORIOS
+- QUÉ SE ELIGE: El tipo de actividad y su influencia en el ciclo respiratorio (CUADERNILLO ANATOMOFISIOLOGÍA 2DA ED.pdf, pág. 74, 75)
+- BOTONES: Respiración tranquila, Respiración de habla/canto
+- POR CADA OPCIÓN:
+  - **Respiración tranquila**: Ciclos regulares automáticos (CUADERNILLO ANATOMOFISIOLOGÍA 2DA ED.pdf, pág. 74). La inspiración es corta y activa (40%) y la espiración es pasiva y larga (60%), distinguiéndose por no requerir contracción espiratoria activa (CUADERNILLO ANATOMOFISIOLOGÍA 2DA ED.pdf, pág. 74).
+  - **Respiración de habla/canto**: Ciclos irregulares bajo control voluntario (CUADERNILLO ANATOMOFISIOLOGÍA 2DA ED.pdf, pág. 75). La inspiración es corta, rápida y silenciosa (10%) y la espiración es muy larga y activa (90%) con contracción muscular dosificada, distinguiéndose por su asimetría extrema (CUADERNILLO ANATOMOFISIOLOGÍA 2DA ED.pdf, pág. 75).
+- ESQUEMA: Dos gráficos circulares de torta. El primero representa la respiración tranquila, dividido en 40% (inspiración) y 60% (espiración). El segundo representa el habla/canto, dividido en 10% (inspiración) y 90% (espiración) (CUADERNILLO ANATOMOFISIOLOGÍA 2DA ED.pdf, pág. 74, 75).
+
+#### MÁQUINA 2 · LAS VÍAS Y DIFERENCIAS BRONQUIALES
+- QUÉ SE ELIGE: El bronquio fuente extrapulmonar izquierdo o derecho (CUADERNILLO ANATOMOFISIOLOGÍA 2DA ED.pdf, pág. 96, 97)
+- BOTONES: Bronquio Derecho, Bronquio Izquierdo
+- POR CADA OPCIÓN:
+  - **Bronquio Derecho**: Bronquio principal derecho (CUADERNILLO ANATOMOFISIOLOGÍA 2DA ED.pdf, pág. 96, 97). Es rectilíneo, casi vertical, más corto y de mayor calibre, distinguiéndose por dirigir el aire a un pulmón de tres lóbulos y ser más propenso a aspirar cuerpos extraños (CUADERNILLO ANATOMOFISIOLOGÍA 2DA ED.pdf, pág. 96, 97).
+  - **Bronquio Izquierdo**: Bronquio principal izquierdo (CUADERNILLO ANATOMOFISIOLOGÍA 2DA ED.pdf, pág. 96, 97). Es curvado, más largo y de menor calibre, distinguiéndose porque pasa por debajo del arco de la aorta y ventila un pulmón de solo dos lóbulos (CUADERNILLO ANATOMOFISIOLOGÍA 2DA ED.pdf, pág. 96, 97, 98).
+- ESQUEMA: Un dibujo en horquilla de la tráquea bifurcándose. El brazo derecho baja empinado, casi recto y grueso (bronquio derecho - aparece de a uno). El brazo izquierdo sale más horizontal, largo, curvo y fino (bronquio izquierdo - aparece de a uno) (CUADERNILLO ANATOMOFISIOLOGÍA 2DA ED.pdf, pág. 96).
+
+---
+
+### 3 · CÓMO TE DAS CUENTA
+
+#### 1. ¿Qué alteración sufre la forma del diafragma cuando pasa de su estado de reposo a la contracción activa?
+A) Se eleva de forma cóncava aumentando su forma de cúpula.
+B) Se achata y aplana, desplazando el contenido abdominal hacia adelante y abajo.
+C) Se contrae lateralmente sin modificar su altura vertical.
+- CORRECTA: B
+- WHY: El criterio fisiológico del diafragma indica que su contracción aplana sus cúpulas para disminuir la presión pulmonar y permitir el ingreso del aire (CUADERNILLO ANATOMOFISIOLOGÍA 2DA ED.pdf, pág. 82).
+
+#### 2. ¿Cómo se clasifica a la séptima costilla de la caja torácica según sus uniones óseas?
+A) Como una costilla falsa de cartílago conjunto.
+B) Como la costilla verdadera más larga unida de forma directa al esternón.
+C) Como una costilla flotante posterior sin inserción anterior.
+- CORRECTA: B
+- WHY: El criterio anatómico determina de forma exacta que las costillas de la 1ª a la 7ª son verdaderas y resalta a la 7ª como la de mayor longitud (CUADERNILLO ANATOMOFISIOLOGÍA 2DA ED.pdf, pág. 71).
+
+#### 3. Si comparás la espiración de la respiración tranquila con la del habla, ¿qué diferencia muscular encontrás?
+A) En la tranquila es pasiva sin trabajo muscular; en el habla es activa con contracción muscular dosificada.
+B) En la tranquila es activa por el diafragma; en el habla es pasiva por relajación de intercostales.
+C) Ambas son completamente pasivas y dependen de la elasticidad pulmonar.
+- CORRECTA: A
+- WHY: El criterio fisiológico de la actividad aérea diferencia la espiración pasiva del reposo (60% del ciclo) de la espiración controlada para la fonación (90% del ciclo) (CUADERNILLO ANATOMOFISIOLOGÍA 2DA ED.pdf, pág. 74, 75).
+
+#### 4. ¿Qué nombre recibe el paso de la sangre desoxigenada desde el corazón hacia los pulmones para su oxigenación y retorno?
+A) Circulación mayor o sistémica.
+B) Sistema cardiopulmonar o circulación menor.
+C) Filtración de barrera alveolar derecha.
+- CORRECTA: B
+- WHY: El criterio cardiovascular define la circulación menor como el trayecto de ventrículo derecho a pulmones y retorno por aurícula derecha para oxigenar (CUADERNILLO ANATOMOFISIOLOGÍA 2DA ED.pdf, pág. 85).
+
+#### 5. ¿Por qué la respiración exclusivamente oral se considera patológica si se realiza de manera habitual durante el reposo tranquilo?
+A) Porque impide la activación del sistema nervioso voluntario.
+B) Porque no cumple las funciones de filtración, humidificación y calentamiento del aire, alterando el crecimiento orofacial.
+C) Porque disminuye la capacidad total de la capacidad vital a un 10%.
+- CORRECTA: B
+- WHY: El criterio clínico indica que el patrón oronasal o de respiración oral tranquila altera las presiones intraorales y expone la vía aérea sin filtrar (CUADERNILLO ANATOMOFISIOLOGÍA 2DA ED.pdf, pág. 79).
+
+#### 6. ¿Cuáles son los tres elementos óseos principales que constituyen la estructura anatómica del esternón?
+A) El manubrio, el cuerpo y el apéndice xifoides.
+B) La cabeza, el cuello y la base intercostal.
+C) Las siete escotaduras bilaterales anteriores.
+- CORRECTA: A
+- WHY: El criterio de anatomía descriptiva define de manera precisa estas tres piezas óseas superpuestas que forman el esternón (CUADERNILLO ANATOMOFISIOLOGÍA 2DA ED.pdf, pág. 69).
+
+#### 7. Si analizás los bronquios principales derecho e izquierdo, ¿cuál de ellos presenta un recorrido más vertical y mayor calibre?
+A) El bronquio izquierdo.
+B) El bronquio derecho.
+C) Ambos son idénticos y simétricos en su recorrido.
+- CORRECTA: B
+- WHY: El criterio de segmentación bronquial asocia la verticalidad, menor longitud y mayor calibre directamente al bronquio fuente derecho (CUADERNILLO ANATOMOFISIOLOGÍA 2DA ED.pdf, pág. 96, 97).
+
+#### 8. ¿Qué estructura anatómica se sitúa entre la sexta vértebra cervical y la cuarta vértebra torácica antes de dividirse en bronquios?
+A) El esófago posterior.
+B) La tráquea.
+C) La laringe supraglótica.
+- CORRECTA: B
+- WHY: El criterio posicional define la extensión de la tráquea como un conducto de anillos cartilaginosos incompletos que se bifurca a nivel de T4 (CUADERNILLO ANATOMOFISIOLOGÍA 2DA ED.pdf, pág. 94, 96).
+
+---
+
+### 4 · LO QUE HAY QUE ACLARAR
+* **Músculos inspiratorios y espiratorios específicos**: La lista detallada, nombres, inserciones y funciones individuales de todos los músculos torácicos respiratorios (excepto diafragma e intercostales) están `[FALTA]` en este módulo (CUADERNILLO ANATOMOFISIOLOGÍA 2DA ED.pdf, pág. 72).
+* **Volúmenes pulmonares en canto**: Los porcentajes exactos de volumen pulmonar y capacidad vital utilizados en el canto (mencionados de forma general como "más %" que en el habla) figuran `[FALTA]` en el cuadernillo (CUADERNILLO ANATOMOFISIOLOGÍA 2DA ED.pdf, pág. 76).
+* **Con la cátedra**: Te sugiero confirmar si van a exigir memorizar las diferencias anatómicas de segmentación lobar de ambos pulmones (3 lóbulos el derecho por 2 cisuras; 2 lóbulos el izquierdo por 1 cisura) para la evaluación práctica de maquetas.

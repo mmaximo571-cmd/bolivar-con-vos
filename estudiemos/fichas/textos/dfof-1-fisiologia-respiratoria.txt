@@ -1,0 +1,102 @@
+0 · PORTADA
+- TÍTULO: FISIOLOGÍA RESPIRATORIA
+- SUBTÍTULO: Oxigenación · Ciclo · Tipos · Modos
+- ENTRADA: Vas a dominar los mecanismos de la respiración tranquila frente al habla y canto, sus músculos y envolturas.
+- MATERIA: Desarrollo de la Función Oral Faríngea
+- PDF USADOS: Cuadernillo Desarrollo de la función oral faríngea.pdf
+
+1 · QUÉ ES
+- DEFINICIÓN:
+  Es una función innata, vital, automática, voluntaria e involuntaria cuyo fin es mantener el intercambio gaseoso de O2 y CO2 (pág. 80). En la fonoaudiología, es la proveedora de la energía aerodinámica que permite la fonación para la voz y el habla (pág. 80, 86). Modifica su patrón biológico según el objetivo de la actividad (pág. 81, 82).
+- LO QUE MÁS SE CONFUNDE:
+  En la **respiración tranquila**, la espiración es un proceso puramente pasivo y sin trabajo muscular (pág. 81), mientras que en la **respiración para el habla/canto**, la espiración es activa y controlada por la contracción de diversos grupos musculares (pág. 82).
+- PIEZAS:
+  1. **Respiración tranquila**: Ciclo regular con inspiración activa (40%) y espiración pasiva (60%) destinado solo a oxigenar (pág. 81).
+  2. **Respiración del habla**: Ciclo irregular con inspiración muy corta (10%) y espiración controlada larga (90%) (pág. 82).
+  3. **Tipo respiratorio**: Patrón de expansión de la caja torácica, abdomen y hombros durante la inspiración (pág. 84).
+  4. **Modo respiratorio**: La vía de ingreso del aire (nasal, oronasal u oral) y su audibilidad durante la inspiración (pág. 85).
+  5. **Zona de conducción**: Cavidades y conductos (nariz, faringe, laringe, tráquea, bronquios) que transportan el aire sin intercambio (pág. 83).
+  6. **Zona respiratoria**: Alvéolos y conductos alveolares donde se produce de forma efectiva el intercambio gaseoso (pág. 83).
+
+2 · CÓMO FUNCIONA
+
+MÁQUINA 1 · COMPARATIVA DE CICLOS RESPIRATORIOS
+- QUÉ SE ELIGE: El objetivo funcional de la respiración del sujeto (pág. 81, 82)
+- BOTONES: Respiración Tranquila (Oxigenación), Respiración en el Habla
+- POR CADA OPCIÓN:
+  - **Respiración Tranquila (Oxigenación)**: Ciclos poco variables y simétricos (pág. 81). Inspiración de 40% y espiración pasiva de 60%, distinguiéndose porque utiliza solo entre el 10 y 15% del volumen pulmonar con modo estrictamente nasal (pág. 81).
+  - **Respiración en el Habla**: Ciclos irregulares controlados por la voluntad (pág. 82). Inspiración muy rápida del 10% y espiración activa de contracción muscular del 90%, distinguiéndose por requerir modo oronasal u oral (pág. 82, 83).
+- ESQUEMA: Dos gráficos de ondas temporales. Al tocar el botón 1, se muestra una sinusoide regular y simétrica; al tocar el botón 2, se dibuja un pico de ascenso vertical abrupto (inspiración 10%) seguido de una rampa de descenso muy suave y prolongada (espiración 90%).
+
+MÁQUINA 2 · COMPONENTES DEL TIPO RESPIRATORIO
+- QUÉ SE ELIGE: El patrón de expansión de la estructura toracoabdominal (pág. 84)
+- BOTONES: Clavicular/Superior, Medio/Torácico, Inferior/Abdominal, Costodiafragmático
+- POR CADA OPCIÓN:
+  - **Clavicular/Superior**: Elevación del tórax superior y hombros (pág. 84). Provoca un movimiento anterior de cabeza, distinguiéndose por ser el tipo de menor volumen y alta tensión (pág. 84).
+  - **Medio/Torácico**: Expansión lateral y anterior de la región media del tórax (pág. 84). Presenta nulo o mínimo movimiento abdominal, distinguiéndose por ser el tipo respiratorio más común de la mujer adulta (pág. 82, 84).
+  - **Inferior/Abdominal**: Expansión anterior exclusiva de las paredes del abdomen (pág. 84). Ausencia completa de movimientos torácicos superiores, distinguiéndose por ser el tipo típico de los bebés y hombres adultos (pág. 82, 84).
+  - **Costodiafragmático**: Expansión armónica de toda la caja torácica (pág. 84). Basa su fuerza en el descenso del diafragma, distinguiéndose de los demás por ser el tipo fisiológico más eficaz para el habla profesional y el canto (pág. 84).
+- ESQUEMA: Un torso humano de frente. Al tocar cada botón, se destacan en color las zonas corporales que aumentan de volumen en la inspiración (hombros claviculares, costillas torácicas, abdomen inferior o todo el perímetro de forma armónica).
+
+3 · CÓMO TE DAS CUENTA
+
+1. ¿Qué porcentaje del ciclo completo representa la espiración durante el habla continua?
+A) Representa el 60% del ciclo.
+B) Representa el 90% del ciclo respiratorio.
+C) Representa el 10% del ciclo respiratorio.
+- CORRECTA: B
+- POR QUÉ: El criterio funcional de fonación exige estirar la salida del aire mediante trabajo muscular controlado para sostener la emisión del enunciado, reduciendo la inspiración al 10% (pág. 82).
+
+2. ¿Qué caracteriza a la espiración durante el ciclo de respiración tranquila?
+A) Es un proceso puramente pasivo que se realiza sin trabajo muscular.
+B) Requiere la contracción forzada del músculo transverso del abdomen.
+C) Provoca un ruido silbante oronasal constante de oposición.
+- CORRECTA: A
+- POR QUÉ: El criterio fisiológico establece que en reposo la espiración ocurre por la simple relajación elástica de los pulmones y el diafragma sin consumir energía (pág. 81).
+
+3. Al evaluar el modo respiratorio de un sujeto en reposo tranquilo, ¿cuál se considera de carácter patológico?
+A) El modo nasal y silente.
+B) El modo oral con inspiración ruidosa.
+C) El modo diafragmático armónico.
+- CORRECTA: B
+- POR QUÉ: El criterio clínico indica que en reposo tranquilo el aire debe ingresar por la nariz; el ingreso bucal (modo oral) indica disfunción u obstrucción de la vía aérea alta (pág. 85).
+
+4. ¿Qué estructuras anatómicas delimitan el inicio y el fin de la zona de conducción respiratoria?
+A) Va desde los alvéolos hasta los sacos alveolares.
+B) Va desde la nariz y cavidad bucal hasta los bronquiolos terminales.
+C) Se limita exclusivamente al espacio interno de la tráquea ósea.
+- CORRECTA: B
+- POR QUÉ: El criterio histofuncional define la zona de conducción como los conductos de paso del aire que no realizan intercambio gaseoso (pág. 83).
+
+5. ¿Qué tipo respiratorio se asocia de forma típica con la respiración del bebé y del hombre adulto en reposo?
+A) Tipo clavicular o superior.
+B) Tipo medio o torácico.
+C) Tipo inferior o abdominal.
+- CORRECTA: C
+- POR QUÉ: El criterio de clasificación asocia los patrones abdominales predominantemente a los bebés y hombres, mientras que las mujeres adultas suelen usar el torácico (pág. 82).
+
+6. ¿Cuál de los siguientes tipos respiratorios es considerado patológico por falta de control muscular?
+A) El tipo diafragmático-abdominal.
+B) El tipo medio o mixto.
+C) El tipo invertido o de oposición.
+- CORRECTA: C
+- POR QUÉ: El criterio fisiopatológico describe a la respiración invertida como una incoordinación muscular severa donde el abdomen se contrae al inspirar (pág. 84).
+
+7. ¿Qué volumen de la capacidad vital utiliza aproximadamente el sujeto durante la respiración tranquila?
+A) Utiliza el 53% de la capacidad vital.
+B) Utiliza el 90% de la capacidad pulmonar total.
+C) Utiliza menos del 1% de su volumen residual.
+- CORRECTA: A
+- POR QUÉ: El criterio de volumen funcional establece que la respiración silente de reposo utiliza un rango acotado que representa un poco más de la mitad de la capacidad vital (pág. 81).
+
+8. ¿En qué funciones fonoaudiológicas interviene de manera directa la función respiratoria?
+A) Exclusivamente en el crecimiento del cartílago de Meckel fetal.
+B) En la voz, el habla, la deglución y la masticación.
+C) Únicamente en la deslateralización del fonema del yeísmo.
+- CORRECTA: B
+- POR QUÉ: El criterio de integración funcional estomatognática asocia la respiración como la base aérea que cruza y posibilita el sincronismo de la alimentación y la fonación (pág. 86).
+
+4 · LO QUE HAY QUE ACLARAR
+* **Músculos específicos de inspiración/espiración**: Se nombra que existen músculos inspiratorios y espiratorios en tablas pero sus inserciones y funciones detalladas quedan `[FALTA]` (pág. 86).
+* **Volumen de reserva inspiratorio**: Se mencionan porcentajes de la capacidad vital, pero los valores cuantitativos de volumen residual en litros quedan `[FALTA]` (pág. 81, 83).
+* **Con la cátedra**: Conviene confirmar si en la evaluación se exigirá diferenciar los músculos inspiratorios principales de los accesorios presentados en el anexo de imágenes del tórax.

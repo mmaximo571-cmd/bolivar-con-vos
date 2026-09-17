@@ -1,0 +1,104 @@
+0 · PORTADA
+- TÍTULO: PREMATUREZ
+- SUBTÍTULO: Maduración · Desarrollo · Neuronas · Riesgos
+- ENTRADA: Vas a dominar el desarrollo del bebé prematuro, sus estadios de sueño-alerta y el impacto de la estimulación neuronal temprana.
+- MATERIA: Desarrollo de la Función Oral Faríngea
+- PDF USADOS: Cuadernillo Desarrollo de la función oral faríngea.pdf
+
+1 · QUÉ ES
+- DEFINICIÓN:
+  Es la condición que implica un nacimiento antes de las 37 semanas de gestación (pág. 64). Su crecimiento no sigue un patrón uniforme ni parejo y es regulado por procesos físicos e interacciones biológicas y sociales (pág. 64). Requiere intervenciones sistemáticas para preservar la maduración del sistema nervioso (pág. 65).
+- LO QUE MÁS SE CONFUNDE:
+  La **proliferación neuronal** (producción de neuronas) finaliza estrictamente con el nacimiento (pág. 65), mientras que la **migración neuronal** (envío de neuronas a áreas del cerebro) continúa activa hasta los dos años de vida (pág. 65).
+- PIEZAS:
+  1. **Prematuro**: Bebé nacido a las 36 semanas de gestación (pág. 65).
+  2. **Muy prematuro**: Bebé nacido entre las 28 y 32 semanas de gestación (pág. 65).
+  3. **Extremadamente prematuro**: Bebé nacido con menos de 28 semanas de gestación (pág. 65).
+  4. **Sinaptogénesis**: Formación de conexiones neuronales que depende de la estimulación del entorno (pág. 65).
+  5. **Mielinización**: Recubrimiento de los axones con tejido adiposo para mejorar la velocidad conductiva nerviosa (pág. 65).
+  6. **Apoptosis**: Muerte programada del exceso de neuronas que ocurre si estas no reciben estimulación oportuna (pág. 65).
+
+2 · CÓMO FUNCIONA
+
+MÁQUINA 1 · ESTADOS NEONATALES DIARIOS
+- QUÉ SE ELIGE: El estado de conciencia del bebé prematuro apto para intervenir (pág. 65)
+- BOTONES: Sueño Profundo, Sueño Liviano, Somnoliento, Alerta/Alerta Activa, Llanto
+- POR CADA OPCIÓN:
+  - **Sueño Profundo**: Estado de reposo completo del lactante (pág. 65). No presenta respuestas a estímulos débiles, distinguiéndose de los demás porque está contraindicada cualquier intervención fonoaudiológica (pág. 65).
+  - **Sueño Liviano**: Estado intermedio de reposo con pequeños movimientos faciales (pág. 65). Es apto para iniciar estimulaciones ambientales suaves, distinguiéndose del sueño profundo por la reactividad superficial (pág. 65).
+  - **Somnoliento**: Estado de transición al abrir y cerrar los ojos (pág. 65). Permite intervenciones de preparación propioceptiva, distinguiéndose por la fácil transición a los estados de vigilia (pág. 65).
+  - **Alerta/Alerta Activa**: Estado óptimo de vigilia con atención visual y corporal (pág. 65). Es el mejor momento para alimentar e intervenir neuromuscularmente, distinguiéndose porque el bebé procesa activamente el entorno (pág. 65).
+  - **Llanto**: Estado de desorganización conductual por estrés o hambre (pág. 65). Requiere contención inmediata antes de intervenir, distinguiéndose porque impide el acoplamiento neuromuscular de la alimentación (pág. 65).
+- ESQUEMA: Un círculo dividido en 6 gajos de colores que representan las 24 horas del bebé prematuro. Al tocar un botón, se resalta su gajo correspondiente y se dibuja el trazo de un electrocardiograma o un nivel de estrés asociado.
+
+MÁQUINA 2 · COMPLICACIONES Y ALTAS CLÍNICAS
+- QUÉ SE ELIGE: El parámetro de evaluación de riesgo y alta médica (pág. 65)
+- BOTONES: Peso Mínimo de Alta, Complicaciones a Largo Plazo, Signos Clínicos Neonatales
+- POR CADA OPCIÓN:
+  - **Peso Mínimo de Alta**: El bebé debe superar los 2 kg para poder irse a su casa de forma segura (pág. 65). Se distingue de otros parámetros porque es un valor cuantitativo de maduración hepática y renal básica (pág. 65).
+  - **Complicaciones a Largo Plazo**: Secuelas de la inmadurez como parálisis cerebral, problemas visuales, de aprendizaje y cardíacos (pág. 65). Se distinguen de los signos iniciales porque aparecen en la etapa preescolar y escolar del niño (pág. 65).
+  - **Signos Clínicos Neonatales**: Bajo peso, inmadurez cardiovascular, inadecuada termorregulación y deglución descoordinada (pág. 65). Se distinguen de las secuelas tardías porque se evalúan de forma inmediata en la incubadora de neonatología (pág. 65).
+- ESQUEMA: Un monitor de neonatología simplificado. Muestra tres barras de progreso: peso (hasta 2 kg), temperatura (termorregulación) y coordinación de deglución (triada), las cuales cambian de rojo a verde según se estabilizan los parámetros.
+
+3 · CÓMO TE DAS CUENTA
+
+1. ¿Hasta qué momento de la vida del ser humano continúa activa la migración neuronal en el cerebro?
+A) Finaliza estrictamente con el parto al nacer el bebé.
+B) Continúa activa hasta los dos años de vida del niño.
+C) Se extiende de forma irreversible hasta la dentición permanente a los 12 años.
+- CORRECTA: B
+- POR QUÉ: El criterio de desarrollo neurológico establece que la migración celular continúa de forma posnatal hasta los dos años, mientras que la producción de neuronas (proliferación) termina al nacer (pág. 65).
+
+2. ¿Qué ocurre con las neuronas existentes del cerebro del bebé prematuro si no reciben estimulación adecuada?
+A) Se dividen nuevamente por mitosis acelerada.
+B) Mueren en mayor cantidad mediante el proceso de apoptosis.
+C) Se transforman automáticamente en células musculares de la mímica.
+- CORRECTA: B
+- POR QUÉ: El criterio de neuroplasticidad señala que la falta de estimulación externa provoca que los axones no hagan sinapsis y las células sobrantes sean eliminadas por apoptosis (pág. 65).
+
+3. ¿Cuál de los siguientes estados neonatales diarios es considerado NO apto para intervenciones de alimentación?
+A) El estado somnoliento.
+B) El estado de sueño profundo.
+C) El estado de alerta activa.
+- CORRECTA: B
+- POR QUÉ: El criterio de seguridad en neonatología prohíbe manipular al bebé en sueño profundo debido al riesgo de desorganización y aspiración de secreciones (pág. 65).
+
+4. ¿A partir de qué peso mínimo se autoriza clínicamente el alta de un bebé prematuro para irse a su casa?
+A) Debe pesar más de 1,5 kg.
+B) Debe pesar más de 2 kg.
+C) Debe pesar más de 3 kg.
+- CORRECTA: B
+- POR QUÉ: El criterio de maduración general establece de forma cuantitativa el umbral de los 2 kg como un límite seguro de suficiencia orgánica para el alta (pág. 65).
+
+5. ¿Cómo se clasifica a un bebé que nace antes de las 28 semanas de gestación?
+A) Prematuro moderado.
+B) Muy prematuro.
+C) Extremadamente prematuro.
+- CORRECTA: C
+- POR QUÉ: El criterio de clasificación por edad gestacional agrupa bajo la categoría de extremadamente prematuros a los nacidos antes del umbral de las 28 semanas (pág. 65).
+
+6. Al nacer un bebé prematuro, ¿qué complicación de la termorregulación se evalúa de manera inmediata?
+A) La hiperactividad febril por sinaptogénesis excesiva.
+B) La inadecuada termorregulación por inmadurez del sistema nervioso central.
+C) La parálisis inmediata de los músculos de la mímica por frío.
+- CORRECTA: B
+- POR QUÉ: El criterio de neonatología asocia la dificultad para mantener la temperatura corporal con la inmadurez funcional del SNC en el prematuro (pág. 65).
+
+7. ¿Qué proceso del desarrollo cerebral consiste en el recubrimiento de los axones con tejido adiposo para mejorar la conducción?
+A) La apoptosis celular.
+B) La mielinización.
+C) La sinaptogénesis.
+- CORRECTA: B
+- POR QUÉ: El criterio de histología nerviosa define a la mielinización como la vaina grasa aislante indispensable para que el impulso viaje rápido por el axón (pág. 65).
+
+8. ¿Durante qué rango de edad del bebé prematuro es fundamental intervenir precozmente debido a la velocidad del desarrollo cerebral?
+A) Exclusivamente en la etapa escolar entre los 6 y 12 años.
+B) Durante los primeros tres años de vida.
+C) Únicamente durante la primera semana posnatal en la incubadora.
+- CORRECTA: B
+- POR QUÉ: El criterio terapéutico resalta los primeros tres años de vida como el período crítico por la coincidencia de procesos de mielinización y sinaptogénesis activa (pág. 65).
+
+4 · LO QUE HAY QUE ACLARAR
+* **Tratamiento respiratorio por prematurez**: Se asocian problemas respiratorios como signo clínico del prematuro, pero los protocolos de uso de oxígeno o surfactante están `[FALTA]` (pág. 65).
+* **Parámetros de talla y perímetro cefálico**: Se menciona que el crecimiento se mide mediante peso, talla y perímetro, pero los valores normales o percentilos quedan `[FALTA]` (pág. 64).
+* **Con la cátedra**: Conviene confirmar si la intervención fonoaudiológica directa en prematuros exige el dominio de técnicas de estimulación orofacial específicas para ser evaluada en los parciales.

@@ -1,0 +1,113 @@
+### 0 · PORTADA
+- TÍTULO: SISTEMA ESTOMATOGNÁTICO
+- SUBTÍTULO: Unidades · Deglución · Fases · Válvulas
+- ENTRADA: Vas a dominar la integración neuromuscular del sistema facial, las fases mecánicas de la deglución y el funcionamiento coordinado de sus válvulas.
+- MATERIA: Anatomofisiología Fonoaudiológica (CUADERNILLO ANATOMOFISIOLOGÍA 2DA ED.pdf, pág. 1)
+- PDF USADOS:
+  - CUADERNILLO ANATOMOFISIOLOGÍA 2DA ED.pdf
+
+---
+
+### 1 · QUÉ ES
+- DEFINICIÓN:
+  El **sistema estomatognático** es una unidad morfofuncional integrada y coordinada que incluye estructuras esqueléticas, musculares, nerviosas y dentales organizadas alrededor de articulaciones (CUADERNILLO ANATOMOFISIOLOGÍA 2DA ED.pdf, pág. 59). Se vincula orgánica y funcionalmente con los sistemas digestivo, respiratorio y fonológico (CUADERNILLO ANATOMOFISIOLOGÍA 2DA ED.pdf, pág. 59).
+- LO QUE MÁS SE CONFUNDE:
+  Un **sistema** es un conjunto de órganos asociados para cumplir un fin que se rige por leyes o principios (CUADERNILLO ANATOMOFISIOLOGÍA 2DA ED.pdf, pág. 59). En cambio, un **aparato** es simplemente un conjunto de órganos que contribuyen de manera coordinada a realizar una misma función (CUADERNILLO ANATOMOFISIOLOGÍA 2DA ED.pdf, pág. 59).
+- PIEZAS:
+  1. **Unidad Cráneo-cervical**: Unidad funcional encargada de compensar el desequilibrio de peso y masa del cráneo sobre la columna (CUADERNILLO ANATOMOFISIOLOGÍA 2DA ED.pdf, pág. 29, 61).
+  2. **Unidad Cráneo-mandibular**: Unidad funcional que realiza los desplazamientos mandibulares para masticar, succionar, deglutir, respirar y hablar (CUADERNILLO ANATOMOFISIOLOGÍA 2DA ED.pdf, pág. 61).
+  3. **Eficiencia funcional**: Principio rector del sistema que busca cumplir las funciones con el mínimo gasto energético y preservando las estructuras (CUADERNILLO ANATOMOFISIOLOGÍA 2DA ED.pdf, pág. 59).
+  4. **Fase anticipatoria**: Etapa neuromuscular preparatoria del proceso deglutorio previa a que el alimento ingrese de forma física a la boca (CUADERNILLO ANATOMOFISIOLOGÍA 2DA ED.pdf, pág. 63).
+  5. **Fase faríngea**: Etapa automática e involuntaria de la deglución que dura 1 segundo y se inicia con el reflejo deglutorio o apnea (CUADERNILLO ANATOMOFISIOLOGÍA 2DA ED.pdf, pág. 65).
+  6. **Fase esofágica**: Etapa final que transporta el bolo hacia el estómago mediante movimientos peristálticos, con una duración de 8 a 10 segundos (CUADERNILLO ANATOMOFISIOLOGÍA 2DA ED.pdf, pág. 67).
+
+---
+
+### 2 · CÓMO FUNCIONA
+
+#### MÁQUINA 1 · LAS FASES DE LA DEGLUCIÓN
+- QUÉ SE ELIGE: La etapa del tránsito del bolo alimenticio (CUADERNILLO ANATOMOFISIOLOGÍA 2DA ED.pdf, pág. 63, 65, 67)
+- BOTONES: Fase Oral, Fase Faríngea, Fase Esofágica
+- POR CADA OPCIÓN:
+  - **Fase Oral**: Etapa enteramente voluntaria (CUADERNILLO ANATOMOFISIOLOGÍA 2DA ED.pdf, pág. 65). Comprende el sellado de labios, masticación, insalivación, armado del bolo y propulsión hacia la faringe, distinguiéndose por estar bajo control consciente del sujeto (CUADERNILLO ANATOMOFISIOLOGÍA 2DA ED.pdf, pág. 65).
+  - **Fase Faríngea**: Etapa automática involuntaria de 1 segundo (CUADERNILLO ANATOMOFISIOLOGÍA 2DA ED.pdf, pág. 65). Se dispara el reflejo deglutorio al cruzar el istmo de las fauces, inhibiendo la respiración (apnea) para cerrar la laringe, distinguiéndose porque puede ser regurgitado voluntariamente (CUADERNILLO ANATOMOFISIOLOGÍA 2DA ED.pdf, pág. 65, 66).
+  - **Fase Esofágica**: Etapa de tránsito automático lento de 8-10 segundos (CUADERNILLO ANATOMOFISIOLOGÍA 2DA ED.pdf, pág. 67). El movimiento laríngeo arrastra el esfínter esofágico superior abriéndolo; las ondas peristálticas conducen el bolo al estómago, distinguiéndose porque solo el reflejo del vómito puede hacerlo retroceder (CUADERNILLO ANATOMOFISIOLOGÍA 2DA ED.pdf, pág. 67).
+- ESQUEMA: Un gráfico de línea de tiempo con tres pasos horizontales consecutivos: paso 1 (oral - marcado como voluntario), paso 2 (faríngeo - marcado como automático y de 1 segundo) y paso 3 (esofágico - marcado como automático y de 8 a 10 segundos) (CUADERNILLO ANATOMOFISIOLOGÍA 2DA ED.pdf, pág. 65, 67).
+
+#### MÁQUINA 2 · LAS CINCO VÁLVULAS DE SEGURIDAD
+- QUÉ SE ELIGE: El punto de cierre o apertura del conducto aerodigestivo (CUADERNILLO ANATOMOFISIOLOGÍA 2DA ED.pdf, pág. 62, 63)
+- BOTONES: Labios, Esfínter palatogloso, Esfínter velofaríngeo, Vestíbulo laríngeo, EES
+- POR CADA OPCIÓN:
+  - **Labios**: Primera válvula (CUADERNILLO ANATOMOFISIOLOGÍA 2DA ED.pdf, pág. 63). Realiza el sellado labial anterior para contener el bolo y mantener la presión, distinguiéndose por ser el límite de entrada del sistema (CUADERNILLO ANATOMOFISIOLOGÍA 2DA ED.pdf, pág. 63, 65).
+  - **Esfínter palatogloso**: Segunda válvula (CUADERNILLO ANATOMOFISIOLOGÍA 2DA ED.pdf, pág. 63, 65). Cierra la cavidad oral por detrás mediante el contacto del velo con la base de la lengua, distinguiéndose porque impide que el alimento caiga prematuramente a la faringe antes de tragar (CUADERNILLO ANATOMOFISIOLOGÍA 2DA ED.pdf, pág. 65).
+  - **Esfínter velofaríngeo**: Tercera válvula (CUADERNILLO ANATOMOFISIOLOGÍA 2DA ED.pdf, pág. 63, 65). Se forma por el adosamiento del velo del paladar a la pared posterior faríngea, distinguiéndose porque cierra la nasofaringe e impide el paso de alimentos a la nariz (CUADERNILLO ANATOMOFISIOLOGÍA 2DA ED.pdf, pág. 65).
+  - **Vestíbulo laríngeo**: Cuarta válvula de protección aérea (CUADERNILLO ANATOMOFISIOLOGÍA 2DA ED.pdf, pág. 63). Se compone del descenso de la epiglotis y el cierre de las cuerdas vocales, distinguiéndose por ser el filtro final que evita la aspiración pulmonar de comida (CUADERNILLO ANATOMOFISIOLOGÍA 2DA ED.pdf, pág. 63).
+  - **EES**: Quinta válvula o esfínter esofágico superior (CUADERNILLO ANATOMOFISIOLOGÍA 2DA ED.pdf, pág. 63). Se ensancha y abre por el movimiento ascendente y anterior de la laringe para permitir el ingreso del bolo al esófago, distinguiéndose por marcar la entrada al tracto esofágico inferior (CUADERNILLO ANATOMOFISIOLOGÍA 2DA ED.pdf, pág. 67).
+- ESQUEMA: Un mapa conceptual vertical de cinco círculos numerados del 1 al 5 desde el inicio de la boca hasta el cuello, con líneas indicadoras apuntando a su ubicación anatómica respectiva en un gráfico lateral de cabeza y cuello (CUADERNILLO ANATOMOFISIOLOGÍA 2DA ED.pdf, pág. 63).
+
+---
+
+### 3 · CÓMO TE DAS CUENTA
+
+#### 1. ¿Cuál es la diferencia conceptual exacta que el cuadernillo establece entre sistema y aparato?
+A) Un sistema posee un control exclusivamente voluntario, mientras que un aparato es involuntario.
+B) Un sistema es un conjunto de órganos asociados que se rigen por principios; un aparato es un conjunto de órganos que contribuyen a una misma función.
+C) No existe diferencia, se utilizan como sinónimos absolutos en toda la materia.
+- CORRECTA: B
+- WHY: El criterio de diferenciación biológica establece de manera rigurosa que el sistema se asocia bajo leyes o principios rectores propios, a diferencia del aparato (CUADERNILLO ANATOMOFISIOLOGÍA 2DA ED.pdf, pág. 59).
+
+#### 2. Durante la fase oral de la deglución, ¿qué esfínter o válvula actúa de forma directa para evitar que el alimento caiga a la hipofaringe antes de tiempo?
+A) El esfínter esofágico superior.
+B) El esfínter palatogloso o segunda válvula.
+C) El esfínter velofaríngeo superior.
+- CORRECTA: B
+- WHY: El criterio valvular indica que esta unión entre el velo y la lengua retiene el bolo en la cavidad oral durante su preparación (CUADERNILLO ANATOMOFISIOLOGÍA 2DA ED.pdf, pág. 65).
+
+#### 3. Si un paciente sufre de parálisis velo-faríngea y el alimento se desvía hacia las fosas nasales al deglutir, ¿qué válvula está fallando?
+A) La primera válvula labial.
+B) La tercera válvula o esfínter velofaríngeo.
+C) La quinta válvula esofágica.
+- CORRECTA: B
+- WHY: El criterio fisiopatológico asocia el reflujo nasal de alimentos de forma directa con la falla en el adosamiento del velo contra la pared posterior faríngea (CUADERNILLO ANATOMOFISIOLOGÍA 2DA ED.pdf, pág. 65).
+
+#### 4. ¿Qué unidad funcional del sistema estomatognático se encarga morfológicamente del equilibrio postural del cráneo sobre la columna vertebral?
+A) La unidad Cráneo-mandibular.
+B) La unidad Cráneo-cervical.
+C) La unidad Linguo-hioidea.
+- CORRECTA: B
+- WHY: El criterio de evaluación postural determina que la unidad cráneo-cervical y sus fijaciones óseas musculares sostienen el peso del cráneo (CUADERNILLO ANATOMOFISIOLOGÍA 2DA ED.pdf, pág. 29, 61).
+
+#### 5. ¿Cuánto tiempo se calcula que dura la fase faríngea en un proceso deglutorio normal y saludable?
+A) Aproximadamente 8 a 10 segundos en total.
+B) Exactamente 1 segundo.
+C) Entre 3 y 5 segundos.
+- CORRECTA: B
+- WHY: El criterio de temporalidad fisiológica establece que la fase faríngea es un acto automático ultra rápido de un segundo de duración (CUADERNILLO ANATOMOFISIOLOGÍA 2DA ED.pdf, pág. 65).
+
+#### 6. ¿Qué reflejo es el único capaz de hacer retroceder de forma física el bolo alimenticio una vez que este ha ingresado a la fase esofágica?
+A) El reflejo de apnea voluntaria.
+B) El reflejo del vómito.
+C) El reflejo de regurgitación voluntaria.
+- CORRECTA: B
+- WHY: El criterio clínico indica que en la etapa esofágica el tránsito es unidireccional y solo el reflejo del vómito altera este curso hacia el estómago (CUADERNILLO ANATOMOFISIOLOGÍA 2DA ED.pdf, pág. 67).
+
+#### 7. ¿Qué se produce en la vía aerodigestiva a nivel neurológico al momento exacto de cruzarse el istmo de las fauces?
+A) Un aumento inmediato de la frecuencia cardíaca.
+B) La inhibición temporal de la respiración o apnea.
+C) Una contracción del músculo diafragma inspiratorio.
+- CORRECTA: B
+- WHY: El criterio fisiológico de protección aérea exige que el SNC interrumpa la respiración para evitar la penetración de comida a la laringe (CUADERNILLO ANATOMOFISIOLOGÍA 2DA ED.pdf, pág. 65).
+
+#### 8. ¿Qué músculos de la nuca y hombro deben contraerse activamente para evitar que el cráneo desequilibrado se desplace hacia adelante?
+A) Masetero y suprahioideos anteriores.
+B) Trapecio, esplenio, esternocleidomastoideo y largo de la cabeza.
+C) Constrictores faríngeos superior e inferior.
+- CORRECTA: B
+- WHY: El criterio posicional indica que estos grupos musculares posteriores compensan el desequilibrio de peso craneal sobre la columna (CUADERNILLO ANATOMOFISIOLOGÍA 2DA ED.pdf, pág. 29).
+
+---
+
+### 4 · LO QUE HAY QUE ACLARAR
+* **Subfases de la fase oral**: Las características fisiológicas específicas que distinguen a las dos subfases de la etapa oral están `[FALTA]` en este apartado (CUADERNILLO ANATOMOFISIOLOGÍA 2DA ED.pdf, pág. 65).
+* **Fisiología de la succión**: El funcionamiento coordinado de los músculos implicados y la maduración neurológica de la succión están `[FALTA]` en este texto (CUADERNILLO ANATOMOFISIOLOGÍA 2DA ED.pdf, pág. 59).
+* **Con la cátedra**: Te conviene recontra confirmar si los pares craneales y músculos involucrados en la deglución se van a evaluar de forma teórica en opción múltiple o si van a exigir describir la secuencia exacta en la instancia de evaluación oral.
