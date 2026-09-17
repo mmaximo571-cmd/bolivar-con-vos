@@ -186,9 +186,9 @@
     "semantic_hash": "13c70cb9b680cf53ce1df6881965457c"
   },
   "BITACORA.md": {
-    "mtime": 1789660728.2420487,
-    "seen": 1789660732.893072,
-    "ast_hash": "9864da282b7fac5b1c26ab931d6bd616",
+    "mtime": 1789660801.5718565,
+    "seen": 1789660805.9579828,
+    "ast_hash": "dda86373ee42c39bfa9e0579380e8fee",
     "semantic_hash": ""
   },
   "LEEME.md": {
@@ -264,15 +264,15 @@
     "semantic_hash": "d6467bfb8c8926709a61aa0c95c99e03"
   },
   "estudiemos/fonoteca/index.html": {
-    "mtime": 1789657615.3251827,
-    "seen": 1789658176.6584337,
-    "ast_hash": "4b476e3ddb1f6158b872541db55fe971",
+    "mtime": 1789660793.5040357,
+    "seen": 1789660805.9582841,
+    "ast_hash": "f225cfd6b9519af4cda2339783bb94e1",
     "semantic_hash": ""
   },
   "estudiemos/index.html": {
-    "mtime": 1789657615.3277166,
-    "seen": 1789658176.6584396,
-    "ast_hash": "b8affd969fb2ee0f59cb3df86f22ab35",
+    "mtime": 1789660795.183586,
+    "seen": 1789660805.9582922,
+    "ast_hash": "07f2378a058e40896611ec21ec735855",
     "semantic_hash": ""
   },
   "glosario/index.html": {
