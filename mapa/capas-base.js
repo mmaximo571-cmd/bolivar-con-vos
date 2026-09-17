@@ -14,7 +14,9 @@
      archivo   el nombre dentro de `mapa/datos/`
      fuente    de dónde salió. Se muestra en cada ficha: un polígono de
                «barrio popular» sin fuente es una afirmación sin firma.
-               Vacío hasta que Máximo pase las fuentes.
+               Las de OpenStreetMap y RENABAP se bajaron el 17/9/2026 (cómo,
+               en `mapa/datos/LEEME.md`). Movilidad no tiene fuente: no
+               existe un dato público de corredores seguros.
      estilo    cómo se pinta, según la geometría de cada elemento
      tipos     solo para puntos: el color según la propiedad `tipo`
 
@@ -29,24 +31,31 @@ function esPoligonoGeo(f){
 }
 
 const CAPAS_BASE = [
-  { id:'hidrico', nombre:'Riesgo hídrico', detalle:'Arroyos, canales y zonas inundables',
-    archivo:'hidrico.geojson', fuente:'',
-    /* Dos geometrías en el mismo archivo: el arroyo es una línea gruesa,
-       la zona que se inunda es un relleno apenas visible debajo. */
-    estilo: f => esPoligonoGeo(f)
-      ? { color:'#1E5FB4', weight:1, opacity:.7, fillColor:'#3B82F6', fillOpacity:.18 }
-      : { color:'#1E5FB4', weight:5, opacity:.9, lineCap:'round', lineJoin:'round' } },
+  { id:'hidrico', nombre:'Riesgo hídrico', detalle:'Arroyos, canales y desagües',
+    archivo:'hidrico.geojson', fuente:'OpenStreetMap y sus colaboradores (ODbL), septiembre 2026',
+    /* Dos geometrías posibles: el curso de agua es una línea, y una zona
+       que se inunda sería un relleno apenas visible debajo (hoy el
+       archivo no trae ninguna). El grosor va por tipo: con los 243
+       desagües tan gruesos como un arroyo, el mapa quedaba tapado de azul
+       y no se distinguía lo que desborda de una zanja. */
+    estilo: f => {
+      if (esPoligonoGeo(f)) return { color:'#1E5FB4', weight:1, opacity:.7, fillColor:'#3B82F6', fillOpacity:.18 };
+      const tipo = sinTildes(f && f.properties && f.properties.descripcion);
+      const menor = tipo.indexOf('desague') === 0;
+      return { color:'#1E5FB4', weight: menor ? 2 : tipo === 'canal' ? 3.5 : 5,
+               opacity: menor ? .6 : .9, lineCap:'round', lineJoin:'round' };
+    } },
 
   { id:'industrial', nombre:'Riesgo industrial', detalle:'Polo petroquímico y zonas industriales',
-    archivo:'industrial.geojson', fuente:'',
+    archivo:'industrial.geojson', fuente:'OpenStreetMap y sus colaboradores (ODbL), septiembre 2026',
     estilo: () => ({ color:'#1F1F1F', weight:1.5, opacity:.9, fillColor:'#3A3A3A', fillOpacity:.42 }) },
 
   { id:'habitat', nombre:'Hábitat · RENABAP', detalle:'Barrios populares del registro nacional',
-    archivo:'renabap.geojson', fuente:'',
+    archivo:'renabap.geojson', fuente:'RENABAP 2020, Ministerio de Desarrollo Social de la Nación',
     estilo: () => ({ color:'#6B3FA0', weight:1.5, opacity:.85, fillColor:'#7C4DBA', fillOpacity:.16 }) },
 
   { id:'contencion', nombre:'Redes de contención', detalle:'Salud, clubes y bomberos',
-    archivo:'contencion.geojson', fuente:'',
+    archivo:'contencion.geojson', fuente:'OpenStreetMap y sus colaboradores (ODbL), septiembre 2026',
     /* El `tipo` de cada punto se compara sin tildes ni mayúsculas y por
        pedazo de palabra: «Hospital», «CAPS» y «Salita» caen en salud.
        Lo que no coincide con nada va gris y dice su tipo tal cual. */

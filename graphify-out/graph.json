@@ -2594,7 +2594,7 @@
       "file_type": "code",
       "norm_label": "capabase()",
       "source_file": "mapa/capas-base.js",
-      "source_location": "L67"
+      "source_location": "L76"
     },
     {
       "id": "mapa_capas_base_espoligonogeo",
@@ -2606,7 +2606,7 @@
       "file_type": "code",
       "norm_label": "espoligonogeo()",
       "source_file": "mapa/capas-base.js",
-      "source_location": "L26"
+      "source_location": "L28"
     },
     {
       "id": "mapa_capas_base_muestradecapabase",
@@ -2618,7 +2618,7 @@
       "file_type": "code",
       "norm_label": "muestradecapabase()",
       "source_file": "mapa/capas-base.js",
-      "source_location": "L96"
+      "source_location": "L105"
     },
     {
       "id": "mapa_capas_base_primercampo",
@@ -2630,7 +2630,7 @@
       "file_type": "code",
       "norm_label": "primercampo()",
       "source_file": "mapa/capas-base.js",
-      "source_location": "L85"
+      "source_location": "L94"
     },
     {
       "id": "mapa_capas_base_sintildes",
@@ -2642,7 +2642,7 @@
       "file_type": "code",
       "norm_label": "sintildes()",
       "source_file": "mapa/capas-base.js",
-      "source_location": "L69"
+      "source_location": "L78"
     },
     {
       "id": "mapa_capas_base_tipodepunto",
@@ -2654,7 +2654,7 @@
       "file_type": "code",
       "norm_label": "tipodepunto()",
       "source_file": "mapa/capas-base.js",
-      "source_location": "L74"
+      "source_location": "L83"
     },
     {
       "id": "lib_leer_programa_agruparreferencias",
@@ -3086,21 +3086,6 @@
       "source_url": null
     },
     {
-      "id": "leeme_organizador_cursadas",
-      "label": "El organizador de cursadas (Mi a\u00f1o: plan, promedio, mapa)",
-      "_origin": "ast",
-      "author": null,
-      "captured_at": null,
-      "community": 0,
-      "community_name": "La Fonoteca: simulador de pr\u00e1ctica audiol\u00f3gica",
-      "contributor": null,
-      "file_type": "concept",
-      "norm_label": "el organizador de cursadas (mi ano: plan, promedio, mapa)",
-      "source_file": "LEEME.md",
-      "source_location": "L934",
-      "source_url": null
-    },
-    {
       "id": "leeme_supabase",
       "label": "Supabase (candados, permisos, tablas)",
       "_origin": "ast",
@@ -3219,22 +3204,6 @@
       "norm_label": "solapa 2 \u00b7 foniatria y escala grbas",
       "source_file": "PROMPT-FONOTECA.md",
       "source_location": "L245",
-      "source_url": null
-    },
-    {
-      "id": "bitacora_plan_imprime",
-      "label": "El plan de estudios se imprime, no se publica en PDF",
-      "_origin": "ast",
-      "author": null,
-      "captured_at": null,
-      "community": 0,
-      "community_name": "La Fonoteca: simulador de pr\u00e1ctica audiol\u00f3gica",
-      "contributor": null,
-      "file_type": "rationale",
-      "norm_label": "el plan de estudios se imprime, no se publica en pdf",
-      "rationale": "La pesta\u00f1a Plan ya dice lo mismo que el PDF de 3,6 MB y viaja sin internet; el navegador ofrece Guardar como PDF.",
-      "source_file": "BITACORA.md",
-      "source_location": "L110",
       "source_url": null
     },
     {
@@ -5011,6 +4980,21 @@
       "source_url": null
     },
     {
+      "id": "leeme_organizador_cursadas",
+      "label": "El organizador de cursadas (Mi a\u00f1o: plan, promedio, mapa)",
+      "_origin": "ast",
+      "author": null,
+      "captured_at": null,
+      "community": 8,
+      "community_name": "Mi perfil (mi/index.html)",
+      "contributor": null,
+      "file_type": "concept",
+      "norm_label": "el organizador de cursadas (mi ano: plan, promedio, mapa)",
+      "source_file": "LEEME.md",
+      "source_location": "L934",
+      "source_url": null
+    },
+    {
       "id": "prompt_trayecto_trayecto_optativo",
       "label": "Trayecto Optativo (c\u00f3digo 255, 120 horas, 5.\u00ba a\u00f1o)",
       "_origin": "ast",
@@ -5039,6 +5023,22 @@
       "norm_label": "tabla supabase tramites",
       "source_file": "index.html",
       "source_location": "L769",
+      "source_url": null
+    },
+    {
+      "id": "bitacora_plan_imprime",
+      "label": "El plan de estudios se imprime, no se publica en PDF",
+      "_origin": "ast",
+      "author": null,
+      "captured_at": null,
+      "community": 8,
+      "community_name": "Mi perfil (mi/index.html)",
+      "contributor": null,
+      "file_type": "rationale",
+      "norm_label": "el plan de estudios se imprime, no se publica en pdf",
+      "rationale": "La pesta\u00f1a Plan ya dice lo mismo que el PDF de 3,6 MB y viaja sin internet; el navegador ofrece Guardar como PDF.",
+      "source_file": "BITACORA.md",
+      "source_location": "L110",
       "source_url": null
     },
     {
@@ -6084,7 +6084,7 @@
       "file_type": "code",
       "norm_label": "campos_descripcion",
       "source_file": "mapa/capas-base.js",
-      "source_location": "L83"
+      "source_location": "L92"
     },
     {
       "id": "mapa_capas_base_campos_nombre",
@@ -6095,7 +6095,7 @@
       "file_type": "code",
       "norm_label": "campos_nombre",
       "source_file": "mapa/capas-base.js",
-      "source_location": "L82"
+      "source_location": "L91"
     },
     {
       "id": "mapa_capas_base_capas_base",
@@ -6106,7 +6106,7 @@
       "file_type": "code",
       "norm_label": "capas_base",
       "source_file": "mapa/capas-base.js",
-      "source_location": "L31"
+      "source_location": "L33"
     },
     {
       "id": "mapa_datos_leeme",
@@ -6119,6 +6119,18 @@
       "norm_label": "leeme.md",
       "source_file": "mapa/datos/LEEME.md",
       "source_location": "L1"
+    },
+    {
+      "id": "mapa_datos_leeme_de_d\u00f3nde_salieron_los_que_est\u00e1n_17_9_2026",
+      "label": "De d\u00f3nde salieron los que est\u00e1n (17/9/2026)",
+      "_origin": "ast",
+      "community": 59,
+      "community_name": "Las capas de base del mapa de riesgo",
+      "file_type": "document",
+      "node_kind": "heading",
+      "norm_label": "de donde salieron los que estan (17/9/2026)",
+      "source_file": "mapa/datos/LEEME.md",
+      "source_location": "L30"
     },
     {
       "id": "mapa_datos_leeme_las_capas_de_base_del_mapa_de_riesgo",
@@ -6154,7 +6166,7 @@
       "node_kind": "heading",
       "norm_label": "tres reglas antes de dejar un archivo aca",
       "source_file": "mapa/datos/LEEME.md",
-      "source_location": "L30"
+      "source_location": "L44"
     },
     {
       "id": "lib_leer_programa",
@@ -8657,7 +8669,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "mapa/capas-base.js",
-      "source_location": "L76",
+      "source_location": "L85",
       "weight": 1.0
     },
     {
@@ -11827,13 +11839,24 @@
     },
     {
       "source": "mapa_capas_base",
+      "target": "mapa_capas_base_muestradecapabase",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "mapa/capas-base.js",
+      "source_location": "L105",
+      "weight": 1.0
+    },
+    {
+      "source": "mapa_capas_base",
       "target": "mapa_capas_base_espoligonogeo",
       "relation": "contains",
       "_origin": "ast",
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "mapa/capas-base.js",
-      "source_location": "L26",
+      "source_location": "L28",
       "weight": 1.0
     },
     {
@@ -11844,7 +11867,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "mapa/capas-base.js",
-      "source_location": "L31",
+      "source_location": "L33",
       "weight": 1.0
     },
     {
@@ -11855,7 +11878,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "mapa/capas-base.js",
-      "source_location": "L67",
+      "source_location": "L76",
       "weight": 1.0
     },
     {
@@ -11866,7 +11889,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "mapa/capas-base.js",
-      "source_location": "L69",
+      "source_location": "L78",
       "weight": 1.0
     },
     {
@@ -11877,7 +11900,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "mapa/capas-base.js",
-      "source_location": "L74",
+      "source_location": "L83",
       "weight": 1.0
     },
     {
@@ -11888,7 +11911,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "mapa/capas-base.js",
-      "source_location": "L82",
+      "source_location": "L91",
       "weight": 1.0
     },
     {
@@ -11899,7 +11922,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "mapa/capas-base.js",
-      "source_location": "L83",
+      "source_location": "L92",
       "weight": 1.0
     },
     {
@@ -11910,18 +11933,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "mapa/capas-base.js",
-      "source_location": "L85",
-      "weight": 1.0
-    },
-    {
-      "source": "mapa_capas_base",
-      "target": "mapa_capas_base_muestradecapabase",
-      "relation": "contains",
-      "_origin": "ast",
-      "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "source_file": "mapa/capas-base.js",
-      "source_location": "L96",
+      "source_location": "L94",
       "weight": 1.0
     },
     {
@@ -11937,13 +11949,24 @@
     },
     {
       "source": "mapa_datos_leeme_las_capas_de_base_del_mapa_de_riesgo",
-      "target": "mapa_datos_leeme_tres_reglas_antes_de_dejar_un_archivo_ac\u00e1",
+      "target": "mapa_datos_leeme_de_d\u00f3nde_salieron_los_que_est\u00e1n_17_9_2026",
       "relation": "contains",
       "_origin": "ast",
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "mapa/datos/LEEME.md",
       "source_location": "L30",
+      "weight": 1.0
+    },
+    {
+      "source": "mapa_datos_leeme_las_capas_de_base_del_mapa_de_riesgo",
+      "target": "mapa_datos_leeme_tres_reglas_antes_de_dejar_un_archivo_ac\u00e1",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "mapa/datos/LEEME.md",
+      "source_location": "L44",
       "weight": 1.0
     },
     {
@@ -15484,5 +15507,5 @@
       "source_file": "panel/index.html"
     }
   ],
-  "built_at_commit": "b9bdc7299121aabaa1652343202959f7c6749577"
+  "built_at_commit": "95595eb28f143dab6dbb10955bfb9403ebb7e238"
 }

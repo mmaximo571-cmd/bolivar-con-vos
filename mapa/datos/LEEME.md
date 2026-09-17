@@ -27,6 +27,20 @@ gris y la ficha muestra el tipo tal cual.
 `name`, `nombre_barrio`, `barrio`, `NOMBRE_BAR`, `nam`, `fna`. No hace falta
 renombrar las columnas de la fuente si ya se llaman así.
 
+## De dónde salieron los que están (17/9/2026)
+
+| Archivo | Fuente | Cómo |
+|---|---|---|
+| `hidrico.geojson` | OpenStreetMap (ODbL) | Overpass API: `waterway` = river, stream, canal, drain. 794 líneas: 430 arroyos, 108 canales, 243 desagües, 13 ríos. **Sin zonas inundables**: no hay un archivo público verificado; lo que publican Municipio y Provincia son imágenes o PDF |
+| `industrial.geojson` | OpenStreetMap (ODbL) | `landuse=industrial`, caminos y relaciones. 81 zonas |
+| `contencion.geojson` | OpenStreetMap (ODbL) | `amenity` = hospital (63), clinic (79, «Centro de salud»), fire_station (14) y `leisure=sports_centre` **solo con nombre** (74). Los gimnasios sin nombre quedaron afuera: casi siempre son privados |
+| `renabap.geojson` | RENABAP 2020, Ministerio de Desarrollo Social | WFS del geoportal de Obras Públicas (`geonode:renabap2020_smz`). 190 barrios: La Plata, Berisso y Ensenada (se sacaron Berazategui y Florencio Varela, que caen en el rectángulo). **El servidor devuelve los acentos rotos**; 26 nombres se repusieron con una tabla, sin ninguno dudoso |
+| `movilidad.geojson` | — | **No existe.** No hay dato público de corredores seguros: se dibujan (por ejemplo en geojson.io) |
+
+El rectángulo usado en las cuatro descargas es el de la app:
+sur -35.12, oeste -58.20, norte -34.76, este -57.72. OpenStreetMap cambia
+todo el tiempo: rehacer la descarga cada tanto trae lo que se sumó.
+
 ## Tres reglas antes de dejar un archivo acá
 
 1. **Latitud y longitud (WGS84, EPSG:4326).** Muchos organismos de la

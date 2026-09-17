@@ -1,16 +1,16 @@
 # Graph Report - graphify-web-dba33b  (2026-09-17)
 
 ## Corpus Check
-- 47 files · ~150,081 words
+- 47 files · ~150,769 words
 - Verdict: corpus is large enough that graph structure adds value.
 
 ## Summary
-- 515 nodes · 756 edges · 60 communities (34 shown, 17 thin omitted)
+- 516 nodes · 757 edges · 60 communities (34 shown, 17 thin omitted)
 - Extraction: 93% EXTRACTED · 7% INFERRED · 0% AMBIGUOUS · INFERRED: 53 edges (avg confidence: 0.84)
 - Token cost: 0 input · 0 output
 
 ## Graph Freshness
-- Built from commit: `b9bdc729`
+- Built from commit: `95595eb2`
 - Run `git rev-parse HEAD` and compare to check if the graph is stale.
 - Run `graphify update .` after code changes (no API cost).
 
@@ -108,8 +108,8 @@
 ## Communities (60 total, 17 thin omitted)
 
 ### Community 0 - "La Fonoteca: simulador de práctica audiológica"
-Cohesion: 0.06
-Nodes (34): Versión 2.0 de AI Studio (React + Tailwind), La carrera se elige una vez (bolivar-carrera-v2), Congelamiento de código (16-17/9), El embudo del 21 (hitos y origen de Instagram), Lanzamiento 21 de septiembre (Día del Estudiante), El plan de estudios se imprime, no se publica en PDF, anotar(): registro de visitas, búsquedas y errores, Riel deslizable de herramientas de Estudiemos (+26 more)
+Cohesion: 0.07
+Nodes (32): Versión 2.0 de AI Studio (React + Tailwind), La carrera se elige una vez (bolivar-carrera-v2), Congelamiento de código (16-17/9), El embudo del 21 (hitos y origen de Instagram), Lanzamiento 21 de septiembre (Día del Estudiante), anotar(): registro de visitas, búsquedas y errores, Riel deslizable de herramientas de Estudiemos, Vercel (bolivar-con-vos.vercel.app, publica con push a main) (+24 more)
 
 ### Community 1 - "Pantalla Mi año (carrera)"
 Cohesion: 0.07
@@ -141,7 +141,7 @@ Nodes (15): agruparReferencias(), buscarAnio(), buscarCodigo(), desdeTexto(), de
 
 ### Community 8 - "Mi perfil (mi/index.html)"
 Cohesion: 0.07
-Nodes (31): esDelEquipo(), sesionActual(), explicarError() / errores en castellano, Glosario (texto en el HTML, tres puertas), movimiento.js (entrarAlLlegar, encenderAlBajar), Webview de Instagram como navegador real, Versión del service worker (sw.js vNN), abrirHoja (ficha de materia) (+23 more)
+Nodes (33): esDelEquipo(), sesionActual(), explicarError() / errores en castellano, Glosario (texto en el HTML, tres puertas), movimiento.js (entrarAlLlegar, encenderAlBajar), Webview de Instagram como navegador real, El plan de estudios se imprime, no se publica en PDF, Versión del service worker (sw.js vNN) (+25 more)
 
 ### Community 9 - "manifest.json"
 Cohesion: 0.15
@@ -240,12 +240,12 @@ Cohesion: 0.22
 Nodes (5): CAMPOS_DESCRIPCION, CAMPOS_NOMBRE, CAPAS_BASE, sinTildes(), tipoDePunto()
 
 ### Community 59 - "Las capas de base del mapa de riesgo"
-Cohesion: 0.50
-Nodes (3): Las capas de base del mapa de riesgo, Los cinco archivos, Tres reglas antes de dejar un archivo acá
+Cohesion: 0.40
+Nodes (4): De dónde salieron los que están (17/9/2026), Las capas de base del mapa de riesgo, Los cinco archivos, Tres reglas antes de dejar un archivo acá
 
 ## Knowledge Gaps
-- **92 isolated node(s):** `__hitosDeEstaVisita`, `MESES`, `MESES_LARGO`, `NOMBRE_SECCION`, `NOMBRE_LINEA` (+87 more)
-  These have ≤1 connection - possible missing edges or undocumented components. (Counts symbols only; 162 node(s) total have ≤1 connection when file, concept and rationale nodes are included.)
+- **93 isolated node(s):** `__hitosDeEstaVisita`, `MESES`, `MESES_LARGO`, `NOMBRE_SECCION`, `NOMBRE_LINEA` (+88 more)
+  These have ≤1 connection - possible missing edges or undocumented components. (Counts symbols only; 163 node(s) total have ≤1 connection when file, concept and rationale nodes are included.)
 - **17 thin communities (<3 nodes) omitted from report** — run `graphify query` to explore isolated nodes.
 
 ## Suggested Questions
@@ -258,9 +258,9 @@ _Questions this graph is uniquely positioned to answer:_
 - **Why does `Trayecto Optativo (trayecto/index.html)` connect `Mi perfil (mi/index.html)` to `Pantalla Info útil (trámites y FAQ)`?**
   _High betweenness centrality (0.065) - this node is a cross-community bridge._
 - **What connects `__hitosDeEstaVisita`, `MESES`, `MESES_LARGO` to the rest of the system?**
-  _92 weakly-connected nodes found - possible documentation gaps or missing edges._
+  _93 weakly-connected nodes found - possible documentation gaps or missing edges._
 - **Should `La Fonoteca: simulador de práctica audiológica` be split into smaller, more focused modules?**
-  _Cohesion score 0.06417112299465241 - nodes in this community are weakly interconnected._
+  _Cohesion score 0.06854838709677419 - nodes in this community are weakly interconnected._
 - **Should `Pantalla Mi año (carrera)` be split into smaller, more focused modules?**
   _Cohesion score 0.0664451827242525 - nodes in this community are weakly interconnected._
 - **Should `Pantalla Info útil (trámites y FAQ)` be split into smaller, more focused modules?**

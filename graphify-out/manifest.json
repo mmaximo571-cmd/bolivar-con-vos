@@ -186,9 +186,9 @@
     "semantic_hash": "13c70cb9b680cf53ce1df6881965457c"
   },
   "BITACORA.md": {
-    "mtime": 1789662354.1642275,
-    "seen": 1789664546.7702916,
-    "ast_hash": "d29fa1dc169b6aef0a8a0c676b95469d",
+    "mtime": 1789664756.979036,
+    "seen": 1789666112.874157,
+    "ast_hash": "a86e1612327251df7a370eb9820cc109",
     "semantic_hash": ""
   },
   "LEEME.md": {
@@ -384,15 +384,15 @@
     "semantic_hash": ""
   },
   "mapa/capas-base.js": {
-    "mtime": 1789664178.9907236,
-    "seen": 1789664546.7702453,
-    "ast_hash": "08fde2b388095c8339ddb3e6ddd58775",
+    "mtime": 1789666058.135366,
+    "seen": 1789666112.8740404,
+    "ast_hash": "ee1f887f2304beb74d1cac0f4bc52696",
     "semantic_hash": ""
   },
   "mapa/datos/LEEME.md": {
-    "mtime": 1789664308.4642966,
-    "seen": 1789664546.7703357,
-    "ast_hash": "636d02b4a64d824b372ffb60d2290d8d",
+    "mtime": 1789666017.3234642,
+    "seen": 1789666112.8742723,
+    "ast_hash": "d312c91cce62921f0f9aaf67944aa56e",
     "semantic_hash": ""
   }
 }
