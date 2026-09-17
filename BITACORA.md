@@ -18,6 +18,13 @@ Si algo de acá quedó viejo, se corrige acá mismo al cerrar la sesión.
   el cronograma, abajo: congelamiento el **jueves 17 a la noche**, unas 15
   sesiones de código, cada una con su objetivo. **Esa tabla manda sobre lo que
   diga cualquier otro renglón de esta sección.**
+- **Los tres días que quedan se reordenaron el 17/9 a la noche**, y el
+  cronograma de abajo ya está reescrito: el **viernes 18 es todo prueba en
+  teléfono real y no entra código nuevo**, la lista de posteos se corre al
+  **sábado 19**, el domingo 20 es una sola sesión corta y el lunes no entra
+  nada. **Si el mapa de riesgo falla en el teléfono, se esconde y se lanza sin
+  él**: ya está decidido, no se discute el viernes. Ver el cuadro y las notas
+  que lo siguen.
 - **Jueves 17: del lun 14 al mié 16 no entró nada.** Hoy se congela igual, y
   lo que no entre hoy se recorta. El recorte y el prompt corto para abrir cada
   sesión están en `PROMPT-SESION.md`: pasan a después del 21 las solapas 2, 3
@@ -265,10 +272,16 @@ reemplaza lo que había acá. Lo que manda:
 | jue 17 · 5 | ✅ Colchón: la tarjeta de Fichas en Estudiemos seguía diciendo «9 fichas / 8 de Fono» y «Nueve temas»; ahora 30 (29 Fono, 1 TS). Buscador en fichas/: después del 21 | — |
 | **jue 17 · 6** | ✅ **Congelado el 17/9 a la noche.** SW queda en v44 (subida hoy con ficha.js): lo que cambió después son pantallas, que van primero a la red, así que otra versión solo haría bajar todo de nuevo. Grafo al día. Desde acá, solo arreglos. Era: **Congelamiento.** `v` del service worker, `graphify update .`, bitácora al día | — |
 | jue 17 · fuera del cronograma | ✅ **El mapa de riesgo**, después del congelamiento y por decisión de Máximo. Sube el SW a **v45** (lo de arriba decía v44): `app.js` suma el mapa al pie y `sw.js` guarda Leaflet. Tabla aplicada en Supabase. Después, las **cinco capas de base** con el panel «Capas»: SW **v46**. Ver «Hecho y publicado» | — |
-| vie 18 | **Pruebas en celulares reales, entrando desde Instagram:** el Android de Máximo y un iPhone prestado. **Suma el mapa de riesgo:** reportar con cuenta (GPS y tocando el mapa), aprobarlo en el panel y verlo sin cuenta; y abrir `mapa/` por segunda vez en modo avión, para ver que el reporte queda guardado y sale solo al volver la señal. Si para entonces ya están los GeoJSON, **prender RENABAP en el teléfono más viejo** que haya: son cientos de polígonos y es lo único de las capas que no se pudo medir acá. Y **una sesión corta para armar la lista de posteos**: qué publicación lleva a qué pantalla | los dos teléfonos |
-| sáb 19 | Arreglos de lo que salió el 18. Links de campaña con `?de=` escritos | la lista de posteos |
-| dom 20 | **Todo arriba.** Verificar la segunda carga (el service worker entrega lo nuevo recién ahí) | — |
-| **lun 21** | **Lanzamiento.** Máximo está todo el día: se mira la solapa Registro y, si aparece un error, **arreglo chico, probado corriendo, y push** | — |
+| **vie 18** | **El día que no se mueve. Cuatro sesiones, las cuatro de prueba en teléfono real.** 1) la app entera en el Android de Máximo, **entrando desde el link de Instagram**; 2) lo mismo en el iPhone prestado, que Safari rompe lo que Chrome no; 3) el mapa de riesgo: reportar con cuenta (GPS y tocando el mapa), aprobarlo en el panel y verlo sin cuenta; 4) abrir `mapa/` por segunda vez en modo avión, para ver que el reporte queda guardado y sale solo al volver la señal. Si para entonces están los GeoJSON, **prender RENABAP en el teléfono más viejo** que haya: son cientos de polígonos y es lo único de las capas que no se pudo medir acá. **La lista de posteos ya no sale de acá:** pasó al sáb 19 | los dos teléfonos |
+| sáb 19 | **Sin agenda propia: se llena con lo que haya roto el viernes.** Si no rompió nada, entra **la lista de posteos** —qué publicación lleva a qué pantalla— y los links `?de=` escritos | la lista de posteos |
+| dom 20 | **Una sola sesión, corta. Todo arriba**, y verificar la segunda carga: el service worker entrega lo nuevo recién ahí, así que si esto falla el lunes se ve una versión vieja | — |
+| **lun 21** | **Lanzamiento. No entra nada nuevo.** Máximo está todo el día: se mira la solapa Registro y, si aparece un error, **arreglo chico, probado corriendo, y push** | — |
+
+**El reordenamiento del 17/9 a la noche.** Del lun 14 al mié 16 no se trabajó, pero las seis sesiones del jueves están hechas y encima entró el mapa de riesgo: lo que se cayó ya estaba movido al después del 21. Lo que cambia es el criterio de los tres días que quedan, y es uno solo: **lo que no se probó en un teléfono real no existe**, y hoy la app entera está en esa situación. Por eso el viernes es todo prueba y no entra código nuevo, y por eso la lista de posteos —que no es trabajo de código— se corre al sábado.
+
+**Las tres cosas que Máximo tiene que decidir no son sesiones.** Las nueve categorías de `mapa/capas.js`, quién modera el mapa y los GeoJSON que faltan se contestan por mensaje y se aplican en minutos. No hay que reservarles tiempo.
+
+**Decidido de antemano, para no discutirlo cansado el viernes: si el mapa de riesgo da problemas en el teléfono, no se arregla a las corridas — se esconde del inicio y se lanza sin él.** Entró después del congelamiento, por fuera del cronograma, es la pieza más grande sin probar y **no es parte de lo que se prometió para el 21**: es una herramienta para las prácticas territoriales, que arrancan después. Queda publicado, se sigue probando con calma y se enciende cuando esté.
 
 **Lo que Máximo tiene que hacer afuera, en orden:**
 
@@ -706,8 +719,8 @@ pantalla propia en pestaña nueva rompe el botón de volver.
 | Mirar la solapa **Registro** y el campo **«¿Alimenta la alarma?»** en el panel | cuanto antes |
 | **Revisar las nueve categorías del mapa de riesgo** en `mapa/capas.js`: las escribió Claude, no la cátedra. El `nombre` se cambia cuando sea; el `id`, nunca una vez que haya reportes | antes del 21 |
 | **Decidir quién del equipo modera el mapa** (pestaña 🗺 del panel). Sin moderación no aparece ningún punto | antes de la primera práctica |
-| **Los cinco GeoJSON de las capas de base**, en `mapa/datos/` con los nombres y las tres reglas de `mapa/datos/LEEME.md`: en lat/long (WGS84), menos de 500 KB cada uno y recortados a los tres partidos. Sin ellos las capas existen pero no muestran nada | cuando estén |
-| **La fuente de cada capa de base** (organismo y año). Va en `fuente` de `mapa/capas-base.js` y sale en cada ficha | con los archivos |
+| **Faltan dos GeoJSON, no cinco** (corregido el 17/9 a la noche): `peligrosidad.geojson` y `movilidad.geojson`. Ya están cargados y andando `hidrico`, `industrial`, `renabap` y `contencion`. Van en `mapa/datos/` con las tres reglas de `mapa/datos/LEEME.md`: en lat/long (WGS84), menos de 500 KB cada uno y recortados a los tres partidos. Sin ellos esas dos capas existen pero no muestran nada | cuando estén |
+| **La fuente de las dos capas que faltan** (organismo y año). Va en `fuente` de `mapa/capas-base.js` y sale en cada ficha. **Movilidad sigue con `fuente:''`**, y un polígono sin fuente es una afirmación sin firma | con los archivos |
 | ~~La dirección de Aulas Web~~ | ✅ **entregada el 13/9 y publicada:** `https://aulaswebgrado.ead.unlp.edu.ar/`. Está en el índice del pie de las doce pantallas. Los sistemas ahora son cuatro y el orden no es alfabético: primero los dos donde se entra con usuario y contraseña —SIU y Aulas Web—, después las dos instituciones |
 | ~~Prender *Leaked password protection*~~ | ❌ **No se puede: es de plan Pro.** Cerrado el 5/9. **NO apagar el alta de cuentas**: el registro de estudiantes es a propósito, ya está hecho en `mi/`, y es lo que va a permitir personalizar la app |
 | ~~Confirmar el mail con tildes de «Promoción y prevención en audiología»~~ | ✅ confirmado el 5/9: era un error de tipeo. Ya publicado sin tildes. **Falta escribirle una vez** para saber si la casilla existe |
