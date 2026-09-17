@@ -157,7 +157,7 @@
       "file_type": "code",
       "norm_label": "icono()",
       "source_file": "iconos.js",
-      "source_location": "L115"
+      "source_location": "L120"
     },
     {
       "id": "iconos_iconodecategoria",
@@ -169,55 +169,7 @@
       "file_type": "code",
       "norm_label": "iconodecategoria()",
       "source_file": "iconos.js",
-      "source_location": "L123"
-    },
-    {
-      "id": "movimiento_clavedeentrada",
-      "label": "claveDeEntrada()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 1,
-      "community_name": "Pantalla Mi a\u00f1o (carrera)",
-      "file_type": "code",
-      "norm_label": "clavedeentrada()",
-      "source_file": "movimiento.js",
-      "source_location": "L24"
-    },
-    {
-      "id": "movimiento_encenderalbajar",
-      "label": "encenderAlBajar()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 1,
-      "community_name": "Pantalla Mi a\u00f1o (carrera)",
-      "file_type": "code",
-      "norm_label": "encenderalbajar()",
-      "source_file": "movimiento.js",
-      "source_location": "L145"
-    },
-    {
-      "id": "movimiento_entraralllegar",
-      "label": "entrarAlLlegar()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 1,
-      "community_name": "Pantalla Mi a\u00f1o (carrera)",
-      "file_type": "code",
-      "norm_label": "entraralllegar()",
-      "source_file": "movimiento.js",
-      "source_location": "L38"
-    },
-    {
-      "id": "movimiento_entraralllegar_revisar",
-      "label": "revisar()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 1,
-      "community_name": "Pantalla Mi a\u00f1o (carrera)",
-      "file_type": "code",
-      "norm_label": "revisar()",
-      "source_file": "movimiento.js",
-      "source_location": "L77"
+      "source_location": "L128"
     },
     {
       "id": "app_anotar",
@@ -1060,64 +1012,52 @@
       "source_location": "L1012"
     },
     {
-      "id": "app_avisarmostrandoguardado",
-      "label": "avisarMostrandoGuardado()",
+      "id": "movimiento_clavedeentrada",
+      "label": "claveDeEntrada()",
       "_callable": true,
       "_origin": "ast",
       "community": 21,
-      "community_name": "ponerAviso",
+      "community_name": "movimiento.js",
       "file_type": "code",
-      "norm_label": "avisarmostrandoguardado()",
-      "source_file": "app.js",
-      "source_location": "L1705"
+      "norm_label": "clavedeentrada()",
+      "source_file": "movimiento.js",
+      "source_location": "L24"
     },
     {
-      "id": "app_avisarnosepudoactualizar",
-      "label": "avisarNoSePudoActualizar()",
+      "id": "movimiento_encenderalbajar",
+      "label": "encenderAlBajar()",
       "_callable": true,
       "_origin": "ast",
       "community": 21,
-      "community_name": "ponerAviso",
+      "community_name": "movimiento.js",
       "file_type": "code",
-      "norm_label": "avisarnosepudoactualizar()",
-      "source_file": "app.js",
-      "source_location": "L1712"
+      "norm_label": "encenderalbajar()",
+      "source_file": "movimiento.js",
+      "source_location": "L145"
     },
     {
-      "id": "app_cajadelaviso",
-      "label": "cajaDelAviso()",
+      "id": "movimiento_entraralllegar",
+      "label": "entrarAlLlegar()",
       "_callable": true,
       "_origin": "ast",
       "community": 21,
-      "community_name": "ponerAviso",
+      "community_name": "movimiento.js",
       "file_type": "code",
-      "norm_label": "cajadelaviso()",
-      "source_file": "app.js",
-      "source_location": "L1680"
+      "norm_label": "entraralllegar()",
+      "source_file": "movimiento.js",
+      "source_location": "L38"
     },
     {
-      "id": "app_desdecuando",
-      "label": "desdeCuando()",
+      "id": "movimiento_entraralllegar_revisar",
+      "label": "revisar()",
       "_callable": true,
       "_origin": "ast",
       "community": 21,
-      "community_name": "ponerAviso",
+      "community_name": "movimiento.js",
       "file_type": "code",
-      "norm_label": "desdecuando()",
-      "source_file": "app.js",
-      "source_location": "L1663"
-    },
-    {
-      "id": "app_poneraviso",
-      "label": "ponerAviso()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 21,
-      "community_name": "ponerAviso",
-      "file_type": "code",
-      "norm_label": "poneraviso()",
-      "source_file": "app.js",
-      "source_location": "L1696"
+      "norm_label": "revisar()",
+      "source_file": "movimiento.js",
+      "source_location": "L77"
     },
     {
       "id": "lib_datos_crearcliente",
@@ -1261,7 +1201,7 @@
       "file_type": "code",
       "norm_label": "esdesupabase()",
       "source_file": "sw.js",
-      "source_location": "L276"
+      "source_location": "L278"
     },
     {
       "id": "app_alcambiarmovimiento",
@@ -1286,6 +1226,54 @@
       "norm_label": "aplicartema()",
       "source_file": "app.js",
       "source_location": "L960"
+    },
+    {
+      "id": "app_avisarmostrandoguardado",
+      "label": "avisarMostrandoGuardado()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 4,
+      "community_name": "app.js",
+      "file_type": "code",
+      "norm_label": "avisarmostrandoguardado()",
+      "source_file": "app.js",
+      "source_location": "L1705"
+    },
+    {
+      "id": "app_avisarnosepudoactualizar",
+      "label": "avisarNoSePudoActualizar()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 4,
+      "community_name": "app.js",
+      "file_type": "code",
+      "norm_label": "avisarnosepudoactualizar()",
+      "source_file": "app.js",
+      "source_location": "L1712"
+    },
+    {
+      "id": "app_cajadelaviso",
+      "label": "cajaDelAviso()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 4,
+      "community_name": "app.js",
+      "file_type": "code",
+      "norm_label": "cajadelaviso()",
+      "source_file": "app.js",
+      "source_location": "L1680"
+    },
+    {
+      "id": "app_desdecuando",
+      "label": "desdeCuando()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 4,
+      "community_name": "app.js",
+      "file_type": "code",
+      "norm_label": "desdecuando()",
+      "source_file": "app.js",
+      "source_location": "L1663"
     },
     {
       "id": "app_errorencastellano",
@@ -1358,6 +1346,18 @@
       "norm_label": "pintartema()",
       "source_file": "app.js",
       "source_location": "L970"
+    },
+    {
+      "id": "app_poneraviso",
+      "label": "ponerAviso()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 4,
+      "community_name": "app.js",
+      "file_type": "code",
+      "norm_label": "poneraviso()",
+      "source_file": "app.js",
+      "source_location": "L1696"
     },
     {
       "id": "app_sacaravisoguardado",
@@ -4150,17 +4150,6 @@
       "source_location": "L1"
     },
     {
-      "id": "movimiento",
-      "label": "movimiento.js",
-      "_origin": "ast",
-      "community": 1,
-      "community_name": "Pantalla Mi a\u00f1o (carrera)",
-      "file_type": "code",
-      "norm_label": "movimiento.js",
-      "source_file": "movimiento.js",
-      "source_location": "L1"
-    },
-    {
       "id": "estudiemos_fichas_ficha",
       "label": "ficha.js",
       "_origin": "ast",
@@ -4368,6 +4357,17 @@
       "norm_label": "public.traer_respaldo()",
       "source_file": "tabla-respaldos.sql",
       "source_location": "L126"
+    },
+    {
+      "id": "movimiento",
+      "label": "movimiento.js",
+      "_origin": "ast",
+      "community": 21,
+      "community_name": "movimiento.js",
+      "file_type": "code",
+      "norm_label": "movimiento.js",
+      "source_file": "movimiento.js",
+      "source_location": "L1"
     },
     {
       "id": "auth_users",
@@ -4598,7 +4598,7 @@
       "file_type": "code",
       "norm_label": "del_armazon",
       "source_file": "sw.js",
-      "source_location": "L214"
+      "source_location": "L216"
     },
     {
       "id": "tabla_borrar_cuenta",
@@ -4896,6 +4896,42 @@
       "norm_label": "tabla-seguridad.sql",
       "source_file": "tabla-seguridad.sql",
       "source_location": null
+    },
+    {
+      "id": "prompt_sesion",
+      "label": "PROMPT-SESION.md",
+      "_origin": "ast",
+      "community": 53,
+      "community_name": "Prompt para abrir una sesi\u00f3n de c\u00f3digo (17/9 en adelante)",
+      "file_type": "document",
+      "node_kind": "page",
+      "norm_label": "prompt-sesion.md",
+      "source_file": "PROMPT-SESION.md",
+      "source_location": "L1"
+    },
+    {
+      "id": "prompt_sesion_las_tareas_de_hoy_jueves_17_congelamiento_a_la_noche",
+      "label": "Las tareas de hoy, jueves 17 (congelamiento a la noche)",
+      "_origin": "ast",
+      "community": 53,
+      "community_name": "Prompt para abrir una sesi\u00f3n de c\u00f3digo (17/9 en adelante)",
+      "file_type": "document",
+      "node_kind": "heading",
+      "norm_label": "las tareas de hoy, jueves 17 (congelamiento a la noche)",
+      "source_file": "PROMPT-SESION.md",
+      "source_location": "L25"
+    },
+    {
+      "id": "prompt_sesion_prompt_para_abrir_una_sesi\u00f3n_de_c\u00f3digo_17_9_en_adelante",
+      "label": "Prompt para abrir una sesi\u00f3n de c\u00f3digo (17/9 en adelante)",
+      "_origin": "ast",
+      "community": 53,
+      "community_name": "Prompt para abrir una sesi\u00f3n de c\u00f3digo (17/9 en adelante)",
+      "file_type": "document",
+      "node_kind": "heading",
+      "norm_label": "prompt para abrir una sesion de codigo (17/9 en adelante)",
+      "source_file": "PROMPT-SESION.md",
+      "source_location": "L1"
     },
     {
       "id": "lib_leer_programa",
@@ -6606,7 +6642,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "iconos.js",
-      "source_location": "L124",
+      "source_location": "L129",
       "weight": 1.0
     },
     {
@@ -8779,7 +8815,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "iconos.js",
-      "source_location": "L115",
+      "source_location": "L120",
       "weight": 1.0
     },
     {
@@ -8790,7 +8826,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "iconos.js",
-      "source_location": "L123",
+      "source_location": "L128",
       "weight": 1.0
     },
     {
@@ -9421,6 +9457,28 @@
       "weight": 1.0
     },
     {
+      "source": "prompt_sesion",
+      "target": "prompt_sesion_prompt_para_abrir_una_sesi\u00f3n_de_c\u00f3digo_17_9_en_adelante",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "PROMPT-SESION.md",
+      "source_location": "L1",
+      "weight": 1.0
+    },
+    {
+      "source": "prompt_sesion_prompt_para_abrir_una_sesi\u00f3n_de_c\u00f3digo_17_9_en_adelante",
+      "target": "prompt_sesion_las_tareas_de_hoy_jueves_17_congelamiento_a_la_noche",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "PROMPT-SESION.md",
+      "source_location": "L25",
+      "weight": 1.0
+    },
+    {
       "source": "sw",
       "target": "sw_del_armazon",
       "relation": "contains",
@@ -9428,7 +9486,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "sw.js",
-      "source_location": "L214",
+      "source_location": "L216",
       "weight": 1.0
     },
     {
@@ -9439,7 +9497,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "sw.js",
-      "source_location": "L276",
+      "source_location": "L278",
       "weight": 1.0
     },
     {
@@ -12200,5 +12258,5 @@
       "source_file": "panel/index.html"
     }
   ],
-  "built_at_commit": "c9785b925fe8811a4dfdaa38b830ff04f89789ef"
+  "built_at_commit": "2058e16c2eb026dea997687b7a7a4d6552cdf741"
 }

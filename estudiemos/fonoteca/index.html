@@ -42,6 +42,16 @@
   padding:13px;margin:0 0 16px;font-size:var(--letra-nota);line-height:1.55
 }
 .fono-casos{display:flex;flex-wrap:wrap;gap:8px;margin:0 0 16px}
+.fono-tonos{
+  background:var(--superficie);border:1.5px solid var(--tinta-borde);border-radius:var(--radio);
+  box-shadow:var(--sombra);padding:14px 15px;margin:24px 0 16px
+}
+.fono-tonos .fono-rotulo{font-size:var(--letra-base)}
+.fono-tonos .fono-casos{margin:0 0 12px}
+.fono-tonos .chip{min-height:44px;cursor:pointer}
+.fono-tonos label{display:block;font-size:var(--letra-nota);margin:0 0 4px}
+.fono-tonos input[type="range"]{width:100%;min-height:44px;margin:0 0 12px}
+.fono-tonos-estado{font-size:var(--letra-nota);color:var(--texto-suave);min-height:1.5em;margin:8px 0 0}
 .fono-historia{
   background:var(--superficie);border:1.5px solid var(--tinta-borde);border-radius:var(--radio);
   box-shadow:var(--sombra);padding:14px 15px;margin:0 0 16px
@@ -184,7 +194,7 @@
      tarjeta del glosario otra vez. Cuando haya una segunda, se agregan.
 
      SIN SONIDO FUNCIONA ENTERA. Es toda visual. El generador de tonos
-     es la parte 2 del molde y todavía no está.
+     (parte 2 del molde, 17/9) va abajo del caso y es un extra.
      ============================================================ -->
 <main id="contenido" tabindex="-1">
 
@@ -213,6 +223,18 @@
       </noscript>
 
       <div id="fono-app"></div>
+
+      <!-- EL GENERADOR DE TONOS va aparte de #fono-app a propósito: pintar()
+           reescribe ese bloque entero con cada toque, y un tono sonando no
+           puede depender de eso. Es un extra: la solapa se entiende sin él. -->
+      <section class="fono-tonos" aria-labelledby="fono-tonos-t">
+        <h2 class="fono-rotulo" id="fono-tonos-t">Escuchá las frecuencias</h2>
+        <p class="fono-aviso"><b>Antes de tocar, bajá el volumen.</b> Arranca
+          bajito, pero con auriculares un tono puro molesta rápido. Si el celular
+          está en silencio, no va a sonar. <b>Esto no es una audiometría:</b> el
+          volumen depende de tu teléfono y no está calibrado en dB.</p>
+        <div id="fono-tonos-app"></div>
+      </section>
 
       <p class="trayecto-nota">
         Los casos los inventamos nosotros siguiendo las reglas de la cátedra, y
@@ -684,6 +706,114 @@
 
   nuevaRespuesta();
   pintar();
+})();
+
+/* EL GENERADOR DE TONOS. Lo que no se negocia está en PROMPT-FONOTECA.md:
+   arranca bajo, entra y sale con rampa (un corte seco hace clic), y el
+   AudioContext se crea al primer toque, no al cargar, porque el navegador
+   de Instagram lo deja suspendido y el primer toque no sonaría. Además se
+   corta solo a los 3 segundos: nadie tiene que buscar cómo pararlo. */
+(function tonos(){
+  const app = document.getElementById('fono-tonos-app');
+  if (!app) return;
+  const FRECS = [125, 250, 500, 1000, 2000, 4000, 8000];
+  const TECHO = 0.25;      // ganancia con el control al máximo
+  const RAMPA = 0.03;      // segundos
+  const DURA = 3000;       // ms
+  let ctx = null, osc = null, gan = null, pan = null, corte = null;
+  let frec = 1000, oido = 'ambos', nivel = 15;
+
+  const hz = f => f >= 1000 ? (f / 1000) + ' kHz' : f + ' Hz';
+
+  app.innerHTML = `
+    <span class="fono-rotulo" id="fono-t-frec">Frecuencia</span>
+    <div class="fono-casos" role="group" aria-labelledby="fono-t-frec">
+      ${FRECS.map(f => `<button type="button" class="chip" data-frec="${f}"
+        aria-pressed="${f === frec}">${hz(f)}</button>`).join('')}
+    </div>
+    <span class="fono-rotulo" id="fono-t-oido">Oído</span>
+    <div class="fono-casos" role="group" aria-labelledby="fono-t-oido">
+      ${[['ambos','Los dos'],['der','Derecho'],['izq','Izquierdo']].map(([k, t]) =>
+        `<button type="button" class="chip" data-oido-t="${k}"
+          aria-pressed="${k === oido}">${t}</button>`).join('')}
+    </div>
+    <label for="fono-t-nivel">Volumen: <span id="fono-t-nivel-v">${nivel}</span> de 100</label>
+    <input type="range" id="fono-t-nivel" min="1" max="100" value="${nivel}">
+    <button type="button" class="boton ancho" id="fono-t-sonar">Escuchar ${hz(frec)}</button>
+    <p class="fono-tonos-estado" id="fono-t-estado" aria-live="polite"></p>`;
+
+  const boton = document.getElementById('fono-t-sonar');
+  const estado = document.getElementById('fono-t-estado');
+  const ganancia = () => TECHO * Math.pow(nivel / 100, 2);   // curva suave abajo
+
+  function rotular(){
+    boton.textContent = (osc ? 'Parar ' : 'Escuchar ') + hz(frec);
+  }
+
+  function parar(){
+    if (!osc) return;
+    const t = ctx.currentTime, o = osc;
+    gan.gain.cancelScheduledValues(t);
+    gan.gain.setValueAtTime(gan.gain.value, t);
+    gan.gain.linearRampToValueAtTime(0, t + RAMPA);
+    o.stop(t + RAMPA + 0.01);
+    osc = null;
+    clearTimeout(corte);
+    estado.textContent = '';
+    rotular();
+  }
+
+  function sonar(){
+    const AC = window.AudioContext || window.webkitAudioContext;
+    if (!AC){ estado.textContent = 'Este navegador no puede generar tonos.'; return; }
+    if (!ctx) ctx = new AC();
+    if (ctx.state === 'suspended') ctx.resume();
+    const t = ctx.currentTime;
+    osc = ctx.createOscillator();
+    osc.type = 'sine';
+    osc.frequency.value = frec;
+    gan = ctx.createGain();
+    gan.gain.setValueAtTime(0, t);
+    gan.gain.linearRampToValueAtTime(ganancia(), t + RAMPA);
+    let ultimo = gan;
+    if (ctx.createStereoPanner){
+      pan = ctx.createStereoPanner();
+      pan.pan.value = oido === 'der' ? 1 : oido === 'izq' ? -1 : 0;
+      gan.connect(pan); ultimo = pan;
+    } else pan = null;
+    osc.connect(gan); ultimo.connect(ctx.destination);
+    osc.start(t);
+    corte = setTimeout(parar, DURA);
+    estado.textContent = 'Sonando ' + hz(frec) +
+      (oido === 'ambos' ? ' en los dos oídos' : oido === 'der' ? ' en el oído derecho' : ' en el oído izquierdo') +
+      (oido !== 'ambos' && !pan ? ' (este navegador lo manda a los dos)' : '') + '.';
+    rotular();
+  }
+
+  app.addEventListener('click', e => {
+    const f = e.target.closest('[data-frec]');
+    const o = e.target.closest('[data-oido-t]');
+    if (f || o){
+      const sel = f ? '[data-frec]' : '[data-oido-t]';
+      app.querySelectorAll(sel).forEach(b => b.setAttribute('aria-pressed', b === (f || o)));
+      if (f) frec = +f.dataset.frec; else oido = o.dataset.oidoT;
+      const sonaba = !!osc;
+      parar();
+      if (sonaba) setTimeout(sonar, 50);
+      rotular();
+      return;
+    }
+    if (e.target.closest('#fono-t-sonar')) osc ? parar() : sonar();
+  });
+
+  document.getElementById('fono-t-nivel').addEventListener('input', e => {
+    nivel = +e.target.value;
+    document.getElementById('fono-t-nivel-v').textContent = nivel;
+    if (osc) gan.gain.setTargetAtTime(ganancia(), ctx.currentTime, 0.02);
+  });
+
+  /* Si la persona se va de la pestaña, el tono no sigue sonando de fondo. */
+  document.addEventListener('visibilitychange', () => { if (document.hidden) parar(); });
 })();
 </script>
 </body>

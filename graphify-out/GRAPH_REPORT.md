@@ -1,16 +1,16 @@
-# Graph Report - espacios-autogestivos-section-6f50db  (2026-09-13)
+# Graph Report - conectar-cult-ui-c06d97  (2026-09-17)
 
 ## Corpus Check
-- 38 files · ~133,143 words
+- 39 files · ~135,146 words
 - Verdict: corpus is large enough that graph structure adds value.
 
 ## Summary
-- 409 nodes · 579 edges · 53 communities (29 shown, 15 thin omitted)
+- 412 nodes · 581 edges · 54 communities (29 shown, 16 thin omitted)
 - Extraction: 91% EXTRACTED · 9% INFERRED · 0% AMBIGUOUS · INFERRED: 52 edges (avg confidence: 0.84)
 - Token cost: 0 input · 0 output
 
 ## Graph Freshness
-- Built from commit: `c9785b92`
+- Built from commit: `2058e16c`
 - Run `git rev-parse HEAD` and compare to check if the graph is stale.
 - Run `graphify update .` after code changes (no API cost).
 
@@ -36,7 +36,7 @@
 - tabla-avisanos.sql
 - tabla-registro.sql
 - tabla-respaldos.sql
-- ponerAviso
+- movimiento.js
 - tabla-organizador.sql
 - crearCliente
 - LEEME · La Bolívar con vos
@@ -59,6 +59,7 @@
 - public.publicaciones
 - abrirFicha / cerrarFicha (detalle de trámite)
 - Bitácora · La Bolívar con vos
+- Prompt para abrir una sesión de código (17/9 en adelante)
 
 ## God Nodes (most connected - your core abstractions)
 1. `Pantalla Mi año (carrera)` - 19 edges
@@ -98,15 +99,15 @@
 - **Pantallas que muestran publicaciones de la agenda** — tabla_publicaciones, index_proximodelaagenda, index_calendario_mes, agenda_index_traer, agenda_index_detalle_publicacion, carrera_index_vistanueva [INFERRED 0.85]
 - **El Panel edita el contenido que leen las pantallas públicas** — panel_index, tramites_index, quienes_index, consejo_index, anatomo_index, catedras_index, estudiemos_index [INFERRED 0.95]
 
-## Communities (53 total, 15 thin omitted)
+## Communities (54 total, 16 thin omitted)
 
 ### Community 0 - "La Fonoteca: simulador de práctica audiológica"
 Cohesion: 0.07
 Nodes (32): Versión 2.0 de AI Studio (React + Tailwind), La carrera se elige una vez (bolivar-carrera-v2), Congelamiento de código (16-17/9), El embudo del 21 (hitos y origen de Instagram), Lanzamiento 21 de septiembre (Día del Estudiante), anotar(): registro de visitas, búsquedas y errores, Riel deslizable de herramientas de Estudiemos, Vercel (bolivar-con-vos.vercel.app, publica con push a main) (+24 more)
 
 ### Community 1 - "Pantalla Mi año (carrera)"
-Cohesion: 0.08
-Nodes (30): Pantalla Agenda (Fechas y novedades), localStorage bolivar-carrera-resumen, Tema claro/oscuro (localStorage bolivar-tema), Pantalla Mi año (carrera), abrirDialogo (asistente de carga por pasos), elegirCarrera, marcar (cambiar estado de materia), pedirCodigo (recuperar respaldo) (+22 more)
+Cohesion: 0.09
+Nodes (27): Pantalla Agenda (Fechas y novedades), localStorage bolivar-carrera-resumen, Tema claro/oscuro (localStorage bolivar-tema), Pantalla Mi año (carrera), abrirDialogo (asistente de carga por pasos), elegirCarrera, marcar (cambiar estado de materia), pedirCodigo (recuperar respaldo) (+19 more)
 
 ### Community 2 - "pintarNav"
 Cohesion: 0.10
@@ -117,8 +118,8 @@ Cohesion: 0.11
 Nodes (23): Pantalla Anatomofisiología (guía de materia), bloqueModelo / sinFechas, conPaciencia(), guardarEnMemoria(), memoriaDe(), Pantalla El Consejo Directivo, subirFoto / achicarFoto (storage fotos), vistaCategorias (+15 more)
 
 ### Community 4 - "app.js"
-Cohesion: 0.11
-Nodes (17): aplicarTema(), CARRERAS_APP, errorEnCastellano(), explicarError(), __hitosDeEstaVisita, INDICE_PIE, MESES, MESES_LARGO (+9 more)
+Cohesion: 0.10
+Nodes (22): aplicarTema(), avisarMostrandoGuardado(), avisarNoSePudoActualizar(), cajaDelAviso(), CARRERAS_APP, desdeCuando(), errorEnCastellano(), explicarError() (+14 more)
 
 ### Community 5 - "avisanos.js"
 Cohesion: 0.20
@@ -180,9 +181,9 @@ Nodes (5): public.freno_consultas, freno_consultas, public.consultas, public.con
 Cohesion: 0.40
 Nodes (4): public.freno_sucesos, freno_sucesos, public.freno_sucesos(), public.sucesos
 
-### Community 21 - "ponerAviso"
-Cohesion: 0.50
-Nodes (5): avisarMostrandoGuardado(), avisarNoSePudoActualizar(), cajaDelAviso(), desdeCuando(), ponerAviso()
+### Community 21 - "movimiento.js"
+Cohesion: 0.60
+Nodes (3): claveDeEntrada(), entrarAlLlegar(), revisar()
 
 ### Community 22 - "tabla-organizador.sql"
 Cohesion: 0.50
@@ -217,24 +218,24 @@ Cohesion: 0.67
 Nodes (3): vistaAvisanos (contactos y consultas), Tabla Supabase consultas, Tabla Supabase contactos
 
 ## Knowledge Gaps
-- **85 isolated node(s):** `__hitosDeEstaVisita`, `MESES`, `MESES_LARGO`, `NOMBRE_SECCION`, `NOMBRE_LINEA` (+80 more)
-  These have ≤1 connection - possible missing edges or undocumented components. (Counts symbols only; 136 node(s) total have ≤1 connection when file, concept and rationale nodes are included.)
-- **15 thin communities (<3 nodes) omitted from report** — run `graphify query` to explore isolated nodes.
+- **86 isolated node(s):** `__hitosDeEstaVisita`, `MESES`, `MESES_LARGO`, `NOMBRE_SECCION`, `NOMBRE_LINEA` (+81 more)
+  These have ≤1 connection - possible missing edges or undocumented components. (Counts symbols only; 138 node(s) total have ≤1 connection when file, concept and rationale nodes are included.)
+- **16 thin communities (<3 nodes) omitted from report** — run `graphify query` to explore isolated nodes.
 
 ## Suggested Questions
 _Questions this graph is uniquely positioned to answer:_
 
-- **Why does `Pantalla Inicio` connect `Pantalla Mi año (carrera)` to `Mi perfil (mi/index.html)`, `manifest.json`, `app.js`, `Detalle de publicación (?id=)`?**
-  _High betweenness centrality (0.117) - this node is a cross-community bridge._
+- **Why does `Pantalla Inicio` connect `Pantalla Mi año (carrera)` to `app.js`, `Detalle de publicación (?id=)`, `Mi perfil (mi/index.html)`, `manifest.json`, `movimiento.js`?**
+  _High betweenness centrality (0.116) - this node is a cross-community bridge._
 - **Why does `Pantalla Mi año (carrera)` connect `Pantalla Mi año (carrera)` to `pintarNav`, `app.js`, `Detalle de publicación (?id=)`, `Mi perfil (mi/index.html)`, `Pantalla Cátedras`?**
-  _High betweenness centrality (0.105) - this node is a cross-community bridge._
-- **Why does `Trayecto Optativo (trayecto/index.html)` connect `Mi perfil (mi/index.html)` to `Pantalla Info útil (trámites y FAQ)`?**
   _High betweenness centrality (0.104) - this node is a cross-community bridge._
+- **Why does `Trayecto Optativo (trayecto/index.html)` connect `Mi perfil (mi/index.html)` to `Pantalla Info útil (trámites y FAQ)`?**
+  _High betweenness centrality (0.102) - this node is a cross-community bridge._
 - **What connects `__hitosDeEstaVisita`, `MESES`, `MESES_LARGO` to the rest of the system?**
-  _85 weakly-connected nodes found - possible documentation gaps or missing edges._
+  _86 weakly-connected nodes found - possible documentation gaps or missing edges._
 - **Should `La Fonoteca: simulador de práctica audiológica` be split into smaller, more focused modules?**
   _Cohesion score 0.06854838709677419 - nodes in this community are weakly interconnected._
 - **Should `Pantalla Mi año (carrera)` be split into smaller, more focused modules?**
-  _Cohesion score 0.07539118065433854 - nodes in this community are weakly interconnected._
+  _Cohesion score 0.08712121212121213 - nodes in this community are weakly interconnected._
 - **Should `pintarNav` be split into smaller, more focused modules?**
   _Cohesion score 0.09782608695652174 - nodes in this community are weakly interconnected._

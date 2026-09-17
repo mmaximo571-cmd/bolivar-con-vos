@@ -20,7 +20,7 @@
   "18": "tabla-avisanos.sql",
   "19": "tabla-registro.sql",
   "20": "tabla-respaldos.sql",
-  "21": "ponerAviso",
+  "21": "movimiento.js",
   "22": "tabla-organizador.sql",
   "23": "crearCliente",
   "24": "LEEME · La Bolívar con vos",
@@ -51,5 +51,6 @@
   "49": "tabla-programas-pdf.sql",
   "50": "tabla-seguridad.sql",
   "51": "abrirFicha / cerrarFicha (detalle de trámite)",
-  "52": "Bitácora · La Bolívar con vos"
+  "52": "Bitácora · La Bolívar con vos",
+  "53": "Prompt para abrir una sesión de código (17/9 en adelante)"
 }

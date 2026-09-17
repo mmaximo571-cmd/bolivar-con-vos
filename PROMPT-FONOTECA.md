@@ -336,4 +336,4 @@ usó con la versión 2.0 de AI Studio.
   los números y un chequeo automático. Dos cosas quedaron marcadas
   `[A CONFIRMAR]` en el código: qué pasa con el PTP entre 90 y 91, y que
   «ósea conservada» y «GAP» se miden sobre 500, 1000 y 2000 Hz.
-  **Falta el generador de tonos** (parte 2).
+  **El generador de tonos entró el 17/9** (parte 2), abajo del caso.

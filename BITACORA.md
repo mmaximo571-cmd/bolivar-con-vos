@@ -18,7 +18,12 @@ Si algo de acá quedó viejo, se corrige acá mismo al cerrar la sesión.
   el cronograma, abajo: congelamiento el **jueves 17 a la noche**, unas 15
   sesiones de código, cada una con su objetivo. **Esa tabla manda sobre lo que
   diga cualquier otro renglón de esta sección.**
-- Hoy es **domingo 13 de septiembre**. Quedan **ocho días** para el
+- **Jueves 17: del lun 14 al mié 16 no entró nada.** Hoy se congela igual, y
+  lo que no entre hoy se recorta. El recorte y el prompt corto para abrir cada
+  sesión están en `PROMPT-SESION.md`: pasan a después del 21 las solapas 2, 3
+  y 4 de la Fonoteca y el rastreo del Trayecto; quedan el aviso de Mi año (si
+  llegan los plazos) y las fichas que tengan texto.
+- El domingo 13 decía: hoy es **domingo 13 de septiembre**. Quedan **ocho días** para el
   lanzamiento y **cuatro de código**. Lo último que entró a la app fue del **7/9** (calendario del
   celular, buscador y mapa); el 8 solo se escribieron papeles —el buzón
   `entrada/` y `PROMPT-FICHAS.md`— y del **9 al 12 no se trabajó** porque
@@ -228,7 +233,7 @@ reemplaza lo que había acá. Lo que manda:
 
 | Día · sesión de código | Objetivo | Espera de Máximo |
 |---|---|---|
-| lun 14 · 1 | **Fonoteca: generador de tonos**, lo que le falta a la solapa 1 | — |
+| lun 14 · 1 | ✅ **Fonoteca: generador de tonos.** Hecho el **jue 17**: del 14 al 16 no se trabajó. Arranca bajo, rampa de 30 ms, se corta solo a los 3 s, elige oído | — |
 | lun 14 · 2 | **Trayecto Optativo: rastrear en la página de la facultad** los cuatro puntos sin confirmar. Lo que se encuentre con fuente, entra; lo que no, sigue diciendo que falta | — |
 | lun 14 · 3 | **Fonoteca solapa 2: GRBAS**, como definiciones. Dice que el audio llega después | — |
 | mar 15 · 1 | **Fonoteca solapa 3: fonética rioplatense**, como definiciones | — |
