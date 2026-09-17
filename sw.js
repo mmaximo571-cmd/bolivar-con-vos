@@ -220,7 +220,13 @@
    panel con las cinco capas de base. `mapa/index.html` va por red primero y
    ya no tiene la fila; con el `riesgo.js` guardado, que la busca, la
    pantalla se cortaba entera. */
-const VERSION = 'bolivar-v46';
+/* v47 (17/9/2026) `fondo-red.js` nuevo en el armazón, y `estilos.css`: la
+   red de nodos detrás de la interfaz. Las dos cosas van juntas y por eso
+   sube el número: el color de la página se mudó del `body` al `html` para
+   dejar lugar al lienzo, así que con la hoja nueva y sin el guion queda
+   el fondo pelado sin red, y con el guion nuevo y la hoja vieja el body
+   opaco tapa el lienzo y se dibuja algo que nadie ve. */
+const VERSION = 'bolivar-v47';
 const ARMAZON = VERSION + '-armazon';
 const PAGINAS = VERSION + '-paginas';
 
@@ -232,6 +238,7 @@ const DEL_ARMAZON = [
   '/config.js',
   '/lectura.js',
   '/movimiento.js',
+  '/fondo-red.js',
   /* El cliente chico, que es el que usa la mayoría de las pantallas
      —desde el 6/9/2026 también Fechas—.
      La librería grande (`/lib/supabase.js`, 213 KB) YA NO se guarda de

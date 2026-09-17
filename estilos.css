@@ -306,9 +306,26 @@
 [hidden]{display:none !important}
 *,*::before,*::after{box-sizing:border-box}
 html,body{margin:0;padding:0}
+
+/* LA RED DE FONDO. El color de la página vive acá, en el <html>, y
+   no en el <body>, que es donde estuvo siempre y donde uno lo
+   busca. El motivo es fondo-red.js: mete un lienzo fijo detrás de
+   todo, en z-index:-1, con la malla de nodos.
+
+   El fondo del elemento raíz es el único que el navegador pinta en
+   la capa del viewport, o sea más hondo que cualquier z-index
+   negativo. El del body, en cambio, es una caja común y corriente,
+   y una caja opaca encima del lienzo lo tapa entero: la red se
+   dibujaba, gastaba batería y no se veía nunca.
+
+   Se ve exactamente igual que antes: el fondo del raíz se estira a
+   toda la ventana aunque la página sea corta, que es justo lo que
+   hacía el body. Si algún día se saca la red, esto puede volver al
+   body sin que cambie nada en pantalla. */
+html{background:var(--fondo)}
 body{
   font-family:var(--fuente-texto);
-  background:var(--fondo);
+  background:transparent;
   color:var(--texto);
   font-size:16px;
   line-height:1.45;
