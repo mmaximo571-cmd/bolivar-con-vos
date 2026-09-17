@@ -242,7 +242,7 @@ reemplaza lo que había acá. Lo que manda:
 | mié 16 · 1 | **Fichas de Fono, tanda 2** | ídem |
 | mié 16 · 2 | **Fichas de la Tecnicatura, tanda 1**. Es su primera cosa propia en Estudiemos | ídem |
 | mié 16 · 3 | **Aviso en Mi año, parte 1:** con lo que la persona ya marcó, qué se le está por vencer y adónde ir. Sin cuenta, en el celular. **Antes, preguntas cortas**: es un módulo nuevo | **los plazos de regularidad**, a más tardar el mié 16 a la mañana |
-| jue 17 · 1 | **Aviso en Mi año, parte 2** | — |
+| jue 17 · 1 | ✅ **Aviso en Mi año, partes 1 y 2 juntas.** Regla de Máximo: la cursada vence en marzo del tercer ciclo lectivo después del que se aprobó (2024 → marzo 2027). Al marcar «me falta el final» la hoja pregunta el año (opcional, se guarda en `datos.regular`); en «Finales que tenés pendientes» sale un aviso rojo con lo vencido y lo que vence en 12 meses, cada tarjeta dice hasta cuándo vale, y todo manda a confirmar en SIU Guaraní | — |
 | jue 17 · 2 | ✅ **Fichas de Fono, todas las que había (21).** Llegaron como texto de NotebookLM sin dibujar: las arma una sola página, `estudiemos/fichas/leer/?f=<nombre>`, desde `fichas/textos/*.txt` (máquinas como chips, preguntas que se corrigen; los ESQUEMA quedan afuera). 6 de Anatomo por módulo y 15 de Desarrollo de la Función Oral Faríngea; dos repetidas no entraron | — |
 | jue 17 · 3 | **Fichas, tanda 3** (la carrera que tenga más material esperando) | textos |
 | jue 17 · 4 | **Fonoteca: prender o no.** Si llegó el visto, se muestran los casos y la cuarta tarjeta; si no, se decide ahí si sale sin casos o escondida | **el visto de la profesional** |

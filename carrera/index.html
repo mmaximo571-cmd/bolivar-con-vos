@@ -471,6 +471,46 @@ function fechaLinda(iso){
   return Number(p[2]) + '/' + Number(p[1]) + '/' + p[0];
 }
 
+/* ============================================================
+   CUÁNDO SE VENCE LA CURSADA (17/9/2026)
+
+   La regularidad dura tres ciclos lectivos contados desde que termina
+   el ciclo en que se aprobó la cursada, y se vence en el marzo del
+   tercero: aprobada en 2024, cuentan 2025, 2026 y 2027, y vence en
+   marzo de 2027. Así lo pasó Máximo; la fecha que vale es la de SIU
+   Guaraní, y por eso todo aviso manda a confirmarla ahí.
+
+   La app no sabía el año de la cursada: marcar «me falta el final» no
+   guardaba cuándo. Ahora se pregunta en la hoja de la materia, y se
+   puede no contestar. Se guarda solo el año: '2024' y nada más, que
+   es lo que la persona recuerda.
+   ============================================================ */
+const SIU_GUARANI = 'https://www.guarani-trabajosocial.unlp.edu.ar/acceso';
+
+function anioCursada(cod){
+  const a = datos.regular ? datos.regular[cod] : null;
+  return (typeof a === 'number' && a > 1990 && a < 2100) ? a : null;
+}
+
+function guardarAnioCursada(cod, anio){
+  if (!datos.regular) datos.regular = {};
+  if (anio) datos.regular[cod] = anio; else delete datos.regular[cod];
+  persistir();
+}
+
+/* El año en que vence, y cómo está hoy: 'vencida', 'pronto' (le quedan
+   doce meses o menos) o 'lejos'. Se toma el 31 de marzo como el último
+   día: el aviso no puede decir «vencida» antes de que lo esté. */
+function vencimiento(cod){
+  const a = anioCursada(cod);
+  if (!a) return null;
+  const anio = a + 3;
+  const fin = new Date(anio, 2, 31, 23, 59);
+  const hoy = new Date();
+  const enUnAnio = new Date(hoy.getFullYear() + 1, hoy.getMonth(), hoy.getDate());
+  return { anio, como: fin < hoy ? 'vencida' : (fin <= enUnAnio ? 'pronto' : 'lejos') };
+}
+
 function hoyISO(){
   const d = new Date();
   const dosCifras = n => String(n).padStart(2, '0');
@@ -525,6 +565,8 @@ function elegirCarrera(id){
   if (!datos.notas) datos.notas = {};
   /* Ni fechas: se agregaron después. Sin esto, la primera vez rompe. */
   if (!datos.fechas) datos.fechas = {};
+  /* Ni el año de las cursadas (17/9/2026). */
+  if (!datos.regular) datos.regular = {};
 
   /* Los contactos son por carrera: al cambiar de carrera hay que
      soltar los de la anterior ANTES de pedir los nuevos. Si no, una
@@ -1404,12 +1446,32 @@ function pintarConsejo(){
       situacion(otra).clase === 'cursa' &&
       situacion(otra).faltaFinal.length === 1
     );
-    return { m, gana };
-  }).sort((a,b) => b.gana.length - a.gana.length);
+    return { m, gana, v: vencimiento(m.cod) };
+  }).sort((a,b) => urgencia(a) - urgencia(b) || b.gana.length - a.gana.length);
+
+  /* EL AVISO DE LO QUE SE VENCE. Arriba de los finales y en rojo, con
+     lo vencido y lo que vence en los próximos doce meses. Lo que está
+     lejos no se anuncia: se lee en cada tarjeta. */
+  const urgentes = filas.filter(f => f.v && f.v.como !== 'lejos');
+  const aviso = !urgentes.length ? '' : `
+    <div class="aviso error" role="status">
+      <strong>Ojo con la regularidad.</strong>
+      ${urgentes.map(f => `<br>${esc(f.m.nombre)}: ${f.v.como === 'vencida'
+          ? `se venció en marzo de ${f.v.anio}` : `vence en marzo de ${f.v.anio}`}.`).join('')}
+      <br><span class="letra-chica">Confirmá la fecha en
+        <a href="${SIU_GUARANI}" target="_blank" rel="noopener">SIU Guaraní ↗</a>.</span>
+    </div>`;
+
+  /* Las que no tienen año: una sola línea abajo, no una por tarjeta. */
+  const sinAnio = filas.filter(f => !f.v && estadoCrudo(f.m.cod) === 'cursada').length;
+  const pie = !sinAnio ? '' : `
+    <p class="letra-chica">Para saber cuándo se te vence la cursada, tocá la materia y
+      cargá el año en que la aprobaste. La fecha exacta está en
+      <a href="${SIU_GUARANI}" target="_blank" rel="noopener">SIU Guaraní ↗</a>.</p>`;
 
   caja.innerHTML =
-    `<div class="titulo-seccion">FINALES QUE TENÉS PENDIENTES</div>
-     <div class="lista">` +
+    `<div class="titulo-seccion">FINALES QUE TENÉS PENDIENTES</div>` + aviso +
+    `<div class="lista">` +
     filas.map(f => `
       <button class="tarjeta materia final" data-cod="${esc(f.m.cod)}">
         <h3>${esc(f.m.nombre)}</h3>
@@ -1419,7 +1481,16 @@ function pintarConsejo(){
                <strong>${esc(f.gana.map(x => x.nombre).join(', '))}</strong>.`
             : 'Rendirlo no te destraba ninguna promoción por ahora, pero te suma materia aprobada.'
         }</p>
-      </button>`).join('') + `</div>`;
+        ${f.v ? `<p class="letra-chica">${f.v.como === 'vencida'
+            ? `<strong>Se venció en marzo de ${f.v.anio}.</strong>`
+            : f.v.como === 'pronto' ? `<strong>Vence en marzo de ${f.v.anio}.</strong>`
+            : `La cursada vale hasta marzo de ${f.v.anio}.`}</p>` : ''}
+      </button>`).join('') + `</div>` + pie;
+}
+
+/* Primero lo vencido, después lo que vence pronto, después el resto. */
+function urgencia(f){
+  return !f.v ? 3 : ({ vencida:0, pronto:1, lejos:2 })[f.v.como];
 }
 
 /* ============================================================
@@ -1968,6 +2039,7 @@ function abrirHoja(cod){
     </div>
 
     ${eActual === 'aprobada' ? cajaNotaCargada(cod) : ''}
+    ${eActual === 'cursada' ? cajaAnioCursada(cod) : ''}
 
     ${bloqueCorrelativas(m)}
 
@@ -2000,7 +2072,21 @@ function abrirHoja(cod){
          cargarla hay que volver a entrar, y no la carga nadie. */
       if (nuevo === 'aprobada'){ pantallaNota(cod, !yaEstaba); return; }
 
+      /* Con «me falta el final» pasa lo mismo que con la nota: es el
+         momento en que se acuerda del año de la cursada. La hoja se
+         redibuja con la pregunta en vez de cerrarse. */
+      if (nuevo === 'cursada' && !yaEstaba){ abrirHoja(cod); return; }
+
       cerrarHoja();
+    });
+  });
+
+  cuerpo.querySelectorAll('[data-anio-cursada]').forEach(b => {
+    b.addEventListener('click', function(){
+      const a = Number(this.dataset.anioCursada);
+      guardarAnioCursada(cod, anioCursada(cod) === a ? null : a);
+      pintarTodo();
+      abrirHoja(cod);
     });
   });
 
@@ -2037,6 +2123,26 @@ function cajaNotaCargada(cod){
         ${n !== null ? 'Cambiar la nota' : 'Cargar la nota'}
       </button>
     </div>`;
+}
+
+/* El año de la cursada: los últimos cuatro, que son los que pueden
+   seguir vigentes. Tocar el elegido lo suelta. */
+function cajaAnioCursada(cod){
+  const a = anioCursada(cod), v = vencimiento(cod);
+  const hoy = new Date().getFullYear();
+  const anios = [hoy - 3, hoy - 2, hoy - 1, hoy];
+  const dice = !v ? `Si lo cargás, te avisamos cuando se esté por vencer.`
+    : v.como === 'vencida' ? `<strong>Se venció en marzo de ${v.anio}.</strong>`
+    : v.como === 'pronto'  ? `<strong>Vence en marzo de ${v.anio}.</strong>`
+    : `Vale hasta marzo de ${v.anio}.`;
+  return `
+    <div class="titulo-seccion">¿EN QUÉ AÑO APROBASTE LA CURSADA?</div>
+    <div class="chips" role="group" aria-label="Año de la cursada">
+      ${anios.map(n => `<button type="button" class="chip" data-anio-cursada="${n}"
+          aria-pressed="${a === n}">${n}</button>`).join('')}
+    </div>
+    <p class="letra-chica" aria-live="polite">${dice} La fecha que vale es la de
+      <a href="${SIU_GUARANI}" target="_blank" rel="noopener">SIU Guaraní ↗</a>.</p>`;
 }
 
 function pantallaNota(cod, esNueva){
@@ -3169,7 +3275,7 @@ if (location.hash === '#finales') verPestana('final');
    no hace falta acordarse de reabrirlo acá. */
 function empezarDeNuevo(){
   if (!confirm(`¿Borrar todo lo que marcaste en ${PLAN.nombreCorto} y empezar de nuevo?\n\nLo de las otras carreras no se toca.`)) return;
-  guardado.datos[PLAN.id] = { estados:{}, notas:{}, fechas:{}, suponer:false, idioma:false };
+  guardado.datos[PLAN.id] = { estados:{}, notas:{}, fechas:{}, regular:{}, suponer:false, idioma:false };
   datos = guardado.datos[PLAN.id];
   cerrarDialogo();
   persistir();
