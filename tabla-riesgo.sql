@@ -168,6 +168,9 @@ begin
   return new;
 end $$;
 
+-- Es del disparador y de nadie más: que no se pueda llamar desde la API.
+revoke execute on function public.riesgo_freno() from public, anon, authenticated;
+
 drop trigger if exists riesgo_freno on public.reportes_riesgo;
 create trigger riesgo_freno before insert on public.reportes_riesgo
   for each row execute function public.riesgo_freno();
