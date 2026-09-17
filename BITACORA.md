@@ -235,19 +235,19 @@ reemplaza lo que había acá. Lo que manda:
 |---|---|---|
 | lun 14 · 1 | ✅ **Fonoteca: generador de tonos.** Hecho el **jue 17**: del 14 al 16 no se trabajó. Arranca bajo, rampa de 30 ms, se corta solo a los 3 s, elige oído | — |
 | lun 14 · 2 | ✅ Hecho el jue 17. En la web de la FTS no hay nada nuevo sobre 3 de las 4 dudas; sí la oferta del 2.º cuatrimestre 2026 (publicación del 3/9), que entró como sección «Lo que hay este cuatrimestre» con horas y link. La duda de los seminarios sigue. Era: **Trayecto Optativo: rastrear en la página de la facultad** los cuatro puntos sin confirmar. Lo que se encuentre con fuente, entra; lo que no, sigue diciendo que falta | — |
-| lun 14 · 3 | **Fonoteca solapa 2: GRBAS**, como definiciones. Dice que el audio llega después | — |
-| mar 15 · 1 | **Fonoteca solapa 3: fonética rioplatense**, como definiciones | — |
-| mar 15 · 2 | **Fonoteca solapa 4: anquiloglosia** | — |
-| mar 15 · 3 | **Fichas de Fono, tanda 1** (dos o tres) | textos de NotebookLM con `PROMPT-FICHAS.md` |
-| mié 16 · 1 | **Fichas de Fono, tanda 2** | ídem |
-| mié 16 · 2 | **Fichas de la Tecnicatura, tanda 1**. Es su primera cosa propia en Estudiemos | ídem |
-| mié 16 · 3 | **Aviso en Mi año, parte 1:** con lo que la persona ya marcó, qué se le está por vencer y adónde ir. Sin cuenta, en el celular. **Antes, preguntas cortas**: es un módulo nuevo | **los plazos de regularidad**, a más tardar el mié 16 a la mañana |
+| lun 14 · 3 | ⏭ **Después del 21** (Máximo, 17/9): sin texto ni visto. Era: **Fonoteca solapa 2: GRBAS**, como definiciones. Dice que el audio llega después | — |
+| mar 15 · 1 | ⏭ **Después del 21**. Era: **Fonoteca solapa 3: fonética rioplatense**, como definiciones | — |
+| mar 15 · 2 | ⏭ **Después del 21**. Mientras, la ficha diseñada de anquiloglosia ya está en fichas/. Era: **Fonoteca solapa 4: anquiloglosia** | — |
+| mar 15 · 3 | ✅ Entró en jue 17 · 2 y 3. Era: **Fichas de Fono, tanda 1** (dos o tres) | textos de NotebookLM con `PROMPT-FICHAS.md` |
+| mié 16 · 1 | ✅ Entró en jue 17 · 2 y 3. Era: **Fichas de Fono, tanda 2** | ídem |
+| mié 16 · 2 | ⏭ **Después del 21**: en la carpeta ESTUDIEMOS no hay material de la Tecnicatura. Era: **Fichas de la Tecnicatura, tanda 1**. Es su primera cosa propia en Estudiemos | ídem |
+| mié 16 · 3 | ✅ Entró en jue 17 · 1. Era: **Aviso en Mi año, parte 1:** con lo que la persona ya marcó, qué se le está por vencer y adónde ir. Sin cuenta, en el celular. **Antes, preguntas cortas**: es un módulo nuevo | **los plazos de regularidad**, a más tardar el mié 16 a la mañana |
 | jue 17 · 1 | ✅ **Aviso en Mi año, partes 1 y 2 juntas.** Regla de Máximo: la cursada vence en marzo del tercer ciclo lectivo después del que se aprobó (2024 → marzo 2027). Al marcar «me falta el final» la hoja pregunta el año (opcional, se guarda en `datos.regular`); en «Finales que tenés pendientes» sale un aviso rojo con lo vencido y lo que vence en 12 meses, cada tarjeta dice hasta cuándo vale, y todo manda a confirmar en SIU Guaraní | — |
 | jue 17 · 2 | ✅ **Fichas de Fono, todas las que había (21).** Llegaron como texto de NotebookLM sin dibujar: las arma una sola página, `estudiemos/fichas/leer/?f=<nombre>`, desde `fichas/textos/*.txt` (máquinas como chips, preguntas que se corrigen; los ESQUEMA quedan afuera). 6 de Anatomo por módulo y 15 de Desarrollo de la Función Oral Faríngea; dos repetidas no entraron | — |
 | jue 17 · 3 | ✅ **Fichas, tanda 3: 17 de las 21 dibujadas.** Llegó la entrega de Claude Design (17 `.dc.html`, misma clase y estilos, distinto dibujo). Cada una en `estudiemos/fichas/<nombre>/` con su `<template>`; la clase vive una vez en `ficha-texto.js`, los estilos en `assets/fichas-texto.css`, y `ficha.js` aprendió `setState(fn)`, props y el texto con formato de `React.createElement`. Quedan en `leer/` las Anatomo 3 a 6. Solo en claro. SW v44 | — |
 | jue 17 · 4 | ✅ **Llegó el visto** de la profesional a los seis casos (confirmado por Máximo el 17/9). No hubo que prender nada: estaban publicados desde el 13/9; se corrigieron los comentarios. Solapas 2 a 4 (GRBAS, fonética, anquiloglosia): **después del 21**, decisión de Máximo. Era: **Fonoteca: prender o no.** Si llegó el visto, se muestran los casos y la cuarta tarjeta; si no, se decide ahí si sale sin casos o escondida | **el visto de la profesional** |
 | jue 17 · 5 | ✅ Colchón: la tarjeta de Fichas en Estudiemos seguía diciendo «9 fichas / 8 de Fono» y «Nueve temas»; ahora 30 (29 Fono, 1 TS). Buscador en fichas/: después del 21 | — |
-| **jue 17 · 6** | **Congelamiento.** `v` del service worker, `graphify update .`, bitácora al día | — |
+| **jue 17 · 6** | ✅ **Congelado el 17/9 a la noche.** SW queda en v44 (subida hoy con ficha.js): lo que cambió después son pantallas, que van primero a la red, así que otra versión solo haría bajar todo de nuevo. Grafo al día. Desde acá, solo arreglos. Era: **Congelamiento.** `v` del service worker, `graphify update .`, bitácora al día | — |
 | vie 18 | **Pruebas en celulares reales, entrando desde Instagram:** el Android de Máximo y un iPhone prestado. Y **una sesión corta para armar la lista de posteos**: qué publicación lleva a qué pantalla | los dos teléfonos |
 | sáb 19 | Arreglos de lo que salió el 18. Links de campaña con `?de=` escritos | la lista de posteos |
 | dom 20 | **Todo arriba.** Verificar la segunda carga (el service worker entrega lo nuevo recién ahí) | — |
@@ -255,9 +255,9 @@ reemplaza lo que había acá. Lo que manda:
 
 **Lo que Máximo tiene que hacer afuera, en orden:**
 
-1. **Hoy o el lun 14:** mandarle a la profesional el link
+1. ✅ **Hecho: la profesional dio el visto (confirmado el 17/9).** ~~**Hoy o el lun 14:** mandarle a la profesional el link
    `estudiemos/fonoteca/?revision` con los seis casos. Todavía no se los pasó,
-   y sin visto los casos no salen.
+   y sin visto los casos no salen.~~
 2. **Lun 14 – mié 16 (las sesiones de contenido):** pasar los PDFs de Fono y
    de la Tecnicatura por NotebookLM con `PROMPT-FICHAS.md`. Son más de seis
    fichas. Cada texto tiene que estar listo antes de su sesión.
