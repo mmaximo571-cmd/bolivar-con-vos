@@ -69,16 +69,28 @@ var AJUSTES = {
   opacidad: 0.22,
   opacidadClaro: 0.82,
 
-  /* LOS DOS TONOS. El primero es el amarillo de la Agrupación tal
-     cual: sobre un fondo oscuro brilla y es la marca.
+  /* LOS TRES TONOS, uno por cada clase de suelo.
 
-     El segundo es ese mismo amarillo bajado hasta que se lee
-     contra un fondo claro. Hace falta porque el fondo de la app
-     YA es amarillo, y la banda `sol` es amarillo pleno: amarillo
-     sobre amarillo no se ve. Sigue siendo el color de la marca,
-     un par de pasos más hondo. */
+     Sobre OSCURO, el amarillo de la Agrupación tal cual: ahí
+     brilla y es la marca.
+
+     Sobre CLARO, el celeste de la plataforma. No es una elección
+     suelta: en el panel de control de estilos.css el celeste es
+     «LA ESTRUCTURA: bordes, barras, iconos, foco, lo
+     interactivo», y una malla de nodos y enlaces es justamente
+     estructura. Además es «el único tono medio de la paleta, y
+     por eso el que une lo claro con lo oscuro». El amarillo acá
+     no puede ir: el fondo de la app YA es amarillo.
+
+     Sobre el AMARILLO PLENO de la banda sol, el mismo celeste
+     dos pasos más hondo. El panel de estilos avisa: «Sobre el
+     amarillo pleno el celeste cae a 2,8: ahí no va». Este da
+     cerca de 7. Es el mismo caso que --celeste-hondo resuelve en
+     la hoja: pintar CON un color y leer SOBRE ese color no son
+     el mismo trabajo, y un solo valor no sirve para los dos. */
   tono:      '#F9E830',
-  tonoHondo: '#8A7512',
+  tonoClaro: '#0195B1',
+  tonoSol:   '#015B6E',
 
   /* Los nodos como puntitos, además de las líneas. */
   puntos: true,
@@ -114,7 +126,8 @@ function aRGB(hex){
   return [(n >> 16) & 255, (n >> 8) & 255, n & 255];
 }
 var RGB_TONO  = aRGB(AJUSTES.tono);
-var RGB_HONDO = aRGB(AJUSTES.tonoHondo);
+var RGB_CLARO = aRGB(AJUSTES.tonoClaro);
+var RGB_SOL   = aRGB(AJUSTES.tonoSol);
 
 function esDeNoche(){
   return document.documentElement.dataset.tema === 'oscuro';
@@ -140,10 +153,24 @@ function Capa(lienzo, suelo){
   this.pendiente = 0;
 }
 
-Capa.prototype.oscuroAbajo = function(){
-  if (this.suelo === 'tinta') return true;
-  if (this.suelo === 'sol') return false;
-  return esDeNoche();
+/* Qué color y cuánta alfa le toca a esta capa. El objeto es uno
+   solo, reusado: esto se pregunta una vez por capa por cuadro y
+   no vale la pena fabricar basura sesenta veces por segundo.
+
+   La alfa baja sobre fondo claro porque la tinta oscura sobre
+   papel contrasta más que el amarillo sobre negro: pide menos
+   para pesar lo mismo. */
+var PINCEL = { rgb: null, base: 0 };
+Capa.prototype.pincel = function(){
+  var claro = AJUSTES.opacidad * AJUSTES.opacidadClaro;
+  if (this.suelo === 'sol'){
+    PINCEL.rgb = RGB_SOL; PINCEL.base = claro;
+  } else if (this.suelo === 'tinta' || esDeNoche()){
+    PINCEL.rgb = RGB_TONO; PINCEL.base = AJUSTES.opacidad;
+  } else {
+    PINCEL.rgb = RGB_CLARO; PINCEL.base = claro;
+  }
+  return PINCEL;
 };
 
 Capa.prototype.cuantos = function(){
@@ -234,9 +261,9 @@ Capa.prototype.cuadro = function(paso){
 
   var W = this.an, H = this.al;
   var R = AJUSTES.radio, R2 = R * R;
-  var hondo = this.oscuroAbajo();
-  var c = hondo ? RGB_TONO : RGB_HONDO;
-  var base = AJUSTES.opacidad * (hondo ? 1 : AJUSTES.opacidadClaro);
+  var pincel = this.pincel();
+  var c = pincel.rgb;
+  var base = pincel.base;
   var cur = (AJUSTES.cursor && paso) ? this.cursorLocal() : null;
   var i, j, p, dx, dy, d2, d, k;
 
