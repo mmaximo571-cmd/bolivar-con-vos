@@ -208,7 +208,11 @@
    tarjetas usan clases de la hoja: es el caso del v34. */
 /* v43 (13/9/2026) `iconos.js`: el ícono de Espacios autogestivos. Sin
    subir el número, quien ya tiene la app sigue viendo el emoji 🤝. */
-const VERSION = 'bolivar-v43';
+/* v44 (17/9/2026) `estudiemos/fichas/ficha.js`: el motor aprende el texto
+   con formato de las 17 fichas de texto diseñadas. Sin subir, quien ya
+   abrió una ficha tiene el motor viejo guardado y la nueva sale rota
+   hasta la segunda visita. */
+const VERSION = 'bolivar-v44';
 const ARMAZON = VERSION + '-armazon';
 const PAGINAS = VERSION + '-paginas';
 

@@ -1,0 +1,94 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Patologías alimentarias · Fichas · La Bolívar con vos</title>
+<meta name="description" content="Disfagia · Selectividad · Rechazo · Parámetro SECC. Ficha de estudio con autoevaluación.">
+<meta name="theme-color" content="#F9E830">
+<meta name="color-scheme" content="light">
+<link rel="icon" type="image/png" sizes="32x32" href="../../../imagenes/icono-32.png">
+<link rel="apple-touch-icon" href="../../../imagenes/icono-apple.png">
+<link rel="manifest" href="../../../manifest.json">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="La Bolivar con vos">
+<meta property="og:title" content="Patologías alimentarias · La Bolívar con vos">
+<meta property="og:description" content="Disfagia · Selectividad · Rechazo · Parámetro SECC. Ficha de estudio con autoevaluación.">
+<meta property="og:image" content="https://bolivar-con-vos.vercel.app/imagenes/compartir.png">
+<!-- Ficha diseñada en Claude Design sobre textos/dfof-2-patologias-alimentarias.txt. Los estilos
+     y la lógica son los mismos para las diecisiete: assets/fichas-texto.css
+     y ficha-texto.js. Acá vive solo el dibujo. Va siempre en claro: el
+     diseño no trae versión oscura. -->
+<link rel="stylesheet" href="../assets/fichas-texto.css">
+</head>
+<body>
+<div id="ficha"></div>
+<template id="plantilla">
+<div style="background:var(--color-bg);color:var(--color-text);font-family:var(--font-body);min-height:100vh">
+  <header style="display:flex;flex-wrap:wrap;gap:var(--space-3);align-items:center;justify-content:space-between;padding:var(--space-3) var(--space-6);border-bottom:2px solid var(--color-divider)">
+    <a href="../" style="color:var(--color-text);font-family:var(--font-heading);font-weight:800;font-size:14px;letter-spacing:.1em;text-transform:uppercase">← Fichas de estudio</a>
+    <span style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:11px;letter-spacing:.14em;color:var(--color-neutral-700)">M2·PAL·17</span>
+  </header>
+  <div style="padding:var(--space-8) 0 0">
+    <div style="max-width:1140px;margin:0 auto;padding:0 var(--space-6)">
+      <sc-if value="{{ err }}" hint-placeholder-val="{{ false }}">
+        <p style="font-family:var(--font-heading);font-weight:800;color:var(--color-accent-700)">{{ err }}</p>
+      </sc-if>
+      <div>
+      <div style="background:var(--color-accent);color:var(--color-bg);padding:var(--space-8) var(--space-6)">
+        
+        <h1 style="font-size:clamp(34px,7vw,66px);margin:0;color:var(--color-bg);letter-spacing:-.02em;text-wrap:balance">{{ titulo }}</h1>
+      </div>
+      <div style="display:flex;flex-wrap:wrap;gap:var(--space-4);justify-content:space-between;border-bottom:2px solid var(--color-text);padding:var(--space-3) var(--space-6)">
+        <div style="display:grid;gap:4px"><span style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:11px;letter-spacing:.2em;color:var(--color-accent-700)">M2·PAL·17 // ESTUDIO ACTIVO</span><p style="font-family:var(--font-heading);font-weight:600;font-size:14px;letter-spacing:.05em;text-transform:uppercase;margin:0">{{ subtitulo }}</p></div><p style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:11px;color:var(--color-neutral-700);margin:0;line-height:1.6">{{ pdfs }}</p>
+      </div>
+    </div>
+      <div style="padding-top:var(--space-6)"><div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,160px),1fr));gap:2px;background:var(--color-text);border:2px solid var(--color-text)"><div style="background:var(--color-bg);color:var(--color-text);padding:var(--space-4)"><span style="font-family:var(--font-heading);font-weight:800;font-size:clamp(22px,3.6vw,34px);display:block;line-height:1;font-variant-numeric:tabular-nums">{{ nPiezas }}</span><span style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:10px;letter-spacing:.16em;display:block;margin-top:6px;opacity:1;color:var(--color-neutral-700)">PIEZAS</span></div><div style="background:var(--color-bg);color:var(--color-text);padding:var(--space-4)"><span style="font-family:var(--font-heading);font-weight:800;font-size:clamp(22px,3.6vw,34px);display:block;line-height:1;font-variant-numeric:tabular-nums">{{ nMachines }}</span><span style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:10px;letter-spacing:.16em;display:block;margin-top:6px;opacity:1;color:var(--color-neutral-700)">MÁQUINAS</span></div><div style="background:var(--color-bg);color:var(--color-text);padding:var(--space-4)"><span style="font-family:var(--font-heading);font-weight:800;font-size:clamp(22px,3.6vw,34px);display:block;line-height:1;font-variant-numeric:tabular-nums">{{ nQuiz }}</span><span style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:10px;letter-spacing:.16em;display:block;margin-top:6px;opacity:1;color:var(--color-neutral-700)">PREGUNTAS</span></div><div style="background:var(--color-text);color:var(--color-bg);padding:var(--space-4);box-shadow:inset 0 0 0 2px var(--color-accent)"><span style="font-family:var(--font-heading);font-weight:800;font-size:clamp(22px,3.6vw,34px);display:block;line-height:1;font-variant-numeric:tabular-nums;color:var(--hl)">{{ rightTxt }}</span><span style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:10px;letter-spacing:.16em;display:block;margin-top:6px;color:var(--color-bg)">ACIERTOS</span></div></div></div>
+    </div>
+  </div>
+  <div style="max-width:1140px;margin:0 auto;padding:var(--space-8) var(--space-6) 96px">
+    <section><div style="display:flex;align-items:stretch;gap:0;margin-bottom:var(--space-6);border:2px solid var(--color-text);flex-wrap:wrap"><span style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-weight:700;font-size:26px;background:var(--color-accent);color:var(--color-bg);padding:var(--space-3) var(--space-4);display:flex;align-items:center;font-variant-numeric:tabular-nums">01</span><h2 style="font-size:clamp(17px,2.6vw,24px);margin:0;flex:1;min-width:180px;display:flex;align-items:center;padding:var(--space-3) var(--space-4);letter-spacing:.04em;text-transform:uppercase">Qué es</h2></div>
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,300px),1fr));gap:var(--space-8)">
+        <div>
+          <span style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:10px;letter-spacing:.16em;color:var(--color-neutral-700);display:block;margin-bottom:var(--space-3)">DEFINICIÓN</span>
+          <sc-for list="{{ defParas }}" as="p" hint-placeholder-count="1"><p style="font-size:16px;line-height:1.6;text-wrap:pretty">{{ p.rt }}</p></sc-for>
+        </div>
+        <div style="border-left:8px solid var(--color-accent);padding-left:var(--space-4)">
+          <span style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:10px;letter-spacing:.16em;color:var(--color-accent-700);display:block;margin-bottom:var(--space-3)">LO QUE MÁS SE CONFUNDE</span>
+          <sc-for list="{{ confundeParas }}" as="p" hint-placeholder-count="1"><p style="font-size:16px;line-height:1.6;text-wrap:pretty">{{ p.rt }}</p></sc-for>
+        </div>
+      </div>
+      <div style="display:flex;align-items:baseline;justify-content:space-between;gap:var(--space-4);margin:var(--space-8) 0 var(--space-3)"><span style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:10px;letter-spacing:.16em;color:var(--color-neutral-700)">PIEZAS</span><span style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:10px;color:var(--color-neutral-700);font-variant-numeric:tabular-nums">{{ nPiezas }}</span></div>
+      <div style="display:grid;gap:0;border-top:2px solid var(--color-text)"><sc-for list="{{ piezas }}" as="pz" hint-placeholder-count="6"><div style="display:grid;grid-template-columns:clamp(54px,8vw,82px) 1fr;gap:var(--space-4);padding:var(--space-4) 0;border-bottom:2px solid var(--color-divider);align-items:start"><span style="font-family:var(--font-heading);font-weight:800;font-size:clamp(26px,4.4vw,40px);line-height:.9;color:var(--color-accent);font-variant-numeric:tabular-nums">{{ pz.num }}</span><div><h5 style="margin:0 0 4px;font-size:16px">{{ pz.name }}</h5><p style="margin:0;font-size:14px;line-height:1.6;color:var(--color-neutral-800);text-wrap:pretty">{{ pz.rt }}</p></div></div></sc-for></div>
+    </section>
+    <section style="padding-top:var(--space-8)"><div style="display:flex;align-items:stretch;gap:0;margin-bottom:var(--space-6);border:2px solid var(--color-text);flex-wrap:wrap"><span style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-weight:700;font-size:26px;background:var(--color-accent);color:var(--color-bg);padding:var(--space-3) var(--space-4);display:flex;align-items:center;font-variant-numeric:tabular-nums">02</span><h2 style="font-size:clamp(17px,2.6vw,24px);margin:0;flex:1;min-width:180px;display:flex;align-items:center;padding:var(--space-3) var(--space-4);letter-spacing:.04em;text-transform:uppercase">Cómo funciona</h2></div><sc-for list="{{ machines }}" as="m" hint-placeholder-count="2"><div style="margin-bottom:var(--space-8);border:2px solid var(--color-text)"><div style="display:flex;flex-wrap:wrap;gap:var(--space-3);align-items:center;background:var(--color-text);color:var(--color-bg);padding:var(--space-2) var(--space-4)"><span style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:11px;letter-spacing:.14em;color:var(--hl)">MÁQ {{ m.n }}</span><h4 style="margin:0;font-size:clamp(15px,2.4vw,20px);flex:1;color:var(--color-bg)">{{ m.name }}</h4></div><div style="padding:var(--space-4)"><p style="margin:var(--space-3) 0;font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:12px;color:var(--color-neutral-800);line-height:1.6">{{ m.eligeRt }}</p>
+          <div style="display:flex;flex-wrap:wrap;gap:var(--space-2);margin-bottom:var(--space-4)"><sc-for list="{{ m.buttons }}" as="b" hint-placeholder-count="3"><button type="button" class="btn {{ b.cls }}" style="min-height:44px" onClick="{{ b.onClick }}">{{ b.label }}</button></sc-for></div>
+          <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,280px),1fr));gap:var(--space-6)">
+            <div><h5 style="margin:0 0 var(--space-2);font-size:15px;color:var(--color-accent-700)">{{ m.activeName }}</h5><p style="margin:0;font-size:15px;line-height:1.6;text-wrap:pretty">{{ m.activeRt }}</p></div>
+            <div style="border-left:2px solid var(--color-divider);padding-left:var(--space-4)"><span style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:10px;letter-spacing:.16em;color:var(--color-neutral-700);display:block;margin-bottom:4px">ESQUEMA MENTAL</span><p style="margin:0;font-size:13px;line-height:1.6;color:var(--color-neutral-800);text-wrap:pretty">{{ m.esquemaRt }}</p></div>
+          </div></div></div></sc-for></section>
+    <section style="padding-top:var(--space-8)"><div style="display:flex;align-items:stretch;gap:0;margin-bottom:var(--space-6);border:2px solid var(--color-text);flex-wrap:wrap"><span style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-weight:700;font-size:26px;background:var(--color-accent);color:var(--color-bg);padding:var(--space-3) var(--space-4);display:flex;align-items:center;font-variant-numeric:tabular-nums">03</span><h2 style="font-size:clamp(17px,2.6vw,24px);margin:0;flex:1;min-width:180px;display:flex;align-items:center;padding:var(--space-3) var(--space-4);letter-spacing:.04em;text-transform:uppercase">Cómo te das cuenta</h2><span style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:12px;display:flex;align-items:center;padding:var(--space-3) var(--space-4);border-left:2px solid var(--color-text);color:var(--color-accent-700);white-space:nowrap">{{ progress }}</span></div><div style="display:grid;gap:var(--space-6)"><sc-for list="{{ quiz }}" as="q" hint-placeholder-count="8">
+          <div style="display:grid;grid-template-columns:48px 1fr;gap:var(--space-4);align-items:start">
+            <span style="font-family:var(--font-heading);font-weight:800;font-size:clamp(26px,4vw,36px);color:var(--color-accent);line-height:1;font-variant-numeric:tabular-nums;border-bottom:2px solid var(--color-text);display:block">{{ q.n }}</span>
+            <div>
+              <p style="margin:0 0 var(--space-3);font-size:16px;line-height:1.45;font-family:var(--font-heading);font-weight:600;text-wrap:pretty">{{ q.text }}</p>
+              <div style="display:grid;gap:var(--space-2)"><sc-for list="{{ q.options }}" as="o" hint-placeholder-count="3">
+                <button type="button" style="{{ o.style }}" onClick="{{ o.onClick }}"><span style="font-family:var(--font-heading);font-weight:800;font-size:13px;flex:0 0 16px">{{ o.letter }}</span><span style="font-size:14px;line-height:1.5;text-align:left">{{ o.text }}</span></button>
+              </sc-for></div>
+              <sc-if value="{{ q.answered }}" hint-placeholder-val="{{ false }}">
+                <div style="margin-top:var(--space-3);padding:var(--space-3) var(--space-4);border-left:2px solid var(--color-text);background:var(--color-surface)"><span class="tag {{ q.verdictCls }}" style="margin-bottom:var(--space-2);display:inline-block">{{ q.verdict }}</span><p style="margin:0;font-size:14px;line-height:1.55;text-wrap:pretty">{{ q.whyRt }}</p></div>
+              </sc-if>
+            </div>
+          </div>
+        </sc-for></div></section>
+    <section style="padding-top:var(--space-8)"><div style="display:flex;align-items:stretch;gap:0;margin-bottom:var(--space-6);border:2px solid var(--color-text);flex-wrap:wrap"><span style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-weight:700;font-size:26px;background:var(--color-accent);color:var(--color-bg);padding:var(--space-3) var(--space-4);display:flex;align-items:center;font-variant-numeric:tabular-nums">04</span><h2 style="font-size:clamp(17px,2.6vw,24px);margin:0;flex:1;min-width:180px;display:flex;align-items:center;padding:var(--space-3) var(--space-4);letter-spacing:.04em;text-transform:uppercase">Lo que hay que aclarar</h2></div><div style="display:grid;gap:2px;background:var(--color-divider);border-top:2px solid var(--color-text);border-bottom:2px solid var(--color-text)"><sc-for list="{{ aclarar }}" as="a" hint-placeholder-count="3"><div style="background:var(--color-bg);display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,220px),1fr));gap:var(--space-4);padding:var(--space-4) 0"><div><span style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:10px;letter-spacing:.16em;color:var(--color-accent-700);display:block;margin-bottom:4px">PENDIENTE</span><h5 style="margin:0;font-size:16px">{{ a.name }}</h5></div><p style="margin:0;font-size:14px;line-height:1.6;color:var(--color-neutral-800);text-wrap:pretty">{{ a.rt }}</p></div></sc-for></div></section>
+  </div>
+  <footer style="background:var(--color-text);color:var(--color-bg);padding:var(--space-6);display:flex;flex-wrap:wrap;gap:var(--space-4);justify-content:space-between;font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:11px;letter-spacing:.08em;text-transform:uppercase"><span>M2·PAL·17</span><a href="../" style="color:var(--color-bg)">Volver al índice ↗</a><span>Equipo Fonoaudiología · CEFTS</span></footer>
+</div>
+</template>
+<script src="../ficha.js"></script>
+<script>window.FICHA_PROPS = { ficha: '../textos/dfof-2-patologias-alimentarias.txt', showRefs: true, revealWhy: true };</script>
+<script src="../ficha-texto.js"></script>
+<script>arrancarFicha();</script>
+</body>
+</html>

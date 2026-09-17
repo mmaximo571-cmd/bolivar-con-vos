@@ -34,11 +34,52 @@
    de la ficha entre sin tocarle una coma. */
 window.DCLogic = class DCLogic {
   setState(parche){
+    /* Las fichas de texto (17/9/2026) piden `setState(s => ...)`, como
+       en React: la función recibe el estado y devuelve el parche. */
+    if (typeof parche === 'function') parche = parche(this.state);
     Object.assign(this.state, parche);
     dibujar(this);
-    if (this.componentDidUpdate) this.componentDidUpdate();
+    if (this.componentDidUpdate) this.componentDidUpdate(this.props);
   }
 };
+
+/* ------------------------------------------------------------
+   EL TEXTO CON NEGRITAS DE LAS FICHAS DE TEXTO (17/9/2026)
+
+   Las diecisiete fichas que Claude Design armó sobre los .txt de
+   NotebookLM no devuelven texto plano en los agujeros: devuelven
+   `React.createElement('span', {style}, ...)`, para las negritas, las
+   citas y los [FALTA]. Acá no hay React, así que esto hace de React
+   con lo mínimo: guarda qué etiqueta, qué estilo y qué hijos, y
+   `aDom()` lo convierte en nodos cuando se dibuja.
+   ------------------------------------------------------------ */
+if (!window.React) window.React = {
+  createElement(tipo, props, ...hijos){
+    return { esElemento: true, tipo, props: props || {}, hijos: hijos.flat() };
+  }
+};
+
+function esRico(v){ return v && typeof v === 'object' && (v.esElemento || Array.isArray(v)); }
+
+/* {fontWeight:800} -> "font-weight:800" */
+function estiloTexto(obj){
+  return Object.keys(obj || {}).map(k =>
+    k.replace(/[A-Z]/g, m => '-' + m.toLowerCase()) + ':' + obj[k]).join(';');
+}
+
+function aDom(v){
+  if (v == null || v === false) return document.createTextNode('');
+  if (Array.isArray(v)){
+    const f = document.createDocumentFragment();
+    v.forEach(x => f.appendChild(aDom(x)));
+    return f;
+  }
+  if (!v.esElemento) return document.createTextNode(String(v));
+  const el = document.createElement(v.tipo);
+  if (v.props.style) el.setAttribute('style', estiloTexto(v.props.style));
+  v.hijos.forEach(h => el.appendChild(aDom(h)));
+  return el;
+}
 
 /* ------------------------------------------------------------
    LEER UN AGUJERO
@@ -95,7 +136,21 @@ function pasar(nodos, V, ambito, cuenta){
   for (const n of nodos){
     /* Texto */
     if (n.nodeType === 3){
-      trozo.appendChild(document.createTextNode(rellenar(n.nodeValue, V, ambito)));
+      /* Si algún agujero trae texto con formato, el renglón se arma por
+         partes; si no, sigue siendo un solo nodo de texto como antes. */
+      const partes = n.nodeValue.split(/(\{\{\s*[^}]+?\s*\}\})/);
+      const valores = partes.map(p => {
+        const c = soloAgujero(p);
+        return c ? leer(c, V, ambito) : undefined;
+      });
+      if (!valores.some(esRico)){
+        trozo.appendChild(document.createTextNode(rellenar(n.nodeValue, V, ambito)));
+        continue;
+      }
+      partes.forEach((p, i) => {
+        if (esRico(valores[i])) trozo.appendChild(aDom(valores[i]));
+        else trozo.appendChild(document.createTextNode(rellenar(p, V, ambito)));
+      });
       continue;
     }
     /* Los comentarios del diseño no hacen falta en la página */
@@ -149,6 +204,12 @@ function pasar(nodos, V, ambito, cuenta){
         continue;
       }
 
+      /* Un estilo que llega como objeto, a la React */
+      if (at.name === 'style' && soloAgujero(at.value)){
+        const obj = leer(soloAgujero(at.value), V, ambito);
+        if (obj && typeof obj === 'object'){ el.setAttribute('style', estiloTexto(obj)); continue; }
+      }
+
       el.setAttribute(at.name, rellenar(at.value, V, ambito));
     }
 
@@ -198,6 +259,8 @@ window.arrancarFicha = function(){
   if (!plantilla || !destino || typeof Component !== 'function') return;
 
   const comp = new Component();
+  /* Las fichas de texto leen qué .txt abrir de `this.props` */
+  comp.props = window.FICHA_PROPS || {};
   comp._plantilla = plantilla;
   comp._destino   = destino;
 
