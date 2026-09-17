@@ -29,7 +29,10 @@
   const ZONA = {
     centro: [-34.885, -57.925],
     zoom:   12,
-    limites:[[-35.12, -58.20], [-34.76, -57.72]]
+    /* El sur baja hasta -35.25 (antes -35.12) por el mapa de peligrosidad
+       de Ángel Etcheverry, que llega a -35.24. Es el tope que acepta la
+       base (tabla-riesgo.sql): no correrlo más sin cambiar también ahí. */
+    limites:[[-35.25, -58.20], [-34.76, -57.72]]
   };
 
   const LEAFLET = 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/';
@@ -77,7 +80,7 @@
     capas: capasGuardadas('capas', { hidrico:true, industrial:true, redes:true }),
     /* Las de base arrancan apagadas: cada una es un archivo que se baja,
        y en un plan de datos del barrio eso se decide, no se impone. */
-    base: capasGuardadas('base', { hidrico:false, industrial:false, habitat:false, contencion:false, movilidad:false }),
+    base: capasGuardadas('base', { hidrico:false, peligrosidad:false, industrial:false, habitat:false, contencion:false, movilidad:false }),
     baseEstado: {},           // por capa: cargando | lista | falta | red | formato | proyeccion
     borrador: leerBorrador() || borradorVacio(),
     marcando: false,          // la próxima vez que se toque el mapa, pone la ubicación

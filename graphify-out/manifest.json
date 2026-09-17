@@ -186,9 +186,9 @@
     "semantic_hash": "13c70cb9b680cf53ce1df6881965457c"
   },
   "BITACORA.md": {
-    "mtime": 1789664756.979036,
-    "seen": 1789666112.874157,
-    "ast_hash": "a86e1612327251df7a370eb9820cc109",
+    "mtime": 1789680761.625449,
+    "seen": 1789680799.8854365,
+    "ast_hash": "eefd54bef4f0669a2e64def7d87b77d2",
     "semantic_hash": ""
   },
   "LEEME.md": {
@@ -366,9 +366,9 @@
     "semantic_hash": ""
   },
   "mapa/riesgo.js": {
-    "mtime": 1789664413.3707218,
-    "seen": 1789664546.770251,
-    "ast_hash": "f68f0c867a0dcf3be9e7283bb313ee27",
+    "mtime": 1789679462.5439987,
+    "seen": 1789680799.8853264,
+    "ast_hash": "10704da2ae2ab90edaaa4bf8212a7f16",
     "semantic_hash": ""
   },
   "tabla-riesgo.sql": {
@@ -384,15 +384,39 @@
     "semantic_hash": ""
   },
   "mapa/capas-base.js": {
-    "mtime": 1789666058.135366,
-    "seen": 1789666112.8740404,
-    "ast_hash": "ee1f887f2304beb74d1cac0f4bc52696",
+    "mtime": 1789679828.4624074,
+    "seen": 1789680799.8852928,
+    "ast_hash": "b99ef50f37a545803e14df27f0c988a4",
     "semantic_hash": ""
   },
   "mapa/datos/LEEME.md": {
-    "mtime": 1789666017.3234642,
-    "seen": 1789666112.8742723,
-    "ast_hash": "d312c91cce62921f0f9aaf67944aa56e",
+    "mtime": 1789680752.1815057,
+    "seen": 1789680799.8855922,
+    "ast_hash": "98b7d7caf832183a9390d5579895a9ab",
+    "semantic_hash": ""
+  },
+  "mapa/datos/herramientas/ada.ps1": {
+    "mtime": 1789680735.221768,
+    "seen": 1789680799.8853076,
+    "ast_hash": "f062a66875211451959f8240a103eea5",
+    "semantic_hash": ""
+  },
+  "mapa/datos/herramientas/convertir.ps1": {
+    "mtime": 1789680735.1493578,
+    "seen": 1789680799.8853135,
+    "ast_hash": "9ccc639206efe08ef6be3cbc2a86f3cd",
+    "semantic_hash": ""
+  },
+  "mapa/datos/herramientas/unir.ps1": {
+    "mtime": 1789680735.228943,
+    "seen": 1789680799.88532,
+    "ast_hash": "f50c8e9cebff13be203cf8c76f52bb56",
+    "semantic_hash": ""
+  },
+  "mapa/datos/herramientas/mapas-ada.txt": {
+    "mtime": 1789680735.3437948,
+    "seen": 1789680799.8855994,
+    "ast_hash": "f37c611743398b44eb895382a08215c0",
     "semantic_hash": ""
   }
 }

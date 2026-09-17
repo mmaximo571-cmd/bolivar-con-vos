@@ -31,19 +31,37 @@ function esPoligonoGeo(f){
 }
 
 const CAPAS_BASE = [
-  { id:'hidrico', nombre:'Riesgo hídrico', detalle:'Arroyos, canales y desagües',
+  { id:'hidrico', nombre:'Cursos de agua', detalle:'Arroyos, canales y desagües',
     archivo:'hidrico.geojson', fuente:'OpenStreetMap y sus colaboradores (ODbL), septiembre 2026',
-    /* Dos geometrías posibles: el curso de agua es una línea, y una zona
-       que se inunda sería un relleno apenas visible debajo (hoy el
-       archivo no trae ninguna). El grosor va por tipo: con los 243
-       desagües tan gruesos como un arroyo, el mapa quedaba tapado de azul
-       y no se distinguía lo que desborda de una zanja. */
+    /* El grosor va por tipo: con los 243 desagües tan gruesos como un
+       arroyo, el mapa quedaba tapado de azul y no se distinguía lo que
+       desborda de una zanja. */
     estilo: f => {
       if (esPoligonoGeo(f)) return { color:'#1E5FB4', weight:1, opacity:.7, fillColor:'#3B82F6', fillOpacity:.18 };
       const tipo = sinTildes(f && f.properties && f.properties.descripcion);
       const menor = tipo.indexOf('desague') === 0;
       return { color:'#1E5FB4', weight: menor ? 2 : tipo === 'canal' ? 3.5 : 5,
                opacity: menor ? .6 : .9, lineCap:'round', lineJoin:'round' };
+    } },
+
+  /* La peligrosidad va aparte de los cursos de agua y no junta con
+     ellos: es el archivo más pesado de todos, y quien solo quiere ver
+     dónde está el arroyo no tiene por qué bajarlo.
+
+     Están las clases ALTA y MEDIA, no las otras dos: «baja» y «muy baja
+     a nula» son 31.537 manzanas, la mayor parte del partido, y pintarlas
+     haría ver toda la ciudad como inundable además de cuadruplicar el
+     peso. En una recorrida lo que importa es dónde el agua SÍ llega.
+     El azul se gradúa con el nivel: cuanto más peligro, más tinta. */
+  { id:'peligrosidad', nombre:'Peligrosidad de inundación', detalle:'Zonas de peligrosidad alta y media',
+    archivo:'peligrosidad.geojson',
+    fuente:'ADA, con datos del Plan de reducción de riesgo por inundaciones (convenio UNLP–Municipalidad de La Plata, 2019)',
+    estilo: f => {
+      const nivel = sinTildes(f && f.properties && f.properties.peligrosidad);
+      const tinta = { 'alta':.5, 'media':.3, 'baja':.14 }[nivel];
+      return { color: nivel === 'alta' ? '#0B3C8C' : '#1E5FB4', weight:.8, opacity:.5,
+               fillColor: nivel === 'alta' ? '#0B3C8C' : '#3B82F6',
+               fillOpacity: tinta == null ? .2 : tinta };
     } },
 
   { id:'industrial', nombre:'Riesgo industrial', detalle:'Polo petroquímico y zonas industriales',
