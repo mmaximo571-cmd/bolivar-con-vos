@@ -57,8 +57,28 @@
     <p class="mapa-estado" id="estado-envio" role="status" aria-live="polite"></p>
   </div>
 
-  <div class="envoltura">
-    <div class="capas-fila" role="group" aria-label="Qué capas mostrar" id="capas-fila"></div>
+  <!-- LAS CAPAS. Son ocho —tres de reportes y cinco de base— y en una
+       fila de chips no entran: quedarían escondidas a un deslizamiento.
+       Van en un panel que se abre arriba del mapa y NO lo tapa: se
+       prende una capa y el mapa, justo abajo, cambia a la vista. -->
+  <div class="envoltura capas-barra">
+    <button type="button" class="capas-abrir" id="capas-abrir"
+            aria-expanded="false" aria-controls="capas-panel">
+      <span class="capas-abrir-texto">Capas</span>
+      <span class="capas-prendidas" id="capas-prendidas"></span>
+      <span class="capas-flecha" aria-hidden="true"></span>
+    </button>
+    <div class="capas-panel" id="capas-panel" hidden>
+      <fieldset class="capas-grupo">
+        <legend>Lo que cargamos</legend>
+        <div class="capas-lista" id="capas-reportes"></div>
+      </fieldset>
+      <fieldset class="capas-grupo">
+        <legend>Información de base</legend>
+        <p class="letra-chica capas-ayuda">Cada una se baja la primera vez que la prendés y después queda en el teléfono.</p>
+        <div class="capas-lista" id="capas-base"></div>
+      </fieldset>
+    </div>
   </div>
 
   <div class="mapa-marco">
@@ -152,6 +172,7 @@
 <script src="../iconos.js"></script>
 <script src="../app.js"></script>
 <script src="capas.js"></script>
+<script src="capas-base.js"></script>
 <script src="riesgo.js"></script>
 </body>
 </html>

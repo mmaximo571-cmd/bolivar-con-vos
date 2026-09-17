@@ -1,16 +1,16 @@
 # Graph Report - graphify-web-dba33b  (2026-09-17)
 
 ## Corpus Check
-- 45 files · ~146,713 words
+- 47 files · ~150,081 words
 - Verdict: corpus is large enough that graph structure adds value.
 
 ## Summary
-- 490 nodes · 721 edges · 58 communities (32 shown, 17 thin omitted)
+- 515 nodes · 756 edges · 60 communities (34 shown, 17 thin omitted)
 - Extraction: 93% EXTRACTED · 7% INFERRED · 0% AMBIGUOUS · INFERRED: 53 edges (avg confidence: 0.84)
 - Token cost: 0 input · 0 output
 
 ## Graph Freshness
-- Built from commit: `27534065`
+- Built from commit: `b9bdc729`
 - Run `git rev-parse HEAD` and compare to check if the graph is stale.
 - Run `graphify update .` after code changes (no API cost).
 
@@ -64,6 +64,8 @@
 - capas.js
 - vistaProgramas (programas de materias)
 - tabla-riesgo.sql
+- capas-base.js
+- Las capas de base del mapa de riesgo
 
 ## God Nodes (most connected - your core abstractions)
 1. `Pantalla Mi año (carrera)` - 19 edges
@@ -103,7 +105,7 @@
 - **Pantallas que muestran publicaciones de la agenda** — tabla_publicaciones, index_proximodelaagenda, index_calendario_mes, agenda_index_traer, agenda_index_detalle_publicacion, carrera_index_vistanueva [INFERRED 0.85]
 - **El Panel edita el contenido que leen las pantallas públicas** — panel_index, tramites_index, quienes_index, consejo_index, anatomo_index, catedras_index, estudiemos_index [INFERRED 0.95]
 
-## Communities (58 total, 17 thin omitted)
+## Communities (60 total, 17 thin omitted)
 
 ### Community 0 - "La Fonoteca: simulador de práctica audiológica"
 Cohesion: 0.06
@@ -186,8 +188,8 @@ Cohesion: 0.40
 Nodes (4): public.freno_sucesos, freno_sucesos, public.freno_sucesos(), public.sucesos
 
 ### Community 21 - "riesgo.js"
-Cohesion: 0.09
-Nodes (33): abrir(), aFila(), armarMapa(), base(), bloquearDetras(), cargarLeaflet(), conPlazo(), dentroDeLaZona() (+25 more)
+Cohesion: 0.07
+Nodes (44): abrir(), aFila(), armarCapaBase(), armarMapa(), base(), bloquearDetras(), cambiarEstadoBase(), cargarBase() (+36 more)
 
 ### Community 22 - "tabla-organizador.sql"
 Cohesion: 0.50
@@ -233,22 +235,30 @@ Nodes (3): capaRiesgo(), CAPAS_RIESGO, nombreCategoriaRiesgo()
 Cohesion: 0.33
 Nodes (6): PLANES (PLAN_TS, PLAN_TGCR, PLAN_FONO), leerPrograma (lib/leer-programa.js), textoDelPdf, vistaProgramas (programas de materias), vistaProgramasPDF (carga masiva desde PDF), Tabla/bucket Supabase programas
 
+### Community 58 - "capas-base.js"
+Cohesion: 0.22
+Nodes (5): CAMPOS_DESCRIPCION, CAMPOS_NOMBRE, CAPAS_BASE, sinTildes(), tipoDePunto()
+
+### Community 59 - "Las capas de base del mapa de riesgo"
+Cohesion: 0.50
+Nodes (3): Las capas de base del mapa de riesgo, Los cinco archivos, Tres reglas antes de dejar un archivo acá
+
 ## Knowledge Gaps
-- **87 isolated node(s):** `__hitosDeEstaVisita`, `MESES`, `MESES_LARGO`, `NOMBRE_SECCION`, `NOMBRE_LINEA` (+82 more)
-  These have ≤1 connection - possible missing edges or undocumented components. (Counts symbols only; 152 node(s) total have ≤1 connection when file, concept and rationale nodes are included.)
+- **92 isolated node(s):** `__hitosDeEstaVisita`, `MESES`, `MESES_LARGO`, `NOMBRE_SECCION`, `NOMBRE_LINEA` (+87 more)
+  These have ≤1 connection - possible missing edges or undocumented components. (Counts symbols only; 162 node(s) total have ≤1 connection when file, concept and rationale nodes are included.)
 - **17 thin communities (<3 nodes) omitted from report** — run `graphify query` to explore isolated nodes.
 
 ## Suggested Questions
 _Questions this graph is uniquely positioned to answer:_
 
 - **Why does `Pantalla Inicio` connect `Pantalla Mi año (carrera)` to `Mi perfil (mi/index.html)`, `manifest.json`, `app.js`, `Detalle de publicación (?id=)`?**
-  _High betweenness centrality (0.082) - this node is a cross-community bridge._
+  _High betweenness centrality (0.074) - this node is a cross-community bridge._
 - **Why does `Pantalla Mi año (carrera)` connect `Pantalla Mi año (carrera)` to `Pantalla Cátedras`, `Pantalla Info útil (trámites y FAQ)`, `app.js`, `Detalle de publicación (?id=)`, `Mi perfil (mi/index.html)`?**
-  _High betweenness centrality (0.073) - this node is a cross-community bridge._
+  _High betweenness centrality (0.066) - this node is a cross-community bridge._
 - **Why does `Trayecto Optativo (trayecto/index.html)` connect `Mi perfil (mi/index.html)` to `Pantalla Info útil (trámites y FAQ)`?**
-  _High betweenness centrality (0.072) - this node is a cross-community bridge._
+  _High betweenness centrality (0.065) - this node is a cross-community bridge._
 - **What connects `__hitosDeEstaVisita`, `MESES`, `MESES_LARGO` to the rest of the system?**
-  _87 weakly-connected nodes found - possible documentation gaps or missing edges._
+  _92 weakly-connected nodes found - possible documentation gaps or missing edges._
 - **Should `La Fonoteca: simulador de práctica audiológica` be split into smaller, more focused modules?**
   _Cohesion score 0.06417112299465241 - nodes in this community are weakly interconnected._
 - **Should `Pantalla Mi año (carrera)` be split into smaller, more focused modules?**

@@ -32,28 +32,97 @@
 .mapa-estado.error::before{ background:var(--rojo) }
 .mapa-estado[hidden]{ display:none }
 
-/* ---------- los tres interruptores ---------- */
-.capas-fila{
-  display:flex; gap:8px; overflow-x:auto; padding:12px 0; margin:0 -4px;
-  scrollbar-width:none
-}
-.capas-fila::-webkit-scrollbar{ display:none }
-.capa-chip{
-  display:inline-flex; align-items:center; gap:8px;
-  min-height:44px; padding:6px 14px 6px 6px
-}
-/* Encendida NO va en amarillo como el resto de los chips de la app: con
-   tres capas prendidas serían tres manchas amarillas, y el amarillo de
-   esta pantalla es el botón de reportar. Prendida = borde y sombra de
-   tinta; apagada = pálida y con el glifo en gris. */
-.capa-chip[aria-pressed="true"]{
+/* ---------- el panel de capas ---------- */
+.capas-barra{ padding-top:12px; padding-bottom:12px }
+.capas-abrir{
+  width:100%; min-height:52px; display:flex; align-items:center; gap:10px;
+  padding:0 16px; cursor:pointer;
   background:var(--superficie); color:var(--texto);
-  border:1.5px solid var(--texto); box-shadow:2px 2px 0 var(--texto)
+  border:1.5px solid var(--texto); border-radius:var(--radio);
+  box-shadow:2px 2px 0 var(--texto);
+  font-family:var(--fuente-sub); font-weight:800; font-size:16px; text-align:left;
+  transition:transform .1s ease-out
 }
-.capa-chip[aria-pressed="false"]{ color:var(--texto-suave); border-style:dashed }
-.capa-chip[aria-pressed="false"] .pin-chico{ filter:grayscale(1); opacity:.45 }
-.capa-cuenta{ font-family:var(--fuente-mono, monospace); font-weight:500; opacity:.75 }
-.capa-cuenta:empty{ display:none }
+.capas-abrir:active{ transform:scale(.98) }
+.capas-abrir-texto{ text-transform:uppercase; letter-spacing:.05em }
+.capas-prendidas{ flex:1; font-weight:600; font-size:var(--letra-chica); color:var(--texto-suave) }
+.capas-flecha{
+  width:10px; height:10px; margin-right:4px;
+  border-right:2.5px solid currentColor; border-bottom:2.5px solid currentColor;
+  transform:translateY(-3px) rotate(45deg); transition:transform .2s ease
+}
+.capas-abrir[aria-expanded="true"] .capas-flecha{ transform:translateY(2px) rotate(-135deg) }
+/* Abierto, el botón y el panel son una sola pieza. */
+.capas-abrir[aria-expanded="true"]{ border-radius:var(--radio) var(--radio) 0 0; box-shadow:none }
+
+.capas-panel{
+  background:var(--superficie);
+  border:1.5px solid var(--texto); border-top:none;
+  border-radius:0 0 var(--radio) var(--radio);
+  box-shadow:2px 2px 0 var(--texto);
+  padding:4px 12px 12px
+}
+.capas-panel[hidden]{ display:none }
+.capas-grupo{ border:none; margin:0; padding:8px 0 0; min-width:0 }
+.capas-grupo legend{
+  padding:6px 4px; font-family:var(--fuente-sub); font-size:var(--letra-chica);
+  text-transform:uppercase; letter-spacing:.07em; color:var(--texto-suave)
+}
+.capas-ayuda{ margin:0 4px 6px; color:var(--texto-suave) }
+.capas-lista{ display:grid; gap:2px }
+
+.capa-renglon{
+  position:relative; display:flex; align-items:center; gap:12px;
+  min-height:56px; padding:8px 4px; cursor:pointer;
+  border-top:1px solid var(--linea)
+}
+.capas-lista .capa-renglon:first-child{ border-top:none }
+.capa-renglon input{ position:absolute; opacity:0; width:1px; height:1px; margin:0 }
+.capa-texto{ flex:1; min-width:0; display:flex; flex-direction:column; gap:1px }
+.capa-nombre{ font-family:var(--fuente-sub); font-weight:700; font-size:15px; line-height:1.2 }
+.capa-estado{ font-size:var(--letra-chica); color:var(--texto-suave); line-height:1.3 }
+.capa-estado.con-problema{ color:var(--rojo); font-weight:500 }
+
+/* El interruptor. Prendido va en celeste hondo y no en amarillo: el
+   amarillo de esta pantalla es el botón de reportar, y en esta app el
+   celeste es el color de lo que se toca. */
+.interruptor{
+  position:relative; flex:none; width:46px; height:28px;
+  border-radius:var(--radio-pastilla);
+  background:var(--superficie-2); border:1.5px solid var(--texto-suave);
+  transition:background-color .2s ease, border-color .2s ease
+}
+.interruptor::after{
+  content:""; position:absolute; top:3px; left:3px; width:19px; height:19px;
+  border-radius:50%; background:var(--texto-suave);
+  transition:transform .22s cubic-bezier(.32,.72,0,1), background-color .2s ease
+}
+.capa-renglon input:checked ~ .interruptor{ background:var(--celeste-hondo); border-color:var(--celeste-hondo) }
+.capa-renglon input:checked ~ .interruptor::after{ transform:translateX(18px); background:#fff }
+.capa-renglon input:focus-visible ~ .interruptor{ outline:3px solid var(--celeste); outline-offset:2px }
+.capa-renglon input:disabled ~ *{ opacity:.45 }
+.capa-renglon:has(input:disabled){ cursor:default }
+
+/* La muestra de cada capa de base, que hace de leyenda. */
+.muestra{
+  position:relative; flex:none; width:30px; height:30px;
+  display:grid; place-items:center
+}
+.muestra-relleno{
+  position:absolute; inset:4px; border:1.5px solid; border-radius:4px
+}
+.muestra-linea{
+  position:absolute; left:0; right:0; top:13px; height:0;
+  border-top:5px solid currentColor; border-radius:3px; transform:rotate(-30deg)
+}
+.muestra-linea.punteada{ border-top-style:dashed }
+.muestra-puntos{ display:flex; flex-wrap:wrap; gap:3px; align-content:center; justify-content:center }
+.muestra-puntos i{ width:10px; height:10px; border-radius:50%; border:1.5px solid var(--negro) }
+
+@media (min-width:640px){
+  .capas-panel{ display:grid; grid-template-columns:1fr 1fr; column-gap:20px }
+  .capas-panel[hidden]{ display:none }
+}
 
 /* ---------- el mapa ---------- */
 .mapa-marco{ position:relative }
@@ -266,6 +335,7 @@
   .hoja{ transition:none !important }
   .hoja-fondo{ transition:none }
   .opcion-capa,.opcion-categoria{ transition:none }
+  .capas-abrir,.capas-flecha,.interruptor,.interruptor::after{ transition:none }
 }
 @media (min-width:760px){
   .mapa-lienzo{ margin:0 auto; max-width:1100px; border:1.5px solid var(--texto); border-radius:var(--radio) }

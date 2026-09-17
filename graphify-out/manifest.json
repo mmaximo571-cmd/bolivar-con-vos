@@ -96,9 +96,9 @@
     "semantic_hash": ""
   },
   "sw.js": {
-    "mtime": 1789662082.9244106,
-    "seen": 1789662107.4795825,
-    "ast_hash": "35add6711b32cbdcbb9ef4d61c746649",
+    "mtime": 1789664332.0060406,
+    "seen": 1789664546.7702556,
+    "ast_hash": "85acb9f016147309904c2154163c7096",
     "semantic_hash": ""
   },
   "tabla-alarma.sql": {
@@ -186,9 +186,9 @@
     "semantic_hash": "13c70cb9b680cf53ce1df6881965457c"
   },
   "BITACORA.md": {
-    "mtime": 1789662082.7775702,
-    "seen": 1789662107.4796772,
-    "ast_hash": "3aa8731a916c21ab78c7562d468f3507",
+    "mtime": 1789662354.1642275,
+    "seen": 1789664546.7702916,
+    "ast_hash": "d29fa1dc169b6aef0a8a0c676b95469d",
     "semantic_hash": ""
   },
   "LEEME.md": {
@@ -282,9 +282,9 @@
     "semantic_hash": "b180211846c229dc5e79a35dd36f7805"
   },
   "index.html": {
-    "mtime": 1789660830.0600636,
-    "seen": 1789662107.4797957,
-    "ast_hash": "f6bd4d55c3783c0c59a5c02cae896312",
+    "mtime": 1789662177.3996515,
+    "seen": 1789664546.7703335,
+    "ast_hash": "e4bfd3232f3fee5355b68a0c8b44a9fd",
     "semantic_hash": ""
   },
   "mi/index.html": {
@@ -366,9 +366,9 @@
     "semantic_hash": ""
   },
   "mapa/riesgo.js": {
-    "mtime": 1789662082.9186008,
-    "seen": 1789662107.47957,
-    "ast_hash": "e754895f7027f295b428e518a4481f5d",
+    "mtime": 1789664413.3707218,
+    "seen": 1789664546.770251,
+    "ast_hash": "f68f0c867a0dcf3be9e7283bb313ee27",
     "semantic_hash": ""
   },
   "tabla-riesgo.sql": {
@@ -378,9 +378,21 @@
     "semantic_hash": ""
   },
   "mapa/index.html": {
-    "mtime": 1789662082.915029,
-    "seen": 1789662107.4798017,
-    "ast_hash": "e5a5247331cdeb953988c0acc40980c2",
+    "mtime": 1789664188.370947,
+    "seen": 1789664546.7703378,
+    "ast_hash": "fdc2be58b81c2813e3c6751e435f40df",
+    "semantic_hash": ""
+  },
+  "mapa/capas-base.js": {
+    "mtime": 1789664178.9907236,
+    "seen": 1789664546.7702453,
+    "ast_hash": "08fde2b388095c8339ddb3e6ddd58775",
+    "semantic_hash": ""
+  },
+  "mapa/datos/LEEME.md": {
+    "mtime": 1789664308.4642966,
+    "seen": 1789664546.7703357,
+    "ast_hash": "636d02b4a64d824b372ffb60d2290d8d",
     "semantic_hash": ""
   }
 }

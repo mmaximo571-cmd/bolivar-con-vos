@@ -74,7 +74,11 @@
     copiaDel: null,           // si se muestra una copia vieja, de cuándo es
     cola: [],                 // lo guardado en el teléfono, sin enviar
     envio: 'quieto',          // quieto | enviando | sin-señal | falta-sesion | limite | con-errores
-    capas: { hidrico:true, industrial:true, redes:true },
+    capas: capasGuardadas('capas', { hidrico:true, industrial:true, redes:true }),
+    /* Las de base arrancan apagadas: cada una es un archivo que se baja,
+       y en un plan de datos del barrio eso se decide, no se impone. */
+    base: capasGuardadas('base', { hidrico:false, industrial:false, habitat:false, contencion:false, movilidad:false }),
+    baseEstado: {},           // por capa: cargando | lista | falta | red | formato | proyeccion
     borrador: leerBorrador() || borradorVacio(),
     marcando: false,          // la próxima vez que se toque el mapa, pone la ubicación
     mapaListo: false
@@ -157,6 +161,27 @@
       }
     };
   })();
+
+  /* Qué capas dejó prendidas la persona. Es comodidad y nada más: si no
+     se puede leer, arranca con lo de siempre. Se completa con lo que
+     falte, por si mañana se suma una capa que la copia vieja no tiene. */
+  function capasGuardadas(cual, porDefecto){
+    try {
+      const g = JSON.parse(localStorage.getItem('bolivar-riesgo-' + cual));
+      if (g && typeof g === 'object'){
+        const r = Object.assign({}, porDefecto);
+        Object.keys(r).forEach(k => { if (typeof g[k] === 'boolean') r[k] = g[k]; });
+        return r;
+      }
+    } catch(e){}
+    return porDefecto;
+  }
+  almacen.suscribir((s, antes) => {
+    try {
+      if (s.capas !== antes.capas) localStorage.setItem('bolivar-riesgo-capas', JSON.stringify(s.capas));
+      if (s.base  !== antes.base)  localStorage.setItem('bolivar-riesgo-base',  JSON.stringify(s.base));
+    } catch(e){}
+  });
 
   function leerBorrador(){
     try { return JSON.parse(localStorage.getItem('bolivar-riesgo-borrador')); } catch(e){ return null; }
@@ -416,6 +441,7 @@
       aviso.hidden = false;
       $('lienzo').classList.add('vacio-mapa');
       $('marcar-mapa').disabled = true;
+      pintarBase(almacen.get());
       return;
     }
 
@@ -442,6 +468,19 @@
 
     CAPAS_RIESGO.forEach(c => { grupos[c.id] = L.layerGroup(); });
 
+    /* Un solo plano para las capas de base, DEBAJO de los pines de los
+       reportes (que van en el de marcadores, 600): un reporte nunca queda
+       tapado. Se dibuja en canvas y no en SVG: RENABAP son cientos de
+       polígonos y en un teléfono de gama baja el SVG se arrastra. La
+       tolerancia agranda el área que responde al dedo en líneas finas.
+
+       UNO y no tres (rellenos, líneas, puntos) aunque tres ordenaban
+       solos: cada canvas cubre el mapa entero y se queda con el toque, así
+       que el de arriba no dejaba tocar nada de los de abajo. Probado: el
+       polígono no abría su ficha. El orden se pone a mano en ordenarBase. */
+    mapa.createPane('base').style.zIndex = 410;
+    lienzoBase = L.canvas({ pane:'base', tolerance:10 });
+
     mapa.on('click', e => {
       if (!almacen.get().marcando) return;
       ponerUbicacion(e.latlng.lat, e.latlng.lng, null, 'mapa');
@@ -449,39 +488,262 @@
 
     almacen.set({ mapaListo: true });
     pintarCapas(almacen.get());
+    pintarBase(almacen.get());
     pintarPines(almacen.get());
     pintarMarcaBorrador(almacen.get());
   }
 
-  /* Los interruptores de capa: afuera del mapa, grandes, y no el
-     control de Leaflet, que es un ícono de 26 px escondido en una
-     esquina y que en un teléfono no se encuentra. */
-  function dibujarInterruptores(){
-    $('capas-fila').innerHTML = CAPAS_RIESGO.map(c => `
-      <button type="button" class="chip capa-chip capa-${c.id}" data-capa="${c.id}" aria-pressed="true">
-        <span class="pin-chico pin-${c.id}" aria-hidden="true">${c.glifo}</span>${esc(c.corto)}
-        <span class="capa-cuenta" data-cuenta="${c.id}"></span>
-      </button>`).join('');
-    $('capas-fila').addEventListener('click', ev => {
-      const b = ev.target.closest('[data-capa]');
-      if (!b) return;
-      almacen.set(s => ({ capas: Object.assign({}, s.capas, { [b.dataset.capa]: !s.capas[b.dataset.capa] }) }));
+  /* ============================================================
+     EL PANEL DE CAPAS
+
+     Afuera del mapa, con interruptores de verdad (casillas con
+     role="switch": se manejan con el teclado y un lector de pantalla
+     dice «prendido/apagado»), y no el control de Leaflet, que es un
+     ícono de 26 px escondido en una esquina que en un teléfono no se
+     encuentra. Cada renglón lleva su muestra de color: el panel es
+     también la leyenda.
+     ============================================================ */
+  function renglonCapa(atributo, id, muestra, nombre){
+    return `
+      <label class="capa-renglon">
+        <input type="checkbox" role="switch" ${atributo}="${id}">
+        ${muestra}
+        <span class="capa-texto">
+          <span class="capa-nombre">${esc(nombre)}</span>
+          <span class="capa-estado" data-estado-${atributo.slice(5)}="${id}"></span>
+        </span>
+        <span class="interruptor" aria-hidden="true"></span>
+      </label>`;
+  }
+
+  function dibujarPanelCapas(){
+    $('capas-reportes').innerHTML = CAPAS_RIESGO.map(c => renglonCapa('data-reporte', c.id,
+      `<span class="pin-chico pin-${c.id}" aria-hidden="true">${c.glifo}</span>`, c.nombre)).join('');
+    $('capas-base').innerHTML = CAPAS_BASE.map(c => renglonCapa('data-base', c.id,
+      muestraDeCapaBase(c), c.nombre)).join('');
+
+    $('capas-abrir').addEventListener('click', function(){
+      const abrir = this.getAttribute('aria-expanded') !== 'true';
+      this.setAttribute('aria-expanded', abrir ? 'true' : 'false');
+      $('capas-panel').hidden = !abrir;
     });
+
+    $('capas-panel').addEventListener('change', ev => {
+      const i = ev.target;
+      if (i.dataset.reporte){
+        almacen.set(s => ({ capas: Object.assign({}, s.capas, { [i.dataset.reporte]: i.checked }) }));
+      } else if (i.dataset.base){
+        const id = i.dataset.base;
+        almacen.set(s => {
+          /* Prender de nuevo una capa que falló es la forma de pedir
+             otro intento: se olvida el error y se vuelve a bajar. */
+          const estados = Object.assign({}, s.baseEstado);
+          if (i.checked && estados[id] && estados[id].estado !== 'lista') delete estados[id];
+          return { base: Object.assign({}, s.base, { [id]: i.checked }), baseEstado: estados };
+        });
+      }
+    });
+  }
+
+  function pintarResumenCapas(s){
+    const prendidas = Object.values(s.capas).filter(Boolean).length +
+                      Object.values(s.base).filter(Boolean).length;
+    $('capas-prendidas').textContent = prendidas === 1 ? '1 prendida' : prendidas + ' prendidas';
   }
 
   function pintarCapas(s){
     CAPAS_RIESGO.forEach(c => {
-      const b = document.querySelector(`[data-capa="${c.id}"]`);
-      if (b) b.setAttribute('aria-pressed', s.capas[c.id] ? 'true' : 'false');
+      const i = document.querySelector(`[data-reporte="${c.id}"]`);
+      if (i) i.checked = !!s.capas[c.id];
       const cuantos = s.reportes.filter(r => r.capa === c.id).length +
                       s.cola.filter(r => r.capa === c.id).length;
-      const n = document.querySelector(`[data-cuenta="${c.id}"]`);
-      if (n) n.textContent = cuantos ? String(cuantos) : '';
+      const n = document.querySelector(`[data-estado-reporte="${c.id}"]`);
+      if (n) n.textContent = cuantos === 0 ? 'Todavía sin reportes'
+                           : cuantos === 1 ? '1 reporte' : cuantos + ' reportes';
       if (!mapa) return;
       if (s.capas[c.id]) grupos[c.id].addTo(mapa);
       else mapa.removeLayer(grupos[c.id]);
     });
+    pintarResumenCapas(s);
   }
+
+
+  /* ============================================================
+     4b. LAS CAPAS DE BASE  ·  los GeoJSON de `mapa/datos/`
+
+     Nada de esto frena la pantalla: el mapa se dibuja primero, y cada
+     archivo se pide recién cuando su capa está prendida. Un archivo que
+     no llega deja su renglón diciendo por qué, y el resto sigue.
+
+     Una vez bajado, el archivo queda guardado por el service worker
+     (la regla general del armazón: lo guardado primero, la red por
+     detrás), así que en el barrio sin señal la capa se prende igual.
+     ============================================================ */
+  let lienzoBase = null;
+  const capasDeBase = {};          // id -> { grupo, rellenos, lineas, puntos }
+  const pedidosDeBase = new Map(); // id -> promesa, para no pedir dos veces lo mismo
+
+  function traerGeoJSON(capa){
+    if (!pedidosDeBase.has(capa.id)){
+      const pedido = (async () => {
+        const corte = new AbortController();
+        const plazo = setTimeout(() => corte.abort(), 45000);
+        let r;
+        try { r = await fetch('datos/' + capa.archivo, { signal: corte.signal }); }
+        catch(e){ throw { tipo:'red' }; }
+        finally { clearTimeout(plazo); }
+        if (r.status === 404) throw { tipo:'falta' };
+        if (!r.ok) throw { tipo:'red' };
+        let datos;
+        try { datos = await r.json(); } catch(e){ throw { tipo:'formato' }; }
+        if (!datos || !Array.isArray(datos.features)) throw { tipo:'formato' };
+        if (estaProyectado(datos)) throw { tipo:'proyeccion' };
+        return datos;
+      })();
+      /* Si falla, se olvida el pedido: el próximo intento sale de nuevo. */
+      pedido.catch(() => pedidosDeBase.delete(capa.id));
+      pedidosDeBase.set(capa.id, pedido);
+    }
+    return pedidosDeBase.get(capa.id);
+  }
+
+  /* Los organismos de acá publican mucho en POSGAR (metros, números de
+     seis y siete cifras). Leaflet lo dibujaría en medio del océano sin
+     decir nada: se mira la primera coordenada y se avisa. */
+  function estaProyectado(datos){
+    const f = datos.features.find(x => x && x.geometry && x.geometry.coordinates);
+    if (!f) return false;
+    let c = f.geometry.coordinates;
+    while (Array.isArray(c) && Array.isArray(c[0])) c = c[0];
+    return Array.isArray(c) && (Math.abs(c[0]) > 180 || Math.abs(c[1]) > 90);
+  }
+
+  function cambiarEstadoBase(id, estado){
+    almacen.set(s => ({ baseEstado: Object.assign({}, s.baseEstado, { [id]: estado }) }));
+  }
+
+  function cargarBase(capa){
+    cambiarEstadoBase(capa.id, { estado:'cargando' });
+    traerGeoJSON(capa).then(datos => {
+      capasDeBase[capa.id] = armarCapaBase(capa, datos);
+      cambiarEstadoBase(capa.id, { estado:'lista', n: datos.features.length });
+    }, e => {
+      cambiarEstadoBase(capa.id, { estado: (e && e.tipo) || 'red' });
+    });
+  }
+
+  /* Un archivo puede traer polígonos, líneas y puntos juntos (el de
+     riesgo hídrico trae arroyos y zonas inundables). Se separan por
+     geometría para poder ordenarlos después. */
+  function armarCapaBase(capa, datos){
+    const de = tipos => ({ type:'FeatureCollection',
+      features: datos.features.filter(f => f && f.geometry && tipos.indexOf(f.geometry.type) !== -1) });
+    const comun = {
+      style: capa.estilo, renderer: lienzoBase, pane:'base',
+      onEachFeature: (f, capaLeaflet) => fichaDeBase(capa, f, capaLeaflet)
+    };
+    const rellenos = L.geoJSON(de(['Polygon', 'MultiPolygon']), comun);
+    const lineas   = L.geoJSON(de(['LineString', 'MultiLineString']), comun);
+    const puntos   = L.geoJSON(de(['Point', 'MultiPoint']), Object.assign({}, comun, {
+      pointToLayer: (f, latlng) => {
+        const tipo = tipoDePunto(capa, f.properties);
+        return L.circleMarker(latlng, Object.assign({}, capa.estilo(f), {
+          fillColor: tipo ? tipo.color : '#8A8A8A', renderer: lienzoBase, pane:'base'
+        }));
+      }
+    }));
+    return { grupo: L.featureGroup([rellenos, lineas, puntos]), rellenos, lineas, puntos };
+  }
+
+  /* En un canvas se dibuja en el orden en que se agregó. Una capa que se
+     prende después quedaría entera arriba: el relleno de RENABAP tapando
+     un arroyo. Así que después de cada cambio se reordena lo prendido:
+     rellenos al fondo, puntos adelante, líneas en el medio. */
+  function ordenarBase(s){
+    const prendidas = CAPAS_BASE.filter(c => s.base[c.id] && capasDeBase[c.id]).map(c => capasDeBase[c.id]);
+    prendidas.forEach(c => c.lineas.bringToFront());
+    prendidas.forEach(c => c.puntos.bringToFront());
+    prendidas.forEach(c => c.rellenos.bringToBack());
+  }
+
+  /* La ficha al tocar. Con `on('click')` y no `bindPopup`: mientras se
+     está marcando un reporte, tocar un barrio tiene que poner el punto,
+     no abrir la ficha del barrio encima. */
+  function fichaDeBase(capa, f, capaLeaflet){
+    capaLeaflet.on('click', e => {
+      if (almacen.get().marcando) return;
+      const p = f.properties || {};
+      const tipo = tipoDePunto(capa, p);
+      const tipoCrudo = p.tipo || p.Tipo || p.TIPO || '';
+      const nombre = primerCampo(p, CAMPOS_NOMBRE);
+      const descripcion = primerCampo(p, CAMPOS_DESCRIPCION);
+      L.popup({ maxWidth: 260 })
+        .setLatLng(e.latlng)
+        .setContent(`
+          <div class="pin-ficha">
+            <p class="pin-ficha-capa">${esc(capa.nombre)}${
+              tipo ? ' · ' + esc(tipo.nombre) : tipoCrudo ? ' · ' + esc(tipoCrudo) : ''}</p>
+            <p class="pin-ficha-titulo">${esc(nombre || capa.detalle)}</p>
+            ${descripcion ? `<p>${esc(descripcion)}</p>` : ''}
+            ${capa.fuente ? `<p class="letra-chica">Fuente: ${esc(capa.fuente)}</p>` : ''}
+          </div>`)
+        .openOn(mapa);
+    });
+  }
+
+  const TEXTO_ESTADO_BASE = {
+    cargando:   'Bajando…',
+    falta:      'Todavía no está cargada en la app',
+    red:        'No se pudo bajar. Apagala y prendela para probar de nuevo',
+    formato:    'El archivo no es un GeoJSON válido',
+    proyeccion: 'El archivo no está en latitud y longitud (WGS84)'
+  };
+
+  function pintarBase(s){
+    const sinLeaflet = $('lienzo').classList.contains('vacio-mapa');
+    CAPAS_BASE.forEach(c => {
+      const prendida = !!s.base[c.id];
+      const est = s.baseEstado[c.id];
+
+      const i = document.querySelector(`[data-base="${c.id}"]`);
+      if (i){
+        i.checked = prendida;
+        /* Sin Leaflet no hay dónde dibujarla: se dice, en vez de dejar
+           un interruptor que se prende y no hace nada. */
+        i.disabled = sinLeaflet;
+      }
+      const texto = document.querySelector(`[data-estado-base="${c.id}"]`);
+      if (texto){
+        texto.textContent = sinLeaflet ? 'Necesita el mapa, que todavía no bajó'
+          : !prendida || !est ? c.detalle
+          : est.estado === 'lista' ? `${c.detalle} · ${est.n === 1 ? '1 elemento' : est.n + ' elementos'}`
+          : TEXTO_ESTADO_BASE[est.estado] || c.detalle;
+        texto.classList.toggle('con-problema', prendida && !!est && est.estado !== 'lista' && est.estado !== 'cargando');
+      }
+
+      if (!mapa) return;
+      /* Solo se pide si está prendida y no hay nada en curso ni un error
+         anotado. Un error NO se reintenta solo: sin señal eso sería un
+         pedido por cada repintada. Se reintenta al volver a prenderla o
+         al volver la señal. */
+      if (prendida && !capasDeBase[c.id] && !est) cargarBase(c);
+      const capa = capasDeBase[c.id];
+      if (capa){
+        if (prendida) capa.grupo.addTo(mapa);
+        else mapa.removeLayer(capa.grupo);
+      }
+    });
+    if (mapa) ordenarBase(s);
+    pintarResumenCapas(s);
+  }
+
+  window.addEventListener('online', () => {
+    almacen.set(s => {
+      const estados = Object.assign({}, s.baseEstado);
+      Object.keys(estados).forEach(k => { if (estados[k].estado === 'red') delete estados[k]; });
+      return { baseEstado: estados };
+    });
+  });
 
   function pintarPines(s){
     if (!mapa) return;
@@ -534,6 +796,7 @@
 
   almacen.suscribir((s, antes) => {
     if (s.capas !== antes.capas || s.reportes !== antes.reportes || s.cola !== antes.cola) pintarCapas(s);
+    if (s.base !== antes.base || s.baseEstado !== antes.baseEstado) pintarBase(s);
     if (s.reportes !== antes.reportes || s.cola !== antes.cola) pintarPines(s);
     if (s.cola !== antes.cola || s.envio !== antes.envio || s.copiaDel !== antes.copiaDel){
       pintarEstado(s); pintarGuardados(s);
@@ -886,7 +1149,9 @@
   /* ============================================================
      ARRANQUE
      ============================================================ */
-  dibujarInterruptores();
+  dibujarPanelCapas();
+  pintarCapas(almacen.get());
+  pintarBase(almacen.get());
   dibujarElecciones();
   pintarFormulario(almacen.get());
   pintarEstado(almacen.get());

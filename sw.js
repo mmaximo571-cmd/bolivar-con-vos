@@ -216,7 +216,11 @@
    riesgo. El índice del pie lo dibuja `app.js`, que es armazón, y la
    regla que guarda Leaflet vive acá: sin subir el número, ni se llega a
    la pantalla desde el pie ni el mapa anda sin señal. */
-const VERSION = 'bolivar-v45';
+/* v46 (17/9/2026) `mapa/riesgo.js`: las capas pasan de una fila de chips a un
+   panel con las cinco capas de base. `mapa/index.html` va por red primero y
+   ya no tiene la fila; con el `riesgo.js` guardado, que la busca, la
+   pantalla se cortaba entera. */
+const VERSION = 'bolivar-v46';
 const ARMAZON = VERSION + '-armazon';
 const PAGINAS = VERSION + '-paginas';
 

@@ -1166,7 +1166,7 @@
       "file_type": "code",
       "norm_label": "abrir()",
       "source_file": "mapa/riesgo.js",
-      "source_location": "L623"
+      "source_location": "L886"
     },
     {
       "id": "mapa_riesgo_afila",
@@ -1178,7 +1178,19 @@
       "file_type": "code",
       "norm_label": "afila()",
       "source_file": "mapa/riesgo.js",
-      "source_location": "L270"
+      "source_location": "L295"
+    },
+    {
+      "id": "mapa_riesgo_armarcapabase",
+      "label": "armarCapaBase()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 21,
+      "community_name": "riesgo.js",
+      "file_type": "code",
+      "norm_label": "armarcapabase()",
+      "source_file": "mapa/riesgo.js",
+      "source_location": "L638"
     },
     {
       "id": "mapa_riesgo_armarmapa",
@@ -1190,7 +1202,7 @@
       "file_type": "code",
       "norm_label": "armarmapa()",
       "source_file": "mapa/riesgo.js",
-      "source_location": "L411"
+      "source_location": "L436"
     },
     {
       "id": "mapa_riesgo_base",
@@ -1202,7 +1214,7 @@
       "file_type": "code",
       "norm_label": "base()",
       "source_file": "mapa/riesgo.js",
-      "source_location": "L96"
+      "source_location": "L100"
     },
     {
       "id": "mapa_riesgo_bloqueardetras",
@@ -1214,7 +1226,7 @@
       "file_type": "code",
       "norm_label": "bloqueardetras()",
       "source_file": "mapa/riesgo.js",
-      "source_location": "L616"
+      "source_location": "L879"
     },
     {
       "id": "mapa_riesgo_borradorvacio",
@@ -1229,6 +1241,42 @@
       "source_location": "L61"
     },
     {
+      "id": "mapa_riesgo_cambiarestadobase",
+      "label": "cambiarEstadoBase()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 21,
+      "community_name": "riesgo.js",
+      "file_type": "code",
+      "norm_label": "cambiarestadobase()",
+      "source_file": "mapa/riesgo.js",
+      "source_location": "L621"
+    },
+    {
+      "id": "mapa_riesgo_capasguardadas",
+      "label": "capasGuardadas()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 21,
+      "community_name": "riesgo.js",
+      "file_type": "code",
+      "norm_label": "capasguardadas()",
+      "source_file": "mapa/riesgo.js",
+      "source_location": "L168"
+    },
+    {
+      "id": "mapa_riesgo_cargarbase",
+      "label": "cargarBase()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 21,
+      "community_name": "riesgo.js",
+      "file_type": "code",
+      "norm_label": "cargarbase()",
+      "source_file": "mapa/riesgo.js",
+      "source_location": "L625"
+    },
+    {
       "id": "mapa_riesgo_cargarleaflet",
       "label": "cargarLeaflet()",
       "_callable": true,
@@ -1238,7 +1286,7 @@
       "file_type": "code",
       "norm_label": "cargarleaflet()",
       "source_file": "mapa/riesgo.js",
-      "source_location": "L389"
+      "source_location": "L414"
     },
     {
       "id": "mapa_riesgo_conplazo",
@@ -1250,7 +1298,7 @@
       "file_type": "code",
       "norm_label": "conplazo()",
       "source_file": "mapa/riesgo.js",
-      "source_location": "L202"
+      "source_location": "L227"
     },
     {
       "id": "mapa_riesgo_crearalmacen",
@@ -1274,7 +1322,7 @@
       "file_type": "code",
       "norm_label": "dentrodelazona()",
       "source_file": "mapa/riesgo.js",
-      "source_location": "L695"
+      "source_location": "L958"
     },
     {
       "id": "mapa_riesgo_dibujarelecciones",
@@ -1286,19 +1334,19 @@
       "file_type": "code",
       "norm_label": "dibujarelecciones()",
       "source_file": "mapa/riesgo.js",
-      "source_location": "L764"
+      "source_location": "L1027"
     },
     {
-      "id": "mapa_riesgo_dibujarinterruptores",
-      "label": "dibujarInterruptores()",
+      "id": "mapa_riesgo_dibujarpanelcapas",
+      "label": "dibujarPanelCapas()",
       "_callable": true,
       "_origin": "ast",
       "community": 21,
       "community_name": "riesgo.js",
       "file_type": "code",
-      "norm_label": "dibujarinterruptores()",
+      "norm_label": "dibujarpanelcapas()",
       "source_file": "mapa/riesgo.js",
-      "source_location": "L459"
+      "source_location": "L519"
     },
     {
       "id": "mapa_riesgo_enviarcola",
@@ -1310,7 +1358,7 @@
       "file_type": "code",
       "norm_label": "enviarcola()",
       "source_file": "mapa/riesgo.js",
-      "source_location": "L212"
+      "source_location": "L237"
     },
     {
       "id": "mapa_riesgo_esdered",
@@ -1322,7 +1370,19 @@
       "file_type": "code",
       "norm_label": "esdered()",
       "source_file": "mapa/riesgo.js",
-      "source_location": "L207"
+      "source_location": "L232"
+    },
+    {
+      "id": "mapa_riesgo_estaproyectado",
+      "label": "estaProyectado()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 21,
+      "community_name": "riesgo.js",
+      "file_type": "code",
+      "norm_label": "estaproyectado()",
+      "source_file": "mapa/riesgo.js",
+      "source_location": "L613"
     },
     {
       "id": "mapa_riesgo_explicarfallo",
@@ -1334,7 +1394,7 @@
       "file_type": "code",
       "norm_label": "explicarfallo()",
       "source_file": "mapa/riesgo.js",
-      "source_location": "L279"
+      "source_location": "L304"
     },
     {
       "id": "mapa_riesgo_fechacorta",
@@ -1346,7 +1406,19 @@
       "file_type": "code",
       "norm_label": "fechacorta()",
       "source_file": "mapa/riesgo.js",
-      "source_location": "L371"
+      "source_location": "L396"
+    },
+    {
+      "id": "mapa_riesgo_fichadebase",
+      "label": "fichaDeBase()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 21,
+      "community_name": "riesgo.js",
+      "file_type": "code",
+      "norm_label": "fichadebase()",
+      "source_file": "mapa/riesgo.js",
+      "source_location": "L672"
     },
     {
       "id": "mapa_riesgo_gomita",
@@ -1358,7 +1430,7 @@
       "file_type": "code",
       "norm_label": "gomita()",
       "source_file": "mapa/riesgo.js",
-      "source_location": "L582"
+      "source_location": "L845"
     },
     {
       "id": "mapa_riesgo_guardarcopia",
@@ -1370,7 +1442,7 @@
       "file_type": "code",
       "norm_label": "guardarcopia()",
       "source_file": "mapa/riesgo.js",
-      "source_location": "L150"
+      "source_location": "L154"
     },
     {
       "id": "mapa_riesgo_iconode",
@@ -1382,7 +1454,7 @@
       "file_type": "code",
       "norm_label": "iconode()",
       "source_file": "mapa/riesgo.js",
-      "source_location": "L403"
+      "source_location": "L428"
     },
     {
       "id": "mapa_riesgo_ir",
@@ -1394,7 +1466,7 @@
       "file_type": "code",
       "norm_label": "ir()",
       "source_file": "mapa/riesgo.js",
-      "source_location": "L588"
+      "source_location": "L851"
     },
     {
       "id": "mapa_riesgo_leerborrador",
@@ -1406,7 +1478,7 @@
       "file_type": "code",
       "norm_label": "leerborrador()",
       "source_file": "mapa/riesgo.js",
-      "source_location": "L161"
+      "source_location": "L186"
     },
     {
       "id": "mapa_riesgo_leercola",
@@ -1418,7 +1490,7 @@
       "file_type": "code",
       "norm_label": "leercola()",
       "source_file": "mapa/riesgo.js",
-      "source_location": "L127"
+      "source_location": "L131"
     },
     {
       "id": "mapa_riesgo_leercopia",
@@ -1430,7 +1502,7 @@
       "file_type": "code",
       "norm_label": "leercopia()",
       "source_file": "mapa/riesgo.js",
-      "source_location": "L154"
+      "source_location": "L158"
     },
     {
       "id": "mapa_riesgo_lsleer",
@@ -1442,7 +1514,7 @@
       "file_type": "code",
       "norm_label": "lsleer()",
       "source_file": "mapa/riesgo.js",
-      "source_location": "L121"
+      "source_location": "L125"
     },
     {
       "id": "mapa_riesgo_lsponer",
@@ -1454,7 +1526,7 @@
       "file_type": "code",
       "norm_label": "lsponer()",
       "source_file": "mapa/riesgo.js",
-      "source_location": "L122"
+      "source_location": "L126"
     },
     {
       "id": "mapa_riesgo_nuevoid",
@@ -1466,7 +1538,19 @@
       "file_type": "code",
       "norm_label": "nuevoid()",
       "source_file": "mapa/riesgo.js",
-      "source_location": "L171"
+      "source_location": "L196"
+    },
+    {
+      "id": "mapa_riesgo_ordenarbase",
+      "label": "ordenarBase()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 21,
+      "community_name": "riesgo.js",
+      "file_type": "code",
+      "norm_label": "ordenarbase()",
+      "source_file": "mapa/riesgo.js",
+      "source_location": "L662"
     },
     {
       "id": "mapa_riesgo_pedido",
@@ -1478,7 +1562,19 @@
       "file_type": "code",
       "norm_label": "pedido()",
       "source_file": "mapa/riesgo.js",
-      "source_location": "L111"
+      "source_location": "L115"
+    },
+    {
+      "id": "mapa_riesgo_pintarbase",
+      "label": "pintarBase()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 21,
+      "community_name": "riesgo.js",
+      "file_type": "code",
+      "norm_label": "pintarbase()",
+      "source_file": "mapa/riesgo.js",
+      "source_location": "L702"
     },
     {
       "id": "mapa_riesgo_pintarcapas",
@@ -1490,7 +1586,7 @@
       "file_type": "code",
       "norm_label": "pintarcapas()",
       "source_file": "mapa/riesgo.js",
-      "source_location": "L472"
+      "source_location": "L554"
     },
     {
       "id": "mapa_riesgo_pintarestado",
@@ -1502,7 +1598,7 @@
       "file_type": "code",
       "norm_label": "pintarestado()",
       "source_file": "mapa/riesgo.js",
-      "source_location": "L325"
+      "source_location": "L350"
     },
     {
       "id": "mapa_riesgo_pintarformulario",
@@ -1514,7 +1610,7 @@
       "file_type": "code",
       "norm_label": "pintarformulario()",
       "source_file": "mapa/riesgo.js",
-      "source_location": "L787"
+      "source_location": "L1050"
     },
     {
       "id": "mapa_riesgo_pintarguardados",
@@ -1526,7 +1622,7 @@
       "file_type": "code",
       "norm_label": "pintarguardados()",
       "source_file": "mapa/riesgo.js",
-      "source_location": "L347"
+      "source_location": "L372"
     },
     {
       "id": "mapa_riesgo_pintarmarcaborrador",
@@ -1538,7 +1634,7 @@
       "file_type": "code",
       "norm_label": "pintarmarcaborrador()",
       "source_file": "mapa/riesgo.js",
-      "source_location": "L512"
+      "source_location": "L774"
     },
     {
       "id": "mapa_riesgo_pintarmarcando",
@@ -1550,7 +1646,7 @@
       "file_type": "code",
       "norm_label": "pintarmarcando()",
       "source_file": "mapa/riesgo.js",
-      "source_location": "L755"
+      "source_location": "L1018"
     },
     {
       "id": "mapa_riesgo_pintarpines",
@@ -1562,7 +1658,19 @@
       "file_type": "code",
       "norm_label": "pintarpines()",
       "source_file": "mapa/riesgo.js",
-      "source_location": "L486"
+      "source_location": "L748"
+    },
+    {
+      "id": "mapa_riesgo_pintarresumencapas",
+      "label": "pintarResumenCapas()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 21,
+      "community_name": "riesgo.js",
+      "file_type": "code",
+      "norm_label": "pintarresumencapas()",
+      "source_file": "mapa/riesgo.js",
+      "source_location": "L548"
     },
     {
       "id": "mapa_riesgo_poner",
@@ -1574,7 +1682,7 @@
       "file_type": "code",
       "norm_label": "poner()",
       "source_file": "mapa/riesgo.js",
-      "source_location": "L136"
+      "source_location": "L140"
     },
     {
       "id": "mapa_riesgo_ponerubicacion",
@@ -1586,7 +1694,7 @@
       "file_type": "code",
       "norm_label": "ponerubicacion()",
       "source_file": "mapa/riesgo.js",
-      "source_location": "L700"
+      "source_location": "L963"
     },
     {
       "id": "mapa_riesgo_proyectar",
@@ -1598,7 +1706,19 @@
       "file_type": "code",
       "norm_label": "proyectar()",
       "source_file": "mapa/riesgo.js",
-      "source_location": "L586"
+      "source_location": "L849"
+    },
+    {
+      "id": "mapa_riesgo_rengloncapa",
+      "label": "renglonCapa()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 21,
+      "community_name": "riesgo.js",
+      "file_type": "code",
+      "norm_label": "rengloncapa()",
+      "source_file": "mapa/riesgo.js",
+      "source_location": "L506"
     },
     {
       "id": "mapa_riesgo_sacar",
@@ -1610,7 +1730,7 @@
       "file_type": "code",
       "norm_label": "sacar()",
       "source_file": "mapa/riesgo.js",
-      "source_location": "L144"
+      "source_location": "L148"
     },
     {
       "id": "mapa_riesgo_soltar",
@@ -1622,7 +1742,19 @@
       "file_type": "code",
       "norm_label": "soltar()",
       "source_file": "mapa/riesgo.js",
-      "source_location": "L655"
+      "source_location": "L918"
+    },
+    {
+      "id": "mapa_riesgo_traergeojson",
+      "label": "traerGeoJSON()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 21,
+      "community_name": "riesgo.js",
+      "file_type": "code",
+      "norm_label": "traergeojson()",
+      "source_file": "mapa/riesgo.js",
+      "source_location": "L586"
     },
     {
       "id": "mapa_riesgo_traerreportes",
@@ -1634,7 +1766,7 @@
       "file_type": "code",
       "norm_label": "traerreportes()",
       "source_file": "mapa/riesgo.js",
-      "source_location": "L293"
+      "source_location": "L318"
     },
     {
       "id": "mapa_riesgo_volveralformulario",
@@ -1646,7 +1778,7 @@
       "file_type": "code",
       "norm_label": "volveralformulario()",
       "source_file": "mapa/riesgo.js",
-      "source_location": "L878"
+      "source_location": "L1141"
     },
     {
       "id": "mapa_riesgo_yde",
@@ -1658,7 +1790,7 @@
       "file_type": "code",
       "norm_label": "yde()",
       "source_file": "mapa/riesgo.js",
-      "source_location": "L564"
+      "source_location": "L827"
     },
     {
       "id": "mapa_riesgo_yenpantalla",
@@ -1670,7 +1802,7 @@
       "file_type": "code",
       "norm_label": "yenpantalla()",
       "source_file": "mapa/riesgo.js",
-      "source_location": "L571"
+      "source_location": "L834"
     },
     {
       "id": "estudiemos_fichas_ficha_parser_get",
@@ -1874,7 +2006,7 @@
       "file_type": "code",
       "norm_label": "esdesupabase()",
       "source_file": "sw.js",
-      "source_location": "L286"
+      "source_location": "L290"
     },
     {
       "id": "app_alcambiarmovimiento",
@@ -2451,6 +2583,78 @@
       "norm_label": "nombrecategoriariesgo()",
       "source_file": "mapa/capas.js",
       "source_location": "L40"
+    },
+    {
+      "id": "mapa_capas_base_capabase",
+      "label": "capaBase()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 58,
+      "community_name": "capas-base.js",
+      "file_type": "code",
+      "norm_label": "capabase()",
+      "source_file": "mapa/capas-base.js",
+      "source_location": "L67"
+    },
+    {
+      "id": "mapa_capas_base_espoligonogeo",
+      "label": "esPoligonoGeo()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 58,
+      "community_name": "capas-base.js",
+      "file_type": "code",
+      "norm_label": "espoligonogeo()",
+      "source_file": "mapa/capas-base.js",
+      "source_location": "L26"
+    },
+    {
+      "id": "mapa_capas_base_muestradecapabase",
+      "label": "muestraDeCapaBase()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 58,
+      "community_name": "capas-base.js",
+      "file_type": "code",
+      "norm_label": "muestradecapabase()",
+      "source_file": "mapa/capas-base.js",
+      "source_location": "L96"
+    },
+    {
+      "id": "mapa_capas_base_primercampo",
+      "label": "primerCampo()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 58,
+      "community_name": "capas-base.js",
+      "file_type": "code",
+      "norm_label": "primercampo()",
+      "source_file": "mapa/capas-base.js",
+      "source_location": "L85"
+    },
+    {
+      "id": "mapa_capas_base_sintildes",
+      "label": "sinTildes()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 58,
+      "community_name": "capas-base.js",
+      "file_type": "code",
+      "norm_label": "sintildes()",
+      "source_file": "mapa/capas-base.js",
+      "source_location": "L69"
+    },
+    {
+      "id": "mapa_capas_base_tipodepunto",
+      "label": "tipoDePunto()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 58,
+      "community_name": "capas-base.js",
+      "file_type": "code",
+      "norm_label": "tipodepunto()",
+      "source_file": "mapa/capas-base.js",
+      "source_location": "L74"
     },
     {
       "id": "lib_leer_programa_agruparreferencias",
@@ -5459,7 +5663,7 @@
       "file_type": "code",
       "norm_label": "del_armazon",
       "source_file": "sw.js",
-      "source_location": "L224"
+      "source_location": "L228"
     },
     {
       "id": "tabla_borrar_cuenta",
@@ -5859,6 +6063,98 @@
       "norm_label": "auth.users",
       "source_file": "",
       "source_location": ""
+    },
+    {
+      "id": "mapa_capas_base",
+      "label": "capas-base.js",
+      "_origin": "ast",
+      "community": 58,
+      "community_name": "capas-base.js",
+      "file_type": "code",
+      "norm_label": "capas-base.js",
+      "source_file": "mapa/capas-base.js",
+      "source_location": "L1"
+    },
+    {
+      "id": "mapa_capas_base_campos_descripcion",
+      "label": "CAMPOS_DESCRIPCION",
+      "_origin": "ast",
+      "community": 58,
+      "community_name": "capas-base.js",
+      "file_type": "code",
+      "norm_label": "campos_descripcion",
+      "source_file": "mapa/capas-base.js",
+      "source_location": "L83"
+    },
+    {
+      "id": "mapa_capas_base_campos_nombre",
+      "label": "CAMPOS_NOMBRE",
+      "_origin": "ast",
+      "community": 58,
+      "community_name": "capas-base.js",
+      "file_type": "code",
+      "norm_label": "campos_nombre",
+      "source_file": "mapa/capas-base.js",
+      "source_location": "L82"
+    },
+    {
+      "id": "mapa_capas_base_capas_base",
+      "label": "CAPAS_BASE",
+      "_origin": "ast",
+      "community": 58,
+      "community_name": "capas-base.js",
+      "file_type": "code",
+      "norm_label": "capas_base",
+      "source_file": "mapa/capas-base.js",
+      "source_location": "L31"
+    },
+    {
+      "id": "mapa_datos_leeme",
+      "label": "LEEME.md",
+      "_origin": "ast",
+      "community": 59,
+      "community_name": "Las capas de base del mapa de riesgo",
+      "file_type": "document",
+      "node_kind": "page",
+      "norm_label": "leeme.md",
+      "source_file": "mapa/datos/LEEME.md",
+      "source_location": "L1"
+    },
+    {
+      "id": "mapa_datos_leeme_las_capas_de_base_del_mapa_de_riesgo",
+      "label": "Las capas de base del mapa de riesgo",
+      "_origin": "ast",
+      "community": 59,
+      "community_name": "Las capas de base del mapa de riesgo",
+      "file_type": "document",
+      "node_kind": "heading",
+      "norm_label": "las capas de base del mapa de riesgo",
+      "source_file": "mapa/datos/LEEME.md",
+      "source_location": "L1"
+    },
+    {
+      "id": "mapa_datos_leeme_los_cinco_archivos",
+      "label": "Los cinco archivos",
+      "_origin": "ast",
+      "community": 59,
+      "community_name": "Las capas de base del mapa de riesgo",
+      "file_type": "document",
+      "node_kind": "heading",
+      "norm_label": "los cinco archivos",
+      "source_file": "mapa/datos/LEEME.md",
+      "source_location": "L8"
+    },
+    {
+      "id": "mapa_datos_leeme_tres_reglas_antes_de_dejar_un_archivo_ac\u00e1",
+      "label": "Tres reglas antes de dejar un archivo ac\u00e1",
+      "_origin": "ast",
+      "community": 59,
+      "community_name": "Las capas de base del mapa de riesgo",
+      "file_type": "document",
+      "node_kind": "heading",
+      "norm_label": "tres reglas antes de dejar un archivo aca",
+      "source_file": "mapa/datos/LEEME.md",
+      "source_location": "L30"
     },
     {
       "id": "lib_leer_programa",
@@ -8353,6 +8649,18 @@
       "weight": 1.0
     },
     {
+      "source": "mapa_capas_base_tipodepunto",
+      "target": "mapa_capas_base_sintildes",
+      "relation": "calls",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "call",
+      "source_file": "mapa/capas-base.js",
+      "source_location": "L76",
+      "weight": 1.0
+    },
+    {
       "source": "mapa_capas_nombrecategoriariesgo",
       "target": "mapa_capas_capariesgo",
       "relation": "calls",
@@ -8373,7 +8681,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "mapa/riesgo.js",
-      "source_location": "L624",
+      "source_location": "L887",
       "weight": 1.0
     },
     {
@@ -8385,7 +8693,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "mapa/riesgo.js",
-      "source_location": "L627",
+      "source_location": "L890",
       "weight": 1.0
     },
     {
@@ -8397,7 +8705,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "mapa/riesgo.js",
-      "source_location": "L627",
+      "source_location": "L890",
       "weight": 1.0
     },
     {
@@ -8409,7 +8717,19 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "mapa/riesgo.js",
-      "source_location": "L630",
+      "source_location": "L893",
+      "weight": 1.0
+    },
+    {
+      "source": "mapa_riesgo_armarcapabase",
+      "target": "mapa_riesgo_fichadebase",
+      "relation": "calls",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "call",
+      "source_file": "mapa/riesgo.js",
+      "source_location": "L643",
       "weight": 1.0
     },
     {
@@ -8421,7 +8741,19 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "mapa/riesgo.js",
-      "source_location": "L412",
+      "source_location": "L437",
+      "weight": 1.0
+    },
+    {
+      "source": "mapa_riesgo_armarmapa",
+      "target": "mapa_riesgo_pintarbase",
+      "relation": "calls",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "call",
+      "source_file": "mapa/riesgo.js",
+      "source_location": "L444",
       "weight": 1.0
     },
     {
@@ -8433,7 +8765,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "mapa/riesgo.js",
-      "source_location": "L447",
+      "source_location": "L486",
       "weight": 1.0
     },
     {
@@ -8445,7 +8777,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "mapa/riesgo.js",
-      "source_location": "L451",
+      "source_location": "L490",
       "weight": 1.0
     },
     {
@@ -8457,7 +8789,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "mapa/riesgo.js",
-      "source_location": "L452",
+      "source_location": "L492",
       "weight": 1.0
     },
     {
@@ -8469,7 +8801,55 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "mapa/riesgo.js",
-      "source_location": "L453",
+      "source_location": "L493",
+      "weight": 1.0
+    },
+    {
+      "source": "mapa_riesgo_cargarbase",
+      "target": "mapa_riesgo_cambiarestadobase",
+      "relation": "calls",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "call",
+      "source_file": "mapa/riesgo.js",
+      "source_location": "L626",
+      "weight": 1.0
+    },
+    {
+      "source": "mapa_riesgo_cargarbase",
+      "target": "mapa_riesgo_traergeojson",
+      "relation": "calls",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "call",
+      "source_file": "mapa/riesgo.js",
+      "source_location": "L627",
+      "weight": 1.0
+    },
+    {
+      "source": "mapa_riesgo_cargarbase",
+      "target": "mapa_riesgo_armarcapabase",
+      "relation": "calls",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "call",
+      "source_file": "mapa/riesgo.js",
+      "source_location": "L628",
+      "weight": 1.0
+    },
+    {
+      "source": "mapa_riesgo_dibujarpanelcapas",
+      "target": "mapa_riesgo_rengloncapa",
+      "relation": "calls",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "call",
+      "source_file": "mapa/riesgo.js",
+      "source_location": "L520",
       "weight": 1.0
     },
     {
@@ -8481,7 +8861,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "mapa/riesgo.js",
-      "source_location": "L229",
+      "source_location": "L254",
       "weight": 1.0
     },
     {
@@ -8493,7 +8873,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "mapa/riesgo.js",
-      "source_location": "L229",
+      "source_location": "L254",
       "weight": 1.0
     },
     {
@@ -8505,7 +8885,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "mapa/riesgo.js",
-      "source_location": "L233",
+      "source_location": "L258",
       "weight": 1.0
     },
     {
@@ -8517,7 +8897,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "mapa/riesgo.js",
-      "source_location": "L239",
+      "source_location": "L264",
       "weight": 1.0
     },
     {
@@ -8529,7 +8909,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "mapa/riesgo.js",
-      "source_location": "L250",
+      "source_location": "L275",
       "weight": 1.0
     },
     {
@@ -8541,7 +8921,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "mapa/riesgo.js",
-      "source_location": "L251",
+      "source_location": "L276",
       "weight": 1.0
     },
     {
@@ -8553,7 +8933,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "mapa/riesgo.js",
-      "source_location": "L267",
+      "source_location": "L292",
       "weight": 1.0
     },
     {
@@ -8565,7 +8945,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "mapa/riesgo.js",
-      "source_location": "L152",
+      "source_location": "L156",
       "weight": 1.0
     },
     {
@@ -8577,7 +8957,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "mapa/riesgo.js",
-      "source_location": "L589",
+      "source_location": "L852",
       "weight": 1.0
     },
     {
@@ -8589,7 +8969,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "mapa/riesgo.js",
-      "source_location": "L601",
+      "source_location": "L864",
       "weight": 1.0
     },
     {
@@ -8601,7 +8981,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "mapa/riesgo.js",
-      "source_location": "L602",
+      "source_location": "L865",
       "weight": 1.0
     },
     {
@@ -8613,7 +8993,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "mapa/riesgo.js",
-      "source_location": "L609",
+      "source_location": "L872",
       "weight": 1.0
     },
     {
@@ -8625,7 +9005,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "mapa/riesgo.js",
-      "source_location": "L129",
+      "source_location": "L133",
       "weight": 1.0
     },
     {
@@ -8637,7 +9017,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "mapa/riesgo.js",
-      "source_location": "L130",
+      "source_location": "L134",
       "weight": 1.0
     },
     {
@@ -8649,7 +9029,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "mapa/riesgo.js",
-      "source_location": "L155",
+      "source_location": "L159",
       "weight": 1.0
     },
     {
@@ -8661,7 +9041,55 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "mapa/riesgo.js",
-      "source_location": "L112",
+      "source_location": "L116",
+      "weight": 1.0
+    },
+    {
+      "source": "mapa_riesgo_pintarbase",
+      "target": "mapa_riesgo_cargarbase",
+      "relation": "calls",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "call",
+      "source_file": "mapa/riesgo.js",
+      "source_location": "L729",
+      "weight": 1.0
+    },
+    {
+      "source": "mapa_riesgo_pintarbase",
+      "target": "mapa_riesgo_ordenarbase",
+      "relation": "calls",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "call",
+      "source_file": "mapa/riesgo.js",
+      "source_location": "L736",
+      "weight": 1.0
+    },
+    {
+      "source": "mapa_riesgo_pintarbase",
+      "target": "mapa_riesgo_pintarresumencapas",
+      "relation": "calls",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "call",
+      "source_file": "mapa/riesgo.js",
+      "source_location": "L737",
+      "weight": 1.0
+    },
+    {
+      "source": "mapa_riesgo_pintarcapas",
+      "target": "mapa_riesgo_pintarresumencapas",
+      "relation": "calls",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "call",
+      "source_file": "mapa/riesgo.js",
+      "source_location": "L567",
       "weight": 1.0
     },
     {
@@ -8673,7 +9101,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "mapa/riesgo.js",
-      "source_location": "L339",
+      "source_location": "L364",
       "weight": 1.0
     },
     {
@@ -8685,7 +9113,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "mapa/riesgo.js",
-      "source_location": "L355",
+      "source_location": "L380",
       "weight": 1.0
     },
     {
@@ -8697,7 +9125,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "mapa/riesgo.js",
-      "source_location": "L528",
+      "source_location": "L790",
       "weight": 1.0
     },
     {
@@ -8709,7 +9137,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "mapa/riesgo.js",
-      "source_location": "L761",
+      "source_location": "L1024",
       "weight": 1.0
     },
     {
@@ -8721,7 +9149,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "mapa/riesgo.js",
-      "source_location": "L493",
+      "source_location": "L755",
       "weight": 1.0
     },
     {
@@ -8733,7 +9161,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "mapa/riesgo.js",
-      "source_location": "L501",
+      "source_location": "L763",
       "weight": 1.0
     },
     {
@@ -8745,7 +9173,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "mapa/riesgo.js",
-      "source_location": "L506",
+      "source_location": "L768",
       "weight": 1.0
     },
     {
@@ -8757,7 +9185,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "mapa/riesgo.js",
-      "source_location": "L137",
+      "source_location": "L141",
       "weight": 1.0
     },
     {
@@ -8769,7 +9197,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "mapa/riesgo.js",
-      "source_location": "L139",
+      "source_location": "L143",
       "weight": 1.0
     },
     {
@@ -8781,7 +9209,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "mapa/riesgo.js",
-      "source_location": "L141",
+      "source_location": "L145",
       "weight": 1.0
     },
     {
@@ -8793,7 +9221,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "mapa/riesgo.js",
-      "source_location": "L701",
+      "source_location": "L964",
       "weight": 1.0
     },
     {
@@ -8805,7 +9233,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "mapa/riesgo.js",
-      "source_location": "L145",
+      "source_location": "L149",
       "weight": 1.0
     },
     {
@@ -8817,7 +9245,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "mapa/riesgo.js",
-      "source_location": "L146",
+      "source_location": "L150",
       "weight": 1.0
     },
     {
@@ -8829,7 +9257,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "mapa/riesgo.js",
-      "source_location": "L147",
+      "source_location": "L151",
       "weight": 1.0
     },
     {
@@ -8841,7 +9269,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "mapa/riesgo.js",
-      "source_location": "L662",
+      "source_location": "L925",
       "weight": 1.0
     },
     {
@@ -8853,7 +9281,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "mapa/riesgo.js",
-      "source_location": "L669",
+      "source_location": "L932",
       "weight": 1.0
     },
     {
@@ -8865,7 +9293,19 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "mapa/riesgo.js",
-      "source_location": "L672",
+      "source_location": "L935",
+      "weight": 1.0
+    },
+    {
+      "source": "mapa_riesgo_traergeojson",
+      "target": "mapa_riesgo_estaproyectado",
+      "relation": "calls",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "call",
+      "source_file": "mapa/riesgo.js",
+      "source_location": "L600",
       "weight": 1.0
     },
     {
@@ -8877,7 +9317,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "mapa/riesgo.js",
-      "source_location": "L297",
+      "source_location": "L322",
       "weight": 1.0
     },
     {
@@ -8889,7 +9329,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "mapa/riesgo.js",
-      "source_location": "L308",
+      "source_location": "L333",
       "weight": 1.0
     },
     {
@@ -8901,7 +9341,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "mapa/riesgo.js",
-      "source_location": "L310",
+      "source_location": "L335",
       "weight": 1.0
     },
     {
@@ -8913,7 +9353,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "mapa/riesgo.js",
-      "source_location": "L318",
+      "source_location": "L343",
       "weight": 1.0
     },
     {
@@ -11386,6 +11826,193 @@
       "weight": 1.0
     },
     {
+      "source": "mapa_capas_base",
+      "target": "mapa_capas_base_espoligonogeo",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "mapa/capas-base.js",
+      "source_location": "L26",
+      "weight": 1.0
+    },
+    {
+      "source": "mapa_capas_base",
+      "target": "mapa_capas_base_capas_base",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "mapa/capas-base.js",
+      "source_location": "L31",
+      "weight": 1.0
+    },
+    {
+      "source": "mapa_capas_base",
+      "target": "mapa_capas_base_capabase",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "mapa/capas-base.js",
+      "source_location": "L67",
+      "weight": 1.0
+    },
+    {
+      "source": "mapa_capas_base",
+      "target": "mapa_capas_base_sintildes",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "mapa/capas-base.js",
+      "source_location": "L69",
+      "weight": 1.0
+    },
+    {
+      "source": "mapa_capas_base",
+      "target": "mapa_capas_base_tipodepunto",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "mapa/capas-base.js",
+      "source_location": "L74",
+      "weight": 1.0
+    },
+    {
+      "source": "mapa_capas_base",
+      "target": "mapa_capas_base_campos_nombre",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "mapa/capas-base.js",
+      "source_location": "L82",
+      "weight": 1.0
+    },
+    {
+      "source": "mapa_capas_base",
+      "target": "mapa_capas_base_campos_descripcion",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "mapa/capas-base.js",
+      "source_location": "L83",
+      "weight": 1.0
+    },
+    {
+      "source": "mapa_capas_base",
+      "target": "mapa_capas_base_primercampo",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "mapa/capas-base.js",
+      "source_location": "L85",
+      "weight": 1.0
+    },
+    {
+      "source": "mapa_capas_base",
+      "target": "mapa_capas_base_muestradecapabase",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "mapa/capas-base.js",
+      "source_location": "L96",
+      "weight": 1.0
+    },
+    {
+      "source": "mapa_datos_leeme",
+      "target": "mapa_datos_leeme_las_capas_de_base_del_mapa_de_riesgo",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "mapa/datos/LEEME.md",
+      "source_location": "L1",
+      "weight": 1.0
+    },
+    {
+      "source": "mapa_datos_leeme_las_capas_de_base_del_mapa_de_riesgo",
+      "target": "mapa_datos_leeme_tres_reglas_antes_de_dejar_un_archivo_ac\u00e1",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "mapa/datos/LEEME.md",
+      "source_location": "L30",
+      "weight": 1.0
+    },
+    {
+      "source": "mapa_datos_leeme_las_capas_de_base_del_mapa_de_riesgo",
+      "target": "mapa_datos_leeme_los_cinco_archivos",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "mapa/datos/LEEME.md",
+      "source_location": "L8",
+      "weight": 1.0
+    },
+    {
+      "source": "mapa_riesgo",
+      "target": "mapa_riesgo_base",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "mapa/riesgo.js",
+      "source_location": "L100",
+      "weight": 1.0
+    },
+    {
+      "source": "mapa_riesgo",
+      "target": "mapa_riesgo_pintarmarcando",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "mapa/riesgo.js",
+      "source_location": "L1018",
+      "weight": 1.0
+    },
+    {
+      "source": "mapa_riesgo",
+      "target": "mapa_riesgo_dibujarelecciones",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "mapa/riesgo.js",
+      "source_location": "L1027",
+      "weight": 1.0
+    },
+    {
+      "source": "mapa_riesgo",
+      "target": "mapa_riesgo_pintarformulario",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "mapa/riesgo.js",
+      "source_location": "L1050",
+      "weight": 1.0
+    },
+    {
+      "source": "mapa_riesgo",
+      "target": "mapa_riesgo_volveralformulario",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "mapa/riesgo.js",
+      "source_location": "L1141",
+      "weight": 1.0
+    },
+    {
       "source": "mapa_riesgo",
       "target": "mapa_riesgo_pedido",
       "relation": "contains",
@@ -11393,7 +12020,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "mapa/riesgo.js",
-      "source_location": "L111",
+      "source_location": "L115",
       "weight": 1.0
     },
     {
@@ -11404,7 +12031,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "mapa/riesgo.js",
-      "source_location": "L121",
+      "source_location": "L125",
       "weight": 1.0
     },
     {
@@ -11415,7 +12042,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "mapa/riesgo.js",
-      "source_location": "L122",
+      "source_location": "L126",
       "weight": 1.0
     },
     {
@@ -11426,7 +12053,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "mapa/riesgo.js",
-      "source_location": "L127",
+      "source_location": "L131",
       "weight": 1.0
     },
     {
@@ -11437,7 +12064,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "mapa/riesgo.js",
-      "source_location": "L144",
+      "source_location": "L148",
       "weight": 1.0
     },
     {
@@ -11448,7 +12075,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "mapa/riesgo.js",
-      "source_location": "L150",
+      "source_location": "L154",
       "weight": 1.0
     },
     {
@@ -11459,7 +12086,18 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "mapa/riesgo.js",
-      "source_location": "L154",
+      "source_location": "L158",
+      "weight": 1.0
+    },
+    {
+      "source": "mapa_riesgo",
+      "target": "mapa_riesgo_capasguardadas",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "mapa/riesgo.js",
+      "source_location": "L168",
       "weight": 1.0
     },
     {
@@ -11470,7 +12108,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "mapa/riesgo.js",
-      "source_location": "L161",
+      "source_location": "L186",
       "weight": 1.0
     },
     {
@@ -11481,7 +12119,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "mapa/riesgo.js",
-      "source_location": "L171",
+      "source_location": "L196",
       "weight": 1.0
     },
     {
@@ -11492,7 +12130,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "mapa/riesgo.js",
-      "source_location": "L202",
+      "source_location": "L227",
       "weight": 1.0
     },
     {
@@ -11503,7 +12141,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "mapa/riesgo.js",
-      "source_location": "L207",
+      "source_location": "L232",
       "weight": 1.0
     },
     {
@@ -11514,7 +12152,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "mapa/riesgo.js",
-      "source_location": "L212",
+      "source_location": "L237",
       "weight": 1.0
     },
     {
@@ -11525,7 +12163,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "mapa/riesgo.js",
-      "source_location": "L270",
+      "source_location": "L295",
       "weight": 1.0
     },
     {
@@ -11536,7 +12174,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "mapa/riesgo.js",
-      "source_location": "L279",
+      "source_location": "L304",
       "weight": 1.0
     },
     {
@@ -11547,7 +12185,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "mapa/riesgo.js",
-      "source_location": "L293",
+      "source_location": "L318",
       "weight": 1.0
     },
     {
@@ -11558,7 +12196,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "mapa/riesgo.js",
-      "source_location": "L325",
+      "source_location": "L350",
       "weight": 1.0
     },
     {
@@ -11569,7 +12207,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "mapa/riesgo.js",
-      "source_location": "L347",
+      "source_location": "L372",
       "weight": 1.0
     },
     {
@@ -11580,7 +12218,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "mapa/riesgo.js",
-      "source_location": "L371",
+      "source_location": "L396",
       "weight": 1.0
     },
     {
@@ -11591,7 +12229,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "mapa/riesgo.js",
-      "source_location": "L389",
+      "source_location": "L414",
       "weight": 1.0
     },
     {
@@ -11602,7 +12240,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "mapa/riesgo.js",
-      "source_location": "L403",
+      "source_location": "L428",
       "weight": 1.0
     },
     {
@@ -11613,18 +12251,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "mapa/riesgo.js",
-      "source_location": "L411",
-      "weight": 1.0
-    },
-    {
-      "source": "mapa_riesgo",
-      "target": "mapa_riesgo_dibujarinterruptores",
-      "relation": "contains",
-      "_origin": "ast",
-      "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "source_file": "mapa/riesgo.js",
-      "source_location": "L459",
+      "source_location": "L436",
       "weight": 1.0
     },
     {
@@ -11640,101 +12267,57 @@
     },
     {
       "source": "mapa_riesgo",
+      "target": "mapa_riesgo_rengloncapa",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "mapa/riesgo.js",
+      "source_location": "L506",
+      "weight": 1.0
+    },
+    {
+      "source": "mapa_riesgo",
+      "target": "mapa_riesgo_dibujarpanelcapas",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "mapa/riesgo.js",
+      "source_location": "L519",
+      "weight": 1.0
+    },
+    {
+      "source": "mapa_riesgo",
+      "target": "mapa_riesgo_pintarresumencapas",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "mapa/riesgo.js",
+      "source_location": "L548",
+      "weight": 1.0
+    },
+    {
+      "source": "mapa_riesgo",
       "target": "mapa_riesgo_pintarcapas",
       "relation": "contains",
       "_origin": "ast",
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "mapa/riesgo.js",
-      "source_location": "L472",
+      "source_location": "L554",
       "weight": 1.0
     },
     {
       "source": "mapa_riesgo",
-      "target": "mapa_riesgo_pintarpines",
-      "relation": "contains",
-      "_origin": "ast",
-      "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "source_file": "mapa/riesgo.js",
-      "source_location": "L486",
-      "weight": 1.0
-    },
-    {
-      "source": "mapa_riesgo",
-      "target": "mapa_riesgo_pintarmarcaborrador",
-      "relation": "contains",
-      "_origin": "ast",
-      "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "source_file": "mapa/riesgo.js",
-      "source_location": "L512",
-      "weight": 1.0
-    },
-    {
-      "source": "mapa_riesgo",
-      "target": "mapa_riesgo_yde",
-      "relation": "contains",
-      "_origin": "ast",
-      "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "source_file": "mapa/riesgo.js",
-      "source_location": "L564",
-      "weight": 1.0
-    },
-    {
-      "source": "mapa_riesgo",
-      "target": "mapa_riesgo_yenpantalla",
-      "relation": "contains",
-      "_origin": "ast",
-      "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "source_file": "mapa/riesgo.js",
-      "source_location": "L571",
-      "weight": 1.0
-    },
-    {
-      "source": "mapa_riesgo",
-      "target": "mapa_riesgo_poner",
-      "relation": "contains",
-      "_origin": "ast",
-      "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "source_file": "mapa/riesgo.js",
-      "source_location": "L576",
-      "weight": 1.0
-    },
-    {
-      "source": "mapa_riesgo",
-      "target": "mapa_riesgo_gomita",
-      "relation": "contains",
-      "_origin": "ast",
-      "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "source_file": "mapa/riesgo.js",
-      "source_location": "L582",
-      "weight": 1.0
-    },
-    {
-      "source": "mapa_riesgo",
-      "target": "mapa_riesgo_proyectar",
+      "target": "mapa_riesgo_traergeojson",
       "relation": "contains",
       "_origin": "ast",
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "mapa/riesgo.js",
       "source_location": "L586",
-      "weight": 1.0
-    },
-    {
-      "source": "mapa_riesgo",
-      "target": "mapa_riesgo_ir",
-      "relation": "contains",
-      "_origin": "ast",
-      "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "source_file": "mapa/riesgo.js",
-      "source_location": "L588",
       "weight": 1.0
     },
     {
@@ -11750,13 +12333,178 @@
     },
     {
       "source": "mapa_riesgo",
+      "target": "mapa_riesgo_estaproyectado",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "mapa/riesgo.js",
+      "source_location": "L613",
+      "weight": 1.0
+    },
+    {
+      "source": "mapa_riesgo",
+      "target": "mapa_riesgo_cambiarestadobase",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "mapa/riesgo.js",
+      "source_location": "L621",
+      "weight": 1.0
+    },
+    {
+      "source": "mapa_riesgo",
+      "target": "mapa_riesgo_cargarbase",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "mapa/riesgo.js",
+      "source_location": "L625",
+      "weight": 1.0
+    },
+    {
+      "source": "mapa_riesgo",
+      "target": "mapa_riesgo_armarcapabase",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "mapa/riesgo.js",
+      "source_location": "L638",
+      "weight": 1.0
+    },
+    {
+      "source": "mapa_riesgo",
+      "target": "mapa_riesgo_ordenarbase",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "mapa/riesgo.js",
+      "source_location": "L662",
+      "weight": 1.0
+    },
+    {
+      "source": "mapa_riesgo",
+      "target": "mapa_riesgo_fichadebase",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "mapa/riesgo.js",
+      "source_location": "L672",
+      "weight": 1.0
+    },
+    {
+      "source": "mapa_riesgo",
+      "target": "mapa_riesgo_pintarbase",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "mapa/riesgo.js",
+      "source_location": "L702",
+      "weight": 1.0
+    },
+    {
+      "source": "mapa_riesgo",
+      "target": "mapa_riesgo_pintarpines",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "mapa/riesgo.js",
+      "source_location": "L748",
+      "weight": 1.0
+    },
+    {
+      "source": "mapa_riesgo",
+      "target": "mapa_riesgo_pintarmarcaborrador",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "mapa/riesgo.js",
+      "source_location": "L774",
+      "weight": 1.0
+    },
+    {
+      "source": "mapa_riesgo",
+      "target": "mapa_riesgo_yde",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "mapa/riesgo.js",
+      "source_location": "L827",
+      "weight": 1.0
+    },
+    {
+      "source": "mapa_riesgo",
+      "target": "mapa_riesgo_yenpantalla",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "mapa/riesgo.js",
+      "source_location": "L834",
+      "weight": 1.0
+    },
+    {
+      "source": "mapa_riesgo",
+      "target": "mapa_riesgo_poner",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "mapa/riesgo.js",
+      "source_location": "L839",
+      "weight": 1.0
+    },
+    {
+      "source": "mapa_riesgo",
+      "target": "mapa_riesgo_gomita",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "mapa/riesgo.js",
+      "source_location": "L845",
+      "weight": 1.0
+    },
+    {
+      "source": "mapa_riesgo",
+      "target": "mapa_riesgo_proyectar",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "mapa/riesgo.js",
+      "source_location": "L849",
+      "weight": 1.0
+    },
+    {
+      "source": "mapa_riesgo",
+      "target": "mapa_riesgo_ir",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "mapa/riesgo.js",
+      "source_location": "L851",
+      "weight": 1.0
+    },
+    {
+      "source": "mapa_riesgo",
       "target": "mapa_riesgo_bloqueardetras",
       "relation": "contains",
       "_origin": "ast",
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "mapa/riesgo.js",
-      "source_location": "L616",
+      "source_location": "L879",
       "weight": 1.0
     },
     {
@@ -11767,7 +12515,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "mapa/riesgo.js",
-      "source_location": "L623",
+      "source_location": "L886",
       "weight": 1.0
     },
     {
@@ -11778,7 +12526,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "mapa/riesgo.js",
-      "source_location": "L655",
+      "source_location": "L918",
       "weight": 1.0
     },
     {
@@ -11789,7 +12537,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "mapa/riesgo.js",
-      "source_location": "L695",
+      "source_location": "L958",
       "weight": 1.0
     },
     {
@@ -11800,62 +12548,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "mapa/riesgo.js",
-      "source_location": "L700",
-      "weight": 1.0
-    },
-    {
-      "source": "mapa_riesgo",
-      "target": "mapa_riesgo_pintarmarcando",
-      "relation": "contains",
-      "_origin": "ast",
-      "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "source_file": "mapa/riesgo.js",
-      "source_location": "L755",
-      "weight": 1.0
-    },
-    {
-      "source": "mapa_riesgo",
-      "target": "mapa_riesgo_dibujarelecciones",
-      "relation": "contains",
-      "_origin": "ast",
-      "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "source_file": "mapa/riesgo.js",
-      "source_location": "L764",
-      "weight": 1.0
-    },
-    {
-      "source": "mapa_riesgo",
-      "target": "mapa_riesgo_pintarformulario",
-      "relation": "contains",
-      "_origin": "ast",
-      "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "source_file": "mapa/riesgo.js",
-      "source_location": "L787",
-      "weight": 1.0
-    },
-    {
-      "source": "mapa_riesgo",
-      "target": "mapa_riesgo_volveralformulario",
-      "relation": "contains",
-      "_origin": "ast",
-      "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "source_file": "mapa/riesgo.js",
-      "source_location": "L878",
-      "weight": 1.0
-    },
-    {
-      "source": "mapa_riesgo",
-      "target": "mapa_riesgo_base",
-      "relation": "contains",
-      "_origin": "ast",
-      "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "source_file": "mapa/riesgo.js",
-      "source_location": "L96",
+      "source_location": "L963",
       "weight": 1.0
     },
     {
@@ -11921,7 +12614,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "sw.js",
-      "source_location": "L224",
+      "source_location": "L228",
       "weight": 1.0
     },
     {
@@ -11932,7 +12625,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "sw.js",
-      "source_location": "L286",
+      "source_location": "L290",
       "weight": 1.0
     },
     {
@@ -14791,5 +15484,5 @@
       "source_file": "panel/index.html"
     }
   ],
-  "built_at_commit": "275340656e3a13d2d3868516deb50d427013834d"
+  "built_at_commit": "b9bdc7299121aabaa1652343202959f7c6749577"
 }
