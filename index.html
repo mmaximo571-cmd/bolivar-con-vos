@@ -1467,8 +1467,7 @@ setTimeout(function(){
      donde abría. */
   /* LOS TRES PRIMEROS SON DE LA CARRERA. «Mi año» va primero y
      destacado en las tres; los otros dos son lo propio de cada una.
-     Gestión del Riesgo todavía no tiene herramientas propias y lleva
-     dos comunes: cuando se sumen, se cambian ACÁ y en ningún otro lado.
+     Las herramientas de cada carrera se cambian ACÁ y en ningún otro lado.
      Estudiemos no se pierde en las otras dos: está en la barra de abajo.
      Es una función y no un `const` suelto porque `pintarAccesos` se
      llama ARRIBA de esta línea, con lo guardado: un `const` todavía no
@@ -1486,11 +1485,13 @@ setTimeout(function(){
       { ico:'estudiemos',    emoji:'📐', nombre:'Fichas',            url:'estudiemos/fichas/',
         bajada:'Resúmenes para repasar' }
     ],
+    /* El mapa de riesgo es la primera herramienta propia (17/9/2026) y
+       ocupa el lugar de Estudiemos, que igual está en la barra de abajo. */
     tgcr: [
+      { ico:'donde-curso',   emoji:'🗺', nombre:'Mapa de riesgo',    url:'mapa/',
+        bajada:'Lo que vemos en el barrio, marcado' },
       { ico:'tramites',      emoji:'✉️', nombre:'Cátedras',          url:'catedras/',
-        bajada:'El mail de cada materia' },
-      { ico:'estudiemos',    emoji:'📚', nombre:'Estudiemos',        url:'estudiemos/',
-        bajada:'Apuntes y resúmenes compartidos' }
+        bajada:'El mail de cada materia' }
     ]
   })[id] || []; }
 
