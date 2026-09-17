@@ -23,6 +23,12 @@ Si algo de acá quedó viejo, se corrige acá mismo al cerrar la sesión.
   sesión están en `PROMPT-SESION.md`: pasan a después del 21 las solapas 2, 3
   y 4 de la Fonoteca y el rastreo del Trayecto; quedan el aviso de Mi año (si
   llegan los plazos) y las fichas que tengan texto.
+- **Jueves 17, después del congelamiento: entró el mapa de riesgo** (`mapa/`),
+  por decisión de Máximo («entra el 21»). No estaba en el cronograma ni es
+  «Prácticas y territorio», que sigue para después del 21: es una herramienta
+  sola, para el mapeo participativo en La Plata, Berisso y Ensenada. Está
+  publicado, con la tabla aplicada en Supabase, y **falta probarlo en un
+  teléfono** (va con las pruebas del vie 18). Detalle en «Hecho y publicado».
 - El domingo 13 decía: hoy es **domingo 13 de septiembre**. Quedan **ocho días** para el
   lanzamiento y **cuatro de código**. Lo último que entró a la app fue del **7/9** (calendario del
   celular, buscador y mapa); el 8 solo se escribieron papeles —el buzón
@@ -145,6 +151,9 @@ sobre los otros. Ahora mandan así, y no se abre un quinto:
 
 | 13/9 | **Revisión de animaciones de Estudiemos** con `/review-animations` (skills de Emil Kowalski). La regla de los 0,8 s sigue valiendo **solo para el titular**: el buscador, las herramientas y el riel son interfaz. **El buscador ya no entra con movimiento**: estaba invisible 0,33 s y se asentaba pasado el segundo. **Las herramientas** se asientan en 0,35 s con 0,15 s de espera y 40 ms entre tarjetas (antes, la última llegaba a los ~1,5 s). **El hover de la tarjeta, solo con mouse**: en el celular quedaba pegado al volver atrás. **El riel viaja en 0,26 s** y no en 0,6, con la curva quint que sí se parece a la de entrada (el comentario decía power3). **La flecha del riel** se aprieta a `.96` con `--t-toque`/`--sale`. **Lo que entra al llegar** sube 12 px en 0,35 s, con 40 ms entre piezas y hasta 3 (era 32 px, 0,6 s, 80 ms, hasta 5); toca también Inicio y Fichas. `movimiento.js` **lee `--mov-bloque`** en vez de tener 600 escrito a mano. **Las palabras de la invitación parten de 0,45** y no de 0,2: negro al 20 % sobre amarillo no se leía. `v41` | `HEAD` |
 
+| 17/9 | **El mapa de riesgo**, para las prácticas territoriales. Pedido como React + Zustand + Tailwind; **se hizo con el stack de la app** (Máximo lo eligió): Leaflet 1.9.4 desde cdnjs, JS sin compilar, estilos aparte en `mapa/mapa.css` para no engordar el armazón. Tres capas —**hídrico, industrial, redes comunitarias**—, cada pin con color **y glifo** (💧🏭🤝), y una **hoja que sube desde abajo** para reportar: ubicación por GPS o tocando el mapa, capa y categoría, y 280 caracteres. **El reporte no depende del mapa ni de la señal**: se guarda primero en el teléfono (IndexedDB, y si no abre, localStorage) y se manda al abrir, al volver la señal, al volver a la pantalla y cada 30 s. El `id` lo pone el teléfono, así un reintento choca con la clave (23505) y no duplica. **Carga con cuenta, se publica recién cuando el equipo aprueba** en la pestaña nueva 🗺 del panel, y **nadie puede leer quién cargó qué** (permisos por columna). Las nueve categorías viven en `mapa/capas.js` y **las escribí yo: las tiene que mirar Máximo**. Sin Background Sync: no existe en iPhone ni en Instagram. Las calles (azulejos de OpenStreetMap) no se guardan sin señal; Leaflet sí, por una regla en `sw.js`. `tabla-riesgo.sql` **aplicado en Supabase** y probado con una cuenta de estudiante y una del equipo dentro de una transacción deshecha: carga, duplicado, fuera de zona, más de 30 días, leer el autor, aprobar sin ser del equipo y lo que ve alguien sin cuenta, todo como tenía que dar. Entra al índice del pie. `v45` | `5b3d0f1` · `13c43c8` |
+| 17/9 | **La Tecnicatura tiene su primera herramienta propia en el inicio:** el mapa de riesgo ocupa el acceso que tenía Estudiemos, que sigue en la barra de abajo. Sin `v`: es solo `index.html` | `b733ba6` |
+
 **Ojo con lo de las materias libres.** El listado sale de un documento que se
 llama, textualmente, «**Propuesta** de materias libres … para agregar al régimen
 de regularidad o anexar al plan de estudios». No está aprobado, y la app lo dice
@@ -248,7 +257,8 @@ reemplaza lo que había acá. Lo que manda:
 | jue 17 · 4 | ✅ **Llegó el visto** de la profesional a los seis casos (confirmado por Máximo el 17/9). No hubo que prender nada: estaban publicados desde el 13/9; se corrigieron los comentarios. Solapas 2 a 4 (GRBAS, fonética, anquiloglosia): **después del 21**, decisión de Máximo. Era: **Fonoteca: prender o no.** Si llegó el visto, se muestran los casos y la cuarta tarjeta; si no, se decide ahí si sale sin casos o escondida | **el visto de la profesional** |
 | jue 17 · 5 | ✅ Colchón: la tarjeta de Fichas en Estudiemos seguía diciendo «9 fichas / 8 de Fono» y «Nueve temas»; ahora 30 (29 Fono, 1 TS). Buscador en fichas/: después del 21 | — |
 | **jue 17 · 6** | ✅ **Congelado el 17/9 a la noche.** SW queda en v44 (subida hoy con ficha.js): lo que cambió después son pantallas, que van primero a la red, así que otra versión solo haría bajar todo de nuevo. Grafo al día. Desde acá, solo arreglos. Era: **Congelamiento.** `v` del service worker, `graphify update .`, bitácora al día | — |
-| vie 18 | **Pruebas en celulares reales, entrando desde Instagram:** el Android de Máximo y un iPhone prestado. Y **una sesión corta para armar la lista de posteos**: qué publicación lleva a qué pantalla | los dos teléfonos |
+| jue 17 · fuera del cronograma | ✅ **El mapa de riesgo**, después del congelamiento y por decisión de Máximo. Sube el SW a **v45** (lo de arriba decía v44): `app.js` suma el mapa al pie y `sw.js` guarda Leaflet. Tabla aplicada en Supabase. Ver «Hecho y publicado» | — |
+| vie 18 | **Pruebas en celulares reales, entrando desde Instagram:** el Android de Máximo y un iPhone prestado. **Suma el mapa de riesgo:** reportar con cuenta (GPS y tocando el mapa), aprobarlo en el panel y verlo sin cuenta; y abrir `mapa/` por segunda vez en modo avión, para ver que el reporte queda guardado y sale solo al volver la señal. Y **una sesión corta para armar la lista de posteos**: qué publicación lleva a qué pantalla | los dos teléfonos |
 | sáb 19 | Arreglos de lo que salió el 18. Links de campaña con `?de=` escritos | la lista de posteos |
 | dom 20 | **Todo arriba.** Verificar la segunda carga (el service worker entrega lo nuevo recién ahí) | — |
 | **lun 21** | **Lanzamiento.** Máximo está todo el día: se mira la solapa Registro y, si aparece un error, **arreglo chico, probado corriendo, y push** | — |
@@ -266,7 +276,8 @@ reemplaza lo que había acá. Lo que manda:
 4. **Vie 18:** conseguir el iPhone.
 
 **Después del 21, ya decidido que no entra:** Prácticas y territorio de la
-Tecnicatura, las fichas que no lleguen, el audio de GRBAS y pares mínimos,
+Tecnicatura (el mapa de riesgo ya existe y, cuando esa sección se arme, va
+adentro), las fichas que no lleguen, el audio de GRBAS y pares mínimos,
 Rinne y Weber, enmascaramiento, el editor de casos para la profesional, el
 Trayecto dentro del conteo de materias (`carrera/plan.js`), bajar las fuentes
 y partir `estilos.css`. Y **pensar con tiempo la permanencia**: «que no
@@ -686,6 +697,8 @@ pantalla propia en pestaña nueva rompe el botón de volver.
 | ~~Correr `tabla-registro.sql` de nuevo~~ | ✅ hecho. Verificado el 5/9 contra la base: entran los cuatro hitos (9 anotados) |
 | **Etiquetar los links de Instagram** con `?de=`. Ver «Las etiquetas de campaña» abajo: no hay nada que generar, el link se escribe a mano | antes del 21 |
 | Mirar la solapa **Registro** y el campo **«¿Alimenta la alarma?»** en el panel | cuanto antes |
+| **Revisar las nueve categorías del mapa de riesgo** en `mapa/capas.js`: las escribió Claude, no la cátedra. El `nombre` se cambia cuando sea; el `id`, nunca una vez que haya reportes | antes del 21 |
+| **Decidir quién del equipo modera el mapa** (pestaña 🗺 del panel). Sin moderación no aparece ningún punto | antes de la primera práctica |
 | ~~La dirección de Aulas Web~~ | ✅ **entregada el 13/9 y publicada:** `https://aulaswebgrado.ead.unlp.edu.ar/`. Está en el índice del pie de las doce pantallas. Los sistemas ahora son cuatro y el orden no es alfabético: primero los dos donde se entra con usuario y contraseña —SIU y Aulas Web—, después las dos instituciones |
 | ~~Prender *Leaked password protection*~~ | ❌ **No se puede: es de plan Pro.** Cerrado el 5/9. **NO apagar el alta de cuentas**: el registro de estudiantes es a propósito, ya está hecho en `mi/`, y es lo que va a permitir personalizar la app |
 | ~~Confirmar el mail con tildes de «Promoción y prevención en audiología»~~ | ✅ confirmado el 5/9: era un error de tipeo. Ya publicado sin tildes. **Falta escribirle una vez** para saber si la casilla existe |
