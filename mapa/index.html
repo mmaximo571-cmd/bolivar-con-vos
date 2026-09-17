@@ -1,0 +1,157 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Mapa de riesgo · La Bolívar con vos</title>
+<meta name="description" content="Mapeo participativo de riesgo hídrico, industrial y redes comunitarias en La Plata, Berisso y Ensenada, para las prácticas territoriales.">
+<meta name="theme-color" content="#F9E830">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Montserrat:wght@600;700;800&family=Roboto:wght@400;500;700&family=Roboto+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<link rel="icon" type="image/png" sizes="32x32" href="../imagenes/icono-32.png">
+<link rel="icon" type="image/png" sizes="96x96" href="../imagenes/icono-96.png">
+<link rel="icon" type="image/png" sizes="192x192" href="../imagenes/icono-192.png">
+<link rel="apple-touch-icon" href="../imagenes/icono-apple.png">
+<link rel="manifest" href="../manifest.json">
+
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="La Bolivar con vos">
+<meta property="og:title" content="Mapa de riesgo · La Bolívar con vos">
+<meta property="og:description" content="Lo que vemos en el barrio, marcado entre todes: agua, industria y redes comunitarias.">
+<meta property="og:image" content="https://bolivar-con-vos.vercel.app/imagenes/compartir.png">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="stylesheet" href="../estilos.css">
+<link rel="stylesheet" href="mapa.css">
+<script>
+(function(){try{
+  var g = localStorage.getItem('bolivar-tema') || 'auto';
+  var oscuro = g === 'oscuro' || (g === 'auto' &&
+    window.matchMedia('(prefers-color-scheme: dark)').matches);
+  document.documentElement.dataset.tema = oscuro ? 'oscuro' : 'claro';
+}catch(e){ document.documentElement.dataset.tema = 'claro'; }})();
+</script>
+</head>
+<body class="pantalla-mapa">
+
+<div id="cabecera"></div>
+
+<!-- ============================================================
+     EL MAPA DE RIESGO
+
+     Para las prácticas territoriales en La Plata, Berisso y Ensenada.
+     La regla que ordena todo lo de acá: EL REPORTE NO DEPENDE DEL MAPA.
+     Sin señal no carga el fondo del mapa (las calles vienen de
+     OpenStreetMap) y puede que ni cargue Leaflet, pero el GPS del
+     teléfono anda igual y el formulario también: se guarda en el
+     teléfono y se manda solo cuando vuelve la señal.
+
+     La lógica está en `riesgo.js`; las capas y categorías, en
+     `capas.js`; la tabla y los permisos, en `tabla-riesgo.sql`.
+     ============================================================ -->
+<main id="contenido" tabindex="-1">
+
+  <div class="envoltura mapa-cabeza">
+    <p class="ceja-lectura">Prácticas territoriales · La Plata, Berisso y Ensenada</p>
+    <h1 class="mapa-titulo">Mapa de <em>riesgo</em></h1>
+    <p class="mapa-estado" id="estado-envio" role="status" aria-live="polite"></p>
+  </div>
+
+  <div class="envoltura">
+    <div class="capas-fila" role="group" aria-label="Qué capas mostrar" id="capas-fila"></div>
+  </div>
+
+  <div class="mapa-marco">
+    <div class="mapa-lienzo" id="lienzo" aria-label="Mapa"></div>
+    <p class="mapa-sin" id="mapa-sin" hidden></p>
+    <p class="mapa-marcando" id="aviso-marcar" hidden>Tocá el mapa donde está. Después podés arrastrar el punto.</p>
+  </div>
+
+  <div class="envoltura mapa-debajo">
+    <section id="mis-guardados" hidden aria-labelledby="guardados-titulo">
+      <h2 class="mapa-subtitulo" id="guardados-titulo">En tu teléfono, sin enviar</h2>
+      <ul class="guardados-lista" id="guardados-lista"></ul>
+      <button type="button" class="boton borde ancho" id="enviar-ahora">Intentar enviar ahora</button>
+    </section>
+
+    <section aria-labelledby="como-titulo">
+      <h2 class="mapa-subtitulo" id="como-titulo">Cómo se usa</h2>
+      <ul class="mapa-como">
+        <li><strong>Funciona sin señal.</strong> El reporte queda guardado en el teléfono y se manda solo cuando vuelve la conexión. No cierres sesión hasta que se envíe.</li>
+        <li><strong>Para cargar, entrá con tu cuenta</strong> desde <a href="../mi/">Mi perfil</a>. Mirar el mapa no pide cuenta.</li>
+        <li><strong>Lo revisa el equipo</strong> antes de que aparezca para todes. Mientras tanto, solo lo ves vos.</li>
+        <li><strong>Sin nombres ni datos de vecines</strong> en la descripción. El punto ya dice dónde.</li>
+      </ul>
+    </section>
+  </div>
+
+</main>
+
+<button type="button" class="boton mapa-reportar" id="abrir-hoja" aria-haspopup="dialog">
+  <span aria-hidden="true">＋</span> Reportar
+</button>
+
+<!-- La hoja de abajo. Tres posiciones: abierta, baja (solo la
+     agarradera, para tocar el mapa) y cerrada. -->
+<div class="hoja-fondo" id="hoja-fondo" hidden></div>
+<section class="hoja" id="hoja" role="dialog" aria-labelledby="hoja-titulo" hidden>
+  <div class="hoja-agarre" id="hoja-agarre">
+    <span class="hoja-manija" aria-hidden="true"></span>
+    <h2 class="hoja-titulo" id="hoja-titulo" tabindex="-1">Nuevo reporte</h2>
+    <button type="button" class="boton hoja-seguir" id="hoja-seguir" hidden>Seguir</button>
+    <button type="button" class="boton-icono" id="hoja-cerrar" aria-label="Cerrar el reporte">✕</button>
+  </div>
+
+  <div class="hoja-cuerpo">
+    <form id="form-reporte" novalidate>
+      <fieldset class="paso">
+        <legend><span class="paso-n">1</span> ¿Dónde?</legend>
+        <div class="paso-botones">
+          <button type="button" class="boton oscuro" id="usar-gps">📍 Usar mi ubicación</button>
+          <button type="button" class="boton borde" id="marcar-mapa">Marcar en el mapa</button>
+        </div>
+        <p class="ubicacion-estado" id="ubicacion-estado" aria-live="polite">Todavía sin ubicación.</p>
+      </fieldset>
+
+      <fieldset class="paso">
+        <legend><span class="paso-n">2</span> ¿Qué es?</legend>
+        <div class="elegir-capa" id="elegir-capa"></div>
+        <div class="elegir-categoria" id="elegir-categoria"></div>
+      </fieldset>
+
+      <div class="paso">
+        <label class="paso-rotulo" for="descripcion"><span class="paso-n">3</span> Contalo en pocas palabras</label>
+        <textarea id="descripcion" maxlength="280" rows="3"
+          placeholder="Ej.: con lluvia fuerte el agua llega a las veredas"></textarea>
+        <p class="letra-chica paso-ayuda"><span id="cuenta">0</span>/280 · Sin nombres ni datos de vecines.</p>
+      </div>
+
+      <div class="aviso error" id="form-error" hidden></div>
+      <button type="submit" class="boton ancho" id="enviar">Guardar y enviar</button>
+      <p class="letra-chica paso-ayuda">Se guarda primero en tu teléfono. Si no hay señal, se manda solo después.</p>
+    </form>
+
+    <div class="hoja-listo" id="hoja-listo" hidden tabindex="-1">
+      <p class="hoja-listo-grito" id="listo-titulo"></p>
+      <p id="listo-texto"></p>
+      <div class="paso-botones">
+        <button type="button" class="boton" id="otro-reporte">Reportar otro</button>
+        <button type="button" class="boton borde" id="listo-cerrar">Volver al mapa</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div id="pie"></div>
+
+<script>window.RAIZ = '../';</script>
+<!-- La librería grande y no el cliente chico: cargar pide sesión, y
+     una sesión que no se renueva falla en silencio (ver lib/datos.js). -->
+<script src="../lib/supabase.js"></script>
+<script src="../config.js"></script>
+<script src="../iconos.js"></script>
+<script src="../app.js"></script>
+<script src="capas.js"></script>
+<script src="riesgo.js"></script>
+</body>
+</html>

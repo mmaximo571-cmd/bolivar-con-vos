@@ -212,7 +212,11 @@
    con formato de las 17 fichas de texto diseñadas. Sin subir, quien ya
    abrió una ficha tiene el motor viejo guardado y la nueva sale rota
    hasta la segunda visita. */
-const VERSION = 'bolivar-v44';
+/* v45 (17/9/2026) `app.js` y este archivo: existe `mapa/`, el mapa de
+   riesgo. El índice del pie lo dibuja `app.js`, que es armazón, y la
+   regla que guarda Leaflet vive acá: sin subir el número, ni se llega a
+   la pantalla desde el pie ni el mapa anda sin señal. */
+const VERSION = 'bolivar-v45';
 const ARMAZON = VERSION + '-armazon';
 const PAGINAS = VERSION + '-paginas';
 
@@ -291,6 +295,26 @@ self.addEventListener('fetch', evento => {
 
   /* Los datos NUNCA se guardan: una fecha vieja engaña. */
   if (esDeSupabase(url)) return;
+
+  /* Leaflet, el mapa de `mapa/`. Es lo único de afuera que se guarda:
+     sin esto, la segunda visita sin señal —que en un barrio es la
+     normal— no tiene mapa aunque ya lo haya bajado. Va atado a la
+     versión 1.9.4 en la dirección, así que nunca cambia: se sirve de lo
+     guardado sin preguntar. Las calles (los azulejos de OpenStreetMap)
+     NO se guardan: son miles y su licencia no deja bajarlos en masa. */
+  if (url.hostname === 'cdnjs.cloudflare.com' &&
+      url.pathname.indexOf('/ajax/libs/leaflet/1.9.4/') === 0){
+    evento.respondWith((async () => {
+      const caja = await caches.open(ARMAZON);
+      const guardado = await caja.match(pedido);
+      if (guardado) return guardado;
+      const r = await fetch(pedido);
+      if (r && r.ok) caja.put(pedido, r.clone());
+      return r;
+    })());
+    return;
+  }
+
   if (url.origin !== self.location.origin) return;
 
   /* Las pantallas: primero la red, y si no hay, la última que vimos.

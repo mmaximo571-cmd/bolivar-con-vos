@@ -127,6 +127,7 @@
      de quien lo sube y recién después se guarda.
      Esto lo carga SOLO el panel. La app que usa el estudiante no baja
      ni un byte de pdf.js. -->
+<script src="../mapa/capas.js"></script>
 <script src="../carrera/plan.js"></script>
 <script src="../carrera/plan-tgcr.js"></script>
 <script src="../carrera/plan-fono.js"></script>
@@ -213,6 +214,7 @@
       <button class="chip" data-p="consejo"   aria-pressed="false">🏛 Consejo</button>
       <button class="chip" data-p="avisanos"   aria-pressed="false">💬 Avisanos</button>
       <button class="chip" data-p="categorias" aria-pressed="false">🗂 Categorías</button>
+      <button class="chip" data-p="riesgo"     aria-pressed="false">🗺 Mapa de riesgo</button>
       <button class="chip" data-p="registro"   aria-pressed="false">📈 Registro</button>
     </div>
     <div id="zona" style="margin-top:14px"></div>
@@ -2644,13 +2646,75 @@
     };
   }
 
+  /* ============================================================
+     MAPA DE RIESGO · lo que cargaron les estudiantes, antes de publicarse
+
+     Nada aparece en el mapa público sin pasar por acá. Un punto dice
+     «acá se inunda» o «acá hay un comedor» sobre una casa concreta: se
+     mira que la descripción no tenga nombres de vecines y que el punto
+     tenga sentido. Quién lo cargó no se ve ni acá (tabla-riesgo.sql).
+     ============================================================ */
+  async function vistaRiesgo(){
+    const { data, error } = await db.from('reportes_riesgo')
+      .select('id,capa,categoria,lat,lng,precision_m,origen_ubicacion,descripcion,estado,creado_en_dispositivo')
+      .eq('estado', 'pendiente')
+      .order('creado_en_dispositivo', { ascending:true })
+      .limit(100);
+
+    if (error){
+      zona.innerHTML = /reportes_riesgo/.test(error.message || '')
+        ? `<div class="aviso error">
+             <strong>Falta activar esta sección.</strong><br>
+             Hay que correr <b>tabla-riesgo.sql</b> en el SQL Editor de
+             Supabase. Es una sola vez.
+           </div>`
+        : `<div class="aviso error">No se pudo cargar: ${esc(error.message)}</div>`;
+      return;
+    }
+
+    zona.innerHTML = `
+      <h2 class="titulo-pantalla" style="font-size:22px;margin-top:0">PARA REVISAR</h2>
+      <p class="letra-chica">Los más viejos primero. «Ver dónde» abre el punto
+        en OpenStreetMap. Rechazado no se borra: deja de verse y queda anotado.</p>
+      ${data.length ? data.map(r => `
+        <div class="tarjeta" style="margin-bottom:8px">
+          <h3>${esc((capaRiesgo(r.capa) || {}).glifo || '')} ${esc(nombreCategoriaRiesgo(r.capa, r.categoria))}</h3>
+          <p>${r.descripcion ? esc(r.descripcion) : '<i>Sin descripción</i>'}</p>
+          <div class="meta">
+            <span>${esc(fechaLinda(r.creado_en_dispositivo))}</span>
+            <span>${r.origen_ubicacion === 'gps'
+              ? 'GPS' + (r.precision_m ? ' ±' + Math.round(r.precision_m) + ' m' : '')
+              : 'Marcado a mano'}</span>
+            <a href="https://www.openstreetmap.org/?mlat=${r.lat}&mlon=${r.lng}#map=18/${r.lat}/${r.lng}"
+               target="_blank" rel="noopener">Ver dónde ↗</a>
+          </div>
+          <div class="fila-item" style="gap:8px;margin-top:10px">
+            <button class="boton" data-moderar="aprobado" data-id="${esc(r.id)}">Aprobar</button>
+            <button class="boton borde" data-moderar="rechazado" data-id="${esc(r.id)}">Rechazar</button>
+          </div>
+        </div>`).join('')
+      : `<div class="vacio">No hay reportes esperando revisión.</div>`}`;
+
+    zona.onclick = async ev => {
+      const b = ev.target.closest('[data-moderar]');
+      if (!b) return;
+      b.disabled = true;
+      const { error } = await db.from('reportes_riesgo').update({
+        estado: b.dataset.moderar, revisado_por: usuario.id, revisado_at: new Date().toISOString()
+      }).eq('id', b.dataset.id);
+      if (error){ b.disabled = false; aviso('No se pudo guardar: ' + error.message, 'error'); return; }
+      zona.onclick = null;
+      vistaRiesgo();
+    };
+  }
+
   /* ============================================================ */
   function dibujar(){
     zona.innerHTML = '<div class="esq-tarjeta"><div class="esqueleto esq-linea titulo"></div><div class="esqueleto esq-linea"></div><div class="esqueleto esq-linea media"></div></div><div class="esq-tarjeta"><div class="esqueleto esq-linea titulo"></div><div class="esqueleto esq-linea"></div><div class="esqueleto esq-linea corta"></div></div>';
     ({ tramites:vistaTramites, faq:vistaFaq, agenda:vistaAgenda, programas:vistaProgramas,
        materiales:vistaMateriales, guia:vistaGuia, avisanos:vistaAvisanos,
        quienes:vistaQuienes, consejo:vistaConsejo, registro:vistaRegistro,
-       categorias:vistaCategorias, catedras:vistaCatedras }[actual])();
+       categorias:vistaCategorias, catedras:vistaCatedras, riesgo:vistaRiesgo }[actual])();
   }
 
   dibujar();

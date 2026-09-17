@@ -2,12 +2,12 @@
   "0": "La Fonoteca: simulador de práctica audiológica",
   "1": "Pantalla Mi año (carrera)",
   "2": "Pantalla Cátedras",
-  "3": "Pantalla Estudiemos (landing de herramientas)",
+  "3": "Pantalla Info útil (trámites y FAQ)",
   "4": "app.js",
   "5": "avisanos.js",
   "6": "Detalle de publicación (?id=)",
   "7": "leer-programa.js",
-  "8": "Pantalla Info útil (trámites y FAQ)",
+  "8": "Mi perfil (mi/index.html)",
   "9": "manifest.json",
   "10": "pintarNav",
   "11": "esc",
@@ -20,7 +20,7 @@
   "18": "tabla-avisanos.sql",
   "19": "tabla-registro.sql",
   "20": "tabla-respaldos.sql",
-  "21": "movimiento.js",
+  "21": "riesgo.js",
   "22": "tabla-organizador.sql",
   "23": "ficha-parser.js",
   "24": "LEEME · La Bolívar con vos",
@@ -54,7 +54,7 @@
   "52": "Bitácora · La Bolívar con vos",
   "53": "Prompt para abrir una sesión de código (17/9 en adelante)",
   "54": "anotar",
-  "55": "sesionActual",
+  "55": "capas.js",
   "56": "vistaProgramas (programas de materias)",
-  "57": "crearCliente"
+  "57": "tabla-riesgo.sql"
 }

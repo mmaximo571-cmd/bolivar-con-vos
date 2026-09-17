@@ -871,7 +871,10 @@ const SECCIONES_ABAJO = [
 const INDICE_PIE = SECCIONES.concat([
   { id:'catedras', texto:'Cátedras y contactos', url:RAIZ+'catedras/' },
   { id:'glosario', texto:'Glosario universitario', url:RAIZ+'glosario/' },
-  { id:'trayecto', texto:'Trayecto optativo', url:RAIZ+'trayecto/' }
+  { id:'trayecto', texto:'Trayecto optativo', url:RAIZ+'trayecto/' },
+  /* Para las prácticas territoriales. Solo en el pie: no es de todos
+     los días y la barra de abajo ya tiene sus cuatro. */
+  { id:'mapa',     texto:'Mapa de riesgo', url:RAIZ+'mapa/' }
 ]);
 
 /* Los sistemas de la facultad y de la universidad. No son de la app:

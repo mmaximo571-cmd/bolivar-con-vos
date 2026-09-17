@@ -1,0 +1,273 @@
+/* ============================================================
+   EL MAPA DE RIESGO  ·  estilos de `mapa/`
+
+   Aparte de `estilos.css` a propósito: esa hoja es armazón y la baja
+   todo el mundo en la primera visita, y esto lo usa solo quien hace
+   prácticas territoriales. Usa las mismas variables, así que el tema
+   oscuro llega solo.
+   ============================================================ */
+
+.pantalla-mapa{ --alto-barra: calc(80px + env(safe-area-inset-bottom, 0px)) }
+
+.mapa-cabeza{ padding-top:18px; padding-bottom:6px }
+.mapa-cabeza .ceja-lectura{ margin:0 0 4px }
+.mapa-titulo{
+  font-family:var(--fuente-titulo); font-weight:400; text-transform:uppercase;
+  font-size:clamp(28px, 8vw, 40px); line-height:1.02; letter-spacing:-.01em; margin:0
+}
+.mapa-titulo em{ font-style:normal; color:var(--rojo) }
+
+.mapa-estado{
+  margin:10px 0 0; font-family:var(--fuente-sub); font-weight:700;
+  font-size:var(--letra-chica); letter-spacing:.02em;
+  display:inline-flex; align-items:center; gap:8px;
+  padding:6px 12px; border-radius:var(--radio-pastilla);
+  background:var(--superficie); border:1px solid var(--linea)
+}
+.mapa-estado::before{
+  content:""; width:8px; height:8px; border-radius:50%; background:var(--texto-suave); flex:none
+}
+.mapa-estado.atento::before{ background:var(--amarillo); box-shadow:0 0 0 1.5px var(--negro) }
+.mapa-estado.enviando::before{ background:var(--celeste) }
+.mapa-estado.error::before{ background:var(--rojo) }
+.mapa-estado[hidden]{ display:none }
+
+/* ---------- los tres interruptores ---------- */
+.capas-fila{
+  display:flex; gap:8px; overflow-x:auto; padding:12px 0; margin:0 -4px;
+  scrollbar-width:none
+}
+.capas-fila::-webkit-scrollbar{ display:none }
+.capa-chip{
+  display:inline-flex; align-items:center; gap:8px;
+  min-height:44px; padding:6px 14px 6px 6px
+}
+/* Encendida NO va en amarillo como el resto de los chips de la app: con
+   tres capas prendidas serían tres manchas amarillas, y el amarillo de
+   esta pantalla es el botón de reportar. Prendida = borde y sombra de
+   tinta; apagada = pálida y con el glifo en gris. */
+.capa-chip[aria-pressed="true"]{
+  background:var(--superficie); color:var(--texto);
+  border:1.5px solid var(--texto); box-shadow:2px 2px 0 var(--texto)
+}
+.capa-chip[aria-pressed="false"]{ color:var(--texto-suave); border-style:dashed }
+.capa-chip[aria-pressed="false"] .pin-chico{ filter:grayscale(1); opacity:.45 }
+.capa-cuenta{ font-family:var(--fuente-mono, monospace); font-weight:500; opacity:.75 }
+.capa-cuenta:empty{ display:none }
+
+/* ---------- el mapa ---------- */
+.mapa-marco{ position:relative }
+.mapa-lienzo{
+  height:max(320px, calc(100dvh - var(--alto-barra) - 250px));
+  background:var(--superficie-2);
+  border-top:1.5px solid var(--texto); border-bottom:1.5px solid var(--texto);
+  z-index:0
+}
+.mapa-lienzo.marcando{ cursor:crosshair; box-shadow:inset 0 0 0 4px var(--amarillo) }
+.mapa-lienzo.vacio-mapa{ height:140px }
+
+.mapa-sin,.mapa-marcando{
+  position:absolute; left:12px; right:12px; top:12px; z-index:500; margin:0;
+  padding:10px 14px; border-radius:var(--radio-chico);
+  font-size:var(--letra-chica); font-weight:500;
+  background:var(--negro); color:var(--sobre-negro); box-shadow:var(--sombra)
+}
+.mapa-marcando{ background:var(--amarillo); color:var(--sobre-color); font-family:var(--fuente-sub); font-weight:700 }
+.mapa-lienzo.vacio-mapa + .mapa-sin{ position:static; margin:12px }
+
+/* Leaflet con la ropa de la app */
+.pantalla-mapa .leaflet-container{ font-family:var(--fuente-texto); background:var(--superficie-2) }
+.pantalla-mapa .leaflet-popup-content-wrapper,
+.pantalla-mapa .leaflet-popup-tip{ background:var(--superficie); color:var(--texto); box-shadow:var(--sombra); border:1.5px solid var(--texto) }
+.pantalla-mapa .leaflet-popup-content-wrapper{ border-radius:var(--radio) }
+.pantalla-mapa .leaflet-popup-content{ margin:12px 14px; font-size:var(--letra-base); line-height:1.4 }
+.pantalla-mapa .leaflet-bar a{ width:40px; height:40px; line-height:40px; font-size:20px }
+[data-tema="oscuro"] .pantalla-mapa .leaflet-tile-pane{ filter:brightness(.8) contrast(1.1) saturate(.8) }
+
+.pin-ficha p{ margin:0 0 6px }
+.pin-ficha-capa{ font-family:var(--fuente-sub); font-size:var(--letra-chica); text-transform:uppercase; letter-spacing:.07em; color:var(--texto-suave) }
+.pin-ficha-titulo{ font-family:var(--fuente-sub); font-weight:800; font-size:17px }
+.pin-ficha-nota{ font-size:var(--letra-chica); border-left:3px solid var(--amarillo); padding-left:8px }
+
+/* ---------- los pines ----------
+   Una gota dada vuelta con el glifo adentro. Forma y glifo iguales en
+   las tres capas; cambian el color y el glifo, así no depende solo del
+   color. La sombra corrida es la segunda tinta de la serigrafía. */
+.pin-envoltura{ background:none; border:none }
+.pin{
+  position:absolute; left:3px; top:0; width:34px; height:34px;
+  border-radius:50% 50% 50% 0; transform:rotate(-45deg);
+  display:grid; place-items:center;
+  border:2px solid var(--negro); box-shadow:2px 2px 0 var(--negro)
+}
+.pin > span{ transform:rotate(45deg); font-size:16px; line-height:1 }
+.pin-hidrico   { background:var(--celeste-hondo) }
+.pin-industrial{ background:var(--rojo-solido) }
+.pin-redes     { background:var(--amarillo) }
+.pin-borrador  { background:var(--superficie); color:var(--texto); font-weight:700 }
+.pin-borrador > span{ font-size:20px }
+/* Lo propio que falta revisar: contorno cortado y medio transparente. */
+.pin.propio{ border-style:dashed; opacity:.8; box-shadow:none }
+.pin.en-telefono{ opacity:.6 }
+
+.pin-chico{
+  width:30px; height:30px; border-radius:50%; flex:none;
+  display:grid; place-items:center; font-size:15px;
+  border:1.5px solid var(--negro)
+}
+.pin-chico.pin-hidrico   { background:var(--celeste-hondo) }
+.pin-chico.pin-industrial{ background:var(--rojo-solido) }
+.pin-chico.pin-redes     { background:var(--amarillo) }
+
+/* ---------- debajo del mapa ---------- */
+.mapa-debajo{ padding-top:18px; padding-bottom:110px }
+.mapa-subtitulo{
+  font-family:var(--fuente-titulo); font-weight:400; text-transform:uppercase;
+  font-size:20px; letter-spacing:0; margin:18px 0 10px
+}
+.mapa-como{ margin:0; padding-left:18px; line-height:1.5 }
+.mapa-como li{ margin-bottom:8px }
+
+.guardados-lista{ list-style:none; margin:0 0 12px; padding:0 }
+.guardado{
+  display:flex; align-items:center; gap:10px; padding:10px 12px; margin-bottom:6px;
+  background:var(--superficie); border:1px solid var(--linea); border-radius:var(--radio-chico)
+}
+.guardado .crecer{ flex:1; min-width:0; display:flex; flex-direction:column; gap:2px }
+.guardado.con-fallo{ border-left:4px solid var(--rojo) }
+.guardado [data-borrar]{ min-height:40px; min-width:64px }
+
+/* ---------- el botón de reportar ---------- */
+.mapa-reportar{
+  position:fixed; z-index:70;
+  left:max(16px, env(safe-area-inset-left, 0px));
+  bottom:calc(var(--alto-barra) + 14px);
+  min-height:56px; padding:0 24px; font-size:17px;
+  box-shadow:3px 3px 0 var(--negro)
+}
+.mapa-reportar[hidden]{ display:none }
+
+/* ============================================================
+   LA HOJA DE ABAJO
+   ============================================================ */
+.hoja-fondo{
+  position:fixed; inset:0; z-index:80; background:rgba(10,10,6,.45);
+  opacity:0; pointer-events:none; transition:opacity .25s ease
+}
+.hoja-fondo.visible{ opacity:1; pointer-events:auto }
+
+.hoja{
+  position:fixed; z-index:90; left:0; right:0; bottom:0;
+  margin:0 auto; max-width:560px;
+  max-height:min(90dvh, 760px);
+  display:flex; flex-direction:column;
+  background:var(--fondo); color:var(--texto);
+  border:1.5px solid var(--texto); border-bottom:none;
+  border-radius:18px 18px 0 0;
+  box-shadow:0 -3px 0 var(--negro), 0 -12px 40px rgba(0,0,0,.18);
+  transform:translate3d(0,110%,0);
+  will-change:transform
+}
+.hoja[hidden]{ display:none }
+
+.hoja-agarre{
+  flex:none; position:relative;
+  display:flex; align-items:center; gap:10px;
+  padding:22px 12px 12px 20px; min-height:68px;
+  touch-action:none; cursor:grab; user-select:none;
+  border-bottom:1px solid var(--linea)
+}
+.hoja-agarre:active{ cursor:grabbing }
+.hoja-manija{
+  position:absolute; top:8px; left:50%; width:44px; height:5px; margin-left:-22px;
+  border-radius:var(--radio-pastilla); background:var(--texto-suave); opacity:.5
+}
+.hoja-titulo{
+  flex:1; margin:0; outline:none;
+  font-family:var(--fuente-titulo); font-weight:400; text-transform:uppercase;
+  font-size:22px; letter-spacing:0; line-height:1.1
+}
+/* Baja, la hoja es solo esta franja: el título entra en un renglón para
+   que tape lo menos posible del mapa. */
+.hoja[data-pos="baja"] .hoja-titulo{ font-size:18px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis }
+.hoja-seguir{ min-height:44px; padding:0 18px }
+.hoja-seguir[hidden]{ display:none }
+.hoja-agarre .boton-icono{ width:44px; height:44px; color:var(--texto); background:transparent; border-color:var(--linea) }
+
+.hoja-cuerpo{
+  flex:1; overflow-y:auto; overscroll-behavior:contain;
+  padding:16px 20px calc(20px + env(safe-area-inset-bottom, 0px))
+}
+
+.paso{ border:none; margin:0 0 20px; padding:0; min-width:0 }
+.paso legend,.paso-rotulo{
+  display:flex; align-items:center; gap:10px; padding:0; margin-bottom:10px;
+  font-family:var(--fuente-sub); font-weight:800; font-size:17px
+}
+.paso-n{
+  width:26px; height:26px; border-radius:50%; flex:none;
+  display:grid; place-items:center; font-size:14px;
+  background:var(--negro); color:var(--amarillo)
+}
+.paso-botones{ display:grid; grid-template-columns:1fr 1fr; gap:10px }
+.paso-botones .boton{ min-height:56px; padding:10px 12px; font-size:14px; line-height:1.15; text-align:center }
+.paso-ayuda{ margin:6px 0 0; color:var(--texto-suave) }
+
+.ubicacion-estado{ margin:10px 0 0; font-size:var(--letra-densa); color:var(--texto-suave) }
+.ubicacion-estado.bien{ color:var(--texto); font-weight:700 }
+.ubicacion-estado.bien::before{ content:"✓ " }
+.ubicacion-estado.error{ color:var(--rojo); font-weight:500 }
+
+/* Las opciones son radios de verdad —se manejan con teclado y las lee
+   un lector de pantalla— vestidos de tarjeta grande. */
+.elegir-capa{ display:grid; gap:8px }
+.opcion-capa,.opcion-categoria{
+  position:relative; display:flex; align-items:center; gap:12px;
+  min-height:56px; padding:10px 14px;
+  background:var(--superficie); border:1.5px solid var(--linea); border-radius:var(--radio);
+  font-family:var(--fuente-sub); font-weight:700; cursor:pointer;
+  transition:transform .1s ease-out
+}
+.opcion-capa:active,.opcion-categoria:active{ transform:scale(.98) }
+.opcion-capa input,.opcion-categoria input{
+  position:absolute; opacity:0; width:1px; height:1px; margin:0
+}
+.opcion-capa.elegida,
+.opcion-categoria.elegida{
+  border-color:var(--texto); box-shadow:2px 2px 0 var(--texto)
+}
+.opcion-capa.elegida::after,
+.opcion-categoria.elegida::after{
+  content:"✓"; margin-left:auto; font-size:18px
+}
+.opcion-capa:has(input:focus-visible),
+.opcion-categoria:has(input:focus-visible){ outline:3px solid var(--celeste); outline-offset:2px }
+
+.elegir-categoria{ display:grid; gap:8px; margin-top:12px }
+.elegir-categoria:empty{ display:none }
+.opcion-categoria{ min-height:52px; font-weight:600; background:var(--superficie-2) }
+
+.hoja-cuerpo textarea{
+  width:100%; min-height:88px; resize:vertical;
+  font-family:var(--fuente-texto); font-size:16px; line-height:1.4;
+  padding:12px; border:1.5px solid var(--linea); border-radius:var(--radio-chico);
+  background:var(--superficie); color:var(--texto); outline:none
+}
+.hoja-cuerpo textarea:focus{ border-color:var(--texto) }
+#enviar{ min-height:58px; font-size:17px; margin-top:4px }
+#form-error[hidden],#form-reporte[hidden],.hoja-listo[hidden]{ display:none }
+
+.hoja-listo{ outline:none; padding:8px 0 4px }
+.hoja-listo-grito{
+  font-family:var(--fuente-titulo); text-transform:uppercase; font-size:28px; line-height:1.05; margin:0 0 8px
+}
+
+@media (prefers-reduced-motion: reduce){
+  .hoja{ transition:none !important }
+  .hoja-fondo{ transition:none }
+  .opcion-capa,.opcion-categoria{ transition:none }
+}
+@media (min-width:760px){
+  .mapa-lienzo{ margin:0 auto; max-width:1100px; border:1.5px solid var(--texto); border-radius:var(--radio) }
+  .mapa-reportar{ left:max(24px, calc(50% - 540px)) }
+}
