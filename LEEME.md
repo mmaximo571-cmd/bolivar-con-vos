@@ -372,7 +372,7 @@ Desde esta computadora, después de cambiar lo que sea:
 git add -A && git commit -m "Que cambiaste, en una linea" && git push
 ```
 
-Eso es todo: en un minuto está en `bolivar-con-vos.vercel.app`.
+Eso es todo: en un minuto está en `labolivarconvos.ar` (la vieja `bolivar-con-vos.vercel.app` sigue apuntando al mismo proyecto).
 
 **Desde otro lado** —una tablet, otra computadora, Claude en la web— se trabaja
 sobre el mismo repositorio de GitHub. Antes de ponerte a tocar acá, traé lo que

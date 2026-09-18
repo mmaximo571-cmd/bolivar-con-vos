@@ -254,7 +254,11 @@
 /* v56 (18/9/2026) `app.js` suma `urlSegura()` y las pantallas que
    muestran enlaces cargados por el equipo la usan: un `javascript:`
    ya no se ejecuta al tocarlo. */
-const VERSION = 'bolivar-v56';
+/* v57 (18/9/2026) `app.js` y `estilos-rediseno.css`: la mudanza a
+   labolivarconvos.ar. Es lo que más necesita el número nuevo: quien
+   abre la dirección vieja tiene el `app.js` guardado, y sin subir esto
+   nunca le llega el código que lo muda con sus datos. */
+const VERSION = 'bolivar-v57';
 const ARMAZON = VERSION + '-armazon';
 const PAGINAS = VERSION + '-paginas';
 
