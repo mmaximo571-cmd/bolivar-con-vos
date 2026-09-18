@@ -105,6 +105,11 @@
 }
 .dc-guardar[aria-pressed="true"]{background:var(--amarillo);border-color:var(--amarillo);color:var(--sobre-color)}
 .dc-guardar:focus-visible,.dc-quitar:focus-visible{outline:3px solid var(--celeste);outline-offset:2px}
+.dc-que .dc-semana{display:block;margin-top:6px;font-size:var(--letra-chica);color:var(--celeste-hondo);font-weight:700}
+[data-tema="oscuro"] .dc-que .dc-semana{color:var(--celeste-claro)}
+.dc-que .dc-semana.no{color:var(--texto-suave);font-weight:400}
+.dc-cuenta-linea{display:flex;flex-wrap:wrap;gap:8px 14px;align-items:center;
+  margin:12px 2px 4px;font-size:var(--letra-nota);color:var(--texto-suave);line-height:1.45}
 .dc-mas{margin:22px 0 4px;font-size:var(--letra-nota);color:var(--texto-suave);line-height:1.5}
 </style>
 </head>
@@ -132,6 +137,14 @@
      no solo un id: si el año que viene la fila ya no está, la persona
      sigue viendo lo que había guardado. Si la fila sigue pero le
      cambiaron el aula, se avisa.
+
+     CON CUENTA, ADEMÁS VA A LA SEMANA DE FECHAS (18/9/2026): cada clase
+     guardada es una fila de `cursada` (ver `tabla-cursada.sql`), la
+     misma que se carga a mano en Mi perfil. Lo del teléfono sigue
+     siendo la lista de «Mis aulas»; la cuenta es una copia para la
+     semana. Por eso sacar una clase de acá borra de la semana SOLO la
+     fila que es la misma clase (materia, día y hora): lo que la persona
+     cargó a mano en Mi perfil con otro nombre u otra hora no se toca.
      ============================================================ -->
 <main id="contenido" tabindex="-1">
 
@@ -294,6 +307,125 @@
   const textoAula = a => a || 'Aula a confirmar';
   const cuando = c => `${c.ini}${c.fin ? '–' + c.fin : ''}`;
 
+  /* ---------- La semana de Fechas, cuando hay cuenta ----------
+     Igual que en Fechas: la librería grande se baja solo si hay una
+     sesión guardada. Sin cuenta, esta pantalla no la necesita. */
+  const CLAVE_SESION = 'sb-' +
+    new URL(window.BOLIVAR_CONFIG.url).hostname.split('.')[0] + '-auth-token';
+  let hayCuentaGuardada = false;
+  try { hayCuentaGuardada = !!localStorage.getItem(CLAVE_SESION); } catch(e){}
+  let cuenta = null;           /* { c: cliente grande, user } */
+  let semana = [];             /* las filas de `cursada` */
+  const noEntro = {};          /* clave -> por qué no entró en la semana */
+  const NOMBRE_BLOQUE = { manana:'mañana', tarde:'tarde', noche:'noche' };
+
+  /* El mismo corte que Mi perfil y Fechas: una celda de la semana es
+     un día y uno de estos tres bloques, y en cada celda entra UNA
+     clase (el índice único de `cursada`). */
+  function bloqueDe(hora){
+    const h = /^(\d{1,2}):/.exec(hora || '');
+    const n = h ? +h[1] : 14;
+    return n < 13 ? 'manana' : n < 18 ? 'tarde' : 'noche';
+  }
+  const diaNumero = d => DIAS.indexOf(d) + 1;
+  const filaDe = g => semana.find(f => f.dia === diaNumero(g.dia) &&
+    (f.hora || '').slice(0, 5) === g.ini && normalizar(f.materia) === normalizar(g.materia));
+
+  function cargarLibreria(){
+    if (window.supabase && window.supabase.createClient) return Promise.resolve();
+    return new Promise((listo, error) => {
+      const sc = document.createElement('script');
+      sc.src = '../lib/supabase.js';
+      sc.onload = listo; sc.onerror = error;
+      document.head.appendChild(sc);
+    });
+  }
+
+  async function conectarCuenta(){
+    if (!hayCuentaGuardada) return;
+    try {
+      await cargarLibreria();
+      const c = window.supabase.createClient(
+        window.BOLIVAR_CONFIG.url, window.BOLIVAR_CONFIG.anonKey);
+      const { data:{ user } } = await c.auth.getUser();
+      /* Sesión vencida: es lo mismo que no tener cuenta. */
+      if (!user){ hayCuentaGuardada = false; return; }
+      const r = await c.from('cursada').select('id,materia,dia,bloque,hora,aula');
+      if (r.error) throw r.error;
+      cuenta = { c, user };
+      semana = r.data || [];
+      /* Si el archivo le cambió el aula a una clase que ya está en la
+         semana, la semana también se entera. */
+      for (const g of mias){
+        const f = filaDe(g);
+        if (f && (f.aula || '') !== (g.aula || '')){
+          const u = await c.from('cursada').update({ aula: g.aula || null }).eq('id', f.id);
+          if (!u.error) f.aula = g.aula || null;
+        }
+      }
+    } catch(e){
+      /* Sin red o sin la librería, «Mis aulas» anda igual: la semana
+         se pone al día la próxima vez. */
+      cuenta = null;
+    }
+  }
+
+  async function sumarASemana(g){
+    if (!cuenta || filaDe(g)) return;
+    const dia = diaNumero(g.dia), bloque = bloqueDe(g.ini);
+    /* Se avisa antes de mandar, como en Mi perfil: la base diría
+       «duplicate key», que no le sirve a nadie. */
+    const ocupada = semana.find(f => f.dia === dia && f.bloque === bloque);
+    if (ocupada){
+      noEntro[g.clave] = `No entró en tu semana: el ${g.dia.toLowerCase()} a la ` +
+        `${NOMBRE_BLOQUE[bloque]} ya tenés ${ocupada.materia}.`;
+      return;
+    }
+    const { data, error } = await cuenta.c.from('cursada').insert({
+      usuario_id: cuenta.user.id, materia: g.materia, dia, bloque,
+      hora: g.ini, aula: g.aula || null
+    }).select('id,materia,dia,bloque,hora,aula').single();
+    if (error){
+      noEntro[g.clave] = /duplicate|23505/i.test(error.message + error.code)
+        ? 'No entró en tu semana: ese día, en ese horario, ya tenés otra materia.'
+        : 'No la pudimos sumar a tu semana. ' + errorEnCastellano(error);
+      return;
+    }
+    delete noEntro[g.clave];
+    semana.push(data);
+  }
+
+  async function sacarDeSemana(g){
+    delete noEntro[g.clave];
+    const f = cuenta && filaDe(g);
+    if (!f) return;
+    const { error } = await cuenta.c.from('cursada').delete().eq('id', f.id);
+    if (!error) semana = semana.filter(x => x.id !== f.id);
+  }
+
+  function estadoSemana(g){
+    if (!cuenta) return '';
+    if (filaDe(g)) return '<span class="dc-semana">✓ En tu semana de Fechas</span>';
+    if (noEntro[g.clave]) return `<span class="dc-semana no">${esc(noEntro[g.clave])}</span>`;
+    return '';
+  }
+
+  /* Las que se guardaron sin cuenta (o antes de esto) no se suben
+     solas al entrar: se ofrecen con un botón. */
+  function htmlLineaCuenta(){
+    if (cuenta){
+      const faltan = mias.filter(g => !filaDe(g) && !noEntro[g.clave]).length;
+      return `<p class="dc-cuenta-linea">
+        <a href="../agenda/?vista=semana">Ver mi semana en Fechas →</a>
+        ${faltan ? `<button type="button" class="dc-guardar" id="sumar-faltan">Sumar ${
+          faltan === 1 ? 'la que falta' : 'las ' + faltan + ' que faltan'} a mi semana</button>` : ''}
+      </p>`;
+    }
+    if (!hayCuentaGuardada) return `<p class="dc-cuenta-linea"><span>Con tu cuenta, tus aulas
+      aparecen también en tu semana de Fechas. <a href="../mi/">Entrar</a></span></p>`;
+    return '';
+  }
+
   /* ---------- Mis aulas ---------- */
   function pintarMias(){
     const caja = document.getElementById('mias');
@@ -325,11 +457,13 @@
             <span class="dc-aula${aula ? '' : ' sin'}">${esc(textoAula(aula))}</span>
             ${cambio ? `<span class="dc-cambio">Cambió: antes era ${esc(textoAula(aulaAnterior[g.clave]))}</span>` : ''}
             ${!ahora && clases.length ? `<span class="dc-cambio">Ya no figura en los horarios de este ciclo</span>` : ''}
+            ${estadoSemana(g)}
           </div>
           <button type="button" class="dc-quitar" data-quitar="${esc(g.clave)}"
                   aria-label="Sacar ${esc(g.materia)} del ${esc(g.dia.toLowerCase())} de mis aulas">✕</button>
         </div>`; }).join('')}
-      </div>`;
+      </div>
+      ${htmlLineaCuenta()}`;
   }
 
   /* Al abrir, lo guardado toma el aula nueva del archivo. El aviso de
@@ -381,7 +515,7 @@
       (filtroCarrera === 'todas' || carreraDe(c.carrera).id === filtroCarrera) &&
       (filtroAnio === 'todos' || c.anio === filtroAnio) &&
       (!palabras.length || (n => palabras.every(p => n.includes(p)))(normalizar(
-        [c.materia, c.docente, c.tipo, c.dia, c.aula, c.codigo, c.anio,
+        [c.materia, c.docente, c.tipo, c.dia, c.ini, c.fin, c.aula, c.codigo, c.anio,
          carreraDe(c.carrera).corto].join(' ')))));
 
     /* Una tarjeta por materia y carrera: Introducción a la Filosofía de
@@ -448,15 +582,18 @@
   });
   filtro.addEventListener('input', pintarResultados);
 
-  resultados.addEventListener('click', e => {
+  resultados.addEventListener('click', async e => {
     const b = e.target.closest('[data-clave]'); if (!b) return;
     const clave = b.dataset.clave;
-    if (mias.some(g => g.clave === clave)){
+    const antes = mias.find(g => g.clave === clave);
+    let nueva = null;
+    if (antes){
       mias = mias.filter(g => g.clave !== clave);
     } else {
       const c = porClave.get(clave); if (!c) return;
-      mias.push({ clave, carrera:c.carrera, anio:c.anio, materia:c.materia,
-        docente:c.docente, tipo:c.tipo, dia:c.dia, ini:c.ini, fin:c.fin, aula:c.aula });
+      nueva = { clave, carrera:c.carrera, anio:c.anio, materia:c.materia,
+        docente:c.docente, tipo:c.tipo, dia:c.dia, ini:c.ini, fin:c.fin, aula:c.aula };
+      mias.push(nueva);
     }
     escribirMias();
     pintarMias();
@@ -464,20 +601,36 @@
     /* El foco vuelve al mismo botón, que se redibujó. */
     const otra = resultados.querySelector(`[data-clave="${CSS.escape(clave)}"]`);
     if (otra) otra.focus();
+    /* Lo del teléfono ya quedó; la semana va después y no frena el toque. */
+    if (cuenta){
+      await (antes ? sacarDeSemana(antes) : sumarASemana(nueva));
+      pintarMias();
+    }
   });
 
-  document.getElementById('mias').addEventListener('click', e => {
+  document.getElementById('mias').addEventListener('click', async e => {
+    const todas = e.target.closest('#sumar-faltan');
+    if (todas){
+      todas.disabled = true; todas.textContent = 'Sumando…';
+      for (const g of mias.slice().sort(porDiaYHora)) await sumarASemana(g);
+      pintarMias();
+      return;
+    }
     const b = e.target.closest('[data-quitar]'); if (!b) return;
+    const antes = mias.find(g => g.clave === b.dataset.quitar);
     mias = mias.filter(g => g.clave !== b.dataset.quitar);
     escribirMias();
     pintarMias();
     pintarResultados();
+    if (cuenta && antes){ await sacarDeSemana(antes); pintarMias(); }
   });
 
   ponerAlDia();
   pintarMias();
   pintarChips();
   pintarResultados();
+  /* La cuenta llega después: lo guardado ya se ve mientras tanto. */
+  if (hayCuentaGuardada){ await conectarCuenta(); pintarMias(); }
 })();
 </script>
 </body>
