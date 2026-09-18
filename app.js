@@ -316,6 +316,20 @@ function esc(t){
   ));
 }
 
+/* Un enlace que carga el equipo -> uno que no puede correr codigo.
+   `esc()` no alcanza para un href: `javascript:alert(1)` no tiene nada
+   que escapar y se ejecuta al tocarlo. Se aceptan http(s), mailto, tel
+   y los enlaces de casa (`/catedras/`, `../estudiemos/`, `#finales`);
+   cualquier otro esquema queda en `#`. Se limpian antes los espacios y
+   caracteres de control porque el navegador los ignora dentro del
+   esquema (`java	script:` tambien corre). */
+function urlSegura(u){
+  const limpia = String(u ?? '').replace(/[ - ]/g, '');
+  const esquema = /^([a-z][a-z0-9+.-]*):/i.exec(limpia);
+  if (!esquema) return String(u ?? '').trim();
+  return /^(https?|mailto|tel)$/i.test(esquema[1]) ? String(u).trim() : '#';
+}
+
 /* Texto con saltos de linea -> HTML seguro */
 function escMulti(t){ return esc(t).replace(/\n/g,'<br>'); }
 

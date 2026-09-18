@@ -1670,7 +1670,7 @@ setTimeout(function(){
            quien no ve la imagen, la primera frase es lo que sirve. */
         const frase = (p.epigrafe || '').split('\n')[0].slice(0, 110).trim();
         return `
-          <a class="posteo-ig" href="${esc(p.permalink)}" target="_blank" rel="noopener">
+          <a class="posteo-ig" href="${esc(urlSegura(p.permalink))}" target="_blank" rel="noopener">
             <img src="${esc(deposito + p.imagen)}"
                  alt="${esc(frase || 'Publicación de la agrupación en Instagram')}"
                  loading="lazy" decoding="async" width="300" height="300">
@@ -1828,7 +1828,7 @@ setTimeout(function(){
      materias» parezcan la misma cosa. */
   function resultado(url, titulo, detalle, rotulo){
     return `
-      <a class="tarjeta" href="${esc(url)}">
+      <a class="tarjeta" href="${esc(urlSegura(url))}">
         <h3>${esc(titulo)}</h3>
         ${detalle ? `<p>${esc(detalle)}</p>` : ''}
         <div class="meta"><span>${esc(rotulo)}</span></div>

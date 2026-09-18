@@ -251,7 +251,10 @@
    parten y la pantalla ya no se corre de costado en el teléfono. */
 /* v55 (18/9/2026) `sw.js`: las pantallas esperan la red 6 s como mucho, no se guardan
    respuestas con error y la copia del armazón se saca a tiempo. */
-const VERSION = 'bolivar-v55';
+/* v56 (18/9/2026) `app.js` suma `urlSegura()` y las pantallas que
+   muestran enlaces cargados por el equipo la usan: un `javascript:`
+   ya no se ejecuta al tocarlo. */
+const VERSION = 'bolivar-v56';
 const ARMAZON = VERSION + '-armazon';
 const PAGINAS = VERSION + '-paginas';
 

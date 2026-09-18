@@ -259,7 +259,7 @@ function bloqueModelo(m, numero){
       </button>
       <p class="modelo3d-credito">
         <b>${esc(m.titulo || '')}</b> de
-        ${m.fuente ? `<a href="${esc(m.fuente)}" target="_blank" rel="noopener">${esc(m.autor || '')}</a>`
+        ${m.fuente ? `<a href="${esc(urlSegura(m.fuente))}" target="_blank" rel="noopener">${esc(m.autor || '')}</a>`
                    : esc(m.autor || '')},
         con licencia ${esc(m.licencia || '')}.${m.nota ? ' ' + esc(m.nota) + '.' : ''}
       </p>

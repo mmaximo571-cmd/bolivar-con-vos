@@ -111,7 +111,7 @@
     const afuera = /^https?:\/\//i.test(t.link_url);
     const texto  = esc(t.link_titulo || (afuera ? 'Ir al sitio oficial' : 'Abrir'));
     return `<a class="boton ancho oscuro" style="margin-top:${margen}px"
-        href="${esc(t.link_url)}"${afuera ? ' target="_blank" rel="noopener"' : ''}>
+        href="${esc(urlSegura(t.link_url))}"${afuera ? ' target="_blank" rel="noopener"' : ''}>
         ${texto} ${afuera ? '↗' : '→'}</a>`;
   }
 

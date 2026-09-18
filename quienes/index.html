@@ -219,7 +219,7 @@ function pintar(p){
           <h2 class="grito aparece" style="font-size:clamp(28px,7.4vw,52px)">Dónde<br>encontrarnos</h2>
           <div class="redes aparece" style="margin-top:26px">
             ${redes.map(r => /^https?:\/\//i.test(String(r.url || ''))
-              ? `<a class="boton borde" href="${esc(r.url)}" target="_blank"
+              ? `<a class="boton borde" href="${esc(urlSegura(r.url))}" target="_blank"
                     rel="noopener">${esc(r.nombre)} ↗</a>`
               : `<span class="red-pendiente">${esc(r.nombre)}: falta cargar el link</span>`
             ).join('')}
@@ -229,7 +229,7 @@ function pintar(p){
             <h2 class="grito" style="font-size:clamp(28px,7.4vw,52px)">${esc(p.sumate.titulo)}</h2>
             <p class="bajada-lectura">${esc(p.sumate.texto || '')}</p>
             ${/^https?:\/\//i.test(String(p.sumate.url || ''))
-              ? `<a class="boton ancho" href="${esc(p.sumate.url)}" target="_blank"
+              ? `<a class="boton ancho" href="${esc(urlSegura(p.sumate.url))}" target="_blank"
                     rel="noopener" style="margin-top:20px;max-width:420px">${
                     esc(p.sumate.boton || 'Escribinos')} ↗</a>`
               : ''}

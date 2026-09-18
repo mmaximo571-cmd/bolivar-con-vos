@@ -650,7 +650,7 @@
           /* Si no tiene enlace todavía, la tarjeta no es un botón que
              no lleva a ningún lado: es una ficha informativa. */
           return hayLink
-            ? `<a class="tarjeta" href="${esc(m.link_url)}" target="_blank" rel="noopener">
+            ? `<a class="tarjeta" href="${esc(urlSegura(m.link_url))}" target="_blank" rel="noopener">
                  ${cuerpo}
                  <span class="material-ir">${esc(m.link_titulo || 'Abrir')} ↗</span>
                </a>`

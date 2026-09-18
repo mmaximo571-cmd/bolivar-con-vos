@@ -140,7 +140,7 @@
       ${p.cuerpo ? `<div style="font-size:16.5px;line-height:1.5">${escMulti(p.cuerpo)}</div>` : ''}
 
       ${p.link_url ? `<a class="boton ancho oscuro" style="margin-top:20px"
-          href="${esc(p.link_url)}" target="_blank" rel="noopener">Abrir el enlace ↗</a>` : ''}
+          href="${esc(urlSegura(p.link_url))}" target="_blank" rel="noopener">Abrir el enlace ↗</a>` : ''}
 
       ${htmlAgendarlo(p)}`;
 

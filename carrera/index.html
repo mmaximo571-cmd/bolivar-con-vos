@@ -2847,7 +2847,7 @@ async function vistaNueva(cod){
         vas a arrancar con <b>${(programa.unidades || []).length} unidades</b> y
         <b>${textosDelPrograma} textos</b> para ir tildando.</p>
       ${programa.pdf_url ? `
-        <a class="boton borde ancho" href="${esc(programa.pdf_url)}"
+        <a class="boton borde ancho" href="${esc(urlSegura(programa.pdf_url))}"
            target="_blank" rel="noopener" style="margin-bottom:12px">
           Ver el programa oficial (PDF)</a>` : ''}`
     : `<p class="letra-chica">Todavía no está cargado el programa de esta
