@@ -37,7 +37,7 @@
 }catch(e){ document.documentElement.dataset.tema = 'claro'; }})();
 </script>
 </head>
-<body>
+<body class="pantalla-estudiemos">
 
 <div id="cabecera"></div>
 
@@ -56,10 +56,24 @@
   <!-- Y POR ESO NO ENTRA CON MOVIMIENTO (13/9, revisión de animaciones):
        con turno tardaba un segundo en asentarse, y el buscador es interfaz,
        no escenografía. Está quieto desde el primer cuadro. -->
-  <div class="buscador">
-    <span class="lupa" id="lupa">🔍</span>
-    <input id="filtro" type="search" autocomplete="off"
-           placeholder="Buscar por materia o tema…" aria-label="Buscar material">
+  <!-- LA BARRA DE VIDRIO (18/9). Buscador y materia viajan juntos y
+       quedan pegados arriba al bajar: la lista pasa por debajo, se ve
+       difuminada, y quien está en el tercer apunte de Epistemología no
+       tiene que subir todo para cambiar de materia. Las materias ya no
+       son una fila de chips (con quince se volvía un riel que nadie
+       recorría): el botón abre una hoja desde abajo con la lista entera. -->
+  <div class="barra-estudio" id="barra-estudio">
+    <div class="buscador">
+      <span class="lupa" id="lupa">🔍</span>
+      <input id="filtro" type="search" autocomplete="off"
+             placeholder="Buscar por materia o tema…" aria-label="Buscar material">
+    </div>
+    <button class="elegir-materia" id="elegir-materia" type="button"
+            aria-haspopup="dialog" aria-controls="hoja-materias" hidden>
+      <span class="elegir-materia-rotulo">Materia</span>
+      <span class="elegir-materia-valor" id="materia-valor">Todas</span>
+      <svg class="elegir-materia-flecha" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg>
+    </button>
   </div>
 
   <!-- LAS FLECHAS NO SE ENFOCAN CON EL TABULADOR, a propósito. Son el
@@ -150,8 +164,6 @@
 
   <div class="titulo-seccion">EL MATERIAL</div>
 
-  <div class="chips" id="chips"></div>
-
   <div id="lista" style="margin-top:10px">
     <div class="esq-tarjeta"><div class="esqueleto esq-linea titulo"></div><div class="esqueleto esq-linea"></div><div class="esqueleto esq-linea media"></div></div>
     <div class="esq-tarjeta"><div class="esqueleto esq-linea titulo"></div><div class="esqueleto esq-linea"></div><div class="esqueleto esq-linea corta"></div></div>
@@ -167,7 +179,12 @@
        canal que ya existe y funciona: el mensaje directo de Instagram.
        Por eso dice «mandanos» y no «subí»: prometer una subida que no
        existe es peor que no tener el botón. -->
-  <section class="comunidad" aria-labelledby="titulo-comunidad">
+  <!-- DESDE EL 18/9 ESTE BLOQUE ES SOLO EL ESTADO VACÍO. Con material
+       cargado, la invitación pasa al botón flotante amarillo de abajo
+       (`.fab-compartir`): el bloque grande al final de la lista lo veía
+       solo quien llegaba hasta el fondo, y empujaba el pie. Sin material,
+       en cambio, el bloque es lo único que hay para decir, y se queda. -->
+  <section class="comunidad" id="comunidad" aria-labelledby="titulo-comunidad" hidden>
     <span data-ico="subir" aria-hidden="true">📤</span>
     <!-- CUANDO NO HAY MATERIAL, ESTE BLOQUE ES EL ESTADO VACÍO. Antes eran
          dos cosas: un «Todavía no hay material» gris sin nada que hacer,
@@ -186,6 +203,29 @@
     </a>
   </section>
 </main>
+
+<!-- EL BOTÓN FLOTANTE DE COMPARTIR. Lleva al mismo mensaje directo que
+     el bloque (la app todavía no recibe archivos, ver arriba), por eso
+     la palabra es «Mandanos» y no «Subí». Va encima del de Avisanos, que
+     vive en todas las pantallas y tiene el rincón de abajo. -->
+<a class="fab-compartir" id="fab-compartir" href="https://ig.me/m/SimonBolivarfts"
+   target="_blank" rel="noopener" aria-label="Mandanos tu resumen por Instagram" hidden>
+  <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 19V5M5 12l7-7 7 7"/></svg>
+  <span class="fab-compartir-texto">Mandanos tu resumen</span>
+</a>
+
+<!-- LA HOJA DE MATERIAS. Reusa `.hoja` de Carrera (fondo, subida, cierre,
+     cuadro centrado en pantallas anchas); `.hoja-materias` le suma la
+     manija, el alto fijo y las esquinas de 24. -->
+<div class="hoja-fondo" id="hoja-materias-fondo" hidden>
+  <div class="hoja hoja-materias" id="hoja-materias" role="dialog" aria-modal="true"
+       aria-labelledby="hoja-materias-titulo">
+    <div class="hoja-manija" id="hoja-manija" aria-hidden="true"></div>
+    <h2 id="hoja-materias-titulo" tabindex="-1">Elegí una materia</h2>
+    <div class="hoja-materias-lista" id="hoja-materias-lista" role="listbox"
+         aria-labelledby="hoja-materias-titulo"></div>
+  </div>
+</div>
 
 <div id="pie"></div>
 
@@ -218,8 +258,24 @@
   });
 
   const lista  = document.getElementById('lista');
-  const chips  = document.getElementById('chips');
   const filtro = document.getElementById('filtro');
+  const barra  = document.getElementById('barra-estudio');
+  const botonMateria = document.getElementById('elegir-materia');
+  const valorMateria = document.getElementById('materia-valor');
+  const comunidad    = document.getElementById('comunidad');
+  const fab          = document.getElementById('fab-compartir');
+  const fondoHoja    = document.getElementById('hoja-materias-fondo');
+  const hojaMaterias = document.getElementById('hoja-materias');
+  const listaHoja    = document.getElementById('hoja-materias-lista');
+
+  /* La barra está en `top:-1px`: cuando queda pegada, un píxel suyo sale
+     de la pantalla y deja de estar entera a la vista. Ahí se le pone la
+     línea de abajo, que solo tiene sentido si hay algo pasando debajo. */
+  if ('IntersectionObserver' in window){
+    new IntersectionObserver(([e]) =>
+      barra.classList.toggle('pegada', e.intersectionRatio < 1 && e.boundingClientRect.top < 1),
+      { threshold:[1] }).observe(barra);
+  }
 
   /* Cómo se llama cada tipo de material en pantalla */
   const TIPOS = {
@@ -448,7 +504,9 @@
          escondido: partir ese dejaría el párrafo de verdad sin encender. */
       { el: invitacion.querySelector('p:not(.comunidad-vacio)'),  tarde: .12 }
     ]);
-    entrarAlLlegar(lista, ':scope > .titulo-seccion, .lista > .tarjeta');
+    /* Entra el grupo entero y no cada renglón: en una lista densa, veinte
+       filas llegando de a una son ruido. */
+    entrarAlLlegar(lista, ':scope > .titulo-seccion, :scope > .lista-material');
   }
   document.addEventListener('bolivar:carrera', pintarCintas);
 
@@ -534,8 +592,9 @@
     lista.innerHTML = '';
     lista.hidden = true;
     document.getElementById('comunidad-vacio').hidden = false;
-    chips.hidden = true;
-    filtro.parentElement.hidden = true;
+    comunidad.hidden = false;
+    fab.hidden = true;
+    barra.hidden = true;
     return;
   }
 
@@ -557,18 +616,150 @@
        a «Todas» en vez de dejar la pantalla vacía sin explicación. */
     if (materiaActiva && !materias.includes(materiaActiva)) materiaActiva = '';
 
-    chips.hidden = false;
-    filtro.parentElement.hidden = false;
+    barra.hidden = false;
+    botonMateria.hidden = false;
     lista.hidden = false;
     document.getElementById('comunidad-vacio').hidden = true;
+    comunidad.hidden = true;
+    fab.hidden = false;
 
-    chips.innerHTML =
-      `<button class="chip" data-materia="">Todas</button>` +
-      materias.map(m => `<button class="chip" data-materia="${esc(m)}">${esc(m)}</button>`).join('');
-
+    pintarHojaMaterias();
     enganchar();
     dibujar();
   }
+
+  /* ============================================================
+     LA HOJA DE MATERIAS (18/9)
+
+     Mismo orden que la lista: las de tu carrera primero, con el corte
+     «De otras carreras» si hay de las dos. Cada renglón dice cuánto
+     material tiene, que es lo que decide si vale la pena entrar.
+     ============================================================ */
+  function pintarHojaMaterias(){
+    const cuantos = m => materiales.filter(x => x.materia === m).length;
+    const opcion = (valor, texto, n) => `
+      <button type="button" class="opcion-materia" role="option" data-materia="${esc(valor)}">
+        <span class="opcion-materia-nombre">${esc(texto)}</span>
+        <span class="opcion-materia-cuenta">${n}</span>
+        <svg class="opcion-materia-tilde" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>
+      </button>`;
+    let html = opcion('', 'Todas las materias', materiales.length);
+    let hayPropias = false, yaSeparado = false;
+    materias.forEach(m => {
+      const otra = esDeOtraCarrera(m);
+      if (otra && !yaSeparado){
+        yaSeparado = true;
+        if (hayPropias) html += `<div class="opcion-materia-corte">De otras carreras</div>`;
+      }
+      if (!otra) hayPropias = true;
+      html += opcion(m, m, cuantos(m));
+    });
+    listaHoja.innerHTML = html;
+  }
+
+  function marcarMateria(){
+    valorMateria.textContent = materiaActiva || 'Todas';
+    botonMateria.classList.toggle('elegida', !!materiaActiva);
+    [...listaHoja.querySelectorAll('.opcion-materia')].forEach(b =>
+      b.setAttribute('aria-selected', b.dataset.materia === materiaActiva ? 'true' : 'false'));
+  }
+
+  /* Abrir y cerrar, con el mismo criterio que la hoja de Carrera: se
+     espera el final de la transición, con un respaldo por tiempo por
+     si no arranca (una hoja que no se cierra deja la pantalla
+     inalcanzable). */
+  let cerrandoHojaMaterias = null;
+  function abrirHojaMaterias(){
+    if (!fondoHoja.hidden) return;
+    marcarMateria();
+    fondoHoja.hidden = false;
+    document.body.style.overflow = 'hidden';
+    const elegida = listaHoja.querySelector('[aria-selected="true"]');
+    if (elegida){
+      elegida.focus({ preventScroll:true });
+      elegida.scrollIntoView({ block:'center' });
+    }
+  }
+  function cerrarHojaMaterias(){
+    if (fondoHoja.hidden || cerrandoHojaMaterias !== null) return;
+    /* Se escucha solo la transición de la hoja misma (las opciones de
+       adentro también tienen las suyas, y burbujean), y el escuchador se
+       saca al terminar: si el cierre lo termina el respaldo por tiempo,
+       uno colgado cerraría la hoja apenas se la vuelve a abrir. */
+    const alTerminar = e => { if (e.target === hojaMaterias) terminar(); };
+    const terminar = () => {
+      hojaMaterias.removeEventListener('transitionend', alTerminar);
+      clearTimeout(cerrandoHojaMaterias);
+      cerrandoHojaMaterias = null;
+      fondoHoja.classList.remove('cerrando');
+      hojaMaterias.style.transform = '';
+      fondoHoja.hidden = true;
+      document.body.style.overflow = '';
+      botonMateria.focus({ preventScroll:true });
+    };
+    hojaMaterias.addEventListener('transitionend', alTerminar);
+    cerrandoHojaMaterias = setTimeout(terminar, 600);
+    /* Si se la venía arrastrando, sigue bajando desde donde quedó. */
+    hojaMaterias.style.transform = '';
+    fondoHoja.classList.add('cerrando');
+  }
+
+  /* LA MANIJA SE ARRASTRA. La raya de arriba promete que la hoja baja
+     con el dedo, así que baja: desde la manija o el título. Más de 90 px
+     (o un tirón rápido) la cierra; menos, vuelve a su lugar. La lista
+     de adentro no arrastra: ahí el dedo es para recorrer materias. En
+     pantallas anchas la hoja es un cuadro centrado y no se arrastra. */
+  (function arrastreHoja(){
+    let desde = null, dy = 0, t0 = 0;
+    hojaMaterias.addEventListener('pointerdown', e => {
+      if (!e.target.closest('.hoja-manija, #hoja-materias-titulo')) return;
+      if (matchMedia('(min-width:720px)').matches) return;
+      desde = e.clientY; dy = 0; t0 = performance.now();
+      hojaMaterias.setPointerCapture(e.pointerId);
+      hojaMaterias.classList.add('arrastrando');
+    });
+    hojaMaterias.addEventListener('pointermove', e => {
+      if (desde === null) return;
+      dy = Math.max(0, e.clientY - desde);
+      hojaMaterias.style.transform = `translateY(${dy}px)`;
+    });
+    const soltar = () => {
+      if (desde === null) return;
+      desde = null;
+      hojaMaterias.classList.remove('arrastrando');
+      const rapido = dy / Math.max(1, performance.now() - t0) > .6;
+      if (dy > 90 || (rapido && dy > 30)) cerrarHojaMaterias();
+      else hojaMaterias.style.transform = '';
+    };
+    hojaMaterias.addEventListener('pointerup', soltar);
+    hojaMaterias.addEventListener('pointercancel', soltar);
+  })();
+
+  botonMateria.addEventListener('click', abrirHojaMaterias);
+  fondoHoja.addEventListener('click', e => { if (e.target === fondoHoja) cerrarHojaMaterias(); });
+  document.addEventListener('keydown', e => {
+    if (fondoHoja.hidden) return;
+    if (e.key === 'Escape'){ cerrarHojaMaterias(); return; }
+    /* Flechas arriba y abajo recorren las opciones, como en un select. */
+    if (e.key !== 'ArrowDown' && e.key !== 'ArrowUp') return;
+    const ops = [...listaHoja.querySelectorAll('.opcion-materia')];
+    const aca = ops.indexOf(document.activeElement);
+    const va = Math.max(0, Math.min(ops.length - 1, aca + (e.key === 'ArrowDown' ? 1 : -1)));
+    e.preventDefault();
+    ops[va].focus();
+  });
+  listaHoja.addEventListener('click', e => {
+    const b = e.target.closest('.opcion-materia');
+    if (!b) return;
+    materiaActiva = b.dataset.materia;
+    dibujar();
+    cerrarHojaMaterias();
+    /* Si la lista ya estaba scrolleada, la materia nueva arranca desde
+       su principio y no desde la mitad. */
+    const rotulo = lista.previousElementSibling;
+    if (rotulo && lista.getBoundingClientRect().top < 0)
+      rotulo.scrollIntoView({ block:'start' });
+  });
 
   /* `chips` y `filtro` están fijos en el HTML, no se redibujan: si los
      escuchara desde `pintar`, la segunda pasada colgaría un segundo
@@ -577,12 +768,6 @@
     if (enganchado) return;
     enganchado = true;
 
-    chips.addEventListener('click', e => {
-      const b = e.target.closest('.chip');
-      if (!b) return;
-      materiaActiva = b.dataset.materia;
-      dibujar();
-    });
     filtro.addEventListener('input', dibujar);
 
     /* La salida de «no hay resultados». Suelta la búsqueda y la materia
@@ -598,8 +783,7 @@
   }
 
   function dibujar(){
-    [...chips.children].forEach(b =>
-      b.setAttribute('aria-pressed', b.dataset.materia === materiaActiva ? 'true' : 'false'));
+    marcarMateria();
 
     const q = normalizar(filtro.value.trim());
     const visibles = materiales.filter(m =>
@@ -632,29 +816,43 @@
         if (hayPropias) html += `<div class="titulo-seccion otras-carreras">De otras carreras</div>`;
       }
       if (!otra) hayPropias = true;
+      /* LA LISTA COMPACTA (18/9). Una fila de alto fijo por apunte:
+         ícono del tipo, título en un renglón, tipo · cátedra · año
+         abajo, y la flecha a la derecha. La descripción ya no va a la
+         vista —hacía que cada tarjeta midiera distinto y el ojo
+         saltaba—: queda en el globito del mouse y el buscador la sigue
+         leyendo. Quién lo compartió SÍ se ve, al final de la segunda
+         línea (18/9, pedido de Máximo): el crédito es parte de lo que
+         anima a otras personas a mandar lo suyo. */
       html += `<div class="titulo-seccion">${esc(materia)}
           <span class="cuenta-grupo">${suyos.length}</span></div>
-        <div class="lista">` +
+        <div class="lista-material">` +
         suyos.map(m => {
           const hayLink = /^https?:\/\//i.test(m.link_url || '');
           const etiqueta = TIPOS[m.tipo] || TIPOS.otro;
+          const datos = [etiqueta, m.catedra, m.anio].filter(Boolean).map(esc).join(' · ');
+          const pista = m.descripcion || '';
+          const conPista = pista ? ` title="${esc(pista)}"` : '';
           const cuerpo = `
-            <span class="material-tipo ${esc(m.tipo)}">${esc(etiqueta)}</span>
-            <h3>${esc(m.titulo)}</h3>
-            ${m.descripcion ? `<p>${escMulti(m.descripcion)}</p>` : ''}
-            <div class="meta">
-              ${m.catedra ? `<span>${esc(m.catedra)}</span>` : ''}
-              ${m.anio ? `<span>${m.anio}</span>` : ''}
-              ${m.aporta ? `<span>Lo compartió ${esc(m.aporta)}</span>` : ''}
-            </div>`;
-          /* Si no tiene enlace todavía, la tarjeta no es un botón que
-             no lleva a ningún lado: es una ficha informativa. */
+            <span class="fila-ico ${esc(m.tipo || 'otro')}" aria-hidden="true">
+              <svg viewBox="0 0 24 24"><path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z"/><path d="M14 3v5h5M9 13h6M9 17h4"/></svg>
+            </span>
+            <span class="fila-texto">
+              <span class="fila-titulo">${esc(m.titulo)}</span>
+              <span class="fila-datos"><span class="fila-datos-base">${datos}</span>${m.aporta
+                ? `<span class="fila-aporta">Lo compartió ${esc(m.aporta)}</span>` : ''}</span>
+            </span>`;
+          /* Si no tiene enlace todavía, la fila no es un botón que no
+             lleva a ningún lado: se ve igual, pero sin la flecha. */
           return hayLink
-            ? `<a class="tarjeta" href="${esc(urlSegura(m.link_url))}" target="_blank" rel="noopener">
+            ? `<a class="fila-material" href="${esc(urlSegura(m.link_url))}" target="_blank" rel="noopener"${conPista}>
                  ${cuerpo}
-                 <span class="material-ir">${esc(m.link_titulo || 'Abrir')} ↗</span>
+                 <span class="fila-accion">
+                   <span class="solo-lectores">${esc(m.link_titulo || 'Abrir')}</span>
+                   <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 17L17 7M8 7h9v9"/></svg>
+                 </span>
                </a>`
-            : `<div class="tarjeta">${cuerpo}</div>`;
+            : `<div class="fila-material sin-link"${conPista}>${cuerpo}</div>`;
         }).join('') + `</div>`;
     });
     lista.innerHTML = html;

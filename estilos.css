@@ -2458,6 +2458,224 @@ details.tarjeta .respuesta{margin-top:9px;color:var(--texto-suave);font-size:var
   font-size:var(--letra-densa);text-transform:uppercase;letter-spacing:.04em;color:var(--celeste)
 }
 
+/* ---------- La barra de vidrio (18/9) ----------
+   Buscador + materia, pegados arriba al bajar. No tiene color propio:
+   el fondo de la pantalla al 82% con desenfoque, así lo que pasa por
+   debajo se adivina. Se sale 16 px a cada lado para que el vidrio
+   llegue al borde y la lista no asome por los costados. `top:-1px` es
+   para que el vigía del JS note cuándo quedó pegada y le ponga la
+   línea de abajo; suelta, se funde con la pantalla. */
+.barra-estudio{
+  position:sticky;top:-1px;z-index:50;
+  display:flex;gap:8px;align-items:stretch;
+  margin:0 -16px;padding:9px 16px 10px;
+  background:var(--vidrio);
+  backdrop-filter:blur(16px) saturate(1.3);-webkit-backdrop-filter:blur(16px) saturate(1.3);
+  border-bottom:1px solid transparent;
+  transition:border-color var(--t-chico,180ms) ease, box-shadow var(--t-chico,180ms) ease
+}
+.barra-estudio.pegada{
+  border-bottom-color:var(--linea);
+  box-shadow:0 8px 20px -14px rgba(22,21,15,.35)
+}
+@supports not ((backdrop-filter:blur(2px)) or (-webkit-backdrop-filter:blur(2px))){
+  .barra-estudio{background:var(--fondo)}
+}
+.barra-estudio .buscador{flex:1 1 auto;min-width:0}
+.barra-estudio .buscador input{padding-top:12px;padding-bottom:12px;box-shadow:none}
+.barra-estudio .buscador input:focus{box-shadow:0 0 0 3px var(--celeste)}
+
+.elegir-materia{
+  flex:0 1 auto;max-width:44%;min-height:48px;
+  display:flex;align-items:center;gap:6px;padding:0 12px 0 14px;
+  border:1px solid var(--linea);border-radius:var(--radio-pastilla);
+  background:var(--superficie);color:var(--texto);
+  font-family:var(--fuente-texto);font-size:var(--letra-nota);cursor:pointer;
+  transition:background var(--t-chico,180ms) ease, border-color var(--t-chico,180ms) ease
+}
+.elegir-materia-rotulo{color:var(--texto-suave)}
+.elegir-materia-valor{font-weight:700;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.elegir-materia-flecha{
+  width:16px;height:16px;flex:0 0 auto;
+  fill:none;stroke:currentColor;stroke-width:2.2;stroke-linecap:round;stroke-linejoin:round
+}
+/* Con una materia elegida el botón se enciende, igual que el chip
+   elegido de antes: así se ve de lejos que la lista está filtrada. */
+.elegir-materia.elegida{background:var(--amarillo);border-color:var(--amarillo);color:var(--sobre-color)}
+.elegir-materia.elegida .elegir-materia-rotulo{display:none}
+.elegir-materia:focus-visible{outline:3px solid var(--celeste);outline-offset:2px}
+/* En el teléfono angosto el rótulo «Materia» se va: queda el valor. */
+@media (max-width:380px){ .elegir-materia-rotulo{display:none} }
+
+/* ---------- La lista compacta (18/9) ----------
+   Filas de 64 de alto, de borde a borde, sin tarjeta. El ojo baja en
+   línea recta: ícono, título, flecha. El separador empieza donde empieza
+   el texto, no en el borde, como en las listas del sistema. */
+.lista-material{display:flex;flex-direction:column;margin:0 -16px 6px}
+.fila-material{
+  position:relative;display:flex;align-items:center;gap:12px;
+  height:64px;padding:0 10px 0 16px;
+  color:var(--texto);text-decoration:none;
+  transition:background var(--t-chico,180ms) ease
+}
+.fila-material + .fila-material::before{
+  content:'';position:absolute;top:0;left:68px;right:16px;
+  border-top:1px solid var(--linea)
+}
+a.fila-material:active{background:var(--superficie-2)}
+@media (hover:hover) and (pointer:fine){
+  a.fila-material:hover{background:var(--superficie-2)}
+}
+a.fila-material:focus-visible{outline:3px solid var(--celeste);outline-offset:-3px;border-radius:var(--radio-chico)}
+
+.fila-ico{
+  flex:0 0 40px;width:40px;height:40px;border-radius:8px;
+  display:flex;align-items:center;justify-content:center;
+  background:var(--superficie-2);color:var(--texto-suave)
+}
+.fila-ico svg{
+  width:22px;height:22px;
+  fill:none;stroke:currentColor;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round
+}
+/* El tipo sigue teniendo su color, ahora en el cuadradito: amarillo el
+   resumen, rojo el parcial, celeste el grupo de estudio. Teñido y no
+   pleno, para que veinte filas no sean veinte manchas. */
+.fila-ico.resumen{background:color-mix(in srgb, var(--amarillo) 38%, var(--superficie-2));color:var(--texto)}
+.fila-ico.parcial{background:color-mix(in srgb, var(--rojo-solido) 16%, var(--superficie-2));color:var(--rojo-solido)}
+.fila-ico.guia   {background:color-mix(in srgb, var(--celeste) 20%, var(--superficie-2));color:var(--texto)}
+
+.fila-texto{flex:1 1 auto;min-width:0;display:flex;flex-direction:column;gap:3px}
+.fila-titulo,.fila-datos-base,.fila-aporta{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.fila-titulo{font-size:var(--letra-base);font-weight:500;line-height:1.2;letter-spacing:-.005em}
+.fila-datos{display:flex;min-width:0;font-size:var(--letra-chica);color:var(--texto-suave);line-height:1.2}
+.fila-datos-base{flex:0 1 auto;min-width:0}
+/* El crédito no se come: si no entra todo, se corta primero la
+   cátedra, y el nombre de quien lo compartió se achica recién al final
+   (hasta la mitad de la línea como mucho). */
+.fila-aporta{flex:0 0 auto;max-width:55%}
+.fila-datos-base:not(:empty) + .fila-aporta::before{content:' · ';white-space:pre}
+
+.fila-accion{
+  flex:0 0 40px;width:40px;height:40px;border-radius:var(--radio-pastilla);
+  display:flex;align-items:center;justify-content:center;color:var(--celeste)
+}
+.fila-accion svg{
+  width:20px;height:20px;
+  fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round
+}
+/* Sin enlace no hay flecha: la fila guarda el lugar para que los
+   títulos queden alineados con los de al lado. */
+.fila-material.sin-link{padding-right:60px}
+
+/* ---------- La hoja de materias (18/9) ----------
+   Es la `.hoja` de Carrera con tres cambios: alto fijo al 70% (la
+   lista de adentro scrollea, la hoja no), esquinas de 24 solo arriba,
+   y la manija. */
+.hoja.hoja-materias{
+  height:70vh;max-height:70vh;padding:0;
+  display:flex;flex-direction:column;overflow:hidden;
+  border-radius:24px 24px 0 0
+}
+.hoja.hoja-materias.arrastrando{transition:none}
+/* La manija mide 22 de alto aunque la raya mida 4: se agarra con el
+   dedo, no con la punta de un lápiz. */
+.hoja-manija{
+  flex:0 0 auto;height:22px;position:relative;cursor:grab;touch-action:none
+}
+.hoja-manija::before{
+  content:'';position:absolute;left:50%;top:9px;width:40px;height:4px;margin-left:-20px;
+  border-radius:99px;background:color-mix(in srgb, var(--texto) 22%, transparent)
+}
+.hoja-materias h2{
+  flex:0 0 auto;text-align:center;margin:2px 16px 10px;
+  font-size:var(--letra-sub);touch-action:none
+}
+.hoja-materias-lista{
+  flex:1 1 auto;overflow-y:auto;overscroll-behavior:contain;
+  padding:0 8px calc(16px + env(safe-area-inset-bottom, 0px));
+  border-top:1px solid var(--linea)
+}
+.opcion-materia{
+  display:flex;align-items:center;gap:12px;width:100%;min-height:52px;
+  padding:0 12px;margin-top:2px;border:0;border-radius:12px;background:none;
+  font-family:var(--fuente-texto);font-size:var(--letra-base);text-align:left;
+  color:var(--texto);cursor:pointer
+}
+.opcion-materia:first-child{margin-top:8px}
+.opcion-materia-nombre{flex:1 1 auto;min-width:0;line-height:1.25}
+.opcion-materia-cuenta{flex:0 0 auto;font-size:var(--letra-chica);color:var(--texto-suave)}
+.opcion-materia-tilde{
+  flex:0 0 20px;width:20px;height:20px;visibility:hidden;
+  fill:none;stroke:currentColor;stroke-width:2.4;stroke-linecap:round;stroke-linejoin:round
+}
+.opcion-materia[aria-selected="true"]{background:var(--superficie-2);font-weight:700}
+.opcion-materia[aria-selected="true"] .opcion-materia-tilde{visibility:visible}
+@media (hover:hover) and (pointer:fine){
+  .opcion-materia:hover{background:var(--superficie-2)}
+}
+.opcion-materia:focus-visible{outline:3px solid var(--celeste);outline-offset:-3px}
+.opcion-materia-corte{
+  font-family:var(--fuente-texto);font-size:var(--letra-mini);font-weight:700;
+  letter-spacing:.08em;text-transform:uppercase;color:var(--texto-suave);
+  padding:18px 12px 6px
+}
+/* En pantalla ancha la hoja ya es un cuadro centrado (ver PANTALLAS
+   GRANDES): ahí no hay nada que arrastrar, y la manija mentiría. */
+@media (min-width:720px){
+  .hoja.hoja-materias{height:min(70vh, 560px);max-width:440px;border-radius:24px}
+  .hoja-manija{height:14px;cursor:default}
+  .hoja-manija::before{display:none}
+}
+
+/* ---------- El botón flotante de compartir (18/9) ----------
+   El rincón de abajo a la derecha ya es de Avisanos, en todas las
+   pantallas. En el teléfono este va AL LADO, en la misma fila: arriba
+   le taparía el globo de Avisanos y la alerta de la mesa, que salen
+   justamente para ese lado. En pantalla ancha Avisanos se estira con
+   su palabra y ya no se sabe cuánto mide, así que este sube encima, y
+   la alerta de la mesa sube un piso más. */
+.fab-compartir{
+  position:fixed;z-index:70;
+  right:82px;bottom:calc(74px + env(safe-area-inset-bottom, 0px));
+  width:56px;height:56px;border-radius:50%;
+  display:inline-flex;align-items:center;justify-content:center;gap:9px;
+  background:var(--amarillo);color:#16150F;text-decoration:none;
+  font-family:var(--fuente-sub);font-weight:700;font-size:var(--letra-base);
+  box-shadow:0 4px 12px rgba(0,0,0,.15), 0 8px 24px rgba(249,232,48,.3)
+}
+.fab-compartir svg{
+  width:24px;height:24px;flex:0 0 auto;
+  fill:none;stroke:currentColor;stroke-width:2.4;stroke-linecap:round;stroke-linejoin:round
+}
+.fab-compartir-texto{
+  position:absolute;width:1px;height:1px;overflow:hidden;clip-path:inset(50%);white-space:nowrap
+}
+.fab-compartir:active{transform:scale(.94)}
+@media (hover:hover) and (pointer:fine){
+  .fab-compartir:hover{transform:translateY(-2px);box-shadow:0 6px 16px rgba(0,0,0,.18), 0 12px 30px rgba(249,232,48,.4)}
+}
+.fab-compartir:focus-visible{outline:3px solid var(--celeste);outline-offset:3px}
+/* Al bajar, Avisanos se aparta (ver `apartado` en app.js). Si este se
+   quedara quieto, flotaría solo en el medio de la fila: entonces baja
+   al rincón que queda libre, y vuelve a su lugar cuando Avisanos
+   vuelve. Sin `:has`, simplemente no se mueve. */
+.fab-compartir{transition:transform var(--t-medio,240ms) var(--sale,ease), box-shadow var(--t-chico,180ms) ease}
+body:has(.avisanos.apartado) .fab-compartir{transform:translateX(68px)}
+@media (min-width:720px){
+  body:has(.avisanos.apartado) .fab-compartir{transform:translateY(68px)}
+  .fab-compartir{
+    right:14px;bottom:calc(142px + env(safe-area-inset-bottom, 0px));
+    width:auto;height:auto;padding:14px 20px 14px 16px;border-radius:var(--radio-pastilla)
+  }
+  .fab-compartir-texto{position:static;width:auto;height:auto;overflow:visible;clip-path:none}
+  .pantalla-estudiemos .alerta-mesa{bottom:calc(210px + env(safe-area-inset-bottom, 0px))}
+  .pantalla-estudiemos .alerta-mesa::after{display:none}
+}
+@media (prefers-reduced-motion:reduce){
+  .fab-compartir,.fila-material,.barra-estudio{transition:none}
+  .fab-compartir:hover,.fab-compartir:active{transform:none}
+}
+
 /* ============================================================
    KIT DE INGRESO
    Las primeras cosas que necesita alguien que recien llega.

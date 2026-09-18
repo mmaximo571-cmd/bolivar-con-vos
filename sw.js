@@ -263,7 +263,11 @@
    portada), el botón «Mandanos tu resumen» se ve en tema claro, el chat
    ofrece desde el saludo pasar con un compa de la Bolívar, y el buscador
    de Info útil busca palabra por palabra. */
-const VERSION = 'bolivar-v58';
+/* v59 (18/9/2026) `estilos.css` y Estudiemos: el material pasa a lista
+   compacta, buscador y materia en una barra de vidrio pegada arriba, la
+   materia se elige en una hoja desde abajo, y la invitación a compartir
+   es un botón flotante (el bloque amarillo queda para el estado vacío). */
+const VERSION = 'bolivar-v59';
 const ARMAZON = VERSION + '-armazon';
 const PAGINAS = VERSION + '-paginas';
 
