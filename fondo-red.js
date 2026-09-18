@@ -44,6 +44,23 @@
    al lado porque son justo los que uno tienta a tocar.
    ------------------------------------------------------------ */
 var AJUSTES = {
+  /* EL INTERRUPTOR. En false no se dibuja nada, no se crea ningún
+     lienzo y no corre ningún bucle: la app queda exactamente como
+     antes de la red, con su color de fondo de siempre.
+
+     Existe por la misma regla que el mapa de riesgo: entró después
+     del congelamiento del 17/9, y si en un teléfono real traba el
+     scroll o calienta el aparato, no se arregla a las corridas —se
+     apaga acá, se sube, y se lanza sin ella—. Apagarla es cambiar
+     esta palabra y nada más.
+
+     OJO: no se apaga en el acto para quien ya abrió la app. Este
+     archivo es armazón, y el service worker lo sirve de lo guardado
+     y lo refresca por detrás: el cambio llega en la SEGUNDA carga.
+     Si hace falta que llegue en la primera, además hay que subir
+     VERSION en sw.js. */
+  prendida: true,
+
   /* Un nodo cada N píxeles cuadrados. Da ~60 en una pantalla de
      escritorio. Más denso que esto y deja de ser un fondo: se
      vuelve un dibujo. */
@@ -534,6 +551,8 @@ function marcarMedicion(c){
    En el navegador viejo que no tenga canvas no se rompe nada:
    simplemente no hay red.
    ------------------------------------------------------------ */
+if (!AJUSTES.prendida) return;
+
 var prueba = document.createElement('canvas');
 if (!prueba.getContext || !prueba.getContext('2d')) return;
 
