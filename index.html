@@ -1516,7 +1516,7 @@ setTimeout(function(){
     const escritas = {
     5:  'Planes, idioma y tramo optativo',
     1:  'Materias, finales y SIU Guaraní',
-    8:  'Horarios, calendario y servicios',
+    8:  'Buscá tu aula y guardala',
     9:  'Cómo escribirle a cada cátedra',
     10: 'Proyectos y convocatorias',
     4:  'Constancias, equivalencias y diploma',
@@ -1533,7 +1533,10 @@ setTimeout(function(){
   function pintarAccesos(){
     /* El organizador primero y destacado; después lo de la carrera y
        las categorías que tengan algo adentro, hasta completar los nueve. */
-    const conContenido = categorias.filter(c =>
+    /* La 8, «Dónde curso», entra siempre: desde el 18/9/2026 lleva a su
+       pantalla propia (`donde-curso/`), que tiene contenido aunque la
+       categoría de Info útil esté vacía. */
+    const conContenido = categorias.filter(c => c.id === 8 ||
       tramites.some(t => t.categoria_id === c.id) ||
       preguntas.some(p => p.categoria_id === c.id));
 
@@ -1565,7 +1568,7 @@ setTimeout(function(){
       categoriasQueEntran.map(c => ({
         dibujo: iconoDeCategoria(c), nombre: c.nombre,
         bajada: bajadaDeCategoria(c),
-        url: 'tramites/?categoria=' + c.id
+        url: c.id === 8 ? 'donde-curso/' : 'tramites/?categoria=' + c.id
       })), espacios);
 
     /* La flecha y la bajada van siempre en el HTML; en el celular el

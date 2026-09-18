@@ -1,0 +1,484 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Dónde curso · La Bolívar con vos</title>
+<meta name="description" content="Buscá tu materia y encontrá el aula, el día y el horario de cada clase de la Facultad de Trabajo Social. Guardá las tuyas y tenelas a mano.">
+<meta name="theme-color" content="#F9E830">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+<!-- Iconos de la app: pestana, Google, y pantalla de inicio del celular -->
+<link rel="icon" type="image/png" sizes="32x32" href="../imagenes/icono-32.png">
+<link rel="icon" type="image/png" sizes="96x96" href="../imagenes/icono-96.png">
+<link rel="icon" type="image/png" sizes="192x192" href="../imagenes/icono-192.png">
+<link rel="apple-touch-icon" href="../imagenes/icono-apple.png">
+<link rel="manifest" href="../manifest.json">
+
+<!-- Como se ve cuando alguien comparte el link por WhatsApp o Instagram -->
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="La Bolivar con vos">
+<meta property="og:title" content="Dónde curso · La Bolívar con vos">
+<meta property="og:description" content="Buscá tu materia: aula, día y horario de cada clase. Guardá las tuyas.">
+<meta property="og:image" content="https://labolivarconvos.ar/imagenes/compartir.png">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="stylesheet" href="../estilos.css">
+<link rel="stylesheet" href="../estilos-rediseno.css">
+<!-- EL TEMA, ANTES DE DIBUJAR NADA. Mismo motivo que en el glosario. -->
+<script>
+(function(){try{
+  var g = localStorage.getItem('bolivar-tema') || 'auto';
+  var oscuro = g === 'oscuro' || (g === 'auto' &&
+    window.matchMedia('(prefers-color-scheme: dark)').matches);
+  document.documentElement.dataset.tema = oscuro ? 'oscuro' : 'claro';
+}catch(e){ document.documentElement.dataset.tema = 'claro'; }})();
+</script>
+<!-- LOS ESTILOS DE ESTA PANTALLA VAN ACÁ Y NO EN `estilos.css` a
+     propósito: la hoja es armazón y se sirve de lo guardado, así que
+     una clase nueva ahí no le llega a quien ya tiene la app hasta subir
+     la versión del service worker. Acá, como la pantalla se sirve red
+     primero, llegan con ella. Solo usan las variables de la hoja, así
+     que el tema oscuro sale solo. -->
+<style>
+.dc-hoy{
+  display:flex;gap:10px;align-items:baseline;flex-wrap:wrap;
+  font-size:var(--letra-nota);color:var(--texto-suave);margin:0 0 10px
+}
+.dc-mias{display:grid;gap:10px;margin-bottom:6px}
+.dc-mia{
+  display:grid;grid-template-columns:auto 1fr auto;gap:12px;align-items:center;
+  background:var(--superficie);border:1.5px solid var(--tinta-borde);
+  border-radius:var(--radio);box-shadow:var(--sombra);padding:12px 12px 12px 14px
+}
+.dc-mia.es-hoy{border-left-width:6px;border-left-color:var(--celeste)}
+.dc-cuando{
+  font-family:var(--fuente-datos);font-size:var(--letra-chica);line-height:1.25;
+  text-align:center;min-width:54px
+}
+.dc-cuando b{display:block;font-size:var(--letra-densa);text-transform:uppercase;letter-spacing:.04em}
+.dc-que{min-width:0}
+.dc-que strong{display:block;font-size:var(--letra-densa);line-height:1.25}
+.dc-que span{font-size:var(--letra-chica);color:var(--texto-suave)}
+.dc-que .dc-aula{
+  display:block;margin-top:6px;font-family:var(--fuente-titulo);color:var(--texto);
+  font-size:var(--letra-sub);line-height:1.05
+}
+.dc-que .dc-aula.sin{font-family:var(--fuente-sub);font-size:var(--letra-nota);color:var(--texto-suave)}
+.dc-que .dc-cambio{
+  display:block;margin-top:6px;font-size:var(--letra-chica);
+  background:var(--amarillo);color:var(--sobre-color);
+  border-radius:var(--radio-chico);padding:4px 8px
+}
+.dc-quitar{
+  width:36px;height:36px;border-radius:50%;border:1px solid var(--linea);
+  background:transparent;color:var(--texto);font-size:15px;cursor:pointer
+}
+.dc-que .dc-marca-hoy{
+  display:inline-block;margin-left:6px;padding:1px 7px;border-radius:var(--radio-pastilla);
+  background:var(--celeste);color:#fff;font-size:var(--letra-mini);font-weight:700;
+  letter-spacing:.06em;vertical-align:1px
+}
+
+.dc-filtros{margin:12px 0 4px}
+.dc-filtros .chips{padding-bottom:4px}
+.dc-cuenta{font-size:var(--letra-chica);color:var(--texto-suave);margin:8px 2px 0}
+
+.dc-materia h3{font-size:clamp(18px,4.6vw,22px)}
+.dc-datos{margin:6px 0 4px;font-size:var(--letra-chica);color:var(--texto-suave);line-height:1.4}
+.dc-clases{list-style:none;margin:10px 0 0;padding:0;display:grid;gap:8px}
+.dc-clase{
+  display:grid;grid-template-columns:1fr auto;gap:10px;align-items:center;
+  border-top:1px solid var(--linea);padding-top:8px
+}
+.dc-clase-tipo{
+  display:block;font-size:var(--letra-mini);font-weight:700;letter-spacing:.06em;
+  text-transform:uppercase;color:var(--texto-suave);margin-bottom:2px
+}
+.dc-clase-cuando{font-family:var(--fuente-datos);font-size:var(--letra-densa);white-space:nowrap}
+.dc-clase-aula{display:block;font-weight:700;font-size:var(--letra-base);margin-top:2px}
+.dc-clase-aula.sin{font-weight:400;color:var(--texto-suave);font-size:var(--letra-nota)}
+.dc-guardar{
+  min-height:40px;padding:8px 14px;border-radius:var(--radio-pastilla);cursor:pointer;
+  border:1.5px solid var(--tinta-borde);background:var(--superficie);color:var(--texto);
+  font-family:var(--fuente-sub);font-size:var(--letra-nota);font-weight:700;white-space:nowrap
+}
+.dc-guardar[aria-pressed="true"]{background:var(--amarillo);border-color:var(--amarillo);color:var(--sobre-color)}
+.dc-guardar:focus-visible,.dc-quitar:focus-visible{outline:3px solid var(--celeste);outline-offset:2px}
+.dc-mas{margin:22px 0 4px;font-size:var(--letra-nota);color:var(--texto-suave);line-height:1.5}
+</style>
+</head>
+<body class="lectura sin-js">
+
+<div id="cabecera"></div>
+
+<!-- ============================================================
+     DÓNDE CURSO
+
+     Vive colgada de Info útil (la vuelta, la barra de abajo y la
+     categoría 8 apuntan acá) pero es una pantalla propia: el botón
+     «Dónde curso» del inicio trae directo.
+
+     LOS DATOS SON `horarios.csv`, en esta misma carpeta, tal cual lo
+     entregaron para el ciclo lectivo 2026 (una fila por clase: carrera,
+     año, código, materia, docente, tipo, día, hora de inicio y de fin,
+     aula). Para actualizar las aulas se reemplaza ese archivo con las
+     mismas columnas y en el mismo orden: esta pantalla no tiene nada
+     escrito a mano. Un «-» quiere decir que el dato no está.
+
+     LO GUARDADO VIVE EN EL TELÉFONO (`bolivar-donde-curso`), no en la
+     cuenta: así sirve sin registrarse, y la mudanza de dominio se lo
+     lleva porque empieza con `bolivar-`. Se guarda la clase entera y
+     no solo un id: si el año que viene la fila ya no está, la persona
+     sigue viendo lo que había guardado. Si la fila sigue pero le
+     cambiaron el aula, se avisa.
+     ============================================================ -->
+<main id="contenido" tabindex="-1">
+
+  <div class="banda tinta">
+    <div class="envoltura">
+      <p class="ceja-lectura aparece">
+        <a class="volver-lectura" href="../tramites/?categoria=8">← Info útil</a>
+      </p>
+      <h1 class="grito aparece">Dónde<br><em>curso</em></h1>
+      <p class="bajada-lectura aparece">
+        Buscá tu materia y fijate el aula, el día y el horario de cada
+        clase. Guardá tus comisiones y la próxima vez las tenés acá arriba,
+        aunque no haya señal.
+      </p>
+    </div>
+  </div>
+
+  <div class="banda papel">
+    <div class="envoltura">
+
+      <div class="titulo-seccion">MIS AULAS</div>
+      <div id="mias"></div>
+
+      <div class="titulo-seccion" id="buscar">BUSCAR MATERIA</div>
+      <div class="buscador">
+        <span class="lupa" id="lupa">🔍</span>
+        <input id="filtro" type="search" autocomplete="off"
+               placeholder="Materia, docente, día o aula…"
+               aria-label="Buscar materia, docente, día o aula">
+      </div>
+      <div class="dc-filtros">
+        <div class="chips" id="chips-carrera" role="group" aria-label="Carrera"></div>
+        <div class="chips" id="chips-anio" role="group" aria-label="Año"></div>
+      </div>
+      <p class="dc-cuenta" id="cuenta" aria-live="polite"></p>
+      <div id="resultados" style="margin-top:10px">
+        <noscript><div class="vacio">Para buscar tu aula hace falta tener
+          JavaScript activado.</div></noscript>
+      </div>
+
+      <p class="dc-mas">
+        Horarios del ciclo lectivo 2026. Las aulas pueden cambiar durante el
+        cuatrimestre: ante la duda, confirmá en la cartelera de la facu.
+        <br><a href="../tramites/?categoria=8">Más sobre dónde curso en Info útil</a>
+      </p>
+
+    </div>
+  </div>
+
+</main>
+
+<div id="pie"></div>
+
+<script>window.RAIZ = '../';</script>
+<script src="../lib/datos.js"></script>
+<script src="../config.js"></script>
+<script src="../iconos.js"></script>
+<script src="../app.js"></script>
+<script src="../fondo-red.js"></script>
+<script src="../lectura.js"></script>
+<script>
+(async function dondeCurso(){
+  document.getElementById('cabecera').innerHTML = htmlCabecera();
+  document.getElementById('pie').innerHTML = htmlPie();
+  pintarNav('tramites');
+  document.body.classList.remove('sin-js');
+  vigilarAparicion();
+  const lupa = document.getElementById('lupa');
+  if (lupa && icono('buscador')) lupa.innerHTML = icono('buscador');
+
+  const DIAS = ['Lunes','Martes','Miércoles','Jueves','Viernes','Sábado','Domingo'];
+
+  /* Las carreras del archivo, con el id de la app cuando lo hay. El
+     Profesorado no es una de las tres carreras de la app: va con su
+     propio chip, porque sus materias no son las de la Licenciatura. */
+  const CARRERAS = [
+    { id:'ts',   csv:'Lic. en Trabajo Social',           corto:'Trabajo Social' },
+    { id:'prof', csv:'Profesorado en Trabajo Social',    corto:'Profesorado' },
+    { id:'tgcr', csv:'Tecn. en Gestión Com. del Riesgo', corto:'Gestión del Riesgo' },
+    { id:'fono', csv:'Lic. en Fonoaudiología',           corto:'Fonoaudiología' }
+  ];
+  const carreraDe = nombre => CARRERAS.find(c => c.csv === nombre) ||
+    { id: normalizar(nombre), csv: nombre, corto: nombre };
+
+  /* ---------- Lo guardado ---------- */
+  const LLAVE = 'bolivar-donde-curso';
+  function leerMias(){
+    try {
+      const v = JSON.parse(localStorage.getItem(LLAVE));
+      return Array.isArray(v) ? v : [];
+    } catch(e){ return []; }
+  }
+  /* Modo incógnito o memoria llena: vale mientras dure la visita. */
+  let mias = leerMias();
+  function escribirMias(){
+    try { localStorage.setItem(LLAVE, JSON.stringify(mias)); } catch(e){}
+  }
+
+  /* La clave de una clase: lo que la identifica aunque cambie el aula
+     o el docente. No usa el código de materia porque muchas no lo
+     tienen, ni la posición en el archivo porque cambia al reemplazarlo. */
+  const claveDe = c => [c.carrera, c.materia, c.tipo, c.dia, c.ini].map(normalizar).join('|');
+
+  /* ---------- El archivo ---------- */
+  /* Comillas dobles, comas adentro de comillas y "" como comilla: lo
+     que trae un CSV exportado de una planilla. */
+  function leerCSV(texto){
+    const filas = []; let fila = [], campo = '', entre = false;
+    texto = texto.replace(/^﻿/, '');
+    for (let i = 0; i < texto.length; i++){
+      const ch = texto[i];
+      if (entre){
+        if (ch === '"' && texto[i+1] === '"'){ campo += '"'; i++; }
+        else if (ch === '"') entre = false;
+        else campo += ch;
+      } else if (ch === '"') entre = true;
+      else if (ch === ',') { fila.push(campo); campo = ''; }
+      else if (ch === '\n' || ch === '\r'){
+        if (ch === '\r' && texto[i+1] === '\n') i++;
+        fila.push(campo); filas.push(fila); fila = []; campo = '';
+      } else campo += ch;
+    }
+    if (campo || fila.length){ fila.push(campo); filas.push(fila); }
+    return filas.filter(f => f.some(x => x.trim()));
+  }
+  const dato = v => { v = (v || '').trim(); return v === '-' ? '' : v; };
+
+  let clases = [];
+  const resultados = document.getElementById('resultados');
+  try {
+    const r = await fetch('horarios.csv');
+    if (!r.ok) throw new Error('HTTP ' + r.status);
+    const filas = leerCSV(await r.text()).slice(1);
+    clases = filas.map(f => ({
+      carrera: dato(f[0]), anio: dato(f[1]), codigo: dato(f[2]),
+      materia: dato(f[3]), docente: dato(f[4]), tipo: dato(f[5]),
+      dia: dato(f[6]), ini: dato(f[7]), fin: dato(f[8]), aula: dato(f[9])
+    })).filter(c => c.materia && c.dia);
+  } catch(e){
+    resultados.innerHTML = `<div class="vacio">
+      <span class="vacio-titulo">No pudimos traer los horarios</span>
+      <p>Revisá la conexión y volvé a abrir la pantalla. Lo que ya guardaste
+      se ve igual acá arriba.</p></div>`;
+  }
+  clases.forEach(c => { c.clave = claveDe(c); });
+  const porClave = new Map(clases.map(c => [c.clave, c]));
+
+  /* ---------- Hoy, con la hora de Argentina ---------- */
+  function hoyEnLaFacu(){
+    try {
+      const d = new Intl.DateTimeFormat('es-AR', {
+        timeZone:'America/Argentina/Buenos_Aires', weekday:'long' }).format(new Date());
+      return DIAS.find(x => normalizar(x) === normalizar(d)) || '';
+    } catch(e){ return ''; }
+  }
+  const hoy = hoyEnLaFacu();
+  const ordenDia = d => { const i = DIAS.indexOf(d); return i < 0 ? 9 : i; };
+  const porDiaYHora = (a, b) => ordenDia(a.dia) - ordenDia(b.dia) || a.ini.localeCompare(b.ini);
+
+  const textoAula = a => a || 'Aula a confirmar';
+  const cuando = c => `${c.ini}${c.fin ? '–' + c.fin : ''}`;
+
+  /* ---------- Mis aulas ---------- */
+  function pintarMias(){
+    const caja = document.getElementById('mias');
+    if (!mias.length){
+      caja.innerHTML = `<div class="vacio">
+        <span class="vacio-titulo">Todavía no guardaste ninguna</span>
+        <p>Buscá tu materia acá abajo y tocá <b>Guardar</b> en tu comisión.</p>
+      </div>`;
+      return;
+    }
+    const lista = mias.slice().sort(porDiaYHora);
+    const deHoy = lista.filter(c => c.dia === hoy);
+    caja.innerHTML = `
+      ${hoy ? `<p class="dc-hoy">${deHoy.length
+        ? `<span>Hoy, ${esc(hoy.toLowerCase())}, cursás ${deHoy.length === 1 ? 'una clase' : deHoy.length + ' clases'}.</span>`
+        : `<span>Hoy no tenés clases guardadas.</span>`}</p>` : ''}
+      <div class="dc-mias">${lista.map(g => {
+        /* Lo guardado contra lo de ahora: si la fila sigue en el archivo
+           se muestra el aula de hoy, y si cambió se dice cuál era. */
+        const ahora = porClave.get(g.clave);
+        const aula = ahora ? ahora.aula : g.aula;
+        const cambio = g.clave in aulaAnterior;
+        return `
+        <div class="dc-mia${g.dia === hoy ? ' es-hoy' : ''}">
+          <div class="dc-cuando"><b>${esc(g.dia.slice(0, 3))}</b>${esc(g.ini)}<br>${esc(g.fin)}</div>
+          <div class="dc-que">
+            <strong>${esc(g.materia)}${g.dia === hoy ? '<span class="dc-marca-hoy">HOY</span>' : ''}</strong>
+            <span>${esc(g.tipo)}${g.docente ? ' · ' + esc(g.docente) : ''}</span>
+            <span class="dc-aula${aula ? '' : ' sin'}">${esc(textoAula(aula))}</span>
+            ${cambio ? `<span class="dc-cambio">Cambió: antes era ${esc(textoAula(aulaAnterior[g.clave]))}</span>` : ''}
+            ${!ahora && clases.length ? `<span class="dc-cambio">Ya no figura en los horarios de este ciclo</span>` : ''}
+          </div>
+          <button type="button" class="dc-quitar" data-quitar="${esc(g.clave)}"
+                  aria-label="Sacar ${esc(g.materia)} del ${esc(g.dia.toLowerCase())} de mis aulas">✕</button>
+        </div>`; }).join('')}
+      </div>`;
+  }
+
+  /* Al abrir, lo guardado toma el aula nueva del archivo. El aviso de
+     «cambió» dura esta visita (`aulaAnterior`) y no vuelve a salir la
+     próxima: para entonces ya es el aula de siempre. */
+  const aulaAnterior = {};
+  function ponerAlDia(){
+    mias.forEach(g => {
+      const ahora = porClave.get(g.clave);
+      if (ahora && ahora.aula !== g.aula) aulaAnterior[g.clave] = g.aula;
+    });
+    if (!Object.keys(aulaAnterior).length) return;
+    mias = mias.map(g => { const a = porClave.get(g.clave); return a ? Object.assign({}, g, { aula:a.aula, docente:a.docente, fin:a.fin }) : g; });
+    escribirMias();
+  }
+
+  /* ---------- La búsqueda ---------- */
+  const elegida = carreraElegidaApp();
+  let filtroCarrera = elegida ? elegida.id : 'todas';
+  let filtroAnio = 'todos';
+  const filtro = document.getElementById('filtro');
+
+  const aniosDe = cs => [...new Set(cs.map(c => c.anio))].filter(Boolean)
+    .sort((a, b) => parseInt(a) - parseInt(b));
+
+  function pintarChips(){
+    const presentes = CARRERAS.filter(k => clases.some(c => c.carrera === k.csv));
+    const opcionesC = [{ id:'todas', corto:'Todas' }].concat(presentes);
+    document.getElementById('chips-carrera').innerHTML = opcionesC.map(k =>
+      `<button type="button" class="chip" data-carrera="${esc(k.id)}"
+        aria-pressed="${k.id === filtroCarrera}">${esc(k.corto)}</button>`).join('');
+
+    const deLaCarrera = clases.filter(c =>
+      filtroCarrera === 'todas' || carreraDe(c.carrera).id === filtroCarrera);
+    const anios = aniosDe(deLaCarrera);
+    if (filtroAnio !== 'todos' && !anios.includes(filtroAnio)) filtroAnio = 'todos';
+    document.getElementById('chips-anio').innerHTML = ['todos'].concat(anios).map(a =>
+      `<button type="button" class="chip" data-anio="${esc(a)}"
+        aria-pressed="${a === filtroAnio}">${esc(a === 'todos' ? 'Todos los años' : a)}</button>`).join('');
+  }
+
+  function pintarResultados(){
+    if (!clases.length) return;
+    const q = normalizar(filtro.value.trim());
+    const palabras = q.split(/\s+/).filter(Boolean);
+    const guardadas = new Set(mias.map(g => g.clave));
+
+    const van = clases.filter(c =>
+      (filtroCarrera === 'todas' || carreraDe(c.carrera).id === filtroCarrera) &&
+      (filtroAnio === 'todos' || c.anio === filtroAnio) &&
+      (!palabras.length || (n => palabras.every(p => n.includes(p)))(normalizar(
+        [c.materia, c.docente, c.tipo, c.dia, c.aula, c.codigo, c.anio,
+         carreraDe(c.carrera).corto].join(' ')))));
+
+    /* Una tarjeta por materia y carrera: Introducción a la Filosofía de
+       Trabajo Social y la de Fonoaudiología son la misma cursada, pero
+       cada estudiante busca en la suya. */
+    const grupos = new Map();
+    van.forEach(c => {
+      const k = c.carrera + '|' + c.anio + '|' + c.materia;
+      if (!grupos.has(k)) grupos.set(k, []);
+      grupos.get(k).push(c);
+    });
+
+    const cuenta = document.getElementById('cuenta');
+    cuenta.textContent = grupos.size === 1 ? '1 materia' : grupos.size + ' materias';
+
+    if (!grupos.size){
+      resultados.innerHTML = `<div class="vacio">
+        <span class="vacio-titulo">No encontramos esa materia</span>
+        <p>Probá con otra palabra, o con «Todas» y «Todos los años».</p></div>`;
+      return;
+    }
+
+    const mostrarCarrera = filtroCarrera === 'todas';
+    resultados.innerHTML = [...grupos.values()].map(cs => {
+      const c0 = cs[0];
+      const docentes = [...new Set(cs.map(c => c.docente).filter(Boolean))];
+      const datos = [
+        mostrarCarrera ? carreraDe(c0.carrera).corto : '',
+        c0.anio, c0.codigo ? 'Código ' + c0.codigo : '',
+        docentes.join(', ')
+      ].filter(Boolean).map(esc).join(' · ');
+      return `
+      <article class="modulo dc-materia">
+        <div class="modulo-cabeza"><h3>${esc(c0.materia)}</h3></div>
+        <div class="dc-datos">${datos}</div>
+        <ul class="dc-clases">${cs.slice().sort(porDiaYHora).map(c => {
+          const ya = guardadas.has(c.clave);
+          return `
+          <li class="dc-clase">
+            <div>
+              <span class="dc-clase-tipo">${esc(c.tipo)}</span>
+              <span class="dc-clase-cuando">${esc(c.dia)} ${esc(cuando(c))}</span>
+              <span class="dc-clase-aula${c.aula ? '' : ' sin'}">${esc(textoAula(c.aula))}</span>
+            </div>
+            <button type="button" class="dc-guardar" data-clave="${esc(c.clave)}"
+                    aria-pressed="${ya}"
+                    aria-label="${ya ? 'Guardada' : 'Guardar'}: ${esc(c.materia)}, ${esc(c.tipo)} del ${esc(c.dia.toLowerCase())} a las ${esc(c.ini)}">${
+              ya ? '★ Guardada' : '☆ Guardar'}</button>
+          </li>`; }).join('')}
+        </ul>
+      </article>`; }).join('');
+  }
+
+  /* ---------- Los toques ---------- */
+  document.getElementById('chips-carrera').addEventListener('click', e => {
+    const b = e.target.closest('[data-carrera]'); if (!b) return;
+    filtroCarrera = b.dataset.carrera;
+    pintarChips(); pintarResultados();
+  });
+  document.getElementById('chips-anio').addEventListener('click', e => {
+    const b = e.target.closest('[data-anio]'); if (!b) return;
+    filtroAnio = b.dataset.anio;
+    pintarChips(); pintarResultados();
+  });
+  filtro.addEventListener('input', pintarResultados);
+
+  resultados.addEventListener('click', e => {
+    const b = e.target.closest('[data-clave]'); if (!b) return;
+    const clave = b.dataset.clave;
+    if (mias.some(g => g.clave === clave)){
+      mias = mias.filter(g => g.clave !== clave);
+    } else {
+      const c = porClave.get(clave); if (!c) return;
+      mias.push({ clave, carrera:c.carrera, anio:c.anio, materia:c.materia,
+        docente:c.docente, tipo:c.tipo, dia:c.dia, ini:c.ini, fin:c.fin, aula:c.aula });
+    }
+    escribirMias();
+    pintarMias();
+    pintarResultados();
+    /* El foco vuelve al mismo botón, que se redibujó. */
+    const otra = resultados.querySelector(`[data-clave="${CSS.escape(clave)}"]`);
+    if (otra) otra.focus();
+  });
+
+  document.getElementById('mias').addEventListener('click', e => {
+    const b = e.target.closest('[data-quitar]'); if (!b) return;
+    mias = mias.filter(g => g.clave !== b.dataset.quitar);
+    escribirMias();
+    pintarMias();
+    pintarResultados();
+  });
+
+  ponerAlDia();
+  pintarMias();
+  pintarChips();
+  pintarResultados();
+})();
+</script>
+</body>
+</html>

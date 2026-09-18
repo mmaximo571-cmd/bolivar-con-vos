@@ -432,7 +432,10 @@
     const f = preguntas.filter(x =>
       !q || coincide(x.pregunta + ' ' + x.respuesta));
 
-    if (!t.length && !f.length){
+    /* La puerta de las aulas cuenta como resultado (ver más abajo). */
+    const hayAulas = categorias.some(c => c.id === 8) && (!q || coincide(
+      'Buscá tu aula dónde curso aulas horarios comisión teórico práctico sede'));
+    if (!t.length && !f.length && !hayAulas){
       lista.innerHTML = `<div class="vacio">
           ${tramites.length || preguntas.length
             ? 'No hay nada que coincida con esa búsqueda.'
@@ -477,15 +480,27 @@
         <div class="cuerpo-grupo">${dentro}</div>
       </details>`;
 
+    /* «DÓNDE CURSO» TIENE PANTALLA PROPIA desde el 18/9/2026: el
+       buscador de aulas del ciclo lectivo, en `donde-curso/`. No es una
+       ficha de la base sino una puerta fija, y va primera adentro de su
+       categoría (la 8) para que quien entra por Info útil la encuentre
+       donde siempre estuvieron las aulas. Aparece aunque la categoría no
+       tenga fichas, y en la búsqueda responde a «aula», «horario»… */
+    const cuadroAulas = `<a class="tarjeta-cuadro" href="../donde-curso/">
+        <span class="nombre">Buscá tu aula y guardala</span>
+        <span class="marca-tipo guia">En la app</span>
+      </a>`;
+
     /* Agrupado por categoría, en el orden en que están las categorías */
     let html = '';
     categorias.forEach(c => {
       const suyos = t.filter(x => x.categoria_id === c.id);
-      if (!suyos.length) return;
+      const conAulas = c.id === 8 && hayAulas;
+      if (!suyos.length && !conAulas) return;
       html += grupo(String(c.id),
         `<span class="titulo-icono">${iconoDeCategoria(c)}</span>${esc(c.nombre)}`,
-        `<div class="rejilla-fichas">${suyos.map(cuadro).join('')}</div>`,
-        suyos.length);
+        `<div class="rejilla-fichas">${conAulas ? cuadroAulas : ''}${suyos.map(cuadro).join('')}</div>`,
+        suyos.length + (conAulas ? 1 : 0));
     });
 
     /* Los que no tengan categoría, si alguna vez pasa */
