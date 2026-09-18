@@ -249,7 +249,9 @@
    cabecera de todas las pantallas y `estilos-rediseno.css` la dibuja. */
 /* v54 (18/9/2026) `estilos.css`: los correos largos de Cátedras se
    parten y la pantalla ya no se corre de costado en el teléfono. */
-const VERSION = 'bolivar-v54';
+/* v55 (18/9/2026) `sw.js`: las pantallas esperan la red 6 s como mucho, no se guardan
+   respuestas con error y la copia del armazón se saca a tiempo. */
+const VERSION = 'bolivar-v55';
 const ARMAZON = VERSION + '-armazon';
 const PAGINAS = VERSION + '-paginas';
 
@@ -357,9 +359,18 @@ self.addEventListener('fetch', evento => {
   if (pedido.mode === 'navigate'){
     evento.respondWith((async () => {
       try {
-        const dela_red = await fetch(pedido);
-        const c = await caches.open(PAGINAS);
-        c.put(pedido, dela_red.clone());
+        /* Con señal débil el fetch puede colgarse minutos sin fallar:
+           a los 6 s se da por perdido y se sirve la guardada. */
+        const dela_red = await Promise.race([
+          fetch(pedido),
+          new Promise((_, no) => setTimeout(() => no(new Error('lenta')), 6000))
+        ]);
+        /* Solo se guarda una pantalla que llegó bien: un 404 o un 500
+           guardado pisaría la buena que servimos sin señal. */
+        if (dela_red.ok){
+          const copia = dela_red.clone();
+          caches.open(PAGINAS).then(c => c.put(pedido, copia));
+        }
         return dela_red;
       } catch(e){
         const guardada = await caches.match(pedido, { ignoreSearch:true });
@@ -385,8 +396,11 @@ self.addEventListener('fetch', evento => {
     const caja = await caches.open(ARMAZON);
     const guardado = await caja.match(pedido);
     const dela_red = fetch(pedido).then(r => {
+      /* La copia se saca YA: si se saca dentro del `then`, la página
+         puede haber leído la respuesta antes y el clone tira error. */
       if (r && r.ok){
-        caches.open(ARMAZON).then(c => c.put(pedido, r.clone()));
+        const copia = r.clone();
+        caches.open(ARMAZON).then(c => c.put(pedido, copia));
       }
       return r;
     }).catch(() => null);
