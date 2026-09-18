@@ -7,7 +7,7 @@
 <meta name="theme-color" content="#F9E830">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Montserrat:wght@600;700;800&family=Roboto:wght@400;500;700&family=Roboto+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
 <!-- Iconos de la app: pestana, Google, y pantalla de inicio del celular -->
 <link rel="icon" type="image/png" sizes="32x32" href="../imagenes/icono-32.png">
 <link rel="icon" type="image/png" sizes="96x96" href="../imagenes/icono-96.png">
@@ -94,9 +94,12 @@
     } catch (e) { mostrarError(contenido, e, 'cargar la publicación'); return; }
 
     if (!p){
-      contenido.innerHTML = `<div class="vacio">
-          Esa publicación ya no está.<br>
-          <a class="boton" href="./" style="margin-top:14px">Ver la agenda</a></div>`;
+      contenido.innerHTML = `<div class="vacio" role="status">
+          <span class="vacio-icono" aria-hidden="true">🗓️</span>
+          <strong class="vacio-titulo">Esta publicación ya no está</strong>
+          <p>Puede haber vencido o haber sido actualizada.</p>
+          <a class="boton" href="./" style="margin-top:8px">Ver la agenda</a>
+        </div>`;
       return;
     }
 
@@ -118,8 +121,9 @@
           ${p.lugar ? `<dt>Dónde</dt><dd>${esc(p.lugar)}</dd>` : ''}
         </dl></div>` : ''}
 
-      ${p.imagen_url ? `<img src="${esc(p.imagen_url)}" alt=""
-          style="border-radius:var(--radio);margin:16px 0" loading="lazy">` : ''}
+      ${p.imagen_url ? `<figure class="flyer-publicacion">
+          <img src="${esc(p.imagen_url)}" alt="Flyer: ${esc(p.titulo)}" loading="lazy">
+        </figure>` : ''}
 
       ${p.cuerpo ? `<div style="font-size:16.5px;line-height:1.5">${escMulti(p.cuerpo)}</div>` : ''}
 
@@ -239,8 +243,11 @@
      pantalla vieja. */
   function dibujar(){
     if (!publicaciones.length){
-      zonas.innerHTML = `<div class="vacio">
-          Todavía no hay nada publicado.<br>Volvé en unos días.</div>`;
+      zonas.innerHTML = `<div class="vacio" role="status">
+          <span class="vacio-icono" aria-hidden="true">📬</span>
+          <strong class="vacio-titulo">Todavía no hay publicaciones</strong>
+          <p>Volvé en unos días: las próximas fechas van a aparecer acá.</p>
+        </div>`;
       return;
     }
 

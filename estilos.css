@@ -118,21 +118,17 @@
   --marca-info:     var(--linea-info);     /*  6,3 */
   --marca-saberes:  #3E8FA6;               /*  3,6 */
 
-  /* --- Tipografias ---
+  /* --- Tipografías ---
 
-     ARCHIVO BLACK es de Omnibus-Type, un taller tipografico de Buenos
-     Aires. Es una grotesca de afiche: pesa como los titulos de las
-     placas del Instagram de la agrupacion, que es donde la gente los
-     conoce. Tiene un solo grosor, asi que NO sirve para textos chicos:
-     por eso los subtitulos y los botones siguen en Montserrat.
-
-     ROBOTO MONO es para los DATOS, no para la prosa: codigos de
-     materia, fechas, notas, cantidades. Lo que se lee de un vistazo y
-     se compara entre si. */
-  --fuente-titulo:  'Archivo Black', 'Archivo', sans-serif;  /* titulos       */
-  --fuente-sub:     'Montserrat', sans-serif;   /* subtitulos, botones        */
-  --fuente-texto:   'Roboto', sans-serif;       /* cuerpo                     */
-  --fuente-datos:   'Roboto Mono', ui-monospace, monospace;  /* datos y fechas */
+     Dos voces son suficientes en una pantalla chica: Archivo Black
+     reserva el golpe visual para los títulos de pantalla y Roboto se
+     encarga de todo lo que se lee o se toca. Quitar Montserrat y
+     Roboto Mono reduce descargas sin empobrecer la jerarquía; los datos
+     siguen distinguiéndose por tamaño, peso, espaciado y cifras tabulares. */
+  --fuente-titulo:  'Archivo Black', 'Archivo', sans-serif; /* títulos de pantalla */
+  --fuente-sub:     'Roboto', sans-serif;                  /* controles y subtítulos */
+  --fuente-texto:   'Roboto', sans-serif;                  /* cuerpo */
+  --fuente-datos:   'Roboto', sans-serif;                  /* fechas y cantidades */
 
   /* --- LA ESCALA DE LETRA ---
 
@@ -816,9 +812,17 @@ svg.ico{width:1em;height:1em;display:block;flex:0 0 auto}
   .grupo > summary:hover{color:var(--celeste)}
 }
 .grupo > summary:focus-visible{outline:3px solid var(--celeste);outline-offset:2px}
-.grupo .cuerpo-grupo{padding-bottom:12px}
+.grupo > .cuerpo-grupo{
+  display:grid;grid-template-rows:0fr;
+  transition:grid-template-rows .28s cubic-bezier(.2,.8,.2,1)
+}
+.grupo[open] > .cuerpo-grupo{grid-template-rows:1fr}
+/* `> *` y no `> .lista`: en Trámites el acordeón trae `.rejilla-fichas`. */
+.grupo > .cuerpo-grupo > *{
+  min-height:0;overflow:hidden;padding-bottom:12px
+}
 @media (prefers-reduced-motion:reduce){
-  .grupo > summary .flecha{transition:none}
+  .grupo > summary .flecha,.grupo > .cuerpo-grupo{transition:none}
 }
 
 /* ============================================================
@@ -849,18 +853,22 @@ svg.ico{width:1em;height:1em;display:block;flex:0 0 auto}
 .lista{display:flex;flex-direction:column;gap:10px}
 
 .tarjeta{
-  background:var(--superficie);border:1px solid var(--linea);border-radius:var(--radio);
-  padding:14px;box-shadow:var(--sombra);text-align:left;width:100%;
+  background:var(--superficie);border:1px solid var(--linea);border-radius:calc(var(--radio) + 2px);
+  padding:16px;box-shadow:0 7px 18px color-mix(in srgb, var(--texto) 9%, transparent);text-align:left;width:100%;
   display:block;text-decoration:none;border-left:4px solid var(--celeste);
   /* Cuando la tarjeta es un <button>, el navegador le pone texto negro por
      su cuenta. En modo oscuro eso queda negro sobre negro. Lo decimos nosotros. */
-  color:var(--texto)
+  color:var(--texto);transition:transform .16s ease, box-shadow .16s ease, border-color .16s ease
 }
 .tarjeta h3{
-  font-family:var(--fuente-sub);font-weight:700;font-size:var(--letra-guia);line-height:1.15;
-  text-transform:uppercase;margin-bottom:3px
+  font-family:var(--fuente-texto);font-weight:700;font-size:clamp(19px, 5.2vw, 22px);line-height:1.14;
+  letter-spacing:-.018em;text-transform:none;margin:0 0 5px
 }
 .tarjeta p{margin:0;color:var(--texto-suave);font-size:var(--letra-densa);line-height:1.35}
+.tarjeta:active{transform:scale(.98);box-shadow:0 2px 7px color-mix(in srgb, var(--texto) 10%, transparent)}
+@media (hover:hover) and (pointer:fine){
+  .tarjeta:hover{transform:translateY(-2px);box-shadow:0 11px 24px color-mix(in srgb, var(--texto) 13%, transparent)}
+}
 .tarjeta .meta{
   font-size:var(--letra-chica);color:var(--texto-suave);letter-spacing:.04em;text-transform:uppercase;
   margin-top:8px;display:flex;gap:10px;flex-wrap:wrap
@@ -868,14 +876,14 @@ svg.ico{width:1em;height:1em;display:block;flex:0 0 auto}
 
 /* Etiqueta de linea editorial */
 .etiqueta{
-  display:inline-block;font-family:var(--fuente-texto);font-size:var(--letra-mini);font-weight:700;
-  letter-spacing:.1em;text-transform:uppercase;padding:3px 9px;border-radius:var(--radio-pastilla);
-  margin-bottom:7px;color:var(--sobre-negro);background:var(--negro)
+  display:inline-block;font-family:var(--fuente-texto);font-size:11px;font-weight:700;
+  letter-spacing:.075em;text-transform:uppercase;padding:4px 9px;border-radius:var(--radio-pastilla);
+  margin-bottom:9px;color:var(--texto);background:var(--superficie-2);border:1px solid color-mix(in srgb, var(--texto) 10%, transparent)
 }
-.etiqueta.frente  {background:var(--linea-frente);color:var(--amarillo)}
-.etiqueta.gremial {background:var(--linea-gremial);color:var(--sobre-color)}
-.etiqueta.info    {background:var(--linea-info);color:var(--sobre-negro)}
-.etiqueta.saberes {background:var(--linea-saberes);color:var(--sobre-color)}
+.etiqueta.frente  {background:color-mix(in srgb, var(--linea-frente) 10%, var(--superficie));color:var(--texto)}
+.etiqueta.gremial {background:color-mix(in srgb, var(--linea-gremial) 18%, var(--superficie));color:var(--texto)}
+.etiqueta.info    {background:color-mix(in srgb, var(--linea-info) 13%, var(--superficie));color:var(--texto)}
+.etiqueta.saberes {background:color-mix(in srgb, var(--linea-saberes) 25%, var(--superficie));color:var(--texto)}
 
 .tarjeta.frente  {border-left-color:var(--linea-frente)}
 .tarjeta.gremial {border-left-color:var(--linea-gremial)}
@@ -978,7 +986,32 @@ svg.ico{width:1em;height:1em;display:block;flex:0 0 auto}
 .aviso.error{border-left-color:var(--rojo);background:var(--aviso-error)}
 .aviso.ok{border-left-color:var(--celeste);background:var(--aviso-ok)}
 
-.vacio{text-align:center;color:var(--texto-suave);padding:34px 16px;font-size:var(--letra-base)}
+.vacio{
+  display:grid;justify-items:center;gap:7px;text-align:center;color:var(--texto-suave);
+  padding:30px 20px;border:1px dashed color-mix(in srgb, var(--celeste) 42%, var(--linea));
+  border-radius:calc(var(--radio) + 4px);background:color-mix(in srgb, var(--superficie) 82%, var(--celeste));
+  font-size:var(--letra-base);line-height:1.45
+}
+.vacio-icono{font-size:34px;line-height:1;margin-bottom:3px}
+.vacio-titulo{color:var(--texto);font-weight:700;font-size:var(--letra-guia)}
+.vacio p{margin:0;max-width:34ch}
+
+/* Flyer de una publicación: el recuadro se mantiene sereno aunque la
+   imagen venga en formato vertical de Instagram. */
+.flyer-publicacion{
+  display:grid;place-items:center;margin:16px 0;padding:8px;
+  border:1px solid var(--linea);border-radius:calc(var(--radio) + 2px);
+  background:var(--superficie-2)
+}
+.flyer-publicacion img{
+  display:block;inline-size:100%;block-size:min(50vh, 520px);max-block-size:50vh;
+  object-fit:contain;border-radius:calc(var(--radio) - 2px)
+}
+
+@media (prefers-reduced-motion:reduce){
+  .tarjeta,.grupo > .cuerpo-grupo{transition:none}
+  .tarjeta:active{transform:none}
+}
 
 /* ============================================================
    EL AVISO DE LO GUARDADO

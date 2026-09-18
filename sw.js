@@ -226,12 +226,18 @@
    dejar lugar al lienzo, así que con la hoja nueva y sin el guion queda
    el fondo pelado sin red, y con el guion nuevo y la hoja vieja el body
    opaco tapa el lienzo y se dibuja algo que nadie ve. */
+/* v48 (17/9/2026) `estilos.css`: las tarjetas, las etiquetas, los
+   acordeones y los estados vacíos cambian de aspecto. El armazón se
+   sirve primero desde la caja, así que sin subir el número quien ya
+   tiene la app seguiría viendo la interfaz anterior. */
 /* v49 (17/9/2026) `panel/index.html`: un comentario HTML con comillas
    invertidas, adentro del formulario de trámites, cortaba el texto del
    guion y el panel entero quedaba en los esqueletos. Sube para que quien
    ya tenía la versión rota guardada reciba la arreglada. (v48 queda
    reservado para el rediseño de `estilos.css`, que todavía no subió.) */
-const VERSION = 'bolivar-v49';
+/* v50 (17/9/2026) el rediseño de v48 sale después de v49, que ya está
+   publicado: sin pasar a v50, quien tiene v49 no recibe la hoja nueva. */
+const VERSION = 'bolivar-v50';
 const ARMAZON = VERSION + '-armazon';
 const PAGINAS = VERSION + '-paginas';
 

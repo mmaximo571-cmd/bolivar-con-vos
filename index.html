@@ -8,7 +8,7 @@
 <meta name="theme-color" content="#F9E830">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Montserrat:wght@600;700;800&family=Roboto:wght@400;500;700&family=Roboto+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
 <!-- Iconos de la app: pestana, Google, y pantalla de inicio del celular -->
 <link rel="icon" type="image/png" sizes="32x32" href="imagenes/icono-32.png">
 <link rel="icon" type="image/png" sizes="96x96" href="imagenes/icono-96.png">
@@ -1390,7 +1390,11 @@ setTimeout(function(){
       if (!elegido){ zona.innerHTML = ''; return; }
       const cosas = delDia(elegido);
       zona.innerHTML = cosas.length ? tarjetas(cosas)
-        : `<div class="vacio">Ese día no hay nada cargado.</div>`;
+        : `<div class="vacio" role="status">
+            <span class="vacio-icono" aria-hidden="true">🗓️</span>
+            <strong class="vacio-titulo">Sin fechas para este día</strong>
+            <p>Elegí otro día del calendario para seguir explorando.</p>
+          </div>`;
     }
 
     function tarjetas(lista){
@@ -1613,7 +1617,11 @@ setTimeout(function(){
     const caja = document.getElementById('novedades');
     const novedades = publicaciones.filter(p => p.tipo === 'novedad').slice(0, 3);
     if (!novedades.length){
-      caja.innerHTML = '<div class="vacio">Todavía no hay novedades publicadas.</div>';
+      caja.innerHTML = `<div class="vacio" role="status">
+          <span class="vacio-icono" aria-hidden="true">✨</span>
+          <strong class="vacio-titulo">Pronto habrá novedades</strong>
+          <p>Cuando publiquemos algo nuevo, va a aparecer acá.</p>
+        </div>`;
       return;
     }
     caja.innerHTML = novedades.map(p => `
@@ -1887,9 +1895,10 @@ setTimeout(function(){
       : 'SIN RESULTADOS';
 
     if (!total){
-      listaRes.innerHTML = `<div class="vacio">
-          No encontramos nada con «${esc(escrito)}».<br>
-          Probá con otra palabra, o escribinos por Instagram y lo resolvemos a mano.
+      listaRes.innerHTML = `<div class="vacio" role="status">
+          <span class="vacio-icono" aria-hidden="true">🤔</span>
+          <strong class="vacio-titulo">No encontramos resultados</strong>
+          <p>No apareció nada con «${esc(escrito)}». Probá otra palabra o escribinos por Instagram y lo resolvemos a mano.</p>
         </div>`;
       return;
     }
