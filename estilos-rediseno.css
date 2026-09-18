@@ -1,0 +1,527 @@
+/* ============================================================
+   REDISEÑO · AGENDA  ·  se carga DESPUÉS de estilos.css
+
+   <link rel="stylesheet" href="../estilos.css">
+   <link rel="stylesheet" href="../estilos-rediseno.css">   <-- acá
+
+   No reemplaza nada: pisa por especificidad lo que hace falta y
+   agrega los componentes nuevos. Ni una línea toca JS, Supabase ni
+   la carga de datos.
+
+   Los nombres de variables son los tuyos. Las que se redefinen son
+   solo las seis de superficie/texto más las sombras; los colores de
+   marca (--amarillo, --celeste, --rojo, --negro) NO se tocan.
+
+   Dos ajustes respecto del paquete de diseño (18/9/2026):
+   · el banner «Lo próximo» va acotado a `#proximo`: el inicio ya
+     tiene su propio `.proximo`, un renglón callado a propósito para
+     no competirle a la alarma de inscripción;
+   · la «Ronda 2» (semana, época de parciales, faltas) NO está acá
+     todavía. Pide las tablas `cursada` y `falta`, y su `.hoja` pisaba
+     las hojas de abajo que ya usan Carrera, Mapa y Trámites. Entra
+     cuando entren las tablas, con esos nombres resueltos.
+   ============================================================ */
+
+/* ------------------------------------------------------------
+   1 · SISTEMA VISUAL
+
+   EL FONDO BAJA LA VOZ Y EL AMARILLO SUBE. El amarillo suave
+   (#FDF9C5) dejó de ser el fondo de toda la app: cuando el papel ya
+   es amarillo, el amarillo pleno del día elegido tiene que pelear
+   contra su propio color. Ahora el papel es un blanco apenas cálido
+   y el amarillo aparece diez veces menos —día elegido, chip activo,
+   botón principal, cubo de fecha de hoy— y por eso se ve más.
+
+   LA SEGUNDA TINTA SE RETIRA DE LA PANTALLA. `2px 2px 0 #1A1A1A`
+   es una cita de serigrafía y en un teléfono lee como un borde
+   roto. Se cambia por una sombra baja y ancha, que es lo que hace
+   que una tarjeta se sienta apoyada y no pegada. El lenguaje impreso
+   queda donde funciona: la trama de puntos de la cabecera y del
+   banner, y el negro pleno como ancla.
+
+   Contrastes medidos sobre --superficie en claro: texto 16,6 ·
+   texto-suave 5,5 · rojo badge 6,1 (blanco encima) · celeste-hondo
+   7,7. En oscuro: texto 14,8 · texto-suave 6,9.
+   ------------------------------------------------------------ */
+:root{
+  --fondo:        #FAF8F3;
+  --superficie:   #FFFFFF;
+  --superficie-2: #F4F1E9;
+  --texto:        #16150F;
+  --texto-suave:  #6B6A60;
+  --linea:        #E8E4DA;
+
+  /* La tinta del borde deja de ser negra: con sombra propia, un borde
+     negro de 1px alrededor de cada tarjeta era una reja. */
+  --tinta-borde:  #E8E4DA;
+
+  /* Dos sombras y nada más. La 1 es el reposo, la 2 es lo que se
+     levanta: calendario, banner, tarjeta señalada. */
+  --sombra-1: 0 1px 2px rgba(22,21,15,.06);
+  --sombra-2: 0 12px 28px -14px rgba(22,21,15,.22), 0 1px 2px rgba(22,21,15,.05);
+  --sombra:   var(--sombra-1);            /* el nombre viejo sigue vivo */
+
+  /* El rojo de la insignia HOY. Es el rojo de marca un punto más
+     vivo, elegido para que el BLANCO encima llegue a 6,1. El
+     --rojo-solido de la app se queda para «peligro». */
+  --rojo-hoy: #C42B22;
+
+  /* Etiquetas de línea editorial: pastel plano, sin color-mix. Un
+     valor por tema se mide una vez; un color-mix sobre una superficie
+     que cambia, no. */
+  --et-frente:  #EDEAE1;
+  --et-gremial: #D5F2EE;
+  --et-info:    #FBE2E0;
+  --et-saberes: #DFF0F7;
+
+  /* El vidrio del panel de novedades */
+  --vidrio: rgba(250,248,243,.82);
+
+  /* El ámbar del aviso de faltas. Se mide contra --superficie-2, que es
+     el fondo del panel donde vive, y no contra el blanco: 6,4:1. */
+  --ambar: #8A4F06;
+
+  --radio:       14px;
+  --radio-chico: 10px;
+  --radio-grande:20px;
+}
+
+:root[data-tema="oscuro"]{
+  --fondo:        #131209;
+  --superficie:   #1D1C15;
+  --superficie-2: #27251C;
+  --texto:        #F3F0E4;
+  --texto-suave:  #A9A597;
+  --linea:        #332F26;
+  --tinta-borde:  #332F26;
+  --sombra-1: 0 1px 2px rgba(0,0,0,.5);
+  --sombra-2: 0 14px 30px -12px rgba(0,0,0,.7);
+  --sombra:   var(--sombra-1);
+  --et-frente:  #35322A;
+  --et-gremial: #123A38;
+  --et-info:    #3B211F;
+  --et-saberes: #16323B;
+  --vidrio: rgba(19,18,9,.78);
+  --ambar: #F0A83C;
+}
+
+/* Dos voces, como ya estaba escrito en tu panel: Archivo Black para
+   títulos y marca, Roboto para todo lo que se lee o se toca. Esto
+   solo saca las excepciones que habían quedado sueltas. */
+.cuenta-grupo,.pastilla,.etiqueta,.cal-nombre-dia,.chip,.boton{
+  font-family:'Roboto',sans-serif
+}
+
+/* ------------------------------------------------------------
+   2 · CALENDARIO
+   ------------------------------------------------------------ */
+.calendario{
+  border-radius:22px;padding:14px 13px 12px;
+  box-shadow:var(--sombra-2);border:1px solid var(--linea)
+}
+.calendario-centro{max-width:420px;margin:0 auto 14px}
+
+.cal-cabecera{margin-bottom:12px;gap:8px}
+.cal-mes{font-size:17px;letter-spacing:.005em}
+.cal-flecha{
+  width:38px;height:38px;border-radius:99px;
+  border:1px solid var(--linea);background:var(--superficie);
+  transition:background var(--t-chico,180ms) ease, transform var(--t-toque,140ms) ease
+}
+
+.cal-grilla{gap:4px 2px}
+.cal-nombre-dia{font-size:11px;letter-spacing:.08em}
+
+/* CÍRCULOS PERFECTOS. La celda sigue siendo cuadrada —el ancho lo
+   pone la grilla y el aspect-ratio iguala el alto—, pero el radio es
+   de píldora: así «hoy» es un anillo y el elegido es un disco, y las
+   dos cosas pueden convivir en el mismo día sin pisarse. */
+.cal-dia{
+  border-radius:99px;font-size:15px;gap:0;padding-bottom:5px;
+  transition:background var(--t-chico,180ms) var(--sale,ease),
+             color var(--t-chico,180ms) ease,
+             transform var(--t-toque,140ms) ease
+}
+.cal-dia.apagado{color:var(--texto-suave);opacity:.55}
+.cal-dia.hoy{box-shadow:inset 0 0 0 1.6px var(--texto)}
+.cal-dia[aria-pressed="true"]{background:var(--amarillo);color:var(--sobre-color)}
+.cal-dia[aria-pressed="true"].hoy{box-shadow:inset 0 0 0 1.6px var(--sobre-color)}
+
+/* Las franjas por línea se quedan —un período de seis días tiene que
+   leerse como UNO— pero más finas y más adentro. */
+.cal-barra{left:6px;right:6px;bottom:5px;height:3.5px}
+.cal-barra.segunda{bottom:11px}
+.cal-barra.sigue-izq{left:-3px}
+.cal-barra.sigue-der{right:-3px}
+
+/* El tinte de fondo de los días marcados se va: con la franja de
+   color y el disco amarillo del elegido, un tercer fondo por día
+   convertía la grilla en un mapa de manchas. */
+.cal-dia.con-cosas.mesa,.cal-dia.con-cosas.asueto{background:transparent}
+
+.cal-referencia{margin-top:12px;padding-top:11px;gap:8px 12px;font-size:12px}
+.cal-referencia i.cal-punto{width:13px;height:3.5px;border-radius:99px}
+
+/* ------------------------------------------------------------
+   3 · TARJETAS · el título es el rey
+   ------------------------------------------------------------ */
+.lista{gap:11px}
+
+.tarjeta{
+  border-radius:18px;padding:18px;
+  border:1px solid var(--linea);
+  /* Se va el borde izquierdo de 4px: el color de la línea editorial
+     ya lo dice la etiqueta pastel, y una barra de color en el canto
+     de cada tarjeta compite con la insignia HOY. */
+  border-left-width:1px;border-left-color:var(--linea);
+  box-shadow:var(--sombra-1);
+  transition:box-shadow 180ms ease, transform var(--t-toque,140ms) ease
+}
+.tarjeta.frente,.tarjeta.gremial,.tarjeta.info,.tarjeta.saberes{
+  border-left-color:var(--linea)
+}
+.tarjeta h3{font-size:19px;line-height:1.18;letter-spacing:-.018em;margin:0 0 6px}
+.tarjeta p{font-size:13.5px;line-height:1.4;margin:0}
+@media (hover:hover) and (pointer:fine){
+  .tarjeta:hover{transform:none;box-shadow:var(--sombra-2)}
+}
+.tarjeta:active{transform:translateY(1px) scale(.985);box-shadow:var(--sombra-1)}
+
+/* La señalada por el día que se tocó arriba: anillo de tinta, y ahora
+   además se levanta. El outline no ocupa lugar, así que no mueve la
+   lista ni un píxel. */
+.tarjeta.destacada{outline:none;box-shadow:0 0 0 2px var(--texto), var(--sombra-2)}
+
+/* El cubo de fecha pierde el amarillo salvo cuando es HOY: si todas
+   las fechas son amarillas, ninguna lo es. */
+.tarjeta-fecha{gap:13px}
+.cubo-fecha{
+  flex:0 0 50px;border-radius:14px;padding:8px 0 7px;
+  background:var(--superficie-2);color:var(--texto-suave)
+}
+.cubo-fecha .dia{font-size:21px}
+.cubo-fecha .mes{font-size:10px;letter-spacing:.1em;margin-top:4px}
+.tarjeta.es-hoy .cubo-fecha{background:var(--amarillo);color:var(--sobre-color)}
+
+/* La fila de abajo: primero la insignia, después la etiqueta. Es una
+   fila flex con gap y no elementos inline, así al reordenar o borrar
+   uno la separación no depende de espacios en el HTML. */
+.tarjeta-pies{display:flex;flex-wrap:wrap;align-items:center;gap:6px;margin-top:10px}
+
+.etiqueta{
+  margin:0;padding:4px 10px;font-size:10.5px;letter-spacing:.08em;
+  border:0;background:var(--superficie-2);color:var(--texto)
+}
+.etiqueta.frente {background:var(--et-frente)}
+.etiqueta.gremial{background:var(--et-gremial)}
+.etiqueta.info   {background:var(--et-info)}
+.etiqueta.saberes{background:var(--et-saberes)}
+
+/* LA INSIGNIA DE HOY. Roja plena con texto blanco y un punto: es lo
+   único de la tarjeta que puede gritar, y grita una vez por día. */
+.insignia-hoy{
+  display:inline-flex;align-items:center;gap:5px;
+  background:var(--rojo-hoy);color:#fff;
+  border-radius:var(--radio-pastilla);padding:4px 9px;
+  font-family:'Roboto',sans-serif;font-weight:700;font-size:10.5px;
+  letter-spacing:.1em;text-transform:uppercase
+}
+.insignia-hoy::before{
+  content:'';width:5px;height:5px;border-radius:99px;background:#fff;flex:0 0 auto
+}
+/* Si algún día hay que decir «mañana» o «cierra hoy», misma pieza en
+   tinta: el rojo se reserva para lo que pasa HOY. */
+.insignia-hoy.tinta{background:var(--texto);color:var(--fondo)}
+.insignia-hoy.tinta::before{background:var(--fondo)}
+
+/* ------------------------------------------------------------
+   4 · ACORDEÓN DE MESES · sin el salto del <details>
+
+   El <details> nativo pasa de 0 a su altura entera en un cuadro. La
+   solución no es tirarlo —el teclado y el lector de pantalla ya lo
+   entienden— sino envolver el contenido en una grilla de una fila e
+   interpolar la fila de 0fr a 1fr, que es lo único que el navegador
+   sabe animar sin conocer la altura de antemano.
+
+   Tu CSS ya tenía esto; acá se ajusta la curva, se alarga a 300ms y
+   se le agrega el giro de la flecha y el aire de abajo.
+   ------------------------------------------------------------ */
+.grupo{border-bottom:1px solid var(--linea)}
+.grupo > summary{
+  font-size:16px;padding:15px 2px;gap:10px;
+  transition:color var(--t-chico,180ms) ease
+}
+.grupo > summary .cuenta-grupo{
+  background:var(--superficie-2);color:var(--texto-suave);
+  font-weight:700;font-size:12px;padding:3px 9px
+}
+.grupo > summary .flecha{
+  font-size:13px;
+  transition:transform 240ms cubic-bezier(.2,.8,.2,1)
+}
+.grupo[open] > summary .flecha{transform:rotate(180deg)}
+.grupo > .cuerpo-grupo{
+  display:grid;grid-template-rows:0fr;
+  transition:grid-template-rows 300ms cubic-bezier(.2,.8,.2,1)
+}
+.grupo[open] > .cuerpo-grupo{grid-template-rows:1fr}
+.grupo > .cuerpo-grupo > *{min-height:0;overflow:hidden;padding-bottom:14px}
+@media (prefers-reduced-motion:reduce){
+  .grupo > summary .flecha,.grupo > .cuerpo-grupo{transition:none}
+}
+
+/* ------------------------------------------------------------
+   5 · FILTROS · botonera horizontal, barra oculta
+
+   Sangra 16px para cada lado (el padding de .envoltura) para que el
+   primer chip arranque alineado con el título y el último se corte
+   en el borde de la pantalla: eso es lo que dice «hay más a la
+   derecha» sin poner una flecha.
+   ------------------------------------------------------------ */
+.filtros{
+  display:flex;gap:8px;
+  margin:0 -16px 16px;padding:2px 16px 4px;
+  overflow-x:auto;overscroll-behavior-x:contain;
+  scrollbar-width:none;-ms-overflow-style:none;
+  -webkit-overflow-scrolling:touch;
+  scroll-snap-type:x proximity
+}
+.filtros::-webkit-scrollbar{display:none}
+.filtros .chip{scroll-snap-align:start}
+
+.chip{
+  display:flex;align-items:center;gap:7px;
+  padding:9px 15px;font-size:14px;border-radius:var(--radio-pastilla);
+  border:1px solid var(--linea);background:var(--superficie);
+  transition:background var(--t-chico,180ms) ease,
+             border-color var(--t-chico,180ms) ease,
+             transform var(--t-toque,140ms) ease
+}
+.chip .punto{width:7px;height:7px;border-radius:99px;flex:0 0 auto;display:block}
+.chip .punto.frente {background:var(--marca-frente)}
+.chip .punto.gremial{background:var(--marca-gremial)}
+.chip .punto.info   {background:var(--marca-info)}
+.chip .punto.saberes{background:var(--marca-saberes)}
+.chip[aria-pressed="true"]{
+  background:var(--amarillo);border-color:var(--amarillo);
+  color:var(--sobre-color);font-weight:700
+}
+.chip[aria-pressed="true"] .punto{background:var(--sobre-color)}
+
+/* ------------------------------------------------------------
+   6 · BANNER «LO PRÓXIMO»
+
+   Negro con la trama de puntos: es la misma pieza que la cabecera, o
+   sea que se lee como «esto lo dice la app», no como una tarjeta más
+   de la lista. Va abajo del calendario y arriba de los filtros.
+   ------------------------------------------------------------ */
+#proximo .proximo{
+  position:relative;overflow:hidden;width:100%;text-align:left;
+  display:flex;align-items:center;gap:13px;
+  margin:14px 0 12px;padding:16px 15px;
+  border:0;border-radius:var(--radio-grande);
+  background:var(--negro);color:var(--sobre-negro);
+  box-shadow:var(--sombra-2);text-decoration:none;cursor:pointer;
+  transition:transform var(--t-toque,140ms) ease
+}
+#proximo .proximo::before{
+  content:'';position:absolute;inset:0;pointer-events:none;
+  background-image:radial-gradient(var(--amarillo) 1px, transparent 1.1px);
+  background-size:10px 10px;opacity:.11
+}
+#proximo .proximo:active{transform:scale(.985)}
+#proximo .proximo-texto{position:relative;flex:1;min-width:0}
+#proximo .proximo-ceja{display:flex;align-items:center;gap:8px;margin-bottom:7px}
+#proximo .proximo-ceja b{
+  font-weight:700;font-size:10px;letter-spacing:.14em;
+  text-transform:uppercase;color:var(--amarillo)
+}
+#proximo .proximo-cuando{
+  font-weight:700;font-size:10px;letter-spacing:.06em;text-transform:uppercase;
+  background:var(--amarillo);color:var(--sobre-color);
+  border-radius:var(--radio-pastilla);padding:2px 7px
+}
+#proximo .proximo-titulo{
+  font-weight:700;font-size:18px;line-height:1.2;letter-spacing:-.015em;
+  color:var(--sobre-negro)
+}
+#proximo .proximo-meta{font-size:13px;color:var(--sobre-negro-suave);margin-top:4px}
+#proximo .proximo-ir{
+  position:relative;flex:0 0 auto;width:38px;height:38px;border-radius:99px;
+  background:rgba(255,255,255,.12);display:grid;place-items:center;
+  color:var(--sobre-negro)
+}
+
+/* Pegajoso: si se lo quiere fijo arriba mientras se recorre la lista,
+   agregale la clase .fijo. Queda debajo de la cabecera. */
+#proximo .proximo.fijo{position:sticky;top:8px;z-index:4}
+
+/* ------------------------------------------------------------
+   7 · CAMPANA Y PANEL DE NOVEDADES
+   ------------------------------------------------------------ */
+.campana{position:relative}
+.campana-badge{
+  position:absolute;top:6px;right:5px;
+  min-width:17px;height:17px;padding:0 4px;box-sizing:content-box;
+  border-radius:var(--radio-pastilla);
+  background:var(--rojo-hoy);color:#fff;
+  border:2px solid var(--negro);
+  font-family:'Roboto',sans-serif;font-weight:700;font-size:10px;line-height:17px;
+  text-align:center
+}
+.campana-badge:empty,.campana-badge[hidden]{display:none}
+
+.novedades-fondo{
+  position:fixed;inset:0;z-index:95;
+  background:rgba(10,10,6,.42);
+  backdrop-filter:blur(7px);-webkit-backdrop-filter:blur(7px);
+  opacity:1;transition:opacity var(--t-medio,220ms) var(--sale,ease)
+}
+.novedades{
+  position:fixed;top:0;right:0;bottom:0;z-index:96;
+  width:min(330px,88vw);display:flex;flex-direction:column;
+  background:var(--vidrio);
+  backdrop-filter:blur(22px) saturate(1.3);
+  -webkit-backdrop-filter:blur(22px) saturate(1.3);
+  border-left:1px solid var(--linea);
+  box-shadow:-18px 0 40px -18px rgba(0,0,0,.35);
+  transform:translateX(0);
+  transition:transform var(--t-hoja,260ms) var(--cajon,ease)
+}
+/* Sin @starting-style el panel aparece de una, que es lo que hacía
+   antes de existir: nunca queda una capa invisible tapando nada. */
+@starting-style{
+  .novedades-fondo{opacity:0}
+  .novedades{transform:translateX(100%)}
+}
+.novedades-fondo.cerrando{opacity:0}
+.novedades.cerrando{transform:translateX(100%)}
+@media (prefers-reduced-motion:reduce){
+  .novedades{transform:none;transition:opacity var(--t-chico,180ms) ease}
+  @starting-style{ .novedades{transform:none;opacity:0} }
+  .novedades.cerrando{transform:none;opacity:0}
+}
+/* Navegadores sin backdrop-filter: el panel se vuelve opaco, no
+   translúcido. Un panel semitransparente sin desenfoque deja la
+   lista leyéndose por debajo del texto. */
+@supports not ((backdrop-filter:blur(2px)) or (-webkit-backdrop-filter:blur(2px))){
+  .novedades{background:var(--superficie)}
+  .novedades-fondo{background:rgba(10,10,6,.6)}
+}
+
+.novedades-encabezado{
+  display:flex;align-items:center;justify-content:space-between;gap:10px;
+  padding:calc(16px + env(safe-area-inset-top)) 16px 12px
+}
+.novedades-rotulo{
+  font-weight:700;font-size:10.5px;letter-spacing:.14em;
+  text-transform:uppercase;color:var(--texto-suave)
+}
+.novedades-cuenta{
+  font-family:var(--fuente-titulo);font-size:19px;
+  text-transform:uppercase;margin-top:3px
+}
+.novedades-lista{
+  flex:1;overflow-y:auto;scrollbar-width:none;
+  padding:6px 12px 16px;display:flex;flex-direction:column;gap:8px
+}
+.novedades-lista::-webkit-scrollbar{display:none}
+.aviso-nuevo{
+  display:flex;gap:11px;padding:13px;border-radius:16px;
+  background:var(--superficie);border:1px solid var(--linea);
+  box-shadow:var(--sombra-1);text-decoration:none;color:var(--texto)
+}
+.aviso-nuevo i{
+  flex:0 0 auto;width:8px;height:8px;border-radius:99px;margin-top:6px;
+  background:var(--celeste)
+}
+.aviso-nuevo.urgente i{background:var(--rojo-hoy)}
+.aviso-nuevo.leido i{background:var(--linea)}
+.aviso-nuevo b{display:block;font-weight:700;font-size:14.5px;line-height:1.3;letter-spacing:-.01em}
+.aviso-nuevo span{
+  display:block;font-size:12.5px;line-height:1.4;
+  color:var(--texto-suave);margin-top:4px
+}
+.novedades-pie{
+  padding:12px 16px calc(18px + env(safe-area-inset-bottom));
+  border-top:1px solid var(--linea)
+}
+
+/* ------------------------------------------------------------
+   8 · VACÍO
+   ------------------------------------------------------------ */
+/* `:not(.cal-dia)` porque los huecos del calendario antes del día 1
+   también se llaman .vacio: sin esto heredaban los 42px de padding y
+   la grilla se estiraba al doble del ancho de la pantalla. */
+.vacio:not(.cal-dia){
+  gap:10px;padding:42px 24px;border:1px solid var(--linea);border-radius:24px;
+  background:var(--superficie);box-shadow:var(--sombra-1);font-size:15px
+}
+.vacio-icono{
+  width:76px;height:76px;border-radius:99px;background:var(--superficie-2);
+  display:grid;place-items:center;font-size:34px;line-height:1;
+  color:var(--texto-suave);margin-bottom:4px
+}
+.vacio-icono svg{width:34px;height:34px}
+.vacio-titulo{font-family:'Roboto',sans-serif;font-size:19px;line-height:1.25}
+.vacio p{max-width:30ch;line-height:1.45}
+.vacio .boton{margin-top:8px}
+
+/* ------------------------------------------------------------
+   9 · ESQUELETOS
+   ------------------------------------------------------------ */
+.esqueleto{
+  background:linear-gradient(90deg,
+    var(--superficie-2) 0%, var(--linea) 40%, var(--superficie-2) 80%);
+  background-size:320px 100%;
+  animation:brillo 1.2s linear infinite;
+  border-radius:6px
+}
+@keyframes brillo{
+  0%  {background-position:-220px 0}
+  100%{background-position: 320px 0}
+}
+@media (prefers-reduced-motion:reduce){
+  .esqueleto{animation:none;background:var(--superficie-2)}
+}
+.esq-tarjeta{
+  background:var(--superficie);border:1px solid var(--linea);border-radius:18px;
+  padding:18px;margin-bottom:11px;display:flex;gap:13px
+}
+.esq-cubo{flex:0 0 50px;height:52px;border-radius:14px}
+.esq-texto{flex:1;display:flex;flex-direction:column;gap:9px}
+.esq-linea{height:12px}
+.esq-linea.titulo{height:18px;width:82%}
+.esq-linea.media {width:58%}
+.esq-linea.corta {width:38%;height:20px;border-radius:99px}
+
+/* ------------------------------------------------------------
+   10 · BOTONES · la píldora sin segunda tinta
+   ------------------------------------------------------------ */
+.boton{
+  min-height:50px;padding:14px 22px;font-size:14px;letter-spacing:.06em;
+  box-shadow:var(--sombra-1);
+  transition:transform var(--t-toque,140ms) ease, filter var(--t-chico,180ms) ease
+}
+.boton.borde{border-width:1.5px;box-shadow:none}
+.boton:active{transform:scale(.97);box-shadow:none}
+
+/* ------------------------------------------------------------
+   11 · FEEDBACK TÁCTIL, UNIFICADO
+
+   Un solo lugar donde vive el toque. Lo que tiene sombra se hunde
+   perdiéndola; lo que no, baja la escala.
+   ------------------------------------------------------------ */
+.tarjeta:active,#proximo .proximo:active,.esq-tarjeta:active{
+  transform:translateY(1px) scale(.985);box-shadow:var(--sombra-1)
+}
+.chip:active,.cal-dia:active,.cal-flecha:active,
+.boton-icono:active,.novedades .boton:active{transform:scale(.94)}
+@media (prefers-reduced-motion:reduce){
+  .tarjeta:active,#proximo .proximo:active,.chip:active,.cal-dia:active,
+  .cal-flecha:active,.boton:active,.boton-icono:active{
+    transform:none;opacity:.7
+  }
+}
+
+

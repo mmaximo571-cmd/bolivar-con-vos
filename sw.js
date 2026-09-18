@@ -237,13 +237,19 @@
    reservado para el rediseño de `estilos.css`, que todavía no subió.) */
 /* v50 (17/9/2026) el rediseño de v48 sale después de v49, que ya está
    publicado: sin pasar a v50, quien tiene v49 no recibe la hoja nueva. */
-const VERSION = 'bolivar-v50';
+/* v51 (18/9/2026) entra `estilos-rediseno.css`, que va DESPUÉS de
+   `estilos.css` en todas las pantallas: papel blanco cálido, sombras
+   suaves en vez de la segunda tinta, y la agenda nueva (banner «Lo
+   próximo», filtros, insignia HOY). Es un archivo nuevo del armazón:
+   sin él en la lista, la primera carga sin red se vería sin rediseño. */
+const VERSION = 'bolivar-v51';
 const ARMAZON = VERSION + '-armazon';
 const PAGINAS = VERSION + '-paginas';
 
 /* El armazón: lo que no cambia entre pantallas. */
 const DEL_ARMAZON = [
   '/estilos.css',
+  '/estilos-rediseno.css',
   '/app.js',
   '/iconos.js',
   '/config.js',

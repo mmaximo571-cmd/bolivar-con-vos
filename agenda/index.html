@@ -23,6 +23,7 @@
 <meta property="og:image" content="https://bolivar-con-vos.vercel.app/imagenes/compartir.png">
 <meta name="twitter:card" content="summary_large_image">
 <link rel="stylesheet" href="../estilos.css">
+<link rel="stylesheet" href="../estilos-rediseno.css">
 <!-- EL TEMA, ANTES DE DIBUJAR NADA. Va acá arriba y no en app.js a
      propósito: app.js carga al final del cuerpo, así que la pantalla
      arrancaría clara y pegaría un salto a oscura. Son tres renglones. -->
@@ -39,7 +40,8 @@
 
 <div id="cabecera"></div>
 <main class="envoltura" id="contenido" tabindex="-1">
-  <div class="esq-tarjeta"><div class="esqueleto esq-linea titulo"></div><div class="esqueleto esq-linea"></div><div class="esqueleto esq-linea media"></div></div><div class="esq-tarjeta"><div class="esqueleto esq-linea titulo"></div><div class="esqueleto esq-linea"></div><div class="esqueleto esq-linea corta"></div></div>
+  <div class="esq-tarjeta" aria-hidden="true"><div class="esqueleto esq-cubo"></div><div class="esq-texto"><div class="esqueleto esq-linea titulo"></div><div class="esqueleto esq-linea media"></div><div class="esqueleto esq-linea corta"></div></div></div>
+  <div class="esq-tarjeta" aria-hidden="true"><div class="esqueleto esq-cubo"></div><div class="esq-texto"><div class="esqueleto esq-linea titulo"></div><div class="esqueleto esq-linea media"></div><div class="esqueleto esq-linea corta"></div></div></div>
 </main>
 <div id="pie"></div>
 
@@ -81,6 +83,19 @@
   const contenido = document.getElementById('contenido');
   const id = parametro('id');
 
+  /* El ícono de los vacíos es el mismo 'agenda' de la fila de
+     secciones. Si iconos.js no lo trajera, queda el emoji de antes,
+     que .vacio-icono dibuja igual adentro del círculo. */
+  const ICONO_CALENDARIO = icono('agenda') || '🗓️';
+
+  const vacio = (titulo, texto, salida = '') => `
+    <div class="vacio" role="status">
+      <span class="vacio-icono" aria-hidden="true">${ICONO_CALENDARIO}</span>
+      <strong class="vacio-titulo">${titulo}</strong>
+      <p>${texto}</p>
+      ${salida}
+    </div>`;
+
   /* ============================================================
      Detalle de una publicación
      ============================================================ */
@@ -94,12 +109,9 @@
     } catch (e) { mostrarError(contenido, e, 'cargar la publicación'); return; }
 
     if (!p){
-      contenido.innerHTML = `<div class="vacio" role="status">
-          <span class="vacio-icono" aria-hidden="true">🗓️</span>
-          <strong class="vacio-titulo">Esta publicación ya no está</strong>
-          <p>Puede haber vencido o haber sido actualizada.</p>
-          <a class="boton" href="./" style="margin-top:8px">Ver la agenda</a>
-        </div>`;
+      contenido.innerHTML = vacio('Esta publicación ya no está',
+        'Puede haber vencido o haber sido actualizada.',
+        '<a class="boton" href="./">Ver la agenda</a>');
       return;
     }
 
@@ -147,15 +159,24 @@
   contenido.innerHTML = `
     <h1 class="titulo-pantalla">FECHAS Y<br>NOVEDADES</h1>
     <p class="bajada">Fechas, comunicados y actividades. Se actualiza sola.</p>
-    <div class="calendario-centro" id="calendario"></div>
+    <div class="calendario-centro" id="calendario">${esqueletoCalendario()}</div>
+    <div id="proximo"></div>
     <div id="bajar-todo"></div>
-    <div id="zonas"><div class="esq-tarjeta"><div class="esqueleto esq-linea titulo"></div><div class="esqueleto esq-linea"></div><div class="esqueleto esq-linea media"></div></div><div class="esq-tarjeta"><div class="esqueleto esq-linea titulo"></div><div class="esqueleto esq-linea"></div><div class="esqueleto esq-linea corta"></div></div></div>`;
+    <div id="filtros"></div>
+    <div id="zonas">${esqueletoTarjetas(3)}</div>`;
 
-  const cajaCal   = document.getElementById('calendario');
-  const cajaBajar = document.getElementById('bajar-todo');
-  const zonas     = document.getElementById('zonas');
+  const cajaCal     = document.getElementById('calendario');
+  const cajaProximo = document.getElementById('proximo');
+  const cajaBajar   = document.getElementById('bajar-todo');
+  const cajaFiltros = document.getElementById('filtros');
+  const zonas       = document.getElementById('zonas');
 
   let publicaciones = [];
+
+  /* La línea editorial elegida en los chips. Filtra la LISTA, no el
+     calendario: la grilla sigue mostrando todo el mes, así se ve que
+     hay otras cosas esos días aunque abajo no aparezcan. */
+  let lineaElegida = 'todas';
 
   /* Qué meses están desplegados, y qué día señaló el estudiante en el
      calendario. Viven acá afuera porque la lista se redibuja entera
@@ -186,13 +207,23 @@
        agrupación lo que se resalta se encierra, no se pinta. */
     const senalada = diaElegido && caeEnElDia(p, diaElegido) ? ' destacada' : '';
 
+    /* HOY es lo único de la tarjeta que puede gritar: insignia roja y
+       el cubo de fecha en amarillo. El resto de los cubos van en gris
+       cálido, porque si todas las fechas son amarillas ninguna lo es. */
+    const esHoy = !!p.fecha_desde && caeEnElDia(p, hoyISO());
+
+    /* El título va primero y es lo más grande; la etiqueta de la línea
+       baja a una fila propia con la insignia. */
     const cuerpo = `
-      <span class="etiqueta ${esc(p.linea)}">${esc(NOMBRE_LINEA[p.linea] || p.linea)}</span>
       <h3>${esc(p.titulo)}</h3>
       ${datos ? `<p>${datos}</p>`
-              : (p.cuerpo ? `<p>${esc(p.cuerpo.slice(0,140))}${p.cuerpo.length > 140 ? '…' : ''}</p>` : '')}`;
+              : (p.cuerpo ? `<p>${esc(p.cuerpo.slice(0,140))}${p.cuerpo.length > 140 ? '…' : ''}</p>` : '')}
+      <div class="tarjeta-pies">
+        ${esHoy ? '<span class="insignia-hoy">Hoy</span>' : ''}
+        <span class="etiqueta ${esc(p.linea)}">${esc(NOMBRE_LINEA[p.linea] || p.linea)}</span>
+      </div>`;
 
-    if (f) return `<a class="tarjeta ${esc(p.linea)}${senalada}" href="?id=${p.id}" data-fecha="${esc(p.fecha_desde.slice(0,10))}">
+    if (f) return `<a class="tarjeta ${esc(p.linea)}${senalada}${esHoy ? ' es-hoy' : ''}" href="?id=${p.id}" data-fecha="${esc(p.fecha_desde.slice(0,10))}">
         <div class="tarjeta-fecha">
           <div class="cubo-fecha"><span class="dia">${f.dia}</span><span class="mes">${f.mesCorto}</span></div>
           <div>${cuerpo}</div>
@@ -243,11 +274,19 @@
      pantalla vieja. */
   function dibujar(){
     if (!publicaciones.length){
-      zonas.innerHTML = `<div class="vacio" role="status">
-          <span class="vacio-icono" aria-hidden="true">📬</span>
-          <strong class="vacio-titulo">Todavía no hay publicaciones</strong>
-          <p>Volvé en unos días: las próximas fechas van a aparecer acá.</p>
-        </div>`;
+      zonas.innerHTML = vacio('Todavía no hay fechas cargadas',
+        'Volvé en unos días: las próximas mesas y actividades van a aparecer acá.');
+      return;
+    }
+
+    const visibles = publicaciones
+      .filter(p => lineaElegida === 'todas' || p.linea === lineaElegida);
+
+    if (!visibles.length){
+      zonas.innerHTML = vacio(
+        `No hay fechas de ${esc(NOMBRE_LINEA[lineaElegida] || lineaElegida)}`,
+        'Probá con otra categoría o mirá todas juntas.',
+        '<button type="button" class="boton" data-filtro="todas">Ver todas</button>');
       return;
     }
 
@@ -258,7 +297,7 @@
        una que no tiene. */
     const porMes = {};
     const sinFecha = [];
-    publicaciones.forEach(p => {
+    visibles.forEach(p => {
       if (!p.fecha_desde){ sinFecha.push(p); return; }
       const k = claveMes(p.fecha_desde);
       (porMes[k] = porMes[k] || []).push(p);
@@ -395,17 +434,135 @@
       () => bajarICS(vienen, 'Fechas de la FTS UNLP'));
   }
 
+  /* ---------- Esqueletos ----------
+
+     El del calendario ocupa el mismo alto que la grilla de verdad,
+     así la pantalla no pega el salto cuando llega el dato. */
+  function esqueletoTarjetas(cuantas){
+    return Array.from({ length: cuantas }, () => `
+      <div class="esq-tarjeta" aria-hidden="true">
+        <div class="esqueleto esq-cubo"></div>
+        <div class="esq-texto">
+          <div class="esqueleto esq-linea titulo"></div>
+          <div class="esqueleto esq-linea media"></div>
+          <div class="esqueleto esq-linea corta"></div>
+        </div>
+      </div>`).join('');
+  }
+
+  function esqueletoCalendario(){
+    return `
+      <div class="calendario" aria-hidden="true">
+        <div class="esqueleto esq-linea" style="height:16px;width:48%;margin:0 auto 16px;border-radius:99px"></div>
+        <div class="cal-grilla">
+          ${Array.from({ length: 28 }, () =>
+            '<div class="esqueleto" style="aspect-ratio:1/1;border-radius:99px"></div>').join('')}
+        </div>
+      </div>`;
+  }
+
+  /* ---------- «Lo próximo» ----------
+
+     UNA sola cosa: la próxima fecha que todavía no terminó. Negro con
+     la trama de puntos, como la cabecera, para que se lea como «esto
+     te lo dice la app» y no como una tarjeta más. Si no hay ninguna,
+     no se dibuja: un banner que dice «nada» ocupa el lugar de algo. */
+  const FLECHA_DERECHA =
+    '<svg viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" ' +
+    'stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">' +
+    '<path d="M9 5l7 7-7 7"/></svg>';
+
+  /* Cuántos días faltan, dicho como lo diría una persona. */
+  function enCuanto(iso){
+    const hoy = hoyISO();
+    if (iso <= hoy) return 'Hoy';
+    const dias = Math.round(
+      (new Date(iso + 'T00:00') - new Date(hoy + 'T00:00')) / 86400000);
+    if (dias === 1) return 'Mañana';
+    if (dias <= 30) return `En ${dias} días`;
+    return rangoLindo(iso, null);
+  }
+
+  function pintarProximo(){
+    const hoy = hoyISO();
+    const p = publicaciones
+      .filter(x => x.fecha_desde &&
+        String(x.fecha_hasta || x.fecha_desde).slice(0,10) >= hoy)
+      .sort((a,b) => a.fecha_desde.localeCompare(b.fecha_desde))[0];
+    if (!p){ cajaProximo.innerHTML = ''; return; }
+
+    const meta = [p.hora, p.lugar].filter(Boolean).map(esc).join(' · ');
+
+    cajaProximo.innerHTML = `
+      <a class="proximo" href="?id=${p.id}">
+        <span class="proximo-texto">
+          <span class="proximo-ceja">
+            <b>Lo próximo</b>
+            <span class="proximo-cuando">${esc(enCuanto(p.fecha_desde.slice(0,10)))}</span>
+          </span>
+          <span class="proximo-titulo">${esc(p.titulo)}</span>
+          ${meta ? `<span class="proximo-meta">${meta}</span>` : ''}
+        </span>
+        <span class="proximo-ir" aria-hidden="true">${FLECHA_DERECHA}</span>
+      </a>`;
+  }
+
+  /* ---------- Filtros por línea ----------
+
+     Solo nombra las líneas que de verdad tienen publicaciones, igual
+     que la referencia del calendario: un filtro que siempre devuelve
+     cero no es un filtro, es una duda. Con una sola línea no hay qué
+     filtrar y la botonera no se dibuja. */
+  function pintarFiltros(){
+    const presentes = Object.keys(NOMBRE_LINEA)
+      .filter(l => publicaciones.some(p => p.linea === l));
+
+    /* Si al refrescar desapareció la línea elegida, se vuelve a todas:
+       si no, la lista quedaría filtrada por un chip que ya no existe. */
+    if (lineaElegida !== 'todas' && !presentes.includes(lineaElegida))
+      lineaElegida = 'todas';
+
+    if (presentes.length < 2){ cajaFiltros.innerHTML = ''; return; }
+
+    const chip = (id, nombre, punto) => `
+      <button type="button" class="chip" data-filtro="${esc(id)}"
+              aria-pressed="${id === lineaElegida}">
+        ${punto ? `<i class="punto ${esc(id)}" aria-hidden="true"></i>` : ''}${esc(nombre)}
+      </button>`;
+
+    cajaFiltros.innerHTML = `<div class="filtros" role="group" aria-label="Filtrar por categoría">
+        ${chip('todas', 'Todas', false)}
+        ${presentes.map(l => chip(l, NOMBRE_LINEA[l], true)).join('')}
+      </div>`;
+  }
+
+  /* Delegado en #contenido: sirve también para el «Ver todas» del
+     vacío de filtro, y sobrevive a cada redibujado de la lista. */
+  contenido.addEventListener('click', ev => {
+    const b = ev.target.closest('[data-filtro]');
+    if (!b) return;
+    recordarAbiertos();
+    lineaElegida = b.dataset.filtro;
+    dibujar();
+    pintarFiltros();
+  });
+
   function montarCal(){
     montarCalendario(cajaCal, publicaciones,
       iso => mostrarDia(iso),
       (anio, mes) => abrirMes(`${anio}-${String(mes).padStart(2,'0')}`));
   }
 
-  if (await traer()){
+  function pintarTodo(){
+    pintarFiltros();             /* primero: puede corregir lineaElegida */
     dibujar();
     montarCal();
+    pintarProximo();
     pintarBajarTodo();
   }
+
+  if (await traer()) pintarTodo();
+  else cajaCal.innerHTML = '';
 
   /* ---------- SE REFRESCA AL VOLVER ----------
 
@@ -439,9 +596,7 @@
          por un cartel de error. */
       if (!await traer(false)) return;
       ultimoRefresco = Date.now();
-      dibujar();
-      montarCal();
-      pintarBajarTodo();
+      pintarTodo();
     } finally { refrescando = false; }
   }
 
