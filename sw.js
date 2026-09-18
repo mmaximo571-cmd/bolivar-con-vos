@@ -226,7 +226,12 @@
    dejar lugar al lienzo, así que con la hoja nueva y sin el guion queda
    el fondo pelado sin red, y con el guion nuevo y la hoja vieja el body
    opaco tapa el lienzo y se dibuja algo que nadie ve. */
-const VERSION = 'bolivar-v47';
+/* v49 (17/9/2026) `panel/index.html`: un comentario HTML con comillas
+   invertidas, adentro del formulario de trámites, cortaba el texto del
+   guion y el panel entero quedaba en los esqueletos. Sube para que quien
+   ya tenía la versión rota guardada reciba la arreglada. (v48 queda
+   reservado para el rediseño de `estilos.css`, que todavía no subió.) */
+const VERSION = 'bolivar-v49';
 const ARMAZON = VERSION + '-armazon';
 const PAGINAS = VERSION + '-paginas';
 
