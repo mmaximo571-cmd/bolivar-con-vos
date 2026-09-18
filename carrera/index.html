@@ -248,6 +248,12 @@
     <span class="nexo-flecha" aria-hidden="true">→</span>
   </a>
 
+  <!-- ---------- CARGAR DESDE SIU GUARANÍ ----------
+       Con cuenta: se sube el reporte de materias y se marca todo solo.
+       Afuera de las pestañas, como el respaldo: le sirve tanto a quien
+       recién llega y está en el diálogo como a quien ya cargó a mano. -->
+  <section class="respaldo no-imprimir" id="desde-siu"></section>
+
   <!-- ---------- LA COPIA DE RESPALDO ----------
        Va afuera de las pestañas a propósito: no es parte de ninguna
        vista, es de todo Mi año. -->
@@ -282,6 +288,7 @@
 <script src="plan.js"></script>
 <script src="plan-tgcr.js"></script>
 <script src="plan-fono.js"></script>
+<script src="../lib/leer-analitico.js"></script>
 <script>
 (function carrera(){
 
@@ -475,11 +482,12 @@ function fechaLinda(iso){
 /* ============================================================
    CUÁNDO SE VENCE LA CURSADA (17/9/2026)
 
-   La regularidad dura tres ciclos lectivos contados desde que termina
-   el ciclo en que se aprobó la cursada, y se vence en el marzo del
-   tercero: aprobada en 2024, cuentan 2025, 2026 y 2027, y vence en
-   marzo de 2027. Así lo pasó Máximo; la fecha que vale es la de SIU
-   Guaraní, y por eso todo aviso manda a confirmarla ahí.
+   La cursada vale hasta el 31 de marzo del cuarto año después del que
+   se aprobó: aprobada en 2024, vence el 31/3/2028. Así lo dice la
+   columna «Fin Vig.» del reporte de SIU Guaraní (17/9/2026: 2024 →
+   2028 y 2025 → 2029). Antes la cuenta era +3 y avisaba un año antes
+   de tiempo. La fecha que vale es la de SIU Guaraní, y por eso todo
+   aviso manda a confirmarla ahí.
 
    La app no sabía el año de la cursada: marcar «me falta el final» no
    guardaba cuándo. Ahora se pregunta en la hoja de la materia, y se
@@ -505,7 +513,7 @@ function guardarAnioCursada(cod, anio){
 function vencimiento(cod){
   const a = anioCursada(cod);
   if (!a) return null;
-  const anio = a + 3;
+  const anio = a + 4;
   const fin = new Date(anio, 2, 31, 23, 59);
   const hoy = new Date();
   const enUnAnio = new Date(hoy.getFullYear() + 1, hoy.getMonth(), hoy.getDate());
@@ -2126,12 +2134,13 @@ function cajaNotaCargada(cod){
     </div>`;
 }
 
-/* El año de la cursada: los últimos cuatro, que son los que pueden
-   seguir vigentes. Tocar el elegido lo suelta. */
+/* El año de la cursada: los últimos cinco, que son los que pueden
+   seguir vigentes (una de hace cuatro años vale hasta marzo). Tocar
+   el elegido lo suelta. */
 function cajaAnioCursada(cod){
   const a = anioCursada(cod), v = vencimiento(cod);
   const hoy = new Date().getFullYear();
-  const anios = [hoy - 3, hoy - 2, hoy - 1, hoy];
+  const anios = [hoy - 4, hoy - 3, hoy - 2, hoy - 1, hoy];
   const dice = !v ? `Si lo cargás, te avisamos cuando se esté por vencer.`
     : v.como === 'vencida' ? `<strong>Se venció en marzo de ${v.anio}.</strong>`
     : v.como === 'pronto'  ? `<strong>Vence en marzo de ${v.anio}.</strong>`
@@ -3321,6 +3330,170 @@ if (/Instagram|FBAN|FBAV|FB_IAB/i.test(navigator.userAgent || '') ||
 }
 
 /* ============================================================
+   CARGAR DESDE SIU GUARANÍ (17/9/2026)
+
+   Quien ya va por cuarto año tiene veinte materias para marcar una por
+   una, con nota y fecha. Todo eso ya está en el reporte de materias de
+   SIU Guaraní, así que se sube el PDF y se marca solo.
+
+   Es para quien tiene cuenta: así lo pidió Máximo. Pero la lectura es
+   en el teléfono (`lib/leer-analitico.js`) y el PDF no se sube, porque
+   tiene el DNI y Mi año no lo necesita.
+
+   Tres reglas, las mismas que el lector de programas del panel:
+   1. Nada se guarda sin mostrarlo antes. Primero la lista de lo que se
+      leyó; recién con «Cargar» se escribe.
+   2. Nunca se baja un estado. SIU manda en lo que dice (una aprobada
+      queda aprobada, con su nota y su fecha), pero lo que no dice no
+      se toca: lo que estás cursando ahora no figura en el reporte.
+   3. Lo que no se pudo leer se dice. Una materia que no se encontró en
+      el plan va en la lista de «no la encontramos», no se adivina.
+   ============================================================ */
+let siuConCuenta = null;              /* null: todavía no se sabe */
+let siu = { paso:'inicio' };          /* inicio | leyendo | vista | listo | error */
+
+async function averiguarCuentaSiu(){
+  try {
+    const { data } = await db.auth.getSession();
+    siuConCuenta = !!(data && data.session);
+  } catch(e){ siuConCuenta = false; }
+  pintarDesdeSiu();
+}
+
+function pintarDesdeSiu(){
+  const caja = document.getElementById('desde-siu');
+  if (!caja) return;
+  if (siuConCuenta === null){ caja.innerHTML = ''; return; }
+
+  const titulo = '<div class="titulo-seccion">CARGAR DESDE SIU GUARANÍ</div>';
+
+  if (!siuConCuenta){
+    caja.innerHTML = titulo +
+      '<p class="letra-chica" style="margin-top:0">Con tu cuenta podés subir el ' +
+        'reporte de materias de SIU Guaraní y se marcan solas tus aprobadas, ' +
+        'con nota y fecha, y las cursadas que te deben el final.</p>' +
+      '<a class="boton borde ancho" href="../mi/">Crear una cuenta</a>';
+    return;
+  }
+
+  if (siu.paso === 'inicio' || siu.paso === 'error' || siu.paso === 'listo'){
+    const aviso = siu.paso === 'error'
+      ? '<div class="aviso error">' + esc(siu.mensaje) + '</div>'
+      : siu.paso === 'listo'
+      ? '<div class="aviso ok">' + esc(siu.mensaje) + '</div>' : '';
+    caja.innerHTML = titulo + aviso +
+      '<p class="letra-chica" style="margin-top:0">Bajá de SIU Guaraní el ' +
+        '<strong>reporte de materias (cursadas y finales)</strong> en PDF y subilo ' +
+        'acá. Antes de guardar nada te mostramos lo que leímos.</p>' +
+      '<label class="boton ancho" for="siu-archivo">' +
+        (siu.paso === 'listo' ? 'Subir otro reporte' : 'Subir el PDF de SIU Guaraní') + '</label>' +
+      '<input type="file" id="siu-archivo" accept="application/pdf,.pdf" hidden>' +
+      '<p class="letra-chica">El PDF se lee en este teléfono y no se sube a ' +
+        'ningún lado: tiene tu DNI, y Mi año no lo necesita.</p>';
+    document.getElementById('siu-archivo').addEventListener('change', function(){
+      if (this.files && this.files[0]) leerReporteSiu(this.files[0]);
+    });
+    return;
+  }
+
+  if (siu.paso === 'leyendo'){
+    caja.innerHTML = titulo + '<p class="respaldo-estado">Leyendo el reporte…</p>';
+    return;
+  }
+
+  /* siu.paso === 'vista' */
+  const l = siu.lectura;
+  const otra = l.carrera && l.carrera !== PLAN.id
+    ? CARRERAS.filter(c => c && c.id === l.carrera)[0] : null;
+  if (otra){
+    caja.innerHTML = titulo +
+      '<div class="aviso error">Este reporte es de <strong>' + esc(otra.carrera) +
+        '</strong> y estás mirando <strong>' + esc(PLAN.carrera) + '</strong>. ' +
+        'Elegí esa carrera arriba y volvé a subirlo.</div>' +
+      '<button class="boton texto ancho" id="siu-cancelar">Volver</button>';
+    document.getElementById('siu-cancelar').onclick = () => { siu = { paso:'inicio' }; pintarDesdeSiu(); };
+    return;
+  }
+
+  const total = l.aprobadas.length + l.cursadas.length;
+  const renglon = t => '<li>' + t + '</li>';
+  const lista = (nombre, items) => items.length
+    ? '<div class="lista-libres"><strong>' + nombre + '</strong><ul style="margin:0;padding-left:18px">' +
+        items.join('') + '</ul></div>' : '';
+
+  caja.innerHTML = titulo +
+    (total
+      ? '<p class="letra-chica" style="margin-top:0">Leímos esto. Revisalo: al ' +
+          'cargarlo se marca en <strong>' + esc(PLAN.carrera) + '</strong>.</p>'
+      : '<div class="aviso error">No encontramos ninguna materia en este PDF. ' +
+          '¿Es el reporte de materias de SIU Guaraní?</div>') +
+    lista('APROBADAS (' + l.aprobadas.length + ')', l.aprobadas.map(a => renglon(
+      esc(a.nombre) + ' · ' + (a.nota !== null ? a.nota : 'aprobada') + ' · ' + fechaLinda(a.fecha)))) +
+    lista('CURSADAS, TE FALTA EL FINAL (' + l.cursadas.length + ')', l.cursadas.map(c => renglon(
+      esc(c.nombre) + ' · vale hasta ' + fechaLinda(c.vence)))) +
+    lista('NO LAS ENCONTRAMOS EN EL PLAN · NO SE CARGAN', l.noReconocidas.map(n => renglon(
+      esc(n.nombre) + ' · ' + fechaLinda(n.fecha)))) +
+    lista('OPTATIVAS · NO SE CARGAN ACÁ', l.optativas.map(o => renglon(
+      esc(o.nombre) + (o.nota !== null ? ' · ' + o.nota : '')))) +
+    (l.optativas.length
+      ? '<p class="letra-chica">Las horas del Trayecto se cuentan en ' +
+          '<a href="../trayecto/">su pantalla</a>.</p>' : '') +
+    (l.sobras.length
+      ? '<p class="letra-chica">Hubo ' + l.sobras.length + ' renglón(es) que no ' +
+          'pudimos leer. Si falta alguna materia, marcala a mano.</p>' : '') +
+    (total ? '<button class="boton ancho" id="siu-cargar">Cargar ' + total +
+        (total === 1 ? ' materia' : ' materias') + ' en Mi año</button>' : '') +
+    '<button class="boton texto ancho" id="siu-cancelar">Cancelar</button>';
+
+  document.getElementById('siu-cancelar').onclick = () => { siu = { paso:'inicio' }; pintarDesdeSiu(); };
+  if (total) document.getElementById('siu-cargar').onclick = () => cargarReporteSiu(l);
+}
+
+async function leerReporteSiu(archivo){
+  siu = { paso:'leyendo' };
+  pintarDesdeSiu();
+  try {
+    const pdfjs = await LeerAnalitico.cargarPdfJs(RAIZ);
+    const texto = await LeerAnalitico.textoDelAnalitico(await archivo.arrayBuffer(), pdfjs);
+    siu = { paso:'vista', lectura: LeerAnalitico.leerAnalitico(texto, PLAN) };
+  } catch(e){
+    siu = { paso:'error', mensaje:'No pudimos leer ese archivo. ' +
+      (e && e.message ? e.message : 'Fijate que sea el PDF que bajaste de SIU Guaraní.') };
+  }
+  pintarDesdeSiu();
+}
+
+function cargarReporteSiu(l){
+  let nuevas = 0;
+  l.aprobadas.forEach(a => {
+    if (datos.estados[a.cod] !== 'aprobada') nuevas++;
+    datos.estados[a.cod] = 'aprobada';
+    if (a.nota !== null) datos.notas[a.cod] = a.nota;
+    datos.fechas[a.cod] = a.fecha;
+    delete datos.regular[a.cod];
+  });
+  l.cursadas.forEach(c => {
+    if (ORDEN[datos.estados[c.cod] || 'pendiente'] >= ORDEN.aprobada) return;
+    if (datos.estados[c.cod] !== 'cursada') nuevas++;
+    datos.estados[c.cod] = 'cursada';
+    datos.regular[c.cod] = c.anio;
+  });
+
+  /* Si estaba en el diálogo de la primera vez, el reporte ya lo
+     contestó: se cierra y se deduce el año, como con quien ya venía
+     usando la app. */
+  if (borrador) cerrarDialogo();
+  if (datos.dialogo !== 'listo'){ datos.anio = anioDeducido(); datos.dialogo = 'listo'; }
+
+  persistir();
+  siu = { paso:'listo', mensaje: nuevas
+    ? 'Listo: ' + nuevas + (nuevas === 1 ? ' materia nueva' : ' materias nuevas') + ' en tu año.'
+    : 'Listo: ya tenías todo marcado. Se actualizaron las notas y las fechas.' };
+  pintarTodo();
+  scrollTo(0, 0);
+}
+
+/* ============================================================
    ARRANQUE
    ============================================================ */
 function pintarTodo(){
@@ -3336,6 +3509,7 @@ function pintarTodo(){
   pintarCursada();
   pintarPlanCompleto();
   pintarMapa();
+  pintarDesdeSiu();
 
   /* Esconder una pestaña y cambiarle el texto a otra les cambia el
      ancho a todas, y el subrayado se mide con `offsetWidth`: sin esto
@@ -3350,6 +3524,7 @@ elegirCarrera(guardado.carrera || 'ts');
    A partir de acá, cada cambio sí la actualiza. */
 ultimoSubido = JSON.stringify(guardado);
 pintarRespaldo();
+averiguarCuentaSiu();
 pintarSelectorCarrera();
 pintarTodo();
 
