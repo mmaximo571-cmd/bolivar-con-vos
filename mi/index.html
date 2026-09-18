@@ -184,11 +184,12 @@
       <div style="color:var(--texto-suave);font-size:var(--letra-nota);
                   margin-top:16px;line-height:1.5">
         <p style="margin:0 0 6px"><b>Qué guardamos:</b> tu correo, el nombre
-          que pongas, los trámites que marques y las materias que estés
-          preparando. Nada de notas ni de cómo te va.</p>
+          que pongas, los trámites que marques, las materias que estés
+          preparando y, si la cargás, tu cursada con las faltas. Nada de
+          notas.</p>
         <p style="margin:0 0 6px"><b>Quién lo ve:</b> vos. El equipo ve tu
           nombre en la lista de cuentas; no ve tu correo, ni qué guardaste, ni
-          qué estás preparando.</p>
+          qué estás preparando, ni tu cursada.</p>
         <p style="margin:0 0 6px"><b>Cómo se borra:</b> desde tu cuenta, en un
           toque, y se va todo junto.</p>
         <p style="margin:0">La app anda igual sin cuenta. La cuenta sirve para
@@ -378,6 +379,47 @@
       <div class="titulo-seccion">TRÁMITES GUARDADOS</div>
       <div class="lista" id="guardados"><div class="esq-tarjeta"><div class="esqueleto esq-linea titulo"></div><div class="esqueleto esq-linea"></div><div class="esqueleto esq-linea media"></div></div><div class="esq-tarjeta"><div class="esqueleto esq-linea titulo"></div><div class="esqueleto esq-linea"></div><div class="esqueleto esq-linea corta"></div></div></div>
 
+      <div class="titulo-seccion" id="cursada">MI CURSADA</div>
+      <p style="margin:0 0 12px;font-size:var(--letra-nota);line-height:1.45;color:var(--texto-suave)">
+        Cargá qué cursás y cuándo. Aparece en <a href="../agenda/">Fechas</a>,
+        en la vista <b>Semana</b>, y ahí llevás la cuenta de tus faltas.</p>
+      <div class="lista-cursada" id="mi-cursada"></div>
+      <div class="ficha">
+        <form id="form-cursada">
+          <div class="campo">
+            <label for="c-materia">Materia</label>
+            <input id="c-materia" type="text" required maxlength="80"
+                   autocomplete="off" placeholder="Trabajo Social III">
+          </div>
+          <div class="campos-par">
+            <div class="campo">
+              <label for="c-dia">Día</label>
+              <select id="c-dia" required>
+                <option value="1">Lunes</option><option value="2">Martes</option>
+                <option value="3">Miércoles</option><option value="4">Jueves</option>
+                <option value="5">Viernes</option><option value="6">Sábado</option>
+              </select>
+            </div>
+            <div class="campo">
+              <label for="c-hora">Empieza</label>
+              <input id="c-hora" type="time" required value="14:00">
+            </div>
+          </div>
+          <div class="campos-par">
+            <div class="campo">
+              <label for="c-aula">Aula</label>
+              <input id="c-aula" type="text" maxlength="40" placeholder="Aula 12">
+            </div>
+            <div class="campo">
+              <label for="c-clases">Clases en el cuatri</label>
+              <input id="c-clases" type="number" inputmode="numeric" min="1" max="200" value="16" required>
+            </div>
+          </div>
+          <button class="boton ancho" type="submit" id="c-guardar">Agregar a mi cursada</button>
+        </form>
+        <div id="msj-cursada"></div>
+      </div>
+
       <div class="titulo-seccion">TU CONTRASEÑA</div>
       <div class="ficha">
         <p style="margin:0 0 12px;font-size:var(--letra-nota);line-height:1.4;color:var(--texto-suave)">
@@ -406,8 +448,9 @@
       <div class="titulo-seccion" style="margin-top:30px">BORRAR MI CUENTA</div>
       <div class="ficha">
         <p style="margin:0 0 12px;font-size:var(--letra-nota);line-height:1.4;color:var(--texto-suave)">
-          Se va todo junto: la cuenta, tu nombre, los trámites que guardaste y
-          las materias que estabas preparando. <b>No se puede deshacer.</b></p>
+          Se va todo junto: la cuenta, tu nombre, los trámites que guardaste,
+          las materias que estabas preparando y tu cursada con sus faltas.
+          <b>No se puede deshacer.</b></p>
         <button class="boton borde ancho" id="abrir-borrado">Quiero borrar mi cuenta</button>
 
         <div id="borrado" hidden>
@@ -552,6 +595,8 @@
           vez que entres.</div>`;
     };
 
+    montarCursada(usuario);
+
     const caja = document.getElementById('guardados');
     const { data, error } = await db.from('guardados')
       .select('tramite_id, tramites(id,titulo,resumen)')
@@ -574,6 +619,127 @@
         <h3>${esc(g.tramites.titulo)}</h3>
         ${g.tramites.resumen ? `<p>${esc(g.tramites.resumen)}</p>` : ''}
       </a>`).join('');
+  }
+
+  /* ============================================================
+     MI CURSADA (18/9/2026)
+
+     La carga a mano de qué cursa cada estudiante y cuándo. Iba a
+     salir del reporte de SIU Guaraní que ya lee Mi año, pero ese
+     reporte no trae horarios: solo aprobadas y regularidades.
+
+     Se pide la hora y no el bloque: el bloque (mañana, tarde, noche)
+     se deduce, y así la persona escribe lo que lee en su comprobante.
+     Una clase por celda de la semana: si ya hay algo ese día en ese
+     bloque, la base lo rechaza y se dice qué es.
+
+     Los ayudantes van acá y no en app.js a propósito: la pantalla
+     llega de la red y app.js puede venir del caché viejo.
+     ============================================================ */
+  const DIAS_LARGO = ['lunes','martes','miércoles','jueves','viernes','sábado','domingo'];
+  function bloqueDe(hora){
+    const h = /^(\d{1,2}):/.exec(hora || '');
+    const n = h ? +h[1] : 14;
+    return n < 13 ? 'manana' : n < 18 ? 'tarde' : 'noche';
+  }
+  const NOMBRE_BLOQUE = { manana:'mañana', tarde:'tarde', noche:'noche' };
+
+  async function montarCursada(usuario){
+    const lista = document.getElementById('mi-cursada');
+    const form  = document.getElementById('form-cursada');
+    const msj   = document.getElementById('msj-cursada');
+    if (!lista || !form) return;
+    let filas = [];
+
+    function pintar(){
+      if (!filas.length){
+        lista.innerHTML = '';
+        return;
+      }
+      lista.innerHTML = filas.map(c => `
+        <div class="lista-cursada-fila">
+          <div>
+            <b>${esc(c.materia)}</b>
+            <span>${esc(DIAS_LARGO[c.dia - 1])} ${esc(c.hora || '')}${
+              c.aula ? ' · ' + esc(c.aula) : ''} · ${c.total_clases} clases</span>
+          </div>
+          <button type="button" class="cursada-cerrar" data-borrar-cursada="${c.id}"
+                  aria-label="Sacar ${esc(c.materia)} del ${esc(DIAS_LARGO[c.dia - 1])}">✕</button>
+        </div>`).join('');
+    }
+
+    async function traer(){
+      const { data, error } = await db.from('cursada')
+        .select('id,materia,dia,bloque,hora,aula,total_clases')
+        .order('dia').order('hora');
+      if (error){ mostrarError(lista, error, 'cargar tu cursada'); return; }
+      filas = data || [];
+      pintar();
+    }
+
+    lista.addEventListener('click', async ev => {
+      const b = ev.target.closest('[data-borrar-cursada]');
+      if (!b) return;
+      b.disabled = true;
+      const { error } = await db.from('cursada').delete().eq('id', b.dataset.borrarCursada);
+      if (error){
+        b.disabled = false;
+        msj.innerHTML = `<div class="aviso error">No pudimos sacarla. ${esc(errorEnCastellano(error))}</div>`;
+        return;
+      }
+      msj.innerHTML = '';
+      traer();
+    });
+
+    form.addEventListener('submit', async ev => {
+      ev.preventDefault();
+      const materia = document.getElementById('c-materia').value.trim().replace(/\s+/g, ' ');
+      const dia     = +document.getElementById('c-dia').value;
+      const hora    = document.getElementById('c-hora').value;
+      const aula    = document.getElementById('c-aula').value.trim();
+      const clases  = +document.getElementById('c-clases').value;
+      if (!materia || !hora || !(clases >= 1)){
+        msj.innerHTML = '<div class="aviso error">Faltan la materia, la hora o la cantidad de clases.</div>';
+        return;
+      }
+      const bloque = bloqueDe(hora);
+
+      /* Se avisa antes de mandar: el rechazo de la base diría
+         «duplicate key», que no le sirve a nadie. */
+      const ocupada = filas.find(c => c.dia === dia && c.bloque === bloque);
+      if (ocupada){
+        msj.innerHTML = `<div class="aviso error">El ${esc(DIAS_LARGO[dia - 1])} a la
+          ${NOMBRE_BLOQUE[bloque]} ya tenés <b>${esc(ocupada.materia)}</b>. Sacala primero
+          si cambió.</div>`;
+        return;
+      }
+
+      const boton = document.getElementById('c-guardar');
+      boton.disabled = true; boton.textContent = 'Guardando…';
+      const { error } = await db.from('cursada').insert({
+        usuario_id: usuario.id, materia, dia, bloque, hora,
+        aula: aula || null, total_clases: clases
+      });
+      boton.disabled = false; boton.textContent = 'Agregar a mi cursada';
+
+      if (error){
+        msj.innerHTML = `<div class="aviso error">${esc(
+          /duplicate|23505/i.test(error.message + error.code)
+            ? 'Ya tenés otra materia ese día en ese horario.'
+            : 'No pudimos guardarla. ' + errorEnCastellano(error))}</div>`;
+        return;
+      }
+      msj.innerHTML = `<div class="aviso ok">Listo: ${esc(materia)} quedó el
+        ${esc(DIAS_LARGO[dia - 1])}. <a href="../agenda/?vista=semana">Ver mi semana</a></div>`;
+      document.getElementById('c-materia').value = '';
+      document.getElementById('c-aula').value = '';
+      document.getElementById('c-materia').focus();
+      traer();
+    });
+
+    await traer();
+    if (location.hash === '#cursada')
+      document.getElementById('cursada').scrollIntoView({ block:'start' });
   }
 
   refrescar();

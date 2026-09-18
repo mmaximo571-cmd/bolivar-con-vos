@@ -162,6 +162,7 @@
     <div class="calendario-centro" id="calendario">${esqueletoCalendario()}</div>
     <div id="proximo"></div>
     <div id="bajar-todo"></div>
+    <div id="enfoque"></div>
     <div id="filtros"></div>
     <div id="zonas">${esqueletoTarjetas(3)}</div>`;
 
@@ -169,6 +170,7 @@
   const cajaProximo = document.getElementById('proximo');
   const cajaBajar   = document.getElementById('bajar-todo');
   const cajaFiltros = document.getElementById('filtros');
+  const cajaEnfoque = document.getElementById('enfoque');
   const zonas       = document.getElementById('zonas');
 
   let publicaciones = [];
@@ -279,8 +281,17 @@
       return;
     }
 
-    const visibles = publicaciones
+    /* El modo parciales va PRIMERO y el chip después: el chip elige
+       dentro de lo que el modo dejó visible. */
+    const visibles = conEnfoque()
       .filter(p => lineaElegida === 'todas' || p.linea === lineaElegida);
+
+    if (!visibles.length && lineaElegida === 'todas'){
+      zonas.innerHTML = vacio('La época de parciales esconde todo',
+        'No hay fechas de las categorías que dejaste visibles. Las demás siguen ahí.',
+        '<button type="button" class="boton" data-apagar-enfoque>Mostrar todas</button>');
+      return;
+    }
 
     if (!visibles.length){
       zonas.innerHTML = vacio(
@@ -485,7 +496,7 @@
 
   function pintarProximo(){
     const hoy = hoyISO();
-    const p = publicaciones
+    const p = conEnfoque()
       .filter(x => x.fecha_desde &&
         String(x.fecha_hasta || x.fecha_desde).slice(0,10) >= hoy)
       .sort((a,b) => a.fecha_desde.localeCompare(b.fecha_desde))[0];
@@ -515,7 +526,7 @@
      filtrar y la botonera no se dibuja. */
   function pintarFiltros(){
     const presentes = Object.keys(NOMBRE_LINEA)
-      .filter(l => publicaciones.some(p => p.linea === l));
+      .filter(l => conEnfoque().some(p => p.linea === l));
 
     /* Si al refrescar desapareció la línea elegida, se vuelve a todas:
        si no, la lista quedaría filtrada por un chip que ya no existe. */
@@ -547,22 +558,494 @@
     pintarFiltros();
   });
 
+  /* ============================================================
+     RONDA 2 · SEMANA, ÉPOCA DE PARCIALES Y FALTAS (18/9/2026)
+
+     Lo de la persona —su cursada, sus faltas, su preferencia del
+     modo parciales— vive en tablas privadas y necesita la sesión.
+     El cliente chico no la renueva, así que la librería grande se
+     baja SOLO si en este teléfono hay una sesión guardada. Quien
+     entra sin cuenta sigue bajando lo mismo que antes.
+
+     Los ayudantes van acá y no en app.js: esta pantalla llega de la
+     red y app.js puede venir del caché viejo.
+     ============================================================ */
+  const BLOQUES = [
+    { k:'manana', n:'Mañana' },
+    { k:'tarde',  n:'Tarde'  },
+    { k:'noche',  n:'Noche'  }
+  ];
+  const DOW = ['lun','mar','mié','jue','vie','sáb','dom'];
+
+  const isoDe = d =>
+    d.getFullYear() + '-' + String(d.getMonth()+1).padStart(2,'0') +
+    '-' + String(d.getDate()).padStart(2,'0');
+
+  function lunesDe(iso){
+    const [a,m,d] = iso.split('-').map(Number);
+    const f = new Date(a, m-1, d);
+    f.setDate(f.getDate() - ((f.getDay() + 6) % 7));
+    return isoDe(f);
+  }
+
+  /* «18:00», «18 hs», «18h»: la hora la escribe el equipo a mano.
+     Sin hora, a la tarde, que es el bloque que se mira primero. */
+  function bloqueDe(hora){
+    const h = /(\d{1,2})\s*(?::|h)/i.exec(hora || '');
+    if (!h) return 'tarde';
+    const n = +h[1];
+    return n < 13 ? 'manana' : n < 18 ? 'tarde' : 'noche';
+  }
+
+  /* Tope al 80% de presentismo. */
+  const topeFaltas = c => Math.floor((c.total_clases || 0) * 0.2);
+
+  let vista = parametro('vista') === 'semana' ? 'semana' : 'mes';
+  let lunes = lunesDe(hoyISO());
+
+  /* ---------- La cuenta ---------- */
+  const CLAVE_SESION = 'sb-' +
+    new URL(window.BOLIVAR_CONFIG.url).hostname.split('.')[0] + '-auth-token';
+  let hayCuentaGuardada = false;
+  try { hayCuentaGuardada = !!localStorage.getItem(CLAVE_SESION); } catch(e){}
+
+  let cuenta   = null;         /* { c: cliente grande, user } */
+  let cargandoCuenta = hayCuentaGuardada;
+  let cursada  = [];
+  let faltas   = {};           /* materia -> cuántas */
+
+  function cargarLibreria(){
+    if (window.supabase && window.supabase.createClient) return Promise.resolve();
+    return new Promise((listo, error) => {
+      const s = document.createElement('script');
+      s.src = '../lib/supabase.js';
+      s.onload = listo; s.onerror = error;
+      document.head.appendChild(s);
+    });
+  }
+
+  async function conectarCuenta(){
+    if (!hayCuentaGuardada) return;
+    try {
+      await cargarLibreria();
+      const c = window.supabase.createClient(
+        window.BOLIVAR_CONFIG.url, window.BOLIVAR_CONFIG.anonKey);
+      const { data:{ user } } = await c.auth.getUser();
+      /* Sesión vencida o cerrada en otro lado: es lo mismo que no
+         tener cuenta, y se le ofrece entrar. */
+      if (!user){ hayCuentaGuardada = false; cargandoCuenta = false; pintarVista(); return; }
+      cuenta = { c, user };
+      await Promise.all([traerPreferencias(), traerCursada()]);
+    } catch(e){
+      /* Sin la librería no se pierde nada de lo público: la agenda
+         sigue entera, y la semana dice que no pudo cargar. */
+      cuenta = null;
+    }
+    cargandoCuenta = false;
+    pintarTodo();
+  }
+
+  async function traerCursada(){
+    if (!cuenta) return;
+    const [cur, fal] = await Promise.all([
+      cuenta.c.from('cursada').select('id,materia,dia,bloque,hora,aula,total_clases'),
+      cuenta.c.from('falta').select('materia')
+    ]);
+    if (cur.error || fal.error) return;
+    cursada = cur.data || [];
+    /* El número sale de contar filas, nunca de un contador guardado. */
+    faltas = {};
+    (fal.data || []).forEach(f => { faltas[f.materia] = (faltas[f.materia] || 0) + 1; });
+  }
+
+  /* ---------- Modo época de parciales ----------
+     En el teléfono siempre (así anda sin cuenta), y en la cuenta
+     cuando hay: no se lo volvés a preguntar en noviembre. */
+  const CLAVE_ENFOQUE = 'bolivar-enfoque';
+  let enfoque = false;
+  let enfoqueCats = ['info', 'saberes'];
+  try {
+    const g = JSON.parse(localStorage.getItem(CLAVE_ENFOQUE) || 'null');
+    if (g){ enfoque = !!g.enfoque; if (Array.isArray(g.cats) && g.cats.length) enfoqueCats = g.cats; }
+  } catch(e){}
+
+  function conEnfoque(){
+    return enfoque ? publicaciones.filter(p => enfoqueCats.includes(p.linea)) : publicaciones;
+  }
+
+  async function traerPreferencias(){
+    const { data, error } = await cuenta.c.from('preferencias')
+      .select('enfoque,enfoque_cats').maybeSingle();
+    if (error) return;
+    if (data){
+      enfoque = !!data.enfoque;
+      if (Array.isArray(data.enfoque_cats) && data.enfoque_cats.length) enfoqueCats = data.enfoque_cats;
+      guardarEnfoqueLocal();
+    } else if (enfoque){
+      guardarPreferencias();     /* lo del teléfono sube a la cuenta */
+    }
+  }
+
+  function guardarEnfoqueLocal(){
+    try { localStorage.setItem(CLAVE_ENFOQUE, JSON.stringify({ enfoque, cats: enfoqueCats })); } catch(e){}
+  }
+
+  function guardarPreferencias(){
+    guardarEnfoqueLocal();
+    if (!cuenta) return;
+    cuenta.c.from('preferencias').upsert({
+      usuario_id: cuenta.user.id, enfoque, enfoque_cats: enfoqueCats,
+      actualizado_at: new Date().toISOString()
+    }).then(() => {});
+  }
+
+  function pintarEnfoque(){
+    const escondidas = publicaciones.length - conEnfoque().length;
+    const chip = l => `
+      <button type="button" class="chip" data-enfoque-cat="${esc(l)}"
+              aria-pressed="${enfoqueCats.includes(l)}">
+        <i class="punto ${esc(l)}" aria-hidden="true"></i>${esc(NOMBRE_LINEA[l])}
+      </button>`;
+
+    cajaEnfoque.innerHTML = `
+      <div class="enfoque ${enfoque ? 'encendido' : ''}">
+        <div class="enfoque-fila">
+          <span class="enfoque-icono" aria-hidden="true">${icono('enfoque') || '◎'}</span>
+          <label for="sw-enfoque">
+            <b>Época de parciales</b>
+            <span>${enfoque
+              ? `${escondidas} ${escondidas === 1 ? 'fecha escondida' : 'fechas escondidas'} mientras dure`
+              : 'Deja en pantalla solo lo académico'}</span>
+          </label>
+          <button type="button" class="switch" id="sw-enfoque" role="switch"
+                  aria-checked="${enfoque}" aria-label="Modo época de parciales"></button>
+        </div>
+        <div class="enfoque-cuerpo">
+          <div>
+            <div class="enfoque-cats">
+              <div class="enfoque-rotulo">Dejar visible</div>
+              <div class="filtros" style="margin:0;padding:0;flex-wrap:wrap">
+                ${Object.keys(NOMBRE_LINEA).map(chip).join('')}
+              </div>
+              <div class="enfoque-nota">Se apaga cuando quieras. Las fechas no se borran:
+                vuelven todas al apagarlo.</div>
+            </div>
+          </div>
+        </div>
+      </div>`;
+  }
+
+  /* ---------- Pestañas Mes / Semana ---------- */
+  function htmlPestanas(){
+    const b = (id, n) => `<button type="button" role="tab" data-vista="${id}"
+        aria-selected="${id === vista}">${n}</button>`;
+    return `<div class="vistas" role="tablist" aria-label="Cómo ver el calendario">${
+      b('mes','Mes')}${b('semana','Semana')}</div>`;
+  }
+
   function montarCal(){
-    montarCalendario(cajaCal, publicaciones,
+    montarCalendario(cajaCal, conEnfoque(),
       iso => mostrarDia(iso),
       (anio, mes) => abrirMes(`${anio}-${String(mes).padStart(2,'0')}`));
+    const cal = cajaCal.querySelector('.calendario');
+    if (cal) cal.insertAdjacentHTML('afterbegin', htmlPestanas());
+  }
+
+  /* ---------- Semana a la vista ----------
+     Días en filas y bloques en columnas: en un teléfono, tres
+     columnas dejan leer el nombre de una materia y siete no. La
+     celda libre es la más callada, así el hueco se ve como hueco.
+
+     De la agenda entran solo las fechas de UN día: un período de tres
+     semanas (una inscripción, un cuatrimestre de seminarios) llenaría
+     todas las tardes y taparía justo los huecos que se vienen a
+     buscar. Esos siguen en la vista Mes. */
+  function htmlSemana(){
+    const [a,m,d] = lunes.split('-').map(Number);
+    const dias = Array.from({ length:7 }, (_, i) => {
+      const f = new Date(a, m-1, d + i);
+      return { iso:isoDe(f), num:f.getDate(), mes:f.getMonth(), dow:DOW[i] };
+    });
+    const deUnDia = conEnfoque().filter(p => p.fecha_desde &&
+      (!p.fecha_hasta || p.fecha_hasta.slice(0,10) === p.fecha_desde.slice(0,10)));
+
+    let libres = 0;
+    const filas = dias.map((dia, i) => {
+      const celdas = BLOQUES.map(b => {
+        const clase = cursada.find(c => c.dia === i+1 && c.bloque === b.k);
+        if (clase){
+          const restan = Math.max(topeFaltas(clase) - (faltas[clase.materia] || 0), 0);
+          return `<button type="button" class="semana-celda cursada"
+            data-materia="${esc(clase.materia)}" data-cursada-id="${clase.id}"
+            aria-label="${esc(clase.materia)}, ${esc(clase.hora || '')}${clase.aula ? ', ' + esc(clase.aula) : ''}. Te ${restan === 1 ? 'queda 1 falta' : 'quedan ' + restan + ' faltas'}">
+            <b>${esc(clase.materia)}</b>
+            <i>${clase.aula ? esc(clase.aula) + ' · ' : ''}${restan} falta${restan === 1 ? '' : 's'}</i>
+          </button>`;
+        }
+        const ev = deUnDia.find(p => caeEnElDia(p, dia.iso) && bloqueDe(p.hora) === b.k);
+        if (ev) return `<a class="semana-celda evento ${esc(ev.linea)}" href="?id=${ev.id}">
+            <b>${esc(ev.titulo)}</b>
+            <i>${esc(ev.hora || NOMBRE_LINEA[ev.linea] || '')}</i>
+          </a>`;
+        libres++;
+        return `<span class="semana-celda libre" role="img"
+          aria-label="${dia.dow} a la ${b.n.toLowerCase()}, libre"></span>`;
+      }).join('');
+
+      return `<div class="semana-fila ${dia.iso === hoyISO() ? 'hoy' : ''}">
+          <div class="semana-dia">
+            <span class="dow">${dia.dow}</span><span class="num">${dia.num}</span>
+          </div>${celdas}
+        </div>`;
+    }).join('');
+
+    const rango = dias[0].mes === dias[6].mes
+      ? `${dias[0].num} al ${dias[6].num} de ${MESES[dias[6].mes]}`
+      : `${dias[0].num} de ${MESES[dias[0].mes]} al ${dias[6].num} de ${MESES[dias[6].mes]}`;
+
+    return `
+      <div class="cal-cabecera">
+        <button type="button" class="cal-flecha" data-semana="-1" aria-label="Semana anterior">‹</button>
+        <div style="flex:1;text-align:center">
+          <div class="cal-mes">${esc(rango.toUpperCase())}</div>
+          <div class="cal-nombre-dia">${libres} bloques libres</div>
+        </div>
+        <button type="button" class="cal-flecha" data-semana="1" aria-label="Semana siguiente">›</button>
+      </div>
+      <div class="semana-cab" aria-hidden="true">
+        <span></span>${BLOQUES.map(b => `<span>${b.n}</span>`).join('')}
+      </div>
+      <div class="semana-grilla">${filas}</div>
+      <div class="cal-referencia">
+        <span><i class="cal-punto" style="background:var(--superficie-2);border:1px solid var(--linea)"></i>Libre</span>
+        <span><i class="cal-punto" style="background:var(--et-saberes)"></i>Cursada</span>
+        <span><i class="cal-punto" style="background:var(--et-info)"></i>De la agenda</span>
+      </div>
+      ${cursada.length ? '' : `<p class="letra-chica" style="margin:12px 2px 0;text-align:center">
+        Todavía no cargaste tu cursada. <a href="../mi/#cursada">Cargala en Mi perfil</a>
+        y aparece acá, con tus faltas.</p>`}`;
+  }
+
+  function pintarSemana(){
+    let cuerpo;
+    if (!hayCuentaGuardada){
+      cuerpo = `<div style="text-align:center;padding:26px 8px 18px">
+          <strong class="vacio-titulo" style="display:block;margin-bottom:6px">Tu semana necesita tu cuenta</strong>
+          <p class="letra-chica" style="margin:0 auto 14px;max-width:30ch">Cargás lo que cursás
+            una vez y acá ves tus huecos, tus clases y cuántas faltas te quedan.</p>
+          <a class="boton" href="../mi/">Entrar a mi cuenta</a>
+        </div>`;
+    } else if (cargandoCuenta){
+      cuerpo = `<p class="letra-chica" style="text-align:center;padding:30px 0" role="status">Cargando tu semana…</p>`;
+    } else if (!cuenta){
+      cuerpo = `<div style="text-align:center;padding:26px 8px 18px">
+          <strong class="vacio-titulo" style="display:block;margin-bottom:6px">No pudimos abrir tu cuenta</strong>
+          <p class="letra-chica" style="margin:0 auto 14px;max-width:30ch">Puede ser la conexión,
+            o que la sesión se haya cerrado.</p>
+          <a class="boton" href="../mi/">Ir a mi perfil</a>
+        </div>`;
+    } else {
+      cuerpo = htmlSemana();
+    }
+    cajaCal.innerHTML = `<div class="calendario">${htmlPestanas()}${cuerpo}</div>`;
+  }
+
+  function pintarVista(){
+    if (vista === 'semana') pintarSemana(); else montarCal();
   }
 
   function pintarTodo(){
     pintarFiltros();             /* primero: puede corregir lineaElegida */
     dibujar();
-    montarCal();
+    pintarVista();
     pintarProximo();
     pintarBajarTodo();
+    pintarEnfoque();
   }
+
+  /* ---------- Los toques de la ronda 2, delegados ---------- */
+  contenido.addEventListener('click', ev => {
+    const pest = ev.target.closest('[data-vista]');
+    if (pest){
+      if (pest.dataset.vista === vista) return;
+      vista = pest.dataset.vista;
+      history.replaceState(null, '', vista === 'semana' ? '?vista=semana' : location.pathname);
+      pintarVista();
+      const elegida = cajaCal.querySelector(`[data-vista="${vista}"]`);
+      if (elegida) elegida.focus();
+      return;
+    }
+
+    const paso = ev.target.closest('[data-semana]');
+    if (paso){
+      const [a,m,d] = lunes.split('-').map(Number);
+      lunes = isoDe(new Date(a, m-1, d + 7 * Number(paso.dataset.semana)));
+      pintarSemana();
+      return;
+    }
+
+    if (ev.target.closest('#sw-enfoque') || ev.target.closest('[data-apagar-enfoque]')){
+      enfoque = ev.target.closest('[data-apagar-enfoque]') ? false : !enfoque;
+      lineaElegida = 'todas';
+      guardarPreferencias();
+      recordarAbiertos();
+      pintarTodo();
+      const sw = document.getElementById('sw-enfoque');
+      if (sw && !ev.target.closest('[data-apagar-enfoque]')) sw.focus();
+      return;
+    }
+
+    const cat = ev.target.closest('[data-enfoque-cat]');
+    if (cat){
+      const l = cat.dataset.enfoqueCat;
+      const i = enfoqueCats.indexOf(l);
+      if (i < 0) enfoqueCats = enfoqueCats.concat(l);
+      else if (enfoqueCats.length > 1) enfoqueCats = enfoqueCats.filter(x => x !== l);  /* nunca cero */
+      else return;
+      guardarPreferencias();
+      recordarAbiertos();
+      pintarTodo();
+      const igual = cajaEnfoque.querySelector(`[data-enfoque-cat="${l}"]`);
+      if (igual) igual.focus();
+    }
+  });
+
+  /* ---------- La hoja de cursada y faltas ----------
+     Hoja de abajo y no pantalla nueva: marcar una falta es un gesto
+     de dos segundos y no tiene que sacarte de la semana.
+
+     El número grande es LO QUE QUEDA. «Faltaste 2 de 16» es la
+     respuesta de un sistema administrativo, y va en letra chica. */
+  let materiaAbierta = null;
+  let origenHoja = null;
+
+  function htmlHoja(c){
+    const usadas = faltas[c.materia] || 0;
+    const tope   = topeFaltas(c);
+    const restan = tope - usadas;
+    const clase  = restan <= 0 ? 'libre' : (restan <= 1 ? 'filo' : 'bien');
+    const estado = restan <= 0 ? 'Quedás libre' : (restan <= 1 ? 'Al filo' : 'Vas bien');
+    const casillas = Array.from({ length: tope }, (_, i) =>
+      `<i class="${i < usadas ? 'usada' : ''}" aria-hidden="true"></i>`).join('');
+    const dias = cursada.filter(x => x.materia === c.materia)
+      .sort((x, y) => x.dia - y.dia)
+      .map(x => `${DOW[x.dia - 1]} ${x.hora || ''}`.trim()).join(' y ');
+
+    return `
+      <div class="cursada-agarre" aria-hidden="true"></div>
+      <div class="cursada-cab">
+        <div>
+          <div class="cursada-ceja">${esc(dias)}</div>
+          <h3 id="hoja-materia">${esc(c.materia)}</h3>
+          <div class="cursada-meta">${c.aula ? esc(c.aula) + ' · ' : ''}${c.total_clases} clases en el cuatrimestre</div>
+        </div>
+        <button type="button" class="cursada-cerrar" data-cerrar-hoja aria-label="Cerrar">✕</button>
+      </div>
+
+      <div class="faltas ${clase}">
+        <div class="faltas-cab">
+          <span class="rotulo">Presentismo · pide 80%</span>
+          <span class="estado">${estado}</span>
+        </div>
+        <div class="faltas-numero" aria-live="polite">
+          <b>${Math.max(restan, 0)}</b>
+          <span>${restan === 1 ? 'falta te queda' : 'faltas te quedan'}</span>
+        </div>
+        <div class="faltas-casillas">${casillas}</div>
+        <div class="faltas-detalle">Faltaste ${usadas} de ${c.total_clases}.
+          Con el 80% podés faltar ${tope} ${tope === 1 ? 'vez' : 'veces'}.</div>
+      </div>
+
+      <div class="cursada-acciones">
+        <button type="button" class="boton" data-falta="mas"
+                ${usadas >= tope ? 'disabled' : ''}>Falté hoy</button>
+        <button type="button" class="boton borde" data-falta="menos"
+                ${usadas ? '' : 'disabled'}>Deshacer</button>
+      </div>
+      <div class="cursada-nota" id="hoja-nota">Se guarda en tu cuenta, así lo ves también desde
+        la computadora.</div>`;
+  }
+
+  function abrirHoja(materia, desde){
+    const c = cursada.find(x => x.materia === materia);
+    if (!c || document.querySelector('.cursada-hoja')) return;
+    materiaAbierta = materia;
+    origenHoja = desde;
+    document.body.insertAdjacentHTML('beforeend', `
+      <div class="cursada-fondo" data-cerrar-hoja></div>
+      <div class="cursada-hoja" role="dialog" aria-modal="true" aria-labelledby="hoja-materia"
+           tabindex="-1">${htmlHoja(c)}</div>`);
+    document.querySelector('.cursada-hoja').focus();
+  }
+
+  function cerrarHoja(){
+    const hoja  = document.querySelector('.cursada-hoja');
+    const fondo = document.querySelector('.cursada-fondo');
+    if (!hoja) return;
+    const quitar = () => { hoja.remove(); if (fondo) fondo.remove(); };
+    if (sinMovimiento()) quitar();
+    else {
+      hoja.classList.add('cerrando');
+      if (fondo) fondo.classList.add('cerrando');
+      hoja.addEventListener('transitionend', quitar, { once:true });
+      setTimeout(quitar, 500);   /* por si la transición no corre */
+    }
+    materiaAbierta = null;
+    if (vista === 'semana') pintarSemana();     /* los números nuevos */
+    if (origenHoja){
+      const vuelta = cajaCal.querySelector(`[data-cursada-id="${origenHoja}"]`);
+      if (vuelta) vuelta.focus();
+    }
+  }
+
+  async function marcarFalta(mas, boton){
+    const c = cursada.find(x => x.materia === materiaAbierta);
+    if (!c || !cuenta) return;
+    const nota = document.getElementById('hoja-nota');
+    boton.disabled = true;
+    let error;
+    if (mas){
+      ({ error } = await cuenta.c.from('falta')
+        .insert({ usuario_id: cuenta.user.id, materia: c.materia, fecha: hoyISO() }));
+    } else {
+      /* Deshacer = borrar la última que se marcó, no una cualquiera. */
+      const { data, error: e1 } = await cuenta.c.from('falta').select('id')
+        .eq('materia', c.materia).order('creado_at', { ascending:false }).limit(1);
+      error = e1;
+      if (!e1 && data && data[0])
+        ({ error } = await cuenta.c.from('falta').delete().eq('id', data[0].id));
+    }
+    if (error){
+      boton.disabled = false;
+      if (nota) nota.textContent = 'No se pudo guardar. Fijate la conexión y probá de nuevo.';
+      return;
+    }
+    /* Se vuelve a contar desde la base: si la misma cuenta marcó
+       algo desde la computadora, acá tiene que verse. */
+    await traerCursada();
+    const hoja = document.querySelector('.cursada-hoja');
+    const cNueva = cursada.find(x => x.materia === materiaAbierta);
+    if (hoja && cNueva){
+      hoja.innerHTML = htmlHoja(cNueva);
+      const igual = hoja.querySelector(`[data-falta="${mas ? 'mas' : 'menos'}"]`);
+      (igual && !igual.disabled ? igual : hoja).focus();
+    }
+  }
+
+  document.addEventListener('click', ev => {
+    const abrir = ev.target.closest('[data-materia]');
+    if (abrir){ abrirHoja(abrir.dataset.materia, abrir.dataset.cursadaId); return; }
+    if (ev.target.closest('[data-cerrar-hoja]')){ cerrarHoja(); return; }
+    const b = ev.target.closest('[data-falta]');
+    if (b) marcarFalta(b.dataset.falta === 'mas', b);
+  });
+  document.addEventListener('keydown', ev => {
+    if (ev.key === 'Escape' && document.querySelector('.cursada-hoja')) cerrarHoja();
+  });
 
   if (await traer()) pintarTodo();
   else cajaCal.innerHTML = '';
+  conectarCuenta();
 
   /* ---------- SE REFRESCA AL VOLVER ----------
 

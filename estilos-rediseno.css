@@ -16,10 +16,10 @@
    · el banner «Lo próximo» va acotado a `#proximo`: el inicio ya
      tiene su propio `.proximo`, un renglón callado a propósito para
      no competirle a la alarma de inscripción;
-   · la «Ronda 2» (semana, época de parciales, faltas) NO está acá
-     todavía. Pide las tablas `cursada` y `falta`, y su `.hoja` pisaba
-     las hojas de abajo que ya usan Carrera, Mapa y Trámites. Entra
-     cuando entren las tablas, con esos nombres resueltos.
+   · en la «Ronda 2» la hoja de faltas se llama `.cursada-hoja`,
+     `.cursada-fondo`, `.cursada-cab`… y no `.hoja-*` como en el
+     paquete: `.hoja` ya es la hoja de abajo de Carrera, Mapa y
+     Trámites, y con el mismo nombre las pisaba.
    ============================================================ */
 
 /* ------------------------------------------------------------
@@ -525,3 +525,246 @@
 }
 
 
+/* ============================================================
+   RONDA 2 · SEMANA A LA VISTA · MODO PARCIALES · FALTAS
+   Sigue siendo solo maquetación. Las tres funciones necesitan
+   eventos propios del estudiante (mi cursada + mis faltas) en
+   Supabase; el CSS y los fragmentos no deciden nada de eso.
+   ============================================================ */
+
+/* --- 12 · Pestañas Mes / Semana ------------------------------
+   Segmented control, no dos botones sueltos: el riel gris dice
+   "estas dos son la misma cosa vista distinto", y el que está
+   elegido es el único con superficie y sombra. */
+.vistas{
+  display:flex;gap:3px;padding:3px;margin-bottom:12px;
+  border-radius:var(--radio-pastilla);background:var(--superficie-2)
+}
+.vistas button{
+  flex:1;min-height:36px;border:0;border-radius:var(--radio-pastilla);
+  background:transparent;color:var(--texto-suave);
+  font-family:'Roboto',sans-serif;font-weight:500;font-size:13px;
+  letter-spacing:.04em;text-transform:uppercase;cursor:pointer;
+  transition:background var(--t-chico,180ms) ease, color var(--t-chico,180ms) ease,
+             transform var(--t-toque,140ms) ease
+}
+.vistas button[aria-selected="true"]{
+  background:var(--superficie);color:var(--texto);
+  font-weight:700;box-shadow:var(--sombra-1)
+}
+.vistas button:active{transform:scale(.97)}
+
+/* --- 13 · La grilla de la semana -----------------------------
+   Los días son FILAS y los bloques COLUMNAS, al revés de un
+   calendario de escritorio. En 390px de ancho, siete columnas de
+   44px no dejan leer el nombre de una materia; tres columnas de
+   ~100px sí. Y leer la semana de arriba hacia abajo es lo que uno
+   hace cuando se pregunta "¿cuándo tengo un hueco?".
+
+   Los huecos son el dato: la celda libre es la más clara y la más
+   silenciosa, así que la mancha de color dibuja la carga real. */
+.semana-cab,.semana-fila{
+  display:grid;grid-template-columns:34px repeat(3,minmax(0,1fr));gap:4px
+}
+.semana-cab{align-items:center;margin-bottom:4px}
+.semana-cab span{
+  text-align:center;font-family:'Roboto',sans-serif;font-weight:700;font-size:10px;
+  letter-spacing:.09em;text-transform:uppercase;color:var(--texto-suave)
+}
+.semana-grilla{display:flex;flex-direction:column;gap:4px}
+.semana-fila{align-items:stretch}
+
+.semana-dia{
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  border-radius:var(--radio-chico);padding:4px 0;
+  background:var(--superficie-2);color:var(--texto-suave)
+}
+.semana-dia .dow{
+  font-weight:700;font-size:9.5px;letter-spacing:.08em;text-transform:uppercase;opacity:.75
+}
+.semana-dia .num{font-weight:700;font-size:14px;line-height:1.1}
+.semana-fila.hoy .semana-dia{background:var(--texto);color:var(--fondo)}
+
+.semana-celda{
+  min-height:46px;border-radius:var(--radio-chico);
+  border:1px solid transparent;background:var(--superficie-2);
+  color:var(--texto);padding:5px 6px;overflow:hidden;cursor:default;
+  display:flex;flex-direction:column;justify-content:center;gap:3px;text-align:left;
+  transition:background var(--t-chico,180ms) ease, transform var(--t-toque,140ms) ease
+}
+.semana-celda b,.semana-celda i{
+  display:block;width:100%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;
+  font-style:normal
+}
+.semana-celda b{font-weight:700;font-size:10.5px;line-height:1.2;letter-spacing:-.005em}
+.semana-celda i{font-weight:500;font-size:9.5px;letter-spacing:.04em;opacity:.8}
+.semana-celda.libre{border-color:var(--linea);cursor:default}
+.semana-celda.cursada{background:var(--et-saberes);cursor:pointer}
+.semana-celda.evento{cursor:pointer}
+.semana-celda.evento.frente {background:var(--et-frente)}
+.semana-celda.evento.gremial{background:var(--et-gremial)}
+.semana-celda.evento.info   {background:var(--et-info)}
+.semana-celda.evento.saberes{background:var(--et-saberes)}
+.semana-celda.cursada:active,.semana-celda.evento:active{transform:scale(.96)}
+
+/* --- 14 · Modo época de parciales ----------------------------
+   Encendido, la tarjeta se tiñe del pastel rojo y el switch se
+   pone rojo: el estado tiene que verse desde lejos, porque una app
+   que esconde fechas sin avisar es una app que perdió un final.
+   Las categorías que quedan visibles las elige el estudiante y se
+   despliegan con la misma interpolación de grid del acordeón. */
+.enfoque{
+  margin:0 0 12px;border-radius:18px;overflow:hidden;
+  border:1px solid var(--linea);background:var(--superficie);
+  box-shadow:var(--sombra-1);
+  transition:background var(--t-medio,220ms) ease, border-color var(--t-medio,220ms) ease
+}
+.enfoque.encendido{background:var(--et-info);border-color:transparent}
+.enfoque-fila{display:flex;align-items:center;gap:12px;padding:13px 14px}
+.enfoque-icono{
+  flex:0 0 auto;width:34px;height:34px;border-radius:99px;display:grid;place-items:center;
+  background:var(--superficie-2);color:var(--texto-suave)
+}
+.enfoque.encendido .enfoque-icono{background:var(--rojo-hoy);color:#fff}
+.enfoque label{flex:1;min-width:0;cursor:pointer}
+.enfoque label b{
+  display:block;font-family:'Roboto',sans-serif;font-weight:700;font-size:14.5px;
+  letter-spacing:-.01em
+}
+.enfoque label span{
+  display:block;font-size:12.5px;line-height:1.35;color:var(--texto-suave);margin-top:2px
+}
+
+/* El switch. Es un <button role="switch">, no un checkbox pintado:
+   así el lector de pantalla dice "activado" y no "casilla". */
+.switch{
+  flex:0 0 auto;width:50px;height:30px;border-radius:99px;border:0;padding:3px;
+  background:var(--linea);display:flex;justify-content:flex-start;cursor:pointer;
+  transition:background var(--t-medio,220ms) ease, transform var(--t-toque,140ms) ease
+}
+.switch::after{
+  content:'';width:24px;height:24px;border-radius:99px;background:#fff;
+  box-shadow:0 1px 3px rgba(0,0,0,.28)
+}
+.switch[aria-checked="true"]{background:var(--rojo-hoy);justify-content:flex-end}
+.switch:active{transform:scale(.95)}
+
+.enfoque-cuerpo{
+  display:grid;grid-template-rows:0fr;
+  transition:grid-template-rows 280ms cubic-bezier(.2,.8,.2,1)
+}
+.enfoque.encendido .enfoque-cuerpo{grid-template-rows:1fr}
+.enfoque-cuerpo > *{min-height:0;overflow:hidden}
+.enfoque-cats{padding:2px 14px 14px}
+.enfoque-rotulo{
+  font-family:'Roboto',sans-serif;font-weight:700;font-size:10px;letter-spacing:.13em;
+  text-transform:uppercase;color:var(--texto-suave);margin-bottom:9px
+}
+.enfoque-cats .chip[aria-pressed="true"]{
+  background:var(--texto);border-color:var(--texto);color:var(--fondo)
+}
+.enfoque-cats .chip[aria-pressed="true"] .punto{background:var(--fondo)}
+.enfoque-nota{font-size:12.5px;line-height:1.4;color:var(--texto-suave);margin-top:11px}
+@media (prefers-reduced-motion:reduce){
+  .enfoque-cuerpo,.switch,.enfoque{transition:none}
+}
+
+/* --- 15 · Hoja de cursada y contador de faltas ---------------
+   Hoja de abajo y no pantalla nueva: marcar una falta es un gesto
+   de dos segundos y no tiene que sacarte de la semana que estabas
+   mirando.
+
+   El número grande es LO QUE QUEDA, no lo que se gastó: "te quedan
+   3" es la pregunta que el estudiante se hace de verdad. Las
+   casillas de abajo son el total, así se ve el techo. Y el ámbar
+   del aviso es #B4670B sobre superficie —4,9:1— porque un naranja
+   más lindo no se lee. */
+.cursada-fondo{
+  position:fixed;inset:0;z-index:97;background:rgba(10,10,6,.42);
+  backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);
+  transition:opacity var(--t-medio,220ms) var(--sale,ease)
+}
+.cursada-hoja{
+  position:fixed;left:0;right:0;bottom:0;z-index:98;
+  border-radius:26px 26px 0 0;background:var(--superficie);
+  border-top:1px solid var(--linea);
+  box-shadow:0 -18px 40px -18px rgba(0,0,0,.35);
+  padding:10px 16px calc(20px + env(safe-area-inset-bottom));
+  transition:transform var(--t-hoja,300ms) var(--cajon,ease)
+}
+@starting-style{
+  .cursada-fondo{opacity:0}
+  .cursada-hoja{transform:translateY(100%)}
+}
+.cursada-fondo.cerrando{opacity:0}
+.cursada-hoja.cerrando{transform:translateY(100%)}
+@media (prefers-reduced-motion:reduce){
+  .cursada-hoja{transition:opacity var(--t-chico,180ms) ease}
+  @starting-style{ .cursada-hoja{transform:none;opacity:0} }
+  .cursada-hoja.cerrando{transform:none;opacity:0}
+}
+.cursada-agarre{width:40px;height:4px;border-radius:99px;background:var(--linea);margin:0 auto 14px}
+.cursada-cab{display:flex;align-items:flex-start;gap:10px}
+.cursada-cab > div{flex:1;min-width:0}
+.cursada-ceja{
+  font-family:'Roboto',sans-serif;font-weight:700;font-size:10px;letter-spacing:.13em;
+  text-transform:uppercase;color:var(--texto-suave)
+}
+.cursada-hoja h3{margin:5px 0 0;font-family:'Roboto',sans-serif;font-weight:700;font-size:20px;
+  line-height:1.2;letter-spacing:-.018em}
+.cursada-meta{font-size:13.5px;color:var(--texto-suave);margin-top:4px}
+.cursada-cerrar{
+  flex:0 0 auto;width:36px;height:36px;border-radius:99px;
+  border:1px solid var(--linea);background:var(--superficie);color:var(--texto);
+  display:grid;place-items:center;cursor:pointer;font-size:14px;line-height:1
+}
+.cursada-cerrar:active{transform:scale(.92)}
+
+.faltas{margin-top:16px;border-radius:18px;background:var(--superficie-2);padding:15px 15px 13px}
+.faltas-cab{display:flex;align-items:baseline;justify-content:space-between;gap:10px}
+.faltas-cab .rotulo{
+  font-family:'Roboto',sans-serif;font-weight:700;font-size:11px;letter-spacing:.1em;
+  text-transform:uppercase;color:var(--texto-suave)
+}
+.faltas-cab .estado{font-family:'Roboto',sans-serif;font-weight:700;font-size:13px}
+.faltas-numero{display:flex;align-items:baseline;gap:8px;margin:10px 0 12px}
+.faltas-numero b{font-family:var(--fuente-titulo);font-size:38px;line-height:.9;font-weight:400}
+.faltas-numero span{font-size:14px;line-height:1.3;color:var(--texto-suave)}
+.faltas-casillas{display:flex;gap:4px}
+.faltas-casillas i{
+  flex:1;height:8px;border-radius:99px;background:var(--linea);display:block;
+  transition:background var(--t-medio,220ms) ease
+}
+.faltas-casillas i.usada{background:var(--ambar)}
+.faltas-detalle{font-size:12.5px;line-height:1.4;color:var(--texto-suave);margin-top:10px}
+/* Dos tintas distintas a propósito: el ámbar se queda en el número de
+   38px, que es escala de titular y pasa con 3:1; el rótulo de 13px va
+   en tinta plena, porque sobre --superficie-2 el ámbar claro no llegaba
+   al 4,5:1 que pide el texto a ese tamaño. */
+.faltas .estado{color:var(--texto)}
+.faltas.bien  .faltas-numero b{color:var(--texto)}
+.faltas.filo  .faltas-numero b{color:var(--ambar)}
+.faltas.libre .faltas-numero b,.faltas.libre .estado{color:var(--rojo-hoy)}
+.faltas.libre .faltas-casillas i.usada{background:var(--rojo-hoy)}
+.cursada-acciones{display:flex;gap:9px;margin-top:14px}
+.cursada-acciones .boton{flex:1}
+.cursada-acciones .boton.borde{flex:0 0 auto;padding:0 20px}
+.cursada-nota{font-size:12px;line-height:1.4;color:var(--texto-suave);margin-top:10px;text-align:center}
+
+/* --- 16 · Mi cursada, en Mi perfil ---------------------------
+   Lo que se cargó, como una lista corta de filas, y el formulario
+   para agregar otra. Esto no estaba en el paquete: es la carga a
+   mano que reemplaza al reporte de SIU Guaraní, que no trae
+   horarios. */
+.lista-cursada{display:flex;flex-direction:column;gap:8px;margin-bottom:12px}
+.lista-cursada-fila{
+  display:flex;align-items:center;gap:12px;padding:12px 12px 12px 14px;
+  border-radius:16px;background:var(--superficie);border:1px solid var(--linea);
+  box-shadow:var(--sombra-1)
+}
+.lista-cursada-fila > div{flex:1;min-width:0}
+.lista-cursada-fila b{display:block;font-weight:700;font-size:15.5px;line-height:1.25;letter-spacing:-.01em}
+.lista-cursada-fila span{display:block;font-size:13px;color:var(--texto-suave);margin-top:2px}
+.lista-cursada-fila .cursada-cerrar{width:40px;height:40px}
+.campos-par{display:grid;grid-template-columns:1fr 1fr;gap:0 10px}
+.campos-par .campo{min-width:0}

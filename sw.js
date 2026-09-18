@@ -242,7 +242,10 @@
    suaves en vez de la segunda tinta, y la agenda nueva (banner «Lo
    próximo», filtros, insignia HOY). Es un archivo nuevo del armazón:
    sin él en la lista, la primera carga sin red se vería sin rediseño. */
-const VERSION = 'bolivar-v51';
+/* v52 (18/9/2026) la ronda 2 de la agenda: vista Semana, modo época
+   de parciales y hoja de faltas, y «Mi cursada» en Mi perfil. Cambia
+   `estilos-rediseno.css`, que es del armazón. */
+const VERSION = 'bolivar-v52';
 const ARMAZON = VERSION + '-armazon';
 const PAGINAS = VERSION + '-paginas';
 
