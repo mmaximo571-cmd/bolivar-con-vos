@@ -247,7 +247,9 @@
    `estilos-rediseno.css`, que es del armazón. */
 /* v53 (18/9/2026) la campana de novedades: `app.js` la pone en la
    cabecera de todas las pantallas y `estilos-rediseno.css` la dibuja. */
-const VERSION = 'bolivar-v53';
+/* v54 (18/9/2026) `estilos.css`: los correos largos de Cátedras se
+   parten y la pantalla ya no se corre de costado en el teléfono. */
+const VERSION = 'bolivar-v54';
 const ARMAZON = VERSION + '-armazon';
 const PAGINAS = VERSION + '-paginas';
 

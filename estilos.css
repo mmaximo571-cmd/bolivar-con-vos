@@ -1601,6 +1601,11 @@ svg.ico{width:1em;height:1em;display:block;flex:0 0 auto}
 }
 .lista-correl li .pastilla{margin-right:7px;vertical-align:1px}
 .lista-correl li small{color:var(--texto-suave)}
+/* Un correo es una sola «palabra»: el de Configuración de Problemas
+   Sociales (configuraciondeproblemassociales@yahoo.com.ar) medía más
+   que la tarjeta y corría la página de Cátedras 16 px de costado.
+   Se parte donde haga falta; sigue siendo un solo enlace. */
+.lista-correl a{overflow-wrap:anywhere}
 
 .letra-chica{color:var(--texto-suave);font-size:var(--letra-nota);line-height:1.45;margin:8px 0 0}
 
