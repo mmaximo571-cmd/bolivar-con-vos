@@ -5,14 +5,14 @@
   "3": "Pantalla Info útil (trámites y FAQ)",
   "4": "app.js",
   "5": "avisanos.js",
-  "6": "Detalle de publicación (?id=)",
+  "6": "pintarFinal (preparación de final)",
   "7": "leer-programa.js",
   "8": "Mi perfil (mi/index.html)",
   "9": "manifest.json",
   "10": "pintarNav",
   "11": "esc",
   "12": "eventoICS",
-  "13": "montarCalendario",
+  "13": "htmlNovedades",
   "14": "leer.js",
   "15": "invitarAInstalar",
   "16": "ficha.js",
@@ -67,5 +67,7 @@
   "65": "crearCliente",
   "66": "movimiento.js",
   "67": "localStorage bolivar-carrera-resumen",
-  "68": "elegirCarrera"
+  "68": "elegirCarrera",
+  "69": "Detalle de publicación (?id=)",
+  "70": "iconos.js"
 }

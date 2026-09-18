@@ -245,7 +245,9 @@
 /* v52 (18/9/2026) la ronda 2 de la agenda: vista Semana, modo época
    de parciales y hoja de faltas, y «Mi cursada» en Mi perfil. Cambia
    `estilos-rediseno.css`, que es del armazón. */
-const VERSION = 'bolivar-v52';
+/* v53 (18/9/2026) la campana de novedades: `app.js` la pone en la
+   cabecera de todas las pantallas y `estilos-rediseno.css` la dibuja. */
+const VERSION = 'bolivar-v53';
 const ARMAZON = VERSION + '-armazon';
 const PAGINAS = VERSION + '-paginas';
 

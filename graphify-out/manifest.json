@@ -1,8 +1,8 @@
 {
   "app.js": {
-    "mtime": 1789678048.3356757,
-    "seen": 1789730902.9050899,
-    "ast_hash": "7023516e68ba14bfa5f1aac7f03dfe76",
+    "mtime": 1789731862.4457002,
+    "seen": 1789731991.2690265,
+    "ast_hash": "e88a4f189d1b6d30e3262140bf0abff9",
     "semantic_hash": ""
   },
   "carrera/plan-fono.js": {
@@ -96,9 +96,9 @@
     "semantic_hash": ""
   },
   "sw.js": {
-    "mtime": 1789731582.8348668,
-    "seen": 1789731746.4613516,
-    "ast_hash": "32f3c9036fbaa37fe066dff9a887ad37",
+    "mtime": 1789731873.5088236,
+    "seen": 1789731991.2690861,
+    "ast_hash": "03601814add522398f342c5f87fec850",
     "semantic_hash": ""
   },
   "tabla-alarma.sql": {
@@ -186,9 +186,9 @@
     "semantic_hash": "13c70cb9b680cf53ce1df6881965457c"
   },
   "BITACORA.md": {
-    "mtime": 1789731735.9429147,
-    "seen": 1789731746.4613795,
-    "ast_hash": "a936f0bd552f6a60bdb0f599e731267a",
+    "mtime": 1789731987.5529487,
+    "seen": 1789731991.2691143,
+    "ast_hash": "121464215c5bacc5dabfa3bf775aeb10",
     "semantic_hash": ""
   },
   "LEEME.md": {

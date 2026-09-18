@@ -920,10 +920,196 @@ function htmlCabecera(){
             <small>Agrupación Simón Bolívar · FTS UNLP</small>
           </span>
         </a>
-        <a class="boton-icono" href="${RAIZ}mi/" aria-label="Mi perfil">${icono('mi') || '👤'}</a>
+        <span class="cabecera-derecha">
+          ${htmlCampana()}
+          <a class="boton-icono" href="${RAIZ}mi/" aria-label="Mi perfil">${icono('mi') || '👤'}</a>
+        </span>
       </div>
     </header>`;
 }
+
+/* ============================================================
+   LA CAMPANA DE NOVEDADES (18/9/2026)
+
+   Avisa lo que el equipo publicó en la agenda en los últimos 14
+   días. No hay una tabla de avisos aparte: las novedades SON las
+   publicaciones nuevas, así el equipo no tiene que cargar nada dos
+   veces.
+
+   Qué está leído vive en el teléfono (`bolivar-novedades`): la
+   fecha hasta la que se marcó todo, y las que se abrieron sueltas.
+   Es lo mismo que cualquier casilla de notificaciones, y no pide
+   cuenta. La primera vez, todo lo de los últimos 14 días está sin
+   leer: es justamente lo que alguien nuevo tiene que ver.
+
+   El pedido sale cuando la pantalla ya cargó, para no competirle a
+   los datos de la pantalla, y se guarda cinco minutos en la
+   pestaña: pasar de Fechas a Trámites no vuelve a preguntar.
+   ============================================================ */
+const NOVEDADES_DIAS = 14;
+const CLAVE_NOVEDADES = 'bolivar-novedades';
+
+/* El respaldo de «campana» mientras no esté en iconos.js: misma
+   grilla de 256 y mismo trazo que el resto, color heredado. */
+const ICONO_CAMPANA =
+  '<svg class="ico" viewBox="0 0 256 256" width="22" height="22" ' +
+  'fill="currentColor" fill-rule="evenodd" aria-hidden="true" focusable="false">' +
+  '<path d="M128,20c-40,0-72,32-72,72v44L34,172a12,12,0,0,0,10,20H212a12,12,0,0,0,10-20' +
+  'L200,136V92C200,52,168,20,128,20Zm0,24c26,0,48,22,48,48v48a12,12,0,0,0,2,6.6L189.6,168' +
+  'H66.4L78,146.6A12,12,0,0,0,80,140V92C80,66,102,44,128,44Z"/>' +
+  '<path d="M104,204h48a24,24,0,0,1-48,0Z"/></svg>';
+
+function htmlCampana(){
+  return `<button type="button" class="boton-icono campana" id="abrir-novedades"
+      aria-label="Novedades" aria-expanded="false" aria-controls="novedades">
+      ${icono('campana') || ICONO_CAMPANA}
+      <span class="campana-badge" aria-hidden="true"></span>
+    </button>`;
+}
+
+function leidasNovedades(){
+  try {
+    const g = JSON.parse(localStorage.getItem(CLAVE_NOVEDADES) || 'null');
+    if (g && typeof g === 'object') return { hasta: g.hasta || '', ids: Array.isArray(g.ids) ? g.ids : [] };
+  } catch(e){}
+  return { hasta:'', ids:[] };
+}
+function guardarLeidas(l){
+  try { localStorage.setItem(CLAVE_NOVEDADES, JSON.stringify(l)); } catch(e){}
+}
+function novedadLeida(p, l){
+  return (l.hasta && p.creado_at <= l.hasta) || l.ids.indexOf(String(p.id)) !== -1;
+}
+
+async function traerNovedades(){
+  try {
+    const c = JSON.parse(sessionStorage.getItem(CLAVE_NOVEDADES) || 'null');
+    if (c && Date.now() - c.t < 5 * 60 * 1000) return c.lista;
+  } catch(e){}
+  if (!db) return [];
+  const { data, error } = await db.from('publicaciones')
+    .select('id,titulo,linea,fecha_desde,fecha_hasta,hora,lugar,creado_at')
+    .eq('publicado', true).order('creado_at', { ascending:false }).limit(10);
+  if (error || !data) return [];
+  const desde = new Date(Date.now() - NOVEDADES_DIAS * 86400000).toISOString();
+  const lista = data.filter(p => p.creado_at && p.creado_at >= desde);
+  try { sessionStorage.setItem(CLAVE_NOVEDADES, JSON.stringify({ t: Date.now(), lista })); } catch(e){}
+  return lista;
+}
+
+function htmlNovedades(lista){
+  const l = leidasNovedades();
+  const sinLeer = lista.filter(p => !novedadLeida(p, l)).length;
+
+  const item = p => {
+    const detalle = [p.fecha_desde ? rangoLindo(p.fecha_desde, p.fecha_hasta) : '', p.hora, p.lugar]
+      .filter(Boolean).join(' · ') || (NOMBRE_LINEA[p.linea] || '');
+    return `<a class="aviso-nuevo${p.linea === 'info' ? ' urgente' : ''}${novedadLeida(p, l) ? ' leido' : ''}"
+        href="${RAIZ}agenda/?id=${encodeURIComponent(p.id)}" data-novedad="${esc(String(p.id))}">
+        <i aria-hidden="true"></i>
+        <span><b>${esc(p.titulo)}</b><span>${esc(detalle)}</span></span>
+      </a>`;
+  };
+
+  return `
+    <div class="novedades-fondo" data-cerrar-novedades></div>
+    <aside class="novedades" id="novedades" role="dialog" aria-modal="true"
+           aria-labelledby="novedades-titulo" tabindex="-1">
+      <div class="novedades-encabezado">
+        <div>
+          <div class="novedades-rotulo" id="novedades-titulo">Novedades</div>
+          <div class="novedades-cuenta">${sinLeer ? `${sinLeer} sin leer` : 'Al día'}</div>
+        </div>
+        <button type="button" class="novedades-cerrar" data-cerrar-novedades aria-label="Cerrar">✕</button>
+      </div>
+      <div class="novedades-lista">
+        ${lista.length ? lista.map(item).join('') : `
+          <div class="vacio" role="status">
+            <span class="vacio-icono" aria-hidden="true">${icono('agenda') || '🗓️'}</span>
+            <strong class="vacio-titulo">No hay novedades</strong>
+            <p>En las últimas dos semanas no se publicó nada nuevo. Te avisamos acá cuando pase.</p>
+          </div>`}
+      </div>
+      ${sinLeer ? `<div class="novedades-pie">
+        <button type="button" class="boton borde ancho" id="marcar-leidas">Marcar todas como leídas</button>
+      </div>` : ''}
+    </aside>`;
+}
+
+function pintarCampana(lista){
+  const boton = document.getElementById('abrir-novedades');
+  if (!boton) return;
+  const l = leidasNovedades();
+  const n = lista.filter(p => !novedadLeida(p, l)).length;
+  boton.querySelector('.campana-badge').textContent = n ? (n > 9 ? '9+' : String(n)) : '';
+  boton.setAttribute('aria-label', n ? `Novedades, ${n} sin leer` : 'Novedades');
+}
+
+(function montarNovedades(){
+  let lista = [];
+
+  function abrir(){
+    const boton = document.getElementById('abrir-novedades');
+    if (!boton || document.getElementById('novedades')) return;
+    const caja = document.createElement('div');
+    caja.innerHTML = htmlNovedades(lista);
+    document.body.append(...caja.children);
+    boton.setAttribute('aria-expanded', 'true');
+    document.getElementById('novedades').focus();
+  }
+
+  function cerrar(){
+    const panel = document.getElementById('novedades');
+    const fondo = document.querySelector('.novedades-fondo');
+    const boton = document.getElementById('abrir-novedades');
+    if (!panel) return;
+    const quitar = () => { panel.remove(); if (fondo) fondo.remove(); };
+    panel.classList.add('cerrando');
+    if (fondo) fondo.classList.add('cerrando');
+    panel.addEventListener('transitionend', quitar, { once:true });
+    setTimeout(quitar, 450);           /* por si la transición no corre */
+    if (boton){ boton.setAttribute('aria-expanded', 'false'); boton.focus(); }
+  }
+
+  document.addEventListener('click', ev => {
+    if (ev.target.closest('#abrir-novedades')){ abrir(); return; }
+    if (ev.target.closest('[data-cerrar-novedades]')){ cerrar(); return; }
+
+    const aviso = ev.target.closest('[data-novedad]');
+    if (aviso){
+      const l = leidasNovedades();
+      if (l.ids.indexOf(aviso.dataset.novedad) === -1) l.ids.push(aviso.dataset.novedad);
+      guardarLeidas(l);
+      pintarCampana(lista);            /* y el enlace sigue su camino */
+      return;
+    }
+
+    if (ev.target.closest('#marcar-leidas')){
+      const hasta = lista.reduce((m, p) => p.creado_at > m ? p.creado_at : m, '');
+      guardarLeidas({ hasta, ids: [] });
+      pintarCampana(lista);
+      const panel = document.getElementById('novedades');
+      if (panel){
+        const caja = document.createElement('div');
+        caja.innerHTML = htmlNovedades(lista);
+        panel.innerHTML = caja.querySelector('#novedades').innerHTML;
+        panel.focus();
+      }
+    }
+  });
+
+  document.addEventListener('keydown', ev => {
+    if (ev.key === 'Escape' && document.getElementById('novedades')) cerrar();
+  });
+
+  /* Después de que la pantalla cargó lo suyo */
+  function arrancar(){
+    if (!document.getElementById('abrir-novedades')) return;
+    traerNovedades().then(l => { lista = l; pintarCampana(lista); });
+  }
+  if (document.readyState === 'complete') setTimeout(arrancar, 0);
+  else window.addEventListener('load', () => setTimeout(arrancar, 300), { once:true });
+})();
 
 /* ============================================================
    LOS TÍTULOS DE SECCIÓN SON TÍTULOS DE VERDAD
