@@ -408,16 +408,29 @@
   });
 
   /* ---------- El listado ---------- */
+  const PALABRAS_VACIAS = new Set('de del la las el los en y o a al un una para con por que como'.split(' '));
+
   function dibujar(){
     if (!ultimaFueBusqueda) recordarAbiertos();
 
     const q = normalizar(filtro.value.trim());
 
+    /* Palabra por palabra, no la frase entera: «plan fono» tiene que
+       encontrar «Plan de estudios: Licenciatura en Fonoaudiología», y
+       «resolución tramo optativo» no puede quedarse en cero porque la
+       ficha no dice las tres palabras juntas. Alcanza con que estén
+       todas las que importan, en cualquier orden. */
+    const palabras = q.split(/\s+/).filter(p => p && !PALABRAS_VACIAS.has(p));
+    const coincide = texto => {
+      const n = normalizar(texto);
+      return palabras.every(p => n.includes(p));
+    };
+
     const t = tramites.filter(x =>
-      !q || normalizar(x.titulo + ' ' + (x.resumen || '') + ' ' + (x.palabras_clave || '')).includes(q));
+      !q || coincide(x.titulo + ' ' + (x.resumen || '') + ' ' + (x.palabras_clave || '')));
 
     const f = preguntas.filter(x =>
-      !q || normalizar(x.pregunta + ' ' + x.respuesta).includes(q));
+      !q || coincide(x.pregunta + ' ' + x.respuesta));
 
     if (!t.length && !f.length){
       lista.innerHTML = `<div class="vacio">

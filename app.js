@@ -1109,7 +1109,7 @@ const ICONO_CAMPANA =
 
 function htmlCampana(){
   return `<button type="button" class="boton-icono campana" id="abrir-novedades"
-      aria-label="Novedades" aria-expanded="false" aria-controls="novedades">
+      aria-label="Novedades" aria-expanded="false" aria-controls="panel-novedades">
       ${icono('campana') || ICONO_CAMPANA}
       <span class="campana-badge" aria-hidden="true"></span>
     </button>`;
@@ -1161,7 +1161,7 @@ function htmlNovedades(lista){
 
   return `
     <div class="novedades-fondo" data-cerrar-novedades></div>
-    <aside class="novedades" id="novedades" role="dialog" aria-modal="true"
+    <aside class="novedades" id="panel-novedades" role="dialog" aria-modal="true"
            aria-labelledby="novedades-titulo" tabindex="-1">
       <div class="novedades-encabezado">
         <div>
@@ -1198,16 +1198,16 @@ function pintarCampana(lista){
 
   function abrir(){
     const boton = document.getElementById('abrir-novedades');
-    if (!boton || document.getElementById('novedades')) return;
+    if (!boton || document.getElementById('panel-novedades')) return;
     const caja = document.createElement('div');
     caja.innerHTML = htmlNovedades(lista);
     document.body.append(...caja.children);
     boton.setAttribute('aria-expanded', 'true');
-    document.getElementById('novedades').focus();
+    document.getElementById('panel-novedades').focus();
   }
 
   function cerrar(){
-    const panel = document.getElementById('novedades');
+    const panel = document.getElementById('panel-novedades');
     const fondo = document.querySelector('.novedades-fondo');
     const boton = document.getElementById('abrir-novedades');
     if (!panel) return;
@@ -1236,18 +1236,18 @@ function pintarCampana(lista){
       const hasta = lista.reduce((m, p) => p.creado_at > m ? p.creado_at : m, '');
       guardarLeidas({ hasta, ids: [] });
       pintarCampana(lista);
-      const panel = document.getElementById('novedades');
+      const panel = document.getElementById('panel-novedades');
       if (panel){
         const caja = document.createElement('div');
         caja.innerHTML = htmlNovedades(lista);
-        panel.innerHTML = caja.querySelector('#novedades').innerHTML;
+        panel.innerHTML = caja.querySelector('#panel-novedades').innerHTML;
         panel.focus();
       }
     }
   });
 
   document.addEventListener('keydown', ev => {
-    if (ev.key === 'Escape' && document.getElementById('novedades')) cerrar();
+    if (ev.key === 'Escape' && document.getElementById('panel-novedades')) cerrar();
   });
 
   /* Después de que la pantalla cargó lo suyo */

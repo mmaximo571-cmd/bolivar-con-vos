@@ -243,6 +243,11 @@
   /* -------- helpers -------- */
   const val  = id => document.getElementById(id).value.trim();
   const nulo = id => val(id) || null;
+  /* Los enlaces se guardan con https. Un PDF con http:// no abre en
+     el celular: Chrome de Android lo descarga en vez de mostrarlo, y
+     bloquea las descargas «inseguras» que salen de una página segura.
+     Así estaban el plan de Fono y la resolución del tramo (18/9/2026). */
+  const enlace = id => { const v = nulo(id); return v ? v.replace(/^http:\/\//i, 'https://') : v; };
 
   function aviso(texto, clase){
     zona.insertAdjacentHTML('afterbegin', `<div class="aviso ${clase}">${esc(texto)}</div>`);
@@ -432,7 +437,7 @@
         plazo:          nulo('plazo'),
         donde:          nulo('donde'),
         link_titulo:    nulo('link_titulo'),
-        link_url:       nulo('link_url'),
+        link_url:       enlace('link_url'),
         palabras_clave: nulo('palabras_clave'),
         orden:          Number(val('orden')) || 0,
         publicado:      val('publicado') === 'si',
@@ -743,7 +748,7 @@
         hora:        nulo('hora'),
         lugar:       nulo('lugar'),
         imagen_url:  nulo('imagen_url'),
-        link_url:    nulo('link_url'),
+        link_url:    enlace('link_url'),
         publicado:   val('publicado') === 'si'
       };
 
@@ -1013,7 +1018,7 @@
         catedra:     nulo('catedra'),
         tipo:        val('tipo'),
         descripcion: nulo('descripcion'),
-        link_url:    nulo('link_url'),
+        link_url:    enlace('link_url'),
         link_titulo: nulo('link_titulo'),
         aporta:      nulo('aporta'),
         anio:        val('anio') ? Number(val('anio')) : null,

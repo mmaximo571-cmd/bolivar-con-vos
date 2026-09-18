@@ -161,6 +161,30 @@
       "source_location": "L12"
     },
     {
+      "id": "iconos_icono",
+      "label": "icono()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 1,
+      "community_name": "Pantalla Mi a\u00f1o (carrera)",
+      "file_type": "code",
+      "norm_label": "icono()",
+      "source_file": "iconos.js",
+      "source_location": "L120"
+    },
+    {
+      "id": "iconos_iconodecategoria",
+      "label": "iconoDeCategoria()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 1,
+      "community_name": "Pantalla Mi a\u00f1o (carrera)",
+      "file_type": "code",
+      "norm_label": "iconodecategoria()",
+      "source_file": "iconos.js",
+      "source_location": "L128"
+    },
+    {
       "id": "app_aplicartema",
       "label": "aplicarTema()",
       "_callable": true,
@@ -1802,7 +1826,7 @@
       "file_type": "code",
       "norm_label": "esdesupabase()",
       "source_file": "sw.js",
-      "source_location": "L330"
+      "source_location": "L335"
     },
     {
       "id": "estudiemos_fichas_ficha_parser_get",
@@ -1973,6 +1997,30 @@
       "source_location": "L1917"
     },
     {
+      "id": "app_errorencastellano",
+      "label": "errorEnCastellano()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 3,
+      "community_name": "Pantalla Info \u00fatil (tr\u00e1mites y FAQ)",
+      "file_type": "code",
+      "norm_label": "errorencastellano()",
+      "source_file": "app.js",
+      "source_location": "L1891"
+    },
+    {
+      "id": "app_explicarerror",
+      "label": "explicarError()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 3,
+      "community_name": "Pantalla Info \u00fatil (tr\u00e1mites y FAQ)",
+      "file_type": "code",
+      "norm_label": "explicarerror()",
+      "source_file": "app.js",
+      "source_location": "L1866"
+    },
+    {
       "id": "app_guardarenmemoria",
       "label": "guardarEnMemoria()",
       "_callable": true,
@@ -1995,6 +2043,18 @@
       "norm_label": "memoriade()",
       "source_file": "app.js",
       "source_location": "L1964"
+    },
+    {
+      "id": "app_mostrarerror",
+      "label": "mostrarError()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 3,
+      "community_name": "Pantalla Info \u00fatil (tr\u00e1mites y FAQ)",
+      "file_type": "code",
+      "norm_label": "mostrarerror()",
+      "source_file": "app.js",
+      "source_location": "L1894"
     },
     {
       "id": "fondo_red_argb",
@@ -2333,30 +2393,6 @@
       "source_location": "L53"
     },
     {
-      "id": "app_errorencastellano",
-      "label": "errorEnCastellano()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 4,
-      "community_name": "app.js",
-      "file_type": "code",
-      "norm_label": "errorencastellano()",
-      "source_file": "app.js",
-      "source_location": "L1891"
-    },
-    {
-      "id": "app_explicarerror",
-      "label": "explicarError()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 4,
-      "community_name": "app.js",
-      "file_type": "code",
-      "norm_label": "explicarerror()",
-      "source_file": "app.js",
-      "source_location": "L1866"
-    },
-    {
       "id": "app_guardarleidas",
       "label": "guardarLeidas()",
       "_callable": true,
@@ -2391,18 +2427,6 @@
       "norm_label": "htmlcampana()",
       "source_file": "app.js",
       "source_location": "L1110"
-    },
-    {
-      "id": "app_mostrarerror",
-      "label": "mostrarError()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 4,
-      "community_name": "app.js",
-      "file_type": "code",
-      "norm_label": "mostrarerror()",
-      "source_file": "app.js",
-      "source_location": "L1894"
     },
     {
       "id": "app_olvidarmemoria",
@@ -2630,7 +2654,7 @@
       "file_type": "code",
       "norm_label": "abrir()",
       "source_file": "lib/avisanos.js",
-      "source_location": "L410"
+      "source_location": "L420"
     },
     {
       "id": "lib_avisanos_buscar",
@@ -2654,7 +2678,7 @@
       "file_type": "code",
       "norm_label": "cerrar()",
       "source_file": "lib/avisanos.js",
-      "source_location": "L403"
+      "source_location": "L413"
     },
     {
       "id": "lib_avisanos_comoseescribe",
@@ -3413,36 +3437,12 @@
       "source_location": "L237"
     },
     {
-      "id": "iconos_icono",
-      "label": "icono()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 70,
-      "community_name": "iconos.js",
-      "file_type": "code",
-      "norm_label": "icono()",
-      "source_file": "iconos.js",
-      "source_location": "L120"
-    },
-    {
-      "id": "iconos_iconodecategoria",
-      "label": "iconoDeCategoria()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 70,
-      "community_name": "iconos.js",
-      "file_type": "code",
-      "norm_label": "iconodecategoria()",
-      "source_file": "iconos.js",
-      "source_location": "L128"
-    },
-    {
       "id": "app_esdelequipo",
       "label": "esDelEquipo()",
       "_callable": true,
       "_origin": "ast",
-      "community": 8,
-      "community_name": "Mi perfil (mi/index.html)",
+      "community": 71,
+      "community_name": "sesionActual",
       "file_type": "code",
       "norm_label": "esdelequipo()",
       "source_file": "app.js",
@@ -3453,8 +3453,8 @@
       "label": "sesionActual()",
       "_callable": true,
       "_origin": "ast",
-      "community": 8,
-      "community_name": "Mi perfil (mi/index.html)",
+      "community": 71,
+      "community_name": "sesionActual",
       "file_type": "code",
       "norm_label": "sesionactual()",
       "source_file": "app.js",
@@ -4864,21 +4864,6 @@
       "source_url": null
     },
     {
-      "id": "carrera_index_guardarprep",
-      "label": "guardarPrep",
-      "_origin": "ast",
-      "author": null,
-      "captured_at": null,
-      "community": 6,
-      "community_name": "pintarFinal (preparaci\u00f3n de final)",
-      "contributor": null,
-      "file_type": "code",
-      "norm_label": "guardarprep",
-      "source_file": "carrera/index.html",
-      "source_location": "L2552",
-      "source_url": null
-    },
-    {
       "id": "carrera_index_pintarfinal",
       "label": "pintarFinal (preparaci\u00f3n de final)",
       "_origin": "ast",
@@ -4969,21 +4954,6 @@
       "source_url": null
     },
     {
-      "id": "carrera_index_vistanueva",
-      "label": "vistaNueva (nueva preparaci\u00f3n)",
-      "_origin": "ast",
-      "author": null,
-      "captured_at": null,
-      "community": 6,
-      "community_name": "pintarFinal (preparaci\u00f3n de final)",
-      "contributor": null,
-      "file_type": "code",
-      "norm_label": "vistanueva (nueva preparacion)",
-      "source_file": "carrera/index.html",
-      "source_location": "L2687",
-      "source_url": null
-    },
-    {
       "id": "carrera_index_vistapreparacion",
       "label": "vistaPreparacion",
       "_origin": "ast",
@@ -4996,36 +4966,6 @@
       "norm_label": "vistapreparacion",
       "source_file": "carrera/index.html",
       "source_location": "L2809",
-      "source_url": null
-    },
-    {
-      "id": "tabla_preparaciones",
-      "label": "Tabla Supabase preparaciones",
-      "_origin": "ast",
-      "author": null,
-      "captured_at": null,
-      "community": 6,
-      "community_name": "pintarFinal (preparaci\u00f3n de final)",
-      "contributor": null,
-      "file_type": "concept",
-      "norm_label": "tabla supabase preparaciones",
-      "source_file": "carrera/index.html",
-      "source_location": "L2556",
-      "source_url": null
-    },
-    {
-      "id": "tabla_programas",
-      "label": "Tabla Supabase programas",
-      "_origin": "ast",
-      "author": null,
-      "captured_at": null,
-      "community": 6,
-      "community_name": "pintarFinal (preparaci\u00f3n de final)",
-      "contributor": null,
-      "file_type": "concept",
-      "norm_label": "tabla supabase programas",
-      "source_file": "carrera/index.html",
-      "source_location": "L2714",
       "source_url": null
     },
     {
@@ -5330,6 +5270,36 @@
       "source_url": null
     },
     {
+      "id": "carrera_index_guardarprep",
+      "label": "guardarPrep",
+      "_origin": "ast",
+      "author": null,
+      "captured_at": null,
+      "community": 69,
+      "community_name": "Detalle de publicaci\u00f3n (?id=)",
+      "contributor": null,
+      "file_type": "code",
+      "norm_label": "guardarprep",
+      "source_file": "carrera/index.html",
+      "source_location": "L2552",
+      "source_url": null
+    },
+    {
+      "id": "carrera_index_vistanueva",
+      "label": "vistaNueva (nueva preparaci\u00f3n)",
+      "_origin": "ast",
+      "author": null,
+      "captured_at": null,
+      "community": 69,
+      "community_name": "Detalle de publicaci\u00f3n (?id=)",
+      "contributor": null,
+      "file_type": "code",
+      "norm_label": "vistanueva (nueva preparacion)",
+      "source_file": "carrera/index.html",
+      "source_location": "L2687",
+      "source_url": null
+    },
+    {
       "id": "index_calendario_mes",
       "label": "Calendario del mes (Inicio)",
       "_origin": "ast",
@@ -5375,6 +5345,36 @@
       "source_url": null
     },
     {
+      "id": "tabla_preparaciones",
+      "label": "Tabla Supabase preparaciones",
+      "_origin": "ast",
+      "author": null,
+      "captured_at": null,
+      "community": 69,
+      "community_name": "Detalle de publicaci\u00f3n (?id=)",
+      "contributor": null,
+      "file_type": "concept",
+      "norm_label": "tabla supabase preparaciones",
+      "source_file": "carrera/index.html",
+      "source_location": "L2556",
+      "source_url": null
+    },
+    {
+      "id": "tabla_programas",
+      "label": "Tabla Supabase programas",
+      "_origin": "ast",
+      "author": null,
+      "captured_at": null,
+      "community": 69,
+      "community_name": "Detalle de publicaci\u00f3n (?id=)",
+      "contributor": null,
+      "file_type": "concept",
+      "norm_label": "tabla supabase programas",
+      "source_file": "carrera/index.html",
+      "source_location": "L2714",
+      "source_url": null
+    },
+    {
       "id": "tabla_publicaciones",
       "label": "Tabla Supabase publicaciones",
       "_origin": "ast",
@@ -5395,8 +5395,8 @@
       "_origin": "ast",
       "author": null,
       "captured_at": null,
-      "community": 8,
-      "community_name": "Mi perfil (mi/index.html)",
+      "community": 70,
+      "community_name": "tabla-catedras.sql",
       "contributor": null,
       "file_type": "code",
       "norm_label": "abrirhoja (ficha de materia)",
@@ -5410,13 +5410,103 @@
       "_origin": "ast",
       "author": null,
       "captured_at": null,
-      "community": 8,
-      "community_name": "Mi perfil (mi/index.html)",
+      "community": 70,
+      "community_name": "tabla-catedras.sql",
       "contributor": null,
       "file_type": "code",
       "norm_label": "cargarcatedras",
       "source_file": "carrera/index.html",
       "source_location": "L1843",
+      "source_url": null
+    },
+    {
+      "id": "index_buscar",
+      "label": "buscar (buscador de tr\u00e1mites, FAQ y c\u00e1tedras)",
+      "_origin": "ast",
+      "author": null,
+      "captured_at": null,
+      "community": 70,
+      "community_name": "tabla-catedras.sql",
+      "contributor": null,
+      "file_type": "code",
+      "norm_label": "buscar (buscador de tramites, faq y catedras)",
+      "source_file": "index.html",
+      "source_location": "L1814",
+      "source_url": null
+    },
+    {
+      "id": "index_pedircatedras",
+      "label": "pedirCatedras",
+      "_origin": "ast",
+      "author": null,
+      "captured_at": null,
+      "community": 70,
+      "community_name": "tabla-catedras.sql",
+      "contributor": null,
+      "file_type": "code",
+      "norm_label": "pedircatedras",
+      "source_file": "index.html",
+      "source_location": "L1778",
+      "source_url": null
+    },
+    {
+      "id": "tabla_tramites",
+      "label": "Tabla Supabase tramites",
+      "_origin": "ast",
+      "author": null,
+      "captured_at": null,
+      "community": 70,
+      "community_name": "tabla-catedras.sql",
+      "contributor": null,
+      "file_type": "concept",
+      "norm_label": "tabla supabase tramites",
+      "source_file": "index.html",
+      "source_location": "L769",
+      "source_url": null
+    },
+    {
+      "id": "panel_index",
+      "label": "Pantalla Panel (administraci\u00f3n del equipo)",
+      "_origin": "ast",
+      "author": null,
+      "captured_at": null,
+      "community": 71,
+      "community_name": "sesionActual",
+      "contributor": null,
+      "file_type": "code",
+      "norm_label": "pantalla panel (administracion del equipo)",
+      "source_file": "panel/index.html",
+      "source_location": "L6",
+      "source_url": null
+    },
+    {
+      "id": "panel_index_panel",
+      "label": "panel() arranque y control de sesi\u00f3n",
+      "_origin": "ast",
+      "author": null,
+      "captured_at": null,
+      "community": 71,
+      "community_name": "sesionActual",
+      "contributor": null,
+      "file_type": "code",
+      "norm_label": "panel() arranque y control de sesion",
+      "source_file": "panel/index.html",
+      "source_location": "L136",
+      "source_url": null
+    },
+    {
+      "id": "tramites_index_botonguardar",
+      "label": "botonGuardar (guardados del usuario)",
+      "_origin": "ast",
+      "author": null,
+      "captured_at": null,
+      "community": 71,
+      "community_name": "sesionActual",
+      "contributor": null,
+      "file_type": "code",
+      "norm_label": "botonguardar (guardados del usuario)",
+      "source_file": "tramites/index.html",
+      "source_location": "L187",
       "source_url": null
     },
     {
@@ -5435,21 +5525,6 @@
       "source_url": null
     },
     {
-      "id": "index_buscar",
-      "label": "buscar (buscador de tr\u00e1mites, FAQ y c\u00e1tedras)",
-      "_origin": "ast",
-      "author": null,
-      "captured_at": null,
-      "community": 8,
-      "community_name": "Mi perfil (mi/index.html)",
-      "contributor": null,
-      "file_type": "code",
-      "norm_label": "buscar (buscador de tramites, faq y catedras)",
-      "source_file": "index.html",
-      "source_location": "L1814",
-      "source_url": null
-    },
-    {
       "id": "index_mostrarbienvenida",
       "label": "mostrarBienvenida (una vez por d\u00eda de estudio)",
       "_origin": "ast",
@@ -5465,21 +5540,6 @@
       "source_url": null
     },
     {
-      "id": "index_pedircatedras",
-      "label": "pedirCatedras",
-      "_origin": "ast",
-      "author": null,
-      "captured_at": null,
-      "community": 8,
-      "community_name": "Mi perfil (mi/index.html)",
-      "contributor": null,
-      "file_type": "code",
-      "norm_label": "pedircatedras",
-      "source_file": "index.html",
-      "source_location": "L1778",
-      "source_url": null
-    },
-    {
       "id": "index_pintarcuadro",
       "label": "pintarCuadro (animaci\u00f3n de apertura)",
       "_origin": "ast",
@@ -5492,51 +5552,6 @@
       "norm_label": "pintarcuadro (animacion de apertura)",
       "source_file": "index.html",
       "source_location": "L590",
-      "source_url": null
-    },
-    {
-      "id": "panel_index",
-      "label": "Pantalla Panel (administraci\u00f3n del equipo)",
-      "_origin": "ast",
-      "author": null,
-      "captured_at": null,
-      "community": 8,
-      "community_name": "Mi perfil (mi/index.html)",
-      "contributor": null,
-      "file_type": "code",
-      "norm_label": "pantalla panel (administracion del equipo)",
-      "source_file": "panel/index.html",
-      "source_location": "L6",
-      "source_url": null
-    },
-    {
-      "id": "panel_index_panel",
-      "label": "panel() arranque y control de sesi\u00f3n",
-      "_origin": "ast",
-      "author": null,
-      "captured_at": null,
-      "community": 8,
-      "community_name": "Mi perfil (mi/index.html)",
-      "contributor": null,
-      "file_type": "code",
-      "norm_label": "panel() arranque y control de sesion",
-      "source_file": "panel/index.html",
-      "source_location": "L136",
-      "source_url": null
-    },
-    {
-      "id": "tramites_index_botonguardar",
-      "label": "botonGuardar (guardados del usuario)",
-      "_origin": "ast",
-      "author": null,
-      "captured_at": null,
-      "community": 8,
-      "community_name": "Mi perfil (mi/index.html)",
-      "contributor": null,
-      "file_type": "code",
-      "norm_label": "botonguardar (guardados del usuario)",
-      "source_file": "tramites/index.html",
-      "source_location": "L187",
       "source_url": null
     },
     {
@@ -5635,21 +5650,6 @@
       "source_url": null
     },
     {
-      "id": "tabla_tramites",
-      "label": "Tabla Supabase tramites",
-      "_origin": "ast",
-      "author": null,
-      "captured_at": null,
-      "community": 8,
-      "community_name": "Mi perfil (mi/index.html)",
-      "contributor": null,
-      "file_type": "concept",
-      "norm_label": "tabla supabase tramites",
-      "source_file": "index.html",
-      "source_location": "L769",
-      "source_url": null
-    },
-    {
       "id": "leeme_cuenta_opcional",
       "label": "La app se usa entera sin registrarse",
       "_origin": "ast",
@@ -5711,6 +5711,17 @@
       "file_type": "code",
       "norm_label": "config.js",
       "source_file": "config.js",
+      "source_location": "L1"
+    },
+    {
+      "id": "iconos",
+      "label": "iconos.js",
+      "_origin": "ast",
+      "community": 1,
+      "community_name": "Pantalla Mi a\u00f1o (carrera)",
+      "file_type": "code",
+      "norm_label": "iconos.js",
+      "source_file": "iconos.js",
       "source_location": "L1"
     },
     {
@@ -6019,7 +6030,7 @@
       "file_type": "code",
       "norm_label": "del_armazon",
       "source_file": "sw.js",
-      "source_location": "L266"
+      "source_location": "L271"
     },
     {
       "id": "tabla_organizador",
@@ -7186,22 +7197,11 @@
       "source_location": "L1"
     },
     {
-      "id": "iconos",
-      "label": "iconos.js",
-      "_origin": "ast",
-      "community": 70,
-      "community_name": "iconos.js",
-      "file_type": "code",
-      "norm_label": "iconos.js",
-      "source_file": "iconos.js",
-      "source_location": "L1"
-    },
-    {
       "id": "tabla_catedras",
       "label": "tabla-catedras.sql",
       "_origin": "ast",
-      "community": 8,
-      "community_name": "Mi perfil (mi/index.html)",
+      "community": 70,
+      "community_name": "tabla-catedras.sql",
       "file_type": "code",
       "norm_label": "tabla-catedras.sql",
       "source_file": "tabla-catedras.sql",
@@ -7211,8 +7211,8 @@
       "id": "tabla_catedras_catedras_carrera_idx",
       "label": "catedras_carrera_idx",
       "_origin": "ast",
-      "community": 8,
-      "community_name": "Mi perfil (mi/index.html)",
+      "community": 70,
+      "community_name": "tabla-catedras.sql",
       "file_type": "code",
       "norm_label": "catedras_carrera_idx",
       "source_file": "tabla-catedras.sql",
@@ -7222,8 +7222,8 @@
       "id": "tabla_catedras_public_catedras",
       "label": "public.catedras",
       "_origin": "ast",
-      "community": 8,
-      "community_name": "Mi perfil (mi/index.html)",
+      "community": 70,
+      "community_name": "tabla-catedras.sql",
       "file_type": "code",
       "norm_label": "public.catedras",
       "source_file": "tabla-catedras.sql",
@@ -7767,6 +7767,21 @@
       "source_url": null
     },
     {
+      "id": "supabase_tabla_guardados",
+      "label": "Tabla Supabase guardados",
+      "_origin": "semantic",
+      "author": null,
+      "captured_at": null,
+      "community": 71,
+      "community_name": "sesionActual",
+      "contributor": null,
+      "file_type": "concept",
+      "norm_label": "tabla supabase guardados",
+      "source_file": "tramites/index.html",
+      "source_location": null,
+      "source_url": null
+    },
+    {
       "id": "mi_index",
       "label": "Mi perfil (mi/index.html)",
       "_origin": "semantic",
@@ -7808,21 +7823,6 @@
       "file_type": "concept",
       "norm_label": "armazon (app.js, estilos.css, iconos.js, config.js)",
       "source_file": "LEEME.md",
-      "source_location": null,
-      "source_url": null
-    },
-    {
-      "id": "supabase_tabla_guardados",
-      "label": "Tabla Supabase guardados",
-      "_origin": "semantic",
-      "author": null,
-      "captured_at": null,
-      "community": 8,
-      "community_name": "Mi perfil (mi/index.html)",
-      "contributor": null,
-      "file_type": "concept",
-      "norm_label": "tabla supabase guardados",
-      "source_file": "tramites/index.html",
       "source_location": null,
       "source_url": null
     }
@@ -9589,7 +9589,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "lib/avisanos.js",
-      "source_location": "L411",
+      "source_location": "L421",
       "weight": 1.0
     },
     {
@@ -9709,7 +9709,19 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "lib/avisanos.js",
-      "source_location": "L392",
+      "source_location": "L393",
+      "weight": 1.0
+    },
+    {
+      "source": "lib_avisanos_montar",
+      "target": "lib_avisanos_pasarapersona",
+      "relation": "calls",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "call",
+      "source_file": "lib/avisanos.js",
+      "source_location": "L405",
       "weight": 1.0
     },
     {
@@ -9721,7 +9733,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "lib/avisanos.js",
-      "source_location": "L400",
+      "source_location": "L410",
       "weight": 1.0
     },
     {
@@ -11629,7 +11641,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "sw.js",
-      "source_location": "L330",
+      "source_location": "L335",
       "weight": 1.0
     },
     {
@@ -13743,7 +13755,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "lib/avisanos.js",
-      "source_location": "L403",
+      "source_location": "L413",
       "weight": 1.0
     },
     {
@@ -13754,7 +13766,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "lib/avisanos.js",
-      "source_location": "L410",
+      "source_location": "L420",
       "weight": 1.0
     },
     {
@@ -14909,7 +14921,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "sw.js",
-      "source_location": "L266",
+      "source_location": "L271",
       "weight": 1.0
     },
     {
@@ -17828,7 +17840,7 @@
       "confidence_score": 0.85,
       "context": "argument",
       "source_file": "sw.js",
-      "source_location": "L353",
+      "source_location": "L358",
       "weight": 1.0
     },
     {
@@ -18399,5 +18411,5 @@
       "source_file": "panel/index.html"
     }
   ],
-  "built_at_commit": "1829bbb7f85dc3794dd202efb9ca69adec1b4662"
+  "built_at_commit": "706a92ad5fb6e186e428e57386be17ee778edeb2"
 }

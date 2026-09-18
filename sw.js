@@ -258,7 +258,12 @@
    labolivarconvos.ar. Es lo que más necesita el número nuevo: quien
    abre la dirección vieja tiene el `app.js` guardado, y sin subir esto
    nunca le llega el código que lo muda con sus datos. */
-const VERSION = 'bolivar-v57';
+/* v58 (18/9/2026) Lo que marcaron los estudiantes: la campana abre en
+   el inicio (su panel usaba el mismo id que la lista de novedades de la
+   portada), el botón «Mandanos tu resumen» se ve en tema claro, el chat
+   ofrece desde el saludo pasar con un compa de la Bolívar, y el buscador
+   de Info útil busca palabra por palabra. */
+const VERSION = 'bolivar-v58';
 const ARMAZON = VERSION + '-armazon';
 const PAGINAS = VERSION + '-paginas';
 

@@ -1,8 +1,8 @@
 {
   "app.js": {
-    "mtime": 1789748893.0630908,
-    "seen": 1789751378.1837044,
-    "ast_hash": "98693b297b0baacf4ad5a94570dd47e5",
+    "mtime": 1789761016.2743578,
+    "seen": 1789761547.309601,
+    "ast_hash": "c9df4885c92a9f5aab61cf55a478cd23",
     "semantic_hash": ""
   },
   "carrera/plan-fono.js": {
@@ -66,10 +66,10 @@
     "semantic_hash": "dee865def3cc416e133ce37a26f6b815"
   },
   "lib/avisanos.js": {
-    "mtime": 1789678048.5233257,
-    "seen": 1789730902.90512,
-    "ast_hash": "dec77e04ca01986d9c48fe2ff5901b21",
-    "semantic_hash": "dec77e04ca01986d9c48fe2ff5901b21"
+    "mtime": 1789761136.8411674,
+    "seen": 1789761547.3096516,
+    "ast_hash": "46fc5cfcdcbb147625e3613f26087b9a",
+    "semantic_hash": ""
   },
   "lib/datos.js": {
     "mtime": 1789678048.5243237,
@@ -96,9 +96,9 @@
     "semantic_hash": ""
   },
   "sw.js": {
-    "mtime": 1789748920.5371037,
-    "seen": 1789751378.1838212,
-    "ast_hash": "e83f78540f7883ade115fe9a422408c0",
+    "mtime": 1789761524.470376,
+    "seen": 1789761547.309672,
+    "ast_hash": "5cafe6abeb9071d1c9a66a9f4663fa5f",
     "semantic_hash": ""
   },
   "tabla-alarma.sql": {
@@ -186,9 +186,9 @@
     "semantic_hash": "13c70cb9b680cf53ce1df6881965457c"
   },
   "BITACORA.md": {
-    "mtime": 1789751363.1636393,
-    "seen": 1789751378.1838522,
-    "ast_hash": "697b3f7cb5692f10e9263a8d9c8a9a31",
+    "mtime": 1789761542.081558,
+    "seen": 1789761547.3097148,
+    "ast_hash": "6720bd3a0294a43ef4f749fb7b498692",
     "semantic_hash": ""
   },
   "LEEME.md": {
@@ -294,9 +294,9 @@
     "semantic_hash": ""
   },
   "panel/index.html": {
-    "mtime": 1789748732.5365486,
-    "seen": 1789751378.1838932,
-    "ast_hash": "370466887a7220034744d10c829ed4dd",
+    "mtime": 1789761467.9194531,
+    "seen": 1789761547.3097544,
+    "ast_hash": "673c69680f95c3044b3ef68a44517bd9",
     "semantic_hash": ""
   },
   "quienes/index.html": {
@@ -312,9 +312,9 @@
     "semantic_hash": ""
   },
   "tramites/index.html": {
-    "mtime": 1789748732.6741092,
-    "seen": 1789751378.1838984,
-    "ast_hash": "699ca54601292a7cd39622143316ba03",
+    "mtime": 1789761404.2851617,
+    "seen": 1789761547.3097594,
+    "ast_hash": "55e1db4087f03411adea631f48e05dda",
     "semantic_hash": ""
   },
   "trayecto/index.html": {
