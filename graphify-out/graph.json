@@ -1781,6 +1781,18 @@
       "source_location": "L837"
     },
     {
+      "id": "sw_esdesupabase",
+      "label": "esDeSupabase()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 21,
+      "community_name": "riesgo.js",
+      "file_type": "code",
+      "norm_label": "esdesupabase()",
+      "source_file": "sw.js",
+      "source_location": "L359"
+    },
+    {
       "id": "estudiemos_fichas_ficha_parser_get",
       "label": "get()",
       "_callable": true,
@@ -3413,18 +3425,6 @@
       "source_location": "L237"
     },
     {
-      "id": "sw_esdesupabase",
-      "label": "esDeSupabase()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 70,
-      "community_name": "sw.js",
-      "file_type": "code",
-      "norm_label": "esdesupabase()",
-      "source_file": "sw.js",
-      "source_location": "L359"
-    },
-    {
       "id": "estudiemos_portada_buscar",
       "label": "buscar()",
       "_callable": true,
@@ -4840,27 +4840,12 @@
       "author": null,
       "captured_at": null,
       "community": 32,
-      "community_name": "Secci\u00f3n Instagram (posteos_ig)",
+      "community_name": "tabla-posteos-ig.sql",
       "contributor": null,
       "file_type": "code",
       "norm_label": "seccion instagram (posteos_ig)",
       "source_file": "index.html",
       "source_location": "L281",
-      "source_url": null
-    },
-    {
-      "id": "tabla_posteos_ig",
-      "label": "Tabla Supabase posteos_ig",
-      "_origin": "ast",
-      "author": null,
-      "captured_at": null,
-      "community": 32,
-      "community_name": "Secci\u00f3n Instagram (posteos_ig)",
-      "contributor": null,
-      "file_type": "concept",
-      "norm_label": "tabla supabase posteos_ig",
-      "source_file": "index.html",
-      "source_location": "L1623",
       "source_url": null
     },
     {
@@ -6045,6 +6030,28 @@
       "source_location": null
     },
     {
+      "id": "tabla_avisanos_consultas_pendientes_idx",
+      "label": "consultas_pendientes_idx",
+      "_origin": "ast",
+      "community": 18,
+      "community_name": "tabla-avisanos.sql",
+      "file_type": "code",
+      "norm_label": "consultas_pendientes_idx",
+      "source_file": "tabla-avisanos.sql",
+      "source_location": "L106"
+    },
+    {
+      "id": "tabla_avisanos_contactos_carrera_idx",
+      "label": "contactos_carrera_idx",
+      "_origin": "ast",
+      "community": 18,
+      "community_name": "tabla-avisanos.sql",
+      "file_type": "code",
+      "norm_label": "contactos_carrera_idx",
+      "source_file": "tabla-avisanos.sql",
+      "source_location": "L48"
+    },
+    {
       "id": "tabla_avisanos_freno_consultas",
       "label": "freno_consultas",
       "_origin": "ast",
@@ -6155,6 +6162,28 @@
       "source_location": "L28"
     },
     {
+      "id": "tabla_registro_sucesos_fecha_idx",
+      "label": "sucesos_fecha_idx",
+      "_origin": "ast",
+      "community": 19,
+      "community_name": "tabla-registro.sql",
+      "file_type": "code",
+      "norm_label": "sucesos_fecha_idx",
+      "source_file": "tabla-registro.sql",
+      "source_location": "L58"
+    },
+    {
+      "id": "tabla_registro_sucesos_tipo_idx",
+      "label": "sucesos_tipo_idx",
+      "_origin": "ast",
+      "community": 19,
+      "community_name": "tabla-registro.sql",
+      "file_type": "code",
+      "norm_label": "sucesos_tipo_idx",
+      "source_file": "tabla-registro.sql",
+      "source_location": "L57"
+    },
+    {
       "id": "tabla_respaldos",
       "label": "tabla-respaldos.sql",
       "_origin": "ast",
@@ -6232,6 +6261,28 @@
       "source_location": "L1"
     },
     {
+      "id": "sw",
+      "label": "sw.js",
+      "_origin": "ast",
+      "community": 21,
+      "community_name": "riesgo.js",
+      "file_type": "code",
+      "norm_label": "sw.js",
+      "source_file": "sw.js",
+      "source_location": "L1"
+    },
+    {
+      "id": "sw_del_armazon",
+      "label": "DEL_ARMAZON",
+      "_origin": "ast",
+      "community": 21,
+      "community_name": "riesgo.js",
+      "file_type": "code",
+      "norm_label": "del_armazon",
+      "source_file": "sw.js",
+      "source_location": "L295"
+    },
+    {
       "id": "tabla_organizador",
       "label": "tabla-organizador.sql",
       "_origin": "ast",
@@ -6241,6 +6292,28 @@
       "norm_label": "tabla-organizador.sql",
       "source_file": "tabla-organizador.sql",
       "source_location": null
+    },
+    {
+      "id": "tabla_organizador_preparaciones_unico_idx",
+      "label": "preparaciones_unico_idx",
+      "_origin": "ast",
+      "community": 22,
+      "community_name": "tabla-organizador.sql",
+      "file_type": "code",
+      "norm_label": "preparaciones_unico_idx",
+      "source_file": "tabla-organizador.sql",
+      "source_location": "L130"
+    },
+    {
+      "id": "tabla_organizador_programas_unico_idx",
+      "label": "programas_unico_idx",
+      "_origin": "ast",
+      "community": 22,
+      "community_name": "tabla-organizador.sql",
+      "file_type": "code",
+      "norm_label": "programas_unico_idx",
+      "source_file": "tabla-organizador.sql",
+      "source_location": "L52"
     },
     {
       "id": "tabla_organizador_public_preparaciones",
@@ -6441,6 +6514,17 @@
       "source_location": "L68"
     },
     {
+      "id": "tabla_guia_guia_materia_unica_idx",
+      "label": "guia_materia_unica_idx",
+      "_origin": "ast",
+      "community": 29,
+      "community_name": "tabla-guia.sql",
+      "file_type": "code",
+      "norm_label": "guia_materia_unica_idx",
+      "source_file": "tabla-guia.sql",
+      "source_location": "L44"
+    },
+    {
       "id": "tabla_guia_public_guia_materia",
       "label": "public.guia_materia",
       "_origin": "ast",
@@ -6474,6 +6558,39 @@
       "source_location": "L1"
     },
     {
+      "id": "tabla_posteos_ig",
+      "label": "tabla-posteos-ig.sql",
+      "_origin": "ast",
+      "community": 32,
+      "community_name": "tabla-posteos-ig.sql",
+      "file_type": "code",
+      "norm_label": "tabla-posteos-ig.sql",
+      "source_file": "tabla-posteos-ig.sql",
+      "source_location": null
+    },
+    {
+      "id": "tabla_posteos_ig_posteos_ig_publicado_idx",
+      "label": "posteos_ig_publicado_idx",
+      "_origin": "ast",
+      "community": 32,
+      "community_name": "tabla-posteos-ig.sql",
+      "file_type": "code",
+      "norm_label": "posteos_ig_publicado_idx",
+      "source_file": "tabla-posteos-ig.sql",
+      "source_location": "L91"
+    },
+    {
+      "id": "tabla_posteos_ig_public_posteos_ig",
+      "label": "public.posteos_ig",
+      "_origin": "ast",
+      "community": 32,
+      "community_name": "tabla-posteos-ig.sql",
+      "file_type": "code",
+      "norm_label": "public.posteos_ig",
+      "source_file": "tabla-posteos-ig.sql",
+      "source_location": "L33"
+    },
+    {
       "id": "tabla_borrar_cuenta",
       "label": "tabla-borrar-cuenta.sql",
       "_origin": "ast",
@@ -6505,6 +6622,17 @@
       "norm_label": "tabla-materiales.sql",
       "source_file": "tabla-materiales.sql",
       "source_location": null
+    },
+    {
+      "id": "tabla_materiales_materiales_materia_idx",
+      "label": "materiales_materia_idx",
+      "_origin": "ast",
+      "community": 36,
+      "community_name": "tabla-materiales.sql",
+      "file_type": "code",
+      "norm_label": "materiales_materia_idx",
+      "source_file": "tabla-materiales.sql",
+      "source_location": "L39"
     },
     {
       "id": "tabla_materiales_public_materiales",
@@ -6716,6 +6844,28 @@
       "source_location": ""
     },
     {
+      "id": "tabla_alarma",
+      "label": "tabla-alarma.sql",
+      "_origin": "ast",
+      "community": 46,
+      "community_name": "publicaciones_alarma_idx",
+      "file_type": "code",
+      "norm_label": "tabla-alarma.sql",
+      "source_file": "tabla-alarma.sql",
+      "source_location": null
+    },
+    {
+      "id": "tabla_alarma_publicaciones_alarma_idx",
+      "label": "publicaciones_alarma_idx",
+      "_origin": "ast",
+      "community": 46,
+      "community_name": "publicaciones_alarma_idx",
+      "file_type": "code",
+      "norm_label": "publicaciones_alarma_idx",
+      "source_file": "tabla-alarma.sql",
+      "source_location": "L74"
+    },
+    {
       "id": "lib_leer_analitico",
       "label": "leer-analitico.js",
       "_origin": "ast",
@@ -6860,6 +7010,28 @@
       "norm_label": "public.riesgo_freno()",
       "source_file": "tabla-riesgo.sql",
       "source_location": "L161"
+    },
+    {
+      "id": "tabla_riesgo_reportes_riesgo_autor_idx",
+      "label": "reportes_riesgo_autor_idx",
+      "_origin": "ast",
+      "community": 57,
+      "community_name": "tabla-riesgo.sql",
+      "file_type": "code",
+      "norm_label": "reportes_riesgo_autor_idx",
+      "source_file": "tabla-riesgo.sql",
+      "source_location": "L76"
+    },
+    {
+      "id": "tabla_riesgo_reportes_riesgo_estado_idx",
+      "label": "reportes_riesgo_estado_idx",
+      "_origin": "ast",
+      "community": 57,
+      "community_name": "tabla-riesgo.sql",
+      "file_type": "code",
+      "norm_label": "reportes_riesgo_estado_idx",
+      "source_file": "tabla-riesgo.sql",
+      "source_location": "L74"
     },
     {
       "id": "tabla_riesgo_sql_auth_users",
@@ -7209,6 +7381,28 @@
       "source_location": null
     },
     {
+      "id": "tabla_cursada_cursada_celda_idx",
+      "label": "cursada_celda_idx",
+      "_origin": "ast",
+      "community": 63,
+      "community_name": "tabla-cursada.sql",
+      "file_type": "code",
+      "norm_label": "cursada_celda_idx",
+      "source_file": "tabla-cursada.sql",
+      "source_location": "L49"
+    },
+    {
+      "id": "tabla_cursada_falta_materia_idx",
+      "label": "falta_materia_idx",
+      "_origin": "ast",
+      "community": 63,
+      "community_name": "tabla-cursada.sql",
+      "file_type": "code",
+      "norm_label": "falta_materia_idx",
+      "source_file": "tabla-cursada.sql",
+      "source_location": "L72"
+    },
+    {
       "id": "tabla_cursada_public_cursada",
       "label": "public.cursada",
       "_origin": "ast",
@@ -7286,39 +7480,6 @@
       "source_location": "L1"
     },
     {
-      "id": "sw",
-      "label": "sw.js",
-      "_origin": "ast",
-      "community": 70,
-      "community_name": "sw.js",
-      "file_type": "code",
-      "norm_label": "sw.js",
-      "source_file": "sw.js",
-      "source_location": "L1"
-    },
-    {
-      "id": "sw_del_armazon",
-      "label": "DEL_ARMAZON",
-      "_origin": "ast",
-      "community": 70,
-      "community_name": "sw.js",
-      "file_type": "code",
-      "norm_label": "del_armazon",
-      "source_file": "sw.js",
-      "source_location": "L295"
-    },
-    {
-      "id": "tabla_alarma",
-      "label": "tabla-alarma.sql",
-      "_origin": "ast",
-      "community": 71,
-      "community_name": "tabla-alarma.sql",
-      "file_type": "code",
-      "norm_label": "tabla-alarma.sql",
-      "source_file": "tabla-alarma.sql",
-      "source_location": null
-    },
-    {
       "id": "estudiemos_videos_videos",
       "label": "videos.js",
       "_origin": "ast",
@@ -7372,6 +7533,17 @@
       "norm_label": "tabla-catedras.sql",
       "source_file": "tabla-catedras.sql",
       "source_location": null
+    },
+    {
+      "id": "tabla_catedras_catedras_carrera_idx",
+      "label": "catedras_carrera_idx",
+      "_origin": "ast",
+      "community": 8,
+      "community_name": "Mi perfil (mi/index.html)",
+      "file_type": "code",
+      "norm_label": "catedras_carrera_idx",
+      "source_file": "tabla-catedras.sql",
+      "source_location": "L70"
     },
     {
       "id": "tabla_catedras_public_catedras",
@@ -7994,6 +8166,30 @@
     }
   ],
   "links": [
+    {
+      "source": "app",
+      "target": "app_pintarnav_abrir",
+      "relation": "calls",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "call",
+      "source_file": "app.js",
+      "source_location": "L1230",
+      "weight": 1.0
+    },
+    {
+      "source": "app",
+      "target": "app_invitarainstalar_cerrar",
+      "relation": "calls",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "call",
+      "source_file": "app.js",
+      "source_location": "L1231",
+      "weight": 1.0
+    },
     {
       "source": "app_abrir",
       "target": "app_htmlnovedades",
@@ -8943,6 +9139,18 @@
       "weight": 1.0
     },
     {
+      "source": "app_pintartema",
+      "target": "app_pintartema",
+      "relation": "calls",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "call",
+      "source_file": "app.js",
+      "source_location": "L1322",
+      "weight": 1.0
+    },
+    {
       "source": "app_poneraviso",
       "target": "app_cajadelaviso",
       "relation": "calls",
@@ -9112,6 +9320,18 @@
     },
     {
       "source": "estudiemos_fichas_ficha_adom",
+      "target": "estudiemos_fichas_ficha_adom",
+      "relation": "calls",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "call",
+      "source_file": "estudiemos/fichas/ficha.js",
+      "source_location": "L74",
+      "weight": 1.0
+    },
+    {
+      "source": "estudiemos_fichas_ficha_adom",
       "target": "estudiemos_fichas_ficha_createelement",
       "relation": "calls",
       "_origin": "ast",
@@ -9240,6 +9460,18 @@
       "context": "call",
       "source_file": "estudiemos/fichas/ficha.js",
       "source_location": "L151",
+      "weight": 1.0
+    },
+    {
+      "source": "estudiemos_fichas_ficha_pasar",
+      "target": "estudiemos_fichas_ficha_pasar",
+      "relation": "calls",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "call",
+      "source_file": "estudiemos/fichas/ficha.js",
+      "source_location": "L169",
       "weight": 1.0
     },
     {
@@ -11379,6 +11611,114 @@
       "weight": 1.0
     },
     {
+      "source": "app",
+      "target": "app_leidasnovedades",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "call",
+      "source_file": "app.js",
+      "source_location": "L1125",
+      "weight": 1.0
+    },
+    {
+      "source": "app",
+      "target": "app_guardarleidas",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "call",
+      "source_file": "app.js",
+      "source_location": "L1132",
+      "weight": 1.0
+    },
+    {
+      "source": "app",
+      "target": "app_htmlnovedades",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "call",
+      "source_file": "app.js",
+      "source_location": "L1155",
+      "weight": 1.0
+    },
+    {
+      "source": "app",
+      "target": "app_pintarcampana",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "call",
+      "source_file": "app.js",
+      "source_location": "L1194",
+      "weight": 1.0
+    },
+    {
+      "source": "app",
+      "target": "app_anotarhito",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "call",
+      "source_file": "app.js",
+      "source_location": "L344",
+      "weight": 1.0
+    },
+    {
+      "source": "app",
+      "target": "app_anotarerror",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "call",
+      "source_file": "app.js",
+      "source_location": "L390",
+      "weight": 1.0
+    },
+    {
+      "source": "app",
+      "target": "app_semuda",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "call",
+      "source_file": "app.js",
+      "source_location": "L44",
+      "weight": 1.0
+    },
+    {
+      "source": "app",
+      "target": "app_empaquetar",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "call",
+      "source_file": "app.js",
+      "source_location": "L53",
+      "weight": 1.0
+    },
+    {
+      "source": "app",
+      "target": "app_desempaquetar",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "call",
+      "source_file": "app.js",
+      "source_location": "L57",
+      "weight": 1.0
+    },
+    {
       "source": "app_invitarainstalar",
       "target": "app_invitarainstalar_cerrar",
       "relation": "contains",
@@ -11475,6 +11815,138 @@
       "weight": 1.0
     },
     {
+      "source": "estudiemos_fichas_ficha",
+      "target": "estudiemos_fichas_ficha_createelement",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "call",
+      "source_file": "estudiemos/fichas/ficha.js",
+      "source_location": "L57",
+      "weight": 1.0
+    },
+    {
+      "source": "estudiemos_fichas_leer",
+      "target": "estudiemos_fichas_leer_pintar",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "call",
+      "source_file": "estudiemos/fichas/leer.js",
+      "source_location": "L121",
+      "weight": 1.0
+    },
+    {
+      "source": "estudiemos_fichas_leer",
+      "target": "estudiemos_fichas_leer_noesta",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "call",
+      "source_file": "estudiemos/fichas/leer.js",
+      "source_location": "L28",
+      "weight": 1.0
+    },
+    {
+      "source": "estudiemos_fichas_leer",
+      "target": "estudiemos_fichas_leer_leer",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "call",
+      "source_file": "estudiemos/fichas/leer.js",
+      "source_location": "L54",
+      "weight": 1.0
+    },
+    {
+      "source": "estudiemos_huella",
+      "target": "estudiemos_huella_leer",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "call",
+      "source_file": "estudiemos/huella.js",
+      "source_location": "L22",
+      "weight": 1.0
+    },
+    {
+      "source": "estudiemos_huella",
+      "target": "estudiemos_huella_anotar",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "call",
+      "source_file": "estudiemos/huella.js",
+      "source_location": "L45",
+      "weight": 1.0
+    },
+    {
+      "source": "estudiemos_portada",
+      "target": "estudiemos_portada_pintarterritorio",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "call",
+      "source_file": "estudiemos/portada.js",
+      "source_location": "L265",
+      "weight": 1.0
+    },
+    {
+      "source": "estudiemos_portada",
+      "target": "estudiemos_portada_traercatalogo",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "call",
+      "source_file": "estudiemos/portada.js",
+      "source_location": "L359",
+      "weight": 1.0
+    },
+    {
+      "source": "estudiemos_portada",
+      "target": "estudiemos_portada_todo",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "call",
+      "source_file": "estudiemos/portada.js",
+      "source_location": "L432",
+      "weight": 1.0
+    },
+    {
+      "source": "fondo_red",
+      "target": "fondo_red_argb",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "call",
+      "source_file": "fondo-red.js",
+      "source_location": "L139",
+      "weight": 1.0
+    },
+    {
+      "source": "fondo_red",
+      "target": "fondo_red_arrancar",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "call",
+      "source_file": "fondo-red.js",
+      "source_location": "L444",
+      "weight": 1.0
+    },
+    {
       "source": "lib_datos_crearcliente",
       "target": "lib_datos_crearcliente_pedir",
       "relation": "contains",
@@ -11520,6 +11992,306 @@
       "context": "call",
       "source_file": "lib/datos.js",
       "source_location": "L94",
+      "weight": 1.0
+    },
+    {
+      "source": "mapa_riesgo",
+      "target": "mapa_riesgo_pintarmarcando",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "call",
+      "source_file": "mapa/riesgo.js",
+      "source_location": "L1021",
+      "weight": 1.0
+    },
+    {
+      "source": "mapa_riesgo",
+      "target": "mapa_riesgo_dibujarelecciones",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "call",
+      "source_file": "mapa/riesgo.js",
+      "source_location": "L1030",
+      "weight": 1.0
+    },
+    {
+      "source": "mapa_riesgo",
+      "target": "mapa_riesgo_pintarformulario",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "call",
+      "source_file": "mapa/riesgo.js",
+      "source_location": "L1053",
+      "weight": 1.0
+    },
+    {
+      "source": "mapa_riesgo",
+      "target": "mapa_riesgo_volveralformulario",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "call",
+      "source_file": "mapa/riesgo.js",
+      "source_location": "L1144",
+      "weight": 1.0
+    },
+    {
+      "source": "mapa_riesgo",
+      "target": "mapa_riesgo_leercola",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "call",
+      "source_file": "mapa/riesgo.js",
+      "source_location": "L134",
+      "weight": 1.0
+    },
+    {
+      "source": "mapa_riesgo",
+      "target": "mapa_riesgo_sacar",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "call",
+      "source_file": "mapa/riesgo.js",
+      "source_location": "L151",
+      "weight": 1.0
+    },
+    {
+      "source": "mapa_riesgo",
+      "target": "mapa_riesgo_capasguardadas",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "call",
+      "source_file": "mapa/riesgo.js",
+      "source_location": "L171",
+      "weight": 1.0
+    },
+    {
+      "source": "mapa_riesgo",
+      "target": "mapa_riesgo_leerborrador",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "call",
+      "source_file": "mapa/riesgo.js",
+      "source_location": "L189",
+      "weight": 1.0
+    },
+    {
+      "source": "mapa_riesgo",
+      "target": "mapa_riesgo_nuevoid",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "call",
+      "source_file": "mapa/riesgo.js",
+      "source_location": "L199",
+      "weight": 1.0
+    },
+    {
+      "source": "mapa_riesgo",
+      "target": "mapa_riesgo_traerreportes",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "call",
+      "source_file": "mapa/riesgo.js",
+      "source_location": "L321",
+      "weight": 1.0
+    },
+    {
+      "source": "mapa_riesgo",
+      "target": "mapa_riesgo_pintarestado",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "call",
+      "source_file": "mapa/riesgo.js",
+      "source_location": "L353",
+      "weight": 1.0
+    },
+    {
+      "source": "mapa_riesgo",
+      "target": "mapa_riesgo_pintarguardados",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "call",
+      "source_file": "mapa/riesgo.js",
+      "source_location": "L375",
+      "weight": 1.0
+    },
+    {
+      "source": "mapa_riesgo",
+      "target": "mapa_riesgo_armarmapa",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "call",
+      "source_file": "mapa/riesgo.js",
+      "source_location": "L439",
+      "weight": 1.0
+    },
+    {
+      "source": "mapa_riesgo",
+      "target": "mapa_riesgo_crearalmacen",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "call",
+      "source_file": "mapa/riesgo.js",
+      "source_location": "L49",
+      "weight": 1.0
+    },
+    {
+      "source": "mapa_riesgo",
+      "target": "mapa_riesgo_dibujarpanelcapas",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "call",
+      "source_file": "mapa/riesgo.js",
+      "source_location": "L522",
+      "weight": 1.0
+    },
+    {
+      "source": "mapa_riesgo",
+      "target": "mapa_riesgo_pintarcapas",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "call",
+      "source_file": "mapa/riesgo.js",
+      "source_location": "L557",
+      "weight": 1.0
+    },
+    {
+      "source": "mapa_riesgo",
+      "target": "mapa_riesgo_borradorvacio",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "call",
+      "source_file": "mapa/riesgo.js",
+      "source_location": "L64",
+      "weight": 1.0
+    },
+    {
+      "source": "mapa_riesgo",
+      "target": "mapa_riesgo_pintarbase",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "call",
+      "source_file": "mapa/riesgo.js",
+      "source_location": "L705",
+      "weight": 1.0
+    },
+    {
+      "source": "mapa_riesgo",
+      "target": "mapa_riesgo_pintarpines",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "call",
+      "source_file": "mapa/riesgo.js",
+      "source_location": "L751",
+      "weight": 1.0
+    },
+    {
+      "source": "mapa_riesgo",
+      "target": "mapa_riesgo_pintarmarcaborrador",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "call",
+      "source_file": "mapa/riesgo.js",
+      "source_location": "L777",
+      "weight": 1.0
+    },
+    {
+      "source": "mapa_riesgo",
+      "target": "mapa_riesgo_yenpantalla",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "call",
+      "source_file": "mapa/riesgo.js",
+      "source_location": "L837",
+      "weight": 1.0
+    },
+    {
+      "source": "mapa_riesgo",
+      "target": "mapa_riesgo_poner",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "call",
+      "source_file": "mapa/riesgo.js",
+      "source_location": "L842",
+      "weight": 1.0
+    },
+    {
+      "source": "mapa_riesgo",
+      "target": "mapa_riesgo_gomita",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "call",
+      "source_file": "mapa/riesgo.js",
+      "source_location": "L848",
+      "weight": 1.0
+    },
+    {
+      "source": "mapa_riesgo",
+      "target": "mapa_riesgo_ponerubicacion",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "call",
+      "source_file": "mapa/riesgo.js",
+      "source_location": "L966",
+      "weight": 1.0
+    },
+    {
+      "source": "sw",
+      "target": "sw_esdesupabase",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "call",
+      "source_file": "sw.js",
+      "source_location": "L359",
       "weight": 1.0
     },
     {
@@ -12076,28 +12848,6 @@
     },
     {
       "source": "app",
-      "target": "app_leidasnovedades",
-      "relation": "contains",
-      "_origin": "ast",
-      "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "source_file": "app.js",
-      "source_location": "L1125",
-      "weight": 1.0
-    },
-    {
-      "source": "app",
-      "target": "app_guardarleidas",
-      "relation": "contains",
-      "_origin": "ast",
-      "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "source_file": "app.js",
-      "source_location": "L1132",
-      "weight": 1.0
-    },
-    {
-      "source": "app",
       "target": "app_novedadleida",
       "relation": "contains",
       "_origin": "ast",
@@ -12120,28 +12870,6 @@
     },
     {
       "source": "app",
-      "target": "app_htmlnovedades",
-      "relation": "contains",
-      "_origin": "ast",
-      "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "source_file": "app.js",
-      "source_location": "L1155",
-      "weight": 1.0
-    },
-    {
-      "source": "app",
-      "target": "app_pintarcampana",
-      "relation": "contains",
-      "_origin": "ast",
-      "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "source_file": "app.js",
-      "source_location": "L1194",
-      "weight": 1.0
-    },
-    {
-      "source": "app",
       "target": "app_abrir",
       "relation": "contains",
       "_origin": "ast",
@@ -12160,28 +12888,6 @@
       "confidence_score": 1.0,
       "source_file": "app.js",
       "source_location": "L1216",
-      "weight": 1.0
-    },
-    {
-      "source": "app",
-      "target": "app_pintaravisomudanza",
-      "relation": "contains",
-      "_origin": "ast",
-      "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "source_file": "app.js",
-      "source_location": "L123",
-      "weight": 1.0
-    },
-    {
-      "source": "app",
-      "target": "app_arrancar",
-      "relation": "contains",
-      "_origin": "ast",
-      "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "source_file": "app.js",
-      "source_location": "L1261",
       "weight": 1.0
     },
     {
@@ -12615,17 +13321,6 @@
     },
     {
       "source": "app",
-      "target": "app_anotarhito",
-      "relation": "contains",
-      "_origin": "ast",
-      "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "source_file": "app.js",
-      "source_location": "L344",
-      "weight": 1.0
-    },
-    {
-      "source": "app",
       "target": "app_dedondevino",
       "relation": "contains",
       "_origin": "ast",
@@ -12648,17 +13343,6 @@
     },
     {
       "source": "app",
-      "target": "app_anotarerror",
-      "relation": "contains",
-      "_origin": "ast",
-      "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "source_file": "app.js",
-      "source_location": "L390",
-      "weight": 1.0
-    },
-    {
-      "source": "app",
       "target": "app_contarvisita",
       "relation": "contains",
       "_origin": "ast",
@@ -12666,28 +13350,6 @@
       "confidence_score": 1.0,
       "source_file": "app.js",
       "source_location": "L434",
-      "weight": 1.0
-    },
-    {
-      "source": "app",
-      "target": "app_programarvisita",
-      "relation": "contains",
-      "_origin": "ast",
-      "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "source_file": "app.js",
-      "source_location": "L438",
-      "weight": 1.0
-    },
-    {
-      "source": "app",
-      "target": "app_semuda",
-      "relation": "contains",
-      "_origin": "ast",
-      "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "source_file": "app.js",
-      "source_location": "L44",
       "weight": 1.0
     },
     {
@@ -12835,17 +13497,6 @@
     },
     {
       "source": "app",
-      "target": "app_empaquetar",
-      "relation": "contains",
-      "_origin": "ast",
-      "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "source_file": "app.js",
-      "source_location": "L53",
-      "weight": 1.0
-    },
-    {
-      "source": "app",
       "target": "app_armariso",
       "relation": "contains",
       "_origin": "ast",
@@ -12875,17 +13526,6 @@
       "confidence_score": 1.0,
       "source_file": "app.js",
       "source_location": "L551",
-      "weight": 1.0
-    },
-    {
-      "source": "app",
-      "target": "app_desempaquetar",
-      "relation": "contains",
-      "_origin": "ast",
-      "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "source_file": "app.js",
-      "source_location": "L57",
       "weight": 1.0
     },
     {
@@ -13198,17 +13838,6 @@
     },
     {
       "source": "estudiemos_fichas_ficha",
-      "target": "estudiemos_fichas_ficha_createelement",
-      "relation": "contains",
-      "_origin": "ast",
-      "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "source_file": "estudiemos/fichas/ficha.js",
-      "source_location": "L57",
-      "weight": 1.0
-    },
-    {
-      "source": "estudiemos_fichas_ficha",
       "target": "estudiemos_fichas_ficha_esrico",
       "relation": "contains",
       "_origin": "ast",
@@ -13352,28 +13981,6 @@
     },
     {
       "source": "estudiemos_fichas_leer",
-      "target": "estudiemos_fichas_leer_pintar",
-      "relation": "contains",
-      "_origin": "ast",
-      "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "source_file": "estudiemos/fichas/leer.js",
-      "source_location": "L121",
-      "weight": 1.0
-    },
-    {
-      "source": "estudiemos_fichas_leer",
-      "target": "estudiemos_fichas_leer_noesta",
-      "relation": "contains",
-      "_origin": "ast",
-      "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "source_file": "estudiemos/fichas/leer.js",
-      "source_location": "L28",
-      "weight": 1.0
-    },
-    {
-      "source": "estudiemos_fichas_leer",
       "target": "estudiemos_fichas_leer_esc",
       "relation": "contains",
       "_origin": "ast",
@@ -13392,17 +13999,6 @@
       "confidence_score": 1.0,
       "source_file": "estudiemos/fichas/leer.js",
       "source_location": "L43",
-      "weight": 1.0
-    },
-    {
-      "source": "estudiemos_fichas_leer",
-      "target": "estudiemos_fichas_leer_leer",
-      "relation": "contains",
-      "_origin": "ast",
-      "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "source_file": "estudiemos/fichas/leer.js",
-      "source_location": "L54",
       "weight": 1.0
     },
     {
@@ -13429,17 +14025,6 @@
     },
     {
       "source": "estudiemos_huella",
-      "target": "estudiemos_huella_leer",
-      "relation": "contains",
-      "_origin": "ast",
-      "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "source_file": "estudiemos/huella.js",
-      "source_location": "L22",
-      "weight": 1.0
-    },
-    {
-      "source": "estudiemos_huella",
       "target": "estudiemos_huella_escribir",
       "relation": "contains",
       "_origin": "ast",
@@ -13447,17 +14032,6 @@
       "confidence_score": 1.0,
       "source_file": "estudiemos/huella.js",
       "source_location": "L26",
-      "weight": 1.0
-    },
-    {
-      "source": "estudiemos_huella",
-      "target": "estudiemos_huella_anotar",
-      "relation": "contains",
-      "_origin": "ast",
-      "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "source_file": "estudiemos/huella.js",
-      "source_location": "L45",
       "weight": 1.0
     },
     {
@@ -13583,17 +14157,6 @@
     },
     {
       "source": "estudiemos_portada",
-      "target": "estudiemos_portada_pintarterritorio",
-      "relation": "contains",
-      "_origin": "ast",
-      "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "source_file": "estudiemos/portada.js",
-      "source_location": "L265",
-      "weight": 1.0
-    },
-    {
-      "source": "estudiemos_portada",
       "target": "estudiemos_portada_pintarpines",
       "relation": "contains",
       "_origin": "ast",
@@ -13627,17 +14190,6 @@
     },
     {
       "source": "estudiemos_portada",
-      "target": "estudiemos_portada_traercatalogo",
-      "relation": "contains",
-      "_origin": "ast",
-      "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "source_file": "estudiemos/portada.js",
-      "source_location": "L359",
-      "weight": 1.0
-    },
-    {
-      "source": "estudiemos_portada",
       "target": "estudiemos_portada_carrera",
       "relation": "contains",
       "_origin": "ast",
@@ -13645,17 +14197,6 @@
       "confidence_score": 1.0,
       "source_file": "estudiemos/portada.js",
       "source_location": "L37",
-      "weight": 1.0
-    },
-    {
-      "source": "estudiemos_portada",
-      "target": "estudiemos_portada_buscar",
-      "relation": "contains",
-      "_origin": "ast",
-      "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "source_file": "estudiemos/portada.js",
-      "source_location": "L402",
       "weight": 1.0
     },
     {
@@ -13670,17 +14211,6 @@
       "weight": 1.0
     },
     {
-      "source": "estudiemos_portada",
-      "target": "estudiemos_portada_todo",
-      "relation": "contains",
-      "_origin": "ast",
-      "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "source_file": "estudiemos/portada.js",
-      "source_location": "L432",
-      "weight": 1.0
-    },
-    {
       "source": "fondo_red",
       "target": "fondo_red_quierequieto",
       "relation": "contains",
@@ -13689,17 +14219,6 @@
       "confidence_score": 1.0,
       "source_file": "fondo-red.js",
       "source_location": "L130",
-      "weight": 1.0
-    },
-    {
-      "source": "fondo_red",
-      "target": "fondo_red_argb",
-      "relation": "contains",
-      "_origin": "ast",
-      "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "source_file": "fondo-red.js",
-      "source_location": "L139",
       "weight": 1.0
     },
     {
@@ -13810,17 +14329,6 @@
       "confidence_score": 1.0,
       "source_file": "fondo-red.js",
       "source_location": "L437",
-      "weight": 1.0
-    },
-    {
-      "source": "fondo_red",
-      "target": "fondo_red_arrancar",
-      "relation": "contains",
-      "_origin": "ast",
-      "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "source_file": "fondo-red.js",
-      "source_location": "L444",
       "weight": 1.0
     },
     {
@@ -14132,17 +14640,6 @@
       "weight": 1.0
     },
     {
-      "source": "lib_datos",
-      "target": "lib_datos_crearcliente",
-      "relation": "contains",
-      "_origin": "ast",
-      "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "source_file": "lib/datos.js",
-      "source_location": "L41",
-      "weight": 1.0
-    },
-    {
       "source": "lib_leer_analitico",
       "target": "lib_leer_analitico_filas",
       "relation": "contains",
@@ -14173,39 +14670,6 @@
       "confidence_score": 1.0,
       "source_file": "lib/leer-analitico.js",
       "source_location": "L173",
-      "weight": 1.0
-    },
-    {
-      "source": "lib_leer_analitico",
-      "target": "lib_leer_analitico_leeranalitico",
-      "relation": "contains",
-      "_origin": "ast",
-      "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "source_file": "lib/leer-analitico.js",
-      "source_location": "L189",
-      "weight": 1.0
-    },
-    {
-      "source": "lib_leer_analitico",
-      "target": "lib_leer_analitico_textodelanalitico",
-      "relation": "contains",
-      "_origin": "ast",
-      "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "source_file": "lib/leer-analitico.js",
-      "source_location": "L218",
-      "weight": 1.0
-    },
-    {
-      "source": "lib_leer_analitico",
-      "target": "lib_leer_analitico_cargarpdfjs",
-      "relation": "contains",
-      "_origin": "ast",
-      "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "source_file": "lib/leer-analitico.js",
-      "source_location": "L249",
       "weight": 1.0
     },
     {
@@ -14250,17 +14714,6 @@
       "confidence_score": 1.0,
       "source_file": "lib/leer-analitico.js",
       "source_location": "L74",
-      "weight": 1.0
-    },
-    {
-      "source": "lib_leer_analitico",
-      "target": "lib_leer_analitico_parecido",
-      "relation": "contains",
-      "_origin": "ast",
-      "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "source_file": "lib/leer-analitico.js",
-      "source_location": "L81",
       "weight": 1.0
     },
     {
@@ -14947,17 +15400,6 @@
     },
     {
       "source": "mapa_riesgo",
-      "target": "mapa_riesgo_pintarmarcando",
-      "relation": "contains",
-      "_origin": "ast",
-      "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "source_file": "mapa/riesgo.js",
-      "source_location": "L1021",
-      "weight": 1.0
-    },
-    {
-      "source": "mapa_riesgo",
       "target": "mapa_riesgo_base",
       "relation": "contains",
       "_origin": "ast",
@@ -14965,39 +15407,6 @@
       "confidence_score": 1.0,
       "source_file": "mapa/riesgo.js",
       "source_location": "L103",
-      "weight": 1.0
-    },
-    {
-      "source": "mapa_riesgo",
-      "target": "mapa_riesgo_dibujarelecciones",
-      "relation": "contains",
-      "_origin": "ast",
-      "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "source_file": "mapa/riesgo.js",
-      "source_location": "L1030",
-      "weight": 1.0
-    },
-    {
-      "source": "mapa_riesgo",
-      "target": "mapa_riesgo_pintarformulario",
-      "relation": "contains",
-      "_origin": "ast",
-      "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "source_file": "mapa/riesgo.js",
-      "source_location": "L1053",
-      "weight": 1.0
-    },
-    {
-      "source": "mapa_riesgo",
-      "target": "mapa_riesgo_volveralformulario",
-      "relation": "contains",
-      "_origin": "ast",
-      "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "source_file": "mapa/riesgo.js",
-      "source_location": "L1144",
       "weight": 1.0
     },
     {
@@ -15035,28 +15444,6 @@
     },
     {
       "source": "mapa_riesgo",
-      "target": "mapa_riesgo_leercola",
-      "relation": "contains",
-      "_origin": "ast",
-      "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "source_file": "mapa/riesgo.js",
-      "source_location": "L134",
-      "weight": 1.0
-    },
-    {
-      "source": "mapa_riesgo",
-      "target": "mapa_riesgo_sacar",
-      "relation": "contains",
-      "_origin": "ast",
-      "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "source_file": "mapa/riesgo.js",
-      "source_location": "L151",
-      "weight": 1.0
-    },
-    {
-      "source": "mapa_riesgo",
       "target": "mapa_riesgo_guardarcopia",
       "relation": "contains",
       "_origin": "ast",
@@ -15075,39 +15462,6 @@
       "confidence_score": 1.0,
       "source_file": "mapa/riesgo.js",
       "source_location": "L161",
-      "weight": 1.0
-    },
-    {
-      "source": "mapa_riesgo",
-      "target": "mapa_riesgo_capasguardadas",
-      "relation": "contains",
-      "_origin": "ast",
-      "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "source_file": "mapa/riesgo.js",
-      "source_location": "L171",
-      "weight": 1.0
-    },
-    {
-      "source": "mapa_riesgo",
-      "target": "mapa_riesgo_leerborrador",
-      "relation": "contains",
-      "_origin": "ast",
-      "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "source_file": "mapa/riesgo.js",
-      "source_location": "L189",
-      "weight": 1.0
-    },
-    {
-      "source": "mapa_riesgo",
-      "target": "mapa_riesgo_nuevoid",
-      "relation": "contains",
-      "_origin": "ast",
-      "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "source_file": "mapa/riesgo.js",
-      "source_location": "L199",
       "weight": 1.0
     },
     {
@@ -15134,17 +15488,6 @@
     },
     {
       "source": "mapa_riesgo",
-      "target": "mapa_riesgo_enviarcola",
-      "relation": "contains",
-      "_origin": "ast",
-      "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "source_file": "mapa/riesgo.js",
-      "source_location": "L240",
-      "weight": 1.0
-    },
-    {
-      "source": "mapa_riesgo",
       "target": "mapa_riesgo_afila",
       "relation": "contains",
       "_origin": "ast",
@@ -15163,39 +15506,6 @@
       "confidence_score": 1.0,
       "source_file": "mapa/riesgo.js",
       "source_location": "L307",
-      "weight": 1.0
-    },
-    {
-      "source": "mapa_riesgo",
-      "target": "mapa_riesgo_traerreportes",
-      "relation": "contains",
-      "_origin": "ast",
-      "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "source_file": "mapa/riesgo.js",
-      "source_location": "L321",
-      "weight": 1.0
-    },
-    {
-      "source": "mapa_riesgo",
-      "target": "mapa_riesgo_pintarestado",
-      "relation": "contains",
-      "_origin": "ast",
-      "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "source_file": "mapa/riesgo.js",
-      "source_location": "L353",
-      "weight": 1.0
-    },
-    {
-      "source": "mapa_riesgo",
-      "target": "mapa_riesgo_pintarguardados",
-      "relation": "contains",
-      "_origin": "ast",
-      "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "source_file": "mapa/riesgo.js",
-      "source_location": "L375",
       "weight": 1.0
     },
     {
@@ -15233,28 +15543,6 @@
     },
     {
       "source": "mapa_riesgo",
-      "target": "mapa_riesgo_armarmapa",
-      "relation": "contains",
-      "_origin": "ast",
-      "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "source_file": "mapa/riesgo.js",
-      "source_location": "L439",
-      "weight": 1.0
-    },
-    {
-      "source": "mapa_riesgo",
-      "target": "mapa_riesgo_crearalmacen",
-      "relation": "contains",
-      "_origin": "ast",
-      "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "source_file": "mapa/riesgo.js",
-      "source_location": "L49",
-      "weight": 1.0
-    },
-    {
-      "source": "mapa_riesgo",
       "target": "mapa_riesgo_rengloncapa",
       "relation": "contains",
       "_origin": "ast",
@@ -15266,17 +15554,6 @@
     },
     {
       "source": "mapa_riesgo",
-      "target": "mapa_riesgo_dibujarpanelcapas",
-      "relation": "contains",
-      "_origin": "ast",
-      "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "source_file": "mapa/riesgo.js",
-      "source_location": "L522",
-      "weight": 1.0
-    },
-    {
-      "source": "mapa_riesgo",
       "target": "mapa_riesgo_pintarresumencapas",
       "relation": "contains",
       "_origin": "ast",
@@ -15284,17 +15561,6 @@
       "confidence_score": 1.0,
       "source_file": "mapa/riesgo.js",
       "source_location": "L551",
-      "weight": 1.0
-    },
-    {
-      "source": "mapa_riesgo",
-      "target": "mapa_riesgo_pintarcapas",
-      "relation": "contains",
-      "_origin": "ast",
-      "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "source_file": "mapa/riesgo.js",
-      "source_location": "L557",
       "weight": 1.0
     },
     {
@@ -15343,17 +15609,6 @@
     },
     {
       "source": "mapa_riesgo",
-      "target": "mapa_riesgo_borradorvacio",
-      "relation": "contains",
-      "_origin": "ast",
-      "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "source_file": "mapa/riesgo.js",
-      "source_location": "L64",
-      "weight": 1.0
-    },
-    {
-      "source": "mapa_riesgo",
       "target": "mapa_riesgo_armarcapabase",
       "relation": "contains",
       "_origin": "ast",
@@ -15387,39 +15642,6 @@
     },
     {
       "source": "mapa_riesgo",
-      "target": "mapa_riesgo_pintarbase",
-      "relation": "contains",
-      "_origin": "ast",
-      "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "source_file": "mapa/riesgo.js",
-      "source_location": "L705",
-      "weight": 1.0
-    },
-    {
-      "source": "mapa_riesgo",
-      "target": "mapa_riesgo_pintarpines",
-      "relation": "contains",
-      "_origin": "ast",
-      "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "source_file": "mapa/riesgo.js",
-      "source_location": "L751",
-      "weight": 1.0
-    },
-    {
-      "source": "mapa_riesgo",
-      "target": "mapa_riesgo_pintarmarcaborrador",
-      "relation": "contains",
-      "_origin": "ast",
-      "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "source_file": "mapa/riesgo.js",
-      "source_location": "L777",
-      "weight": 1.0
-    },
-    {
-      "source": "mapa_riesgo",
       "target": "mapa_riesgo_yde",
       "relation": "contains",
       "_origin": "ast",
@@ -15427,39 +15649,6 @@
       "confidence_score": 1.0,
       "source_file": "mapa/riesgo.js",
       "source_location": "L830",
-      "weight": 1.0
-    },
-    {
-      "source": "mapa_riesgo",
-      "target": "mapa_riesgo_yenpantalla",
-      "relation": "contains",
-      "_origin": "ast",
-      "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "source_file": "mapa/riesgo.js",
-      "source_location": "L837",
-      "weight": 1.0
-    },
-    {
-      "source": "mapa_riesgo",
-      "target": "mapa_riesgo_poner",
-      "relation": "contains",
-      "_origin": "ast",
-      "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "source_file": "mapa/riesgo.js",
-      "source_location": "L842",
-      "weight": 1.0
-    },
-    {
-      "source": "mapa_riesgo",
-      "target": "mapa_riesgo_gomita",
-      "relation": "contains",
-      "_origin": "ast",
-      "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "source_file": "mapa/riesgo.js",
-      "source_location": "L848",
       "weight": 1.0
     },
     {
@@ -15475,17 +15664,6 @@
     },
     {
       "source": "mapa_riesgo",
-      "target": "mapa_riesgo_ir",
-      "relation": "contains",
-      "_origin": "ast",
-      "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "source_file": "mapa/riesgo.js",
-      "source_location": "L854",
-      "weight": 1.0
-    },
-    {
-      "source": "mapa_riesgo",
       "target": "mapa_riesgo_bloqueardetras",
       "relation": "contains",
       "_origin": "ast",
@@ -15497,28 +15675,6 @@
     },
     {
       "source": "mapa_riesgo",
-      "target": "mapa_riesgo_abrir",
-      "relation": "contains",
-      "_origin": "ast",
-      "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "source_file": "mapa/riesgo.js",
-      "source_location": "L889",
-      "weight": 1.0
-    },
-    {
-      "source": "mapa_riesgo",
-      "target": "mapa_riesgo_soltar",
-      "relation": "contains",
-      "_origin": "ast",
-      "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "source_file": "mapa/riesgo.js",
-      "source_location": "L921",
-      "weight": 1.0
-    },
-    {
-      "source": "mapa_riesgo",
       "target": "mapa_riesgo_dentrodelazona",
       "relation": "contains",
       "_origin": "ast",
@@ -15526,17 +15682,6 @@
       "confidence_score": 1.0,
       "source_file": "mapa/riesgo.js",
       "source_location": "L961",
-      "weight": 1.0
-    },
-    {
-      "source": "mapa_riesgo",
-      "target": "mapa_riesgo_ponerubicacion",
-      "relation": "contains",
-      "_origin": "ast",
-      "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "source_file": "mapa/riesgo.js",
-      "source_location": "L966",
       "weight": 1.0
     },
     {
@@ -15606,14 +15751,25 @@
       "weight": 1.0
     },
     {
-      "source": "sw",
-      "target": "sw_esdesupabase",
+      "source": "tabla_alarma",
+      "target": "tabla_alarma_publicaciones_alarma_idx",
       "relation": "contains",
       "_origin": "ast",
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
-      "source_file": "sw.js",
-      "source_location": "L359",
+      "source_file": "tabla-alarma.sql",
+      "source_location": "L74",
+      "weight": 1.0
+    },
+    {
+      "source": "tabla_avisanos",
+      "target": "tabla_avisanos_consultas_pendientes_idx",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "tabla-avisanos.sql",
+      "source_location": "L106",
       "weight": 1.0
     },
     {
@@ -15651,6 +15807,17 @@
     },
     {
       "source": "tabla_avisanos",
+      "target": "tabla_avisanos_contactos_carrera_idx",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "tabla-avisanos.sql",
+      "source_location": "L48",
+      "weight": 1.0
+    },
+    {
+      "source": "tabla_avisanos",
       "target": "tabla_avisanos_public_consultas",
       "relation": "contains",
       "_origin": "ast",
@@ -15680,6 +15847,17 @@
       "confidence_score": 1.0,
       "source_file": "tabla-catedras.sql",
       "source_location": "L33",
+      "weight": 1.0
+    },
+    {
+      "source": "tabla_catedras",
+      "target": "tabla_catedras_catedras_carrera_idx",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "tabla-catedras.sql",
+      "source_location": "L70",
       "weight": 1.0
     },
     {
@@ -15717,6 +15895,17 @@
     },
     {
       "source": "tabla_cursada",
+      "target": "tabla_cursada_cursada_celda_idx",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "tabla-cursada.sql",
+      "source_location": "L49",
+      "weight": 1.0
+    },
+    {
+      "source": "tabla_cursada",
       "target": "tabla_cursada_public_falta",
       "relation": "contains",
       "_origin": "ast",
@@ -15724,6 +15913,17 @@
       "confidence_score": 1.0,
       "source_file": "tabla-cursada.sql",
       "source_location": "L64",
+      "weight": 1.0
+    },
+    {
+      "source": "tabla_cursada",
+      "target": "tabla_cursada_falta_materia_idx",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "tabla-cursada.sql",
+      "source_location": "L72",
       "weight": 1.0
     },
     {
@@ -15750,6 +15950,17 @@
     },
     {
       "source": "tabla_guia",
+      "target": "tabla_guia_guia_materia_unica_idx",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "tabla-guia.sql",
+      "source_location": "L44",
+      "weight": 1.0
+    },
+    {
+      "source": "tabla_guia",
       "target": "tabla_guia_al_tocar_guia",
       "relation": "contains",
       "_origin": "ast",
@@ -15768,6 +15979,28 @@
       "confidence_score": 1.0,
       "source_file": "tabla-materiales.sql",
       "source_location": "L19",
+      "weight": 1.0
+    },
+    {
+      "source": "tabla_materiales",
+      "target": "tabla_materiales_materiales_materia_idx",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "tabla-materiales.sql",
+      "source_location": "L39",
+      "weight": 1.0
+    },
+    {
+      "source": "tabla_organizador",
+      "target": "tabla_organizador_preparaciones_unico_idx",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "tabla-organizador.sql",
+      "source_location": "L130",
       "weight": 1.0
     },
     {
@@ -15794,6 +16027,17 @@
     },
     {
       "source": "tabla_organizador",
+      "target": "tabla_organizador_programas_unico_idx",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "tabla-organizador.sql",
+      "source_location": "L52",
+      "weight": 1.0
+    },
+    {
+      "source": "tabla_organizador",
       "target": "tabla_organizador_public_preparaciones",
       "relation": "contains",
       "_origin": "ast",
@@ -15801,6 +16045,28 @@
       "confidence_score": 1.0,
       "source_file": "tabla-organizador.sql",
       "source_location": "L98",
+      "weight": 1.0
+    },
+    {
+      "source": "tabla_posteos_ig",
+      "target": "tabla_posteos_ig_public_posteos_ig",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "tabla-posteos-ig.sql",
+      "source_location": "L33",
+      "weight": 1.0
+    },
+    {
+      "source": "tabla_posteos_ig",
+      "target": "tabla_posteos_ig_posteos_ig_publicado_idx",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "tabla-posteos-ig.sql",
+      "source_location": "L91",
       "weight": 1.0
     },
     {
@@ -15867,6 +16133,28 @@
       "confidence_score": 1.0,
       "source_file": "tabla-registro.sql",
       "source_location": "L28",
+      "weight": 1.0
+    },
+    {
+      "source": "tabla_registro",
+      "target": "tabla_registro_sucesos_tipo_idx",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "tabla-registro.sql",
+      "source_location": "L57",
+      "weight": 1.0
+    },
+    {
+      "source": "tabla_registro",
+      "target": "tabla_registro_sucesos_fecha_idx",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "tabla-registro.sql",
+      "source_location": "L58",
       "weight": 1.0
     },
     {
@@ -15958,6 +16246,28 @@
       "weight": 1.0
     },
     {
+      "source": "tabla_riesgo",
+      "target": "tabla_riesgo_reportes_riesgo_estado_idx",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "tabla-riesgo.sql",
+      "source_location": "L74",
+      "weight": 1.0
+    },
+    {
+      "source": "tabla_riesgo",
+      "target": "tabla_riesgo_reportes_riesgo_autor_idx",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "tabla-riesgo.sql",
+      "source_location": "L76",
+      "weight": 1.0
+    },
+    {
       "source": "estudiemos_fichas_ficha_texto",
       "target": "estudiemos_fichas_ficha_parser",
       "relation": "dynamic_import",
@@ -16041,6 +16351,171 @@
       "confidence_score": 1.0,
       "source_file": "trayecto/index.html",
       "source_location": "L30",
+      "weight": 1.0
+    },
+    {
+      "source": "tabla_alarma_publicaciones_alarma_idx",
+      "target": "public_publicaciones",
+      "relation": "indexes",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "tabla-alarma.sql",
+      "source_location": "L74",
+      "weight": 1.0
+    },
+    {
+      "source": "tabla_avisanos_consultas_pendientes_idx",
+      "target": "tabla_avisanos_public_consultas",
+      "relation": "indexes",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "tabla-avisanos.sql",
+      "source_location": "L106",
+      "weight": 1.0
+    },
+    {
+      "source": "tabla_avisanos_contactos_carrera_idx",
+      "target": "tabla_avisanos_public_contactos",
+      "relation": "indexes",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "tabla-avisanos.sql",
+      "source_location": "L48",
+      "weight": 1.0
+    },
+    {
+      "source": "tabla_catedras_catedras_carrera_idx",
+      "target": "tabla_catedras_public_catedras",
+      "relation": "indexes",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "tabla-catedras.sql",
+      "source_location": "L70",
+      "weight": 1.0
+    },
+    {
+      "source": "tabla_cursada_cursada_celda_idx",
+      "target": "tabla_cursada_public_cursada",
+      "relation": "indexes",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "tabla-cursada.sql",
+      "source_location": "L49",
+      "weight": 1.0
+    },
+    {
+      "source": "tabla_cursada_falta_materia_idx",
+      "target": "tabla_cursada_public_falta",
+      "relation": "indexes",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "tabla-cursada.sql",
+      "source_location": "L72",
+      "weight": 1.0
+    },
+    {
+      "source": "tabla_guia_guia_materia_unica_idx",
+      "target": "tabla_guia_public_guia_materia",
+      "relation": "indexes",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "tabla-guia.sql",
+      "source_location": "L44",
+      "weight": 1.0
+    },
+    {
+      "source": "tabla_materiales_materiales_materia_idx",
+      "target": "tabla_materiales_public_materiales",
+      "relation": "indexes",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "tabla-materiales.sql",
+      "source_location": "L39",
+      "weight": 1.0
+    },
+    {
+      "source": "tabla_organizador_preparaciones_unico_idx",
+      "target": "tabla_organizador_public_preparaciones",
+      "relation": "indexes",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "tabla-organizador.sql",
+      "source_location": "L130",
+      "weight": 1.0
+    },
+    {
+      "source": "tabla_organizador_programas_unico_idx",
+      "target": "tabla_organizador_public_programas",
+      "relation": "indexes",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "tabla-organizador.sql",
+      "source_location": "L52",
+      "weight": 1.0
+    },
+    {
+      "source": "tabla_posteos_ig_posteos_ig_publicado_idx",
+      "target": "tabla_posteos_ig_public_posteos_ig",
+      "relation": "indexes",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "tabla-posteos-ig.sql",
+      "source_location": "L91",
+      "weight": 1.0
+    },
+    {
+      "source": "tabla_registro_sucesos_fecha_idx",
+      "target": "tabla_registro_public_sucesos",
+      "relation": "indexes",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "tabla-registro.sql",
+      "source_location": "L58",
+      "weight": 1.0
+    },
+    {
+      "source": "tabla_registro_sucesos_tipo_idx",
+      "target": "tabla_registro_public_sucesos",
+      "relation": "indexes",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "tabla-registro.sql",
+      "source_location": "L57",
+      "weight": 1.0
+    },
+    {
+      "source": "tabla_riesgo_reportes_riesgo_autor_idx",
+      "target": "tabla_riesgo_public_reportes_riesgo",
+      "relation": "indexes",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "tabla-riesgo.sql",
+      "source_location": "L76",
+      "weight": 1.0
+    },
+    {
+      "source": "tabla_riesgo_reportes_riesgo_estado_idx",
+      "target": "tabla_riesgo_public_reportes_riesgo",
+      "relation": "indexes",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "tabla-riesgo.sql",
+      "source_location": "L74",
       "weight": 1.0
     },
     {
@@ -18024,6 +18499,42 @@
       "weight": 1.0
     },
     {
+      "source": "app",
+      "target": "app_pintaravisomudanza",
+      "relation": "indirect_call",
+      "_origin": "ast",
+      "confidence": "INFERRED",
+      "confidence_score": 0.85,
+      "context": "argument",
+      "source_file": "app.js",
+      "source_location": "L120",
+      "weight": 1.0
+    },
+    {
+      "source": "app",
+      "target": "app_arrancar",
+      "relation": "indirect_call",
+      "_origin": "ast",
+      "confidence": "INFERRED",
+      "confidence_score": 0.85,
+      "context": "argument",
+      "source_file": "app.js",
+      "source_location": "L1265",
+      "weight": 1.0
+    },
+    {
+      "source": "app",
+      "target": "app_programarvisita",
+      "relation": "indirect_call",
+      "_origin": "ast",
+      "confidence": "INFERRED",
+      "confidence_score": 0.85,
+      "context": "argument",
+      "source_file": "app.js",
+      "source_location": "L441",
+      "weight": 1.0
+    },
+    {
       "source": "app_archivoics",
       "target": "app_eventoics",
       "relation": "indirect_call",
@@ -18093,6 +18604,18 @@
       "context": "argument",
       "source_file": "estudiemos/fichas/ficha.js",
       "source_location": "L146",
+      "weight": 1.0
+    },
+    {
+      "source": "estudiemos_portada",
+      "target": "estudiemos_portada_buscar",
+      "relation": "indirect_call",
+      "_origin": "ast",
+      "confidence": "INFERRED",
+      "confidence_score": 0.85,
+      "context": "argument",
+      "source_file": "estudiemos/portada.js",
+      "source_location": "L451",
       "weight": 1.0
     },
     {
@@ -18168,6 +18691,42 @@
       "weight": 1.0
     },
     {
+      "source": "mapa_riesgo",
+      "target": "mapa_riesgo_enviarcola",
+      "relation": "indirect_call",
+      "_origin": "ast",
+      "confidence": "INFERRED",
+      "confidence_score": 0.85,
+      "context": "argument",
+      "source_file": "mapa/riesgo.js",
+      "source_location": "L315",
+      "weight": 1.0
+    },
+    {
+      "source": "mapa_riesgo",
+      "target": "mapa_riesgo_soltar",
+      "relation": "indirect_call",
+      "_origin": "ast",
+      "confidence": "INFERRED",
+      "confidence_score": 0.85,
+      "context": "argument",
+      "source_file": "mapa/riesgo.js",
+      "source_location": "L941",
+      "weight": 1.0
+    },
+    {
+      "source": "mapa_riesgo",
+      "target": "mapa_riesgo_abrir",
+      "relation": "indirect_call",
+      "_origin": "ast",
+      "confidence": "INFERRED",
+      "confidence_score": 0.85,
+      "context": "argument",
+      "source_file": "mapa/riesgo.js",
+      "source_location": "L949",
+      "weight": 1.0
+    },
+    {
       "source": "movimiento_entraralllegar",
       "target": "movimiento_entraralllegar_revisar",
       "relation": "indirect_call",
@@ -18177,6 +18736,90 @@
       "context": "argument",
       "source_file": "movimiento.js",
       "source_location": "L111",
+      "weight": 1.0
+    },
+    {
+      "source": "sw",
+      "target": "mapa_riesgo_pedido",
+      "relation": "indirect_call",
+      "_origin": "ast",
+      "confidence": "INFERRED",
+      "confidence_score": 0.85,
+      "context": "argument",
+      "source_file": "sw.js",
+      "source_location": "L382",
+      "weight": 1.0
+    },
+    {
+      "source": "lib_datos",
+      "target": "lib_datos_crearcliente",
+      "relation": "indirect_call",
+      "_origin": "ast",
+      "confidence": "INFERRED",
+      "confidence_score": 0.85,
+      "context": "collection",
+      "source_file": "lib/datos.js",
+      "source_location": "L165",
+      "weight": 1.0
+    },
+    {
+      "source": "lib_leer_analitico",
+      "target": "lib_leer_analitico_cargarpdfjs",
+      "relation": "indirect_call",
+      "_origin": "ast",
+      "confidence": "INFERRED",
+      "confidence_score": 0.85,
+      "context": "collection",
+      "source_file": "lib/leer-analitico.js",
+      "source_location": "L264",
+      "weight": 1.0
+    },
+    {
+      "source": "lib_leer_analitico",
+      "target": "lib_leer_analitico_leeranalitico",
+      "relation": "indirect_call",
+      "_origin": "ast",
+      "confidence": "INFERRED",
+      "confidence_score": 0.85,
+      "context": "collection",
+      "source_file": "lib/leer-analitico.js",
+      "source_location": "L264",
+      "weight": 1.0
+    },
+    {
+      "source": "lib_leer_analitico",
+      "target": "lib_leer_analitico_parecido",
+      "relation": "indirect_call",
+      "_origin": "ast",
+      "confidence": "INFERRED",
+      "confidence_score": 0.85,
+      "context": "collection",
+      "source_file": "lib/leer-analitico.js",
+      "source_location": "L264",
+      "weight": 1.0
+    },
+    {
+      "source": "lib_leer_analitico",
+      "target": "lib_leer_analitico_textodelanalitico",
+      "relation": "indirect_call",
+      "_origin": "ast",
+      "confidence": "INFERRED",
+      "confidence_score": 0.85,
+      "context": "collection",
+      "source_file": "lib/leer-analitico.js",
+      "source_location": "L264",
+      "weight": 1.0
+    },
+    {
+      "source": "mapa_riesgo",
+      "target": "mapa_riesgo_ir",
+      "relation": "indirect_call",
+      "_origin": "ast",
+      "confidence": "INFERRED",
+      "confidence_score": 0.85,
+      "context": "collection",
+      "source_file": "mapa/riesgo.js",
+      "source_location": "L951",
       "weight": 1.0
     },
     {
@@ -18675,5 +19318,5 @@
       "source_file": "panel/index.html"
     }
   ],
-  "built_at_commit": "53ceb9f0427ef63f5cfa0632e6693586c122ec71"
+  "built_at_commit": "f1698c772b46ed25c3e8a83a605b480300ce5b6d"
 }

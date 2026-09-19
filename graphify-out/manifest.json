@@ -1,566 +1,572 @@
 {
   "app.js": {
-    "mtime": 1789832410.5395343,
-    "seen": 1789832819.8328018,
+    "mtime": 1789811383.401517,
+    "seen": 1789853385.4922817,
     "ast_hash": "6f3880ab43e4b5d3bd7ca679242200ab",
     "semantic_hash": ""
   },
   "carrera/plan-fono.js": {
-    "mtime": 1789832410.5440521,
-    "seen": 1789832819.8328118,
+    "mtime": 1789678048.3376832,
+    "seen": 1789853385.4922884,
     "ast_hash": "5ca324de7d4e3d3ecc5c75eeb113dd27",
     "semantic_hash": "5ca324de7d4e3d3ecc5c75eeb113dd27"
   },
   "carrera/plan-tgcr.js": {
-    "mtime": 1789832410.5480504,
-    "seen": 1789832819.8328166,
+    "mtime": 1789678048.3376832,
+    "seen": 1789853385.492291,
     "ast_hash": "8a5fb93845e93da5ded15d335c64dea6",
     "semantic_hash": "8a5fb93845e93da5ded15d335c64dea6"
   },
   "carrera/plan.js": {
-    "mtime": 1789832410.5490777,
-    "seen": 1789832819.8328197,
+    "mtime": 1789678048.3386679,
+    "seen": 1789853385.4922926,
     "ast_hash": "c40d4bef02274a566b022058a3581cd8",
     "semantic_hash": "c40d4bef02274a566b022058a3581cd8"
   },
   "config.js": {
-    "mtime": 1789832410.5524352,
-    "seen": 1789832819.8328233,
+    "mtime": 1789678048.3396652,
+    "seen": 1789853385.4922945,
     "ast_hash": "67be1de2bfba3280e9af53cb39ede2b7",
     "semantic_hash": "67be1de2bfba3280e9af53cb39ede2b7"
   },
   "contenido-alumnes.sql": {
-    "mtime": 1789832410.5541668,
-    "seen": 1789832819.8328261,
+    "mtime": 1789678048.341661,
+    "seen": 1789853385.492296,
     "ast_hash": "bd11f016e3cc862cf67a48203eb6a526",
     "semantic_hash": "bd11f016e3cc862cf67a48203eb6a526"
   },
   "contenido-boleto.sql": {
-    "mtime": 1789832410.5541668,
-    "seen": 1789832819.8328288,
+    "mtime": 1789678048.341661,
+    "seen": 1789853385.4922976,
     "ast_hash": "bc35847d465c2bbb3709f6acbebf078b",
     "semantic_hash": "bc35847d465c2bbb3709f6acbebf078b"
   },
   "contenido-linktree.sql": {
-    "mtime": 1789832410.558471,
-    "seen": 1789832819.832831,
+    "mtime": 1789678048.342657,
+    "seen": 1789853385.4922993,
     "ast_hash": "9efcd4c5fedd5772725e17694416fb9a",
     "semantic_hash": "9efcd4c5fedd5772725e17694416fb9a"
   },
   "estudiemos/fichas/ficha.js": {
-    "mtime": 1789832410.6626723,
-    "seen": 1789832819.8328402,
+    "mtime": 1789786410.9614148,
+    "seen": 1789853385.4923038,
     "ast_hash": "65445a049915ef339e5761db834dcdd8",
     "semantic_hash": ""
   },
   "iconos.js": {
-    "mtime": 1789832412.9509997,
-    "seen": 1789832819.8328602,
+    "mtime": 1789678048.5108414,
+    "seen": 1789853385.4923146,
     "ast_hash": "8d400f06ca0f6d461c7774a036af6906",
     "semantic_hash": ""
   },
   "lectura.js": {
-    "mtime": 1789832412.9752367,
-    "seen": 1789832819.8328626,
+    "mtime": 1789678048.522328,
+    "seen": 1789853385.4923162,
     "ast_hash": "dee865def3cc416e133ce37a26f6b815",
     "semantic_hash": "dee865def3cc416e133ce37a26f6b815"
   },
   "lib/avisanos.js": {
-    "mtime": 1789832412.9772346,
-    "seen": 1789832819.8328652,
+    "mtime": 1789761136.8411674,
+    "seen": 1789853385.492318,
     "ast_hash": "46fc5cfcdcbb147625e3613f26087b9a",
     "semantic_hash": ""
   },
   "lib/datos.js": {
-    "mtime": 1789832412.978233,
-    "seen": 1789832819.8328679,
+    "mtime": 1789678048.5243237,
+    "seen": 1789853385.4923196,
     "ast_hash": "da1edad679f2153040194008f2f51bf1",
     "semantic_hash": "da1edad679f2153040194008f2f51bf1"
   },
   "lib/leer-programa.js": {
-    "mtime": 1789832412.9818997,
-    "seen": 1789832819.832873,
+    "mtime": 1789678048.5253208,
+    "seen": 1789853385.4923222,
     "ast_hash": "db11e2b0cbacdd7b06f7c2a025bae585",
     "semantic_hash": "db11e2b0cbacdd7b06f7c2a025bae585"
   },
   "manifest.json": {
-    "mtime": 1789832413.0027258,
-    "seen": 1789832819.832876,
+    "mtime": 1789678048.537288,
+    "seen": 1789853385.4923239,
     "ast_hash": "11c91a35a41b66240c236de2aa6819d9",
     "semantic_hash": "11c91a35a41b66240c236de2aa6819d9"
   },
   "movimiento.js": {
-    "mtime": 1789832413.0455766,
-    "seen": 1789832819.8328943,
+    "mtime": 1789678048.5592315,
+    "seen": 1789853385.4923346,
     "ast_hash": "ad30a5bff64de78724790348e9320b8a",
     "semantic_hash": ""
   },
   "sw.js": {
-    "mtime": 1789832413.0553563,
-    "seen": 1789832819.8328967,
+    "mtime": 1789852140.7039883,
+    "seen": 1789853385.492336,
     "ast_hash": "2316d698939db7d5523c7a2e0856e810",
     "semantic_hash": ""
   },
   "tabla-alarma.sql": {
-    "mtime": 1789832413.0558958,
-    "seen": 1789832819.8328993,
+    "mtime": 1789678048.5632188,
+    "seen": 1789853385.492338,
     "ast_hash": "98ca09ae31dbc37ea1e047f8fc1234d2",
     "semantic_hash": "98ca09ae31dbc37ea1e047f8fc1234d2"
   },
   "tabla-avisanos.sql": {
-    "mtime": 1789832413.0578992,
-    "seen": 1789832819.832902,
+    "mtime": 1789678048.564217,
+    "seen": 1789853385.4923391,
     "ast_hash": "212c4d9ca1a68d98cbcb2bc6d3cfab0b",
     "semantic_hash": "212c4d9ca1a68d98cbcb2bc6d3cfab0b"
   },
   "tabla-borrar-cuenta.sql": {
-    "mtime": 1789832413.0586107,
-    "seen": 1789832819.8329043,
+    "mtime": 1789678048.564217,
+    "seen": 1789853385.492341,
     "ast_hash": "067fc2ee8219868d6bc4b12caa378560",
     "semantic_hash": "067fc2ee8219868d6bc4b12caa378560"
   },
   "tabla-catedras.sql": {
-    "mtime": 1789832413.0607276,
-    "seen": 1789832819.832907,
+    "mtime": 1789678048.5652144,
+    "seen": 1789853385.4923422,
     "ast_hash": "0d82f3b68e3381c76433c598c82f0843",
     "semantic_hash": "0d82f3b68e3381c76433c598c82f0843"
   },
   "tabla-consejo.sql": {
-    "mtime": 1789832413.0626316,
-    "seen": 1789832819.8329096,
+    "mtime": 1789678048.5662112,
+    "seen": 1789853385.492344,
     "ast_hash": "9dd159bbcf8b2e014e963402140356ce",
     "semantic_hash": "9dd159bbcf8b2e014e963402140356ce"
   },
   "tabla-fotos.sql": {
-    "mtime": 1789832413.0653808,
-    "seen": 1789832819.8329146,
+    "mtime": 1789678048.5662112,
+    "seen": 1789853385.4923465,
     "ast_hash": "c30c557a3177365cec11bdc39eb8dc51",
     "semantic_hash": "c30c557a3177365cec11bdc39eb8dc51"
   },
   "tabla-guia.sql": {
-    "mtime": 1789832413.0666635,
-    "seen": 1789832819.8329172,
+    "mtime": 1789678048.567209,
+    "seen": 1789853385.492348,
     "ast_hash": "361cedaabfa12798fc5f0b8fbb6eb7ff",
     "semantic_hash": "361cedaabfa12798fc5f0b8fbb6eb7ff"
   },
   "tabla-materiales.sql": {
-    "mtime": 1789832413.0676663,
-    "seen": 1789832819.83292,
+    "mtime": 1789678048.567209,
+    "seen": 1789853385.492349,
     "ast_hash": "76a2d6f280f8731adefed050e574f04a",
     "semantic_hash": "76a2d6f280f8731adefed050e574f04a"
   },
   "tabla-organizador.sql": {
-    "mtime": 1789832413.068667,
-    "seen": 1789832819.832923,
+    "mtime": 1789678048.5682185,
+    "seen": 1789853385.4923506,
     "ast_hash": "793365c3108748ae87a4e4c59a6ecf10",
     "semantic_hash": "793365c3108748ae87a4e4c59a6ecf10"
   },
   "tabla-programas-pdf.sql": {
-    "mtime": 1789832413.0727465,
-    "seen": 1789832819.8329256,
+    "mtime": 1789678048.5692036,
+    "seen": 1789853385.4923542,
     "ast_hash": "6d887769c8b6da87c7aaf8b301061040",
     "semantic_hash": "6d887769c8b6da87c7aaf8b301061040"
   },
   "tabla-quienes.sql": {
-    "mtime": 1789832413.0738118,
-    "seen": 1789832819.832928,
+    "mtime": 1789678048.5692036,
+    "seen": 1789853385.4923556,
     "ast_hash": "6c9f5a1b8c7ef4ebccf24617b9cf5169",
     "semantic_hash": "6c9f5a1b8c7ef4ebccf24617b9cf5169"
   },
   "tabla-registro.sql": {
-    "mtime": 1789832413.0758595,
-    "seen": 1789832819.8329303,
+    "mtime": 1789678048.5702004,
+    "seen": 1789853385.492357,
     "ast_hash": "041293b13e99464774613824bd6fc915",
     "semantic_hash": "041293b13e99464774613824bd6fc915"
   },
   "tabla-respaldos.sql": {
-    "mtime": 1789832413.077005,
-    "seen": 1789832819.8329332,
+    "mtime": 1789678048.5702004,
+    "seen": 1789853385.4923584,
     "ast_hash": "1092d038bb68278789f8e83a1fa6aa52",
     "semantic_hash": "1092d038bb68278789f8e83a1fa6aa52"
   },
   "tabla-seguridad.sql": {
-    "mtime": 1789832413.0799236,
-    "seen": 1789832819.8329382,
+    "mtime": 1789678048.5721962,
+    "seen": 1789853385.4923618,
     "ast_hash": "13c70cb9b680cf53ce1df6881965457c",
     "semantic_hash": "13c70cb9b680cf53ce1df6881965457c"
   },
   "BITACORA.md": {
-    "mtime": 1789832807.8730538,
-    "seen": 1789832819.8329408,
-    "ast_hash": "d38955a9a4c26e0220a702f75f56b035",
+    "mtime": 1789853369.4467814,
+    "seen": 1789853385.4923632,
+    "ast_hash": "a60ac888f63781bff3df17d0f560fdda",
     "semantic_hash": ""
   },
   "LEEME.md": {
-    "mtime": 1789832410.5252504,
-    "seen": 1789832819.8329434,
+    "mtime": 1789748741.620722,
+    "seen": 1789853385.4923646,
     "ast_hash": "ac0fce1c9df30db794fbed73a6ea9a1c",
     "semantic_hash": ""
   },
   "PROMPT-DISENO.md": {
-    "mtime": 1789832410.52732,
-    "seen": 1789832819.8329458,
+    "mtime": 1789678048.3301947,
+    "seen": 1789853385.492366,
     "ast_hash": "ac5b914cb942e111ede73ba7002ba630",
     "semantic_hash": "ac5b914cb942e111ede73ba7002ba630"
   },
   "PROMPT-FICHAS.md": {
-    "mtime": 1789832410.529369,
-    "seen": 1789832819.8329484,
+    "mtime": 1789852140.6786146,
+    "seen": 1789853385.4923673,
     "ast_hash": "9147d106a94bb896330b61447d8636e1",
     "semantic_hash": ""
   },
   "PROMPT-FONOTECA.md": {
-    "mtime": 1789832410.5303738,
-    "seen": 1789832819.832951,
+    "mtime": 1789678048.331168,
+    "seen": 1789853385.4923687,
     "ast_hash": "95e12916c668c835a57e47655c69b28c",
     "semantic_hash": ""
   },
   "PROMPT-TRAYECTO.md": {
-    "mtime": 1789832410.5303738,
-    "seen": 1789832819.832956,
+    "mtime": 1789678048.3326817,
+    "seen": 1789853385.4923716,
     "ast_hash": "c22f9d57de639c07e9381116773895be",
     "semantic_hash": "c22f9d57de639c07e9381116773895be"
   },
   "agenda/index.html": {
-    "mtime": 1789832410.5349233,
-    "seen": 1789832819.8329587,
+    "mtime": 1789852140.6786146,
+    "seen": 1789853385.4923728,
     "ast_hash": "2b151ad9085e0ac50f055d9515131c11",
     "semantic_hash": ""
   },
   "anatomo/index.html": {
-    "mtime": 1789832410.537485,
-    "seen": 1789832819.8329613,
+    "mtime": 1789786411.9452941,
+    "seen": 1789853385.492374,
     "ast_hash": "bc35b0617672ea4f967270a4f0702e2a",
     "semantic_hash": ""
   },
   "carrera/index.html": {
-    "mtime": 1789832410.5440521,
-    "seen": 1789832819.832964,
+    "mtime": 1789765953.0099974,
+    "seen": 1789853385.4923754,
     "ast_hash": "e62c70bc34e6a9cb877f06a4dea9c638",
     "semantic_hash": ""
   },
   "catedras/index.html": {
-    "mtime": 1789832410.5510592,
-    "seen": 1789832819.8329663,
+    "mtime": 1789748729.7454252,
+    "seen": 1789853385.4923768,
     "ast_hash": "4eee382488e7fd74215f8dced2c09912",
     "semantic_hash": ""
   },
   "consejo/index.html": {
-    "mtime": 1789832410.5541668,
-    "seen": 1789832819.8329692,
+    "mtime": 1789748729.8486116,
+    "seen": 1789853385.4923785,
     "ast_hash": "6e5ea73bd913d32bf5ee0bd771472354",
     "semantic_hash": ""
   },
   "contenido-catedras.md": {
-    "mtime": 1789832410.5541668,
-    "seen": 1789832819.8329718,
+    "mtime": 1789678048.342657,
+    "seen": 1789853385.49238,
     "ast_hash": "029229a2393b925975bff7a0885cad1d",
     "semantic_hash": "029229a2393b925975bff7a0885cad1d"
   },
   "entrada/LEEME.txt": {
-    "mtime": 1789832410.5651166,
-    "seen": 1789832819.8329768,
+    "mtime": 1789748741.679916,
+    "seen": 1789853385.4923828,
     "ast_hash": "c064038e814ad8f63973e4bad61fbc14",
     "semantic_hash": ""
   },
   "estudiemos/fonoteca/index.html": {
-    "mtime": 1789832410.7366529,
-    "seen": 1789832819.832987,
+    "mtime": 1789786411.523489,
+    "seen": 1789853385.492388,
     "ast_hash": "408e6d1398b1f4024c98a81c463531ba",
     "semantic_hash": ""
   },
   "estudiemos/index.html": {
-    "mtime": 1789832410.7400024,
-    "seen": 1789832819.8329897,
+    "mtime": 1789787080.1660497,
+    "seen": 1789853385.4923897,
     "ast_hash": "771869735abf8d7650b729e20ac5e209",
     "semantic_hash": ""
   },
   "glosario/index.html": {
-    "mtime": 1789832412.9331748,
-    "seen": 1789832819.8329947,
+    "mtime": 1789748732.1934114,
+    "seen": 1789853385.4923925,
     "ast_hash": "3745db75045feaf289d17cdd8133403b",
     "semantic_hash": ""
   },
   "index.html": {
-    "mtime": 1789832412.9739366,
-    "seen": 1789832819.8329973,
+    "mtime": 1789766710.8162844,
+    "seen": 1789853385.4923937,
     "ast_hash": "41273f9d97a936024fe8d324ca080834",
     "semantic_hash": ""
   },
   "mi/index.html": {
-    "mtime": 1789832413.043442,
-    "seen": 1789832819.8330076,
+    "mtime": 1789748732.4087129,
+    "seen": 1789853385.4923995,
     "ast_hash": "2ed0aef8aabb8c2f5a26fcfeaca136d8",
     "semantic_hash": ""
   },
   "panel/index.html": {
-    "mtime": 1789832413.0490987,
-    "seen": 1789832819.8330104,
-    "ast_hash": "673c69680f95c3044b3ef68a44517bd9",
+    "mtime": 1789853203.9126647,
+    "seen": 1789853385.492401,
+    "ast_hash": "0295a34b8714f40dcf511f62d776a215",
     "semantic_hash": ""
   },
   "quienes/index.html": {
-    "mtime": 1789832413.0509822,
-    "seen": 1789832819.833013,
+    "mtime": 1789748732.6193695,
+    "seen": 1789853385.492402,
     "ast_hash": "73b2c3fd6d860a157e6bd2774e3c672b",
     "semantic_hash": ""
   },
   "sin-conexion.html": {
-    "mtime": 1789832413.052981,
-    "seen": 1789832819.8330152,
+    "mtime": 1789730571.707994,
+    "seen": 1789853385.4924033,
     "ast_hash": "d0b819422d97f7620b3826e879716ba8",
     "semantic_hash": ""
   },
   "tramites/index.html": {
-    "mtime": 1789832413.083184,
-    "seen": 1789832819.8330178,
+    "mtime": 1789766702.1356533,
+    "seen": 1789853385.4924047,
     "ast_hash": "0cfb9c59113bbe04f277e0692c890c21",
     "semantic_hash": ""
   },
   "trayecto/index.html": {
-    "mtime": 1789832413.0859644,
-    "seen": 1789832819.8330204,
+    "mtime": 1789748732.7696524,
+    "seen": 1789853385.4924061,
     "ast_hash": "d736dfbd30a226ac40fac8e7e0662187",
     "semantic_hash": ""
   },
   "espacios/index.html": {
-    "mtime": 1789832410.5676918,
-    "seen": 1789832819.8329794,
+    "mtime": 1789748729.9496603,
+    "seen": 1789853385.492384,
     "ast_hash": "abe3e47111b4210f3dbc0e885f704e80",
     "semantic_hash": ""
   },
   "estudiemos/fichas/index.html": {
-    "mtime": 1789832669.0452895,
-    "seen": 1789832819.8329847,
+    "mtime": 1789852140.6939785,
+    "seen": 1789853385.4923868,
     "ast_hash": "3d6c8ce90cdc2620d00f96ef83c5b216",
     "semantic_hash": ""
   },
   "PROMPT-SESION.md": {
-    "mtime": 1789832410.5303738,
-    "seen": 1789832819.8329537,
+    "mtime": 1789678048.331168,
+    "seen": 1789853385.49237,
     "ast_hash": "bc074fe00e6d828837d816237a870f16",
     "semantic_hash": ""
   },
   "estudiemos/fichas/leer.js": {
-    "mtime": 1789832410.670548,
-    "seen": 1789832819.832843,
+    "mtime": 1789678048.3716564,
+    "seen": 1789853385.4923055,
     "ast_hash": "9c27e1ad2d5049e33a2792ae641cfb1f",
     "semantic_hash": ""
   },
   "estudiemos/fichas/ficha-parser.js": {
-    "mtime": 1789832410.6599817,
-    "seen": 1789832819.8328342,
+    "mtime": 1789678048.3686643,
+    "seen": 1789853385.4923007,
     "ast_hash": "aa2876c8595ee6c3ae509b9e774db0f6",
     "semantic_hash": ""
   },
   "estudiemos/fichas/ficha-texto.js": {
-    "mtime": 1789832410.6615374,
-    "seen": 1789832819.8328373,
+    "mtime": 1789678048.3696616,
+    "seen": 1789853385.4923027,
     "ast_hash": "e91819f504f68468a4b2fbf6e2487729",
     "semantic_hash": ""
   },
   "mapa/capas.js": {
-    "mtime": 1789832413.006773,
-    "seen": 1789832819.8328812,
+    "mtime": 1789678048.539283,
+    "seen": 1789853385.4923272,
     "ast_hash": "fc6ea6ddb083c2c7110d17c4ff644187",
     "semantic_hash": ""
   },
   "mapa/riesgo.js": {
-    "mtime": 1789832413.0334723,
-    "seen": 1789832819.8328917,
+    "mtime": 1789681298.8687282,
+    "seen": 1789853385.4923332,
     "ast_hash": "10704da2ae2ab90edaaa4bf8212a7f16",
     "semantic_hash": ""
   },
   "tabla-riesgo.sql": {
-    "mtime": 1789832413.0786734,
-    "seen": 1789832819.8329353,
+    "mtime": 1789678048.5711977,
+    "seen": 1789853385.49236,
     "ast_hash": "64aab9232c34f19a5499cf7be832f134",
     "semantic_hash": ""
   },
   "mapa/index.html": {
-    "mtime": 1789832413.028516,
-    "seen": 1789832819.8330047,
+    "mtime": 1789786412.1311605,
+    "seen": 1789853385.4923978,
     "ast_hash": "c03e585189ce82d7185a606d87c93732",
     "semantic_hash": ""
   },
   "mapa/capas-base.js": {
-    "mtime": 1789832413.004762,
-    "seen": 1789832819.8328786,
+    "mtime": 1789681298.8597527,
+    "seen": 1789853385.4923255,
     "ast_hash": "b99ef50f37a545803e14df27f0c988a4",
     "semantic_hash": ""
   },
   "mapa/datos/LEEME.md": {
-    "mtime": 1789832413.0077739,
-    "seen": 1789832819.833,
+    "mtime": 1789681298.8607495,
+    "seen": 1789853385.492395,
     "ast_hash": "98b7d7caf832183a9390d5579895a9ab",
     "semantic_hash": ""
   },
   "mapa/datos/herramientas/ada.ps1": {
-    "mtime": 1789832413.0129566,
-    "seen": 1789832819.8328836,
+    "mtime": 1789681298.8627484,
+    "seen": 1789853385.4923284,
     "ast_hash": "f062a66875211451959f8240a103eea5",
     "semantic_hash": ""
   },
   "mapa/datos/herramientas/convertir.ps1": {
-    "mtime": 1789832413.0149596,
-    "seen": 1789832819.8328865,
+    "mtime": 1789681298.8627484,
+    "seen": 1789853385.49233,
     "ast_hash": "9ccc639206efe08ef6be3cbc2a86f3cd",
     "semantic_hash": ""
   },
   "mapa/datos/herramientas/unir.ps1": {
-    "mtime": 1789832413.0173967,
-    "seen": 1789832819.832889,
+    "mtime": 1789681298.864739,
+    "seen": 1789853385.4923315,
     "ast_hash": "f50c8e9cebff13be203cf8c76f52bb56",
     "semantic_hash": ""
   },
   "mapa/datos/herramientas/mapas-ada.txt": {
-    "mtime": 1789832413.0159605,
-    "seen": 1789832819.8330026,
+    "mtime": 1789681298.8637419,
+    "seen": 1789853385.4923966,
     "ast_hash": "f37c611743398b44eb895382a08215c0",
     "semantic_hash": ""
   },
   "fondo-red.js": {
-    "mtime": 1789832412.9304879,
-    "seen": 1789832819.8328576,
+    "mtime": 1789696426.892122,
+    "seen": 1789853385.4923134,
     "ast_hash": "f2fe6911754804cfcb28884a6a9a12fd",
     "semantic_hash": ""
   },
   "lib/leer-analitico.js": {
-    "mtime": 1789832412.9797044,
-    "seen": 1789832819.8328707,
+    "mtime": 1789697050.763388,
+    "seen": 1789853385.4923208,
     "ast_hash": "10a99794a351bc2de930300830c1851e",
     "semantic_hash": ""
   },
   "tabla-cursada.sql": {
-    "mtime": 1789832413.063627,
-    "seen": 1789832819.8329122,
+    "mtime": 1789731024.9899676,
+    "seen": 1789853385.492345,
     "ast_hash": "4d7e3c8a2e4838b4ddb555d8814c692f",
     "semantic_hash": ""
   },
   "donde-curso/index.html": {
-    "mtime": 1789832410.5626113,
-    "seen": 1789832819.8329744,
+    "mtime": 1789767432.3213139,
+    "seen": 1789853385.492381,
     "ast_hash": "8dc7074281bea35f0e9efa5944d38093",
     "semantic_hash": ""
   },
   "estudiemos/videos/videos.js": {
-    "mtime": 1789832412.9237254,
-    "seen": 1789832819.8328545,
+    "mtime": 1789785262.496979,
+    "seen": 1789853385.4923117,
     "ast_hash": "49dc9493a6774d01adde4ad8189489cb",
     "semantic_hash": ""
   },
   "estudiemos/videos/index.html": {
-    "mtime": 1789832412.6070356,
-    "seen": 1789832819.832992,
+    "mtime": 1789811383.401517,
+    "seen": 1789853385.4923909,
     "ast_hash": "990a6a3fc84594ca1a0c465bc9d5a4b4",
     "semantic_hash": ""
   },
   "estudiemos/videos/anatomia.jpg": {
-    "mtime": 1789832412.0018256,
-    "seen": 1789832819.833023,
+    "mtime": 1789785250.5298474,
+    "seen": 1789853385.4924076,
     "ast_hash": "c793cc1197c83b87178fec3e0e700350",
     "semantic_hash": ""
   },
   "estudiemos/videos/audiologia-2.jpg": {
-    "mtime": 1789832412.1591966,
-    "seen": 1789832819.8330255,
+    "mtime": 1789785250.616852,
+    "seen": 1789853385.4924088,
     "ast_hash": "fb8ae0b75d744b2325f22d1c2cd462a2",
     "semantic_hash": ""
   },
   "estudiemos/videos/audiologia.jpg": {
-    "mtime": 1789832412.270963,
-    "seen": 1789832819.833028,
+    "mtime": 1789785250.5717485,
+    "seen": 1789853385.4924104,
     "ast_hash": "76ad2c618926e129cb35232a954619dd",
     "semantic_hash": ""
   },
   "estudiemos/videos/bases.jpg": {
-    "mtime": 1789832412.410557,
-    "seen": 1789832819.833031,
+    "mtime": 1789785250.7436695,
+    "seen": 1789853385.4924119,
     "ast_hash": "d85d5b85840184c31038588692ee2f0e",
     "semantic_hash": ""
   },
   "estudiemos/videos/procesos-parte-2.jpg": {
-    "mtime": 1789832412.6096182,
-    "seen": 1789832819.8330338,
+    "mtime": 1789785250.6650283,
+    "seen": 1789853385.4924133,
     "ast_hash": "687ce68b5348b776da32e453f8a3aeb0",
     "semantic_hash": ""
   },
   "estudiemos/videos/tamaroff-allegri-parte-2.jpg": {
-    "mtime": 1789832412.7252443,
-    "seen": 1789832819.833037,
+    "mtime": 1789785250.790139,
+    "seen": 1789853385.4924147,
     "ast_hash": "52c1c534e935f26234b1e0362b501eca",
     "semantic_hash": ""
   },
   "estudiemos/videos/trabajo-social-1.jpg": {
-    "mtime": 1789832412.83252,
-    "seen": 1789832819.8330395,
+    "mtime": 1789785250.6956918,
+    "seen": 1789853385.492416,
     "ast_hash": "f0c3bb05b498e195b254bada22b9585b",
     "semantic_hash": ""
   },
   "estudiemos/videos/anatomia.mp4": {
-    "mtime": 1789832412.1562967,
-    "seen": 1789832819.8330421,
+    "mtime": 1789785163.2827883,
+    "seen": 1789853385.4924173,
     "ast_hash": "278bfaf86396f2d1cff1c236db6092c8",
     "semantic_hash": ""
   },
   "estudiemos/videos/audiologia-2.mp4": {
-    "mtime": 1789832412.2678459,
-    "seen": 1789832819.833045,
+    "mtime": 1789785163.381329,
+    "seen": 1789853385.492421,
     "ast_hash": "b5eb2edb3af464c27fecf4781952f0ed",
     "semantic_hash": ""
   },
   "estudiemos/videos/audiologia.mp4": {
-    "mtime": 1789832412.4061494,
-    "seen": 1789832819.8330476,
+    "mtime": 1789785163.3219192,
+    "seen": 1789853385.4924223,
     "ast_hash": "82459cab801174167b51ab024b76c4f0",
     "semantic_hash": ""
   },
   "estudiemos/videos/bases.mp4": {
-    "mtime": 1789832412.5994668,
-    "seen": 1789832819.83305,
+    "mtime": 1789785163.552984,
+    "seen": 1789853385.492424,
     "ast_hash": "529ef260c81bc9b48e87cb2c4e6aef5d",
     "semantic_hash": ""
   },
   "estudiemos/videos/procesos-parte-2.mp4": {
-    "mtime": 1789832412.7147129,
-    "seen": 1789832819.8330526,
+    "mtime": 1789785163.4303527,
+    "seen": 1789853385.4924252,
     "ast_hash": "720a7e966d8a8c2c001868d7f4309f48",
     "semantic_hash": ""
   },
   "estudiemos/videos/tamaroff-allegri-parte-2.mp4": {
-    "mtime": 1789832412.8278668,
-    "seen": 1789832819.8330555,
+    "mtime": 1789785163.5984588,
+    "seen": 1789853385.4924264,
     "ast_hash": "55bf604cfa3ad69fbd561b08933d9a07",
     "semantic_hash": ""
   },
   "estudiemos/videos/trabajo-social-1.mp4": {
-    "mtime": 1789832412.9237254,
-    "seen": 1789832819.833058,
+    "mtime": 1789785163.4917982,
+    "seen": 1789853385.492428,
     "ast_hash": "3cba86bdfe4286b9c7c10ddedf1e2864",
     "semantic_hash": ""
   },
   "estudiemos/huella.js": {
-    "mtime": 1789832410.738001,
-    "seen": 1789832819.8328462,
+    "mtime": 1789852140.6939785,
+    "seen": 1789853385.4923072,
     "ast_hash": "2fcde29c2b0810c45856deaf8516c12f",
     "semantic_hash": ""
   },
   "estudiemos/portada.js": {
-    "mtime": 1789832669.0474775,
-    "seen": 1789832819.8328488,
+    "mtime": 1789852140.6939785,
+    "seen": 1789853385.4923084,
     "ast_hash": "fd4b775d7dc9bd6d0a285784d8a34443",
     "semantic_hash": ""
   },
   "estudiemos/territorio.js": {
-    "mtime": 1789832410.743525,
-    "seen": 1789832819.8328516,
-    "ast_hash": "2538ad6253dab701563ae430037d75ff",
+    "mtime": 1789786374.8027143,
+    "seen": 1789853385.4923103,
+    "ast_hash": "ed5f08f8f7b0578b0f410e15a5d1ec2a",
     "semantic_hash": ""
   },
   "estudiemos/anterior.html": {
-    "mtime": 1789832410.5786288,
-    "seen": 1789832819.832982,
+    "mtime": 1789786446.7188797,
+    "seen": 1789853385.4923854,
     "ast_hash": "3cb0035a5c12cfde44c07172d7d28951",
+    "semantic_hash": ""
+  },
+  "tabla-posteos-ig.sql": {
+    "mtime": 1789853113.7631962,
+    "seen": 1789853385.4923525,
+    "ast_hash": "677496b197084a6de798818de2338485",
     "semantic_hash": ""
   }
 }

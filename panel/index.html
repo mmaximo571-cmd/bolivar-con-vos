@@ -212,6 +212,7 @@
       <button class="chip" data-p="programas"  aria-pressed="false">📖 Programas</button>
       <button class="chip" data-p="guia"      aria-pressed="false">🧠 Guía de materia</button>
       <button class="chip" data-p="catedras"  aria-pressed="false">✉️ Cátedras</button>
+      <button class="chip" data-p="instagram"  aria-pressed="false">📸 Instagram</button>
       <button class="chip" data-p="quienes"    aria-pressed="false">✊ Quiénes somos</button>
       <button class="chip" data-p="consejo"   aria-pressed="false">🏛 Consejo</button>
       <button class="chip" data-p="avisanos"   aria-pressed="false">💬 Avisanos</button>
@@ -2715,13 +2716,217 @@
     };
   }
 
+  /* ============================================================
+     EN INSTAGRAM  ·  las placas que se ven en el inicio
+
+     La grilla del inicio sale de `posteos_ig`. Se carga a mano y no
+     desde la API de Meta: la que servía para esto está dada de baja
+     desde diciembre de 2024, y la que la reemplaza pide cuenta de
+     empresa, app revisada y un token que vence cada 60 días —o sea,
+     una sección que desaparece sola un martes y nadie se entera—.
+     Cargando a mano, además, la agrupación ELIGE qué placa va. Todo el
+     porqué está escrito en `tabla-posteos-ig.sql`.
+
+     La placa se sube al mismo depósito que las fotos de «Quiénes
+     somos» y con la misma función, así que se achica en el teléfono
+     antes de salir.
+     ============================================================ */
+
+  /* El código que se lee en el link: instagram.com/p/ESTO/. Se usa de
+     `id`, así el mismo posteo cargado dos veces se pisa en lugar de
+     aparecer repetido en la grilla.
+
+     El tramo opcional del medio es el nombre de usuario: «Copiar
+     enlace» da `instagram.com/p/CODIGO/`, pero la barra del navegador
+     da `instagram.com/SimonBolivarfts/p/CODIGO/`, y las dos van a
+     llegar acá pegadas. */
+  function codigoDePosteo(url){
+    const m = String(url || '')
+      .match(/instagram\.com\/(?:[A-Za-z0-9_.]+\/)?(?:p|reels?|tv)\/([A-Za-z0-9_-]+)/i);
+    return m ? m[1] : null;
+  }
+
+  function fotoPublica(nombre){
+    return db.storage.from('fotos').getPublicUrl(nombre).data.publicUrl;
+  }
+
+  async function vistaInstagram(){
+    const { data, error } = await db.from('posteos_ig')
+      .select('*').order('publicado_at', { ascending:false });
+
+    if (error){
+      zona.innerHTML = /posteos_ig/.test(error.message || '')
+        ? `<div class="aviso error">
+             <strong>Falta activar esta sección.</strong><br>
+             Hay que correr <b>tabla-posteos-ig.sql</b> en el SQL Editor
+             de Supabase. Es una sola vez.
+           </div>`
+        : `<div class="aviso error">No se pudo cargar: ${esc(error.message)}</div>`;
+      return;
+    }
+
+    zona.innerHTML =
+      `<button class="boton ancho" id="nuevo">+ Cargar posteo</button>
+       <p class="letra-chica" style="margin-bottom:6px">
+         Es la grilla <b>EN INSTAGRAM</b> del inicio: se ven los
+         <b>seis más nuevos</b> y cada uno abre el posteo en Instagram.
+         Esto no publica nada en Instagram: son placas ya publicadas,
+         copiadas a la app. Si no hay ninguna, la sección no aparece.</p>` +
+      (data.length ? data.map(p => `
+        <button class="tarjeta" data-id="${esc(p.id)}">
+          <h3>${esc((p.epigrafe || '').split('\n')[0].slice(0, 70) || 'Sin texto')}</h3>
+          <p>${esc(p.permalink)}</p>
+          <div class="meta">
+            <span>${p.publicado_at
+              ? new Date(p.publicado_at).toLocaleDateString('es-AR')
+              : 'sin fecha'}</span>
+            ${p.imagen ? '' : '<span>Sin placa: no se ve en el inicio</span>'}
+          </div>
+        </button>`).join('')
+        : `<div class="vacio">Todavía no hay ningún posteo cargado, así que
+             la sección no aparece en el inicio.</div>`);
+
+    document.getElementById('nuevo').onclick = () => formularioPosteo(null);
+    zona.querySelectorAll('.tarjeta[data-id]').forEach(b => {
+      b.onclick = () => formularioPosteo(data.find(x => x.id === b.dataset.id));
+    });
+  }
+
+  function formularioPosteo(p){
+    const esNuevo = !p;
+    p = p || {};
+
+    zona.innerHTML = `
+      <button class="mini" id="volver">← Volver a la lista</button>
+      <h2 class="titulo-pantalla" style="font-size:24px">${esNuevo ? 'CARGAR POSTEO' : 'EDITAR POSTEO'}</h2>
+
+      <div class="campo"><label for="permalink">El link del posteo *</label>
+        <p class="letra-chica" style="margin:0 0 6px">
+          En Instagram: los tres puntitos del posteo →
+          <b>Copiar enlace</b>. Queda algo como
+          <code>instagram.com/p/C1a2b3c4/</code>.</p>
+        <input id="permalink" value="${esc(p.permalink || '')}"
+               placeholder="https://www.instagram.com/p/..."></div>
+
+      <div class="campo"><label for="placa">La placa *</label>
+        <p class="letra-chica" style="margin:0 0 6px">
+          La misma imagen que subiste a Instagram. Se achica sola antes
+          de subirse.${esNuevo ? '' : ' Si no elegís ninguna, queda la que ya está.'}</p>
+        ${p.imagen ? `<img src="${esc(fotoPublica(p.imagen))}" alt=""
+             style="width:120px;height:120px;object-fit:cover;border-radius:8px;
+                    display:block;margin-bottom:8px">` : ''}
+        <input id="placa" type="file" accept="image/*"></div>
+
+      <div class="campo"><label for="epigrafe">Qué dice la placa *</label>
+        <p class="letra-chica" style="margin:0 0 6px">
+          <b>No es el epígrafe de Instagram con los hashtags.</b> Es lo que
+          escucha quien usa lector de pantalla y lo que se lee si la imagen
+          no carga. Una placa es texto adentro de una foto: sin esto, para
+          esa persona el posteo no existe. Se usa la <b>primera línea</b>,
+          así que tiene que entenderse sola.</p>
+        <textarea id="epigrafe" style="min-height:90px"
+          placeholder="Jueves 21: feria del libro usado en el hall, de 10 a 17.">${esc(p.epigrafe || '')}</textarea></div>
+
+      <div class="campo"><label for="fecha">Cuándo se publicó</label>
+        <p class="letra-chica" style="margin:0 0 6px">
+          Es lo que ordena la grilla, el más nuevo primero. Vacío se toma hoy.</p>
+        <input id="fecha" type="date"
+               value="${p.publicado_at ? String(p.publicado_at).slice(0, 10) : ''}"></div>
+
+      <button class="boton ancho" id="guardar">Guardar</button>
+      ${esNuevo ? '' : `<button class="boton ancho peligro" id="borrar" style="margin-top:10px">Sacar del inicio</button>`}
+      <a class="boton borde ancho" href="../" target="_blank" rel="noopener"
+         style="margin-top:10px">Ver cómo quedó ↗</a>
+      <div id="msj"></div>`;
+
+    document.getElementById('volver').onclick = vistaInstagram;
+
+    document.getElementById('guardar').onclick = async function(){
+      const msj     = document.getElementById('msj');
+      const codigo  = codigoDePosteo(val('permalink'));
+      const archivo = document.getElementById('placa').files[0];
+
+      if (!codigo){
+        msj.innerHTML = `<div class="aviso error">
+          Ese link no parece un posteo de Instagram. Tiene que tener la
+          forma <code>instagram.com/p/…</code> y se copia desde los tres
+          puntitos del posteo, no desde la barra del navegador del
+          perfil.</div>`;
+        return;
+      }
+      if (!val('epigrafe')){
+        msj.innerHTML = '<div class="aviso error">Falta escribir qué dice la placa.</div>';
+        return;
+      }
+      if (esNuevo && !archivo){
+        msj.innerHTML = '<div class="aviso error">Falta elegir la placa.</div>';
+        return;
+      }
+
+      this.disabled = true; this.textContent = 'Guardando…';
+      try {
+        let imagen = p.imagen || null;
+        if (archivo){
+          const subida = await subirFoto(archivo, 'ig');
+          /* La placa vieja se borra RECIÉN cuando la nueva subió bien:
+             si la subida falla, mejor quedarse con la vieja que sin
+             ninguna. */
+          if (p.imagen && p.imagen !== subida.nombre) await borrarFoto(p.imagen);
+          imagen = subida.nombre;
+        }
+
+        const fecha = val('fecha');
+        const fila = {
+          id:           codigo,
+          permalink:    enlace('permalink'),
+          tipo:         p.tipo || 'IMAGE',
+          epigrafe:     val('epigrafe'),
+          imagen:       imagen,
+          publicado_at: fecha ? fecha + 'T12:00:00Z' : new Date().toISOString()
+        };
+
+        /* upsert y no insert: el `id` sale del link, así que cargar dos
+           veces el mismo posteo lo pisa en vez de duplicarlo en la
+           grilla. */
+        const { error } = await db.from('posteos_ig')
+          .upsert(fila, { onConflict:'id' });
+        if (error) throw error;
+
+        /* Si le corrigieron el link y ahora apunta a otro posteo, el
+           `id` cambió y la fila vieja quedaría suelta en la grilla. */
+        if (!esNuevo && p.id && p.id !== codigo)
+          await db.from('posteos_ig').delete().eq('id', p.id);
+
+        vistaInstagram();
+      } catch(e){
+        this.disabled = false; this.textContent = 'Guardar';
+        msj.innerHTML =
+          `<div class="aviso error">No se pudo guardar: ${esc(e.message || e)}</div>`;
+      }
+    };
+
+    const borrar = document.getElementById('borrar');
+    if (borrar) borrar.onclick = async function(){
+      if (!confirm('¿Sacar este posteo del inicio? La placa se borra del depósito.')) return;
+      const { error } = await db.from('posteos_ig').delete().eq('id', p.id);
+      if (error){
+        document.getElementById('msj').innerHTML =
+          `<div class="aviso error">No se pudo sacar: ${esc(error.message)}</div>`;
+        return;
+      }
+      await borrarFoto(p.imagen);
+      vistaInstagram();
+    };
+  }
+
   /* ============================================================ */
   function dibujar(){
     zona.innerHTML = '<div class="esq-tarjeta"><div class="esqueleto esq-linea titulo"></div><div class="esqueleto esq-linea"></div><div class="esqueleto esq-linea media"></div></div><div class="esq-tarjeta"><div class="esqueleto esq-linea titulo"></div><div class="esqueleto esq-linea"></div><div class="esqueleto esq-linea corta"></div></div>';
     ({ tramites:vistaTramites, faq:vistaFaq, agenda:vistaAgenda, programas:vistaProgramas,
        materiales:vistaMateriales, guia:vistaGuia, avisanos:vistaAvisanos,
        quienes:vistaQuienes, consejo:vistaConsejo, registro:vistaRegistro,
-       categorias:vistaCategorias, catedras:vistaCatedras, riesgo:vistaRiesgo }[actual])();
+       categorias:vistaCategorias, catedras:vistaCatedras, riesgo:vistaRiesgo,
+       instagram:vistaInstagram }[actual])();
   }
 
   dibujar();
