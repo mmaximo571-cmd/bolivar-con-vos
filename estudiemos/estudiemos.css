@@ -216,7 +216,10 @@
   display:grid; grid-template-columns:auto 1fr auto; gap:12px; align-items:center;
   padding:12px 4px; border-bottom:1px solid var(--linea); color:var(--texto); text-decoration:none;
 }
-.est-hallazgo .tipo{ font-family:var(--mono); font-size:10.5px; letter-spacing:.06em; text-transform:uppercase; color:var(--texto-suave); width:9ch; }
+/* El ancho alcanza para «HERRAMIENTA», el rótulo más largo: 11 letras
+   más su espaciado. Con 9ch (lo que sobra en la lista de «seguí donde
+   dejaste», donde el más largo es «Fonoteca») se montaba sobre el nombre. */
+.est-hallazgo .tipo{ font-family:var(--mono); font-size:10.5px; letter-spacing:.06em; text-transform:uppercase; color:var(--texto-suave); width:calc(11ch + 11 * .06em); white-space:nowrap; }
 .est-hallazgo .nombre{ display:block; font-weight:500; font-size:15px; }
 .est-hallazgo .mas{ display:block; font-size:12.5px; color:var(--texto-suave); margin-top:2px; }
 .est-hallazgo mark{ background:var(--amarillo); color:#1A1A1A; border-radius:2px; padding:0 1px; }

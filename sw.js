@@ -283,7 +283,11 @@
 /* v63 (19/9/2026) Estudiemos: los videos «En un minuto» pasan a una
    fila de portadas arriba de los modos, antes que el mapa en las tres
    carreras, y el buscador encuentra cada video. */
-const VERSION = 'bolivar-v64';
+/* v65 (19/9/2026) `estudiemos/estudiemos.css`: en el buscador, el
+   rótulo «Herramienta» ya no se monta sobre la descripción a 375 px. La
+   hoja se sirve de lo guardado; sin número nuevo, la primera visita
+   después de subir seguía mostrando el rótulo encimado. */
+const VERSION = 'bolivar-v65';
 const ARMAZON = VERSION + '-armazon';
 const PAGINAS = VERSION + '-paginas';
 

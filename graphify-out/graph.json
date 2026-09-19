@@ -3422,7 +3422,7 @@
       "file_type": "code",
       "norm_label": "esdesupabase()",
       "source_file": "sw.js",
-      "source_location": "L355"
+      "source_location": "L359"
     },
     {
       "id": "estudiemos_portada_buscar",
@@ -7305,7 +7305,7 @@
       "file_type": "code",
       "norm_label": "del_armazon",
       "source_file": "sw.js",
-      "source_location": "L291"
+      "source_location": "L295"
     },
     {
       "id": "tabla_alarma",
@@ -15602,7 +15602,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "sw.js",
-      "source_location": "L291",
+      "source_location": "L295",
       "weight": 1.0
     },
     {
@@ -15613,7 +15613,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "sw.js",
-      "source_location": "L355",
+      "source_location": "L359",
       "weight": 1.0
     },
     {
@@ -18675,5 +18675,5 @@
       "source_file": "panel/index.html"
     }
   ],
-  "built_at_commit": "aadbad62a664ca83255e2df35acbd425e8cd2be4"
+  "built_at_commit": "556d5010da2e31679d1bb4e16beb6a6abc210cc2"
 }
