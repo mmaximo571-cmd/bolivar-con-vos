@@ -57,7 +57,9 @@
     { id:'cuadro', modo:'repasar', nombre:'Los siete modelos', emoji:'🗂️',
       desc:'El cuadro de los modelos de intervención, para completar y guardar.',
       href:'fichas/modelos-cuadro/', carreras:['ts'], dato: () => 'Trabajo Social I · 7 modelos' },
-    { id:'videos', modo:'repasar', nombre:'En un minuto', emoji:'▶️', oculta: !cuantosVideos,
+    /* `enFila`: no va en la grilla de Repasar, tiene su fila arriba de
+       los modos. Sigue en la lista para que el buscador la encuentre. */
+    { id:'videos', modo:'repasar', nombre:'En un minuto', emoji:'▶️', oculta: !cuantosVideos, enFila: true,
       desc:'Videos cortos de la agrupación, un tema por video.', href:'videos/', carreras:null,
       dato: () => cuantosVideos + (cuantosVideos === 1 ? ' video' : ' videos') },
     { id:'fonoteca', modo:'practicar', nombre:'Fonoteca', emoji:'🎧',
@@ -125,7 +127,7 @@
     /* Las de tu carrera primero, después las de todas, después las otras. */
     const peso = h => !c ? 0 : !h.carreras ? 1 : (h.carreras.indexOf(c) >= 0 ? 0 : 2);
     /* Sin carrera elegida no hay «lo tuyo»: queda el orden de la lista. */
-    const lista = HERRAMIENTAS.filter(h => h.modo === modo && !h.oculta)
+    const lista = HERRAMIENTAS.filter(h => h.modo === modo && !h.oculta && !h.enFila)
       .sort((a, b) => peso(a) - peso(b));
     cont.querySelector('.est-rotulo').innerHTML =
       `<h2>${m.titulo}</h2><span>${lista.length} ${lista.length === 1 ? 'herramienta' : 'herramientas'}</span><p>${m.bajada}</p>`;
@@ -185,6 +187,46 @@
           <span class="nombre">${e(x.t)}</span>
           <span class="cuando">${e(hace(x.v))}</span>
         </a></li>`).join('')}</ul>` : ''}`;
+  }
+
+  /* ============================================================
+     EN UN MINUTO: la fila de videos (19/9)
+
+     Portadas verticales, como los reels de donde salieron. Las de tu
+     carrera primero, sin etiqueta: con cinco de siete de Fono, un
+     cartel «Tu carrera» en cada una era ruido y el orden ya lo dice.
+     La materia de cada video se busca en los planes (plan.js,
+     plan-fono.js…), igual que hace el material compartido.
+     Cada una abre el reproductor directo en ese video (#v=el-id).
+     ============================================================ */
+  const limpiarMateria = t => norma(String(t || '').replace(/\([^)]*\)/g, '')).replace(/\s+/g, ' ').trim();
+  function carreraDeMateria(materia){
+    const n = limpiarMateria(materia);
+    const planes = [window.PLAN_TS, window.PLAN_TGCR, window.PLAN_FONO].filter(Boolean);
+    const p = planes.find(pl => (pl.materias || []).some(m => limpiarMateria(m.nombre) === n));
+    return p ? p.id : null;
+  }
+  function duracion(seg){ return Math.floor(seg / 60) + ':' + String(seg % 60).padStart(2, '0'); }
+  function pintarVideos(c){
+    const cont = $('videos-fila');
+    const videos = window.VIDEOS || [];
+    if (!cont || !videos.length){ if (cont) cont.hidden = true; return; }
+    const vistos = new Set(huella().filter(x => x.k === 'video').map(x => x.u));
+    const orden = videos.map((v, i) => ({ v, i, suya: c && carreraDeMateria(v.materia) === c }))
+      .sort((a, b) => (b.suya - a.suya) || (a.i - b.i));
+    cont.hidden = false;
+    cont.innerHTML = `
+      <div class="est-rotulo"><h2>En un minuto</h2><a class="est-rotulo-link" href="videos/">Ver todos (${videos.length})</a>
+        <p>Un tema por video, para arrancar a estudiar.</p></div>
+      <div class="est-reels" role="list">${orden.map(({ v, suya }) => `
+        <a class="est-reel" role="listitem" href="videos/#v=${encodeURIComponent(v.id)}">
+          <span class="est-reel-cuadro">
+            ${v.portada ? `<img src="videos/${e(v.portada)}" alt="" loading="lazy" decoding="async" width="540" height="960">` : ''}
+            <span class="est-reel-dura">${duracion(v.segundos || 0)}</span>
+          </span>
+          <span class="est-reel-titulo">${e(v.titulo)}</span>
+          <span class="est-reel-materia">${e(v.materia)}</span>
+        </a>`).join('')}</div>`;
   }
 
   /* ============================================================
@@ -295,6 +337,10 @@
       const items = HERRAMIENTAS.filter(h => !h.oculta).map(h => ({
         tipo:'Herramienta', nombre:h.nombre, mas:h.desc, href:new URL(h.href, location.href).pathname,
         texto: norma(h.nombre + ' ' + h.desc) }));
+      (window.VIDEOS || []).forEach(v => items.push({
+        tipo:'Video', nombre:v.titulo, mas:v.materia,
+        href: new URL('videos/#v=' + encodeURIComponent(v.id), location.href).pathname + '#v=' + encodeURIComponent(v.id),
+        texto: norma(v.titulo + ' ' + v.materia) }));
       try {
         const base = new URL('fichas/', location.href);
         const html = await (await fetch(base.href)).text();
@@ -361,6 +407,7 @@
     pintarModo('practicar', c);
     pintarModo('territorio', c);
     pintarSeguir();
+    pintarVideos(c);
   }
 
   todo();

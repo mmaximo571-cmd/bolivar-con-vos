@@ -113,6 +113,39 @@
 }
 @keyframes est-llenar{ from{ transform:scaleX(0); } }
 
+/* ---------- En un minuto: la fila de videos (19/9) ----------
+   Es el único deslizable de la pantalla, a propósito: las portadas
+   verticales de un reel se leen así en cualquier app, y la tercera
+   cortada al borde avisa que hay más. */
+.est-rotulo-link{ font-family:var(--mono); font-size:11px; letter-spacing:.04em; color:var(--texto); text-underline-offset:3px; }
+.est-reels{
+  display:flex; gap:10px; overflow-x:auto; scroll-snap-type:x mandatory;
+  margin:0 -16px; padding:2px 16px 6px; scroll-padding:0 16px; scrollbar-width:none;
+}
+.est-reels::-webkit-scrollbar{ display:none; }
+.est-reel{ flex:0 0 38%; min-width:0; max-width:168px; scroll-snap-align:start; color:var(--texto); text-decoration:none; }
+.est-reel-cuadro{
+  position:relative; display:block; aspect-ratio:9 / 16; border-radius:var(--radio); overflow:hidden;
+  background:var(--superficie-2); box-shadow:var(--sombra-1);
+}
+.est-reel-cuadro img{ width:100%; max-width:100%; height:100%; object-fit:cover; display:block;
+  transition:transform .35s cubic-bezier(.16,1,.3,1); }
+.est-reel:hover .est-reel-cuadro img{ transform:scale(1.04); }
+.est-reel:focus-visible{ outline:none; }
+.est-reel:focus-visible .est-reel-cuadro{ outline:3px solid var(--celeste); outline-offset:2px; }
+.est-reel-cuadro::after{ content:''; position:absolute; inset:auto 0 0; height:40%;
+  background:linear-gradient(transparent, rgba(0,0,0,.55)); pointer-events:none; }
+.est-reel-dura{
+  position:absolute; z-index:1; font-family:var(--mono); font-size:10.5px; letter-spacing:.04em;
+  border-radius:6px; padding:3px 6px;
+}
+.est-reel-dura{ right:8px; bottom:8px; color:#fff; background:rgba(0,0,0,.55); }
+.est-reel-titulo{ display:block; margin-top:8px; font-weight:500; font-size:13.5px; line-height:1.3;
+  display:-webkit-box; -webkit-line-clamp:2; -webkit-box-orient:vertical; overflow:hidden; }
+.est-reel-materia{ display:block; margin-top:3px; font-size:12px; color:var(--texto-suave);
+  white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+@media (min-width:720px){ .est-reel{ flex-basis:150px; } .est-reels{ margin:0; padding-inline:0; } }
+
 /* ---------- Territorio: la pieza que se recuerda ---------- */
 .est-territorio{
   background:var(--superficie); border:1px solid var(--tinta-borde); border-radius:var(--radio-grande);
@@ -197,4 +230,5 @@
   .est-territorio.viva .agua, .est-territorio.viva .pin, .est-territorio.viva .onda,
   .est-avance-barra i, .est-tile-barra i, .est-vivo.al-dia::before{ animation:none; }
   .est-tile{ transition:none; }
+  .est-reel-cuadro img{ transition:none; }
 }
