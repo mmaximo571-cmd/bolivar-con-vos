@@ -57,6 +57,15 @@
     { id:'cuadro', modo:'repasar', nombre:'Los siete modelos', emoji:'🗂️',
       desc:'El cuadro de los modelos de intervención, para completar y guardar.',
       href:'fichas/modelos-cuadro/', carreras:['ts'], dato: () => 'Trabajo Social I · 7 modelos' },
+    /* El mazo (19/9): Teorías de la Cultura es común a TS y Fono. El
+       avance sale de lo que el mazo guarda al marcar «La sé». */
+    { id:'mazo', modo:'repasar', nombre:'Mazo de Antropología', emoji:'🃏',
+      desc:'Teorías de la Cultura y la otredad, en tarjetas: pregunta, respuesta y cuáles ya sabés.',
+      href:'fichas/antropologia-otredad/', carreras:['ts','fono'], dato: () => '31 tarjetas · 5 unidades',
+      avance: () => { let m = {};
+                      try { m = JSON.parse(localStorage.getItem('bolivar-fichas-antropologia') || '{}') || {}; } catch(err){}
+                      const n = Object.keys(m).filter(k => m[k] === 'se').length;
+                      return n ? { a: n / 31, texto: 'Sabés ' + n + ' de 31' } : null; } },
     /* `enFila`: no va en la grilla de Repasar, tiene su fila arriba de
        los modos. Sigue en la lista para que el buscador la encuentre. */
     { id:'videos', modo:'repasar', nombre:'En un minuto', emoji:'▶️', oculta: !cuantosVideos, enFila: true,
@@ -92,6 +101,7 @@
   const PROPIOS = {
     videos:   trazo('<rect x="6" y="2.5" width="12" height="19" rx="2"/><path d="M10.5 9.5v5l4-2.5z" fill="currentColor"/>'),
     cuadro:   trazo('<rect x="3.5" y="3.5" width="17" height="17" rx="2"/><path d="M3.5 9.5h17M9.5 9.5v11"/>'),
+    mazo:     trazo('<rect x="8" y="3" width="12.5" height="16" rx="2"/><path d="M5 6.5v12.5a2 2 0 0 0 2 2h10"/>'),
     fonoteca: trazo('<path d="M4 14v-2a8 8 0 0 1 16 0v2"/><rect x="3" y="14" width="4.5" height="6.5" rx="1.5"/><rect x="16.5" y="14" width="4.5" height="6.5" rx="1.5"/>'),
     anatomo:  trazo('<path d="M12 2.8l8 4.6v9.2l-8 4.6-8-4.6V7.4z"/><path d="M4 7.4l8 4.6 8-4.6M12 12v9.2"/>')
   };
@@ -145,7 +155,7 @@
   /* ============================================================
      SEGUÍ DONDE DEJASTE
      ============================================================ */
-  const TIPO = { ficha:'Ficha', cuadro:'Cuadro', fonoteca:'Fonoteca', video:'Video', '3d':'3D', mapa:'Mapa' };
+  const TIPO = { ficha:'Ficha', cuadro:'Cuadro', mazo:'Mazo', fonoteca:'Fonoteca', video:'Video', '3d':'3D', mapa:'Mapa' };
   function hace(ms){
     const min = Math.round((Date.now() - ms) / 60000);
     if (min < 2) return 'recién';

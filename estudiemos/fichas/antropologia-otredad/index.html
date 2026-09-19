@@ -1,0 +1,379 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Antropología de la Otredad · La Bolívar con vos</title>
+<meta name="description" content="Mazo de repaso de Teorías de la Cultura: 31 tarjetas de las cinco unidades, y lo que ya sabés queda marcado en el teléfono.">
+<meta name="theme-color" content="#F9E830">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;600;800&family=Montserrat:wght@800&family=Roboto+Mono:wght@400;500&display=swap" rel="stylesheet">
+<!-- Iconos de la app: pestana, Google, y pantalla de inicio del celular -->
+<link rel="icon" type="image/png" sizes="32x32" href="../../../imagenes/icono-32.png">
+<link rel="icon" type="image/png" sizes="96x96" href="../../../imagenes/icono-96.png">
+<link rel="icon" type="image/png" sizes="192x192" href="../../../imagenes/icono-192.png">
+<link rel="apple-touch-icon" href="../../../imagenes/icono-apple.png">
+<link rel="manifest" href="../../../manifest.json">
+
+<!-- Como se ve cuando alguien comparte el link por WhatsApp o Instagram -->
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="La Bolivar con vos">
+<meta property="og:title" content="Antropología de la Otredad · La Bolívar con vos">
+<meta property="og:description" content="Mazo de repaso de Teorías de la Cultura: 31 tarjetas de las cinco unidades.">
+<meta property="og:image" content="https://labolivarconvos.ar/imagenes/compartir.png">
+<meta name="twitter:card" content="summary_large_image">
+
+<!-- EL TEMA, ANTES DE DIBUJAR NADA. Igual que en el resto de la app: si
+     esto viviera en un script del final, la ficha arrancaria clara y
+     pegaria un salto a oscura. -->
+<script>
+(function(){try{
+  var g = localStorage.getItem('bolivar-tema') || 'auto';
+  var oscuro = g === 'oscuro' || (g === 'auto' &&
+    window.matchMedia('(prefers-color-scheme: dark)').matches);
+  document.documentElement.dataset.tema = oscuro ? 'oscuro' : 'claro';
+}catch(e){ document.documentElement.dataset.tema = 'claro'; }})();
+</script>
+
+<style>
+/* ===== LO QUE VINO DEL DISENO, TAL CUAL =====
+   Menos las fuentes: el export las traia embebidas (300 KB en base64)
+   y aca se piden a Google Fonts como en las demas fichas. */
+:root{
+  --color-bg:#FDFCF7; --color-surface:#FFFFFF; --color-text:#1A1A1A;
+  --color-divider:#D8D2C2; --color-neutral-200:#EFEAD9; --color-neutral-300:#D8D2C2;
+  --color-neutral-500:#7C7566; --color-neutral-700:#3A3A3A; --color-neutral-800:#2A2A2A;
+  --color-accent:#B52625; --color-accent-700:#8C1B1A; --color-accent-200:#F6E2E0;
+  --hl:#F9E830; --onhl:#1A1A1A;
+  --mono:'Roboto Mono', ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+}
+*,*::before,*::after{ box-sizing:border-box; }
+body{ margin:0; background:var(--color-bg); color:var(--color-text);
+      font-family:'Archivo', system-ui, sans-serif; font-size:15px; line-height:1.55;
+      -webkit-text-size-adjust:100%; }
+a{ color:var(--color-accent-700); text-decoration:none; }
+a:hover{ color:var(--color-text); }
+button:focus-visible, a:focus-visible{ outline:3px solid var(--color-accent); outline-offset:2px; }
+@keyframes fdar{ from{ opacity:0; transform:translateY(6px); } to{ opacity:1; transform:none; } }
+@media (prefers-reduced-motion:reduce){ *{ animation:none !important; transition:none !important; } }
+
+/* ===== LO QUE AGREGA LA APP ===== */
+
+/* La ficha no carga estilos.css, igual que las otras: es una pieza de
+   lectura con su propio sistema visual. Lo que se comparte es el tema
+   y la barra de volver. */
+
+/* LOS BLOQUES NEGROS. El diseno pinta la cabecera, la franja de cada
+   carta y el pie con `--color-text` de fondo y `--color-bg` de letra.
+   En tema oscuro esos dos se dan vuelta y los bloques quedaban casi
+   blancos, con el amarillo de «LA SÉ» encima: no se leia. Por eso esos
+   tres bloques usan su propio par de colores, que en los dos temas es
+   oscuro con letra clara. */
+:root{
+  --tinta:#1A1A1A; --sobre-tinta:#FDFCF7;
+  /* El diseno lo usa con un valor de repuesto (#FDFCF7) que no existe
+     en su paleta; sin definirlo, en oscuro asomaba una carta blanca
+     detras del mazo. */
+  --color-neutral-100:#FDFCF7;
+}
+html[data-tema="oscuro"]{
+  color-scheme:dark;
+  --color-bg:#151412; --color-surface:#22201D; --color-text:#FDFCF7;
+  --color-divider:#57524A; --color-neutral-100:#1C1A17; --color-neutral-200:#2C2A26;
+  --color-neutral-500:#A9A294; --color-neutral-700:#D8D3C8;
+  --color-accent:#FF9D8F; --color-accent-700:#FF9D8F;
+  --tinta:#0B0A09;
+}
+
+/* El diseno marca el hover de los botones con un atributo propio de
+   Claude Design (`style-hover`) que el navegador no entiende. Todos
+   dicen lo mismo, asi que alcanza una regla. */
+@media (hover:hover){
+  [style-hover]:hover{ background:var(--color-neutral-200) !important; }
+}
+
+.ficha-barra{
+  position:sticky; top:0; z-index:20;
+  display:flex; flex-wrap:wrap; align-items:center;
+  justify-content:space-between; gap:2px 14px;
+  padding:11px 18px;
+  font-family:Montserrat,sans-serif; font-weight:800;
+  font-size:12px; letter-spacing:.06em; text-transform:uppercase;
+  background:var(--hl);
+  border-bottom:2px solid var(--color-text);
+}
+.ficha-barra a{ color:var(--onhl); text-decoration:none; }
+.ficha-barra a:hover{ text-decoration:underline; }
+</style>
+</head>
+<body>
+
+<nav class="ficha-barra">
+<a href="../../">← Estudiemos</a>
+<a href="../">Todas las fichas</a>
+</nav>
+
+<!-- Aca dibuja ficha.js. Vacio hasta que corre el script del final. -->
+<div id="ficha"></div>
+
+<!-- El mazo, tal como salio del diseno. Vive dentro de un <template>
+     para que el navegador no lo muestre a medio armar: todavia tiene
+     los agujeros { asi } sin rellenar.
+     Vino como export «standalone» de Claude Design (un .html que se
+     desempaqueta solo), no como .dc.html: la plantilla y el codigo son
+     los de adentro de ese paquete. Dos cambios para que corra con
+     ficha.js: `sc-camel-on-click` pasa a `onClick`, que es lo que el
+     motor engancha, y la cabecera del diseno deja lugar a la barra de
+     la app. -->
+<template id="plantilla">
+<div style="min-height:100vh;background:var(--color-bg)">
+
+  <div style="max-width:620px;margin:0 auto;padding:24px 16px 40px">
+
+    <div style="background:var(--tinta);color:var(--sobre-tinta);border:2px solid var(--color-text);padding:20px">
+      <p style="font-family:var(--mono);font-size:11px;letter-spacing:.12em;margin:0 0 10px;color:var(--hl)">MAZO DE REPASO · UNIDADES 1 A 5</p>
+      <h1 style="font-weight:800;font-size:clamp(28px,8vw,44px);line-height:1.02;letter-spacing:-.02em;margin:0;color:var(--sobre-tinta);text-wrap:balance">Antropología de la Otredad</h1>
+      <p style="margin:12px 0 0;font-size:14px;line-height:1.5;color:var(--color-neutral-300)">Teorías de la Cultura y Antropologías de las Sociedades Contemporáneas · FTS / UNLP</p>
+      <div style="display:flex;flex-wrap:wrap;gap:16px;margin-top:16px;padding-top:12px;border-top:2px solid var(--sobre-tinta);font-family:var(--mono);font-size:11px;letter-spacing:.06em">
+        <span>EN EL MAZO: {{ nMazo }}</span>
+        <span style="color:var(--hl)">LA SÉ: {{ nSe }}</span>
+        <span>A REPASAR: {{ nRepasar }}</span>
+      </div>
+    </div>
+
+    <div style="display:flex;align-items:baseline;justify-content:space-between;gap:12px;margin:24px 0 8px">
+      <span style="font-family:var(--mono);font-size:10px;letter-spacing:.16em;color:var(--color-neutral-700)">UNIDAD</span>
+      <span style="font-family:var(--mono);font-size:10px;letter-spacing:.06em;color:var(--color-neutral-700)">{{ posicion }}</span>
+    </div>
+    <div style="display:flex;flex-wrap:wrap;gap:6px">
+      <sc-for list="{{ unidades }}" as="u" hint-placeholder-count="6">
+        <button type="button" style="{{ u.style }}" onClick="{{ u.onClick }}" aria-pressed="{{ u.on }}">{{ u.label }}</button>
+      </sc-for>
+    </div>
+
+    <div style="height:6px;background:var(--color-neutral-200);border:1px solid var(--color-divider);margin:18px 0 0">
+      <i style="{{ barraStyle }}"></i>
+    </div>
+
+    <div style="position:relative;margin-top:20px">
+      <div style="position:absolute;inset:0;transform:translate(8px,8px);border:2px solid var(--color-divider);background:var(--color-neutral-200)"></div>
+      <div style="position:absolute;inset:0;transform:translate(4px,4px);border:2px solid var(--color-divider);background:var(--color-neutral-100, #FDFCF7)"></div>
+
+      <article style="{{ cartaStyle }}">
+        <div style="display:flex;justify-content:space-between;align-items:center;gap:10px;padding:10px 16px;background:var(--tinta);color:var(--sobre-tinta)">
+          <span style="font-family:var(--mono);font-size:10.5px;letter-spacing:.14em">{{ carta.id }}</span>
+          <span style="font-family:var(--mono);font-size:10.5px;letter-spacing:.1em;color:var(--color-neutral-300)">{{ carta.unidad }} · {{ carta.dificultad }} · {{ carta.tiempo }}</span>
+        </div>
+
+        <div style="padding:20px 18px 18px">
+          <sc-if value="{{ frente }}" hint-placeholder-val="{{ true }}">
+            <div>
+              <span style="display:block;font-family:var(--mono);font-size:10px;letter-spacing:.16em;color:var(--color-neutral-500);margin-bottom:10px">FRENTE · {{ carta.concepto }}</span>
+              <p style="margin:0;font-weight:800;font-size:clamp(20px,5.6vw,26px);line-height:1.2;letter-spacing:-.01em;text-wrap:pretty">{{ carta.pregunta }}</p>
+              <sc-if value="{{ pistaVisible }}" hint-placeholder-val="{{ false }}">
+                <p style="margin:16px 0 0;padding:12px 14px;border-left:8px solid var(--hl);background:var(--color-neutral-200);font-size:14.5px;line-height:1.5">{{ carta.pista }}</p>
+              </sc-if>
+              <sc-if value="{{ pistaOculta }}" hint-placeholder-val="{{ true }}">
+                <button type="button" onClick="{{ verPista }}" style="margin-top:16px;min-height:48px;padding:0 16px;border:1px solid var(--color-divider);background:transparent;color:var(--color-text);font-family:var(--mono);font-size:12px;letter-spacing:.1em;cursor:pointer" style-hover="background:var(--color-neutral-200)">VER PISTA</button>
+              </sc-if>
+            </div>
+          </sc-if>
+
+          <sc-if value="{{ dorso }}" hint-placeholder-val="{{ false }}">
+            <div style="animation:fdar .22s ease both">
+              <span style="display:block;font-family:var(--mono);font-size:10px;letter-spacing:.16em;color:var(--color-accent-700);margin-bottom:10px">DORSO</span>
+              <p style="margin:0 0 16px;font-weight:600;font-size:17px;line-height:1.45;text-wrap:pretty">{{ carta.resumen }}</p>
+              <div style="display:grid;gap:2px;background:var(--color-divider);border:2px solid var(--color-divider)">
+                <sc-for list="{{ puntos }}" as="k" hint-placeholder-count="3">
+                  <div style="background:var(--color-surface);padding:12px 14px;font-size:14.5px;line-height:1.55;text-wrap:pretty">{{ k.rt }}</div>
+                </sc-for>
+              </div>
+              <div style="margin-top:14px;padding-top:12px;border-top:1px solid var(--color-divider);display:grid;gap:4px;font-family:var(--mono);font-size:11px;letter-spacing:.04em;color:var(--color-neutral-700)">
+                <span>AUTORES: {{ carta.autores }}</span>
+                <span>{{ carta.unidad }} · LECTURA {{ carta.tiempo }}</span>
+              </div>
+            </div>
+          </sc-if>
+        </div>
+
+        <button type="button" onClick="{{ darVuelta }}" style="{{ vueltaStyle }}">{{ vueltaTexto }}</button>
+      </article>
+    </div>
+
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:22px">
+      <button type="button" onClick="{{ marcarRepasar }}" style="{{ repasarStyle }}">Repasar</button>
+      <button type="button" onClick="{{ marcarSe }}" style="{{ seStyle }}">La sé</button>
+    </div>
+
+    <div style="display:flex;justify-content:space-between;gap:8px;margin-top:8px">
+      <button type="button" onClick="{{ anterior }}" style="min-height:48px;flex:1;border:1px solid var(--color-divider);background:transparent;color:var(--color-text);font-family:var(--mono);font-size:12px;letter-spacing:.1em;cursor:pointer" style-hover="background:var(--color-neutral-200)">← ANTERIOR</button>
+      <button type="button" onClick="{{ siguiente }}" style="min-height:48px;flex:1;border:1px solid var(--color-divider);background:transparent;color:var(--color-text);font-family:var(--mono);font-size:12px;letter-spacing:.1em;cursor:pointer" style-hover="background:var(--color-neutral-200)">SIGUIENTE →</button>
+    </div>
+
+    <div style="display:flex;flex-wrap:wrap;gap:10px;align-items:center;justify-content:space-between;margin-top:18px">
+      <span style="font-family:var(--mono);font-size:11px;color:var(--color-neutral-700)">{{ estadoCarta }}</span>
+      <button type="button" onClick="{{ borrar }}" style="min-height:48px;padding:0 14px;border:0;background:transparent;color:var(--color-accent-700);font-family:var(--mono);font-size:11px;letter-spacing:.08em;cursor:pointer;text-decoration:underline;text-underline-offset:4px">EMPEZAR DE CERO</button>
+    </div>
+
+    <p style="margin:28px 0 0;padding:14px 16px;border:1px dashed var(--color-divider);font-size:13.5px;line-height:1.55;color:var(--color-neutral-700)">
+      Las 31 fichas salen de la bibliografía de las cinco unidades. Son material de estudio, no el programa de la cátedra: <b>si algo no coincide con lo que dijeron en clase, mandá el dato y lo corregimos.</b> Lo que marcás queda guardado en este teléfono, no se sube a ningún lado.
+    </p>
+  </div>
+
+  <footer style="background:var(--tinta);color:var(--sobre-tinta);padding:20px;display:flex;flex-wrap:wrap;gap:14px;justify-content:space-between;font-family:var(--mono);font-size:11px;letter-spacing:.08em;text-transform:uppercase">
+    <span>ANT·OTREDAD·31</span>
+    <a href="../" style="color:var(--sobre-tinta)">Volver al índice ↗</a>
+    <span>Propuesta pedagógica 2026</span>
+  </footer>
+</div>
+</template>
+
+<script src="../ficha.js"></script>
+<script>
+const FICHAS = [
+["ANT-U1-001",1,"Media","30s","Marisa Lischetti · Boivin, Rosato y Arribas","Surgimiento de la Antropología","¿En qué contexto histórico y socioeconómico surge la Antropología?","Acontecimientos del siglo XIX y expansión europea.","La Antropología nace a fines del siglo XIX ligada al colonialismo imperialista y al positivismo.",["**Contexto (1850-1880):** Segunda Revolución Industrial, expansión del capitalismo e imperialismo europeo.","**Marco ideológico:** Influencia del **positivismo**, transformando la curiosidad en objeto de estudio científico.","**Función social:** Respondió a necesidades de administración y dominación occidental sobre territorios colonizados."]],
+["ANT-U1-002",1,"Fácil","25s","Marisa Lischetti","La Situación Colonial","¿Cómo define Lischetti el concepto de 'Situación Colonial'?","Relación entre una minoría extranjera y una mayoría autóctona.","Es la dominación total de una minoría extranjera sobre una mayoría autóctona considerada inferior.",["**Dominación material y económica:** Explotación directa de recursos naturales y trabajo local.","**Dominación simbólica y política:** Control de instituciones, imposición de valores morales e ideológicos.","**Mecanismos:** Sostenida mediante la fuerza militar, justificaciones paternalistas y estereotipos."]],
+["ANT-U1-003",1,"Media","35s","Lischetti · Rousseau · Tylor · Morgan","Concepción del 'Otro': s. XVIII vs s. XIX","¿Qué diferencia la mirada sobre el 'Otro' no occidental en el s. XVIII frente al s. XIX?","Compará la idea del 'buen salvaje' con la noción de 'progreso industrial'.","El s. XVIII idealizó al 'buen salvaje' (puro); el s. XIX lo redujo a la etapa inicial e inferior del progreso.",["**Siglo XVIII (Iluminismo):** Mito del **'buen salvaje'** (Rousseau); estado original, auténtico y libre de corrupción.","**Siglo XIX (Evolucionismo):** El 'primitivo' representa la fase más simple, rudimentaria e inferior de la humanidad.","**Métrica de avance:** El progreso se mide por el avance tecnológico e industrial de Europa."]],
+["ANT-U1-004",1,"Media","30s","Michel Wieviorka","Protoracismo vs Racismo Científico","¿Cuál es la diferencia entre Protoracismo y Racismo Científico?","Atributos ambientales vs determinismo biológico rígido.","El protoracismo culpa al clima o ambiente; el racismo científico fija la inferioridad en la biología e inmutable.",["**Protoracismo (ss. XVII-XVIII):** Explicaba diferencias físicas por el clima o el medio ambiente (no inmutables).","**Racismo Científico (ss. XVIII-XIX):** Clasificó a la humanidad en **razas biológicas jerárquicas** mediante mediciones.","**Consecuencia:** Legitimó la segregación, la esclavitud, el colonialismo y políticas eugenésicas."]],
+["ANT-U1-005",1,"Media","30s","Michel Wieviorka · Cesare Lombroso","Teorías del Racismo Científico","¿Qué teorías y discursos respaldaron el Racismo Científico?","Darwinismo Social, Eugenesia y Antropometría.","Se basó en la distorsión de la selección natural y en mediciones del cuerpo para justificar la jerarquía social.",["**Darwinismo Social:** Extrapolación errónea de la 'supervivencia del más apto' a las sociedades humanas.","**Eugenesia:** Intervención estatal para fomentar la reproducción de la 'raza superior' y limitar a las 'inferiores'.","**Antropometría (Lombroso):** Vinculó rasgos craneales y faciales con tendencias criminales o atávicas."]],
+["ANT-U1-006",1,"Fácil","25s","Esther Hermitte","Observación por medio de la Participación","¿Qué es la Observación Participante en el trabajo de campo etnográfico?","Inmersión directa e interacción constante en la comunidad.","Metodología que exige la inmersión activa del investigador en la vida cotidiana del grupo estudiado.",["**Inmersión directa:** El antropólogo participa de las actividades para entender la realidad desde dentro.","**Articulación teórica:** Permite confrontar la teoría previa con la evidencia empírica directa.","**Construcción de sentido:** Permite comprender cómo los sujetos interpretan su propio mundo."]],
+["ANT-U1-007",1,"Media","30s","Esther Hermitte","Concepto de 'Rapport'","¿Qué es el 'Rapport' en la investigación etnográfica y cómo se gestiona?","Confianza y equilibrio entre distancia y empatía.","Es la relación de confianza y empatía construida entre el antropólogo y la comunidad estudiada.",["**Confianza mutua:** Aceptación del investigador por parte de los miembros de la comunidad.","**Equilibrio necesario:** Un exceso de participación arriesga la objetividad; una falta de ella impide el acceso a datos clave.","**Flexibilidad:** Requiere paciencia para definir el rol de manera respetuosa en el campo."]],
+["ANT-U1-008",1,"Difícil","40s","Bronislaw Malinowski","Tres Vías de Investigación Etnográfica","¿Cuáles son las Tres Vías de Investigación que propone Malinowski?","Estructura formal, cotidianidad e imponderables, y textos locales.","Tres vías complementarias para lograr un retrato holístico de la cultura.",["1. **Estructura Social:** Documenta leyes, costumbres, normas e instituciones formales.","2. **Imponderables de la Vida Real:** Observa la vida cotidiana, comportamientos reales y emociones.","3. **Corpus de Textos y Narrativas:** Recopila mitos, relatos y expresiones en la lengua nativa."]],
+["ANT-U1-009",1,"Fácil","20s","Bronislaw Malinowski","El Punto de Vista del Nativo","¿Cuál es la finalidad última de la Etnografía según Malinowski?","The native's point of view.","Captar la visión del mundo del nativo y comprender el sentido de sus prácticas desde su propia perspectiva.",["**Comprensión holística:** Integrar normas, vivencias subjetivas y cosmovisión local.","**Sentido de vida:** Entender qué significa la existencia para los miembros de esa sociedad.","**Metodología:** Logrado mediante inmersión prolongada y dominio de la lengua local."]],
+["ANT-U1-010",1,"Media","25s","Gustavo Lins Ribeiro · Rosana Guber","Extrañamiento y Descotidianización","¿En qué consiste la postura metodológica del 'Extrañamiento'?","Transformar lo familiar en exótico y lo exótico en familiar.","Tensionar la mirada sobre lo cotidiano para desnaturalizar las prácticas del sentido común.",["**Desnaturalización:** Romper con la obviedad de las conductas e instituciones sociales.","**Descotidianización:** Mirar la propia cultura como si fuera exótica o desconocida.","**Herramienta crítica:** Permite identificar las estructuras invisibles de poder e ideología."]],
+["ANT-U2-011",2,"Difícil","40s","Boivin, Rosato y Arribas","Tres Momentos de la Antropología","¿Cuáles son los tres momentos constitutivos de la historia de la Antropología?","Evolucionismo (s. XIX), Diversidad (Entre guerras), Desigualdad (Post 1945).","Tres etapas clave según cómo la disciplina construyó a su objeto de estudio (el 'Otro').",["1. **Fines s. XIX (Evolucionismo):** Construcción del Otro por la **diferencia** (escala evolutiva).","2. **Entre Guerras (Etnografía Clásica):** Construcción del Otro por la **diversidad** (Relativismo Cultural).","3. **Post 2da Guerra Mundial:** Construcción del Otro por la **desigualdad** (Descolonización y Antropología Urbana)."]],
+["ANT-U2-012",2,"Media","30s","Edward B. Tylor · Henry Morgan","Modelo Estadial Evolucionista","¿Cómo explica el modelo estadial evolucionista la diversidad humana?","Salvajismo, Barbarie y Civilización en una sola escala.","Toda la humanidad atraviesa una única línea de desarrollo gradual dividida en tres estadios.",["**Tres Estadios Universales:** **Salvajismo → Barbarie → Civilización**.","**Diferencias culturales:** Interpretadas como **grados o etapas** dentro de un mismo proceso evolutivo.","**Progreso acumulativo:** La transición se acelera conforme aumenta el conocimiento técnico y material."]],
+["ANT-U2-013",2,"Fácil","25s","Edward B. Tylor · Henry Morgan","Unidad Psicobiológica (UPB)","¿Qué es la 'Unidad Psicobiológica de la Especie' (UPB)?","Igualdad anatómica y mental de toda la especie humana.","Postulado que afirma que todos los humanos comparten la misma base anatómica e intelecto común.",["**Base biológica única:** Mismo cerebro, anatomía y capacidad mental en todas las 'razas'.","**Semejanzas culturales:** Se explican porque mentes iguales responden de forma similar a necesidades iguales.","**Rechazo al degeneracionismo:** Las culturas no 'degeneraron', solo están en grados evolutivos diferentes."]],
+["ANT-U2-014",2,"Media","30s","Henry Morgan · Edward B. Tylor","Evolución Material vs No Material","¿Qué diferencia hay en la evolución de los aspectos materiales y no materiales?","Acumulación cuantitativa vs diferenciación cualitativa.","Lo material evoluciona por suma acumulativa; lo no material por diferenciación e integración cualitativa.",["**Aspectos Materiales (Tecnología):** Evolución acumulativa y cuantitativa (del arco a la máquina de vapor).","**Aspectos No Materiales (Instituciones/Ideas):** Evolución por **diferenciación cualitativa** (de formas simples a complejas).","**Ejemplo no material:** La evolución de la familia o del gobierno hacia mayor especialización."]],
+["ANT-U2-015",2,"Media","30s","Boivin, Rosato y Arribas","Crítica al Método Comparativo","¿Por qué fue criticado el Método Comparativo evolucionista?","Etnocentrismo europeo y deducción especulativa sin campo.","Por juzgar a otras culturas usando a la Europa industrial como parámetro supremo de civilización.",["**Etnocentrismo:** Tomaba a la Europa industrial como la cumbre deseable de la evolución.","**Deducción especulativa:** Armaba escalas abstractas para llenar vacíos sin datos directos de campo.","**Superación por el Relativismo:** Cada cultura debe entenderse en sus propios términos y como un todo."]],
+["ANT-U2-016",2,"Media","30s","Néstor García Canclini","Definición Restringida vs Ampliada de Cultura","¿Cómo diferencia Canclini la concepción restringida y la ampliada de cultura?","Bellas artes/erudición vs proceso social de producción simbólica.","La restringida reduce la cultura al 'arte/erudición'; la ampliada la define como producción simbólica social.",["**Definición Restringida:** Cultura como 'patrimonio refinado', bellas artes, conocimientos elitistas.","**Definición Ampliada:** Proceso social donde se producen, circulan y consumen significados simbólicos.","**Vinculación:** Conectada directamente con la estructura económica y las relaciones de poder."]],
+["ANT-U2-017",2,"Media","30s","Néstor García Canclini","Cultura y Lucha Hegemónica","¿Por qué la cultura es un 'escenario de lucha por la hegemonía' según Canclini?","Disputa de sentidos y reproducción de las relaciones de poder.","Porque en la cultura se disputan y moldean los sentidos que legitiman u oponen al orden social.",["**Aparatos culturales:** Escuela, medios e instituciones forman y preparan a la fuerza de trabajo.","**Poder Cultural:** Capacidad de las clases dominantes para imponer su visión del mundo.","**Resistencia:** Las clases subalternas disputan y redefinen estos significados."]],
+["ANT-U2-018",2,"Difícil","35s","Antonio Gramsci · Raymond Williams · C. Aguirre","Hegemonía y Sentido Común","¿Qué es la 'Hegemonía' en Gramsci y cómo funciona el 'Sentido Común'?","Dominación consensuada vs violencia coercitiva.","Dominio basado en el consenso sutil mediante el cual la desigualdad se naturaliza como sentido común.",["**Dominación consensual:** Se ejerce educando y persuadiendo, no solo mediante la fuerza policial.","**Sentido Común:** Interiorización de las ideas dominantes como algo 'obvio', 'natural' e inevitable.","**Contrahegemonía:** Espacio de resistencia donde los subalternos construyen nuevas alternativas de poder."]],
+["ANT-U2-019",2,"Media","30s","Frederik Barth · María Cristina Chiriguini","Enfoque Relacional de la Identidad","¿En qué consiste el enfoque relacional de la identidad étnica según Barth?","Fronteras simbólicas en la interacción (Nosotros vs Ellos).","La identidad no es un rasgo fijo heredado, sino un proceso dinámico de diferenciación relacional.",["**Fronteras Simbólicas:** La identidad se define por los límites trazados frente a un 'Otro'.","**Rechazo al Esencialismo:** No depende de características biológicas o culturales inmutables.","**Dinámica social:** Se activa y transforma en función de contextos e interacciones históricas."]],
+["ANT-U3-020",3,"Media","35s","Oscar Lewis","La Cultura de la Pobreza","¿En qué consiste la teoría de la 'Cultura de la Pobreza' de Oscar Lewis?","Hábitos adaptativos transmitidos de generación en generación.","Plantea que los pobres urbanos generan un sistema de vida y valores que perpetúa la pobreza.",["**Subcultura autónoma:** Hábitos como fatalismo, desconfianza institucional y violencia intrafamiliar.","**Transmisión intergeneracional:** Se enseña a los hijos, volviéndose un ciclo difícil de romper.","**Universalidad:** Lewis afirmaba que ocurría en diversos contextos urbanos marginados."]],
+["ANT-U3-021",3,"Difícil","35s","María Cristina Bayón · Gonzalo Saraví","Crítica a la Cultura de la Pobreza","¿Qué críticas realizan Bayón y Saraví a la teoría de Oscar Lewis?","Determinismo individualista e invisibilización de causas estructurales.","Culpa a los pobres por sus conductas e invisibiliza la falta de escuelas, empleo y transporte.",["**Culpabilización individual:** Atribuye la pobreza a la falta de esfuerzo o actitudes personales.","**Invisibilización estructural:** Omite la falta de infraestructura estatal, salud y salarios dignos.","**Refuerzo de estigmas:** Sirve a discursos neoliberales para justificar el recorte de derechos."]],
+["ANT-U3-022",3,"Difícil","35s","Bayón · Saraví · Loïc Wacquant","Estigmas y Fronteras Morales en la Escuela","¿Cómo operan las fronteras morales y los estigmas en la experiencia escolar de clase?","Etiquetas de sectores dominantes frente a la resistencia popular.","Las etiquetas morales condicionan las expectativas educativas, pero los estudiantes generan resistencias.",["**Fronteras Morales:** Clasificación de estudiantes pobres como 'desinteresados' o 'violentos'.","**Efecto en expectativas:** Los estigmas reducen las proyecciones académicas del cuerpo docente y alumnos.","**Resistencia:** Los jóvenes no solo asimilan el estigma; construyen espacios contrahegemónicos de dignidad."]],
+["ANT-U4-023",4,"Difícil","35s","Claude Lévi-Strauss · María Marta Reca","Naturaleza vs Cultura: La Regla","¿Cómo explica Lévi-Strauss el paso del Orden de la Naturaleza al de la Cultura?","Leyes universales e instintivas vs la Regla (prohibición del incesto).","El paso de la naturaleza a la cultura lo marca la presencia de la Regla universal: la prohibición del incesto.",["**Orden Natural:** Dominado por leyes universales, biológicas e instintivas.","**Orden Cultural:** Dominado por normas particulares, arreglos sociales y aprendizaje.","**Inexistencia del 'hombre precultural':** Todo ser humano nace sumergido en reglas culturales."]],
+["ANT-U4-024",4,"Media","30s","María Cristina Chiriguini","Cuestionamiento a la Sociobiología","¿Por qué la Antropología cuestiona el reduccionismo de la Sociobiología?","Explicar conductas humanas mediante genes e instintos animales.","Reduce comportamientos sociales (agresión, roles de género) a instintos o genes animales.",["**Reduccionismo Biológico:** Asume que la conducta social humana está programada genéticamente.","**Omitir el aprendizaje:** Ignora la capacidad humana de modificar su conducta por la cultura.","**Riesgo ideológico:** Naturaliza desigualdades de género o raza como si fueran 'predestinaciones'."]],
+["ANT-U4-025",4,"Media","30s","Michel Wieviorka","El Racismo Cultural o Nuevo Racismo","¿En qué consiste el Racismo Cultural o 'Nuevo Racismo'?","Desplazamiento de la biología a la 'incompatibilidad de culturas'.","Sustituye el argumento biológico por la supuesta 'incompatibilidad insalvable' entre culturas.",["**Sin apelar a la 'raza' biológica:** Se enfoca en costumbres, religión o valores de vida.","**Amenaza a la identidad:** Presenta a los migrantes como incompatibles con la cohesión nacional.","**Efecto:** Genera la misma exclusión y segregación que el racismo biológico tradicional."]],
+["ANT-U4-026",4,"Difícil","35s","Mario Margulis · Sergio Caggiano","Racialización de la Clase Social","¿En qué consiste la 'Racialización de las relaciones de clase' en Argentina?","Atribuir marcas étnicas/físicas para justificar la explotación laboral.","Asigna estereotipos étnicos/físicos a la clase trabajadora para naturalizar empleos precarios.",["**Naturalización de la precariedad:** Justifica salarios bajos por supuesta 'resistencia física' o 'costumbre'.","**Marcación del cuerpo:** Transforma características fenotípicas en signos de inferioridad social.","**Ejemplo:** Estereotipos sobre migrantes en la construcción, agricultura o trabajo doméstico."]],
+["ANT-U5-027",5,"Media","30s","Alicia M. Barabas · Claudia Briones","Multiculturalismo vs Interculturalidad","¿Qué diferencia al Multiculturalismo de la Interculturalidad en América Latina?","Tolerancia estática vs transformación dialógica de las jerarquías.","El multiculturalismo tolera la diversidad sin tocar el poder; la interculturalidad exige diálogo simétrico.",["**Multiculturalismo:** Reconoce o tolera la coexistencia de grupos, pero los mantiene aislados y subordinados.","**Interculturalidad:** Propone la interacción crítica, simétrica y la transformación de las estructuras desiguales.","**Perspectiva:** Reivindicación activa de derechos de pueblos originarios y colectivos migrantes."]],
+["ANT-U5-028",5,"Difícil","40s","Alejandro Grimson · Gabriela Karasik","Desigualdades Históricas en Argentina","¿Cuáles son las cuatro desigualdades históricas identificadas por Grimson y Karasik?","Cuestionamiento al mito de la Argentina blanca y homogénea.","Desmontan el mito de la homogeneidad blanca señalando cuatro ejes estructurales de desigualdad.",["1. **Centralismo territorial:** Buenos Aires dominante frente al 'interior' supuestamente 'atrasado'.","2. **Desigualdad de género y diversidad:** Brechas salariales y violencia patriarcal.","3. **Desigualdad de clase:** Brecha socioeconómica y acceso inequitativo a recursos.","4. **Desigualdad étnico-racial:** Invisibilización de pueblos originarios y afrodescendientes."]],
+["ANT-U5-029",5,"Difícil","40s","Sergio Caggiano","Mecanismos de Exclusión a Migrantes","¿Cuáles son los tres mecanismos de exclusión hacia migrantes según Caggiano?","Racialización, fundamentalismo cultural y restricción de ciudadanía.","Tres mecanismos interconectados que mantienen a los migrantes en posiciones subordinadas.",["1. **Racialización:** Asignación de marcas corporales para justificar la subordinación laboral.","2. **Fundamentalismo Cultural:** Exclusión basada en que sus culturas son 'incompatibles' con la nacional.","3. **Restricción de la Ciudadanía:** 'Inclusión excluyente' que traba el acceso a salud, leyes y derechos."]],
+["ANT-U5-030",5,"Media","30s","Liliana Sinisi","El 'Nosotros' y el 'Otro' en la Escuela","¿Cómo se construye la relación 'Nosotros - Otros' en las escuelas multiculturales?","Grupo hegemónico escolar vs estigmatización del alumno diferente.","El 'Nosotros' fija la norma escolar; el 'Otro' es estigmatizado por prejuicios o marcas socioculturales.",["**El 'Nosotros':** Grupo hegemónico que define la 'normalidad' o cultura escolar estándar.","**El 'Otro':** Estudiante estigmatizado por su origen migratorio, etnia o nivel socioeconómico.","**Rol docente:** Puede profundizar las barreras de exclusión o actuar como agente de integración crítica."]],
+["ANT-U5-031",5,"Difícil","35s","Kimberlé Crenshaw · Sergio Caggiano","La Perspectiva de la Interseccionalidad","¿Qué aporta la 'Interseccionalidad' al análisis de las desigualdades sociales?","Cruce y potenciación mutua de clase, género, raza y nacionalidad.","Analiza cómo múltiples formas de opresión (clase, género, raza, nacionalidad) se entrelazan y potencian.",["**Cruce de opresiones:** Las desigualdades no operan solas, se cruzan de manera simultánea.","**Ejemplo:** Una mujer migrante pobre experimenta racismo, machismo y discriminación de clase juntos.","**Superación de visiones aisladas:** Permite diseñar intervenciones sociales complejas y precisas."]]
+].map(f => ({ id:f[0], u:f[1], dificultad:f[2], tiempo:f[3], autores:f[4], concepto:f[5], pregunta:f[6], pista:f[7], resumen:f[8], puntos:f[9] }));
+
+const CLAVE = 'bolivar-fichas-antropologia';
+
+class Component extends DCLogic {
+  state = { unidad: 0, i: 0, vuelta: false, pista: false, marcas: {}, orden: [] };
+
+  componentDidMount(){
+    let marcas = {};
+    try { marcas = JSON.parse(localStorage.getItem(CLAVE) || '{}') || {}; } catch(e){ marcas = {}; }
+    this.setState({ marcas, orden: this.armarOrden(0, marcas) });
+  }
+
+  guardar(marcas){
+    try { localStorage.setItem(CLAVE, JSON.stringify(marcas)); } catch(e){}
+  }
+
+  armarOrden(unidad, marcas){
+    const modo = this.props.orden ?? 'Prioriza lo que falta';
+    const base = FICHAS.map((f, n) => n).filter(n => !unidad || FICHAS[n].u === unidad);
+    if (modo === 'Orden del programa') return base;
+    if (modo === 'Al azar'){
+      const a = base.slice();
+      for (let k = a.length - 1; k > 0; k--){ const j = Math.floor(Math.random() * (k + 1)); [a[k], a[j]] = [a[j], a[k]]; }
+      return a;
+    }
+    const peso = n => { const m = marcas[FICHAS[n].id]; return m === 'repasar' ? 0 : m === 'se' ? 2 : 1; };
+    return base.slice().sort((a, b) => peso(a) - peso(b));
+  }
+
+  filtrar(unidad){
+    this.setState({ unidad, i: 0, vuelta: false, pista: false, orden: this.armarOrden(unidad, this.state.marcas) });
+  }
+
+  mover(paso){
+    const n = this.state.orden.length || 1;
+    this.setState({ i: ((this.state.i + paso) % n + n) % n, vuelta: false, pista: false });
+  }
+
+  marcar(valor){
+    const f = this.actual();
+    if (!f) return;
+    const marcas = Object.assign({}, this.state.marcas);
+    if (marcas[f.id] === valor) delete marcas[f.id]; else marcas[f.id] = valor;
+    this.guardar(marcas);
+    this.setState({ marcas });
+    if (this.props.avanzarAlMarcar ?? true) setTimeout(() => this.mover(1), 120);
+  }
+
+  actual(){ const n = this.state.orden[this.state.i]; return n === undefined ? null : FICHAS[n]; }
+
+  rico(texto){
+    const partes = String(texto).split(/(\*\*[^*]+\*\*)/).filter(Boolean).map((t, k) =>
+      t.startsWith('**')
+        ? React.createElement('b', { key: k, style: { fontWeight: 800 } }, t.slice(2, -2))
+        : t);
+    return React.createElement('span', null, partes);
+  }
+
+  renderVals(){
+    const s = this.state;
+    const f = this.actual() || FICHAS[0];
+    const total = s.orden.length || FICHAS.length;
+    const marca = s.marcas[f.id];
+    const vals = Object.values(s.marcas);
+    const chip = (on) => 'min-height:48px;padding:0 14px;cursor:pointer;font-family:var(--mono);font-size:12px;letter-spacing:.08em;border:1px solid ' +
+      (on ? 'var(--color-text);background:var(--color-text);color:var(--color-bg)' : 'var(--color-divider);background:transparent;color:var(--color-text)');
+    const marcaBtn = (on, color) => 'min-height:52px;cursor:pointer;font-family:Archivo,system-ui,sans-serif;font-weight:800;font-size:15px;letter-spacing:.02em;border:2px solid ' + color +
+      (on ? ';background:' + color + ';color:var(--color-bg)' : ';background:transparent;color:' + color);
+
+    return {
+      nMazo: total,
+      nSe: vals.filter(v => v === 'se').length,
+      nRepasar: vals.filter(v => v === 'repasar').length,
+      posicion: (s.i + 1) + ' / ' + total,
+      barraStyle: { display:'block', height:'100%', width: Math.round(((s.i + 1) / total) * 100) + '%', background:'var(--color-text)' },
+      unidades: [0,1,2,3,4,5].map(u => ({
+        label: u === 0 ? 'TODAS' : 'U' + u,
+        on: s.unidad === u,
+        style: chip(s.unidad === u),
+        onClick: () => this.filtrar(u)
+      })),
+      carta: {
+        id: f.id, unidad: 'Unidad ' + f.u, dificultad: f.dificultad, tiempo: f.tiempo,
+        concepto: f.concepto.toUpperCase(), pregunta: f.pregunta, pista: f.pista,
+        resumen: f.resumen, autores: f.autores
+      },
+      cartaStyle: { position:'relative', background:'var(--color-surface)', border:'2px solid var(--color-text)', boxShadow:'2px 2px 0 var(--color-text)', display:'block', minHeight:'320px' },
+      frente: !s.vuelta,
+      dorso: s.vuelta,
+      pistaVisible: s.pista,
+      pistaOculta: !s.pista,
+      verPista: () => this.setState({ pista: true }),
+      puntos: f.puntos.map((p, k) => ({ k, rt: this.rico(p) })),
+      darVuelta: () => this.setState({ vuelta: !s.vuelta }),
+      vueltaTexto: s.vuelta ? 'VOLVER AL FRENTE' : 'DAR VUELTA',
+      vueltaStyle: { width:'100%', minHeight:'56px', cursor:'pointer', border:0, borderTop:'2px solid var(--color-text)',
+        background: s.vuelta ? 'var(--color-text)' : 'var(--hl)', color: s.vuelta ? 'var(--color-bg)' : 'var(--onhl)',
+        fontFamily:'Archivo,system-ui,sans-serif', fontWeight:800, fontSize:'15px', letterSpacing:'.08em' },
+      marcarRepasar: () => this.marcar('repasar'),
+      marcarSe: () => this.marcar('se'),
+      repasarStyle: marcaBtn(marca === 'repasar', 'var(--color-accent)'),
+      seStyle: marcaBtn(marca === 'se', 'var(--color-text)'),
+      anterior: () => this.mover(-1),
+      siguiente: () => this.mover(1),
+      estadoCarta: marca === 'se' ? 'MARCADA: LA SÉ' : marca === 'repasar' ? 'MARCADA: A REPASAR' : 'SIN MARCAR',
+      borrar: () => { this.guardar({}); this.setState({ marcas: {}, i: 0, vuelta: false, pista: false, orden: this.armarOrden(s.unidad, {}) }); }
+    };
+  }
+}
+arrancarFicha();
+</script>
+</body>
+</html>

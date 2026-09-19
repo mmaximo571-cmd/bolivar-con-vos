@@ -197,6 +197,16 @@ suelta**: no usa la hoja de estilos de la app, se dibuja sola.
    van por red primero. Solo si de paso se tocó `estilos.css`, `app.js`,
    `iconos.js` o `config.js`.
 
+**Si lo que bajó es un `.html` «standalone»** (pesa cientos de KB y al
+abrirlo dice «Unpacking...»), no es el `.dc.html`: es un paquete que se
+desarma solo. La ficha está adentro, en el `<script
+type="__bundler/template">`, como un texto JSON; con PowerShell sale con
+`ConvertFrom-Json` sobre ese renglón. Lo demás del paquete (fuentes en
+base64, React, el andamio de Claude Design) no se usa. Y en esa plantilla
+los clics vienen como `sc-camel-on-click`: hay que pasarlos a `onClick`,
+que es lo que engancha `ficha.js`. Así entró el mazo de Antropología
+(19/9/2026), en `estudiemos/fichas/antropologia-otredad/`.
+
 ---
 
 ## Lo que no hay que pedirle a ninguno de los dos
