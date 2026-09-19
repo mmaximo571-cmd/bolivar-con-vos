@@ -277,16 +277,15 @@ setTimeout(function(){
       </div>
     </div>
 
-    <!-- Lo último de Instagram. Se pinta solo si hay algo: si la cuenta
-         no está conectada todavía, no aparece ni el título. -->
-    <section id="instagram" hidden>
-      <div class="titulo-seccion">
-        EN INSTAGRAM
-        <a href="https://www.instagram.com/SimonBolivarfts" target="_blank"
-           rel="noopener">Ver todo ↗</a>
-      </div>
-      <div class="grilla-ig" id="grilla-ig"></div>
-    </section>
+    <!-- El link al perfil. Antes vivía en el título de la grilla de
+         Instagram, que ya no existe: las placas entran al río de
+         novedades de arriba. Va acá y no arriba porque «seguinos» es lo
+         que se ofrece DESPUÉS de leer, no en lugar de leer. Es el único
+         enlace al perfil que queda en el inicio. -->
+    <p class="seguinos">
+      <a href="https://www.instagram.com/SimonBolivarfts" target="_blank"
+         rel="noopener">Seguinos en Instagram ↗</a>
+    </p>
 
     <!-- LO QUE SE VIENE, Y LA FACULTAD.
 
@@ -732,7 +731,7 @@ setTimeout(function(){
 
 
   /* ---------- Traemos todo de una sola vez ---------- */
-  let categorias = [], tramites = [], preguntas = [], publicaciones = [];
+  let categorias = [], tramites = [], preguntas = [], publicaciones = [], placas = [];
 
   /* ============================================================
      LO GUARDADO DE LA VISITA ANTERIOR, MIENTRAS LLEGA LO DE AHORA
@@ -766,18 +765,30 @@ setTimeout(function(){
   }
 
   try {
-    const [rCat, rTra, rFaq, rPub] = await conPaciencia(Promise.all([
+    /* Las placas de Instagram viajan en el mismo Promise.all que el
+       resto: van a la misma lista que las novedades escritas, así que
+       si se pidieran aparte el río tendría que esperarlas después de
+       estar dibujado, y saltaría. Yendo acá no cuestan ni una décima:
+       las cinco consultas salen juntas. */
+    const [rCat, rTra, rFaq, rPub, rIg] = await conPaciencia(Promise.all([
       db.from('categorias').select('*').order('orden'),
       db.from('tramites').select('id,titulo,resumen,categoria_id,palabras_clave')
         .eq('publicado', true).order('orden'),
       db.from('faq').select('id,pregunta,respuesta,categoria_id')
         .eq('publicado', true).order('orden'),
       db.from('publicaciones').select('*').eq('publicado', true)
-        .order('creado_at', { ascending:false })
+        .order('creado_at', { ascending:false }),
+      db.from('posteos_ig').select('id,permalink,epigrafe,imagen,publicado_at')
+        .order('publicado_at', { ascending:false }).limit(4)
     ]));
     for (const r of [rCat, rTra, rFaq, rPub]) if (r.error) throw r.error;
     categorias = rCat.data; tramites = rTra.data;
     preguntas = rFaq.data;  publicaciones = rPub.data;
+    /* `rIg` queda AFUERA del control de errores de arriba a propósito:
+       si la tabla no está o falla, el inicio pierde las placas y no se
+       entera de nada más. Una novedad escrita que no llega es un error;
+       una placa que no llega, no. */
+    placas = (!rIg.error && rIg.data) ? rIg.data.filter(p => p.imagen) : [];
     huboRed = true;
     guardarEnMemoria('inicio', {
       categorias: categorias, tramites: tramites, preguntas: preguntas });
@@ -1613,14 +1624,93 @@ setTimeout(function(){
     pintarAccesos();
   });
 
-  /* ---------- Novedades ---------- */
-  (function pintarNovedades(){
+  /* ---------- Novedades: UN SOLO RÍO ----------
+     Hasta el 19/9/2026 esto eran dos cosas: las novedades escritas acá
+     y, más abajo, una grilla aparte con las placas de Instagram en
+     cuadraditos de 109 px, sin una palabra. Eran la sección que menos
+     se entendía del inicio: se perdía contra el papel porque era lo
+     único que no iba sobre una tarjeta, y no decía nada.
+
+     Ahora es una sola lista ordenada por fecha. La placa es un tipo de
+     novedad más: la agrupación publica en Instagram casi todos los
+     días y en la app cada tanto, así que queda arriba por reciente y
+     no por tener un lugar reservado.
+
+     El tope de dos placas no es capricho. Sin tope, un fin de semana
+     activo en Instagram empuja abajo del todo la única novedad
+     escrita, que suele ser la que importa. */
+  /* La dirección del depósito se arma a mano y no con `db.storage`:
+     esta pantalla usa el cliente chico de `lib/datos.js`, que no tiene
+     storage. Con la librería grande andaría, pero bajarla entera para
+     formar una dirección sería pagar 100 KB por esto. */
+  const DEPOSITO_FOTOS = (window.BOLIVAR_CONFIG || {}).url +
+    '/storage/v1/object/public/fotos/';
+
+  /* De un epígrafe entero a lo que entra en la tarjeta.
+
+     Cortar por el salto de línea no servía: los epígrafes de la
+     agrupación vienen en un solo párrafo, así que «la primera línea»
+     devolvía los 434 caracteres enteros y el recorte terminaba a mitad
+     de palabra («…Ya está el repas»). Se corta en el primer punto, que
+     es donde la idea termina sola. Sin punto, se corta por largo pero
+     respetando la última palabra entera. */
+  function primeraFrase(texto){
+    const t = String(texto || '').replace(/\s+/g, ' ').trim();
+    if (!t) return '';
+    /* No sirve el PRIMER punto, sirve el primero que deje una frase de
+       largo razonable: «Dr. Pérez da la charla» cortaba en «Dr.», y lo
+       mismo pasa con Lic., Prof., Av. o una hora escrita 18.30. Si
+       ningún punto llega a los 30 caracteres, se usa todo. */
+    const busca = /\.(\s|$)/g;
+    let m, frase = t;
+    while ((m = busca.exec(t))){
+      if (m.index >= 30){ frase = t.slice(0, m.index + 1); break; }
+    }
+    return frase.length > 150
+      ? frase.slice(0, 150).replace(/\s+\S*$/, '') + '…'
+      : frase;
+  }
+
+  (function pintarRio(){
     /* Sin red tampoco: «todavía no hay novedades publicadas» sería
        falso, y encima justo cuando puede haber una que importa. */
     if (!huboRed) return;
     const caja = document.getElementById('novedades');
-    const novedades = publicaciones.filter(p => p.tipo === 'novedad').slice(0, 3);
-    if (!novedades.length){
+
+    const escritas = publicaciones.filter(p => p.tipo === 'novedad').slice(0, 3)
+      .map(p => ({ cuando: p.creado_at, html: `
+        <a class="tarjeta ${esc(p.linea)}" href="agenda/?id=${p.id}">
+          <span class="etiqueta ${esc(p.linea)}">${esc(NOMBRE_LINEA[p.linea] || p.linea)}</span>
+          <h3>${esc(p.titulo)}</h3>
+          ${p.cuerpo ? `<p>${esc(p.cuerpo.slice(0,140))}${p.cuerpo.length > 140 ? '…' : ''}</p>` : ''}
+        </a>` }));
+
+    const deIg = placas.slice(0, 2).map(p => {
+      /* Del epígrafe se usa la primera oración, que es la que el panel
+         pide escribir pensando en quien no ve la placa. Si aun así
+         sobra, el CSS corta a tres renglones. */
+      const frase = primeraFrase(p.epigrafe);
+      const f = partesFecha(p.publicado_at);
+      return { cuando: p.publicado_at, html: `
+        <a class="tarjeta tarjeta-ig" href="${esc(urlSegura(p.permalink))}"
+           target="_blank" rel="noopener">
+          <div class="ig-fila">
+            <img class="ig-placa" src="${esc(DEPOSITO_FOTOS + p.imagen)}"
+                 alt="" loading="lazy" decoding="async" width="130" height="162">
+            <div class="ig-dicho">
+              <span class="etiqueta">Instagram</span>
+              <h3>${esc(frase || 'Publicación de la agrupación')}</h3>
+              <div class="meta"><span>${f ? esc(f.dia + ' ' + f.mesCorto + ' ') : ''}↗</span></div>
+            </div>
+          </div>
+        </a>` };
+    });
+
+    const rio = escritas.concat(deIg)
+      .sort((a, b) => String(b.cuando || '').localeCompare(String(a.cuando || '')))
+      .slice(0, 4);
+
+    if (!rio.length){
       caja.innerHTML = `<div class="vacio" role="status">
           <span class="vacio-icono" aria-hidden="true">✨</span>
           <strong class="vacio-titulo">Pronto habrá novedades</strong>
@@ -1628,60 +1718,9 @@ setTimeout(function(){
         </div>`;
       return;
     }
-    caja.innerHTML = novedades.map(p => `
-        <a class="tarjeta ${esc(p.linea)}" href="agenda/?id=${p.id}">
-          <span class="etiqueta ${esc(p.linea)}">${esc(NOMBRE_LINEA[p.linea] || p.linea)}</span>
-          <h3>${esc(p.titulo)}</h3>
-          ${p.cuerpo ? `<p>${esc(p.cuerpo.slice(0,140))}${p.cuerpo.length > 140 ? '…' : ''}</p>` : ''}
-        </a>`).join('');
+    caja.innerHTML = rio.map(x => x.html).join('');
   })();
 
-  /* ---------- Lo último de Instagram ----------
-     Las trae sola una función programada en Supabase, que además se
-     copia las imágenes a nuestro depósito: las direcciones que da
-     Instagram vencen a los pocos días.
-
-     Va aparte de Novedades a propósito. Un posteo de Instagram es una
-     placa: una imagen con el texto adentro, que no se puede agrandar
-     ni escuchar con un lector de pantalla. Las novedades escritas son
-     otra cosa y no tienen que competir con esto.
-
-     Se pinta suelto de todo lo demás: si la cuenta todavía no está
-     conectada, o si falla, el inicio ni se entera. */
-  (async function pintarInstagram(){
-    const seccion = document.getElementById('instagram');
-    if (!seccion) return;
-    try {
-      const { data, error } = await db.from('posteos_ig')
-        .select('id,permalink,epigrafe,imagen,publicado_at')
-        .order('publicado_at', { ascending:false })
-        .limit(6);
-      if (error || !data || !data.length) return;
-
-      const conFoto = data.filter(p => p.imagen);
-      if (!conFoto.length) return;
-
-      /* La dirección del depósito se arma a mano y no con db.storage:
-         esta pantalla usa el cliente chico de lib/datos.js, que no
-         tiene storage. Con la librería grande andaría, pero bajarla
-         entera para formar una dirección sería pagar 100 KB por esto. */
-      const deposito = (window.BOLIVAR_CONFIG || {}).url +
-        '/storage/v1/object/public/fotos/';
-
-      document.getElementById('grilla-ig').innerHTML = conFoto.map(p => {
-        /* El epígrafe entero es larguísimo y termina en etiquetas. Para
-           quien no ve la imagen, la primera frase es lo que sirve. */
-        const frase = (p.epigrafe || '').split('\n')[0].slice(0, 110).trim();
-        return `
-          <a class="posteo-ig" href="${esc(urlSegura(p.permalink))}" target="_blank" rel="noopener">
-            <img src="${esc(deposito + p.imagen)}"
-                 alt="${esc(frase || 'Publicación de la agrupación en Instagram')}"
-                 loading="lazy" decoding="async" width="300" height="300">
-          </a>`;
-      }).join('');
-      seccion.hidden = false;
-    } catch(e){ /* sin Instagram el inicio anda igual */ }
-  })();
 
   /* ---------- Buscador ---------- */
   const entrada    = document.getElementById('busqueda');
@@ -1699,7 +1738,7 @@ setTimeout(function(){
      con un armazón de ayer, movimiento.js puede no estar. */
   if (typeof entrarAlLlegar === 'function'){
     entrarAlLlegar(zonaFondo,
-      '.titulo-seccion, #kit > *, #novedades > .tarjeta, .calendario, .carrusel, #grilla-ig > *',
+      '.titulo-seccion, #kit > *, #novedades > .tarjeta, .calendario, .carrusel, .seguinos',
       { soloAbajo: true });
   }
   const tituloRes  = document.getElementById('titulo-resultados');

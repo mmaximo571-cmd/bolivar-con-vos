@@ -96,9 +96,9 @@
     "semantic_hash": ""
   },
   "sw.js": {
-    "mtime": 1789852140.7039883,
-    "seen": 1789853385.492336,
-    "ast_hash": "2316d698939db7d5523c7a2e0856e810",
+    "mtime": 1789855327.4076207,
+    "seen": 1789855762.6725764,
+    "ast_hash": "cca446dfd3b3c6475324c555e5df69e6",
     "semantic_hash": ""
   },
   "tabla-alarma.sql": {
@@ -282,9 +282,9 @@
     "semantic_hash": ""
   },
   "index.html": {
-    "mtime": 1789766710.8162844,
-    "seen": 1789853385.4923937,
-    "ast_hash": "41273f9d97a936024fe8d324ca080834",
+    "mtime": 1789855709.809538,
+    "seen": 1789855762.672645,
+    "ast_hash": "911874bfcc4a91fec0a507bf2ac01c5a",
     "semantic_hash": ""
   },
   "mi/index.html": {

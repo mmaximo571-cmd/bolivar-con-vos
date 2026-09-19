@@ -287,7 +287,13 @@
    rótulo «Herramienta» ya no se monta sobre la descripción a 375 px. La
    hoja se sirve de lo guardado; sin número nuevo, la primera visita
    después de subir seguía mostrando el rótulo encimado. */
-const VERSION = 'bolivar-v65';
+/* v66 (19/9/2026) `estilos.css`: las placas de Instagram dejan la
+   grilla de cuadraditos y entran al río de novedades como una tarjeta
+   más, con su texto al lado. El inicio es una pantalla y llega fresco
+   por la red, pero la hoja de estilos se sirve de lo guardado: sin
+   número nuevo, la primera visita después de subir dibujaría las
+   tarjetas nuevas con las reglas viejas, o sea sin la placa. */
+const VERSION = 'bolivar-v66';
 const ARMAZON = VERSION + '-armazon';
 const PAGINAS = VERSION + '-paginas';
 

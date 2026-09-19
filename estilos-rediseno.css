@@ -187,6 +187,62 @@
 }
 .tarjeta:active{transform:translateY(1px) scale(.985);box-shadow:var(--sombra-1)}
 
+/* LA PLACA DE INSTAGRAM, adentro del río de novedades.
+
+   Hasta el 19/9/2026 las placas vivían en una grilla aparte, abajo de
+   Novedades, en cuadraditos de 109 px y sin una sola palabra. Tres
+   cosas fallaban:
+
+   1. SE PERDÍA. Era lo único del inicio que no iba sobre una tarjeta,
+      así que el papel la rodeaba por los cuatro lados.
+   2. NO DECÍA NADA. El epígrafe estaba escondido en el `alt`, o sea
+      que existía para el lector de pantalla y para nadie más.
+   3. LE CORTABA LAS PALABRAS. `aspect-ratio:1` con `object-fit:cover`
+      metía a la fuerza en un cuadrado una placa que es 4:5: le comía
+      el 20 %, arriba y abajo. En una placa —texto adentro de una
+      imagen— eso corta renglones enteros.
+
+   Ahora es una `.tarjeta` más. NO lleva canto de color: esta hoja se
+   lo sacó a todas, y la línea editorial la dice la etiqueta pastel.
+   Instagram tampoco es una línea editorial —no es un tema, es una
+   puerta—, así que su etiqueta se queda en el pastel neutro. */
+.tarjeta-ig .ig-fila{display:flex;gap:14px;align-items:flex-start}
+/* El alto y el ancho los fija el RECUADRO, no la imagen: una que no
+   carga —la red de la facultad, un archivo borrado— dejaría el hueco
+   en cero y la tarjeta saltaría al llegar la foto. Es 4:5 porque es la
+   proporción en la que publica la agrupación; una cuadrada o apaisada
+   entra igual, con papel a los costados, pero NUNCA recortada. */
+.ig-placa{
+  flex:0 0 130px;display:block;width:130px;height:162px;object-fit:contain;
+  background:var(--superficie-2);border:1px solid var(--tinta-borde);
+  border-radius:var(--radio-chico)
+}
+.ig-dicho{flex:1 1 auto;min-width:0}
+.tarjeta-ig .etiqueta{margin-bottom:8px}
+/* Más chico que el titular de una novedad escrita, que va en 19: la
+   columna mide 161 px y a ese tamaño entrarían tres palabras. Tres
+   renglones y corta; el corte lo hace el navegador porque recortar por
+   cantidad de letras parte palabras al medio. */
+.tarjeta-ig h3{
+  font-size:16px;line-height:1.25;margin:0 0 6px;
+  display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden
+}
+.tarjeta-ig .meta{margin-top:0}
+
+/* El único enlace al perfil que queda en el inicio: antes vivía en el
+   título de la grilla. Va al final del río porque «seguinos» es lo que
+   se ofrece después de leer, no en lugar de leer. */
+.seguinos{margin:18px 0 0;text-align:center}
+.seguinos a{
+  font-family:var(--fuente-datos);font-size:var(--letra-chica);font-weight:700;
+  letter-spacing:.06em;text-transform:uppercase;color:var(--texto-suave);
+  text-decoration:none;border-bottom:1px solid var(--linea);
+  display:inline-block;padding:8px 4px;min-height:24px
+}
+@media (hover:hover) and (pointer:fine){
+  .seguinos a:hover{color:var(--texto);border-bottom-color:var(--texto)}
+}
+
 /* La señalada por el día que se tocó arriba: anillo de tinta, y ahora
    además se levanta. El outline no ocupa lugar, así que no mueve la
    lista ni un píxel. */
