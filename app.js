@@ -402,6 +402,13 @@ function anotarBusqueda(termino){
   });
   window.addEventListener('unhandledrejection', function(e){
     const r = e.reason;
+    /* Las transiciones entre pantallas (`@view-transition` en estilos.css)
+       las cancela el navegador si se toca rápido o cambia el alto de la
+       pantalla, y esa promesa no es un error de la app. Del 17 al 19/9
+       fueron 57 de los 63 errores del registro, y gastaban el cupo de
+       tres por visita antes de que llegara uno de verdad. */
+    if (r && (r.name === 'AbortError' || r.name === 'InvalidStateError') &&
+        /transition/i.test(String(r.message || ''))) return;
     anotarError('promesa: ' + ((r && (r.message || r)) || 'sin motivo'));
   });
 
