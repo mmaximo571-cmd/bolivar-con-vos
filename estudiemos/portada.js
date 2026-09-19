@@ -353,7 +353,11 @@
             const nombre = (a.querySelector('h3') || {}).textContent || '';
             const p = ((a.querySelector('p') || {}).textContent || '').replace(/\s+/g, ' ').trim();
             const tipo = ((a.querySelector('.material-tipo') || {}).textContent || 'Ficha').trim();
-            const ruta = new URL(a.getAttribute('href'), base).pathname;
+            /* Con el `?`: las cuatro de Anatomo 3 a 6 son todas `leer/?f=…`.
+               Solo con la ruta, la primera abría «No encontramos la ficha»
+               y las otras tres se descartaban por repetidas. */
+            const destino = new URL(a.getAttribute('href'), base);
+            const ruta = destino.pathname + destino.search;
             /* Una herramienta que también es tarjeta de fichas sale una vez. */
             if (items.some(it => it.href === ruta)) return;
             items.push({ tipo, nombre: nombre.trim(), mas: [grupo, p].filter(Boolean).join(' · '),

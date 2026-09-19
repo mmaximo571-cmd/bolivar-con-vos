@@ -80,7 +80,9 @@
   var intentos = 0;
   (function volver(){
     if (document.documentElement.scrollHeight - innerHeight >= previo.y || intentos > 15){
-      scrollTo({ top: previo.y, behavior: 'instant' });
+      /* Safari anterior a 16.4 no conoce 'instant' y tira error. */
+      try { scrollTo({ top: previo.y, behavior: 'instant' }); }
+      catch(e){ scrollTo(0, previo.y); }
       return;
     }
     intentos++; setTimeout(volver, 200);

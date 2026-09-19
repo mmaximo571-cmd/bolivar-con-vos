@@ -283,7 +283,7 @@
 /* v63 (19/9/2026) Estudiemos: los videos «En un minuto» pasan a una
    fila de portadas arriba de los modos, antes que el mapa en las tres
    carreras, y el buscador encuentra cada video. */
-const VERSION = 'bolivar-v63';
+const VERSION = 'bolivar-v64';
 const ARMAZON = VERSION + '-armazon';
 const PAGINAS = VERSION + '-paginas';
 

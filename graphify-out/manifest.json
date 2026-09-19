@@ -48,9 +48,9 @@
     "semantic_hash": "9efcd4c5fedd5772725e17694416fb9a"
   },
   "estudiemos/fichas/ficha.js": {
-    "mtime": 1789678048.3696616,
-    "seen": 1789730902.9051123,
-    "ast_hash": "6d4e8fb9fb317d162e00ed9505f80bfe",
+    "mtime": 1789786410.9614148,
+    "seen": 1789788669.6587422,
+    "ast_hash": "65445a049915ef339e5761db834dcdd8",
     "semantic_hash": ""
   },
   "iconos.js": {
@@ -96,9 +96,9 @@
     "semantic_hash": ""
   },
   "sw.js": {
-    "mtime": 1789785327.113968,
-    "seen": 1789785415.0068426,
-    "ast_hash": "1faf4ba9b6fbdee06a0014a8a86acc9e",
+    "mtime": 1789788405.660883,
+    "seen": 1789788669.658777,
+    "ast_hash": "d0896cc63f73e3cc657a7ddcdee138cc",
     "semantic_hash": ""
   },
   "tabla-alarma.sql": {
@@ -186,9 +186,9 @@
     "semantic_hash": "13c70cb9b680cf53ce1df6881965457c"
   },
   "BITACORA.md": {
-    "mtime": 1789761542.081558,
-    "seen": 1789761547.3097148,
-    "ast_hash": "6720bd3a0294a43ef4f749fb7b498692",
+    "mtime": 1789788663.532234,
+    "seen": 1789788669.658803,
+    "ast_hash": "e89cd99989aa689d525d7069243f30d2",
     "semantic_hash": ""
   },
   "LEEME.md": {
@@ -228,9 +228,9 @@
     "semantic_hash": ""
   },
   "anatomo/index.html": {
-    "mtime": 1789748729.529843,
-    "seen": 1789751378.183867,
-    "ast_hash": "c5aa1a4913f57c8391fcc79fdc9527a2",
+    "mtime": 1789786411.9452941,
+    "seen": 1789788669.6588154,
+    "ast_hash": "bc35b0617672ea4f967270a4f0702e2a",
     "semantic_hash": ""
   },
   "carrera/index.html": {
@@ -264,15 +264,15 @@
     "semantic_hash": ""
   },
   "estudiemos/fonoteca/index.html": {
-    "mtime": 1789730570.9756975,
-    "seen": 1789730902.905182,
-    "ast_hash": "4bb68450442b42037200a2cd573c61fd",
+    "mtime": 1789786411.523489,
+    "seen": 1789788669.6588304,
+    "ast_hash": "408e6d1398b1f4024c98a81c463531ba",
     "semantic_hash": ""
   },
   "estudiemos/index.html": {
-    "mtime": 1789784717.2637098,
-    "seen": 1789784930.1439412,
-    "ast_hash": "3cb0035a5c12cfde44c07172d7d28951",
+    "mtime": 1789787080.1660497,
+    "seen": 1789788669.6588316,
+    "ast_hash": "771869735abf8d7650b729e20ac5e209",
     "semantic_hash": ""
   },
   "glosario/index.html": {
@@ -330,9 +330,9 @@
     "semantic_hash": ""
   },
   "estudiemos/fichas/index.html": {
-    "mtime": 1789748731.6698432,
-    "seen": 1789751378.1838784,
-    "ast_hash": "302b4adb8303f665d1cf4611669318e3",
+    "mtime": 1789785785.8575172,
+    "seen": 1789788669.658829,
+    "ast_hash": "6d9f8c5b02c6e636253586404345ed7e",
     "semantic_hash": ""
   },
   "PROMPT-SESION.md": {
@@ -378,9 +378,9 @@
     "semantic_hash": ""
   },
   "mapa/index.html": {
-    "mtime": 1789748732.3383596,
-    "seen": 1789751378.18389,
-    "ast_hash": "e19aba0a04a4db1a49d32319bf7c0851",
+    "mtime": 1789786412.1311605,
+    "seen": 1789788669.6588404,
+    "ast_hash": "c03e585189ce82d7185a606d87c93732",
     "semantic_hash": ""
   },
   "mapa/capas-base.js": {
@@ -450,9 +450,9 @@
     "semantic_hash": ""
   },
   "estudiemos/videos/index.html": {
-    "mtime": 1789785284.0294716,
-    "seen": 1789785415.0069005,
-    "ast_hash": "eb39406721b8a051da044a9b5fc4d4a1",
+    "mtime": 1789788564.2048626,
+    "seen": 1789788669.6588328,
+    "ast_hash": "990a6a3fc84594ca1a0c465bc9d5a4b4",
     "semantic_hash": ""
   },
   "estudiemos/videos/anatomia.jpg": {
@@ -537,6 +537,36 @@
     "mtime": 1789785163.4917982,
     "seen": 1789785415.0069377,
     "ast_hash": "3cba86bdfe4286b9c7c10ddedf1e2864",
+    "semantic_hash": ""
+  },
+  "__auditoria.js": {
+    "mtime": 1789788202.3652103,
+    "seen": 1789788669.6587121,
+    "ast_hash": "f5000cba547398a5bf3f64daf604c44b",
+    "semantic_hash": ""
+  },
+  "estudiemos/huella.js": {
+    "mtime": 1789788403.2649627,
+    "seen": 1789788669.6587458,
+    "ast_hash": "6c1d0e0a3cb7c86615f6ac8701fcf136",
+    "semantic_hash": ""
+  },
+  "estudiemos/portada.js": {
+    "mtime": 1789788394.6865396,
+    "seen": 1789788669.6587472,
+    "ast_hash": "6dd9651423e5a4d46ca7aa4a1fe9b15e",
+    "semantic_hash": ""
+  },
+  "estudiemos/territorio.js": {
+    "mtime": 1789786374.8027143,
+    "seen": 1789788669.6587484,
+    "ast_hash": "ed5f08f8f7b0578b0f410e15a5d1ec2a",
+    "semantic_hash": ""
+  },
+  "estudiemos/anterior.html": {
+    "mtime": 1789786446.7188797,
+    "seen": 1789788669.6588278,
+    "ast_hash": "3cb0035a5c12cfde44c07172d7d28951",
     "semantic_hash": ""
   }
 }

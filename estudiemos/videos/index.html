@@ -249,6 +249,8 @@
 
 <div id="pie"></div>
 
+<!-- Sin esto app.js asume './' y registra /estudiemos/videos/sw.js, que no existe -->
+<script>window.RAIZ = '../../';</script>
 <script src="../../lib/datos.js"></script>
 <script src="../../config.js"></script>
 <script src="../../iconos.js"></script>
@@ -386,7 +388,10 @@
     actual = -1;
     if (!repro.open) repro.showModal();
     document.documentElement.style.overflow = 'hidden';
-    feed.children[i].scrollIntoView({ block: 'start', behavior: 'instant' });
+    /* Safari anterior a 16.4 no conoce 'instant' y tira error: sin el
+       respaldo, el video elegido no llegaba a arrancar. */
+    try { feed.children[i].scrollIntoView({ block: 'start', behavior: 'instant' }); }
+    catch(e){ feed.children[i].scrollIntoView(true); }
     activar(i, conToque);
   }
 
