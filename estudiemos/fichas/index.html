@@ -394,7 +394,7 @@
 
   </div>
 
-  <div class="titulo-seccion">PARA IMPRIMIR</div>
+  <div class="titulo-seccion" id="fichas-imprimir">PARA IMPRIMIR</div>
   <p class="bajada" style="margin-top:0">
     Los trípticos originales, tal como los armó el Equipo. Cada ficha ya
     tiene el suyo adentro, arriba de todo; acá están todos juntos, y el de
@@ -496,13 +496,18 @@ pintarNav('estudiemos');
 /* PRIMERO LO DE TU CARRERA. En el HTML va Fono primero porque es donde
    hay más; si estudiás Trabajo Social, tu grupo sube arriba. Se mueve
    el título con su lista, y se vuelve a acomodar si la carrera cambia
-   desde el menú con la pantalla abierta. */
+   desde el menú con la pantalla abierta.
+   Lo único que se mueve es el bloque de Trabajo Social: Fono ya son
+   tres títulos (el general, Anatomo por módulo y DFOF), y si se movía
+   «FONOAUDIOLOGÍA» solo, quedaba abajo de sus propias subsecciones.
+   Para volver, TS va a su lugar del HTML, justo antes de «PARA IMPRIMIR». */
 function ordenarFichas(){
   const ts = document.getElementById('fichas-ts');
-  const fono = document.getElementById('fichas-fono');
-  const [primero, segundo] = carreraActual().id === 'ts' ? [ts, fono] : [fono, ts];
-  const listaPrimero = primero.nextElementSibling;
-  segundo.before(primero, listaPrimero);
+  const listaTs = ts.nextElementSibling;
+  const destino = carreraActual().id === 'ts'
+    ? document.getElementById('fichas-fono')
+    : document.getElementById('fichas-imprimir');
+  destino.before(ts, listaTs);
 }
 ordenarFichas();
 document.addEventListener('bolivar:carrera', ordenarFichas);
