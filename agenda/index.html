@@ -474,7 +474,8 @@
 
   /* ---------- «Lo próximo» ----------
 
-     UNA sola cosa: la próxima fecha que todavía no terminó. Negro con
+     UNA sola cosa: la próxima fecha que todavía no empezó (o, si no
+     queda ninguna, la que está en curso y termina antes). Negro con
      la trama de puntos, como la cabecera, para que se lea como «esto
      te lo dice la app» y no como una tarjeta más. Si no hay ninguna,
      no se dibuja: un banner que dice «nada» ocupa el lugar de algo. */
@@ -496,12 +497,31 @@
 
   function pintarProximo(){
     const hoy = hoyISO();
-    const p = conEnfoque()
+    const vivas = conEnfoque()
       .filter(x => x.fecha_desde &&
-        String(x.fecha_hasta || x.fecha_desde).slice(0,10) >= hoy)
-      .sort((a,b) => a.fecha_desde.localeCompare(b.fecha_desde))[0];
+        String(x.fecha_hasta || x.fecha_desde).slice(0,10) >= hoy);
+
+    /* PRIMERO LO QUE TODAVÍA NO EMPEZÓ, y recién si no hay nada por
+       venir, algo en curso. Es el mismo arreglo que el renglón del
+       inicio (5/9): ordenado todo junto por `fecha_desde` ganaba lo más
+       viejo, y «Desarrollo de seminarios», del 18/8 al 21/11, se quedaba
+       con el banner tres meses diciendo «Hoy» y tapaba lo que venía. Un
+       período ya empezado no es lo próximo; si igual se muestra, se dice
+       cuándo termina, que es la única fecha suya que todavía sirve. */
+    const porVenir = vivas
+      .filter(x => x.fecha_desde.slice(0,10) >= hoy)
+      .sort((a,b) => a.fecha_desde.localeCompare(b.fecha_desde));
+    const enCurso = vivas
+      .filter(x => x.fecha_desde.slice(0,10) < hoy)
+      .sort((a,b) => String(a.fecha_hasta || a.fecha_desde)
+                       .localeCompare(String(b.fecha_hasta || b.fecha_desde)));
+    const p = porVenir[0] || enCurso[0];
     if (!p){ cajaProximo.innerHTML = ''; return; }
 
+    const arranca = p.fecha_desde.slice(0,10);
+    const cuando = arranca >= hoy ? enCuanto(arranca)
+                 : p.fecha_hasta ? 'Hasta el ' + fechaLinda(String(p.fecha_hasta).slice(0,10))
+                 : 'En curso';
     const meta = [p.hora, p.lugar].filter(Boolean).map(esc).join(' · ');
 
     cajaProximo.innerHTML = `
@@ -509,7 +529,7 @@
         <span class="proximo-texto">
           <span class="proximo-ceja">
             <b>Lo próximo</b>
-            <span class="proximo-cuando">${esc(enCuanto(p.fecha_desde.slice(0,10)))}</span>
+            <span class="proximo-cuando">${esc(cuando)}</span>
           </span>
           <span class="proximo-titulo">${esc(p.titulo)}</span>
           ${meta ? `<span class="proximo-meta">${meta}</span>` : ''}
