@@ -2525,7 +2525,14 @@ function quizasInvitarAInstalar(){
    la app inalcanzable, y eso es peor que un cierre sin animación. */
 let cerrandoHoja = null;
 function cerrarHoja(){
+  const hoja = fondo.querySelector('.hoja');
+  /* Se escucha solo la transición de la hoja misma (lo de adentro
+     también tiene las suyas, y burbujean), y el escuchador se saca al
+     terminar: si el cierre lo termina el respaldo por tiempo, uno
+     colgado cerraría la hoja apenas se la vuelve a abrir. */
+  const alTerminar = e => { if (e.target === hoja) terminar(); };
   const terminar = () => {
+    hoja.removeEventListener('transitionend', alTerminar);
     clearTimeout(cerrandoHoja);
     cerrandoHoja = null;
     fondo.classList.remove('cerrando');
@@ -2543,8 +2550,7 @@ function cerrarHoja(){
      veces. */
   if (cerrandoHoja !== null) return;
 
-  const hoja = fondo.querySelector('.hoja');
-  hoja.addEventListener('transitionend', terminar, { once:true });
+  hoja.addEventListener('transitionend', alTerminar);
   cerrandoHoja = setTimeout(terminar, 600);
   fondo.classList.add('cerrando');
 }
