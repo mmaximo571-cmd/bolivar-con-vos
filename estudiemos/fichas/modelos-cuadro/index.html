@@ -1,0 +1,580 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Modelos de Intervención · el cuadro · La Bolívar con vos</title>
+<meta name="description" content="Los siete modelos de intervención de Trabajo Social I en un cuadro para repasar, completar y guardar.">
+<meta name="theme-color" content="#F9E830">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Montserrat:wght@700;800&family=Roboto:wght@400;500&family=Roboto+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="icon" type="image/png" sizes="32x32" href="../../../imagenes/icono-32.png">
+<link rel="icon" type="image/png" sizes="96x96" href="../../../imagenes/icono-96.png">
+<link rel="icon" type="image/png" sizes="192x192" href="../../../imagenes/icono-192.png">
+<link rel="apple-touch-icon" href="../../../imagenes/icono-apple.png">
+<link rel="manifest" href="../../../manifest.json">
+
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="La Bolivar con vos">
+<meta property="og:title" content="Modelos de Intervención · el cuadro · La Bolívar con vos">
+<meta property="og:description" content="Los siete modelos de intervención de Trabajo Social I en un cuadro para repasar, completar y guardar.">
+<meta property="og:image" content="https://labolivarconvos.ar/imagenes/compartir.png">
+<meta name="twitter:card" content="summary_large_image">
+
+<!-- EL TEMA, ANTES DE DIBUJAR NADA. Igual que en las fichas. -->
+<script>
+(function(){try{
+  var g = localStorage.getItem('bolivar-tema') || 'auto';
+  var oscuro = g === 'oscuro' || (g === 'auto' &&
+    window.matchMedia('(prefers-color-scheme: dark)').matches);
+  document.documentElement.dataset.tema = oscuro ? 'oscuro' : 'claro';
+}catch(e){ document.documentElement.dataset.tema = 'claro'; }})();
+</script>
+
+<style>
+/* Los mismos tokens que las fichas: esta pantalla es su hermana y no
+   carga estilos.css, por lo mismo que ellas (ver modelos-de-intervencion). */
+:root{color-scheme:light dark;--bg:#FFFFFF;--paper:#FDFCF7;--tx:#1A1A1A;--mut:#3A3A3A;--stroke:#1A1A1A;--yellow:#F9E830;--onyel:#1A1A1A;--red:#B52625;--line:#0195B1;--faint:rgba(26,26,26,.14);--dur:.35s}
+html[data-tema="oscuro"]{--bg:#151412;--paper:#22201D;--tx:#FDFCF7;--mut:#D8D3C8;--stroke:#FDFCF7;--red:#FF9D8F;--line:#5AD8F0;--faint:rgba(253,252,247,.18)}
+*{box-sizing:border-box}
+/* `clip` y no `hidden`: con `hidden` el body pasa a ser su propio
+   contenedor de desplazamiento y las barras pegadas dejan de pegarse. */
+html,body{max-width:100%;overflow-x:clip}
+body{margin:0;background:var(--bg);color:var(--tx);font-family:Roboto,system-ui,sans-serif;-webkit-text-size-adjust:100%}
+a{color:var(--red);text-underline-offset:2px}
+button{font:inherit;cursor:pointer;color:var(--tx)}
+:focus-visible{outline:3px solid var(--line);outline-offset:2px}
+@media (prefers-reduced-motion:reduce){:root{--dur:0s}}
+
+.ficha-barra{
+  position:sticky; top:0; z-index:20;
+  display:flex; align-items:center; justify-content:space-between; gap:14px;
+  padding:11px 18px;
+  font-family:Montserrat,sans-serif; font-weight:800;
+  font-size:12px; letter-spacing:.06em; text-transform:uppercase;
+  background:var(--yellow); border-bottom:2px solid var(--stroke);
+}
+.ficha-barra a{ color:var(--onyel); text-decoration:none; }
+.ficha-barra a:hover{ text-decoration:underline; }
+
+.hoja{ max-width:860px; margin:0 auto; padding:0 18px; }
+
+/* ---------- Cabeza ---------- */
+.cabeza{ padding:40px 0 26px; }
+.chips{ display:flex; flex-wrap:wrap; gap:6px; margin-bottom:16px; }
+.chip{
+  font-family:'Roboto Mono',monospace; font-size:10px; letter-spacing:.06em;
+  border:1px solid var(--stroke); border-radius:99px; padding:5px 11px;
+}
+.chip.amarillo{
+  font-family:Montserrat,sans-serif; font-weight:800; letter-spacing:.08em; text-transform:uppercase;
+  background:var(--yellow); color:var(--onyel); box-shadow:2px 2px 0 var(--stroke);
+}
+h1{
+  font-family:'Archivo Black',sans-serif; font-weight:400; text-transform:uppercase;
+  font-size:clamp(38px,11vw,76px); line-height:.86; letter-spacing:-.03em; margin:0;
+}
+.lede{ font-size:clamp(15px,4vw,18px); line-height:1.55; color:var(--mut); margin:16px 0 0; max-width:50ch; text-wrap:pretty; }
+
+/* ---------- La regla del tiempo: el selector ----------
+   Los siete modelos son una secuencia histórica, así que el selector
+   es una línea de tiempo: el número de cada pestaña es su orden en la
+   historia, y la franja amarilla marca en qué años se ubica. */
+.epocas{ position:sticky; top:41px; z-index:15; background:var(--bg); border-block:2px solid var(--stroke); margin:0 -18px; }
+.pestanas{
+  display:flex; gap:0; overflow-x:auto; scroll-snap-type:x proximity;
+  scrollbar-width:none; padding:0 18px;
+}
+.pestanas::-webkit-scrollbar{ display:none; }
+.pestana{
+  flex:0 0 auto; scroll-snap-align:start;
+  display:flex; flex-direction:column; align-items:flex-start; gap:3px;
+  min-width:124px; max-width:150px; text-align:left;
+  padding:12px 12px 10px; background:transparent; border:0;
+  border-right:1px solid var(--faint);
+  transition:background var(--dur);
+}
+.pestana:first-child{ border-left:1px solid var(--faint); }
+.pestana .n{ font-family:'Archivo Black',sans-serif; font-size:20px; line-height:1; }
+.pestana .nom{ font-family:Montserrat,sans-serif; font-weight:800; font-size:11.5px; line-height:1.2; letter-spacing:.02em; text-transform:uppercase; hyphens:manual; }
+/* En pantallas anchas entran las siete sin deslizar. */
+@media (min-width:760px){ .pestana{ flex:1 1 0; min-width:0; max-width:none; } }
+.pestana .anios{ font-family:'Roboto Mono',monospace; font-size:10.5px; color:var(--mut); }
+.pestana .sin{ display:none; font-family:'Roboto Mono',monospace; font-size:10px; color:var(--red); }
+.pestana.editada .sin{ display:inline; }
+.pestana[aria-selected="true"]{ background:var(--yellow); color:var(--onyel); }
+.pestana[aria-selected="true"] .anios{ color:var(--onyel); }
+.pestana[aria-selected="true"] .sin{ color:var(--onyel); }
+.pestana:hover:not([aria-selected="true"]){ background:var(--paper); }
+
+.regla{ position:relative; height:44px; margin:0 18px; border-top:1px solid var(--faint); }
+.regla .marca{ position:absolute; top:0; height:6px; border-left:1px solid var(--stroke); }
+.regla .marca span{ position:absolute; top:22px; left:0; transform:translateX(-50%); font-family:'Roboto Mono',monospace; font-size:9.5px; color:var(--mut); }
+.regla .fantasma{ position:absolute; top:10px; height:4px; background:var(--faint); border-radius:2px; }
+.regla .franja{
+  position:absolute; top:7px; height:10px; background:var(--yellow);
+  border:1.5px solid var(--stroke); border-radius:3px; box-shadow:2px 2px 0 var(--stroke);
+  transition:left var(--dur) cubic-bezier(.3,.7,.2,1), width var(--dur) cubic-bezier(.3,.7,.2,1);
+}
+@media (max-width:520px){ .regla .marca:nth-child(odd of .marca) span{ display:none; } }
+
+/* ---------- El cuadro ---------- */
+.cuadro{ padding:30px 0 20px; }
+.cuadro-cabeza{ display:flex; align-items:flex-end; gap:16px; margin-bottom:6px; }
+.cuadro-num{ font-family:'Archivo Black',sans-serif; font-size:clamp(64px,18vw,120px); line-height:.78; color:var(--yellow); -webkit-text-stroke:2px var(--stroke); paint-order:stroke fill; }
+.cuadro-titulo{ min-width:0; }
+/* En el teléfono el número va arriba: al lado, «reconceptualización» no entra. */
+@media (max-width:520px){ .cuadro-cabeza{ flex-direction:column; align-items:flex-start; gap:10px; } .cuadro-num{ font-size:72px; } }
+.cuadro-titulo p{ font-family:'Roboto Mono',monospace; font-size:11px; letter-spacing:.1em; color:var(--mut); margin:0 0 6px; }
+h2{ font-family:'Archivo Black',sans-serif; font-weight:400; text-transform:uppercase; font-size:clamp(22px,6.4vw,40px); line-height:.95; margin:0; text-wrap:balance; hyphens:manual; }
+.cuadro-bajada{ font-size:15px; line-height:1.55; color:var(--mut); margin:14px 0 22px; max-width:60ch; text-wrap:pretty; }
+
+.campos{ display:grid; grid-template-columns:1fr; gap:14px; }
+@media (min-width:760px){ .campos{ grid-template-columns:1fr 1fr; } }
+.campo{
+  display:flex; flex-direction:column;
+  background:var(--paper); border:1px solid var(--stroke); border-radius:10px;
+  box-shadow:2px 2px 0 var(--stroke); overflow:hidden;
+}
+.campo-cabeza{ display:flex; flex-wrap:wrap; align-items:baseline; justify-content:space-between; gap:4px 10px; padding:14px 14px 0; }
+.campo label{ font-family:Montserrat,sans-serif; font-weight:800; font-size:14px; letter-spacing:.03em; text-transform:uppercase; }
+.estado{ font-family:'Roboto Mono',monospace; font-size:10px; letter-spacing:.06em; text-transform:uppercase; color:var(--mut); }
+.campo.tuyo .estado{ color:var(--tx); background:var(--yellow); color:var(--onyel); padding:2px 6px; border-radius:4px; }
+.pista{ font-size:12.5px; line-height:1.4; color:var(--mut); margin:4px 14px 0; }
+.campo textarea{
+  flex:1; display:block; width:100%; min-height:190px; resize:vertical;
+  field-sizing:content;
+  margin:10px 0 0; padding:12px 14px 14px;
+  font:15px/1.6 Roboto,system-ui,sans-serif; color:var(--tx);
+  background:transparent; border:0; border-top:1px dashed var(--faint);
+}
+.campo textarea:focus{ outline:none; background:var(--bg); }
+.campo:focus-within{ outline:3px solid var(--line); outline-offset:2px; }
+.restaurar{
+  align-self:flex-start; margin:0 14px 12px; padding:4px 0;
+  background:none; border:0; font-size:12.5px; color:var(--red); text-decoration:underline; text-underline-offset:2px;
+}
+.restaurar[hidden]{ display:none; }
+
+.pasos{ display:flex; justify-content:space-between; gap:10px; margin:22px 0 0; }
+.paso{
+  font-family:Montserrat,sans-serif; font-weight:800; font-size:12px; letter-spacing:.04em; text-transform:uppercase;
+  background:transparent; border:1px solid var(--stroke); border-radius:10px; box-shadow:2px 2px 0 var(--stroke);
+  padding:12px 14px; text-align:left; max-width:48%;
+}
+.paso.sig{ margin-left:auto; text-align:right; }
+.paso span{ display:block; font-family:'Roboto Mono',monospace; font-weight:400; font-size:10px; letter-spacing:.06em; color:var(--mut); margin-bottom:3px; }
+.paso[hidden]{ display:none; }
+
+.otros{ margin:26px 0 0; padding:16px 0 0; border-top:2px solid var(--stroke); display:flex; flex-wrap:wrap; gap:8px 18px; font-size:13px; color:var(--mut); }
+.otros button{ background:none; border:0; padding:0; color:var(--red); text-decoration:underline; text-underline-offset:2px; font-size:13px; }
+
+/* ---------- La barra de guardar ---------- */
+.guardar{
+  position:sticky; bottom:0; z-index:15; margin-top:30px;
+  display:grid; grid-template-columns:1fr 1fr; align-items:center; gap:8px 10px;
+  padding:12px 18px calc(12px + env(safe-area-inset-bottom));
+  background:var(--bg); border-top:2px solid var(--stroke);
+}
+.guardar .aviso{ grid-column:1 / -1; margin:0; font-family:'Roboto Mono',monospace; font-size:11.5px; letter-spacing:.03em; line-height:1.4; }
+.guardar .aviso.pendiente{ color:var(--red); }
+@media (min-width:640px){ .guardar{ grid-template-columns:1fr auto auto; } .guardar .aviso{ grid-column:auto; } }
+.boton{
+  font-family:Montserrat,sans-serif; font-weight:800; font-size:12.5px; letter-spacing:.04em; text-transform:uppercase;
+  border:1px solid var(--stroke); border-radius:10px; box-shadow:2px 2px 0 var(--stroke);
+  padding:12px 10px; background:transparent; transition:transform .1s, box-shadow .1s;
+}
+.boton.principal{ background:var(--yellow); color:var(--onyel); }
+.boton:active{ transform:translate(2px,2px); box-shadow:0 0 0 var(--stroke); }
+.boton:disabled{ opacity:.45; cursor:default; transform:none; box-shadow:2px 2px 0 var(--stroke); }
+
+.pie{ max-width:860px; margin:0 auto; padding:34px 18px 60px; font-size:13px; line-height:1.55; color:var(--mut); }
+.pie p{ max-width:60ch; margin:0 0 10px; }
+
+@media print{
+  .ficha-barra,.epocas,.guardar,.pasos,.otros,.restaurar{ display:none!important; }
+  .campo textarea{ field-sizing:content; min-height:0; }
+}
+</style>
+</head>
+<body>
+
+<nav class="ficha-barra">
+  <a href="../">← Fichas</a>
+  <a href="../modelos-de-intervencion/">Los 4 componentes</a>
+</nav>
+
+<main>
+  <header class="hoja cabeza">
+    <div class="chips">
+      <span class="chip amarillo">Cuadro para completar</span>
+      <span class="chip">TRABAJO SOCIAL I</span>
+    </div>
+    <h1>Modelos de<br>intervención</h1>
+    <p class="lede">Los siete modelos, cada uno con sus cuatro componentes. Viene
+      con una síntesis para repasar: corregila, completala con lo que viste en
+      clase y guardala. Queda guardada en este dispositivo.</p>
+  </header>
+
+  <div class="hoja">
+    <div class="epocas">
+      <div class="pestanas" role="tablist" aria-label="Los siete modelos, en orden histórico" id="pestanas"></div>
+      <div class="regla" id="regla" aria-hidden="true"></div>
+    </div>
+
+    <section class="cuadro" id="cuadro" role="tabpanel" tabindex="-1">
+      <div class="cuadro-cabeza">
+        <span class="cuadro-num" id="c-num" aria-hidden="true">1</span>
+        <div class="cuadro-titulo">
+          <p id="c-epoca"></p>
+          <h2 id="c-titulo"></h2>
+        </div>
+      </div>
+      <p class="cuadro-bajada" id="c-bajada"></p>
+
+      <div class="campos" id="campos"></div>
+
+      <div class="pasos">
+        <button type="button" class="paso" id="ant"><span>Anterior</span><b></b></button>
+        <button type="button" class="paso sig" id="sig"><span>Siguiente</span><b></b></button>
+      </div>
+
+      <div class="otros">
+        <button type="button" id="restaurar-modelo">Volver este modelo a la síntesis</button>
+      </div>
+    </section>
+  </div>
+
+  <div class="guardar">
+    <p class="aviso" id="aviso" role="status" aria-live="polite">Estás viendo la síntesis. Editá cualquier campo para sumar tus notas.</p>
+    <button type="button" class="boton" id="descargar">Descargar .txt</button>
+    <button type="button" class="boton principal" id="guardar" disabled>Guardar cambios</button>
+  </div>
+</main>
+
+<footer class="pie">
+  <p>La síntesis de cada modelo la armamos como guía de repaso, a partir de la
+    bibliografía habitual de la materia. No reemplaza los textos de la cátedra:
+    <b>si algo no coincide con lo que dijeron en clase, vale lo de la cátedra</b>
+    y lo podés corregir acá mismo.</p>
+  <p>Lo que guardás queda en este navegador, no en tu cuenta. Si cambiás de
+    teléfono o borrás los datos del navegador se pierde: para tenerlo aparte,
+    usá «Descargar .txt».</p>
+</footer>
+
+<script>
+/* ============================================================
+   LOS SIETE MODELOS. `desde` y `hasta` dibujan la franja de la regla
+   y son aproximados: los modelos no terminan de golpe, se superponen
+   y conviven. El texto es la síntesis que viene cargada.
+   ============================================================ */
+const MODELOS = [
+{
+  id:'liberal-positivista', corto:'Liberal positivista', desde:1880, hasta:1943, epoca:'c. 1880 – 1943',
+  titulo:'Modelo liberal positivista',
+  bajada:'El origen: la asistencia a la pobreza pasa de la caridad a la mirada científica del higienismo.',
+  marco:'Positivismo (Comte, Durkheim): la sociedad se estudia como un organismo regido por leyes naturales, y el conocimiento válido es el que se observa y se mide. Se suman el darwinismo social y el higienismo médico. Lema de época: «orden y progreso». La cuestión social se lee como un problema moral e individual —vicio, enfermedad, desviación—, no como producto de la estructura social.',
+  contexto:'Estado liberal oligárquico y modelo agroexportador. Inmigración masiva, conventillos, epidemias y primeras huelgas y organizaciones obreras: emerge la «cuestión social». La asistencia está en manos de la Iglesia y de la Sociedad de Beneficencia (1823), con una lógica de caridad y filantropía. En 1924 se abre el curso de Visitadoras de Higiene en la Facultad de Medicina (UBA) y en 1930 la Escuela de Servicio Social del Museo Social Argentino.',
+  sujeto:'El pobre como «enfermo social», peligroso o desviado, al que hay que corregir. Se lo clasifica entre pobres merecedores y no merecedores de ayuda. Es objeto de tutela y control, sin voz propia; la familia obrera e inmigrante aparece como foco de contagio físico y moral.',
+  intervencion:'Rol auxiliar y subordinado al médico y al abogado: la visitadora de higiene. Objetivo: normalizar, moralizar y adaptar al individuo al orden establecido. Herramientas: visita domiciliaria, encuesta social, registro y fichaje, educación higiénica y control de las conductas.'
+},
+{
+  id:'asistencia-legitimada', corto:'Asistencia legitimada', desde:1943, hasta:1955, epoca:'c. 1943 – 1955',
+  titulo:'Modelo de asistencia legitimada',
+  bajada:'La asistencia deja de ser dádiva y pasa a ser un derecho que garantiza el Estado.',
+  marco:'Doctrina de la justicia social y del Estado de bienestar, con aportes de la doctrina social de la Iglesia. La necesidad se lee como derecho: «donde existe una necesidad nace un derecho». La asistencia se legitima como responsabilidad del Estado y deja de depender de la voluntad caritativa.',
+  contexto:'Primeros gobiernos peronistas. Industrialización por sustitución de importaciones, pleno empleo, crecimiento sindical y ampliación de derechos laborales y sociales (Constitución de 1949). En 1946 se interviene la Sociedad de Beneficencia y en 1948 se crea la Fundación Eva Perón. Políticas masivas de salud, vivienda, educación y previsión.',
+  sujeto:'El trabajador y su familia como sujeto de derechos. El «descamisado» se integra a la comunidad organizada a través del trabajo y del sindicato. Ya no es un desviado a corregir sino un ciudadano con derecho a recibir asistencia.',
+  intervencion:'La asistente social trabaja dentro de las instituciones del Estado como ejecutora de políticas sociales masivas: gestiona y distribuye recursos, tramita prestaciones y orienta el acceso a derechos. Tensión con la formación anterior y con la acción directa de la Fundación, que muchas veces saltea la mediación profesional.'
+},
+{
+  id:'tecnocratico-normativo', corto:'Tecnocrático normativo', desde:1955, hasta:1966, epoca:'c. 1955 – 1966',
+  titulo:'Modelo tecnocrático normativo',
+  bajada:'El desarrollismo: el problema es el atraso, y la solución es técnica y planificada.',
+  marco:'Teoría de la modernización y desarrollismo (CEPAL); estructural-funcionalismo (Parsons): la sociedad es un sistema en equilibrio y los problemas son disfunciones. Se importan los métodos clásicos del Servicio Social norteamericano —caso, grupo y comunidad— y el Desarrollo de la Comunidad. Pretensión de neutralidad técnica.',
+  contexto:'Después del golpe de 1955, gobiernos desarrollistas (Frondizi) y proscripción del peronismo. Alianza para el Progreso (1961) y organismos internacionales (OEA, ONU) que financian programas de desarrollo. Se busca modernizar las sociedades «atrasadas» de América Latina. La profesión se institucionaliza en la universidad.',
+  sujeto:'El «marginal»: un sector atrasado o no integrado a la sociedad moderna, con déficit de adaptación. Individuo, grupo o comunidad que hay que integrar funcionalmente al sistema. Se lo invita a participar, pero dentro de los límites que fija el programa.',
+  intervencion:'Técnico neutral y planificador. Objetivo: integrar, adaptar y promover el desarrollo sin cuestionar la estructura. Herramientas: diagnóstico, planificación, programas de desarrollo de comunidad y los métodos de caso, grupo y comunidad.'
+},
+{
+  id:'reconceptualizacion', corto:'Reconceptuali­zación', desde:1965, hasta:1976, epoca:'c. 1965 – 1976',
+  titulo:'Modelo de la reconceptuali­zación',
+  bajada:'La profesión se mira críticamente y toma partido: el problema es la dependencia y la opresión.',
+  marco:'Movimiento latinoamericano de crítica al Servicio Social tradicional y al desarrollismo. Teoría de la dependencia, marxismo, pedagogía de Paulo Freire (concientización, educación liberadora) y teología de la liberación. Se rechaza la neutralidad: toda intervención es política. En Argentina se destaca el grupo ECRO.',
+  contexto:'Revolución Cubana, dictadura de Onganía (1966), Cordobazo (1969) y auge de las luchas populares y la radicalización política. Seminarios regionales (Porto Alegre 1965, Araxá 1967). El movimiento se corta con el golpe de 1976: persecución, cierre de carreras y trabajadores sociales desaparecidos.',
+  sujeto:'El oprimido y explotado, entendido como sujeto histórico de transformación. Se lo reconoce como parte de una clase y de un pueblo, con capacidad de tomar conciencia de su situación y organizarse para cambiarla.',
+  intervencion:'La trabajadora social como agente de cambio, comprometida con los sectores populares. Objetivo: la transformación de la estructura social. Herramientas: concientización, organización popular, investigación-acción, educación popular y método integrado en lugar de caso, grupo y comunidad.'
+},
+{
+  id:'trabajo-social-alternativo', corto:'TS alternativo', desde:1983, hasta:1990, epoca:'c. 1983 – 1990',
+  titulo:'Modelo del Trabajo Social alternativo',
+  bajada:'Con la democracia, la profesión revisa la reconceptualización y trabaja desde la sociedad civil.',
+  marco:'Revisión autocrítica de la reconceptualización. Lectura de Gramsci (hegemonía, sociedad civil), educación popular y perspectiva de derechos humanos. Lo alternativo se piensa como otra forma de hacer, construida junto a los sectores populares y sus organizaciones, por fuera de la lógica estatal autoritaria.',
+  contexto:'Retorno a la democracia en 1983, después de la última dictadura. Juicio a las Juntas, movimientos de derechos humanos, crisis de la deuda externa e hiperinflación. Crecen las ONG, las organizaciones de base y los movimientos sociales. Se reabren y reforman las carreras.',
+  sujeto:'El sujeto popular como actor colectivo, organizado y con saberes propios. Se valoran su cultura, su participación y sus formas de organización; se lo reconoce como sujeto de derechos después del terrorismo de Estado.',
+  intervencion:'Acompañamiento y promoción desde organizaciones sociales y ONG. Objetivo: fortalecer la organización, la participación y la ciudadanía. Herramientas: educación popular, talleres, trabajo con organizaciones de base, proyectos comunitarios y defensa de los derechos humanos.'
+},
+{
+  id:'nueva-cuestion-social', corto:'Nueva cuestión social', desde:1990, hasta:2002, epoca:'c. 1990 – 2002',
+  titulo:'Modelo de la nueva cuestión social',
+  bajada:'El neoliberalismo rompe los lazos del trabajo y la intervención se enfrenta a la exclusión.',
+  marco:'La «nueva cuestión social»: Rosanvallon y Castel leen el derrumbe de la sociedad salarial —desafiliación, vulnerabilidad, supernumerarios—. Crítica al neoliberalismo y al Consenso de Washington. En Argentina, Carballeda piensa la intervención en lo social como reconstrucción de lazos y de la singularidad del sujeto.',
+  contexto:'Década del 90: reforma del Estado, privatizaciones, apertura y convertibilidad. Desempleo masivo, precarización, crecimiento de la pobreza. Políticas sociales focalizadas, descentralizadas y financiadas por organismos internacionales (Banco Mundial, BID). Estalla con la crisis de 2001.',
+  sujeto:'El excluido, desafiliado o vulnerable: alguien que perdió la inscripción que daba el trabajo. La política lo trata como «beneficiario» de un programa focalizado. Aparece el «sujeto inesperado», con padecimientos que no encajan en las instituciones.',
+  intervencion:'Gestión de programas focalizados y de la emergencia: evaluar la elegibilidad, asignar prestaciones, gerenciar recursos escasos. Desde la mirada crítica, la intervención busca reconstruir lazos sociales, escuchar la singularidad del sujeto y trabajar en red con otras instituciones.'
+},
+{
+  id:'neoestadocentrico', corto:'Neoestado­céntrico', desde:2003, hasta:2015, epoca:'c. 2003 – 2015',
+  titulo:'Modelo neoestado­céntrico',
+  bajada:'El Estado vuelve al centro de la política social, con un enfoque de derechos.',
+  marco:'Enfoque de derechos humanos y de ciudadanía: la política social como garantía de derechos universales, no como ayuda focalizada. Recuperación del rol activo del Estado, pensamiento nacional y latinoamericano, perspectiva de integralidad y de corresponsabilidad.',
+  contexto:'Salida de la crisis de 2001. Crecimiento económico, recuperación del empleo y ampliación de derechos: Ley 26.061 de Protección Integral de Niñas, Niños y Adolescentes (2005), moratoria previsional, Ley de Salud Mental 26.657 (2010), Asignación Universal por Hijo (2009) y Ley Federal de Trabajo Social 27.072 (2014).',
+  sujeto:'Sujeto de derechos y ciudadano: titular de derechos, no beneficiario. Protagonista de su propio proceso, con voz y participación. Se lo piensa en su integralidad y en su contexto territorial y comunitario.',
+  intervencion:'La trabajadora social como garante y ejecutora de políticas públicas universales. Objetivo: el acceso efectivo a derechos. Herramientas: abordaje territorial, integral e interdisciplinario, trabajo en red, articulación entre instituciones, y restitución y promoción de derechos.'
+}
+];
+
+const CAMPOS = [
+  { k:'marco', nom:'Marco conceptual', pista:'Fundamentos teóricos y epistemológicos.' },
+  { k:'contexto', nom:'Contexto histórico', pista:'El momento socio-histórico en que surge.' },
+  { k:'sujeto', nom:'Concepción del sujeto', pista:'Cómo se entiende al sujeto de la intervención.' },
+  { k:'intervencion', nom:'Intervención', pista:'Rol profesional, objetivos y modalidad de acción.' }
+];
+
+const CLAVE = 'bolivar-modelos-intervencion';
+const INICIO = 1880, FIN = 2020;
+
+/* ============================================================
+   ESTADO. `guardado` es lo que está en localStorage; `borrador` es lo
+   que hay en pantalla. Solo se guarda lo que difiere de la síntesis,
+   así una corrección de la síntesis llega a quien no tocó ese campo.
+   ============================================================ */
+let guardado = leer();
+let borrador = JSON.parse(JSON.stringify(guardado));
+let actual = 0;
+
+function leer(){
+  try{
+    const d = JSON.parse(localStorage.getItem(CLAVE) || '{}');
+    return (d && typeof d.modelos === 'object') ? d.modelos : {};
+  }catch(e){ return {}; }
+}
+function texto(i, k){
+  const m = MODELOS[i], b = borrador[m.id];
+  return (b && typeof b[k] === 'string') ? b[k] : m[k];
+}
+function esTuyo(i, k){
+  const b = borrador[MODELOS[i].id];
+  return !!(b && typeof b[k] === 'string' && b[k] !== MODELOS[i][k]);
+}
+function poner(i, k, v){
+  const id = MODELOS[i].id;
+  if (v === MODELOS[i][k]){
+    if (borrador[id]){ delete borrador[id][k]; if (!Object.keys(borrador[id]).length) delete borrador[id]; }
+  } else {
+    (borrador[id] = borrador[id] || {})[k] = v;
+  }
+}
+function pendientes(){
+  let n = 0;
+  MODELOS.forEach(m => CAMPOS.forEach(c => {
+    const a = guardado[m.id] && guardado[m.id][c.k];
+    const b = borrador[m.id] && borrador[m.id][c.k];
+    if (a !== b) n++;
+  }));
+  return n;
+}
+function modeloPendiente(i){
+  const id = MODELOS[i].id;
+  return CAMPOS.some(c => (guardado[id] && guardado[id][c.k]) !== (borrador[id] && borrador[id][c.k]));
+}
+
+/* ============================================================
+   DIBUJO
+   ============================================================ */
+const $ = id => document.getElementById(id);
+const pct = a => ((a - INICIO) / (FIN - INICIO) * 100) + '%';
+
+function armarPestanas(){
+  $('pestanas').innerHTML = MODELOS.map((m, i) => `
+    <button type="button" class="pestana" role="tab" id="tab-${i}" aria-controls="cuadro"
+            aria-selected="false" tabindex="-1" data-i="${i}">
+      <span class="n">${i + 1}</span>
+      <span class="nom">${m.corto}</span>
+      <span class="anios">${m.epoca.replace('c. ', '')}</span>
+      <span class="sin">● sin guardar</span>
+    </button>`).join('');
+
+  let r = '';
+  for (let a = INICIO; a <= FIN; a += 20) r += `<span class="marca" style="left:${pct(a)}"><span>${a}</span></span>`;
+  MODELOS.forEach(m => r += `<span class="fantasma" style="left:${pct(m.desde)};width:calc(${pct(m.hasta)} - ${pct(m.desde)})"></span>`);
+  r += '<span class="franja" id="franja"></span>';
+  $('regla').innerHTML = r;
+
+  $('pestanas').addEventListener('click', e => {
+    const b = e.target.closest('.pestana'); if (b) ir(+b.dataset.i, true);
+  });
+  $('pestanas').addEventListener('keydown', e => {
+    const mov = { ArrowRight:1, ArrowLeft:-1, Home:-99, End:99 }[e.key];
+    if (mov === undefined) return;
+    e.preventDefault();
+    const i = Math.max(0, Math.min(MODELOS.length - 1, mov === 99 ? 99 : mov === -99 ? 0 : actual + mov));
+    ir(i, true); $('tab-' + i).focus();
+  });
+}
+
+function armarCampos(){
+  $('campos').innerHTML = CAMPOS.map(c => `
+    <div class="campo" id="campo-${c.k}">
+      <div class="campo-cabeza">
+        <label for="t-${c.k}">${c.nom}</label>
+        <span class="estado" id="e-${c.k}">Síntesis</span>
+      </div>
+      <p class="pista" id="p-${c.k}">${c.pista}</p>
+      <textarea id="t-${c.k}" data-k="${c.k}" aria-describedby="p-${c.k} e-${c.k}" spellcheck="true"></textarea>
+      <button type="button" class="restaurar" data-k="${c.k}" hidden>Volver a la síntesis</button>
+    </div>`).join('');
+
+  $('campos').addEventListener('input', e => {
+    const t = e.target.closest('textarea'); if (!t) return;
+    poner(actual, t.dataset.k, t.value);
+    crecer(t); marcarCampo(t.dataset.k); refrescar();
+  });
+  $('campos').addEventListener('click', e => {
+    const b = e.target.closest('.restaurar'); if (!b) return;
+    const k = b.dataset.k, t = $('t-' + k);
+    t.value = MODELOS[actual][k]; poner(actual, k, t.value);
+    crecer(t); marcarCampo(k); refrescar(); t.focus();
+  });
+}
+
+/* Donde `field-sizing` no existe (Safari, Firefox), el alto se ajusta a mano. */
+const sinFieldSizing = !CSS.supports('field-sizing', 'content');
+function crecer(t){
+  if (!sinFieldSizing) return;
+  t.style.height = 'auto';
+  t.style.height = Math.max(190, t.scrollHeight + 2) + 'px';
+}
+
+function marcarCampo(k){
+  const tuyo = esTuyo(actual, k);
+  $('campo-' + k).classList.toggle('tuyo', tuyo);
+  $('e-' + k).textContent = tuyo ? 'Con tus notas' : 'Síntesis';
+  document.querySelector(`.restaurar[data-k="${k}"]`).hidden = !tuyo;
+}
+
+function ir(i, desdePestana){
+  actual = i;
+  const m = MODELOS[i];
+  document.querySelectorAll('.pestana').forEach((b, j) => {
+    b.setAttribute('aria-selected', j === i ? 'true' : 'false');
+    b.tabIndex = j === i ? 0 : -1;
+  });
+  $('cuadro').setAttribute('aria-labelledby', 'tab-' + i);
+  /* A mano y no con scrollIntoView, que además mueve la página. */
+  const riel = $('pestanas'), tab = $('tab-' + i);
+  const izq = tab.offsetLeft - riel.offsetLeft - 18, der = izq + tab.offsetWidth + 36;
+  if (izq < riel.scrollLeft || der > riel.scrollLeft + riel.clientWidth){
+    riel.scrollTo({ left: Math.max(0, izq), behavior: matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth' });
+  }
+
+  const f = $('franja');
+  f.style.left = pct(m.desde);
+  f.style.width = `calc(${pct(m.hasta)} - ${pct(m.desde)})`;
+
+  $('c-num').textContent = i + 1;
+  $('c-epoca').textContent = 'MODELO ' + (i + 1) + ' DE 7 · ' + m.epoca.toUpperCase();
+  $('c-titulo').textContent = m.titulo;
+  $('c-bajada').textContent = m.bajada;
+  CAMPOS.forEach(c => { const t = $('t-' + c.k); t.value = texto(i, c.k); crecer(t); marcarCampo(c.k); });
+
+  const ant = $('ant'), sig = $('sig');
+  ant.hidden = i === 0; sig.hidden = i === MODELOS.length - 1;
+  if (i > 0) ant.querySelector('b').textContent = '← ' + MODELOS[i - 1].corto;
+  if (i < MODELOS.length - 1) sig.querySelector('b').textContent = MODELOS[i + 1].corto + ' →';
+
+  history.replaceState(null, '', '#' + m.id);
+  refrescar();
+}
+
+let mensaje = '';
+function refrescar(){
+  const n = pendientes();
+  document.querySelectorAll('.pestana').forEach((b, j) => b.classList.toggle('editada', modeloPendiente(j)));
+  $('guardar').disabled = n === 0;
+  const aviso = $('aviso');
+  aviso.classList.toggle('pendiente', n > 0);
+  if (n > 0){ mensaje = ''; aviso.textContent = n === 1 ? '1 campo sin guardar.' : n + ' campos sin guardar.'; }
+  else if (mensaje) aviso.textContent = mensaje;
+  else {
+    const hay = Object.keys(guardado).length;
+    aviso.textContent = hay ? 'Todo guardado en este dispositivo.' : 'Estás viendo la síntesis. Editá cualquier campo para sumar tus notas.';
+  }
+  const mod = borrador[MODELOS[actual].id];
+  $('restaurar-modelo').disabled = !mod;
+  $('restaurar-modelo').style.opacity = mod ? 1 : .45;
+}
+
+/* ============================================================
+   GUARDAR, DESCARGAR, RESTAURAR
+   ============================================================ */
+function guardar(){
+  if (!pendientes()) return;
+  try{
+    localStorage.setItem(CLAVE, JSON.stringify({ version:1, guardadoEl:new Date().toISOString(), modelos:borrador }));
+    guardado = JSON.parse(JSON.stringify(borrador));
+    const h = new Date();
+    mensaje = 'Guardado a las ' + h.getHours() + ':' + String(h.getMinutes()).padStart(2, '0') + ' en este dispositivo.';
+  }catch(e){
+    mensaje = '';
+    $('aviso').textContent = 'Este navegador no deja guardar (¿modo incógnito?). Descargá el cuadro para no perder los cambios.';
+    $('aviso').classList.add('pendiente');
+    return;
+  }
+  refrescar();
+}
+
+function descargar(){
+  const linea = '='.repeat(60);
+  const sh = x => x.replace(/­/g, '');
+  let s = 'MODELOS DE INTERVENCIÓN · TRABAJO SOCIAL I\nCuadro descargado de La Bolívar con vos el ' +
+          new Date().toLocaleDateString('es-AR') + '\n';
+  MODELOS.forEach((m, i) => {
+    s += '\n' + linea + '\n' + (i + 1) + '. ' + sh(m.titulo).toUpperCase() + ' (' + m.epoca + ')\n' + linea + '\n';
+    CAMPOS.forEach(c => {
+      s += '\n' + c.nom.toUpperCase() + (esTuyo(i, c.k) ? ' · con tus notas' : '') + '\n' + texto(i, c.k).trim() + '\n';
+    });
+  });
+  const url = URL.createObjectURL(new Blob([s], { type:'text/plain;charset=utf-8' }));
+  const a = document.createElement('a');
+  a.href = url; a.download = 'modelos-de-intervencion.txt';
+  document.body.appendChild(a); a.click(); a.remove();
+  setTimeout(() => URL.revokeObjectURL(url), 1000);
+}
+
+function restaurarModelo(){
+  const m = MODELOS[actual];
+  if (!borrador[m.id]) return;
+  if (!confirm('¿Volver «' + m.titulo.replace(/­/g, '') + '» a la síntesis? Se borran tus notas de los cuatro campos de este modelo.')) return;
+  delete borrador[m.id];
+  ir(actual);
+}
+
+armarPestanas();
+armarCampos();
+$('ant').addEventListener('click', () => { ir(actual - 1); $('cuadro').focus({ preventScroll:true }); $('cuadro').scrollIntoView({ block:'start' }); });
+$('sig').addEventListener('click', () => { ir(actual + 1); $('cuadro').focus({ preventScroll:true }); $('cuadro').scrollIntoView({ block:'start' }); });
+$('guardar').addEventListener('click', guardar);
+$('descargar').addEventListener('click', descargar);
+$('restaurar-modelo').addEventListener('click', restaurarModelo);
+document.addEventListener('keydown', e => {
+  if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === 's'){ e.preventDefault(); guardar(); }
+});
+window.addEventListener('beforeunload', e => { if (pendientes()){ e.preventDefault(); e.returnValue = ''; } });
+
+const deHash = MODELOS.findIndex(m => '#' + m.id === location.hash);
+ir(deHash >= 0 ? deHash : 0);
+</script>
+</body>
+</html>
