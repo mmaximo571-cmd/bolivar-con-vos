@@ -1,0 +1,647 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Introducción a la Psicología: repaso por unidades · La Bolívar con vos</title>
+<meta name="description" content="Repaso de Introducción a la Psicología por unidades: conceptos, cuadros comparativos, fichas rápidas y autoevaluación, con Derechos Humanos como eje transversal.">
+<meta name="theme-color" content="#F9E830">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;600;800&family=Montserrat:wght@800&family=Roboto+Mono:wght@400;500&display=swap" rel="stylesheet">
+<!-- Iconos de la app: pestana, Google, y pantalla de inicio del celular -->
+<link rel="icon" type="image/png" sizes="32x32" href="../../../imagenes/icono-32.png">
+<link rel="icon" type="image/png" sizes="96x96" href="../../../imagenes/icono-96.png">
+<link rel="icon" type="image/png" sizes="192x192" href="../../../imagenes/icono-192.png">
+<link rel="apple-touch-icon" href="../../../imagenes/icono-apple.png">
+<link rel="manifest" href="../../../manifest.json">
+
+<!-- Como se ve cuando alguien comparte el link por WhatsApp o Instagram -->
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="La Bolivar con vos">
+<meta property="og:title" content="Introducción a la Psicología: repaso por unidades · La Bolívar con vos">
+<meta property="og:description" content="Conceptos, cuadros, fichas rápidas y autoevaluación de las cuatro partes del programa.">
+<meta property="og:image" content="https://labolivarconvos.ar/imagenes/compartir.png">
+<meta name="twitter:card" content="summary_large_image">
+
+<!-- EL TEMA, ANTES DE DIBUJAR NADA. Igual que en el resto de la app: si
+     esto viviera en un script del final, la ficha arrancaria clara y
+     pegaria un salto a oscura. -->
+<script>
+(function(){try{
+  var g = localStorage.getItem('bolivar-tema') || 'auto';
+  var oscuro = g === 'oscuro' || (g === 'auto' &&
+    window.matchMedia('(prefers-color-scheme: dark)').matches);
+  document.documentElement.dataset.tema = oscuro ? 'oscuro' : 'claro';
+}catch(e){ document.documentElement.dataset.tema = 'claro'; }})();
+</script>
+
+<style>
+/* ===== LO QUE VINO DEL DISENO, TAL CUAL =====
+   Menos las fuentes: el export las traia embebidas en base64 y aca se
+   piden a Google Fonts como en las demas fichas. */
+:root{
+  --color-bg:#FDFCF7; --color-surface:#FFFFFF; --color-text:#1A1A1A;
+  --color-divider:#D8D2C2; --color-neutral-200:#EFEAD9; --color-neutral-300:#D8D2C2;
+  --color-neutral-500:#7C7566; --color-neutral-700:#3A3A3A; --color-neutral-800:#2A2A2A;
+  --color-accent:#B52625; --color-accent-700:#8C1B1A;
+  --hl:#F9E830; --onhl:#1A1A1A;
+  --mono:'Roboto Mono', ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+}
+*,*::before,*::after{ box-sizing:border-box; }
+html{ background:var(--color-bg); }
+body{ margin:0; background:transparent; color:var(--color-text);
+      font-family:'Archivo', system-ui, sans-serif; font-size:15px; line-height:1.55;
+      -webkit-text-size-adjust:100%; }
+a{ color:var(--color-accent-700); text-decoration:none; }
+a:hover{ color:var(--color-text); }
+button:focus-visible, a:focus-visible{ outline:3px solid var(--color-accent); outline-offset:2px; }
+@keyframes entra{ from{ opacity:0; transform:translateY(14px); } to{ opacity:1; transform:none; } }
+@keyframes abrir{ from{ opacity:0; transform:translateY(8px); } to{ opacity:1; transform:none; } }
+.bloque{ animation:entra .35s cubic-bezier(.16,1,.3,1) both; }
+.caja{ transition:transform .2s cubic-bezier(.16,1,.3,1), box-shadow .2s; }
+.caja:hover{ transform:translate(-2px,-2px); box-shadow:5px 5px 0 var(--color-text); }
+@media (prefers-reduced-motion:reduce){ *{ animation:none !important; transition:none !important; } }
+
+/* ===== LO QUE AGREGA LA APP ===== */
+
+/* LOS BLOQUES NEGROS. El diseno pinta la cabecera, los rotulos 01-04,
+   la tarjeta y el pie con `--color-text` de fondo y `--color-bg` de
+   letra. En tema oscuro esos dos se dan vuelta y los bloques quedaban
+   casi blancos. Mismo arreglo que el mazo y la linea de tiempo: su
+   propio par de colores, oscuro con letra clara en los dos temas. */
+:root{ --tinta:#1A1A1A; --sobre-tinta:#FDFCF7; }
+html[data-tema="oscuro"]{
+  color-scheme:dark;
+  --color-bg:#151412; --color-surface:#22201D; --color-text:#FDFCF7;
+  --color-divider:#57524A; --color-neutral-200:#2C2A26;
+  --color-neutral-500:#A9A294; --color-neutral-700:#D8D3C8;
+  --color-neutral-800:#E6E1D6;
+  --color-accent:#FF9D8F; --color-accent-700:#FF9D8F;
+  --tinta:#0B0A09;
+}
+
+.ficha-barra{
+  position:sticky; top:0; z-index:20;
+  display:flex; flex-wrap:wrap; align-items:center;
+  justify-content:space-between; gap:2px 14px;
+  padding:11px 18px;
+  font-family:Montserrat,sans-serif; font-weight:800;
+  font-size:12px; letter-spacing:.06em; text-transform:uppercase;
+  background:var(--hl);
+  border-bottom:2px solid var(--color-text);
+}
+.ficha-barra a{ color:var(--onhl); text-decoration:none; }
+.ficha-barra a:hover{ text-decoration:underline; }
+
+/* Las pestanas de unidad quedan pegadas arriba al bajar. Arriba ya esta
+   la barra de volver, que tambien se pega: van justo debajo (el alto lo
+   mide el script, porque en un telefono angosto la barra puede ocupar
+   dos renglones). */
+.psi-pestanas{ top:var(--alto-barra, 0px) !important; }
+</style>
+</head>
+<body>
+
+<nav class="ficha-barra" id="ficha-barra">
+<a href="../../">← Estudiemos</a>
+<a href="../">Todas las fichas</a>
+</nav>
+
+<!-- Aca dibuja ficha.js. Vacio hasta que corre el script del final. -->
+<div id="ficha"></div>
+
+<!-- El repaso, tal como salio del diseno. Vive dentro de un <template>
+     para que el navegador no lo muestre a medio armar. Vino como export
+     «standalone» de Claude Design (19/9/2026), igual que el mazo y la
+     linea de tiempo: la plantilla, los datos y el codigo son los de
+     adentro de ese paquete. Los cambios para que corra con ficha.js:
+       - `sc-camel-on-click` pasa a `onClick`, que es lo que el motor
+         engancha;
+       - el `key` de la unidad (que en React hacia entrar la animacion
+         solo al cambiar de pestana) no existe en el motor, que redibuja
+         todo en cada toque: la clase `bloque` y las animaciones de la
+         respuesta y la devolucion las pone el codigo solo en el dibujo
+         que corresponde;
+       - la cabecera del diseno deja lugar a la barra de la app, y los
+         bloques negros usan `--tinta` para el tema oscuro. -->
+<template id="plantilla">
+<div style="min-height:100vh">
+
+
+  <div style="max-width:760px;margin:0 auto;padding:24px 16px 60px">
+
+    <section style="background:var(--tinta);color:var(--sobre-tinta);border:2px solid var(--color-text);box-shadow:6px 6px 0 var(--color-accent);padding:24px 20px">
+      <p style="font-family:var(--mono);font-size:11px;letter-spacing:.12em;margin:0 0 12px;color:var(--hl)">TRABAJO SOCIAL Y FONOAUDIOLOGÍA · FTS-UNLP</p>
+      <h1 style="font-weight:800;font-size:clamp(28px,8vw,48px);line-height:1;letter-spacing:-.025em;margin:0;color:var(--sobre-tinta);text-wrap:balance">Introducción a la Psicología</h1>
+      <p style="margin:12px 0 0;font-size:16.5px;line-height:1.4;font-weight:600;color:var(--hl)">Repaso por unidades: perspectiva psicosocial, psicoanálisis y salud mental comunitaria, con Derechos Humanos como eje transversal.</p>
+      <div style="display:flex;flex-wrap:wrap;gap:16px;margin-top:18px;padding-top:12px;border-top:2px solid var(--sobre-tinta);font-family:var(--mono);font-size:11px;letter-spacing:.06em">
+        <span>4 BLOQUES</span>
+        <span>{{ totalFichas }} FICHAS</span>
+        <span style="color:var(--hl)">RESPONDIDAS: {{ totalRespondidas }}</span>
+      </div>
+    </section>
+
+    <div class="psi-pestanas" style="position:sticky;top:0;z-index:6;background:var(--color-bg);padding:14px 0 10px;margin-top:22px;border-bottom:2px solid var(--color-text)">
+      <span style="display:block;font-family:var(--mono);font-size:10px;letter-spacing:.16em;color:var(--color-neutral-700);margin-bottom:8px">UNIDAD DEL PROGRAMA</span>
+      <div style="display:flex;gap:6px;overflow-x:auto;padding-bottom:4px">
+        <sc-for list="{{ pestanas }}" as="p" hint-placeholder-count="4">
+          <button type="button" style="{{ p.style }}" onClick="{{ p.onClick }}" aria-pressed="{{ p.on }}">{{ p.label }}</button>
+        </sc-for>
+      </div>
+    </div>
+
+    <section id="psi-unidad" class="{{ claseBloque }}" style="padding-top:26px;scroll-margin-top:calc(var(--alto-barra, 0px) + 96px)">
+      <span style="font-family:var(--mono);font-size:10.5px;letter-spacing:.16em;color:var(--color-accent-700)">{{ unidad.rotulo }}</span>
+      <h2 style="margin:8px 0 10px;font-size:clamp(22px,6vw,32px);line-height:1.05;letter-spacing:-.02em;text-wrap:balance">{{ unidad.titulo }}</h2>
+      <p style="margin:0 0 14px;font-size:16px;line-height:1.6;text-wrap:pretty">{{ unidad.entrada }}</p>
+      <div style="display:flex;flex-wrap:wrap;gap:6px;margin-bottom:26px">
+        <sc-for list="{{ unidad.textos }}" as="t" hint-placeholder-count="4">
+          <span style="font-family:var(--mono);font-size:10.5px;letter-spacing:.04em;color:var(--color-neutral-700);border:1px solid var(--color-divider);background:var(--color-bg);padding:4px 8px">{{ t.t }}</span>
+        </sc-for>
+      </div>
+
+      <div style="display:flex;align-items:center;gap:14px;background:var(--tinta);color:var(--sobre-tinta);padding:10px 14px;margin-bottom:16px">
+        <span style="font-weight:800;font-size:19px;color:var(--hl)">01</span>
+        <h3 style="margin:0;font-size:clamp(15px,4.2vw,20px);letter-spacing:.04em;text-transform:uppercase;color:var(--sobre-tinta)">Conceptos que se rinden</h3>
+      </div>
+      <div style="display:grid;gap:2px;background:var(--color-divider);border:2px solid var(--color-divider);margin-bottom:30px">
+        <sc-for list="{{ unidad.conceptos }}" as="c" hint-placeholder-count="5">
+          <div style="background:var(--color-surface);padding:16px 18px">
+            <div style="display:flex;flex-wrap:wrap;gap:8px;align-items:baseline;justify-content:space-between">
+              <h4 style="margin:0;font-size:18px;line-height:1.2">{{ c.nombre }}</h4>
+              <span style="font-family:var(--mono);font-size:10.5px;letter-spacing:.06em;color:var(--color-accent-700)">{{ c.autor }}</span>
+            </div>
+            <p style="margin:8px 0 0;font-size:15px;line-height:1.6;text-wrap:pretty">{{ c.texto }}</p>
+          </div>
+        </sc-for>
+      </div>
+
+      <sc-if value="{{ unidad.hayCuadro }}" hint-placeholder-val="{{ true }}">
+        <div>
+          <div style="display:flex;align-items:center;gap:14px;background:var(--tinta);color:var(--sobre-tinta);padding:10px 14px;margin-bottom:8px">
+            <span style="font-weight:800;font-size:19px;color:var(--hl)">02</span>
+            <h3 style="margin:0;font-size:clamp(15px,4.2vw,20px);letter-spacing:.04em;text-transform:uppercase;color:var(--sobre-tinta)">Cuadro comparativo</h3>
+          </div>
+          <p style="margin:0 0 14px;font-family:var(--mono);font-size:12px;line-height:1.6;color:var(--color-neutral-700)">{{ unidad.cuadro.bajada }}</p>
+          <div style="border:2px solid var(--color-text);box-shadow:2px 2px 0 var(--color-text);background:var(--color-surface);margin-bottom:30px">
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:2px;background:var(--color-text)">
+              <div style="background:var(--tinta);color:var(--sobre-tinta);padding:10px 14px;font-family:var(--mono);font-size:11px;letter-spacing:.1em">{{ unidad.cuadro.colA }}</div>
+              <div style="background:var(--tinta);color:var(--hl);padding:10px 14px;font-family:var(--mono);font-size:11px;letter-spacing:.1em">{{ unidad.cuadro.colB }}</div>
+            </div>
+            <sc-for list="{{ unidad.cuadro.filas }}" as="f" hint-placeholder-count="4">
+              <div>
+                <div style="padding:8px 14px;background:var(--color-neutral-200);font-family:var(--mono);font-size:10px;letter-spacing:.14em;color:var(--color-neutral-700);border-top:1px solid var(--color-divider)">{{ f.eje }}</div>
+                <div style="display:grid;grid-template-columns:1fr 1fr;gap:2px;background:var(--color-divider)">
+                  <div style="background:var(--color-surface);padding:12px 14px;font-size:14.5px;line-height:1.55;text-wrap:pretty">{{ f.a }}</div>
+                  <div style="background:var(--color-surface);padding:12px 14px;font-size:14.5px;line-height:1.55;text-wrap:pretty">{{ f.b }}</div>
+                </div>
+              </div>
+            </sc-for>
+          </div>
+        </div>
+      </sc-if>
+
+      <div style="display:flex;align-items:center;gap:14px;background:var(--tinta);color:var(--sobre-tinta);padding:10px 14px;margin-bottom:8px">
+        <span style="font-weight:800;font-size:19px;color:var(--hl)">03</span>
+        <h3 style="margin:0;font-size:clamp(15px,4.2vw,20px);letter-spacing:.04em;text-transform:uppercase;color:var(--sobre-tinta);flex:1">Fichas rápidas</h3>
+        <span style="font-family:var(--mono);font-size:11.5px;color:var(--sobre-tinta)">{{ posicion }}</span>
+      </div>
+
+      <div style="position:relative;margin-bottom:30px">
+        <div style="position:absolute;inset:0;transform:translate(6px,6px);border:2px solid var(--color-divider);background:var(--color-neutral-200)"></div>
+        <article style="position:relative;background:var(--color-surface);border:2px solid var(--color-text);box-shadow:2px 2px 0 var(--color-text);min-height:230px;display:flex;flex-direction:column">
+          <div style="display:flex;justify-content:space-between;gap:10px;padding:10px 16px;background:var(--tinta);color:var(--sobre-tinta);font-family:var(--mono);font-size:10.5px;letter-spacing:.12em">
+            <span>{{ ficha.id }}</span>
+            <span style="color:var(--color-neutral-300)">{{ ficha.autor }}</span>
+          </div>
+          <div style="padding:20px 18px;flex:1">
+            <sc-if value="{{ fichaFrente }}" hint-placeholder-val="{{ true }}">
+              <p style="margin:0;font-weight:800;font-size:clamp(19px,5.2vw,24px);line-height:1.2;text-wrap:pretty">{{ ficha.pregunta }}</p>
+            </sc-if>
+            <sc-if value="{{ fichaDorso }}" hint-placeholder-val="{{ false }}">
+              <div style="{{ animDorso }}">
+                <span style="display:block;font-family:var(--mono);font-size:10px;letter-spacing:.16em;color:var(--color-accent-700);margin-bottom:10px">RESPUESTA</span>
+                <p style="margin:0;font-size:16px;line-height:1.6;text-wrap:pretty">{{ ficha.respuesta }}</p>
+              </div>
+            </sc-if>
+          </div>
+          <button type="button" onClick="{{ darVuelta }}" style="{{ vueltaStyle }}">{{ vueltaTexto }}</button>
+        </article>
+        <div style="display:flex;gap:8px;margin-top:8px">
+          <button type="button" onClick="{{ fichaAnterior }}" style="flex:1;min-height:48px;border:1px solid var(--color-divider);background:var(--color-bg);color:var(--color-text);font-family:var(--mono);font-size:12px;letter-spacing:.1em;cursor:pointer">← ANTERIOR</button>
+          <button type="button" onClick="{{ fichaSiguiente }}" style="flex:1;min-height:48px;border:1px solid var(--color-divider);background:var(--color-bg);color:var(--color-text);font-family:var(--mono);font-size:12px;letter-spacing:.1em;cursor:pointer">SIGUIENTE →</button>
+        </div>
+      </div>
+
+      <div style="display:flex;align-items:center;gap:14px;background:var(--tinta);color:var(--sobre-tinta);padding:10px 14px;margin-bottom:18px">
+        <span style="font-weight:800;font-size:19px;color:var(--hl)">04</span>
+        <h3 style="margin:0;font-size:clamp(15px,4.2vw,20px);letter-spacing:.04em;text-transform:uppercase;color:var(--sobre-tinta);flex:1">Autoevaluación</h3>
+        <span style="font-family:var(--mono);font-size:11.5px;color:var(--sobre-tinta)">{{ avance }}</span>
+      </div>
+      <div style="display:grid;gap:22px;margin-bottom:30px">
+        <sc-for list="{{ preguntas }}" as="q" hint-placeholder-count="3">
+          <div style="display:grid;grid-template-columns:44px 1fr;gap:14px;align-items:start">
+            <span style="font-weight:800;font-size:16px;background:var(--tinta);color:var(--sobre-tinta);display:flex;align-items:center;justify-content:center;height:40px">{{ q.n }}</span>
+            <div>
+              <p style="margin:0 0 12px;font-size:16.5px;line-height:1.4;font-weight:600;text-wrap:pretty">{{ q.texto }}</p>
+              <div style="display:grid;gap:8px">
+                <sc-for list="{{ q.opciones }}" as="o" hint-placeholder-count="3">
+                  <button type="button" style="{{ o.style }}" onClick="{{ o.onClick }}"><span style="font-weight:800;font-size:13px;flex:0 0 16px">{{ o.letra }}</span><span style="font-size:14.5px;line-height:1.5;text-align:left">{{ o.texto }}</span></button>
+                </sc-for>
+              </div>
+              <sc-if value="{{ q.respondida }}" hint-placeholder-val="{{ false }}">
+                <div style="margin-top:12px;padding:12px 14px;border-left:8px solid var(--hl);background:var(--color-neutral-200);{{ q.anim }}">
+                  <span style="font-family:var(--mono);font-size:10.5px;letter-spacing:.14em;color:var(--color-neutral-700)">{{ q.veredicto }}</span>
+                  <p style="margin:6px 0 0;font-size:14.5px;line-height:1.6;text-wrap:pretty">{{ q.porque }}</p>
+                </div>
+              </sc-if>
+            </div>
+          </div>
+        </sc-for>
+      </div>
+
+      <div class="caja" style="border:2px solid var(--color-text);box-shadow:2px 2px 0 var(--color-text);background:var(--color-surface);padding:18px">
+        <span style="font-family:var(--mono);font-size:10px;letter-spacing:.16em;color:var(--color-accent-700)">EN LA PRÁCTICA PROFESIONAL</span>
+        <div style="display:grid;gap:14px;margin-top:12px">
+          <div>
+            <h4 style="margin:0 0 6px;font-size:16px">Trabajo Social</h4>
+            <p style="margin:0;font-size:15px;line-height:1.6;text-wrap:pretty">{{ unidad.practica.ts }}</p>
+          </div>
+          <div style="border-top:1px solid var(--color-divider);padding-top:12px">
+            <h4 style="margin:0 0 6px;font-size:16px">Fonoaudiología</h4>
+            <p style="margin:0;font-size:15px;line-height:1.6;text-wrap:pretty">{{ unidad.practica.fono }}</p>
+          </div>
+        </div>
+      </div>
+
+      <p style="margin:26px 0 0;padding:14px 16px;border:1px dashed var(--color-divider);background:var(--color-bg);font-size:13.5px;line-height:1.55;color:var(--color-neutral-700)">
+        Repaso armado sobre el programa y la bibliografía de la materia. Es material de estudio, no la palabra de la cátedra: <b>ante la duda vale lo que dice la cátedra, y si algo no coincide mandá el dato y lo corregimos.</b> Las citas de capítulo conviene chequearlas contra la edición que te dieron.
+      </p>
+    </section>
+  </div>
+
+  <footer style="background:var(--tinta);color:var(--sobre-tinta);padding:20px;display:flex;flex-wrap:wrap;gap:14px;justify-content:space-between;font-family:var(--mono);font-size:11px;letter-spacing:.08em;text-transform:uppercase">
+    <span>PSI·INTRO·UNLP</span>
+    <a href="../" style="color:var(--sobre-tinta)">Volver al índice ↗</a>
+    <span>Propuesta pedagógica 2026</span>
+  </footer>
+</div>
+</template>
+
+<script src="../ficha.js"></script>
+<script>
+const UNIDADES = [
+{
+  clave:'intro', pestana:'BLOQUE INTRO', rotulo:'BLOQUE INTRODUCTORIO',
+  titulo:'Marco profesional, Derechos Humanos e interdisciplina',
+  entrada:'El punto de partida de la materia: quién es el profesional que se está formando, qué responsabilidad tiene como trabajador del Estado y por qué los Derechos Humanos no son un tema más sino el eje que atraviesa todo el programa.',
+  textos:['Naclerio, Fischquin y Ramacciotti','Díaz · Diseño curricular','Ley Nacional de Salud Mental 26.657'],
+  conceptos:[
+    { nombre:'Memoria, verdad y justicia', autor:'Naclerio, Fischquin y Ramacciotti',
+      texto:'No es solo un capítulo del pasado reciente: es una posición ética en el presente. Las profesiones de la salud y lo social fueron parte, por acción u omisión, del aparato represivo, y por eso la formación incluye revisar esa historia. Recordar funciona como garantía de no repetición.' },
+    { nombre:'Responsabilidad del trabajador del Estado', autor:'Naclerio, Fischquin y Ramacciotti',
+      texto:'Quien trabaja en una institución pública no aplica técnicas neutrales: ejerce una porción del poder estatal sobre la vida de otros. Esa posición obliga a preguntarse a quién sirve cada intervención y qué derechos garantiza o vulnera.' },
+    { nombre:'Perfil profesional', autor:'Díaz (diseño curricular)',
+      texto:'El plan de estudios define un profesional con formación técnica y con lectura crítica del contexto social. No alcanza con saber hacer: hay que poder situar ese hacer en un territorio, una política pública y una historia institucional.' },
+    { nombre:'Ley Nacional de Salud Mental 26.657', autor:'Ley 26.657',
+      texto:'Presume la capacidad de todas las personas, reconoce a la persona con padecimiento mental como sujeto de derecho, prohíbe crear nuevos manicomios, define la internación como recurso excepcional, restrictivo y por el menor tiempo posible, y exige abordajes interdisciplinarios con equipos integrados por distintas profesiones.' },
+    { nombre:'Interdisciplina', autor:'Ley 26.657 · Programa',
+      texto:'No es la suma de disciplinas opinando una después de otra (eso es multidisciplina). Es construir un problema común que ninguna disciplina puede formular sola, aceptando que el propio saber queda en cuestión en ese cruce.' },
+    { nombre:'Integración comunitaria', autor:'Ley 26.657',
+      texto:'El objetivo del tratamiento no es la estabilización aislada sino la recuperación y preservación de los lazos: familiares, laborales, educativos y comunitarios. El vínculo social es parte del tratamiento, no su premio.' }
+  ],
+  hayCuadro: true,
+  cuadro:{ bajada:'Dos modos de trabajar con otras profesiones. La Ley 26.657 exige el segundo.', colA:'MULTIDISCIPLINA', colB:'INTERDISCIPLINA',
+    filas:[
+      { eje:'EL PROBLEMA', a:'Cada disciplina define el suyo y lo resuelve en su recorte.', b:'Se construye un problema común que excede a cada disciplina.' },
+      { eje:'EL SABER PROPIO', a:'Queda intacto: se aporta sin ponerse en juego.', b:'Se pone en cuestión y se transforma en el intercambio.' },
+      { eje:'EL EQUIPO', a:'Suma de informes yuxtapuestos.', b:'Decisión conjunta, con responsabilidad compartida.' },
+      { eje:'LA PERSONA', a:'Objeto dividido en partes según la especialidad.', b:'Sujeto de derecho, con una situación única e integral.' }
+    ] },
+  fichas:[
+    { id:'PSI-B01', autor:'Ley 26.657', pregunta:'¿Qué presume la Ley Nacional de Salud Mental respecto de todas las personas?', respuesta:'Presume la capacidad. La persona con padecimiento mental es sujeto de derecho, y toda restricción debe ser excepcional, fundada y revisada; la existencia de diagnóstico no autoriza a presumir riesgo ni incapacidad.' },
+    { id:'PSI-B02', autor:'Ley 26.657', pregunta:'¿Qué carácter tiene la internación según la Ley 26.657?', respuesta:'Es un recurso terapéutico excepcional y restrictivo, solo cuando aporta mayores beneficios que el resto de las intervenciones del entorno familiar, comunitario o social, y por el menor tiempo posible.' },
+    { id:'PSI-B03', autor:'Naclerio, Fischquin y Ramacciotti', pregunta:'¿Por qué Memoria, Verdad y Justicia forma parte de la formación profesional?', respuesta:'Porque las profesiones de salud y de lo social fueron atravesadas por el terrorismo de Estado, y revisar esa historia es la condición para no repetirla desde el lugar de trabajador del Estado.' },
+    { id:'PSI-B04', autor:'Programa · Ley 26.657', pregunta:'¿En qué se diferencia la interdisciplina de la multidisciplina?', respuesta:'La multidisciplina yuxtapone miradas sobre el mismo caso; la interdisciplina construye un problema común y pone en cuestión el saber de cada profesión para producir una respuesta que ninguna podía dar sola.' }
+  ],
+  preguntas:[
+    { texto:'Un equipo recibe a una persona con padecimiento mental y algunos profesionales proponen internarla «para contenerla mejor». Según la Ley 26.657, ¿cuál es el criterio?',
+      opciones:['La internación procede solo si aporta más beneficios que las intervenciones en el entorno familiar, comunitario o social, y por el menor tiempo posible.','La internación procede siempre que haya diagnóstico psiquiátrico confirmado.','La internación la decide el profesional de mayor jerarquía del equipo.'],
+      correcta:0,
+      porque:'La ley invierte la lógica asilar: la internación es la última opción, no la primera, y se evalúa comparándola con los recursos del entorno. El diagnóstico por sí solo nunca la justifica, y la decisión es interdisciplinaria, no jerárquica.' },
+    { texto:'Tres profesionales escriben cada uno su informe sobre el mismo niño y los adjuntan en una carpeta. ¿Qué tipo de trabajo es?',
+      opciones:['Interdisciplina, porque intervienen tres disciplinas.','Multidisciplina: hay yuxtaposición de miradas, no construcción de un problema común.','Transdisciplina, porque se comparte el caso.'],
+      correcta:1,
+      porque:'Lo que define a la interdisciplina no es la cantidad de profesiones presentes sino que el problema se formule en conjunto y que cada saber se deje interpelar. Sumar informes deja intacto el recorte de cada disciplina.' }
+  ],
+  practica:{
+    ts:'La categoría de trabajador del Estado obliga a leer cada intervención como ejercicio de poder público: la entrevista, el informe social y el acceso a una prestación producen efectos sobre derechos. La Ley 26.657 le da al Trabajo Social un lugar explícito en los equipos y en las decisiones de internación.',
+    fono:'El diseño curricular ubica a la Fonoaudiología más allá del consultorio: el derecho a la comunicación es parte del derecho a la salud, y eso se juega en escuelas, centros de salud y territorios, no solo en el tratamiento individual.' }
+},
+{
+  clave:'u1', pestana:'UNIDAD 1', rotulo:'UNIDAD 1',
+  titulo:'Enfoque y campo de la psicología',
+  entrada:'Qué tiene que pasar para que un conjunto de saberes sobre la conducta se vuelva ciencia, por qué la psicología convive con reduccionismos y en qué contexto irrumpe el psicoanálisis.',
+  textos:['Braunstein · ¿Cómo se constituye una ciencia?','Braunstein · ¿Qué entienden los psicólogos por psicología?','Comte · Ley de los tres estados'],
+  conceptos:[
+    { nombre:'Ruptura epistemológica', autor:'Braunstein',
+      texto:'Una ciencia no nace acumulando observaciones sobre el sentido común: nace cortando con él. El objeto científico se construye teóricamente y no coincide con el objeto de la percepción cotidiana; sin ese corte no hay ciencia sino ideología ordenada.' },
+    { nombre:'Ideología', autor:'Braunstein',
+      texto:'No es «mentira» ni opinión personal: es el conjunto de representaciones que hacen aparecer como natural y evidente lo que es histórico y producido. En la psicología aparece cuando se toma como dato lo que es efecto de relaciones sociales.' },
+    { nombre:'Objeto construido vs. objeto dado', autor:'Braunstein',
+      texto:'La conducta, la inteligencia o la personalidad no están «ahí afuera» esperando ser medidas: cada teoría recorta y produce su objeto. Por eso la pregunta no es qué es la psicología, sino qué objeto construye cada corriente y con qué consecuencias.' },
+    { nombre:'Crítica a los reduccionismos', autor:'Braunstein',
+      texto:'Reducir lo psíquico a lo biológico (organicismo), a la conducta observable (conductismo), a la conciencia (psicologismo) o a lo social sin mediación (sociologismo) son cuatro formas de borrar la especificidad del campo. El problema no es el aporte de cada nivel, sino su absolutización.' },
+    { nombre:'Biología y cultura', autor:'Braunstein · Programa',
+      texto:'El cuerpo humano no se explica solo por el organismo: está atravesado por el lenguaje y por la cultura, que lo transforman. No hay conducta «puramente natural» ni sujeto sin cuerpo.' },
+    { nombre:'Ley de los tres estados', autor:'Comte',
+      texto:'Comte ordena el conocimiento en tres etapas —teológico, metafísico y positivo— y ubica a la ciencia positiva como estadio final. Se estudia porque esa matriz positivista organizó buena parte de la psicología, y es justamente lo que Braunstein discute.' },
+    { nombre:'Surgimiento del psicoanálisis', autor:'Braunstein · Roudinesco',
+      texto:'El psicoanálisis irrumpe a fines del siglo XIX desde la clínica de la histeria, donde el saber médico fracasa: síntomas sin lesión que el discurso de la época leía como simulación. Freud escucha ahí otra causalidad y funda un objeto nuevo, el inconsciente.' }
+  ],
+  hayCuadro: true,
+  cuadro:{ bajada:'Los reduccionismos que Braunstein critica: cada uno explica algo y, al absolutizarlo, disuelve el campo.', colA:'REDUCCIONISMO', colB:'QUÉ BORRA',
+    filas:[
+      { eje:'ORGANICISMO', a:'Lo psíquico se explica por el cerebro, los genes o la bioquímica.', b:'Borra la historia del sujeto y el peso del lenguaje y la cultura.' },
+      { eje:'CONDUCTISMO', a:'Solo existe lo observable y medible: estímulo y respuesta.', b:'Borra el sentido, el conflicto y todo lo que no se ve.' },
+      { eje:'PSICOLOGISMO', a:'Todo se explica por la conciencia y las vivencias individuales.', b:'Borra lo inconsciente y las condiciones sociales de producción.' },
+      { eje:'SOCIOLOGISMO', a:'El sujeto es reflejo directo de la estructura social.', b:'Borra la singularidad y la mediación psíquica.' }
+    ] },
+  fichas:[
+    { id:'PSI-U101', autor:'Braunstein', pregunta:'¿Qué es una ruptura epistemológica y por qué es condición de la ciencia?', respuesta:'Es el corte con el sentido común y con las evidencias inmediatas. La ciencia construye su objeto teóricamente en vez de recibirlo dado por la percepción; sin ese corte, lo que se produce es ideología con forma de saber.' },
+    { id:'PSI-U102', autor:'Braunstein', pregunta:'¿Qué quiere decir que la psicología tiene un objeto construido y no dado?', respuesta:'Que la conducta, la personalidad o la inteligencia no preexisten a la teoría: cada corriente recorta y produce su objeto. Por eso hay «psicologías» en plural, con objetos y métodos distintos.' },
+    { id:'PSI-U103', autor:'Braunstein', pregunta:'Nombrá los cuatro reduccionismos que critica Braunstein.', respuesta:'Organicismo (todo es biología), conductismo (todo es conducta observable), psicologismo (todo es conciencia individual) y sociologismo (el sujeto como reflejo de lo social). Cada uno toma un nivel real y lo vuelve explicación total.' },
+    { id:'PSI-U104', autor:'Comte', pregunta:'¿Cuáles son los tres estados de Comte y para qué se estudian en esta materia?', respuesta:'Teológico, metafísico y positivo. Se estudian porque el positivismo dio el molde de cientificidad con el que la psicología quiso legitimarse, y ese molde es lo que la crítica epistemológica pone en discusión.' },
+    { id:'PSI-U105', autor:'Braunstein · Roudinesco', pregunta:'¿Desde qué clínica y con qué problema surge el psicoanálisis?', respuesta:'Desde la clínica de la histeria: síntomas corporales sin lesión orgánica que la medicina no podía explicar. Freud escucha ahí una causalidad psíquica inconsciente y con eso funda un objeto y un método nuevos.' }
+  ],
+  preguntas:[
+    { texto:'«La psicología será científica cuando mida la conducta con la misma precisión que la física mide el movimiento.» ¿Qué diría Braunstein?',
+      opciones:['Que es correcto: el rigor de medición define a la ciencia.','Que confunde método con objeto: sin ruptura con el sentido común, medir mejor solo vuelve más precisa a la ideología.','Que la psicología no puede ser ciencia de ninguna manera.'],
+      correcta:1,
+      porque:'Lo que constituye una ciencia no es la exactitud del instrumento sino la construcción teórica de su objeto. Medir con precisión un objeto tomado del sentido común no produce el corte epistemológico; lo disimula.' },
+    { texto:'Un informe atribuye el bajo rendimiento escolar de un niño «a su inmadurez neurológica», sin considerar su historia ni sus condiciones de vida. ¿Qué reduccionismo opera?',
+      opciones:['Sociologismo.','Psicologismo.','Organicismo.'],
+      correcta:2,
+      porque:'Se explica un fenómeno complejo únicamente por el nivel biológico. El aporte neurológico puede ser real, pero al absolutizarlo desaparecen la historia, el lazo y las condiciones materiales, y con ellos toda intervención posible que no sea médica.' }
+  ],
+  practica:{
+    ts:'La crítica a los reduccionismos es una herramienta concreta contra los informes que patologizan la pobreza: cuando un padecimiento se explica solo por biología o solo por «familia disfuncional», la intervención queda reducida a derivar o a culpar.',
+    fono:'Sirve para no leer un trastorno del lenguaje como puro déficit del organismo: hay historia, vínculo, escolaridad y condiciones sociales produciendo ese cuadro, y el diagnóstico cambia según qué objeto se construya.' }
+},
+{
+  clave:'u23', pestana:'UNIDADES 2 Y 3', rotulo:'UNIDADES 2 Y 3',
+  titulo:'Aparato psíquico, inconsciente y sexualidad infantil',
+  entrada:'El descubrimiento del inconsciente como otra escena, la primera tópica, y la teoría de la sexualidad infantil del Ensayo II: autoerotismo, apuntalamiento, zonas erógenas, organizaciones pregenitales y amnesia infantil.',
+  textos:['Freud · Tres ensayos, Ensayo II','Freud · Cinco conferencias','Freud · Nota sobre el concepto de lo inconsciente','Braunstein · Relaciones del psicoanálisis con las demás ciencias','Roudinesco'],
+  conceptos:[
+    { nombre:'El sujeto del inconsciente', autor:'Freud · Braunstein',
+      texto:'El psicoanálisis no habla del individuo de la conciencia: descentra al yo. «El yo no es amo en su propia casa»: hay una causalidad psíquica que determina al sujeto sin que él la sepa, y que se manifiesta en sueños, lapsus, actos fallidos y síntomas.' },
+    { nombre:'Primera tópica', autor:'Freud · Nota sobre lo inconsciente',
+      texto:'Inconsciente, preconsciente y consciente. El preconsciente es lo latente que puede volverse consciente sin más; el inconsciente propiamente dicho es lo reprimido, que no accede a la conciencia salvo deformado. Entre los sistemas opera la censura.' },
+    { nombre:'Represión', autor:'Freud',
+      texto:'Mecanismo por el cual una representación intolerable es rechazada y mantenida fuera de la conciencia. No la elimina: el afecto y la representación siguen activos y retornan desfigurados en el síntoma, el sueño o el chiste. Lo reprimido no descansa.' },
+    { nombre:'Lo simbólico', autor:'Freud · Braunstein',
+      texto:'El síntoma no es un ruido del organismo: está construido como un mensaje, con desplazamientos y condensaciones, y por eso puede leerse. El inconsciente se ordena según leyes del lenguaje, y ahí se apoya el método de la asociación libre.' },
+    { nombre:'Sexualidad infantil', autor:'Freud · Ensayo II',
+      texto:'Freud extiende «sexual» mucho más allá de lo genital y de la reproducción: hay sexualidad desde el comienzo de la vida, ligada al placer de órgano y no a un objeto ni a un fin predeterminado. Esto es lo que la época no le perdonó.' },
+    { nombre:'Apuntalamiento', autor:'Freud · Ensayo II',
+      texto:'La pulsión sexual nace apoyada en una función de autoconservación: el bebé mama para alimentarse, pero en ese acto descubre un plus de placer en la boca. La sexualidad se desprende de esa función y sigue después por su cuenta.' },
+    { nombre:'Autoerotismo', autor:'Freud · Ensayo II',
+      texto:'Una vez separada de la necesidad, la pulsión se satisface en el propio cuerpo, sin objeto exterior: el chupeteo es el modelo. No hay todavía unificación del cuerpo ni objeto único.' },
+    { nombre:'Zona erógena', autor:'Freud · Ensayo II',
+      texto:'Sector del cuerpo —boca, ano, piel, mucosas— cuya excitación produce placer. No está fijado por la anatomía: cualquier zona puede erogenizarse, y el cuidado del otro es lo que la constituye como tal.' },
+    { nombre:'Organizaciones pregenitales', autor:'Freud · Ensayo II',
+      texto:'Fases oral y anal (y la fálica), previas a la primacía genital. Cada una organiza la pulsión en torno a una zona y a un modo de vínculo —incorporar, retener/expulsar—, y deja marcas que persisten en la vida adulta.' },
+    { nombre:'Amnesia infantil', autor:'Freud · Ensayo II',
+      texto:'El olvido llamativo de los primeros años no es falta de memoria: es efecto de la represión. Esos años no están vacíos, están velados, y su retorno deformado es la materia del análisis.' }
+  ],
+  hayCuadro: true,
+  cuadro:{ bajada:'La primera tópica: tres sistemas, no tres lugares del cerebro.', colA:'SISTEMA', colB:'CÓMO FUNCIONA',
+    filas:[
+      { eje:'CONSCIENTE', a:'Lo que el sujeto percibe y sabe de sí en el momento.', b:'Superficie y punto de llegada; no es el centro del aparato.' },
+      { eje:'PRECONSCIENTE', a:'Lo latente: no está presente, pero puede evocarse.', b:'Pasa a la conciencia sin gran resistencia.' },
+      { eje:'INCONSCIENTE', a:'Lo reprimido: representaciones rechazadas de la conciencia.', b:'No accede salvo deformado por la censura: sueño, lapsus, síntoma.' },
+      { eje:'CENSURA', a:'Barrera entre los sistemas.', b:'Deforma para dejar pasar; su fuerza se mide en la resistencia.' }
+    ] },
+  fichas:[
+    { id:'PSI-U201', autor:'Freud', pregunta:'¿Cuáles son los tres sistemas de la primera tópica y qué los separa?', respuesta:'Inconsciente, preconsciente y consciente. Entre el inconsciente y el preconsciente opera la censura: lo preconsciente puede hacerse consciente sin más, lo inconsciente reprimido solo retorna deformado.' },
+    { id:'PSI-U202', autor:'Freud', pregunta:'¿Qué es la represión y por qué no elimina lo reprimido?', respuesta:'Es el rechazo de una representación intolerable fuera de la conciencia. La representación y su afecto siguen activos y presionan por retornar: reaparecen desfigurados en sueños, lapsus y síntomas.' },
+    { id:'PSI-U203', autor:'Freud · Ensayo II', pregunta:'¿Qué es el apuntalamiento de la pulsión sexual?', respuesta:'Que la sexualidad nace apoyada en una función de autoconservación: al mamar, el bebé obtiene un placer que excede la alimentación. Después se independiza de la necesidad y busca repetir ese placer por sí mismo.' },
+    { id:'PSI-U204', autor:'Freud · Ensayo II', pregunta:'¿Qué caracteriza al autoerotismo?', respuesta:'Que la pulsión se satisface en el propio cuerpo, sin objeto exterior ni unificación del cuerpo: el chupeteo es el modelo. Es el destino de la pulsión una vez desprendida de la necesidad.' },
+    { id:'PSI-U205', autor:'Freud · Ensayo II', pregunta:'¿Qué es una zona erógena y qué la constituye?', respuesta:'Un sector del cuerpo cuya excitación produce placer (boca, ano, piel, mucosas). No la fija la anatomía: se constituye en el cuidado y el contacto con otro, que erogeniza esa zona.' },
+    { id:'PSI-U206', autor:'Freud · Ensayo II', pregunta:'¿Cómo explica Freud la amnesia infantil?', respuesta:'Como efecto de la represión, no como ausencia de recuerdos: los primeros años quedan velados y sus huellas retornan deformadas. Es la contracara de la existencia de la sexualidad infantil.' },
+    { id:'PSI-U207', autor:'Freud · Braunstein', pregunta:'¿En qué sentido el síntoma es simbólico?', respuesta:'En que está construido como un mensaje cifrado —con condensación y desplazamiento— y por eso puede ser leído e interpretado, en vez de solo suprimido.' }
+  ],
+  preguntas:[
+    { texto:'«Freud dice que los bebés tienen sexualidad genital.» ¿Dónde está el error?',
+      opciones:['No hay error: eso afirma el Ensayo II.','El error es equiparar sexual con genital: Freud describe una sexualidad pregenital, autoerótica y ligada a zonas erógenas, sin primacía genital ni fin reproductivo.','El error es que Freud habla de sexualidad recién en la pubertad.'],
+      correcta:1,
+      porque:'Todo el Ensayo II consiste en ampliar el concepto de lo sexual más allá de lo genital y de la reproducción. Confundir ambos términos es la lectura que Freud discute explícitamente, y borra las fases pregenitales.' },
+    { texto:'Una persona olvida sistemáticamente el nombre de alguien con quien tuvo un conflicto. Desde la primera tópica, ¿qué muestra ese olvido?',
+      opciones:['Un fallo de la memoria preconsciente, sin más valor.','El retorno deformado de lo reprimido: la censura deja pasar el conflicto convertido en olvido.','Que el recuerdo se borró definitivamente del aparato psíquico.'],
+      correcta:1,
+      porque:'Lo reprimido no desaparece ni se archiva: insiste y retorna con otra forma. El acto fallido es una de las vías regias del inconsciente, junto con el sueño, el lapsus y el síntoma; leerlo como simple distracción es quedarse en la conciencia.' },
+    { texto:'¿Qué implica sostener que «el yo no es amo en su propia casa»?',
+      opciones:['Que el sujeto está determinado por una causalidad psíquica inconsciente que no domina ni conoce.','Que la voluntad consciente basta para modificar el síntoma si hay esfuerzo.','Que el psiquismo se explica por la herencia biológica.'],
+      correcta:0,
+      porque:'Es el descentramiento que funda el psicoanálisis: la conciencia deja de ser el centro del psiquismo. De ahí se sigue el método —asociación libre, escucha del decir— y la crítica a toda terapéutica basada en la sola voluntad.' }
+  ],
+  practica:{
+    ts:'Escuchar que el padecimiento tiene una lógica y no es capricho cambia la intervención: lo que aparece como «no adherencia» o «resistencia» de una familia suele tener un sentido que se puede leer en vez de sancionar.',
+    fono:'La voz, la palabra y el síntoma corporal pueden estar diciendo algo más que un déficit funcional. Reconocerlo no convierte a nadie en analista: orienta cuándo la intervención fonoaudiológica necesita trabajar con salud mental.' }
+},
+{
+  clave:'u4', pestana:'UNIDAD 4', rotulo:'UNIDAD 4',
+  titulo:'Salud mental comunitaria',
+  entrada:'Del modelo asilar al comunitario: qué es salud, qué es comunidad, cómo se trabaja en Atención Primaria y qué significa un abordaje territorial con perspectiva de derechos.',
+  textos:['Ardila y Galende','Jasinski','Ferrandini','Barcala y Torricelli','Sisto','Ley 26.657'],
+  conceptos:[
+    { nombre:'Modelo bio-psico-social', autor:'Ferrandini · Programa',
+      texto:'La salud no es ausencia de enfermedad ni un hecho solo biológico: se produce en el cruce del cuerpo, la subjetividad y las condiciones sociales de vida. Cambiar de modelo cambia quién interviene, dónde y con qué herramientas.' },
+    { nombre:'Salud como proceso', autor:'Ferrandini',
+      texto:'Salud y enfermedad no son dos estados opuestos sino un proceso: se trata de la capacidad de vivir, trabajar y crear lazos en condiciones concretas. Por eso la salud se produce socialmente y no se reparte en el consultorio.' },
+    { nombre:'Concepto de comunidad', autor:'Ardila y Galende',
+      texto:'La comunidad no es un dato geográfico ni un conjunto homogéneo de vecinos: es una construcción atravesada por conflictos, historias e intereses distintos. Idealizarla —suponer que siempre contiene y cuida— es el error clásico de las políticas comunitarias.' },
+    { nombre:'Salud mental comunitaria', autor:'Ardila y Galende',
+      texto:'No es «hacer lo mismo del hospital, pero afuera». Implica desplazar el centro de la institución a la vida cotidiana, trabajar sobre los lazos y las condiciones que producen padecimiento, y sostener la participación de la comunidad en las decisiones.' },
+    { nombre:'Modelo asilar', autor:'Ardila y Galende · Ley 26.657',
+      texto:'Organizado alrededor del encierro: el manicomio aísla, tutela y produce cronicidad. La persona pierde su lugar de sujeto y su historia queda subsumida en el diagnóstico; la Ley 26.657 prohíbe crear nuevos manicomios y ordena su sustitución.' },
+    { nombre:'Atención Primaria de la Salud (APS)', autor:'Programa · Ferrandini',
+      texto:'Estrategia —no un nivel «de baja complejidad»— que organiza el sistema desde el primer contacto: accesibilidad, trabajo en equipo, continuidad de cuidados, participación comunitaria e intersectorialidad.' },
+    { nombre:'Abordaje territorial', autor:'Barcala y Torricelli · Sisto',
+      texto:'Intervenir donde la vida transcurre: la casa, la escuela, el barrio, el club. Supone articular con otros actores e instituciones y reconocer que buena parte de lo que enferma no se resuelve dentro del efector de salud.' },
+    { nombre:'Perspectiva de derechos', autor:'Ley 26.657 · Barcala y Torricelli',
+      texto:'La persona no recibe un beneficio: ejerce un derecho exigible. Eso obliga a garantizar consentimiento informado, accesibilidad y continuidad, y a revisar las prácticas propias que producen exclusión dentro del sistema de salud.' },
+    { nombre:'Cuidado de la comunidad en Fonoaudiología', autor:'Jasinski',
+      texto:'La intervención fonoaudiológica sale del consultorio: promoción del desarrollo del lenguaje, cuidado de la voz, prevención de la hipoacusia y trabajo con escuelas y centros de salud. El destinatario no es solo el paciente: es la comunidad y sus condiciones de comunicación.' }
+  ],
+  hayCuadro: true,
+  cuadro:{ bajada:'Dos modelos de atención. La Ley 26.657 orienta todo el sistema hacia el segundo.', colA:'MODELO ASILAR', colB:'MODELO COMUNITARIO',
+    filas:[
+      { eje:'LUGAR', a:'La institución cerrada: el manicomio como centro.', b:'El territorio: casa, barrio, escuela, centro de salud.' },
+      { eje:'LA PERSONA', a:'Objeto de tutela, definida por el diagnóstico.', b:'Sujeto de derecho, con historia, lazos y palabra propia.' },
+      { eje:'EL EQUIPO', a:'Jerarquía médica que decide sobre el resto.', b:'Equipo interdisciplinario con decisión compartida.' },
+      { eje:'EL LAZO SOCIAL', a:'Se corta: el aislamiento es parte del tratamiento.', b:'Se sostiene y se reconstruye: la integración es el objetivo.' },
+      { eje:'RESULTADO ESPERABLE', a:'Cronicidad y pérdida de autonomía.', b:'Recuperación, autonomía y participación en la vida común.' }
+    ] },
+  fichas:[
+    { id:'PSI-U401', autor:'Ardila y Galende', pregunta:'¿Por qué no se puede pensar la comunidad como un conjunto homogéneo?', respuesta:'Porque está atravesada por conflictos, desigualdades e intereses distintos. Idealizarla lleva a suponer que siempre contiene y cuida, y a descargar en ella responsabilidades que son del Estado.' },
+    { id:'PSI-U402', autor:'Ferrandini', pregunta:'¿Qué aporta pensar la salud como proceso y no como ausencia de enfermedad?', respuesta:'Que la salud se produce socialmente: depende de las condiciones de vida, del trabajo y de los lazos, y no se resuelve solo con atención clínica ni se mide solo por la ausencia de síntomas.' },
+    { id:'PSI-U403', autor:'Ley 26.657 · Ardila y Galende', pregunta:'¿Qué diferencia central hay entre el modelo asilar y el comunitario?', respuesta:'El asilar organiza el tratamiento alrededor del encierro y produce cronicidad; el comunitario trabaja en el territorio sosteniendo los lazos, con equipo interdisciplinario y la persona como sujeto de derecho.' },
+    { id:'PSI-U404', autor:'Programa · Ferrandini', pregunta:'¿Por qué la APS es una estrategia y no un nivel de baja complejidad?', respuesta:'Porque reorganiza todo el sistema desde el primer contacto: accesibilidad, equipo, continuidad de cuidados, participación e intersectorialidad. Confundirla con «atención simple» es vaciarla.' },
+    { id:'PSI-U405', autor:'Jasinski', pregunta:'¿Qué implica el cuidado de la comunidad desde la Fonoaudiología?', respuesta:'Salir del consultorio: promoción del lenguaje, cuidado de la voz y prevención de la hipoacusia, trabajando con escuelas, centros de salud y organizaciones, con la comunicación entendida como derecho.' },
+    { id:'PSI-U406', autor:'Barcala y Torricelli', pregunta:'¿Qué agrega la perspectiva de derechos al abordaje territorial?', respuesta:'Que el acceso a la salud es exigible y no un favor: obliga a garantizar accesibilidad, consentimiento y continuidad, y a revisar las propias prácticas institucionales que excluyen.' }
+  ],
+  preguntas:[
+    { texto:'Un equipo monta un dispositivo en el barrio, pero mantiene la misma lógica del hospital: agenda cerrada, jerarquía médica y expediente por paciente. ¿Es salud mental comunitaria?',
+      opciones:['Sí: lo comunitario se define por estar fuera del hospital.','No: cambió el lugar pero no la lógica. Falta trabajo sobre los lazos, equipo interdisciplinario y participación de la comunidad.','Sí, siempre que atienda a personas del barrio.'],
+      correcta:1,
+      porque:'Ardila y Galende insisten en que lo comunitario no es una cuestión de dirección postal: es un cambio de modelo. Trasladar el dispositivo sin cambiar quién decide, cómo se accede y qué se trabaja reproduce el asilo a cielo abierto.' },
+    { texto:'«La comunidad va a contener a la persona cuando salga de la internación.» ¿Qué riesgo tiene esa afirmación?',
+      opciones:['Ninguno: es exactamente lo que propone la Ley 26.657.','Idealiza a la comunidad y le transfiere una responsabilidad estatal, sin garantizar dispositivos, equipos ni recursos.','Subestima la capacidad del equipo tratante.'],
+      correcta:1,
+      porque:'La externación sin dispositivos sustitutivos no es desmanicomialización: es abandono. La comunidad también excluye y estigmatiza, y la ley exige que el Estado garantice los recursos que hacen posible la integración.' },
+    { texto:'En una escuela, la fonoaudióloga propone talleres de cuidado de la voz para docentes y pautas de estimulación del lenguaje para las familias. Según Jasinski, ¿qué está haciendo?',
+      opciones:['Un trabajo de promoción y cuidado comunitario, con la comunicación entendida como derecho.','Un trabajo por fuera de su incumbencia profesional.','Prevención secundaria, porque detecta casos.'],
+      correcta:0,
+      porque:'Jasinski ubica a la Fonoaudiología en el campo de la salud comunitaria: la intervención no se agota en el tratamiento individual, sino que incluye promoción y cuidado colectivo de las condiciones de comunicación.' }
+  ],
+  practica:{
+    ts:'Es el terreno más directo de la profesión: la accesibilidad, el trabajo con redes y la articulación intersectorial son intervención, no trámite previo a la intervención. La Ley 26.657 le da al Trabajo Social un lugar en el equipo y en la decisión.',
+    fono:'Ubica la práctica en el sistema de salud y no solo en el consultorio: detección temprana, promoción del lenguaje, cuidado vocal docente y trabajo con la comunidad, articulando con salud mental cuando el padecimiento excede lo funcional.' }
+}
+];
+
+/* LO RESPONDIDO QUEDA EN EL TELEFONO. En el diseno las respuestas
+   vivian solo en memoria y se perdian al salir; aca se guardan, y la
+   portada de Estudiemos las cuenta («Respondiste n de 10»). Si se
+   cambia la clave, cambiarla tambien en estudiemos/portada.js. */
+const CLAVE = 'bolivar-fichas-psicologia';
+function leerRespuestas(){
+  try { return JSON.parse(localStorage.getItem(CLAVE) || '{}') || {}; } catch(e){ return {}; }
+}
+function guardarRespuestas(r){
+  try { localStorage.setItem(CLAVE, JSON.stringify(r)); } catch(e){}
+}
+
+class Component extends DCLogic {
+  state = { u: 0, ficha: 0, vuelta: false, respuestas: leerRespuestas() };
+
+  /* Que se anima en el proximo dibujo. ficha.js rehace la pagina en
+     cada toque: si las animaciones fueran fijas, dar vuelta una tarjeta
+     haria entrar de nuevo toda la unidad, y responder una pregunta
+     reanimaria todas las devoluciones ya abiertas. Arranca en 'u' para
+     que la primera unidad entre como en el diseno. */
+  recien = 'u';
+
+  componentDidMount(){
+    this.medirBarra();
+    this.onAncho = () => this.medirBarra();
+    window.addEventListener('resize', this.onAncho, { passive: true });
+  }
+  componentWillUnmount(){ window.removeEventListener('resize', this.onAncho); }
+
+  /* Cuanto ocupa la barra amarilla de volver, para que las pestanas se
+     peguen justo debajo y no detras. */
+  medirBarra(){
+    const b = document.getElementById('ficha-barra');
+    if (b) document.documentElement.style.setProperty('--alto-barra', b.offsetHeight + 'px');
+  }
+
+  /* Al cambiar de unidad desde abajo de todo, la pagina quedaba en la
+     autoevaluacion de la unidad nueva: se vuelve al principio de la
+     unidad. Si ya se esta arriba, no se mueve nada. */
+  irAUnidad(i){
+    this.recien = 'u';
+    /* El motor dibuja en el mismo setState: al volver, la unidad nueva
+       ya esta en la pagina. */
+    this.setState({ u: i, ficha: 0, vuelta: false });
+    const sec = document.getElementById('psi-unidad');
+    if (sec && sec.getBoundingClientRect().top < 0) sec.scrollIntoView({ block: 'start' });
+  }
+
+  renderVals(){
+    const s = this.state;
+    const recien = this.recien;
+    this.recien = null;
+    const anim = 'animation:abrir .22s ease both';
+
+    const U = UNIDADES[s.u];
+    const letras = ['A','B','C'];
+    const totalFichas = UNIDADES.reduce((n, x) => n + x.fichas.length, 0);
+    const totalRespondidas = Object.keys(s.respuestas).length;
+
+    const chip = (on) => 'flex:none;min-height:48px;padding:0 14px;cursor:pointer;font-family:var(--mono);font-size:11.5px;letter-spacing:.06em;white-space:nowrap;border:1px solid ' +
+      (on ? 'var(--color-text);background:var(--color-text);color:var(--color-bg)' : 'var(--color-divider);background:var(--color-bg);color:var(--color-text)');
+
+    const fichas = U.fichas;
+    const iF = Math.min(s.ficha, fichas.length - 1);
+    const f = fichas[iF];
+
+    const opcionStyle = (clave, oi, correcta) => {
+      const elegida = s.respuestas[clave];
+      const base = 'display:flex;gap:10px;align-items:flex-start;width:100%;min-height:48px;padding:12px 14px;cursor:pointer;text-align:left;background:var(--color-surface);color:var(--color-text);border:1px solid var(--color-divider)';
+      if (elegida === undefined) return base;
+      if (oi === correcta) return base.replace('border:1px solid var(--color-divider)', 'border:2px solid var(--color-text);background:var(--color-neutral-200);font-weight:600');
+      if (oi === elegida) return base.replace('border:1px solid var(--color-divider)', 'border:2px solid var(--color-accent);color:var(--color-accent-700)');
+      return base + ';opacity:.55';
+    };
+
+    return {
+      totalFichas,
+      totalRespondidas,
+      claseBloque: recien === 'u' ? 'bloque' : '',
+      pestanas: UNIDADES.map((x, i) => ({
+        label: x.pestana, on: s.u === i, style: chip(s.u === i),
+        onClick: () => { if (s.u !== i) this.irAUnidad(i); }
+      })),
+      unidad: {
+        clave: U.clave, rotulo: U.rotulo, titulo: U.titulo, entrada: U.entrada,
+        textos: U.textos.map((t, k) => ({ k, t })),
+        conceptos: U.conceptos,
+        hayCuadro: !!U.hayCuadro,
+        cuadro: U.cuadro,
+        practica: U.practica
+      },
+      posicion: (iF + 1) + ' / ' + fichas.length,
+      ficha: f,
+      fichaFrente: !s.vuelta,
+      fichaDorso: s.vuelta,
+      animDorso: recien === 'vuelta' ? anim : '',
+      darVuelta: () => { this.recien = 'vuelta'; this.setState({ vuelta: !s.vuelta }); },
+      vueltaTexto: s.vuelta ? 'VOLVER A LA PREGUNTA' : 'VER LA RESPUESTA',
+      vueltaStyle: { width:'100%', minHeight:'56px', cursor:'pointer', border:0, borderTop:'2px solid var(--color-text)',
+        background: s.vuelta ? 'var(--color-text)' : 'var(--hl)', color: s.vuelta ? 'var(--color-bg)' : 'var(--onhl)',
+        fontFamily:'Archivo,system-ui,sans-serif', fontWeight:800, fontSize:'15px', letterSpacing:'.08em' },
+      fichaAnterior: () => this.setState({ ficha: (iF - 1 + fichas.length) % fichas.length, vuelta: false }),
+      fichaSiguiente: () => this.setState({ ficha: (iF + 1) % fichas.length, vuelta: false }),
+      avance: U.preguntas.filter((q, qi) => s.respuestas[U.clave + qi] !== undefined).length + '/' + U.preguntas.length,
+      preguntas: U.preguntas.map((q, qi) => {
+        const clave = U.clave + qi;
+        return {
+          n: qi + 1, texto: q.texto,
+          respondida: s.respuestas[clave] !== undefined,
+          anim: recien === clave ? anim : '',
+          veredicto: s.respuestas[clave] === q.correcta ? 'BIEN AHÍ' : 'NO ERA ESA',
+          porque: q.porque,
+          opciones: q.opciones.map((t, oi) => ({
+            letra: letras[oi], texto: t,
+            style: opcionStyle(clave, oi, q.correcta),
+            onClick: () => {
+              if (s.respuestas[clave] !== undefined) return;
+              const respuestas = Object.assign({}, s.respuestas, { [clave]: oi });
+              guardarRespuestas(respuestas);
+              this.recien = clave;
+              this.setState({ respuestas });
+            }
+          }))
+        };
+      })
+    };
+  }
+}
+arrancarFicha();
+</script>
+</body>
+</html>
