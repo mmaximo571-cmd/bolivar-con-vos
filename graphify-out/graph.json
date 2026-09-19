@@ -1826,7 +1826,7 @@
       "file_type": "code",
       "norm_label": "esdesupabase()",
       "source_file": "sw.js",
-      "source_location": "L339"
+      "source_location": "L347"
     },
     {
       "id": "estudiemos_fichas_ficha_parser_get",
@@ -6030,7 +6030,7 @@
       "file_type": "code",
       "norm_label": "del_armazon",
       "source_file": "sw.js",
-      "source_location": "L275"
+      "source_location": "L283"
     },
     {
       "id": "tabla_organizador",
@@ -7228,6 +7228,17 @@
       "norm_label": "public.catedras",
       "source_file": "tabla-catedras.sql",
       "source_location": "L33"
+    },
+    {
+      "id": "estudiemos_videos_videos",
+      "label": "videos.js",
+      "_origin": "ast",
+      "community": 72,
+      "community_name": "videos.js",
+      "file_type": "code",
+      "norm_label": "videos.js",
+      "source_file": "estudiemos/videos/videos.js",
+      "source_location": "L1"
     },
     {
       "id": "manifest",
@@ -11641,7 +11652,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "sw.js",
-      "source_location": "L339",
+      "source_location": "L347",
       "weight": 1.0
     },
     {
@@ -14921,7 +14932,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "sw.js",
-      "source_location": "L275",
+      "source_location": "L283",
       "weight": 1.0
     },
     {
@@ -17840,7 +17851,7 @@
       "confidence_score": 0.85,
       "context": "argument",
       "source_file": "sw.js",
-      "source_location": "L362",
+      "source_location": "L370",
       "weight": 1.0
     },
     {
@@ -18411,5 +18422,5 @@
       "source_file": "panel/index.html"
     }
   ],
-  "built_at_commit": "ed1f29c7f758ee476068c5c7e3a8fa75439ef13b"
+  "built_at_commit": "cc8d5b46e26a95b9c992a282c9ee195e02adb893"
 }

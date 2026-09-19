@@ -96,9 +96,9 @@
     "semantic_hash": ""
   },
   "sw.js": {
-    "mtime": 1789764631.6025126,
-    "seen": 1789764639.9344532,
-    "ast_hash": "3f9a03fd2e57fb950f6f9fc2e3bdfbae",
+    "mtime": 1789785327.113968,
+    "seen": 1789785415.0068426,
+    "ast_hash": "1faf4ba9b6fbdee06a0014a8a86acc9e",
     "semantic_hash": ""
   },
   "tabla-alarma.sql": {
@@ -234,9 +234,9 @@
     "semantic_hash": ""
   },
   "carrera/index.html": {
-    "mtime": 1789748741.532683,
-    "seen": 1789751378.1838684,
-    "ast_hash": "fc1f2a55c769e6bb6f53505a84db057f",
+    "mtime": 1789765953.0099974,
+    "seen": 1789766979.6886055,
+    "ast_hash": "e62c70bc34e6a9cb877f06a4dea9c638",
     "semantic_hash": ""
   },
   "catedras/index.html": {
@@ -270,9 +270,9 @@
     "semantic_hash": ""
   },
   "estudiemos/index.html": {
-    "mtime": 1789765591.7241457,
-    "seen": 1789765624.3612757,
-    "ast_hash": "3f86989cd0a58f420b88307679aaa6f1",
+    "mtime": 1789784717.2637098,
+    "seen": 1789784930.1439412,
+    "ast_hash": "3cb0035a5c12cfde44c07172d7d28951",
     "semantic_hash": ""
   },
   "glosario/index.html": {
@@ -282,9 +282,9 @@
     "semantic_hash": ""
   },
   "index.html": {
-    "mtime": 1789748732.24484,
-    "seen": 1789751378.1838849,
-    "ast_hash": "343d5cb7832ab05dc1d5e5b3a16e0244",
+    "mtime": 1789766710.8162844,
+    "seen": 1789766979.6886244,
+    "ast_hash": "41273f9d97a936024fe8d324ca080834",
     "semantic_hash": ""
   },
   "mi/index.html": {
@@ -312,9 +312,9 @@
     "semantic_hash": ""
   },
   "tramites/index.html": {
-    "mtime": 1789761404.2851617,
-    "seen": 1789761547.3097594,
-    "ast_hash": "55e1db4087f03411adea631f48e05dda",
+    "mtime": 1789766702.1356533,
+    "seen": 1789766979.688638,
+    "ast_hash": "0cfb9c59113bbe04f277e0692c890c21",
     "semantic_hash": ""
   },
   "trayecto/index.html": {
@@ -435,6 +435,108 @@
     "mtime": 1789731024.9899676,
     "seen": 1789731746.4613624,
     "ast_hash": "4d7e3c8a2e4838b4ddb555d8814c692f",
+    "semantic_hash": ""
+  },
+  "donde-curso/index.html": {
+    "mtime": 1789767432.3213139,
+    "seen": 1789784930.1439328,
+    "ast_hash": "8dc7074281bea35f0e9efa5944d38093",
+    "semantic_hash": ""
+  },
+  "estudiemos/videos/videos.js": {
+    "mtime": 1789785262.496979,
+    "seen": 1789785415.006815,
+    "ast_hash": "49dc9493a6774d01adde4ad8189489cb",
+    "semantic_hash": ""
+  },
+  "estudiemos/videos/index.html": {
+    "mtime": 1789785284.0294716,
+    "seen": 1789785415.0069005,
+    "ast_hash": "eb39406721b8a051da044a9b5fc4d4a1",
+    "semantic_hash": ""
+  },
+  "estudiemos/videos/anatomia.jpg": {
+    "mtime": 1789785250.5298474,
+    "seen": 1789785415.0069203,
+    "ast_hash": "c793cc1197c83b87178fec3e0e700350",
+    "semantic_hash": ""
+  },
+  "estudiemos/videos/audiologia-2.jpg": {
+    "mtime": 1789785250.616852,
+    "seen": 1789785415.006922,
+    "ast_hash": "fb8ae0b75d744b2325f22d1c2cd462a2",
+    "semantic_hash": ""
+  },
+  "estudiemos/videos/audiologia.jpg": {
+    "mtime": 1789785250.5717485,
+    "seen": 1789785415.0069232,
+    "ast_hash": "76ad2c618926e129cb35232a954619dd",
+    "semantic_hash": ""
+  },
+  "estudiemos/videos/bases.jpg": {
+    "mtime": 1789785250.7436695,
+    "seen": 1789785415.0069244,
+    "ast_hash": "d85d5b85840184c31038588692ee2f0e",
+    "semantic_hash": ""
+  },
+  "estudiemos/videos/procesos-parte-2.jpg": {
+    "mtime": 1789785250.6650283,
+    "seen": 1789785415.0069256,
+    "ast_hash": "687ce68b5348b776da32e453f8a3aeb0",
+    "semantic_hash": ""
+  },
+  "estudiemos/videos/tamaroff-allegri-parte-2.jpg": {
+    "mtime": 1789785250.790139,
+    "seen": 1789785415.0069265,
+    "ast_hash": "52c1c534e935f26234b1e0362b501eca",
+    "semantic_hash": ""
+  },
+  "estudiemos/videos/trabajo-social-1.jpg": {
+    "mtime": 1789785250.6956918,
+    "seen": 1789785415.006928,
+    "ast_hash": "f0c3bb05b498e195b254bada22b9585b",
+    "semantic_hash": ""
+  },
+  "estudiemos/videos/anatomia.mp4": {
+    "mtime": 1789785163.2827883,
+    "seen": 1789785415.006929,
+    "ast_hash": "278bfaf86396f2d1cff1c236db6092c8",
+    "semantic_hash": ""
+  },
+  "estudiemos/videos/audiologia-2.mp4": {
+    "mtime": 1789785163.381329,
+    "seen": 1789785415.00693,
+    "ast_hash": "b5eb2edb3af464c27fecf4781952f0ed",
+    "semantic_hash": ""
+  },
+  "estudiemos/videos/audiologia.mp4": {
+    "mtime": 1789785163.3219192,
+    "seen": 1789785415.0069318,
+    "ast_hash": "82459cab801174167b51ab024b76c4f0",
+    "semantic_hash": ""
+  },
+  "estudiemos/videos/bases.mp4": {
+    "mtime": 1789785163.552984,
+    "seen": 1789785415.006934,
+    "ast_hash": "529ef260c81bc9b48e87cb2c4e6aef5d",
+    "semantic_hash": ""
+  },
+  "estudiemos/videos/procesos-parte-2.mp4": {
+    "mtime": 1789785163.4303527,
+    "seen": 1789785415.0069354,
+    "ast_hash": "720a7e966d8a8c2c001868d7f4309f48",
+    "semantic_hash": ""
+  },
+  "estudiemos/videos/tamaroff-allegri-parte-2.mp4": {
+    "mtime": 1789785163.5984588,
+    "seen": 1789785415.0069366,
+    "ast_hash": "55bf604cfa3ad69fbd561b08933d9a07",
+    "semantic_hash": ""
+  },
+  "estudiemos/videos/trabajo-social-1.mp4": {
+    "mtime": 1789785163.4917982,
+    "seen": 1789785415.0069377,
+    "ast_hash": "3cba86bdfe4286b9c7c10ddedf1e2864",
     "semantic_hash": ""
   }
 }

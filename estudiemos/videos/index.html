@@ -1,0 +1,550 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>En un minuto · La Bolívar con vos</title>
+<meta name="description" content="Videos cortos de la agrupación, grabados por estudiantes: un tema por video.">
+<meta name="theme-color" content="#F9E830">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+<link rel="icon" type="image/png" sizes="32x32" href="../../imagenes/icono-32.png">
+<link rel="icon" type="image/png" sizes="96x96" href="../../imagenes/icono-96.png">
+<link rel="icon" type="image/png" sizes="192x192" href="../../imagenes/icono-192.png">
+<link rel="apple-touch-icon" href="../../imagenes/icono-apple.png">
+<link rel="manifest" href="../../manifest.json">
+
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="La Bolivar con vos">
+<meta property="og:title" content="En un minuto · La Bolívar con vos">
+<meta property="og:description" content="Videos cortos de la agrupación, grabados por estudiantes: un tema por video.">
+<meta property="og:image" content="https://labolivarconvos.ar/imagenes/compartir.png">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="stylesheet" href="../../estilos.css">
+<link rel="stylesheet" href="../../estilos-rediseno.css">
+<script>
+(function(){try{
+  var g = localStorage.getItem('bolivar-tema') || 'auto';
+  var oscuro = g === 'oscuro' || (g === 'auto' &&
+    window.matchMedia('(prefers-color-scheme: dark)').matches);
+  document.documentElement.dataset.tema = oscuro ? 'oscuro' : 'claro';
+}catch(e){ document.documentElement.dataset.tema = 'claro'; }})();
+</script>
+<!-- LOS ESTILOS VAN ACÁ Y NO EN estilos.css, como en la Fonoteca: esta
+     pantalla va por red primero y llega siempre nueva, y tocar la hoja
+     general obliga a subir la versión del service worker. -->
+<style>
+.vid-volver{
+  display:inline-flex;align-items:center;min-height:48px;margin:0 0 2px;
+  font-family:var(--fuente-sub);font-weight:700;font-size:var(--letra-nota);
+  color:var(--texto);text-decoration:none
+}
+.vid-volver:focus-visible{outline:3px solid var(--celeste);outline-offset:2px;border-radius:var(--radio-chico)}
+.vid-filtros{margin:4px 0 6px}
+.vid-filtros .chip{min-height:48px;cursor:pointer}
+
+/* LA GRILLA. Dos columnas en el celular: un video vertical a lo ancho
+   ocupa la pantalla entera y no deja ver que hay más. */
+.vid-grilla{
+  list-style:none;margin:14px 0 28px;padding:0;
+  display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:22px 14px
+}
+@media (min-width:640px){ .vid-grilla{ grid-template-columns:repeat(3,minmax(0,1fr)) } }
+@media (min-width:960px){ .vid-grilla{ grid-template-columns:repeat(4,minmax(0,1fr)) } }
+
+.vid-tarjeta{
+  display:block;width:100%;padding:0;margin:0;border:0;background:none;
+  text-align:left;color:var(--texto);font:inherit;cursor:pointer
+}
+.vid-cuadro-chico{
+  position:relative;display:block;aspect-ratio:9/16;overflow:hidden;
+  border:1.5px solid var(--tinta-borde);border-radius:var(--radio);
+  box-shadow:var(--sombra);background:var(--superficie);
+  transition:transform .12s ease, box-shadow .12s ease
+}
+@media (hover:hover) and (pointer:fine){
+  .vid-tarjeta:hover .vid-cuadro-chico{ transform:translate(-1px,-1px);box-shadow:3px 3px 0 var(--tinta-borde) }
+}
+.vid-tarjeta:active .vid-cuadro-chico{ transform:translate(1px,1px);box-shadow:1px 1px 0 var(--tinta-borde) }
+.vid-tarjeta:focus-visible{outline:none}
+.vid-tarjeta:focus-visible .vid-cuadro-chico{ box-shadow:0 0 0 3px var(--celeste) }
+.vid-cuadro-chico img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+
+/* EL CARTEL. Cuando un video no tiene portada, la tarjeta no queda gris
+   esperando: se imprime el título en grande, en negativo, como una
+   plancha de serigrafía. */
+.vid-cartel{
+  position:absolute;inset:0;display:flex;align-items:flex-end;padding:12px 12px 44px;
+  background:var(--texto);color:var(--fondo);
+  font-family:var(--fuente-titulo);font-size:var(--letra-guia);line-height:1.08;
+  overflow-wrap:anywhere;hyphens:auto
+}
+
+/* EL SELLO del minuto: cuánto dura, antes de bajar un solo byte. */
+.vid-sello{
+  position:absolute;left:8px;bottom:9px;padding:3px 7px 2px;
+  background:var(--superficie);color:var(--texto);
+  border:1.5px solid var(--tinta-borde);border-radius:var(--radio-chico);
+  box-shadow:2px 2px 0 var(--tinta-borde);
+  font-family:var(--fuente-titulo);font-size:var(--letra-nota);line-height:1.2;
+  font-variant-numeric:tabular-nums;transform:rotate(-3deg)
+}
+.vid-play{
+  position:absolute;right:8px;bottom:8px;display:grid;place-items:center;
+  width:34px;height:34px;border-radius:50%;
+  background:var(--superficie);border:1.5px solid var(--tinta-borde);color:var(--texto)
+}
+.vid-play svg{width:14px;height:14px;margin-left:2px;fill:currentColor}
+.vid-tarjeta-titulo{
+  display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;
+  margin:11px 0 2px;font-weight:700;font-size:var(--letra-densa);line-height:1.3
+}
+.vid-tarjeta-materia{display:block;font-size:var(--letra-chica);color:var(--texto-suave)}
+
+/* ============================================================
+   EL REPRODUCTOR. Ocupa toda la pantalla y se recorre deslizando para
+   arriba, como los videos del celular: nadie tiene que aprender nada.
+   El fondo es negro de verdad y no un color de la casa: alrededor de
+   un video cualquier otro tono tiñe la imagen.
+   ============================================================ */
+.vid-reproductor{
+  width:100%;height:100%;max-width:none;max-height:none;margin:0;padding:0;border:0;
+  background:#000;color:#fff;overflow:hidden
+}
+.vid-reproductor::backdrop{background:#000}
+.vid-reproductor[open]{display:block}
+.vid-feed{
+  height:100dvh;overflow-y:auto;overscroll-behavior:contain;
+  scroll-snap-type:y mandatory;scrollbar-width:none
+}
+.vid-feed::-webkit-scrollbar{display:none}
+.vid-cuadro{
+  position:relative;height:100dvh;scroll-snap-align:start;scroll-snap-stop:always;
+  display:grid;place-items:center
+}
+.vid-cuadro video{
+  width:100%;height:100%;max-width:calc(100dvh * 9 / 16);object-fit:contain;background:#000
+}
+.vid-pie{
+  position:absolute;left:0;right:0;bottom:0;margin:0 auto;
+  max-width:calc(100dvh * 9 / 16);padding:60px 72px calc(20px + env(safe-area-inset-bottom)) 16px;
+  background:linear-gradient(transparent, rgba(0,0,0,.72));pointer-events:none
+}
+.vid-pie-materia{
+  font-family:var(--fuente-datos);font-size:var(--letra-mini);font-weight:700;
+  letter-spacing:.08em;text-transform:uppercase;opacity:.85
+}
+.vid-pie-titulo{
+  margin:4px 0 0;font-family:var(--fuente-titulo);font-size:var(--letra-sub);line-height:1.12;
+  text-shadow:0 1px 3px rgba(0,0,0,.5)
+}
+.vid-pausa{
+  position:absolute;top:50%;left:50%;width:76px;height:76px;margin:-38px 0 0 -38px;
+  display:grid;place-items:center;border-radius:50%;background:rgba(0,0,0,.45);
+  pointer-events:none;opacity:0;transition:opacity .15s ease
+}
+.vid-pausa svg{width:30px;height:30px;margin-left:4px;fill:#fff}
+.vid-cuadro.pausado .vid-pausa{opacity:1}
+.vid-siguiente{
+  position:absolute;left:50%;top:50%;transform:translate(-50%,56px);
+  min-height:48px;padding:0 18px;border-radius:var(--radio-pastilla);
+  border:1.5px solid #fff;background:rgba(0,0,0,.55);color:#fff;
+  font:700 var(--letra-nota)/1 var(--fuente-sub);cursor:pointer
+}
+
+/* LA MINUTERA, la firma de esta pantalla. Sesenta rayas, una por
+   segundo: se ve cuánto dura el video contra el minuto entero, y cada
+   segundo que pasa se enciende una (si dura más, ver `pintarMinutera`). Las de 0, 15, 30 y 45 son más
+   largas, como en un reloj. Es el único amarillo del reproductor. */
+.vid-barra{
+  position:absolute;top:0;left:0;right:0;z-index:2;margin:0 auto;
+  max-width:calc(100dvh * 9 / 16);
+  padding:calc(12px + env(safe-area-inset-top)) 12px 26px 16px;
+  display:flex;align-items:flex-start;gap:10px;
+  background:linear-gradient(rgba(0,0,0,.6), transparent)
+}
+.vid-reloj{flex:1;min-width:0}
+.vid-minutera{display:flex;align-items:flex-end;gap:2px;height:14px}
+.vid-minutera i{
+  flex:1;height:8px;border-radius:1px;background:rgba(255,255,255,.34)
+}
+.vid-minutera i.cuarto{height:14px}
+.vid-minutera i.fuera{background:rgba(255,255,255,.1)}
+.vid-minutera i.ya{background:var(--amarillo)}
+.vid-tiempo{
+  display:flex;justify-content:space-between;margin-top:7px;
+  font-family:var(--fuente-datos);font-size:var(--letra-mini);font-weight:700;
+  font-variant-numeric:tabular-nums;letter-spacing:.06em;opacity:.9
+}
+.vid-boton{
+  flex:0 0 auto;display:grid;place-items:center;width:48px;height:48px;margin-top:-10px;
+  border:0;border-radius:50%;background:rgba(0,0,0,.35);color:#fff;cursor:pointer
+}
+.vid-boton svg{width:22px;height:22px;fill:none;stroke:currentColor;stroke-width:2.2;stroke-linecap:round;stroke-linejoin:round}
+.vid-lado{
+  position:absolute;right:max(12px, calc(50% - 100dvh * 9 / 32 + 12px));
+  bottom:calc(24px + env(safe-area-inset-bottom));z-index:2;
+  display:grid;gap:10px
+}
+.vid-lado .vid-boton{margin:0;background:rgba(0,0,0,.45)}
+.vid-aviso{
+  position:absolute;left:50%;top:calc(80px + env(safe-area-inset-top));z-index:3;
+  transform:translateX(-50%);padding:8px 14px;border-radius:var(--radio-pastilla);
+  background:rgba(0,0,0,.75);font-size:var(--letra-nota);white-space:nowrap
+}
+.vid-reproductor button:focus-visible,.vid-siguiente:focus-visible{outline:3px solid var(--celeste);outline-offset:2px}
+
+@media (prefers-reduced-motion:reduce){
+  .vid-cuadro-chico,.vid-pausa{transition:none}
+  .vid-feed{scroll-behavior:auto}
+}
+</style>
+</head>
+<body class="pantalla-estudiemos">
+
+<div id="cabecera"></div>
+
+<main class="envoltura mov" id="contenido" tabindex="-1">
+  <a class="vid-volver" href="../">← Estudiemos</a>
+  <h1 class="titulo-pantalla"><span class="mov-renglon"><span>En un minuto</span></span></h1>
+  <p class="bajada" data-entra>
+    Videos cortos de la agrupación, grabados por estudiantes: un tema
+    por video, para repasar antes de clase o de una mesa.
+  </p>
+
+  <div class="chips vid-filtros" id="filtros" role="group" aria-label="Filtrar por materia" hidden></div>
+  <ul class="vid-grilla" id="grilla"></ul>
+
+  <div class="vacio" id="vacio" hidden>
+    <div class="vacio-titulo">Todavía no hay videos</div>
+    <p>Cuando la agrupación suba el primero, va a aparecer acá.</p>
+  </div>
+</main>
+
+<!-- EL REPRODUCTOR. Un <dialog> y no una pantalla aparte: el botón
+     «atrás» del celular y la tecla Escape lo cierran solos, y el foco
+     vuelve a la tarjeta que se tocó. -->
+<dialog class="vid-reproductor" id="reproductor" aria-label="Reproductor de videos">
+  <div class="vid-barra">
+    <div class="vid-reloj">
+      <div class="vid-minutera" id="minutera" aria-hidden="true"></div>
+      <div class="vid-tiempo"><span id="tiempo">0:00</span><span id="posicion"></span></div>
+    </div>
+    <button class="vid-boton" id="cerrar" type="button" aria-label="Cerrar el video">
+      <svg viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18"/></svg>
+    </button>
+  </div>
+  <div class="vid-feed" id="feed"></div>
+  <div class="vid-lado">
+    <button class="vid-boton" id="sonido" type="button" aria-pressed="false" aria-label="Silenciar">
+      <svg viewBox="0 0 24 24" id="sonido-ico"></svg>
+    </button>
+    <button class="vid-boton" id="compartir" type="button" aria-label="Compartir este video">
+      <svg viewBox="0 0 24 24"><path d="M12 15V3M7 8l5-5 5 5M5 13v6a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-6"/></svg>
+    </button>
+  </div>
+  <div class="vid-aviso" id="aviso" role="status" hidden></div>
+</dialog>
+
+<div id="pie"></div>
+
+<script src="../../lib/datos.js"></script>
+<script src="../../config.js"></script>
+<script src="../../iconos.js"></script>
+<script src="../../app.js"></script>
+<script src="../../fondo-red.js"></script>
+<script src="../../movimiento.js"></script>
+<script src="videos.js"></script>
+<script>
+(function(){
+  'use strict';
+
+  const TODOS = (window.VIDEOS || []).filter(v => v && v.id && v.archivo && v.titulo);
+  const grilla = document.getElementById('grilla');
+  const filtros = document.getElementById('filtros');
+  const repro = document.getElementById('reproductor');
+  const feed = document.getElementById('feed');
+  const minutera = document.getElementById('minutera');
+  const tiempo = document.getElementById('tiempo');
+  const posicion = document.getElementById('posicion');
+  const botonSonido = document.getElementById('sonido');
+  const aviso = document.getElementById('aviso');
+
+  const PLAY = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 4.5v15l12-7.5z"/></svg>';
+  const CON_SONIDO = '<path d="M4 9v6h4l5 4V5L8 9z"/><path d="M16.5 8.5a5 5 0 0 1 0 7M19 6a8.5 8.5 0 0 1 0 12"/>';
+  const SIN_SONIDO = '<path d="M4 9v6h4l5 4V5L8 9z"/><path d="M17 9l5 6M22 9l-5 6"/>';
+
+  const reloj = s => {
+    s = Math.max(0, Math.floor(s || 0));
+    return Math.floor(s / 60) + ':' + String(s % 60).padStart(2, '0');
+  };
+
+  let materia = 'todas';
+  let enFeed = [];        // los videos que están en el reproductor, en orden
+  let actual = -1;
+  let silencio = false;   // lo elige la persona y vale para todos los videos
+  let tarjetaOrigen = null;
+
+  /* ---------------- La grilla ---------------- */
+  function visibles(){
+    return materia === 'todas' ? TODOS : TODOS.filter(v => v.materia === materia);
+  }
+
+  function pintarFiltros(){
+    const materias = [...new Set(TODOS.map(v => v.materia).filter(Boolean))];
+    /* Con una sola materia, un filtro no filtra nada. */
+    if (materias.length < 2){ filtros.hidden = true; return; }
+    filtros.hidden = false;
+    filtros.innerHTML = ['todas', ...materias].map(m =>
+      `<button class="chip" type="button" data-materia="${esc(m)}" aria-pressed="${m === materia}">${
+        m === 'todas' ? 'Todas' : esc(m)}</button>`).join('');
+  }
+
+  function pintarGrilla(){
+    const lista = visibles();
+    document.getElementById('vacio').hidden = TODOS.length > 0;
+    grilla.innerHTML = lista.map((v, i) => `
+      <li>
+        <button class="vid-tarjeta" type="button" data-i="${i}">
+          <span class="vid-cuadro-chico">
+            ${v.portada
+              ? `<img src="${esc(v.portada)}" alt="" loading="lazy" decoding="async">`
+              : `<span class="vid-cartel" aria-hidden="true">${esc(v.titulo)}</span>`}
+            ${v.segundos ? `<span class="vid-sello" aria-hidden="true">${reloj(v.segundos)}</span>` : ''}
+            <span class="vid-play" aria-hidden="true">${PLAY}</span>
+          </span>
+          <span class="vid-tarjeta-titulo">${esc(v.titulo)}</span>
+          ${v.materia ? `<span class="vid-tarjeta-materia">${esc(v.materia)}</span>` : ''}
+          ${v.segundos ? `<span class="solo-lectores">, dura ${reloj(v.segundos)}</span>` : ''}
+        </button>
+      </li>`).join('');
+  }
+
+  filtros.addEventListener('click', e => {
+    const b = e.target.closest('[data-materia]');
+    if (!b) return;
+    materia = b.dataset.materia;
+    pintarFiltros();
+    pintarGrilla();
+  });
+
+  grilla.addEventListener('click', e => {
+    const t = e.target.closest('.vid-tarjeta');
+    if (!t) return;
+    tarjetaOrigen = t;
+    abrir(visibles(), +t.dataset.i, true);
+  });
+
+  /* ---------------- El reproductor ---------------- */
+  function armarMinutera(){
+    minutera.innerHTML = Array.from({ length: 60 }, (_, s) =>
+      `<i${s % 15 === 0 ? ' class="cuarto"' : ''}></i>`).join('');
+  }
+  const rayas = () => minutera.children;
+
+  /* Hasta un minuto, una raya es un segundo y las que sobran quedan
+     apagadas: se ve cuánto del minuto usa el video. Si dura más, las
+     sesenta rayas se reparten el video entero: la barra se sigue
+     llenando de punta a punta y no se corta en el segundo 60. */
+  function pintarMinutera(video){
+    const dura = isFinite(video.duration) ? video.duration : (enFeed[actual].segundos || 60);
+    const hasta = Math.min(60, Math.round(dura));
+    const paso = dura > 60 ? dura / 60 : 1;
+    const ya = Math.floor(video.currentTime / paso);
+    [...rayas()].forEach((r, s) => {
+      r.classList.toggle('fuera', s >= hasta);
+      r.classList.toggle('ya', s < hasta && s <= ya && video.currentTime > 0);
+    });
+    tiempo.textContent = reloj(video.currentTime) + ' / ' + reloj(dura);
+  }
+
+  function pintarSonido(){
+    document.getElementById('sonido-ico').innerHTML = silencio ? SIN_SONIDO : CON_SONIDO;
+    botonSonido.setAttribute('aria-pressed', String(silencio));
+    botonSonido.setAttribute('aria-label', silencio ? 'Activar el sonido' : 'Silenciar');
+  }
+
+  function avisar(texto){
+    aviso.textContent = texto;
+    aviso.hidden = false;
+    clearTimeout(avisar.t);
+    avisar.t = setTimeout(() => { aviso.hidden = true; }, 2600);
+  }
+
+  function abrir(lista, i, conToque){
+    enFeed = lista;
+    feed.innerHTML = lista.map((v, k) => `
+      <section class="vid-cuadro" data-k="${k}" aria-label="${esc(v.titulo)}">
+        <video playsinline preload="none" ${v.portada ? `poster="${esc(v.portada)}"` : ''}></video>
+        <span class="vid-pausa" aria-hidden="true">${PLAY}</span>
+        <div class="vid-pie">
+          ${v.materia ? `<div class="vid-pie-materia">${esc(v.materia)}</div>` : ''}
+          <h2 class="vid-pie-titulo">${esc(v.titulo)}</h2>
+        </div>
+      </section>`).join('');
+    actual = -1;
+    if (!repro.open) repro.showModal();
+    document.documentElement.style.overflow = 'hidden';
+    feed.children[i].scrollIntoView({ block: 'start', behavior: 'instant' });
+    activar(i, conToque);
+  }
+
+  /* Solo baja el que se está viendo y el de al lado. Un minuto pesa unos
+     6 MB: bajar toda la lista al abrir le vaciaría los datos a quien
+     mira uno solo. */
+  function cargar(k, precarga){
+    const cuadro = feed.children[k];
+    if (!cuadro) return null;
+    const video = cuadro.querySelector('video');
+    if (!video.getAttribute('src')) video.src = enFeed[k].archivo;
+    video.preload = precarga;
+    return video;
+  }
+
+  function activar(k, conToque){
+    if (k === actual || !feed.children[k]) return;
+    [...feed.querySelectorAll('video')].forEach(v => v.pause());
+    feed.querySelectorAll('.vid-siguiente').forEach(b => b.remove());
+    actual = k;
+    const video = cargar(k, 'auto');
+    cargar(k + 1, 'metadata');
+    video.muted = silencio;
+    video.currentTime = 0;
+    posicion.textContent = enFeed.length > 1 ? (k + 1) + ' de ' + enFeed.length : '';
+    pintarMinutera(video);
+    history.replaceState(null, '', '#v=' + encodeURIComponent(enFeed[k].id));
+    reproducir(video, conToque);
+  }
+
+  /* Si el navegador no deja arrancar con sonido (pasa al abrir un link
+     compartido, sin que la persona haya tocado nada), arranca callado y
+     se avisa cómo prenderlo. */
+  function reproducir(video, conToque){
+    const p = video.play();
+    if (!p) return;
+    p.then(() => video.closest('.vid-cuadro').classList.remove('pausado'))
+     .catch(() => {
+       if (video.muted){ video.closest('.vid-cuadro').classList.add('pausado'); return; }
+       silencio = true; video.muted = true; pintarSonido();
+       video.play().then(() => {
+         video.closest('.vid-cuadro').classList.remove('pausado');
+         if (!conToque) avisar('Tocá el parlante para escucharlo');
+       }).catch(() => video.closest('.vid-cuadro').classList.add('pausado'));
+     });
+  }
+
+  /* Cuál se está viendo sale de cuánto se bajó, cuando el deslizamiento
+     se asienta. Cada cuadro mide una pantalla justa (scroll-snap), así
+     que la cuenta es una división. */
+  let asentar = 0;
+  function alBajar(){
+    clearTimeout(asentar);
+    asentar = setTimeout(() => {
+      if (!repro.open || !feed.clientHeight) return;
+      activar(Math.round(feed.scrollTop / feed.clientHeight), true);
+    }, 140);
+  }
+  feed.addEventListener('scroll', alBajar, { passive: true });
+
+  function ir(k){
+    const c = feed.children[k];
+    if (c) c.scrollIntoView({ block: 'start', behavior: menosMovimiento() ? 'instant' : 'smooth' });
+  }
+
+  /* Se llama desde la cruz, desde Escape y desde el evento `close`; la
+     segunda vez no hace nada. No alcanza con escuchar solo `close`: con
+     la pestaña de fondo el navegador lo demora, y el video seguía
+     bajándose. */
+  function cerrar(){
+    if (repro.open) repro.close();
+    if (actual === -1 && !feed.children.length) return;
+    clearTimeout(asentar);
+    /* Sin `src` el video deja de bajarse; con solo pausarlo, sigue. */
+    feed.querySelectorAll('video').forEach(v => { v.pause(); v.removeAttribute('src'); v.load(); });
+    feed.innerHTML = '';
+    actual = -1;
+    document.documentElement.style.overflow = '';
+    history.replaceState(null, '', location.pathname + location.search);
+    if (tarjetaOrigen && document.contains(tarjetaOrigen)) tarjetaOrigen.focus();
+  }
+  repro.addEventListener('close', cerrar);
+  repro.addEventListener('cancel', e => { e.preventDefault(); cerrar(); });
+  document.getElementById('cerrar').addEventListener('click', cerrar);
+
+  feed.addEventListener('timeupdate', e => {
+    if (+e.target.closest('.vid-cuadro').dataset.k === actual) pintarMinutera(e.target);
+  }, true);
+  feed.addEventListener('loadedmetadata', e => {
+    if (+e.target.closest('.vid-cuadro').dataset.k === actual) pintarMinutera(e.target);
+  }, true);
+
+  /* Al terminar no salta solo al siguiente: cada video es un tema, y
+     quien lo mira puede querer verlo otra vez. Se ofrece el paso. */
+  feed.addEventListener('ended', e => {
+    const cuadro = e.target.closest('.vid-cuadro');
+    const k = +cuadro.dataset.k;
+    cuadro.classList.add('pausado');
+    if (k < enFeed.length - 1 && !cuadro.querySelector('.vid-siguiente')){
+      const b = document.createElement('button');
+      b.className = 'vid-siguiente'; b.type = 'button';
+      b.textContent = 'Ver el siguiente ↓';
+      b.addEventListener('click', ev => { ev.stopPropagation(); ir(k + 1); });
+      cuadro.appendChild(b);
+      b.focus({ preventScroll: true });
+    }
+  }, true);
+
+  function alternar(){
+    const video = feed.children[actual] && feed.children[actual].querySelector('video');
+    if (!video) return;
+    if (video.paused){
+      feed.querySelectorAll('.vid-siguiente').forEach(b => b.remove());
+      reproducir(video, true);
+    } else {
+      video.pause();
+      video.closest('.vid-cuadro').classList.add('pausado');
+    }
+  }
+  feed.addEventListener('click', e => { if (e.target.closest('.vid-cuadro')) alternar(); });
+
+  botonSonido.addEventListener('click', () => {
+    silencio = !silencio;
+    feed.querySelectorAll('video').forEach(v => { v.muted = silencio; });
+    pintarSonido();
+  });
+
+  document.getElementById('compartir').addEventListener('click', async () => {
+    const v = enFeed[actual];
+    if (!v) return;
+    const url = location.origin + location.pathname + '#v=' + encodeURIComponent(v.id);
+    if (navigator.share){
+      try { await navigator.share({ title: v.titulo, text: v.titulo + ' · en un minuto', url }); } catch(e){}
+      return;
+    }
+    try { await navigator.clipboard.writeText(url); avisar('Link copiado'); }
+    catch(e){ avisar('No se pudo copiar el link'); }
+  });
+
+  repro.addEventListener('keydown', e => {
+    if (e.target.closest('button') && (e.key === ' ' || e.key === 'Enter')) return;
+    if (e.key === 'ArrowDown' || e.key === 'PageDown' || e.key === 'j'){ e.preventDefault(); ir(actual + 1); }
+    else if (e.key === 'ArrowUp' || e.key === 'PageUp' || e.key === 'k'){ e.preventDefault(); ir(actual - 1); }
+    else if (e.key === ' '){ e.preventDefault(); alternar(); }
+    else if (e.key === 'm'){ botonSonido.click(); }
+  });
+
+  /* ---------------- Arranque ---------------- */
+  armarMinutera();
+  pintarSonido();
+  pintarFiltros();
+  pintarGrilla();
+
+  /* El link compartido (…/videos/#v=el-id) abre directo ese video. */
+  const pedido = decodeURIComponent((location.hash.match(/^#v=(.+)$/) || [])[1] || '');
+  const i = TODOS.findIndex(v => v.id === pedido);
+  if (i >= 0) abrir(TODOS, i, false);
+})();
+</script>
+</body>
+</html>

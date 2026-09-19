@@ -267,7 +267,15 @@
    compacta, buscador y materia en una barra de vidrio pegada arriba, la
    materia se elige en una hoja desde abajo, y la invitación a compartir
    es un botón flotante (el bloque amarillo queda para el estado vacío). */
-const VERSION = 'bolivar-v59';
+/* v60 (18/9/2026) Carrera: la hoja de la materia escucha solo su
+   propio `transitionend` y lo suelta al cerrarse; antes, si la cerraba
+   el respaldo por tiempo, se volvía a cerrar sola apenas se la abría. */
+/* v61 (18/9/2026) Los videos de `estudiemos/videos/` no pasan por el
+   service worker. Iban a caer en el armazón como cualquier archivo
+   propio: 6 MB por video guardados para siempre, y encima servidos
+   enteros cuando el navegador pide un pedazo (Range), que en el iPhone
+   deja el video sin arrancar o sin poder adelantarse. */
+const VERSION = 'bolivar-v61';
 const ARMAZON = VERSION + '-armazon';
 const PAGINAS = VERSION + '-paginas';
 
@@ -369,6 +377,15 @@ self.addEventListener('fetch', evento => {
   }
 
   if (url.origin !== self.location.origin) return;
+
+  /* Los videos van directo a la red, sin guardarse (ver v61). Y todo
+     lo de su carpeta también: la lista `videos.js` servida de lo
+     guardado mostraba la lista vieja hasta la visita siguiente, o sea
+     que un video recién subido no aparecía. La pantalla en sí (que es
+     `navigate`) sigue hasta el bloque de abajo y se guarda como las demás. */
+  if (pedido.destination === 'video' || pedido.headers.has('range') ||
+      /\.(mp4|webm|mov)$/i.test(url.pathname) ||
+      (pedido.mode !== 'navigate' && url.pathname.indexOf('/estudiemos/videos/') === 0)) return;
 
   /* Las pantallas: primero la red, y si no hay, la última que vimos.
      Así el contenido siempre está fresco cuando se puede. */

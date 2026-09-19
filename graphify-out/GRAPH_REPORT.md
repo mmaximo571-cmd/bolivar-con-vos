@@ -1,17 +1,17 @@
 # Graph Report - bolivar-con-vos  (2026-09-18)
 
 ## Corpus Check
-- 53 files · ~170,569 words
+- 54 files · ~176,430 words
 - Verdict: corpus is large enough that graph structure adds value.
-- Unclassified: 12 file(s) not represented in the graph (top: (none) 5, .geojson 4, .css 3)
+- Unclassified: 13 file(s) not represented in the graph (top: (none) 5, .geojson 4, .css 3)
 
 ## Summary
-- 605 nodes · 918 edges · 72 communities (47 shown, 25 thin omitted)
+- 606 nodes · 918 edges · 73 communities (47 shown, 26 thin omitted)
 - Extraction: 93% EXTRACTED · 7% INFERRED · 0% AMBIGUOUS · INFERRED: 68 edges (avg confidence: 0.84)
 - Token cost: 0 input · 0 output
 
 ## Graph Freshness
-- Built from commit: `ed1f29c7`
+- Built from commit: `cc8d5b46`
 - Run `git rev-parse HEAD` and compare to check if the graph is stale.
 - Run `graphify update .` after code changes (no API cost).
 
@@ -118,7 +118,7 @@
 - **Pantallas que muestran publicaciones de la agenda** — tabla_publicaciones, index_proximodelaagenda, index_calendario_mes, agenda_index_traer, agenda_index_detalle_publicacion, carrera_index_vistanueva [INFERRED 0.85]
 - **El Panel edita el contenido que leen las pantallas públicas** — panel_index, tramites_index, quienes_index, consejo_index, anatomo_index, catedras_index, estudiemos_index [INFERRED 0.95]
 
-## Communities (72 total, 25 thin omitted)
+## Communities (73 total, 26 thin omitted)
 
 ### Community 0 - "La Fonoteca: simulador de práctica audiológica"
 Cohesion: 0.06
@@ -310,8 +310,8 @@ Nodes (6): esDelEquipo(), sesionActual(), Pantalla Panel (administración del eq
 
 ## Knowledge Gaps
 - **90 isolated node(s):** `__hitosDeEstaVisita`, `MESES`, `MESES_LARGO`, `NOMBRE_SECCION`, `NOMBRE_LINEA` (+85 more)
-  These have ≤1 connection - possible missing edges or undocumented components. (Counts symbols only; 174 node(s) total have ≤1 connection when file, concept and rationale nodes are included.)
-- **25 thin communities (<3 nodes) omitted from report** — run `graphify query` to explore isolated nodes.
+  These have ≤1 connection - possible missing edges or undocumented components. (Counts symbols only; 175 node(s) total have ≤1 connection when file, concept and rationale nodes are included.)
+- **26 thin communities (<3 nodes) omitted from report** — run `graphify query` to explore isolated nodes.
 
 ## Suggested Questions
 _Questions this graph is uniquely positioned to answer:_

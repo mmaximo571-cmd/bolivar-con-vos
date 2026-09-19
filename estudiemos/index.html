@@ -160,6 +160,26 @@
       </span>
     </a>
 
+    <!-- LOS VIDEOS DE UN MINUTO (18/9). Arranca escondida: la destapa el
+         script de abajo apenas `videos/videos.js` trae al menos uno. Una
+         puerta a una pantalla vacía es peor que no tener la puerta. -->
+    <a class="herramienta" href="videos/" id="puerta-videos" hidden>
+      <span class="herramienta-cabeza">
+        <span class="herramienta-ico" aria-hidden="true">
+          <svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"><rect x="6" y="2.5" width="12" height="19" rx="2"/><path d="M10.5 9.5v5l4-2.5z" fill="currentColor"/></svg>
+        </span>
+        <span class="herramienta-insignia">Videos</span>
+      </span>
+      <span class="herramienta-texto">
+        <strong>En un minuto</strong>
+        <span>Videos cortos de la agrupación: un tema por video.</span>
+      </span>
+      <span class="herramienta-cinta" data-cinta="videos">
+        <span class="cinta-dato"><b>Videos</b><span>De un minuto cada uno</span></span>
+        <span class="herramienta-flecha" aria-hidden="true">→</span>
+      </span>
+    </a>
+
   </nav>
 
   <div class="titulo-seccion">EL MATERIAL</div>
@@ -241,6 +261,7 @@
 <script src="../carrera/plan.js"></script>
 <script src="../carrera/plan-tgcr.js"></script>
 <script src="../carrera/plan-fono.js"></script>
+<script src="videos/videos.js"></script>
 <script>
 (async function estudiemos(){
 
@@ -326,6 +347,17 @@
       fono: 'Es de la tuya', otra: 'De Fonoaudiología'
     }
   };
+  /* Los videos se cuentan de la lista misma, así el número no queda
+     viejo cuando se suma uno. */
+  const cuantosVideos = (window.VIDEOS || []).length;
+  if (cuantosVideos){
+    CINTAS.videos = {
+      cuanto: cuantosVideos + (cuantosVideos === 1 ? ' video' : ' videos'),
+      otra: 'De un minuto cada uno'
+    };
+    const puerta = document.getElementById('puerta-videos');
+    if (puerta) puerta.hidden = false;
+  }
 
   function pintarCintas(){
     const id = carreraActual().id;
