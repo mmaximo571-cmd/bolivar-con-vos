@@ -8,7 +8,7 @@
 <meta name="theme-color" content="#F9E830">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Roboto:wght@400;500;700&family=Roboto+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
 <!-- Iconos de la app: pestana, Google, y pantalla de inicio del celular -->
 <link rel="icon" type="image/png" sizes="32x32" href="../imagenes/icono-32.png">
 <link rel="icon" type="image/png" sizes="96x96" href="../imagenes/icono-96.png">
@@ -25,7 +25,6 @@
 <meta name="twitter:card" content="summary_large_image">
 <link rel="stylesheet" href="../estilos.css">
 <link rel="stylesheet" href="../estilos-rediseno.css">
-<link rel="stylesheet" href="estudiemos.css">
 <!-- EL TEMA, ANTES DE DIBUJAR NADA. Va acá arriba y no en app.js a
      propósito: app.js carga al final del cuerpo, así que la pantalla
      arrancaría clara y pegaría un salto a oscura. Son tres renglones. -->
@@ -46,11 +45,10 @@
   <!-- El renglón va adentro de una máscara (overflow:hidden) para que la
        palabra suba desde abajo de su propia línea y no desde el vacío. -->
   <h1 class="titulo-pantalla"><span class="mov-renglon"><span>Estudiemos</span></span></h1>
-  <!-- REDISEÑO DEL 18/9. La bajada vieja prometía «apuntes que
-       compartimos», pero lo que más hay acá son herramientas propias.
-       En su lugar, una línea que dice para quién está ordenada la
-       pantalla (la escribe portada.js). -->
-  <p class="est-carrera" id="est-carrera">&nbsp;</p>
+  <p class="bajada" data-entra>
+    Apuntes, resúmenes y parciales que compartimos entre todas y todos.
+    Lo que a vos te sirvió, a otra persona le puede salvar la cursada.
+  </p>
 
   <!-- EL BUSCADOR VA PRIMERO. Quien entra a Estudiemos ya sabe qué
        materia busca: lo primero que tiene que encontrar es dónde
@@ -68,7 +66,7 @@
     <div class="buscador">
       <span class="lupa" id="lupa">🔍</span>
       <input id="filtro" type="search" autocomplete="off"
-             placeholder="Buscá una ficha, un tema o una materia" aria-label="Buscar en Estudiemos">
+             placeholder="Buscar por materia o tema…" aria-label="Buscar material">
     </div>
     <button class="elegir-materia" id="elegir-materia" type="button"
             aria-haspopup="dialog" aria-controls="hoja-materias" hidden>
@@ -78,24 +76,113 @@
     </button>
   </div>
 
-  <!-- Lo que encuentra el buscador además de los apuntes: fichas y
-       herramientas. Mientras hay búsqueda, la portada se esconde. -->
-  <div class="est-resultados" id="resultados" aria-live="polite" hidden></div>
-
-  <!-- LA PORTADA (portada.js). Seguí donde dejaste, y los tres modos:
-       Repasar, Practicar y Territorio. Ya no es un riel: con cinco
-       herramientas, el riel mostraba una y media y escondía el resto.
-       El orden de los modos lo pone portada.js según la carrera. -->
-  <div id="portada">
-    <section id="seguir" aria-label="Seguí donde dejaste"></section>
-    <section class="est-modo" id="modo-repasar"><div class="est-rotulo"></div><div class="est-grilla"></div></section>
-    <section class="est-modo" id="modo-practicar"><div class="est-rotulo"></div><div class="est-grilla"></div></section>
-    <section class="est-modo" id="modo-territorio"><div class="est-rotulo"></div><div class="est-territorio"></div></section>
+  <!-- LAS FLECHAS NO SE ENFOCAN CON EL TABULADOR, a propósito. Son el
+       atajo del mouse, que no puede deslizar con el dedo. Con teclado ya
+       hay dos caminos mejores: el tabulador pasa por cada tarjeta, y las
+       flechas del teclado mueven el riel. Dos botones más en el orden de
+       tabulación serían dos paradas que no llevan a ningún lado. -->
+  <div class="titulo-seccion con-cuenta" data-entra="3">PARA EMPEZAR
+    <span class="riel-mando">
+      <span class="riel-cuenta" id="riel-cuenta" aria-hidden="true"></span>
+      <button class="riel-flecha" id="riel-antes" type="button"
+              tabindex="-1" aria-hidden="true">←</button>
+      <button class="riel-flecha" id="riel-despues" type="button"
+              tabindex="-1" aria-hidden="true">→</button>
+    </span>
   </div>
 
-  <!-- El material compartido baja al final (18/9): hoy hay poco, y
-       arriba de todo prometía más de lo que había. -->
-  <div class="est-rotulo" id="rotulo-material"><h2>Apuntes compartidos</h2><span>Los carga el equipo</span></div>
+  <!-- Las tres puertas. Antes eran tres bloques amarillos seguidos;
+       ahora van en superficie y el amarillo queda para una sola cosa,
+       abajo: la invitación a compartir material. -->
+  <nav class="herramientas" aria-label="Herramientas de estudio">
+
+    <a class="herramienta" href="../carrera/#finales">
+      <span class="herramienta-cabeza">
+        <span class="herramienta-ico" data-ico="carrera" aria-hidden="true">📅</span>
+      </span>
+      <span class="herramienta-texto">
+        <strong>Preparar un final</strong>
+        <span>El programa, la fecha de la mesa y cuánto te falta.</span>
+      </span>
+      <span class="herramienta-cinta" data-cinta="finales">
+        <span class="cinta-dato"><b>9 turnos de examen</b><span>Para las tres carreras</span></span>
+        <span class="herramienta-flecha" aria-hidden="true">→</span>
+      </span>
+    </a>
+
+    <a class="herramienta" href="fichas/">
+      <span class="herramienta-cabeza">
+        <span class="herramienta-ico" data-ico="estudiemos" aria-hidden="true">📐</span>
+        <span class="herramienta-insignia">Con autoevaluación</span>
+      </span>
+      <span class="herramienta-texto">
+        <strong>Fichas para estudiar</strong>
+        <span>Treinta temas para repasar, con autoevaluación.</span>
+      </span>
+      <span class="herramienta-cinta" data-cinta="fichas">
+        <span class="cinta-dato"><b>30 fichas</b><span>29 de Fono / 1 de TS</span></span>
+        <span class="herramienta-flecha" aria-hidden="true">→</span>
+      </span>
+    </a>
+
+    <a class="herramienta" href="../anatomo/">
+      <span class="herramienta-cabeza">
+        <span class="herramienta-ico" data-ico="plan" aria-hidden="true">🧠</span>
+        <span class="herramienta-insignia">3D interactivo</span>
+      </span>
+      <span class="herramienta-texto">
+        <strong>Anatomofisiología</strong>
+        <span>Los módulos con su bibliografía, y la laringe y el oído para girarlos.</span>
+      </span>
+      <span class="herramienta-cinta" data-cinta="anatomo">
+        <span class="cinta-dato"><b>2 modelos 3D</b><span>De Fonoaudiología</span></span>
+        <span class="herramienta-flecha" aria-hidden="true">→</span>
+      </span>
+    </a>
+
+    <!-- LA FONOTECA, cuarta herramienta (decidido el 13/9). Iba escondida
+         hasta el visto de la profesional; el 13/9 a la noche Máximo decidió
+         destaparla con los seis casos publicados, y el 17/9 llegó el visto.
+         Si hay que volver a
+         esconderla: `hidden` en esta etiqueta. -->
+    <a class="herramienta" href="fonoteca/">
+      <span class="herramienta-cabeza">
+        <span class="herramienta-ico" data-ico="plan" aria-hidden="true">🎧</span>
+        <span class="herramienta-insignia">Con devolución</span>
+      </span>
+      <span class="herramienta-texto">
+        <strong>Fonoteca</strong>
+        <span>Audiogramas para practicar: diagnosticás cada oído y ves por qué.</span>
+      </span>
+      <span class="herramienta-cinta" data-cinta="fonoteca">
+        <span class="cinta-dato"><b>6 casos</b><span>De Fonoaudiología</span></span>
+        <span class="herramienta-flecha" aria-hidden="true">→</span>
+      </span>
+    </a>
+
+    <!-- LOS VIDEOS DE UN MINUTO (18/9). Arranca escondida: la destapa el
+         script de abajo apenas `videos/videos.js` trae al menos uno. Una
+         puerta a una pantalla vacía es peor que no tener la puerta. -->
+    <a class="herramienta" href="videos/" id="puerta-videos" hidden>
+      <span class="herramienta-cabeza">
+        <span class="herramienta-ico" aria-hidden="true">
+          <svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"><rect x="6" y="2.5" width="12" height="19" rx="2"/><path d="M10.5 9.5v5l4-2.5z" fill="currentColor"/></svg>
+        </span>
+        <span class="herramienta-insignia">Videos</span>
+      </span>
+      <span class="herramienta-texto">
+        <strong>En un minuto</strong>
+        <span>Videos cortos de la agrupación: un tema por video.</span>
+      </span>
+      <span class="herramienta-cinta" data-cinta="videos">
+        <span class="cinta-dato"><b>Videos</b><span>De un minuto cada uno</span></span>
+        <span class="herramienta-flecha" aria-hidden="true">→</span>
+      </span>
+    </a>
+
+  </nav>
+
+  <div class="titulo-seccion">EL MATERIAL</div>
 
   <div id="lista" style="margin-top:10px">
     <div class="esq-tarjeta"><div class="esqueleto esq-linea titulo"></div><div class="esqueleto esq-linea"></div><div class="esqueleto esq-linea media"></div></div>
@@ -175,12 +262,6 @@
 <script src="../carrera/plan-tgcr.js"></script>
 <script src="../carrera/plan-fono.js"></script>
 <script src="videos/videos.js"></script>
-<!-- El rediseño (18/9): la huella del teléfono (solo lectura acá), el
-     dibujo del territorio y la portada que usa las dos. -->
-<script>window.HUELLA_SOLO_LEER = true;</script>
-<script src="huella.js"></script>
-<script src="territorio.js"></script>
-<script src="portada.js"></script>
 <script>
 (async function estudiemos(){
 
@@ -236,9 +317,205 @@
      ejecutar no es «undefined», es un error que corta la pantalla. */
   let enganchado = false;
 
-  /* El riel de herramientas, sus flechas, su contador y sus cintas
-     se fueron con el rediseño del 18/9: la portada la dibuja
-     portada.js. La versión anterior quedó entera en anterior.html. */
+  /* ============================================================
+     EL RIEL DE HERRAMIENTAS (13/9)
+
+     Dos cosas, las dos chicas: el contador que dice en cuál estás
+     parado, y la cinta de datos que cambia según tu carrera.
+
+     LO DE «DE LA TUYA» ES EL MOTIVO DE TODO ESTO. Nueve fichas suena
+     igual para todo el mundo; «8 de la tuya» y «1 de la tuya» no. El
+     dato existe —ocho fichas son de Fonoaudiología y una de Trabajo
+     Social— y hasta ahora no lo decía ninguna pantalla.
+
+     Para Gestión del Riesgo NO se escribe «ninguna de la tuya»: se
+     muestra el reparto. Un cartel que le dice a alguien que acá no hay
+     nada para él lo echa de la pantalla, y además es mentira: el
+     material de otra carrera se puede leer igual.
+     ============================================================ */
+  const CINTAS = {
+    fichas: {
+      cuanto: '30 fichas',
+      fono: '29 de la tuya', ts: '1 de la tuya', otra: '29 de Fono / 1 de TS'
+    },
+    anatomo: {
+      cuanto: '2 modelos 3D',
+      fono: 'Es de la tuya', otra: 'De Fonoaudiología'
+    },
+    fonoteca: {
+      cuanto: '6 casos',
+      fono: 'Es de la tuya', otra: 'De Fonoaudiología'
+    }
+  };
+  /* Los videos se cuentan de la lista misma, así el número no queda
+     viejo cuando se suma uno. */
+  const cuantosVideos = (window.VIDEOS || []).length;
+  if (cuantosVideos){
+    CINTAS.videos = {
+      cuanto: cuantosVideos + (cuantosVideos === 1 ? ' video' : ' videos'),
+      otra: 'De un minuto cada uno'
+    };
+    const puerta = document.getElementById('puerta-videos');
+    if (puerta) puerta.hidden = false;
+  }
+
+  function pintarCintas(){
+    const id = carreraActual().id;
+    Object.keys(CINTAS).forEach(clave => {
+      const dato = document.querySelector(`[data-cinta="${clave}"] .cinta-dato`);
+      if (!dato) return;
+      const t = CINTAS[clave];
+      dato.innerHTML = `<b>${t.cuanto}</b><span>${t[id] || t.otra}</span>`;
+    });
+  }
+
+  /* El contador. Se saca de cuánto se corrió la fila y no de un
+     observador: son tres o cuatro tarjetas y la cuenta tiene que dar
+     igual con el dedo, con la rueda y con el tabulador. */
+  const riel = document.querySelector('.herramientas');
+  const cuenta = document.getElementById('riel-cuenta');
+  function pintarCuenta(){
+    if (!riel || !cuenta) return;
+    const visibles = [...riel.querySelectorAll('.herramienta')].filter(a => !a.hidden);
+    if (visibles.length < 2){ cuenta.textContent = ''; return; }
+    const ancho = visibles[0].offsetWidth + 12;
+    const cual = Math.min(visibles.length, Math.round(riel.scrollLeft / ancho) + 1);
+    const dosCifras = n => String(n).padStart(2, '0');
+    cuenta.textContent = dosCifras(cual) + '/' + dosCifras(visibles.length);
+  }
+  /* ============================================================
+     LAS FLECHAS, EL TECLADO Y EL ARRASTRE (13/9, movimiento)
+
+     El riel sigue siendo un scroll nativo con imán (scroll-snap): con
+     el dedo no hay nada mejor que eso, y el contador de arriba ya se
+     calcula del scrollLeft. Lo que se suma es para quien NO tiene dedo:
+     flechas para el mouse, flechas del teclado, y arrastrar con el
+     mouse apretado.
+
+     EL VIAJE LO HACE ESTE CÓDIGO Y NO `scrollBy({behavior:'smooth'})`.
+     El suave del navegador no deja elegir curva ni duración. Eran 0,6 s
+     y bajó a 0,26 (13/9, revisión de animaciones): mover el riel es
+     interfaz y se repite, y con las flechas del teclado 0,6 s por tecla
+     se sentía pesado. Mientras dura se apaga el imán:
+     con el imán prendido, cada paso intermedio salta a la tarjeta más
+     cercana y el viaje se ve a los tirones.
+     ============================================================ */
+  const antes = document.getElementById('riel-antes');
+  const despues = document.getElementById('riel-despues');
+  const tarjetasRiel = () => [...riel.querySelectorAll('.herramienta')].filter(a => !a.hidden);
+  const pasoRiel = () => { const t = tarjetasRiel(); return t.length ? t[0].offsetWidth + 12 : 1; };
+  const topeRiel = () => Math.max(0, riel.scrollWidth - riel.clientWidth);
+
+  function pintarFlechas(){
+    if (!riel || !antes) return;
+    const tope = topeRiel();
+    /* Si entran todas a la vista, no hay nada que deslizar. */
+    antes.parentElement.toggleAttribute('data-sin-riel', tope < 2);
+    antes.disabled = riel.scrollLeft <= 2;
+    despues.disabled = riel.scrollLeft >= tope - 2;
+  }
+
+  let viaje = 0, redViaje = 0;
+  function llevarRiel(destino){
+    destino = Math.max(0, Math.min(topeRiel(), destino));
+    cancelAnimationFrame(viaje); clearTimeout(redViaje);
+    const desde = riel.scrollLeft;
+    if (menosMovimiento() || Math.abs(destino - desde) < 1){
+      riel.style.scrollSnapType = '';
+      riel.scrollLeft = destino;
+      return;
+    }
+    const DURA = 260, arranque = performance.now();
+    /* quint.out, la que más se parece a cubic-bezier(0.16, 1, 0.3, 1),
+       la curva de entrada. Decía power3, que es bastante más blanda. */
+    const curva = x => 1 - Math.pow(1 - x, 5);
+    /* Al llegar se repintan contador y flechas acá mismo, sin esperar el
+       evento de scroll: si el navegador no dibujó, ese evento no sale, y
+       la flecha de volver queda apagada con el riel ya corrido. */
+    const terminar = () => {
+      cancelAnimationFrame(viaje); clearTimeout(redViaje);
+      riel.scrollLeft = destino;
+      riel.style.scrollSnapType = '';
+      pintarCuenta(); pintarFlechas();
+    };
+    riel.style.scrollSnapType = 'none';
+    const cuadro = ahora => {
+      const x = Math.min(1, (ahora - arranque) / DURA);
+      riel.scrollLeft = desde + (destino - desde) * curva(x);
+      if (x < 1) viaje = requestAnimationFrame(cuadro); else terminar();
+    };
+    viaje = requestAnimationFrame(cuadro);
+    /* Si el navegador no está dibujando (pestaña de fondo, un webview
+       congelado), el viaje no avanza: a los 0,41 s se llega en seco y
+       el imán vuelve. Un riel sin imán quedaría parado entre tarjetas. */
+    redViaje = setTimeout(terminar, DURA + 150);
+  }
+  const irA = indice => llevarRiel(indice * pasoRiel());
+  const indiceActual = () => Math.round(riel.scrollLeft / pasoRiel());
+
+  if (riel && antes){
+    antes.addEventListener('click', () => irA(indiceActual() - 1));
+    despues.addEventListener('click', () => irA(indiceActual() + 1));
+
+    /* Con teclado: parado en una tarjeta, las flechas pasan a la de al
+       lado y el foco va con ella. `preventScroll` porque del viaje se
+       encarga llevarRiel, con su curva; si no, el navegador salta. */
+    riel.addEventListener('keydown', e => {
+      if (e.key !== 'ArrowRight' && e.key !== 'ArrowLeft') return;
+      const t = tarjetasRiel();
+      const aca = t.indexOf(e.target.closest('.herramienta'));
+      if (aca === -1) return;
+      const va = Math.max(0, Math.min(t.length - 1, aca + (e.key === 'ArrowRight' ? 1 : -1)));
+      e.preventDefault();
+      t[va].focus({ preventScroll: true });
+      irA(va);
+    });
+
+    /* Arrastre con MOUSE, y solo con mouse: en el celular el scroll
+       nativo ya lo hace mejor, con inercia. Hasta los 5 px no es un
+       arrastre, es un clic, y el enlace tiene que abrir. */
+    let agarre = null, arrastro = false;
+    riel.addEventListener('pointerdown', e => {
+      if (e.pointerType !== 'mouse' || e.button !== 0) return;
+      agarre = { x: e.clientX, desde: riel.scrollLeft, id: e.pointerId };
+      arrastro = false;
+    });
+    riel.addEventListener('pointermove', e => {
+      if (!agarre) return;
+      const dx = e.clientX - agarre.x;
+      if (!arrastro && Math.abs(dx) > 5){
+        arrastro = true;
+        cancelAnimationFrame(viaje); clearTimeout(redViaje);
+        riel.setPointerCapture(agarre.id);
+        riel.style.scrollSnapType = 'none';
+        riel.classList.add('arrastrando');
+      }
+      if (arrastro) riel.scrollLeft = agarre.desde - dx;
+    });
+    const soltar = () => {
+      if (!agarre) return;
+      agarre = null;
+      if (!arrastro) return;
+      riel.classList.remove('arrastrando');
+      irA(indiceActual());   /* se acomoda en la tarjeta más cercana */
+    };
+    riel.addEventListener('pointerup', soltar);
+    riel.addEventListener('pointercancel', soltar);
+    /* El clic que viene después de soltar un arrastre no es un clic. */
+    riel.addEventListener('click', e => {
+      if (arrastro){ e.preventDefault(); e.stopPropagation(); arrastro = false; }
+    }, true);
+    riel.addEventListener('dragstart', e => e.preventDefault());
+  }
+
+  if (riel){
+    const alMover = () => { pintarCuenta(); pintarFlechas(); };
+    riel.addEventListener('scroll', alMover, { passive:true });
+    window.addEventListener('resize', alMover);
+  }
+  pintarCintas();
+  pintarCuenta();
+  pintarFlechas();
 
   /* EL MOVIMIENTO AL BAJAR (13/9). Vive en movimiento.js, que es de
      las tres pantallas que se recorren; acá solo se dice qué se mueve.
@@ -263,6 +540,7 @@
        filas llegando de a una son ruido. */
     entrarAlLlegar(lista, ':scope > .titulo-seccion, :scope > .lista-material');
   }
+  document.addEventListener('bolivar:carrera', pintarCintas);
 
   /* ============================================================
      PRIMERO LO DE TU CARRERA
@@ -348,8 +626,7 @@
     document.getElementById('comunidad-vacio').hidden = false;
     comunidad.hidden = false;
     fab.hidden = true;
-    /* La barra se queda: el buscador también encuentra fichas. */
-    document.getElementById('rotulo-material').hidden = true;
+    barra.hidden = true;
     return;
   }
 
@@ -548,7 +825,7 @@
 
     if (!visibles.length){
       lista.innerHTML = `<div class="vacio">
-          No hay apuntes compartidos que coincidan.<br>
+          No hay material que coincida con esa búsqueda.<br>
           <button class="boton borde" type="button" data-limpiar
                   style="margin-top:14px">Ver todo el material</button>
         </div>`;

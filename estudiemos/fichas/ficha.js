@@ -273,3 +273,15 @@ window.arrancarFicha = function(){
     if (comp.componentWillUnmount) comp.componentWillUnmount();
   });
 };
+
+/* ------------------------------------------------------------
+   LA HUELLA (18/9/2026). Cada ficha anota en el teléfono que se abrió
+   y hasta dónde se leyó, para que Estudiemos ofrezca seguir. Va acá y
+   no en las veintiséis fichas: todas cargan este motor.
+   ------------------------------------------------------------ */
+(function(){
+  var s = document.createElement('script');
+  s.src = '/estudiemos/huella.js';
+  s.async = true;
+  document.head.appendChild(s);
+})();

@@ -275,7 +275,12 @@
    propio: 6 MB por video guardados para siempre, y encima servidos
    enteros cuando el navegador pide un pedazo (Range), que en el iPhone
    deja el video sin arrancar o sin poder adelantarse. */
-const VERSION = 'bolivar-v61';
+/* v62 (18/9/2026) Rediseño de Estudiemos: portada por modos (Repasar,
+   Practicar, Territorio), «seguí donde dejaste» y el esquema del mapa
+   de riesgo. `estudiemos/fichas/ficha.js` suma la huella de lectura:
+   sin número nuevo, quien ya abrió una ficha seguiría con el motor
+   viejo y Estudiemos no sabría qué leyó. */
+const VERSION = 'bolivar-v62';
 const ARMAZON = VERSION + '-armazon';
 const PAGINAS = VERSION + '-paginas';
 

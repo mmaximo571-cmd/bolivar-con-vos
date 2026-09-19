@@ -1,0 +1,200 @@
+/* ============================================================
+   ESTUDIEMOS · EL REDISEÑO DEL 18/9/2026
+
+   Tres voces, cada una con un trabajo:
+     Archivo Black  los nombres de las cosas (títulos, herramientas)
+     Roboto         lo que se lee
+     Roboto Mono    los DATOS: cuántas, cuándo, cuánto leíste, qué
+                    carrera. Es la voz «técnica» de la pantalla, y solo
+                    la usan cosas que la app midió o sabe.
+
+   Color: los tokens de la app (estilos-rediseno.css). El amarillo es
+   para UNA cosa por bloque: lo que se toca para seguir. El celeste es
+   el de los datos: barras de avance, el agua del mapa.
+
+   Va aparte de estilos.css para no engordar el armazón que cargan
+   las diecinueve pantallas.
+   ============================================================ */
+
+.pantalla-estudiemos{ --mono:'Roboto Mono', ui-monospace, monospace; }
+
+/* ---------- La carrera, debajo del título ---------- */
+.est-carrera{
+  margin:6px 0 18px; font-family:var(--mono); font-size:11.5px; letter-spacing:.06em;
+  text-transform:uppercase; color:var(--texto-suave);
+}
+.est-carrera b{ color:var(--texto); font-weight:500; }
+
+/* ---------- Rótulo de sección con dato ---------- */
+.est-rotulo{
+  display:flex; align-items:baseline; justify-content:space-between; gap:12px;
+  margin:34px 0 12px;
+}
+.est-rotulo h2{
+  margin:0; font-family:'Archivo Black',sans-serif; font-weight:400; font-size:13px;
+  letter-spacing:.08em; text-transform:uppercase; color:var(--texto);
+}
+.est-rotulo span{ font-family:var(--mono); font-size:11px; color:var(--texto-suave); letter-spacing:.04em; }
+.est-rotulo p{ flex-basis:100%; margin:4px 0 0; font-size:13.5px; color:var(--texto-suave); line-height:1.45; }
+.est-rotulo{ flex-wrap:wrap; }
+
+/* ---------- Seguí donde dejaste ---------- */
+.est-seguir{
+  position:relative; overflow:hidden;
+  background:var(--negro); color:#F3F0E4; border-radius:var(--radio-grande);
+  padding:18px 18px 16px; box-shadow:var(--sombra-2);
+  text-decoration:none; display:block;
+}
+.est-seguir-ojo{ font-family:var(--mono); font-size:11px; letter-spacing:.08em; text-transform:uppercase; color:#A9A597; margin:0 0 8px; }
+.est-seguir-titulo{ font-family:'Archivo Black',sans-serif; font-size:clamp(21px,6vw,28px); line-height:1.05; margin:0 0 16px; color:#FDFCF7; text-wrap:balance; }
+.est-avance{ display:flex; align-items:center; gap:10px; margin:0 0 16px; }
+.est-avance-barra{ flex:1; height:6px; border-radius:3px; background:rgba(253,252,247,.14); overflow:hidden; }
+.est-avance-barra i{
+  display:block; height:100%; width:calc(var(--a, 0) * 100%); background:var(--amarillo); border-radius:3px;
+  transform-origin:left; animation:est-llenar .9s cubic-bezier(.16,1,.3,1) both .15s;
+}
+.est-avance span{ font-family:var(--mono); font-size:11.5px; color:#FDFCF7; min-width:4.5ch; text-align:right; }
+.est-seguir-boton{
+  display:inline-flex; align-items:center; gap:8px;
+  background:var(--amarillo); color:#1A1A1A; border-radius:99px;
+  padding:11px 18px; font-weight:700; font-size:14.5px;
+  transition:transform .15s ease;
+}
+.est-seguir:hover .est-seguir-boton{ transform:translateX(3px); }
+:root[data-tema="oscuro"] .est-seguir{ background:var(--superficie-2); border:1px solid rgba(249,232,48,.28); }
+.est-seguir:focus-visible{ outline:3px solid var(--amarillo); outline-offset:3px; }
+
+.est-tambien{ list-style:none; margin:10px 0 0; padding:0; }
+.est-tambien a{
+  display:grid; grid-template-columns:auto 1fr auto; align-items:center; gap:12px;
+  padding:11px 4px; border-bottom:1px solid var(--linea); color:var(--texto); text-decoration:none;
+}
+.est-tambien li:last-child a{ border-bottom:0; }
+.est-tambien .tipo{ font-family:var(--mono); font-size:10.5px; letter-spacing:.06em; text-transform:uppercase; color:var(--texto-suave); width:9ch; }
+.est-tambien .nombre{ font-weight:500; font-size:15px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+.est-tambien .cuando{ font-family:var(--mono); font-size:11px; color:var(--texto-suave); }
+
+.est-primera{
+  border:1px dashed var(--linea); border-radius:var(--radio); padding:14px 16px;
+  font-size:14px; line-height:1.5; color:var(--texto-suave); margin:0;
+}
+
+/* ---------- Las herramientas: grilla, no riel ---------- */
+.est-grilla{ display:grid; grid-template-columns:repeat(2, minmax(0,1fr)); gap:10px; }
+@media (min-width:720px){ .est-grilla{ grid-template-columns:repeat(3, minmax(0,1fr)); } }
+.est-tile{
+  position:relative; display:flex; flex-direction:column; gap:6px; min-height:150px;
+  background:var(--superficie); border:1px solid var(--tinta-borde); border-radius:var(--radio);
+  padding:14px; box-shadow:var(--sombra-1); color:var(--texto); text-decoration:none;
+  transition:transform .2s cubic-bezier(.16,1,.3,1), box-shadow .2s;
+}
+.est-tile:hover{ transform:translateY(-2px); box-shadow:var(--sombra-2); }
+.est-tile:active{ transform:scale(.98); }
+.est-tile.ancho{ grid-column:1 / -1; min-height:0; }
+.est-tile-cabeza{ display:flex; align-items:center; justify-content:space-between; gap:8px; margin-bottom:4px; }
+.est-tile-ico{
+  width:34px; height:34px; border-radius:10px; display:grid; place-items:center;
+  background:var(--superficie-2); font-size:17px; flex:none;
+}
+.est-tile-ico svg{ width:19px; height:19px; color:var(--texto); }
+.est-tile-de{ font-family:var(--mono); font-size:9.5px; letter-spacing:.06em; text-transform:uppercase; color:var(--texto-suave); text-align:right; }
+.est-tile-de.tuya{ color:var(--texto); }
+.est-tile strong{ font-family:'Archivo Black',sans-serif; font-weight:400; font-size:16.5px; line-height:1.1; }
+.est-tile p{ margin:0; font-size:13px; line-height:1.4; color:var(--texto-suave); }
+.est-tile-dato{
+  margin-top:auto; padding-top:8px; font-family:var(--mono); font-size:11px; letter-spacing:.03em; color:var(--texto);
+}
+.est-tile-dato em{ font-style:normal; color:var(--texto-suave); }
+.est-tile-dato{ display:block; }
+.est-tile-barra{ display:block; height:3px; border-radius:2px; background:var(--linea); margin-top:6px; overflow:hidden; }
+.est-tile-barra i{
+  display:block; height:100%; width:calc(var(--a, 0) * 100%); background:var(--celeste);
+  transform-origin:left; animation:est-llenar .9s cubic-bezier(.16,1,.3,1) both .3s;
+}
+@keyframes est-llenar{ from{ transform:scaleX(0); } }
+
+/* ---------- Territorio: la pieza que se recuerda ---------- */
+.est-territorio{
+  background:var(--superficie); border:1px solid var(--tinta-borde); border-radius:var(--radio-grande);
+  box-shadow:var(--sombra-1); overflow:hidden;
+}
+.est-territorio-cabeza{ display:flex; justify-content:space-between; align-items:flex-start; gap:10px; padding:16px 16px 0; }
+.est-territorio-cabeza strong{ display:block; font-family:'Archivo Black',sans-serif; font-weight:400; font-size:20px; line-height:1.05; }
+.est-territorio-cabeza small{ display:block; margin-top:4px; font-family:var(--mono); font-size:10.5px; letter-spacing:.05em; text-transform:uppercase; color:var(--texto-suave); }
+.est-vivo{
+  flex:none; display:inline-flex; align-items:center; gap:6px;
+  font-family:var(--mono); font-size:10.5px; letter-spacing:.06em; text-transform:uppercase;
+  border:1px solid var(--linea); border-radius:99px; padding:4px 9px; color:var(--texto);
+}
+.est-vivo::before{ content:''; width:7px; height:7px; border-radius:50%; background:var(--texto-suave); }
+.est-vivo.al-dia::before{ background:#2BB673; box-shadow:0 0 0 0 rgba(43,182,115,.6); animation:est-latido 2s infinite; }
+@keyframes est-latido{ 70%{ box-shadow:0 0 0 7px rgba(43,182,115,0); } 100%{ box-shadow:0 0 0 0 rgba(43,182,115,0); } }
+
+.est-plano{ position:relative; aspect-ratio:4 / 3; margin:12px 0 0; background:
+  radial-gradient(circle at 1px 1px, var(--linea) 1px, transparent 1.4px) 0 0 / 14px 14px; }
+.est-plano svg{ position:absolute; inset:0; width:100%; height:100%; display:block; }
+.est-plano .agua{ fill:none; stroke:var(--celeste); stroke-width:1.3; stroke-linecap:round; stroke-linejoin:round; opacity:.75;
+  stroke-dasharray:1; stroke-dashoffset:0; }
+.est-plano .barrios circle{ fill:var(--texto-suave); opacity:.45; }
+.est-plano .pin{ transform-box:fill-box; transform-origin:center; }
+.est-plano .pin-hidrico{ fill:var(--celeste-hondo); }
+.est-plano .pin-industrial{ fill:var(--rojo-solido, #B52625); }
+.est-plano .pin-redes{ fill:var(--amarillo); stroke:#1A1A1A; stroke-width:.8; }
+.est-plano .onda{ fill:none; stroke-width:1.2; transform-box:fill-box; transform-origin:center; opacity:0; }
+.est-plano .onda.pin-hidrico{ stroke:var(--celeste); fill:none; }
+.est-plano .onda.pin-industrial{ stroke:var(--rojo); fill:none; }
+.est-plano .onda.pin-redes{ stroke:var(--amarillo); fill:none; }
+.est-plano-nota{
+  position:absolute; left:12px; bottom:10px; font-family:var(--mono); font-size:10px; letter-spacing:.05em;
+  color:var(--texto-suave); background:var(--superficie); padding:3px 7px; border-radius:6px; border:1px solid var(--linea);
+}
+
+/* La secuencia: primero corre el agua, después aparecen los puntos y
+   los últimos reportes laten. Arranca una sola vez, cuando el bloque
+   entra en pantalla (clase .viva, la pone portada.js). */
+.est-territorio.viva .agua{ animation:est-agua 1.8s cubic-bezier(.45,0,.2,1) both; }
+@keyframes est-agua{ from{ stroke-dashoffset:1; } to{ stroke-dashoffset:0; } }
+.est-territorio .pin, .est-territorio .barrios{ opacity:0; }
+.est-territorio.viva .barrios{ opacity:1; transition:opacity .8s ease .9s; }
+.est-territorio.viva .pin{ animation:est-pin .45s cubic-bezier(.34,1.56,.64,1) both; animation-delay:calc(1.2s + var(--i, 0) * 45ms); }
+@keyframes est-pin{ from{ opacity:0; transform:scale(0); } to{ opacity:1; transform:scale(1); } }
+.est-territorio.viva .onda{ animation:est-onda 2.6s ease-out infinite; animation-delay:calc(2s + var(--i, 0) * 400ms); }
+@keyframes est-onda{ 0%{ opacity:.9; transform:scale(1); } 100%{ opacity:0; transform:scale(4.2); } }
+
+.est-capas[hidden]{ display:none; }
+.est-capas{ display:grid; grid-template-columns:repeat(3,1fr); border-top:1px solid var(--linea); }
+.est-capas div{ padding:12px 14px; border-right:1px solid var(--linea); }
+.est-capas div:last-child{ border-right:0; }
+.est-capas b{ display:block; font-family:var(--mono); font-weight:500; font-size:20px; line-height:1; color:var(--texto); }
+.est-capas span{ display:block; margin-top:5px; font-size:12px; color:var(--texto-suave); }
+.est-territorio-pie{ display:flex; flex-wrap:wrap; gap:8px; padding:14px 16px 16px; border-top:1px solid var(--linea); }
+.est-territorio-pie a{
+  display:inline-flex; align-items:center; gap:8px; border-radius:99px; padding:11px 16px;
+  font-weight:700; font-size:14.5px; text-decoration:none;
+}
+.est-territorio-pie .primario{ background:var(--amarillo); color:#1A1A1A; }
+.est-territorio-pie .secundario{ border:1px solid var(--linea); color:var(--texto); }
+.est-territorio-pie p{ flex-basis:100%; margin:2px 0 0; font-size:12.5px; line-height:1.45; color:var(--texto-suave); }
+
+/* ---------- Resultados del buscador ---------- */
+.est-resultados{ margin:18px 0 0; }
+.est-resultados .est-rotulo{ margin-top:10px; }
+.est-hallazgo{
+  display:grid; grid-template-columns:auto 1fr auto; gap:12px; align-items:center;
+  padding:12px 4px; border-bottom:1px solid var(--linea); color:var(--texto); text-decoration:none;
+}
+.est-hallazgo .tipo{ font-family:var(--mono); font-size:10.5px; letter-spacing:.06em; text-transform:uppercase; color:var(--texto-suave); width:9ch; }
+.est-hallazgo .nombre{ display:block; font-weight:500; font-size:15px; }
+.est-hallazgo .mas{ display:block; font-size:12.5px; color:var(--texto-suave); margin-top:2px; }
+.est-hallazgo mark{ background:var(--amarillo); color:#1A1A1A; border-radius:2px; padding:0 1px; }
+.est-hallazgo svg{ width:18px; height:18px; stroke:currentColor; fill:none; stroke-width:2; }
+
+/* Con búsqueda escrita, la portada se va: lo que importa es el resultado. */
+.buscando #portada{ display:none; }
+
+@media (prefers-reduced-motion:reduce){
+  .est-territorio .pin, .est-territorio .barrios{ opacity:1; }
+  .est-territorio.viva .agua, .est-territorio.viva .pin, .est-territorio.viva .onda,
+  .est-avance-barra i, .est-tile-barra i, .est-vivo.al-dia::before{ animation:none; }
+  .est-tile{ transition:none; }
+}
