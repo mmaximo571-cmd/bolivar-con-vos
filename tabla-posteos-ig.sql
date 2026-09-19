@@ -40,6 +40,18 @@ create table if not exists public.posteos_ig (
   traido_at    timestamptz not null default now()
 );
 
+-- Los carruseles (20/9/2026). `imagen` sigue siendo LA PORTADA y no se
+-- toca: es lo que lee el inicio y lo que leería la función automática
+-- si algún día arranca. `imagenes` guarda la serie entera, en orden y
+-- con la portada primero, así el contador «1/5» sale de contar y no de
+-- un número escrito a mano, que puede quedar viejo.
+--
+-- En el inicio se ve SOLO la portada. Las demás se guardan igual: el
+-- día que se muestren adentro de la app no hay que volver a cargar
+-- nada, y mientras tanto no cuestan nada más que depósito.
+alter table public.posteos_ig
+  add column if not exists imagenes text[];
+
 alter table public.posteos_ig enable row level security;
 
 -- Los permisos de tabla, que son otra cosa que las políticas y se

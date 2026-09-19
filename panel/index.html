@@ -2780,6 +2780,8 @@
             <span>${p.publicado_at
               ? new Date(p.publicado_at).toLocaleDateString('es-AR')
               : 'sin fecha'}</span>
+            ${(p.imagenes || []).length > 1
+              ? `<span>Carrusel de ${p.imagenes.length}</span>` : ''}
             ${p.imagen ? '' : '<span>Sin placa: no se ve en el inicio</span>'}
           </div>
         </button>`).join('')
@@ -2790,6 +2792,94 @@
     zona.querySelectorAll('.tarjeta[data-id]').forEach(b => {
       b.onclick = () => formularioPosteo(data.find(x => x.id === b.dataset.id));
     });
+  }
+
+  /* Las placas de un carrusel, en orden. Se suben al elegirlas y no al
+     guardar, igual que las fotos de «Quiénes somos»: así se ven al
+     instante y el orden se arregla mirando, que es como se arregla un
+     orden. `lista` se muta acá adentro; el formulario la guarda tal
+     como quedó.
+
+     Instagram permite hasta 20, pero 10 ya es un posteo larguísimo y el
+     tope evita que una elección equivocada suba media galería. */
+  const TOPE_PLACAS = 10;
+
+  function montarPlacas(donde, lista, msj){
+    const caja = document.getElementById(donde);
+    if (!caja) return;
+
+    function dibujar(){
+      if (!lista.length){
+        caja.innerHTML = `<p class="letra-chica" style="margin:0 0 10px">
+          Todavía no elegiste ninguna.</p>`;
+        return;
+      }
+      caja.innerHTML = lista.map(function(nombre, i){
+        return `
+        <div class="ranura-foto" style="display:flex;gap:12px;align-items:center;margin-bottom:8px">
+          <img src="${esc(fotoPublica(nombre))}" alt=""
+               style="flex:0 0 56px;width:56px;height:70px;object-fit:contain;
+                      background:var(--superficie-2);border:1px solid var(--linea);
+                      border-radius:6px">
+          <span style="flex:1 1 auto;font-family:var(--fuente-datos);font-size:var(--letra-chica)">
+            ${i === 0 ? '<b>Portada</b>' : 'Placa ' + (i + 1)}</span>
+          <button class="boton borde" data-antes="${i}" ${i === 0 ? 'disabled' : ''}
+                  aria-label="Mover la placa ${i + 1} un lugar antes">↑</button>
+          <button class="boton texto" data-sacar="${i}"
+                  aria-label="Sacar la placa ${i + 1}">✕</button>
+        </div>`;
+      }).join('');
+
+      caja.querySelectorAll('[data-antes]').forEach(function(b){
+        b.onclick = function(){
+          const i = +this.dataset.antes;
+          if (i < 1) return;
+          const x = lista[i - 1]; lista[i - 1] = lista[i]; lista[i] = x;
+          dibujar();
+        };
+      });
+
+      caja.querySelectorAll('[data-sacar]').forEach(function(b){
+        b.onclick = async function(){
+          const i = +this.dataset.sacar;
+          const nombre = lista[i];
+          lista.splice(i, 1);
+          dibujar();
+          /* Se borra del depósito recién después de sacarla de la
+             lista: si el borrado falla, igual dejó de estar en el
+             posteo, que es lo que se pidió. */
+          await borrarFoto(nombre);
+        };
+      });
+    }
+
+    caja.__agregar = async function(archivos){
+      const lugar = TOPE_PLACAS - lista.length;
+      if (lugar <= 0){
+        msj.innerHTML = `<div class="aviso error">Ya hay ${TOPE_PLACAS} placas, que es el tope.</div>`;
+        return;
+      }
+      const vienen = [...archivos].slice(0, lugar);
+      /* De a una y esperando: subir diez en paralelo desde un celular
+         en el wifi de la facultad es la forma más segura de que fallen
+         la mitad. */
+      for (let i = 0; i < vienen.length; i++){
+        msj.innerHTML = `<div class="aviso">Subiendo ${i + 1} de ${vienen.length}…</div>`;
+        try {
+          lista.push((await subirFoto(vienen[i], 'ig')).nombre);
+          dibujar();
+        } catch(e){
+          msj.innerHTML = `<div class="aviso error">No se pudo subir la número
+            ${i + 1}: ${esc(e.message || e)}. Las anteriores quedaron cargadas.</div>`;
+          return;
+        }
+      }
+      msj.innerHTML = archivos.length > vienen.length
+        ? `<div class="aviso">Se subieron ${vienen.length}. El tope es ${TOPE_PLACAS}.</div>`
+        : '';
+    };
+
+    dibujar();
   }
 
   function formularioPosteo(p){
@@ -2808,14 +2898,18 @@
         <input id="permalink" value="${esc(p.permalink || '')}"
                placeholder="https://www.instagram.com/p/..."></div>
 
-      <div class="campo"><label for="placa">La placa *</label>
-        <p class="letra-chica" style="margin:0 0 6px">
-          La misma imagen que subiste a Instagram. Se achica sola antes
-          de subirse.${esNuevo ? '' : ' Si no elegís ninguna, queda la que ya está.'}</p>
-        ${p.imagen ? `<img src="${esc(fotoPublica(p.imagen))}" alt=""
-             style="width:120px;height:120px;object-fit:cover;border-radius:8px;
-                    display:block;margin-bottom:8px">` : ''}
-        <input id="placa" type="file" accept="image/*"></div>
+      <div class="campo"><label>Las placas *</label>
+        <p class="letra-chica" style="margin:0 0 10px">
+          Si es un carrusel, subí <b>todas</b>, en el mismo orden que en
+          Instagram. <b>La primera es la portada</b>: es la única que se
+          ve en el inicio, con un «1 de 5» en la esquina que avisa que
+          hay más. Las demás se guardan para adentro. Se achican solas
+          antes de subirse.</p>
+        <div id="placas-ig"></div>
+        <input id="placa" type="file" accept="image/jpeg,image/png,image/webp"
+               multiple hidden>
+        <button class="boton borde ancho" id="agregar-placas">+ Elegir placas</button>
+        <div id="msj-placas"></div></div>
 
       <div class="campo"><label for="epigrafe">Qué dice la placa *</label>
         <p class="letra-chica" style="margin:0 0 6px">
@@ -2841,10 +2935,29 @@
 
     document.getElementById('volver').onclick = vistaInstagram;
 
+    /* Lo que ya tiene el posteo. `imagenes` es la serie entera; los
+       posteos cargados antes del 20/9/2026 tienen solo `imagen`, así
+       que esos entran como un carrusel de una. */
+    const placasDelPosteo = Array.isArray(p.imagenes) && p.imagenes.length
+      ? p.imagenes.slice()
+      : (p.imagen ? [p.imagen] : []);
+
+    const cajaPlacas = document.getElementById('placas-ig');
+    montarPlacas('placas-ig', placasDelPosteo, document.getElementById('msj-placas'));
+
+    document.getElementById('agregar-placas').onclick = function(){
+      document.getElementById('placa').click();
+    };
+    document.getElementById('placa').onchange = async function(){
+      if (this.files && this.files.length) await cajaPlacas.__agregar(this.files);
+      /* Se limpia para que elegir el mismo archivo dos veces seguidas
+         vuelva a disparar el `change`. */
+      this.value = '';
+    };
+
     document.getElementById('guardar').onclick = async function(){
       const msj     = document.getElementById('msj');
       const codigo  = codigoDePosteo(val('permalink'));
-      const archivo = document.getElementById('placa').files[0];
 
       if (!codigo){
         msj.innerHTML = `<div class="aviso error">
@@ -2858,30 +2971,26 @@
         msj.innerHTML = '<div class="aviso error">Falta escribir qué dice la placa.</div>';
         return;
       }
-      if (esNuevo && !archivo){
-        msj.innerHTML = '<div class="aviso error">Falta elegir la placa.</div>';
+      if (!placasDelPosteo.length){
+        msj.innerHTML = '<div class="aviso error">Falta elegir al menos una placa.</div>';
         return;
       }
 
       this.disabled = true; this.textContent = 'Guardando…';
       try {
-        let imagen = p.imagen || null;
-        if (archivo){
-          const subida = await subirFoto(archivo, 'ig');
-          /* La placa vieja se borra RECIÉN cuando la nueva subió bien:
-             si la subida falla, mejor quedarse con la vieja que sin
-             ninguna. */
-          if (p.imagen && p.imagen !== subida.nombre) await borrarFoto(p.imagen);
-          imagen = subida.nombre;
-        }
-
         const fecha = val('fecha');
         const fila = {
           id:           codigo,
           permalink:    enlace('permalink'),
-          tipo:         p.tipo || 'IMAGE',
+          /* El vocabulario es el de la API de Instagram, que es la que
+             escribiría acá si algún día se conecta. */
+          tipo:         placasDelPosteo.length > 1 ? 'CAROUSEL_ALBUM' : 'IMAGE',
           epigrafe:     val('epigrafe'),
-          imagen:       imagen,
+          /* `imagen` es la portada y `imagenes` la serie entera, con la
+             portada primero. El inicio lee la portada para dibujar y
+             cuenta la serie para el «1 de 5». */
+          imagen:       placasDelPosteo[0],
+          imagenes:     placasDelPosteo,
           publicado_at: fecha ? fecha + 'T12:00:00Z' : new Date().toISOString()
         };
 
@@ -2907,14 +3016,20 @@
 
     const borrar = document.getElementById('borrar');
     if (borrar) borrar.onclick = async function(){
-      if (!confirm('¿Sacar este posteo del inicio? La placa se borra del depósito.')) return;
+      const cuantas = placasDelPosteo.length;
+      if (!confirm('¿Sacar este posteo del inicio? Se borran del depósito ' +
+                   (cuantas === 1 ? 'su placa' : 'sus ' + cuantas + ' placas') + '.')) return;
       const { error } = await db.from('posteos_ig').delete().eq('id', p.id);
       if (error){
         document.getElementById('msj').innerHTML =
           `<div class="aviso error">No se pudo sacar: ${esc(error.message)}</div>`;
         return;
       }
-      await borrarFoto(p.imagen);
+      /* Las que estaban guardadas Y las que se agregaron en esta
+         pantalla sin llegar a guardarse: si no, quedan en el depósito
+         sin nadie que las nombre. */
+      for (const nombre of new Set(placasDelPosteo.concat(p.imagenes || [], p.imagen || [])))
+        await borrarFoto(nombre);
       vistaInstagram();
     };
   }

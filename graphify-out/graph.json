@@ -6577,7 +6577,7 @@
       "file_type": "code",
       "norm_label": "posteos_ig_publicado_idx",
       "source_file": "tabla-posteos-ig.sql",
-      "source_location": "L91"
+      "source_location": "L103"
     },
     {
       "id": "tabla_posteos_ig_public_posteos_ig",
@@ -16049,6 +16049,17 @@
     },
     {
       "source": "tabla_posteos_ig",
+      "target": "tabla_posteos_ig_posteos_ig_publicado_idx",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "tabla-posteos-ig.sql",
+      "source_location": "L103",
+      "weight": 1.0
+    },
+    {
+      "source": "tabla_posteos_ig",
       "target": "tabla_posteos_ig_public_posteos_ig",
       "relation": "contains",
       "_origin": "ast",
@@ -16056,17 +16067,6 @@
       "confidence_score": 1.0,
       "source_file": "tabla-posteos-ig.sql",
       "source_location": "L33",
-      "weight": 1.0
-    },
-    {
-      "source": "tabla_posteos_ig",
-      "target": "tabla_posteos_ig_posteos_ig_publicado_idx",
-      "relation": "contains",
-      "_origin": "ast",
-      "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "source_file": "tabla-posteos-ig.sql",
-      "source_location": "L91",
       "weight": 1.0
     },
     {
@@ -16471,7 +16471,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "tabla-posteos-ig.sql",
-      "source_location": "L91",
+      "source_location": "L103",
       "weight": 1.0
     },
     {
@@ -19318,5 +19318,5 @@
       "source_file": "panel/index.html"
     }
   ],
-  "built_at_commit": "e86874f7af3554c874c3e9fb4b3d5dbec146f7e5"
+  "built_at_commit": "7904b377b58fbcb2f8c5e3833c54e1921fafc8b5"
 }

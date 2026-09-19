@@ -778,7 +778,7 @@ setTimeout(function(){
         .eq('publicado', true).order('orden'),
       db.from('publicaciones').select('*').eq('publicado', true)
         .order('creado_at', { ascending:false }),
-      db.from('posteos_ig').select('id,permalink,epigrafe,imagen,publicado_at')
+      db.from('posteos_ig').select('id,permalink,epigrafe,imagen,imagenes,publicado_at')
         .order('publicado_at', { ascending:false }).limit(4)
     ]));
     for (const r of [rCat, rTra, rFaq, rPub]) if (r.error) throw r.error;
@@ -1691,6 +1691,11 @@ setTimeout(function(){
          sobra, el CSS corta a tres renglones. */
       const frase = primeraFrase(p.epigrafe);
       const f = partesFecha(p.publicado_at);
+      /* En el inicio se ve SOLO la portada. El contador es lo único
+         que dice que atrás hay más, y por eso el carrusel entero se
+         guarda aunque no se muestre: el número sale de contarlo, no de
+         un dato escrito a mano que puede quedar viejo. */
+      const cuantas = (p.imagenes || []).length;
       return { cuando: p.publicado_at, html: `
         <a class="tarjeta tarjeta-ig" href="${esc(urlSegura(p.permalink))}"
            target="_blank" rel="noopener">
@@ -1700,7 +1705,8 @@ setTimeout(function(){
             <div class="ig-dicho">
               <span class="etiqueta">Instagram</span>
               <h3>${esc(frase || 'Publicación de la agrupación')}</h3>
-              <div class="meta"><span>${f ? esc(f.dia + ' ' + f.mesCorto + ' ') : ''}↗</span></div>
+              <div class="meta"><span>${f ? esc(f.dia + ' ' + f.mesCorto) : ''}${
+                cuantas > 1 ? ` · ${cuantas} placas` : ''} ↗</span></div>
             </div>
           </div>
         </a>` };

@@ -96,8 +96,8 @@
     "semantic_hash": ""
   },
   "sw.js": {
-    "mtime": 1789855327.4076207,
-    "seen": 1789855762.6725764,
+    "mtime": 1789856491.670909,
+    "seen": 1789856550.3583796,
     "ast_hash": "cca446dfd3b3c6475324c555e5df69e6",
     "semantic_hash": ""
   },
@@ -186,9 +186,9 @@
     "semantic_hash": "13c70cb9b680cf53ce1df6881965457c"
   },
   "BITACORA.md": {
-    "mtime": 1789853369.4467814,
-    "seen": 1789853385.4923632,
-    "ast_hash": "a60ac888f63781bff3df17d0f560fdda",
+    "mtime": 1789855790.9610937,
+    "seen": 1789856550.3584092,
+    "ast_hash": "0a8c8dec29e3a1bc8fe98994e75e66a8",
     "semantic_hash": ""
   },
   "LEEME.md": {
@@ -282,9 +282,9 @@
     "semantic_hash": ""
   },
   "index.html": {
-    "mtime": 1789855709.809538,
-    "seen": 1789855762.672645,
-    "ast_hash": "911874bfcc4a91fec0a507bf2ac01c5a",
+    "mtime": 1789856477.125204,
+    "seen": 1789856550.3584476,
+    "ast_hash": "cd78c19adfa2db6a520d7c90bea2e505",
     "semantic_hash": ""
   },
   "mi/index.html": {
@@ -294,9 +294,9 @@
     "semantic_hash": ""
   },
   "panel/index.html": {
-    "mtime": 1789853203.9126647,
-    "seen": 1789853385.492401,
-    "ast_hash": "0295a34b8714f40dcf511f62d776a215",
+    "mtime": 1789856217.8970678,
+    "seen": 1789856550.3584552,
+    "ast_hash": "e34b6b4b73b478ce76461924ccf0a4c0",
     "semantic_hash": ""
   },
   "quienes/index.html": {
@@ -564,9 +564,9 @@
     "semantic_hash": ""
   },
   "tabla-posteos-ig.sql": {
-    "mtime": 1789853113.7631962,
-    "seen": 1789853385.4923525,
-    "ast_hash": "677496b197084a6de798818de2338485",
+    "mtime": 1789856107.499027,
+    "seen": 1789856550.3583977,
+    "ast_hash": "a7aa5fc471e93d4211a999b42d41fbd0",
     "semantic_hash": ""
   }
 }
