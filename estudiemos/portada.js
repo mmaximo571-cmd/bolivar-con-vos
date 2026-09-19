@@ -66,6 +66,11 @@
                       try { m = JSON.parse(localStorage.getItem('bolivar-fichas-antropologia') || '{}') || {}; } catch(err){}
                       const n = Object.keys(m).filter(k => m[k] === 'se').length;
                       return n ? { a: n / 31, texto: 'Sabés ' + n + ' de 31' } : null; } },
+    /* La línea de tiempo (19/9): Historia Social de América Latina y
+       Argentina (214), primer año de Trabajo Social. */
+    { id:'linea', modo:'repasar', nombre:'Línea de tiempo de Historia', emoji:'🕰️',
+      desc:'Once procesos de 1880 a 2001, con su síntesis, la bibliografía y una pregunta para practicar.',
+      href:'fichas/historia-social/', carreras:['ts'], dato: () => 'Historia Social · 11 hitos' },
     /* `enFila`: no va en la grilla de Repasar, tiene su fila arriba de
        los modos. Sigue en la lista para que el buscador la encuentre. */
     { id:'videos', modo:'repasar', nombre:'En un minuto', emoji:'▶️', oculta: !cuantosVideos, enFila: true,
@@ -102,6 +107,7 @@
     videos:   trazo('<rect x="6" y="2.5" width="12" height="19" rx="2"/><path d="M10.5 9.5v5l4-2.5z" fill="currentColor"/>'),
     cuadro:   trazo('<rect x="3.5" y="3.5" width="17" height="17" rx="2"/><path d="M3.5 9.5h17M9.5 9.5v11"/>'),
     mazo:     trazo('<rect x="8" y="3" width="12.5" height="16" rx="2"/><path d="M5 6.5v12.5a2 2 0 0 0 2 2h10"/>'),
+    linea:    trazo('<path d="M12 2.5v19"/><circle cx="12" cy="6" r="2.3" fill="currentColor"/><circle cx="12" cy="12" r="2.3" fill="currentColor"/><circle cx="12" cy="18" r="2.3" fill="currentColor"/><path d="M14.5 6H20M4 12h5.5M14.5 18H20"/>'),
     fonoteca: trazo('<path d="M4 14v-2a8 8 0 0 1 16 0v2"/><rect x="3" y="14" width="4.5" height="6.5" rx="1.5"/><rect x="16.5" y="14" width="4.5" height="6.5" rx="1.5"/>'),
     anatomo:  trazo('<path d="M12 2.8l8 4.6v9.2l-8 4.6-8-4.6V7.4z"/><path d="M4 7.4l8 4.6 8-4.6M12 12v9.2"/>')
   };
@@ -155,7 +161,7 @@
   /* ============================================================
      SEGUÍ DONDE DEJASTE
      ============================================================ */
-  const TIPO = { ficha:'Ficha', cuadro:'Cuadro', mazo:'Mazo', fonoteca:'Fonoteca', video:'Video', '3d':'3D', mapa:'Mapa' };
+  const TIPO = { ficha:'Ficha', cuadro:'Cuadro', mazo:'Mazo', linea:'Línea', fonoteca:'Fonoteca', video:'Video', '3d':'3D', mapa:'Mapa' };
   function hace(ms){
     const min = Math.round((Date.now() - ms) / 60000);
     if (min < 2) return 'recién';
@@ -179,7 +185,7 @@
       return;
     }
     const [u, ...resto] = l;
-    const leible = u.k === 'ficha' || u.k === 'cuadro';
+    const leible = u.k === 'ficha' || u.k === 'cuadro' || u.k === 'linea';
     const pct = Math.round((u.a || 0) * 100);
     cont.innerHTML = `
       <div class="est-rotulo"><h2>Seguí donde dejaste</h2><span>${l.length} en este teléfono</span></div>

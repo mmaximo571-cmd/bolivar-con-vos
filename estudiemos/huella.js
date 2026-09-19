@@ -34,6 +34,7 @@
   var ruta = location.pathname.replace(/index\.html$/, '');
   var k = /\/fichas\/modelos-cuadro\//.test(ruta) ? 'cuadro'
         : /\/fichas\/antropologia-otredad\//.test(ruta) ? 'mazo'
+        : /\/fichas\/historia-social\//.test(ruta) ? 'linea'
         : /\/fichas\//.test(ruta)   ? 'ficha'
         : /\/fonoteca\//.test(ruta) ? 'fonoteca'
         : /\/videos\//.test(ruta)   ? 'video'

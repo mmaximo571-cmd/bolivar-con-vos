@@ -1,7 +1,7 @@
-# Graph Report - relaxed-fermi-ad215b  (2026-09-19)
+# Graph Report - linea-tiempo-historia-240fea  (2026-09-19)
 
 ## Corpus Check
-- 57 files · ~202,810 words
+- 57 files · ~203,466 words
 - Verdict: corpus is large enough that graph structure adds value.
 
 ## Summary
@@ -10,7 +10,7 @@
 - Token cost: 0 input · 0 output
 
 ## Graph Freshness
-- Built from commit: `556d5010`
+- Built from commit: `d3241bd2`
 - Run `git rev-parse HEAD` and compare to check if the graph is stale.
 - Run `graphify update .` after code changes (no API cost).
 

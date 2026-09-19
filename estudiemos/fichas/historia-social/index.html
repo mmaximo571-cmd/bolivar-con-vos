@@ -1,0 +1,536 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Historia Social: línea de tiempo · La Bolívar con vos</title>
+<meta name="description" content="Línea de tiempo de Historia Social de América Latina y Argentina: once procesos de 1880 a 2001, con su síntesis, la bibliografía de la materia y una pregunta para practicar.">
+<meta name="theme-color" content="#F9E830">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;600;800&family=Montserrat:wght@800&family=Roboto+Mono:wght@400;500&display=swap" rel="stylesheet">
+<!-- Iconos de la app: pestana, Google, y pantalla de inicio del celular -->
+<link rel="icon" type="image/png" sizes="32x32" href="../../../imagenes/icono-32.png">
+<link rel="icon" type="image/png" sizes="96x96" href="../../../imagenes/icono-96.png">
+<link rel="icon" type="image/png" sizes="192x192" href="../../../imagenes/icono-192.png">
+<link rel="apple-touch-icon" href="../../../imagenes/icono-apple.png">
+<link rel="manifest" href="../../../manifest.json">
+
+<!-- Como se ve cuando alguien comparte el link por WhatsApp o Instagram -->
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="La Bolivar con vos">
+<meta property="og:title" content="Historia Social: línea de tiempo · La Bolívar con vos">
+<meta property="og:description" content="Once procesos de la historia social argentina, de 1880 a 2001, con bibliografía y preguntas.">
+<meta property="og:image" content="https://labolivarconvos.ar/imagenes/compartir.png">
+<meta name="twitter:card" content="summary_large_image">
+
+<!-- EL TEMA, ANTES DE DIBUJAR NADA. Igual que en el resto de la app: si
+     esto viviera en un script del final, la ficha arrancaria clara y
+     pegaria un salto a oscura. -->
+<script>
+(function(){try{
+  var g = localStorage.getItem('bolivar-tema') || 'auto';
+  var oscuro = g === 'oscuro' || (g === 'auto' &&
+    window.matchMedia('(prefers-color-scheme: dark)').matches);
+  document.documentElement.dataset.tema = oscuro ? 'oscuro' : 'claro';
+}catch(e){ document.documentElement.dataset.tema = 'claro'; }})();
+</script>
+
+<style>
+/* ===== LO QUE VINO DEL DISENO, TAL CUAL =====
+   Menos las fuentes: el export las traia embebidas en base64 y aca se
+   piden a Google Fonts como en las demas fichas. */
+:root{
+  --color-bg:#FDFCF7; --color-surface:#FFFFFF; --color-text:#1A1A1A;
+  --color-divider:#D8D2C2; --color-neutral-200:#EFEAD9; --color-neutral-300:#D8D2C2;
+  --color-neutral-500:#7C7566; --color-neutral-700:#3A3A3A; --color-neutral-800:#2A2A2A;
+  --color-accent:#B52625; --color-accent-700:#8C1B1A;
+  --hl:#F9E830; --onhl:#1A1A1A;
+  --mono:'Roboto Mono', ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+}
+*,*::before,*::after{ box-sizing:border-box; }
+html{ background:var(--color-bg); }
+body{ margin:0; background:transparent; color:var(--color-text);
+      font-family:'Archivo', system-ui, sans-serif; font-size:15px; line-height:1.55;
+      -webkit-text-size-adjust:100%; }
+a{ color:var(--color-accent-700); text-decoration:none; }
+a:hover{ color:var(--color-text); }
+button:focus-visible, a:focus-visible{ outline:3px solid var(--color-accent); outline-offset:2px; }
+
+@keyframes entra{ from{ opacity:0; transform:translateY(26px); } to{ opacity:1; transform:none; } }
+@keyframes entraPunto{ from{ opacity:0; transform:scale(.3) rotate(-25deg); } to{ opacity:1; transform:none; } }
+@keyframes abrir{ from{ opacity:0; transform:translateY(10px); } to{ opacity:1; transform:none; } }
+@keyframes latido{ 0%{ box-shadow:0 0 0 0 rgba(181,38,37,.45); } 70%{ box-shadow:0 0 0 12px rgba(181,38,37,0); } 100%{ box-shadow:0 0 0 0 rgba(181,38,37,0); } }
+@keyframes deslizaRotulo{ from{ opacity:0; transform:translateX(-14px); } to{ opacity:1; transform:none; } }
+
+@keyframes entraIzq{ from{ opacity:0; transform:translate(-34px,18px); } to{ opacity:1; transform:none; } }
+@keyframes entraDer{ from{ opacity:0; transform:translate(34px,18px); } to{ opacity:1; transform:none; } }
+[data-nodo]{ opacity:0; }
+[data-nodo].entra{ animation:entra .55s cubic-bezier(.16,1,.3,1) both; }
+[data-nodo].entra.izq{ animation:entraIzq .6s cubic-bezier(.16,1,.3,1) both; }
+[data-nodo].entra.der{ animation:entraDer .6s cubic-bezier(.16,1,.3,1) both; }
+[data-nodo].entra .hito-punto{ animation:entraPunto .5s cubic-bezier(.34,1.56,.64,1) both .12s; }
+[data-nodo].entra .hito-anio{ animation:deslizaRotulo .5s cubic-bezier(.16,1,.3,1) both .08s; }
+[data-nodo] .hito-caja{ transition:transform .25s cubic-bezier(.16,1,.3,1), box-shadow .25s, border-color .25s; }
+[data-nodo]:hover .hito-caja{ transform:translate(-2px,-2px); box-shadow:6px 6px 0 var(--color-text); }
+.hito-punto{ transition:transform .25s cubic-bezier(.34,1.56,.64,1); }
+[data-nodo]:hover .hito-punto{ transform:scale(1.08); }
+.hito-punto.viva{ animation:latido 1.9s ease-out infinite; }
+
+@media (prefers-reduced-motion:reduce){
+  [data-nodo]{ opacity:1 !important; }
+  *{ animation:none !important; transition:none !important; }
+}
+
+/* ===== LO QUE AGREGA LA APP ===== */
+
+/* LO QUE YA ENTRO NO VUELVE A ENTRAR. ficha.js redibuja la pagina
+   entera en cada toque, asi que cada hito es un nodo nuevo: sin esto,
+   abrir uno hacia que todos los de la pantalla desaparecieran y
+   volvieran a entrar con la animacion. Los que ya se vieron llegan
+   con `visto` y quedan quietos. */
+[data-nodo].visto{ opacity:1; }
+
+/* LOS BLOQUES NEGROS. El diseno pinta la cabecera, la franja de cada
+   hito y el pie con `--color-text` de fondo y `--color-bg` de letra.
+   En tema oscuro esos dos se dan vuelta y los bloques quedaban casi
+   blancos. Mismo arreglo que el mazo de Antropologia: su propio par de
+   colores, oscuro con letra clara en los dos temas. */
+:root{ --tinta:#1A1A1A; --sobre-tinta:#FDFCF7; }
+html[data-tema="oscuro"]{
+  color-scheme:dark;
+  --color-bg:#151412; --color-surface:#22201D; --color-text:#FDFCF7;
+  --color-divider:#57524A; --color-neutral-200:#2C2A26;
+  --color-neutral-500:#A9A294; --color-neutral-700:#D8D3C8;
+  /* El resumen de cada hito va en neutral-800: sin esto quedaba gris
+     casi negro sobre la tarjeta oscura. */
+  --color-neutral-800:#E6E1D6;
+  --color-accent:#FF9D8F; --color-accent-700:#FF9D8F;
+  --tinta:#0B0A09;
+}
+
+.ficha-barra{
+  position:sticky; top:0; z-index:20;
+  display:flex; flex-wrap:wrap; align-items:center;
+  justify-content:space-between; gap:2px 14px;
+  padding:11px 18px;
+  font-family:Montserrat,sans-serif; font-weight:800;
+  font-size:12px; letter-spacing:.06em; text-transform:uppercase;
+  background:var(--hl);
+  border-bottom:2px solid var(--color-text);
+}
+.ficha-barra a{ color:var(--onhl); text-decoration:none; }
+.ficha-barra a:hover{ text-decoration:underline; }
+
+/* Las categorias del diseno quedan pegadas arriba al bajar. Arriba ya
+   esta la barra de volver, que tambien se pega: las categorias van
+   justo debajo (el alto lo mide el script, porque en un telefono
+   angosto la barra puede ocupar dos renglones). */
+.lt-filtros{ top:var(--alto-barra, 0px) !important; }
+</style>
+</head>
+<body>
+
+<nav class="ficha-barra" id="ficha-barra">
+<a href="../../">← Estudiemos</a>
+<a href="../">Todas las fichas</a>
+</nav>
+
+<!-- Aca dibuja ficha.js. Vacio hasta que corre el script del final. -->
+<div id="ficha"></div>
+
+<!-- La linea de tiempo, tal como salio del diseno. Vive dentro de un
+     <template> para que el navegador no la muestre a medio armar.
+     Vino como export «standalone» de Claude Design (19/9/2026), igual
+     que el mazo de Antropologia: la plantilla y el codigo son los de
+     adentro de ese paquete. Los cambios para que corra con ficha.js:
+       - `sc-camel-on-click` pasa a `onClick`, que es lo que el motor
+         engancha;
+       - los `ref` del diseno (la barra de avance y el riel que se
+         llena) pasan a ser `id`, porque el motor no entiende `ref` y
+         ademas redibuja todo: una referencia guardada quedaria vieja;
+       - la cabecera del diseno deja lugar a la barra de la app, y los
+         bloques negros usan `--tinta` para el tema oscuro. -->
+<template id="plantilla">
+<div style="min-height:100vh">
+
+  <div style="max-width:760px;margin:0 auto;padding:24px 16px 60px">
+
+    <section style="position:relative;background:var(--tinta);color:var(--sobre-tinta);border:2px solid var(--color-text);box-shadow:6px 6px 0 var(--color-accent);padding:24px 20px;overflow:hidden">
+      <p style="font-family:var(--mono);font-size:11px;letter-spacing:.12em;margin:0 0 10px;color:var(--hl);text-align:center">HISTORIA SOCIAL DE AMÉRICA LATINA Y ARGENTINA · 1880-2001</p>
+      <h1 style="font-weight: 800; font-size: clamp(30px,9vw,54px); line-height: .98; letter-spacing: -.03em; margin: 0; color: var(--sobre-tinta); text-transform: uppercase; text-wrap: balance; text-align: center">Línea de tiempo</h1>
+      <p style="margin: 10px 0 0; font-size: 17px; line-height: 1.35; font-weight: 600; color: var(--hl); text-align: center">La historia, el trabajo social y la perspectiva de género.</p>
+      <p style="margin:14px 0 0;font-size:15px;line-height:1.6;color:var(--color-neutral-300)">Tocá cualquiera para abrir la síntesis del proceso, la bibliografía de la materia y una pregunta para practicar.</p>
+      <div style="display:flex;flex-wrap:wrap;gap:16px;margin-top:18px;padding-top:12px;border-top:2px solid var(--sobre-tinta);font-family:var(--mono);font-size:11px;letter-spacing:.06em">
+        <span>EN PANTALLA: {{ nVisibles }}</span>
+        <span style="color:var(--hl)">ABIERTOS: {{ nAbiertos }}</span>
+      </div>
+    </section>
+
+    <div class="lt-filtros" style="position:sticky;top:0;z-index:6;background:var(--color-bg);padding:14px 0 10px;margin-top:22px;border-bottom:2px solid var(--color-text)">
+      <div style="display:flex;align-items:baseline;justify-content:space-between;gap:12px;margin-bottom:8px">
+        <span style="font-family:var(--mono);font-size:10px;letter-spacing:.16em;color:var(--color-neutral-700)">CATEGORÍA</span>
+        <button type="button" onClick="{{ alternarTodo }}" style="min-height:44px;padding:0 12px;border:0;background:transparent;color:var(--color-accent-700);font-family:var(--mono);font-size:11px;letter-spacing:.08em;cursor:pointer;text-decoration:underline;text-underline-offset:4px">{{ textoTodo }}</button>
+      </div>
+      <div style="display:flex;gap:6px;overflow-x:auto;padding-bottom:4px">
+        <sc-for list="{{ categorias }}" as="c" hint-placeholder-count="5">
+          <button type="button" style="{{ c.style }}" onClick="{{ c.onClick }}" aria-pressed="{{ c.on }}">{{ c.label }}</button>
+        </sc-for>
+      </div>
+      <div style="height:4px;background:var(--color-neutral-200);margin-top:8px">
+        <i id="lt-barra" style="display:block;height:100%;width:0%;background:var(--color-accent);transition:width .12s linear"></i>
+      </div>
+    </div>
+
+    <div style="position:relative;margin-top:24px">
+      <div style="{{ rielFondoStyle }}"></div>
+      <div id="lt-riel" style="{{ rielStyle }}"></div>
+
+      <div style="display:grid;gap:18px">
+        <sc-for list="{{ nodos }}" as="n" hint-placeholder-count="11">
+          <article data-nodo="{{ n.id }}" class="{{ n.dir }} {{ n.visto }}" style="{{ n.filaStyle }}">
+            <div class="hito-punto {{ n.pulso }}" style="{{ n.puntoStyle }}">{{ n.numero }}</div>
+
+            <div class="hito-caja" style="{{ n.cardStyle }}">
+              <button type="button" onClick="{{ n.onClick }}" aria-expanded="{{ n.abierto }}" style="display:block;width:100%;text-align:left;background:transparent;border:0;padding:0;cursor:pointer;color:var(--color-text);font:inherit">
+                <div style="{{ n.barraStyle }}">
+                  <span class="hito-anio" style="font-family:var(--mono);font-weight:500;font-size:clamp(15px,4.4vw,19px);letter-spacing:.06em;color:var(--sobre-tinta)">{{ n.periodo }}</span>
+                  <span style="font-family:var(--mono);font-size:10px;letter-spacing:.12em;color:var(--color-neutral-300)">{{ n.unidad }}</span>
+                </div>
+                <div style="padding:16px 18px 0">
+                  <h3 style="margin:0 0 8px;font-size:clamp(19px,5vw,24px);line-height:1.1;letter-spacing:-.01em;text-wrap:pretty">{{ n.titulo }}</h3>
+                  <p style="margin:0 0 14px;font-size:15px;line-height:1.55;color:var(--color-neutral-800);text-wrap:pretty">{{ n.resumen }}</p>
+                </div>
+              </button>
+
+              <div style="padding:0 18px 16px">
+                <span style="display:block;font-family:var(--mono);font-size:10px;letter-spacing:.16em;color:var(--color-neutral-500);margin-bottom:8px">EJES DE ANÁLISIS</span>
+                <ul style="margin:0;padding:0;list-style:none;display:grid;gap:6px">
+                  <sc-for list="{{ n.conceptos }}" as="k" hint-placeholder-count="3">
+                    <li style="display:flex;gap:9px;align-items:flex-start;font-size:14.5px;line-height:1.45"><span style="{{ n.vinetaStyle }}"></span>{{ k.t }}</li>
+                  </sc-for>
+                </ul>
+                <div style="display:flex;flex-wrap:wrap;gap:6px;margin-top:14px">
+                  <span style="{{ n.catStyle }}">{{ n.categoria }}</span>
+                  <sc-for list="{{ n.tags }}" as="t" hint-placeholder-count="3">
+                    <span style="font-family:var(--mono);font-size:10.5px;letter-spacing:.04em;color:var(--color-neutral-700);border:1px solid var(--color-divider);padding:3px 7px">{{ t.t }}</span>
+                  </sc-for>
+                </div>
+                <button type="button" onClick="{{ n.onClick }}" aria-expanded="{{ n.abierto }}" style="{{ n.accionStyle }}">{{ n.accion }}</button>
+              </div>
+
+              <sc-if value="{{ n.abierto }}" hint-placeholder-val="{{ false }}">
+                <div style="border-top:2px solid var(--color-text);animation:abrir .3s cubic-bezier(.16,1,.3,1) both">
+                  <div style="padding:16px 18px">
+                    <span style="font-family:var(--mono);font-size:10px;letter-spacing:.16em;color:var(--color-neutral-500)">SÍNTESIS DEL PROCESO</span>
+                    <p style="margin:8px 0 0;font-size:15.5px;line-height:1.65;text-wrap:pretty">{{ n.sintesis }}</p>
+                  </div>
+                  <div style="padding:14px 18px;border-top:1px solid var(--color-divider)">
+                    <span style="font-family:var(--mono);font-size:10px;letter-spacing:.16em;color:var(--color-neutral-500)">BIBLIOGRAFÍA VINCULADA</span>
+                    <ul style="margin:8px 0 0;padding-left:18px;font-size:15px;line-height:1.6">
+                      <sc-for list="{{ n.autores }}" as="a" hint-placeholder-count="3"><li>{{ a.t }}</li></sc-for>
+                    </ul>
+                  </div>
+                  <div style="padding:16px 18px;border-top:2px solid var(--color-text);background:var(--color-neutral-200)">
+                    <span style="font-family:var(--mono);font-size:10px;letter-spacing:.16em;color:var(--color-accent-700)">PARA AUTOEVALUARTE</span>
+                    <p style="margin:8px 0 0;font-size:16px;line-height:1.5;font-weight:600;text-wrap:pretty">{{ n.pregunta }}</p>
+                  </div>
+                </div>
+              </sc-if>
+            </div>
+          </article>
+        </sc-for>
+      </div>
+    </div>
+
+    <p style="margin:28px 0 0;padding:14px 16px;border:1px dashed var(--color-divider);background:var(--color-bg);font-size:13.5px;line-height:1.55;color:var(--color-neutral-700)">
+      Los hitos y la bibliografía salen del programa de la materia. Es material de estudio, no el programa de la cátedra: <b>si algo no coincide con lo que dijeron en clase, mandá el dato y lo corregimos.</b>
+    </p>
+  </div>
+
+  <footer style="background:var(--tinta);color:var(--sobre-tinta);padding:20px;display:flex;flex-wrap:wrap;gap:14px;justify-content:space-between;font-family:var(--mono);font-size:11px;letter-spacing:.08em;text-transform:uppercase">
+    <span>HIST·1880-2000s</span>
+    <a href="../" style="color:var(--sobre-tinta)">Volver al índice ↗</a>
+    <span>Propuesta pedagógica 2026</span>
+  </footer>
+</div>
+</template>
+
+<script src="../ficha.js"></script>
+<script>
+const CATS = ['Todos','Política y Estado','Movimiento Obrero','Género y Derechos','Economía/Modelos'];
+
+const NODOS = [
+  { id:'HIST-001', periodo:'1880 – 1912', unidad:'Unidad 2', cats:['Economía/Modelos','Política y Estado'], catPrincipal:'Economía y Estado',
+    titulo:'Orden liberal-oligárquico y modelo agroexportador',
+    resumen:'Se consolida el Estado nacional y la Argentina entra al mercado mundial como proveedora de materias primas.',
+    sintesis:'La oligarquía terrateniente articula poder político y económico: exporta carne y cereales, toma crédito externo y construye ferrocarriles y puertos hacia Buenos Aires. La inmigración masiva transforma la estructura social y forma una clase obrera urbana que, con anarquistas y socialistas, protagoniza las primeras huelgas. El régimen responde con la Ley de Residencia y define la «cuestión social» como problema de orden público.',
+    conceptos:['Modelo agroexportador','Régimen oligárquico vs. sociedad de masas','Inmigración y cuestión social'],
+    autores:['Loris Zanatta (Cap. 5)','Alejandro Cattaruzza (Cap. 1)','Mirta Lobato'],
+    pregunta:'¿De qué manera el modelo agroexportador condicionó las formas de organización del trabajo en Argentina?',
+    tags:['#Agroexportador','#Oligarquía','#MovimientoObrero'] },
+
+  { id:'HIST-002', periodo:'1912', unidad:'Unidad 2', cats:['Política y Estado'], catPrincipal:'Política y Estado',
+    titulo:'Ley Sáenz Peña y ampliación del sufragio',
+    resumen:'Del fraude al voto secreto y obligatorio para varones: el sistema político se abre sin cambiar de dueños del todo.',
+    sintesis:'Ante la presión del radicalismo y el crecimiento de las organizaciones obreras, un sector de la propia élite impulsa la reforma para encauzar el conflicto dentro de las instituciones. El padrón militar vuelve al voto secreto y obligatorio, pero deja afuera a mujeres y a la enorme masa de extranjeros no nacionalizados: la ampliación es real y limitada al mismo tiempo.',
+    conceptos:['Voto secreto, universal (masculino) y obligatorio','Reforma desde arriba','Límites de la ciudadanía política'],
+    autores:['Alejandro Cattaruzza (Caps. 1 y 2)','Ezequiel Adamovsky (Cap. 4)'],
+    pregunta:'Si la reforma la impulsó la propia élite, ¿qué buscaba conservar al ampliar el derecho al voto?',
+    tags:['#SáenzPeña','#Ciudadanía','#Sufragio'] },
+
+  { id:'HIST-003', periodo:'1916 – 1930', unidad:'Unidad 2', cats:['Política y Estado','Movimiento Obrero'], catPrincipal:'Política y Estado',
+    titulo:'Gobiernos radicales y primeras experiencias democráticas',
+    resumen:'Yrigoyen y Alvear gobiernan con voto popular, entre la democratización y la represión de la protesta obrera.',
+    sintesis:'El radicalismo incorpora a sectores medios a la vida política y ensaya una relación nueva con el movimiento obrero: a veces mediación, a veces represión brutal (Semana Trágica, Patagonia Rebelde, La Forestal). La Reforma Universitaria de 1918 abre la universidad al cogobierno y se proyecta sobre toda América Latina. El período muestra la distancia entre acceder al gobierno y transformar la estructura de poder.',
+    conceptos:['Democratización y sus límites','Reforma Universitaria de 1918','Represión de la protesta obrera'],
+    autores:['Alejandro Cattaruzza (Cap. 2)','Marcela Nari'],
+    pregunta:'¿Por qué un gobierno elegido por el voto popular reprimió con dureza a los trabajadores que decía representar?',
+    tags:['#Yrigoyen','#ReformaUniversitaria','#PatagoniaRebelde'] },
+
+  { id:'HIST-004', periodo:'1930 – 1943', unidad:'Unidad 3', cats:['Economía/Modelos','Política y Estado'], catPrincipal:'Economía/Modelos',
+    titulo:'Golpe de 1930, Década Infame y crisis del modelo',
+    resumen:'El primer golpe del siglo abre una restauración conservadora sostenida en el «fraude patriótico».',
+    sintesis:'La crisis mundial de 1929 desarma el modelo agroexportador: caen las exportaciones y el país recurre al control de cambios, el Banco Central y una industrialización por sustitución de importaciones no planificada. El Pacto Roca-Runciman expone la dependencia con Gran Bretaña. Hacia el interior, el fraude sistemático vacía de sentido al voto y la migración interna empieza a poblar los cordones industriales del Gran Buenos Aires.',
+    conceptos:['Fraude patriótico','Sustitución de importaciones','Crisis del orden neocolonial'],
+    autores:['Alejandro Cattaruzza (Cap. 1)','Tulio Halperín Donghi'],
+    pregunta:'¿Qué relación hay entre la crisis del modelo agroexportador y la formación de la nueva clase obrera industrial?',
+    tags:['#DécadaInfame','#Crisisdel29','#ISI'] },
+
+  { id:'HIST-005', periodo:'1943 – 1955', unidad:'Unidad 3', cats:['Movimiento Obrero','Género y Derechos'], catPrincipal:'Movimiento Obrero / Género y Derechos',
+    titulo:'Peronismo clásico: Estado de bienestar, trabajo y consumo',
+    resumen:'Los derechos laborales, el consumo popular y el voto femenino reconfiguran quién cuenta como sujeto político.',
+    sintesis:'Desde la Secretaría de Trabajo primero y desde el gobierno después, el peronismo institucionaliza convenios colectivos, vacaciones pagas, aguinaldo y jubilaciones, y multiplica la sindicalización. El acceso al consumo —heladera, vacaciones, ropa nueva— funciona como prueba material de dignidad y como terreno de disputa simbólica con las clases medias y altas. El sufragio femenino (1947) y la Fundación Eva Perón incorporan a las mujeres como sujeto político, dentro de un modelo que sigue pensándolas ante todo como madres y esposas.',
+    conceptos:['Estado de bienestar y derechos laborales','Consumo como disputa simbólica','Sufragio femenino (1947)'],
+    autores:['Daniel James (Cap. 1)','Natalia Milanesio (Caps. 4 y 5)','Marcela Nari'],
+    pregunta:'¿Por qué el acceso al consumo fue vivido como una cuestión política y no solo económica?',
+    tags:['#Peronismo','#DerechosLaborales','#SufragioFemenino'] },
+
+  { id:'HIST-006', periodo:'1955 – 1966', unidad:'Unidad 4', cats:['Política y Estado','Movimiento Obrero'], catPrincipal:'Política y Estado',
+    titulo:'Golpe de 1955, proscripción y desarrollismo',
+    resumen:'Se derroca a Perón y se proscribe al peronismo: una democracia sin su mayoría electoral.',
+    sintesis:'La «Revolución Libertadora» interviene los sindicatos y prohíbe hasta nombrar a Perón, mientras la resistencia peronista se organiza en las fábricas y los barrios. El desarrollismo de Frondizi apuesta a capital extranjero, petróleo y acero para modernizar la economía, y termina condicionado por los planteos militares. La Revolución Cubana reordena el mapa: para buena parte de la juventud, el cambio social pasa a pensarse como ruptura y no como reforma.',
+    conceptos:['Proscripción y semidemocracia','Resistencia peronista','Desarrollismo y Revolución Cubana'],
+    autores:['Elena Scirica','Vanni Pettinà','Ezequiel Adamovsky (Cap. 14)'],
+    pregunta:'¿Qué efectos políticos y sociales produce proscribir a la fuerza más votada durante casi veinte años?',
+    tags:['#Proscripción','#Resistencia','#Desarrollismo'] },
+
+  { id:'HIST-007', periodo:'1969', unidad:'Unidad 4', cats:['Movimiento Obrero'], catPrincipal:'Movimiento Obrero',
+    titulo:'El Cordobazo y la radicalización política',
+    resumen:'Obreros y estudiantes toman Córdoba y quiebran la legitimidad de la dictadura de Onganía.',
+    sintesis:'Los obreros mecánicos y del transporte, con alto salario y sindicatos combativos, confluyen con el movimiento estudiantil contra el autoritarismo de Onganía y sus quitas salariales. La ciudad queda fuera de control durante dos días. El Cordobazo abre un ciclo de insurrecciones urbanas, fortalece al sindicalismo de base frente a las cúpulas y acelera el giro a la izquierda de sectores medios y populares.',
+    conceptos:['Insurrección urbana obrero-estudiantil','Sindicalismo combativo de base','Crisis de legitimidad del autoritarismo'],
+    autores:['James Brennan (Cap. 5)','Ezequiel Adamovsky'],
+    pregunta:'¿Qué condiciones hicieron posible la alianza entre obreros industriales y estudiantes en Córdoba?',
+    tags:['#Cordobazo','#Onganía','#Radicalización'] },
+
+  { id:'HIST-008', periodo:'1973 – 1976', unidad:'Unidad 4', cats:['Política y Estado'], catPrincipal:'Política y Estado',
+    titulo:'Tercer peronismo e institucionalización del conflicto',
+    resumen:'Vuelve el peronismo al gobierno y el conflicto interno se vuelve violencia abierta.',
+    sintesis:'Cámpora asume en mayo de 1973 con la consigna de la liberación y renuncia a los pocos meses; el interinato de Lastiri abre paso al tercer mandato de Perón, que intenta ordenar un movimiento tironeado entre la juventud radicalizada y la burocracia sindical. El Pacto Social busca contener precios y salarios y se rompe con la crisis del petróleo y el Rodrigazo. Desde julio de 1974, el gobierno de Isabel queda a merced de la Triple A y la espiral represiva que anticipa el golpe.',
+    conceptos:['Institucionalización de conflictos','Pacto Social y crisis económica','Prácticas de impugnación y violencia política'],
+    autores:['Daniel James (Cap. 9)','Sergio Nicanoff y Fernando Pita'],
+    pregunta:'¿Por qué el retorno a la democracia no alcanzó para procesar el conflicto político por vías institucionales?',
+    tags:['#TercerPeronismo','#PactoSocial','#TripleA'] },
+
+  { id:'HIST-009', periodo:'1976 – 1983', unidad:'Unidad 5', cats:['Política y Estado','Género y Derechos'], catPrincipal:'Género y Derechos / Política y Estado',
+    titulo:'Dictadura cívico-militar y terrorismo de Estado',
+    resumen:'Desaparición forzada como método, y un plan económico que desindustrializa y endeuda.',
+    sintesis:'El golpe de marzo de 1976 combina centros clandestinos, desaparición y apropiación de bebés con la política económica de Martínez de Hoz: apertura importadora, desindustrialización selectiva y estatización de la deuda privada. La represión se dirige de manera prioritaria contra delegados y activistas de fábrica, y el régimen busca legitimidad en convocatorias nacionales como el Mundial 78. En 1977 aparecen las Madres de Plaza de Mayo y la Carta abierta de Rodolfo Walsh; el informe de la Comisión de Derechos Humanos de la OEA (1979) y la derrota de Malvinas (1982) precipitan el final.',
+    conceptos:['Terrorismo de Estado y genocidio tecnificado','Desindustrialización y estatización de la deuda','Madres de Plaza de Mayo como sujeto de resistencia'],
+    autores:['Ezequiel Sirlin','Daniel Lvovich y Jaquelina Bisquert','Rodolfo Walsh'],
+    pregunta:'¿Qué vínculo existe entre el plan económico de la dictadura y la represión dirigida al movimiento obrero?',
+    tags:['#TerrorismoDeEstado','#Madres','#Malvinas'] },
+
+  { id:'HIST-010', periodo:'1983 – 1989', unidad:'Unidad 5', cats:['Política y Estado','Género y Derechos'], catPrincipal:'Política y Estado',
+    titulo:'Transición democrática y derechos humanos',
+    resumen:'El Juicio a las Juntas y, enseguida, las leyes que frenan los juicios: memoria y límites.',
+    sintesis:'Alfonsín asume con la promesa de que la democracia «cura y alimenta», crea la CONADEP y lleva a juicio a las cúpulas militares en 1985, un hecho sin antecedentes en la región. Los levantamientos carapintadas y la presión corporativa derivan en las leyes de Obediencia Debida y Punto Final (1987), que interrumpen el proceso. La hiperinflación fuerza la entrega anticipada del gobierno a Menem en julio de 1989.',
+    conceptos:['CONADEP y Juicio a las Juntas (1985)','Leyes de impunidad (1987)','Qué concepto de democracia se construye'],
+    autores:['Roberto Gargarella','Loris Zanatta (Cap. 10)'],
+    pregunta:'¿Qué tensiones enfrenta una democracia recién nacida cuando juzga a las fuerzas armadas que la antecedieron?',
+    tags:['#JuicioALasJuntas','#CONADEP','#Impunidad'] },
+
+  { id:'HIST-011', periodo:'1989 – 2000s', unidad:'Unidad 5', cats:['Economía/Modelos','Movimiento Obrero'], catPrincipal:'Economía/Modelos / Movimiento Obrero',
+    titulo:'Neoliberalismo, reformas de mercado y movimientos sociales',
+    resumen:'Privatizaciones y convertibilidad; del otro lado, piqueteros, asambleas y fábricas recuperadas.',
+    sintesis:'Bajo el Consenso de Washington se privatizan empresas públicas, se flexibiliza el trabajo y la convertibilidad estabiliza los precios al costo de destruir empleo industrial. La desocupación masiva desplaza el centro del conflicto de la fábrica al territorio: el corte de ruta reemplaza a la huelga como herramienta. La crisis de 2001 estalla con asambleas barriales, clubes de trueque y empresas recuperadas, la matriz de lo que hoy llamamos economía popular.',
+    conceptos:['Consenso de Washington y privatizaciones','Desocupación estructural','Movimiento piquetero y territorio'],
+    autores:['Claudio Katz','Ariel Filadoro','Martín Retamozo'],
+    pregunta:'¿Por qué la protesta se desplazó del lugar de trabajo al territorio durante los años noventa?',
+    tags:['#Neoliberalismo','#Piqueteros','#2001'] }
+];
+
+class Component extends DCLogic {
+  state = { cat: 'Todos', abiertos: {}, ancho: typeof window !== 'undefined' && window.innerWidth >= 680 };
+
+  /* Los hitos que ya entraron a la pantalla (ver `.visto` arriba). */
+  vistos = new Set();
+
+  componentDidMount(){
+    this.medirBarra();
+    this.observar();
+    this.onAncho = () => {
+      this.medirBarra();
+      const ancho = window.innerWidth >= 680;
+      if (ancho !== this.state.ancho) this.setState({ ancho });
+    };
+    window.addEventListener('resize', this.onAncho, { passive: true });
+    this.onAncho();
+    this.onScroll = () => this.progreso();
+    window.addEventListener('scroll', this.onScroll, { passive: true });
+    window.addEventListener('resize', this.onScroll, { passive: true });
+    this.progreso();
+  }
+  componentDidUpdate(){ this.observar(); this.progreso(); }
+  componentWillUnmount(){
+    window.removeEventListener('scroll', this.onScroll);
+    window.removeEventListener('resize', this.onScroll);
+    window.removeEventListener('resize', this.onAncho);
+    if (this.io) this.io.disconnect();
+  }
+
+  /* Cuánto ocupa la barra amarilla de volver, para que las categorías
+     se peguen justo debajo y no detrás. */
+  medirBarra(){
+    const b = document.getElementById('ficha-barra');
+    if (b) document.documentElement.style.setProperty('--alto-barra', b.offsetHeight + 'px');
+  }
+
+  /* Cada redibujo trae nodos nuevos: se deja de mirar los viejos y se
+     mira solo lo que todavía no entró. */
+  observar(){
+    const pendientes = document.querySelectorAll('[data-nodo]:not(.visto)');
+    if (!('IntersectionObserver' in window)) {
+      pendientes.forEach(el => { el.classList.add('entra'); this.vistos.add(el.getAttribute('data-nodo')); });
+      return;
+    }
+    if (!this.io){
+      this.io = new IntersectionObserver((ents) => {
+        ents.forEach(e => {
+          if (!e.isIntersecting) return;
+          e.target.classList.add('entra');
+          this.vistos.add(e.target.getAttribute('data-nodo'));
+          this.io.unobserve(e.target);
+        });
+      }, { rootMargin: '0px 0px -12% 0px', threshold: 0.08 });
+    }
+    this.io.disconnect();
+    pendientes.forEach(el => this.io.observe(el));
+  }
+
+  /* EL RESPALDO DEL OBSERVADOR. Los hitos arrancan invisibles y los
+     hace entrar el IntersectionObserver; donde no corre (el panel de
+     vista previa, algún webview), la línea quedaba vacía. Esto mira la
+     posición en cada scroll y hace entrar lo que ya está en pantalla. */
+  revelar(){
+    const tope = window.innerHeight * 0.88;
+    document.querySelectorAll('[data-nodo]:not(.visto):not(.entra)').forEach(el => {
+      const r = el.getBoundingClientRect();
+      if (r.top < tope && r.bottom > 0){
+        el.classList.add('entra');
+        this.vistos.add(el.getAttribute('data-nodo'));
+      }
+    });
+  }
+
+  progreso(){
+    this.revelar();
+    const doc = document.documentElement;
+    const alto = doc.scrollHeight - window.innerHeight;
+    const p = alto > 0 ? Math.min(1, Math.max(0, window.scrollY / alto)) : 0;
+    const barra = document.getElementById('lt-barra');
+    const riel = document.getElementById('lt-riel');
+    if (barra) barra.style.width = (p * 100).toFixed(1) + '%';
+    if (riel){
+      const caja = riel.parentElement;
+      if (caja) riel.style.height = (caja.offsetHeight * p).toFixed(0) + 'px';
+    }
+  }
+
+  renderVals(){
+    const s = this.state;
+    const visibles = NODOS.filter(n => s.cat === 'Todos' || n.cats.indexOf(s.cat) !== -1);
+    const abiertosVisibles = visibles.filter(n => s.abiertos[n.id]).length;
+    const todosAbiertos = abiertosVisibles === visibles.length && visibles.length > 0;
+
+    const chip = (on) => 'flex:none;min-height:48px;padding:0 14px;cursor:pointer;font-family:var(--mono);font-size:11.5px;letter-spacing:.06em;white-space:nowrap;transition:transform .18s ease;border:1px solid ' +
+      (on ? 'var(--color-text);background:var(--color-text);color:var(--color-bg)' : 'var(--color-divider);background:var(--color-bg);color:var(--color-text)');
+
+    const colorCat = (n) =>
+      n.cats.indexOf('Movimiento Obrero') !== -1 ? 'var(--color-accent)' :
+      n.cats.indexOf('Género y Derechos') !== -1 ? 'var(--hl)' :
+      n.cats.indexOf('Economía/Modelos') !== -1 ? 'var(--color-neutral-500)' : 'var(--color-text)';
+
+    const ancho = s.ancho;
+    const ejeX = ancho ? '50%' : '27px';
+
+    return {
+      rielFondoStyle: { position:'absolute', left:ejeX, top:0, bottom:0, width:'2px', marginLeft:'-1px', background:'var(--color-divider)' },
+      rielStyle: { position:'absolute', left:ejeX, top:0, height:'0px', width:'2px', marginLeft:'-1px', background:'var(--color-text)' },
+      nVisibles: visibles.length,
+      nAbiertos: abiertosVisibles,
+      textoTodo: todosAbiertos ? 'CERRAR TODO' : 'ABRIR TODO',
+      alternarTodo: () => {
+        const abiertos = Object.assign({}, s.abiertos);
+        visibles.forEach(n => { if (todosAbiertos) delete abiertos[n.id]; else abiertos[n.id] = true; });
+        this.setState({ abiertos });
+      },
+      categorias: CATS.map(c => ({
+        label: c.toUpperCase(), on: s.cat === c, style: chip(s.cat === c),
+        onClick: () => this.setState({ cat: c })
+      })),
+      nodos: visibles.map((n, idx) => {
+        const color = colorCat(n);
+        const abierto = !!s.abiertos[n.id];
+        const izq = idx % 2 === 0;
+        return {
+          dir: ancho ? (izq ? 'izq' : 'der') : '',
+          visto: this.vistos.has(n.id) ? 'visto' : '',
+          filaStyle: ancho
+            ? { position:'relative', display:'grid', gridTemplateColumns:'1fr 1fr', columnGap:'56px' }
+            : { position:'relative', display:'grid', paddingLeft:'56px' },
+          id: n.id, numero: idx + 1, periodo: n.periodo, unidad: n.unidad, titulo: n.titulo,
+          resumen: n.resumen, categoria: n.catPrincipal.toUpperCase(), sintesis: n.sintesis,
+          pregunta: n.pregunta, abierto,
+          pulso: abierto ? 'viva' : '',
+          onClick: () => {
+            const abiertos = Object.assign({}, this.state.abiertos);
+            if (abiertos[n.id]) delete abiertos[n.id]; else abiertos[n.id] = true;
+            this.setState({ abiertos });
+          },
+          accion: abierto ? '▲ CERRAR EL PROCESO' : '▼ VER PROCESO, BIBLIOGRAFÍA Y PREGUNTA',
+          accionStyle: 'margin-top:14px;width:100%;min-height:48px;cursor:pointer;border:1px solid var(--color-text);background:' +
+            (abierto ? 'var(--color-text);color:var(--color-bg)' : 'transparent;color:var(--color-text)') +
+            ';font-family:var(--mono);font-size:11.5px;letter-spacing:.08em',
+          puntoStyle: {
+            position:'absolute',
+            left: ancho ? 'calc(50% - 19px)' : '4px',
+            top:'10px', width:'38px', height:'38px',
+            display:'flex', alignItems:'center', justifyContent:'center',
+            borderRadius:'50%', background: color, color: color === 'var(--hl)' ? 'var(--onhl)' : 'var(--color-bg)',
+            border:'2px solid var(--color-text)', fontWeight:800, fontSize:'16px', zIndex:2
+          },
+          barraStyle: 'display:flex;flex-wrap:wrap;gap:10px;align-items:center;justify-content:space-between;padding:10px 18px;background:var(--tinta)',
+          vinetaStyle: 'flex:none;width:9px;height:9px;margin-top:6px;background:' + color + ';border:1px solid var(--color-text)',
+          catStyle: 'font-family:var(--mono);font-size:10px;letter-spacing:.1em;padding:3px 8px;background:' + color +
+            ';color:' + (color === 'var(--hl)' ? 'var(--onhl)' : 'var(--color-bg)'),
+          cardStyle: {
+            position:'relative',
+            gridColumn: ancho ? (izq ? 1 : 2) : 'auto',
+            background:'var(--color-surface)',
+            border:'2px solid ' + (abierto ? 'var(--color-text)' : 'var(--color-divider)'),
+            boxShadow: abierto ? '4px 4px 0 var(--color-text)' : '2px 2px 0 var(--color-divider)'
+          },
+          tags: n.tags.map((t, k) => ({ k, t })),
+          conceptos: n.conceptos.map((t, k) => ({ k, t })),
+          autores: n.autores.map((t, k) => ({ k, t }))
+        };
+      })
+    };
+  }
+}
+arrancarFicha();
+</script>
+</body>
+</html>
