@@ -2936,7 +2936,7 @@
     document.getElementById('volver').onclick = vistaInstagram;
 
     /* Lo que ya tiene el posteo. `imagenes` es la serie entera; los
-       posteos cargados antes del 20/9/2026 tienen solo `imagen`, así
+       posteos cargados antes de los carruseles (19/9/2026) tienen solo `imagen`, así
        que esos entran como un carrusel de una. */
     const placasDelPosteo = Array.isArray(p.imagenes) && p.imagenes.length
       ? p.imagenes.slice()

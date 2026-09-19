@@ -187,60 +187,83 @@
 }
 .tarjeta:active{transform:translateY(1px) scale(.985);box-shadow:var(--sombra-1)}
 
-/* LA PLACA DE INSTAGRAM, adentro del río de novedades.
+/* ------------------------------------------------------------
+   EN INSTAGRAM · la fila que se desliza y el visor
+   ------------------------------------------------------------
+   La fila muestra la portada de cada posteo y da la vuelta al llegar
+   al final (la mecánica, en `index.html`: tres copias y un salto).
 
-   Hasta el 19/9/2026 las placas vivían en una grilla aparte, abajo de
-   Novedades, en cuadraditos de 109 px y sin una sola palabra. Tres
-   cosas fallaban:
+   Se desliza con el deslizamiento del sistema, no con arrastre
+   reimplementado: así funcionan el dedo, la rueda, el teclado y la
+   barra sin escribir una línea de cada uno. El `scroll-snap` es
+   `proximity` y no `mandatory` porque `mandatory` pelea con el salto
+   de la vuelta: el navegador quiere reacomodar justo mientras se
+   cambia `scrollLeft`, y el dedo se traba.
 
-   1. SE PERDÍA. Era lo único del inicio que no iba sobre una tarjeta,
-      así que el papel la rodeaba por los cuatro lados.
-   2. NO DECÍA NADA. El epígrafe estaba escondido en el `alt`, o sea
-      que existía para el lector de pantalla y para nadie más.
-   3. LE CORTABA LAS PALABRAS. `aspect-ratio:1` con `object-fit:cover`
-      metía a la fuerza en un cuadrado una placa que es 4:5: le comía
-      el 20 %, arriba y abajo. En una placa —texto adentro de una
-      imagen— eso corta renglones enteros.
-
-   Ahora es una `.tarjeta` más. NO lleva canto de color: esta hoja se
-   lo sacó a todas, y la línea editorial la dice la etiqueta pastel.
-   Instagram tampoco es una línea editorial —no es un tema, es una
-   puerta—, así que su etiqueta se queda en el pastel neutro. */
-.tarjeta-ig .ig-fila{display:flex;gap:14px;align-items:flex-start}
-/* El alto y el ancho los fija el RECUADRO, no la imagen: una que no
-   carga —la red de la facultad, un archivo borrado— dejaría el hueco
-   en cero y la tarjeta saltaría al llegar la foto. Es 4:5 porque es la
-   proporción en la que publica la agrupación; una cuadrada o apaisada
-   entra igual, con papel a los costados, pero NUNCA recortada. */
-.ig-placa{
-  flex:0 0 130px;display:block;width:130px;height:162px;object-fit:contain;
+   La tarjeta y media a la vista no es estética: es lo único que avisa
+   que hay más al costado. */
+.ig-riel{
+  display:flex;gap:10px;overflow-x:auto;overflow-y:hidden;
+  scroll-snap-type:x proximity;-webkit-overflow-scrolling:touch;
+  /* La fila se sale de la caja de la página a propósito, para que la
+     tarjeta cortada llegue hasta el borde del teléfono y se entienda
+     que sigue. Vuelve a entrar con el relleno. */
+  /* Los 16 van escritos y no en una variable porque el margen de la
+     página tampoco es una variable: es el `padding:0 16px` de
+     `.envoltura`. Si un día eso cambia, cambia acá también. */
+  margin:0 -16px;padding:2px 16px 10px;
+  scrollbar-width:none
+}
+.ig-riel::-webkit-scrollbar{display:none}
+.ig-tarjeta{
+  flex:0 0 150px;scroll-snap-align:start;
+  /* `relative` NO es decorativo. Adentro va el nombre del botón en
+     `.solo-lectores`, que es `position:absolute`; sin un ancestro
+     posicionado se ubica respecto de la PÁGINA, se escapa del riel y
+     la estira: medido, la página quedaba 921 px más ancha que la
+     pantalla y se corría de costado, con la hoja del visor dibujada
+     torcida. Es el mismo desborde que tuvo Cátedras el 18/9. */
+  position:relative;
+  display:flex;flex-direction:column;gap:7px;
+  background:none;border:0;padding:0;margin:0;
+  text-align:left;color:var(--texto);cursor:pointer;
+  transition:transform var(--t-toque,140ms) ease
+}
+.ig-tarjeta:active{transform:scale(.97)}
+.ig-portada{
+  display:block;width:150px;height:187px;object-fit:contain;
   background:var(--superficie-2);border:1px solid var(--tinta-borde);
   border-radius:var(--radio-chico)
 }
-.ig-dicho{flex:1 1 auto;min-width:0}
-.tarjeta-ig .etiqueta{margin-bottom:8px}
-/* Más chico que el titular de una novedad escrita, que va en 19: la
-   columna mide 161 px y a ese tamaño entrarían tres palabras. Tres
-   renglones y corta; el corte lo hace el navegador porque recortar por
-   cantidad de letras parte palabras al medio. */
-.tarjeta-ig h3{
-  font-size:16px;line-height:1.25;margin:0 0 6px;
-  display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden
+.ig-pie{
+  font-family:var(--fuente-datos);font-size:var(--letra-chica);
+  letter-spacing:.04em;text-transform:uppercase;color:var(--texto-suave)
 }
-.tarjeta-ig .meta{margin-top:0}
 
-/* El único enlace al perfil que queda en el inicio: antes vivía en el
-   título de la grilla. Va al final del río porque «seguinos» es lo que
-   se ofrece después de leer, no en lugar de leer. */
-.seguinos{margin:18px 0 0;text-align:center}
-.seguinos a{
-  font-family:var(--fuente-datos);font-size:var(--letra-chica);font-weight:700;
-  letter-spacing:.06em;text-transform:uppercase;color:var(--texto-suave);
-  text-decoration:none;border-bottom:1px solid var(--linea);
-  display:inline-block;padding:8px 4px;min-height:24px
+/* EL VISOR. Las placas ocupan el ancho de la hoja y se deslizan de a
+   una: acá sí `mandatory`, porque no hay vuelta que dar y media placa
+   a la vista no dice nada. */
+.ig-visor{
+  display:flex;gap:8px;overflow-x:auto;scroll-snap-type:x mandatory;
+  -webkit-overflow-scrolling:touch;margin:0 0 10px;scrollbar-width:none
 }
-@media (hover:hover) and (pointer:fine){
-  .seguinos a:hover{color:var(--texto);border-bottom-color:var(--texto)}
+.ig-visor::-webkit-scrollbar{display:none}
+.ig-visor img{
+  flex:0 0 100%;scroll-snap-align:center;
+  width:100%;height:auto;max-height:64vh;object-fit:contain;
+  background:var(--superficie-2);border-radius:var(--radio-chico)
+}
+.ig-paso{
+  margin:0 0 12px;font-family:var(--fuente-datos);font-size:var(--letra-chica);
+  letter-spacing:.06em;text-transform:uppercase;color:var(--texto-suave);
+  text-align:center
+}
+/* El epígrafe ENTERO. Es el único lugar de la app donde se lee
+   completo: en la fila se ve la portada y nada más. */
+.ig-epigrafe{margin:0 0 10px;font-size:15px;line-height:1.45}
+.ig-cuando{
+  margin:0 0 16px;font-family:var(--fuente-datos);font-size:var(--letra-chica);
+  letter-spacing:.04em;text-transform:uppercase;color:var(--texto-suave)
 }
 
 /* La señalada por el día que se tocó arriba: anillo de tinta, y ahora

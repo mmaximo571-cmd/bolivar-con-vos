@@ -40,7 +40,7 @@ create table if not exists public.posteos_ig (
   traido_at    timestamptz not null default now()
 );
 
--- Los carruseles (20/9/2026). `imagen` sigue siendo LA PORTADA y no se
+-- Los carruseles (19/9/2026). `imagen` sigue siendo LA PORTADA y no se
 -- toca: es lo que lee el inicio y lo que leería la función automática
 -- si algún día arranca. `imagenes` guarda la serie entera, en orden y
 -- con la portada primero, así el contador «1/5» sale de contar y no de

@@ -214,6 +214,17 @@ setTimeout(function(){
   </div>
 </main>
 
+<!-- EL VISOR DE PLACAS. Se abre al tocar un posteo de la fila y muestra
+     la serie entera, que se desliza, más el epígrafe COMPLETO: es el
+     único lugar de la app donde el texto del posteo se lee entero.
+     Usa la misma hoja que Info útil, el mapa y Mi año. -->
+<div class="hoja-fondo" id="ig-fondo" hidden>
+  <div class="hoja" role="dialog" aria-modal="true" aria-labelledby="ig-titulo">
+    <button class="hoja-cerrar" id="ig-cerrar" aria-label="Cerrar">✕</button>
+    <div id="ig-cuerpo"></div>
+  </div>
+</div>
+
 <!-- De acá hasta el piso, la ilustración de la facultad va por detrás -->
 <div class="zona-fondo" id="zona-fondo">
   <div class="envoltura">
@@ -260,6 +271,22 @@ setTimeout(function(){
     <div class="titulo-seccion">SI RECIÉN EMPEZÁS</div>
     <div class="kit" id="kit"></div>
 
+    <!-- EN INSTAGRAM. Una fila que se desliza con todos los posteos
+         cargados. Va ARRIBA de Novedades porque es lo que más se
+         mueve: en Instagram se publica casi todos los días y en la app
+         cada tanto.
+
+         Se pinta sola si hay algo: sin posteos no aparece ni el
+         título. -->
+    <section id="instagram" hidden>
+      <div class="titulo-seccion">
+        EN INSTAGRAM
+        <a href="https://www.instagram.com/SimonBolivarfts" target="_blank"
+           rel="noopener">Seguinos ↗</a>
+      </div>
+      <div class="ig-riel" id="ig-riel"></div>
+    </section>
+
     <div class="titulo-seccion">
       NOVEDADES
       <a href="agenda/">Ver todas</a>
@@ -277,15 +304,6 @@ setTimeout(function(){
       </div>
     </div>
 
-    <!-- El link al perfil. Antes vivía en el título de la grilla de
-         Instagram, que ya no existe: las placas entran al río de
-         novedades de arriba. Va acá y no arriba porque «seguinos» es lo
-         que se ofrece DESPUÉS de leer, no en lugar de leer. Es el único
-         enlace al perfil que queda en el inicio. -->
-    <p class="seguinos">
-      <a href="https://www.instagram.com/SimonBolivarfts" target="_blank"
-         rel="noopener">Seguinos en Instagram ↗</a>
-    </p>
 
     <!-- LO QUE SE VIENE, Y LA FACULTAD.
 
@@ -778,8 +796,10 @@ setTimeout(function(){
         .eq('publicado', true).order('orden'),
       db.from('publicaciones').select('*').eq('publicado', true)
         .order('creado_at', { ascending:false }),
+      /* Todos los que haya cargados, hasta un techo sensato: la fila
+         los muestra a todos y se carga solo la portada de cada uno. */
       db.from('posteos_ig').select('id,permalink,epigrafe,imagen,imagenes,publicado_at')
-        .order('publicado_at', { ascending:false }).limit(4)
+        .order('publicado_at', { ascending:false }).limit(30)
     ]));
     for (const r of [rCat, rTra, rFaq, rPub]) if (r.error) throw r.error;
     categorias = rCat.data; tramites = rTra.data;
@@ -1671,52 +1691,19 @@ setTimeout(function(){
       : frase;
   }
 
-  (function pintarRio(){
+  /* ---------- Novedades ----------
+     Volvieron a ser solo las escritas. Entre el 19/9 a la tarde y el
+     19/9 a la noche las placas de Instagram vivieron acá adentro,
+     mezcladas por fecha; se deshizo cuando Máximo pidió la fila
+     deslizable con TODOS los posteos: con una fila propia, el posteo
+     más nuevo aparecía dos veces, en la fila y en el río. */
+  (function pintarNovedades(){
     /* Sin red tampoco: «todavía no hay novedades publicadas» sería
        falso, y encima justo cuando puede haber una que importa. */
     if (!huboRed) return;
     const caja = document.getElementById('novedades');
-
-    const escritas = publicaciones.filter(p => p.tipo === 'novedad').slice(0, 3)
-      .map(p => ({ cuando: p.creado_at, html: `
-        <a class="tarjeta ${esc(p.linea)}" href="agenda/?id=${p.id}">
-          <span class="etiqueta ${esc(p.linea)}">${esc(NOMBRE_LINEA[p.linea] || p.linea)}</span>
-          <h3>${esc(p.titulo)}</h3>
-          ${p.cuerpo ? `<p>${esc(p.cuerpo.slice(0,140))}${p.cuerpo.length > 140 ? '…' : ''}</p>` : ''}
-        </a>` }));
-
-    const deIg = placas.slice(0, 2).map(p => {
-      /* Del epígrafe se usa la primera oración, que es la que el panel
-         pide escribir pensando en quien no ve la placa. Si aun así
-         sobra, el CSS corta a tres renglones. */
-      const frase = primeraFrase(p.epigrafe);
-      const f = partesFecha(p.publicado_at);
-      /* En el inicio se ve SOLO la portada. El contador es lo único
-         que dice que atrás hay más, y por eso el carrusel entero se
-         guarda aunque no se muestre: el número sale de contarlo, no de
-         un dato escrito a mano que puede quedar viejo. */
-      const cuantas = (p.imagenes || []).length;
-      return { cuando: p.publicado_at, html: `
-        <a class="tarjeta tarjeta-ig" href="${esc(urlSegura(p.permalink))}"
-           target="_blank" rel="noopener">
-          <div class="ig-fila">
-            <img class="ig-placa" src="${esc(DEPOSITO_FOTOS + p.imagen)}"
-                 alt="" loading="lazy" decoding="async" width="130" height="162">
-            <div class="ig-dicho">
-              <span class="etiqueta">Instagram</span>
-              <h3>${esc(frase || 'Publicación de la agrupación')}</h3>
-              <div class="meta"><span>${f ? esc(f.dia + ' ' + f.mesCorto) : ''}${
-                cuantas > 1 ? ` · ${cuantas} placas` : ''} ↗</span></div>
-            </div>
-          </div>
-        </a>` };
-    });
-
-    const rio = escritas.concat(deIg)
-      .sort((a, b) => String(b.cuando || '').localeCompare(String(a.cuando || '')))
-      .slice(0, 4);
-
-    if (!rio.length){
+    const novedades = publicaciones.filter(p => p.tipo === 'novedad').slice(0, 3);
+    if (!novedades.length){
       caja.innerHTML = `<div class="vacio" role="status">
           <span class="vacio-icono" aria-hidden="true">✨</span>
           <strong class="vacio-titulo">Pronto habrá novedades</strong>
@@ -1724,7 +1711,176 @@ setTimeout(function(){
         </div>`;
       return;
     }
-    caja.innerHTML = rio.map(x => x.html).join('');
+    caja.innerHTML = novedades.map(p => `
+        <a class="tarjeta ${esc(p.linea)}" href="agenda/?id=${p.id}">
+          <span class="etiqueta ${esc(p.linea)}">${esc(NOMBRE_LINEA[p.linea] || p.linea)}</span>
+          <h3>${esc(p.titulo)}</h3>
+          ${p.cuerpo ? `<p>${esc(p.cuerpo.slice(0,140))}${p.cuerpo.length > 140 ? '…' : ''}</p>` : ''}
+        </a>`).join('');
+  })();
+
+
+  /* ---------- EN INSTAGRAM: la fila y el visor ----------
+
+     La fila se desliza y DA LA VUELTA: pasado el último vuelve el
+     primero. No se mueve sola nunca —lo que se mueve solo no se puede
+     leer, y una placa es para leer—: la vuelta existe para que no haya
+     un final seco, no para llevar a nadie de paseo.
+
+     Cómo se da la vuelta: la fila se dibuja TRES VECES y se arranca
+     parado en la copia del medio. Cuando el dedo se acerca al borde
+     de una copia, se salta un ancho entero de golpe, sin animación, y
+     como las tres copias son idénticas no se ve nada. Es la forma que
+     deja el deslizamiento del sistema operativo intacto: con el dedo,
+     con rueda, con teclado y con la barra, sin reimplementar ninguno.
+
+     Con menos de tres posteos no se dan vueltas: sería marear con dos
+     tarjetas iguales. */
+  function rielQueDaLaVuelta(riel){
+    let pedido = false;
+    riel.addEventListener('scroll', function(){
+      if (pedido) return;
+      pedido = true;
+      requestAnimationFrame(function(){
+        pedido = false;
+        const bloque = riel.scrollWidth / 3;
+        if (!bloque) return;
+        if      (riel.scrollLeft < bloque * 0.5) riel.scrollLeft += bloque;
+        else if (riel.scrollLeft > bloque * 1.5) riel.scrollLeft -= bloque;
+      });
+    }, { passive:true });
+  }
+
+  (function pintarInstagram(){
+    const seccion = document.getElementById('instagram');
+    if (!seccion || !placas.length) return;
+
+    const riel   = document.getElementById('ig-riel');
+    const fondo  = document.getElementById('ig-fondo');
+    const cuerpo = document.getElementById('ig-cuerpo');
+
+    const placasDe = p => (p.imagenes && p.imagenes.length) ? p.imagenes : [p.imagen];
+
+    function tarjeta(p, i){
+      const f = partesFecha(p.publicado_at);
+      const cuantas = placasDe(p).length;
+      /* El botón no lleva texto visible aparte de la fecha: la portada
+         ya dice de qué se trata. Para quien no la ve, la primera
+         oración del epígrafe va en `.solo-lectores`, que es lo que la
+         convierte en un botón con nombre y no en «botón». */
+      return `
+        <button class="ig-tarjeta" type="button" data-i="${i}">
+          <img class="ig-portada" src="${esc(DEPOSITO_FOTOS + p.imagen)}" alt=""
+               loading="lazy" decoding="async" width="150" height="187">
+          <span class="ig-pie">${f ? esc(f.dia + ' ' + f.mesCorto) : ''}${
+            cuantas > 1 ? ' · ' + cuantas + ' placas' : ''}</span>
+          <span class="solo-lectores">${esc(primeraFrase(p.epigrafe) ||
+            'Publicación de la agrupación')}</span>
+        </button>`;
+    }
+
+    const daLaVuelta = placas.length >= 3;
+    riel.innerHTML = Array.from({ length: daLaVuelta ? 3 : 1 },
+      () => placas.map(tarjeta).join('')).join('');
+    seccion.hidden = false;
+
+    if (daLaVuelta){
+      /* Hay que arrancar parado en la copia del MEDIO, y para eso la
+         fila tiene que estar medida. Un solo `requestAnimationFrame`
+         no alcanza: medido acá, en el primer cuadro la fila daba un
+         ancho que no era el suyo y el salto quedaba en la nada, con lo
+         cual la vuelta hacia atrás no existía. Se reintenta hasta que
+         el ancho sea real y la posición quede puesta; si en medio
+         segundo no se logra, se deja la fila quieta y derecha, que es
+         un final seco pero no una fila rota. */
+      let intentos = 0;
+      (function ponerEnElMedio(){
+        const bloque = riel.scrollWidth / 3;
+        /* La única condición es que la fila ya tenga un ancho real. NO
+           se comprueba que la posición quede exacta: el `scroll-snap`
+           la corre unos píxeles hasta el borde de la tarjeta más
+           cercana, y exigir exactitud dejaba la vuelta sin enganchar
+           —pasó, y la fila terminaba en seco—. Unos píxeles no
+           importan: el salto se mide contra medio bloque. */
+        if (bloque > 10){
+          riel.scrollLeft = bloque;
+          rielQueDaLaVuelta(riel);
+          return;
+        }
+        if (++intentos < 30) requestAnimationFrame(ponerEnElMedio);
+      })();
+    }
+
+    /* ---- El visor ---- */
+    let volverEl = null;
+
+    function abrirPosteo(i){
+      const p = placas[i];
+      if (!p) return;
+      const lista = placasDe(p);
+      const f = partesFecha(p.publicado_at);
+
+      cuerpo.innerHTML = `
+        <h2 id="ig-titulo">${esc(primeraFrase(p.epigrafe) ||
+          'Publicación de la agrupación')}</h2>
+        <div class="ig-visor" id="ig-visor" tabindex="0" role="group"
+             aria-label="Las placas del posteo. Se deslizan de costado.">
+          ${lista.map(n => `<img src="${esc(DEPOSITO_FOTOS + n)}" alt=""
+               loading="lazy" decoding="async">`).join('')}
+        </div>
+        ${lista.length > 1 ? `<p class="ig-paso" id="ig-paso" aria-live="polite">
+          Placa 1 de ${lista.length}</p>` : ''}
+        <p class="ig-epigrafe">${escMulti(p.epigrafe || '')}</p>
+        ${f ? `<p class="ig-cuando">${esc(f.dia + ' de ' + f.mesLargo)}</p>` : ''}
+        <a class="boton ancho borde" href="${esc(urlSegura(p.permalink))}"
+           target="_blank" rel="noopener">Ver en Instagram ↗</a>`;
+
+      /* El contador se actualiza al deslizar. Va con `aria-live` porque
+         para quien no ve las placas es lo ÚNICO que dice que se movió
+         algo: hay un epígrafe por posteo y no uno por placa. */
+      const visor = document.getElementById('ig-visor');
+      const paso  = document.getElementById('ig-paso');
+      if (visor && paso){
+        let pedido = false;
+        visor.addEventListener('scroll', function(){
+          if (pedido) return;
+          pedido = true;
+          requestAnimationFrame(function(){
+            pedido = false;
+            const cual = Math.min(lista.length,
+              Math.round(visor.scrollLeft / Math.max(1, visor.clientWidth)) + 1);
+            const dice = 'Placa ' + cual + ' de ' + lista.length;
+            if (paso.textContent.trim() !== dice) paso.textContent = dice;
+          });
+        }, { passive:true });
+      }
+
+      fondo.hidden = false;
+      document.body.style.overflow = 'hidden';
+      document.getElementById('ig-cerrar').focus();
+    }
+
+    function cerrarPosteo(){
+      fondo.hidden = true;
+      document.body.style.overflow = '';
+      /* El foco vuelve a la tarjeta desde la que se abrió: si no,
+         quien navega con teclado aterriza al principio de la página. */
+      if (volverEl && document.contains(volverEl)) volverEl.focus();
+      volverEl = null;
+    }
+
+    riel.addEventListener('click', function(e){
+      const b = e.target.closest('.ig-tarjeta');
+      if (!b) return;
+      volverEl = b;
+      abrirPosteo(Number(b.dataset.i));
+    });
+
+    document.getElementById('ig-cerrar').addEventListener('click', cerrarPosteo);
+    fondo.addEventListener('click', function(e){ if (e.target === fondo) cerrarPosteo(); });
+    document.addEventListener('keydown', function(e){
+      if (e.key === 'Escape' && !fondo.hidden) cerrarPosteo();
+    });
   })();
 
 
@@ -1744,7 +1900,7 @@ setTimeout(function(){
      con un armazón de ayer, movimiento.js puede no estar. */
   if (typeof entrarAlLlegar === 'function'){
     entrarAlLlegar(zonaFondo,
-      '.titulo-seccion, #kit > *, #novedades > .tarjeta, .calendario, .carrusel, .seguinos',
+      '.titulo-seccion, #kit > *, #novedades > .tarjeta, .calendario, .carrusel',
       { soloAbajo: true });
   }
   const tituloRes  = document.getElementById('titulo-resultados');

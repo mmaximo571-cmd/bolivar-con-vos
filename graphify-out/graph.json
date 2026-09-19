@@ -1790,7 +1790,7 @@
       "file_type": "code",
       "norm_label": "esdesupabase()",
       "source_file": "sw.js",
-      "source_location": "L365"
+      "source_location": "L371"
     },
     {
       "id": "estudiemos_fichas_ficha_parser_get",
@@ -6280,7 +6280,7 @@
       "file_type": "code",
       "norm_label": "del_armazon",
       "source_file": "sw.js",
-      "source_location": "L301"
+      "source_location": "L307"
     },
     {
       "id": "tabla_organizador",
@@ -12291,7 +12291,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "sw.js",
-      "source_location": "L365",
+      "source_location": "L371",
       "weight": 1.0
     },
     {
@@ -15747,7 +15747,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "sw.js",
-      "source_location": "L301",
+      "source_location": "L307",
       "weight": 1.0
     },
     {
@@ -18747,7 +18747,7 @@
       "confidence_score": 0.85,
       "context": "argument",
       "source_file": "sw.js",
-      "source_location": "L388",
+      "source_location": "L394",
       "weight": 1.0
     },
     {
@@ -19318,5 +19318,5 @@
       "source_file": "panel/index.html"
     }
   ],
-  "built_at_commit": "7904b377b58fbcb2f8c5e3833c54e1921fafc8b5"
+  "built_at_commit": "ebc8980e081c21dbe2327fa85b7f6f5337256eea"
 }

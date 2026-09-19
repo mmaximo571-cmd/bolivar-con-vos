@@ -293,7 +293,13 @@
    por la red, pero la hoja de estilos se sirve de lo guardado: sin
    número nuevo, la primera visita después de subir dibujaría las
    tarjetas nuevas con las reglas viejas, o sea sin la placa. */
-const VERSION = 'bolivar-v66';
+/* v67 (19/9/2026) `estilos-rediseno.css`: las placas de Instagram
+   dejan el río de novedades y pasan a una fila propia que se desliza
+   y da la vuelta, con un visor que muestra el carrusel entero. La
+   hoja se sirve de lo guardado: sin número nuevo, la primera visita
+   después de subir dibujaría la fila sin sus reglas, o sea todas las
+   portadas apiladas una abajo de la otra. */
+const VERSION = 'bolivar-v67';
 const ARMAZON = VERSION + '-armazon';
 const PAGINAS = VERSION + '-paginas';
 
