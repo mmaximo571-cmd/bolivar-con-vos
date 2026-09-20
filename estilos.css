@@ -3223,6 +3223,233 @@ body:has(.avisanos.apartado) .fab-compartir{transform:translateX(68px)}
 }
 .linea-logros p{margin:0;font-size:var(--letra-base);line-height:1.5;max-width:46ch}
 
+/* ---- LO QUE SE CONSIGUIÓ: la línea con los posteos ----
+   La lista de arriba (`.linea-logros`) sigue viva: es la que se carga
+   desde el panel. Esta es la otra mitad de la banda, los siete
+   proyectos que tienen posteo en Instagram.
+
+   EL POSTEO NO ES EL PROTAGONISTA. Cada conquista es un renglón —año,
+   título— y la placa queda plegada detrás de «Ver el posteo», anclada
+   justo debajo del título que la menciona. Siete embeds abiertos son
+   ~5300 px de alto y siete iframes a instagram.com; plegados son ~1000
+   px y ninguno. El `<details>` no es decoración: es lo que hace que la
+   página no pague las placas que nadie pidió.
+
+   Los nombres van con `cq-` porque `.logro-anio` y `.logro-titulo` ya
+   son de la lista del panel, acá arriba.
+
+   El color entra por variables y no por reglas sueltas: esta pieza
+   vive sobre la banda amarilla, donde el amarillo de marca no sirve
+   para destacar nada. Con los tokens locales, darla vuelta para el sol
+   son seis renglones al final en vez de veinte reglas repetidas. */
+.conquistas{
+  --cq-texto:      var(--texto);
+  --cq-suave:      var(--texto-suave);
+  --cq-linea:      var(--linea);
+  --cq-superficie: var(--superficie-2);
+  --cq-fondo:      var(--fondo);
+  --cq-nodo-fondo: var(--amarillo);
+  --cq-nodo-texto: var(--sobre-color);
+  --cq-acento:     var(--celeste-hondo);
+  --cq-foco:       var(--celeste);
+  --cq-riel: 64px;
+  --cq-nodo: 46px;
+  /* Hasta dónde se deja crecer la placa abierta. 400 es el ancho al que
+     un embed de Instagram se lee cómodo sin adueñarse del renglón. */
+  --cq-ancho-post: 400px;
+  /* La envoltura de las pantallas de lectura mide 1000 px, pero ahí
+     adentro el texto vive en una columna de ~400: la bajada de esta
+     misma banda mide eso. Un renglón de 920 px dejaba el título contra
+     el borde izquierdo y «Ver el posteo» contra el derecho, a media
+     pantalla de distancia, y el rótulo perdía al título que menciona.
+     640 menos los 64 del riel deja renglones de 576, que es lo más
+     ancho que los dos siguen leyéndose como una sola cosa. */
+  max-width:640px;
+  margin:var(--banda-aire) 0 0;color:var(--cq-texto)
+}
+
+.cq-linea{list-style:none;margin:0;padding:0;position:relative}
+.cq-tramo{position:relative}
+.cq-tramo + .cq-tramo{margin-top:30px}
+
+/* El año. En celular es un rótulo de ancho completo con una hairline al
+   costado; de 720 para arriba se convierte en el nodo del riel. */
+.cq-anio{
+  display:flex;align-items:center;gap:12px;margin:0 0 4px;
+  font-family:var(--fuente-titulo);font-size:18px;line-height:1
+}
+.cq-anio::after{content:'';flex:1;height:1px;background:var(--cq-linea)}
+.cq-anio span{
+  display:inline-flex;align-items:center;justify-content:center;
+  min-width:62px;padding:8px 12px 7px;border-radius:99px;
+  background:var(--cq-nodo-fondo);color:var(--cq-nodo-texto);
+  font-weight:400;font-size:14px;letter-spacing:.02em
+}
+
+.cq-grupo{margin:0;padding:0;list-style:none}
+.cq-item + .cq-item{border-top:1px solid var(--cq-linea)}
+
+/* El renglón. `<details>`/`<summary>` y no un botón con JS: el plegado
+   es de fábrica, anda con el script apagado, el teclado ya lo maneja y
+   el lector de pantalla avisa solo si está abierto o cerrado. */
+.cq-cab{
+  display:flex;align-items:baseline;justify-content:space-between;gap:14px;
+  padding:14px 12px;margin:0 -12px;   /* el realce del hover se estira
+                                         hasta el borde sin mover el texto */
+  border-radius:var(--radio-chico);cursor:pointer;list-style:none;
+  min-height:48px;box-sizing:border-box;
+  transition:background var(--t-chico) ease
+}
+.cq-cab::-webkit-details-marker{display:none}
+.cq-cab::marker{content:''}
+@media (hover:hover) and (pointer:fine){
+  .cq-cab:hover{background:var(--cq-superficie)}
+}
+/* El `<summary>` no es ni `a` ni `button` ni `[tabindex]`, así que el
+   foco de la hoja no lo alcanza: se le pone acá. */
+.cq-cab:focus-visible{outline:3px solid var(--cq-foco);outline-offset:2px}
+
+.cq-item-titulo{
+  font-family:var(--fuente-titulo);font-size:clamp(16px,2.3vw,18.5px);
+  line-height:1.25;font-weight:400;margin:0;overflow-wrap:anywhere
+}
+
+/* El único indicio de que atrás hay una placa. Chico y a la derecha: se
+   lee como una nota al pie del título, no como un botón que le compite. */
+.cq-abre{
+  flex:none;display:inline-flex;align-items:center;gap:6px;
+  font-family:var(--fuente-sub);font-size:var(--letra-chica);font-weight:700;
+  color:var(--cq-acento);white-space:nowrap
+}
+.cq-abre svg{width:14px;height:14px;flex:none}
+.cq-abre .cq-flecha{transition:transform var(--t-chico) ease}
+.cq-post[open] .cq-abre .cq-flecha{transform:rotate(180deg)}
+
+/* En pantalla angosta el rótulo se va abajo del título en vez de
+   partirlo en dos renglones. */
+@media (max-width:460px){
+  .cq-cab{flex-direction:column;align-items:flex-start;gap:7px}
+}
+
+.cq-panel{padding:2px 0 18px;max-width:var(--cq-ancho-post)}
+
+/* El marco de la placa es claro SIEMPRE. El embed de Instagram trae
+   fondo blanco propio: de noche, sin este marco, es un ladrillo blanco
+   flotando: con él, una tarjeta. */
+.cq-ig{
+  position:relative;border-radius:var(--radio-chico);overflow:hidden;
+  background:#FFFFFF;border:1px solid #E8E4DA;
+  min-height:300px;                   /* reserva de lugar mientras el
+                                         script arma el iframe */
+  display:flex;flex-direction:column;justify-content:center
+}
+/* Instagram mete inline `min-width:326px` y márgenes propios, y en una
+   columna angosta eso desborda. Se le gana por !important porque son
+   estilos inline: no hay otra forma. */
+.cq-ig .instagram-media{
+  min-width:0 !important;width:100% !important;max-width:100% !important;
+  margin:0 !important;border:0 !important;border-radius:0 !important;
+  box-shadow:none !important;background:#FFFFFF !important
+}
+.cq-ig iframe{display:block;width:100% !important}
+
+/* Lo que se ve mientras la placa no cargó, y lo que queda si no carga
+   nunca: sin red, posteo despublicado, rastreo de terceros bloqueado.
+   Es un enlace de verdad, no un cartel. Y es lo que ve quien tiene
+   JavaScript apagado, porque el `<details>` abre igual. */
+.cq-respaldo{
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  gap:8px;padding:28px 20px;text-align:center;text-decoration:none;
+  color:#6B6A60;font-size:var(--letra-base);line-height:1.45
+}
+.cq-respaldo strong{color:#16150F;font-size:15px}
+.cq-respaldo span{font-size:var(--letra-chica)}
+
+.cq-ver{
+  display:inline-flex;align-items:center;gap:7px;margin-top:10px;
+  min-height:34px;padding:7px 13px;border-radius:99px;
+  border:1px solid var(--cq-linea);background:var(--cq-superficie);
+  font-family:var(--fuente-sub);font-size:var(--letra-chica);font-weight:700;
+  text-decoration:none;color:var(--cq-texto);
+  transition:background var(--t-chico) ease, border-color var(--t-chico) ease
+}
+@media (hover:hover) and (pointer:fine){
+  .cq-ver:hover{background:var(--negro);border-color:var(--negro);color:var(--sobre-negro)}
+}
+.cq-ver svg{width:15px;height:15px;flex:none}
+
+/* El cierre del cogobierno. Papel blanco sobre el amarillo: la banda
+   que sigue ya es negra, y un bloque negro acá pegaría con ella y
+   parecería que la banda empieza antes. */
+.cq-cierre{
+  position:relative;overflow:hidden;margin:38px 0 0;padding:24px 22px;
+  max-width:640px;                 /* el mismo ancho que la línea: el
+                                      bloque va suelto en la banda, así
+                                      que el tope de `.conquistas` no
+                                      lo alcanza */
+  border-radius:var(--radio);background:#FFFFFF;
+  border:1px solid rgba(26,26,26,.12);border-left:5px solid #1A1A1A;
+  color:#16150F
+}
+.cq-cierre::before{
+  content:'';position:absolute;inset:0;opacity:.07;pointer-events:none;
+  background-image:radial-gradient(currentColor 1px, transparent 1.1px);
+  background-size:14px 14px
+}
+.cq-cierre-rotulo{
+  position:relative;margin:0 0 8px;font-family:var(--fuente-sub);
+  font-size:11.5px;font-weight:700;letter-spacing:.16em;
+  text-transform:uppercase;color:#6B6A60
+}
+.cq-cierre p{
+  position:relative;margin:0;max-width:72ch;
+  font-size:clamp(15px,2.4vw,17px);line-height:1.6
+}
+
+/* De 720 para arriba aparece el riel y el año se sube a él. */
+@media (min-width:720px){
+  .cq-linea{padding-left:var(--cq-riel)}
+  /* Se desvanece arriba y abajo para no arrancar ni terminar en un
+     corte seco. */
+  .cq-linea::before{
+    content:'';position:absolute;left:calc(var(--cq-nodo) / 2 - 1px);
+    top:6px;bottom:6px;width:2px;
+    background:linear-gradient(to bottom,
+      transparent 0, var(--cq-linea) 22px,
+      var(--cq-linea) calc(100% - 22px), transparent 100%)
+  }
+  .cq-tramo + .cq-tramo{margin-top:34px}
+  /* El `top:8px` lo alinea con la primera línea del título del renglón
+     y no con el borde de arriba: si no, el año queda flotando alto. */
+  .cq-anio{
+    position:absolute;left:calc(var(--cq-riel) * -1);top:8px;
+    width:var(--cq-nodo);height:var(--cq-nodo);margin:0;justify-content:center
+  }
+  .cq-anio::after{display:none}
+  .cq-anio span{
+    width:var(--cq-nodo);height:var(--cq-nodo);min-width:0;padding:0;
+    font-size:13.5px;box-shadow:0 0 0 5px var(--cq-fondo)
+  }
+  .cq-cierre{margin-top:48px;padding:28px}
+}
+
+/* LA BANDA AMARILLA. Sobre el sol, el amarillo de marca no destaca
+   nada: el nodo se da vuelta —negro con el año en amarillo, igual que
+   los puntos de `.linea-logros` acá arriba— y las líneas y el realce
+   pasan a ser tinta translúcida, que es lo único que se lee sobre un
+   color pleno. El amarillo de la banda no cambia con el tema, así que
+   estos valores fijos sirven de día y de noche. */
+.banda.sol .conquistas{
+  --cq-texto:      var(--sobre-color);
+  --cq-suave:      rgba(26,26,26,.72);
+  --cq-linea:      rgba(26,26,26,.20);
+  --cq-superficie: rgba(26,26,26,.07);
+  --cq-fondo:      var(--amarillo);
+  --cq-nodo-fondo: var(--negro);
+  --cq-nodo-texto: var(--amarillo);
+  --cq-foco:       var(--negro)
+}
+
 /* ---- La puerta al Consejo ---- */
 .puerta{
   display:flex;align-items:center;gap:16px;text-decoration:none;

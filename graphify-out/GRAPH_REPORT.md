@@ -1,7 +1,7 @@
 # Graph Report - bolivar-con-vos  (2026-09-20)
 
 ## Corpus Check
-- 61 files · ~222,157 words
+- 61 files · ~223,237 words
 - Verdict: corpus is large enough that graph structure adds value.
 - Unclassified: 14 file(s) not represented in the graph (top: (none) 5, .css 4, .geojson 4)
 
@@ -11,7 +11,7 @@
 - Token cost: 0 input · 0 output
 
 ## Graph Freshness
-- Built from commit: `1265ac7f`
+- Built from commit: `2f9246e5`
 - Run `git rev-parse HEAD` and compare to check if the graph is stale.
 - Run `graphify update .` after code changes (no API cost).
 

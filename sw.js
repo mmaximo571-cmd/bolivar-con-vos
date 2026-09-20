@@ -317,7 +317,16 @@
    En el mismo número viajan `carrera/plan.js` y `carrera/plan-fono.js`:
    la ventanilla pasa a llamarse «Alumnos», que es como la nombra la
    facultad, y esas dos notas también salen de lo guardado. */
-const VERSION = 'bolivar-v69';
+/* v70 (20/9/2026) «Lo que se consiguió» en el Consejo: las siete
+   conquistas con su posteo de Instagram, plegado detrás de «Ver el
+   posteo». Las reglas nuevas (`.conquistas`, `.cq-*`) viajan en
+   `estilos.css`, que se sirve de lo guardado: sin número nuevo, la
+   primera visita después de subir dibujaría la línea sin ninguna de
+   ellas —los años sin pastilla, el riel sin riel y los renglones uno
+   abajo del otro sin nada que los separe—. `consejo/index.html`
+   también cambia, pero ese llega por la red; lo que lo tenía trabado
+   era la hoja. */
+const VERSION = 'bolivar-v70';
 const ARMAZON = VERSION + '-armazon';
 const PAGINAS = VERSION + '-paginas';
 

@@ -83,6 +83,57 @@ const RESPALDO = {
   bloques: [], logros: [], imagenes: []
 };
 
+/* ============================================================
+   LAS CONQUISTAS CON POSTEO
+
+   Estas siete viven acá y no en el panel porque llevan una cosa que
+   la solapa «Los logros» no tiene: el enlace a la placa de Instagram.
+   Esa solapa —año, título, detalle— sigue funcionando igual y lo que
+   se cargue ahí se dibuja abajo de esta línea.
+
+   `placa` es la posición dentro del carrusel, y va SOLO en el enlace
+   que se abre en Instagram. En el embed no sirve: siempre arranca en
+   la primera, no hay forma de que abra en la cuarta.
+
+   Los enlaces de `post` van sin `?img_index=` por lo mismo, y además
+   porque el parámetro de más le hace perder la caché al script de
+   Instagram.
+   ============================================================ */
+const CONQUISTAS = [
+  { anio: '2023', titulo: 'Aprobación del nuevo Régimen Académico',
+    post: 'https://www.instagram.com/p/C00KxcEMAcN/', placa: 4 },
+  { anio: '2024', titulo: 'Avales académicos para el ciclo de charlas Saberes Colectivos',
+    post: 'https://www.instagram.com/p/DOzhW6lDaz0/', placa: 3 },
+  { anio: '2025', titulo: 'Calendarización del tramo optativo',
+    post: 'https://www.instagram.com/p/DRk-mCejSMh/', placa: 1 },
+  { anio: '2025', titulo: 'Proyecto Construir Comunidad',
+    post: 'https://www.instagram.com/p/DImmuOCB0vK/' },
+  { anio: '2026', titulo: 'Proyecto Fono a Color',
+    post: 'https://www.instagram.com/p/DXiH0n9jQ0V/', placa: 1 },
+  { anio: '2026', titulo: 'Proyecto Diagonal Segura',
+    post: 'https://www.instagram.com/p/Dctu41XmkNK/', placa: 1 },
+  { anio: '2026', titulo: 'Proyecto + derechos es + permanencia',
+    post: 'https://www.instagram.com/p/Dc1-j6kmo1s/', placa: 1 }
+];
+
+const INTRO_CONQUISTAS =
+  'Gracias a nuestra presencia cotidiana en la facultad y al compromiso de ' +
+  'acompañarte frente a cada problemática docente o desafío académico, ' +
+  'logramos transformar las necesidades de los estudiantes en conquistas ' +
+  'reales. Estos son los proyectos que impulsamos y logramos aprobar desde ' +
+  'el Consejo Directivo:';
+
+const CIERRE_COGOBIERNO =
+  'Además, en cada Consejo Directivo y en cada espacio de cogobierno ' +
+  'exigimos la plena implementación del régimen académico, llevando todas ' +
+  'las situaciones que surgen dentro del aula y pensando propuestas para ' +
+  'solucionarlas.';
+
+/* Si el script de Instagram ya se pidió. Vive afuera de `pintar()`
+   porque esta pantalla se dibuja dos veces —una con lo guardado y otra
+   con lo que trae la red— y el script se pide una sola. */
+let pedidoIG = false;
+
 (async function consejo(){
   document.getElementById('cabecera').innerHTML = htmlCabecera();
   document.getElementById('pie').innerHTML = htmlPie();
@@ -177,12 +228,19 @@ function pintar(p){
     </div>` : '';
 
   /* LOS LOGROS. Van en línea de tiempo porque el orden dice algo: se ve
-     la acumulación del trabajo. Si todavía no hay ninguno cargado, no
-     se muestra una lista vacía: se dice qué va a haber ahí. */
+     la acumulación del trabajo.
+
+     Ahora la banda tiene dos listas. Primero las siete conquistas con
+     posteo, que están escritas en este archivo y no se vacían nunca;
+     después, si el equipo cargó algo en el panel, la lista de siempre.
+     Por eso se fue el cartel de «todavía no las cargamos»: ya no hay
+     forma de que esta banda quede vacía. */
   const conseguido = `
     <div class="banda sol">
       <div class="envoltura">
         <h2 class="grito aparece">Lo que se<br><em>consiguió</em></h2>
+        <p class="bajada-lectura aparece">${esc(INTRO_CONQUISTAS)}</p>
+        ${htmlConquistas()}
         ${logros.length ? `
           <ol class="linea-logros">
             ${logros.map(l => `
@@ -191,10 +249,11 @@ function pintar(p){
                 <h3 class="logro-titulo">${esc(l.titulo || '')}</h3>
                 ${l.detalle ? `<p>${esc(l.detalle)}</p>` : ''}
               </li>`).join('')}
-          </ol>`
-        : `<p class="bajada-lectura aparece">
-             Acá van las cosas que se consiguieron desde el Consejo, con el año
-             de cada una. Todavía no las cargamos.</p>`}
+          </ol>` : ''}
+        <aside class="cq-cierre aparece">
+          <p class="cq-cierre-rotulo">En el cogobierno</p>
+          <p>${esc(CIERRE_COGOBIERNO)}</p>
+        </aside>
       </div>
     </div>`;
 
@@ -219,6 +278,125 @@ function pintar(p){
 
   document.getElementById('lectura').innerHTML = hero + cuerpo + conseguido + cierre;
   vigilarAparicion();
+  armarPosteos();
+}
+
+/* ============================================================
+   LA LÍNEA DE LAS CONQUISTAS
+
+   Agrupadas por año, con el año como nodo de la línea: así 2026 se lee
+   como un racimo de tres y no como tres renglones sueltos repitiendo
+   el mismo número.
+
+   El posteo NO está acá: cada renglón trae el marco vacío con el
+   enlace de respaldo adentro, y el `<blockquote>` de Instagram lo arma
+   `armarPosteos()` cuando alguien abre ese renglón. Si estuviera
+   escrito de entrada, `instgrm.Embeds.process()` lo convertiría en
+   iframe aunque el renglón estuviera cerrado —un `<details>` cerrado
+   igual tiene todo en el DOM— y la pantalla cargaría las siete placas
+   que nadie pidió.
+   ============================================================ */
+function htmlConquistas(){
+  /* Agrupar por año sin perder el orden: la lista ya viene cronológica
+     desde arriba, así que alcanza con mirar el grupo anterior. */
+  const porAnio = [];
+  CONQUISTAS.forEach(c => {
+    const ultimo = porAnio[porAnio.length - 1];
+    if (ultimo && ultimo.anio === c.anio) ultimo.items.push(c);
+    else porAnio.push({ anio: c.anio, items: [c] });
+  });
+
+  return `
+    <div class="conquistas">
+      <svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
+        <symbol id="cq-ico-ig" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <rect x="3" y="3" width="18" height="18" rx="5"/>
+          <circle cx="12" cy="12" r="4"/>
+          <circle cx="17.2" cy="6.8" r="1.2" fill="currentColor" stroke="none"/>
+        </symbol>
+        <symbol id="cq-ico-flecha" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M6 9l6 6 6-6"/>
+        </symbol>
+      </svg>
+      <ol class="cq-linea">
+        ${porAnio.map(g => `
+          <li class="cq-tramo aparece">
+            <h3 class="cq-anio"><span>${esc(g.anio)}</span></h3>
+            <ul class="cq-grupo">
+              ${g.items.map(c => {
+                const enlace = c.post + (c.placa ? '?img_index=' + c.placa : '');
+                return `
+                <li class="cq-item">
+                  <details class="cq-post">
+                    <summary class="cq-cab">
+                      <h4 class="cq-item-titulo">${esc(c.titulo)}</h4>
+                      <span class="cq-abre">
+                        <svg aria-hidden="true" focusable="false"><use href="#cq-ico-ig"></use></svg>
+                        Ver el posteo
+                        <svg class="cq-flecha" aria-hidden="true" focusable="false"><use href="#cq-ico-flecha"></use></svg>
+                      </span>
+                    </summary>
+                    <div class="cq-panel">
+                      <div class="cq-ig" data-ig="${esc(c.post)}">
+                        <a class="cq-respaldo" href="${esc(enlace)}" target="_blank" rel="noopener">
+                          <strong>${esc(c.titulo)}</strong>
+                          <span>Ver el posteo en Instagram ↗</span>
+                        </a>
+                      </div>
+                      <a class="cq-ver" href="${esc(enlace)}" target="_blank" rel="noopener">
+                        <svg aria-hidden="true" focusable="false"><use href="#cq-ico-ig"></use></svg>
+                        Abrir en Instagram ↗
+                      </a>
+                    </div>
+                  </details>
+                </li>`;
+              }).join('')}
+            </ul>
+          </li>`).join('')}
+      </ol>
+    </div>`;
+}
+
+/* Los oyentes se ponen después de cada `pintar()` y no una sola vez al
+   final: el `innerHTML` de arriba se lleva puestos los de la pasada
+   anterior, y esta pantalla se dibuja dos veces. */
+function armarPosteos(){
+  document.querySelectorAll('.conquistas .cq-post').forEach(det => {
+    det.addEventListener('toggle', () => {
+      if (!det.open) return;
+      const caja = det.querySelector('.cq-ig');
+      if (!caja || caja.dataset.armado) return;
+      caja.dataset.armado = '1';
+
+      /* El enlace de respaldo se muda adentro del blockquote: es lo que
+         se ve hasta que Instagram termina de reemplazarlo, y lo que
+         queda si no contesta nunca. */
+      const respaldo = caja.querySelector('.cq-respaldo');
+      caja.innerHTML =
+        '<blockquote class="instagram-media" data-instgrm-version="14" ' +
+        'data-instgrm-permalink="' + caja.dataset.ig + '">' +
+        (respaldo ? respaldo.outerHTML : '') + '</blockquote>';
+
+      pedirInstagram();
+    });
+  });
+}
+
+function procesarIG(){
+  if (window.instgrm && window.instgrm.Embeds) window.instgrm.Embeds.process();
+}
+
+function pedirInstagram(){
+  if (window.instgrm && window.instgrm.Embeds){ procesarIG(); return; }
+  if (pedidoIG) return;            // ya viene en camino: lo procesa su onload
+  pedidoIG = true;
+  const s = document.createElement('script');
+  s.async = true;
+  s.src = 'https://www.instagram.com/embed.js';
+  s.onload = procesarIG;
+  document.body.appendChild(s);
 }
 })();
 </script>

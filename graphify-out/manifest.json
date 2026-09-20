@@ -96,9 +96,9 @@
     "semantic_hash": ""
   },
   "sw.js": {
-    "mtime": 1789923152.1951613,
-    "seen": 1789925717.4983566,
-    "ast_hash": "f6968a48e402921cd8f23660ac2cae39",
+    "mtime": 1789941416.7368035,
+    "seen": 1789941680.5077505,
+    "ast_hash": "067a81b96d74a3a56c8249f804418cad",
     "semantic_hash": ""
   },
   "tabla-alarma.sql": {
@@ -246,9 +246,9 @@
     "semantic_hash": ""
   },
   "consejo/index.html": {
-    "mtime": 1789748729.8486116,
-    "seen": 1789853385.4923785,
-    "ast_hash": "6e5ea73bd913d32bf5ee0bd771472354",
+    "mtime": 1789941405.7350135,
+    "seen": 1789941680.5078692,
+    "ast_hash": "f73299b6f6a3f75fb7b843a4d3d21fb1",
     "semantic_hash": ""
   },
   "contenido-catedras.md": {
@@ -294,8 +294,8 @@
     "semantic_hash": ""
   },
   "panel/index.html": {
-    "mtime": 1789927957.5465076,
-    "seen": 1789928090.0544748,
+    "mtime": 1789928456.8409457,
+    "seen": 1789941680.5079315,
     "ast_hash": "71f11c66381507502981540cb9a93c9a",
     "semantic_hash": ""
   },
