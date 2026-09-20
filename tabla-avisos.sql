@@ -137,6 +137,11 @@ alter table public.publicaciones
 create or replace function public.marcar_cuando_se_aviso()
 returns trigger
 language plpgsql
+-- Fijo, como las dos de abajo. Una funcion sin `search_path` propio usa el
+-- de quien la llama, y eso deja la puerta a que alguien que pueda crear
+-- objetos haga que `now()` sea otra cosa. Acá el riesgo es chico porque no
+-- es `security definer`, pero el revisor de Supabase lo marca y no cuesta.
+set search_path = public
 as $fn$
 begin
   /* Solo cuando pasa de «no» a «sí». Editar el título de una
