@@ -29,7 +29,7 @@ window.PLAN_TS = {
      decimos lo que sabemos y también lo que no. */
   notaAsterisco: 'En el plan de estudios estas materias figuran con un ' +
                  'asterisco (*). Todavía no tenemos confirmado qué condición ' +
-                 'indica: si te toca alguna, preguntá en Alumnado.',
+                 'indica: si te toca alguna, preguntá en Alumnos.',
 
   materias: [
 

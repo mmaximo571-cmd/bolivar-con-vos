@@ -62,7 +62,7 @@ window.PLAN_FONO = {
   notaLibres: 'Estas materias figuran en la «Propuesta de materias libres» ' +
               'de la carrera, presentada para anexar al plan de estudios. ' +
               'Todavía no está aprobada: antes de anotarte a rendir libre, ' +
-              'confirmalo en Alumnado.',
+              'confirmalo en Alumnos.',
 
   /* Estas materias tienen el mismo codigo y el mismo nombre que en el plan
      de Trabajo Social: son materias compartidas entre las dos carreras. */

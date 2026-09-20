@@ -51,7 +51,7 @@
 
      ESTE TEXTO NO SALE DE SUPABASE, igual que el glosario y por lo
      mismo: es reglamento, no cambia de un mes al otro, y se consulta
-     en el pasillo antes de entrar a Alumnado, que es donde no hay
+     en el pasillo antes de entrar a Alumnos, que es donde no hay
      señal. Cuando la resolución cambie, se edita este archivo.
 
      LA CALCULADORA ES LO ÚNICO QUE PIDE JAVASCRIPT, y aun así la lista
@@ -133,8 +133,10 @@
           Trabajo Social I aprobada con examen final.
         </p>
         <p>
-          Es el requisito que fija el reglamento del tramo. No hay otra
-          correlatividad enunciada ahí.
+          Es el requisito que fija el reglamento del tramo. Cada actividad
+          define y comunica sus requisitos de inscripción, en el caso de los
+          seminarios de grado pueden requerir otras cursadas aprobadas además
+          de Trabajo Social 1.
         </p>
       </article>
 
@@ -362,7 +364,7 @@
       <button type="button" class="trayecto-borrar solo-js" id="cuenta-borrar">Borrar la selección</button>
       <p class="trayecto-nota solo-js">
         La cuenta es para orientarte y queda guardada en este teléfono. La que
-        vale es la que hace Alumnado con tus certificados.
+        vale es la que hace Alumnos con tus certificados.
       </p>
 
       <!-- ---------- LAS REGLAS ---------- -->
@@ -429,20 +431,17 @@
         </p>
       </article>
 
-      <!-- ---------- LO QUE NO SABEMOS ---------- -->
-      <div class="titulo-seccion aparece" id="sin-confirmar">ESTO TODAVÍA NO LO TENEMOS CONFIRMADO</div>
+      <!-- ---------- LOS SEMINARIOS DE GRADO ----------
+           Acá vivía la lista de dudas sin confirmar. La sacamos: la
+           facultad publicó la inscripción, así que mandamos a la fuente
+           en lugar de decir que no sabemos. -->
+      <div class="titulo-seccion aparece" id="seminarios">SEMINARIOS DE GRADO</div>
 
       <p class="trayecto-nota aparece">
-        Preferimos decirlo antes que darte una respuesta linda y dudosa.
-        Preguntalo en Alumnado o en la Secretaría de la que dependa la
-        actividad.
+        Si necesitás saber cuál es la oferta de seminarios de grado de este
+        cuatrimestre, buscá la información en la
+        <a href="https://trabajosocial.unlp.edu.ar/2026/08/06/inscripcion-a-los-seminarios-de-grado-del-segundo-cuatrimestre-del-10-al-12-de-agosto/" target="_blank" rel="noopener">publicación de la facultad del 6/8 ↗</a>.
       </p>
-      <ul class="trayecto-dudas">
-        <li class="aparece">Qué actividades del listado cuentan como «actividades programadas» para las 24 horas: la resolución nombra la categoría pero no la define ítem por ítem.</li>
-        <li class="aparece">Cuál es la oferta de seminarios optativos de grado de este año y cuándo es la inscripción. Las actividades del cuatrimestre sí están publicadas (arriba); los seminarios, no.</li>
-        <li class="aparece">Si las horas se presentan todas juntas al final o se pueden ir acreditando de a una, a medida que las hacés.</li>
-        <li class="aparece">Cuánto tarda la acreditación desde que entregás los certificados hasta que aparece en el sistema.</li>
-      </ul>
 
       <!-- ---------- DÓNDE SE PREGUNTA ---------- -->
       <div class="titulo-seccion aparece" id="donde">DÓNDE SE PREGUNTA</div>
@@ -457,7 +456,7 @@
           Para hacer las actividades y acreditar las horas hay que comunicarse
           con cada una. Si la actividad no está en el listado, el camino es la
           Comisión de Enseñanza y la Secretaría Académica. Para todo lo demás,
-          <strong>Alumnado</strong>.
+          <strong>Alumnos</strong>.
         </p>
       </article>
 
@@ -465,8 +464,8 @@
   </div>
 
   <!-- ---------- LA SALIDA PARA LO QUE LA PANTALLA NO PREVIÓ ----------
-       El molde lo pide así: aunque algún día las cinco dudas estén
-       contestadas, esta banda va igual. -->
+       El molde lo pide así: aunque la página conteste todo lo que
+       sabemos, esta banda va igual. -->
   <div class="banda sol">
     <div class="envoltura">
       <h2 class="grito aparece" style="font-size:clamp(28px,7.4vw,52px)">
