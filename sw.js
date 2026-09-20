@@ -306,7 +306,18 @@
    quede con la v67 puede suscribirse igual y después no mostrar nunca
    el aviso que le llega. Se suscribe, no recibe, y no hay forma de
    darse cuenta desde afuera. */
-const VERSION = 'bolivar-v68';
+/* v69 (20/9/2026) El pomodoro de Estudiemos: `estudiemos/estudiemos.css`
+   y `estudiemos/portada.js` cambian, y las dos se sirven de lo guardado
+   (la pantalla llega fresca por la red, el armazón que la sostiene no).
+   Sin número nuevo, la primera visita después de subir dibujaría la
+   tira del reloj sin una sola de sus reglas —el botón amarillo abajo
+   de todo, el reloj en la tipografía del cuerpo— y el buscador
+   seguiría sin encontrarlo. El `pomodoro.js` en sí es un archivo
+   nuevo: ese llega igual, nadie lo tiene guardado.
+   En el mismo número viajan `carrera/plan.js` y `carrera/plan-fono.js`:
+   la ventanilla pasa a llamarse «Alumnos», que es como la nombra la
+   facultad, y esas dos notas también salen de lo guardado. */
+const VERSION = 'bolivar-v69';
 const ARMAZON = VERSION + '-armazon';
 const PAGINAS = VERSION + '-paginas';
 

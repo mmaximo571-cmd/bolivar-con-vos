@@ -85,6 +85,13 @@
     { id:'videos', modo:'repasar', nombre:'En un minuto', emoji:'▶️', oculta: !cuantosVideos, enFila: true,
       desc:'Videos cortos de la agrupación, un tema por video.', href:'videos/', carreras:null,
       dato: () => cuantosVideos + (cuantosVideos === 1 ? ' video' : ' videos') },
+    /* El pomodoro (20/9). `suelta`: no entra en la grilla —tiene su
+       tira arriba, pegada a «Seguí donde dejaste»— pero sí en el
+       buscador, que es donde lo va a buscar quien ya sabe que está.
+       `#pomodoro` abre su hoja (lo escucha pomodoro.js). */
+    { id:'pomodoro', modo:'repasar', nombre:'Pomodoro', emoji:'⏱️', suelta:true,
+      desc:'El reloj de estudio: 25 minutos de foco y 5 de descanso, sin salir de acá.',
+      href:'#pomodoro', carreras:null, dato: () => '25 · 5 minutos' },
     { id:'fonoteca', modo:'practicar', nombre:'Fonoteca', emoji:'🎧',
       desc:'Audiogramas para diagnosticar cada oído, con devolución.', href:'fonoteca/', carreras:['fono'],
       dato: () => '6 casos' },
@@ -153,7 +160,7 @@
     /* Las de tu carrera primero, después las de todas, después las otras. */
     const peso = h => !c ? 0 : !h.carreras ? 1 : (h.carreras.indexOf(c) >= 0 ? 0 : 2);
     /* Sin carrera elegida no hay «lo tuyo»: queda el orden de la lista. */
-    const lista = HERRAMIENTAS.filter(h => h.modo === modo && !h.oculta && !h.enFila)
+    const lista = HERRAMIENTAS.filter(h => h.modo === modo && !h.oculta && !h.enFila && !h.suelta)
       .sort((a, b) => peso(a) - peso(b));
     cont.querySelector('.est-rotulo').innerHTML =
       `<h2>${m.titulo}</h2><span>${lista.length} ${lista.length === 1 ? 'herramienta' : 'herramientas'}</span><p>${m.bajada}</p>`;
@@ -360,9 +367,15 @@
     if (catalogo) return catalogo;
     if (pidiendo) return pidiendo;
     pidiendo = (async () => {
-      const items = HERRAMIENTAS.filter(h => !h.oculta).map(h => ({
-        tipo:'Herramienta', nombre:h.nombre, mas:h.desc, href:new URL(h.href, location.href).pathname,
-        texto: norma(h.nombre + ' ' + h.desc) }));
+      /* Con `search` y `hash`, no solo la ruta: el pomodoro es
+         `#pomodoro` en esta misma pantalla, y quedándose con el
+         pathname el resultado llevaba a Estudiemos sin abrir nada. */
+      const items = HERRAMIENTAS.filter(h => !h.oculta).map(h => {
+        const d = new URL(h.href, location.href);
+        return { tipo:'Herramienta', nombre:h.nombre, mas:h.desc,
+                 href: d.pathname + d.search + d.hash,
+                 texto: norma(h.nombre + ' ' + h.desc) };
+      });
       (window.VIDEOS || []).forEach(v => items.push({
         tipo:'Video', nombre:v.titulo, mas:v.materia,
         href: new URL('videos/#v=' + encodeURIComponent(v.id), location.href).pathname + '#v=' + encodeURIComponent(v.id),

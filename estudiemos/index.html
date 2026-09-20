@@ -88,6 +88,36 @@
        El orden de los modos lo pone portada.js según la carrera. -->
   <div id="portada">
     <section id="seguir" aria-label="Seguí donde dejaste"></section>
+
+    <!-- EL POMODORO (20/9). Va pegado a «Seguí donde dejaste» porque
+         las dos contestan lo mismo: qué hago ahora. Una dice dónde
+         quedaste; la otra, cuánto rato vas a estar. Es una tira y no
+         una tarjeta más de las herramientas porque no se «abre»: se
+         prende y sigue corriendo mientras leés una ficha.
+         El botón de la derecha arranca sin abrir nada; tocando el
+         resto se abre la hoja con el reloj grande y los ajustes.
+         Lo llena pomodoro.js. -->
+    <section id="pomodoro" aria-label="Pomodoro">
+      <div class="est-pomodoro" id="pomodoro-caja" data-fase="foco">
+        <button class="est-pomodoro-abrir" id="pomo-abrir" type="button"
+                aria-haspopup="dialog" aria-controls="hoja-pomodoro">
+          <span class="est-pomodoro-ico" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                 stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="12" cy="13" r="8"/><path d="M12 9.5V13l2.5 1.5M9 2.5h6"/>
+            </svg>
+          </span>
+          <span class="est-pomodoro-texto">
+            <strong id="pomo-rotulo">Pomodoro</strong>
+            <span id="pomo-bajada">25 minutos de foco, 5 de descanso.</span>
+          </span>
+          <span class="est-pomodoro-chico" id="pomo-chico" hidden>25:00</span>
+        </button>
+        <button class="est-pomodoro-accion" id="pomo-accion" type="button">Empezar</button>
+        <span class="est-pomodoro-barra" id="pomo-barra" aria-hidden="true" hidden><i></i></span>
+      </div>
+    </section>
+
     <!-- Los videos de un minuto, arriba de los modos (19/9, pedido de
          Máximo): van antes que el mapa en las tres carreras. -->
     <section id="videos-fila" aria-label="Videos de un minuto" hidden></section>
@@ -163,6 +193,58 @@
   </div>
 </div>
 
+<!-- LA HOJA DEL POMODORO (20/9). Reusa `.hoja` como la de materias:
+     el reloj grande con su vuelta, los cuatro puntos de la ronda, los
+     dos ritmos y el interruptor del sonido. Lo que se toca seguido
+     (empezar y pausar) está arriba, en la tira; acá adentro está lo
+     que se toca una vez. -->
+<div class="hoja-fondo" id="hoja-pomodoro-fondo" hidden>
+  <div class="hoja hoja-pomodoro" id="hoja-pomodoro" role="dialog" aria-modal="true"
+       aria-labelledby="hoja-pomodoro-titulo">
+    <div class="hoja-manija" aria-hidden="true"></div>
+    <h2 id="hoja-pomodoro-titulo" tabindex="-1">Pomodoro</h2>
+
+    <div class="pomo-anillo">
+      <svg viewBox="0 0 120 120" aria-hidden="true">
+        <circle class="pomo-pista" cx="60" cy="60" r="54"/>
+        <!-- pathLength=1: el avance se escribe como 0..1 y no hay que
+             calcular el perímetro a mano en el JS. -->
+        <circle class="pomo-vuelta" id="pomo-vuelta" cx="60" cy="60" r="54" pathLength="1"/>
+      </svg>
+      <div class="pomo-centro">
+        <div class="pomo-reloj" id="pomo-grande" role="timer">25:00</div>
+        <p class="pomo-fase" id="pomo-fase">Foco</p>
+      </div>
+    </div>
+
+    <div class="pomo-ciclos" id="pomo-ciclos" aria-hidden="true">
+      <span></span><span></span><span></span><span></span>
+    </div>
+    <!-- Lo que se anuncia es el cambio de turno, no cada segundo. -->
+    <p class="pomo-aviso" id="pomo-aviso" role="status" hidden></p>
+
+    <div class="pomo-botones">
+      <button class="pomo-primario" id="pomo-jugar" type="button">Empezar</button>
+      <button class="pomo-otro" id="pomo-saltar" type="button">Saltar al descanso</button>
+      <button class="pomo-otro" id="pomo-reiniciar" type="button">Reiniciar</button>
+    </div>
+
+    <div class="pomo-ajustes">
+      <div class="pomo-presets" role="group" aria-label="Ritmo">
+        <button type="button" data-preset="25" aria-pressed="true">25 · 5</button>
+        <button type="button" data-preset="50" aria-pressed="false">50 · 10</button>
+      </div>
+      <button class="pomo-sonido" id="pomo-sonido" type="button" aria-pressed="true">Sonido prendido</button>
+    </div>
+
+    <p class="pomo-cuenta" id="pomo-cuenta">Todavía ningún foco terminado hoy</p>
+    <p class="pomo-como">Un foco es una sola cosa: un apunte, una ficha, un
+      resumen. Cuando suena, cortás aunque estés por la mitad —ahí está la
+      gracia— y volvés después del descanso. Cada cuatro focos, uno largo.
+      El reloj sigue andando si te vas a leer una ficha y volvés.</p>
+  </div>
+</div>
+
 <div id="pie"></div>
 
 <script>window.RAIZ = '../';</script>
@@ -183,6 +265,9 @@
 <script>window.HUELLA_SOLO_LEER = true;</script>
 <script src="huella.js"></script>
 <script src="territorio.js"></script>
+<!-- El reloj de estudio (20/9). Va antes que portada.js solo por
+     prolijidad: son independientes, no se llaman entre ellos. -->
+<script src="pomodoro.js"></script>
 <script src="portada.js"></script>
 <script>
 (async function estudiemos(){
