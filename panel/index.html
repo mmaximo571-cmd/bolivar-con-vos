@@ -3422,6 +3422,22 @@
        quienes:vistaQuienes, consejo:vistaConsejo, registro:vistaRegistro,
        categorias:vistaCategorias, catedras:vistaCatedras, riesgo:vistaRiesgo,
        instagram:vistaInstagram }[actual])())
+      /* SI LA VISTA SE CAE, QUE LO DIGA.
+         Cuando una vista se rompe a mitad de camino —un archivo que no
+         cargó, una tabla que no está— la promesa quedaba rechazada en
+         silencio y la pantalla se quedaba en los esqueletos PARA
+         SIEMPRE. Quien está del otro lado no ve un error: ve algo que
+         carga y carga. Y no va a abrir la consola del navegador.
+         Se descubrió el 20/9/2026 probando la vista del mapa de riesgo
+         sin `mapa/capas.js`: «capaRiesgo is not defined», cero avisos,
+         esqueletos eternos. */
+      .catch(e => {
+        zona.innerHTML = `<div class="aviso error">
+            <strong>Esta sección no se pudo abrir.</strong><br>
+            Probá recargar la página. Si sigue igual, contale a quien
+            mantiene la app que dice: ${esc(e && e.message || e)}
+          </div>`;
+      })
       .finally(() => zona.removeAttribute('aria-busy'));
   }
 
