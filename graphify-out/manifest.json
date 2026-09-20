@@ -1,8 +1,8 @@
 {
   "app.js": {
-    "mtime": 1789811383.401517,
-    "seen": 1789853385.4922817,
-    "ast_hash": "6f3880ab43e4b5d3bd7ca679242200ab",
+    "mtime": 1789888079.393026,
+    "seen": 1789915565.325035,
+    "ast_hash": "2d06a984faba7b6621c35cc73b0fb9fa",
     "semantic_hash": ""
   },
   "carrera/plan-fono.js": {
@@ -24,10 +24,10 @@
     "semantic_hash": "c40d4bef02274a566b022058a3581cd8"
   },
   "config.js": {
-    "mtime": 1789678048.3396652,
-    "seen": 1789853385.4922945,
-    "ast_hash": "67be1de2bfba3280e9af53cb39ede2b7",
-    "semantic_hash": "67be1de2bfba3280e9af53cb39ede2b7"
+    "mtime": 1789870960.8688798,
+    "seen": 1789871349.2908356,
+    "ast_hash": "c3e0748c02a1fe702037d6261e787ce4",
+    "semantic_hash": ""
   },
   "contenido-alumnes.sql": {
     "mtime": 1789678048.341661,
@@ -96,9 +96,9 @@
     "semantic_hash": ""
   },
   "sw.js": {
-    "mtime": 1789857260.2663274,
-    "seen": 1789857900.4580724,
-    "ast_hash": "caf460a8b92ae72e290bfe852cea2f42",
+    "mtime": 1789870952.4226449,
+    "seen": 1789871349.2908852,
+    "ast_hash": "ed44fe6beb9e6a48697c1c6488cf7aa5",
     "semantic_hash": ""
   },
   "tabla-alarma.sql": {
@@ -186,15 +186,15 @@
     "semantic_hash": "13c70cb9b680cf53ce1df6881965457c"
   },
   "BITACORA.md": {
-    "mtime": 1789857014.114067,
-    "seen": 1789857900.458103,
-    "ast_hash": "372fef3fed3d2d6361cd0620d29ceb42",
+    "mtime": 1789915347.531735,
+    "seen": 1789915565.3251278,
+    "ast_hash": "1ece53e0516860eae592bbe944da0937",
     "semantic_hash": ""
   },
   "LEEME.md": {
-    "mtime": 1789748741.620722,
-    "seen": 1789853385.4923646,
-    "ast_hash": "ac0fce1c9df30db794fbed73a6ea9a1c",
+    "mtime": 1789871295.5930226,
+    "seen": 1789871349.2909174,
+    "ast_hash": "360a2983fbe06f8fdcf09fbf2f41ccd0",
     "semantic_hash": ""
   },
   "PROMPT-DISENO.md": {
@@ -288,15 +288,15 @@
     "semantic_hash": ""
   },
   "mi/index.html": {
-    "mtime": 1789748732.4087129,
-    "seen": 1789853385.4923995,
-    "ast_hash": "2ed0aef8aabb8c2f5a26fcfeaca136d8",
+    "mtime": 1789871117.6692047,
+    "seen": 1789871349.2909558,
+    "ast_hash": "c028750cb55444e5ae9f973c42a5e7e6",
     "semantic_hash": ""
   },
   "panel/index.html": {
-    "mtime": 1789857014.1544662,
-    "seen": 1789857900.4581475,
-    "ast_hash": "9b8f006a0a311a5f98f29bf007ee369e",
+    "mtime": 1789871135.6820014,
+    "seen": 1789871349.2909572,
+    "ast_hash": "a2ec8889f9574318c48f008884a2ca86",
     "semantic_hash": ""
   },
   "quienes/index.html": {
@@ -567,6 +567,18 @@
     "mtime": 1789857014.114067,
     "seen": 1789857900.458091,
     "ast_hash": "38554c5c6a83998fa3d3b6159b9d7af4",
+    "semantic_hash": ""
+  },
+  "supabase/functions/avisos/index.ts": {
+    "mtime": 1789888079.393026,
+    "seen": 1789915565.3250973,
+    "ast_hash": "3617d4019573983f817c415e966136b1",
+    "semantic_hash": ""
+  },
+  "tabla-avisos.sql": {
+    "mtime": 1789915377.8978162,
+    "seen": 1789915565.325103,
+    "ast_hash": "7026be18a3ccebebdf4911911a4204e9",
     "semantic_hash": ""
   }
 }

@@ -873,6 +873,12 @@ function montarCalendario(caja, publicaciones, alElegirDia, alCambiarMes){
 
 /* Devuelve {usuario, perfil} o {usuario:null, perfil:null} */
 async function sesionActual(){
+  /* Si el cliente de datos no cargo, `avisarQueNoArranca` ya puso el
+     cartel y no hay sesion que buscar. Sin esta linea, cada pantalla
+     que pregunta por la sesion tira ademas un error suelto, y esos
+     errores gastan el cupo de tres por visita: el dia que falle otra
+     cosa en esa misma visita, no nos vamos a enterar. */
+  if (!db) return { usuario:null, perfil:null };
   const { data:{ user } } = await db.auth.getUser();
   if(!user) return { usuario:null, perfil:null };
   const { data:perfil } = await db
@@ -2224,4 +2230,336 @@ function invitarAInstalar(motivo){
     if (e.target === caja) cerrar();
   });
   return true;
+}
+
+/* ============================================================
+   LOS AVISOS AL CELULAR
+
+   La alarma de inscripción es lo más útil que hace la app y tenía un
+   agujero: solo la ve quien ABRE la app. La ventana para anotarse
+   dura cuatro días. Quien no entró en esos cuatro días se perdió la
+   mesa, y la app lo sabía y no podía decírselo.
+
+   Esto es el permiso para decírselo. Tres cosas separadas, porque no
+   todo el mundo quiere lo mismo:
+
+     mesas       «mañana cierra la inscripción». Sale sola.
+     novedades   lo que el panel marca como para avisar. Casi nada.
+     mis fechas  la cuenta regresiva de tus mesas de final. Necesita
+                 cuenta, porque sin cuenta no hay finales cargados.
+
+   QUIÉN HACE QUÉ. Acá solo se pide el permiso y se guarda el timbre
+   en `avisos_suscripciones` (ver `tabla-avisos.sql`). Quien decide
+   qué se manda y cuándo es `supabase/functions/avisos/index.ts`, que
+   corre en Supabase una vez por hora. Y quien DIBUJA el aviso cuando
+   llega es el oyente `push` de `sw.js`. Los tres se necesitan: si
+   falta uno, la persona prende el interruptor y no recibe nada.
+
+   LO QUE NO SE HACE ACÁ. No se pide el permiso solo, al entrar. Un
+   cartel del sistema que aparece sin que nadie lo pidiera se cierra
+   por reflejo, y en Chrome el «no» es para siempre: no se puede
+   volver a preguntar. Por eso el permiso se pide recién cuando la
+   persona toca el interruptor, que es la única vez que sabemos que
+   quiere.
+   ============================================================ */
+
+const LLAVE_AVISOS = 'bolivar-avisos';
+const AVISOS_POR_DEFECTO = { mesas:true, novedades:true, misFechas:false };
+
+function gustosDeAvisos(){
+  try {
+    const g = JSON.parse(localStorage.getItem(LLAVE_AVISOS) || '{}');
+    return {
+      mesas:     g.mesas     !== false,
+      novedades: g.novedades !== false,
+      misFechas: g.misFechas === true,
+      endpoint:  g.endpoint || null
+    };
+  } catch(e){ return Object.assign({}, AVISOS_POR_DEFECTO); }
+}
+
+function guardarGustosDeAvisos(g){
+  try { localStorage.setItem(LLAVE_AVISOS, JSON.stringify(g)); } catch(e){}
+}
+
+/* ¿Este navegador puede, siquiera? En iPhone la respuesta es «solo si
+   la app está en la pantalla de inicio»: Safari no tiene `Notification`
+   en una pestaña común, y por eso la tarjeta de abajo, en vez de decir
+   que no se puede, ofrece instalarla. */
+function seBancanLosAvisos(){
+  return 'serviceWorker' in navigator &&
+         'PushManager' in window &&
+         typeof Notification !== 'undefined' &&
+         !!(window.BOLIVAR_CONFIG && window.BOLIVAR_CONFIG.avisosClavePublica);
+}
+
+/* La clave pública viaja en texto (base64url) y el navegador la pide
+   en bytes. Es solo traducción: no hay nada que entender acá. */
+function clavePublicaEnBytes(){
+  const texto = window.BOLIVAR_CONFIG.avisosClavePublica;
+  const relleno = '='.repeat((4 - texto.length % 4) % 4);
+  const limpio = (texto + relleno).replace(/-/g, '+').replace(/_/g, '/');
+  const crudo = atob(limpio);
+  const bytes = new Uint8Array(crudo.length);
+  for (let i = 0; i < crudo.length; i++) bytes[i] = crudo.charCodeAt(i);
+  return bytes;
+}
+
+async function suscripcionDeEsteTelefono(){
+  if (!seBancanLosAvisos()) return null;
+  try {
+    const reg = await navigator.serviceWorker.ready;
+    return await reg.pushManager.getSubscription();
+  } catch(e){ return null; }
+}
+
+/* Sube el timbre y los gustos. Pasa por `guardar_aviso`, que es una
+   función de la base: la tabla en sí está cerrada con llave, porque
+   con un timbre ajeno cualquiera le manda avisos al teléfono de otra
+   persona. */
+async function guardarElTimbre(sub, gustos){
+  if (!db || !sub) return false;
+  const j = sub.toJSON();
+  if (!j || !j.keys) return false;
+
+  const { error } = await db.rpc('guardar_aviso', {
+    p_endpoint:   j.endpoint,
+    p_p256dh:     j.keys.p256dh,
+    p_auth:       j.keys.auth,
+    p_mesas:      !!gustos.mesas,
+    p_novedades:  !!gustos.novedades,
+    p_mis_fechas: !!gustos.misFechas,
+    p_agente:     navigator.userAgent
+  });
+  if (error) return false;
+
+  guardarGustosDeAvisos({
+    mesas: !!gustos.mesas, novedades: !!gustos.novedades,
+    misFechas: !!gustos.misFechas, endpoint: j.endpoint
+  });
+  return true;
+}
+
+/* Prender. Devuelve por qué no se pudo, o null si salió bien, para
+   que quien lo llama tenga algo que decirle a la persona.
+
+   El orden importa: `requestPermission()` tiene que ser lo PRIMERO,
+   antes de cualquier `await`. Safari solo lo deja pedir mientras dura
+   el toque en el botón, y si antes esperamos al service worker el
+   toque ya venció y el cartel nunca aparece. */
+async function prenderAvisos(gustos){
+  if (!seBancanLosAvisos()) return 'no-se-puede';
+
+  let permiso;
+  try { permiso = await Notification.requestPermission(); }
+  catch(e){ return 'no-se-puede'; }
+  if (permiso !== 'granted') return permiso === 'denied' ? 'bloqueado' : 'sin-respuesta';
+
+  let sub;
+  try {
+    const reg = await navigator.serviceWorker.ready;
+    sub = await reg.pushManager.getSubscription();
+    if (!sub){
+      sub = await reg.pushManager.subscribe({
+        /* Obligatorio y honesto: cada mensaje que llegue va a mostrar
+           un aviso. No se usa esto para despertar la app a escondidas. */
+        userVisibleOnly: true,
+        applicationServerKey: clavePublicaEnBytes()
+      });
+    }
+  } catch(e){ return 'no-se-pudo-suscribir'; }
+
+  if (!await guardarElTimbre(sub, gustos)) return 'no-se-pudo-guardar';
+
+  /* Un aviso de prueba, ya. Es la única forma de que la persona vea
+     con sus ojos que funciona: si no, prende el interruptor y se
+     queda esperando algo que capaz llega dentro de tres semanas. */
+  try {
+    const reg = await navigator.serviceWorker.ready;
+    await reg.showNotification('Listo, te vamos a avisar', {
+      body: 'Así se van a ver los avisos de La Bolívar con vos.',
+      icon: RAIZ + 'imagenes/icono-192.png',
+      badge: RAIZ + 'imagenes/icono-96.png',
+      tag: 'bolivar-prueba'
+    });
+  } catch(e){}
+
+  try { anotarHito('prendió avisos'); } catch(e){}
+  return null;
+}
+
+async function apagarAvisos(){
+  const sub = await suscripcionDeEsteTelefono();
+  if (sub){
+    const endpoint = sub.endpoint;
+    try { await sub.unsubscribe(); } catch(e){}
+    /* Que se borre de la base también. Si esto falla —sin red, por
+       ejemplo— el teléfono ya se dio de baja del navegador igual, y
+       el primer aviso que rebote lo borra del otro lado. */
+    if (db) { try { await db.rpc('borrar_aviso', { p_endpoint: endpoint }); } catch(e){} }
+  }
+  const g = gustosDeAvisos();
+  guardarGustosDeAvisos({ mesas:g.mesas, novedades:g.novedades,
+                          misFechas:g.misFechas, endpoint:null });
+}
+
+
+/* ------------------------------------------------------------
+   LA TARJETA
+
+   `donde` es el elemento donde se dibuja. `conCuenta` dice si hay
+   sesión abierta: sin ella, «mis fechas» no se ofrece, porque los
+   finales están atados a la cuenta y prometer un aviso que no va a
+   llegar es peor que no ofrecerlo.
+
+   Usa la misma tarjeta y el mismo switch que «Época de parciales» en
+   Fechas. No es ahorro de CSS: es que dos interruptores que hacen lo
+   mismo tienen que verse igual.
+   ------------------------------------------------------------ */
+async function pintarAvisos(donde, opciones){
+  if (!donde) return;
+  const conCuenta = !!(opciones && opciones.conCuenta);
+
+  /* iPhone sin instalar: el permiso no existe hasta que la app está
+     en la pantalla de inicio. Es un límite de Safari, no algo que
+     podamos arreglar, así que se dice y se ofrece el camino. */
+  if (!seBancanLosAvisos() && typeof esiOS === 'function' && esiOS() &&
+      typeof yaEstaInstalada === 'function' && !yaEstaInstalada()){
+    donde.innerHTML =
+      '<div class="enfoque"><div class="enfoque-fila">' +
+        '<span class="enfoque-icono" aria-hidden="true">' +
+          (icono('inscripciones') || '🔔') + '</span>' +
+        '<label><b>Que te avisemos de las mesas</b>' +
+        '<span>En iPhone hace falta tener la app en la pantalla de ' +
+        'inicio. Es así en todas las apps web, no solo en esta.</span></label>' +
+      '</div>' +
+      '<div class="enfoque-cats">' +
+        '<button class="boton ancho" type="button" id="avisos-instalar">' +
+        'Agregar a la pantalla de inicio</button></div></div>';
+
+    const boton = donde.querySelector('#avisos-instalar');
+    if (boton) boton.onclick = function(){
+      try { localStorage.removeItem(LLAVE_INSTALAR); } catch(e){}
+      invitarAInstalar('Con la app instalada te podemos avisar cuando abra la inscripción.');
+    };
+    return;
+  }
+
+  if (!seBancanLosAvisos()){
+    donde.innerHTML =
+      '<div class="enfoque"><div class="enfoque-fila">' +
+        '<span class="enfoque-icono" aria-hidden="true">' +
+          (icono('inscripciones') || '🔔') + '</span>' +
+        '<label><b>Que te avisemos de las mesas</b>' +
+        '<span>Este navegador no puede mandar avisos. Desde el ' +
+        'celular, con Chrome o con la app instalada, sí.</span></label>' +
+      '</div></div>';
+    return;
+  }
+
+  const sub    = await suscripcionDeEsteTelefono();
+  const g      = gustosDeAvisos();
+  const activo = !!sub && Notification.permission === 'granted';
+
+  /* «Bloqueado» es distinto de «apagado», y confundirlos deja a la
+     persona tocando un interruptor que no hace nada: el navegador ya
+     dijo que no y no vuelve a preguntar. La salida está en el candado
+     de la barra de direcciones, y hay que decirlo con esas palabras. */
+  const bloqueado = Notification.permission === 'denied';
+
+  const chip = (id, nombre) =>
+    '<button type="button" class="chip" data-aviso="' + id + '" ' +
+    'aria-pressed="' + (g[id] ? 'true' : 'false') + '">' + esc(nombre) + '</button>';
+
+  donde.innerHTML =
+    '<div class="enfoque' + (activo ? ' encendido' : '') + '" id="avisos-tarjeta">' +
+      '<div class="enfoque-fila">' +
+        '<span class="enfoque-icono" aria-hidden="true">' +
+          (icono('inscripciones') || '🔔') + '</span>' +
+        '<label for="sw-avisos"><b>Avisos en este teléfono</b><span>' +
+          (bloqueado
+            ? 'Los tenés bloqueados. Tocá el candado al lado de la dirección y permití las notificaciones.'
+            : activo
+              ? 'Te avisamos aunque no tengas la app abierta.'
+              : 'Que no se te pase la inscripción a una mesa.') +
+        '</span></label>' +
+        '<button type="button" class="switch" id="sw-avisos" role="switch" ' +
+          'aria-checked="' + (activo ? 'true' : 'false') + '" ' +
+          (bloqueado ? 'disabled ' : '') +
+          'aria-label="Avisos en este teléfono"></button>' +
+      '</div>' +
+      '<div class="enfoque-cuerpo"><div><div class="enfoque-cats">' +
+        '<div class="enfoque-rotulo">De qué avisarte</div>' +
+        '<div class="filtros" style="margin:0;padding:0;flex-wrap:wrap">' +
+          chip('mesas', 'Inscripción a mesas') +
+          chip('novedades', 'Novedades') +
+          (conCuenta ? chip('misFechas', 'Mis fechas de final') : '') +
+        '</div>' +
+        '<div class="enfoque-nota">' +
+          (conCuenta ? '' : 'Con una cuenta podés sumar los avisos de tus propias mesas de final. ') +
+          'Lo apagás cuando quieras, desde acá mismo.</div>' +
+      '</div></div></div>' +
+    '</div>';
+
+  /* La tarjeta se abre sola cuando está prendida: las opciones de qué
+     avisar no tienen sentido apagadas, y verlas ahí invita a tocarlas
+     para nada. */
+  const tarjeta = donde.querySelector('#avisos-tarjeta');
+  const sw = donde.querySelector('#sw-avisos');
+
+  if (sw) sw.onclick = async function(){
+    const prendiendo = sw.getAttribute('aria-checked') !== 'true';
+    sw.disabled = true;
+
+    if (prendiendo){
+      const problema = await prenderAvisos(gustosDeAvisos());
+      sw.disabled = false;
+      if (problema){
+        /* Sin cartel rojo si la persona simplemente cerró el pedido
+           del sistema: no se equivocó en nada, solo dijo «ahora no». */
+        if (problema !== 'sin-respuesta'){
+          const que =
+            problema === 'bloqueado' ? 'El navegador los tiene bloqueados. Se prenden desde el candado de la barra de direcciones.'
+          : problema === 'no-se-puede' ? 'Este navegador no puede mandar avisos.'
+          : 'No pudimos prenderlos. Probá de nuevo en un rato.';
+          donde.insertAdjacentHTML('beforeend', '<div class="aviso error">' + esc(que) + '</div>');
+        }
+        return pintarAvisos(donde, opciones);
+      }
+      return pintarAvisos(donde, opciones);
+    }
+
+    await apagarAvisos();
+    sw.disabled = false;
+    pintarAvisos(donde, opciones);
+  };
+
+  donde.querySelectorAll('[data-aviso]').forEach(b => {
+    b.onclick = async function(){
+      const cual = b.dataset.aviso;
+      const g2 = gustosDeAvisos();
+      g2[cual] = b.getAttribute('aria-pressed') !== 'true';
+
+      /* No dejar las tres apagadas y el interruptor prendido: eso es
+         un timbre que existe y no suena nunca, y la persona cree que
+         tiene los avisos puestos. Se apaga la última que quede. */
+      if (!g2.mesas && !g2.novedades && !g2.misFechas){
+        b.setAttribute('aria-pressed', 'true');
+        return;
+      }
+
+      b.setAttribute('aria-pressed', g2[cual] ? 'true' : 'false');
+      guardarGustosDeAvisos(g2);
+
+      const s = await suscripcionDeEsteTelefono();
+      if (s) await guardarElTimbre(s, g2);
+    };
+  });
+
+  /* Si el teléfono tiene una suscripción que la base no conoce —se
+     reinstaló la app, o el navegador la renovó sola— se vuelve a
+     guardar en silencio. Un timbre que el navegador cree activo y la
+     base no tiene es la falla que nadie ve: la persona ve el
+     interruptor prendido y no le llega nunca nada. */
+  if (activo && sub && g.endpoint !== sub.endpoint) guardarElTimbre(sub, g);
 }

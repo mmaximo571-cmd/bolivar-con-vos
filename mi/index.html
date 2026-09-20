@@ -145,6 +145,12 @@
         <strong>guardar trámites</strong> para encontrarlos rápido después.
       </p>
 
+      <!-- Los avisos van ANTES del formulario y no adentro de la cuenta:
+           para que te avisemos de una mesa no hace falta registrarse, y
+           esconderlos detrás de un formulario sería pedir una cuenta
+           para nada. -->
+      <div id="caja-avisos"></div>
+
       <div class="chips" style="margin-bottom:4px">
         <button class="chip" id="tab-entrar" aria-pressed="true">Ya tengo cuenta</button>
         <button class="chip" id="tab-crear"  aria-pressed="false">Crear una cuenta</button>
@@ -195,6 +201,8 @@
         <p style="margin:0">La app anda igual sin cuenta. La cuenta sirve para
           que lo tuyo esté en cualquier teléfono.</p>
       </div>`;
+
+    pintarAvisos(document.getElementById('caja-avisos'), { conCuenta:false });
 
     let modo = 'entrar';
     const tabEntrar = document.getElementById('tab-entrar');
@@ -376,6 +384,8 @@
         <a class="boton ancho oscuro" href="../panel/" style="margin-bottom:14px">
           🛠 Panel de la agrupación</a>` : ''}
 
+      <div id="caja-avisos"></div>
+
       <div class="titulo-seccion">TRÁMITES GUARDADOS</div>
       <div class="lista" id="guardados"><div class="esq-tarjeta"><div class="esqueleto esq-linea titulo"></div><div class="esqueleto esq-linea"></div><div class="esqueleto esq-linea media"></div></div><div class="esq-tarjeta"><div class="esqueleto esq-linea titulo"></div><div class="esqueleto esq-linea"></div><div class="esqueleto esq-linea corta"></div></div></div>
 
@@ -464,6 +474,12 @@
         </div>
         <div id="msj-borrado"></div>
       </div>`;
+
+    /* Con la sesión abierta se ofrece además la cuenta regresiva de
+       tus mesas de final: la suscripción de este teléfono queda atada
+       a la cuenta, y recién ahí quien manda los avisos sabe cuáles de
+       las preparaciones son tuyas. */
+    pintarAvisos(document.getElementById('caja-avisos'), { conCuenta:true });
 
     document.getElementById('salir').onclick = async function(){
       this.disabled = true;

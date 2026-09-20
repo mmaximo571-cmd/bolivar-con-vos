@@ -299,7 +299,14 @@
    hoja se sirve de lo guardado: sin número nuevo, la primera visita
    después de subir dibujaría la fila sin sus reglas, o sea todas las
    portadas apiladas una abajo de la otra. */
-const VERSION = 'bolivar-v67';
+/* v68 (19/9/2026) los avisos al celular. Acá abajo hay dos oyentes
+   nuevos, `push` y `notificationclick`, y `app.js` suma el interruptor
+   que los prende. Este número no es opcional esta vez: el service
+   worker viejo NO tiene el oyente `push`, así que un teléfono que se
+   quede con la v67 puede suscribirse igual y después no mostrar nunca
+   el aviso que le llega. Se suscribe, no recibe, y no hay forma de
+   darse cuenta desde afuera. */
+const VERSION = 'bolivar-v68';
 const ARMAZON = VERSION + '-armazon';
 const PAGINAS = VERSION + '-paginas';
 
@@ -366,6 +373,72 @@ self.addEventListener('activate', evento => {
 /* Deja que la página pida saltar la espera cuando hay versión nueva. */
 self.addEventListener('message', e => {
   if (e.data === 'actualizar-ya') self.skipWaiting();
+});
+
+/* ============================================================
+   LOS AVISOS QUE LLEGAN CON LA APP CERRADA
+
+   Esto es lo único del service worker que corre cuando la app NO
+   está abierta: el teléfono lo despierta, le da el mensaje cifrado
+   que mandó Supabase, y se vuelve a dormir.
+
+   Quien manda es `supabase/functions/avisos/index.ts`; quién lo
+   recibe se decide en Mi perfil. Acá solo se dibuja.
+
+   REGLA DEL NAVEGADOR: si entra un `push`, TIENE que salir una
+   notificación. Chrome le cuenta a cada sitio las veces que lo
+   despertó sin mostrar nada, y a las pocas deja de despertarlo. Por
+   eso hay un aviso de reserva: si el mensaje viene vacío o mal
+   armado, igual se muestra algo antes que nada.
+   ============================================================ */
+self.addEventListener('push', evento => {
+  let a = {};
+  try { a = evento.data ? evento.data.json() : {}; } catch(e){ a = {}; }
+
+  const titulo = a.titulo || 'La Bolívar con vos';
+  const cuerpo = a.cuerpo || 'Tocá para ver qué hay de nuevo.';
+
+  evento.waitUntil(self.registration.showNotification(titulo, {
+    body:  cuerpo,
+    icon:  '/imagenes/icono-192.png',
+    badge: '/imagenes/icono-96.png',
+    lang:  'es-AR',
+
+    /* El `tag` hace que un aviso del mismo asunto REEMPLACE al
+       anterior en vez de apilarse. Si por lo que sea sale dos veces
+       «mañana cierra la inscripción», en el teléfono se ve una. */
+    tag:   a.clave || 'bolivar',
+
+    /* Sin esto, el aviso que llegó mientras el teléfono estaba
+       guardado se muestra callado y nadie lo ve hasta el otro día.
+       La inscripción dura cuatro días: vale el sonido. */
+    renotify: !!a.clave,
+
+    data:  { url: a.url || '/' }
+  }));
+});
+
+/* Tocar el aviso tiene que llevar AL LUGAR, no a la portada. Si la
+   app ya está abierta en alguna pestaña se reusa esa —abrir una
+   segunda copia de una app instalada desconcierta— y recién si no
+   hay ninguna se abre una nueva. */
+self.addEventListener('notificationclick', evento => {
+  evento.notification.close();
+  const destino = (evento.notification.data && evento.notification.data.url) || '/';
+
+  evento.waitUntil((async () => {
+    const abiertas = await self.clients.matchAll({
+      type: 'window', includeUncontrolled: true
+    });
+    for (const c of abiertas){
+      if (new URL(c.url).origin === self.location.origin){
+        await c.focus();
+        if ('navigate' in c) { try { await c.navigate(destino); } catch(e){} }
+        return;
+      }
+    }
+    await self.clients.openWindow(destino);
+  })());
 });
 
 function esDeSupabase(url){

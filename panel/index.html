@@ -698,6 +698,21 @@
           <option value="no"${p.publicado ? '' : ' selected'}>No, borrador</option>
         </select></div>
 
+      <!-- El timbre. Va último y viene en NO a propósito: es la única
+           cosa del panel que le suena el teléfono a cuatro mil personas,
+           y tiene que ser una decisión, no un descuido.
+           Las mesas no se marcan acá: esas las avisa sola la alarma. -->
+      <div class="campo"><label for="avisar">¿Le suena el teléfono a la gente?</label>
+        <select id="avisar">
+          <option value="no"${p.avisar ? '' : ' selected'}>No (lo normal)</option>
+          <option value="si"${p.avisar ? ' selected' : ''}>Sí, avisar a quienes lo pidieron</option>
+        </select>
+        <small style="display:block;margin-top:6px;color:var(--texto-suave);
+                      font-size:var(--letra-nota);line-height:1.45">
+          Solo para lo que de verdad no se puede perder. El aviso sale una vez
+          y vale 48 horas: pasadas esas, esta publicación ya no le suena a
+          nadie, aunque quede marcada.</small></div>
+
       <button class="boton ancho" id="guardar">Guardar</button>
       ${esNuevo ? '' : `<button class="boton ancho peligro" id="borrar" style="margin-top:10px">Eliminar</button>`}
       <div id="msj"></div>`;
@@ -750,7 +765,8 @@
         lugar:       nulo('lugar'),
         imagen_url:  nulo('imagen_url'),
         link_url:    enlace('link_url'),
-        publicado:   val('publicado') === 'si'
+        publicado:   val('publicado') === 'si',
+        avisar:      val('avisar') === 'si'
       };
 
       const { error } = esNuevo

@@ -1355,6 +1355,74 @@ recibe un error, no los datos.
 
 ---
 
+## Los avisos al celular
+
+La alarma de inscripción es lo más útil que hace la app y tenía un agujero:
+**solo la ve quien abre la app**. La ventana para anotarse a una mesa dura
+cuatro días, nueve veces al año. Quien no entró en esos cuatro días perdió la
+mesa, y la app lo sabía y no tenía cómo decírselo.
+
+Los avisos son esa puerta. Se prenden desde **Mi perfil**, con cuenta o sin
+cuenta, y llegan **con la app cerrada**.
+
+### Las cuatro piezas
+
+Ninguna sirve sola. Si falta una, la persona prende el interruptor y no
+recibe nada, sin que nadie se entere:
+
+| Pieza | Dónde | Qué hace |
+|---|---|---|
+| El interruptor | `app.js` (`pintarAvisos`) | Pide el permiso y guarda el «timbre» de ese teléfono |
+| El timbre guardado | `tabla-avisos.sql` | `avisos_suscripciones`, cerrada con llave para todos |
+| Quien manda | `supabase/functions/avisos/index.ts` | Corre en Supabase una vez por hora |
+| Quien dibuja | `sw.js` (oyente `push`) | Muestra el aviso cuando el teléfono está guardado |
+
+### Qué se avisa
+
+- **Inscripción a mesas.** Sale sola de las publicaciones, con la misma cabeza
+  que la alarma de la portada (`alarmaDeMesa()`): mañana abre, abrió, mañana
+  cierra, hoy cierra. Nadie la escribe a mano.
+- **Novedades.** Solo las que alguien marca en el panel, en «¿Le suena el
+  teléfono a la gente?». Viene en **No** a propósito, y el aviso **vale 48
+  horas**: pasadas esas, esa publicación ya no le suena a nadie.
+- **Mis fechas de final.** La cuenta regresiva de las mesas cargadas en
+  Estudiemos: una semana antes, el día antes y el día. **Necesita cuenta**,
+  porque las preparaciones están atadas a ella.
+
+### Dos cosas que no se pueden cambiar
+
+- **En iPhone hace falta que la app esté en la pantalla de inicio.** Safari no
+  tiene notificaciones en una pestaña común. No es algo que podamos arreglar:
+  la tarjeta lo dice y ofrece instalarla.
+- **El permiso se pide una sola vez.** Si alguien dice que no, Chrome no vuelve
+  a preguntar nunca: hay que ir al candado de la barra de direcciones. Por eso
+  el permiso **no se pide solo al entrar**, sino recién cuando la persona toca
+  el interruptor.
+
+### La llave
+
+Son dos mitades. La **pública** está en `config.js`, a la vista y a propósito:
+sin la otra mitad no sirve para mandar nada. La **privada** vive solo en los
+secretos de Supabase (`VAPID_PRIVADA`) y **no está en el repositorio**. Si
+alguna vez se pierde, se genera un par nuevo, pero **todas las suscripciones
+que ya existen dejan de funcionar**: hay que volver a pedirle a cada teléfono
+que prenda los avisos.
+
+### Si alguien dice que no le llegan
+
+En orden, que es de lo más común a lo más raro:
+
+1. **¿Tiene la app instalada, si es iPhone?** Es el 90 % de los casos.
+2. **¿Apagó los avisos del sistema?** Ahí la app no se entera: el envío
+   rebota, y a las tres veces la suscripción se borra sola.
+3. **¿Corrió el reloj?** `select * from cron.job_run_details order by
+   start_time desc limit 10;`
+4. **¿Estaba fuera de horario?** No se manda nada entre las 21 y las 9.
+5. **¿Ya se había mandado ese aviso?** Cada aviso sale una sola vez por
+   teléfono: `select * from avisos_enviados where clave like 'mesa:%';`
+
+---
+
 ## Avisos
 
 - **El proyecto gratuito de Supabase se pausa** tras varios días sin actividad.

@@ -2,3 +2,7 @@
 graphify-out/
 .graphifyignore
 CLAUDE.md
+
+# Lo que corre en Supabase, no en el sitio: la funcion que manda los
+# avisos al celular. No tiene nada que hacer en Vercel.
+supabase/
