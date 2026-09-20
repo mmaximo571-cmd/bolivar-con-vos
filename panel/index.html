@@ -41,10 +41,23 @@
   .fila-item{display:flex;align-items:center;gap:10px}
   .fila-item .crecer{flex:1;min-width:0}
   .borrador{opacity:.55}
+  /* EL COLOR DE LA LETRA NO ERA UN DETALLE.
+     Esta regla pintaba el fondo y no la letra, así que los «Editar»,
+     «Quitar» y «Volver a la lista» se quedaban con el color que el
+     navegador le pone solo a un <button>: negro. En tema claro pasa
+     desapercibido; en oscuro quedaba negro sobre #1D1C15, o sea
+     1,23:1, que es no verse. Medido con getComputedStyle el
+     20/9/2026; ahora da 14,97:1 en oscuro y 18,29:1 en claro. */
   .mini{
     font-family:var(--fuente-sub);font-size:var(--letra-chica);text-transform:uppercase;letter-spacing:.06em;
-    padding:7px 11px;border-radius:99px;border:1px solid var(--linea);background:var(--superficie);
+    padding:7px 11px;border-radius:99px;border:1px solid var(--linea);
+    background:var(--superficie);color:var(--texto);
     white-space:nowrap
+  }
+  /* Donde se toca con el dedo y no con el mouse, el botón crece: 32 px
+     de alto es un blanco chico para un pulgar. */
+  @media (pointer:coarse){
+    .mini{min-height:40px;padding-top:9px;padding-bottom:9px}
   }
   .mini.rojo{border-color:var(--rojo);color:var(--rojo)}
   .paso-editor{
@@ -104,10 +117,166 @@
   }
   .ranura-botones{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
   .ranura-botones .boton{flex:1 1 0;min-width:0}
+  /* ============================================================
+     EL ÍNDICE DEL PANEL   (20/9/2026)
+
+     ANTES: las catorce secciones eran UNA tira de chips con
+     `overflow-x:auto` y la barra de scroll escondida (`.chips`, en
+     estilos.css). Con el dedo se arrastra y funciona; con un mouse,
+     en una pantalla de 1280, la tira se cortaba y las últimas
+     —Avisanos, Categorías, Mapa de riesgo, Registro— quedaban afuera
+     sin nada que dijera que estaban ahí. No estaban rotas: eran
+     invisibles.
+
+     AHORA el panel se lee como un índice. Cuatro grupos con nombre y,
+     adentro, las secciones una debajo de la otra:
+
+       ┌──────────────┬────────────────────────┐
+       │ PARA EL      │  PARA EL ESTUDIANTE    │
+       │ ESTUDIANTE   │  Trámites              │
+       │ ▸ Trámites   │  Cada gestión paso a…  │
+       │   Preguntas  │  Se ve en · Trámites   │
+       │   Agenda     │  ────────────────────  │
+       │              │  + Nuevo trámite       │
+       │ ESTUDIO      │  ┌─────────┬─────────┐ │
+       │   Estudiemos │  │ tarjeta │ tarjeta │ │
+       │   …          │  └─────────┴─────────┘ │
+       └──────────────┴────────────────────────┘
+
+     En la computadora es una columna fija a la izquierda: se ve el
+     mapa entero del panel sin tocar nada. En el teléfono esa misma
+     columna se pliega en un desplegable que dice en qué sección
+     estás. En ningún ancho hay scroll horizontal, y en ningún ancho
+     hay una opción a la que no se llegue.
+     ============================================================ */
+
+  /* --- el botón que abre el índice · solo en el teléfono --- */
+  .indice-abrir{
+    width:100%;display:flex;align-items:center;gap:10px;
+    min-height:48px;padding:11px 14px;
+    background:var(--superficie);border:1px solid var(--linea);
+    border-radius:var(--radio-chico);color:var(--texto);text-align:left
+  }
+  .indice-abrir .rotulo{
+    flex:0 0 auto;font-family:var(--fuente-sub);font-size:var(--letra-mini);
+    text-transform:uppercase;letter-spacing:.07em;color:var(--texto-suave)
+  }
+  .indice-abrir .actual{
+    flex:1;min-width:0;font-weight:700;
+    overflow:hidden;text-overflow:ellipsis;white-space:nowrap
+  }
+  .indice-abrir .flecha{flex:0 0 auto;transition:transform 200ms ease}
+  .indice-abrir[aria-expanded="true"] .flecha{transform:rotate(180deg)}
+  @media (prefers-reduced-motion:reduce){ .indice-abrir .flecha{transition:none} }
+
+  /* --- la lista --- */
+  .indice-cuerpo{
+    margin-top:8px;padding:4px 8px 10px;
+    background:var(--superficie);border:1px solid var(--linea);
+    border-radius:var(--radio);box-shadow:var(--sombra-1)
+  }
+  .indice-grupo + .indice-grupo{
+    margin-top:8px;padding-top:8px;border-top:1px solid var(--linea)
+  }
+  .indice-rotulo{
+    margin:10px 8px 6px;font-family:var(--fuente-sub);font-weight:700;
+    font-size:var(--letra-mini);text-transform:uppercase;letter-spacing:.08em;
+    color:var(--texto-suave)
+  }
+  .indice-grupo ul{list-style:none;margin:0;padding:0;display:grid;gap:2px}
+  .indice-item{
+    width:100%;display:flex;align-items:center;gap:10px;
+    min-height:44px;padding:9px 10px;border:0;border-radius:var(--radio-chico);
+    background:transparent;color:var(--texto);text-align:left;
+    font-size:var(--letra-densa);line-height:1.25
+  }
+  .indice-item .emoji{flex:0 0 auto;width:20px;text-align:center}
+  .indice-item .nombre{flex:1;min-width:0}
+  /* «Acá estás» no lo dice solo el amarillo: el renglón además va en
+     negrita, lleva una flecha, y para el lector de pantalla lleva
+     aria-current. Quien no distingue el color igual sabe dónde está. */
+  .indice-item[aria-current="page"]{
+    background:var(--amarillo);color:var(--sobre-color);font-weight:700
+  }
+  .indice-item .flechita{flex:0 0 auto;opacity:.8;display:none}
+  .indice-item[aria-current="page"] .flechita{display:block}
+  @media (hover:hover) and (pointer:fine){
+    .indice-item:hover{background:var(--superficie-2)}
+    .indice-item[aria-current="page"]:hover{background:var(--amarillo)}
+  }
+
+  /* --- la cabecera de cada sección: qué es y dónde se ve --- */
+  .obra-cabeza{
+    margin:18px 0 16px;padding-bottom:14px;border-bottom:1px solid var(--linea)
+  }
+  .obra-ruta{
+    margin:0 0 5px;font-family:var(--fuente-sub);font-weight:700;
+    font-size:var(--letra-mini);text-transform:uppercase;letter-spacing:.08em;
+    color:var(--texto-suave)
+  }
+  .obra-cabeza h2{
+    font-family:var(--fuente-titulo);font-size:26px;line-height:1.05;margin:0 0 8px
+  }
+  /* Al saltar acá con el teclado no queremos el contorno alrededor de
+     medio título: se enfoca para que el lector siga desde ahí. */
+  .obra-cabeza h2:focus{outline:none}
+  .obra-que{margin:0;font-size:var(--letra-base);line-height:1.45}
+  .obra-donde{margin:8px 0 0;font-size:var(--letra-chica);color:var(--texto-suave)}
+  .obra-donde a{text-decoration:underline}
+  .avisos-panel:empty{display:none}
+
+  /* --- en el teléfono, dos campos al lado no entran ---
+     `.dos-columnas` era 1fr 1fr en TODOS los anchos: en una pantalla
+     de 360 px eso deja campos de 160, y «Del 1 al 10 de cada mes» no
+     entra en ninguno. Abajo de 560 van uno debajo del otro. */
+  @media (max-width:559px){
+    .dos-columnas{grid-template-columns:1fr}
+  }
+
+  /* ------------------------------------------------------------
+     EN LA COMPUTADORA
+     ------------------------------------------------------------ */
+  @media (min-width:1000px){
+    /* La columna de lectura de la app mide 1000. El panel no se lee:
+       se trabaja, con un índice al costado. Se ensancha solo acá, y
+       la cabecera negra se ensancha con él para que el logo no quede
+       corrido respecto del contenido. */
+    .pantalla-panel .envoltura{max-width:1180px}
+
+    .panel-marco{
+      display:grid;grid-template-columns:248px minmax(0,1fr);
+      gap:30px;align-items:start
+    }
+    .indice-abrir{display:none}
+    /* Acá NO hay una regla que abra el índice. El `hidden` del
+       navegador es `display:none !important`: una regla de esta hoja
+       no lo gana. Lo abre el JS, mirando este mismo ancho de 1000.
+       Se probó al revés primero, con `.indice-cuerpo[hidden]{display:
+       block}`, y en Chrome el índice no aparecía. */
+    .panel-indice{position:sticky;top:14px}
+    /* 44 px es la medida de un dedo, y en el teléfono no se toca. Con
+       el mouse alcanzan 40, y esos 4 px por catorce renglones son los
+       que hacen que el índice entero entre en una pantalla de portátil
+       sin barra de scroll propia. */
+    .indice-item{min-height:40px;padding:8px 10px}
+    .indice-cuerpo{
+      margin-top:0;max-height:calc(100vh - 28px);overflow:auto;
+      overscroll-behavior:contain
+    }
+
+    .obra-cabeza{margin-top:0}
+    /* Un campo de texto de 870 px de ancho no se llena: se mira. Los
+       formularios se quedan en 760; las listas de tarjetas sí usan
+       todo el ancho, que es lo que las pone en dos columnas. */
+    #zona > *{max-width:760px}
+    #zona > .lista,
+    #zona > .kit,
+    #zona > .rejilla-3x3{max-width:none}
+  }
 </style>
 
 </head>
-<body>
+<body class="pantalla-panel">
 
 <div id="cabecera"></div>
 <main class="envoltura" id="contenido">
@@ -199,47 +368,223 @@
   }
 
   /* ============================================================
+     EL MAPA DEL PANEL
+
+     Esta tabla es lo único que hay que tocar para agregar, mover o
+     renombrar una sección. De acá salen las cuatro cosas que antes
+     estaban repartidas en cuatro lugares distintos:
+
+       · el renglón del índice de la izquierda,
+       · el título de la sección,
+       · la línea que dice QUÉ se edita ahí,
+       · el enlace a DÓNDE se ve eso en la app.
+
+     Ese último dato no estaba escrito en ninguna parte. Quien entra
+     por primera vez al panel abre «Guía de materia» y no tiene cómo
+     saber que eso sale en la pantalla de Anatomofisiología: lo
+     averigua tocando y mirando. Ahora lo dice la pantalla.
+     ============================================================ */
+  const GRUPOS = [
+    { id:'estudiante', nombre:'Para el estudiante' },
+    { id:'estudio',    nombre:'Estudio' },
+    { id:'agrupacion', nombre:'La agrupación' },
+    { id:'equipo',     nombre:'Herramientas del equipo' }
+  ];
+
+  const SECCIONES = [
+    { p:'tramites', grupo:'estudiante', emoji:'🧭', nombre:'Trámites',
+      que:'Cada gestión explicada paso a paso: qué papeles pide, cuándo se hace y en qué ventanilla.',
+      enlace:'../tramites/', donde:'Trámites' },
+
+    { p:'faq', grupo:'estudiante', emoji:'❓', nombre:'Preguntas',
+      que:'Las dudas que se repiten, con su respuesta corta. El chat «Avisanos» contesta con estas mismas.',
+      enlace:'../tramites/', donde:'Trámites' },
+
+    { p:'agenda', grupo:'estudiante', emoji:'📅', nombre:'Agenda',
+      que:'Fechas, novedades y las alarmas de inscripción y de mesas de final.',
+      enlace:'../agenda/', donde:'Agenda' },
+
+    { p:'materiales', grupo:'estudio', emoji:'📚', nombre:'Estudiemos',
+      que:'Apuntes, resúmenes, programas y grupos de estudio, ordenados por materia.',
+      enlace:'../estudiemos/', donde:'Estudiemos' },
+
+    { p:'programas', grupo:'estudio', emoji:'📖', nombre:'Programas',
+      que:'El programa de cada materia con sus unidades y su bibliografía. Se puede cargar leyendo el PDF.',
+      enlace:'../carrera/', donde:'Mi carrera' },
+
+    { p:'guia', grupo:'estudio', emoji:'🧠', nombre:'Guía de materia',
+      que:'La guía de cursada de Anatomofisiología: módulos, fechas clave y trabajos prácticos.',
+      enlace:'../anatomo/', donde:'Anatomofisiología' },
+
+    { p:'catedras', grupo:'estudio', emoji:'✉️', nombre:'Cátedras',
+      que:'El correo de cada cátedra, por carrera y por año.',
+      enlace:'../catedras/', donde:'Cátedras' },
+
+    { p:'quienes', grupo:'agrupacion', emoji:'✊', nombre:'Quiénes somos',
+      que:'El texto, las fotos y las redes de la página de presentación de la agrupación.',
+      enlace:'../quienes/', donde:'Quiénes somos' },
+
+    { p:'consejo', grupo:'agrupacion', emoji:'🏛', nombre:'Consejo',
+      que:'Quién nos representa en el Consejo Directivo y qué se consiguió ahí.',
+      enlace:'../consejo/', donde:'Consejo' },
+
+    { p:'instagram', grupo:'agrupacion', emoji:'📸', nombre:'Instagram',
+      que:'Los posteos que se muestran en la portada. Se cargan a mano: la agrupación elige cuál va.',
+      enlace:'../', donde:'la portada' },
+
+    { p:'avisanos', grupo:'equipo', emoji:'💬', nombre:'Avisanos',
+      que:'Lo que el chat no supo contestar, y los contactos a los que deriva cuando no sabe.',
+      enlace:'../', donde:'el chat, en toda la app' },
+
+    { p:'categorias', grupo:'equipo', emoji:'🗂', nombre:'Categorías',
+      que:'Los cuadraditos de la portada. Son los que agrupan los trámites y las preguntas.',
+      enlace:'../', donde:'la portada' },
+
+    { p:'riesgo', grupo:'equipo', emoji:'🗺', nombre:'Mapa de riesgo',
+      que:'Los puntos que carga la gente esperan acá: nada sale al mapa público sin que alguien lo mire.',
+      enlace:'../mapa/', donde:'Mapa' },
+
+    { p:'registro', grupo:'equipo', emoji:'📈', nombre:'Registro',
+      que:'Cuánto se usó la app y qué se buscó. Es la única sección que se mira y no se edita.',
+      enlace:null, donde:null }
+  ];
+
+  const seccion = clave => SECCIONES.find(x => x.p === clave);
+  const grupoDe = clave => GRUPOS.find(g => g.id === seccion(clave).grupo);
+
+  function htmlIndice(){
+    return GRUPOS.map(g => `
+      <div class="indice-grupo">
+        <h2 class="indice-rotulo" id="rotulo-${g.id}">${esc(g.nombre)}</h2>
+        <ul aria-labelledby="rotulo-${g.id}">
+          ${SECCIONES.filter(x => x.grupo === g.id).map(x => `
+            <li><button type="button" class="indice-item" data-p="${x.p}">
+              <span class="emoji" aria-hidden="true">${x.emoji}</span>
+              <span class="nombre">${esc(x.nombre)}</span>
+              <span class="flechita" aria-hidden="true">▸</span>
+            </button></li>`).join('')}
+        </ul>
+      </div>`).join('');
+  }
+
+  /* ============================================================
      ARMADO DEL PANEL
      ============================================================ */
   contenido.innerHTML = `
     <h1 class="titulo-pantalla">PANEL</h1>
-    <p class="bajada">${esc(usuario.email)} · equipo</p>
-    <div class="chips" id="pestanias">
-      <button class="chip" data-p="tramites" aria-pressed="true">🧭 Trámites</button>
-      <button class="chip" data-p="faq"      aria-pressed="false">❓ Preguntas</button>
-      <button class="chip" data-p="agenda"   aria-pressed="false">📅 Agenda</button>
-      <button class="chip" data-p="materiales" aria-pressed="false">📚 Estudiemos</button>
-      <button class="chip" data-p="programas"  aria-pressed="false">📖 Programas</button>
-      <button class="chip" data-p="guia"      aria-pressed="false">🧠 Guía de materia</button>
-      <button class="chip" data-p="catedras"  aria-pressed="false">✉️ Cátedras</button>
-      <button class="chip" data-p="instagram"  aria-pressed="false">📸 Instagram</button>
-      <button class="chip" data-p="quienes"    aria-pressed="false">✊ Quiénes somos</button>
-      <button class="chip" data-p="consejo"   aria-pressed="false">🏛 Consejo</button>
-      <button class="chip" data-p="avisanos"   aria-pressed="false">💬 Avisanos</button>
-      <button class="chip" data-p="categorias" aria-pressed="false">🗂 Categorías</button>
-      <button class="chip" data-p="riesgo"     aria-pressed="false">🗺 Mapa de riesgo</button>
-      <button class="chip" data-p="registro"   aria-pressed="false">📈 Registro</button>
+    <p class="bajada">${esc(usuario.email)} · equipo · <a href="../">ver la app</a></p>
+
+    <div class="panel-marco">
+      <nav class="panel-indice" aria-label="Secciones del panel">
+        <!-- Con el índice abierto en la computadora son catorce
+             paradas de tabulador antes del contenido. Este enlace las
+             saltea; no se ve hasta que se lo enfoca. -->
+        <a class="saltar" href="#obra-titulo">Saltar al contenido de la sección</a>
+
+        <button type="button" class="indice-abrir" id="abrir-indice"
+                aria-expanded="false" aria-controls="indice-cuerpo">
+          <span class="rotulo">Sección</span>
+          <span class="actual" id="indice-actual"></span>
+          <span class="flecha" aria-hidden="true">▾</span>
+        </button>
+
+        <div class="indice-cuerpo" id="indice-cuerpo" hidden>${htmlIndice()}</div>
+      </nav>
+
+      <div class="panel-obra">
+        <header class="obra-cabeza" id="obra-cabeza"></header>
+        <!-- «Trámite guardado» se escribía adentro de la lista y el
+             lector de pantalla no lo nombraba nunca: quien no ve la
+             pantalla no se enteraba de si había guardado. -->
+        <div class="avisos-panel" id="avisos" role="status" aria-live="polite"></div>
+        <div id="zona"></div>
+      </div>
     </div>
-    <div id="zona" style="margin-top:14px"></div>
-    <button class="boton ancho borde" id="salir" style="margin-top:34px">Cerrar sesión</button>`;
+
+    <button class="boton ancho borde" id="salir"
+            style="margin-top:34px;max-width:280px">Cerrar sesión</button>`;
 
   document.getElementById('salir').onclick = async () => {
     await db.auth.signOut(); location.href = '../';
   };
 
-  const zona = document.getElementById('zona');
-  const pestanias = document.getElementById('pestanias');
+  const zona        = document.getElementById('zona');
+  const cabeza      = document.getElementById('obra-cabeza');
+  const cajaAvisos  = document.getElementById('avisos');
+  const btnIndice   = document.getElementById('abrir-indice');
+  const cuerpoIndice= document.getElementById('indice-cuerpo');
   let actual = 'tramites';
   let categorias = [];
 
-  pestanias.addEventListener('click', ev => {
-    const b = ev.target.closest('.chip');
+  /* En la computadora el índice está siempre abierto y el botón que lo
+     abre no existe. De 1000 para abajo, se pliega. Es el mismo corte
+     que el @media de la hoja de arriba: si uno cambia, cambia el otro.
+     Quien abre y cierra es esto y no el CSS, porque el `hidden` del
+     navegador es `display:none !important` y una regla no lo gana. */
+  const anchoPc = window.matchMedia('(min-width:1000px)');
+  const enComputadora = () => anchoPc.matches;
+
+  function abrirIndice(abierto){
+    btnIndice.setAttribute('aria-expanded', abierto ? 'true' : 'false');
+    cuerpoIndice.hidden = !abierto;
+  }
+
+  /* Al cargar, y cada vez que la ventana cruza los 1000: agrandar la
+     ventana con el índice plegado dejaba la columna izquierda vacía. */
+  function acomodarIndice(){ abrirIndice(enComputadora()); }
+  anchoPc.addEventListener('change', acomodarIndice);
+  acomodarIndice();
+
+  btnIndice.addEventListener('click', () =>
+    abrirIndice(btnIndice.getAttribute('aria-expanded') !== 'true'));
+
+  /* Escape cierra y devuelve el foco al botón: si no, el foco se queda
+     adentro de algo que ya no está en pantalla. */
+  cuerpoIndice.addEventListener('keydown', ev => {
+    if (ev.key === 'Escape' && !enComputadora()){
+      abrirIndice(false); btnIndice.focus();
+    }
+  });
+
+  cuerpoIndice.addEventListener('click', ev => {
+    const b = ev.target.closest('.indice-item');
     if (!b) return;
     actual = b.dataset.p;
-    [...pestanias.children].forEach(x =>
-      x.setAttribute('aria-pressed', x.dataset.p === actual ? 'true' : 'false'));
+    if (!enComputadora()) abrirIndice(false);
     dibujar();
+    /* El foco se va al título de la sección recién dibujada. Con el
+       teclado y con lector de pantalla, elegir en el índice te deja
+       parado en lo que elegiste y no de vuelta arriba de todo. */
+    const h = document.getElementById('obra-titulo');
+    if (h) h.focus();
   });
+
+  /* ============================================================
+     LA CABECERA DE CADA SECCIÓN
+
+     Tres renglones fijos, siempre en el mismo orden: de qué grupo es,
+     cómo se llama, qué se edita acá y dónde se ve en la app.
+     ============================================================ */
+  function pintarCabeza(){
+    const x = seccion(actual);
+    const g = grupoDe(actual);
+
+    cabeza.innerHTML = `
+      <p class="obra-ruta">${esc(g.nombre)}</p>
+      <h2 id="obra-titulo" tabindex="-1">
+        <span aria-hidden="true">${x.emoji}</span> ${esc(x.nombre)}</h2>
+      <p class="obra-que">${esc(x.que)}</p>
+      <p class="obra-donde">${x.enlace
+        ? `Se ve en la app · <a href="${x.enlace}">${esc(x.donde)}</a>`
+        : 'No se ve en la app: es una pantalla del equipo.'}</p>`;
+
+    /* El índice y el desplegable dicen lo mismo que la cabecera */
+    [...cuerpoIndice.querySelectorAll('.indice-item')].forEach(b => {
+      if (b.dataset.p === actual) b.setAttribute('aria-current', 'page');
+      else b.removeAttribute('aria-current');
+    });
+    document.getElementById('indice-actual').textContent = x.nombre;
+  }
 
   /* -------- helpers -------- */
   const val  = id => document.getElementById(id).value.trim();
@@ -250,8 +595,17 @@
      Así estaban el plan de Fono y la resolución del tramo (18/9/2026). */
   const enlace = id => { const v = nulo(id); return v ? v.replace(/^http:\/\//i, 'https://') : v; };
 
+  /* Antes esto se escribía adentro de `zona`, arriba de la lista. Se
+     veía, pero un lector de pantalla no lo nombraba: quien no mira la
+     pantalla no se enteraba de si había guardado o no. Ahora va a la
+     caja con `role="status"`, que el lector lee sola.
+     El «guardado» se borra a los siete segundos; el error NO, porque
+     un error hay que poder leerlo con calma. */
   function aviso(texto, clase){
-    zona.insertAdjacentHTML('afterbegin', `<div class="aviso ${clase}">${esc(texto)}</div>`);
+    cajaAvisos.innerHTML = `<div class="aviso ${clase}">${esc(texto)}</div>`;
+    clearTimeout(aviso.reloj);
+    if (clase === 'ok')
+      aviso.reloj = setTimeout(() => { cajaAvisos.innerHTML = ''; }, 7000);
   }
 
   async function cargarCategorias(){
@@ -294,7 +648,8 @@
             <h3>${esc(t.titulo)}</h3>
             <p>${c ? esc(c.emoji + ' ' + c.nombre) : 'Sin categoría'}${t.publicado ? '' : ' · BORRADOR'}</p>
           </div>
-          <button class="mini" data-editar="${t.id}">Editar</button>
+          <button class="mini" data-editar="${t.id}"
+                  aria-label="Editar el trámite ${esc(t.titulo)}">Editar</button>
         </div></div>`;
     }).join('');
 
@@ -310,7 +665,7 @@
 
     zona.innerHTML = `
       <button class="mini" id="volver">← Volver a la lista</button>
-      <h2 class="titulo-pantalla" style="font-size:24px">${esNuevo ? 'NUEVO TRÁMITE' : 'EDITAR TRÁMITE'}</h2>
+      <h3 class="titulo-pantalla" style="font-size:24px">${esNuevo ? 'NUEVO TRÁMITE' : 'EDITAR TRÁMITE'}</h3>
 
       <div class="campo"><label for="titulo">Título *</label>
         <input id="titulo" value="${esc(t.titulo || '')}" placeholder="Inscripción a finales"></div>
@@ -383,8 +738,10 @@
           <div class="paso-editor" data-i="${i}">
             <div class="encabezado"><span>Paso ${i + 1}</span>
               <span>
-                ${i > 0 ? '<button class="mini" data-sube="' + i + '">↑</button>' : ''}
-                <button class="mini rojo" data-quita="${i}">Quitar</button>
+                ${i > 0 ? '<button class="mini" data-sube="' + i +
+                    '" aria-label="Subir el paso ' + (i + 1) + '">↑</button>' : ''}
+                <button class="mini rojo" data-quita="${i}"
+                  aria-label="Quitar el paso ${i + 1}">Quitar</button>
               </span></div>
             <div class="campo"><input class="p-titulo" value="${esc(p.titulo || '')}"
               placeholder="Qué hay que hacer"></div>
@@ -498,7 +855,8 @@
         <div class="fila-item">
           <div class="crecer"><h3>${esc(f.pregunta)}</h3>
             <p>${esc(f.respuesta.slice(0,90))}${f.respuesta.length > 90 ? '…' : ''}</p></div>
-          <button class="mini" data-editar="${f.id}">Editar</button>
+          <button class="mini" data-editar="${f.id}"
+                  aria-label="Editar la pregunta ${esc(f.pregunta)}">Editar</button>
         </div></div>`).join('');
 
     lista.addEventListener('click', ev => {
@@ -513,7 +871,7 @@
 
     zona.innerHTML = `
       <button class="mini" id="volver">← Volver a la lista</button>
-      <h2 class="titulo-pantalla" style="font-size:24px">${esNuevo ? 'NUEVA PREGUNTA' : 'EDITAR PREGUNTA'}</h2>
+      <h3 class="titulo-pantalla" style="font-size:24px">${esNuevo ? 'NUEVA PREGUNTA' : 'EDITAR PREGUNTA'}</h3>
 
       <div class="campo"><label for="pregunta">Pregunta *</label>
         <input id="pregunta" value="${esc(f.pregunta || '')}"
@@ -613,7 +971,8 @@
             : p.alarma === 'mesa'        ? ' · mesa de ' + esc(p.periodo || '')
             : ''}</p>
           </div>
-          <button class="mini" data-editar="${p.id}">Editar</button>
+          <button class="mini" data-editar="${p.id}"
+                  aria-label="Editar la publicación ${esc(p.titulo)}">Editar</button>
         </div></div>`).join('');
 
     lista.addEventListener('click', ev => {
@@ -631,7 +990,7 @@
 
     zona.innerHTML = `
       <button class="mini" id="volver">← Volver a la lista</button>
-      <h2 class="titulo-pantalla" style="font-size:24px">${esNuevo ? 'NUEVA PUBLICACIÓN' : 'EDITAR PUBLICACIÓN'}</h2>
+      <h3 class="titulo-pantalla" style="font-size:24px">${esNuevo ? 'NUEVA PUBLICACIÓN' : 'EDITAR PUBLICACIÓN'}</h3>
 
       <div class="campo"><label for="titulo">Título *</label>
         <input id="titulo" value="${esc(p.titulo || '')}" placeholder="Mesa de finales de septiembre"></div>
@@ -958,7 +1317,7 @@
 
     zona.innerHTML = `
       <button class="mini" id="volver">← Volver a la lista</button>
-      <h2 class="titulo-pantalla" style="font-size:24px">${esNuevo ? 'SUBIR MATERIAL' : 'EDITAR MATERIAL'}</h2>
+      <h3 class="titulo-pantalla" style="font-size:24px">${esNuevo ? 'SUBIR MATERIAL' : 'EDITAR MATERIAL'}</h3>
 
       <div class="campo"><label for="titulo">Título *</label>
         <input id="titulo" value="${esc(m.titulo || '')}"
@@ -1189,7 +1548,7 @@
 
     zona.innerHTML = `
       <button class="mini" id="volver">← Volver a la lista</button>
-      <h2 class="titulo-pantalla" style="font-size:24px">${esNuevo ? 'CARGAR UN PROGRAMA' : 'EDITAR EL PROGRAMA'}</h2>
+      <h3 class="titulo-pantalla" style="font-size:24px">${esNuevo ? 'CARGAR UN PROGRAMA' : 'EDITAR EL PROGRAMA'}</h3>
 
       <div class="dos-columnas">
         <div class="campo"><label for="carrera">Carrera</label>
@@ -1384,7 +1743,7 @@
 
     zona.innerHTML = `
       <button class="mini" id="volver">← Volver a los programas</button>
-      <h2 class="titulo-pantalla" style="font-size:24px">CARGAR DESDE PDF</h2>
+      <h3 class="titulo-pantalla" style="font-size:24px">CARGAR DESDE PDF</h3>
 
       <div class="zona-soltar" id="soltar">
         <p style="margin:0 0 10px"><b>Arrastrá acá los PDFs de los programas.</b><br>
@@ -2242,7 +2601,7 @@
     }).filter(Boolean).join(' · ');
 
     zona.innerHTML = `
-      <h2 class="titulo-pantalla" style="font-size:22px;margin-top:0">LO QUE NO SUPO CONTESTAR</h2>
+      <h3 class="titulo-pantalla" style="font-size:22px;margin-top:0">LO QUE NO SUPO CONTESTAR</h3>
       <p class="letra-chica">Cada renglón es alguien que buscó algo y no lo
         encontró. Es la lista de lo que falta cargar en Info útil, escrita por
         los estudiantes.</p>
@@ -2257,7 +2616,7 @@
         </div>`).join('')
       : `<div class="vacio">Por ahora el chat contestó todo lo que le preguntaron.</div>`}
 
-      <h2 class="titulo-pantalla" style="font-size:22px;margin-top:26px">A QUIÉN PASA EL CHAT</h2>
+      <h3 class="titulo-pantalla" style="font-size:22px;margin-top:26px">A QUIÉN PASA EL CHAT</h3>
       <p class="letra-chica">Cuando el chat no sabe, ofrece <b>tres al azar</b> de
         la carrera que corresponda. Al azar para que las consultas no le caigan
         siempre a la misma compañera.<br>${porCarrera}</p>
@@ -2296,7 +2655,7 @@
 
     zona.innerHTML = `
       <button class="mini" id="volver">← Volver</button>
-      <h2 class="titulo-pantalla" style="font-size:24px">${esNuevo ? 'SUMAR UN CONTACTO' : 'EDITAR EL CONTACTO'}</h2>
+      <h3 class="titulo-pantalla" style="font-size:24px">${esNuevo ? 'SUMAR UN CONTACTO' : 'EDITAR EL CONTACTO'}</h3>
 
       <div class="campo"><label for="nombre">Nombre *</label>
         <input id="nombre" value="${esc(c.nombre || '')}" placeholder="Cami"></div>
@@ -2697,7 +3056,7 @@
     }
 
     zona.innerHTML = `
-      <h2 class="titulo-pantalla" style="font-size:22px;margin-top:0">PARA REVISAR</h2>
+      <h3 class="titulo-pantalla" style="font-size:22px;margin-top:0">PARA REVISAR</h3>
       <p class="letra-chica">Los más viejos primero. «Ver dónde» abre el punto
         en OpenStreetMap. Rechazado no se borra: deja de verse y queda anotado.</p>
       ${data.length ? data.map(r => `
@@ -2904,7 +3263,7 @@
 
     zona.innerHTML = `
       <button class="mini" id="volver">← Volver a la lista</button>
-      <h2 class="titulo-pantalla" style="font-size:24px">${esNuevo ? 'CARGAR POSTEO' : 'EDITAR POSTEO'}</h2>
+      <h3 class="titulo-pantalla" style="font-size:24px">${esNuevo ? 'CARGAR POSTEO' : 'EDITAR POSTEO'}</h3>
 
       <div class="campo"><label for="permalink">El link del posteo *</label>
         <p class="letra-chica" style="margin:0 0 6px">
@@ -3052,12 +3411,18 @@
 
   /* ============================================================ */
   function dibujar(){
+    pintarCabeza();
+    cajaAvisos.innerHTML = '';
+    /* Mientras carga, el lector de pantalla no lee los esqueletos
+       como si fueran contenido. */
+    zona.setAttribute('aria-busy', 'true');
     zona.innerHTML = '<div class="esq-tarjeta"><div class="esqueleto esq-linea titulo"></div><div class="esqueleto esq-linea"></div><div class="esqueleto esq-linea media"></div></div><div class="esq-tarjeta"><div class="esqueleto esq-linea titulo"></div><div class="esqueleto esq-linea"></div><div class="esqueleto esq-linea corta"></div></div>';
-    ({ tramites:vistaTramites, faq:vistaFaq, agenda:vistaAgenda, programas:vistaProgramas,
+    Promise.resolve(({ tramites:vistaTramites, faq:vistaFaq, agenda:vistaAgenda, programas:vistaProgramas,
        materiales:vistaMateriales, guia:vistaGuia, avisanos:vistaAvisanos,
        quienes:vistaQuienes, consejo:vistaConsejo, registro:vistaRegistro,
        categorias:vistaCategorias, catedras:vistaCatedras, riesgo:vistaRiesgo,
-       instagram:vistaInstagram }[actual])();
+       instagram:vistaInstagram }[actual])())
+      .finally(() => zona.removeAttribute('aria-busy'));
   }
 
   dibujar();
