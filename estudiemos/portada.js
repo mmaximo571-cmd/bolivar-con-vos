@@ -39,8 +39,11 @@
     catch(err){ return null; }
   }
 
+  /* Lo que está oculto no vuelve por «Seguí donde dejaste» (se lee
+     de HERRAMIENTAS al llamar, cuando la lista ya está armada). */
   const huella = () => (typeof leerHuella === 'function' ? leerHuella() : [])
-    .filter(x => x && x.u && x.k && x.k !== 'otro');
+    .filter(x => x && x.u && x.k && x.k !== 'otro'
+              && !HERRAMIENTAS.some(h => h.oculta && h.id === x.k));
 
   /* ============================================================
      LAS HERRAMIENTAS. `carreras` en null es «sirve a todas».
@@ -92,7 +95,11 @@
     { id:'pomodoro', modo:'repasar', nombre:'Pomodoro', emoji:'⏱️', suelta:true,
       desc:'El reloj de estudio: 25 minutos de foco y 5 de descanso, sin salir de acá.',
       href:'#pomodoro', carreras:null, dato: () => '25 · 5 minutos' },
-    { id:'fonoteca', modo:'practicar', nombre:'Fonoteca', emoji:'🎧',
+    /* OCULTA desde el 21/9: Máximo la revisa en la semana, antes no
+       sale en la grilla, el buscador ni «Seguí donde dejaste». La página
+       sigue andando por su dirección. Para volver a mostrarla: sacar
+       `oculta:true`. */
+    { id:'fonoteca', modo:'practicar', nombre:'Fonoteca', emoji:'🎧', oculta:true,
       desc:'Audiogramas para diagnosticar cada oído, con devolución.', href:'fonoteca/', carreras:['fono'],
       dato: () => '6 casos' },
     { id:'anatomo', modo:'practicar', nombre:'Anatomofisiología 3D', ico:'plan', emoji:'🧠',

@@ -326,7 +326,10 @@
    abajo del otro sin nada que los separe—. `consejo/index.html`
    también cambia, pero ese llega por la red; lo que lo tenía trabado
    era la hoja. */
-const VERSION = 'bolivar-v70';
+/* v71 (21/9/2026) Estudiemos: la Fonoteca queda oculta hasta que se
+   revise (`oculta:true` en `estudiemos/portada.js`, que se sirve de lo
+   guardado: sin número nuevo seguiría apareciendo). */
+const VERSION = 'bolivar-v71';
 const ARMAZON = VERSION + '-armazon';
 const PAGINAS = VERSION + '-paginas';
 
