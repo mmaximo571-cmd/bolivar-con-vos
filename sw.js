@@ -329,7 +329,13 @@
 /* v71 (21/9/2026) Estudiemos: la Fonoteca queda oculta hasta que se
    revise (`oculta:true` en `estudiemos/portada.js`, que se sirve de lo
    guardado: sin número nuevo seguiría apareciendo). */
-const VERSION = 'bolivar-v71';
+/* v72 (21/9/2026) Estadísticas de visitas con Vercel Web Analytics:
+   cada pantalla carga `/_vercel/insights/script.js`. Ese guion es de
+   Vercel y lo cambian ellos, así que acá abajo va directo a la red y
+   no se guarda en el armazón (guardado, podría quedar uno viejo que
+   ya no cuente bien). Sin señal falla callado, que es lo que queremos:
+   la app no depende de él. */
+const VERSION = 'bolivar-v72';
 const ARMAZON = VERSION + '-armazon';
 const PAGINAS = VERSION + '-paginas';
 
@@ -497,6 +503,9 @@ self.addEventListener('fetch', evento => {
   }
 
   if (url.origin !== self.location.origin) return;
+
+  /* Las estadísticas de Vercel: directo a la red, nunca guardadas (v72). */
+  if (url.pathname.indexOf('/_vercel/') === 0) return;
 
   /* Los videos van directo a la red, sin guardarse (ver v61). Y todo
      lo de su carpeta también: la lista `videos.js` servida de lo
