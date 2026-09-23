@@ -27,4 +27,7 @@ Reglas:
   con Grep en esos archivos, nunca leerlos enteros.
 
 Si `graphify` no está en el PATH, el ejecutable está en
-`C:\Users\Acer\.uv\tools\graphifyy\Scripts\graphify.exe`.
+`C:\Users\Acer\.uv\tools\graphifyy\Scripts\graphify.exe`. En una sesión
+en la nube se instala con `uv tool install 'graphifyy[sql]'`: sin el
+`[sql]` los `tabla-*.sql` no aportan nodos y `update` se niega a pisar
+el grafo (no usar `--force` en ese caso, borraría las tablas).
