@@ -6,7 +6,6 @@
 <title>Lactancia materna · Fichas · La Bolívar con vos</title>
 <meta name="description" content="Vínculo · Inmunidad · Calostro · Composición. Ficha de estudio con autoevaluación.">
 <meta name="theme-color" content="#F9E830">
-<meta name="color-scheme" content="light">
 <link rel="icon" type="image/png" sizes="32x32" href="../../../imagenes/icono-32.png">
 <link rel="apple-touch-icon" href="../../../imagenes/icono-apple.png">
 <link rel="manifest" href="../../../manifest.json">
@@ -15,74 +14,105 @@
 <meta property="og:title" content="Lactancia materna · La Bolívar con vos">
 <meta property="og:description" content="Vínculo · Inmunidad · Calostro · Composición. Ficha de estudio con autoevaluación.">
 <meta property="og:image" content="https://labolivarconvos.ar/imagenes/compartir.png">
-<!-- Ficha diseñada en Claude Design sobre textos/dfof-1-lactancia-materna.txt. Los estilos
-     y la lógica son los mismos para las diecisiete: assets/fichas-texto.css
-     y ficha-texto.js. Acá vive solo el dibujo. Va siempre en claro: el
-     diseño no trae versión oscura. -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../../../estilos.css">
+<link rel="stylesheet" href="../../../estilos-rediseno.css">
 <link rel="stylesheet" href="../assets/fichas-texto.css">
+<script>
+(function(){try{
+  var g = localStorage.getItem('bolivar-tema') || 'auto';
+  var oscuro = g === 'oscuro' || (g === 'auto' &&
+    window.matchMedia('(prefers-color-scheme: dark)').matches);
+  document.documentElement.dataset.tema = oscuro ? 'oscuro' : 'claro';
+}catch(e){ document.documentElement.dataset.tema = 'claro'; }})();
+</script>
+<!-- Ficha sobre textos/dfof-1-lactancia-materna.txt. Desde el 24/9/2026 es una
+     pantalla más de la app: cabecera, barra de abajo y modo oscuro. La
+     plantilla es la misma en las diecisiete; los estilos van en
+     assets/fichas-texto.css y la lógica en ficha-texto.js. -->
 <!-- Estadisticas de visitas (Vercel Web Analytics, sin cookies) -->
 <script defer src="/_vercel/insights/script.js"></script>
 </head>
 <body>
+
+<div id="cabecera"></div>
+
+<main class="envoltura" id="contenido" tabindex="-1">
 <div id="ficha"></div>
+</main>
+
+<div id="pie"></div>
+
 <template id="plantilla">
-<div style="background:var(--color-bg);color:var(--color-text);font-family:var(--font-body);min-height:100vh">
-  <header style="display:flex;flex-wrap:wrap;gap:var(--space-3);align-items:center;justify-content:space-between;padding:var(--space-3) var(--space-6);border-bottom:2px solid var(--color-divider)">
-    <a href="../" style="color:var(--color-text);font-family:var(--font-heading);font-weight:800;font-size:14px;letter-spacing:.1em;text-transform:uppercase">← Fichas de estudio</a>
-    <span style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:11px;letter-spacing:.14em;color:var(--color-neutral-700)">M1·LAC·06</span>
+<div class="ft">
+  <a class="ft-volver" href="../">← Fichas de estudio</a>
+  <sc-if value="{{ err }}"><p class="ft-error">{{ err }}</p></sc-if>
+  <sc-if value="{{ loading }}"><p class="bajada ft-cargando">Cargando la ficha…</p></sc-if>
+  <sc-if value="{{ listo }}">
+  <header class="ft-portada">
+    <span class="etiqueta gremial">{{ materia }}</span>
+    <h1 class="titulo-pantalla">{{ titulo }}</h1>
+    <p class="ft-sub">{{ subtitulo }}</p>
+    <p class="bajada">{{ entrada }}</p>
+    <p class="ft-fuente">Fuente: {{ pdfs }}</p>
+    <div class="ft-progreso"><div class="ft-riel"><i style="width:{{ pctW }}"></i></div><span>{{ progress }}</span></div>
   </header>
-  <div class="grid24" style="padding:var(--space-8) 0 0">
-    <div style="max-width:1140px;margin:0 auto;padding:0 var(--space-6)">
-      <sc-if value="{{ err }}" hint-placeholder-val="{{ false }}">
-        <p style="font-family:var(--font-heading);font-weight:800;color:var(--color-accent-700)">{{ err }}</p>
-      </sc-if>
-      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,260px),1fr));gap:2px;background:var(--color-text);border:2px solid var(--color-text)">
-      <div style="background:var(--color-bg);padding:var(--space-6)"><span style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:11px;letter-spacing:.18em;color:var(--color-accent-700);display:block;margin-bottom:var(--space-3)">FICHA M1·LAC·06</span><h1 style="font-size:clamp(26px,4.2vw,44px);margin:0;letter-spacing:-.015em;text-wrap:balance;overflow-wrap:anywhere;hyphens:auto">{{ titulo }}</h1><p style="font-family:var(--font-heading);font-weight:600;font-size:14px;letter-spacing:.05em;text-transform:uppercase;color:var(--color-neutral-700);margin:var(--space-3) 0 0">{{ subtitulo }}</p><div style="margin-top:var(--space-4);border-top:2px solid var(--color-divider);padding-top:var(--space-3);display:grid;gap:4px"><span style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:11px;color:var(--color-neutral-700);line-height:1.6">MATERIA: {{ materia }}</span><span style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:11px;color:var(--color-neutral-700);line-height:1.6">FUENTE: {{ pdfs }}</span></div></div>
-      <div style="background:var(--hl);color:var(--onhl);padding:var(--space-6);display:flex;flex-direction:column;justify-content:space-between;gap:var(--space-4)"><span style="font-family:var(--font-heading);font-weight:800;font-size:clamp(44px,9vw,84px);line-height:.82;font-variant-numeric:tabular-nums">06</span></div>
+
+  <nav class="ft-indice" aria-label="Partes de la ficha">
+    <a href="#que-es">Qué es</a><a href="#como-funciona">Cómo funciona</a><a href="#preguntas">Preguntas</a><a href="#aclarar">Falta</a>
+  </nav>
+
+  <section class="ft-parte" id="que-es">
+    <h2 class="ft-h2"><span>1</span>Qué es</h2>
+    <div class="tarjeta"><sc-for list="{{ defParas }}" as="p"><p>{{ p.rt }}</p></sc-for></div>
+    <div class="ft-confunde">
+      <span class="ft-rot">Lo que más se confunde</span>
+      <sc-for list="{{ confundeParas }}" as="p"><p>{{ p.rt }}</p></sc-for>
     </div>
-      <div style="padding-top:var(--space-6)"><div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(50%,150px),1fr));gap:2px;background:var(--color-divider);border:2px solid var(--color-divider)"><div style="background:var(--color-bg);padding:var(--space-3) var(--space-4)"><span style="display:block;font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:10px;letter-spacing:.16em;color:var(--color-neutral-700)">PIEZAS</span><span style="font-family:var(--font-heading);font-weight:800;font-size:clamp(20px,3vw,28px);font-variant-numeric:tabular-nums">{{ nPiezas }}</span></div><div style="background:var(--color-bg);padding:var(--space-3) var(--space-4)"><span style="display:block;font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:10px;letter-spacing:.16em;color:var(--color-neutral-700)">MÁQUINAS</span><span style="font-family:var(--font-heading);font-weight:800;font-size:clamp(20px,3vw,28px);font-variant-numeric:tabular-nums">{{ nMachines }}</span></div><div style="background:var(--color-bg);padding:var(--space-3) var(--space-4)"><span style="display:block;font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:10px;letter-spacing:.16em;color:var(--color-neutral-700)">PREGUNTAS</span><span style="font-family:var(--font-heading);font-weight:800;font-size:clamp(20px,3vw,28px);font-variant-numeric:tabular-nums">{{ nQuiz }}</span></div><div style="background:var(--color-bg);padding:var(--space-3) var(--space-4)"><span style="display:block;font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:10px;letter-spacing:.16em;color:var(--color-neutral-700)">ACIERTOS</span><span style="font-family:var(--font-heading);font-weight:800;font-size:clamp(20px,3vw,28px);font-variant-numeric:tabular-nums">{{ rightTxt }}</span></div></div></div>
+    <h3 class="titulo-seccion">Las piezas <span>{{ nPiezas }}</span></h3>
+    <ul class="ft-piezas"><sc-for list="{{ piezas }}" as="pz"><li><b>{{ pz.name }}</b><p>{{ pz.rt }}</p></li></sc-for></ul>
+  </section>
+
+  <section class="ft-parte" id="como-funciona">
+    <h2 class="ft-h2"><span>2</span>Cómo funciona</h2>
+    <sc-for list="{{ machines }}" as="m"><div class="tarjeta">
+      <h3 class="ft-h3">{{ m.name }}</h3>
+      <p class="ft-elige">{{ m.eligeRt }}</p>
+      <div class="ft-chips" role="group" aria-label="{{ m.name }}"><sc-for list="{{ m.buttons }}" as="b"><button type="button" class="chip" aria-pressed="{{ b.pressed }}" onClick="{{ b.onClick }}">{{ b.label }}</button></sc-for></div>
+      <div class="ft-salida" aria-live="polite"><h4>{{ m.activeName }}</h4><p>{{ m.activeRt }}</p></div>
+    </div></sc-for>
+  </section>
+
+  <section class="ft-parte" id="preguntas">
+    <h2 class="ft-h2"><span>3</span>Cómo te das cuenta</h2>
+    <div class="ft-preguntas"><sc-for list="{{ quiz }}" as="q"><div class="tarjeta">
+      <span class="ft-rot">Pregunta {{ q.n }} de {{ totalQuiz }}</span>
+      <p class="ft-enunciado">{{ q.text }}</p>
+      <div class="ft-opciones"><sc-for list="{{ q.options }}" as="o"><button type="button" class="ft-opcion {{ o.cls }}" aria-disabled="{{ o.disabled }}" onClick="{{ o.onClick }}"><span class="ft-letra">{{ o.letter }}</span><span>{{ o.text }}</span></button></sc-for></div>
+      <sc-if value="{{ q.answered }}"><div class="ft-porque" aria-live="polite"><span class="ft-veredicto {{ q.verdictCls }}">{{ q.verdict }}</span><p>{{ q.whyRt }}</p></div></sc-if>
+    </div></sc-for></div>
+  </section>
+
+  <section class="ft-parte" id="aclarar">
+    <h2 class="ft-h2"><span>4</span>Lo que hay que aclarar</h2>
+    <div class="ft-falta">
+      <span class="ft-rot">Pendiente con la cátedra</span>
+      <ul><sc-for list="{{ aclarar }}" as="a"><li><b>{{ a.name }}</b>: {{ a.rt }}</li></sc-for></ul>
     </div>
-  </div>
-  <div style="max-width:1140px;margin:0 auto;padding:var(--space-8) var(--space-6) 96px">
-    <section><div style="display:flex;align-items:stretch;margin-bottom:var(--space-6);background:var(--color-surface);border-left:8px solid var(--color-accent);flex-wrap:wrap"><span style="font-family:var(--font-heading);font-weight:800;font-size:20px;background:var(--color-text);color:var(--color-bg);display:flex;align-items:center;padding:0 var(--space-4);font-variant-numeric:tabular-nums">01</span><h2 style="font-size:clamp(17px,2.6vw,24px);margin:0;flex:1;min-width:170px;padding:var(--space-3) var(--space-4);letter-spacing:.04em;text-transform:uppercase">Qué es</h2></div>
-      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,300px),1fr));gap:var(--space-8)">
-        <div>
-          <span style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:10px;letter-spacing:.16em;color:var(--color-neutral-700);display:block;margin-bottom:var(--space-3)">DEFINICIÓN</span>
-          <sc-for list="{{ defParas }}" as="p" hint-placeholder-count="1"><p style="font-size:16px;line-height:1.6;text-wrap:pretty">{{ p.rt }}</p></sc-for>
-        </div>
-        <div style="border-left:8px solid var(--color-accent);padding-left:var(--space-4)">
-          <span style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:10px;letter-spacing:.16em;color:var(--color-accent-700);display:block;margin-bottom:var(--space-3)">LO QUE MÁS SE CONFUNDE</span>
-          <sc-for list="{{ confundeParas }}" as="p" hint-placeholder-count="1"><p style="font-size:16px;line-height:1.6;text-wrap:pretty">{{ p.rt }}</p></sc-for>
-        </div>
-      </div>
-      <div style="display:flex;align-items:baseline;justify-content:space-between;gap:var(--space-4);margin:var(--space-8) 0 var(--space-3)"><span style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:10px;letter-spacing:.16em;color:var(--color-neutral-700)">PIEZAS</span><span style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:10px;color:var(--color-neutral-700);font-variant-numeric:tabular-nums">{{ nPiezas }}</span></div>
-      <div style="display:flex;gap:2px;overflow-x:auto;background:var(--color-divider);border:2px solid var(--color-divider)"><sc-for list="{{ piezas }}" as="pz" hint-placeholder-count="6"><div style="background:var(--color-bg);padding:var(--space-4);flex:0 0 clamp(240px,26vw,300px)"><div style="background:var(--color-text);color:var(--color-bg);font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:11px;letter-spacing:.14em;padding:3px 7px;display:inline-block;font-variant-numeric:tabular-nums">{{ pz.num }}</div><h5 style="margin:var(--space-2) 0;font-size:16px">{{ pz.name }}</h5><p style="margin:0;font-size:14px;line-height:1.55;color:var(--color-neutral-800);text-wrap:pretty">{{ pz.rt }}</p></div></sc-for></div>
-    </section>
-    <section style="padding-top:var(--space-8)"><div style="display:flex;align-items:stretch;margin-bottom:var(--space-6);background:var(--color-surface);border-left:8px solid var(--color-accent);flex-wrap:wrap"><span style="font-family:var(--font-heading);font-weight:800;font-size:20px;background:var(--color-text);color:var(--color-bg);display:flex;align-items:center;padding:0 var(--space-4);font-variant-numeric:tabular-nums">02</span><h2 style="font-size:clamp(17px,2.6vw,24px);margin:0;flex:1;min-width:170px;padding:var(--space-3) var(--space-4);letter-spacing:.04em;text-transform:uppercase">Cómo funciona</h2></div><sc-for list="{{ machines }}" as="m" hint-placeholder-count="2"><div style="margin-bottom:var(--space-8);border:2px solid var(--color-text)"><div style="display:flex;flex-wrap:wrap;gap:var(--space-3);align-items:center;background:var(--color-text);color:var(--color-bg);padding:var(--space-2) var(--space-4)"><span style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:11px;letter-spacing:.14em;color:var(--hl)">MÁQ {{ m.n }}</span><h4 style="margin:0;font-size:clamp(15px,2.4vw,20px);flex:1;color:var(--color-bg)">{{ m.name }}</h4></div><div style="padding:var(--space-4)"><p style="margin:var(--space-3) 0;font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:12px;color:var(--color-neutral-800);line-height:1.6">{{ m.eligeRt }}</p>
-          <div style="display:flex;flex-wrap:wrap;gap:var(--space-2);margin-bottom:var(--space-4)"><sc-for list="{{ m.buttons }}" as="b" hint-placeholder-count="3"><button type="button" class="btn {{ b.cls }}" style="min-height:44px" onClick="{{ b.onClick }}">{{ b.label }}</button></sc-for></div>
-          <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,280px),1fr));gap:var(--space-6)">
-            <div><h5 style="margin:0 0 var(--space-2);font-size:15px;color:var(--color-accent-700)">{{ m.activeName }}</h5><p style="margin:0;font-size:15px;line-height:1.6;text-wrap:pretty">{{ m.activeRt }}</p></div>
-            <div style="border-left:2px solid var(--color-divider);padding-left:var(--space-4)"><span style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:10px;letter-spacing:.16em;color:var(--color-neutral-700);display:block;margin-bottom:4px">ESQUEMA MENTAL</span><p style="margin:0;font-size:13px;line-height:1.6;color:var(--color-neutral-800);text-wrap:pretty">{{ m.esquemaRt }}</p></div>
-          </div></div></div></sc-for></section>
-    <section style="padding-top:var(--space-8)"><div style="display:flex;align-items:stretch;margin-bottom:var(--space-6);background:var(--color-surface);border-left:8px solid var(--color-accent);flex-wrap:wrap"><span style="font-family:var(--font-heading);font-weight:800;font-size:20px;background:var(--color-text);color:var(--color-bg);display:flex;align-items:center;padding:0 var(--space-4);font-variant-numeric:tabular-nums">03</span><h2 style="font-size:clamp(17px,2.6vw,24px);margin:0;flex:1;min-width:170px;padding:var(--space-3) var(--space-4);letter-spacing:.04em;text-transform:uppercase">Cómo te das cuenta</h2><span style="font-family:var(--font-heading);font-weight:800;font-size:12px;color:var(--color-neutral-700);white-space:nowrap;font-variant-numeric:tabular-nums">{{ progress }}</span></div><div style="display:grid;gap:var(--space-6)"><sc-for list="{{ quiz }}" as="q" hint-placeholder-count="8">
-          <div style="display:grid;grid-template-columns:48px 1fr;gap:var(--space-4);align-items:start">
-            <span style="font-family:var(--font-heading);font-weight:800;font-size:16px;background:var(--color-text);color:var(--color-bg);display:flex;align-items:center;justify-content:center;height:40px;font-variant-numeric:tabular-nums">{{ q.n }}</span>
-            <div>
-              <p style="margin:0 0 var(--space-3);font-size:16px;line-height:1.45;font-family:var(--font-heading);font-weight:600;text-wrap:pretty">{{ q.text }}</p>
-              <div style="display:grid;gap:var(--space-2)"><sc-for list="{{ q.options }}" as="o" hint-placeholder-count="3">
-                <button type="button" style="{{ o.style }}" onClick="{{ o.onClick }}"><span style="font-family:var(--font-heading);font-weight:800;font-size:13px;flex:0 0 16px">{{ o.letter }}</span><span style="font-size:14px;line-height:1.5;text-align:left">{{ o.text }}</span></button>
-              </sc-for></div>
-              <sc-if value="{{ q.answered }}" hint-placeholder-val="{{ false }}">
-                <div style="margin-top:var(--space-3);padding:var(--space-3) var(--space-4);border-left:2px solid var(--color-text);background:var(--color-surface)"><span class="tag {{ q.verdictCls }}" style="margin-bottom:var(--space-2);display:inline-block">{{ q.verdict }}</span><p style="margin:0;font-size:14px;line-height:1.55;text-wrap:pretty">{{ q.whyRt }}</p></div>
-              </sc-if>
-            </div>
-          </div>
-        </sc-for></div></section>
-    <section style="padding-top:var(--space-8)"><div style="display:flex;align-items:stretch;margin-bottom:var(--space-6);background:var(--color-surface);border-left:8px solid var(--color-accent);flex-wrap:wrap"><span style="font-family:var(--font-heading);font-weight:800;font-size:20px;background:var(--color-text);color:var(--color-bg);display:flex;align-items:center;padding:0 var(--space-4);font-variant-numeric:tabular-nums">04</span><h2 style="font-size:clamp(17px,2.6vw,24px);margin:0;flex:1;min-width:170px;padding:var(--space-3) var(--space-4);letter-spacing:.04em;text-transform:uppercase">Lo que hay que aclarar</h2></div><div style="display:grid;gap:2px;background:var(--color-divider);border-top:2px solid var(--color-text);border-bottom:2px solid var(--color-text)"><sc-for list="{{ aclarar }}" as="a" hint-placeholder-count="3"><div style="background:var(--color-bg);display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,220px),1fr));gap:var(--space-4);padding:var(--space-4) 0"><div><span style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:10px;letter-spacing:.16em;color:var(--color-accent-700);display:block;margin-bottom:4px">PENDIENTE</span><h5 style="margin:0;font-size:16px">{{ a.name }}</h5></div><p style="margin:0;font-size:14px;line-height:1.6;color:var(--color-neutral-800);text-wrap:pretty">{{ a.rt }}</p></div></sc-for></div></section>
-  </div>
-  <footer style="background:var(--color-text);color:var(--color-bg);padding:var(--space-6);display:flex;flex-wrap:wrap;gap:var(--space-4);justify-content:space-between;font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:11px;letter-spacing:.08em;text-transform:uppercase"><span>M1·LAC·06</span><a href="../" style="color:var(--color-bg)">Volver al índice ↗</a><span>Equipo Fonoaudiología · CEFTS</span></footer>
+  </section>
+
+  <footer class="ft-cierre"><a href="../">← Volver a las fichas</a><span>Equipo Fonoaudiología · CEFTS</span></footer>
+  </sc-if>
 </div>
 </template>
+<script>window.RAIZ = '../../../';</script>
+<script src="../../../lib/datos.js"></script>
+<script src="../../../config.js"></script>
+<script src="../../../iconos.js"></script>
+<script src="../../../app.js"></script>
+<script src="../../../fondo-red.js"></script>
 <script src="../ficha.js"></script>
 <script>window.FICHA_PROPS = { ficha: '../textos/dfof-1-lactancia-materna.txt', showRefs: true, revealWhy: true };</script>
 <script src="../ficha-texto.js"></script>

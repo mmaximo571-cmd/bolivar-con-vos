@@ -335,7 +335,13 @@
    no se guarda en el armazón (guardado, podría quedar uno viejo que
    ya no cuente bien). Sin señal falla callado, que es lo que queremos:
    la app no depende de él. */
-const VERSION = 'bolivar-v72';
+/* v73 (24/9/2026) Las 17 fichas de texto pasan al dibujo de la app:
+   `estudiemos/fichas/ficha-texto.js` pinta cabecera y pie y cambia los
+   estilos sueltos por clases, y `estudiemos/fichas/assets/fichas-texto.css`
+   se reescribe con las variables de la app. Los dos se sirven de lo
+   guardado: sin subir, quien ya abrió una ficha recibe el HTML nuevo
+   con la hoja y la lógica viejas, y la plantilla nueva sale sin estilo. */
+const VERSION = 'bolivar-v73';
 const ARMAZON = VERSION + '-armazon';
 const PAGINAS = VERSION + '-paginas';
 

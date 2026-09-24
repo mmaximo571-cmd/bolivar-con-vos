@@ -8,7 +8,25 @@
    dice su .txt en `window.FICHA_PROPS`.
 
    Viene tal cual del diseño salvo un renglón, marcado abajo.
+
+   24/9/2026: EL DIBUJO PASA A SER EL DE LA APP. Las diecisiete tenían
+   una hoja propia (Archivo, letra de terminal, sin modo oscuro) y se
+   salían de la app: sin cabecera, sin barra de abajo. Ahora cargan
+   `estilos.css` y `estilos-rediseno.css`, y la plantilla usa sus
+   clases. Lo que cambió acá: los estilos sueltos pasan a clases
+   (`cls`), los chips dicen `pressed`, y se pintan cabecera y pie.
+   Los datos y el parser no se tocaron.
    ============================================================ */
+
+/* La cabecera, el pie y la barra de abajo, como en cualquier pantalla. */
+(function(){
+  if (typeof htmlCabecera !== 'function') return;
+  const cab = document.getElementById('cabecera');
+  const pie = document.getElementById('pie');
+  if (cab) cab.innerHTML = htmlCabecera();
+  if (pie) pie.innerHTML = htmlPie();
+  pintarNav('estudiemos');
+})();
 class Component extends DCLogic {
   state = { f: null, err: "", sel: {}, ans: {} };
 
@@ -35,12 +53,14 @@ class Component extends DCLogic {
     const refs = this.props.showRefs !== false;
     const why = this.props.revealWhy !== false;
     const f = this.state.f;
-    if (!f) return { err: this.state.err, loading: true, materia: "", titulo: "", subtitulo: "", entrada: "", pdfs: "", progress: "", pct: "0%", pctW: "0%", nPiezas: "—", nMachines: "—", nQuiz: "—", rightTxt: "—", estado: "Cargando" };
+    if (!f) return { err: this.state.err, loading: !this.state.err, listo: false };
     const { segs, paras } = this.mod;
+    /* Negrita, [FALTA] y la cita de página, con los colores de la app:
+       así se dan vuelta solos en oscuro. */
     const SS = {
-      b: { fontWeight: 800 },
-      c: { fontFamily: "var(--font-heading)", fontWeight: 800, fontSize: "11px", letterSpacing: ".08em", background: "var(--color-accent)", color: "var(--color-bg)", padding: "1px 5px", whiteSpace: "nowrap" },
-      r: { fontSize: "11px", color: "var(--color-neutral-700)", whiteSpace: "nowrap" },
+      b: { fontWeight: 700 },
+      c: { fontSize: "11px", fontWeight: 700, letterSpacing: ".06em", textTransform: "uppercase", background: "var(--superficie-2)", color: "var(--ambar)", padding: "1px 6px", borderRadius: "6px", whiteSpace: "nowrap" },
+      r: { fontSize: "12px", color: "var(--texto-suave)", whiteSpace: "nowrap" },
       p: null,
     };
     const el = (arr) =>
@@ -67,24 +87,11 @@ class Component extends DCLogic {
         activeRt: rich(active.text),
         buttons: m.options.map((o, oi) => ({
           label: o.name,
-          cls: (this.state.sel[mi] || 0) === oi ? "btn-primary" : "btn-secondary",
+          pressed: (this.state.sel[mi] || 0) === oi ? "true" : "false",
           onClick: () => this.setState((s) => ({ sel: Object.assign({}, s.sel, { [mi]: oi }) })),
         })),
       };
     });
-
-    const optStyle = (state) => {
-      const base = {
-        display: "flex", gap: "12px", alignItems: "flex-start", width: "100%",
-        minHeight: "48px", padding: "12px 14px", cursor: "pointer",
-        border: "1px solid var(--color-divider)", background: "transparent",
-        color: "var(--color-text)", fontFamily: "var(--font-body)", borderRadius: "0",
-      };
-      if (state === "correct") return Object.assign(base, { background: "var(--color-text)", color: "var(--color-bg)", borderColor: "var(--color-text)" });
-      if (state === "wrong") return Object.assign(base, { background: "var(--color-accent-200)", borderColor: "var(--color-accent)", borderWidth: "2px" });
-      if (state === "dim") return Object.assign(base, { opacity: 0.45, cursor: "default" });
-      return base;
-    };
 
     const quiz = f.quiz.map((q, qi) => {
       const picked = this.state.ans[qi];
@@ -94,12 +101,13 @@ class Component extends DCLogic {
         text: q.text,
         answered: done && why,
         verdict: picked === q.correct ? "Correcto" : "Revisá esto",
-        verdictCls: picked === q.correct ? "tag-neutral" : "tag-accent",
+        verdictCls: picked === q.correct ? "bien" : "mal",
         whyRt: rich(q.why),
         options: q.options.map((o) => ({
           letter: o.letter,
           text: o.text,
-          style: optStyle(!done ? "" : o.letter === q.correct ? "correct" : o.letter === picked ? "wrong" : "dim"),
+          cls: !done ? "" : o.letter === q.correct ? "bien" : o.letter === picked ? "mal" : "apagada",
+          disabled: done ? "true" : "false",
           onClick: () => { if (!this.state.ans[qi]) this.setState((s) => ({ ans: Object.assign({}, s.ans, { [qi]: o.letter }) })); },
         })),
       };
@@ -110,17 +118,20 @@ class Component extends DCLogic {
 
     return {
       err: this.state.err,
+      listo: true,
       titulo: f.portada.titulo,
       subtitulo: f.portada.subtitulo,
       entrada: f.portada.entrada,
-      materia: f.portada.materia,
+      /* Las de Anatomo traen la cita del cuadernillo pegada a la materia */
+      materia: f.portada.materia.replace(/\s*\([^)]*\)\s*$/, ""),
       pdfs: f.portada.pdfs,
       defParas: P(f.queEs.definicion),
       confundeParas: P(f.queEs.confunde),
       piezas: f.queEs.piezas.map((p, i) => ({ num: String(i + 1).padStart(2, "0"), name: p.name, rt: rich(p.text) })),
       machines,
       quiz,
-      progress: answered + "/" + f.quiz.length + " · " + right + " correctas",
+      progress: answered + " de " + f.quiz.length + " respondidas · " + right + " bien",
+      totalQuiz: f.quiz.length,
       pct: (f.quiz.length ? Math.round((right / f.quiz.length) * 100) : 0) + "%",
       pctW: (f.quiz.length ? Math.round((answered / f.quiz.length) * 100) : 0) + "%",
       nPiezas: String(f.queEs.piezas.length).padStart(2, "0"),
