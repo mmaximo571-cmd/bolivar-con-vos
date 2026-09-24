@@ -14,6 +14,10 @@ Si algo de acá quedó viejo, se corrige acá mismo al cerrar la sesión.
 **Esta sección manda sobre el resto de la bitácora hasta el 6/11.** Lo de
 «Dónde estamos» para abajo es el registro del lanzamiento del 21/9.
 
+**Cada sesión arranca con un prompt de `PROMPT-ELECCIONES.md`**: uno por
+tarea, en orden, con el material que necesita. Se trabaja en la rama
+`lanzamiento-2` hasta el lunes 19/10.
+
 ### Qué se busca
 
 Las elecciones las gana quien más presente estuvo. La app no pide el voto, y
