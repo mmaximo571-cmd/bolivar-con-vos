@@ -183,6 +183,17 @@ ese trabajo, y reactivar el programa es un pedido para llevar al Consejo.
 - Los materiales «Si te está costando» y «Rendí lo que debés» son contenido
   cargado desde el panel durante los 15 días.
 
+**B5 hecho (24/9): los datos de la app no alcanzan.** La trayectoria
+(aprobadas, regulares) vive en el teléfono de cada quien: en Supabase hay
+solo **17 respaldos** (7 de TS, 10 de Fono, ninguno de TGCR). Ninguna
+materia llega a 10 personas en `cursada`, y las faltas las carga 1 persona.
+Con la regla de no mostrar grupos de menos de 5, no sale ninguna lista de
+materias. **La fuente real son las preguntas de B4** (sobre todo la 1 y la
+2). Para más adelante, y es código: que Mi año anote un hito anónimo
+«regularizó X» o «aprobó X» en `sucesos`, que no tiene columna de usuario.
+Así se podría contar cuántas materias quedan regularizadas sin rendir, sin
+poder seguir a nadie.
+
 **La búsqueda** tiene cinco líneas (datos de la UNLP, programas que existen,
 la voz estudiantil, bibliografía y datos de la app). Cada una tiene su
 prompt o su lista en `PROMPT-ELECCIONES.md`, en «Búsqueda: permanencia y
