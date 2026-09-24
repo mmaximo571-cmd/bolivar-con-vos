@@ -96,9 +96,9 @@
     "semantic_hash": ""
   },
   "sw.js": {
-    "mtime": 1790257468.8899338,
-    "seen": 1790257529.876567,
-    "ast_hash": "edf559079d9dcaa421858f46166da086",
+    "mtime": 1790257787.6502957,
+    "seen": 1790257789.4338596,
+    "ast_hash": "6bb787df42a5c327f8f9a63b4530d9e1",
     "semantic_hash": ""
   },
   "tabla-alarma.sql": {
@@ -186,9 +186,9 @@
     "semantic_hash": "13c70cb9b680cf53ce1df6881965457c"
   },
   "BITACORA.md": {
-    "mtime": 1790257468.8945186,
-    "seen": 1790257529.8766072,
-    "ast_hash": "51738164ef201350a31d352b96192dfa",
+    "mtime": 1790257787.6517806,
+    "seen": 1790257789.4338803,
+    "ast_hash": "9f21e339d99977e323fa094e2d1f08d7",
     "semantic_hash": ""
   },
   "LEEME.md": {
@@ -354,9 +354,9 @@
     "semantic_hash": ""
   },
   "estudiemos/fichas/ficha-texto.js": {
-    "mtime": 1790257325.942332,
-    "seen": 1790257529.8765097,
-    "ast_hash": "32e71a077cc56dc1b0cd1539c1ab7e86",
+    "mtime": 1790257757.395599,
+    "seen": 1790257789.4338243,
+    "ast_hash": "ca9d961559073d936234d39b80f24146",
     "semantic_hash": ""
   },
   "mapa/capas.js": {

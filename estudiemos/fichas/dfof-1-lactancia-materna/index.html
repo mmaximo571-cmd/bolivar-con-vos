@@ -57,8 +57,18 @@
     <p class="ft-sub">{{ subtitulo }}</p>
     <p class="bajada">{{ entrada }}</p>
     <p class="ft-fuente">Fuente: {{ pdfs }}</p>
-    <div class="ft-progreso"><div class="ft-riel"><i style="width:{{ pctW }}"></i></div><span>{{ progress }}</span></div>
   </header>
+
+  <div class="ft-estado" aria-label="Lo que te falta de esta ficha">
+    <dl class="ft-cifras">
+      <div><dt>Partes vistas</dt><dd>{{ nVistas }}</dd></div>
+      <div><dt>Preguntas bien</dt><dd>{{ nBien }}</dd></div>
+      <div><dt>Sin responder</dt><dd>{{ nFaltan }}</dd></div>
+    </dl>
+    <sc-if value="{{ hayAccion }}"><button type="button" class="boton ft-accion" onClick="{{ accion }}">{{ accionTxt }}</button></sc-if>
+    <sc-if value="{{ hayLeer }}"><button type="button" class="ft-leer" onClick="{{ leer }}">{{ leerTxt }}</button></sc-if>
+    <p class="ft-nota">Se guarda en este teléfono.</p>
+  </div>
 
   <nav class="ft-indice" aria-label="Partes de la ficha">
     <a href="#que-es">Qué es</a><a href="#como-funciona">Cómo funciona</a><a href="#preguntas">Preguntas</a><a href="#aclarar">Falta</a>
@@ -87,12 +97,13 @@
 
   <section class="ft-parte" id="preguntas">
     <h2 class="ft-h2"><span>3</span>Cómo te das cuenta</h2>
-    <div class="ft-preguntas"><sc-for list="{{ quiz }}" as="q"><div class="tarjeta">
+    <div class="ft-preguntas"><sc-for list="{{ quiz }}" as="q"><div class="tarjeta" id="{{ q.id }}">
       <span class="ft-rot">Pregunta {{ q.n }} de {{ totalQuiz }}</span>
       <p class="ft-enunciado">{{ q.text }}</p>
       <div class="ft-opciones"><sc-for list="{{ q.options }}" as="o"><button type="button" class="ft-opcion {{ o.cls }}" aria-disabled="{{ o.disabled }}" onClick="{{ o.onClick }}"><span class="ft-letra">{{ o.letter }}</span><span>{{ o.text }}</span></button></sc-for></div>
       <sc-if value="{{ q.answered }}"><div class="ft-porque" aria-live="polite"><span class="ft-veredicto {{ q.verdictCls }}">{{ q.verdict }}</span><p>{{ q.whyRt }}</p></div></sc-if>
     </div></sc-for></div>
+    <sc-if value="{{ hayRespuestas }}"><button type="button" class="ft-borrar" onClick="{{ borrar }}">Borrar mis respuestas</button></sc-if>
   </section>
 
   <section class="ft-parte" id="aclarar">

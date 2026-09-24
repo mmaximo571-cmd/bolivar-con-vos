@@ -340,7 +340,9 @@
    estilos sueltos por clases, y `estudiemos/fichas/assets/fichas-texto.css`
    se reescribe con las variables de la app. Los dos se sirven de lo
    guardado: sin subir, quien ya abrió una ficha recibe el HTML nuevo
-   con la hoja y la lógica viejas, y la plantilla nueva sale sin estilo. */
+   con la hoja y la lógica viejas, y la plantilla nueva sale sin estilo.
+   El mismo día, antes de publicar, se sumó a estos dos archivos el
+   bloque «lo que te falta» de la portada: va en la misma v73. */
 const VERSION = 'bolivar-v73';
 const ARMAZON = VERSION + '-armazon';
 const PAGINAS = VERSION + '-paginas';

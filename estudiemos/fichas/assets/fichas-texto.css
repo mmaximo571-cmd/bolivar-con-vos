@@ -30,11 +30,28 @@
 .ft-portada .bajada{margin:6px 0 0;font-size:var(--letra-guia);line-height:1.4;color:var(--texto)}
 .ft-fuente{margin:0;font-size:var(--letra-chica);color:var(--texto-suave)}
 
-.ft-progreso{display:flex;align-items:center;gap:12px;margin-top:10px;
-  font-size:var(--letra-chica);color:var(--texto-suave);font-variant-numeric:tabular-nums}
-.ft-riel{flex:1;height:6px;border-radius:var(--radio-pastilla);background:var(--superficie-2);overflow:hidden}
-.ft-riel i{display:block;height:100%;border-radius:inherit;background:var(--celeste-hondo);
-  transition:width var(--t-medio,220ms) var(--sale,ease)}
+/* ---------- Lo que te falta ----------
+   El bloque negro es el que manda en la portada: es lo único que
+   cambia de una visita a otra. El amarillo va en su botón y en ningún
+   otro lado de la ficha, salvo el chip elegido de cada máquina. */
+.ft-estado{
+  display:grid;gap:12px;margin-top:14px;padding:16px;
+  background:var(--negro);color:var(--sobre-negro);
+  border:1px solid var(--linea);border-radius:var(--radio-grande);box-shadow:var(--sombra-2)
+}
+.ft-cifras{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin:0}
+.ft-cifras div{display:flex;flex-direction:column-reverse;gap:4px}
+.ft-cifras dt{font-size:var(--letra-mini);letter-spacing:.06em;text-transform:uppercase;
+  color:var(--sobre-negro-suave);line-height:1.25}
+.ft-cifras dd{margin:0;font-size:24px;font-weight:700;line-height:1;font-variant-numeric:tabular-nums}
+.ft-accion{width:100%;background:var(--amarillo);color:var(--sobre-color)}
+.ft-leer{
+  width:100%;min-height:48px;padding:0 18px;border-radius:var(--radio-pastilla);cursor:pointer;
+  background:transparent;color:var(--sobre-negro);border:1px solid var(--linea-negro);
+  font:inherit;font-size:var(--letra-nota);font-weight:500
+}
+.ft-leer:hover{border-color:var(--sobre-negro-suave)}
+.ft-nota{margin:0;font-size:var(--letra-chica);color:var(--sobre-negro-tenue);text-align:center}
 
 /* ---------- Índice pegado arriba ---------- */
 .ft-indice{
@@ -98,6 +115,12 @@
 
 /* ---------- Preguntas ---------- */
 .ft-preguntas{display:grid;gap:12px}
+.ft-preguntas .tarjeta{scroll-margin-top:64px}
+.ft-borrar{
+  justify-self:start;min-height:48px;padding:0 4px;background:none;border:0;cursor:pointer;
+  font:inherit;font-size:var(--letra-nota);color:var(--texto-suave);text-decoration:underline
+}
+.ft-borrar:hover{color:var(--texto)}
 .ft .ft-enunciado{font-weight:500}
 .ft-opciones{display:grid;gap:8px}
 .ft-opcion{
@@ -138,5 +161,5 @@
 .ft-cierre a{color:var(--texto);font-weight:500;min-height:48px;display:inline-flex;align-items:center}
 
 @media (prefers-reduced-motion:reduce){
-  .ft-riel i,.ft-opcion{transition:none}
+  .ft-opcion{transition:none}
 }
