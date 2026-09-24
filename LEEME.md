@@ -1175,6 +1175,8 @@ where id = (select id from auth.users where email = 'elcorreo@ejemplo.com');
 
 **Para sacarle el permiso a alguien:** el mismo SQL pero con `rol = 'estudiante'`.
 
+**Equipo de comunicación:** el mismo SQL con `rol = 'comunicacion'`. Ese rol modera el buzón «Decilo» y carga novedades, nada más (ver `tabla-buzon.sql`).
+
 ---
 
 ## Las tablas

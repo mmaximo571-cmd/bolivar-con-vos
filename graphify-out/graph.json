@@ -187,30 +187,6 @@
       "source_location": "L54"
     },
     {
-      "id": "iconos_icono",
-      "label": "icono()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 1,
-      "community_name": "Pantalla Mi a\u00f1o (carrera)",
-      "file_type": "code",
-      "norm_label": "icono()",
-      "source_file": "iconos.js",
-      "source_location": "L120"
-    },
-    {
-      "id": "iconos_iconodecategoria",
-      "label": "iconoDeCategoria()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 1,
-      "community_name": "Pantalla Mi a\u00f1o (carrera)",
-      "file_type": "code",
-      "norm_label": "iconodecategoria()",
-      "source_file": "iconos.js",
-      "source_location": "L128"
-    },
-    {
       "id": "app_aplicartema",
       "label": "aplicarTema()",
       "_callable": true,
@@ -4183,6 +4159,30 @@
       "source_location": "L875"
     },
     {
+      "id": "iconos_icono",
+      "label": "icono()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 80,
+      "community_name": "iconos.js",
+      "file_type": "code",
+      "norm_label": "icono()",
+      "source_file": "iconos.js",
+      "source_location": "L120"
+    },
+    {
+      "id": "iconos_iconodecategoria",
+      "label": "iconoDeCategoria()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 80,
+      "community_name": "iconos.js",
+      "file_type": "code",
+      "norm_label": "iconodecategoria()",
+      "source_file": "iconos.js",
+      "source_location": "L128"
+    },
+    {
       "id": "estudiemos_fonoteca_index",
       "label": "Pantalla Fonoteca (pr\u00e1ctica de audiogramas)",
       "_origin": "ast",
@@ -4399,21 +4399,6 @@
       "source_url": null
     },
     {
-      "id": "leeme_organizador_cursadas",
-      "label": "El organizador de cursadas (Mi a\u00f1o: plan, promedio, mapa)",
-      "_origin": "ast",
-      "author": null,
-      "captured_at": null,
-      "community": 0,
-      "community_name": "La Fonoteca: simulador de pr\u00e1ctica audiol\u00f3gica",
-      "contributor": null,
-      "file_type": "concept",
-      "norm_label": "el organizador de cursadas (mi ano: plan, promedio, mapa)",
-      "source_file": "LEEME.md",
-      "source_location": "L934",
-      "source_url": null
-    },
-    {
       "id": "leeme_supabase",
       "label": "Supabase (candados, permisos, tablas)",
       "_origin": "ast",
@@ -4532,22 +4517,6 @@
       "norm_label": "solapa 2 \u00b7 foniatria y escala grbas",
       "source_file": "PROMPT-FONOTECA.md",
       "source_location": "L245",
-      "source_url": null
-    },
-    {
-      "id": "bitacora_plan_imprime",
-      "label": "El plan de estudios se imprime, no se publica en PDF",
-      "_origin": "ast",
-      "author": null,
-      "captured_at": null,
-      "community": 0,
-      "community_name": "La Fonoteca: simulador de pr\u00e1ctica audiol\u00f3gica",
-      "contributor": null,
-      "file_type": "rationale",
-      "norm_label": "el plan de estudios se imprime, no se publica en pdf",
-      "rationale": "La pesta\u00f1a Plan ya dice lo mismo que el PDF de 3,6 MB y viaja sin internet; el navegador ofrece Guardar como PDF.",
-      "source_file": "BITACORA.md",
-      "source_location": "L110",
       "source_url": null
     },
     {
@@ -4704,6 +4673,21 @@
       "norm_label": "estilos.css",
       "source_file": "index.html",
       "source_location": "L26",
+      "source_url": null
+    },
+    {
+      "id": "glosario_index",
+      "label": "Pantalla Glosario universitario",
+      "_origin": "ast",
+      "author": null,
+      "captured_at": null,
+      "community": 1,
+      "community_name": "Pantalla Mi a\u00f1o (carrera)",
+      "contributor": null,
+      "file_type": "code",
+      "norm_label": "pantalla glosario universitario",
+      "source_file": "glosario/index.html",
+      "source_location": "L6",
       "source_url": null
     },
     {
@@ -5128,21 +5112,6 @@
       "norm_label": "llevarriel / pintarflechas (riel deslizable)",
       "source_file": "estudiemos/index.html",
       "source_location": "L323",
-      "source_url": null
-    },
-    {
-      "id": "glosario_index",
-      "label": "Pantalla Glosario universitario",
-      "_origin": "ast",
-      "author": null,
-      "captured_at": null,
-      "community": 3,
-      "community_name": "Pantalla Info \u00fatil (tr\u00e1mites y FAQ)",
-      "contributor": null,
-      "file_type": "code",
-      "norm_label": "pantalla glosario universitario",
-      "source_file": "glosario/index.html",
-      "source_location": "L6",
       "source_url": null
     },
     {
@@ -6294,6 +6263,21 @@
       "source_url": null
     },
     {
+      "id": "leeme_organizador_cursadas",
+      "label": "El organizador de cursadas (Mi a\u00f1o: plan, promedio, mapa)",
+      "_origin": "ast",
+      "author": null,
+      "captured_at": null,
+      "community": 8,
+      "community_name": "Mi perfil (mi/index.html)",
+      "contributor": null,
+      "file_type": "concept",
+      "norm_label": "el organizador de cursadas (mi ano: plan, promedio, mapa)",
+      "source_file": "LEEME.md",
+      "source_location": "L934",
+      "source_url": null
+    },
+    {
       "id": "prompt_trayecto_trayecto_optativo",
       "label": "Trayecto Optativo (c\u00f3digo 255, 120 horas, 5.\u00ba a\u00f1o)",
       "_origin": "ast",
@@ -6322,6 +6306,22 @@
       "norm_label": "tabla supabase tramites",
       "source_file": "index.html",
       "source_location": "L769",
+      "source_url": null
+    },
+    {
+      "id": "bitacora_plan_imprime",
+      "label": "El plan de estudios se imprime, no se publica en PDF",
+      "_origin": "ast",
+      "author": null,
+      "captured_at": null,
+      "community": 8,
+      "community_name": "Mi perfil (mi/index.html)",
+      "contributor": null,
+      "file_type": "rationale",
+      "norm_label": "el plan de estudios se imprime, no se publica en pdf",
+      "rationale": "La pesta\u00f1a Plan ya dice lo mismo que el PDF de 3,6 MB y viaja sin internet; el navegador ofrece Guardar como PDF.",
+      "source_file": "BITACORA.md",
+      "source_location": "L110",
       "source_url": null
     },
     {
@@ -6418,17 +6418,6 @@
       "file_type": "code",
       "norm_label": "config.js",
       "source_file": "config.js",
-      "source_location": "L1"
-    },
-    {
-      "id": "iconos",
-      "label": "iconos.js",
-      "_origin": "ast",
-      "community": 1,
-      "community_name": "Pantalla Mi a\u00f1o (carrera)",
-      "file_type": "code",
-      "norm_label": "iconos.js",
-      "source_file": "iconos.js",
       "source_location": "L1"
     },
     {
@@ -7827,17 +7816,6 @@
       "source_location": "L7"
     },
     {
-      "id": "auth",
-      "label": "auth",
-      "_origin": "ast",
-      "community": 63,
-      "community_name": "tabla-cursada.sql",
-      "file_type": "code",
-      "norm_label": "auth",
-      "source_file": "",
-      "source_location": ""
-    },
-    {
       "id": "tabla_cursada",
       "label": "tabla-cursada.sql",
       "_origin": "ast",
@@ -7902,6 +7880,17 @@
       "norm_label": "public.preferencias",
       "source_file": "tabla-cursada.sql",
       "source_location": "L87"
+    },
+    {
+      "id": "tabla_cursada_sql_auth",
+      "label": "auth",
+      "_origin": "ast",
+      "community": 63,
+      "community_name": "tabla-cursada.sql",
+      "file_type": "code",
+      "norm_label": "auth",
+      "source_file": "",
+      "source_location": ""
     },
     {
       "id": "tabla_cursada_sql_auth_users",
@@ -8124,6 +8113,278 @@
       "source_location": "L1"
     },
     {
+      "id": "public",
+      "label": "public",
+      "_origin": "ast",
+      "community": 78,
+      "community_name": "tabla-buzon.sql",
+      "file_type": "code",
+      "norm_label": "public",
+      "source_file": "",
+      "source_location": ""
+    },
+    {
+      "id": "public_avisos_suscripciones",
+      "label": "public.avisos_suscripciones",
+      "_origin": "ast",
+      "community": 78,
+      "community_name": "tabla-buzon.sql",
+      "file_type": "code",
+      "norm_label": "public.avisos_suscripciones",
+      "source_file": "",
+      "source_location": ""
+    },
+    {
+      "id": "public_buzon_al_moderar",
+      "label": "public.buzon_al_moderar",
+      "_origin": "ast",
+      "community": 78,
+      "community_name": "tabla-buzon.sql",
+      "file_type": "code",
+      "norm_label": "public.buzon_al_moderar",
+      "source_file": "",
+      "source_location": ""
+    },
+    {
+      "id": "public_perfiles",
+      "label": "public.perfiles",
+      "_origin": "ast",
+      "community": 78,
+      "community_name": "tabla-buzon.sql",
+      "file_type": "code",
+      "norm_label": "public.perfiles",
+      "source_file": "",
+      "source_location": ""
+    },
+    {
+      "id": "tabla_buzon",
+      "label": "tabla-buzon.sql",
+      "_origin": "ast",
+      "community": 78,
+      "community_name": "tabla-buzon.sql",
+      "file_type": "code",
+      "norm_label": "tabla-buzon.sql",
+      "source_file": "tabla-buzon.sql",
+      "source_location": null
+    },
+    {
+      "id": "tabla_buzon_buzon_al_moderar",
+      "label": "buzon_al_moderar",
+      "_origin": "ast",
+      "community": 78,
+      "community_name": "tabla-buzon.sql",
+      "file_type": "code",
+      "norm_label": "buzon_al_moderar",
+      "source_file": "tabla-buzon.sql",
+      "source_location": "L393"
+    },
+    {
+      "id": "tabla_buzon_public_buzon_al_entrar",
+      "label": "public.buzon_al_entrar()",
+      "_origin": "ast",
+      "community": 78,
+      "community_name": "tabla-buzon.sql",
+      "file_type": "code",
+      "norm_label": "public.buzon_al_entrar()",
+      "source_file": "tabla-buzon.sql",
+      "source_location": "L295"
+    },
+    {
+      "id": "tabla_buzon_public_buzon_al_moderar",
+      "label": "public.buzon_al_moderar()",
+      "_origin": "ast",
+      "community": 78,
+      "community_name": "tabla-buzon.sql",
+      "file_type": "code",
+      "norm_label": "public.buzon_al_moderar()",
+      "source_file": "tabla-buzon.sql",
+      "source_location": "L357"
+    },
+    {
+      "id": "tabla_buzon_public_buzon_categorias",
+      "label": "public.buzon_categorias",
+      "_origin": "ast",
+      "community": 78,
+      "community_name": "tabla-buzon.sql",
+      "file_type": "code",
+      "norm_label": "public.buzon_categorias",
+      "source_file": "tabla-buzon.sql",
+      "source_location": "L120"
+    },
+    {
+      "id": "tabla_buzon_public_buzon_pedidos",
+      "label": "public.buzon_pedidos",
+      "_origin": "ast",
+      "community": 78,
+      "community_name": "tabla-buzon.sql",
+      "file_type": "code",
+      "norm_label": "public.buzon_pedidos",
+      "source_file": "tabla-buzon.sql",
+      "source_location": "L156"
+    },
+    {
+      "id": "tabla_buzon_public_buzon_totales",
+      "label": "public.buzon_totales",
+      "_origin": "ast",
+      "community": 78,
+      "community_name": "tabla-buzon.sql",
+      "file_type": "code",
+      "norm_label": "public.buzon_totales",
+      "source_file": "tabla-buzon.sql",
+      "source_location": "L447"
+    },
+    {
+      "id": "tabla_buzon_public_buzon_totales_calc",
+      "label": "public.buzon_totales_calc()",
+      "_origin": "ast",
+      "community": 78,
+      "community_name": "tabla-buzon.sql",
+      "file_type": "code",
+      "norm_label": "public.buzon_totales_calc()",
+      "source_file": "tabla-buzon.sql",
+      "source_location": "L411"
+    },
+    {
+      "id": "tabla_buzon_public_es_comunicacion",
+      "label": "public.es_comunicacion()",
+      "_origin": "ast",
+      "community": 78,
+      "community_name": "tabla-buzon.sql",
+      "file_type": "code",
+      "norm_label": "public.es_comunicacion()",
+      "source_file": "tabla-buzon.sql",
+      "source_location": "L59"
+    },
+    {
+      "id": "tabla_buzon_public_modera_buzon",
+      "label": "public.modera_buzon()",
+      "_origin": "ast",
+      "community": 78,
+      "community_name": "tabla-buzon.sql",
+      "file_type": "code",
+      "norm_label": "public.modera_buzon()",
+      "source_file": "tabla-buzon.sql",
+      "source_location": "L66"
+    },
+    {
+      "id": "tabla_buzon_sql_auth",
+      "label": "auth",
+      "_origin": "ast",
+      "community": 78,
+      "community_name": "tabla-buzon.sql",
+      "file_type": "code",
+      "norm_label": "auth",
+      "source_file": "",
+      "source_location": ""
+    },
+    {
+      "id": "tabla_buzon_sql_auth_users",
+      "label": "auth.users",
+      "_origin": "ast",
+      "community": 78,
+      "community_name": "tabla-buzon.sql",
+      "file_type": "code",
+      "norm_label": "auth.users",
+      "source_file": "",
+      "source_location": ""
+    },
+    {
+      "id": "prompt_elecciones",
+      "label": "PROMPT-ELECCIONES.md",
+      "_origin": "ast",
+      "community": 79,
+      "community_name": "Prompts para las sesiones hacia las elecciones (24/9 al 6/11)",
+      "file_type": "document",
+      "node_kind": "page",
+      "norm_label": "prompt-elecciones.md",
+      "source_file": "PROMPT-ELECCIONES.md",
+      "source_location": "L1"
+    },
+    {
+      "id": "prompt_elecciones_bloque_com\u00fan_va_siempre",
+      "label": "Bloque com\u00fan (va siempre)",
+      "_origin": "ast",
+      "community": 79,
+      "community_name": "Prompts para las sesiones hacia las elecciones (24/9 al 6/11)",
+      "file_type": "document",
+      "node_kind": "heading",
+      "norm_label": "bloque comun (va siempre)",
+      "source_file": "PROMPT-ELECCIONES.md",
+      "source_location": "L15"
+    },
+    {
+      "id": "prompt_elecciones_fuera_del_c\u00f3digo_para_el_chat_com\u00fan_no_para_una_sesi\u00f3n_de_c\u00f3digo",
+      "label": "Fuera del c\u00f3digo (para el chat com\u00fan, no para una sesi\u00f3n de c\u00f3digo)",
+      "_origin": "ast",
+      "community": 79,
+      "community_name": "Prompts para las sesiones hacia las elecciones (24/9 al 6/11)",
+      "file_type": "document",
+      "node_kind": "heading",
+      "norm_label": "fuera del codigo (para el chat comun, no para una sesion de codigo)",
+      "source_file": "PROMPT-ELECCIONES.md",
+      "source_location": "L152"
+    },
+    {
+      "id": "prompt_elecciones_los_15_d\u00edas_20_10_al_3_11_sin_c\u00f3digo",
+      "label": "Los 15 d\u00edas (20/10 al 3/11): sin c\u00f3digo",
+      "_origin": "ast",
+      "community": 79,
+      "community_name": "Prompts para las sesiones hacia las elecciones (24/9 al 6/11)",
+      "file_type": "document",
+      "node_kind": "heading",
+      "norm_label": "los 15 dias (20/10 al 3/11): sin codigo",
+      "source_file": "PROMPT-ELECCIONES.md",
+      "source_location": "L132"
+    },
+    {
+      "id": "prompt_elecciones_prompts_para_las_sesiones_hacia_las_elecciones_24_9_al_6_11",
+      "label": "Prompts para las sesiones hacia las elecciones (24/9 al 6/11)",
+      "_origin": "ast",
+      "community": 79,
+      "community_name": "Prompts para las sesiones hacia las elecciones (24/9 al 6/11)",
+      "file_type": "document",
+      "node_kind": "heading",
+      "norm_label": "prompts para las sesiones hacia las elecciones (24/9 al 6/11)",
+      "source_file": "PROMPT-ELECCIONES.md",
+      "source_location": "L1"
+    },
+    {
+      "id": "prompt_elecciones_semana_1_28_9_al_4_10_el_buz\u00f3n_y_la_bandeja",
+      "label": "Semana 1 (28/9 al 4/10): el buz\u00f3n y la bandeja",
+      "_origin": "ast",
+      "community": 79,
+      "community_name": "Prompts para las sesiones hacia las elecciones (24/9 al 6/11)",
+      "file_type": "document",
+      "node_kind": "heading",
+      "norm_label": "semana 1 (28/9 al 4/10): el buzon y la bandeja",
+      "source_file": "PROMPT-ELECCIONES.md",
+      "source_location": "L37"
+    },
+    {
+      "id": "prompt_elecciones_semana_2_5_10_al_11_10_llegar_a_m\u00e1s",
+      "label": "Semana 2 (5/10 al 11/10): llegar a m\u00e1s",
+      "_origin": "ast",
+      "community": 79,
+      "community_name": "Prompts para las sesiones hacia las elecciones (24/9 al 6/11)",
+      "file_type": "document",
+      "node_kind": "heading",
+      "norm_label": "semana 2 (5/10 al 11/10): llegar a mas",
+      "source_file": "PROMPT-ELECCIONES.md",
+      "source_location": "L82"
+    },
+    {
+      "id": "prompt_elecciones_semana_3_12_10_al_18_10_cerrar_y_probar",
+      "label": "Semana 3 (12/10 al 18/10): cerrar y probar",
+      "_origin": "ast",
+      "community": 79,
+      "community_name": "Prompts para las sesiones hacia las elecciones (24/9 al 6/11)",
+      "file_type": "document",
+      "node_kind": "heading",
+      "norm_label": "semana 3 (12/10 al 18/10): cerrar y probar",
+      "source_file": "PROMPT-ELECCIONES.md",
+      "source_location": "L108"
+    },
+    {
       "id": "tabla_catedras",
       "label": "tabla-catedras.sql",
       "_origin": "ast",
@@ -8155,6 +8416,17 @@
       "norm_label": "public.catedras",
       "source_file": "tabla-catedras.sql",
       "source_location": "L33"
+    },
+    {
+      "id": "iconos",
+      "label": "iconos.js",
+      "_origin": "ast",
+      "community": 80,
+      "community_name": "iconos.js",
+      "file_type": "code",
+      "norm_label": "iconos.js",
+      "source_file": "iconos.js",
+      "source_location": "L1"
     },
     {
       "id": "estudiemos_territorio",
@@ -8855,6 +9127,18 @@
       "source_url": null
     },
     {
+      "id": "ref_jsr_supabase",
+      "label": "ref_jsr_supabase",
+      "_origin": "semantic",
+      "community": 70,
+      "community_name": "index.ts",
+      "external": true,
+      "file_type": "concept",
+      "norm_label": "ref_jsr_supabase",
+      "source_file": "",
+      "type": "external"
+    },
+    {
       "id": "ref_npm_web_push_3_6_7",
       "label": "ref_npm_web_push_3_6_7",
       "_origin": "semantic",
@@ -8875,17 +9159,6 @@
       "external": true,
       "file_type": "concept",
       "norm_label": "ref_jsr_supabase_supabase_js_2",
-      "source_file": "",
-      "type": "external"
-    },
-    {
-      "id": "ref_jsr_supabase",
-      "label": "ref_jsr_supabase",
-      "community": 70,
-      "community_name": "index.ts",
-      "external": true,
-      "file_type": "concept",
-      "norm_label": "ref_jsr_supabase",
       "source_file": "",
       "type": "external"
     }
@@ -17424,6 +17697,83 @@
       "weight": 1.0
     },
     {
+      "source": "prompt_elecciones",
+      "target": "prompt_elecciones_prompts_para_las_sesiones_hacia_las_elecciones_24_9_al_6_11",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "PROMPT-ELECCIONES.md",
+      "source_location": "L1",
+      "weight": 1.0
+    },
+    {
+      "source": "prompt_elecciones_prompts_para_las_sesiones_hacia_las_elecciones_24_9_al_6_11",
+      "target": "prompt_elecciones_semana_3_12_10_al_18_10_cerrar_y_probar",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "PROMPT-ELECCIONES.md",
+      "source_location": "L108",
+      "weight": 1.0
+    },
+    {
+      "source": "prompt_elecciones_prompts_para_las_sesiones_hacia_las_elecciones_24_9_al_6_11",
+      "target": "prompt_elecciones_los_15_d\u00edas_20_10_al_3_11_sin_c\u00f3digo",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "PROMPT-ELECCIONES.md",
+      "source_location": "L132",
+      "weight": 1.0
+    },
+    {
+      "source": "prompt_elecciones_prompts_para_las_sesiones_hacia_las_elecciones_24_9_al_6_11",
+      "target": "prompt_elecciones_bloque_com\u00fan_va_siempre",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "PROMPT-ELECCIONES.md",
+      "source_location": "L15",
+      "weight": 1.0
+    },
+    {
+      "source": "prompt_elecciones_prompts_para_las_sesiones_hacia_las_elecciones_24_9_al_6_11",
+      "target": "prompt_elecciones_fuera_del_c\u00f3digo_para_el_chat_com\u00fan_no_para_una_sesi\u00f3n_de_c\u00f3digo",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "PROMPT-ELECCIONES.md",
+      "source_location": "L152",
+      "weight": 1.0
+    },
+    {
+      "source": "prompt_elecciones_prompts_para_las_sesiones_hacia_las_elecciones_24_9_al_6_11",
+      "target": "prompt_elecciones_semana_1_28_9_al_4_10_el_buz\u00f3n_y_la_bandeja",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "PROMPT-ELECCIONES.md",
+      "source_location": "L37",
+      "weight": 1.0
+    },
+    {
+      "source": "prompt_elecciones_prompts_para_las_sesiones_hacia_las_elecciones_24_9_al_6_11",
+      "target": "prompt_elecciones_semana_2_5_10_al_11_10_llegar_a_m\u00e1s",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "PROMPT-ELECCIONES.md",
+      "source_location": "L82",
+      "weight": 1.0
+    },
+    {
       "source": "prompt_sesion",
       "target": "prompt_sesion_prompt_para_abrir_una_sesi\u00f3n_de_c\u00f3digo_17_9_en_adelante",
       "relation": "contains",
@@ -17652,6 +18002,105 @@
       "confidence_score": 1.0,
       "source_file": "tabla-borrar-cuenta.sql",
       "source_location": "L39",
+      "weight": 1.0
+    },
+    {
+      "source": "tabla_buzon",
+      "target": "tabla_buzon_public_buzon_categorias",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "tabla-buzon.sql",
+      "source_location": "L120",
+      "weight": 1.0
+    },
+    {
+      "source": "tabla_buzon",
+      "target": "tabla_buzon_public_buzon_pedidos",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "tabla-buzon.sql",
+      "source_location": "L156",
+      "weight": 1.0
+    },
+    {
+      "source": "tabla_buzon",
+      "target": "tabla_buzon_public_buzon_al_entrar",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "tabla-buzon.sql",
+      "source_location": "L295",
+      "weight": 1.0
+    },
+    {
+      "source": "tabla_buzon",
+      "target": "tabla_buzon_public_buzon_al_moderar",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "tabla-buzon.sql",
+      "source_location": "L357",
+      "weight": 1.0
+    },
+    {
+      "source": "tabla_buzon",
+      "target": "tabla_buzon_buzon_al_moderar",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "tabla-buzon.sql",
+      "source_location": "L393",
+      "weight": 1.0
+    },
+    {
+      "source": "tabla_buzon",
+      "target": "tabla_buzon_public_buzon_totales_calc",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "tabla-buzon.sql",
+      "source_location": "L411",
+      "weight": 1.0
+    },
+    {
+      "source": "tabla_buzon",
+      "target": "tabla_buzon_public_buzon_totales",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "tabla-buzon.sql",
+      "source_location": "L447",
+      "weight": 1.0
+    },
+    {
+      "source": "tabla_buzon",
+      "target": "tabla_buzon_public_es_comunicacion",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "tabla-buzon.sql",
+      "source_location": "L59",
+      "weight": 1.0
+    },
+    {
+      "source": "tabla_buzon",
+      "target": "tabla_buzon_public_modera_buzon",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "tabla-buzon.sql",
+      "source_location": "L66",
       "weight": 1.0
     },
     {
@@ -18552,6 +19001,39 @@
       "confidence_score": 1.0,
       "source_file": "tabla-avisanos.sql",
       "source_location": "L158",
+      "weight": 1.0
+    },
+    {
+      "source": "tabla_buzon_public_buzon_totales_calc",
+      "target": "tabla_buzon_public_buzon_pedidos",
+      "relation": "reads_from",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "tabla-buzon.sql",
+      "source_location": "L441",
+      "weight": 1.0
+    },
+    {
+      "source": "tabla_buzon_public_es_comunicacion",
+      "target": "public_perfiles",
+      "relation": "reads_from",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "tabla-buzon.sql",
+      "source_location": "L61",
+      "weight": 1.0
+    },
+    {
+      "source": "tabla_buzon_public_modera_buzon",
+      "target": "public_perfiles",
+      "relation": "reads_from",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "tabla-buzon.sql",
+      "source_location": "L68",
       "weight": 1.0
     },
     {
@@ -19490,6 +19972,50 @@
       "weight": 1.0
     },
     {
+      "source": "tabla_buzon_public_buzon_pedidos",
+      "target": "public",
+      "relation": "references",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "tabla-buzon.sql",
+      "source_location": "L156",
+      "weight": 1.0
+    },
+    {
+      "source": "tabla_buzon_public_buzon_pedidos",
+      "target": "public_avisos_suscripciones",
+      "relation": "references",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "tabla-buzon.sql",
+      "source_location": "L156",
+      "weight": 1.0
+    },
+    {
+      "source": "tabla_buzon_public_buzon_pedidos",
+      "target": "tabla_buzon_sql_auth",
+      "relation": "references",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "tabla-buzon.sql",
+      "source_location": "L156",
+      "weight": 1.0
+    },
+    {
+      "source": "tabla_buzon_public_buzon_pedidos",
+      "target": "tabla_buzon_sql_auth_users",
+      "relation": "references",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "tabla-buzon.sql",
+      "source_location": "L156",
+      "weight": 1.0
+    },
+    {
       "source": "tabla_cursada_public_cursada",
       "target": "tabla_cursada_sql_auth_users",
       "relation": "references",
@@ -19502,7 +20028,7 @@
     },
     {
       "source": "tabla_cursada_public_falta",
-      "target": "auth",
+      "target": "tabla_cursada_sql_auth",
       "relation": "references",
       "_origin": "ast",
       "confidence": "EXTRACTED",
@@ -20169,6 +20695,17 @@
       "confidence_score": 1.0,
       "source_file": "tabla-avisos.sql",
       "source_location": "L159",
+      "weight": 1.0
+    },
+    {
+      "source": "tabla_buzon_buzon_al_moderar",
+      "target": "public_buzon_al_moderar",
+      "relation": "triggers",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "tabla-buzon.sql",
+      "source_location": "L393",
       "weight": 1.0
     },
     {
@@ -21415,5 +21952,5 @@
       "source_file": "panel/index.html"
     }
   ],
-  "built_at_commit": "f9f2fdb6105c1239578767bc45e01fadb3cc0f5b"
+  "built_at_commit": "f0f6863f4ca3d5278e58962d35f092a86cd9bef4"
 }
