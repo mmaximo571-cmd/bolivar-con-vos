@@ -1,17 +1,15 @@
-# Graph Report - bolivar-con-vos  (2026-09-20)
+# Graph Report - bolivar-con-vos  (2026-09-23)
 
 ## Corpus Check
-- 61 files · ~223,237 words
-- Verdict: corpus is large enough that graph structure adds value.
-- Unclassified: 14 file(s) not represented in the graph (top: (none) 5, .css 4, .geojson 4)
+- cluster-only mode — file stats not available
 
 ## Summary
-- 687 nodes · 1071 edges · 85 communities (58 shown, 27 thin omitted)
-- Extraction: 93% EXTRACTED · 7% INFERRED · 0% AMBIGUOUS · INFERRED: 79 edges (avg confidence: 0.84)
+- 694 nodes · 1085 edges · 80 communities (52 shown, 28 thin omitted)
+- Extraction: 93% EXTRACTED · 7% INFERRED · 0% AMBIGUOUS · INFERRED: 80 edges (avg confidence: 0.84)
 - Token cost: 0 input · 0 output
 
 ## Graph Freshness
-- Built from commit: `2f9246e5`
+- Built from commit: `f9f2fdb6`
 - Run `git rev-parse HEAD` and compare to check if the graph is stale.
 - Run `graphify update .` after code changes (no API cost).
 
@@ -84,16 +82,11 @@
 - public.publicaciones
 - pomodoro.js
 - huella.js
-- La carrera se elige una vez (bolivar-carrera-v2)
-- entrada/ · el buzón
-- tabla-catedras.sql
-- Trayecto Optativo (código 255, 120 horas, 5.º año)
-- sesionActual
-- Estética serigrafía
+- ref_jsr_supabase_supabase_js_2
 
 ## God Nodes (most connected - your core abstractions)
 1. `Pantalla Mi año (carrera)` - 19 edges
-2. `Pantalla Inicio` - 16 edges
+2. `Pantalla Inicio` - 17 edges
 3. `pintarNav()` - 14 edges
 4. `pintarAvisos()` - 14 edges
 5. `esc()` - 12 edges
@@ -101,19 +94,19 @@
 7. `desdeTexto()` - 11 edges
 8. `pasar()` - 10 edges
 9. `Mi perfil (mi/index.html)` - 10 edges
-10. `arrancar()` - 9 edges
+10. `pedido()` - 9 edges
 
 ## Surprising Connections (you probably didn't know these)
 - `Pantalla Fonoteca (práctica de audiogramas)` --calls--> `pintarNav()`  [EXTRACTED]
   estudiemos/fonoteca/index.html → app.js
-- `Pantalla Info útil (trámites y FAQ)` --calls--> `parametro()`  [EXTRACTED]
-  tramites/index.html → app.js
-- `Pantalla Info útil (trámites y FAQ)` --calls--> `normalizar()`  [EXTRACTED]
-  tramites/index.html → app.js
 - `Pantalla Estudiemos (landing de herramientas)` --calls--> `pintarNav()`  [EXTRACTED]
   estudiemos/index.html → app.js
 - `Pantalla Glosario universitario` --calls--> `pintarNav()`  [EXTRACTED]
   glosario/index.html → app.js
+- `Pantalla Info útil (trámites y FAQ)` --calls--> `pintarNav()`  [EXTRACTED]
+  tramites/index.html → app.js
+- `Pantalla Info útil (trámites y FAQ)` --calls--> `normalizar()`  [EXTRACTED]
+  tramites/index.html → app.js
 
 ## Import Cycles
 - None detected.
@@ -129,11 +122,11 @@
 - **Pantallas que muestran publicaciones de la agenda** — tabla_publicaciones, index_proximodelaagenda, index_calendario_mes, agenda_index_traer, agenda_index_detalle_publicacion, carrera_index_vistanueva [INFERRED 0.85]
 - **El Panel edita el contenido que leen las pantallas públicas** — panel_index, tramites_index, quienes_index, consejo_index, anatomo_index, catedras_index, estudiemos_index [INFERRED 0.95]
 
-## Communities (85 total, 27 thin omitted)
+## Communities (80 total, 28 thin omitted)
 
 ### Community 0 - "La Fonoteca: simulador de práctica audiológica"
-Cohesion: 0.18
-Nodes (13): Riel deslizable de herramientas de Estudiemos, Estudiemos: material de los grupos de estudio, El molde para pedirle diseño a una IA, El amarillo aparece una sola vez por pantalla, No pedirle a la IA contenido académico ni funciones inexistentes, El molde para armar una ficha de estudio, Claude Design y el .dc.html bajado a mano, NotebookLM ordena, Claude Design dibuja (nunca al revés) (+5 more)
+Cohesion: 0.06
+Nodes (36): Versión 2.0 de AI Studio (React + Tailwind), La carrera se elige una vez (bolivar-carrera-v2), Congelamiento de código (16-17/9), El embudo del 21 (hitos y origen de Instagram), Lanzamiento 21 de septiembre (Día del Estudiante), El plan de estudios se imprime, no se publica en PDF, anotar(): registro de visitas, búsquedas y errores, Riel deslizable de herramientas de Estudiemos (+28 more)
 
 ### Community 1 - "Pantalla Mi año (carrera)"
 Cohesion: 0.21
@@ -144,8 +137,8 @@ Cohesion: 0.15
 Nodes (13): anotarBusqueda(), bajarICS(), carreraActual(), carreraElegidaApp(), leerCarreraGuardada(), nombreDeArchivo(), normalizar(), parametro() (+5 more)
 
 ### Community 3 - "Pantalla Info útil (trámites y FAQ)"
-Cohesion: 0.09
-Nodes (30): Pantalla Anatomofisiología (guía de materia), bloqueModelo / sinFechas, conPaciencia(), guardarEnMemoria(), memoriaDe(), Pantalla El Consejo Directivo, Pantalla Fichas de estudio, Pantalla Fonoteca (práctica de audiogramas) (+22 more)
+Cohesion: 0.07
+Nodes (35): Pantalla Anatomofisiología (guía de materia), bloqueModelo / sinFechas, conPaciencia(), guardarEnMemoria(), memoriaDe(), armarPosteos() (embed IG diferido), Conquistas con posteo (CONQUISTAS, v70), htmlConquistas() (línea por año) (+27 more)
 
 ### Community 4 - "app.js"
 Cohesion: 0.08
@@ -164,8 +157,8 @@ Cohesion: 0.24
 Nodes (15): agruparReferencias(), buscarAnio(), buscarCodigo(), desdeTexto(), despegar(), digitos(), esRuido(), inicioDeReferencia() (+7 more)
 
 ### Community 8 - "Mi perfil (mi/index.html)"
-Cohesion: 0.18
-Nodes (14): explicarError() / errores en castellano, movimiento.js (entrarAlLlegar, encenderAlBajar), Webview de Instagram como navegador real, Versión del service worker (sw.js vNN), Bienvenida «La salida siempre es colectiva», mostrarBienvenida (una vez por día de estudio), pintarCuadro (animación de apertura), Armazón (app.js, estilos.css, iconos.js, config.js) (+6 more)
+Cohesion: 0.07
+Nodes (32): esDelEquipo(), sesionActual(), explicarError() / errores en castellano, Glosario (texto en el HTML, tres puertas), movimiento.js (entrarAlLlegar, encenderAlBajar), Webview de Instagram como navegador real, Versión del service worker (sw.js vNN), abrirHoja (ficha de materia) (+24 more)
 
 ### Community 9 - "manifest.json"
 Cohesion: 0.15
@@ -213,7 +206,7 @@ Nodes (6): public.freno_sucesos, freno_sucesos, public.freno_sucesos(), public.s
 
 ### Community 21 - "riesgo.js"
 Cohesion: 0.07
-Nodes (45): abrir(), aFila(), armarCapaBase(), armarMapa(), base(), bloquearDetras(), cambiarEstadoBase(), cargarBase() (+37 more)
+Nodes (44): abrir(), aFila(), armarCapaBase(), armarMapa(), base(), bloquearDetras(), cambiarEstadoBase(), cargarBase() (+36 more)
 
 ### Community 22 - "tabla-organizador.sql"
 Cohesion: 0.43
@@ -317,7 +310,7 @@ Nodes (10): Detalle de publicación (?id=), dibujar (agenda agrupada por mes), m
 
 ### Community 70 - "index.ts"
 Cohesion: 0.20
-Nodes (7): ref_jsr_supabase_supabase_js_2, ref_npm_web_push_3_6_7, Aviso, avisosDeFinales(), avisosDeMesas(), enDias(), Suscripcion
+Nodes (7): ref_jsr_supabase, ref_npm_web_push_3_6_7, Aviso, avisosDeFinales(), avisosDeMesas(), enDias(), Suscripcion
 
 ### Community 71 - "tabla-avisos.sql"
 Cohesion: 0.24
@@ -339,49 +332,25 @@ Nodes (18): abrir(), arrancar(), cambiarPreset(), despertar(), despertarAudio(),
 Cohesion: 0.83
 Nodes (3): anotar(), escribir(), leer()
 
-### Community 78 - "La carrera se elige una vez (bolivar-carrera-v2)"
-Cohesion: 0.25
-Nodes (8): Versión 2.0 de AI Studio (React + Tailwind), La carrera se elige una vez (bolivar-carrera-v2), Mails de las cátedras · material en crudo, Atar cátedras por código de materia, no por nombre, Buscador de cátedras, Carreras: Trabajo Social, Fonoaudiología, Tecnicatura en Gestión Comunitaria del Riesgo, Profesorado, El buscador mira toda la app, Supabase (candados, permisos, tablas)
-
-### Community 79 - "entrada/ · el buzón"
-Cohesion: 0.25
-Nodes (8): Congelamiento de código (16-17/9), El embudo del 21 (hitos y origen de Instagram), Lanzamiento 21 de septiembre (Día del Estudiante), anotar(): registro de visitas, búsquedas y errores, Vercel (bolivar-con-vos.vercel.app, publica con push a main), entrada/ · el buzón, Prefijos de archivo (pantalla-, material-, texto-, idea-), Un archivo, una cosa (no proyectos enteros de React)
-
-### Community 80 - "tabla-catedras.sql"
-Cohesion: 0.29
-Nodes (7): abrirHoja (ficha de materia), cargarCatedras, buscar (buscador de trámites, FAQ y cátedras), pedirCatedras, catedras_carrera_idx, public.catedras, Tabla Supabase tramites
-
-### Community 82 - "Trayecto Optativo (código 255, 120 horas, 5.º año)"
-Cohesion: 0.29
-Nodes (7): Glosario (texto en el HTML, tres puertas), El plan de estudios se imprime, no se publica en PDF, El organizador de cursadas (Mi año: plan, promedio, mapa), Nada se publica sin el visto de la profesional, El Trayecto Optativo: qué tiene que decir la pantalla, Regla [FALTA]: si no lo sabemos, se dice y se manda a Alumnado, Trayecto Optativo (código 255, 120 horas, 5.º año)
-
-### Community 83 - "sesionActual"
-Cohesion: 0.33
-Nodes (6): esDelEquipo(), sesionActual(), Pantalla Panel (administración del equipo), panel() arranque y control de sesión, Tabla Supabase guardados, botonGuardar (guardados del usuario)
-
-### Community 84 - "Estética serigrafía"
-Cohesion: 0.67
-Nodes (3): Estética serigrafía, Tipografías: Archivo Black, Montserrat, Roboto, Roboto Mono, Variables CSS del sistema (--fondo, --amarillo, --letra-*, --radio, --sombra)
-
 ## Knowledge Gaps
-- **92 isolated node(s):** `__hitosDeEstaVisita`, `MESES`, `MESES_LARGO`, `NOMBRE_SECCION`, `NOMBRE_LINEA` (+87 more)
-  These have ≤1 connection - possible missing edges or undocumented components. (Counts symbols only; 191 node(s) total have ≤1 connection when file, concept and rationale nodes are included.)
-- **27 thin communities (<3 nodes) omitted from report** — run `graphify query` to explore isolated nodes.
+- **92 isolated node(s):** `Aviso`, `Suscripcion`, `Solapa 4 · Anquiloglosia`, `Solapa 1 · Audiometría tonal y PTP`, `Solapa 3 · Fonética clínica rioplatense` (+87 more)
+  These have ≤1 connection - possible missing edges or undocumented components. (Counts symbols only; 192 node(s) total have ≤1 connection when file, concept and rationale nodes are included.)
+- **28 thin communities (<3 nodes) omitted from report** — run `graphify query` to explore isolated nodes.
 
 ## Suggested Questions
 _Questions this graph is uniquely positioned to answer:_
 
-- **Why does `Pantalla Inicio` connect `Pantalla Mi año (carrera)` to `movimiento.js`, `app.js`, `Detalle de publicación (?id=)`, `Mi perfil (mi/index.html)`, `manifest.json`, `tabla-catedras.sql`?**
-  _High betweenness centrality (0.047) - this node is a cross-community bridge._
-- **Why does `Pantalla Mi año (carrera)` connect `Pantalla Mi año (carrera)` to `persistir (guardado local de trayectoria)`, `Pantalla Cátedras`, `Pantalla Info útil (trámites y FAQ)`, `app.js`, `elegirCarrera`, `pintarFinal (preparación de final)`, `localStorage bolivar-carrera-resumen`, `Mi perfil (mi/index.html)`?**
-  _High betweenness centrality (0.041) - this node is a cross-community bridge._
-- **Why does `Trayecto Optativo (trayecto/index.html)` connect `Mi perfil (mi/index.html)` to `tabla-catedras.sql`, `Trayecto Optativo (código 255, 120 horas, 5.º año)`, `Pantalla Info útil (trámites y FAQ)`?**
-  _High betweenness centrality (0.041) - this node is a cross-community bridge._
-- **What connects `__hitosDeEstaVisita`, `MESES`, `MESES_LARGO` to the rest of the system?**
+- **Why does `Pantalla Inicio` connect `Pantalla Mi año (carrera)` to `movimiento.js`, `Pantalla Info útil (trámites y FAQ)`, `app.js`, `Detalle de publicación (?id=)`, `Mi perfil (mi/index.html)`, `manifest.json`?**
+  _High betweenness centrality (0.165) - this node is a cross-community bridge._
+- **Why does `Vercel Web Analytics (/_vercel/insights/script.js, v72)` connect `Pantalla Info útil (trámites y FAQ)` to `Pantalla Mi año (carrera)`?**
+  _High betweenness centrality (0.118) - this node is a cross-community bridge._
+- **Why does `pedido()` connect `riesgo.js` to `Pantalla Info útil (trámites y FAQ)`, `fondo-red.js`?**
+  _High betweenness centrality (0.117) - this node is a cross-community bridge._
+- **What connects `Aviso`, `Suscripcion`, `Solapa 4 · Anquiloglosia` to the rest of the system?**
   _92 weakly-connected nodes found - possible documentation gaps or missing edges._
+- **Should `La Fonoteca: simulador de práctica audiológica` be split into smaller, more focused modules?**
+  _Cohesion score 0.06031746031746032 - nodes in this community are weakly interconnected._
 - **Should `Pantalla Info útil (trámites y FAQ)` be split into smaller, more focused modules?**
-  _Cohesion score 0.08505747126436781 - nodes in this community are weakly interconnected._
+  _Cohesion score 0.07207207207207207 - nodes in this community are weakly interconnected._
 - **Should `app.js` be split into smaller, more focused modules?**
   _Cohesion score 0.07575757575757576 - nodes in this community are weakly interconnected._
-- **Should `riesgo.js` be split into smaller, more focused modules?**
-  _Cohesion score 0.06896551724137931 - nodes in this community are weakly interconnected._
