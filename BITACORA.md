@@ -9,6 +9,144 @@ Si algo de acá quedó viejo, se corrige acá mismo al cerrar la sesión.
 
 ---
 
+## Hacia las elecciones (4, 5 y 6 de noviembre) · plan fijado el 24/9
+
+**Esta sección manda sobre el resto de la bitácora hasta el 6/11.** Lo de
+«Dónde estamos» para abajo es el registro del lanzamiento del 21/9.
+
+### Qué se busca
+
+Las elecciones las gana quien más presente estuvo. La app no pide el voto, y
+no pasa a modo campaña: puede mostrar logros (las Conquistas ya están), pero
+su trabajo sigue siendo servir. El salto de escala son dos cosas, elegidas
+por Máximo:
+
+1. **Llegar a más estudiantes.**
+2. **Escuchar y responder**, y que se vea que se responde.
+
+El reglamento electoral no pone ningún límite a lo digital (confirmado el
+24/9).
+
+### De dónde partimos (registro, 21/9 al 24/9 a la mañana)
+
+| Qué | Cuánto |
+|---|---|
+| Visitas | 6.953 (2.996 el 21, después ~1.850 por día) |
+| «Eligió carrera» (≈ teléfonos distintos) | 625 |
+| «Volvió instalada» | 1.508 |
+| Cuentas | 432 |
+| Avisos al celular prendidos | 84 |
+| Consultas en Avisanos | 10 |
+| Reportes en el mapa | 1 |
+
+**El padrón es de 2.500 estudiantes y el año pasado votaron 1.600**, que es
+más o menos la gente que cursa. Hoy la app llega a unos 625 teléfonos: el 25 %
+del padrón, el 39 % de quienes votan. **Escuchar casi no existe:** 10
+consultas y 1 reporte.
+
+### Metas al martes 3/11
+
+| | Hoy | Meta |
+|---|---|---|
+| «Eligió carrera» | 625 | **1.200** (tres de cada cuatro que votan) |
+| Avisos al celular | 84 | **300** |
+| Pedidos en el buzón | — | **150**, todos contestados en menos de 48 h |
+
+### El calendario
+
+| Tramo | Fechas | Qué |
+|---|---|---|
+| 0. Decidir | jue 24/9 a dom 27/9 | Este plan. Errores revisados (ver abajo) |
+| 1. Construir | lun 28/9 a mié 14/10 | Las tres piezas, en orden |
+| 2. Probar | jue 15/10 a dom 18/10 | Teléfono real y navegador de Instagram. **No entra código** |
+| 3. Lanzamiento 2.0 | lun 19/10 | Todo sale junto |
+| 4. Los 15 días | mar 20/10 a mar 3/11 | Sin código nuevo: contenido y respuestas, todos los días |
+| Elecciones | mié 4 a vie 6/11 | La app sigue como servicio |
+
+### Las tres piezas
+
+**1. El buzón «Decilo» (semana del 28/9) · la pieza central.**
+Cualquier estudiante, sin cuenta, deja un pedido, un reclamo o una propuesta.
+Se le pide **solo la carrera**: el anonimato es a propósito y sirve. El equipo
+lo modera y, si se publica, queda en un tablero público con su estado
+(*recibido · en gestión · resuelto*) y la fecha de cada cambio, más los
+totales: cuántos llegaron, cuántos se resolvieron y en cuánto tiempo. Quien
+dejó el pedido puede pedir que le avise el teléfono cuando cambie de estado:
+se guarda la suscripción de ese teléfono, no a la persona. Así, cada pedido
+también suma avisos prendidos. Se apoya en lo que ya hay: `consultas` de
+Avisanos (permiso de insertar sin cuenta, con topes de largo en **todos** los
+campos, ver el agujero del 2/9 en `tabla-avisanos.sql`), las Conquistas del
+Consejo y los avisos al celular.
+
+**2. La bandeja del equipo de comunicación (misma semana, va con la 1).**
+El buzón vive o muere según si alguien contesta. El que contesta es el
+equipo de comunicación, así que la bandeja se piensa para esa gente y no
+para quien programa:
+- **Se usa desde el celular**, dentro del panel: una tarjeta por pedido con
+  tres botones (*publicar y responder · en gestión · descartar*) y respuestas
+  ya escritas que se editan antes de mandarlas.
+- **Les avisa el teléfono** cuando entra un pedido nuevo, con la misma
+  maquinaria de los avisos (`avisos_suscripciones.usuario_id` →
+  `perfiles.rol`), y una vez por día les llega el resumen de lo que lleva más
+  de 24 h sin respuesta.
+- **Rol propio, `comunicacion`**: puede moderar y contestar el buzón y
+  cargar novedades, pero no tocar el resto del contenido. Hoy el único rol
+  con permisos es `equipo`, que puede editar todo. El alta se da a mano, como
+  la del equipo (ver «Dar de alta a alguien del equipo» en `LEEME.md`).
+
+**3. Llegar a más (semana del 5/10).**
+- **La tarjeta para historias:** desde Mi año se arma una imagen con la
+  estética de la serigrafía, «voy X de Y materias», con el link a la app
+  etiquetado `?de=historia-avance`. Cada estudiante que la comparte hace
+  circular la herramienta, no a la agrupación.
+- **La pregunta de la semana:** una sola pregunta, con los resultados a la
+  vista, para que los avisos tengan algo nuevo cada semana. Se carga desde la
+  bandeja de comunicación.
+
+### Lo que quedó afuera, y por qué
+
+- **Los QR en las aulas:** la facultad está trabajando algo parecido, así que
+  no es posible (24/9).
+- **Herramientas para la militancia y el modo campaña:** no se eligieron, y
+  con poca gente cada pantalla de más es una pantalla que nadie mantiene.
+- **La ficha «Cómo se vota»:** queda guardada para la semana de las
+  elecciones. Hay un recordatorio programado para el **lunes 2/11 a las
+  9**: se le piden a Máximo los datos oficiales (lugar, horarios, qué llevar,
+  padrón), se publica en Info útil y se saca después del 6/11.
+
+### Los errores desde el 21/9 (revisados el 24/9)
+
+De 61, **ninguno pide código**. 46 son «Script error.» en iPhone y 8 son
+«Java object is gone» en Android: los dos vienen del navegador interno de
+Instagram, que mete scripts propios (el primero llega sin detalle porque el
+script es de otro origen). El resto son cargas cortadas: `icono is not
+defined` o `CARRERAS_APP` sin definir, cuando `iconos.js` o `app.js` no
+llegaron. Si alguno de esos dos crece en el registro, ahí sí hay que mirar.
+
+### Plugins y conectores
+
+- Para instalar: **marketing** (`campaign-plan`, `content-creation`,
+  `performance-report`), **design** (`ux-copy`, `research-synthesis`,
+  `accessibility-review`) y **canva** (`canva-resize-for-social-media`,
+  `canva-bulk-create`).
+- Ya disponibles: Supabase y Canva conectados, y las skills
+  `frontend-design`, `dataviz`, `security-review` (obligatoria antes de abrir
+  el buzón, porque se escribe sin cuenta) y `run`.
+- Google Drive está conectado pero apagado en el chat de código: prenderlo
+  para recibir material de colaboradores.
+
+### Tareas para colaboradores (sin código)
+
+- Lista de lo que el CEFTS puede gestionar, por categoría. Solo se abren
+  en el buzón las categorías que tengan a alguien que las resuelva.
+- Las respuestas ya escritas de la bandeja: unas diez, en el tono de la
+  agrupación, a cargo del equipo de comunicación.
+- Las cuatro primeras preguntas de la semana.
+- Quiénes del equipo de comunicación reciben el rol `comunicacion`, y que
+  cada una de esas personas cree su cuenta y prenda los avisos.
+
+---
+
 ## Dónde estamos
 
 - **Lanzamiento: lunes 21 de septiembre de 2026**, Día del Estudiante, con
