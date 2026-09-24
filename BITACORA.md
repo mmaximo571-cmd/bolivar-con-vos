@@ -139,6 +139,57 @@ llegaron. Si alguno de esos dos crece en el registro, ahí sí hay que mirar.
 - Google Drive está conectado pero apagado en el chat de código: prenderlo
   para recibir material de colaboradores.
 
+### El eje: permanencia y estudio (fijado el 24/9)
+
+**Todo el plan se cuenta desde acá: que nadie se quede en el camino.** Las
+elecciones se ganan estando presentes, y la forma más concreta de estar es
+sostener a quien está por dejar o por estancarse.
+
+**Por qué.** Cerca del 40 % abandona o cambia de carrera en primer año
+(dato de la SPU). La retención de primer año en las universidades públicas
+quedó entre 61 y 63 % de 2015 a 2022. Ezcurra lo llama «inclusión
+excluyente»: el abandono se concentra en primer año, golpea más a los
+sectores desfavorecidos, y buena parte se puede neutralizar desde la
+institución y la organización.
+
+**Qué ve la app hoy: casi nada.** 130 personas cargaron su horario y **1**
+carga sus faltas. Las consultas de Avisanos piden orientación (el
+certificado del SIU, el mail de una cátedra, el boleto), no contenido.
+
+**Carreras:** Trabajo Social, Fonoaudiología y la Tecnicatura en Gestión
+Comunitaria del Riesgo. Las tres ya tienen su plan en Mi año.
+
+**Dos momentos, los dos prioridad** (Máximo, 24/9):
+
+1. **Finales acumulados.** Materias regularizadas que nunca se rinden: la
+   gente no se va, se estanca. Las mesas de diciembre llegan justo después
+   de votar, y la app ya tiene Preparar final, la alarma de mesas y los
+   avisos.
+2. **Primer año.** La afiliación: entender regularidad, promoción, final y
+   correlativas. El kit se arma en diciembre y enero para el ingreso 2027,
+   pero la búsqueda empieza ahora.
+
+(La regularidad durante la cursada, con las faltas que avisan, queda para
+después de las elecciones: es código.)
+
+**El programa de tutores pares de la FTS está inactivo** (24/9). Es un hueco
+y es una propuesta: los grupos de estudio de Estudiemos ya hacen parte de
+ese trabajo, y reactivar el programa es un pedido para llevar al Consejo.
+
+**Cómo entra en el plan sin sumar código antes del 19/10:**
+- Las 4 preguntas de la semana son la encuesta de permanencia (ya
+  redactadas en `PROMPT-ELECCIONES.md`).
+- El buzón suma la categoría «Cursada y estudio».
+- Los materiales «Si te está costando» y «Rendí lo que debés» son contenido
+  cargado desde el panel durante los 15 días.
+
+**La búsqueda** tiene cinco líneas (datos de la UNLP, programas que existen,
+la voz estudiantil, bibliografía y datos de la app). Cada una tiene su
+prompt o su lista en `PROMPT-ELECCIONES.md`, en «Búsqueda: permanencia y
+estudio». **La red de las sesiones en la nube bloquea `unlp.edu.ar`,
+`trabajosocial.unlp.edu.ar` y `sedici.unlp.edu.ar`**: para que Claude haga
+la línea A hay que agregarlos en la configuración de red del entorno.
+
 ### Tareas para colaboradores (sin código)
 
 - Lista de lo que el CEFTS puede gestionar, por categoría. Solo se abren
