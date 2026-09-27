@@ -1497,6 +1497,13 @@ select id, status_code, content, created
   from net._http_response order by id desc limit 10;
 ```
 
+**Si ahí aparece un `Timeout of 5000 ms reached`**, el que se cansó fue la
+base y no la función: el pedido ya salió, así que los avisos se mandaron
+igual, pero la respuesta se perdió y la corrida parece fallada. El reloj está
+puesto en **120000 ms** justamente por eso (pasó en el primer disparo
+automático, el 27/9: dos funciones arrancando en frío no entran en cinco
+segundos).
+
 El cuerpo es lo que devolvió `avisos`: cuántos avisos había, cuántos salieron,
 cuántos rebotaron. Para probar sin esperar la hora en punto, se corre a mano
 el bloque de adentro del `$CRON$` que está en `tabla-avisos.sql`, en «6. EL

@@ -107,6 +107,14 @@ son idénticas; una privada son 43. Eso explica los 93 teléfonos suscriptos
 desde el 20/9 con cero avisos entregados, con todo lo demás pareciendo andar
 bien.
 
+**Y el primer disparo automático dejó una enseñanza** (27/9, 17:00): el reloj
+corrió, el pase se usó, y la base igual anotó «Timeout of 5000 ms reached».
+El que se cansó fue `pg_net`, que corta a los cinco segundos por omisión, y
+dos funciones arrancando en frío no entran ahí. Los avisos se mandan igual
+—el pedido ya salió—, pero se pierde la respuesta, que es lo único que dice
+si una corrida sirvió. Quedó en 120000 ms, probado de nuevo: ahora la
+respuesta vuelve entera.
+
 **Lo único que falta para que los avisos anden** es cargar en Supabase ->
 Edge Functions -> Secrets el `VAPID_PRIVADA` de verdad, la mitad privada del
 par, la que se pasó aparte y no está en el repositorio. Después no hay que

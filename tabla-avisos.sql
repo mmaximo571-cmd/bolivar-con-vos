@@ -299,7 +299,16 @@ select cron.schedule(
       'Content-Type',     'application/json',
       'Authorization',    'Bearer sb_publishable_MRysI6z1UU6FX9IB-_ni9A_Poj3L11B',
       'x-pase-del-reloj', nuevo.pase),
-    body    := '{}'::jsonb
+    body    := '{}'::jsonb,
+    -- DOS MINUTOS, NO CINCO SEGUNDOS. `pg_net` corta a los 5 s por
+    -- omisión, y el primer disparo automático (27/9, 17:00) se pasó:
+    -- son dos funciones arrancando en frío, una detrás de la otra, y
+    -- después los envíos. La función sigue corriendo igual del otro
+    -- lado —el pedido ya salió—, así que los avisos se mandan; lo que
+    -- se pierde con el corte es la RESPUESTA, o sea la única forma de
+    -- saber si una corrida sirvió. Con 93 teléfonos tarda unos
+    -- segundos; con cuatro mil, más.
+    timeout_milliseconds := 120000
   ) from nuevo;
   $CRON$
 );
@@ -314,6 +323,8 @@ select cron.schedule(
 -- '?forzar=si' a la dirección.
 -- Para apagarlo:
 --   select cron.unschedule('avisos-cada-hora');
+-- Para cambiarle el comando sin perder el historial de corridas:
+--   select cron.alter_job(1, command => $CRON$ ... $CRON$);
 --
 -- FALTA UN SECRETO PARA QUE ESTO MANDE ALGO (27/9). El reloj anda y
 -- llega hasta el final, pero `avisos` se corta al armar las claves:
