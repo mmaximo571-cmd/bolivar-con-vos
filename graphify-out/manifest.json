@@ -186,9 +186,9 @@
     "semantic_hash": "13c70cb9b680cf53ce1df6881965457c"
   },
   "BITACORA.md": {
-    "mtime": 1790527041.0427368,
-    "seen": 1790527779.1037297,
-    "ast_hash": "4e5fa22bfc8e3217f755c66e115eb896",
+    "mtime": 1790527801.7290483,
+    "seen": 1790528384.4392326,
+    "ast_hash": "18792277c9cbf2be2cb0fb85ee327dc0",
     "semantic_hash": ""
   },
   "LEEME.md": {
@@ -234,9 +234,9 @@
     "semantic_hash": ""
   },
   "carrera/index.html": {
-    "mtime": 1790207451.4124644,
-    "seen": 1790527779.103739,
-    "ast_hash": "533a9ad924a8445f653002870e59b21e",
+    "mtime": 1790528011.203148,
+    "seen": 1790528384.4392517,
+    "ast_hash": "51a65af024436752f9c7940affec755f",
     "semantic_hash": ""
   },
   "catedras/index.html": {
@@ -609,6 +609,12 @@
     "mtime": 1790527718.1095436,
     "seen": 1790527779.1037424,
     "ast_hash": "996a4e773b6bd04cd11afc39e3ed9b81",
+    "semantic_hash": ""
+  },
+  "carrera/tarjeta-avance.js": {
+    "mtime": 1790528077.5333283,
+    "seen": 1790528384.439108,
+    "ast_hash": "b9e58e7fde8a4f8f23a4ee8abae6fda0",
     "semantic_hash": ""
   }
 }

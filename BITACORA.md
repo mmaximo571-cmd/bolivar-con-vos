@@ -82,7 +82,7 @@ quien conteste.
 | 2 | ✅ **Buzón: la pantalla pública** (era S2), 27/9. Está en `decilo/`, publicada y sin enlazar | Es la pieza central |
 | 3 | **La bandeja de comunicación** (era S3). Recién acá se enlaza el buzón desde Inicio | Un buzón sin quien conteste es peor que no tener buzón: el tablero público muestra «recibido» para siempre |
 | 4 | **Aviso al autor cuando su pedido cambia de estado** (la mitad de S4) | Es lo que convierte pedidos en avisos prendidos |
-| 5 | **La tarjeta para historias** (era S5) | La única palanca de alcance que es código |
+| 5 | ✅ **La tarjeta para historias** (era S5), 27/9. Se adelantó: es la única que no esperaba material de nadie | La única palanca de alcance que es código |
 
 **Con cinco sesiones entra todo. Con tres, entran la 1, la 2 y la 3. Con
 dos, no se abre el buzón**: conviene no lanzarlo antes que lanzarlo mudo.
@@ -158,6 +158,42 @@ transacción: el insert de las cuatro columnas entra, y `anon` ve una categoría
 cero pedidos publicados y los totales en cero. **Lo que falta probar en un
 teléfono de verdad** es el aviso al autor, porque el permiso de notificaciones
 no se puede dar desde este entorno.
+
+**La sesión 5, hecha el 27/9 (fuera de orden, a propósito).** Se adelantó
+porque las sesiones 3 y 4 esperan material del equipo y esta no esperaba
+nada. En Mi año, abajo del progreso, hay un botón **«Compartir mi avance»**
+que arma una imagen de 1080x1920 con canvas y la comparte con
+`navigator.share`; donde compartir no exista, la baja como archivo. El código
+está en `carrera/tarjeta-avance.js` (nuevo) y el botón se engancha en
+`pintarProgreso`.
+
+Lo que dice la tarjeta: la carrera arriba, **«VOY 12 DE 31 materias
+aprobadas»** en grande, la barra, el porcentaje, lo que está cursando y lo
+que espera final, y abajo la marca chica con `labolivarconvos.ar`. El link
+etiquetado `?de=historia-avance` va en el texto de lo compartido, no
+dibujado: una imagen no tiene links. **El botón no aparece con cero
+aprobadas**, por lo mismo que la barra de progreso no se dibuja en cero: no
+es una historia que nadie suba.
+
+Tres cosas que salieron de probarla y quedaron en el código: la tipografía se
+**espera** (`document.fonts.load`) porque un canvas dibuja con la fuente que
+tiene en ese instante, y sin esperar la tarjeta salía en la fuente del
+sistema; el cuerpo de cada línea se **mide** y se baja hasta que entra, que
+es lo que evitó que «Tecnicatura en Gestión Comunitaria del Riesgo» se fuera
+del borde; y se pregunta con `canShare({files})` y no con `share`, porque hay
+navegadores que tienen `share` y no aceptan archivos, y ahí el error llega
+después de que la persona ya tocó el botón.
+
+**Sin `v` nueva del service worker**, y por la misma regla de siempre:
+`carrera/tarjeta-avance.js` y `decilo/index.html` son archivos nuevos que
+nadie tiene guardados, `carrera/index.html` se sirve primero de la red, y no
+cambió ni `estilos.css` ni nada del armazón.
+
+**Probado** a 375 px con el avance sembrado en el teléfono (12 de 31): el
+botón aparece con el texto justo, la imagen se arma, y compartir devuelve
+«descargada» con el archivo `mi-avance-12-de-31.png`. **Falta un teléfono de
+verdad** para ver el menú de compartir de Android y de iPhone, que es lo
+único que no existe en este entorno.
 
 **Lo que se corta**
 

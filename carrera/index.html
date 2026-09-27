@@ -292,6 +292,8 @@
 <script src="plan-tgcr.js"></script>
 <script src="plan-fono.js"></script>
 <script src="../lib/leer-analitico.js"></script>
+<!-- La tarjeta 1080x1920 para historias: la arma con canvas, sin librerias -->
+<script src="tarjeta-avance.js"></script>
 <script>
 (function carrera(){
 
@@ -747,7 +749,41 @@ function pintarProgreso(){
         <p class="ficha-rotulo">${esc(f.rotulo)}</p>
         <p class="ficha-numero">${esc(String(f.numero))}</p>
         <p class="ficha-pie">${esc(f.pie)}</p>
-      </div>`).join('') + `</div>` : ''}`;
+      </div>`).join('') + `</div>` : ''}
+    ${aprobadas ? `<div class="espacio-acciones">
+      <button class="boton borde" type="button" id="compartir-avance">Compartir mi avance</button>
+    </div>` : ''}`;
+
+  /* COMPARTIR EL AVANCE. Solo si hay algo que contar: «voy 0 de 31» no
+     es una historia que nadie suba. La imagen la arma
+     `tarjeta-avance.js`, que puede no haber llegado (es un archivo
+     aparte y la pantalla se sirve primero de la red): si no está, el
+     botón no se dibuja y no pasa nada más. */
+  const botonCompartir = document.getElementById('compartir-avance');
+  if (botonCompartir && window.tarjetaDeAvance){
+    botonCompartir.addEventListener('click', async () => {
+      botonCompartir.disabled = true;
+      const decia = botonCompartir.textContent;
+      botonCompartir.textContent = 'Armando la imagen…';
+
+      const comoSalio = await window.tarjetaDeAvance.compartir({
+        aprobadas: aprobadas, total: total, carrera: PLAN.nombreCorto,
+        cursando: cursandoAhora, cursadas: cursadas
+      });
+
+      const mensaje =
+        comoSalio === 'descargada' ? 'Se guardó en tu teléfono' :
+        comoSalio === 'no-se-pudo' ? 'No se pudo armar la imagen' : decia;
+
+      botonCompartir.disabled = false;
+      botonCompartir.textContent = mensaje;
+      if (mensaje !== decia) setTimeout(() => { botonCompartir.textContent = decia; }, 4000);
+
+      if (comoSalio !== 'no-se-pudo'){ try { anotarHito('compartió su avance'); } catch(e){} }
+    });
+  } else if (botonCompartir){
+    botonCompartir.remove();
+  }
 }
 
 /* ============================================================

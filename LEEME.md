@@ -827,6 +827,42 @@ idénticas. Y el título parte la palabra si no hay más remedio
 (`overflow-wrap:anywhere`): sin eso «Fonoaudiología» no entraba en una columna
 de un tercio de pantalla y se leía «Fonoaudiolc».
 
+### La tarjeta para historias (`carrera/tarjeta-avance.js`)
+
+En Mi año, abajo del progreso, «Compartir mi avance» arma una imagen de
+**1080x1920** —la medida de una historia— con «voy X de Y materias» y la
+comparte con `navigator.share`. Es `canvas` y nada más: no entró ninguna
+librería.
+
+**Para qué está.** Es la única pieza de alcance que es código. Lo que circula
+es la herramienta y no la agrupación: lo grande es el número de la persona, y
+la marca va chica abajo con la dirección. Si pareciera una placa de campaña,
+nadie la sube.
+
+**El link etiquetado va en el texto, no en la imagen** (`?de=historia-avance`).
+Una imagen no tiene links, así que en el dibujo se lee `labolivarconvos.ar` y
+la etiqueta viaja en lo que se comparte, que es lo que después se cuenta en la
+solapa Registro del panel.
+
+**Tres cosas que parecen detalles y son el motivo de que funcione:**
+
+- **La tipografía se espera.** Un canvas dibuja con la fuente que tiene en ese
+  instante. Sin `document.fonts.load`, la tarjeta sale en la fuente del
+  sistema y no parece de la app. Se espera, con dos segundos de paciencia: si
+  no llega, se dibuja igual, porque una tarjeta con otra tipografía es mejor
+  que un botón que no hace nada.
+- **El cuerpo se mide.** «voy 8 de 9» y «voy 38 de 42» no miden lo mismo, y el
+  nombre de una carrera puede ser «Tecnicatura en Gestión Comunitaria del
+  Riesgo». Cada línea se mide con `measureText` y baja de tamaño hasta entrar.
+- **Se pregunta `canShare({files})`, no `share`.** Hay navegadores que tienen
+  `share` y no aceptan archivos: preguntando por `share` a secas, el error
+  aparece después de que la persona tocó el botón. Si no se puede compartir,
+  se descarga; y si cierra el menú de compartir (`AbortError`), no se le avisa
+  nada, que ya sabe que lo cerró.
+
+**No aparece con cero aprobadas**, por lo mismo que la barra de progreso no se
+dibuja en cero.
+
 ### La pantalla del buzón (`decilo/`)
 
 «Decilo» es el buzón: cualquier estudiante deja un pedido, un reclamo o una
