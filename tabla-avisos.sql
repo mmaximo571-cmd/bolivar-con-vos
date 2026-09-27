@@ -242,39 +242,83 @@ grant execute on function public.borrar_aviso(text) to anon, authenticated;
 
 
 -- ------------------------------------------------------------
--- 6. EL RELOJ
+-- 6. EL RELOJ  ·  aplicado el 27/9/2026
 --
--- Esto NO se corre tal cual: hay que reemplazar **una sola cosa**, la que
--- está entre <>, y recién ahí pegarlo. La clave de servicio no va en este
--- archivo porque este archivo está en git. El código del proyecto ya está
--- puesto abajo.
+-- Esto ya está corriendo: `cron.job` tiene 'avisos-cada-hora', cada
+-- hora en punto. La función se fija sola la hora de Argentina y no
+-- manda nada entre las 21 y las 9: un teléfono que suena a las cuatro
+-- de la mañana se apaga para siempre al otro día.
 --
---   <CLAVE-DE-SERVICIO>  Supabase -> Project Settings -> API ->
---          service_role. Es secreta: no se pega en ningún archivo
---          del repo, solo acá, una vez, en el SQL Editor.
+-- CÓMO SE IDENTIFICA EL RELOJ, Y POR QUÉ NO CON LA CLAVE DE SERVICIO.
+-- Lo que decía antes acá era pegar la clave de servicio dentro del
+-- `cron.schedule`. No se hizo así: lo que se escribe en un cron queda
+-- guardado en `cron.job`, o sea que la clave con la que se puede
+-- escribir en toda la base quedaría en una tabla, para siempre, en
+-- texto. En vez de eso la base se identifica con un PASE de un solo
+-- uso: lo anota en `avisos_pases`, lo manda en la cabecera
+-- `x-pase-del-reloj`, y la función `reloj` lo borra al leerlo. Vale
+-- cinco minutos, se usa una vez, y adivinarlo son 256 bits al azar.
+-- La clave que sí va en el cron es la PÚBLICA (la misma de
+-- `config.js`), que es lo único que el portón de Supabase pide para
+-- dejar pasar el pedido.
 --
--- Cada hora en punto. La función se fija sola la hora de Argentina y
--- no manda nada entre las 21 y las 9: un teléfono que suena a las
--- cuatro de la mañana se apaga para siempre al otro día.
+-- Son dos funciones: `reloj` (chica, la que se despierta) y `avisos`
+-- (la que manda). `reloj` tiene la clave de servicio porque Supabase
+-- la pone sola en los secretos de toda función, y con eso llama a
+-- `avisos`, que no cambió cómo se autoriza.
 -- ------------------------------------------------------------
--- create extension if not exists pg_cron;
--- create extension if not exists pg_net;
---
--- select cron.schedule(
---   'avisos-cada-hora',
---   '0 * * * *',
---   $CRON$
---   select net.http_post(
---     url     := 'https://kcgewgelfgyndbszfdep.supabase.co/functions/v1/avisos',
---     headers := jsonb_build_object(
---       'Content-Type',  'application/json',
---       'Authorization', 'Bearer <CLAVE-DE-SERVICIO>'),
---     body    := '{}'::jsonb
---   );
---   $CRON$
--- );
---
--- Para ver si corrió:
+create extension if not exists pg_cron;
+create extension if not exists pg_net with schema extensions;
+
+-- Los pases. Nadie los lee: RLS prendido sin policies y sin permisos
+-- para anon ni authenticated. Solo la clave de servicio, que los
+-- saltea, y es la que usa `reloj`.
+create table if not exists public.avisos_pases (
+  pase       text primary key,
+  creado_at  timestamptz not null default now()
+);
+
+alter table public.avisos_pases enable row level security;
+revoke all on public.avisos_pases from anon, authenticated;
+create index if not exists avisos_pases_creado_idx on public.avisos_pases (creado_at);
+
+select cron.schedule(
+  'avisos-cada-hora',
+  '0 * * * *',
+  $CRON$
+  with viejos as (
+    delete from public.avisos_pases where creado_at < now() - interval '1 hour' returning 1
+  ), nuevo as (
+    insert into public.avisos_pases (pase)
+    values (replace(gen_random_uuid()::text,'-','') || replace(gen_random_uuid()::text,'-',''))
+    returning pase
+  )
+  select net.http_post(
+    url     := 'https://kcgewgelfgyndbszfdep.supabase.co/functions/v1/reloj',
+    headers := jsonb_build_object(
+      'Content-Type',     'application/json',
+      'Authorization',    'Bearer sb_publishable_MRysI6z1UU6FX9IB-_ni9A_Poj3L11B',
+      'x-pase-del-reloj', nuevo.pase),
+    body    := '{}'::jsonb
+  ) from nuevo;
+  $CRON$
+);
+
+-- Para ver si corrió, y qué contestó (el cuerpo es lo que devolvió
+-- `avisos`: cuántos avisos había, cuántos salieron, cuántos rebotaron):
+--   select r.id, r.status_code, r.content, r.created
+--     from net._http_response r order by r.id desc limit 10;
 --   select * from cron.job_run_details order by start_time desc limit 10;
+-- Para probarlo ahora mismo, sin esperar la hora en punto: correr a
+-- mano el bloque de adentro del $CRON$. Para probar de noche, agregarle
+-- '?forzar=si' a la dirección.
 -- Para apagarlo:
 --   select cron.unschedule('avisos-cada-hora');
+--
+-- FALTA UN SECRETO PARA QUE ESTO MANDE ALGO (27/9). El reloj anda y
+-- llega hasta el final, pero `avisos` se corta al armar las claves:
+-- `VAPID_PRIVADA` tiene cargada la clave PÚBLICA, no la privada (las
+-- dos miden 87 caracteres y son idénticas; la privada son 43). Hasta
+-- que se corrija ese secreto, cada corrida contesta «Las claves VAPID
+-- de los secretos no sirven» y no suena ningún teléfono. Ver «Los
+-- avisos al celular» en LEEME.md.

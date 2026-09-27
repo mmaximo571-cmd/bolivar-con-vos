@@ -78,7 +78,7 @@ quien conteste.
 
 | # | Sesión | Por qué va ahí |
 |---|---|---|
-| 1 | **El reloj de los avisos.** Instalar el reloj y verificar un aviso de punta a punta en un teléfono | Sin esto no avisa nada, y las tres sesiones que siguen se apoyan acá |
+| 1 | ✅ **El reloj de los avisos**, 27/9. Corre cada hora. Falta un secreto y no lo puede cargar Claude: ver abajo | Sin esto no avisa nada, y las tres sesiones que siguen se apoyan acá |
 | 2 | **Buzón: la pantalla pública** (era S2), a `main`, sin enlazar | Es la pieza central |
 | 3 | **La bandeja de comunicación** (era S3). Recién acá se enlaza el buzón desde Inicio | Un buzón sin quien conteste es peor que no tener buzón: el tablero público muestra «recibido» para siempre |
 | 4 | **Aviso al autor cuando su pedido cambia de estado** (la mitad de S4) | Es lo que convierte pedidos en avisos prendidos |
@@ -86,6 +86,41 @@ quien conteste.
 
 **Con cinco sesiones entra todo. Con tres, entran la 1, la 2 y la 3. Con
 dos, no se abre el buzón**: conviene no lanzarlo antes que lanzarlo mudo.
+
+**La sesión 1, hecha el 27/9.** El reloj existe y corre: `pg_cron` y `pg_net`
+instalados, `cron.job` con `avisos-cada-hora` a la hora en punto, y una
+función nueva y chica, `reloj`, que es la que despierta a `avisos`. **La
+clave de servicio no quedó escrita en el cron**, como decía el plan viejo,
+porque lo que se programa ahí queda guardado en `cron.job` en texto: la base
+se identifica con un pase de un solo uso que anota en `avisos_pases` y que
+`reloj` borra al leerlo. Detalle en `tabla-avisos.sql`, «6. EL RELOJ», y en
+LEEME.md, «El reloj».
+
+**Y apareció por qué nunca salió un aviso, que no era solo el reloj.** Con el
+reloj andando, la corrida llega hasta el final y contesta el error: primero,
+`VAPID_CONTACTO` estaba cargado como un correo pelado, sin `mailto:`, y
+`web-push` rechaza la corrida entera por eso (arreglado en el código: ahora lo
+completa en vez de fallar, porque un secreto mal escrito no tiene que apagar
+el timbre de toda la facultad). Y después, lo que falta: **`VAPID_PRIVADA`
+tiene cargada la clave pública, no la privada.** Las dos miden 87 caracteres y
+son idénticas; una privada son 43. Eso explica los 93 teléfonos suscriptos
+desde el 20/9 con cero avisos entregados, con todo lo demás pareciendo andar
+bien.
+
+**Lo único que falta para que los avisos anden** es cargar en Supabase ->
+Edge Functions -> Secrets el `VAPID_PRIVADA` de verdad, la mitad privada del
+par, la que se pasó aparte y no está en el repositorio. Después no hay que
+tocar nada: a la hora en punto siguiente el reloj lo intenta solo. **No
+generar un par nuevo sin necesidad**: la pública de `config.js` es la que ya
+tienen guardada esos 93 teléfonos, y cambiar el par los deja afuera.
+
+**Cómo se prueba de punta a punta, cuando el secreto esté** (no se pudo hoy, y
+no por el secreto): hoy no hay nada que avisar. Las tres inscripciones
+cargadas caen fuera de ventana, no hay novedades marcadas y no hay finales
+cerca, así que la corrida contesta «0 avisos» aun estando todo bien. La forma
+de probarlo es marcar una novedad en el panel, en «¿Le suena el teléfono a la
+gente?», y esperar la hora en punto: eso es también lo que hace falta para los
+15 días de contenido.
 
 **Lo que se corta**
 
@@ -1053,7 +1088,7 @@ pantalla propia en pestaña nueva rompe el botón de volver.
 
 | Qué | Para cuándo |
 |---|---|
-| **Los avisos al celular: quedan dos pasos.** ~~(1) Correr `tabla-avisos.sql`~~ **✅ hecho el 20/9/2026**, verificado contra la base: las dos tablas, las dos columnas de `publicaciones`, las tres funciones, el disparador, el índice y RLS prendido sin policies. Probado por la API real: guardar un timbre sin cuenta anda, leer la tabla desde afuera da «permission denied», un endpoint inventado se rechaza. **El orden importaba:** el panel manda `avisar` en cada guardado, así que subir la v68 con esa columna sin existir dejaba el panel sin poder guardar **ninguna** publicación. Ya no puede pasar. (2) En **Edge Functions** subir `supabase/functions/avisos/index.ts` y cargar los tres secretos: `VAPID_PRIVADA` (la que te pasé aparte, **no está en el repositorio y no hay otra copia**), `VAPID_PUBLICA` (la misma que está en `config.js`) y `VAPID_CONTACTO` (un correo del equipo). (3) Pegar el bloque del reloj que está al final de `tabla-avisos.sql`, reemplazando la clave de servicio. **Probarlo desde un celular de verdad**, que es lo único que no se puede probar desde acá. **Verificado el 27/9 contra la base: el paso (2) está hecho** (la función `avisos` figura activa) **y el (3) no**: `pg_cron` no está instalado y `avisos_enviados` tiene 0 filas. O sea, 93 teléfonos suscriptos y ningún aviso entregado desde el 20/9. Es la sesión 1 del replanteo | **ya**: es lo primero de la etapa que arranca el 28/9 |
+| **Los avisos al celular: quedan dos pasos.** ~~(1) Correr `tabla-avisos.sql`~~ **✅ hecho el 20/9/2026**, verificado contra la base: las dos tablas, las dos columnas de `publicaciones`, las tres funciones, el disparador, el índice y RLS prendido sin policies. Probado por la API real: guardar un timbre sin cuenta anda, leer la tabla desde afuera da «permission denied», un endpoint inventado se rechaza. **El orden importaba:** el panel manda `avisar` en cada guardado, así que subir la v68 con esa columna sin existir dejaba el panel sin poder guardar **ninguna** publicación. Ya no puede pasar. (2) En **Edge Functions** subir `supabase/functions/avisos/index.ts` y cargar los tres secretos: `VAPID_PRIVADA` (la que te pasé aparte, **no está en el repositorio y no hay otra copia**), `VAPID_PUBLICA` (la misma que está en `config.js`) y `VAPID_CONTACTO` (un correo del equipo). (3) Pegar el bloque del reloj que está al final de `tabla-avisos.sql`, reemplazando la clave de servicio. **Probarlo desde un celular de verdad**, que es lo único que no se puede probar desde acá. **Cerrado en parte el 27/9.** El (2) estaba hecho y **el (3) lo hizo Claude**: el reloj corre cada hora, sin la clave de servicio escrita en el cron (ver «La sesión 1» en el replanteo). **Lo que queda es de Máximo y es una sola cosa:** en Edge Functions -> Secrets, `VAPID_PRIVADA` tiene cargada la clave **pública** en vez de la privada, y por eso no salió nunca un aviso. Cargar la privada de verdad, la que se pasó aparte. **No generar un par nuevo**: deja afuera a los 93 teléfonos ya suscriptos | **ya**: es lo único que frena los avisos |
 | ~~Correr `tabla-registro.sql` de nuevo~~ | ✅ hecho. Verificado el 5/9 contra la base: entran los cuatro hitos (9 anotados) |
 | **Etiquetar los links de Instagram** con `?de=`. Ver «Las etiquetas de campaña» abajo: no hay nada que generar, el link se escribe a mano | antes del 21 |
 | **Cargar los primeros posteos en la pestaña 📸 del panel.** Sin eso la grilla «EN INSTAGRAM» del inicio no aparece: no falla, se esconde. Son tres campos por posteo (link, placa, qué dice la placa) y se ven los seis más nuevos | antes del 21 |

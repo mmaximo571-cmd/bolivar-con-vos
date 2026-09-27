@@ -1374,7 +1374,8 @@ recibe nada, sin que nadie se entere:
 |---|---|---|
 | El interruptor | `app.js` (`pintarAvisos`) | Pide el permiso y guarda el «timbre» de ese teléfono |
 | El timbre guardado | `tabla-avisos.sql` | `avisos_suscripciones`, cerrada con llave para todos |
-| Quien manda | `supabase/functions/avisos/index.ts` | Corre en Supabase una vez por hora |
+| **Quien despierta** | `cron.job` + `supabase/functions/reloj/index.ts` | Cada hora en punto. Ver «El reloj», abajo |
+| Quien manda | `supabase/functions/avisos/index.ts` | Arma la lista del día y toca los timbres |
 | Quien dibuja | `sw.js` (oyente `push`) | Muestra el aviso cuando el teléfono está guardado |
 
 ### Qué se avisa
@@ -1399,6 +1400,56 @@ recibe nada, sin que nadie se entere:
   el permiso **no se pide solo al entrar**, sino recién cuando la persona toca
   el interruptor.
 
+### El reloj (27/9)
+
+Nada de esto pasa si alguien no despierta a la función una vez por hora. Ese
+alguien es `cron.job`, dentro de la base, y llama a una función chica que se
+llama `reloj`, que a su vez llama a `avisos`.
+
+**Por qué hay una función en el medio.** `avisos` pide la clave de servicio
+para contestar, y esa clave **no puede quedar escrita en el cron**: lo que se
+programa ahí queda guardado en la tabla `cron.job`, o sea que la llave que
+abre toda la base quedaría en texto, para siempre, en una tabla. Entonces la
+base se identifica de otra forma: anota un **pase** al azar en
+`avisos_pases`, lo manda en la cabecera `x-pase-del-reloj`, y `reloj` lo
+borra al leerlo. Un pase se usa **una sola vez** y vale cinco minutos. La
+clave que sí va escrita en el cron es la **pública**, la misma de
+`config.js`, que es lo único que el portón de Supabase pide para dejar pasar
+el pedido. `reloj` sí tiene la clave de servicio, porque Supabase la pone
+sola en los secretos de toda función, y es la que le pasa a `avisos`.
+
+Para ver qué contestó cada corrida:
+
+```sql
+select id, status_code, content, created
+  from net._http_response order by id desc limit 10;
+```
+
+El cuerpo es lo que devolvió `avisos`: cuántos avisos había, cuántos salieron,
+cuántos rebotaron. Para probar sin esperar la hora en punto, se corre a mano
+el bloque de adentro del `$CRON$` que está en `tabla-avisos.sql`, en «6. EL
+RELOJ»; para probar de noche, con `?forzar=si`.
+
+### FALTA: el secreto `VAPID_PRIVADA` está mal cargado (27/9)
+
+El reloj corre, llega hasta `avisos`, y ahí se corta: **`VAPID_PRIVADA` tiene
+cargada la clave pública, no la privada.** Se ve en lo que contesta la
+corrida: las dos claves miden 87 caracteres y son idénticas, y una privada
+son 43. Por eso hay 93 teléfonos suscriptos desde el 20/9 y **cero avisos
+entregados**.
+
+Lo que hay que hacer, y es lo único que falta: en Supabase -> Edge Functions
+-> Secrets, cargar en `VAPID_PRIVADA` la mitad privada del par, la que se
+pasó aparte y **no está en el repositorio**. Ni un espacio ni un salto de
+línea de más (la función igual los recorta). Después no hay que tocar nada:
+a la hora en punto siguiente el reloj vuelve a intentar solo.
+
+**Ojo con generar un par nuevo.** La pública de `config.js` es la que ya
+tienen guardada los 93 teléfonos. Si se cambia el par, esas suscripciones
+quedan inservibles: los envíos rebotan y a las tres veces la función las
+borra. Buscar la privada original es la primera opción; generar un par nuevo
+es empezar los avisos de cero.
+
 ### La llave
 
 Son dos mitades. La **pública** está en `config.js`, a la vista y a propósito:
@@ -1415,8 +1466,10 @@ En orden, que es de lo más común a lo más raro:
 1. **¿Tiene la app instalada, si es iPhone?** Es el 90 % de los casos.
 2. **¿Apagó los avisos del sistema?** Ahí la app no se entera: el envío
    rebota, y a las tres veces la suscripción se borra sola.
-3. **¿Corrió el reloj?** `select * from cron.job_run_details order by
-   start_time desc limit 10;`
+3. **¿Corrió el reloj, y qué contestó?** `select * from cron.job_run_details
+   order by start_time desc limit 10;` y, para el cuerpo de la respuesta,
+   `select id, status_code, content from net._http_response order by id desc
+   limit 10;`
 4. **¿Estaba fuera de horario?** No se manda nada entre las 21 y las 9.
 5. **¿Ya se había mandado ese aviso?** Cada aviso sale una sola vez por
    teléfono: `select * from avisos_enviados where clave like 'mesa:%';`

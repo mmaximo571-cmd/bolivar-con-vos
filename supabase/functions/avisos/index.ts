@@ -212,13 +212,42 @@ Deno.serve(async (pedido) => {
     return new Response('No', { status: 401 });
   }
 
-  const privada  = Deno.env.get('VAPID_PRIVADA')  || '';
-  const publica  = Deno.env.get('VAPID_PUBLICA')  || '';
-  const contacto = Deno.env.get('VAPID_CONTACTO') || 'mailto:labolivarconvos@gmail.com';
+  /* `.trim()` porque pegar un secreto en el panel se lleva puesto un
+     salto de línea sin que se vea, y web-push no perdona un byte de
+     más. */
+  const privada  = (Deno.env.get('VAPID_PRIVADA')  || '').trim();
+  const publica  = (Deno.env.get('VAPID_PUBLICA')  || '').trim();
   if (!privada || !publica){
     return Response.json({ error: 'Faltan las claves VAPID en los secretos' }, { status: 500 });
   }
-  webpush.setVapidDetails(contacto, publica, privada);
+
+  /* El contacto tiene que ser una dirección (`mailto:` o `https:`).
+     Un correo pelado hace que web-push rechace la corrida entera, acá
+     mismo, sin mandar un solo aviso. Pasó de verdad: el 27/9 el
+     secreto estaba cargado sin el `mailto:` y por eso no salía nada,
+     mientras todo lo demás parecía andar bien. Se completa en vez de
+     fallar: un secreto mal escrito no tiene que apagar el timbre de
+     toda la facultad. */
+  const comoVino = Deno.env.get('VAPID_CONTACTO') || 'labolivarconvos@gmail.com';
+  const contacto = /^(mailto:|https?:)/i.test(comoVino) ? comoVino : `mailto:${comoVino}`;
+
+  /* Si las claves no son el par que espera web-push, la corrida se cae
+     acá y desde afuera se ve un 500 pelado, que no dice nada. Se
+     contesta el porqué con los LARGOS y no con las claves: el largo
+     alcanza para darse cuenta (la privada tiene 43 caracteres y la
+     pública 87) y no cuenta nada que no se pueda contar. */
+  try {
+    webpush.setVapidDetails(contacto, publica, privada);
+  } catch (e: any){
+    return Response.json({
+      error:            'Las claves VAPID de los secretos no sirven',
+      dice:             String(e?.message || e),
+      largo_privada:    privada.length,
+      largo_publica:    publica.length,
+      son_la_misma:     privada === publica,
+      publica_empieza:  publica.slice(0, 8)
+    }, { status: 500 });
+  }
 
   const sb = createClient(
     Deno.env.get('SUPABASE_URL')!,
