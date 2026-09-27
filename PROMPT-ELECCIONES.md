@@ -17,28 +17,52 @@ replanteo del 27/9»; manda sobre las semanas de abajo):
 | # | Sesión | Prompt |
 |---|---|---|
 | — | ✅ Buzón: tabla y permisos | S1, hecho el 24/9 |
-| 1 | El reloj de los avisos | abajo, «Sesión 1» |
-| 2 | Buzón: la pantalla pública, sin enlazar | S2 |
-| 3 | La bandeja de comunicación, y se enlaza el buzón | S3 |
+| 1 | ✅ El reloj de los avisos | hecho el 27/9. Falta un secreto: ver abajo |
+| 2 | ✅ Buzón: la pantalla pública, en `decilo/`, sin enlazar | hecho el 27/9 |
+| **3** | **La bandeja de comunicación, y se enlaza el buzón** | **la que sigue**, abajo |
 | 4 | Aviso al autor cuando cambia el estado | S4, solo esa parte |
-| 5 | La tarjeta para historias | S5 |
+| 5 | ✅ La tarjeta para historias | hecho el 27/9, adelantada |
 
-Con tres sesiones entran la 1, la 2 y la 3. Con dos, no se abre el buzón.
+**La que sigue es la 3, y es la que falta para que el buzón se pueda
+mostrar.** Antes de abrirla hacen falta tres cosas que no son código: las
+~10 respuestas ya escritas del equipo, quiénes reciben el rol
+`comunicacion` (con su cuenta creada en la app y los avisos prendidos), y
+el `VAPID_PRIVADA` de verdad en los secretos, sin el cual los avisos del
+buzón no salen.
 **Cortados:** S6 (la pregunta de la semana pasa a encuesta de Instagram o
 formulario), S8 y S10 (no hay lanzamiento en bloque ni merge), S9 (se prueba
 en el teléfono al día siguiente de cada push) y el resumen diario de S4. S11
 y S12 quedan juntos el 2/11.
 
-**Sesión 1 · El reloj de los avisos**
+**Sesión 3 · La bandeja de comunicación** (reescrita el 27/9 con lo que ya
+existe)
 ```
-TAREA: los avisos nunca se entregaron. La función `avisos` está activa pero
-`pg_cron` no está instalado y `avisos_enviados` tiene 0 filas (verificado el
-27/9). Instalá el reloj con el bloque del final de `tabla-avisos.sql`, dejá
-anotado en el repo cómo quedó, y probá de punta a punta: marcar una novedad
-con aviso y que llegue al teléfono. Leé solo «Los avisos al celular» en
-LEEME.md.
-MATERIAL: la clave de servicio de Supabase (la pega Máximo, no va al repo).
+TAREA: la bandeja del buzón en el panel, para el rol comunicacion y pensada
+para el celular. Lo que ya está hecho y no hay que rehacer: la tabla
+(`tabla-buzon.sql`, aplicada, con el rol `comunicacion`, `modera_buzon()` y
+la vista `buzon_totales`) y la pantalla pública (`decilo/`, publicada y sin
+enlazar). Falta:
+ 1. Una tarjeta por pedido con los tres botones: publicar y responder / en
+    gestión / descartar. Las fechas las pone la base, no el panel.
+ 2. Las respuestas ya escritas, que se editan antes de mandar (MATERIAL).
+ 3. Que quien tenga rol comunicacion vea SOLO esto y Novedades. El panel ya
+    se lee como índice de cuatro grupos: sumala donde corresponda.
+ 4. Enlazar `decilo/` desde Inicio y desde Avisanos, recién ahora. SIN
+    entrar a la fila de secciones. Si el nombre `decilo/` no gusta, este es
+    el último momento para cambiarlo.
+Ojo con lo que el panel usa: `lib/supabase.js` (la librería grande, porque
+tiene sesión). No abras `panel/index.html` entero: `graphify query` primero.
+MATERIAL: las ~10 respuestas ya escritas del equipo de comunicación, y
+quiénes reciben el rol `comunicacion`.
 ```
+
+**Hecha · Sesión 1 · El reloj de los avisos** (27/9). Quedó corriendo:
+`pg_cron` y `pg_net` instalados, `cron.job` con `avisos-cada-hora`, y una
+función nueva y chica, `reloj`, que despierta a `avisos` identificándose con
+un pase de un solo uso, así la clave de servicio no queda escrita en
+`cron.job`. **Falta un secreto y no lo puede cargar Claude:**
+`VAPID_PRIVADA` tiene cargada la clave pública en vez de la privada, y por
+eso no salió nunca un aviso. Ver `tabla-avisos.sql`, «6. EL RELOJ».
 
 ---
 
