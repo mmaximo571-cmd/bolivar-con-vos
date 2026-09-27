@@ -79,7 +79,7 @@ quien conteste.
 | # | Sesión | Por qué va ahí |
 |---|---|---|
 | 1 | ✅ **El reloj de los avisos**, 27/9. Corre cada hora. Falta un secreto y no lo puede cargar Claude: ver abajo | Sin esto no avisa nada, y las tres sesiones que siguen se apoyan acá |
-| 2 | **Buzón: la pantalla pública** (era S2), a `main`, sin enlazar | Es la pieza central |
+| 2 | ✅ **Buzón: la pantalla pública** (era S2), 27/9. Está en `decilo/`, publicada y sin enlazar | Es la pieza central |
 | 3 | **La bandeja de comunicación** (era S3). Recién acá se enlaza el buzón desde Inicio | Un buzón sin quien conteste es peor que no tener buzón: el tablero público muestra «recibido» para siempre |
 | 4 | **Aviso al autor cuando su pedido cambia de estado** (la mitad de S4) | Es lo que convierte pedidos en avisos prendidos |
 | 5 | **La tarjeta para historias** (era S5) | La única palanca de alcance que es código |
@@ -121,6 +121,43 @@ cerca, así que la corrida contesta «0 avisos» aun estando todo bien. La forma
 de probarlo es marcar una novedad en el panel, en «¿Le suena el teléfono a la
 gente?», y esperar la hora en punto: eso es también lo que hace falta para los
 15 días de contenido.
+
+**La sesión 2, hecha el 27/9: la pantalla del buzón.** Está en **`decilo/`**,
+que se llama así por el nombre del buzón. **El nombre de la carpeta se
+decidió sin preguntar** porque no había a quién preguntarle y la sesión no
+podía esperar: mientras la pantalla no esté enlazada desde ningún lado, la
+dirección todavía se puede cambiar sin romperle nada a nadie, y una vez
+enlazada y publicada en Instagram, no. Si `decilo/` no gusta, se cambia en la
+sesión 3 y no antes.
+
+Lo que hace: formulario sin cuenta (texto con tope de 10 a 800, categoría,
+carrera precargada con la que la persona ya eligió, y «avisame al teléfono
+cuando cambie» reusando los avisos que ya existen) y, abajo, el tablero con
+los totales de la vista `buzon_totales` y la lista de lo publicado con el
+estado y la fecha de cada cambio. Sin CSS nuevo: `.modulo`, `.campo`,
+`.espacio-estado` para el estado, `.cuenta-total` para el número grande,
+`.vacio` para los dos carteles de vacío y `.letra-chica` para las notas.
+`tabla-buzon.sql` se trajo de `lanzamiento-2` a `main`, que era lo que la
+sesión 2 tenía que cerrar de esa rama.
+
+**No está enlazada** desde Inicio ni desde Avisanos, ni entra en la fila de
+secciones ni en el índice del pie: se enlaza en la sesión 3, cuando exista la
+bandeja. **Y se abrió la primera categoría, «Cursada y estudio»**, que es la
+única que el plan fija de antemano (el eje de permanencia). Las demás esperan
+la lista del CEFTS. Con la categoría abierta el buzón ya recibe de verdad: si
+se prefiere que no reciba nada hasta que haya quien conteste, es una línea de
+SQL, anotada al final de `tabla-buzon.sql`.
+
+**Probado** con el servidor local a 375 px y con la base simulada, en los
+cuatro caminos: sin categorías abiertas (no hay formulario, dice que el buzón
+abre en unos días), con la carrera precargada, mandando un pedido que sale
+bien (limpia el formulario y avisa qué pasa después) y con la base frenando
+por caudal (muestra el mensaje de la base y **no** borra lo que la persona
+escribió). Y contra la base real, con el rol `anon` y deshaciendo la
+transacción: el insert de las cuatro columnas entra, y `anon` ve una categoría,
+cero pedidos publicados y los totales en cero. **Lo que falta probar en un
+teléfono de verdad** es el aviso al autor, porque el permiso de notificaciones
+no se puede dar desde este entorno.
 
 **Lo que se corta**
 

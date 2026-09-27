@@ -827,6 +827,42 @@ idénticas. Y el título parte la palabra si no hay más remedio
 (`overflow-wrap:anywhere`): sin eso «Fonoaudiología» no entraba en una columna
 de un tercio de pantalla y se leía «Fonoaudiolc».
 
+### La pantalla del buzón (`decilo/`)
+
+«Decilo» es el buzón: cualquier estudiante deja un pedido, un reclamo o una
+propuesta **sin cuenta**, y abajo se ve qué pasó con cada uno.
+
+**Lo que se le pide es el texto y la categoría.** La carrera viene precargada
+con la que la persona ya eligió en la app y se puede dejar en blanco: la
+columna acepta null. **No se guarda quién es ni de qué teléfono vino.** Eso es
+la decisión, no una limitación: el anonimato es lo que hace que alguien cuente
+que debe cinco finales.
+
+**El tablero no es decorado.** Un buzón sin tablero es una urna. Los números
+salen de la vista `buzon_totales`, que cuenta **todos** los pedidos —también
+los que no se publicaron— y devuelve solo números; la lista de abajo son los
+publicados, con el estado y la fecha de cada cambio. Las fechas las pone un
+disparador de la base y nunca la app, así que el tablero no puede mostrar una
+fecha acomodada.
+
+**El aviso al teléfono reusa los avisos que ya existen.** Si la persona marca
+«avisame cuando cambie», lo que viaja a la base es el *endpoint* del timbre de
+este teléfono, y el disparador de entrada lo cambia por el número de
+suscripción en el mismo instante: la dirección del timbre no queda guardada en
+el pedido. Si todavía no tenía los avisos prendidos, prenderlos ahí prende
+también los de la app (mesas y novedades) y la pantalla lo dice. Ojo con el
+orden en el código: `prenderAvisos()` corre **antes** de cualquier otra espera,
+porque Safari solo deja pedir el permiso mientras dura el toque en el botón.
+
+**Si no hay ninguna categoría abierta no hay formulario:** en su lugar dice que
+el buzón abre en unos días. Es a propósito, y es la misma regla de
+`tabla-buzon.sql`: una categoría se abre cuando hay alguien que la resuelva.
+
+**Todavía no está enlazada** desde Inicio ni desde Avisanos, y no entra en la
+fila de secciones de abajo ni en el índice del pie. Se enlaza cuando exista la
+bandeja del equipo de comunicación. **Mientras no esté enlazada, la dirección
+`decilo/` todavía se puede cambiar**; una vez enlazada y publicada, no.
+
 ### La alarma de inscripción
 
 Es lo más útil que hace la app, y sale de un dato que ya estaba cargado: **la
