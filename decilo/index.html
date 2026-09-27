@@ -1,0 +1,527 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Decilo · La Bolívar con vos</title>
+<meta name="description" content="Dejá un pedido, un reclamo o una propuesta para el CEFTS. Sin cuenta y sin nombre: solo la carrera. Y mirá en qué anda cada pedido que se publicó.">
+<meta name="theme-color" content="#F9E830">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+<!-- Iconos de la app: pestana, Google, y pantalla de inicio del celular -->
+<link rel="icon" type="image/png" sizes="32x32" href="../imagenes/icono-32.png">
+<link rel="icon" type="image/png" sizes="96x96" href="../imagenes/icono-96.png">
+<link rel="icon" type="image/png" sizes="192x192" href="../imagenes/icono-192.png">
+<link rel="apple-touch-icon" href="../imagenes/icono-apple.png">
+<link rel="manifest" href="../manifest.json">
+
+<!-- Como se ve cuando alguien comparte el link por WhatsApp o Instagram -->
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="La Bolivar con vos">
+<meta property="og:title" content="Decilo · La Bolívar con vos">
+<meta property="og:description" content="Dejá un pedido, un reclamo o una propuesta. Sin cuenta y sin nombre. Y mirá en qué anda cada uno.">
+<meta property="og:image" content="https://labolivarconvos.ar/imagenes/compartir.png">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="stylesheet" href="../estilos.css">
+<link rel="stylesheet" href="../estilos-rediseno.css">
+<!-- EL TEMA, ANTES DE DIBUJAR NADA. Mismo motivo que en el glosario. -->
+<script>
+(function(){try{
+  var g = localStorage.getItem('bolivar-tema') || 'auto';
+  var oscuro = g === 'oscuro' || (g === 'auto' &&
+    window.matchMedia('(prefers-color-scheme: dark)').matches);
+  document.documentElement.dataset.tema = oscuro ? 'oscuro' : 'claro';
+}catch(e){ document.documentElement.dataset.tema = 'claro'; }})();
+</script>
+<!-- Estadisticas de visitas (Vercel Web Analytics, sin cookies) -->
+<script defer src="/_vercel/insights/script.js"></script>
+</head>
+<body class="lectura sin-js">
+
+<div id="cabecera"></div>
+
+<!-- ============================================================
+     DECILO  ·  el buzón
+
+     Cualquier estudiante deja un pedido, un reclamo o una propuesta
+     SIN CUENTA. Se le pide una sola cosa además del texto: la
+     carrera, y viene precargada con la que ya eligió en la app. El
+     anonimato es a propósito y sirve: lo que importa es el pedido, no
+     quién lo firma.
+
+     Y ABAJO SE VE QUÉ PASÓ CON CADA UNO. Un buzón sin tablero es una
+     urna: el equipo modera, y lo que se publica queda a la vista con
+     su estado y la fecha de cada cambio, más los totales de todos los
+     pedidos (los publicados y los que no). Eso es lo que hace que
+     «escuchamos» se pueda comprobar en vez de prometerse.
+
+     LOS DATOS Y LOS PERMISOS son de `tabla-buzon.sql`: el insert sin
+     cuenta está limitado a cuatro columnas, los topes de largo viven
+     en la tabla, y las fechas las pone un disparador y no la app, así
+     que el tablero no puede mostrar una fecha acomodada. Acá no hay
+     ninguna regla de seguridad: todo lo que esta pantalla pueda
+     hacer, lo puede hacer cualquiera con la dirección de la base.
+
+     TODAVÍA NO ESTÁ ENLAZADA de Inicio ni de Avisanos, y no entra en
+     la fila de secciones. Se enlaza cuando exista la bandeja del
+     equipo de comunicación: un buzón que recibe y no contesta es peor
+     que no tener buzón. Ver «El replanteo del 27/9» en BITACORA.md.
+     ============================================================ -->
+<main id="contenido" tabindex="-1">
+
+  <div class="banda tinta">
+    <div class="envoltura">
+      <p class="ceja-lectura aparece">Sin cuenta y sin nombre</p>
+      <h1 class="grito aparece">Decilo</h1>
+      <p class="bajada-lectura aparece">
+        Un pedido, un reclamo o una propuesta. Lo lee el equipo del CEFTS y
+        te contesta acá abajo, a la vista de todos. <strong>No te pedimos
+        tu nombre</strong>: solo la carrera, para saber a quién le pasa.
+      </p>
+    </div>
+  </div>
+
+  <div class="banda papel">
+    <div class="envoltura">
+
+      <section class="modulo aparece" id="caja-formulario" aria-labelledby="titulo-formulario">
+        <div class="modulo-cabeza">
+          <h3 id="titulo-formulario">Dejá tu pedido</h3>
+        </div>
+
+        <!-- Mientras se sabe qué categorías están abiertas. Si ninguna lo
+             está, esto se reemplaza por el cartel de «todavía no abrió». -->
+        <div id="formulario-cargando">
+          <div class="esqueleto esq-linea"></div>
+          <div class="esqueleto esq-linea media"></div>
+        </div>
+
+        <form id="formulario" hidden>
+          <div class="campo">
+            <label for="texto">Qué querés decir</label>
+            <textarea id="texto" name="texto" maxlength="800" minlength="10" required
+              placeholder="Contá qué te pasa o qué propondrías. Cuanto más concreto, más fácil es resolverlo."></textarea>
+            <p class="letra-chica" id="contador" aria-live="polite">Entre 10 y 800 caracteres.</p>
+          </div>
+
+          <div class="campo">
+            <label for="categoria">De qué se trata</label>
+            <select id="categoria" name="categoria" required></select>
+            <p class="letra-chica" id="nota-categoria"></p>
+          </div>
+
+          <div class="campo">
+            <label for="carrera">Tu carrera</label>
+            <select id="carrera" name="carrera">
+              <option value="">Prefiero no decirlo</option>
+            </select>
+          </div>
+
+          <!-- El aviso al teléfono. Solo se ofrece si el navegador puede:
+               en iPhone hace falta la app instalada, y ahí en vez de un
+               interruptor muerto va una nota que lo explica. -->
+          <div class="campo" id="caja-aviso" hidden>
+            <label for="quiere-aviso" style="text-transform:none;letter-spacing:0">
+              <input type="checkbox" id="quiere-aviso" style="width:auto;margin-right:8px">
+              Avisame al teléfono cuando cambie
+            </label>
+            <p class="letra-chica" id="nota-aviso"></p>
+          </div>
+
+          <p class="aviso" id="respuesta-formulario" aria-live="polite" hidden></p>
+
+          <button class="boton" type="submit" id="mandar">Mandarlo</button>
+          <p class="letra-chica">
+            No guardamos quién sos ni de qué teléfono vino. Si pedís el aviso,
+            se guarda el timbre de este teléfono, no vos.
+          </p>
+        </form>
+      </section>
+
+    </div>
+  </div>
+
+  <div class="banda papel">
+    <div class="envoltura">
+      <h2 class="grito aparece" style="font-size:clamp(28px,7.4vw,52px)">
+        En qué<br><em>anda cada uno</em>
+      </h2>
+      <p class="bajada-lectura aparece">
+        Los números cuentan <strong>todos</strong> los pedidos que llegaron,
+        publicados o no. Abajo están los que se publicaron, con la fecha de
+        cada cambio.
+      </p>
+
+      <div id="totales" aria-live="polite"></div>
+      <div id="tablero"></div>
+    </div>
+  </div>
+
+</main>
+
+<div id="pie"></div>
+
+<script>window.RAIZ = '../';</script>
+<script src="../lib/datos.js"></script>
+<script src="../config.js"></script>
+<script src="../iconos.js"></script>
+<script src="../app.js"></script>
+<script src="../fondo-red.js"></script>
+<script src="../lectura.js"></script>
+<script>
+(function decilo(){
+  document.getElementById('cabecera').innerHTML = htmlCabecera();
+  document.getElementById('pie').innerHTML = htmlPie();
+  /* `decilo` no está en SECCIONES a propósito: no entra en la fila de
+     abajo ni en el índice del pie. Se pasa igual para que ninguna otra
+     sección quede marcada como la actual. */
+  pintarNav('decilo');
+  document.body.classList.remove('sin-js');
+  vigilarAparicion();
+
+  const ESTADOS = {
+    recibido:   { texto:'Recibido',    fecha:'creado_at' },
+    en_gestion: { texto:'En gestión',  fecha:'en_gestion_at' },
+    resuelto:   { texto:'Resuelto',    fecha:'resuelto_at' },
+    descartado: { texto:'Descartado',  fecha:'descartado_at' }
+  };
+
+  const formulario  = document.getElementById('formulario');
+  const cargando    = document.getElementById('formulario-cargando');
+  const elTexto     = document.getElementById('texto');
+  const elCategoria = document.getElementById('categoria');
+  const elCarrera   = document.getElementById('carrera');
+  const cajaAviso   = document.getElementById('caja-aviso');
+  const elAviso     = document.getElementById('quiere-aviso');
+  const notaAviso   = document.getElementById('nota-aviso');
+  const contador    = document.getElementById('contador');
+  const respuesta   = document.getElementById('respuesta-formulario');
+  const botonMandar = document.getElementById('mandar');
+
+  const fecha = d => {
+    if (!d) return '';
+    try {
+      return new Intl.DateTimeFormat('es-AR', { day:'numeric', month:'long',
+        timeZone:'America/Argentina/Buenos_Aires' }).format(new Date(d));
+    } catch(e){ return ''; }
+  };
+
+  function decirEnElFormulario(texto, clase){
+    respuesta.className = 'aviso ' + (clase || '');
+    respuesta.textContent = texto;
+    respuesta.hidden = false;
+  }
+
+  /* ------------------------------------------------------------
+     LA CARRERA
+
+     Precargada con la que la persona ya eligió en la app: es el único
+     dato que se pide, así que pedirlo dos veces sería pedirlo de
+     gusto. Se puede cambiar, y «prefiero no decirlo» es una opción de
+     verdad (la columna acepta null).
+     ------------------------------------------------------------ */
+  CARRERAS_APP.forEach(c => {
+    const o = document.createElement('option');
+    o.value = c.id; o.textContent = c.corto;
+    elCarrera.appendChild(o);
+  });
+  const yaElegida = carreraElegidaApp();
+  if (yaElegida) elCarrera.value = yaElegida.id;
+
+  /* ------------------------------------------------------------
+     EL CONTADOR
+
+     El tope de 800 también está en la tabla. Acá sirve para que nadie
+     escriba 900 caracteres y recién al mandar se entere.
+     ------------------------------------------------------------ */
+  elTexto.addEventListener('input', () => {
+    const n = elTexto.value.trim().length;
+    contador.textContent = n < 10
+      ? 'Te faltan ' + (10 - n) + ' caracteres para que se pueda mandar.'
+      : n + ' de 800 caracteres.';
+  });
+
+  /* ------------------------------------------------------------
+     EL AVISO AL TELÉFONO
+
+     Reusa los avisos que ya tiene la app: lo que se manda a la base es
+     el «endpoint» del timbre de este teléfono, y un disparador lo
+     cambia por el número de suscripción en el mismo instante, así la
+     dirección del timbre nunca queda guardada en el pedido.
+
+     Si la persona todavía no tiene los avisos prendidos, prenderlos
+     acá prende también los de la app (mesas y novedades), y la nota lo
+     dice. Se puede apagar en Mi perfil.
+     ------------------------------------------------------------ */
+  if (seBancanLosAvisos()){
+    cajaAviso.hidden = false;
+    suscripcionDeEsteTelefono().then(sub => {
+      notaAviso.textContent = sub
+        ? 'Ya tenés los avisos prendidos en este teléfono.'
+        : 'Si lo marcás, te vamos a pedir permiso y se prenden los avisos de la app en este teléfono. Se apagan desde Mi perfil.';
+    });
+  } else {
+    notaAviso.textContent = 'Para que te avisemos al teléfono hace falta tener la app instalada.';
+    cajaAviso.hidden = false;
+    elAviso.disabled = true;
+  }
+
+  /* ------------------------------------------------------------
+     LAS CATEGORÍAS
+
+     Solo las abiertas, y la lista la arma el CEFTS: una categoría se
+     abre cuando hay alguien que la resuelva. Si no hay ninguna
+     abierta, no hay formulario: no se puede recibir algo que nadie va
+     a poder gestionar.
+     ------------------------------------------------------------ */
+  async function traerCategorias(){
+    if (!db){ cargando.remove(); return; }
+
+    const { data, error } = await db.from('buzon_categorias')
+      .select('clave,nombre,descripcion')
+      .eq('abierta', true)
+      .order('orden');
+
+    cargando.remove();
+
+    if (error || !data || !data.length){
+      document.getElementById('caja-formulario').insertAdjacentHTML('beforeend', error
+        ? `<p class="aviso error">No se pudo abrir el buzón: ${esc(error.message)}.
+           Probá de nuevo en un rato.</p>`
+        : `<div class="vacio">
+             <span class="vacio-icono" aria-hidden="true">📮</span>
+             <p class="vacio-titulo">El buzón abre en unos días</p>
+             <p>Estamos cerrando con cada área del centro qué puede resolver,
+                para que lo que dejes acá tenga quién lo tome.</p>
+           </div>`);
+      return;
+    }
+
+    data.forEach(c => {
+      const o = document.createElement('option');
+      o.value = c.clave;
+      o.textContent = c.nombre;
+      if (c.descripcion) o.title = c.descripcion;
+      elCategoria.appendChild(o);
+    });
+
+    const conDetalle = data.filter(c => c.descripcion);
+    if (conDetalle.length) mostrarDetalleDeCategoria(data);
+
+    formulario.hidden = false;
+  }
+
+  function mostrarDetalleDeCategoria(categorias){
+    const nota = document.getElementById('nota-categoria');
+    const pintar = () => {
+      const elegida = categorias.filter(c => c.clave === elCategoria.value)[0];
+      nota.textContent = (elegida && elegida.descripcion) || '';
+    };
+    elCategoria.addEventListener('change', pintar);
+    pintar();
+  }
+
+  /* ------------------------------------------------------------
+     MANDARLO
+
+     El orden importa y no es estético: si la persona pidió el aviso y
+     todavía no tiene timbre, `prenderAvisos()` tiene que correr ANTES
+     de cualquier otra espera, porque Safari solo deja pedir el permiso
+     mientras dura el toque en el botón.
+     ------------------------------------------------------------ */
+  formulario.addEventListener('submit', async evento => {
+    evento.preventDefault();
+
+    const texto = elTexto.value.trim();
+    if (texto.length < 10){
+      decirEnElFormulario('Escribí un poco más: con menos de 10 caracteres no se entiende qué pedís.', 'error');
+      elTexto.focus();
+      return;
+    }
+    if (!elCategoria.value){
+      decirEnElFormulario('Elegí de qué se trata.', 'error');
+      return;
+    }
+
+    let endpoint = null;
+    if (elAviso.checked && !elAviso.disabled){
+      const gustos = gustosDeAvisos();
+      let sub = null;
+
+      /* Si el permiso YA está dado no hay cartel que perder, y ahí sí
+         se puede preguntar primero si este teléfono tiene timbre. Si no
+         está dado, `prenderAvisos()` tiene que ser lo primero y sin
+         ninguna espera antes: pide el permiso antes de cualquier
+         `await`, y Safari solo lo deja pedir mientras dura el toque en
+         el botón. Preguntar antes es lo que hace que el cartel no
+         aparezca nunca en iPhone. */
+      const yaHayPermiso = typeof Notification !== 'undefined' &&
+                           Notification.permission === 'granted';
+
+      if (yaHayPermiso){
+        sub = await suscripcionDeEsteTelefono();
+
+        /* El timbre puede estar en el navegador y NO en la base: la
+           función de avisos lo borra a los tres rebotes. Si no está, el
+           disparador guarda el pedido con `suscripcion_id` en null, el
+           aviso no llega nunca y la pantalla habría prometido que sí.
+           Se vuelve a guardar siempre: `guardar_aviso` pisa el que
+           estaba. */
+        if (sub){
+          const quedoGuardado = await guardarElTimbre(sub, gustos);
+          if (!quedoGuardado) sub = null;
+        }
+      }
+
+      if (!sub){
+        const porQueNo = await prenderAvisos(gustos);
+        if (!porQueNo) sub = await suscripcionDeEsteTelefono();
+      }
+
+      if (!sub){
+        decirEnElFormulario('No pudimos prender el aviso en este teléfono. ' +
+          'Podés mandar el pedido igual: desmarcá el aviso y probá de nuevo.', 'error');
+        return;
+      }
+      endpoint = sub.endpoint;
+    }
+
+    botonMandar.disabled = true;
+    const decia = botonMandar.textContent;
+    botonMandar.textContent = 'Mandando…';
+
+    /* Solo estas cuatro columnas: son las únicas en las que la base
+       deja escribir sin cuenta. El estado, las fechas y todo lo demás
+       lo pone ella. */
+    const { error } = await db.from('buzon_pedidos').insert({
+      texto:          texto,
+      categoria:      elCategoria.value,
+      carrera:        elCarrera.value || null,
+      aviso_endpoint: endpoint
+    });
+
+    botonMandar.disabled = false;
+    botonMandar.textContent = decia;
+
+    if (error){
+      /* Los frenos de la base (demasiados pedidos juntos, el mismo
+         pedido repetido) ya vienen escritos para que los lea una
+         persona: se muestran tal cual. */
+      const suyo = error.code === '54000' || error.code === '22023';
+      decirEnElFormulario(suyo ? error.message
+        : 'No se pudo mandar. Probá de nuevo, o con otra red.', 'error');
+      return;
+    }
+
+    formulario.reset();
+    contador.textContent = 'Entre 10 y 800 caracteres.';
+    if (yaElegida) elCarrera.value = yaElegida.id;
+    /* `reset()` cambia el valor pero no avisa: sin esto, la
+       descripción de abajo se queda con la de la categoría anterior. */
+    elCategoria.dispatchEvent(new Event('change'));
+    decirEnElFormulario('Llegó. Lo lee el equipo del CEFTS y, si se publica, ' +
+      'aparece abajo con su estado.' + (endpoint ? ' Te avisamos al teléfono cuando cambie.' : ''), 'ok');
+    respuesta.scrollIntoView({ block:'center', behavior:'smooth' });
+
+    traerTablero();
+  });
+
+  /* ------------------------------------------------------------
+     EL TABLERO
+
+     Los totales salen de la vista `buzon_totales`, que cuenta todos
+     los pedidos y devuelve solo números. La lista, de lo publicado.
+     ------------------------------------------------------------ */
+  function htmlTotales(t){
+    if (!t) return '';
+    const horas = t.horas_primera_respuesta;
+    return `<div class="modulo aparece">
+      <p class="cuenta-total">${t.llegaron} <small>${t.llegaron === 1 ? 'pedido' : 'pedidos'}</small></p>
+      <p class="letra-chica">
+        ${t.en_gestion} en gestión · ${t.resueltos} ${t.resueltos === 1 ? 'resuelto' : 'resueltos'} ·
+        ${t.publicados} ${t.publicados === 1 ? 'publicado' : 'publicados'}
+      </p>
+      <p>${t.respondidos_en_48h} de ${t.llegaron} ${t.llegaron === 1 ? 'tuvo' : 'tuvieron'}
+        respuesta en menos de 48 horas${horas !== null && horas !== undefined
+          ? `, y la mitad en menos de ${esc(String(horas))} horas` : ''}.</p>
+    </div>`;
+  }
+
+  function htmlPedido(p){
+    const e = ESTADOS[p.estado] || ESTADOS.recibido;
+    const cuando = fecha(p[e.fecha] || p.creado_at);
+    const carrera = CARRERAS_APP.filter(c => c.id === p.carrera)[0];
+
+    return `<article class="modulo aparece">
+      <div class="modulo-cabeza">
+        <span class="espacio-estado${p.estado === 'resuelto' ? ' abierto' : ''}">${esc(e.texto)}</span>
+        <span class="modulo-numero">${esc(cuando)}</span>
+      </div>
+      <p>${escMulti(p.texto)}</p>
+      <p class="letra-chica">
+        ${esc(nombreDeCategoria(p.categoria))}${carrera ? ' · ' + esc(carrera.corto) : ''} ·
+        llegó el ${esc(fecha(p.creado_at))}
+      </p>
+      ${p.respuesta ? `<div class="aviso ok"><strong>Respuesta del CEFTS:</strong>
+         ${escMulti(p.respuesta)}</div>` : ''}
+    </article>`;
+  }
+
+  /* El nombre de la categoría, que en el pedido viaja como clave. Se
+     piden todas y no solo las abiertas: un pedido viejo puede ser de
+     una que ya se cerró, y «becas» a secas no le dice nada a nadie. */
+  let __categorias = {};
+  function nombreDeCategoria(clave){
+    return __categorias[clave] || clave;
+  }
+
+  async function traerTablero(){
+    const dondeTotales = document.getElementById('totales');
+    const dondeTablero = document.getElementById('tablero');
+    if (!db){ return; }
+
+    dondeTablero.innerHTML = '<div class="esqueleto esq-linea"></div>' +
+      '<div class="esqueleto esq-linea media"></div>';
+
+    const [cat, totales, pedidos] = await Promise.all([
+      db.from('buzon_categorias').select('clave,nombre'),
+      db.from('buzon_totales').select('*').maybeSingle(),
+      db.from('buzon_pedidos')
+        .select('id,texto,categoria,carrera,estado,respuesta,creado_at,' +
+                'en_gestion_at,resuelto_at,descartado_at,publicado_at,respondido_at')
+        .eq('publicado', true)
+        .order('creado_at', { ascending:false })
+        .limit(50)
+    ]);
+
+    (cat.data || []).forEach(c => { __categorias[c.clave] = c.nombre; });
+
+    dondeTotales.innerHTML = totales.error ? '' : htmlTotales(totales.data);
+
+    if (pedidos.error){
+      dondeTablero.innerHTML = `<p class="aviso error">No se pudo traer el tablero: ` +
+        `${esc(pedidos.error.message)}.</p>`;
+      return;
+    }
+
+    if (!pedidos.data || !pedidos.data.length){
+      dondeTablero.innerHTML = `<div class="vacio">
+        <span class="vacio-icono" aria-hidden="true">🗳️</span>
+        <p class="vacio-titulo">Todavía no hay nada publicado</p>
+        <p>Lo que llegue se publica cuando el equipo lo revisa, con su estado
+           y su fecha. Los pedidos que no se publican también cuentan arriba.</p>
+      </div>`;
+      return;
+    }
+
+    dondeTablero.innerHTML = pedidos.data.map(htmlPedido).join('');
+    vigilarAparicion();
+  }
+
+  traerCategorias();
+  traerTablero();
+})();
+</script>
+</body>
+</html>

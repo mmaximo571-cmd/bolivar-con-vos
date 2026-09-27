@@ -15,8 +15,260 @@ Si algo de acá quedó viejo, se corrige acá mismo al cerrar la sesión.
 «Dónde estamos» para abajo es el registro del lanzamiento del 21/9.
 
 **Cada sesión arranca con un prompt de `PROMPT-ELECCIONES.md`**: uno por
-tarea, en orden, con el material que necesita. Se trabaja en la rama
-`lanzamiento-2` hasta el lunes 19/10.
+tarea, en orden, con el material que necesita. ~~Se trabaja en la rama
+`lanzamiento-2` hasta el lunes 19/10.~~ **Cambiado el 27/9: se trabaja en
+`main` y se publica pieza por pieza.** Ver «El replanteo del 27/9», acá
+abajo, que manda sobre el resto de la sección.
+
+### El replanteo del 27/9: menos sesiones
+
+**Esto manda sobre el resto de la sección.** Arranca una etapa con menos
+sesiones de código, así que el plan del 24/9 se recorta: se cae el
+lanzamiento en bloque del 19/10, se cae una pieza entera, y queda un orden
+de cinco sesiones con línea de corte. Todo lo que sigue más abajo (las
+piezas, la búsqueda, los prompts) vale salvo donde este replanteo diga otra
+cosa.
+
+**El registro al 27/9**, leído de Supabase, no estimado:
+
+| Qué | 24/9 | 27/9 | Meta |
+|---|---|---|---|
+| Visitas (`sucesos`) | 6.953 | 10.464 | — |
+| «Eligió carrera» (hitos) | 625 | **694** | 1.200 |
+| Avisos prendidos | 84 | **93** | 300 |
+| Cuentas | 432 | 474 | — |
+| Consultas en Avisanos | 10 | 11 | — |
+| Pedidos en el buzón | — | 0 (la tabla ya está) | ver abajo |
+| **Avisos entregados** | — | **0** | — |
+
+La curva de visitas desde el lanzamiento: 4.044 el 22/9, después 1.334,
+1.755, 487, 273. Hoy son unas 270 por día y unos 8 «eligió carrera» por día.
+
+**Las tres cosas que cambian el plan**
+
+1. **Los avisos al celular nunca mandaron nada.** La función `avisos` está
+   subida y activa, pero `pg_cron` **no está instalado** en el proyecto y
+   `avisos_enviados` tiene **0 filas**: 93 teléfonos suscriptos desde el
+   20/9 y ni un aviso entregado. Falta el paso 3 de «Lo que depende de
+   Máximo», el bloque del reloj al final de `tabla-avisos.sql`. Todo lo que
+   el plan apoyaba en los avisos (el aviso al equipo, el resumen diario, el
+   aviso al autor del pedido) estaba construido sobre algo que no corre.
+2. **Al ritmo de hoy no se llega a las metas con código.** 8 por día por 37
+   días dan unos 990 «eligió carrera», y 1 por día da unos 130 avisos. Los saltos
+   los hizo Instagram, no la app: el 22/9 solo hizo 341. Lo que mueve la
+   aguja es cada publicación, y la tarjeta para historias, que convierte a
+   cada estudiante en distribución.
+3. **S1 ya está hecho** (`tabla-buzon.sql`, aplicado en Supabase el 24/9),
+   pero vive en `lanzamiento-2`, que quedó **cuatro commits atrás de
+   `main`**. Con pocas sesiones esa rama es un costo: obliga a gastar una
+   sesión entera en el merge (S10) y junta divergencia mientras nadie la
+   toca.
+
+**Se publica pieza por pieza, no en bloque.** Con menos sesiones, un
+lanzamiento en una sola fecha concentra todo el riesgo ahí y encima le quita
+días de uso real al buzón antes del 4/11. Cada pieza sale viva el mismo día,
+a `main`. **La rama `lanzamiento-2` se cierra**: en la sesión 2 se trae
+`tabla-buzon.sql` a `main` (la tabla ya está aplicada en producción, así que
+traer el archivo no muestra nada) y de ahí en adelante se trabaja en `main`.
+**El buzón no se enlaza desde Inicio ni desde Avisanos hasta la sesión 3**:
+sube publicado pero sin puerta, así nadie lo encuentra antes de que haya
+quien conteste.
+
+**El orden, con la línea de corte**
+
+| # | Sesión | Por qué va ahí |
+|---|---|---|
+| 1 | ✅ **El reloj de los avisos**, 27/9. Corre cada hora. Falta un secreto y no lo puede cargar Claude: ver abajo | Sin esto no avisa nada, y las tres sesiones que siguen se apoyan acá |
+| 2 | ✅ **Buzón: la pantalla pública** (era S2), 27/9. Está en `decilo/`, publicada y sin enlazar | Es la pieza central |
+| 3 | **La bandeja de comunicación** (era S3). Recién acá se enlaza el buzón desde Inicio | Un buzón sin quien conteste es peor que no tener buzón: el tablero público muestra «recibido» para siempre |
+| 4 | **Aviso al autor cuando su pedido cambia de estado** (la mitad de S4) | Es lo que convierte pedidos en avisos prendidos |
+| 5 | ✅ **La tarjeta para historias** (era S5), 27/9. Se adelantó: es la única que no esperaba material de nadie | La única palanca de alcance que es código |
+
+**Con cinco sesiones entra todo. Con tres, entran la 1, la 2 y la 3. Con
+dos, no se abre el buzón**: conviene no lanzarlo antes que lanzarlo mudo.
+
+**La sesión 1, hecha el 27/9.** El reloj existe y corre: `pg_cron` y `pg_net`
+instalados, `cron.job` con `avisos-cada-hora` a la hora en punto, y una
+función nueva y chica, `reloj`, que es la que despierta a `avisos`. **La
+clave de servicio no quedó escrita en el cron**, como decía el plan viejo,
+porque lo que se programa ahí queda guardado en `cron.job` en texto: la base
+se identifica con un pase de un solo uso que anota en `avisos_pases` y que
+`reloj` borra al leerlo. Detalle en `tabla-avisos.sql`, «6. EL RELOJ», y en
+LEEME.md, «El reloj».
+
+**Y apareció por qué nunca salió un aviso, que no era solo el reloj.** Con el
+reloj andando, la corrida llega hasta el final y contesta el error: primero,
+`VAPID_CONTACTO` estaba cargado como un correo pelado, sin `mailto:`, y
+`web-push` rechaza la corrida entera por eso (arreglado en el código: ahora lo
+completa en vez de fallar, porque un secreto mal escrito no tiene que apagar
+el timbre de toda la facultad). Y después, lo que falta: **`VAPID_PRIVADA`
+tiene cargada la clave pública, no la privada.** Las dos miden 87 caracteres y
+son idénticas; una privada son 43. Eso explica los 93 teléfonos suscriptos
+desde el 20/9 con cero avisos entregados, con todo lo demás pareciendo andar
+bien.
+
+**Y el primer disparo automático dejó una enseñanza** (27/9, 17:00): el reloj
+corrió, el pase se usó, y la base igual anotó «Timeout of 5000 ms reached».
+El que se cansó fue `pg_net`, que corta a los cinco segundos por omisión, y
+dos funciones arrancando en frío no entran ahí. Los avisos se mandan igual
+—el pedido ya salió—, pero se pierde la respuesta, que es lo único que dice
+si una corrida sirvió. Quedó en 120000 ms, probado de nuevo: ahora la
+respuesta vuelve entera.
+
+**Lo único que falta para que los avisos anden** es cargar en Supabase ->
+Edge Functions -> Secrets el `VAPID_PRIVADA` de verdad, la mitad privada del
+par, la que se pasó aparte y no está en el repositorio. Después no hay que
+tocar nada: a la hora en punto siguiente el reloj lo intenta solo. **No
+generar un par nuevo sin necesidad**: la pública de `config.js` es la que ya
+tienen guardada esos 93 teléfonos, y cambiar el par los deja afuera.
+
+**Cómo se prueba de punta a punta, cuando el secreto esté** (no se pudo hoy, y
+no por el secreto): hoy no hay nada que avisar. Las tres inscripciones
+cargadas caen fuera de ventana, no hay novedades marcadas y no hay finales
+cerca, así que la corrida contesta «0 avisos» aun estando todo bien. La forma
+de probarlo es marcar una novedad en el panel, en «¿Le suena el teléfono a la
+gente?», y esperar la hora en punto: eso es también lo que hace falta para los
+15 días de contenido.
+
+**La sesión 2, hecha el 27/9: la pantalla del buzón.** Está en **`decilo/`**,
+que se llama así por el nombre del buzón. **El nombre de la carpeta se
+decidió sin preguntar** porque no había a quién preguntarle y la sesión no
+podía esperar: mientras la pantalla no esté enlazada desde ningún lado, la
+dirección todavía se puede cambiar sin romperle nada a nadie, y una vez
+enlazada y publicada en Instagram, no. Si `decilo/` no gusta, se cambia en la
+sesión 3 y no antes.
+
+Lo que hace: formulario sin cuenta (texto con tope de 10 a 800, categoría,
+carrera precargada con la que la persona ya eligió, y «avisame al teléfono
+cuando cambie» reusando los avisos que ya existen) y, abajo, el tablero con
+los totales de la vista `buzon_totales` y la lista de lo publicado con el
+estado y la fecha de cada cambio. Sin CSS nuevo: `.modulo`, `.campo`,
+`.espacio-estado` para el estado, `.cuenta-total` para el número grande,
+`.vacio` para los dos carteles de vacío y `.letra-chica` para las notas.
+`tabla-buzon.sql` se trajo de `lanzamiento-2` a `main`, que era lo que la
+sesión 2 tenía que cerrar de esa rama.
+
+**No está enlazada** desde Inicio ni desde Avisanos, ni entra en la fila de
+secciones ni en el índice del pie: se enlaza en la sesión 3, cuando exista la
+bandeja. **Y se abrió la primera categoría, «Cursada y estudio»**, que es la
+única que el plan fija de antemano (el eje de permanencia). Las demás esperan
+la lista del CEFTS. Con la categoría abierta el buzón ya recibe de verdad: si
+se prefiere que no reciba nada hasta que haya quien conteste, es una línea de
+SQL, anotada al final de `tabla-buzon.sql`.
+
+**Probado** con el servidor local a 375 px y con la base simulada, en los
+cuatro caminos: sin categorías abiertas (no hay formulario, dice que el buzón
+abre en unos días), con la carrera precargada, mandando un pedido que sale
+bien (limpia el formulario y avisa qué pasa después) y con la base frenando
+por caudal (muestra el mensaje de la base y **no** borra lo que la persona
+escribió). Y contra la base real, con el rol `anon` y deshaciendo la
+transacción: el insert de las cuatro columnas entra, y `anon` ve una categoría,
+cero pedidos publicados y los totales en cero. **Lo que falta probar en un
+teléfono de verdad** es el aviso al autor, porque el permiso de notificaciones
+no se puede dar desde este entorno.
+
+**La sesión 5, hecha el 27/9 (fuera de orden, a propósito).** Se adelantó
+porque las sesiones 3 y 4 esperan material del equipo y esta no esperaba
+nada. En Mi año, abajo del progreso, hay un botón **«Compartir mi avance»**
+que arma una imagen de 1080x1920 con canvas y la comparte con
+`navigator.share`; donde compartir no exista, la baja como archivo. El código
+está en `carrera/tarjeta-avance.js` (nuevo) y el botón se engancha en
+`pintarProgreso`.
+
+Lo que dice la tarjeta: la carrera arriba, **«VOY 12 DE 31 materias
+aprobadas»** en grande, la barra, el porcentaje, lo que está cursando y lo
+que espera final, y abajo la marca chica con `labolivarconvos.ar`. El link
+etiquetado `?de=historia-avance` va en el texto de lo compartido, no
+dibujado: una imagen no tiene links. **El botón no aparece con cero
+aprobadas**, por lo mismo que la barra de progreso no se dibuja en cero: no
+es una historia que nadie suba.
+
+Tres cosas que salieron de probarla y quedaron en el código: la tipografía se
+**espera** (`document.fonts.load`) porque un canvas dibuja con la fuente que
+tiene en ese instante, y sin esperar la tarjeta salía en la fuente del
+sistema; el cuerpo de cada línea se **mide** y se baja hasta que entra, que
+es lo que evitó que «Tecnicatura en Gestión Comunitaria del Riesgo» se fuera
+del borde; y se pregunta con `canShare({files})` y no con `share`, porque hay
+navegadores que tienen `share` y no aceptan archivos, y ahí el error llega
+después de que la persona ya tocó el botón.
+
+**Sin `v` nueva del service worker**, y por la misma regla de siempre:
+`carrera/tarjeta-avance.js` y `decilo/index.html` son archivos nuevos que
+nadie tiene guardados, `carrera/index.html` se sirve primero de la red, y no
+cambió ni `estilos.css` ni nada del armazón.
+
+**Probado** a 375 px con el avance sembrado en el teléfono (12 de 31): el
+botón aparece con el texto justo, la imagen se arma, y compartir devuelve
+«descargada» con el archivo `mi-avance-12-de-31.png`. **Falta un teléfono de
+verdad** para ver el menú de compartir de Android y de iPhone, que es lo
+único que no existe en este entorno.
+
+**La revisión de las tres sesiones (27/9, al cerrar).** Como las tres se
+hicieron sin nadie del otro lado, se les pasó `/code-review` a fondo. Salieron
+nueve cosas; ocho están arregladas y probadas de nuevo:
+
+1. **La que más importaba: el permiso de avisos del buzón se pedía tarde.** El
+   código preguntaba primero si el teléfono ya tenía timbre, y esa espera se
+   come la ventana del toque: en iPhone el cartel del permiso **no habría
+   aparecido nunca**. Ahora, si el permiso ya está dado se pregunta primero
+   (no hay cartel que perder) y si no está dado `prenderAvisos()` es lo
+   primero, sin ninguna espera antes. Es la misma regla que ya estaba escrita
+   en `app.js` y que la pantalla nueva no respetaba.
+2. **El buzón prometía un aviso que podía no llegar.** El timbre puede estar
+   en el navegador y no en la base (la función lo borra a los tres rebotes), y
+   ahí el pedido se guardaba sin suscripción. Ahora se vuelve a guardar el
+   timbre antes de mandar el pedido.
+3. **El botón de compartir podía quedar trabado** diciendo «Armando la
+   imagen…» si el canvas fallaba. Ahora el fallo se anota en el registro y el
+   botón vuelve.
+4. **Y podía quedar con el rótulo pegado** si alguien lo tocaba dos veces
+   seguidas: el reloj del primer toque le escribía encima al segundo.
+5. **La tarjeta medía el nombre de la carrera con un peso y lo dibujaba con
+   otro.**
+6. **Y las dos líneas del número («VOY 38» / «DE 42») se medían por
+   separado**, así que podían salir de distinto tamaño y el segundo renglón
+   subírsele encima al primero. Ahora manda la más chica de las dos.
+7. **La descripción de la categoría quedaba vieja** después de mandar un
+   pedido, porque `reset()` cambia el valor y no avisa.
+8. **El `reloj` contestaba 401 si la base fallaba** al comprobar el pase, o
+   sea que un problema de la base se leía como un pase inválido. Ahora
+   contesta 500 y dice qué pasó.
+
+**La novena no es un error, es una decisión y es tuya.** `tabla-buzon.sql`
+rechaza un pedido cuyo texto ya llegó **en las últimas 24 horas, de
+cualquiera**. Está para frenar el botón trabado, y de paso frena al que
+automatiza. Pero si dos personas escriben el mismo reclamo obvio —«no
+cargaron las notas de Antropología»—, el segundo se pierde sin avisar y
+«llegaron» cuenta uno. Se puede dejar así, o pasar el freno a «el mismo texto
+en la última hora», o sacarlo. No lo toqué: lo escribió la sesión del 24/9 a
+propósito y con su propio `/security-review`.
+
+**Lo que se corta**
+
+- **La pregunta de la semana (S6), como código.** Las cuatro preguntas de B4
+  siguen, pero se corren como encuesta de Instagram o formulario linkeado
+  desde Novedades: sin tabla, sin panel y sin pantalla que mantener después.
+- **El congelamiento (S8) y el merge (S10)**: no hay lanzamiento en bloque.
+- **La ventana de pruebas (S9)** deja de ser un tramo: Máximo prueba en el
+  teléfono al día siguiente de cada push, y lo que falle entra al principio
+  de la sesión siguiente. La regla sigue siendo la misma: lo que no se probó
+  en un teléfono real no existe.
+- **El resumen diario de lo que lleva más de 24 h** (parte de S4): lo
+  reemplaza una costumbre, alguien mira la bandeja una vez por día.
+- **Los dos informes (S11) quedan en uno**, el 2/11, junto con la ficha
+  «Cómo se vota» (S12).
+
+**Las metas corregidas.** 1.200 y 300 dependen de las publicaciones, no de
+las sesiones de código: al ritmo de hoy dan unos 990 y unos 130. Se dejan
+como están, pero se sabe de dónde salen. **Los 150 pedidos se reemplazan
+por: todos los que lleguen, contestados en menos de 48 h y a la vista en el
+tablero.** Con 11 consultas en un mes de Avisanos, 150 no es una meta, es un
+número; y que se vea que se contesta vale más que el volumen.
+
+**Lo que bloquea, y no es código:** las categorías que el CEFTS puede
+gestionar, las diez respuestas ya escritas, quiénes reciben el rol
+`comunicacion` con su cuenta creada y los avisos prendidos, y la clave de
+servicio para el reloj de la sesión 1.
 
 ### Qué se busca
 
@@ -54,16 +306,21 @@ consultas y 1 reporte.
 |---|---|---|
 | «Eligió carrera» | 625 | **1.200** (tres de cada cuatro que votan) |
 | Avisos al celular | 84 | **300** |
-| Pedidos en el buzón | — | **150**, todos contestados en menos de 48 h |
+| ~~Pedidos en el buzón~~ | — | ~~**150**, todos contestados en menos de 48 h~~ |
+
+**Corregidas el 27/9** (ver el replanteo): las dos primeras dependen de las
+publicaciones y no de las sesiones, y la tercera pasa a ser «todos los que
+lleguen, contestados en menos de 48 h y a la vista en el tablero». Los
+números de hoy están en la tabla del replanteo.
 
 ### El calendario
 
 | Tramo | Fechas | Qué |
 |---|---|---|
 | 0. Decidir | jue 24/9 a dom 27/9 | Este plan. Errores revisados (ver abajo) |
-| 1. Construir | lun 28/9 a mié 14/10 | Las tres piezas, en orden |
-| 2. Probar | jue 15/10 a dom 18/10 | Teléfono real y navegador de Instagram. **No entra código** |
-| 3. Lanzamiento 2.0 | lun 19/10 | Todo sale junto |
+| 1. Construir | lun 28/9 en adelante | Las cinco sesiones del replanteo, en orden. Cada una sale publicada el mismo día |
+| ~~2. Probar~~ | ~~jue 15/10 a dom 18/10~~ | **Cambiado el 27/9:** la prueba en teléfono real es al día siguiente de cada push, no un tramo |
+| ~~3. Lanzamiento 2.0~~ | ~~lun 19/10~~ | **Cambiado el 27/9:** no hay lanzamiento en bloque |
 | 4. Los 15 días | mar 20/10 a mar 3/11 | Sin código nuevo: contenido y respuestas, todos los días |
 | Elecciones | mié 4 a vie 6/11 | La app sigue como servicio |
 
@@ -512,6 +769,7 @@ reemplaza lo que había acá. Lo que manda:
 | sáb 19 | **Sin agenda propia: se llena con lo que haya roto el viernes.** Si no rompió nada, entra **la lista de posteos** —qué publicación lleva a qué pantalla— y los links `?de=` escritos | la lista de posteos |
 | dom 20 | **Una sola sesión, corta. Todo arriba**, y verificar la segunda carga: el service worker entrega lo nuevo recién ahí, así que si esto falla el lunes se ve una versión vieja | — |
 | **lun 21** | **Lanzamiento. No entra nada nuevo.** Máximo está todo el día: se mira la solapa Registro y, si aparece un error, **arreglo chico, probado corriendo, y push** | — |
+| jue 24/9 · S1 (rama `lanzamiento-2`) | ✅ **`tabla-buzon.sql`**: `buzon_pedidos`, `buzon_categorias`, vista `buzon_totales` y rol `comunicacion` (buzón y novedades). Aplicado en Supabase (`tabla_buzon`) y probado con los roles `anon` y `authenticated`: 25 casos, incluidos los topes de largo, el freno de 30 por hora y que `suscripcion_id` no se lee. El /security-review encontró que comunicación podía hacer sonar la alarma de mesas con `alarma` en null: cerrado, ahora tiene que ser `'ninguna'`. **Las categorías están todas cerradas** hasta que llegue la lista del CEFTS | la lista de categorías |
 
 **El reordenamiento del 17/9 a la noche.** Del lun 14 al mié 16 no se trabajó, pero las seis sesiones del jueves están hechas y encima entró el mapa de riesgo: lo que se cayó ya estaba movido al después del 21. Lo que cambia es el criterio de los tres días que quedan, y es uno solo: **lo que no se probó en un teléfono real no existe**, y hoy la app entera está en esa situación. Por eso el viernes es todo prueba y no entra código nuevo, y por eso la lista de posteos —que no es trabajo de código— se corre al sábado.
 
@@ -952,7 +1210,7 @@ pantalla propia en pestaña nueva rompe el botón de volver.
 
 | Qué | Para cuándo |
 |---|---|
-| **Los avisos al celular: quedan dos pasos.** ~~(1) Correr `tabla-avisos.sql`~~ **✅ hecho el 20/9/2026**, verificado contra la base: las dos tablas, las dos columnas de `publicaciones`, las tres funciones, el disparador, el índice y RLS prendido sin policies. Probado por la API real: guardar un timbre sin cuenta anda, leer la tabla desde afuera da «permission denied», un endpoint inventado se rechaza. **El orden importaba:** el panel manda `avisar` en cada guardado, así que subir la v68 con esa columna sin existir dejaba el panel sin poder guardar **ninguna** publicación. Ya no puede pasar. (2) En **Edge Functions** subir `supabase/functions/avisos/index.ts` y cargar los tres secretos: `VAPID_PRIVADA` (la que te pasé aparte, **no está en el repositorio y no hay otra copia**), `VAPID_PUBLICA` (la misma que está en `config.js`) y `VAPID_CONTACTO` (un correo del equipo). (3) Pegar el bloque del reloj que está al final de `tabla-avisos.sql`, reemplazando la clave de servicio. **Probarlo desde un celular de verdad**, que es lo único que no se puede probar desde acá | antes del 21 si se quiere avisar de la mesa de octubre |
+| **Los avisos al celular: quedan dos pasos.** ~~(1) Correr `tabla-avisos.sql`~~ **✅ hecho el 20/9/2026**, verificado contra la base: las dos tablas, las dos columnas de `publicaciones`, las tres funciones, el disparador, el índice y RLS prendido sin policies. Probado por la API real: guardar un timbre sin cuenta anda, leer la tabla desde afuera da «permission denied», un endpoint inventado se rechaza. **El orden importaba:** el panel manda `avisar` en cada guardado, así que subir la v68 con esa columna sin existir dejaba el panel sin poder guardar **ninguna** publicación. Ya no puede pasar. (2) En **Edge Functions** subir `supabase/functions/avisos/index.ts` y cargar los tres secretos: `VAPID_PRIVADA` (la que te pasé aparte, **no está en el repositorio y no hay otra copia**), `VAPID_PUBLICA` (la misma que está en `config.js`) y `VAPID_CONTACTO` (un correo del equipo). (3) Pegar el bloque del reloj que está al final de `tabla-avisos.sql`, reemplazando la clave de servicio. **Probarlo desde un celular de verdad**, que es lo único que no se puede probar desde acá. **Cerrado en parte el 27/9.** El (2) estaba hecho y **el (3) lo hizo Claude**: el reloj corre cada hora, sin la clave de servicio escrita en el cron (ver «La sesión 1» en el replanteo). **Lo que queda es de Máximo y es una sola cosa:** en Edge Functions -> Secrets, `VAPID_PRIVADA` tiene cargada la clave **pública** en vez de la privada, y por eso no salió nunca un aviso. Cargar la privada de verdad, la que se pasó aparte. **No generar un par nuevo**: deja afuera a los 93 teléfonos ya suscriptos | **ya**: es lo único que frena los avisos |
 | ~~Correr `tabla-registro.sql` de nuevo~~ | ✅ hecho. Verificado el 5/9 contra la base: entran los cuatro hitos (9 anotados) |
 | **Etiquetar los links de Instagram** con `?de=`. Ver «Las etiquetas de campaña» abajo: no hay nada que generar, el link se escribe a mano | antes del 21 |
 | **Cargar los primeros posteos en la pestaña 📸 del panel.** Sin eso la grilla «EN INSTAGRAM» del inicio no aparece: no falla, se esconde. Son tres campos por posteo (link, placa, qué dice la placa) y se ven los seis más nuevos | antes del 21 |

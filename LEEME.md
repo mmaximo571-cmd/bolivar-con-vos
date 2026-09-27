@@ -827,6 +827,78 @@ idénticas. Y el título parte la palabra si no hay más remedio
 (`overflow-wrap:anywhere`): sin eso «Fonoaudiología» no entraba en una columna
 de un tercio de pantalla y se leía «Fonoaudiolc».
 
+### La tarjeta para historias (`carrera/tarjeta-avance.js`)
+
+En Mi año, abajo del progreso, «Compartir mi avance» arma una imagen de
+**1080x1920** —la medida de una historia— con «voy X de Y materias» y la
+comparte con `navigator.share`. Es `canvas` y nada más: no entró ninguna
+librería.
+
+**Para qué está.** Es la única pieza de alcance que es código. Lo que circula
+es la herramienta y no la agrupación: lo grande es el número de la persona, y
+la marca va chica abajo con la dirección. Si pareciera una placa de campaña,
+nadie la sube.
+
+**El link etiquetado va en el texto, no en la imagen** (`?de=historia-avance`).
+Una imagen no tiene links, así que en el dibujo se lee `labolivarconvos.ar` y
+la etiqueta viaja en lo que se comparte, que es lo que después se cuenta en la
+solapa Registro del panel.
+
+**Tres cosas que parecen detalles y son el motivo de que funcione:**
+
+- **La tipografía se espera.** Un canvas dibuja con la fuente que tiene en ese
+  instante. Sin `document.fonts.load`, la tarjeta sale en la fuente del
+  sistema y no parece de la app. Se espera, con dos segundos de paciencia: si
+  no llega, se dibuja igual, porque una tarjeta con otra tipografía es mejor
+  que un botón que no hace nada.
+- **El cuerpo se mide.** «voy 8 de 9» y «voy 38 de 42» no miden lo mismo, y el
+  nombre de una carrera puede ser «Tecnicatura en Gestión Comunitaria del
+  Riesgo». Cada línea se mide con `measureText` y baja de tamaño hasta entrar.
+- **Se pregunta `canShare({files})`, no `share`.** Hay navegadores que tienen
+  `share` y no aceptan archivos: preguntando por `share` a secas, el error
+  aparece después de que la persona tocó el botón. Si no se puede compartir,
+  se descarga; y si cierra el menú de compartir (`AbortError`), no se le avisa
+  nada, que ya sabe que lo cerró.
+
+**No aparece con cero aprobadas**, por lo mismo que la barra de progreso no se
+dibuja en cero.
+
+### La pantalla del buzón (`decilo/`)
+
+«Decilo» es el buzón: cualquier estudiante deja un pedido, un reclamo o una
+propuesta **sin cuenta**, y abajo se ve qué pasó con cada uno.
+
+**Lo que se le pide es el texto y la categoría.** La carrera viene precargada
+con la que la persona ya eligió en la app y se puede dejar en blanco: la
+columna acepta null. **No se guarda quién es ni de qué teléfono vino.** Eso es
+la decisión, no una limitación: el anonimato es lo que hace que alguien cuente
+que debe cinco finales.
+
+**El tablero no es decorado.** Un buzón sin tablero es una urna. Los números
+salen de la vista `buzon_totales`, que cuenta **todos** los pedidos —también
+los que no se publicaron— y devuelve solo números; la lista de abajo son los
+publicados, con el estado y la fecha de cada cambio. Las fechas las pone un
+disparador de la base y nunca la app, así que el tablero no puede mostrar una
+fecha acomodada.
+
+**El aviso al teléfono reusa los avisos que ya existen.** Si la persona marca
+«avisame cuando cambie», lo que viaja a la base es el *endpoint* del timbre de
+este teléfono, y el disparador de entrada lo cambia por el número de
+suscripción en el mismo instante: la dirección del timbre no queda guardada en
+el pedido. Si todavía no tenía los avisos prendidos, prenderlos ahí prende
+también los de la app (mesas y novedades) y la pantalla lo dice. Ojo con el
+orden en el código: `prenderAvisos()` corre **antes** de cualquier otra espera,
+porque Safari solo deja pedir el permiso mientras dura el toque en el botón.
+
+**Si no hay ninguna categoría abierta no hay formulario:** en su lugar dice que
+el buzón abre en unos días. Es a propósito, y es la misma regla de
+`tabla-buzon.sql`: una categoría se abre cuando hay alguien que la resuelva.
+
+**Todavía no está enlazada** desde Inicio ni desde Avisanos, y no entra en la
+fila de secciones de abajo ni en el índice del pie. Se enlaza cuando exista la
+bandeja del equipo de comunicación. **Mientras no esté enlazada, la dirección
+`decilo/` todavía se puede cambiar**; una vez enlazada y publicada, no.
+
 ### La alarma de inscripción
 
 Es lo más útil que hace la app, y sale de un dato que ya estaba cargado: **la
@@ -1175,6 +1247,8 @@ where id = (select id from auth.users where email = 'elcorreo@ejemplo.com');
 
 **Para sacarle el permiso a alguien:** el mismo SQL pero con `rol = 'estudiante'`.
 
+**Equipo de comunicación:** el mismo SQL con `rol = 'comunicacion'`. Ese rol modera el buzón «Decilo» y carga novedades, nada más (ver `tabla-buzon.sql`).
+
 ---
 
 ## Las tablas
@@ -1374,7 +1448,8 @@ recibe nada, sin que nadie se entere:
 |---|---|---|
 | El interruptor | `app.js` (`pintarAvisos`) | Pide el permiso y guarda el «timbre» de ese teléfono |
 | El timbre guardado | `tabla-avisos.sql` | `avisos_suscripciones`, cerrada con llave para todos |
-| Quien manda | `supabase/functions/avisos/index.ts` | Corre en Supabase una vez por hora |
+| **Quien despierta** | `cron.job` + `supabase/functions/reloj/index.ts` | Cada hora en punto. Ver «El reloj», abajo |
+| Quien manda | `supabase/functions/avisos/index.ts` | Arma la lista del día y toca los timbres |
 | Quien dibuja | `sw.js` (oyente `push`) | Muestra el aviso cuando el teléfono está guardado |
 
 ### Qué se avisa
@@ -1399,6 +1474,63 @@ recibe nada, sin que nadie se entere:
   el permiso **no se pide solo al entrar**, sino recién cuando la persona toca
   el interruptor.
 
+### El reloj (27/9)
+
+Nada de esto pasa si alguien no despierta a la función una vez por hora. Ese
+alguien es `cron.job`, dentro de la base, y llama a una función chica que se
+llama `reloj`, que a su vez llama a `avisos`.
+
+**Por qué hay una función en el medio.** `avisos` pide la clave de servicio
+para contestar, y esa clave **no puede quedar escrita en el cron**: lo que se
+programa ahí queda guardado en la tabla `cron.job`, o sea que la llave que
+abre toda la base quedaría en texto, para siempre, en una tabla. Entonces la
+base se identifica de otra forma: anota un **pase** al azar en
+`avisos_pases`, lo manda en la cabecera `x-pase-del-reloj`, y `reloj` lo
+borra al leerlo. Un pase se usa **una sola vez** y vale cinco minutos. La
+clave que sí va escrita en el cron es la **pública**, la misma de
+`config.js`, que es lo único que el portón de Supabase pide para dejar pasar
+el pedido. `reloj` sí tiene la clave de servicio, porque Supabase la pone
+sola en los secretos de toda función, y es la que le pasa a `avisos`.
+
+Para ver qué contestó cada corrida:
+
+```sql
+select id, status_code, content, created
+  from net._http_response order by id desc limit 10;
+```
+
+**Si ahí aparece un `Timeout of 5000 ms reached`**, el que se cansó fue la
+base y no la función: el pedido ya salió, así que los avisos se mandaron
+igual, pero la respuesta se perdió y la corrida parece fallada. El reloj está
+puesto en **120000 ms** justamente por eso (pasó en el primer disparo
+automático, el 27/9: dos funciones arrancando en frío no entran en cinco
+segundos).
+
+El cuerpo es lo que devolvió `avisos`: cuántos avisos había, cuántos salieron,
+cuántos rebotaron. Para probar sin esperar la hora en punto, se corre a mano
+el bloque de adentro del `$CRON$` que está en `tabla-avisos.sql`, en «6. EL
+RELOJ»; para probar de noche, con `?forzar=si`.
+
+### FALTA: el secreto `VAPID_PRIVADA` está mal cargado (27/9)
+
+El reloj corre, llega hasta `avisos`, y ahí se corta: **`VAPID_PRIVADA` tiene
+cargada la clave pública, no la privada.** Se ve en lo que contesta la
+corrida: las dos claves miden 87 caracteres y son idénticas, y una privada
+son 43. Por eso hay 93 teléfonos suscriptos desde el 20/9 y **cero avisos
+entregados**.
+
+Lo que hay que hacer, y es lo único que falta: en Supabase -> Edge Functions
+-> Secrets, cargar en `VAPID_PRIVADA` la mitad privada del par, la que se
+pasó aparte y **no está en el repositorio**. Ni un espacio ni un salto de
+línea de más (la función igual los recorta). Después no hay que tocar nada:
+a la hora en punto siguiente el reloj vuelve a intentar solo.
+
+**Ojo con generar un par nuevo.** La pública de `config.js` es la que ya
+tienen guardada los 93 teléfonos. Si se cambia el par, esas suscripciones
+quedan inservibles: los envíos rebotan y a las tres veces la función las
+borra. Buscar la privada original es la primera opción; generar un par nuevo
+es empezar los avisos de cero.
+
 ### La llave
 
 Son dos mitades. La **pública** está en `config.js`, a la vista y a propósito:
@@ -1415,8 +1547,10 @@ En orden, que es de lo más común a lo más raro:
 1. **¿Tiene la app instalada, si es iPhone?** Es el 90 % de los casos.
 2. **¿Apagó los avisos del sistema?** Ahí la app no se entera: el envío
    rebota, y a las tres veces la suscripción se borra sola.
-3. **¿Corrió el reloj?** `select * from cron.job_run_details order by
-   start_time desc limit 10;`
+3. **¿Corrió el reloj, y qué contestó?** `select * from cron.job_run_details
+   order by start_time desc limit 10;` y, para el cuerpo de la respuesta,
+   `select id, status_code, content from net._http_response order by id desc
+   limit 10;`
 4. **¿Estaba fuera de horario?** No se manda nada entre las 21 y las 9.
 5. **¿Ya se había mandado ese aviso?** Cada aviso sale una sola vez por
    teléfono: `select * from avisos_enviados where clave like 'mesa:%';`

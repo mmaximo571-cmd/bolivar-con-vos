@@ -4,20 +4,76 @@ Uno por sesión. Se pega **el bloque común** y, abajo, **la tarea del día**.
 El plan completo está en `BITACORA.md`, en «Hacia las elecciones»: estos
 prompts existen para que ninguna sesión tenga que leerlo entero.
 
-**Dónde se trabaja.** Hasta el lanzamiento 2.0 (lun 19/10) todo va a la
-rama `lanzamiento-2`, no a `main`: Vercel publica cada push a `main`, y el
-buzón no se muestra antes de tiempo. Las tablas de Supabase sí se crean en
-el proyecto real, porque sin pantallas que las usen nadie las ve. Los
-arreglos urgentes de la app de hoy van a `main`, como siempre.
+**Dónde se trabaja (cambiado el 27/9).** Todo va a `main` y se publica
+pieza por pieza: la rama `lanzamiento-2` se cierra en la sesión 2, trayendo
+`tabla-buzon.sql` (la tabla ya está aplicada en el proyecto real). Lo que
+evita que el buzón se vea antes de tiempo no es la rama: es que **no se
+enlaza desde Inicio ni desde Avisanos hasta la sesión 3**, cuando existe la
+bandeja.
+
+**El orden, después del replanteo del 27/9** (está en `BITACORA.md`, en «El
+replanteo del 27/9»; manda sobre las semanas de abajo):
+
+| # | Sesión | Prompt |
+|---|---|---|
+| — | ✅ Buzón: tabla y permisos | S1, hecho el 24/9 |
+| 1 | ✅ El reloj de los avisos | hecho el 27/9. Falta un secreto: ver abajo |
+| 2 | ✅ Buzón: la pantalla pública, en `decilo/`, sin enlazar | hecho el 27/9 |
+| **3** | **La bandeja de comunicación, y se enlaza el buzón** | **la que sigue**, abajo |
+| 4 | Aviso al autor cuando cambia el estado | S4, solo esa parte |
+| 5 | ✅ La tarjeta para historias | hecho el 27/9, adelantada |
+
+**La que sigue es la 3, y es la que falta para que el buzón se pueda
+mostrar.** Antes de abrirla hacen falta tres cosas que no son código: las
+~10 respuestas ya escritas del equipo, quiénes reciben el rol
+`comunicacion` (con su cuenta creada en la app y los avisos prendidos), y
+el `VAPID_PRIVADA` de verdad en los secretos, sin el cual los avisos del
+buzón no salen.
+**Cortados:** S6 (la pregunta de la semana pasa a encuesta de Instagram o
+formulario), S8 y S10 (no hay lanzamiento en bloque ni merge), S9 (se prueba
+en el teléfono al día siguiente de cada push) y el resumen diario de S4. S11
+y S12 quedan juntos el 2/11.
+
+**Sesión 3 · La bandeja de comunicación** (reescrita el 27/9 con lo que ya
+existe)
+```
+TAREA: la bandeja del buzón en el panel, para el rol comunicacion y pensada
+para el celular. Lo que ya está hecho y no hay que rehacer: la tabla
+(`tabla-buzon.sql`, aplicada, con el rol `comunicacion`, `modera_buzon()` y
+la vista `buzon_totales`) y la pantalla pública (`decilo/`, publicada y sin
+enlazar). Falta:
+ 1. Una tarjeta por pedido con los tres botones: publicar y responder / en
+    gestión / descartar. Las fechas las pone la base, no el panel.
+ 2. Las respuestas ya escritas, que se editan antes de mandar (MATERIAL).
+ 3. Que quien tenga rol comunicacion vea SOLO esto y Novedades. El panel ya
+    se lee como índice de cuatro grupos: sumala donde corresponda.
+ 4. Enlazar `decilo/` desde Inicio y desde Avisanos, recién ahora. SIN
+    entrar a la fila de secciones. Si el nombre `decilo/` no gusta, este es
+    el último momento para cambiarlo.
+Ojo con lo que el panel usa: `lib/supabase.js` (la librería grande, porque
+tiene sesión). No abras `panel/index.html` entero: `graphify query` primero.
+MATERIAL: las ~10 respuestas ya escritas del equipo de comunicación, y
+quiénes reciben el rol `comunicacion`.
+```
+
+**Hecha · Sesión 1 · El reloj de los avisos** (27/9). Quedó corriendo:
+`pg_cron` y `pg_net` instalados, `cron.job` con `avisos-cada-hora`, y una
+función nueva y chica, `reloj`, que despierta a `avisos` identificándose con
+un pase de un solo uso, así la clave de servicio no queda escrita en
+`cron.job`. **Falta un secreto y no lo puede cargar Claude:**
+`VAPID_PRIVADA` tiene cargada la clave pública en vez de la privada, y por
+eso no salió nunca un aviso. Ver `tabla-avisos.sql`, «6. EL RELOJ».
 
 ---
 
 ## Bloque común (va siempre)
 
 ```
-PLAN: sección «Hacia las elecciones» de BITACORA.md. Leé SOLO esa sección
-(grep -n "Hacia las elecciones" y "Dónde estamos" para los límites).
-RAMA: lanzamiento-2 (creala desde main si no existe). No pushees a main.
+PLAN: sección «Hacia las elecciones» de BITACORA.md, empezando por «El
+replanteo del 27/9», que manda sobre el resto (grep -n "Hacia las
+elecciones" y "Dónde estamos" para los límites).
+RAMA: main. Se publica pieza por pieza. El buzón no se enlaza desde Inicio
+ni desde Avisanos hasta que exista la bandeja.
 
 Reglas:
 - No leas LEEME.md enteros ni el resto de BITACORA.md: grep -n por lo que necesites.
@@ -28,7 +84,9 @@ Reglas:
 - Hasta 3 preguntas cortas antes de empezar, solo si bloquean.
 - Supabase: cambios de tablas con apply_migration y el .sql también en el repo (tabla-*.sql).
 - Una tarea, un commit. Probalo (servidor local y 375 px), `graphify update .`,
-  una línea en el cronograma de la bitácora, push a lanzamiento-2.
+  una línea en el cronograma de la bitácora, push a main.
+- Al cerrar, decile a Máximo qué hay que mirar en el teléfono al día
+  siguiente: ya no hay ventana de pruebas aparte.
 - Respuesta final: qué quedó, qué probaste, qué falta. Nada más.
 ```
 
@@ -36,7 +94,7 @@ Reglas:
 
 ## Semana 1 (28/9 al 4/10): el buzón y la bandeja
 
-**S1 · Buzón: tabla y permisos**
+**S1 · Buzón: tabla y permisos** ✅ hecho el 24/9
 ```
 TAREA: tabla-buzon.sql. Tabla de pedidos (texto, categoria, carrera, estado
 recibido|en_gestion|resuelto|descartado, publicado, respuesta, fechas de cada
@@ -70,7 +128,9 @@ comunicacion vea solo esto y Novedades.
 MATERIAL: las ~10 respuestas ya escritas del equipo de comunicación.
 ```
 
-**S4 · Los avisos del buzón**
+**S4 · Los avisos del buzón** (recortado el 27/9: va solo el (3), y el (1)
+si sobra tiempo; el resumen diario lo reemplaza mirar la bandeja una vez por
+día)
 ```
 TAREA: en supabase/functions/avisos: (1) aviso al equipo (suscripciones cuyo
 usuario tiene rol equipo o comunicacion) cuando entra un pedido; (2) resumen
@@ -91,7 +151,9 @@ archivo; si no hay, descargarla. Sin librerías nuevas (canvas).
 MATERIAL: ninguno.
 ```
 
-**S6 · La pregunta de la semana**
+**S6 · La pregunta de la semana** ⏭ **cortada el 27/9**: las cuatro
+preguntas se corren como encuesta de Instagram o formulario linkeado desde
+Novedades, sin código.
 ```
 TAREA: tabla de preguntas y votos (un voto por teléfono, sin cuenta, con
 tope), tarjeta en Inicio con los resultados a la vista después de votar, y
@@ -108,7 +170,8 @@ MATERIAL: ninguno.
 
 ## Semana 3 (12/10 al 18/10): cerrar y probar
 
-**S8 · Congelamiento (mié 14/10)**
+**S8 · Congelamiento (mié 14/10)** ⏭ **cortada el 27/9**: no hay
+lanzamiento en bloque.
 ```
 TAREA: congelamiento del lanzamiento 2.0. Subí la versión del service worker
 (sw.js, VERSION y la nota), `graphify update .`, bitácora al día, y armá la
@@ -117,13 +180,16 @@ Android y en iPhone, desde el navegador de Instagram y con la app instalada.
 MATERIAL: ninguno.
 ```
 
-**S9 · Arreglos de las pruebas (15 al 18/10)**
+**S9 · Arreglos de las pruebas (15 al 18/10)** ⏭ **cortada el 27/9**: se
+prueba en el teléfono al día siguiente de cada push y los arreglos abren la
+sesión siguiente.
 ```
 TAREA: arreglar SOLO lo que salió de las pruebas en teléfono. Nada nuevo.
 MATERIAL: la lista de fallas, con pantalla y teléfono.
 ```
 
-**S10 · Lanzamiento 2.0 (lun 19/10)**
+**S10 · Lanzamiento 2.0 (lun 19/10)** ⏭ **cortada el 27/9**: ya no hay
+rama que unir.
 ```
 TAREA: unir lanzamiento-2 a main (merge, sin reescribir historia), verificar
 que Vercel publicó y que el buzón recibe un pedido de prueba, y borrarlo.
@@ -132,7 +198,7 @@ MATERIAL: ninguno.
 
 ## Los 15 días (20/10 al 3/11): sin código
 
-**S11 · Informe de la semana (mar 27/10 y lun 2/11)**
+**S11 · Informe de la semana (queda uno solo, el lun 2/11)**
 ```
 TAREA: informe corto con el registro de Supabase (tabla sucesos, hitos,
 avisos_suscripciones y el buzón) contra las metas de la bitácora: eligió
