@@ -761,23 +761,46 @@ function pintarProgreso(){
      botón no se dibuja y no pasa nada más. */
   const botonCompartir = document.getElementById('compartir-avance');
   if (botonCompartir && window.tarjetaDeAvance){
+    /* El rótulo vuelve al original a los cuatro segundos. Si alguien
+       toca de nuevo antes, ese reloj se cancela: si no, el segundo
+       toque termina y el reloj del primero le pega «Se guardó en tu
+       teléfono» encima para siempre. */
+    let volverAlRotulo = null;
+    const ROTULO = botonCompartir.textContent;
+
     botonCompartir.addEventListener('click', async () => {
+      if (volverAlRotulo){ clearTimeout(volverAlRotulo); volverAlRotulo = null; }
       botonCompartir.disabled = true;
-      const decia = botonCompartir.textContent;
       botonCompartir.textContent = 'Armando la imagen…';
 
-      const comoSalio = await window.tarjetaDeAvance.compartir({
-        aprobadas: aprobadas, total: total, carrera: PLAN.nombreCorto,
-        cursando: cursandoAhora, cursadas: cursadas
-      });
+      /* Todo adentro del try: si armar la imagen falla —y el canvas
+         falla de formas raras en teléfonos con poca memoria—, lo que no
+         puede pasar es que el botón se quede apagado diciendo «Armando
+         la imagen…» para siempre. */
+      let comoSalio = 'no-se-pudo';
+      try {
+        comoSalio = await window.tarjetaDeAvance.compartir({
+          aprobadas: aprobadas, total: total, carrera: PLAN.nombreCorto,
+          cursando: cursandoAhora, cursadas: cursadas
+        });
+      } catch(e){
+        /* `anotarError` de app.js vive adentro de un cierre y no se
+           puede llamar de acá; `anotar` sí es de todos. */
+        try { anotar('error', 'compartir el avance: ' + (e && e.message ? e.message : e)); } catch(_){}
+      }
 
       const mensaje =
         comoSalio === 'descargada' ? 'Se guardó en tu teléfono' :
-        comoSalio === 'no-se-pudo' ? 'No se pudo armar la imagen' : decia;
+        comoSalio === 'no-se-pudo' ? 'No se pudo armar la imagen' : ROTULO;
 
       botonCompartir.disabled = false;
       botonCompartir.textContent = mensaje;
-      if (mensaje !== decia) setTimeout(() => { botonCompartir.textContent = decia; }, 4000);
+      if (mensaje !== ROTULO){
+        volverAlRotulo = setTimeout(() => {
+          botonCompartir.textContent = ROTULO;
+          volverAlRotulo = null;
+        }, 4000);
+      }
 
       if (comoSalio !== 'no-se-pudo'){ try { anotarHito('compartió su avance'); } catch(e){} }
     });

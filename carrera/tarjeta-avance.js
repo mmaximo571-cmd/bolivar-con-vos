@@ -118,7 +118,8 @@
     ctx.fillStyle = AMARILLO;
     ctx.letterSpacing = '4px';
     var ceja = (datos.carrera || 'Mi carrera').toUpperCase();
-    ctx.font = tamanoQueEntra(ctx, ceja, '700 ' + '%%' + ' ' + TEXTO, 34, 18, anchoUtil) + 'px ' + TEXTO;
+    var tCeja = tamanoQueEntra(ctx, ceja, '700 %% ' + TEXTO, 34, 18, anchoUtil);
+    ctx.font = '700 ' + tCeja + 'px ' + TEXTO;
     ctx.fillText(ceja, margen, 300);
     ctx.letterSpacing = '0px';
 
@@ -126,22 +127,27 @@
     var voy = 'VOY ' + datos.aprobadas;
     var de  = 'DE ' + datos.total;
 
-    var tVoy = tamanoQueEntra(ctx, voy, TITULO, 260, 120, anchoUtil);
+    /* LAS DOS LÍNEAS MIDEN LO MISMO. Medidas por separado, «VOY 8» y
+       «DE 42» salían de distinto tamaño —una tipografía distinta por
+       renglón— y el segundo renglón, calculado con el alto del
+       primero, se le subía encima. Manda la más chica de las dos. */
+    var cuerpo = Math.min(
+      tamanoQueEntra(ctx, voy, TITULO, 260, 120, anchoUtil),
+      tamanoQueEntra(ctx, de,  TITULO, 260, 120, anchoUtil));
+
     ctx.fillStyle = PAPEL;
-    ctx.font = tVoy + 'px ' + TITULO;
+    ctx.font = cuerpo + 'px ' + TITULO;
     ctx.fillText(voy, margen, 560);
 
-    var tDe = tamanoQueEntra(ctx, de, TITULO, 260, 120, anchoUtil);
     ctx.fillStyle = AMARILLO;
-    ctx.font = tDe + 'px ' + TITULO;
-    ctx.fillText(de, margen, 560 + tVoy * 0.95);
+    ctx.fillText(de, margen, 560 + cuerpo * 0.95);
 
     ctx.fillStyle = PAPEL;
     ctx.font = '700 56px ' + TEXTO;
-    ctx.fillText('materias aprobadas', margen, 560 + tVoy * 0.95 + 110);
+    ctx.fillText('materias aprobadas', margen, 560 + cuerpo * 0.95 + 110);
 
     /* La barra, que es el mismo dibujo que la de la app */
-    var y = 560 + tVoy * 0.95 + 210;
+    var y = 560 + cuerpo * 0.95 + 210;
     var pct = datos.total ? datos.aprobadas / datos.total : 0;
     ctx.fillStyle = 'rgba(253, 249, 197, 0.22)';
     ctx.beginPath();

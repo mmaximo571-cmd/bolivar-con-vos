@@ -3772,7 +3772,7 @@
       "file_type": "code",
       "norm_label": "ablob()",
       "source_file": "carrera/tarjeta-avance.js",
-      "source_location": "L208"
+      "source_location": "L214"
     },
     {
       "id": "carrera_tarjeta_avance_compartir",
@@ -3784,7 +3784,7 @@
       "file_type": "code",
       "norm_label": "compartir()",
       "source_file": "carrera/tarjeta-avance.js",
-      "source_location": "L215"
+      "source_location": "L221"
     },
     {
       "id": "carrera_tarjeta_avance_dibujar",
@@ -10705,7 +10705,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "carrera/tarjeta-avance.js",
-      "source_location": "L217",
+      "source_location": "L223",
       "weight": 1.0
     },
     {
@@ -10717,7 +10717,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "carrera/tarjeta-avance.js",
-      "source_location": "L218",
+      "source_location": "L224",
       "weight": 1.0
     },
     {
@@ -10729,7 +10729,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "carrera/tarjeta-avance.js",
-      "source_location": "L220",
+      "source_location": "L226",
       "weight": 1.0
     },
     {
@@ -15924,7 +15924,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "carrera/tarjeta-avance.js",
-      "source_location": "L208",
+      "source_location": "L214",
       "weight": 1.0
     },
     {
@@ -21516,7 +21516,7 @@
       "confidence_score": 0.85,
       "context": "collection",
       "source_file": "carrera/tarjeta-avance.js",
-      "source_location": "L256",
+      "source_location": "L262",
       "weight": 1.0
     },
     {
@@ -21528,7 +21528,7 @@
       "confidence_score": 0.85,
       "context": "collection",
       "source_file": "carrera/tarjeta-avance.js",
-      "source_location": "L256",
+      "source_location": "L262",
       "weight": 1.0
     },
     {
@@ -22264,5 +22264,5 @@
       "source_file": "panel/index.html"
     }
   ],
-  "built_at_commit": "c827d6d6f06c0d380a24250d4e261e2ab268cd91"
+  "built_at_commit": "f36c17f319d34b6c960ab3b70afae684f276f93d"
 }

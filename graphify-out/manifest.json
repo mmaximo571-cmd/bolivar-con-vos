@@ -186,15 +186,15 @@
     "semantic_hash": "13c70cb9b680cf53ce1df6881965457c"
   },
   "BITACORA.md": {
-    "mtime": 1790527801.7290483,
-    "seen": 1790528384.4392326,
-    "ast_hash": "18792277c9cbf2be2cb0fb85ee327dc0",
+    "mtime": 1790529687.301633,
+    "seen": 1790530810.5594683,
+    "ast_hash": "2bbcc31fd57930b0b97b11235d3728ed",
     "semantic_hash": ""
   },
   "LEEME.md": {
-    "mtime": 1790527771.621756,
-    "seen": 1790527779.1037307,
-    "ast_hash": "d81c8b29151049a19e4ceaae9145f29a",
+    "mtime": 1790529674.6666467,
+    "seen": 1790530810.5594692,
+    "ast_hash": "0956ae24073e1af5d85873c73d07f584",
     "semantic_hash": ""
   },
   "PROMPT-DISENO.md": {
@@ -234,9 +234,9 @@
     "semantic_hash": ""
   },
   "carrera/index.html": {
-    "mtime": 1790528011.203148,
-    "seen": 1790528384.4392517,
-    "ast_hash": "51a65af024436752f9c7940affec755f",
+    "mtime": 1790530366.8548498,
+    "seen": 1790530810.5594783,
+    "ast_hash": "4092c1358415adabe7bf69aa67eaf14c",
     "semantic_hash": ""
   },
   "catedras/index.html": {
@@ -576,9 +576,9 @@
     "semantic_hash": ""
   },
   "tabla-avisos.sql": {
-    "mtime": 1790526978.438686,
-    "seen": 1790527779.1037116,
-    "ast_hash": "7ab06fb11065e340bad53b9de8086304",
+    "mtime": 1790529674.6507423,
+    "seen": 1790530810.5594475,
+    "ast_hash": "58a95196df58bac8f243e26f24ae1a71",
     "semantic_hash": ""
   },
   "estudiemos/pomodoro.js": {
@@ -588,9 +588,9 @@
     "semantic_hash": ""
   },
   "supabase/functions/reloj/index.ts": {
-    "mtime": 1790526453.9887269,
-    "seen": 1790527779.1037064,
-    "ast_hash": "39c6126ff433232ba2577a7c915d87de",
+    "mtime": 1790530380.5136862,
+    "seen": 1790530810.5594428,
+    "ast_hash": "58d49ead1f7f00efab6f8601bfaf5328",
     "semantic_hash": ""
   },
   "tabla-buzon.sql": {
@@ -606,15 +606,15 @@
     "semantic_hash": ""
   },
   "decilo/index.html": {
-    "mtime": 1790527718.1095436,
-    "seen": 1790527779.1037424,
-    "ast_hash": "996a4e773b6bd04cd11afc39e3ed9b81",
+    "mtime": 1790530314.851807,
+    "seen": 1790530810.5594823,
+    "ast_hash": "a0c5fbb5825a29c2ee4d3fb20d1792d6",
     "semantic_hash": ""
   },
   "carrera/tarjeta-avance.js": {
-    "mtime": 1790528077.5333283,
-    "seen": 1790528384.439108,
-    "ast_hash": "b9e58e7fde8a4f8f23a4ee8abae6fda0",
+    "mtime": 1790530329.4323123,
+    "seen": 1790530810.5593915,
+    "ast_hash": "a4e0f10bd534d94bdad718f030cc2229",
     "semantic_hash": ""
   }
 }

@@ -48,11 +48,19 @@ Deno.serve(async (pedido) => {
 
     /* Se borra al leerlo, en un solo viaje: si la borrada no devuelve
        ninguna fila, el pase no existía o ya se usó. */
-    const { data: vale } = await sb.from('avisos_pases')
+    const { data: vale, error: falla } = await sb.from('avisos_pases')
       .delete()
       .eq('pase', pase)
       .gt('creado_at', new Date(Date.now() - 5 * 60 * 1000).toISOString())
       .select('pase');
+
+    /* Un error de la base NO es un pase inválido, y contestar 401 acá
+       mandaría a buscar el problema al reloj cuando está en la base. */
+    if (falla){
+      return Response.json(
+        { error: 'No se pudo comprobar el pase del reloj', dice: falla.message },
+        { status: 500 });
+    }
 
     autorizado = !!(vale && vale.length);
   }

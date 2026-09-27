@@ -203,6 +203,46 @@ botón aparece con el texto justo, la imagen se arma, y compartir devuelve
 verdad** para ver el menú de compartir de Android y de iPhone, que es lo
 único que no existe en este entorno.
 
+**La revisión de las tres sesiones (27/9, al cerrar).** Como las tres se
+hicieron sin nadie del otro lado, se les pasó `/code-review` a fondo. Salieron
+nueve cosas; ocho están arregladas y probadas de nuevo:
+
+1. **La que más importaba: el permiso de avisos del buzón se pedía tarde.** El
+   código preguntaba primero si el teléfono ya tenía timbre, y esa espera se
+   come la ventana del toque: en iPhone el cartel del permiso **no habría
+   aparecido nunca**. Ahora, si el permiso ya está dado se pregunta primero
+   (no hay cartel que perder) y si no está dado `prenderAvisos()` es lo
+   primero, sin ninguna espera antes. Es la misma regla que ya estaba escrita
+   en `app.js` y que la pantalla nueva no respetaba.
+2. **El buzón prometía un aviso que podía no llegar.** El timbre puede estar
+   en el navegador y no en la base (la función lo borra a los tres rebotes), y
+   ahí el pedido se guardaba sin suscripción. Ahora se vuelve a guardar el
+   timbre antes de mandar el pedido.
+3. **El botón de compartir podía quedar trabado** diciendo «Armando la
+   imagen…» si el canvas fallaba. Ahora el fallo se anota en el registro y el
+   botón vuelve.
+4. **Y podía quedar con el rótulo pegado** si alguien lo tocaba dos veces
+   seguidas: el reloj del primer toque le escribía encima al segundo.
+5. **La tarjeta medía el nombre de la carrera con un peso y lo dibujaba con
+   otro.**
+6. **Y las dos líneas del número («VOY 38» / «DE 42») se medían por
+   separado**, así que podían salir de distinto tamaño y el segundo renglón
+   subírsele encima al primero. Ahora manda la más chica de las dos.
+7. **La descripción de la categoría quedaba vieja** después de mandar un
+   pedido, porque `reset()` cambia el valor y no avisa.
+8. **El `reloj` contestaba 401 si la base fallaba** al comprobar el pase, o
+   sea que un problema de la base se leía como un pase inválido. Ahora
+   contesta 500 y dice qué pasó.
+
+**La novena no es un error, es una decisión y es tuya.** `tabla-buzon.sql`
+rechaza un pedido cuyo texto ya llegó **en las últimas 24 horas, de
+cualquiera**. Está para frenar el botón trabado, y de paso frena al que
+automatiza. Pero si dos personas escriben el mismo reclamo obvio —«no
+cargaron las notas de Antropología»—, el segundo se pierde sin avisar y
+«llegaron» cuenta uno. Se puede dejar así, o pasar el freno a «el mismo texto
+en la última hora», o sacarlo. No lo toqué: lo escribió la sesión del 24/9 a
+propósito y con su propio `/security-review`.
+
 **Lo que se corta**
 
 - **La pregunta de la semana (S6), como código.** Las cuatro preguntas de B4

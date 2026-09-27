@@ -346,14 +346,38 @@
 
     let endpoint = null;
     if (elAviso.checked && !elAviso.disabled){
-      const sub = await (async () => {
-        const ya = await suscripcionDeEsteTelefono();
-        if (ya) return ya;
-        const gustos = gustosDeAvisos();
+      const gustos = gustosDeAvisos();
+      let sub = null;
+
+      /* Si el permiso YA está dado no hay cartel que perder, y ahí sí
+         se puede preguntar primero si este teléfono tiene timbre. Si no
+         está dado, `prenderAvisos()` tiene que ser lo primero y sin
+         ninguna espera antes: pide el permiso antes de cualquier
+         `await`, y Safari solo lo deja pedir mientras dura el toque en
+         el botón. Preguntar antes es lo que hace que el cartel no
+         aparezca nunca en iPhone. */
+      const yaHayPermiso = typeof Notification !== 'undefined' &&
+                           Notification.permission === 'granted';
+
+      if (yaHayPermiso){
+        sub = await suscripcionDeEsteTelefono();
+
+        /* El timbre puede estar en el navegador y NO en la base: la
+           función de avisos lo borra a los tres rebotes. Si no está, el
+           disparador guarda el pedido con `suscripcion_id` en null, el
+           aviso no llega nunca y la pantalla habría prometido que sí.
+           Se vuelve a guardar siempre: `guardar_aviso` pisa el que
+           estaba. */
+        if (sub){
+          const quedoGuardado = await guardarElTimbre(sub, gustos);
+          if (!quedoGuardado) sub = null;
+        }
+      }
+
+      if (!sub){
         const porQueNo = await prenderAvisos(gustos);
-        if (porQueNo) return null;
-        return await suscripcionDeEsteTelefono();
-      })();
+        if (!porQueNo) sub = await suscripcionDeEsteTelefono();
+      }
 
       if (!sub){
         decirEnElFormulario('No pudimos prender el aviso en este teléfono. ' +
@@ -393,6 +417,9 @@
     formulario.reset();
     contador.textContent = 'Entre 10 y 800 caracteres.';
     if (yaElegida) elCarrera.value = yaElegida.id;
+    /* `reset()` cambia el valor pero no avisa: sin esto, la
+       descripción de abajo se queda con la de la categoría anterior. */
+    elCategoria.dispatchEvent(new Event('change'));
     decirEnElFormulario('Llegó. Lo lee el equipo del CEFTS y, si se publica, ' +
       'aparece abajo con su estado.' + (endpoint ? ' Te avisamos al teléfono cuando cambie.' : ''), 'ok');
     respuesta.scrollIntoView({ block:'center', behavior:'smooth' });
