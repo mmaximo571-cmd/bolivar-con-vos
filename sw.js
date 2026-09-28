@@ -19,15 +19,21 @@
    tienen la app. Hay que subirlo cada vez que cambia QUÉ se guarda, y
    también cada vez que cambia el CONTENIDO de algo que ya está en la
    lista, porque acá abajo se sirve lo guardado antes que la red.
-   Por qué subió cada número (v4 en adelante): `HISTORIAL-SW.md`.
+   Por qué subió cada número (v4 en adelante): `docs/HISTORIAL-SW.md`.
    Al subirlo, anotar ahí el número, la fecha y el porqué. */
-const VERSION = 'bolivar-v72';
+const VERSION = 'bolivar-v73';
 const ARMAZON = VERSION + '-armazon';
 const PAGINAS = VERSION + '-paginas';
 
 /* El armazón: lo que no cambia entre pantallas. */
 const DEL_ARMAZON = [
-  '/estilos.css',
+  /* Los estilos, partidos desde el 27/9/2026. Acá van solo las dos
+     hojas que usa CUALQUIER pantalla; la hoja propia de una pantalla
+     (`/css/pantallas/carrera.css` y las demás) no se guarda de entrada
+     —la baja quien entre a esa pantalla, y queda guardada sola por la
+     regla del final—. Mismo criterio que la librería grande. */
+  '/css/tokens.css',
+  '/css/base.css',
   '/estilos-rediseno.css',
   '/app.js',
   '/iconos.js',

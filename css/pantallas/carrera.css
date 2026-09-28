@@ -1,0 +1,878 @@
+/* ==========================================================
+   LA BOLIVAR CON VOS · SOLO PARA CARRERA
+   El organizador de cursadas, «mi cursada» y el plan de estudios en papel.
+   Carga despues de tokens.css y base.css; solo la usa esta pantalla.
+   ========================================================== */
+
+.progreso-barra{
+  background:var(--superficie);border:1px solid var(--linea);border-radius:var(--radio);
+  padding:12px 13px;box-shadow:var(--sombra)
+}
+
+.progreso-barra .barra{margin-top:10px}
+
+/* --- LAS FICHAS DE DATO ---
+
+   Una ficha, un dato. Se dibujan solo las que tienen algo que decir:
+   sin notas cargadas no hay ficha de promedio, y sin finales
+   pendientes no hay ficha de finales. Una ficha con un cero adentro
+   ocupa el mismo lugar que una con informacion y no dice nada.
+
+   La grilla es auto-fit y no dos columnas fijas: en un telefono de
+   375px entran dos y la tercera pasa abajo a lo ancho; en una tablet
+   entran las tres. Si queda una sola, ocupa todo y no queda media
+   fila vacia al lado. */
+.fichas-dato{
+  display:grid;grid-template-columns:repeat(auto-fit,minmax(138px,1fr));
+  gap:10px;margin-top:10px
+}
+
+/* La que queda sola en la ultima fila ocupa el ancho entero. Sin esto,
+   con tres fichas en un telefono, la tercera se queda en la columna de
+   la izquierda y al lado queda un hueco del tamano de una ficha, que
+   se lee como que algo falta. La regla vale solo mientras las columnas
+   sean dos: mas arriba entran las tres y no sobra ninguna. */
+@media (max-width:559px) {
+.fichas-dato > :last-child:nth-child(odd){ grid-column:1 / -1 }
+}
+
+.ficha-dato{
+  background:var(--superficie);border:1px solid var(--linea);border-radius:var(--radio);
+  padding:12px 13px;box-shadow:var(--sombra)
+}
+
+.ficha-rotulo{
+  font-family:var(--fuente-sub);font-weight:700;font-size:var(--letra-mini);
+  letter-spacing:.1em;text-transform:uppercase;color:var(--texto-suave);margin:0
+}
+
+.ficha-numero{
+  font-family:var(--fuente-titulo);font-weight:400;font-size:var(--letra-dato);
+  line-height:1;color:var(--texto);margin:7px 0 6px
+}
+
+/* El «%» y el «de 31» que acompanan al numero. Van adentro del numero
+   y no en el pie porque se leen JUNTO con el, pero a la mitad de
+   tamano: si fueran del mismo cuerpo, el dato dejaria de ser uno. */
+.ficha-numero small{
+  font-family:var(--fuente-sub);font-weight:700;font-size:var(--letra-sub);
+  color:var(--texto-suave);margin-left:3px
+}
+
+.ficha-pie{
+  font-size:var(--letra-chica);line-height:1.3;color:var(--texto-suave);margin:0
+}
+
+/* El campo de nota, adentro de la ficha de una materia aprobada */
+/* --- La nota ya cargada, en el detalle de la materia --- */
+.caja-nota{
+  margin-top:14px;background:var(--superficie-2);border:1px solid var(--linea);
+  border-radius:var(--radio-chico);padding:12px 13px;
+  display:flex;align-items:center;gap:12px;flex-wrap:wrap
+}
+
+.nota-resumen{flex:1 1 140px;display:flex;align-items:center;gap:10px;min-width:0}
+
+.nota-numero{
+  font-family:var(--fuente-titulo);font-size:32px;line-height:1;
+  color:var(--texto);flex:0 0 auto
+}
+
+.nota-detalle{font-size:var(--letra-nota);line-height:1.35;color:var(--texto-suave)}
+
+.caja-nota .boton{flex:0 0 auto;padding:9px 14px;font-size:var(--letra-nota)}
+
+/* --- La pantalla que pide la nota --- */
+.hoja-volver{
+  background:none;border:0;padding:6px 2px;margin:0 0 6px -2px;
+  font-family:var(--fuente-sub);font-weight:700;font-size:var(--letra-nota);
+  color:var(--texto-suave);min-height:24px;cursor:pointer
+}
+
+@media (hover:hover) and (pointer:fine) {
+.hoja-volver:hover{color:var(--texto)}
+}
+
+.campos-nota{display:flex;gap:12px;margin-top:16px;flex-wrap:wrap}
+
+.campo-nota{display:flex;flex-direction:column;gap:6px}
+
+.campo-nota:first-child{flex:0 0 104px}
+
+.campo-nota:last-child{flex:1 1 150px}
+
+.campo-nota label{
+  font-family:var(--fuente-sub);font-weight:700;font-size:var(--letra-chica);
+  text-transform:uppercase;letter-spacing:.05em;color:var(--texto-suave)
+}
+
+.campo-nota input{
+  width:100%;padding:12px 10px;border:1.5px solid var(--linea);
+  border-radius:var(--radio-chico);background:var(--superficie);color:var(--texto);
+  font-family:var(--fuente-datos);font-size:var(--letra-guia);min-height:48px
+}
+
+/* La nota es el dato principal: grande y centrada, como en una libreta */
+.campo-nota:first-child input{
+  font-family:var(--fuente-titulo);font-size:28px;text-align:center;padding:8px 6px
+}
+
+.campo-nota input:focus{outline:none;border-color:var(--celeste);
+  box-shadow:0 0 0 3px var(--celeste)}
+
+/* --- Las materias que se rinden libres, como texto --- */
+/* Van en un renglón por año, separadas por puntos, en vez de una tarjeta
+   cada una: son veinte de cuarenta y dos, y en tarjetas serían otras
+   cinco pantallas de scroll. Acá lo que hace falta es recorrer la lista
+   de un vistazo, no tocar cada materia: para eso está el listado de
+   arriba, que sigue siendo de tarjetas. */
+.lista-libres{
+  margin:0 0 10px;font-size:var(--letra-nota);line-height:1.5;
+  color:var(--texto)
+}
+
+.lista-libres strong{
+  display:block;font-family:var(--fuente-sub);font-size:var(--letra-mini);
+  font-weight:700;letter-spacing:.08em;color:var(--texto-suave);
+  margin-bottom:2px
+}
+
+.tarjeta.materia.cursa     {border-left-color:var(--amarillo)}
+
+.tarjeta.materia.trabada   {
+  /* Trabada no se dice apagando el texto: el renglon que explica que te
+     falta aprobar es justo el que hay que poder leer. Se dice con la
+     superficie y con la barra cortada, que se ven igual en los dos temas. */
+  border-left-color:var(--linea);border-left-style:dashed;
+  background:var(--apagado)
+}
+
+/* EN EL PLAN COMPLETO, LO TRABADO PIERDE LA SEGUNDA TINTA.
+
+   En «Mi cursada» las trabadas van juntas, abajo de su propio rótulo,
+   y con la superficie apagada alcanza. En el plan van intercaladas con
+   todo lo demás —dieciséis de treinta y una— y ahí ese gris es un
+   susurro: quedaban idénticas a las que sí se pueden cursar.
+
+   Lo que se apaga es la SOMBRA, no el texto. En serigrafía la segunda
+   tinta corrida es lo que levanta la pieza del papel; sacarla la deja
+   apoyada, que es exactamente «esta todavía no». Y cada palabra
+   —empezando por la que dice cuántas correlativas faltan— se sigue
+   leyendo con el mismo contraste que antes, que es la regla anotada
+   acá arriba. */
+#por-anio .tarjeta.materia.trabada{ box-shadow:none }
+
+.tarjeta.materia.estado-cursando{border-left-color:var(--linea-saberes)}
+
+/* --- Pastilla de estado ---
+
+   LA PASTILLA BASE HEREDA EL COLOR DEL TEXTO DE LA PÁGINA, NO UN
+   NEGRO FIJO. Es el mismo error que ya se arregló en `.boton.borde`:
+   el fondo de esta pastilla es --linea, que SÍ se da vuelta de noche
+   (#D8E5EA de día, #3A3830 de noche), y encima llevaba --sobre-color,
+   que NO se da vuelta nunca. De noche eso era #1A1A1A sobre #3A3830:
+   contraste 1,48, o sea que la etiqueta «Pendiente» —la que llevan
+   casi todas las materias— no se leía. Con --texto da 13,5 de día y
+   10,2 de noche.
+
+   En las tres variantes de abajo --sobre-color SÍ es el correcto,
+   porque ahí el fondo es un color de marca que no cambia entre día y
+   noche: el texto tampoco tiene por qué cambiar.
+
+   Y «Aprobada» dejó de usar el celeste pleno. Sobre --celeste el
+   negro da 4,92 y el blanco 3,54; ni un negro puro pasa de 5,94. O
+   sea que NINGÚN color de texto llega a los 7:1 del proyecto sobre
+   ese fondo, y era el mismo 4,92 de día y de noche: no lo arreglaba
+   el modo oscuro. Aclarar el celeste tampoco servía: para llegar a 7
+   con texto oscuro hay que subirlo tanto que queda igual al celeste
+   claro de «Cursando» y los dos estados se confunden. Por eso va al
+   otro lado, a --celeste-hondo con texto claro, que da 7,71 y de paso
+   ordena los tres celestes por peso: cursando el más claro, aprobada
+   el más hondo.
+
+   Medido en el navegador componiendo las capas y la opacidad
+   heredada, no a ojo: pendiente 13,5 de día / 10,2 de noche ·
+   cursando 9,34 · cursada 13,77 · aprobada 7,71. */
+.pastilla{
+  display:inline-block;font-size:var(--letra-mini);font-weight:700;letter-spacing:.06em;
+  text-transform:uppercase;padding:2px 8px;border-radius:var(--radio-pastilla);
+  background:var(--linea);color:var(--texto)
+}
+
+.pastilla.cursando{background:var(--linea-saberes);color:var(--sobre-color)}
+
+.pastilla.cursada {background:var(--amarillo);color:var(--sobre-color)}
+
+.pastilla.aprobada{background:var(--celeste-hondo);color:var(--sobre-negro)}
+
+.veredicto{
+  font-family:var(--fuente-sub);font-weight:700;font-size:var(--letra-densa);
+  text-transform:uppercase;letter-spacing:.05em;line-height:1.25;
+  padding:11px 13px;border-radius:var(--radio-chico);background:var(--linea)
+}
+
+.veredicto.promociona{background:var(--celeste);color:var(--sobre-color)}
+
+.veredicto.cursa     {background:var(--amarillo);color:var(--sobre-color)}
+
+.veredicto.trabada   {background:var(--linea);color:var(--texto-suave)}
+
+.opciones-estado{display:flex;flex-direction:column;gap:8px}
+
+.opcion{
+  background:var(--superficie);border:1.5px solid var(--linea);border-radius:var(--radio-chico);
+  padding:12px 13px;text-align:left;font-size:var(--letra-base);line-height:1.25
+}
+
+.opcion.elegida{border-color:var(--texto);font-weight:700}
+
+.opcion.elegida.cursando{background:var(--linea-saberes);color:var(--sobre-color)}
+
+.opcion.elegida.cursada {background:var(--amarillo);color:var(--sobre-color)}
+
+.opcion.elegida.aprobada{background:var(--celeste);color:var(--sobre-color)}
+
+.lista-correl li .pastilla{margin-right:7px;vertical-align:1px}
+
+/* --- Puerta al organizador desde la pantalla de inicio --- */
+/* --- Mapa de correlatividades --------------------------------
+   Se lee de izquierda a derecha: una columna por año. Las lineas
+   unen cada materia con las que le abren la puerta. Los colores son
+   los mismos del resto del organizador: turquesa = promocion,
+   amarillo = cursada.
+   ------------------------------------------------------------ */
+.mapa-leyenda{
+  display:flex;flex-wrap:wrap;gap:7px 14px;margin:0 0 10px;
+  font-size:var(--letra-nota);color:var(--texto-suave)
+}
+
+.mapa-leyenda span{display:flex;align-items:center;gap:6px}
+
+.mapa-leyenda i{
+  width:15px;height:15px;border-radius:4px;flex:0 0 auto;
+  background:var(--superficie);border:1.5px solid var(--linea)
+}
+
+.mapa-leyenda i.aprobada  {background:var(--celeste);border-color:var(--celeste)}
+
+.mapa-leyenda i.cursada   {background:var(--amarillo);border-color:var(--amarillo)}
+
+.mapa-leyenda i.promociona{border-color:var(--celeste);border-width:2.5px}
+
+.mapa-leyenda i.cursa     {border-color:var(--amarillo);border-width:2.5px}
+
+.mapa-leyenda i.trabada   {background:var(--apagado)}
+
+.mapa-col-titulo{
+  position:absolute;top:12px;
+  font-family:var(--fuente-sub);font-weight:700;font-size:var(--letra-chica);
+  text-transform:uppercase;letter-spacing:.06em;color:var(--texto-suave);white-space:nowrap
+}
+
+.mapa-nodo{
+  position:absolute;display:flex;flex-direction:column;gap:2px;
+  text-align:left;overflow:hidden;cursor:pointer;
+  background:var(--superficie);border:1.5px solid var(--linea);
+  border-radius:var(--radio-chico);padding:6px 8px;
+  font-family:var(--fuente-texto);line-height:1.14
+}
+
+.mapa-nodo .cod{
+  font-family:var(--fuente-datos);font-size:var(--letra-mini);letter-spacing:.02em;color:var(--texto-suave);
+  white-space:nowrap;overflow:hidden;text-overflow:ellipsis
+}
+
+.mapa-nodo .nom{
+  font-size:var(--letra-chica);font-weight:700;color:var(--texto);
+  display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden
+}
+
+.mapa-nodo.aprobada  {background:var(--celeste);border-color:var(--celeste);color:var(--sobre-color)}
+
+.mapa-nodo.cursada   {background:var(--amarillo);border-color:var(--amarillo);color:var(--sobre-color)}
+
+.mapa-nodo.cursando  {border-color:var(--linea-saberes);border-width:2.5px}
+
+.mapa-nodo.promociona{border-color:var(--celeste);border-width:2.5px}
+
+.mapa-nodo.cursa     {border-color:var(--amarillo);border-width:2.5px}
+
+.mapa-nodo.trabada   {background:var(--apagado)}
+
+.mapa-nodo.trabada .nom{color:var(--texto-suave)}
+
+/* El nombre y el código tienen color propio, así que sobre el amarillo
+   y el celeste hay que pisarlos: si no, de noche quedan claros sobre
+   claro y el nodo se vuelve ilegible. */
+.mapa-nodo.cursada .nom, .mapa-nodo.aprobada .nom,
+.mapa-nodo.cursada .cod, .mapa-nodo.aprobada .cod{color:var(--sobre-color)}
+
+@media (hover:hover) and (pointer:fine) {
+.mapa-nodo:hover{box-shadow:0 0 0 2px var(--negro)}
+}
+
+.mapa-arista{fill:none;stroke:var(--linea);stroke-width:1.2}
+
+.mapa-arista.promociona{stroke:var(--celeste);stroke-width:2.4}
+
+.mapa-arista.cursa     {stroke:var(--amarillo);stroke-width:2.4}
+
+.mapa-arista.resaltada {stroke:var(--negro);stroke-width:2.4}
+
+/* ------------------------------------------------------------
+   QUÉ PIDE Y QUÉ ABRE
+
+   TRES ANILLOS Y NINGÚN COLOR NUEVO. El color de cada nodo ya está
+   ocupado diciendo cómo venís con esa materia —aprobada, te falta el
+   final, podés cursarla—: pintar encima la relación taparía el estado,
+   que es el dato principal. Así que la relación se dibuja alrededor,
+   con tinta, que es lo que hace esta app cuando algo se resalta.
+
+   Y NO SE APAGA NADA. La primera versión bajaba a opacidad las
+   materias sin relación, que es lo que hace todo el mundo y se ve muy
+   bien en una captura. Pero apagar texto es bajarle el contraste: a
+   .35 el nombre de una materia deja de leerse, y el mapa entero pasa a
+   ser ilegible salvo cinco nodos. Los anillos alcanzan, porque además
+   la dirección la da la posición: lo que la materia pide está siempre
+   a su izquierda y lo que abre siempre a su derecha.
+
+   El outline no ocupa lugar en la página, así que ninguno de los tres
+   mueve el mapa ni un píxel al aparecer.
+
+   EL DESPLAZAMIENTO NO ES ESTÉTICO. El outline se dibuja AFUERA del
+   nodo, o sea sobre el fondo del mapa y no sobre el relleno del nodo, y
+   eso es lo que salva la medición: la tinta contra el relleno amarillo
+   de «te falta el final» da 1,1 de noche —invisible— y contra el fondo
+   del mapa da 13,9. Con el desplazamiento en cero el anillo tocaría el
+   relleno y volvería a perderse. Medido en los dos temas: 16,9 de día
+   y 13,9 de noche, contra los 3 que pide la norma.
+
+   Los 2 px de separación entran de sobra: entre dos filas de nodos hay
+   12 px, y dos anillos vecinos ocupan 4 de cada lado.
+   ------------------------------------------------------------ */
+.mapa-nodo.elegida{outline:3px solid var(--texto);outline-offset:3px}
+
+.mapa-nodo.pide   {outline:2px solid var(--texto);outline-offset:2px}
+
+.mapa-nodo.abre   {outline:2px dashed var(--texto);outline-offset:2px}
+
+/* El renglón que dice qué está marcado. Sin nada elegido es la única
+   pista de que el mapa se puede tocar, así que no se esconde. */
+.mapa-elegida{
+  display:flex;align-items:center;justify-content:space-between;gap:12px;
+  margin:0 0 10px;padding:9px 12px;
+  background:var(--superficie);border:1px solid var(--linea);
+  border-radius:var(--radio);font-size:var(--letra-nota)
+}
+
+.mapa-elegida.con-materia{min-height:48px}
+
+.mapa-elegida-guia{color:var(--texto-suave)}
+
+/* Dos renglones y corta. Los nombres largos de verdad —«Teoría de las
+   culturas y antropologías de las sociedades contemporáneas»— hacían
+   un renglón de cuatro líneas que empujaba el mapa entero fuera de la
+   pantalla del celular, y encima para repetir el nombre de la materia
+   que la persona ACABA de tocar y que sigue teniendo ahí, con su
+   anillo, tres dedos más abajo. Lo que este renglón tiene que decir
+   son los dos números. */
+.mapa-elegida-texto strong{
+  display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;
+  overflow:hidden;
+  font-family:var(--fuente-sub);font-size:var(--letra-densa);line-height:1.25
+}
+
+.mapa-elegida-cuentas{
+  display:block;margin-top:3px;
+  color:var(--texto-suave);font-size:var(--letra-chica)
+}
+
+.mapa-elegida .boton{
+  flex:0 0 auto;min-height:48px;padding:9px 15px;font-size:var(--letra-chica)
+}
+
+/* Los dos números llevan puesto el anillo que hay que buscar en el
+   mapa. Es la referencia, dicha con el ejemplo: una fila de
+   referencias más abajo de la que ya está sería la tercera cosa que
+   leer antes de mirar el mapa. */
+.mapa-pide, .mapa-abre{
+  display:inline-block;padding:0 6px;margin:0 1px;
+  font-family:var(--fuente-datos);color:var(--texto)
+}
+
+.mapa-pide{border:2px solid var(--texto)}
+
+.mapa-abre{border:2px dashed var(--texto)}
+
+/* ============================================================
+   PREPARAR UN FINAL
+
+   La firma de esta pantalla es EL PROGRAMA QUE SE TACHA. Un texto de la
+   carrera no es "tarea 3": es Carballeda (2002), y así se lo nombra en
+   clase y así se lo pide en la fotocopiadora. Por eso cada texto se
+   escribe como una ficha bibliográfica, en la tipografía de datos, con
+   el apellido adelante.
+
+   Y marcarlo como leído no prende una casilla azul: lo TACHA, con una
+   línea que cruza el renglón como cuando tachás el programa en papel.
+   Es el gesto que la persona ya hace, en pantalla.
+   ============================================================ */
+.tarjeta-invita{
+  background:var(--superficie);border:1.5px solid var(--tinta-borde);
+  border-radius:var(--radio);box-shadow:var(--sombra);padding:18px 16px
+}
+
+.tarjeta-invita h3{
+  font-family:var(--fuente-titulo);font-size:var(--letra-sub);line-height:1.1;
+  margin:0 0 10px
+}
+
+.tarjeta-invita p{margin:0 0 12px;font-size:var(--letra-base);line-height:1.45}
+
+.tarjeta-invita .boton{margin-top:6px}
+
+/* --- La cabecera de la preparación --- */
+.prep-cabecera{
+  background:var(--amarillo);color:var(--sobre-color);
+  border:1.5px solid var(--tinta-borde);border-radius:var(--radio);
+  box-shadow:var(--sombra);padding:15px;margin-bottom:6px
+}
+
+.prep-materia{
+  font-family:var(--fuente-titulo);font-size:21px;line-height:1.05;
+  margin:4px 0 11px
+}
+
+.prep-cuenta{
+  display:inline-block;font-family:var(--fuente-datos);font-weight:700;
+  font-size:var(--letra-chica);letter-spacing:.06em;text-transform:uppercase;
+  color:var(--texto-suave)
+}
+
+.prep-cabecera .prep-cuenta{color:var(--sobre-color);opacity:.88}
+
+.prep-cabecera .barra{background:rgba(26,26,26,.18);height:10px}
+
+.prep-cabecera .barra-llena{background:var(--negro)}
+
+.prep-datos{
+  margin:8px 0 0;font-family:var(--fuente-datos);font-size:var(--letra-nota)
+}
+
+.prep-datos strong,.prep-datos b{font-size:var(--letra-guia)}
+
+.unidad-cuenta{
+  font-family:var(--fuente-datos);font-size:var(--letra-chica);
+  color:var(--texto-suave);flex:0 0 auto
+}
+
+.marca-leido{
+  flex:0 0 auto;width:19px;height:19px;margin-top:2px;
+  border:1.5px solid var(--tinta-borde);border-radius:3px;position:relative
+}
+
+.ficha-autor{font-weight:700;margin-right:5px}
+
+.ficha-titulo{color:var(--texto-suave)}
+
+.texto.leido .marca-leido{background:var(--texto);border-color:var(--texto)}
+
+.texto.leido .marca-leido::after{
+  content:'';position:absolute;left:5px;top:1px;width:5px;height:10px;
+  border:solid var(--superficie);border-width:0 2px 2px 0;transform:rotate(42deg)
+}
+
+/* --- El reloj de estudio --- */
+.pomo{
+  background:var(--superficie);border:1.5px solid var(--tinta-borde);
+  border-radius:var(--radio);box-shadow:var(--sombra);
+  padding:16px;text-align:center
+}
+
+.pomo.descanso{background:var(--superficie-2)}
+
+.pomo.descanso .pomo-barra div{background:var(--texto-suave)}
+
+.pomo .letra-chica{margin-top:10px}
+
+.pomo.sono{
+  animation:pomo-avisa 400ms var(--sale);
+  border-color:var(--rojo-solido);
+  transition:border-color var(--t-medio) ease
+}
+
+.pomo{transition:border-color 600ms ease}
+
+/* Menos movimiento: se queda el aviso —el borde rojo, que es la
+   información— y se va el salto, que es lo que molesta. */
+@media (prefers-reduced-motion:reduce) {
+.pomo.sono{animation:none}
+}
+
+/* ============================================================
+   EL PLAN DE ESTUDIOS, EN PAPEL
+
+   El plan en PDF que dio la facultad pesa 3,6 MB y dice lo mismo que
+   la pestaña «Plan» de `carrera/`, que ya viaja con la app y anda sin
+   internet. Se decidió no publicar el archivo y hacer imprimible la
+   pantalla: el mismo cuadro del navegador ofrece «Guardar como PDF»,
+   así que de acá sale el papel Y el archivo, y el repositorio no
+   engorda 3,6 MB para decir algo que ya sabía.
+
+   Todo va colgado de `.pantalla-carrera`, que es la clase del `<body>`
+   de esa pantalla y de ninguna otra: estas reglas apagan media app, y
+   no pueden alcanzar a las otras once.
+   ============================================================ */
+.solo-impresion{display:none}
+
+/* La fila de arriba de la pestaña «Plan»: el botón y qué hace. En
+   pantalla angosta el texto se va abajo del botón en vez de quedar en
+   una columna de cuatro palabras de ancho. */
+.fila-imprimir{
+  display:flex;flex-wrap:wrap;align-items:center;gap:10px 14px;
+  margin:0 0 18px
+}
+
+.fila-imprimir p{flex:1 1 210px;margin:0}
+
+@media print {
+/* EN PAPEL SIEMPRE ES DE DÍA. Si el teléfono está en modo oscuro, la
+     hoja saldría con fondo casi negro: tinta desperdiciada y, en la
+     mayoría de las impresoras, un plan ilegible. Las variables se
+     redefinen en el `<body>`, así que ganan sobre las del `:root`
+     oscuro para todo lo que está adentro. */
+body.pantalla-carrera{
+    --fondo:       #FFFFFF;
+    --superficie:  #FFFFFF;
+    --superficie-2:#F5F0E8;
+    --texto:       #1A1A1A;
+    --texto-suave: #4E4E4E;
+    --linea:       #D8E5EA;
+    --tinta-borde: #1A1A1A;
+    --rojo:        #B52625;
+    --apagado:     #F5F0E8;
+    background:#FFFFFF;color:#1A1A1A
+  }
+
+/* Lo que no va al papel: la navegación, las otras vistas, y los
+     botones, que en una hoja no se pueden tocar. */
+.pantalla-carrera #cabecera,
+  .pantalla-carrera #pie,
+  .pantalla-carrera .pestanas,
+  .pantalla-carrera .titulo-pantalla,
+  .pantalla-carrera .bajada,
+  .pantalla-carrera #bienvenida-anio,
+  .pantalla-carrera #selector-carrera,
+  .pantalla-carrera #progreso,
+  .pantalla-carrera #vista-plan,
+  .pantalla-carrera #vista-final,
+  .pantalla-carrera #vista-mapa,
+  .pantalla-carrera #respaldo,
+  .pantalla-carrera .nexo-final,
+  .pantalla-carrera .hoja-fondo,
+  .pantalla-carrera .no-imprimir{display:none !important}
+
+/* EL PLAN SALE AUNQUE ESTÉS EN OTRA PESTAÑA. Quien hace Ctrl+P
+     parado en «Mapa» espera el plan, no una hoja en blanco. El
+     selector lleva el `[hidden]` adentro para ganarle en especificidad
+     a `[hidden]{display:none !important}` de más arriba. */
+.pantalla-carrera #vista-todo,
+  .pantalla-carrera #vista-todo[hidden]{display:block !important}
+
+.pantalla-carrera .solo-impresion{display:block;margin-bottom:14px}
+
+.pantalla-carrera #encabezado-impreso strong{
+    display:block;font-family:'Archivo Black',system-ui,sans-serif;
+    font-size:17pt;line-height:1.2
+  }
+
+.pantalla-carrera #encabezado-impreso span{
+    display:block;font-size:9pt;color:#4E4E4E;margin-top:3px
+  }
+
+/* Una materia partida entre dos hojas no se lee. Y un «TERCER AÑO»
+     solo al pie de la página tampoco sirve de nada. */
+.pantalla-carrera .tarjeta{box-shadow:none;break-inside:avoid}
+
+.pantalla-carrera .titulo-seccion{break-after:avoid}
+}
+
+/* ============================================================
+   LA COPIA DE RESPALDO
+
+   El codigo es lo unico que existe: no hay mail ni contrasena. Por eso
+   se muestra como lo que es, un numero estampado, y no como un dato
+   mas en una linea de texto. Es el unico lugar de la pantalla que
+   levanta la voz, y levanta la voz para que se copie bien.
+   ============================================================ */
+.respaldo{
+  margin-top:34px;padding-top:22px;border-top:2px solid var(--tinta-borde)
+}
+
+.codigo-caja{position:relative;margin:16px 0 18px}
+
+/* La segunda tinta corrida, el mismo gesto que la sombra de las
+   tarjetas pero al servicio de una sola cosa. */
+.codigo-caja::before{
+  content:'';position:absolute;inset:10px -10px -10px 10px;
+  background:var(--amarillo);border-radius:var(--radio)
+}
+
+.respaldo-botones{display:flex;gap:10px;flex-wrap:wrap}
+
+.respaldo-botones .boton{flex:1 1 0;min-width:0}
+
+.respaldo-estado{
+  margin:14px 0 0;font-family:var(--fuente-datos);
+  font-size:var(--letra-chica);line-height:1.45;color:var(--texto-suave)
+}
+
+.respaldo-estado.ok{color:var(--texto)}
+
+.respaldo-estado.mal{color:var(--rojo-solido)}
+
+.entrada-codigo{
+  font-family:var(--fuente-datos);font-size:19px;letter-spacing:.1em;
+  text-transform:uppercase;text-align:center
+}
+
+/* ---- El renglon de las materias trabadas ----
+   «Mi cursada» contesta «¿a que me anoto?», asi que lista solo lo que
+   se puede hacer. Las trabadas —dieciocho de veinticinco en Trabajo
+   Social— viven en la solapa Plan. Este renglon dice cuantas son y
+   lleva hasta ahi.
+
+   Es deliberadamente callado: si compitiera con las tarjetas de arriba
+   volveriamos al problema que vino a resolver. Por eso no lleva borde
+   ni sombra, solo la linea de arriba que lo separa. La cuenta usa la
+   misma pastilla negra que los titulos de seccion porque es el mismo
+   dato: cuantas hay. */
+.nexo-trabadas{
+  display:flex;align-items:center;gap:13px;width:100%;text-align:left;
+  margin-top:28px;padding:16px 2px 4px;
+  background:none;border:0;border-top:2px solid var(--tinta-borde);
+  color:var(--texto);cursor:pointer;font:inherit
+}
+
+.nexo-cuenta{
+  flex:0 0 auto;background:var(--negro);color:var(--sobre-negro);
+  border-radius:var(--radio-pastilla);padding:3px 10px;
+  font-family:var(--fuente-datos);font-weight:700;font-size:var(--letra-chica)
+}
+
+.nexo-trabadas:active{transform:translate(2px,2px)}
+
+/* ============================================================
+   «MI CURSADA» PREGUNTA · el diálogo y el resumen
+
+   La solapa dejó de abrir con el plan de estudios agrupado. Ahora
+   pregunta —en qué año estás, cómo venís con lo de antes, qué cursás
+   ahora— y recién después contesta. El listado entero vive en «Plan
+   completo», que es la solapa que existe para eso.
+
+   Todo lo de acá está hecho para una pregunta por pantalla: en el
+   navegador de Instagram media vista se la lleva el teclado y la barra
+   del propio Instagram, y una pantalla con dos preguntas es una
+   pregunta que se saltea.
+   ============================================================ */
+/* --- La ceja del paso --- */
+/* En la voz de datos, chica y espaciada, como el resto de los rótulos:
+   «paso 2 de 3» es un dato, no un título. */
+.paso-cuenta{
+  font-family:var(--fuente-datos);font-weight:700;font-size:var(--letra-chica);
+  letter-spacing:.16em;text-transform:uppercase;color:var(--texto-suave);
+  margin:0 0 6px
+}
+
+.paso-volver{
+  background:none;border:0;padding:6px 2px;margin:14px 0 8px -2px;
+  font-family:var(--fuente-sub);font-weight:700;font-size:var(--letra-nota);
+  color:var(--texto-suave);min-height:24px;cursor:pointer
+}
+
+@media (hover:hover) and (pointer:fine) {
+.paso-volver:hover{color:var(--texto)}
+}
+
+/* La pregunta es lo más fuerte de la pantalla, por encima del título
+   «Mi año»: es lo único que hay que leer para poder contestar. */
+.paso-pregunta{
+  font-family:var(--fuente-titulo);font-weight:400;
+  font-size:clamp(21px, 6.4vw, 26px);line-height:1.05;
+  text-transform:uppercase;margin:0 0 8px;overflow-wrap:anywhere
+}
+
+/* --- Las tarjetas de respuesta (el año, la carrera) --- */
+/* Más altas que una tarjeta de contenido: son botones de una pregunta,
+   se tocan con el pulgar y son lo único que hay para tocar. */
+.tarjeta.paso-opcion{padding:18px 16px;border-left-width:6px}
+
+.tarjeta.paso-opcion h3{font-size:var(--letra-sub);margin-bottom:4px}
+
+.tarjeta.paso-opcion.elegida{outline:2px solid var(--texto);outline-offset:2px}
+
+/* --- El repaso de los años anteriores --- */
+/* Un botón segmentado por materia, con la misma forma que el selector
+   de tema del menú: tres opciones en una sola pieza, sin desplegables
+   y sin nada que se abra encima. */
+.repaso-fila{
+  display:flex;flex-direction:column;gap:9px;
+  padding:14px 0;border-bottom:1px solid var(--linea)
+}
+
+.repaso .repaso-fila:last-child{border-bottom:0}
+
+.repaso-nombre{
+  font-family:var(--fuente-sub);font-weight:700;font-size:var(--letra-densa);
+  line-height:1.2;text-transform:uppercase
+}
+
+.repaso-opciones{
+  display:flex;border:1.5px solid var(--tinta-borde);
+  border-radius:var(--radio-chico);overflow:hidden;box-shadow:var(--sombra)
+}
+
+.repaso-opciones button{
+  flex:1 1 0;min-width:0;background:var(--superficie);border:0;color:var(--texto);
+  font-family:var(--fuente-sub);font-weight:700;font-size:var(--letra-mini);
+  letter-spacing:.02em;line-height:1.15;padding:9px 4px;min-height:46px;cursor:pointer
+}
+
+.repaso-opciones button + button{border-left:1.5px solid var(--tinta-borde)}
+
+.repaso-opciones button[aria-pressed="true"]{background:var(--amarillo);color:var(--sobre-color)}
+
+.repaso-opciones button:focus-visible{outline:2px solid var(--texto);outline-offset:-4px}
+
+/* --- El pie del paso --- */
+/* Pegado abajo a propósito. El repaso de un tercer año puede ser doce
+   materias: sin esto, «Seguir» queda a doce materias de distancia de
+   la única mano que lo va a tocar. */
+.paso-pie{
+  position:sticky;bottom:0;z-index:2;background:var(--fondo);
+  margin-top:24px;padding:14px 0 16px;border-top:2px solid var(--tinta-borde)
+}
+
+.paso-pie .paso-cuenta{margin:0 0 10px}
+
+/* --- Paso 3: elegir qué estás cursando --- */
+/* La tarjeta se marca con una casilla de verdad y no sólo con un
+   borde: un color distinto no dice «esta la elegí yo», y el amarillo
+   pleno de fondo dejaba la línea de metadatos en 6,6 contra 7. */
+.tarjeta.materia.elegible{position:relative;padding-right:54px}
+
+.tarjeta.materia.elegible::after{
+  content:'';position:absolute;right:14px;top:50%;transform:translateY(-50%);
+  width:26px;height:26px;border:2px solid var(--tinta-borde);border-radius:50%;
+  background:var(--superficie)
+}
+
+.tarjeta.materia.elegible[aria-pressed="true"]{
+  background:var(--superficie-2);
+  border-left-color:var(--linea-saberes);
+  outline:2px solid var(--texto);outline-offset:2px
+}
+
+.tarjeta.materia.elegible[aria-pressed="true"]::after{
+  content:'✓';background:var(--amarillo);color:var(--sobre-color);
+  display:flex;align-items:center;justify-content:center;
+  font-family:var(--fuente-sub);font-weight:700;font-size:15px;line-height:1
+}
+
+/* --- El resumen: la banda del año --- */
+/* La misma pastilla negra que usan las cuentas de los rótulos, porque
+   es el mismo tipo de dato. Y al lado, la salida para corregirlo: el
+   año se contesta una vez, pero se cambia cuando haga falta. */
+.anio-banda{
+  display:flex;align-items:center;justify-content:space-between;
+  gap:12px;flex-wrap:wrap;margin:22px 0 2px
+}
+
+.anio-banda-dato{
+  background:var(--negro);color:var(--sobre-negro);border-radius:var(--radio-pastilla);
+  padding:5px 13px;font-family:var(--fuente-datos);font-weight:700;
+  font-size:var(--letra-chica);letter-spacing:.12em
+}
+
+.anio-banda .boton.texto{margin:0}
+
+/* El período al que te podés anotar. Va debajo del rótulo y en la voz
+   de datos: es la aclaración de una cuenta, no un segundo título. */
+.periodo-rotulo{
+  font-family:var(--fuente-datos);font-size:var(--letra-chica);
+  letter-spacing:.1em;text-transform:uppercase;
+  color:var(--texto-suave);margin:-8px 0 14px
+}
+
+/* La salida del diálogo. Se ve —una salida escondida no es una
+   salida— pero no compite con «Seguir»: está centrada, sin fondo y
+   debajo del pie. */
+.paso-salida{text-align:center;margin:6px 0 4px}
+
+/* Los botones de texto de esta pantalla son FRASES, no rótulos:
+   «Prefiero marcarlas yo», «Ver también 1 materia del 2° cuatrimestre».
+   En la caja alta y con el interletrado de .boton se leían como
+   titulares y le ganaban a lo que tenían al lado. El .boton.texto de la
+   pantalla de la nota queda como está: ahí «Saltar por ahora» sí es un
+   rótulo corto. */
+.anio-banda .boton.texto,
+#para-anotarse .boton.texto,
+.paso-salida .boton.texto{
+  text-transform:none;letter-spacing:0;padding:8px 2px;
+  font-size:var(--letra-nota);text-align:left
+}
+
+.paso-salida .boton.texto{text-align:center}
+
+/* La clase `.texto` sola, de otra pantalla, trae width:100%. Acá el
+   botón va al lado de la pastilla del año, no debajo. */
+.anio-banda .boton.texto{width:auto}
+
+/* La pregunta recibe el foco al cambiar de paso, para que un lector de
+   pantalla lea la pregunta nueva y no siga parado donde estaba. Ese
+   foco lo mueve el programa, no la persona: sólo se dibuja si además
+   llegó tabulando. */
+.paso-pregunta:focus:not(:focus-visible){outline:none}
+
+/* --- Empezar de nuevo, al pie de «Mi cursada» ---
+   Separado del resumen por la misma línea de tinta que usa el renglón
+   de las trabadas: no es una parte más de tu año, es la salida de
+   emergencia. Y va al final porque se busca cuando se necesita, no se
+   encuentra por accidente. */
+.reinicio{
+  margin-top:34px;padding-top:20px;border-top:2px solid var(--tinta-borde)
+}
+
+.reinicio .letra-chica{margin:10px 0 0;line-height:1.5;color:var(--texto-suave)}
+
+/* --- «Te podés anotar»: los dos grupos plegables ---
+   Reusa el <details> de Agenda y Trámites, pero NO su tipografía. Allá
+   el summary es el título de una sección y va en Archivo Black; acá es
+   un rótulo, y esta pantalla ya decidió que los rótulos bajan la voz y
+   hablan en la tipografía de datos. Un Archivo Black de 18 px acá le
+   ganaría a las tarjetas que tiene adentro.
+
+   La diferencia con un rótulo común es el color: los que no se tocan
+   van en --texto-suave, este va en --texto. Sumado a la flecha, es lo
+   que lo hace leerse como algo que se abre.
+
+   El interletrado baja de .16em a .10em porque «PODÉS CURSARLA Y
+   RENDIR FINAL» son veintinueve caracteres y tiene que entrar en un
+   renglón al lado de la cuenta y de la flecha. */
+.grupo-anotarse{border-bottom:1px solid var(--linea)}
+
+.grupo-anotarse:first-of-type{border-top:1px solid var(--linea)}
+
+.grupo-anotarse > summary{
+  font-family:var(--fuente-datos);font-weight:700;font-size:var(--letra-chica);
+  letter-spacing:.10em;text-transform:uppercase;color:var(--texto);
+  padding:15px 2px;min-height:48px
+}
+
+/* Las tarjetas de adentro necesitan aire arriba: pegadas al rótulo se
+   leen como parte de él. */
+.grupo-anotarse .cuerpo-grupo{padding:4px 0 16px}
+
+@media (hover:hover) and (pointer:fine) {
+.grupo-anotarse > summary:hover{color:var(--texto)}
+}

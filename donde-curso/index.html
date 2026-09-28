@@ -23,7 +23,8 @@
 <meta property="og:description" content="Buscá tu materia: aula, día y horario de cada clase. Guardá las tuyas.">
 <meta property="og:image" content="https://labolivarconvos.ar/imagenes/compartir.png">
 <meta name="twitter:card" content="summary_large_image">
-<link rel="stylesheet" href="../estilos.css">
+<link rel="stylesheet" href="../css/tokens.css">
+<link rel="stylesheet" href="../css/base.css">
 <link rel="stylesheet" href="../estilos-rediseno.css">
 <!-- EL TEMA, ANTES DE DIBUJAR NADA. Mismo motivo que en el glosario. -->
 <script>
@@ -34,7 +35,7 @@
   document.documentElement.dataset.tema = oscuro ? 'oscuro' : 'claro';
 }catch(e){ document.documentElement.dataset.tema = 'claro'; }})();
 </script>
-<!-- LOS ESTILOS DE ESTA PANTALLA VAN ACÁ Y NO EN `estilos.css` a
+<!-- LOS ESTILOS DE ESTA PANTALLA VAN ACÁ Y NO EN LAS HOJAS DE `css/` a
      propósito: la hoja es armazón y se sirve de lo guardado, así que
      una clase nueva ahí no le llega a quien ya tiene la app hasta subir
      la versión del service worker. Acá, como la pantalla se sirve red
@@ -141,7 +142,7 @@
      cambiaron el aula, se avisa.
 
      CON CUENTA, ADEMÁS VA A LA SEMANA DE FECHAS (18/9/2026): cada clase
-     guardada es una fila de `cursada` (ver `tabla-cursada.sql`), la
+     guardada es una fila de `cursada` (ver `sql/tabla-cursada.sql`), la
      misma que se carga a mano en Mi perfil. Lo del teléfono sigue
      siendo la lista de «Mis aulas»; la cuenta es una copia para la
      semana. Por eso sacar una clase de acá borra de la semana SOLO la

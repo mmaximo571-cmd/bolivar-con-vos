@@ -22,7 +22,8 @@
 <meta property="og:description" content="Tu perfil en La Bolívar con vos: guardá trámites y llevá tu preparación de finales a cualquier teléfono.">
 <meta property="og:image" content="https://labolivarconvos.ar/imagenes/compartir.png">
 <meta name="twitter:card" content="summary_large_image">
-<link rel="stylesheet" href="../estilos.css">
+<link rel="stylesheet" href="../css/tokens.css">
+<link rel="stylesheet" href="../css/base.css">
 <link rel="stylesheet" href="../estilos-rediseno.css">
 <!-- EL TEMA, ANTES DE DIBUJAR NADA. Va acá arriba y no en app.js a
      propósito: app.js carga al final del cuerpo, así que la pantalla
@@ -537,7 +538,7 @@
           ? `<div class="aviso error">
                Todavía no podemos borrar cuentas desde acá.
                <b>Escribinos y la borramos a mano en el día.</b><br>
-               <small>Al equipo: falta correr <b>tabla-borrar-cuenta.sql</b> en Supabase.</small>
+               <small>Al equipo: falta correr <b>sql/tabla-borrar-cuenta.sql</b> en Supabase.</small>
              </div>`
           : `<div class="aviso error">
                No pudimos borrar tu cuenta. ${esc(errorEnCastellano(error))}<br>

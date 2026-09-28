@@ -23,7 +23,9 @@
 <meta property="og:description" content="Organizá tu cursada según el plan de estudios de tu carrera en la Facultad de Trabajo Social. Mirá qué podés cursar y qué podés promocionar el año que viene.">
 <meta property="og:image" content="https://labolivarconvos.ar/imagenes/compartir.png">
 <meta name="twitter:card" content="summary_large_image">
-<link rel="stylesheet" href="../estilos.css">
+<link rel="stylesheet" href="../css/tokens.css">
+<link rel="stylesheet" href="../css/base.css">
+<link rel="stylesheet" href="../css/pantallas/carrera.css">
 <link rel="stylesheet" href="../estilos-rediseno.css">
 <!-- EL TEMA, ANTES DE DIBUJAR NADA. Va acá arriba y no en app.js a
      propósito: app.js carga al final del cuerpo, así que la pantalla
@@ -39,7 +41,7 @@
 <!-- Estadisticas de visitas (Vercel Web Analytics, sin cookies) -->
 <script defer src="/_vercel/insights/script.js"></script>
 </head>
-<!-- La clase es para el bloque de impresión de `estilos.css`: al
+<!-- La clase es para el bloque de impresión de `css/pantallas/carrera.css`: al
      imprimir se apaga todo menos el plan, y esas reglas no pueden
      alcanzar a las otras once pantallas. -->
 <body class="pantalla-carrera">
@@ -1599,7 +1601,7 @@ function pintarPlanCompleto(){
            borde cortado y la superficie apagada—, que es como esta app
            ya dice «todavía no». NO se apaga el texto: el renglón que
            dice cuánto falta es justo el que hay que poder leer (está
-           anotado en `estilos.css`, en `.tarjeta.materia.trabada`). */
+           anotado en `css/pantallas/carrera.css`, en `.tarjeta.materia.trabada`). */
         let situ = '', trabada = '';
         if (e === 'pendiente'){
           const faltan = situacion(m).faltaCursar.length;
@@ -2573,7 +2575,7 @@ function quizasInvitarAInstalar(){
 /* EL CIERRE ESPERA AL MOVIMIENTO, NO AL RELOJ.
 
    Antes acá había un setTimeout de 220 milisegundos, que era una copia
-   a mano de la duración escrita en estilos.css. Dos números que
+   a mano de la duración escrita en `css/base.css` (`--t-hoja`). Dos números que
    significan lo mismo en dos archivos distintos: el día que alguien
    ajusta la curva de la hoja y no se acuerda de venir hasta acá, la
    hoja se esconde antes de terminar de salir —o se queda un rato de
@@ -2782,7 +2784,7 @@ async function pintarFinal(){
     if (/preparaciones/.test(e.message || '')){
       zonaFinal.innerHTML = `<div class="vacio">
         Esta parte todavía no está activada.<br>
-        <small>Al equipo: falta correr <b>tabla-organizador.sql</b> en Supabase.</small></div>`;
+        <small>Al equipo: falta correr <b>sql/tabla-organizador.sql</b> en Supabase.</small></div>`;
       return;
     }
     return mostrarError(zonaFinal, e, 'abrir tus finales');
@@ -3376,7 +3378,7 @@ function empezarDeNuevo(){
    así que de acá sale el papel y el archivo.
 
    Qué imprime: `vista-todo` entero, aunque la persona esté parada en
-   otra pestaña. Por eso el bloque de `estilos.css` la fuerza visible
+   otra pestaña. Por eso el bloque de `css/pantallas/carrera.css` la fuerza visible
    al imprimir: si alguien hace Ctrl+P desde «Mapa», lo que espera que
    salga es el plan, no una hoja en blanco.
    ============================================================ */

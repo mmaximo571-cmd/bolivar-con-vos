@@ -16,7 +16,9 @@
 <link rel="icon" type="image/png" sizes="192x192" href="../../imagenes/icono-192.png">
 <link rel="apple-touch-icon" href="../../imagenes/icono-apple.png">
 <link rel="manifest" href="../../manifest.json">
-<link rel="stylesheet" href="../../estilos.css">
+<link rel="stylesheet" href="../../css/tokens.css">
+<link rel="stylesheet" href="../../css/base.css">
+<link rel="stylesheet" href="../../css/pantallas/estudiemos.css">
 <link rel="stylesheet" href="../../estilos-rediseno.css">
 <script>
 (function(){try{
@@ -26,8 +28,8 @@
   document.documentElement.dataset.tema = oscuro ? 'oscuro' : 'claro';
 }catch(e){ document.documentElement.dataset.tema = 'claro'; }})();
 </script>
-<!-- LOS ESTILOS VAN ACÁ Y NO EN estilos.css, A PROPÓSITO. Lo pide
-     PROMPT-FONOTECA.md: esta pantalla se sirve red primero y llega
+<!-- LOS ESTILOS VAN ACÁ Y NO EN LAS HOJAS DE `css/`, A PROPÓSITO. Lo pide
+     docs/prompts/PROMPT-FONOTECA.md: esta pantalla se sirve red primero y llega
      siempre nueva, pero la hoja general es armazón del service worker y
      tocarla obliga a subir la versión. Todo lo de acá se usa solo acá. -->
 <style>
@@ -182,7 +184,7 @@
 
      Un entrenador para leer audiogramas. El molde completo —las reglas
      clínicas, por qué seis casos propios y no los del TP, lo que viene
-     después— está en `PROMPT-FONOTECA.md`. Se armó el 13/9 sin pasar por
+     después— está en `docs/prompts/PROMPT-FONOTECA.md`. Se armó el 13/9 sin pasar por
      Claude Design, con las piezas que ya tiene la app.
 
      LOS SEIS CASOS TIENEN EL VISTO DE LA PROFESIONAL (17/9/2026). Se
@@ -712,7 +714,7 @@
   pintar();
 })();
 
-/* EL GENERADOR DE TONOS. Lo que no se negocia está en PROMPT-FONOTECA.md:
+/* EL GENERADOR DE TONOS. Lo que no se negocia está en docs/prompts/PROMPT-FONOTECA.md:
    arranca bajo, entra y sale con rampa (un corte seco hace clic), y el
    AudioContext se crea al primer toque, no al cargar, porque el navegador
    de Instagram lo deja suspendido y el primer toque no sonaría. Además se

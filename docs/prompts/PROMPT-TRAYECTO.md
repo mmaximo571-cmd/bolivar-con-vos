@@ -3,7 +3,7 @@
 Esto no es un molde: es **el contenido de una pantalla sola**, la del
 Trayecto Optativo, para diseñarla con Claude Design.
 
-El molde sigue siendo `PROMPT-DISENO.md`. **Primero se pega el bloque de
+El molde sigue siendo `docs/prompts/PROMPT-DISENO.md`. **Primero se pega el bloque de
 «Para copiar y pegar antes de cada pedido»**, y después lo de acá abajo.
 Sin eso vuelve React con Tailwind y hay que traducirlo.
 
@@ -31,7 +31,7 @@ no lo explica en ninguna parte. **Eso es lo que arregla esta pantalla.**
 | Qué es en realidad | actividades que se acreditan |
 
 **Todo lo demás es `[FALTA]`.** Va la misma regla que en
-`PROMPT-FICHAS.md` y por el mismo motivo: esto lo lee alguien para
+`docs/prompts/PROMPT-FICHAS.md` y por el mismo motivo: esto lo lee alguien para
 resolver un trámite de su carrera. **Si no lo sabemos, la pantalla
 escribe que no lo sabemos y manda a Alumnado.** Un requisito inventado
 con seguridad le hace perder a alguien un cuatrimestre.

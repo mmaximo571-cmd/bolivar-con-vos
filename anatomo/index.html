@@ -23,7 +23,9 @@
 <meta property="og:description" content="El programa ordenado por módulos, con la bibliografía, las fechas y modelos 3D de la laringe y el oído.">
 <meta property="og:image" content="https://labolivarconvos.ar/imagenes/compartir.png">
 <meta name="twitter:card" content="summary_large_image">
-<link rel="stylesheet" href="../estilos.css">
+<link rel="stylesheet" href="../css/tokens.css">
+<link rel="stylesheet" href="../css/base.css">
+<link rel="stylesheet" href="../css/pantallas/anatomo.css">
 <link rel="stylesheet" href="../estilos-rediseno.css">
 <!-- EL TEMA, ANTES DE DIBUJAR NADA. Va acá arriba y no en app.js a
      propósito: app.js carga al final del cuerpo, así que la pantalla
@@ -134,7 +136,7 @@
     if (/guia_materia/.test(e.message || '')){
       caja.innerHTML = `<div class="vacio">
           Esta guía todavía no está activada.<br>
-          <small>Al equipo: falta correr <b>tabla-guia.sql</b> en Supabase.</small>
+          <small>Al equipo: falta correr <b>sql/tabla-guia.sql</b> en Supabase.</small>
         </div>`;
       return;
     }

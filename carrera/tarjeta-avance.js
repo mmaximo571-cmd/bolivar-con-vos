@@ -38,7 +38,7 @@
 
   var ANCHO = 1080, ALTO = 1920;
 
-  /* Los colores de marca, los mismos de `estilos.css`. Van escritos y
+  /* Los colores de marca, los mismos de `css/tokens.css`. Van escritos y
      no leídos del CSS a propósito: la tarjeta es siempre la misma, de
      día y de noche, porque termina en la historia de alguien y no en
      la pantalla de la app. */

@@ -84,7 +84,7 @@ a medirlo, y midiendo mal da «ok» casi siempre.
 1. Abrirlo con el servidor de prueba y mirarlo en 375px de ancho.
 2. Mirarlo también en oscuro (el menú ☰ → oscuro).
 3. **Si tocaste `estilos.css`, `app.js`, `iconos.js` o `config.js`, hay que
-   subir el número de versión en `sw.js`** y anotar por qué en `HISTORIAL-SW.md`. Son los
+   subir el número de versión en `sw.js`** y anotar por qué en `docs/HISTORIAL-SW.md`. Son los
    archivos del armazón: sin subirlo, quien ya tiene la app instalada
    recibe el HTML nuevo con el CSS viejo.
 

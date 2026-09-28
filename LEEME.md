@@ -126,7 +126,7 @@ octubre no le reescribe el plan a quien ya lo empezó.
 **Los textos se identifican por posición** (`u0-t2`). Si el estudiante edita la
 lista, los leídos que ya no existen se descartan solos.
 
-**Dos tablas con dueños distintos** (`tabla-organizador.sql`):
+**Dos tablas con dueños distintos** (`sql/tabla-organizador.sql`):
 
 - `programas` — los carga el equipo, los lee todo el mundo.
 - `preparaciones` — una por estudiante y materia. **Acá no entra el equipo**:
@@ -144,7 +144,7 @@ arrastran los PDFs y salen leídos.
 en el teléfono o la computadora de quien lo sube, y `lib/leer-programa.js` lo
 corta en unidades y textos. Al servidor viaja el resultado, y el archivo solo
 si se pide guardarlo. Antes de correr esto hay que correr
-**`tabla-programas-pdf.sql`** una vez: crea el depósito `programas` y le agrega
+**`sql/tabla-programas-pdf.sql`** una vez: crea el depósito `programas` y le agrega
 cuatro columnas a la tabla (`pdf_url`, `pdf_nombre`, `origen`, `revisado`).
 
 **Nada se guarda solo.** Se leen todos, se muestra qué entendió de cada uno
@@ -682,7 +682,7 @@ usa nunca. El botón sigue siendo un enlace de verdad: si el archivo no baja
 —sin señal, o el servidor caído— lleva a «Quiénes somos», donde están los
 contactos escritos.
 
-**Los contactos se ofrecen de a tres y al azar** (`tabla-avisanos.sql`), para que
+**Los contactos se ofrecen de a tres y al azar** (`sql/tabla-avisanos.sql`), para que
 las consultas no le caigan siempre a la misma compañera. El panel muestra cuántos
 hay activos por carrera: **con menos de tres, el azar no reparte nada**.
 
@@ -892,7 +892,7 @@ porque Safari solo deja pedir el permiso mientras dura el toque en el botón.
 
 **Si no hay ninguna categoría abierta no hay formulario:** en su lugar dice que
 el buzón abre en unos días. Es a propósito, y es la misma regla de
-`tabla-buzon.sql`: una categoría se abre cuando hay alguien que la resuelva.
+`sql/tabla-buzon.sql`: una categoría se abre cuando hay alguien que la resuelva.
 
 **Todavía no está enlazada** desde Inicio ni desde Avisanos, y no entra en la
 fila de secciones de abajo ni en el índice del pie. Se enlaza cuando exista la
@@ -927,7 +927,7 @@ Las publicaciones viejas siguen andando sin tocarlas: si nadie decidió nada, la
 app todavía mira el título como antes. Lo que ya no hace es mirarlo cuando
 alguien eligió «no tiene que ver con las mesas».
 
-El detalle de las columnas y el backfill está en `tabla-alarma.sql`.
+El detalle de las columnas y el backfill está en `sql/tabla-alarma.sql`.
 
 ### El modo oscuro
 
@@ -1163,7 +1163,7 @@ permiso venía concedido a todo el mundo por el default de Supabase y se revocó
 el 2/9/2026.
 
 Los arreglos de seguridad que no son de una tabla en particular viven en
-**`tabla-seguridad.sql`**, que además deja anotado qué se revisó y estaba bien,
+**`sql/tabla-seguridad.sql`**, que además deja anotado qué se revisó y estaba bien,
 para no volver a auditar lo mismo.
 
 **Lo que RLS tampoco hace es frenar el caudal.** Una política dice quién puede
@@ -1247,7 +1247,7 @@ where id = (select id from auth.users where email = 'elcorreo@ejemplo.com');
 
 **Para sacarle el permiso a alguien:** el mismo SQL pero con `rol = 'estudiante'`.
 
-**Equipo de comunicación:** el mismo SQL con `rol = 'comunicacion'`. Ese rol modera el buzón «Decilo» y carga novedades, nada más (ver `tabla-buzon.sql`).
+**Equipo de comunicación:** el mismo SQL con `rol = 'comunicacion'`. Ese rol modera el buzón «Decilo» y carga novedades, nada más (ver `sql/tabla-buzon.sql`).
 
 ---
 
@@ -1272,7 +1272,7 @@ pantalla que había que tocar en el archivo, y no tenía sentido: ese texto lo
 escribe la agrupación, no quien programa.
 
 Se guarda entero de una vez, en una sola fila de la tabla `pagina_quienes`
-(`tabla-quienes.sql`). No es una lista de cosas como los trámites: es una
+(`sql/tabla-quienes.sql`). No es una lista de cosas como los trámites: es una
 página, así que no hay botón de «nuevo». La tabla tiene un candado que impide
 que se cargue una segunda fila por error.
 
@@ -1300,7 +1300,7 @@ del **pie de página**, en todas las pantallas.
 de por categoría, porque así es como lo busca una estudiante: primero piensa
 «necesito algo de Epistemología», no «necesito un resumen».
 
-**Antes de que funcione hay que correr `tabla-materiales.sql` una sola vez**, en
+**Antes de que funcione hay que correr `sql/tabla-materiales.sql` una sola vez**, en
 supabase.com → el proyecto → SQL Editor → New query → pegar todo → Run. Mientras
 no se corra, la pantalla no se rompe: avisa que falta activarla. Se puede correr
 más de una vez sin romper nada.
@@ -1409,7 +1409,7 @@ aparato queda un balde grueso —`iphone`, `android`, `escritorio`— que alcanz
 para saber dónde se rompió algo y no para reconocer a nadie. Lo anotado se borra
 solo a los noventa días.
 
-**Dónde vive el código.** La tabla y el resumen están en `tabla-registro.sql`. El
+**Dónde vive el código.** La tabla y el resumen están en `sql/tabla-registro.sql`. El
 lado del navegador está en `app.js`, en la función `anotar()`, y tiene tres
 particularidades que conviene no deshacer:
 
@@ -1447,7 +1447,7 @@ recibe nada, sin que nadie se entere:
 | Pieza | Dónde | Qué hace |
 |---|---|---|
 | El interruptor | `app.js` (`pintarAvisos`) | Pide el permiso y guarda el «timbre» de ese teléfono |
-| El timbre guardado | `tabla-avisos.sql` | `avisos_suscripciones`, cerrada con llave para todos |
+| El timbre guardado | `sql/tabla-avisos.sql` | `avisos_suscripciones`, cerrada con llave para todos |
 | **Quien despierta** | `cron.job` + `supabase/functions/reloj/index.ts` | Cada hora en punto. Ver «El reloj», abajo |
 | Quien manda | `supabase/functions/avisos/index.ts` | Arma la lista del día y toca los timbres |
 | Quien dibuja | `sw.js` (oyente `push`) | Muestra el aviso cuando el teléfono está guardado |
@@ -1508,7 +1508,7 @@ segundos).
 
 El cuerpo es lo que devolvió `avisos`: cuántos avisos había, cuántos salieron,
 cuántos rebotaron. Para probar sin esperar la hora en punto, se corre a mano
-el bloque de adentro del `$CRON$` que está en `tabla-avisos.sql`, en «6. EL
+el bloque de adentro del `$CRON$` que está en `sql/tabla-avisos.sql`, en «6. EL
 RELOJ»; para probar de noche, con `?forzar=si`.
 
 ### FALTA: el secreto `VAPID_PRIVADA` está mal cargado (27/9)

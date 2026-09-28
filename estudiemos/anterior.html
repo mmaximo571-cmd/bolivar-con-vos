@@ -23,7 +23,9 @@
 <meta property="og:description" content="Apuntes, resúmenes y material de los grupos de estudio de la Facultad de Trabajo Social de la UNLP.">
 <meta property="og:image" content="https://labolivarconvos.ar/imagenes/compartir.png">
 <meta name="twitter:card" content="summary_large_image">
-<link rel="stylesheet" href="../estilos.css">
+<link rel="stylesheet" href="../css/tokens.css">
+<link rel="stylesheet" href="../css/base.css">
+<link rel="stylesheet" href="../css/pantallas/estudiemos.css">
 <link rel="stylesheet" href="../estilos-rediseno.css">
 <!-- EL TEMA, ANTES DE DIBUJAR NADA. Va acá arriba y no en app.js a
      propósito: app.js carga al final del cuerpo, así que la pantalla
@@ -609,7 +611,7 @@
     if (e && /materiales/.test(e.message || '')){
       lista.innerHTML = `<div class="vacio">
           Esta sección todavía no está activada.<br>
-          <small>Al equipo: falta correr <b>tabla-materiales.sql</b> en Supabase.</small>
+          <small>Al equipo: falta correr <b>sql/tabla-materiales.sql</b> en Supabase.</small>
         </div>`;
       return;
     }

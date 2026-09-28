@@ -6,7 +6,7 @@ prompts existen para que ninguna sesión tenga que leerlo entero.
 
 **Dónde se trabaja (cambiado el 27/9).** Todo va a `main` y se publica
 pieza por pieza: la rama `lanzamiento-2` se cierra en la sesión 2, trayendo
-`tabla-buzon.sql` (la tabla ya está aplicada en el proyecto real). Lo que
+`sql/tabla-buzon.sql` (la tabla ya está aplicada en el proyecto real). Lo que
 evita que el buzón se vea antes de tiempo no es la rama: es que **no se
 enlaza desde Inicio ni desde Avisanos hasta la sesión 3**, cuando existe la
 bandeja.
@@ -39,7 +39,7 @@ existe)
 ```
 TAREA: la bandeja del buzón en el panel, para el rol comunicacion y pensada
 para el celular. Lo que ya está hecho y no hay que rehacer: la tabla
-(`tabla-buzon.sql`, aplicada, con el rol `comunicacion`, `modera_buzon()` y
+(`sql/tabla-buzon.sql`, aplicada, con el rol `comunicacion`, `modera_buzon()` y
 la vista `buzon_totales`) y la pantalla pública (`decilo/`, publicada y sin
 enlazar). Falta:
  1. Una tarjeta por pedido con los tres botones: publicar y responder / en
@@ -62,7 +62,7 @@ función nueva y chica, `reloj`, que despierta a `avisos` identificándose con
 un pase de un solo uso, así la clave de servicio no queda escrita en
 `cron.job`. **Falta un secreto y no lo puede cargar Claude:**
 `VAPID_PRIVADA` tiene cargada la clave pública en vez de la privada, y por
-eso no salió nunca un aviso. Ver `tabla-avisos.sql`, «6. EL RELOJ».
+eso no salió nunca un aviso. Ver `sql/tabla-avisos.sql`, «6. EL RELOJ».
 
 ---
 
@@ -96,10 +96,10 @@ Reglas:
 
 **S1 · Buzón: tabla y permisos** ✅ hecho el 24/9
 ```
-TAREA: tabla-buzon.sql. Tabla de pedidos (texto, categoria, carrera, estado
+TAREA: sql/tabla-buzon.sql. Tabla de pedidos (texto, categoria, carrera, estado
 recibido|en_gestion|resuelto|descartado, publicado, respuesta, fechas de cada
 estado, suscripcion opcional para avisar al autor). Insert sin cuenta con topes
-de largo en TODOS los campos (ver el agujero del 2/9 en tabla-avisanos.sql) y
+de largo en TODOS los campos (ver el agujero del 2/9 en sql/tabla-avisanos.sql) y
 un tope de pedidos por hora. Lectura pública solo de lo publicado, sin la
 suscripción. Rol nuevo `comunicacion` en perfiles: modera el buzón y carga
 novedades, nada más. Vista con los totales del tablero. Cerrá con /security-review.
@@ -309,7 +309,7 @@ MATERIAL: ninguno.
 |---|---|---|---|
 | «Si te está costando» | B2 | 20/10 al 3/11 | Contenido en Info útil, desde el panel |
 | «Rendí lo que debés» (finales de diciembre) | B4 (1, 2) y B5 | Del 20/10 a las mesas | Novedades con aviso al celular, más grupos de estudio en Estudiemos |
-| Guías de las materias que más cuestan | B5 y B4 (4) | Noviembre | Fichas con `PROMPT-FICHAS.md` |
+| Guías de las materias que más cuestan | B5 y B4 (4) | Noviembre | Fichas con `docs/prompts/PROMPT-FICHAS.md` |
 | Kit de primer año | B3 y B4 (3) | Diciembre y enero | Pantalla nueva, para el ingreso 2027 |
 | Propuesta de reactivar tutores pares | B2, B3 y B4 | Después de las elecciones | Al Consejo |
 

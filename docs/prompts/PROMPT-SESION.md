@@ -29,7 +29,7 @@ Reglas de esta sesión:
 | 1 | ✅ Fonoteca: generador de tonos | — |
 | 2 | Aviso en Mi año, parte 1 | los plazos de regularidad (años y turnos) |
 | 3 | Aviso en Mi año, parte 2 | — |
-| 4 | Fichas: la tanda que tenga textos listos | textos de NotebookLM con `PROMPT-FICHAS.md` |
+| 4 | Fichas: la tanda que tenga textos listos | textos de NotebookLM con `docs/prompts/PROMPT-FICHAS.md` |
 | 5 | Colchón: el error que aparezca | — |
 | 6 | Congelamiento: `v` del service worker, `graphify update .`, bitácora al día | — |
 

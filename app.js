@@ -402,7 +402,7 @@ function anotarBusqueda(termino){
   });
   window.addEventListener('unhandledrejection', function(e){
     const r = e.reason;
-    /* Las transiciones entre pantallas (`@view-transition` en estilos.css)
+    /* Las transiciones entre pantallas (`@view-transition` en `css/base.css`)
        las cancela el navegador si se toca rápido o cambia el alto de la
        pantalla, y esa promesa no es un error de la app. Del 17 al 19/9
        fueron 57 de los 63 errores del registro, y gastaban el cupo de
@@ -2100,7 +2100,7 @@ function sacarAvisoGuardado(){
 
      1. Alguien que ya tiene la app abre la portada.
      2. Las pantallas van por red primero, así que le llega el HTML NUEVO.
-     3. Pero app.js y estilos.css los sigue sirviendo el service worker
+     3. Pero app.js y los estilos los sigue sirviendo el service worker
         VIEJO, de su caja, porque el nuevo recién se está instalando.
      4. HTML nuevo llamando a una función que el app.js viejo no tiene.
 
@@ -2249,7 +2249,7 @@ function invitarAInstalar(motivo){
                  cuenta, porque sin cuenta no hay finales cargados.
 
    QUIÉN HACE QUÉ. Acá solo se pide el permiso y se guarda el timbre
-   en `avisos_suscripciones` (ver `tabla-avisos.sql`). Quien decide
+   en `avisos_suscripciones` (ver `sql/tabla-avisos.sql`). Quien decide
    qué se manda y cuándo es `supabase/functions/avisos/index.ts`, que
    corre en Supabase una vez por hora. Y quien DIBUJA el aviso cuando
    llega es el oyente `push` de `sw.js`. Los tres se necesitan: si

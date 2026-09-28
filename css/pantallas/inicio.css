@@ -1,0 +1,656 @@
+/* ==========================================================
+   LA BOLIVAR CON VOS · SOLO PARA INICIO
+   La portada: la apertura, la bienvenida, el carrusel, el calendario
+   cuadrado, los accesos 3x3, el fondo de contexto y el kit de ingreso.
+   Carga despues de tokens.css y base.css; solo la usa esta pantalla.
+   ========================================================== */
+
+/* Los que no tienen sombra corrida se hunden apenas */
+.boton-icono:active, .cal-dia:active, .secciones-fila a:active,
+.menu-lista a:active, .pestana:active, .tema-opciones button:active,
+.pregunta-opcion:active{
+  transform:scale(.94)
+}
+
+.boton-cuadro svg.ico{width:28px;height:28px;color:var(--celeste)}
+
+.boton-cuadro.destacado svg.ico{color:var(--sobre-color)}
+
+/* --- La carrera, en el inicio ---
+   Tres partes iguales y no chips que se deslizan: los tres nombres
+   juntos miden más que un celular, y una carrera escondida a la derecha
+   es una carrera que no existe. Si un nombre no entra, baja a dos
+   renglones adentro de su botón. */
+.fila-carrera{margin:26px 0 0}
+
+.fila-carrera-rotulo{
+  display:block;font-family:var(--fuente-datos);font-weight:700;font-size:var(--letra-chica);
+  letter-spacing:.16em;text-transform:uppercase;color:var(--texto-suave);margin-bottom:9px
+}
+
+.carrera-chips{display:flex;gap:6px}
+
+.carrera-chip{
+  flex:1 1 0;min-width:0;appearance:none;cursor:pointer;
+  background:var(--superficie);border:1px solid var(--linea);border-radius:var(--radio);
+  padding:7px 6px;min-height:44px;line-height:1.15;text-align:center;
+  font-family:var(--fuente-sub);font-size:var(--letra-densa);color:var(--texto);
+  /* En 375 px, «Fonoaudiología» en negrita mide más que su tercio: se
+     salía del botón, y cortándola quedaba «Fonoaudiol / ogía». La letra
+     baja un poco solo en pantallas angostas; el corte queda de red por
+     si algún teléfono es todavía más chico. */
+  overflow-wrap:anywhere
+}
+
+@media (max-width:420px) {
+.carrera-chip{font-size:clamp(11.5px, 3.3vw, 13px);letter-spacing:-.01em}
+}
+
+.carrera-chip[aria-pressed="true"]{
+  background:var(--amarillo);border-color:var(--amarillo);color:var(--sobre-color);font-weight:700
+}
+
+.fila-carrera + .titulo-seccion{margin-top:26px}
+
+/* ============================================================
+   BUSCADOR
+   ============================================================ */
+/* El buscador ya no va sobre el negro: con la cabecera y las secciones
+   arriba, sumarle el buscador hacia un bloque oscuro demasiado alto. */
+.caja-buscador{background:transparent;padding:16px 0 4px}
+
+.apertura.yendose{opacity:0}
+
+.marca-escena{
+  position:relative;flex:0 0 auto;
+  width:1080px;height:1350px;transform-origin:50% 50%;
+  /* Le avisamos al navegador que estas tres capas se van a mover y a
+     enmascarar durante todo el splash, así les arma su propia capa de
+     composición una sola vez en vez de decidirlo cuadro por cuadro. */
+  will-change:transform
+}
+
+.marca-escena .capa{position:absolute;inset:0;overflow:hidden}
+
+.marca-escena .capa img{
+  position:absolute;left:0;top:0;width:1080px;height:1350px;
+  user-select:none;-webkit-user-select:none;-webkit-user-drag:none
+}
+
+/* La cortina que tapa cada capa hasta que le toca. Es del amarillo del
+   fondo, así que mientras cubre no se distingue del fondo que tiene al
+   lado: se lee como si el dibujo todavía no estuviera, no como si
+   hubiera algo encima.
+
+   El borde de ataque va en degradado —los primeros 6% son translúcidos—
+   para que el dibujo no aparezca cortado con una regla. Ese era el
+   único motivo por el que antes esto era una máscara; con el degradado
+   metido en la propia cortina, el efecto es el mismo y el costo es
+   cero. Los degradados de CSS interpolan con alfa premultiplicada, así
+   que ir de transparent al amarillo no pasa por ningún gris.
+
+   Se estiran un 10% de más para los dos lados: al correrse, el borde
+   blando tiene que terminar de salir DESPUÉS del límite de la capa, si
+   no se ve la costura al final del recorrido. */
+.marca-escena .cortina{
+  position:absolute;background:var(--amarillo);
+  will-change:transform
+}
+
+.marca-escena .hacia-abajo{
+  left:0;right:0;top:-10%;height:120%;
+  background:linear-gradient(to bottom,
+    transparent 0%, var(--amarillo) 14%, var(--amarillo) 100%)
+}
+
+.marca-escena .hacia-derecha{
+  top:0;bottom:0;left:-10%;width:120%;
+  background:linear-gradient(to right,
+    transparent 0%, var(--amarillo) 14%, var(--amarillo) 100%)
+}
+
+/* EL DESTELLO PERDIÓ EL mix-blend-mode.
+
+   Tenía soft-light, que obliga al navegador a mezclar este elemento
+   con TODO lo que tiene debajo —las tres capas del logo, a tamaño
+   completo— y esa mezcla no la puede hacer la placa de video sola.
+   Era la línea más cara de la apertura: por sí sola sacaba a la escena
+   entera del camino rápido de composición, justo en el segundo en que
+   el teléfono además está bajando las imágenes y las cuatro consultas.
+
+   Un blanco translúcido encima del amarillo pleno da prácticamente el
+   mismo brillo, y cuesta cero. La diferencia se ve con un medidor, no
+   con el ojo; la diferencia de fluidez en un teléfono de gama media se
+   ve sin medidor. */
+.marca-escena .destello{
+  position:absolute;top:-20%;left:0;width:26%;height:140%;opacity:0;
+  transform:rotate(14deg);pointer-events:none;
+  will-change:transform,opacity;
+  background:linear-gradient(to right,
+    rgba(255,255,255,0) 0%, rgba(255,255,255,.75) 50%, rgba(255,255,255,0) 100%)
+}
+
+/* ============================================================
+   BIENVENIDA · solo la primera vez que alguien abre la app
+   ============================================================ */
+/* La apertura y la bienvenida no tienen barra de navegacion abajo, asi
+   que hay que sacarles el hueco que el body le reserva. Si no, la
+   pantalla queda 80px mas alta de lo que se ve y aparece scroll. */
+body.antes-de-entrar{padding-bottom:0}
+
+/* apertura y bienvenida a pantalla completa */
+/* Tiene que entrar de una en la pantalla del telefono: si los botones
+   quedan abajo del pliegue, la bienvenida no sirve para nada. Por eso
+   el dibujo se mide en vh y encoge solo en pantallas cortas. */
+/* Amarillo pleno, como la banda .sol de «¿Quiénes somos?». El color va
+   fijo y NO cambia de noche: es un objeto impreso, y una placa no se
+   apaga porque sea de noche. Negro sobre este amarillo da 13,5 y el
+   rojo de las palabras destacadas da 5,2: los dos pasan AA. */
+.bienvenida{
+  min-height:100vh;min-height:100dvh;display:flex;flex-direction:column;
+  padding:clamp(20px,4vh,34px) 20px calc(20px + env(safe-area-inset-bottom));
+  background:var(--amarillo);color:var(--sobre-color);
+  text-align:left;position:relative;overflow:hidden
+}
+
+/* La trama de puntos de las serigrafías, la misma de la banda oscura.
+   Acá la tinta es negra: sobre amarillo, puntos amarillos no se ven. */
+.bienvenida::before{
+  content:'';position:absolute;inset:0;pointer-events:none;
+  background-image:radial-gradient(#1A1A1A 1px, transparent 1.1px);
+  background-size:10px 10px;opacity:.09
+}
+
+.bienvenida-adentro{
+  position:relative;z-index:1;flex:1;min-height:0;
+  display:flex;flex-direction:column;
+  width:100%;max-width:var(--ancho-max);margin:0 auto
+}
+
+.bienvenida .arriba{
+  flex:1;min-height:0;display:flex;flex-direction:column;justify-content:center;
+  gap:clamp(6px,1.4vh,14px)
+}
+
+.bienvenida .dibujo{
+  width:min(128px,29vw);height:auto;margin-bottom:clamp(2px,1.4vh,12px)
+}
+
+.bienvenida .ceja-lectura{margin:0}
+
+/* Más chico que el grito de «¿Quiénes somos?»: allá la pantalla se
+   scrollea, acá el lema Y los botones tienen que entrar junto con el
+   titular en la pantalla de un teléfono. Si «Entrar» queda abajo del
+   pliegue, la portada deja de funcionar. */
+/* En mayúsculas, a diferencia de los gritos de «¿Quiénes somos?»: acá
+   el titular es el NOMBRE de la app, y el nombre se escribe igual que
+   en la cabecera. Un nombre en caja mixta y el mismo nombre en
+   versalitas dos pantallas después no parecen la misma marca. */
+.bienvenida .grito{
+  font-size:clamp(38px,10.4vw,62px);max-width:15ch;text-transform:uppercase
+}
+
+.bienvenida .grito em{color:var(--rojo-solido)}
+
+.bienvenida .bajada-lectura{margin:clamp(8px,1.8vh,18px) 0 0;max-width:36ch}
+
+.bienvenida .abajo{
+  flex:0 0 auto;display:flex;flex-direction:column;gap:10px;
+  width:100%;max-width:420px;margin-top:clamp(14px,2.6vh,26px)
+}
+
+/* El color va atado a la banda, no al tema: --texto de noche es casi
+   blanco y sobre el amarillo no se leería (1,3). */
+.bienvenida .sin-cuenta{
+  background:transparent;border:none;padding:12px;
+  font-family:var(--fuente-sub);font-size:16px;font-weight:700;
+  text-transform:uppercase;letter-spacing:.04em;
+  color:var(--sobre-color);text-decoration:underline;text-underline-offset:3px
+}
+
+/* LO MISMO PARA «CREAR MI CUENTA», QUE SE HABÍA QUEDADO AFUERA.
+
+   `.boton.borde` hereda --texto a propósito, para que sobre un fondo
+   transparente se lea de día y de noche. Pero acá el fondo NO es
+   transparente ni sigue al tema: es la placa amarilla, que es fija. De
+   noche --texto es #F2EFE2 y el botón quedaba casi blanco sobre
+   amarillo: contraste 1,10, medido. Invisible, igual que el renglón de
+   abajo antes de que le pusieran el color fijo.
+
+   El arreglo ya estaba escrito dos veces en esta hoja —`.banda.tinta
+   .boton.borde` y `.banda.sol .boton.borde`— pero la bienvenida no es
+   una banda, así que no lo heredaba. Con la tinta da 13,77. */
+.bienvenida .boton.borde{color:var(--sobre-color);border-color:var(--sobre-color)}
+
+/* Y EL ANILLO DEL FOCO, POR LA MISMA RAZÓN.
+
+   El anillo general es celeste, y sobre este amarillo da 2,80: abajo
+   del 3 que pide la norma para lo que no es texto. Sobre la placa
+   manda la tinta, que da 13,77. Es exactamente lo que ya se hace
+   sobre la cabecera negra, donde el que manda es el amarillo. */
+.bienvenida a:focus-visible,
+.bienvenida button:focus-visible{outline-color:var(--sobre-color)}
+
+/* ============================================================
+   EL LOGO EN LA PORTADA
+   Va en rojo, no en amarillo: sobre el fondo claro de la app el
+   amarillo tiene contraste 1,3 y no se veria. El rojo da 6,0.
+   ============================================================ */
+/* ============================================================
+   PORTADA: el carrusel de imagenes
+   ============================================================ */
+.carrusel{
+  position:relative;margin:16px 0 8px;border-radius:var(--radio);
+  overflow:hidden;background:var(--amarillo);box-shadow:var(--sombra)
+}
+
+/* DOS VELOCIDADES, PORQUE SON DOS COSAS DISTINTAS.
+
+   El carrusel se mueve por dos motivos que no se parecen en nada.
+   Cuando avanza solo es ambiente: nadie lo pidió, nadie está esperando,
+   y puede tomarse 400 ms con una curva que arranca y frena suave.
+   Cuando alguien toca un punto o arrastra con el dedo, eso es una
+   RESPUESTA: la persona hizo algo y está mirando a ver si pasó. Ahí
+   500 ms con curva blanda se sienten pegajosos, como si la app dudara.
+   Antes las dos usaban la misma. */
+.carrusel-pista{
+  display:flex;
+  transition:transform 400ms var(--ambos);
+  will-change:transform;
+  /* pan-y le dice al navegador: el desplazamiento vertical seguí
+     manejándolo vos, el horizontal es mío. Sin esto, arrastrar de
+     costado sobre el carrusel movía la página y el gesto se perdía. */
+  touch-action:pan-y;
+  /* Sin esto, arrastrar sobre una imagen dispara el «arrastrar imagen»
+     del navegador y el gesto se corta a la mitad. */
+  -webkit-user-drag:none;user-select:none;-webkit-user-select:none
+}
+
+.carrusel-pista img{-webkit-user-drag:none;pointer-events:none}
+
+.carrusel-pista.a-dedo{transition:transform var(--t-medio) var(--sale)}
+
+/* Mientras el dedo está apoyado la lámina sigue al dedo sin retardo:
+   cualquier transición acá se sentiría como arrastrar algo pegajoso. */
+.carrusel-pista.arrastrando{transition:none}
+
+.carrusel-lamina{flex:0 0 100%;position:relative}
+
+/* Las dos ilustraciones no tienen exactamente la misma proporción, y
+   como las láminas se estiran a la más alta, quedaban 87 px de amarillo
+   vacío abajo. Con la proporción fija las dos miden igual y el bloque
+   deja de pesar más que el contenido que tiene al lado. */
+.carrusel-lamina img{
+  width:100%;height:auto;display:block;
+  aspect-ratio:900/358;object-fit:cover;object-position:center
+}
+
+.carrusel-pie{
+  position:absolute;left:0;right:0;bottom:0;padding:26px 14px 12px;
+  font-family:var(--fuente-sub);font-size:var(--letra-densa);font-weight:700;color:var(--sobre-color);
+  background:linear-gradient(to top, rgba(249,232,48,.96) 40%, rgba(249,232,48,0))
+}
+
+.carrusel-puntos{
+  position:absolute;bottom:2px;right:6px;display:flex;gap:0
+}
+
+/* El punto que se ve sigue midiendo 8 px, pero lo que se toca mide 24,
+   que es el mínimo de la norma. Antes eran 8x8: imposible de acertar
+   con el pulgar. El botón es transparente y el punto lo dibuja el
+   ::before, así crece el área sin crecer el dibujo. */
+.carrusel-puntos button{
+  width:24px;height:24px;padding:0;border:none;background:transparent;
+  display:flex;align-items:center;justify-content:center
+}
+
+/* El punto mide siempre 18 y se ESTIRA con escala hasta los 8 que se
+   ven cuando no es el elegido. Al revés —creciendo el ancho de 8 a 18—
+   el navegador tiene que recalcular la fila de puntos en cada cuadro,
+   y son dos elementos moviéndose para dibujar un punto. */
+.carrusel-puntos button::before{
+  content:'';display:block;width:18px;height:8px;
+  border-radius:var(--radio-pastilla);
+  background:rgba(26,26,26,.3);
+  transform:scaleX(.444);
+  transition:transform var(--t-chico) var(--sale),
+             background-color var(--t-chico) ease
+}
+
+.carrusel-puntos button[aria-current="true"]::before{
+  background:var(--negro);transform:scaleX(1)
+}
+
+@media (prefers-reduced-motion:reduce) {
+.carrusel-puntos button::before{transition:background-color var(--t-chico) ease}
+}
+
+/* ============================================================
+   CALENDARIO CUADRADO DEL INICIO
+   ============================================================ */
+.calendario.cuadrado{
+  background:var(--superficie);border:1px solid var(--linea);
+  border-radius:var(--radio);padding:14px;box-shadow:var(--sombra);margin-bottom:8px
+}
+
+.calendario.cuadrado .cal-grilla{gap:4px}
+
+.calendario.cuadrado .cal-dia{
+  aspect-ratio:1;font-size:var(--letra-densa);position:relative;
+  flex-direction:column;justify-content:center;gap:0;padding-bottom:9px
+}
+
+.cal-barra.asueto{background:var(--celeste)}
+
+.cal-dia.con-cosas.asueto{background:var(--dia-asueto)}
+
+/* La leyenda: dice con letras lo que la grilla dice con colores */
+.cal-leyenda{
+  margin-top:12px;border-top:1px solid var(--linea);padding-top:11px;
+  display:flex;flex-direction:column;gap:9px
+}
+
+.cal-leyenda.vacia{color:var(--texto-suave);font-size:var(--letra-densa);padding-top:12px}
+
+.cal-leyenda-fila{display:flex;align-items:flex-start;gap:9px}
+
+.cal-marca{
+  flex:0 0 auto;width:14px;height:5px;border-radius:var(--radio-pastilla);margin-top:6px
+}
+
+.cal-marca.mesa  {background:var(--rojo)}
+
+.cal-marca.asueto{background:var(--celeste)}
+
+.cal-leyenda-texto{display:flex;flex-direction:column;line-height:1.25}
+
+.cal-leyenda-texto strong{font-family:var(--fuente-sub);font-size:var(--letra-densa);font-weight:700}
+
+.cal-leyenda-texto small{color:var(--texto-suave);font-size:var(--letra-nota)}
+
+.cal-elegido{display:flex;flex-direction:column;gap:8px}
+
+.cal-elegido:not(:empty){margin-top:12px;border-top:1px solid var(--linea);padding-top:12px}
+
+.cal-elegido .vacio{padding:12px 0;font-size:var(--letra-densa)}
+
+/* ============================================================
+   PANEL 3x3 DE ACCESOS
+   ============================================================ */
+.rejilla-3x3{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin:6px 0 10px}
+
+.boton-cuadro{
+  aspect-ratio:1;background:var(--superficie);border:1px solid var(--linea);
+  border-radius:var(--radio);box-shadow:var(--sombra);text-decoration:none;
+  color:var(--texto);padding:9px 7px;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;
+  text-align:center;overflow:hidden
+}
+
+.boton-cuadro .icono{font-size:26px;line-height:1}
+
+/* Estas nueve etiquetas son la navegación principal de la portada.
+   Estaban en 11,5 px, tamaño de nota al pie. */
+.boton-cuadro .nombre{
+  font-family:var(--fuente-sub);font-weight:700;font-size:var(--letra-nota);line-height:1.14;
+  overflow-wrap:anywhere;
+  text-transform:uppercase;letter-spacing:.01em;
+  display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden
+}
+
+@media (hover:hover) and (pointer:fine) {
+.boton-cuadro:hover{border-color:var(--celeste)}
+}
+
+.boton-cuadro.destacado{background:var(--amarillo);border-color:var(--amarillo);color:var(--sobre-color)}
+
+/* En el celular el cuadro mide 100 px: la flecha y la bajada no entran.
+   Aparecen desde la tablet, cuando el cuadro pasa a ser ficha. */
+.boton-cuadro .cuadro-flecha,
+.boton-cuadro .cuadro-bajada{display:none}
+
+/* ============================================================
+   EL FONDO DE CONTEXTO
+   La ilustración de la facultad va POR DETRAS del contenido, desde
+   "A dónde ir" hasta el piso de la página. Se apoya abajo, como si
+   el contenido estuviera parado sobre el patio.
+   ============================================================ */
+.zona-fondo{position:relative;z-index:0;padding-top:2px}
+
+.zona-fondo::before{
+  content:'';position:absolute;left:0;right:0;bottom:0;z-index:-1;
+  height:min(460px,64vw);pointer-events:none;
+  background:url(imagenes/facultad-patio.webp) center bottom / contain no-repeat;
+  opacity:.28
+}
+
+.mi-cursada-rotulo{
+  font-size:var(--letra-mini);letter-spacing:.14em;text-transform:uppercase;opacity:.85
+}
+
+.mi-cursada-datos{
+  display:flex;justify-content:space-between;align-items:baseline;
+  margin-top:8px;font-size:var(--letra-densa)
+}
+
+.mi-cursada-datos b{font-family:var(--fuente-datos);font-weight:700;font-size:19px}
+
+.mi-cursada.pregunta .mi-cursada-rotulo{display:block;margin-bottom:6px;opacity:1;color:var(--texto-suave)}
+
+.mi-cursada.pregunta .mi-cursada-rotulo + strong{margin-top:0}
+
+/* LAS TRES CARRERAS VAN UNA DEBAJO DE OTRA.
+   En fila no entran: en un teléfono de 360 px «Gestión del Riesgo» se
+   come media pantalla, y tres pastillas cortadas no se leen como tres
+   opciones. Apiladas, además, entra el nombre largo abajo, que es el
+   que distingue una licenciatura de una tecnicatura. */
+.pregunta-opciones{display:grid;gap:8px}
+
+.pregunta-opcion{
+  display:block;width:100%;text-align:left;
+  background:var(--superficie-2);border:1.5px solid var(--texto);
+  border-radius:var(--radio);padding:10px 13px;color:var(--texto)
+}
+
+.pregunta-opcion b{
+  display:block;font-family:var(--fuente-sub);font-weight:700;
+  font-size:var(--letra-base);letter-spacing:.02em;line-height:1.2
+}
+
+.pregunta-opcion small{
+  display:block;font-size:var(--letra-mini);line-height:1.3;
+  color:var(--texto-suave);margin-top:2px
+}
+
+/* En el hover va el color del texto ENTERO, no solo el del renglón
+   chico: de noche el texto es claro, y dejarlo heredado sobre el
+   amarillo pleno daba 1,3 de contraste. El amarillo trae su propia
+   tinta y hay que ponerla. */
+@media (hover:hover) and (pointer:fine) {
+.pregunta-opcion:hover{
+    background:var(--amarillo);border-color:var(--amarillo);color:var(--sobre-color)
+  }
+
+.pregunta-opcion:hover small{color:var(--sobre-color)}
+}
+
+/* La salida del toque errado. Va debajo del botón y pesa menos que él
+   a propósito: es la respuesta menos probable de las dos. */
+.pregunta-volver{
+  display:block;width:100%;margin-top:10px;padding:6px;
+  background:none;border:none;color:var(--texto-suave);
+  font-size:var(--letra-densa);text-decoration:underline
+}
+
+/* El cuadro de acceso. Antes era un cajón blanco muerto al lado de
+   catorce cajas que brillaban: dos idiomas de carga en la misma
+   pantalla, y el que no se movía parecía roto. Ahora lleva adentro la
+   misma barra que dice «esto está llegando», y el marco impreso
+   —borde y segunda tinta— se queda afuera, que es lo que le da la
+   forma exacta del botón que lo va a reemplazar. */
+.esq-cuadro{
+  position:relative;overflow:hidden;
+  background:var(--superficie);border:1px solid var(--linea);
+  border-radius:var(--radio);aspect-ratio:1;box-shadow:var(--sombra)
+}
+
+.esq-cuadro::after{
+  content:'';position:absolute;inset:0;
+  background:linear-gradient(90deg,
+    transparent 0%, var(--superficie-2) 50%, transparent 100%);
+  animation:esqueleto-brillo 1.6s linear infinite;
+  will-change:transform
+}
+
+.esq-cuadro:nth-child(3n+2)::after{animation-delay:70ms}
+
+.esq-cuadro:nth-child(3n)::after  {animation-delay:140ms}
+
+@media (prefers-reduced-motion:reduce) {
+.esq-cuadro::after{animation:none;opacity:.5;transform:none}
+}
+
+.esq-calendario{
+  background:var(--superficie);border:1px solid var(--linea);
+  border-radius:var(--radio);padding:14px;box-shadow:var(--sombra)
+}
+
+.esq-grilla{display:grid;grid-template-columns:repeat(7,1fr);gap:4px;margin-top:12px}
+
+.esq-grilla .esqueleto{aspect-ratio:1;height:auto;margin:0}
+
+/* ============================================================
+   KIT DE INGRESO
+   Las primeras cosas que necesita alguien que recien llega.
+   ============================================================ */
+.kit{display:flex;flex-direction:column;gap:10px;margin-bottom:8px}
+
+.tarjeta-kit{
+  display:flex;align-items:flex-start;gap:13px;
+  background:var(--superficie);border:1px solid var(--linea);
+  border-left:4px solid var(--celeste);border-radius:var(--radio);
+  padding:15px;text-decoration:none;color:var(--texto);box-shadow:var(--sombra)
+}
+
+@media (hover:hover) and (pointer:fine) {
+.tarjeta-kit:hover{border-color:var(--celeste)}
+}
+
+.tarjeta-kit .kit-numero{
+  flex:0 0 auto;width:30px;height:30px;border-radius:50%;
+  background:var(--amarillo);color:var(--sobre-color);
+  display:flex;align-items:center;justify-content:center;
+  font-family:var(--fuente-sub);font-weight:800;font-size:var(--letra-base)
+}
+
+.tarjeta-kit .kit-texto{min-width:0}
+
+.tarjeta-kit h3{
+  font-family:var(--fuente-sub);font-weight:700;font-size:var(--letra-guia);line-height:1.15;
+  text-transform:uppercase;margin-bottom:3px
+}
+
+.tarjeta-kit p{margin:0;font-size:var(--letra-base);line-height:1.35;color:var(--texto-suave)}
+
+/* ============================================================
+   PANTALLAS GRANDES
+   ============================================================ */
+@media (min-width:720px) {
+/* Desde la tablet para arriba los cuadros dejan de ser cuadrados: si
+     no, un cuadrado de 211 px de lado da una grilla de 648 de alto. */
+/* Y pasan a leerse como fichas: ícono en su cajoncito arriba, flecha
+     en la esquina, nombre y una bajada que dice qué hay adentro. Con
+     el nombre solo, «Dónde curso» no avisaba que ahí están los horarios.
+     El cajoncito va en gris y no en celeste por lo mismo que en
+     `.herramienta-ico`: el color de lo que se toca ya lo tiene la ficha. */
+.boton-cuadro{
+    aspect-ratio:auto;min-height:124px;padding:14px 16px 14px;
+    position:relative;align-items:flex-start;justify-content:flex-start;
+    text-align:left;gap:0
+  }
+
+.boton-cuadro .icono{
+    display:grid;place-items:center;width:40px;height:40px;font-size:21px;
+    border-radius:var(--radio-chico);background:rgba(26,26,26,.07);
+    margin-bottom:auto
+  }
+
+.boton-cuadro .icono svg.ico{width:21px;height:21px;color:var(--texto)}
+
+.boton-cuadro.destacado .icono{background:rgba(26,26,26,.10)}
+
+.boton-cuadro.destacado .icono svg.ico{color:var(--sobre-color)}
+
+.boton-cuadro .cuadro-flecha{
+    display:block;position:absolute;top:22px;right:18px;
+    font-family:var(--fuente-sub);font-weight:700;font-size:18px;line-height:1;
+    opacity:.45
+  }
+
+.boton-cuadro .nombre{
+    margin-top:18px;font-family:var(--fuente-titulo);font-size:var(--letra-densa);
+    text-transform:none;letter-spacing:0;-webkit-line-clamp:2
+  }
+
+.boton-cuadro .cuadro-bajada{
+    display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;
+    margin-top:3px;font-size:var(--letra-chica);line-height:1.3;opacity:.75
+  }
+
+.esq-cuadro{aspect-ratio:auto;min-height:124px}
+}
+
+/* ------------------------------------------------------------
+   EN LA COMPUTADORA
+
+   La app se diseñó para el celular y está bien que así sea: ahí la usa
+   casi todo el mundo. Pero en una pantalla de 1280 la columna medía
+   680 px y quedaban 300 de amarillo vacío a cada lado —se usaba el 53%
+   de la pantalla— con la portada estirada a lo largo de cuatro
+   pantallazos.
+
+   No la rediseñamos: le damos aire a la columna y ponemos en dos
+   columnas lo que se lee de a pares. La portada pasa a entrar en poco
+   más de una pantalla.
+   ------------------------------------------------------------ */
+@media (min-width:900px) {
+#zona-normal > .carrusel{grid-column:2;margin-top:0}
+
+/* Los cuadros son cuadrados porque en un celular miden 100 px. Acá,
+     con la columna ancha, un cuadrado da 310x310 y la grilla sola mide
+     casi mil píxeles de alto. En pantalla grande dejan de ser
+     cuadrados y pasan a ser fichas anchas. */
+.rejilla-3x3{gap:12px}
+
+.boton-cuadro, .esq-cuadro{min-height:132px}
+
+/* Las listas de tarjetas leen mejor en dos columnas que en una
+     columna de mil píxeles de ancho */
+.lista,.kit{
+    display:grid;grid-template-columns:1fr 1fr;gap:12px;align-items:start
+  }
+}
+
+.proximo-que{
+  flex:1 1 auto;min-width:0;font-size:var(--letra-base);line-height:1.3;
+  overflow:hidden;text-overflow:ellipsis;display:-webkit-box;
+  -webkit-line-clamp:2;-webkit-box-orient:vertical
+}
+
+.proximo-flecha{flex:0 0 auto;font-family:var(--fuente-sub);font-weight:700}
+
+/* ============================================================
+   ÚLTIMO REPASO DE «MENOS MOVIMIENTO»
+
+   Cada componente ya resuelve lo suyo arriba, al lado de su código,
+   que es donde se puede mantener. Acá quedan solo las dos cosas que no
+   tienen dueño en ninguna sección.
+   ============================================================ */
+@media (prefers-reduced-motion:reduce) {
+/* El carrusel deja de correrse solo: index.html tampoco le pone el
+     reloj, esto es la red de seguridad por si alguien lo mueve a mano. */
+.carrusel-pista{transition:none}
+}
+
+/* Antes de entrar no hay barra, asi que tampoco hace falta el hueco. */
+body.antes-de-entrar{ padding-bottom:0 }

@@ -37,7 +37,7 @@ después va a diagnosticar. Entonces:
   ella y además corresponde: el TP y sus gráficos son material de la
   cátedra. Del TP tomamos **la estructura del ejercicio**, no los casos.
 - **Lo que no sepamos se escribe como `[FALTA]`** y no se completa con
-  lo que la IA crea saber. Misma regla que `PROMPT-FICHAS.md`.
+  lo que la IA crea saber. Misma regla que `docs/prompts/PROMPT-FICHAS.md`.
 
 ## El orden, y por qué cada solapa tiene que poder salir sola
 
@@ -74,7 +74,7 @@ tarjetas, la devolución, la jerarquía de la pantalla.
 
 ## Paso 1 · El prompt, para copiar y pegar
 
-**Antes va el bloque de `PROMPT-DISENO.md`**, el de «Para copiar y pegar
+**Antes va el bloque de `docs/prompts/PROMPT-DISENO.md`**, el de «Para copiar y pegar
 antes de cada pedido». Sin él vuelve React con Tailwind. Después, esto:
 
 ---

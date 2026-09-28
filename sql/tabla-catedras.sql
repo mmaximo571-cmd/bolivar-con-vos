@@ -96,7 +96,7 @@ create policy "catedras las edita el equipo"
 -- LA CARGA
 --
 -- Material entregado por Máximo el 4/9/2026. El crudo, sin tocar,
--- está en `contenido-catedras.md`.
+-- está en `sql/contenido-catedras.md`.
 --
 -- `on conflict` actualiza: si se corre de nuevo con un mail
 -- corregido, pisa el viejo y no duplica.

@@ -111,7 +111,7 @@ alter table public.pagina_quienes
 
 -- Una foto por bloque de texto, en el mismo orden que los bloques.
 -- Los huecos van en null para que la tercera foto no se corra al
--- segundo bloque. Ver tabla-fotos.sql.
+-- segundo bloque. Ver sql/tabla-fotos.sql.
 --   [ { "url": "https://…", "nombre": "quienes-1-….jpg",
 --       "epigrafe": "Asamblea de carrera, mayo de 2026" }, null ]
 alter table public.pagina_quienes

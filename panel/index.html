@@ -23,7 +23,8 @@
 <meta property="og:description" content="">
 <meta property="og:image" content="https://labolivarconvos.ar/imagenes/compartir.png">
 <meta name="twitter:card" content="summary_large_image">
-<link rel="stylesheet" href="../estilos.css">
+<link rel="stylesheet" href="../css/tokens.css">
+<link rel="stylesheet" href="../css/base.css">
 <link rel="stylesheet" href="../estilos-rediseno.css">
 <!-- EL TEMA, ANTES DE DIBUJAR NADA. Va acá arriba y no en app.js a
      propósito: app.js carga al final del cuerpo, así que la pantalla
@@ -122,7 +123,7 @@
 
      ANTES: las catorce secciones eran UNA tira de chips con
      `overflow-x:auto` y la barra de scroll escondida (`.chips`, en
-     estilos.css). Con el dedo se arrastra y funciona; con un mouse,
+     `css/base.css`). Con el dedo se arrastra y funciona; con un mouse,
      en una pantalla de 1280, la tira se cortaba y las últimas
      —Avisanos, Categorías, Mapa de riesgo, Registro— quedaban afuera
      sin nada que dijera que estaban ahí. No estaban rotas: eran
@@ -1282,7 +1283,7 @@
       zona.innerHTML = /materiales/.test(error.message || '')
         ? `<div class="aviso error">
              <strong>Falta activar esta sección.</strong><br>
-             Hay que correr el archivo <b>tabla-materiales.sql</b> en el
+             Hay que correr el archivo <b>sql/tabla-materiales.sql</b> en el
              SQL Editor de Supabase. Es una sola vez.
            </div>`
         : `<div class="aviso error">No se pudo cargar: ${esc(error.message)}</div>`;
@@ -1474,7 +1475,7 @@
       zona.innerHTML = /programas/.test(error.message || '')
         ? `<div class="aviso error">
              <strong>Falta activar esta sección.</strong><br>
-             Hay que correr <b>tabla-organizador.sql</b> en el SQL Editor de
+             Hay que correr <b>sql/tabla-organizador.sql</b> en el SQL Editor de
              Supabase. Es una sola vez.
            </div>`
         : `<div class="aviso error">No se pudo cargar: ${esc(error.message)}</div>`;
@@ -1731,7 +1732,7 @@
       .upload(nombre, archivo, { contentType: 'application/pdf' });
     if (error){
       if (/Bucket not found/i.test(error.message || ''))
-        throw new Error('Falta correr tabla-programas-pdf.sql en Supabase.');
+        throw new Error('Falta correr sql/tabla-programas-pdf.sql en Supabase.');
       if (/row-level security|Unauthorized/i.test(error.message || ''))
         throw new Error('Tu cuenta no tiene permiso para subir archivos. Tiene que estar como «equipo».');
       throw error;
@@ -2010,7 +2011,7 @@
       .upload(nombre, chica, { contentType:'image/jpeg' });
     if (error){
       if (/Bucket not found/i.test(error.message || ''))
-        throw new Error('Falta activar el depósito de fotos: hay que correr tabla-fotos.sql en Supabase.');
+        throw new Error('Falta activar el depósito de fotos: hay que correr sql/tabla-fotos.sql en Supabase.');
       if (/row-level security|Unauthorized/i.test(error.message || ''))
         throw new Error('Tu cuenta no tiene permiso para subir fotos. Tiene que estar como «equipo».');
       throw error;
@@ -2116,7 +2117,7 @@
       zona.innerHTML = /pagina_quienes/.test(error.message || '')
         ? `<div class="aviso error">
              <strong>Falta activar esta sección.</strong><br>
-             Hay que correr <b>tabla-quienes.sql</b> en el SQL Editor de
+             Hay que correr <b>sql/tabla-quienes.sql</b> en el SQL Editor de
              Supabase. Es una sola vez.
            </div>`
         : `<div class="aviso error">No se pudo cargar: ${esc(error.message)}</div>`;
@@ -2297,7 +2298,7 @@
       zona.innerHTML = /pagina_consejo/.test(error.message || '')
         ? `<div class="aviso error">
              <strong>Falta activar esta sección.</strong><br>
-             Hay que correr <b>tabla-consejo.sql</b> en el SQL Editor de
+             Hay que correr <b>sql/tabla-consejo.sql</b> en el SQL Editor de
              Supabase. Es una sola vez.
            </div>`
         : `<div class="aviso error">No se pudo cargar: ${esc(error.message)}</div>`;
@@ -2462,7 +2463,7 @@
       zona.innerHTML = /guia_materia/.test(error.message || '')
         ? `<div class="aviso error">
              <strong>Falta activar esta sección.</strong><br>
-             Hay que correr <b>tabla-guia.sql</b> en el SQL Editor de Supabase.
+             Hay que correr <b>sql/tabla-guia.sql</b> en el SQL Editor de Supabase.
            </div>`
         : `<div class="aviso error">No se pudo cargar: ${esc(error.message)}</div>`;
       return;
@@ -2584,7 +2585,7 @@
       zona.innerHTML = /contactos/.test(rC.error.message || '')
         ? `<div class="aviso error">
              <strong>Falta activar esta sección.</strong><br>
-             Hay que correr <b>tabla-avisanos.sql</b> en el SQL Editor de
+             Hay que correr <b>sql/tabla-avisanos.sql</b> en el SQL Editor de
              Supabase. Es una sola vez.
            </div>`
         : `<div class="aviso error">No se pudo cargar: ${esc(rC.error.message)}</div>`;
@@ -2750,7 +2751,7 @@
       zona.innerHTML = /resumen_registro|does not exist|function/i.test(error.message || '')
         ? `<div class="aviso error">
              <strong>Falta activar esta sección.</strong><br>
-             Hay que correr <b>tabla-registro.sql</b> en el SQL Editor de
+             Hay que correr <b>sql/tabla-registro.sql</b> en el SQL Editor de
              Supabase. Es una sola vez.
            </div>`
         : `<div class="aviso error">No se pudo cargar: ${esc(error.message)}</div>`;
@@ -2882,7 +2883,7 @@
 
      LO QUE NO SE PUEDE HACER ACÁ es agregar una materia que no exista
      en el plan: la lista sale de lo que ya está cargado. Una materia
-     nueva entra por `tabla-catedras.sql`, que es donde vive el plan.
+     nueva entra por `sql/tabla-catedras.sql`, que es donde vive el plan.
      ============================================================ */
   let catedrasCache = [];
   let catedraCarrera = 'ts';
@@ -2898,7 +2899,7 @@
       zona.innerHTML = /catedras|does not exist|relation/i.test(error.message || '')
         ? `<div class="aviso error">
              <strong>Falta activar esta sección.</strong><br>
-             Hay que correr <b>tabla-catedras.sql</b> en el SQL Editor de
+             Hay que correr <b>sql/tabla-catedras.sql</b> en el SQL Editor de
              Supabase. Es una sola vez.
            </div>`
         : `<div class="aviso error">No se pudo cargar: ${esc(error.message)}</div>`;
@@ -3037,7 +3038,7 @@
      Nada aparece en el mapa público sin pasar por acá. Un punto dice
      «acá se inunda» o «acá hay un comedor» sobre una casa concreta: se
      mira que la descripción no tenga nombres de vecines y que el punto
-     tenga sentido. Quién lo cargó no se ve ni acá (tabla-riesgo.sql).
+     tenga sentido. Quién lo cargó no se ve ni acá (sql/tabla-riesgo.sql).
      ============================================================ */
   async function vistaRiesgo(){
     const { data, error } = await db.from('reportes_riesgo')
@@ -3050,7 +3051,7 @@
       zona.innerHTML = /reportes_riesgo/.test(error.message || '')
         ? `<div class="aviso error">
              <strong>Falta activar esta sección.</strong><br>
-             Hay que correr <b>tabla-riesgo.sql</b> en el SQL Editor de
+             Hay que correr <b>sql/tabla-riesgo.sql</b> en el SQL Editor de
              Supabase. Es una sola vez.
            </div>`
         : `<div class="aviso error">No se pudo cargar: ${esc(error.message)}</div>`;
@@ -3102,7 +3103,7 @@
      empresa, app revisada y un token que vence cada 60 días —o sea,
      una sección que desaparece sola un martes y nadie se entera—.
      Cargando a mano, además, la agrupación ELIGE qué placa va. Todo el
-     porqué está escrito en `tabla-posteos-ig.sql`.
+     porqué está escrito en `sql/tabla-posteos-ig.sql`.
 
      La placa se sube al mismo depósito que las fotos de «Quiénes
      somos» y con la misma función, así que se achica en el teléfono
@@ -3135,7 +3136,7 @@
       zona.innerHTML = /posteos_ig/.test(error.message || '')
         ? `<div class="aviso error">
              <strong>Falta activar esta sección.</strong><br>
-             Hay que correr <b>tabla-posteos-ig.sql</b> en el SQL Editor
+             Hay que correr <b>sql/tabla-posteos-ig.sql</b> en el SQL Editor
              de Supabase. Es una sola vez.
            </div>`
         : `<div class="aviso error">No se pudo cargar: ${esc(error.message)}</div>`;

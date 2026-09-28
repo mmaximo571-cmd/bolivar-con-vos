@@ -1,0 +1,71 @@
+/* ==========================================================
+   LA BOLIVAR CON VOS · SOLO PARA TRAMITES
+   El detalle de un tramite.
+   Carga despues de tokens.css y base.css; solo la usa esta pantalla.
+   ========================================================== */
+
+/* El ícono de la categoría, adentro del chip y del título. La misma
+   categoría tiene que verse igual en la portada y acá: antes en la
+   portada era un ícono y acá el emoji de la base de datos. */
+.chip-icono,.titulo-icono{
+  display:inline-flex;align-items:center;vertical-align:-3px;margin-right:6px;
+  color:var(--celeste)
+}
+
+.titulo-icono svg.ico{width:20px;height:20px}
+
+.pasos .paso-titulo{font-family:var(--fuente-sub);font-weight:700;font-size:16px;line-height:1.2}
+
+.pasos .paso-detalle{color:var(--texto-suave);font-size:var(--letra-base);margin-top:2px;white-space:pre-wrap}
+
+/* ============================================================
+   LA REJILLA DE FICHAS
+
+   3 por fila en el celular, 4 desde 560px. Antes esto era una tira
+   de 34 tarjetas, cinco pantallas de scroll sin un solo encabezado.
+   ============================================================ */
+.rejilla-fichas{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:6px}
+
+@media (min-width:560px) {
+.rejilla-fichas{grid-template-columns:repeat(4,1fr)}
+}
+
+/* Cuadrados en pantalla grande. En el celular son un poco mas altos
+   que anchos: con 109px de lado, titulos como "Plan de estudios:
+   Licenciatura en Trabajo Social" se cortaban en el mismo lugar y
+   tres fichas distintas quedaban identicas. */
+.tarjeta-cuadro{
+  aspect-ratio:1 / 1.22;background:var(--superficie);
+  border:1px solid var(--linea);border-left:4px solid var(--celeste);
+  border-radius:var(--radio);box-shadow:var(--sombra);
+  padding:10px 9px;text-align:left;color:var(--texto);
+  display:flex;flex-direction:column;justify-content:space-between;gap:6px;
+  overflow:hidden;cursor:pointer
+}
+
+@media (min-width:560px) {
+.tarjeta-cuadro{aspect-ratio:1}
+}
+
+@media (hover:hover) and (pointer:fine) {
+.tarjeta-cuadro:hover{border-color:var(--celeste)}
+}
+
+.tarjeta-cuadro:focus-visible{outline:3px solid var(--celeste);outline-offset:2px}
+
+.tarjeta-cuadro .nombre{
+  font-family:var(--fuente-sub);font-weight:700;font-size:var(--letra-mini);line-height:1.16;
+  text-transform:uppercase;letter-spacing:0;
+  display:-webkit-box;-webkit-line-clamp:7;-webkit-box-orient:vertical;overflow:hidden;
+  /* «FONOAUDIOLOGÍA» no entra en una columna de un tercio de pantalla:
+     sin esto la palabra se sale de la tarjeta y se lee «FONOAUDIOLC».
+     Corta solo cuando no hay más remedio, no en cada renglón. */
+  overflow-wrap:anywhere
+}
+
+@media (min-width:560px) {
+.tarjeta-cuadro .nombre{font-size:var(--letra-chica);-webkit-line-clamp:6}
+}
+
+/* El resumen adentro de la ventanita */
+.hoja-resumen{margin:8px 0 4px;color:var(--texto-suave);font-size:var(--letra-base);line-height:1.4}

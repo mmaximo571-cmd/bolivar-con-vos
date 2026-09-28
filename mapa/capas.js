@@ -3,7 +3,7 @@
 
    Una sola lista para la pantalla `mapa/` y para el panel. Sumar una
    categoría es sumar un renglón acá: la base no tiene la lista
-   (`tabla-riesgo.sql` solo exige la capa), así que no hace falta SQL.
+   (`sql/tabla-riesgo.sql` solo exige la capa), así que no hace falta SQL.
 
    Lo que NO se hace: cambiarle el `id` a una categoría que ya tiene
    reportes. Los viejos quedarían con un id que la lista no conoce y se

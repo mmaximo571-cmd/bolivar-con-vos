@@ -92,7 +92,7 @@ var AJUSTES = {
      brilla y es la marca.
 
      Sobre CLARO, el celeste de la plataforma. No es una elección
-     suelta: en el panel de control de estilos.css el celeste es
+     suelta: en el panel de control (`css/tokens.css`) el celeste es
      «LA ESTRUCTURA: bordes, barras, iconos, foco, lo
      interactivo», y una malla de nodos y enlaces es justamente
      estructura. Además es «el único tono medio de la paleta, y
@@ -369,7 +369,7 @@ function nuevoLienzo(fijo){
   var l = document.createElement('canvas');
   l.className = 'red-fondo';
   l.setAttribute('aria-hidden', 'true');
-  /* Los estilos van acá y no en estilos.css a propósito: si el
+  /* Los estilos van acá y no en las hojas de `css/` a propósito: si el
      guion no corre, el elemento tampoco existe, así que no hay
      ninguna regla huérfana esperando en la hoja. */
   l.style.cssText =

@@ -21,7 +21,7 @@
 -- final de este archivo).
 --
 -- LO QUE HACE SEGURO ESCRIBIR SIN CUENTA (lección del 2/9, ver
--- tabla-avisanos.sql): quien no tiene cuenta puede mandar SOLO cuatro
+-- sql/tabla-avisanos.sql): quien no tiene cuenta puede mandar SOLO cuatro
 -- columnas (texto, categoria, carrera, aviso_endpoint) y las cuatro
 -- tienen tope de largo. El resto (estado, publicado, respuesta, fechas)
 -- ni se le deja tocar, y además el disparador de entrada lo pisa.

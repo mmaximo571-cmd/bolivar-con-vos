@@ -2,7 +2,7 @@
    EL LECTOR DE LAS FICHAS DE TEXTO
 
    Lee `textos/<nombre>.txt` —lo que devuelve NotebookLM con el molde
-   de PROMPT-FICHAS.md— y lo arma: portada, qué es, las máquinas como
+   de docs/prompts/PROMPT-FICHAS.md— y lo arma: portada, qué es, las máquinas como
    chips, las preguntas que se corrigen solas y lo que falta aclarar.
 
    El texto no se toca a mano: si NotebookLM lo devolvió con `###`

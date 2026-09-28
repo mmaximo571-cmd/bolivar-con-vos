@@ -23,7 +23,9 @@
 <meta property="og:description" content="La app que hacemos les estudiantes de Trabajo Social para acompañarnos: trámites, fechas y grupos de estudio. Agrupación Simón Bolívar, conducción del CEFTS.">
 <meta property="og:image" content="https://labolivarconvos.ar/imagenes/compartir.png">
 <meta name="twitter:card" content="summary_large_image">
-<link rel="stylesheet" href="estilos.css">
+<link rel="stylesheet" href="css/tokens.css">
+<link rel="stylesheet" href="css/base.css">
+<link rel="stylesheet" href="css/pantallas/inicio.css">
 <link rel="stylesheet" href="estilos-rediseno.css">
 <!-- EL TEMA, ANTES DE DIBUJAR NADA. Va acá arriba y no en app.js a
      propósito: app.js carga al final del cuerpo, así que la pantalla
@@ -1140,7 +1142,7 @@ setTimeout(function(){
 
     /* «a-dedo» le cambia la curva y la duración: 400 ms blandos cuando
        avanza solo, 220 ms secos cuando la persona lo pidió. Son dos
-       cosas distintas y no pueden moverse igual —ver estilos.css. */
+       cosas distintas y no pueden moverse igual —ver `css/base.css`. */
     function ir(i, porPedido){
       actual = (i + laminas.length) % laminas.length;
       pista.classList.remove('arrastrando');

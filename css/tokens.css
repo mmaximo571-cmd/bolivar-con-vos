@@ -1,0 +1,314 @@
+/* ==========================================================
+   LA BOLIVAR CON VOS · EL PANEL DE CONTROL ESTETICO
+   Los colores, las tipografias, los redondeos y las sombras de TODA la
+   app, mas el modo oscuro. Para cambiar como se ve la app se toca ACA
+   y en ningun otro lado. Es la primera hoja que carga cada pantalla.
+   ========================================================== */
+
+/* ============================================================
+   PANEL DE CONTROL ESTETICO
+   Para cambiar el aspecto de TODA la app, tocá solo esto.
+   ============================================================ */
+:root{
+  /* --- Los tres colores de la Agrupacion Simon Bolivar ---
+
+     COMO SE REPARTEN, que es lo que hace que combinen:
+
+     Amarillo pleno  -> ACENTO, en poca cantidad: el logo sobre el negro,
+                        el chip elegido, la tarjeta de marca, resaltados.
+     Amarillo suave  -> el fondo de toda la app. Es el mismo amarillo
+                        rebajado al 28% sobre blanco. Se lee amarillo
+                        pero no cansa.
+     Celeste         -> LA ESTRUCTURA: bordes, barras, iconos, foco,
+                        lo interactivo. Es el unico tono medio de la
+                        paleta, y por eso es el que une lo claro con lo
+                        oscuro. Sin el, los colores se pelean.
+     Rojo            -> solo palabras resaltadas. En poca cantidad.
+     Negro           -> el texto, y la banda de la cabecera, que es el
+                        ancla de la pagina.
+
+     Sobre el fondo suave: negro 16,2 · gris 5,9 · rojo 6,0 · celeste 3,3.
+     Sobre el amarillo pleno el celeste cae a 2,8: ahi no va. */
+  /* --- LOS COLORES DE MARCA. No cambian nunca, ni de dia ni de noche --- */
+  --amarillo:  #F9E830;   /* acento de marca, en poca cantidad          */
+  --celeste:   #0195B1;   /* la estructura: bordes, barras, iconos      */
+  --rojo:      #B52625;   /* palabras resaltadas, urgente, eliminar     */
+  --negro:     #1A1A1A;   /* la cabecera y los bloques de mucho peso    */
+  --celeste-claro: #7FC9DA;
+  /* El celeste de marca es para LÍNEAS: bordes, barras, iconos, donde
+     la vara son 3:1. Como FONDO con texto encima no da: el negro
+     encima queda en 4,92 y el blanco en 3,54, y no hay ningún color
+     de texto que llegue a los 7:1 que pide el proyecto. Este es el
+     mismo celeste bajado hasta que el blanco encima da 7,71. Existe
+     por lo mismo que --rojo-solido: pintar CON un color y leer SOBRE
+     ese color no son el mismo trabajo, y un solo valor no sirve para
+     los dos. */
+  --celeste-hondo: #015B6E;
+
+  /* Estas dos TAMPOCO cambian de noche, y es a propósito:
+     - sobre-color: texto oscuro cuando el fondo es amarillo o celeste.
+     - sobre-negro: texto claro cuando el fondo es la banda negra.
+     Si se dieran vuelta, el texto quedaría del mismo color que su fondo. */
+  --sobre-color: #1A1A1A;
+  --sobre-negro: #FFFFFF;
+
+  /* El rojo se aclara de noche para que se LEA como texto. Pero como
+     FONDO tiene que seguir siendo el oscuro: si no, el blanco encima
+     cae a 3,2 y deja de leerse. Por eso son dos variables. */
+  --rojo-solido: #B52625;
+
+  /* --- LO QUE SI CAMBIA ENTRE DIA Y NOCHE ---
+     Estas seis son las que se dan vuelta mas abajo, en el bloque de
+     modo oscuro. En el resto de la hoja hay que usar SIEMPRE estas,
+     nunca --blanco o --negro para texto: si no, de noche no se lee. */
+  --fondo:       #FDF9C5;  /* el fondo de la pagina                     */
+  /* Papel, no plastico. Un blanco puro sobre un amarillo calido no son
+     el mismo material: la tarjeta parecia una calcomania pegada encima.
+     Con este blanco apenas calido, la tarjeta y el fondo son la misma
+     hoja. Es la unica variable que cambia para lograrlo. */
+  --superficie:  #FDFCF7;  /* las tarjetas                              */
+  --superficie-2:#F5F0E8;  /* superficies suaves sobre las tarjetas     */
+  --texto:       #1A1A1A;  /* el texto principal                        */
+  --texto-suave: #4E4E4E;  /* los textos secundarios                    */
+  --linea:       #D8E5EA;  /* bordes y separadores                      */
+
+  /* El tinte de fondo de los días marcados del calendario */
+  --dia-mesa:   #FDECEB;
+  --dia-asueto: #E6F4F8;
+  --apagado:    #F3F0EA;   /* superficie de lo deshabilitado */
+  --aviso-error:#FDEAEA;
+  --aviso-ok:   #E6F8F5;
+
+  /* Habia cinco nombres viejos que eran atajos a las variables de
+     arriba: --blanco, --gris, --borde, --hueso y --amarillo-fondo. Se
+     borraron. El problema no era estetico: eran DOS nombres para lo
+     mismo, y el viejo se usaba tres veces mas que el bueno, asi que la
+     documentacion apuntaba al que casi nadie usaba.
+
+     Un color se llama por lo que HACE (--texto-suave, --linea) y no
+     por como se ve (--gris), porque de noche se dan vuelta y "gris"
+     deja de describirlo. */
+
+  /* --- Los grises de las zonas que SIEMPRE son oscuras ---
+
+     La cabecera, la fila de secciones y el menu lateral son negros de
+     dia y de noche, asi que sus grises no se dan vuelta y no pueden
+     salir de --texto-suave ni de --linea. Antes estaban escritos a
+     mano y habia seis grises distintos para tres trabajos. Ahora son
+     tres, con nombre. */
+  --sobre-negro-suave: #B9B9B9;  /* texto secundario sobre el negro   */
+  --sobre-negro-tenue: #A5A5A5;  /* letra chica y rotulos             */
+  --linea-negro:       #383838;  /* separadores sobre el negro        */
+
+  /* --- Colores por linea editorial --- */
+  --linea-frente:   #1A1A1A;
+  --linea-gremial:  #12B5AC;
+  --linea-info:     #B52625;
+  --linea-saberes:  #7FC9DA;
+
+  /* Los mismos colores, pero para las MARCAS FINAS del calendario: las
+     franjas de 4 píxeles que dicen qué cae cada día.
+     Van aparte de los de arriba porque no hacen el mismo trabajo. La
+     etiqueta de una tarjeta es un color de fondo con texto encima; la
+     franja es una línea delgada contra el papel, y necesita más
+     contraste para verse. De noche dos de estos cuatro desaparecen
+     -el de «Frente político» es casi negro-, y se aclaran solo acá,
+     sin tocar las etiquetas.
+
+     De día pasa al revés que de noche: el turquesa daba 2,5 sobre el
+     papel y el celeste 1,8, o sea que la franja estaba ahí y no se
+     veía. Los dos se oscurecen hasta pasar 3, que es lo que pide la
+     norma para algo que informa sin ser texto. Siguen siendo el mismo
+     turquesa y el mismo celeste, un paso más abajo. */
+  --marca-frente:   var(--linea-frente);   /* 16,9 sobre el papel */
+  --marca-gremial:  #0D8C85;               /*  4,0 */
+  --marca-info:     var(--linea-info);     /*  6,3 */
+  --marca-saberes:  #3E8FA6;               /*  3,6 */
+
+  /* --- Tipografías ---
+
+     Dos voces son suficientes en una pantalla chica: Archivo Black
+     reserva el golpe visual para los títulos de pantalla y Roboto se
+     encarga de todo lo que se lee o se toca. Quitar Montserrat y
+     Roboto Mono reduce descargas sin empobrecer la jerarquía; los datos
+     siguen distinguiéndose por tamaño, peso, espaciado y cifras tabulares. */
+  --fuente-titulo:  'Archivo Black', 'Archivo', sans-serif; /* títulos de pantalla */
+  --fuente-sub:     'Roboto', sans-serif;                  /* controles y subtítulos */
+  --fuente-texto:   'Roboto', sans-serif;                  /* cuerpo */
+  --fuente-datos:   'Roboto', sans-serif;                  /* fechas y cantidades */
+
+  /* --- LA ESCALA DE LETRA ---
+
+     Habia 28 tamanos distintos, ocho de ellos con medio pixel (9,5 ·
+     10,5 · 11,5 · 12,5 · 13,5 · 14,5 · 15,5 · 16,5). Un medio pixel no
+     es una decision: es un numero que se movio hasta que entro.
+
+     Son ocho pasos y salen de los tamanos que la app ya usaba, no de
+     una tabla de manual. LO NUEVO SE ESCRIBE CON ESTOS. Si hace falta
+     un tamano que no esta, primero fijate si no sirve el de al lado:
+     casi siempre sirve.
+
+     El 4/9/2026 la escala subio un punto entera, de 11-20 a 12-21.
+     Antes de moverla hubo que hacer otra cosa: de las 178 medidas de
+     texto de la app, solo 55 usaban estas variables. Las otras 123
+     repetian los mismos numeros a mano (veinte veces 14px, diecisiete
+     veces 15px) y se habrian quedado chicas, dejando media app grande
+     y media chica. Asi que primero pasaron todas por aca.
+
+     El titulo NO subio. Ya era grande, y agrandar titulos no se lee
+     mejor: se desborda. Lo mismo con los tamanos sueltos de 16px para
+     arriba, que son numeros y titulares. */
+  --letra-mini:   12px;  /* pastillas y etiquetas en mayusculas   */
+  --letra-chica:  13px;  /* metadatos, leyendas                   */
+  --letra-nota:   14px;  /* textos secundarios, pies              */
+  --letra-densa:  15px;  /* listas apretadas                      */
+  --letra-base:   16px;  /* el cuerpo del texto                   */
+  --letra-guia:   18px;  /* la bajada de cada pantalla            */
+  --letra-sub:    21px;  /* titulos de seccion                    */
+  --letra-titulo: 30px;  /* el titulo de la pantalla              */
+  /* La escala terminaba en el titulo de la pantalla, y por eso los
+     numeros grandes —el promedio, la nota— estaban escritos a mano en
+     34 y 32px. Un dato tiene que poder ser mas grande que un titulo:
+     adentro de su ficha ES el titulo, y lo que lo rodea son rotulos de
+     12px. Si el numero se queda en 30 la ficha no tiene jerarquia. */
+  --letra-dato:   38px;  /* el numero solo de una ficha de dato   */
+
+  /* --- LA ESCALA DE ESPACIO ---
+
+     Habia 27 valores distintos: TODOS los enteros del 1 al 16. O sea
+     que cada vez que alguien tuvo que separar dos cosas, eligio un
+     numero nuevo.
+
+     Estos seis son para lo que se escriba de ahora en adelante. Lo que
+     ya estaba NO se cambio de una: reescribir los 27 valores movia la
+     densidad de toda la app, y eso es una decision de diseno aparte,
+     no una limpieza. Se va migrando cuando se toca cada componente. */
+  --e1:  4px;
+  --e2:  8px;
+  --e3: 12px;
+  --e4: 16px;
+  --e5: 24px;
+  --e6: 32px;
+
+  /* --- Medidas ---
+
+     LA SEGUNDA TINTA. Antes habia una sombra difusa, que dice "esto
+     flota sobre una superficie": es una metafora de ventanas de
+     escritorio. Las placas de la agrupacion no flotan: estan impresas,
+     con el borde de tinta a la vista. La sombra ahora es un
+     desplazamiento solido, como cuando la segunda tinta queda corrida.
+
+     Va en NEGRO y no en celeste porque asi es el Instagram: amarillo
+     con negro, y el rojo como acento. El celeste no aparece en ninguna
+     placa; adentro de la app se queda como el color de lo que se toca,
+     que es otro trabajo. */
+  --radio:       10px;   /* redondeo de tarjetas    */
+  --radio-chico: 6px;
+  --radio-pastilla: 99px;  /* lo que es una pildora: chips, botones redondos */
+  --ancho-max:   680px;  /* ancho maximo de lectura */
+  --tinta-borde: #1A1A1A;                /* el borde de las tarjetas */
+  --sombra:      2px 2px 0 #1A1A1A;      /* la segunda tinta corrida */
+  /* Ya no hay barra fija abajo: la navegacion vive arriba. */
+
+  /* --- EL MOVIMIENTO ---
+
+     Las curvas de la app. Antes cada animación traía la suya escrita a
+     mano y había cinco maneras distintas de decir lo mismo. Ahora son
+     tres, y cada una tiene un trabajo:
+
+     --sale    algo que APARECE o SE VA. Arranca rápido y frena suave.
+               Es la curva por defecto: si dudás, usá esta. Las curvas
+               que vienen con el navegador (ease, ease-out) son
+               demasiado flojas y se sienten pastosas.
+     --ambos   algo que SE MUEVE de un lado a otro estando ya en
+               pantalla, como el carrusel o el subrayado de la pestaña.
+     --cajon   el cajón lateral y las hojas que suben desde abajo. Es
+               la curva de los paneles de iOS: entra decidida y se
+               asienta sin rebote.
+
+     Y las duraciones. La regla es que nada de interfaz pasa de 300 ms.
+     Un menú de 180 ms se siente más rápido que uno de 400, y no es una
+     impresión: la persona ya empezó a leer mientras el otro sigue
+     abriéndose. */
+  --sale:  cubic-bezier(0.23, 1, 0.32, 1);
+  --ambos: cubic-bezier(0.77, 0, 0.175, 1);
+  --cajon: cubic-bezier(0.32, 0.72, 0, 1);
+
+  --t-toque:  140ms;  /* la devolución de apretar algo        */
+  --t-chico:  180ms;  /* globos, subrayados, cambios de color */
+  --t-medio:  220ms;  /* menús, pestañas, el botón flotante   */
+  --t-hoja:   260ms;  /* hojas y cajones: recorren más camino */
+}
+
+/* ============================================================
+   MODO OSCURO
+
+   Hay tres opciones, en el menú ☰: automático, claro y oscuro.
+   Automático sigue lo que tenga configurado el teléfono, y es lo que
+   viene puesto.
+
+   OJO CON CÓMO SE PRENDE. Acá NO hay un @media (prefers-color-scheme):
+   quien decide es un atributo, data-tema="oscuro", que pone un script
+   de tres renglones en el <head> de cada pantalla. Se hizo así a
+   propósito: con un @media harían falta DOS copias de estos quince
+   valores —una para el modo del teléfono y otra para el botón— y a la
+   primera que alguien toque una sola de las dos, los modos dejan de
+   coincidir. Con el atributo hay una sola copia.
+
+   Solo se dan vuelta las seis variables de superficie y texto. Los
+   colores de marca no se tocan: el amarillo sigue siendo el amarillo.
+
+   El fondo NO es negro puro. Un #000 con texto blanco encima genera
+   halo y cansa en lecturas largas, que es justo lo que se hace de
+   noche. Es un gris muy oscuro apenas cálido, para que convive con
+   el amarillo de la marca.
+
+   Contrastes de noche: texto 15,3 · texto suave 7,1 · amarillo 12,6
+   · celeste 4,4 sobre el fondo.
+   ============================================================ */
+:root[data-tema="oscuro"]{
+    --fondo:        #17160F;
+    --superficie:   #232219;
+    --superficie-2: #2E2C21;
+    --texto:        #F2EFE2;
+    --texto-suave:  #C0BBA8;
+    --linea:        #3A3830;
+    --dia-mesa:   #3A211F;
+    --dia-asueto: #16323A;
+    --apagado:    #201F17;
+    --aviso-error:#33201F;
+    --aviso-ok:   #16302B;
+
+    /* De noche el rojo puro pierde contraste sobre el fondo oscuro
+       (3,4). Se aclara para que las palabras resaltadas sigan
+       leyéndose sin dejar de ser el rojo de la marca. */
+    --rojo: #E56B62;
+
+    /* Por lo mismo, las franjas del calendario. El rojo de «Info
+       importante» daba 2,5 contra la tarjeta oscura y el de «Frente
+       político», que de día es casi negro, directamente no se veía.
+       Los otros dos ya eran claros y quedan como están. */
+    --marca-info:   #E56B62;
+    --marca-frente: #C8C3AE;
+
+    /* La segunda tinta, de noche. Un negro sobre un fondo casi negro no
+       se ve, así que el desplazamiento es más oscuro que el fondo de la
+       página, no que la tarjeta. Y el borde de tinta pasa a ser claro:
+       de noche la tinta es la que ilumina. */
+    --tinta-borde: #4A4739;
+    --sombra: 2px 2px 0 #0B0A06;
+}
+
+/* Las ilustraciones de la facultad son de trazo fino sobre claro:
+   de noche se apagan un poco para no encandilar. */
+:root[data-tema="oscuro"] .carrusel img,
+:root[data-tema="oscuro"] .zona-fondo::before{filter:brightness(.86) saturate(.92)}
+
+/* ============================================================
+   PANTALLAS GRANDES
+   ============================================================ */
+@media (min-width:720px) {
+:root[data-tema="oscuro"] .boton-cuadro .icono{background:rgba(253,252,247,.10)}
+}
+
+:root[data-tema="oscuro"] .herramienta-ico{ background:rgba(253,252,247,.10) }

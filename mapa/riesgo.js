@@ -19,7 +19,7 @@
 
   const TABLA = 'reportes_riesgo';
   /* Las columnas que se pueden leer. `autor` NO está y no puede estar:
-     la base no le da permiso a nadie (ver tabla-riesgo.sql). */
+     la base no le da permiso a nadie (ver sql/tabla-riesgo.sql). */
   const COLUMNAS = 'id,capa,categoria,lat,lng,descripcion,estado,creado_en_dispositivo';
 
   /* La zona: un rectángulo que abarca los tres partidos. El centro cae
@@ -31,7 +31,7 @@
     zoom:   12,
     /* El sur baja hasta -35.25 (antes -35.12) por el mapa de peligrosidad
        de Ángel Etcheverry, que llega a -35.24. Es el tope que acepta la
-       base (tabla-riesgo.sql): no correrlo más sin cambiar también ahí. */
+       base (sql/tabla-riesgo.sql): no correrlo más sin cambiar también ahí. */
     limites:[[-35.25, -58.20], [-34.76, -57.72]]
   };
 
