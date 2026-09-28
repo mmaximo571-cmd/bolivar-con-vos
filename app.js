@@ -465,7 +465,7 @@ function esc(t){
    caracteres de control porque el navegador los ignora dentro del
    esquema (`java	script:` tambien corre). */
 function urlSegura(u){
-  const limpia = String(u ?? '').replace(/[ - ]/g, '');
+  const limpia = String(u ?? '').replace(/[\u0000-\u0020\u007f]/g, '');
   const esquema = /^([a-z][a-z0-9+.-]*):/i.exec(limpia);
   if (!esquema) return String(u ?? '').trim();
   return /^(https?|mailto|tel)$/i.test(esquema[1]) ? String(u).trim() : '#';
