@@ -21,7 +21,7 @@
    lista, porque acá abajo se sirve lo guardado antes que la red.
    Por qué subió cada número (v4 en adelante): `docs/HISTORIAL-SW.md`.
    Al subirlo, anotar ahí el número, la fecha y el porqué. */
-const VERSION = 'bolivar-v74';
+const VERSION = 'bolivar-v75';
 const ARMAZON = VERSION + '-armazon';
 const PAGINAS = VERSION + '-paginas';
 
@@ -33,7 +33,23 @@ const DEL_ARMAZON = [
      —la baja quien entre a esa pantalla, y queda guardada sola por la
      regla del final—. Mismo criterio que la librería grande. */
   '/css/tokens.css',
-  '/css/base.css',
+  /* La base se partio en doce componentes el 27/9/2026. Van los doce:
+     no es que cada pantalla use unos y no otros —los usan todas—, es
+     que asi se encuentra una regla sin abrir 3200 lineas. El ORDEN de
+     esta lista no importa para guardar, pero si importa en el HTML de
+     cada pantalla, y es el numerado. */
+  '/css/base/01-cimientos.css',
+  '/css/base/02-encabezado.css',
+  '/css/base/03-controles.css',
+  '/css/base/04-tarjetas.css',
+  '/css/base/05-secciones.css',
+  '/css/base/06-hoja.css',
+  '/css/base/07-avisos.css',
+  '/css/base/08-calendario.css',
+  '/css/base/09-avisanos.css',
+  '/css/base/10-lectura.css',
+  '/css/base/11-navegacion.css',
+  '/css/base/12-movimiento.css',
   '/estilos-rediseno.css',
   /* La mudanza a labolivarconvos.ar salio de app.js el 27/9/2026 y se
      carga antes que el: tiene que estar guardada igual que app.js, o la

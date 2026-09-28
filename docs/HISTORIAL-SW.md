@@ -345,4 +345,11 @@ todo una entrada con el número, la fecha y el porqué.
    la lista: quedó con 1970 líneas en vez de 2565, y sin subir el número
    los teléfonos seguirían sirviendo el viejo, que define lo que ahora
    está en `lib/` —y entonces habría dos definiciones o ninguna—. */
+/* v75 (27/9/2026) `css/base.css` se partio en doce componentes bajo
+   `css/base/`. Cambia QUE se guarda —entran doce archivos y sale uno— y
+   ademas el viejo ya no existe: un telefono con la app guardada pedia
+   `/css/base.css` y se quedaba sin la mitad de los estilos. Van los doce
+   al armazon, no una parte: los usan todas las pantallas, la particion
+   es para encontrar una regla sin abrir 3200 lineas, no para bajar
+   menos. */
 ```

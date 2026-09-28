@@ -1,0 +1,412 @@
+/* ==========================================================
+   LA BOLIVAR CON VOS · CIMIENTOS
+   El reset, el cuerpo de la pagina, «saltar al contenido», el foco del
+   teclado y el estado apretado. Los tipos de letra y los titulos.
+   Tambien lo que no tiene clase: html, body, a, img, button.
+
+   Es la hoja 1 de 12 de la base, y la base la cargan TODAS las
+   pantallas. El orden importa: van siempre en el orden numerado de
+   `css/base/`, entre `tokens.css` y la hoja de cada pantalla.
+   ========================================================== */
+
+/* ==========================================================
+   LA BOLIVAR CON VOS · LO QUE USAN TODAS LAS PANTALLAS
+   Encabezado, secciones, tarjetas, botones, formularios, avisos, la hoja
+   que sube desde abajo, el calendario, los esqueletos de carga, el boton
+   y el chat de «avisanos», la banda de cierre y las consultas de ancho.
+   Carga despues de tokens.css y antes de la hoja de cada pantalla.
+
+   Una regla vive aca cuando su clase la usa mas de una pantalla, o la
+   escribe un guion compartido (app.js y companeros). Si esta aca, no
+   esta en ninguna otra hoja: ninguna regla esta repetida.
+   ========================================================== */
+/* ============================================================
+   BASE
+   ============================================================ */
+[hidden]{display:none !important}
+
+*,*::before,*::after{box-sizing:border-box}
+
+html,body{margin:0;padding:0}
+
+/* LA RED DE FONDO. El color de la página vive acá, en el <html>, y
+   no en el <body>, que es donde estuvo siempre y donde uno lo
+   busca. El motivo es fondo-red.js: mete un lienzo fijo detrás de
+   todo, en z-index:-1, con la malla de nodos.
+
+   El fondo del elemento raíz es el único que el navegador pinta en
+   la capa del viewport, o sea más hondo que cualquier z-index
+   negativo. El del body, en cambio, es una caja común y corriente,
+   y una caja opaca encima del lienzo lo tapa entero: la red se
+   dibujaba, gastaba batería y no se veía nunca.
+
+   Se ve exactamente igual que antes: el fondo del raíz se estira a
+   toda la ventana aunque la página sea corta, que es justo lo que
+   hacía el body. Si algún día se saca la red, esto puede volver al
+   body sin que cambie nada en pantalla. */
+html{background:var(--fondo)}
+
+body{
+  font-family:var(--fuente-texto);
+  background:transparent;
+  color:var(--texto);
+  font-size:16px;
+  line-height:1.45;
+  -webkit-font-smoothing:antialiased;
+  padding-bottom:24px;
+}
+
+a{color:inherit}
+
+img{max-width:100%;display:block}
+
+button{font-family:inherit;font-size:inherit;cursor:pointer}
+
+h1,h2,h3{margin:0;font-weight:400}
+
+.envoltura{max-width:var(--ancho-max);margin:0 auto;padding:0 16px}
+
+/* ============================================================
+   SALTAR AL CONTENIDO
+
+   Invisible hasta que se lo enfoca con el tabulador. Sin esto, quien
+   navega con teclado tiene que pasar por el menú, la marca, el perfil
+   y las siete secciones —diez paradas— en cada pantalla, antes de
+   llegar a lo que vino a leer.
+   ============================================================ */
+.saltar{
+  position:absolute;left:-9999px;top:0;z-index:200;
+  background:var(--amarillo);color:var(--sobre-color);
+  font-family:var(--fuente-sub);font-weight:700;font-size:var(--letra-densa);
+  padding:12px 18px;border-radius:0 0 var(--radio) 0;text-decoration:none
+}
+
+.saltar:focus{left:0}
+
+/* Se lee con lector de pantalla pero no se ve. Sirve para el título de
+   la portada: la marca de la cabecera ya lo dice a la vista, pero una
+   imagen y un texto de marca no son un encabezado de página. */
+.solo-lectores{
+  position:absolute;width:1px;height:1px;padding:0;margin:-1px;
+  overflow:hidden;clip-path:inset(50%);white-space:nowrap;border:0
+}
+
+/* Al saltar al contenido no queremos el contorno del foco alrededor de
+   media pantalla: se enfoca para que el lector siga desde ahí, nada más. */
+#contenido:focus{outline:none}
+
+/* ============================================================
+   FOCO DEL TECLADO, UNO SOLO PARA TODO
+
+   Antes casi todo se quedaba con el contorno naranja que pone el
+   navegador por su cuenta, que sobre el amarillo de la app casi no se
+   ve. Este es el mismo en todos lados y siempre contrasta.
+   ============================================================ */
+a:focus-visible,
+button:focus-visible,
+[tabindex]:focus-visible{
+  outline:3px solid var(--celeste);
+  outline-offset:2px;
+  border-radius:4px
+}
+
+@media (prefers-reduced-motion:reduce) {
+.pregunta-opcion:active{
+    transform:none;opacity:.7
+  }
+}
+
+.carrusel-puntos button,
+.pregunta-opcion{
+  -webkit-user-select:none;user-select:none
+}
+
+/* Los iconos de Phosphor. No traen color propio: toman el del texto
+   que los rodea (fill:currentColor), asi el mismo dibujo sirve en
+   blanco sobre la cabecera negra y en celeste sobre una tarjeta. */
+svg.ico{width:1em;height:1em;display:block;flex:0 0 auto}
+
+/* Titulo de pantalla interna */
+/* El tamaño se acomoda al ancho porque hay títulos de una sola palabra
+   muy larga: «ANATOMOFISIOLOGÍA» a 30 px medía 363 px en una pantalla
+   de 343, y se llevaba la página entera de costado. El overflow-wrap
+   es la red por si aparece una palabra todavía más larga. */
+.titulo-pantalla{
+  font-family:var(--fuente-titulo);font-size:clamp(23px, 7.4vw, 30px);
+  line-height:1;text-transform:uppercase;margin:22px 0 4px;
+  overflow-wrap:anywhere
+}
+
+.bajada{color:var(--texto-suave);font-size:var(--letra-base);margin:0 0 18px}
+
+/* ============================================================
+   SECCIONES
+   ============================================================ */
+/* EL ROTULO BAJA LA VOZ.
+
+   Estaba en la misma tipografia negra que los titulos de las tarjetas
+   que tiene debajo, con dos puntos de diferencia: no separaba, sumaba
+   peso. Ahora usa la voz de datos, chica y espaciada —la misma ceja que
+   ya usan las pantallas de lectura antes del titular—, y la separacion
+   la hace el aire de arriba, no el tamano.
+
+   Es lo que hace que una seccion tenga UNA cosa fuerte y no dos. */
+.titulo-seccion{
+  font-family:var(--fuente-datos);font-weight:700;font-size:var(--letra-chica);
+  letter-spacing:.16em;text-transform:uppercase;color:var(--texto-suave);
+  margin:38px 0 12px;display:flex;align-items:baseline;justify-content:space-between;gap:10px
+}
+
+/* El primero de la pantalla no necesita tanto aire arriba: ya lo separa
+   la bajada. */
+.titulo-seccion:first-child{margin-top:22px}
+
+/* Medían 19 px de alto: por debajo del mínimo de 24 que pide la norma
+   para algo que se toca con el dedo. El padding agranda lo tocable sin
+   mover el texto de lugar. */
+.titulo-seccion a{
+  font-family:var(--fuente-sub);font-size:var(--letra-chica);text-transform:uppercase;
+  letter-spacing:.06em;color:var(--texto-suave);text-decoration:none;flex:0 0 auto;
+  padding:6px 2px;margin:-6px -2px;display:inline-flex;align-items:center;min-height:24px
+}
+
+@media (hover:hover) and (pointer:fine) {
+.titulo-seccion a:hover{color:var(--texto)}
+}
+
+.carrusel{
+  border-color:var(--tinta-borde);
+}
+
+#nota-error{margin-top:10px}
+
+.letra-chica{color:var(--texto-suave);font-size:var(--letra-nota);line-height:1.45;margin:8px 0 0}
+
+/* ============================================================
+   PANTALLAS GRANDES
+   ============================================================ */
+@media (min-width:720px) {
+.titulo-pantalla{font-size:38px}
+}
+
+/* ------------------------------------------------------------
+   EN LA COMPUTADORA
+
+   La app se diseñó para el celular y está bien que así sea: ahí la usa
+   casi todo el mundo. Pero en una pantalla de 1280 la columna medía
+   680 px y quedaban 300 de amarillo vacío a cada lado —se usaba el 53%
+   de la pantalla— con la portada estirada a lo largo de cuatro
+   pantallazos.
+
+   No la rediseñamos: le damos aire a la columna y ponemos en dos
+   columnas lo que se lee de a pares. La portada pasa a entrar en poco
+   más de una pantalla.
+   ------------------------------------------------------------ */
+@media (min-width:900px) {
+.envoltura{max-width:1000px}
+
+/* El calendario y la portada, uno al lado del otro. Solos, cada uno
+     quedaba flotando en el medio de una columna de mil píxeles. */
+#zona-normal{display:grid;grid-template-columns:1fr 1fr;gap:0 20px;align-items:start}
+
+#zona-normal > #alarma,
+  #zona-normal > #mi-cursada,
+  #zona-normal > .titulo-seccion{grid-column:1 / -1}
+}
+
+/* ============================================================
+   LAS DOS PANTALLAS QUE SE LEEN, NO SE USAN
+
+   «¿Quiénes somos?» y «El Consejo Directivo» son las únicas dos
+   pantallas de la app que se leen de arriba a abajo. El resto es una
+   herramienta: entrás, resolvés algo y salís.
+
+   Por eso rompen con el resto. El amarillo deja de ser acento y pasa a
+   ser FONDO, entra el negro pleno por bandas, y el celeste desaparece:
+   en las placas del Instagram el celeste no existe, y acá la página
+   habla el idioma de las placas, no el de la app.
+
+   La paleta es la misma de siempre. Lo que se rompe es la contención.
+   ============================================================ */
+.lectura{ --banda-aire:clamp(48px, 11vw, 96px) }
+
+.bajada-lectura{
+  font-size:clamp(17px, 4.6vw, 21px);line-height:1.45;
+  max-width:34ch;margin:22px 0 0
+}
+
+/* Sin JavaScript la página tiene que leerse igual: si el observador no
+   llega a correr, esto la deja visible. */
+.sin-js .aparece{opacity:1;transform:none}
+
+/* Sin script los botones no hacen nada: que no parezcan tocables. */
+.sin-js .actividad{cursor:default;box-shadow:none}
+
+@media print {
+@page{margin:14mm}
+}
+
+/* ============================================================
+   LA INVITACION A TENER LA APP A MANO
+
+   Es la misma hoja que sube desde abajo que usa Mi año, para que no
+   haya dos clases de ventana en la app. Lo unico propio es la ceja de
+   arriba, que dice el motivo antes que el titulo: si alguien la cierra
+   sin leer, que al menos haya leido por que aparecio.
+   ============================================================ */
+/* Se anima al aparecer, igual que la hoja de Mi año, y NO con una clase
+   que agrega el guion. Con clase, si el cuadro no llega a dibujarse
+   —pestaña de fondo, animaciones frenadas— quedaba una capa invisible
+   tapando la pantalla entera. Así no puede pasar: sin animación, se ve. */
+.invitacion-instalar{
+  position:fixed;inset:0;z-index:90;background:rgba(26,26,26,.55);
+  display:flex;align-items:flex-end;justify-content:center;
+  opacity:1;
+  transition:opacity var(--t-chico) var(--sale)
+}
+
+.invitacion-hoja{
+  background:var(--superficie);width:100%;max-width:var(--ancho-max);
+  border-radius:var(--radio) var(--radio) 0 0;padding:22px 16px 26px;
+  transform:translateY(0);
+  transition:transform var(--t-hoja) var(--cajon)
+}
+
+@starting-style {
+.invitacion-instalar{opacity:0}
+
+.invitacion-hoja{transform:translateY(100%)}
+}
+
+.invitacion-instalar.cerrando{opacity:0}
+
+.invitacion-instalar.cerrando .invitacion-hoja{transform:translateY(100%)}
+
+.invitacion-ceja{
+  margin:0;font-family:var(--fuente-datos);font-size:var(--letra-chica);
+  letter-spacing:.14em;text-transform:uppercase;color:var(--texto-suave)
+}
+
+.invitacion-hoja h2{
+  font-family:var(--fuente-titulo);font-size:clamp(24px,7vw,30px);
+  line-height:1.03;text-transform:uppercase;margin:6px 0 10px
+}
+
+.invitacion-motivo{
+  margin:0 0 18px;font-size:var(--letra-base);line-height:1.5;color:var(--texto-suave)
+}
+
+/* Los pasos de iOS SI son una secuencia: hay que hacer uno y despues el
+   otro, asi que el numero dice algo y no es decoracion. */
+.invitacion-pasos{
+  margin:0 0 18px;padding-left:0;list-style:none;counter-reset:paso
+}
+
+.invitacion-pasos li{
+  counter-increment:paso;display:flex;gap:11px;align-items:flex-start;
+  padding:9px 0;font-size:var(--letra-base);line-height:1.4;
+  border-top:1px solid var(--linea)
+}
+
+.invitacion-pasos li:last-child{border-bottom:1px solid var(--linea)}
+
+.invitacion-pasos li::before{
+  content:counter(paso);flex:0 0 24px;height:24px;border-radius:50%;
+  background:var(--negro);color:var(--sobre-negro);
+  font-family:var(--fuente-datos);font-size:var(--letra-chica);font-weight:700;
+  display:flex;align-items:center;justify-content:center
+}
+
+@media (prefers-reduced-motion:reduce) {
+.invitacion-hoja{
+    transform:none;opacity:1;
+    transition:opacity var(--t-chico) var(--sale)
+  }
+
+@starting-style {
+.invitacion-hoja{transform:none;opacity:0}
+}
+
+.invitacion-instalar.cerrando .invitacion-hoja{transform:none;opacity:0}
+}
+
+.bajada a,
+.letra-chica a,
+.biblio a,
+.modelo3d-credito a,
+.bajada-lectura a{
+  text-decoration:underline;
+  text-decoration-color:var(--celeste);
+  text-decoration-thickness:2px;
+  text-underline-offset:3px
+}
+
+@media (hover:hover) and (pointer:fine) {
+.bajada a:hover,
+.letra-chica a:hover,
+.biblio a:hover,
+.modelo3d-credito a:hover,
+.bajada-lectura a:hover{
+    text-decoration-thickness:4px
+  }
+}
+
+/* ============================================================
+   EL PASO DE UNA PANTALLA A OTRA
+
+   Esta app son siete páginas HTML separadas, no una sola con
+   pestañas. Eso está bien: cada pantalla pesa poco, se guarda sola en
+   el service worker y anda sin señal. Pero tenía un costo que se
+   pagaba en cada toque de la fila de secciones: entre una página y la
+   siguiente el navegador muestra un blanco. Un blanco de 200 ms es
+   suficiente para que se lea como «se cerró la app y se abrió otra
+   cosa», y es la razón principal por la que esto se sentía como siete
+   páginas y no como una app.
+
+   Con esto el navegador hace el cruce él mismo: guarda una foto de la
+   pantalla que se va, la funde con la que llega, y de paso mantiene
+   quieta la cabecera —que es idéntica en todas— en vez de hacerla
+   parpadear.
+
+   Son cuatro líneas y no cuesta un solo kilobyte de JavaScript. En los
+   navegadores que todavía no lo entienden no pasa absolutamente nada:
+   siguen viendo lo de antes.
+   ============================================================ */
+@view-transition{ navigation:auto }
+
+::view-transition-old(root),
+::view-transition-new(root){
+  animation-duration:var(--t-medio);
+  animation-timing-function:var(--sale)
+}
+
+/* Menos movimiento: el cruce se acorta hasta ser casi un corte, pero
+   no se apaga. Apagarlo devuelve el flash blanco, que es más brusco
+   que el fundido que se quería evitar. */
+@media (prefers-reduced-motion:reduce) {
+::view-transition-old(root),
+  ::view-transition-new(root){ animation-duration:90ms }
+}
+
+/* ============================================================
+   ÚLTIMO REPASO DE «MENOS MOVIMIENTO»
+
+   Cada componente ya resuelve lo suyo arriba, al lado de su código,
+   que es donde se puede mantener. Acá quedan solo las dos cosas que no
+   tienen dueño en ninguna sección.
+   ============================================================ */
+@media (prefers-reduced-motion:reduce) {
+/* El desplazamiento suave al tocar un día del calendario lo decide
+     agenda/index.html, que ya consulta la preferencia. Esto cubre
+     cualquier scroll suave que se agregue más adelante sin acordarse. */
+html{scroll-behavior:auto}
+}
+
+#dialogo-cursada .bajada{margin-bottom:20px}
+
+/* Que la barra no tape el final de ninguna pantalla. La fila mide 63;
+   los 17 de mas son para que la ultima linea no quede pegada al borde
+   de la barra, que se lee como si estuviera cortada. */
+body{ padding-bottom:calc(80px + env(safe-area-inset-bottom, 0px)) }
+
+.dos-columnas{display:grid;grid-template-columns:1fr 1fr;gap:12px}

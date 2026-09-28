@@ -1,0 +1,291 @@
+/* ==========================================================
+   LA BOLIVAR CON VOS · ENCABEZADO
+   La cabecera de arriba: la marca, el menu lateral, la campana de las
+   novedades, el buscador y el indice del pie.
+
+   Es la hoja 2 de 12 de la base, y la base la cargan TODAS las
+   pantallas. El orden importa: van siempre en el orden numerado de
+   `css/base/`, entre `tokens.css` y la hoja de cada pantalla.
+   ========================================================== */
+
+/* Sobre la cabecera negra el celeste se apaga, ahí manda el amarillo */
+.cabecera a:focus-visible,
+.cabecera button:focus-visible,
+.menu-lateral a:focus-visible,
+.menu-lateral button:focus-visible{
+  outline-color:var(--amarillo)
+}
+
+@media (prefers-reduced-motion:reduce) {
+.menu-lista a:active{
+    transform:none;opacity:.7
+  }
+}
+
+.menu-lista a{
+  -webkit-user-select:none;user-select:none
+}
+
+/* ============================================================
+   ENCABEZADO
+   ============================================================ */
+/* La banda negra de arriba es el ancla de la pagina: le da un techo y
+   es donde el amarillo trabaja mejor (sobre negro llega a 13,8). */
+/* La trama de puntos de las serigrafias, la misma de la banda oscura de
+   «¿Quienes somos?». Vive en la cabecera de TODAS las pantallas: es el
+   unico lugar que ya era negro, asi que la textura del lenguaje entra
+   sin discutirle nada a la lectura. */
+.cabecera{
+  background:var(--negro);color:var(--sobre-negro);padding:12px 0;
+  position:relative;overflow:hidden
+}
+
+.cabecera::before{
+  content:'';position:absolute;inset:0;pointer-events:none;
+  background-image:radial-gradient(var(--amarillo) 1px, transparent 1.1px);
+  background-size:10px 10px;opacity:.10
+}
+
+.cabecera > .envoltura{position:relative;z-index:1}
+
+/* El logo y la marca, juntos y centrados. Sobre el negro de la cabecera
+   el logo va en amarillo, que es donde mejor se lee (13,8). */
+.marca-centro{
+  display:flex;align-items:center;justify-content:center;gap:9px;
+  text-decoration:none;color:inherit;min-width:0
+}
+
+.marca-logo{width:auto;height:38px;flex:0 0 auto}
+
+.marca-texto{min-width:0;text-align:left}
+
+/* Sin nowrap: al lado del logo, en un celular angosto, "LA BOLÍVAR CON
+   VOS" en una sola línea no entra y se cortaba. Partido en dos renglones
+   queda a la altura del logo y arma un conjunto. */
+.marca{
+  font-family:var(--fuente-titulo);font-size:16px;font-weight:400;
+  line-height:1.04;letter-spacing:-.01em;display:block
+}
+
+.marca em{font-style:normal;color:var(--amarillo)}
+
+/* En un celular angosto esto no entra y se cortaba con puntos
+   suspensivos: «AGRUPACIÓN SIMÓN BOLÍVAR · FTS…». Un texto cortado
+   ensucia y no dice nada que el logo no diga ya, así que abajo de
+   420 px no se muestra. */
+.marca-centro small{
+  display:none;font-family:var(--fuente-texto);font-size:var(--letra-mini);font-weight:500;
+  letter-spacing:.09em;text-transform:uppercase;color:var(--sobre-negro-tenue);margin-top:3px;
+  white-space:nowrap;overflow:hidden;text-overflow:ellipsis
+}
+
+@media (min-width:420px) {
+.marca-centro small{display:block}
+}
+
+.menu-lista a svg.ico{width:22px;height:22px}
+
+/* --- El menu lateral que abre el boton de la izquierda ---
+
+   ACÁ EL MOVIMIENTO NO ES ADORNO, ES LA EXPLICACIÓN.
+
+   Este cajón se abría de golpe: aparecía tapando media pantalla sin
+   decir de dónde había salido ni adónde vuelve. Un panel que entra
+   desde el borde izquierdo está diciendo dos cosas al mismo tiempo:
+   «estaba guardado de este lado» y «se cierra empujándolo para allá».
+   Sin eso hay que aprender de memoria dónde está el botón de cerrar.
+
+   Es, además, la superficie que más se toca de toda la app. Que ESTO
+   no tuviera movimiento mientras la pantalla de apertura tenía casi
+   tres segundos de coreografía era tener el presupuesto puesto al
+   revés: todo el gasto en lo que se ve una vez por sesión, y nada en
+   lo que se abre diez veces por día. */
+.menu-fondo{
+  position:fixed;inset:0;z-index:90;background:rgba(26,26,26,.55);
+  opacity:1;
+  transition:opacity var(--t-medio) var(--sale)
+}
+
+.menu-lateral{
+  position:fixed;top:0;left:0;bottom:0;z-index:91;width:min(300px,84vw);
+  background:var(--negro);color:var(--sobre-negro);
+  display:flex;flex-direction:column;padding:14px 0 18px;
+  box-shadow:4px 0 22px rgba(0,0,0,.3);
+  transform:translateX(0);
+  transition:transform var(--t-medio) var(--cajon)
+}
+
+@starting-style {
+.menu-fondo{opacity:0}
+
+.menu-lateral{transform:translateX(-100%)}
+}
+
+.menu-fondo.cerrando{opacity:0}
+
+.menu-lateral.cerrando{transform:translateX(-100%)}
+
+/* Menos movimiento: el cajón no se desliza, pero tampoco aparece de la
+   nada. Se funde, que es la señal mínima de que hay algo nuevo encima. */
+@media (prefers-reduced-motion:reduce) {
+.menu-lateral{
+    transform:none;opacity:1;
+    transition:opacity var(--t-chico) var(--sale)
+  }
+
+@starting-style {
+.menu-lateral{transform:none;opacity:0}
+}
+
+.menu-lateral.cerrando{transform:none;opacity:0}
+}
+
+.menu-encabezado{
+  display:flex;align-items:center;justify-content:space-between;gap:10px;
+  padding:0 10px 0 18px;margin-bottom:14px
+}
+
+.menu-lista{display:flex;flex-direction:column;overflow-y:auto}
+
+.menu-lista a{
+  display:flex;align-items:center;gap:13px;padding:14px 18px;
+  text-decoration:none;color:var(--sobre-negro);
+  font-family:var(--fuente-sub);font-size:16px;font-weight:700
+}
+
+.menu-lista a .icono{font-size:var(--letra-sub);line-height:1}
+
+@media (hover:hover) and (pointer:fine) {
+.menu-lista a:hover{background:rgba(255,255,255,.08)}
+}
+
+.menu-lista a[aria-current="page"]{color:var(--amarillo);box-shadow:inset 4px 0 0 var(--amarillo)}
+
+/* --- Los colores de la pantalla, adentro del menú ---
+   Va acá y no en la cabecera porque la cabecera tiene tres columnas y
+   en un celular angosto la marca ya baja a dos renglones: un cuarto
+   botón arriba le comía 44 px más. Y esto se toca una vez, no todos
+   los días. El menú de este panel está siempre en oscuro, así que los
+   colores de acá adentro son fijos y no salen de las variables. */
+.menu-tema{
+  margin-top:auto;padding:18px 18px 0;border-top:1px solid var(--linea-negro)
+}
+
+.menu-tema-rotulo{
+  display:block;font-family:var(--fuente-sub);font-size:var(--letra-mini);font-weight:700;
+  letter-spacing:.1em;text-transform:uppercase;color:var(--sobre-negro-tenue);margin-bottom:9px
+}
+
+/* --- La carrera, adentro del menú ---
+   Va entre las secciones y los colores: se toca más seguido que los
+   colores y menos que las secciones. Uno abajo del otro y con el nombre
+   entero, porque «Tec. en Gestión del Riesgo» no entra en un tercio de
+   300 px. Mismos colores fijos que el tema: el menú es siempre oscuro. */
+.menu-carrera{padding:16px 18px 14px;border-top:1px solid var(--linea-negro)}
+
+.menu-pie{
+  padding:16px 18px 0;font-size:var(--letra-chica);line-height:1.5;color:var(--sobre-negro-tenue)
+}
+
+.buscador{position:relative}
+
+.buscador input{
+  width:100%;font-family:var(--fuente-texto);font-size:var(--letra-guia);
+  padding:15px 15px 15px 46px;border:1px solid var(--linea);border-radius:var(--radio-pastilla);
+  background:var(--superficie);color:var(--texto);outline:none;box-shadow:var(--sombra)
+}
+
+/* El foco va en celeste: sobre el amarillo, un halo amarillo no se veria */
+.buscador input:focus{box-shadow:0 0 0 3px var(--celeste)}
+
+.buscador .lupa{
+  position:absolute;left:16px;top:50%;transform:translateY(-50%);
+  font-size:18px;opacity:.5;pointer-events:none;
+  display:flex;align-items:center;color:var(--texto)
+}
+
+.buscador .lupa svg.ico{width:19px;height:19px}
+
+.buscador input{
+  border-color:var(--tinta-borde);
+}
+
+/* El enlace de "¿Quiénes somos?" en el pie y en el menú */
+.menu-lista a.menu-aparte{
+  margin-top:8px;padding-top:18px;border-top:1px solid var(--linea-negro)
+}
+
+/* Dice si adentro hay un paso a paso o si te manda afuera. Antes no
+   se podia saber sin entrar, y de 31 fichas 18 son solo un enlace. */
+.marca-tipo{
+  flex:0 0 auto;font-family:var(--fuente-texto);font-size:var(--letra-mini);font-weight:700;
+  letter-spacing:.05em;text-transform:uppercase;
+  padding:3px 7px;border-radius:var(--radio-pastilla);align-self:flex-start;white-space:nowrap
+}
+
+.marca-tipo.guia   {background:var(--amarillo);color:var(--sobre-color)}
+
+.marca-tipo.enlace {background:var(--superficie-2);color:var(--texto-suave)}
+
+@media (min-width:720px) {
+.marca{font-size:var(--letra-titulo)}
+}
+
+.ceja-lectura{
+  font-family:var(--fuente-datos);font-size:var(--letra-chica);
+  letter-spacing:.16em;text-transform:uppercase;
+  margin:0 0 18px;opacity:.85
+}
+
+/* ---- La puerta al Consejo ---- */
+.puerta{
+  display:flex;align-items:center;gap:16px;text-decoration:none;
+  background:var(--negro);color:var(--sobre-negro);
+  border:2px solid var(--negro);border-radius:var(--radio);
+  padding:22px 20px;margin-top:var(--banda-aire)
+}
+
+.puerta-texto{flex:1}
+
+.puerta-texto strong{
+  display:block;font-family:var(--fuente-titulo);
+  font-size:clamp(20px,5.4vw,28px);line-height:1.05;margin-bottom:6px
+}
+
+.puerta-texto span{font-size:var(--letra-nota);line-height:1.4;opacity:.85}
+
+.puerta-flecha{font-family:var(--fuente-sub);font-weight:700;font-size:28px;line-height:1}
+
+.puerta:active{transform:translate(2px,2px)}
+
+/* La cabecera y la fila de secciones son las mismas en todas las
+   pantallas: nombrándolas, el navegador entiende que no cambiaron y
+   las deja quietas mientras se cruza lo de abajo. Sin esto se funden
+   consigo mismas, que es un parpadeo sutil pero visible. */
+.cabecera{view-transition-name:cabecera}
+
+.indice-titulo{
+  font-family:var(--fuente-sub);font-weight:700;font-size:var(--letra-mini);
+  letter-spacing:.1em;text-transform:uppercase;
+  color:var(--sobre-negro-tenue);margin:0 0 4px
+}
+
+.indice-lista{list-style:none;margin:0;padding:0}
+
+.indice-lista a{
+  display:flex;align-items:center;gap:6px;min-height:48px;padding:4px 0;
+  color:var(--sobre-negro);text-decoration:none;
+  font-size:var(--letra-densa);line-height:1.3
+}
+
+.indice-lista a:hover{text-decoration:underline}
+
+/* La sección donde estás parada. Sin color: el amarillo de esta banda
+   ya está gastado en «decinos», que es lo único que le pedimos a
+   alguien. Alcanza con el peso y la línea. */
+.indice-lista a[aria-current="page"]{
+  font-family:var(--fuente-sub);font-weight:700;
+  text-decoration:underline;text-underline-offset:4px
+}
+
+.indice-fuera{font-size:var(--letra-chica);color:var(--sobre-negro-tenue)}

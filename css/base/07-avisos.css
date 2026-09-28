@@ -1,0 +1,302 @@
+/* ==========================================================
+   LA BOLIVAR CON VOS · AVISOS
+   Lo que le decimos a alguien cuando algo pasa: avisos, alertas, la
+   alarma de inscripcion, las pantallas vacias, los errores y los
+   esqueletos de carga.
+
+   Es la hoja 7 de 12 de la base, y la base la cargan TODAS las
+   pantallas. El orden importa: van siempre en el orden numerado de
+   `css/base/`, entre `tokens.css` y la hoja de cada pantalla.
+   ========================================================== */
+
+.alarma:active{
+  transform:translate(2px, 2px);
+  box-shadow:none
+}
+
+@media (prefers-reduced-motion:reduce) {
+.alarma:active{
+    transform:none;opacity:.7
+  }
+}
+
+.alarma,
+.progreso-barra{
+  border-color:var(--tinta-borde);
+}
+
+/* ============================================================
+   AVISOS Y ESTADOS
+   ============================================================ */
+.aviso{
+  border-radius:var(--radio-chico);padding:11px 13px;font-size:var(--letra-base);margin:12px 0;
+  background:var(--superficie);border-left:4px solid var(--texto-suave)
+}
+
+.aviso.error{border-left-color:var(--rojo);background:var(--aviso-error)}
+
+.aviso.ok{border-left-color:var(--celeste);background:var(--aviso-ok)}
+
+.vacio{
+  display:grid;justify-items:center;gap:7px;text-align:center;color:var(--texto-suave);
+  padding:30px 20px;border:1px dashed color-mix(in srgb, var(--celeste) 42%, var(--linea));
+  border-radius:calc(var(--radio) + 4px);background:color-mix(in srgb, var(--superficie) 82%, var(--celeste));
+  font-size:var(--letra-base);line-height:1.45
+}
+
+.vacio-icono{font-size:34px;line-height:1;margin-bottom:3px}
+
+.vacio-titulo{color:var(--texto);font-weight:700;font-size:var(--letra-guia)}
+
+.vacio p{margin:0;max-width:34ch}
+
+/* ============================================================
+   EL AVISO DE LO GUARDADO
+
+   Aparece cuando la pantalla se pinto con lo de la visita anterior
+   mientras busca lo de ahora. Tiene dos formas y la diferencia
+   importa:
+
+   .buscando  dura lo que tarde la red y no esta pasando nada malo,
+              asi que es un renglon fino y gris que no compite con
+              el contenido.
+   .sin-red   la red no contesto y lo que hay en pantalla es lo unico
+              que va a haber. Ahi se agranda y se queda.
+
+   Nada de esto lleva opacity: el color que se ve es el que esta
+   escrito, asi que el contraste que se mide es el de verdad. Sobre
+   --apagado da 7,4:1 en claro y 8,6:1 en oscuro.
+   ============================================================ */
+.aviso-guardado{
+  font-size:var(--letra-chica);line-height:1.4;
+  padding:7px 16px;text-align:center;
+  background:var(--apagado);color:var(--texto-suave);
+  border-bottom:1px solid var(--linea)
+}
+
+.aviso-guardado.sin-red{
+  font-size:var(--letra-nota);padding:11px 16px;
+  background:var(--aviso-error);color:var(--texto);
+  border-bottom:2px solid var(--rojo)
+}
+
+/* Vacia no ocupa lugar: la caja se crea antes de tener texto, para
+   que el lector de pantalla la vea cambiar. */
+.aviso-guardado:empty{display:none}
+
+/* ============================================================
+   BARRA DE NAVEGACION INFERIOR
+   ============================================================ */
+/* ============================================================
+   PIE
+   ============================================================ */
+/* El padding de abajo deja lugar para el botón flotante: sin esto, el
+   último renglón del pie queda debajo del botón y no se puede leer. */
+/* ============================================================
+   ORGANIZADOR DE CURSADAS  (carrera/)
+   Los tres colores que ordenan toda la pantalla:
+     turquesa = la promocionás    amarillo = la cursás sin promoción
+     gris     = todavía no podés  celeste  = final pendiente
+   ============================================================ */
+/* --- Barra de progreso ---
+
+   ANTES ERA UNA SOLA CAJA con todo adentro: la barra, «8 de 31
+   materias aprobadas», el promedio y «te quedan 2 finales» apilados
+   como renglones de un parrafo. Los cuatro datos pesaban lo mismo, o
+   sea que ninguno se leia primero.
+
+   Ahora son piezas separadas —una por dato— y adentro de cada una hay
+   tres tamanos bien distintos: rotulo de 12, numero de 38, pie de 13.
+   La jerarquia sale del TAMANO y no del color: la app tiene cuatro
+   colores contados y ninguno sobra para teñir fichas. */
+.progreso{ margin-bottom:18px }
+
+/* ============================================================
+   LA ALARMA DE INSCRIPCION
+   Aparece sola cuando abre la ventana para anotarse a una mesa, y
+   desaparece cuando cierra. El resto del año no ocupa lugar.
+   ============================================================ */
+.alarma{
+  background:var(--amarillo);color:var(--sobre-color);
+  border-radius:var(--radio);padding:16px;margin:16px 0 4px;
+  box-shadow:var(--sombra)
+}
+
+.alarma.urgente{background:var(--rojo-solido);color:var(--sobre-negro)}
+
+.alarma-texto strong{
+  font-family:var(--fuente-titulo);font-weight:400;font-size:var(--letra-sub);line-height:1.1;
+  text-transform:uppercase;display:block;margin-bottom:5px
+}
+
+.alarma-texto p{margin:0 0 13px;font-size:var(--letra-base);line-height:1.4}
+
+.alarma .boton.oscuro{background:var(--negro);color:var(--amarillo)}
+
+.alarma.urgente .boton.oscuro{background:var(--sobre-negro);color:var(--rojo-solido)}
+
+.esqueleto{
+  position:relative;overflow:hidden;
+  background:var(--superficie-2);
+  border-radius:6px
+}
+
+.esqueleto::after{
+  content:'';position:absolute;inset:0;
+  background:linear-gradient(90deg,
+    transparent 0%, var(--linea) 50%, transparent 100%);
+  animation:esqueleto-brillo 1.6s linear infinite;
+  will-change:transform
+}
+
+/* ESCALONADO. Veinte cajas latiendo en el mismo cuadro no se leen como
+   una página cargando: se leen como un estroboscopio. Con 70 ms de
+   diferencia entre una y la siguiente, el brillo baja en diagonal y el
+   bloque se lee como una sola cosa que está llegando. */
+.esqueleto:nth-child(2)::after{animation-delay:70ms}
+
+.esqueleto:nth-child(3)::after{animation-delay:140ms}
+
+.esqueleto:nth-child(4)::after{animation-delay:210ms}
+
+.esqueleto:nth-child(5)::after{animation-delay:280ms}
+
+.esqueleto:nth-child(6)::after{animation-delay:350ms}
+
+.esqueleto:nth-child(7)::after{animation-delay:420ms}
+
+.esqueleto:nth-child(7n+8)::after{animation-delay:70ms}
+
+.esqueleto:nth-child(7n+9)::after{animation-delay:140ms}
+
+.esqueleto:nth-child(7n+10)::after{animation-delay:210ms}
+
+/* Quien pidio menos movimiento ve el bloque quieto, sin el brillo */
+@media (prefers-reduced-motion:reduce) {
+.esqueleto::after{animation:none;opacity:.5;transform:none}
+}
+
+.esq-linea{height:13px;margin-bottom:9px}
+
+.esq-linea.corta{width:45%}
+
+.esq-linea.media{width:72%}
+
+.esq-linea.titulo{height:17px;width:60%;margin-bottom:12px}
+
+.esq-tarjeta{
+  background:var(--superficie);border:1px solid var(--linea);
+  border-left:4px solid var(--linea);border-radius:var(--radio);
+  padding:14px;margin-bottom:10px;box-shadow:var(--sombra)
+}
+
+/* ---- El grito ----
+   Es lo único gigante de toda la app. Va acá y en ningún otro lado. */
+.grito{
+  font-family:var(--fuente-titulo);
+  font-size:clamp(38px, 11.5vw, 92px);
+  line-height:.92;letter-spacing:-.025em;
+  margin:0;text-wrap:balance
+}
+
+.grito em{font-style:normal;color:var(--amarillo)}
+
+/* ---- El aviso de que hay que revisarlo ---- */
+.aviso-transcripcion{
+  font-size:var(--letra-nota);line-height:1.45;margin-top:22px;
+  padding:12px 14px;border-radius:var(--radio-chico);
+  background:var(--superficie-2);border-left:4px solid var(--texto-suave);
+  color:var(--texto-suave)
+}
+
+.codigo{
+  display:block;position:relative;z-index:1;
+  background:var(--superficie);border:2px solid var(--tinta-borde);
+  border-radius:var(--radio);padding:18px 10px;text-align:center;
+  font-family:var(--fuente-datos);font-weight:700;
+  /* Se achica solo en pantallas angostas: son 14 caracteres y no se
+     puede permitir que corte en dos renglones. */
+  font-size:clamp(17px, 6.2vw, 26px);
+  letter-spacing:.12em;color:var(--texto);
+  /* Que se pueda seleccionar con el dedo, al reves que el resto de la
+     app: aca copiar a mano es una salida legitima. */
+  user-select:all;-webkit-user-select:all
+}
+
+.aviso a,
+.vacio a,
+.aviso-transcripcion a{
+  text-decoration:underline;
+  text-decoration-color:var(--celeste);
+  text-decoration-thickness:2px;
+  text-underline-offset:3px
+}
+
+@media (hover:hover) and (pointer:fine) {
+.aviso a:hover,
+.vacio a:hover,
+.aviso-transcripcion a:hover{
+    text-decoration-thickness:4px
+  }
+}
+
+/* ============================================================
+   LA ALERTA DE LA MESA
+
+   Flota arriba del boton de Avisanos, en todas las pantallas. Antes era
+   una tarjeta amarilla arriba de la portada, y ahi la veia solo quien
+   entraba por la portada: la mitad de las visitas llegan directo a una
+   seccion desde un link de Instagram.
+
+   Es lo unico amarillo que flota. El amarillo esta reservado para la
+   accion principal, y durante los cuatro dias que dura una inscripcion
+   la accion principal de toda la app es esa.
+   ============================================================ */
+.alerta-mesa{
+  position:fixed;right:14px;z-index:69;
+  /* Arriba del boton de Avisanos: 74 de su base + 56 de alto + 12 de
+     aire. Si se mueve el boton, se mueve esto. */
+  bottom:calc(142px + env(safe-area-inset-bottom, 0px));
+  display:flex;align-items:stretch;gap:0;
+  max-width:min(300px, calc(100vw - 28px));
+  background:var(--amarillo);color:var(--sobre-color);
+  border:1.5px solid var(--tinta-borde);border-radius:var(--radio);
+  box-shadow:0 4px 16px rgba(0,0,0,.28);
+  overflow:hidden
+}
+
+/* La flechita que la ata al boton, como la del globo de Avisanos */
+.alerta-mesa::after{
+  content:'';position:absolute;right:26px;top:100%;
+  border:7px solid transparent;border-top-color:var(--tinta-borde)
+}
+
+.alerta-mesa-ir{
+  flex:1;min-width:0;display:block;padding:11px 12px;
+  text-decoration:none;color:var(--sobre-color)
+}
+
+.alerta-mesa-ir strong{
+  display:block;font-family:var(--fuente-titulo);font-size:var(--letra-densa);
+  line-height:1.15;margin-bottom:2px
+}
+
+.alerta-mesa-ir span{
+  display:block;font-size:var(--letra-nota);line-height:1.3;opacity:.8
+}
+
+.alerta-mesa-cerrar{
+  flex:0 0 auto;width:38px;min-height:44px;
+  background:transparent;border:none;border-left:1px solid var(--tinta-borde);
+  color:var(--sobre-color);font-size:15px;line-height:1;cursor:pointer
+}
+
+.alerta-mesa-ir:focus-visible,
+.alerta-mesa-cerrar:focus-visible{ outline:3px solid var(--celeste);outline-offset:-3px }
+
+/* Cuando quedan un dia o menos, el borde se pone rojo. No cambia el
+   fondo: el amarillo ya es lo mas fuerte que tiene la app, y un rojo
+   entero ahi se lee como un error y no como un plazo. */
+.alerta-mesa.urgente{ border-color:var(--rojo-solido);border-width:2.5px }
+
+.alerta-mesa.urgente::after{ border-top-color:var(--rojo-solido) }

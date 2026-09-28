@@ -1,0 +1,380 @@
+/* ==========================================================
+   LA BOLIVAR CON VOS · AVISANOS
+   El boton flotante de «avisanos» y su chat.
+
+   Es la hoja 9 de 12 de la base, y la base la cargan TODAS las
+   pantallas. El orden importa: van siempre en el orden numerado de
+   `css/base/`, entre `tokens.css` y la hoja de cada pantalla.
+   ========================================================== */
+
+.avisanos:active{transform:scale(.94);box-shadow:0 2px 8px rgba(0,0,0,.3)}
+
+@media (prefers-reduced-motion:reduce) {
+.avisanos:active{
+    transform:none;opacity:.7
+  }
+}
+
+.avisanos{
+  -webkit-user-select:none;user-select:none
+}
+
+/* ============================================================
+   BOTON FLOTANTE "AVISANOS"
+   ============================================================ */
+/* Era una píldora de 140x52 fija abajo a la derecha: tapaba el
+   calendario al abrir, un cuadro de «A dónde ir» al bajar y el pie al
+   final. Ahora es un círculo de 56 —el tamaño de un botón flotante de
+   toda la vida— y la palabra aparece solo cuando hay lugar (720 px
+   para arriba, donde no tapa nada). */
+.avisanos{
+  position:fixed;right:14px;bottom:14px;z-index:70;
+  width:56px;height:56px;
+  display:inline-flex;align-items:center;justify-content:center;gap:9px;
+  border-radius:var(--radio-pastilla);border:2px solid var(--sobre-negro);
+  background:var(--rojo-solido);color:var(--sobre-negro);text-decoration:none;
+  font-family:var(--fuente-sub);font-weight:700;font-size:var(--letra-base);
+  box-shadow:0 4px 16px rgba(0,0,0,.28);
+  /* ASIMÉTRICO A PROPÓSITO. Irse es ambiente: el botón se corre porque
+     la persona está leyendo otra cosa, y puede tomarse su tiempo.
+     Volver es una RESPUESTA a «quiero volver a algo», y una respuesta
+     se contesta seca. Por eso la vuelta es más corta que la ida. */
+  transition:transform var(--t-chico) var(--sale),
+             box-shadow var(--t-chico) var(--sale),
+             opacity   var(--t-chico) var(--sale)
+}
+
+.avisanos.apartado{
+  transition:transform var(--t-medio) var(--sale),
+             box-shadow var(--t-medio) var(--sale),
+             opacity   var(--t-medio) var(--sale)
+}
+
+.avisanos > span:not(.avisanos-globo){
+  position:absolute;width:1px;height:1px;overflow:hidden;clip-path:inset(50%)
+}
+
+/* SE FUE EL ENCOGIDO AUTOMÁTICO.
+   Antes el botón nacía con la palabra adentro y a los 4 segundos se
+   encogía a círculo solo. Eran tres problemas en uno: cambiaba de forma
+   sin que nadie se lo pidiera, lo hacía mientras la persona estaba
+   leyendo, y el salto era seco porque width y padding no estaban —ni
+   podían estar— en la transición: animar el ancho obliga a recalcular
+   la página en cada cuadro.
+   Ahora el botón nace círculo y se queda círculo. Para qué sirve lo
+   dice el globo, que sale la primera vez que se sube —o sea cuando la
+   persona ya terminó de leer y está buscando algo— y lo maneja app.js.
+   Arriba de 720px, donde sobra lugar, la palabra va siempre. */
+/* Mientras se baja se corre para afuera: es cuando la persona está
+   leyendo. Vuelve apenas se sube, que es el gesto de «quiero volver a
+   algo». Lo maneja app.js poniendo y sacando la clase. */
+.avisanos.apartado{
+  transform:translateX(calc(100% + 20px));opacity:0;pointer-events:none
+}
+
+.avisanos svg{width:24px;height:24px;flex:0 0 auto;fill:currentColor}
+
+@media (min-width:720px) {
+.avisanos{width:auto;height:auto;padding:13px 18px}
+
+.avisanos > span:not(.avisanos-globo){
+    position:static;width:auto;height:auto;overflow:visible;clip-path:none
+  }
+}
+
+/* El levantarse va SOLO con mouse y teclado. En una pantalla táctil el
+   :hover se dispara al tocar y se queda pegado hasta que tocás otra
+   cosa: el botón quedaba levantado sin que nadie lo estuviera tocando. */
+@media (hover:hover) and (pointer:fine) {
+.avisanos:hover{transform:translateY(-2px);box-shadow:0 7px 22px rgba(0,0,0,.34)}
+}
+
+.avisanos:focus-visible{
+  transform:translateY(-2px);box-shadow:0 7px 22px rgba(0,0,0,.34);
+  outline:3px solid var(--celeste);outline-offset:3px
+}
+
+/* El globo con la pregunta. Aparece al pasar por encima o al llegar
+   con el teclado; en el celular, donde no hay hover, sale solo a los
+   pocos segundos de abrir la pantalla y se va. */
+.avisanos-globo{
+  position:absolute;right:0;bottom:calc(100% + 10px);width:max-content;
+  max-width:min(260px,72vw);padding:11px 14px;border-radius:var(--radio);
+  background:var(--negro);color:var(--sobre-negro);
+  font-family:var(--fuente-texto);font-weight:400;font-size:var(--letra-densa);line-height:1.35;
+  box-shadow:0 4px 16px rgba(0,0,0,.3);
+  opacity:0;transform:translateY(6px) scale(.96);
+  transform-origin:calc(100% - 26px) 100%;pointer-events:none;
+  transition:opacity var(--t-chico) var(--sale),
+             transform var(--t-chico) var(--sale)
+}
+
+.avisanos-globo::after{
+  content:'';position:absolute;right:26px;top:100%;
+  border:7px solid transparent;border-top-color:var(--negro)
+}
+
+/* El globo crece DESDE la punta de la flecha, no desde su propio
+   centro: es lo que lo ata al botón. Sin el transform-origin parece un
+   cartel que apareció al lado, y no algo que salió de acá. */
+@media (hover:hover) and (pointer:fine) {
+.avisanos:hover .avisanos-globo{opacity:1;transform:none}
+}
+
+.avisanos:focus-visible .avisanos-globo{opacity:1;transform:none}
+
+/* En el celular no hay hover. El globo sale UNA vez, la primera vez
+   que la persona sube —o sea cuando ya terminó de leer y está buscando
+   algo— y se va solo. Lo pone y lo saca app.js. */
+.avisanos.dice .avisanos-globo{opacity:1;transform:none}
+
+/* El mail de la cátedra: era un enlace suelto adentro de un párrafo y
+   quedaba de 17 px de alto, por debajo del mínimo para tocar. */
+.contacto-catedra{
+  display:inline-flex;align-items:center;min-height:32px;padding:6px 2px;
+  font-family:var(--fuente-datos);font-size:var(--letra-nota)
+}
+
+/* ============================================================
+   EL CHAT DE «AVISANOS»
+
+   Sale de la misma esquina que el botón que lo abre, y se lee como
+   una conversación: lo que pregunta el estudiante a la derecha, en
+   amarillo; lo que contesta la app a la izquierda, sobre papel.
+
+   No hay avatar, ni nombre de bot, ni «escribiendo…» con carita. La
+   app no simula ser una persona: cuando hace falta una persona, pasa
+   a una persona de verdad.
+   ============================================================ */
+.chat-fondo{
+  position:fixed;inset:0;z-index:90;background:rgba(26,26,26,.55);
+  display:flex;align-items:flex-end;justify-content:center;
+  opacity:1;
+  transition:opacity var(--t-chico) var(--sale)
+}
+
+.chat{
+  background:var(--superficie);width:100%;max-width:var(--ancho-max);
+  height:min(560px, 86vh);display:flex;flex-direction:column;
+  border-radius:var(--radio) var(--radio) 0 0;
+  border:1px solid var(--linea);border-bottom:none;
+  transform:translateY(0);
+  transition:transform var(--t-hoja) var(--cajon)
+}
+
+@starting-style {
+.chat-fondo{opacity:0}
+
+.chat{transform:translateY(100%)}
+}
+
+.chat-fondo.cerrando{opacity:0}
+
+.chat-fondo.cerrando .chat{transform:translateY(100%)}
+
+/* Arriba de 560px el chat deja de subir del pie y se planta en el
+   medio. Un panel de 560 píxeles de alto centrado que igual entrara
+   deslizándose desde abajo tendría que recorrer media pantalla para
+   llegar a un lugar donde nunca estuvo: se lee como un salto, no como
+   algo que llega. Centrado, la física correcta es crecer un poco desde
+   donde ya está. */
+@media (min-width:560px) {
+.chat-fondo{align-items:center;padding:20px}
+
+.chat{
+    border-radius:var(--radio);border-bottom:1px solid var(--linea);box-shadow:var(--sombra);
+    transform:scale(1);opacity:1;
+    transition:transform var(--t-medio) var(--sale),
+               opacity var(--t-medio) var(--sale)
+  }
+
+@starting-style {
+.chat{transform:scale(.96);opacity:0}
+}
+
+.chat-fondo.cerrando .chat{transform:scale(.96);opacity:0}
+}
+
+.chat-cabecera{
+  display:flex;align-items:flex-start;gap:10px;
+  padding:15px 16px 12px;border-bottom:1px solid var(--linea)
+}
+
+.chat-cabecera h2{
+  font-family:var(--fuente-titulo);font-weight:400;font-size:var(--letra-sub);
+  text-transform:uppercase;margin:0;line-height:1
+}
+
+.chat-cabecera p{margin:4px 0 0;font-size:var(--letra-nota);color:var(--texto-suave);line-height:1.35}
+
+.chat-cerrar{
+  flex:0 0 auto;width:36px;height:36px;border-radius:50%;
+  border:1px solid var(--linea);background:var(--superficie);
+  font-size:var(--letra-base);color:var(--texto);line-height:1
+}
+
+@media (hover:hover) and (pointer:fine) {
+.chat-cerrar:hover{background:var(--superficie-2)}
+}
+
+.chat-hilo{flex:1;overflow-y:auto;padding:14px 16px;display:flex;flex-direction:column;gap:10px}
+
+.chat-burbuja{
+  max-width:88%;padding:10px 13px;border-radius:var(--radio-chico);
+  font-size:var(--letra-base);line-height:1.45
+}
+
+.chat-burbuja.bot{
+  align-self:flex-start;background:var(--superficie-2);
+  border:1px solid var(--linea);border-bottom-left-radius:4px
+}
+
+.chat-burbuja.yo{
+  align-self:flex-end;background:var(--amarillo);color:var(--sobre-color);
+  border-bottom-right-radius:4px
+}
+
+.chat-burbuja a{color:inherit}
+
+.chat-nota{display:block;margin-top:8px;font-size:var(--letra-nota);color:var(--texto-suave)}
+
+/* Los tres puntitos mientras busca. Es la única animación del chat:
+   dice «esto tarda» sin escribir «escribiendo…», que sería fingir
+   que hay alguien tecleando del otro lado. */
+.chat-puntos{display:inline-flex;gap:4px;padding:2px 0}
+
+.chat-puntos i{
+  width:6px;height:6px;border-radius:50%;background:var(--texto-suave);
+  animation:chat-late 1s infinite ease-in-out
+}
+
+.chat-puntos i:nth-child(2){animation-delay:.15s}
+
+.chat-puntos i:nth-child(3){animation-delay:.3s}
+
+@media (prefers-reduced-motion:reduce) {
+/* Los puntitos son opacidad pura, sin desplazamiento: eso se puede
+     dejar. Lo que se saca es el latido, que a esta velocidad cansa. */
+.chat-puntos i{animation:none;opacity:.6}
+
+.chat{transform:none;opacity:1;transition:opacity var(--t-chico) var(--sale)}
+
+@starting-style {
+.chat{transform:none;opacity:0}
+}
+
+.chat-fondo.cerrando .chat{transform:none;opacity:0}
+}
+
+.chat-opciones{display:flex;flex-wrap:wrap;gap:6px;margin-top:9px}
+
+.chat-opcion{
+  font-family:var(--fuente-sub);font-size:var(--letra-chica);text-transform:uppercase;letter-spacing:.05em;
+  padding:7px 11px;border-radius:99px;border:1px solid var(--texto);
+  background:var(--superficie);color:var(--texto);text-decoration:none;
+  display:inline-flex;align-items:center;min-height:32px
+}
+
+@media (hover:hover) and (pointer:fine) {
+.chat-opcion:hover{background:var(--amarillo);color:var(--sobre-color)}
+}
+
+/* LAS CUATRO PREGUNTAS DEL SALUDO NO SON PASTILLAS.
+
+   La pastilla en mayúsculas está bien para «Trabajo Social» o
+   «Gestión del Riesgo»: son rótulos de dos palabras. Una pregunta
+   entera en mayúsculas y partida en dos renglones centrados se lee
+   como un cartel, no como algo que alguien diría, y es justo lo
+   contrario de lo que estas cuatro vienen a hacer.
+
+   Un renglón entero cada una, alineadas a la izquierda y en caja
+   normal: se barren de un vistazo y se leen como preguntas. Y a 48px,
+   que es lo que mide todo lo tocable en esta app. */
+.chat-opcion.pregunta{
+  flex:1 1 100%;justify-content:flex-start;text-align:left;
+  text-transform:none;letter-spacing:0;
+  font-size:var(--letra-nota);line-height:1.3;
+  min-height:48px;padding:10px 14px;border-radius:var(--radio)
+}
+
+/* La salida a una persona va con el mismo cuerpo que las preguntas,
+   pero en amarillo: es la otra puerta, y tiene que verse sin buscarla. */
+.chat-opcion.persona{
+  flex:1 1 100%;justify-content:flex-start;text-align:left;
+  text-transform:none;letter-spacing:0;font-weight:700;
+  font-size:var(--letra-nota);line-height:1.3;
+  min-height:48px;padding:10px 14px;border-radius:var(--radio);
+  background:var(--amarillo);color:var(--sobre-color);border-color:var(--amarillo)
+}
+
+/* Las fichas que encontró: la misma marca de «Paso a paso» o «Sitio
+   oficial» que en Info útil, para que se entienda que es lo mismo. */
+.chat-fichas{display:flex;flex-direction:column;gap:6px;margin-top:9px}
+
+.chat-ficha{
+  display:flex;align-items:center;justify-content:space-between;gap:8px;
+  background:var(--superficie);border:1px solid var(--linea);
+  border-left:4px solid var(--celeste);border-radius:var(--radio-chico);
+  padding:9px 11px;text-decoration:none;color:var(--texto)
+}
+
+@media (hover:hover) and (pointer:fine) {
+.chat-ficha:hover{border-color:var(--texto)}
+}
+
+.chat-ficha-titulo{font-weight:700;font-size:var(--letra-densa);line-height:1.25}
+
+.chat-contactos{display:flex;flex-direction:column;gap:6px;margin-top:9px}
+
+.chat-contacto{
+  display:flex;align-items:center;gap:8px;flex-wrap:wrap;
+  background:var(--superficie);border:1px solid var(--linea);
+  border-radius:var(--radio-chico);padding:9px 11px;
+  text-decoration:none;color:var(--texto)
+}
+
+@media (hover:hover) and (pointer:fine) {
+.chat-contacto:hover{border-color:var(--texto)}
+}
+
+.chat-contacto-nombre{font-weight:700;font-size:var(--letra-densa)}
+
+.chat-contacto-detalle{font-size:var(--letra-chica);color:var(--texto-suave);flex:1;min-width:0}
+
+.chat-contacto-como{
+  font-family:var(--fuente-sub);font-size:var(--letra-mini);text-transform:uppercase;letter-spacing:.05em;
+  background:var(--superficie-2);color:var(--texto-suave);
+  padding:3px 7px;border-radius:var(--radio-pastilla);white-space:nowrap
+}
+
+/* Un botón que se lee como un enlace dentro del texto. */
+.chat-enlace{
+  background:none;border:none;padding:0;font:inherit;color:var(--texto);
+  text-decoration:underline;cursor:pointer
+}
+
+.chat-pie{display:flex;gap:8px;padding:11px 12px;border-top:1px solid var(--linea)}
+
+.chat-pie input{
+  flex:1;min-width:0;border:1px solid var(--linea);border-radius:99px;
+  padding:11px 15px;font:inherit;font-size:var(--letra-base);
+  background:var(--superficie-2);color:var(--texto)
+}
+
+.chat-pie input:focus-visible{outline:3px solid var(--celeste);outline-offset:1px}
+
+.chat-enviar{
+  flex:0 0 auto;width:44px;height:44px;border-radius:50%;border:none;
+  background:var(--negro);color:var(--amarillo);font-size:19px;line-height:1
+}
+
+@media (hover:hover) and (pointer:fine) {
+.chat-enviar:hover{background:var(--texto)}
+}
+
+/* Mientras se baja el archivo del chat, el botón dice que está
+   haciendo algo. Sin esto parece que no respondió al toque. */
+.avisanos.cargando{opacity:.65;pointer-events:none}
+
+/* El globo de «avisanos» sube por encima de la barra */
+.avisanos{ bottom:calc(74px + env(safe-area-inset-bottom, 0px)) }

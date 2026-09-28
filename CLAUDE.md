@@ -48,7 +48,7 @@ tener que abrir 5000 líneas cuando el cambio es de veinte.
 | Archivo | Qué tiene | Cuándo se abre |
 |---|---|---|
 | `css/tokens.css` (310 líneas) | colores, tipografías, redondeos, sombras, modo oscuro | **cualquier cambio de aspecto de toda la app empieza y termina acá** |
-| `css/base.css` (3200 líneas) | lo que usan todas las pantallas: encabezado, secciones, tarjetas, botones, formularios, avisos, la hoja que sube desde abajo, el calendario, los esqueletos de carga, «avisanos», la banda de cierre, las consultas de ancho | cuando la regla es de un componente compartido |
+| `css/base/01..12-*.css` | lo que usan todas, partido en doce componentes (ver abajo) | cuando la regla es de un componente compartido |
 | `css/pantallas/*.css` | lo que usa **una sola** pantalla: `carrera`, `inicio`, `estudiemos`, `consejo`, `trayecto`, `anatomo`, `tramites` | cuando el cambio es de esa pantalla |
 | `estilos-rediseno.css` | el rediseño de las tarjetas; **carga último, así que en las tarjetas manda este** | ojo: si una regla de tarjeta no hace efecto, está pisada desde acá |
 
@@ -58,14 +58,38 @@ Solo baja a la hoja de una pantalla la regla cuyas clases son **todas**
 de esa pantalla. **Ninguna regla está repetida en dos hojas**: si está
 en una, no está en la otra.
 
+### Los doce componentes de la base
+
+Ninguno pasa de 420 líneas, y el nombre dice qué hay adentro:
+
+| | |
+|---|---|
+| `01-cimientos` | el reset, el cuerpo, saltar al contenido, el foco, el estado apretado, los títulos |
+| `02-encabezado` | la marca, el menú lateral, la campana, el buscador, el índice del pie |
+| `03-controles` | botones, campos, interruptores, chips |
+| `04-tarjetas` | tarjetas y cómo se agrupan: listas, filas, grupos, módulos, bloques |
+| `05-secciones` | las secciones, los espacios, los pasos de un trámite, las pestañas |
+| `06-hoja` | la hoja que sube desde abajo. **Acá vive `--t-hoja`** |
+| `07-avisos` | avisos, alertas, la alarma de inscripción, pantallas vacías, errores, esqueletos |
+| `08-calendario` | el calendario mensual y «pasalo a tu calendario» |
+| `09-avisanos` | el botón flotante y su chat |
+| `10-lectura` | lo que comparten las pantallas que se leen: glosario, fichas, temas, materiales |
+| `11-navegacion` | la barra de abajo, la de secciones, el pie, los nexos, la banda de cierre |
+| `12-movimiento` | los `@keyframes`, el paso de una pantalla a otra, la apertura, «menos movimiento» |
+
+**El orden importa y es el numerado.** Al agregar una hoja nueva a la
+base hay que agregarla a las 23 pantallas, en su lugar, y al armazón de
+`sw.js`. Por eso conviene no agregar hojas: casi todo entra en una de
+las doce.
+
 El orden de carga en cada pantalla es siempre
-`tokens → base → (su hoja) → estilos-rediseno`, y no se cambia.
+`tokens → base/01..12 → (su hoja) → estilos-rediseno`, y no se cambia.
 
 Al agregar una regla: si su clase la va a usar otra pantalla, va a
 `base.css`. Si es de una sola, a su hoja. Si esa pantalla todavía no
 tiene hoja (agenda, mapa, panel, mi, catedras, decilo, donde-curso,
-espacios, glosario, quienes, fichas), va al bloque del final de
-`base.css`, que es donde está lo suyo.
+espacios, glosario, quienes, fichas), va al final de
+`css/base/01-cimientos.css`, que es donde quedó lo suyo.
 
 ### JavaScript
 
@@ -104,7 +128,7 @@ guarda, o el contenido de algo que ya está en la lista, hay que subir
 `docs/HISTORIAL-SW.md`. Sin eso, los teléfonos que ya tienen la app
 siguen con lo viejo.
 
-En el armazón van solo `css/tokens.css`, `css/base.css`,
+En el armazón van solo `css/tokens.css`, los doce de `css/base/`,
 `estilos-rediseno.css`, `app.js`, `lib/mudanza.js` y las piezas chicas:
 lo que usa cualquier pantalla. Una hoja o un guion de **una** pantalla no
 va en la lista; lo baja quien entre ahí y queda guardado solo por la
@@ -125,6 +149,28 @@ hoja en vivo, se vuelve a fotografiar, y se vuelve a la nueva para una
 contenido que llegó de Supabase mientras se medía, y no cuenta; lo que
 queda es diferencia real. Las pantallas se recorren en un `iframe` desde
 una sola pestaña, así no hay que navegar 23 veces.
+
+### El chequeo del orden entre hojas
+
+`python pruebas-avisos/orden-css.py` busca el peligro que aparece al
+tener el CSS en varios archivos: **dos reglas que pesan igual y le pegan
+al mismo elemento**. Entre iguales decide el orden, y el orden ahora
+depende de en qué hoja quedó cada una.
+
+No dice «esto está roto»: dice «acá hay dos reglas que se pelean y gana
+la de la hoja que cargue después». Hoy informa 4 pares, y los 4
+conservan el orden que tenían en el archivo original. Si después de
+mover algo aparece un par nuevo, hay que mirarlo.
+
+Sabe qué combinaciones de clases existen de verdad (las saca de los
+`class="…"` del HTML y del JS), así que no marca imposibles como
+`.menu-fondo.cerrando` contra `.hoja-fondo.cerrando`. Sin eso informaba
+113 pares y no servía para nada.
+
+Así se encontró el único error real de la partición: `#olvide` es
+`class="boton texto ancho"`, y al mandar `.texto` a cimientos —antes que
+`.boton`, cuando en el original venía después— el botón pasaba de
+`display:flex` a `inline-flex`.
 
 Dos avisos de esa prueba:
 - La ventana de la vista previa **minimizada no dibuja**:

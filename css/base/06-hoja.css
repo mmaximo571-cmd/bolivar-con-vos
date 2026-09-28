@@ -1,0 +1,155 @@
+/* ==========================================================
+   LA BOLIVAR CON VOS · HOJA
+   La hoja que sube desde abajo (`.hoja`, `.hoja-fondo`). La usan cinco
+   pantallas. Aca vive `--t-hoja`, la duracion: si se cambia, ojo que
+   `carrera/index.html` espera al movimiento, no al reloj.
+
+   Es la hoja 6 de 12 de la base, y la base la cargan TODAS las
+   pantallas. El orden importa: van siempre en el orden numerado de
+   `css/base/`, entre `tokens.css` y la hoja de cada pantalla.
+   ========================================================== */
+
+/* --- Hoja de detalle ---
+
+   LAS HOJAS ENTRAN Y SALEN POR LA MISMA PUERTA.
+
+   Antes no. Entraban con un empujoncito de 14 píxeles y se iban
+   deslizándose la altura entera hacia abajo. O sea que la salida
+   prometía un origen —«vengo de abajo de la pantalla»— que la entrada
+   nunca había mostrado. Es la clase de incoherencia que no se nota
+   mirando, pero que hace que algo se sienta armado con partes de
+   distintos lados. Ahora las dos recorren el mismo camino.
+
+   Y SON TRANSICIONES, NO @keyframes. Un keyframe siempre arranca de
+   cero: si alguien abre y cierra rápido, el movimiento se corta en
+   seco y vuelve a empezar. Una transición se redirige desde donde
+   está, así que abrir a mitad del cierre devuelve la hoja desde donde
+   había quedado. Además, con @starting-style el navegador sabe solo
+   de dónde entrar y desaparece el setTimeout que en el JS repetía a
+   mano la duración escrita acá —dos números que tarde o temprano se
+   desincronizan. Ahora el JS espera el transitionend y listo. */
+.hoja-fondo{
+  position:fixed;inset:0;z-index:80;background:rgba(26,26,26,.55);
+  display:flex;align-items:flex-end;justify-content:center;
+  opacity:1;
+  transition:opacity var(--t-chico) var(--sale)
+}
+
+.hoja{
+  background:var(--superficie);width:100%;max-width:var(--ancho-max);
+  max-height:88vh;overflow-y:auto;position:relative;
+  border-radius:var(--radio) var(--radio) 0 0;padding:20px 16px 30px;
+  transform:translateY(0);
+  transition:transform var(--t-hoja) var(--cajon)
+}
+
+@starting-style {
+.hoja-fondo{opacity:0}
+
+.hoja{transform:translateY(100%)}
+}
+
+.hoja-fondo.cerrando{opacity:0}
+
+.hoja-fondo.cerrando .hoja{transform:translateY(100%)}
+
+/* Navegadores sin @starting-style (Safari viejo, Firefox anterior al
+   129) no ven la entrada, pero SÍ la salida, y sobre todo ven la hoja:
+   nunca queda una capa invisible tapando la pantalla. Degrada a que
+   aparezca de una, que es exactamente lo que hacía antes de todo esto. */
+/* El paso de una pantalla a la otra, adentro de la misma hoja, lo
+   maneja carrera/index.html con element.animate(). No está acá porque
+   necesita saber PARA QUÉ LADO va: al detalle → la nota entra desde la
+   derecha; de la nota → el detalle vuelve desde la izquierda. El
+   sentido dice en qué parte de la secuencia estás parada, y eso el CSS
+   solo no lo sabe.
+   Antes esto era un @keyframes que se reiniciaba con
+   `void offsetWidth` —un recálculo de página entera cada vez que se
+   cambiaba de pantalla, solo para volver a disparar la animación. */
+/* MENOS MOVIMIENTO NO ES CERO MOVIMIENTO.
+   Antes acá decía animation:none y la hoja se teletransportaba: sin
+   ninguna señal de que había aparecido algo nuevo encima, que es
+   justamente lo que la animación estaba diciendo. Lo que molesta del
+   movimiento es el DESPLAZAMIENTO, no el hecho de aparecer. Así que se
+   va el translate y se queda un fundido corto. */
+@media (prefers-reduced-motion:reduce) {
+.hoja{transition:opacity var(--t-chico) var(--sale);transform:none;opacity:1}
+
+@starting-style {
+.hoja{opacity:0;transform:none}
+}
+
+.hoja-fondo.cerrando .hoja{transform:none;opacity:0}
+}
+
+.hoja-cerrar{
+  position:absolute;top:12px;right:12px;width:34px;height:34px;border-radius:var(--radio-pastilla);
+  border:1px solid var(--linea);background:var(--superficie);font-size:var(--letra-base);line-height:1
+}
+
+.hoja-cod{
+  font-family:var(--fuente-sub);font-size:var(--letra-chica);text-transform:uppercase;
+  letter-spacing:.08em;color:var(--texto-suave)
+}
+
+.hoja h2{
+  font-family:var(--fuente-titulo);font-size:25px;line-height:1.05;
+  text-transform:uppercase;margin:4px 40px 12px 0
+}
+
+/* El título recibe el foco al volver del detalle, para que quien navega
+   con teclado no quede en la nada. Pero no es algo que se toque, así que
+   no lleva el recuadro del foco. */
+.hoja h2:focus{outline:none}
+
+/* La manija mide 22 de alto aunque la raya mida 4: se agarra con el
+   dedo, no con la punta de un lápiz. */
+.hoja-manija{
+  flex:0 0 auto;height:22px;position:relative;cursor:grab;touch-action:none
+}
+
+.hoja-manija::before{
+  content:'';position:absolute;left:50%;top:9px;width:40px;height:4px;margin-left:-20px;
+  border-radius:99px;background:color-mix(in srgb, var(--texto) 22%, transparent)
+}
+
+/* En pantalla ancha la hoja ya es un cuadro centrado (ver PANTALLAS
+   GRANDES): ahí no hay nada que arrastrar, y la manija mentiría. */
+@media (min-width:720px) {
+.hoja-manija{height:14px;cursor:default}
+
+.hoja-manija::before{display:none}
+}
+
+@media (min-width:720px) {
+/* Acá la hoja deja de ser hoja: se centra y pasa a ser un cuadro de
+     diálogo. La física tiene que seguir al layout —un cuadro centrado
+     no sube desde abajo de la pantalla, aparece donde está—, así que
+     cambia el movimiento junto con la posición. Con el translate de
+     abajo puesto, la hoja entraba deslizándose desde el pie en una
+     pantalla donde nunca había estado ahí. */
+.hoja{
+    align-self:center;border-radius:var(--radio);max-height:82vh;
+    transform:scale(1);opacity:1;
+    transition:transform var(--t-medio) var(--sale),
+               opacity var(--t-medio) var(--sale)
+  }
+
+@starting-style {
+.hoja{transform:scale(.96);opacity:0}
+}
+
+.hoja-fondo.cerrando .hoja{transform:scale(.96);opacity:0}
+
+.hoja-fondo{align-items:center}
+
+@media (prefers-reduced-motion:reduce) {
+.hoja{transform:none;transition:opacity var(--t-chico) var(--sale)}
+
+@starting-style {
+.hoja{transform:none;opacity:0}
+}
+
+.hoja-fondo.cerrando .hoja{transform:none;opacity:0}
+}
+}

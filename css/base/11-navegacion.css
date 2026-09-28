@@ -1,0 +1,262 @@
+/* ==========================================================
+   LA BOLIVAR CON VOS · NAVEGACION
+   Como se va de una pantalla a otra: la barra de abajo, la barra de
+   secciones, el pie, los nexos y la banda de cierre.
+
+   Es la hoja 11 de 12 de la base, y la base la cargan TODAS las
+   pantallas. El orden importa: van siempre en el orden numerado de
+   `css/base/`, entre `tokens.css` y la hoja de cada pantalla.
+   ========================================================== */
+
+/* Tres columnas: menu, marca, cuenta. Los costados miden lo mismo,
+   asi la marca del medio queda centrada de verdad y no a ojo. */
+.barra-superior{
+  display:grid;grid-template-columns:44px 1fr 44px;align-items:center;gap:10px
+}
+
+.barra{background:var(--linea);border-radius:var(--radio-pastilla);height:10px;overflow:hidden}
+
+/* LA BARRA SE DIBUJA, NO APARECE DIBUJADA.
+
+   Dos cosas cambiaron acá y las dos importan.
+
+   La primera: antes decía `transition:width .3s` y esa línea NUNCA se
+   ejecutó. Las cuatro barras de la app se pintan con innerHTML, o sea
+   que el elemento nace ya con su ancho puesto: no hay estado anterior
+   del que transicionar. Era una animación escrita que nadie vio nunca.
+   Con @starting-style el navegador sí sabe de dónde venir —de cero— y
+   la barra se dibuja sola al aparecer.
+
+   La segunda: se dibuja con transform y no con width. El ancho es una
+   medida de la página: tocarlo obliga a recalcular la posición de todo
+   lo que está alrededor, cuadro por cuadro. La escala no toca la
+   página, la resuelve la placa de video.
+
+   Los 420 ms se salen del techo de 300 que rige para el resto de la
+   app, y es a propósito. Esto no es una interfaz respondiendo a un
+   toque: es un dato —cuánto llevás de la carrera— y el recorrido de la
+   barra ES la información. Que la barra viaje hasta el 62% se lee
+   distinto que encontrarla ya puesta en 62. Pasa una vez por pantalla,
+   no se interrumpe nada, y nadie está esperando para tocar algo. */
+.barra-llena{
+  background:var(--celeste);height:100%;width:100%;
+  border-radius:var(--radio-pastilla);
+  transform:scaleX(calc(var(--llena,0) / 100));transform-origin:left center;
+  transition:transform 420ms var(--sale)
+}
+
+@starting-style {
+.barra-llena{transform:scaleX(0)}
+}
+
+@media (prefers-reduced-motion:reduce) {
+.barra-llena{transition:none}
+
+@starting-style {
+.barra-llena{transform:scaleX(calc(var(--llena,0) / 100))}
+}
+}
+
+/* --- El nexo de Estudiemos hacia el organizador de finales --- */
+.nexo-final{
+  display:flex;align-items:center;gap:12px;text-decoration:none;
+  background:var(--amarillo);color:var(--sobre-color);
+  border:1.5px solid var(--tinta-borde);border-radius:var(--radio);
+  box-shadow:var(--sombra);padding:14px 15px;margin:0 0 14px
+}
+
+.nexo-texto{flex:1;font-size:var(--letra-nota);line-height:1.4}
+
+.nexo-texto strong{
+  display:block;font-family:var(--fuente-titulo);font-size:var(--letra-guia);
+  line-height:1.15;margin-bottom:3px
+}
+
+.nexo-flecha{
+  flex:0 0 auto;font-family:var(--fuente-sub);font-weight:700;font-size:22px;
+  line-height:1
+}
+
+/* Las bandas van de borde a borde, sin la envoltura de 680 px: en una
+   pantalla que se lee, el color tiene que llegar hasta el filo. */
+.banda{ padding:var(--banda-aire) 0; position:relative }
+
+.banda > .envoltura{ position:relative; z-index:1 }
+
+.banda.tinta{ background:var(--negro); color:var(--sobre-negro) }
+
+.banda.sol  { background:var(--amarillo); color:var(--sobre-color) }
+
+.banda.papel{ background:var(--superficie); color:var(--texto) }
+
+/* La trama de puntos: la misma que tienen las ilustraciones de la
+   facultad, que son serigrafías. Es de donde sale todo el lenguaje. */
+.banda.tinta::before{
+  content:'';position:absolute;inset:0;pointer-events:none;
+  background-image:radial-gradient(var(--amarillo) 1px, transparent 1.1px);
+  background-size:10px 10px;opacity:.10
+}
+
+.banda.sol .grito em{color:var(--rojo-solido)}
+
+/* ---- El zigzag ----
+   Texto e imagen alternando lados, como en la referencia. En el celular
+   se apila solo: por eso no pesa nada. */
+.zigzag{display:grid;gap:26px;margin-top:var(--banda-aire)}
+
+.zigzag > article{display:grid;gap:18px;align-items:center}
+
+.zigzag h3{
+  font-family:var(--fuente-titulo);font-size:clamp(22px,6vw,32px);
+  line-height:1.05;margin:0 0 10px
+}
+
+.zigzag p{margin:0 0 12px;font-size:var(--letra-base);line-height:1.55;max-width:46ch}
+
+.zigzag p:last-child{margin-bottom:0}
+
+/* La foto, montada sobre su segunda tinta corrida. Es el mismo gesto
+   que la sombra de las tarjetas, pero grande. */
+.zigzag figure{margin:0;position:relative}
+
+.zigzag figure img{
+  /* Las fotos las sube la agrupacion desde el celular y vienen en
+     formas dispares: una apaisada al lado de una parada descomponia el
+     zigzag. Se recortan todas a la misma proporcion, centradas. */
+  width:100%;aspect-ratio:4/3;object-fit:cover;object-position:center;
+  height:auto;display:block;border-radius:var(--radio);
+  border:2px solid var(--tinta-borde);position:relative;z-index:1;
+  background:var(--superficie-2)
+}
+
+.zigzag figure::before{
+  content:'';position:absolute;inset:14px -14px -14px 14px;
+  background:var(--amarillo);border-radius:var(--radio)
+}
+
+.banda.sol .zigzag figure::before{background:var(--negro)}
+
+.zigzag figcaption{
+  margin-top:16px;font-family:var(--fuente-datos);
+  font-size:var(--letra-chica);opacity:.85
+}
+
+@media (min-width:760px) {
+.zigzag > article{grid-template-columns:1fr 1fr;gap:44px}
+
+.zigzag > article:nth-child(even) figure{order:-1}
+}
+
+.banda.tinta .puerta{background:var(--amarillo);color:var(--sobre-color);border-color:var(--amarillo)}
+
+/* Sobre la banda negra, los botones de borde tienen que invertirse: el
+   --texto de la app es oscuro en modo claro, así que ahí quedaban
+   negros sobre negro. Contraste 1,00: invisibles. */
+.banda.tinta .boton.borde{
+  color:var(--sobre-negro);border-color:var(--sobre-negro);background:transparent
+}
+
+@media (hover:hover) and (pointer:fine) {
+.banda.tinta .boton.borde:hover{background:rgba(255,255,255,.1)}
+}
+
+.banda.sol .boton.borde{color:var(--sobre-color);border-color:var(--sobre-color)}
+
+/* El enlace de volver, arriba de la pantalla del Consejo. Iba adentro
+   de un párrafo y quedaba de 17 px de alto: por debajo del mínimo. */
+.volver-lectura{
+  display:inline-flex;align-items:center;min-height:32px;padding:6px 2px;
+  color:inherit;text-decoration:none;border-bottom:1px solid currentColor
+}
+
+@media (hover:hover) and (pointer:fine) {
+.volver-lectura:hover{opacity:.75}
+}
+
+/* ============================================================
+   LA BANDA DE CIERRE
+
+   Cada pantalla termina con la misma tinta y la misma trama con las
+   que abre. Antes se cortaba: la lista se acababa y aparecia un
+   parrafo chico centrado sobre el mismo papel.
+
+   El orden dice algo. Primero lo unico que le pedimos a alguien —que
+   avise si algo falta—, despues la puerta a quienes somos, y al final
+   la firma. La firma es lo menos importante de las tres.
+   ============================================================ */
+/* Sin margen arriba: en el resto del lenguaje las bandas se TOCAN
+   —negro, papel, sol, negro— y un hueco solo acá se leía como un
+   descuido. Los 46 px de más abajo dejan pasar el botón flotante de
+   Avisanos, que vive fijo en esa esquina. */
+.cierre{
+  /* El aire de las bandas está declarado dentro de .lectura, y esta
+     banda vive fuera de ahí en las nueve pantallas: sin esto quedaba
+     con padding 0 y el texto pegado a los bordes. Es menor que el de
+     una banda de lectura porque es un cierre, no una portada. */
+  --banda-aire:clamp(38px, 9vw, 64px);
+  padding-bottom:calc(var(--banda-aire) + 46px)
+}
+
+.cierre .ceja-lectura{margin-bottom:12px}
+
+.cierre-pedido{
+  font-size:clamp(17px, 4.4vw, 21px);line-height:1.45;
+  margin:0 0 22px;max-width:34ch
+}
+
+.cierre-pedido strong{color:var(--amarillo)}
+
+.cierre-puerta{
+  display:flex;align-items:center;justify-content:space-between;gap:14px;
+  padding:14px 16px;text-decoration:none;
+  border:2px solid var(--sobre-negro);border-radius:var(--radio);
+  color:var(--sobre-negro);font-family:var(--fuente-sub);font-weight:700;
+  font-size:var(--letra-base);text-transform:uppercase;letter-spacing:.04em;
+  max-width:360px
+}
+
+.cierre-puerta:active{transform:translate(2px,2px)}
+
+.cierre-flecha{font-size:20px;line-height:1}
+
+/* ---- EL ÍNDICE DEL PIE ----
+
+   Texto plano, no tarjetas. Es a propósito: una lista de renglones se
+   barre de arriba abajo de un vistazo, y una grilla de cajas obliga a
+   mirar de a una. Acá abajo lo que se busca es una sección puntual,
+   no que algo llame la atención.
+
+   Una sola columna en el teléfono y dos desde los 200px por columna:
+   los nombres son largos («Universidad Nacional de La Plata») y
+   partidos en dos columnas angostas se cortan en tres renglones.
+
+   Los renglones llegan a los 48px como todo lo tocable de la app,
+   aunque la letra sea de 15: en el pie es donde más se toca al lado
+   de lo que se quiso tocar. */
+.cierre-indice{
+  display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));
+  gap:22px 26px;margin-top:34px
+}
+
+.cierre-firma{
+  /* En la tipografia de texto y no en la de datos: es prosa, no un dato,
+     y en mono a 13px «CEFTS» se caia solo a un renglon. */
+  margin:24px 0 0;font-size:var(--letra-chica);line-height:1.6;
+  color:var(--sobre-negro-tenue);max-width:40ch
+}
+
+.nexo-texto{flex:1 1 auto;min-width:0;display:flex;flex-direction:column;gap:3px}
+
+.nexo-texto strong{font-size:var(--letra-nota);line-height:1.3}
+
+.nexo-texto > span{
+  font-family:var(--fuente-datos);font-size:var(--letra-chica);
+  line-height:1.3;color:var(--texto-suave)
+}
+
+.nexo-flecha{
+  flex:0 0 auto;font-family:var(--fuente-sub);font-weight:700;font-size:20px;
+  color:var(--texto-suave)
+}
+
+.banda.tinta .red-pendiente{color:var(--sobre-negro);opacity:.7}

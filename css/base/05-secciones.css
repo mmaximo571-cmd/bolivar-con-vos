@@ -1,0 +1,312 @@
+/* ==========================================================
+   LA BOLIVAR CON VOS · SECCIONES
+   Las secciones debajo de la cabecera, los espacios, los pasos de un
+   tramite y las pestanas.
+
+   Es la hoja 5 de 12 de la base, y la base la cargan TODAS las
+   pantallas. El orden importa: van siempre en el orden numerado de
+   `css/base/`, entre `tokens.css` y la hoja de cada pantalla.
+   ========================================================== */
+
+.secciones-fila a:focus-visible{
+  outline-color:var(--amarillo)
+}
+
+@media (prefers-reduced-motion:reduce) {
+.secciones-fila a:active,
+.pestana:active{
+    transform:none;opacity:.7
+  }
+}
+
+.secciones-fila a{
+  -webkit-user-select:none;user-select:none
+}
+
+.secciones-fila a svg.ico{width:20px;height:20px}
+
+/* --- Las secciones, debajo de la cabecera --- */
+/* Siete secciones no entran en un celular: la fila se desliza, y como
+   ademas traemos al centro la seccion donde estas parada, casi siempre
+   hay algo cortado de LOS DOS lados. Habia degradado solo a la derecha:
+   del lado izquierdo la seccion quedaba partida al medio de la palabra
+   —«CIO» por INICIO— y eso no se lee como «hay mas», se lee como roto.
+
+   Ahora hay uno en cada borde y aparecen solo cuando de ese lado
+   realmente queda algo escondido. Hasta que el guion mide, se muestra
+   el de la derecha: es el caso de siempre y asi no hay un parpadeo. */
+.secciones{background:var(--negro);border-top:1px solid var(--linea-negro);position:relative}
+
+.secciones::before,
+.secciones::after{
+  content:'';position:absolute;top:0;bottom:0;width:30px;
+  pointer-events:none;opacity:0;transition:opacity .15s ease
+}
+
+.secciones::before{
+  left:0;background:linear-gradient(to left, rgba(26,26,26,0), var(--negro))
+}
+
+.secciones::after{
+  right:0;background:linear-gradient(to right, rgba(26,26,26,0), var(--negro))
+}
+
+.secciones:not(.medida)::after{opacity:1}
+
+.secciones.hay-izq::before{opacity:1}
+
+.secciones.hay-der::after{opacity:1}
+
+@media (prefers-reduced-motion:reduce) {
+.secciones::before,.secciones::after{transition:none}
+}
+
+.secciones-fila{display:flex;gap:2px;overflow-x:auto;-webkit-overflow-scrolling:touch}
+
+.secciones-fila::-webkit-scrollbar{display:none}
+
+.secciones-fila a{
+  flex:1 0 auto;min-width:72px;padding:9px 10px 11px;text-decoration:none;
+  display:flex;flex-direction:column;align-items:center;gap:3px;
+  font-family:var(--fuente-sub);font-size:var(--letra-mini);font-weight:700;
+  text-transform:uppercase;letter-spacing:.04em;color:var(--sobre-negro-suave);
+  border-bottom:3px solid transparent
+}
+
+.secciones-fila a .icono{font-size:18px;line-height:1}
+
+.secciones-fila a[aria-current="page"]{color:var(--amarillo);border-bottom-color:var(--amarillo)}
+
+/* Cambio de color, no de posición: la curva que corresponde es la
+   blanda del navegador, y 180 ms alcanza. Es lo único que separa
+   «cambió algo» de «siempre estuvo así». */
+.secciones-fila a{
+  transition:color var(--t-chico) ease,
+             border-bottom-color var(--t-chico) ease
+}
+
+/* ============================================================
+   DETALLE DE TRAMITE
+   ============================================================ */
+.pasos{list-style:none;counter-reset:paso;margin:16px 0 0;padding:0}
+
+.pasos li{counter-increment:paso;position:relative;padding:0 0 18px 42px}
+
+.pasos li::before{
+  content:counter(paso);position:absolute;left:0;top:0;
+  width:28px;height:28px;border-radius:50%;background:var(--amarillo);
+  font-family:var(--fuente-titulo);font-size:var(--letra-base);
+  display:flex;align-items:center;justify-content:center
+}
+
+.pasos li::after{
+  content:'';position:absolute;left:13.5px;top:32px;bottom:2px;width:1px;background:var(--linea)
+}
+
+.pasos li:last-child::after{display:none}
+
+/* --- Pestañas --- */
+/* Con la cuarta pestaña, «Preparar un final», las cuatro no entraban en
+   343 px: se desbordaban 24 y arrastraban la página entera de costado.
+   Se resolvió por las dos vías. Achicar para que entren, y dejar que se
+   deslicen si algún día se suma otra, como ya hacen la fila de secciones
+   y los chips. Así no puede volver a romper el ancho de la página. */
+.pestanas{
+  display:flex;gap:0;margin:0 0 14px;
+  overflow-x:auto;-webkit-overflow-scrolling:touch;
+  position:relative
+}
+
+.pestanas::-webkit-scrollbar{display:none}
+
+/* EL SUBRAYADO VIAJA.
+
+   Antes el subrayado se apagaba en una pestaña y se prendía en la
+   otra. Eso informa cuál quedó elegida, pero no informa lo otro que
+   la persona necesita saber: de dónde vino y para qué lado se movió.
+   Cuando la barra recorre el camino, la pantalla que aparece abajo se
+   entiende como consecuencia del gesto y no como un cambio suelto.
+
+   La barra es UN elemento —el ::after del contenedor— movido con
+   transform. Las dos medidas se las pasa el JS de carrera/ en
+   variables. Es la única forma de que esto no cueste nada: una barra
+   que viaja con transform la resuelve la placa de video sola, mientras
+   que animar el borde de cada pestaña obligaría a repintar las cuatro.
+
+   Ojo con el detalle: las variables se ponen en el CONTENEDOR y mueven
+   al ::after del contenedor, no a las pestañas. Poner una variable en
+   un padre para mover a los hijos obliga al navegador a recalcular el
+   estilo de todos los hijos en cada cuadro; acá el hijo es uno solo. */
+/* La barra mide UN píxel y se estira con escala hasta el ancho de la
+   pestaña. Podría medir el ancho real y animarse el ancho, pero eso es
+   una medida de la página: el navegador tendría que recalcular la fila
+   en cada cuadro del viaje. Con un píxel escalado, la barra se mueve y
+   se estira en la misma propiedad —transform— y no toca el layout.
+   El origen a la izquierda es lo que hace que estirar sea «crecer hacia
+   la derecha» y no «crecer para los dos lados desde el centro». */
+.pestanas::after{
+  content:'';position:absolute;left:0;bottom:0;height:3px;width:1px;
+  background:var(--texto);
+  transform-origin:0 50%;
+  transform:translateX(var(--pestana-x,0)) scaleX(var(--pestana-ancho,0));
+  transition:transform var(--t-medio) var(--ambos);
+  pointer-events:none
+}
+
+/* Antes de que el JS mida —o si no llega a correr— no hay barra
+   flotante y manda el borde de la pestaña elegida, que sigue estando. */
+.pestanas:not([style*="--pestana-ancho"])::after{display:none}
+
+/* min-width:0 es lo que permite que se achiquen por debajo de su texto y
+   partan en dos renglones. Sin eso, flex respeta el ancho del contenido
+   y las cuatro se desbordan aunque digan flex:1. */
+/* Las pestañas NO crecieron con el resto de la escala, y es a propósito:
+   son cuatro repartiéndose 375 px y ya estaban al límite. Con un punto
+   más, la palabra más larga dejaba de entrar y se cortaba. Quedan en
+   --letra-nota, que son los mismos 14 px que tenían antes del 4/9/2026.
+
+   Estuvo recortada por eso: «PLAN COMPLETO» era más ancha que su
+   pestaña y se comía unos 2 px. `overflow-wrap` salía peor —partía la
+   palabra y dejaba una «O» sola en un tercer renglón—, así que el
+   arreglo fue acortar el texto: el 6/9/2026 esa pestaña pasó a decir
+   «Plan». Medido con las cuatro a la vista: en 375 px cada una recibe
+   78 px de texto y «Plan» ocupa 41; en 320 px, la pantalla más angosta
+   que existe, reciben 64 y la más ancha pasa a ser «FINALES», que mide
+   62,8. O sea que el margen que queda es un píxel: cualquier palabra
+   nueva acá se mide antes, y no se mira si «entra en la pantalla» sino
+   si entra en un cuarto de 288 px. */
+.pestana{
+  flex:1 1 0;min-width:0;
+  background:transparent;border:none;border-bottom:3px solid var(--linea);
+  padding:10px 4px;font-family:var(--fuente-sub);font-size:var(--letra-nota);
+  line-height:1.15;text-transform:uppercase;letter-spacing:.01em;
+  color:var(--texto-suave);
+  transition:color var(--t-chico) ease
+}
+
+.pestana[aria-selected="true"]{border-bottom-color:var(--texto);color:var(--texto);font-weight:700}
+
+/* Con la barra viajando, el borde de la elegida sobra: quedarían dos
+   subrayados encima del mismo lugar. */
+.pestanas[style*="--pestana-ancho"] .pestana[aria-selected="true"]{
+  border-bottom-color:transparent
+}
+
+@media (prefers-reduced-motion:reduce) {
+.pestanas::after{transition:none}
+}
+
+@media (min-width:720px) {
+/* La fila de secciones ya entra entera: sobran los dos degradados */
+.secciones::before,.secciones::after{display:none}
+}
+
+/* ---- Espacios autogestivos ----
+   Misma tarjeta `.modulo` del glosario. El ícono va al lado del nombre
+   y los botones abajo, en fila, que se apilan si no entran. */
+.espacio .modulo-cabeza{align-items:center;flex-wrap:nowrap}
+
+.espacio h3{flex:1 1 auto}
+
+.espacio-estado{
+  display:inline-block;font-family:var(--fuente-sub);font-weight:700;
+  text-transform:uppercase;letter-spacing:.05em;
+  padding:2px 8px;border-radius:var(--radio-pastilla);
+  border:1.5px solid var(--linea);color:var(--texto)
+}
+
+.espacio-estado.abierto{background:var(--amarillo);border-color:var(--amarillo);color:var(--sobre-color)}
+
+.espacio-acciones{display:flex;flex-wrap:wrap;gap:10px;margin-top:14px}
+
+.espacio-acciones .boton{min-height:44px}
+
+/* ---- El subrayado de lo que se toca ----
+   El turquesa sobre papel mide 3,3: no llega al minimo para texto, asi
+   que el enlace se queda con la tinta del parrafo y el turquesa va en
+   el subrayado, que no tiene que cumplir ese minimo. Se lee «esto se
+   toca» sin pagarlo en legibilidad.
+
+   Va solo en enlaces DENTRO de un texto corrido. Las tarjetas y los
+   botones ya dicen que se tocan por su forma; subrayarlos ademas seria
+   decir dos veces lo mismo. */
+.respuesta a,
+.paso-detalle a{
+  text-decoration:underline;
+  text-decoration-color:var(--celeste);
+  text-decoration-thickness:2px;
+  text-underline-offset:3px
+}
+
+@media (hover:hover) and (pointer:fine) {
+.respuesta a:hover,
+.paso-detalle a:hover{
+    text-decoration-thickness:4px
+  }
+}
+
+.secciones{view-transition-name:secciones}
+
+/* ============================================================
+   LA BARRA DE SECCIONES, ABAJO
+
+   Estaba arriba, con las siete secciones en una fila que se deslizaba.
+   Deslizar para descubrir que una seccion existe es pedirle a alguien
+   que adivine, y las tres de la derecha —Fechas, Perfil, Quienes
+   somos— vivian escondidas ahi.
+
+   Ahora son cuatro, fijas al pie, sin deslizar y del mismo ancho. Al
+   pie porque es donde esta el pulgar cuando se sostiene el telefono con
+   una mano, que es como se usa esta app caminando por la facultad.
+
+   Se reusa la clase `secciones` para no reescribir el foco, el toque y
+   el tamano de los iconos, que ya estaban resueltos. Esto de aca solo
+   la cambia de lugar.
+   ============================================================ */
+.secciones.abajo{
+  position:fixed;left:0;right:0;bottom:0;z-index:60;
+  border-top:1px solid var(--linea-negro);border-bottom:none;
+  /* El borde de abajo en los telefonos con muesca: sin esto la fila
+     queda debajo de la barra del sistema y el ultimo renglon no se
+     toca. */
+  padding-bottom:env(safe-area-inset-bottom, 0px)
+}
+
+/* Cuatro entran enteras: no hay nada escondido y los degradados de los
+   costados serian una mentira. */
+.secciones.abajo .secciones-fila{ overflow-x:visible }
+
+/* Las cuatro reparten el ancho en partes iguales. El cuerpo baja un
+   punto y afloja el espaciado para que «Estudiemos» y «Mi perfil»
+   entren en un renglon: partidos en dos, la barra queda despareja y se
+   lee peor que con la letra un poco mas chica. */
+.secciones.abajo .secciones-fila a{
+  flex:1 1 0;min-width:0;
+  font-size:11px;letter-spacing:.02em;white-space:nowrap
+}
+
+.secciones.abajo::before,
+.secciones.abajo::after{ display:none }
+
+/* La seccion en la que estas se marca ARRIBA del renglon y no abajo:
+   abajo queda contra el borde de la pantalla y no se ve. */
+.secciones.abajo .secciones-fila a{
+  border-bottom:none;border-top:3px solid transparent
+}
+
+.secciones.abajo .secciones-fila a[aria-current="page"]{
+  border-top-color:var(--amarillo)
+}
+
+.espacio-icono{font-size:28px;line-height:1;flex:0 0 auto}
+
+.espacio-horario{
+  font-family:var(--fuente-datos);font-size:var(--letra-chica);
+  color:var(--texto-suave);margin:4px 0 10px;
+  /* El horario baja entero debajo del «abierto», nunca partido en «8 / a 20». */
+  display:flex;flex-wrap:wrap;align-items:center;gap:6px 8px
+}
+
+.espacio-horario > span:last-child{white-space:nowrap}
+
+.espacio-telefono{font-family:var(--fuente-datos);font-weight:700;margin:10px 0 0}

@@ -1,0 +1,173 @@
+/* ==========================================================
+   LA BOLIVAR CON VOS · CALENDARIO
+   El calendario mensual, el «pasalo a tu calendario» y el proximo
+   evento. Lo comparten el inicio y Fechas.
+
+   Es la hoja 8 de 12 de la base, y la base la cargan TODAS las
+   pantallas. El orden importa: van siempre en el orden numerado de
+   `css/base/`, entre `tokens.css` y la hoja de cada pantalla.
+   ========================================================== */
+
+@media (prefers-reduced-motion:reduce) {
+.cal-dia:active{
+    transform:none;opacity:.7
+  }
+}
+
+.cal-dia{
+  -webkit-user-select:none;user-select:none
+}
+
+.calendario{
+  border-color:var(--tinta-borde);
+}
+
+/* ============================================================
+   CALENDARIO
+   ============================================================ */
+.calendario{
+  background:var(--superficie);border:1px solid var(--linea);border-radius:var(--radio);
+  padding:12px 12px 10px;box-shadow:var(--sombra)
+}
+
+.cal-cabecera{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-bottom:12px}
+
+.cal-mes{
+  font-family:var(--fuente-titulo);font-size:19px;text-transform:uppercase;
+  line-height:1;text-align:center;flex:1
+}
+
+.cal-flecha{
+  flex:0 0 auto;width:42px;height:42px;border-radius:50%;
+  border:1px solid var(--linea);background:var(--superficie);
+  font-size:18px;line-height:1;color:var(--texto);
+  display:flex;align-items:center;justify-content:center
+}
+
+@media (hover:hover) and (pointer:fine) {
+.cal-flecha:hover{background:var(--superficie-2)}
+}
+
+.cal-grilla{display:grid;grid-template-columns:repeat(7,1fr);gap:3px}
+
+.cal-nombre-dia{
+  text-align:center;font-family:var(--fuente-sub);font-size:var(--letra-mini);font-weight:700;
+  letter-spacing:.06em;color:var(--texto-suave);text-transform:uppercase;padding-bottom:4px
+}
+
+/* La celda cuadrada: el ancho lo pone la grilla, el alto lo iguala */
+.cal-dia{
+  aspect-ratio:1/1;border:none;background:transparent;border-radius:9px;
+  font-family:var(--fuente-datos);font-size:var(--letra-base);color:var(--texto);
+  display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;
+  padding:0;position:relative
+}
+
+.cal-dia.vacio{visibility:hidden;pointer-events:none}
+
+.cal-dia.apagado{color:var(--linea)}
+
+.cal-dia.con-cosas{font-weight:700}
+
+@media (hover:hover) and (pointer:fine) {
+.cal-dia.con-cosas:hover{background:var(--superficie-2)}
+}
+
+.cal-dia.hoy{box-shadow:inset 0 0 0 1.5px var(--negro)}
+
+.cal-dia[aria-pressed="true"]{background:var(--amarillo);color:var(--sobre-color)}
+
+.cal-dia[aria-pressed="true"].hoy{box-shadow:inset 0 0 0 1.5px var(--negro)}
+
+.cal-puntos{display:flex;gap:2px;height:5px;align-items:center}
+
+.cal-punto{width:5px;height:5px;border-radius:50%;background:var(--negro)}
+
+.cal-punto.frente  {background:var(--marca-frente)}
+
+.cal-punto.gremial {background:var(--marca-gremial)}
+
+.cal-punto.info    {background:var(--marca-info)}
+
+.cal-punto.saberes {background:var(--marca-saberes)}
+
+.cal-referencia{
+  display:flex;flex-wrap:wrap;gap:10px;margin-top:11px;padding-top:10px;
+  border-top:1px solid var(--linea);font-size:var(--letra-chica);color:var(--texto-suave)
+}
+
+.cal-referencia span{display:flex;align-items:center;gap:5px}
+
+/* ============================================================
+   PASAR UNA FECHA AL CALENDARIO
+   ============================================================ */
+/* Va separado por una línea porque no es parte de la publicación: es
+   lo que se puede HACER con ella. Sin la línea se leía como un pie de
+   la nota. */
+.agendarlo{
+  margin-top:26px;padding-top:18px;border-top:1px solid var(--linea)
+}
+
+.agendarlo .titulo-seccion{margin-top:0}
+
+.cal-numero{line-height:1}
+
+/* La barrita de abajo del día. Cuando dos días seguidos son de lo
+   mismo, la barra se estira por encima del hueco de 4px de la grilla,
+   así una mesa de dos semanas se lee como una franja y no como puntos. */
+.cal-barra{
+  position:absolute;left:5px;right:5px;bottom:5px;height:4px;border-radius:var(--radio-pastilla)
+}
+
+.cal-barra.mesa  {background:var(--rojo)}
+
+.cal-barra.sigue-izq{left:-2px;border-top-left-radius:0;border-bottom-left-radius:0}
+
+.cal-barra.sigue-der{right:-2px;border-top-right-radius:0;border-bottom-right-radius:0}
+
+/* Las mismas franjas, pintadas por línea editorial: así las usa el
+   calendario de «Fechas», que muestra toda la agenda y no solo las
+   mesas y los asuetos como el del inicio. */
+.cal-barra.frente {background:var(--marca-frente)}
+
+.cal-barra.gremial{background:var(--marca-gremial)}
+
+.cal-barra.info   {background:var(--marca-info)}
+
+.cal-barra.saberes{background:var(--marca-saberes)}
+
+/* Cuando en un día conviven dos líneas, la segunda va encima de la
+   primera. Más de dos no se dibujan: se ven tocando el día. */
+.cal-barra.segunda{bottom:11px}
+
+.cal-dia.con-cosas.mesa  {background:var(--dia-mesa)}
+
+@media (min-width:900px) {
+#zona-normal > .calendario{grid-column:1}
+}
+
+/* ---- Lo proximo de la agenda, en el inicio ----
+   Ocupa el lugar de la alarma cuando no hay inscripcion abierta. Es un
+   renglon y no una tarjeta a proposito: la alarma de inscripcion tiene
+   que seguir siendo lo mas fuerte de la pantalla el dia que aparezca. */
+.proximo{
+  display:flex;align-items:center;gap:12px;
+  padding:12px 14px;margin-bottom:16px;text-decoration:none;
+  background:var(--superficie);color:var(--texto);
+  border:1px solid var(--linea);border-left:4px solid var(--amarillo);
+  border-radius:var(--radio);box-shadow:var(--sombra)
+}
+
+.proximo-cuando{
+  flex:0 0 auto;font-family:var(--fuente-datos);font-weight:700;
+  font-size:var(--letra-chica);text-transform:uppercase;letter-spacing:.07em;
+  color:var(--texto-suave);white-space:nowrap
+}
+
+.proximo:active{transform:translate(2px,2px);box-shadow:none}
+
+/* En «Fechas» el calendario no es un módulo más de una columna: es el
+   índice de la lista que va abajo. Va centrado y con ancho propio, así
+   en una pantalla ancha no se estira hasta que los días quedan
+   nadando lejos unos de otros. */
+.calendario-centro{max-width:400px;margin:0 auto 24px}

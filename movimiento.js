@@ -2,7 +2,7 @@
    EL MOVIMIENTO DE LAS PANTALLAS QUE SE RECORREN (13/9)
 
    Nació en Estudiemos y se llevó a Inicio y a Fichas. Son dos cosas,
-   las dos sin librería (ver el comentario de `.mov` en `css/base.css`):
+   las dos sin librería (ver el comentario de `.mov` en `css/base/12-movimiento.css`):
 
      entrarAlLlegar   las piezas suben 12 px y aparecen al cruzar el
                       85 % de la pantalla, UNA sola vez.

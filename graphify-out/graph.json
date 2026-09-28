@@ -2183,7 +2183,7 @@
       "file_type": "code",
       "norm_label": "esdesupabase()",
       "source_file": "sw.js",
-      "source_location": "L171"
+      "source_location": "L187"
     },
     {
       "id": "fondo_red_argb",
@@ -14307,7 +14307,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "sw.js",
-      "source_location": "L171",
+      "source_location": "L187",
       "weight": 1.0
     },
     {
@@ -21753,7 +21753,7 @@
       "confidence_score": 0.85,
       "context": "argument",
       "source_file": "sw.js",
-      "source_location": "L194",
+      "source_location": "L210",
       "weight": 1.0
     },
     {
@@ -22441,5 +22441,5 @@
       "source_file": "panel/index.html"
     }
   ],
-  "built_at_commit": "d2e0b715797b908d7e813aaa240560ed01f4134f"
+  "built_at_commit": "0c458a32fbfc417986b93adf1ec100a71754975e"
 }

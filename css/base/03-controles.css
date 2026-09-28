@@ -1,0 +1,213 @@
+/* ==========================================================
+   LA BOLIVAR CON VOS · CONTROLES
+   Lo que se toca: botones, campos de formulario, interruptores, chips
+   y etiquetas.
+
+   Aca tambien vive `.texto`, que NO es tipografia: es la variante de
+   boton de las listas (`class="boton texto ancho"`). Pesa lo mismo que
+   `.boton`, asi que tiene que quedar DESPUES, y por eso esta en esta
+   hoja y no en cimientos.
+
+   Es la hoja 3 de 12 de la base, y la base la cargan TODAS las
+   pantallas. El orden importa: van siempre en el orden numerado de
+   `css/base/`, entre `tokens.css` y la hoja de cada pantalla.
+   ========================================================== */
+
+.boton-cuadro:active,
+.boton:active,
+.chip:active{
+  transform:translate(2px, 2px);
+  box-shadow:none
+}
+
+@media (prefers-reduced-motion:reduce) {
+.boton-cuadro:active,
+.boton:active,
+.chip:active,
+.boton-icono:active{
+    transform:none;opacity:.7
+  }
+}
+
+/* Un botón es un botón, no un párrafo: al tocarlo con el pulgar y
+   correrse un milímetro, se marcaba la palabra en azul en vez de
+   activarse. */
+.boton,
+.boton-cuadro,
+.boton-icono,
+.chip{
+  -webkit-user-select:none;user-select:none
+}
+
+.boton-icono{
+  width:44px;height:44px;display:flex;align-items:center;justify-content:center;
+  background:transparent;border:none;border-radius:50%;
+  font-size:var(--letra-sub);line-height:1;color:var(--sobre-negro);text-decoration:none;padding:0
+}
+
+@media (hover:hover) and (pointer:fine) {
+.boton-icono:hover{background:rgba(255,255,255,.12)}
+}
+
+.boton-icono svg.ico{width:22px;height:22px}
+
+.chip-icono svg.ico{width:16px;height:16px}
+
+.chip[aria-pressed="true"] .chip-icono{color:inherit}
+
+/* ============================================================
+   CHIPS / CATEGORIAS
+   ============================================================ */
+.chips{display:flex;gap:8px;overflow-x:auto;padding:4px 0 8px;-webkit-overflow-scrolling:touch}
+
+.chips::-webkit-scrollbar{display:none}
+
+.chip{
+  flex:0 0 auto;background:var(--superficie);border:1px solid var(--linea);
+  border-radius:var(--radio-pastilla);padding:8px 14px;font-family:var(--fuente-sub);
+  font-size:var(--letra-densa);letter-spacing:.02em;white-space:nowrap;color:var(--texto)
+}
+
+/* Sobre el fondo suave, el amarillo pleno del chip elegido resalta */
+.chip[aria-pressed="true"]{background:var(--amarillo);border-color:var(--amarillo);color:var(--sobre-color);font-weight:700}
+
+.boton-cuadro{
+  border-color:var(--tinta-borde);
+}
+
+/* Etiqueta de linea editorial */
+.etiqueta{
+  display:inline-block;font-family:var(--fuente-texto);font-size:11px;font-weight:700;
+  letter-spacing:.075em;text-transform:uppercase;padding:4px 9px;border-radius:var(--radio-pastilla);
+  margin-bottom:9px;color:var(--texto);background:var(--superficie-2);border:1px solid color-mix(in srgb, var(--texto) 10%, transparent)
+}
+
+.etiqueta.frente  {background:color-mix(in srgb, var(--linea-frente) 10%, var(--superficie));color:var(--texto)}
+
+.etiqueta.gremial {background:color-mix(in srgb, var(--linea-gremial) 18%, var(--superficie));color:var(--texto)}
+
+.etiqueta.info    {background:color-mix(in srgb, var(--linea-info) 13%, var(--superficie));color:var(--texto)}
+
+.etiqueta.saberes {background:color-mix(in srgb, var(--linea-saberes) 25%, var(--superficie));color:var(--texto)}
+
+/* ============================================================
+   BOTONES
+   ============================================================ */
+.boton{
+  display:inline-flex;align-items:center;justify-content:center;gap:8px;
+  font-family:var(--fuente-sub);font-weight:700;font-size:var(--letra-base);
+  text-transform:uppercase;letter-spacing:.05em;
+  padding:13px 20px;border-radius:var(--radio-pastilla);border:none;text-decoration:none;
+  background:var(--amarillo);color:var(--sobre-color);
+  /* La segunda tinta del boton va en turquesa y no en negro. No es
+     adorno: .boton ya estaba en el grupo de :active que baja 2 px «y la
+     segunda tinta desaparece», pero no tenia ninguna sombra, asi que al
+     apretarlo desaparecia algo que no existia. Y el turquesa es, en
+     esta app, el color de lo que se toca. */
+  box-shadow:2px 2px 0 var(--celeste)
+}
+
+@media (hover:hover) and (pointer:fine) {
+.boton:hover{filter:brightness(.94)}
+}
+
+.boton.oscuro{background:var(--negro);color:var(--amarillo)}
+
+/* El botón de contorno hereda el color del texto de la página, no el
+   negro fijo: sobre fondo transparente, de noche quedaba oscuro sobre
+   oscuro y no se leía (1,09). */
+.boton.borde{background:transparent;border:1.5px solid var(--texto);color:var(--texto)}
+
+.boton.ancho{width:100%}
+
+.boton:disabled{opacity:.5;cursor:default}
+
+/* ============================================================
+   FORMULARIOS
+   ============================================================ */
+.campo{margin-bottom:14px}
+
+.campo label{
+  display:block;font-family:var(--fuente-sub);font-size:var(--letra-chica);text-transform:uppercase;
+  letter-spacing:.07em;color:var(--texto-suave);margin-bottom:5px
+}
+
+.campo input,.campo textarea,.campo select{
+  width:100%;font-family:var(--fuente-texto);font-size:16px;
+  padding:11px 12px;border:1px solid var(--linea);border-radius:var(--radio-chico);
+  background:var(--superficie);color:var(--texto);outline:none
+}
+
+.campo input:focus,.campo textarea:focus,.campo select:focus{border-color:var(--texto)}
+
+.campo textarea{min-height:96px;resize:vertical}
+
+/* Dos botones al lado, uno abajo del otro cuando no entran. El amarillo
+   es el de Google y no por preferencia de marca: es el único de los dos
+   que anda seguro adentro del navegador de Instagram, que es donde esta
+   app se usa de verdad. */
+.botones-agenda{display:flex;flex-wrap:wrap;gap:10px;margin-bottom:10px}
+
+.botones-agenda .boton{flex:1 1 190px;min-height:48px}
+
+/* «Saltar por ahora» es una salida legítima, no un castigo: se ve, pero
+   no compite con el botón principal. */
+.boton.texto{
+  background:transparent;border:0;box-shadow:none;color:var(--texto-suave);
+  text-decoration:underline;margin-top:6px;font-size:var(--letra-nota)
+}
+
+@media (hover:hover) and (pointer:fine) {
+.boton.texto:hover{color:var(--texto)}
+}
+
+.boton.texto:active{transform:none;opacity:.6}
+
+/* --- Interruptor de una linea --- */
+.interruptor{
+  display:flex;align-items:center;gap:10px;background:var(--superficie);
+  border:1px solid var(--linea);border-radius:var(--radio-chico);
+  padding:11px 13px;margin:6px 0 16px;font-size:var(--letra-base);line-height:1.3
+}
+
+.interruptor input{width:19px;height:19px;flex:0 0 auto;accent-color:var(--texto)}
+
+.textos{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:2px}
+
+.texto{
+  width:100%;display:flex;gap:11px;align-items:flex-start;text-align:left;
+  background:transparent;border:0;border-bottom:1px solid var(--linea);
+  padding:11px 2px;min-height:48px;color:var(--texto);cursor:pointer
+}
+
+@media (hover:hover) and (pointer:fine) {
+.texto:hover{background:var(--superficie-2)}
+}
+
+/* El tachado: una línea que cruza el renglón, como en el papel. Se
+   dibuja de izquierda a derecha, no aparece de golpe.
+   «De izquierda a derecha» es literalmente lo que hace scaleX con el
+   origen a la izquierda, y sin obligar al navegador a recalcular el
+   renglón en cada cuadro, que es lo que pasaba animando el ancho. */
+.texto .ficha-texto::after{
+  content:'';position:absolute;left:0;top:52%;height:1.5px;width:100%;
+  background:var(--rojo-solido);
+  transform:scaleX(0);transform-origin:left center;
+  transition:transform var(--t-medio) var(--sale)
+}
+
+.texto.leido .ficha-texto{opacity:.72}
+
+.texto.leido .ficha-texto::after{transform:scaleX(1)}
+
+@media (prefers-reduced-motion:reduce) {
+.texto .ficha-texto::after{transition:none}
+}
+
+.invitacion-hoja .boton.texto{margin-top:8px}
+
+/* Y este ocupa el ancho, pero como un renglón: alineado a la
+   izquierda, no centrado como un botón. */
+#para-anotarse .boton.texto{justify-content:flex-start}
+
+.boton.peligro{background:var(--rojo-solido);color:var(--sobre-negro)}
