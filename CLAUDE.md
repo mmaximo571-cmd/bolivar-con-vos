@@ -26,6 +26,11 @@ documentos; sin librerías de terceros ni material de estudio, ver
 - El grafo sabe poco de lo que está al final de `BITACORA.md` y
   `LEEME.md`: si la pregunta es sobre una decisión vieja y el grafo no
   la trae, buscar con Grep en esos archivos, **nunca leerlos enteros**.
+- **El grafo no indexa CSS.** Tiene nodos de `.js`, `.html`, `.md` y
+  `.sql`, y cero de `.css` (se comprobó el 27/9/2026: `graphify update`
+  los saltea por extensión). Para los estilos no sirve preguntarle: se
+  usa la tabla de abajo para saber en qué hoja mirar, y Grep adentro de
+  esa hoja.
 
 Si `graphify` no está en el PATH, el ejecutable está en
 `C:\Users\Acer\.uv\tools\graphifyy\Scripts\graphify.exe`. En una sesión

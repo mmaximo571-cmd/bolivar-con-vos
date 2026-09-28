@@ -328,4 +328,21 @@ todo una entrada con el número, la fecha y el porqué.
    no se guarda en el armazón (guardado, podría quedar uno viejo que
    ya no cuente bien). Sin señal falla callado, que es lo que queremos:
    la app no depende de él. */
+/* v73 (27/9/2026) `estilos.css` ya no existe: se partió en
+   `css/tokens.css` (el panel de control estético), `css/base.css` (lo
+   que usan todas) y siete hojas en `css/pantallas/`. El armazón nombraba
+   `/estilos.css`, que ahora devuelve 404, y un teléfono con la app
+   guardada se quedaba pegado a la hoja vieja. En la lista entran solo
+   tokens y base: la hoja propia de una pantalla no va, la baja quien
+   entre ahí y queda guardada sola por la regla del final de `sw.js`,
+   mismo criterio que la librería grande de Supabase. */
+/* v74 (27/9/2026) Tres piezas salieron de `app.js` a `lib/`. Cambia QUÉ
+   se guarda: `lib/mudanza.js` entra al armazón porque la cargan las 22
+   pantallas y carga ANTES de `app.js` —sin ella guardada, la primera
+   visita sin señal se queda sin la mudanza—. `lib/fecha-al-calendario.js`
+   y `lib/tarjeta-avisos.js` NO entran: las usa una pantalla cada una
+   (Fechas y `mi/`). Y cambia el CONTENIDO de `app.js`, que ya estaba en
+   la lista: quedó con 1970 líneas en vez de 2565, y sin subir el número
+   los teléfonos seguirían sirviendo el viejo, que define lo que ahora
+   está en `lib/` —y entonces habría dos definiciones o ninguna—. */
 ```
