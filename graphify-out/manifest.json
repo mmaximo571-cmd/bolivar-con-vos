@@ -640,5 +640,11 @@
     "seen": 1790558090.9765115,
     "ast_hash": "029229a2393b925975bff7a0885cad1d",
     "semantic_hash": ""
+  },
+  "docs/PROPUESTAS.md": {
+    "mtime": 1790721253.1615558,
+    "seen": 1790721428.460308,
+    "ast_hash": "3c1e3ed79e2557231407f92bd37163c2",
+    "semantic_hash": ""
   }
 }

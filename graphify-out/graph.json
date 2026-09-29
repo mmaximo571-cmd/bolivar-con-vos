@@ -158,28 +158,16 @@
       "source_location": "L54"
     },
     {
-      "id": "iconos_icono",
-      "label": "icono()",
+      "id": "app_aplicartema",
+      "label": "aplicarTema()",
       "_callable": true,
       "_origin": "ast",
-      "community": 1,
-      "community_name": "Pantalla Mi a\u00f1o (carrera)",
+      "community": 10,
+      "community_name": "pintarNav",
       "file_type": "code",
-      "norm_label": "icono()",
-      "source_file": "iconos.js",
-      "source_location": "L120"
-    },
-    {
-      "id": "iconos_iconodecategoria",
-      "label": "iconoDeCategoria()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 1,
-      "community_name": "Pantalla Mi a\u00f1o (carrera)",
-      "file_type": "code",
-      "norm_label": "iconodecategoria()",
-      "source_file": "iconos.js",
-      "source_location": "L128"
+      "norm_label": "aplicartema()",
+      "source_file": "app.js",
+      "source_location": "L871"
     },
     {
       "id": "app_marcartitulos",
@@ -266,6 +254,18 @@
       "source_location": "L1075"
     },
     {
+      "id": "app_pintartema",
+      "label": "pintarTema()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 10,
+      "community_name": "pintarNav",
+      "file_type": "code",
+      "norm_label": "pintartema()",
+      "source_file": "app.js",
+      "source_location": "L881"
+    },
+    {
       "id": "app_ponerlupa",
       "label": "ponerLupa()",
       "_callable": true,
@@ -276,6 +276,18 @@
       "norm_label": "ponerlupa()",
       "source_file": "app.js",
       "source_location": "L906"
+    },
+    {
+      "id": "app_temaguardado",
+      "label": "temaGuardado()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 10,
+      "community_name": "pintarNav",
+      "file_type": "code",
+      "norm_label": "temaguardado()",
+      "source_file": "app.js",
+      "source_location": "L865"
     },
     {
       "id": "app_vigilartitulos",
@@ -302,18 +314,6 @@
       "source_location": "L1173"
     },
     {
-      "id": "app_errorencastellano",
-      "label": "errorEnCastellano()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 11,
-      "community_name": "esc",
-      "file_type": "code",
-      "norm_label": "errorencastellano()",
-      "source_file": "app.js",
-      "source_location": "L1465"
-    },
-    {
       "id": "app_esc",
       "label": "esc()",
       "_callable": true,
@@ -336,18 +336,6 @@
       "norm_label": "escmulti()",
       "source_file": "app.js",
       "source_location": "L344"
-    },
-    {
-      "id": "app_explicarerror",
-      "label": "explicarError()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 11,
-      "community_name": "esc",
-      "file_type": "code",
-      "norm_label": "explicarerror()",
-      "source_file": "app.js",
-      "source_location": "L1440"
     },
     {
       "id": "app_hoyiso",
@@ -384,18 +372,6 @@
       "norm_label": "iddelaalertavisible()",
       "source_file": "app.js",
       "source_location": "L1223"
-    },
-    {
-      "id": "app_mostrarerror",
-      "label": "mostrarError()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 11,
-      "community_name": "esc",
-      "file_type": "code",
-      "norm_label": "mostrarerror()",
-      "source_file": "app.js",
-      "source_location": "L1468"
     },
     {
       "id": "app_pintaralertamesa",
@@ -1058,16 +1034,40 @@
       "source_location": "L92"
     },
     {
-      "id": "app_anotarbusqueda",
-      "label": "anotarBusqueda()",
+      "id": "app_errorencastellano",
+      "label": "errorEnCastellano()",
       "_callable": true,
       "_origin": "ast",
       "community": 2,
       "community_name": "Pantalla Info \u00fatil (tr\u00e1mites y FAQ)",
       "file_type": "code",
-      "norm_label": "anotarbusqueda()",
+      "norm_label": "errorencastellano()",
       "source_file": "app.js",
-      "source_location": "L238"
+      "source_location": "L1465"
+    },
+    {
+      "id": "app_explicarerror",
+      "label": "explicarError()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 2,
+      "community_name": "Pantalla Info \u00fatil (tr\u00e1mites y FAQ)",
+      "file_type": "code",
+      "norm_label": "explicarerror()",
+      "source_file": "app.js",
+      "source_location": "L1440"
+    },
+    {
+      "id": "app_mostrarerror",
+      "label": "mostrarError()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 2,
+      "community_name": "Pantalla Info \u00fatil (tr\u00e1mites y FAQ)",
+      "file_type": "code",
+      "norm_label": "mostrarerror()",
+      "source_file": "app.js",
+      "source_location": "L1468"
     },
     {
       "id": "app_normalizar",
@@ -1320,18 +1320,6 @@
       "norm_label": "urlgooglecalendar()",
       "source_file": "lib/fecha-al-calendario.js",
       "source_location": "L74"
-    },
-    {
-      "id": "fondo_red_apagar",
-      "label": "apagar()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 21,
-      "community_name": "riesgo.js",
-      "file_type": "code",
-      "norm_label": "apagar()",
-      "source_file": "fondo-red.js",
-      "source_location": "L429"
     },
     {
       "id": "mapa_riesgo_abrir",
@@ -2186,6 +2174,18 @@
       "source_location": "L187"
     },
     {
+      "id": "fondo_red_apagar",
+      "label": "apagar()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 31,
+      "community_name": "fondo-red.js",
+      "file_type": "code",
+      "norm_label": "apagar()",
+      "source_file": "fondo-red.js",
+      "source_location": "L429"
+    },
+    {
       "id": "fondo_red_argb",
       "label": "aRGB()",
       "_callable": true,
@@ -2426,30 +2426,6 @@
       "source_location": "L387"
     },
     {
-      "id": "app_esdelequipo",
-      "label": "esDelEquipo()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 38,
-      "community_name": "sesionActual",
-      "file_type": "code",
-      "norm_label": "esdelequipo()",
-      "source_file": "app.js",
-      "source_location": "L450"
-    },
-    {
-      "id": "app_sesionactual",
-      "label": "sesionActual()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 38,
-      "community_name": "sesionActual",
-      "file_type": "code",
-      "norm_label": "sesionactual()",
-      "source_file": "app.js",
-      "source_location": "L436"
-    },
-    {
       "id": "app_alcambiarmovimiento",
       "label": "alCambiarMovimiento()",
       "_callable": true,
@@ -2474,6 +2450,30 @@
       "source_location": "L407"
     },
     {
+      "id": "app_avisarmostrandoguardado",
+      "label": "avisarMostrandoGuardado()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 4,
+      "community_name": "app.js",
+      "file_type": "code",
+      "norm_label": "avisarmostrandoguardado()",
+      "source_file": "app.js",
+      "source_location": "L1616"
+    },
+    {
+      "id": "app_avisarnosepudoactualizar",
+      "label": "avisarNoSePudoActualizar()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 4,
+      "community_name": "app.js",
+      "file_type": "code",
+      "norm_label": "avisarnosepudoactualizar()",
+      "source_file": "app.js",
+      "source_location": "L1623"
+    },
+    {
       "id": "app_caeeneldia",
       "label": "caeEnElDia()",
       "_callable": true,
@@ -2486,6 +2486,18 @@
       "source_location": "L420"
     },
     {
+      "id": "app_cajadelaviso",
+      "label": "cajaDelAviso()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 4,
+      "community_name": "app.js",
+      "file_type": "code",
+      "norm_label": "cajadelaviso()",
+      "source_file": "app.js",
+      "source_location": "L1591"
+    },
+    {
       "id": "app_cerrar",
       "label": "cerrar()",
       "_callable": true,
@@ -2496,6 +2508,18 @@
       "norm_label": "cerrar()",
       "source_file": "app.js",
       "source_location": "L783"
+    },
+    {
+      "id": "app_desdecuando",
+      "label": "desdeCuando()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 4,
+      "community_name": "app.js",
+      "file_type": "code",
+      "norm_label": "desdecuando()",
+      "source_file": "app.js",
+      "source_location": "L1574"
     },
     {
       "id": "app_guardarleidas",
@@ -2558,6 +2582,18 @@
       "source_location": "L1567"
     },
     {
+      "id": "app_poneraviso",
+      "label": "ponerAviso()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 4,
+      "community_name": "app.js",
+      "file_type": "code",
+      "norm_label": "poneraviso()",
+      "source_file": "app.js",
+      "source_location": "L1607"
+    },
+    {
       "id": "app_sacaravisoguardado",
       "label": "sacarAvisoGuardado()",
       "_callable": true,
@@ -2582,64 +2618,28 @@
       "source_location": "L336"
     },
     {
-      "id": "app_avisarmostrandoguardado",
-      "label": "avisarMostrandoGuardado()",
+      "id": "iconos_icono",
+      "label": "icono()",
       "_callable": true,
       "_origin": "ast",
       "community": 46,
-      "community_name": "ponerAviso",
+      "community_name": "iconos.js",
       "file_type": "code",
-      "norm_label": "avisarmostrandoguardado()",
-      "source_file": "app.js",
-      "source_location": "L1616"
+      "norm_label": "icono()",
+      "source_file": "iconos.js",
+      "source_location": "L120"
     },
     {
-      "id": "app_avisarnosepudoactualizar",
-      "label": "avisarNoSePudoActualizar()",
+      "id": "iconos_iconodecategoria",
+      "label": "iconoDeCategoria()",
       "_callable": true,
       "_origin": "ast",
       "community": 46,
-      "community_name": "ponerAviso",
+      "community_name": "iconos.js",
       "file_type": "code",
-      "norm_label": "avisarnosepudoactualizar()",
-      "source_file": "app.js",
-      "source_location": "L1623"
-    },
-    {
-      "id": "app_cajadelaviso",
-      "label": "cajaDelAviso()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 46,
-      "community_name": "ponerAviso",
-      "file_type": "code",
-      "norm_label": "cajadelaviso()",
-      "source_file": "app.js",
-      "source_location": "L1591"
-    },
-    {
-      "id": "app_desdecuando",
-      "label": "desdeCuando()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 46,
-      "community_name": "ponerAviso",
-      "file_type": "code",
-      "norm_label": "desdecuando()",
-      "source_file": "app.js",
-      "source_location": "L1574"
-    },
-    {
-      "id": "app_poneraviso",
-      "label": "ponerAviso()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 46,
-      "community_name": "ponerAviso",
-      "file_type": "code",
-      "norm_label": "poneraviso()",
-      "source_file": "app.js",
-      "source_location": "L1607"
+      "norm_label": "iconodecategoria()",
+      "source_file": "iconos.js",
+      "source_location": "L128"
     },
     {
       "id": "lib_leer_analitico_cargarpdfjs",
@@ -3110,6 +3110,18 @@
       "source_location": "L163"
     },
     {
+      "id": "app_anotarbusqueda",
+      "label": "anotarBusqueda()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 54,
+      "community_name": "anotar",
+      "file_type": "code",
+      "norm_label": "anotarbusqueda()",
+      "source_file": "app.js",
+      "source_location": "L238"
+    },
+    {
       "id": "app_anotarcarreraapp",
       "label": "anotarCarreraApp()",
       "_callable": true,
@@ -3276,42 +3288,6 @@
       "norm_label": "nombrecategoriariesgo()",
       "source_file": "mapa/capas.js",
       "source_location": "L40"
-    },
-    {
-      "id": "app_aplicartema",
-      "label": "aplicarTema()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 57,
-      "community_name": "pintarTema",
-      "file_type": "code",
-      "norm_label": "aplicartema()",
-      "source_file": "app.js",
-      "source_location": "L871"
-    },
-    {
-      "id": "app_pintartema",
-      "label": "pintarTema()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 57,
-      "community_name": "pintarTema",
-      "file_type": "code",
-      "norm_label": "pintartema()",
-      "source_file": "app.js",
-      "source_location": "L881"
-    },
-    {
-      "id": "app_temaguardado",
-      "label": "temaGuardado()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 57,
-      "community_name": "pintarTema",
-      "file_type": "code",
-      "norm_label": "temaguardado()",
-      "source_file": "app.js",
-      "source_location": "L865"
     },
     {
       "id": "mapa_capas_base_capabase",
@@ -4214,6 +4190,30 @@
       "source_location": "L22"
     },
     {
+      "id": "app_esdelequipo",
+      "label": "esDelEquipo()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 8,
+      "community_name": "Mi perfil (mi/index.html)",
+      "file_type": "code",
+      "norm_label": "esdelequipo()",
+      "source_file": "app.js",
+      "source_location": "L450"
+    },
+    {
+      "id": "app_sesionactual",
+      "label": "sesionActual()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 8,
+      "community_name": "Mi perfil (mi/index.html)",
+      "file_type": "code",
+      "norm_label": "sesionactual()",
+      "source_file": "app.js",
+      "source_location": "L436"
+    },
+    {
       "id": "lib_tarjeta_avisos_pintaravisos",
       "label": "pintarAvisos()",
       "_callable": true,
@@ -4713,51 +4713,6 @@
       "source_url": null
     },
     {
-      "id": "catedras_index_carreradelapersona",
-      "label": "carreraDeLaPersona",
-      "_origin": "ast",
-      "author": null,
-      "captured_at": null,
-      "community": 2,
-      "community_name": "Pantalla Info \u00fatil (tr\u00e1mites y FAQ)",
-      "contributor": null,
-      "file_type": "code",
-      "norm_label": "carreradelapersona",
-      "source_file": "catedras/index.html",
-      "source_location": "L107",
-      "source_url": null
-    },
-    {
-      "id": "estudiemos_index_esdeotracarrera",
-      "label": "esDeOtraCarrera (filtra materiales por plan)",
-      "_origin": "ast",
-      "author": null,
-      "captured_at": null,
-      "community": 2,
-      "community_name": "Pantalla Info \u00fatil (tr\u00e1mites y FAQ)",
-      "contributor": null,
-      "file_type": "code",
-      "norm_label": "esdeotracarrera (filtra materiales por plan)",
-      "source_file": "estudiemos/index.html",
-      "source_location": "L463",
-      "source_url": null
-    },
-    {
-      "id": "panel_index_textodelpdf",
-      "label": "textoDelPdf",
-      "_origin": "ast",
-      "author": null,
-      "captured_at": null,
-      "community": 2,
-      "community_name": "Pantalla Info \u00fatil (tr\u00e1mites y FAQ)",
-      "contributor": null,
-      "file_type": "code",
-      "norm_label": "textodelpdf",
-      "source_file": "panel/index.html",
-      "source_location": "L1302",
-      "source_url": null
-    },
-    {
       "id": "panel_index_vistacatedras",
       "label": "vistaCatedras",
       "_origin": "ast",
@@ -4800,36 +4755,6 @@
       "norm_label": "vistafaq (editor de preguntas frecuentes)",
       "source_file": "panel/index.html",
       "source_location": "L471",
-      "source_url": null
-    },
-    {
-      "id": "panel_index_vistaprogramas",
-      "label": "vistaProgramas (programas de materias)",
-      "_origin": "ast",
-      "author": null,
-      "captured_at": null,
-      "community": 2,
-      "community_name": "Pantalla Info \u00fatil (tr\u00e1mites y FAQ)",
-      "contributor": null,
-      "file_type": "code",
-      "norm_label": "vistaprogramas (programas de materias)",
-      "source_file": "panel/index.html",
-      "source_location": "L1082",
-      "source_url": null
-    },
-    {
-      "id": "panel_index_vistaprogramaspdf",
-      "label": "vistaProgramasPDF (carga masiva desde PDF)",
-      "_origin": "ast",
-      "author": null,
-      "captured_at": null,
-      "community": 2,
-      "community_name": "Pantalla Info \u00fatil (tr\u00e1mites y FAQ)",
-      "contributor": null,
-      "file_type": "code",
-      "norm_label": "vistaprogramaspdf (carga masiva desde pdf)",
-      "source_file": "panel/index.html",
-      "source_location": "L1355",
       "source_url": null
     },
     {
@@ -5227,48 +5152,48 @@
       "source_url": null
     },
     {
-      "id": "panel_index",
-      "label": "Pantalla Panel (administraci\u00f3n del equipo)",
+      "id": "panel_index_textodelpdf",
+      "label": "textoDelPdf",
       "_origin": "ast",
       "author": null,
       "captured_at": null,
       "community": 38,
-      "community_name": "sesionActual",
+      "community_name": "vistaProgramas (programas de materias)",
       "contributor": null,
       "file_type": "code",
-      "norm_label": "pantalla panel (administracion del equipo)",
+      "norm_label": "textodelpdf",
       "source_file": "panel/index.html",
-      "source_location": "L6",
+      "source_location": "L1302",
       "source_url": null
     },
     {
-      "id": "panel_index_panel",
-      "label": "panel() arranque y control de sesi\u00f3n",
+      "id": "panel_index_vistaprogramas",
+      "label": "vistaProgramas (programas de materias)",
       "_origin": "ast",
       "author": null,
       "captured_at": null,
       "community": 38,
-      "community_name": "sesionActual",
+      "community_name": "vistaProgramas (programas de materias)",
       "contributor": null,
       "file_type": "code",
-      "norm_label": "panel() arranque y control de sesion",
+      "norm_label": "vistaprogramas (programas de materias)",
       "source_file": "panel/index.html",
-      "source_location": "L136",
+      "source_location": "L1082",
       "source_url": null
     },
     {
-      "id": "tramites_index_botonguardar",
-      "label": "botonGuardar (guardados del usuario)",
+      "id": "panel_index_vistaprogramaspdf",
+      "label": "vistaProgramasPDF (carga masiva desde PDF)",
       "_origin": "ast",
       "author": null,
       "captured_at": null,
       "community": 38,
-      "community_name": "sesionActual",
+      "community_name": "vistaProgramas (programas de materias)",
       "contributor": null,
       "file_type": "code",
-      "norm_label": "botonguardar (guardados del usuario)",
-      "source_file": "tramites/index.html",
-      "source_location": "L187",
+      "norm_label": "vistaprogramaspdf (carga masiva desde pdf)",
+      "source_file": "panel/index.html",
+      "source_location": "L1355",
       "source_url": null
     },
     {
@@ -5345,6 +5270,36 @@
       "rationale": "Hab\u00eda cuatro lugares para 'qu\u00e9 hacemos ahora'; BITACORA manda y no se abre un quinto, para no releer LEEME (50 KB) en cada sesi\u00f3n.",
       "source_file": "BITACORA.md",
       "source_location": "L61",
+      "source_url": null
+    },
+    {
+      "id": "catedras_index_carreradelapersona",
+      "label": "carreraDeLaPersona",
+      "_origin": "ast",
+      "author": null,
+      "captured_at": null,
+      "community": 54,
+      "community_name": "anotar",
+      "contributor": null,
+      "file_type": "code",
+      "norm_label": "carreradelapersona",
+      "source_file": "catedras/index.html",
+      "source_location": "L107",
+      "source_url": null
+    },
+    {
+      "id": "estudiemos_index_esdeotracarrera",
+      "label": "esDeOtraCarrera (filtra materiales por plan)",
+      "_origin": "ast",
+      "author": null,
+      "captured_at": null,
+      "community": 54,
+      "community_name": "anotar",
+      "contributor": null,
+      "file_type": "code",
+      "norm_label": "esdeotracarrera (filtra materiales por plan)",
+      "source_file": "estudiemos/index.html",
+      "source_location": "L463",
       "source_url": null
     },
     {
@@ -5994,6 +5949,51 @@
       "source_url": null
     },
     {
+      "id": "panel_index",
+      "label": "Pantalla Panel (administraci\u00f3n del equipo)",
+      "_origin": "ast",
+      "author": null,
+      "captured_at": null,
+      "community": 8,
+      "community_name": "Mi perfil (mi/index.html)",
+      "contributor": null,
+      "file_type": "code",
+      "norm_label": "pantalla panel (administracion del equipo)",
+      "source_file": "panel/index.html",
+      "source_location": "L6",
+      "source_url": null
+    },
+    {
+      "id": "panel_index_panel",
+      "label": "panel() arranque y control de sesi\u00f3n",
+      "_origin": "ast",
+      "author": null,
+      "captured_at": null,
+      "community": 8,
+      "community_name": "Mi perfil (mi/index.html)",
+      "contributor": null,
+      "file_type": "code",
+      "norm_label": "panel() arranque y control de sesion",
+      "source_file": "panel/index.html",
+      "source_location": "L136",
+      "source_url": null
+    },
+    {
+      "id": "tramites_index_botonguardar",
+      "label": "botonGuardar (guardados del usuario)",
+      "_origin": "ast",
+      "author": null,
+      "captured_at": null,
+      "community": 8,
+      "community_name": "Mi perfil (mi/index.html)",
+      "contributor": null,
+      "file_type": "code",
+      "norm_label": "botonguardar (guardados del usuario)",
+      "source_file": "tramites/index.html",
+      "source_location": "L187",
+      "source_url": null
+    },
+    {
       "id": "bitacora_explicarerror",
       "label": "explicarError() / errores en castellano",
       "_origin": "ast",
@@ -6215,17 +6215,6 @@
       "source_location": "L1"
     },
     {
-      "id": "iconos",
-      "label": "iconos.js",
-      "_origin": "ast",
-      "community": 1,
-      "community_name": "Pantalla Mi a\u00f1o (carrera)",
-      "file_type": "code",
-      "norm_label": "iconos.js",
-      "source_file": "iconos.js",
-      "source_location": "L1"
-    },
-    {
       "id": "lib_datos",
       "label": "datos.js",
       "_origin": "ast",
@@ -6257,6 +6246,114 @@
       "norm_label": "leer.js",
       "source_file": "estudiemos/fichas/leer.js",
       "source_location": "L1"
+    },
+    {
+      "id": "docs_propuestas",
+      "label": "PROPUESTAS.md",
+      "_origin": "ast",
+      "community": 14,
+      "community_name": "leer.js",
+      "file_type": "document",
+      "node_kind": "page",
+      "norm_label": "propuestas.md",
+      "source_file": "docs/PROPUESTAS.md",
+      "source_location": "L1"
+    },
+    {
+      "id": "docs_propuestas_1_carga_f\u00e1cil_de_paros_y_grupos_de_estudio",
+      "label": "1. Carga f\u00e1cil de paros y grupos de estudio",
+      "_origin": "ast",
+      "community": 14,
+      "community_name": "leer.js",
+      "file_type": "document",
+      "node_kind": "heading",
+      "norm_label": "1. carga facil de paros y grupos de estudio",
+      "source_file": "docs/PROPUESTAS.md",
+      "source_location": "L34"
+    },
+    {
+      "id": "docs_propuestas_2_anotarse_a_un_grupo_de_estudio",
+      "label": "2. Anotarse a un grupo de estudio",
+      "_origin": "ast",
+      "community": 14,
+      "community_name": "leer.js",
+      "file_type": "document",
+      "node_kind": "heading",
+      "norm_label": "2. anotarse a un grupo de estudio",
+      "source_file": "docs/PROPUESTAS.md",
+      "source_location": "L174"
+    },
+    {
+      "id": "docs_propuestas_c\u00f3mo_se_anota",
+      "label": "C\u00f3mo se anota",
+      "_origin": "ast",
+      "community": 14,
+      "community_name": "leer.js",
+      "file_type": "document",
+      "node_kind": "heading",
+      "norm_label": "como se anota",
+      "source_file": "docs/PROPUESTAS.md",
+      "source_location": "L9"
+    },
+    {
+      "id": "docs_propuestas_descartadas",
+      "label": "Descartadas",
+      "_origin": "ast",
+      "community": 14,
+      "community_name": "leer.js",
+      "file_type": "document",
+      "node_kind": "heading",
+      "norm_label": "descartadas",
+      "source_file": "docs/PROPUESTAS.md",
+      "source_location": "L318"
+    },
+    {
+      "id": "docs_propuestas_las_propuestas",
+      "label": "Las propuestas",
+      "_origin": "ast",
+      "community": 14,
+      "community_name": "leer.js",
+      "file_type": "document",
+      "node_kind": "heading",
+      "norm_label": "las propuestas",
+      "source_file": "docs/PROPUESTAS.md",
+      "source_location": "L32"
+    },
+    {
+      "id": "docs_propuestas_n_t\u00edtulo_corto",
+      "label": "N. T\u00edtulo corto",
+      "_origin": "ast",
+      "community": 14,
+      "community_name": "leer.js",
+      "file_type": "document",
+      "node_kind": "heading",
+      "norm_label": "n. titulo corto",
+      "source_file": "docs/PROPUESTAS.md",
+      "source_location": "L306"
+    },
+    {
+      "id": "docs_propuestas_propuestas",
+      "label": "Propuestas",
+      "_origin": "ast",
+      "community": 14,
+      "community_name": "leer.js",
+      "file_type": "document",
+      "node_kind": "heading",
+      "norm_label": "propuestas",
+      "source_file": "docs/PROPUESTAS.md",
+      "source_location": "L1"
+    },
+    {
+      "id": "docs_propuestas_\u00edndice",
+      "label": "\u00cdndice",
+      "_origin": "ast",
+      "community": 14,
+      "community_name": "leer.js",
+      "file_type": "document",
+      "node_kind": "heading",
+      "norm_label": "indice",
+      "source_file": "docs/PROPUESTAS.md",
+      "source_location": "L25"
     },
     {
       "id": "estudiemos_fichas_ficha",
@@ -7569,6 +7666,17 @@
       "norm_label": "public.programas",
       "source_file": "",
       "source_location": ""
+    },
+    {
+      "id": "iconos",
+      "label": "iconos.js",
+      "_origin": "ast",
+      "community": 46,
+      "community_name": "iconos.js",
+      "file_type": "code",
+      "norm_label": "iconos.js",
+      "source_file": "iconos.js",
+      "source_location": "L1"
     },
     {
       "id": "lib_leer_analitico",
@@ -9130,36 +9238,6 @@
       "source_url": null
     },
     {
-      "id": "carrera_plan_planes",
-      "label": "PLANES (PLAN_TS, PLAN_TGCR, PLAN_FONO)",
-      "_origin": "semantic",
-      "author": null,
-      "captured_at": null,
-      "community": 2,
-      "community_name": "Pantalla Info \u00fatil (tr\u00e1mites y FAQ)",
-      "contributor": null,
-      "file_type": "code",
-      "norm_label": "planes (plan_ts, plan_tgcr, plan_fono)",
-      "source_file": "estudiemos/index.html",
-      "source_location": null,
-      "source_url": null
-    },
-    {
-      "id": "lib_leer_programa_leerprograma",
-      "label": "leerPrograma (lib/leer-programa.js)",
-      "_origin": "semantic",
-      "author": null,
-      "captured_at": null,
-      "community": 2,
-      "community_name": "Pantalla Info \u00fatil (tr\u00e1mites y FAQ)",
-      "contributor": null,
-      "file_type": "code",
-      "norm_label": "leerprograma (lib/leer-programa.js)",
-      "source_file": "panel/index.html",
-      "source_location": null,
-      "source_url": null
-    },
-    {
       "id": "supabase_tabla_catedras",
       "label": "Tabla Supabase catedras",
       "_origin": "semantic",
@@ -9201,21 +9279,6 @@
       "file_type": "concept",
       "norm_label": "tabla supabase faq",
       "source_file": "tramites/index.html",
-      "source_location": null,
-      "source_url": null
-    },
-    {
-      "id": "supabase_tabla_programas",
-      "label": "Tabla/bucket Supabase programas",
-      "_origin": "semantic",
-      "author": null,
-      "captured_at": null,
-      "community": 2,
-      "community_name": "Pantalla Info \u00fatil (tr\u00e1mites y FAQ)",
-      "contributor": null,
-      "file_type": "concept",
-      "norm_label": "tabla/bucket supabase programas",
-      "source_file": "panel/index.html",
       "source_location": null,
       "source_url": null
     },
@@ -9506,17 +9569,47 @@
       "source_url": null
     },
     {
-      "id": "supabase_tabla_guardados",
-      "label": "Tabla Supabase guardados",
+      "id": "carrera_plan_planes",
+      "label": "PLANES (PLAN_TS, PLAN_TGCR, PLAN_FONO)",
       "_origin": "semantic",
       "author": null,
       "captured_at": null,
       "community": 38,
-      "community_name": "sesionActual",
+      "community_name": "vistaProgramas (programas de materias)",
+      "contributor": null,
+      "file_type": "code",
+      "norm_label": "planes (plan_ts, plan_tgcr, plan_fono)",
+      "source_file": "estudiemos/index.html",
+      "source_location": null,
+      "source_url": null
+    },
+    {
+      "id": "lib_leer_programa_leerprograma",
+      "label": "leerPrograma (lib/leer-programa.js)",
+      "_origin": "semantic",
+      "author": null,
+      "captured_at": null,
+      "community": 38,
+      "community_name": "vistaProgramas (programas de materias)",
+      "contributor": null,
+      "file_type": "code",
+      "norm_label": "leerprograma (lib/leer-programa.js)",
+      "source_file": "panel/index.html",
+      "source_location": null,
+      "source_url": null
+    },
+    {
+      "id": "supabase_tabla_programas",
+      "label": "Tabla/bucket Supabase programas",
+      "_origin": "semantic",
+      "author": null,
+      "captured_at": null,
+      "community": 38,
+      "community_name": "vistaProgramas (programas de materias)",
       "contributor": null,
       "file_type": "concept",
-      "norm_label": "tabla supabase guardados",
-      "source_file": "tramites/index.html",
+      "norm_label": "tabla/bucket supabase programas",
+      "source_file": "panel/index.html",
       "source_location": null,
       "source_url": null
     },
@@ -9577,6 +9670,21 @@
       "file_type": "concept",
       "norm_label": "armazon (app.js, estilos.css, iconos.js, config.js)",
       "source_file": "LEEME.md",
+      "source_location": null,
+      "source_url": null
+    },
+    {
+      "id": "supabase_tabla_guardados",
+      "label": "Tabla Supabase guardados",
+      "_origin": "semantic",
+      "author": null,
+      "captured_at": null,
+      "community": 8,
+      "community_name": "Mi perfil (mi/index.html)",
+      "contributor": null,
+      "file_type": "concept",
+      "norm_label": "tabla supabase guardados",
+      "source_file": "tramites/index.html",
       "source_location": null,
       "source_url": null
     },
@@ -16252,6 +16360,94 @@
       "weight": 1.0
     },
     {
+      "source": "docs_propuestas",
+      "target": "docs_propuestas_propuestas",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "docs/PROPUESTAS.md",
+      "source_location": "L1",
+      "weight": 1.0
+    },
+    {
+      "source": "docs_propuestas_las_propuestas",
+      "target": "docs_propuestas_2_anotarse_a_un_grupo_de_estudio",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "docs/PROPUESTAS.md",
+      "source_location": "L174",
+      "weight": 1.0
+    },
+    {
+      "source": "docs_propuestas_las_propuestas",
+      "target": "docs_propuestas_n_t\u00edtulo_corto",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "docs/PROPUESTAS.md",
+      "source_location": "L306",
+      "weight": 1.0
+    },
+    {
+      "source": "docs_propuestas_las_propuestas",
+      "target": "docs_propuestas_1_carga_f\u00e1cil_de_paros_y_grupos_de_estudio",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "docs/PROPUESTAS.md",
+      "source_location": "L34",
+      "weight": 1.0
+    },
+    {
+      "source": "docs_propuestas_propuestas",
+      "target": "docs_propuestas_\u00edndice",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "docs/PROPUESTAS.md",
+      "source_location": "L25",
+      "weight": 1.0
+    },
+    {
+      "source": "docs_propuestas_propuestas",
+      "target": "docs_propuestas_descartadas",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "docs/PROPUESTAS.md",
+      "source_location": "L318",
+      "weight": 1.0
+    },
+    {
+      "source": "docs_propuestas_propuestas",
+      "target": "docs_propuestas_las_propuestas",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "docs/PROPUESTAS.md",
+      "source_location": "L32",
+      "weight": 1.0
+    },
+    {
+      "source": "docs_propuestas_propuestas",
+      "target": "docs_propuestas_c\u00f3mo_se_anota",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "docs/PROPUESTAS.md",
+      "source_location": "L9",
+      "weight": 1.0
+    },
+    {
       "source": "estudiemos_fichas_ficha",
       "target": "estudiemos_fichas_ficha_rellenar",
       "relation": "contains",
@@ -22040,6 +22236,18 @@
       "weight": 1.0
     },
     {
+      "source": "docs_propuestas_1_carga_f\u00e1cil_de_paros_y_grupos_de_estudio",
+      "target": "estudiemos_fichas_leer_linea",
+      "relation": "references",
+      "_origin": "ast",
+      "confidence": "INFERRED",
+      "confidence_score": 0.95,
+      "context": "linea",
+      "source_file": "docs/PROPUESTAS.md",
+      "source_location": "L42",
+      "weight": 1.0
+    },
+    {
       "source": "docs_prompts_prompt_elecciones_prompts_para_las_sesiones_hacia_las_elecciones_24_9_al_6_11",
       "target": "estudiemos_pomodoro_reloj",
       "relation": "references",
@@ -22441,5 +22649,5 @@
       "source_file": "panel/index.html"
     }
   ],
-  "built_at_commit": "0c458a32fbfc417986b93adf1ec100a71754975e"
+  "built_at_commit": "1073cb035836d6e52a55ad763b1614462d42e1e5"
 }
