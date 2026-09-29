@@ -116,7 +116,9 @@ espacios, glosario, quienes, fichas), va al final de
   `contenido-*` (contenido para cargar). Las pantallas avisan «falta
   correr `sql/tabla-x.sql`» cuando la tabla no está.
 - `docs/` — `HISTORIAL-SW.md` (por qué subió cada versión del service
-  worker) y `docs/prompts/` (los encargos de cada tanda de trabajo).
+  worker), `PROPUESTAS.md` (las ideas antes de ser tarea: se anota ahí y
+  recién decidida pasa al cronograma de `BITACORA.md`) y `docs/prompts/`
+  (los encargos de cada tanda de trabajo).
 - `BITACORA.md` y `LEEME.md` en la raíz: son largos y **se buscan con
   Grep, no se leen**.
 
