@@ -449,6 +449,16 @@ async function sesionActual(){
 
 function esDelEquipo(perfil){ return !!perfil && perfil.rol === 'equipo'; }
 
+/* Quien puede cargar un paro o un grupo de estudio en `cargar/`: el
+   equipo y el rol liviano `comunicacion`. Son dos roles y no uno porque
+   `comunicacion` NO entra al panel; si alguna vez aparece un tercero,
+   se agrega acá y no en cada pantalla.
+   Lo que cada uno puede guardar no lo decide esta función: lo decide la
+   base (`sql/tabla-publicaciones.sql`). Esta solo abre la puerta. */
+function puedeCargar(perfil){
+  return !!perfil && (perfil.rol === 'equipo' || perfil.rol === 'comunicacion');
+}
+
 /* ------------------------------------------------------------
    PARTES VISUALES REPETIDAS
    ------------------------------------------------------------ */

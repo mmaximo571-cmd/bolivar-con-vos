@@ -26,7 +26,7 @@ discutirla en tres meses.
 
 | # | Propuesta | Tamaño | Estado |
 |---|---|---|---|
-| 1 | Carga fácil de paros y grupos de estudio | chico-mediano | en curso |
+| 1 | Carga fácil de paros y grupos de estudio | chico-mediano | hecha, falta correr el SQL |
 | 2 | Anotarse a un grupo de estudio | chica | lista para hacer |
 
 ## Las propuestas
@@ -66,8 +66,11 @@ discutirla en tres meses.
   Ampliar cuatro políticas que ya existen, la pantalla corta, la bandeja
   de aprobación en el panel, y la prueba con alguien de la agrupación
   mirando.
-- **Estado:** en curso (29/9/2026). Hecho: `sql/tabla-publicaciones.sql`.
-  Falta: la pantalla de carga y la bandeja de aprobación del panel.
+- **Estado:** hecha en código (29/9/2026): `sql/tabla-publicaciones.sql`,
+  la pantalla `cargar/`, la bandeja de aprobación del panel y los enlaces
+  desde el panel y desde `mi/`. **Falta correr el SQL en Supabase** y
+  probarla con una cuenta `comunicacion` de verdad. Hasta que eso pase,
+  no está terminada.
 
 **Cómo sería el paso a paso** (la idea a discutir, no algo decidido):
 

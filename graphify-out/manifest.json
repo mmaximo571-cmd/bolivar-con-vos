@@ -1,8 +1,8 @@
 {
   "app.js": {
-    "mtime": 1790558932.4418955,
-    "seen": 1790558947.6008077,
-    "ast_hash": "3d8d8a554a85fb31cd4fa87274fdfb6a",
+    "mtime": 1790722015.3577373,
+    "seen": 1790722637.9392464,
+    "ast_hash": "83313d34e68373f40985828fd0211544",
     "semantic_hash": ""
   },
   "carrera/plan-fono.js": {
@@ -78,9 +78,9 @@
     "semantic_hash": ""
   },
   "sw.js": {
-    "mtime": 1790558477.5383003,
-    "seen": 1790558947.6011467,
-    "ast_hash": "f3b89cb66af4df6f29f4e93c35d59d99",
+    "mtime": 1790722588.905128,
+    "seen": 1790722637.9393609,
+    "ast_hash": "9bd5a2fbcace630d0ba91c1fdfbc53ad",
     "semantic_hash": ""
   },
   "BITACORA.md": {
@@ -156,15 +156,15 @@
     "semantic_hash": ""
   },
   "mi/index.html": {
-    "mtime": 1790558429.7668788,
-    "seen": 1790558947.6013706,
-    "ast_hash": "e86ba79f58d530d0cb7545b22cd9ada8",
+    "mtime": 1790722614.456646,
+    "seen": 1790722637.9394135,
+    "ast_hash": "343058f9a81846c5f6a15b1c30f29e8c",
     "semantic_hash": ""
   },
   "panel/index.html": {
-    "mtime": 1790558932.4518678,
-    "seen": 1790558947.6013756,
-    "ast_hash": "e457dddef2df0fde9847c643aa2a6696",
+    "mtime": 1790722559.6379397,
+    "seen": 1790722637.9394147,
+    "ast_hash": "e383618664ac2e895272cbbf6a1f9a91",
     "semantic_hash": ""
   },
   "quienes/index.html": {
@@ -594,9 +594,9 @@
     "semantic_hash": ""
   },
   "docs/HISTORIAL-SW.md": {
-    "mtime": 1790558510.5668657,
-    "seen": 1790558947.601187,
-    "ast_hash": "e7bf003ef5978df43532e4acf0dcb1ab",
+    "mtime": 1790722588.905128,
+    "seen": 1790722637.9393775,
+    "ast_hash": "8eebf6c66c5fc4eaf03786317fe127f0",
     "semantic_hash": ""
   },
   "docs/prompts/PROMPT-DISENO.md": {
@@ -642,9 +642,21 @@
     "semantic_hash": ""
   },
   "docs/PROPUESTAS.md": {
-    "mtime": 1790721253.1615558,
-    "seen": 1790721428.460308,
-    "ast_hash": "3c1e3ed79e2557231407f92bd37163c2",
+    "mtime": 1790722632.7575092,
+    "seen": 1790722637.9393792,
+    "ast_hash": "b3527c12b78cb47636fb73ddeedc011e",
+    "semantic_hash": ""
+  },
+  "sql/tabla-publicaciones.sql": {
+    "mtime": 1790721763.2922227,
+    "seen": 1790722637.9393468,
+    "ast_hash": "8557ba448a9032e16fc2b4cca1d48140",
+    "semantic_hash": ""
+  },
+  "cargar/index.html": {
+    "mtime": 1790722492.7456708,
+    "seen": 1790722637.9393692,
+    "ast_hash": "44ce2bc412aacce6861e0006a7a6465c",
     "semantic_hash": ""
   }
 }

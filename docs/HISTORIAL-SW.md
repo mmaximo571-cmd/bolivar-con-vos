@@ -352,4 +352,13 @@ todo una entrada con el número, la fecha y el porqué.
    al armazon, no una parte: los usan todas las pantallas, la particion
    es para encontrar una regla sin abrir 3200 lineas, no para bajar
    menos. */
+/* v76 (29/9/2026) no cambia QUÉ se guarda: cambia el CONTENIDO de dos
+   archivos que ya están en la lista. `app.js` suma `puedeCargar()`, que
+   es quien deja entrar a la pantalla nueva `cargar/`, y
+   `css/base/01-cimientos.css` suma la regla de los chips que bajan de
+   renglón ahí. Sin subir el número, un teléfono que ya tiene la app
+   sirve el `app.js` viejo: `cargar/` lo llama, no existe, y la pantalla
+   queda en blanco para la persona que justamente menos va a saber por
+   qué. `cargar/index.html` NO va al armazón —es de una sola pantalla—:
+   lo baja quien entre y queda guardado por la regla del final. */
 ```

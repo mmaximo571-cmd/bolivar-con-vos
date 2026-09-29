@@ -410,3 +410,18 @@ html{scroll-behavior:auto}
 body{ padding-bottom:calc(80px + env(safe-area-inset-bottom, 0px)) }
 
 .dos-columnas{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+
+/* CARGAR (`cargar/`), que todavía no tiene hoja propia.
+
+   Los chips de la app van en una fila que se arrastra de costado, y
+   para filtrar está bien: el que no ve un filtro no se pierde nada. Acá
+   son la respuesta a «¿qué día?», y un día que queda fuera de la
+   pantalla es un día que la persona cree que no se puede elegir. En una
+   pantalla para alguien sin manejo tecnológico eso no puede pasar, así
+   que bajan de renglón y se ven todos juntos. */
+.chips.elegir-uno{flex-wrap:wrap;overflow:visible}
+
+   /* Va con las dos clases y no con `.elegir-uno` sola a propósito:
+      `.chips` vive en `03-controles.css`, que carga DESPUÉS de esta
+      hoja, así que a igual peso ganaría aquella y el `overflow-x:auto`
+      seguiría mandando. Es justo el par que busca `orden-css.py`. */

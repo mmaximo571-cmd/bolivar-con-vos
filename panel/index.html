@@ -965,10 +965,83 @@
       .select('*').order('creado_at', { ascending:false });
     if (error){ mostrarError(zona, error, 'cargar la agenda'); return; }
 
+    /* LO QUE ESPERA VISTO BUENO, ARRIBA DE TODO.
+
+       Los paros que llegan desde `cargar/` entran sin publicar, y un
+       paro aprobado dos días tarde es un paro que no se avisó. Si la
+       única forma de encontrarlos fuera buscarlos en la lista de abajo,
+       la revisión sería un cajón donde las cosas se pierden. Por eso
+       cuando hay algo esperando, esto es lo primero que se ve.
+
+       Aprobar es UN botón: si costara lo mismo que cargar —el
+       formulario de trece campos— nadie aprobaría. Para cambiarle algo
+       está «Editar», que es el camino largo y a propósito. */
+    const esperando = data.filter(p => !p.publicado && p.tipo === 'evento');
+
     zona.innerHTML = `
+      ${esperando.length ? `
+        <div class="ficha" id="bandeja">
+          <h3>${esperando.length === 1
+                ? 'Hay 1 cosa esperando que la aprueben'
+                : `Hay ${esperando.length} cosas esperando que las aprueben`}</h3>
+          <p class="bajada">Las cargó alguien de la agrupación. Hasta que no las
+             publiques, en la app no se ven.</p>
+          <div class="lista" style="margin-top:12px">
+            ${esperando.map(p => `
+              <div class="tarjeta ${esc(p.linea)} borrador">
+                <h3>${esc(p.titulo)}</h3>
+                <p>${esc(rangoLindo(p.fecha_desde, p.fecha_hasta) || 'Sin fecha')}${
+                     p.hora ? ' · ' + esc(p.hora) : ''}${
+                     p.lugar ? ' · ' + esc(p.lugar) : ''}</p>
+                ${p.cuerpo ? `<p>${esc(p.cuerpo)}</p>` : ''}
+                <div class="fila-item" style="margin-top:10px">
+                  <button class="boton" data-publicar="${p.id}">Publicar</button>
+                  <button class="mini" data-editar="${p.id}">Editar antes</button>
+                  <button class="boton peligro" data-descartar="${p.id}">Descartar</button>
+                </div>
+              </div>`).join('')}
+          </div>
+        </div>` : ''}
       <button class="boton ancho" id="nuevo">+ Nueva publicación</button>
+      <p class="bajada" style="margin-top:10px">
+        Para un paro o un grupo de estudio hay una pantalla corta que puede usar
+        cualquiera de la agrupación: <a href="../cargar/">cargar</a>. Pide tres
+        cosas y arma el resto sola.
+      </p>
       <div class="lista" style="margin-top:14px" id="lista"></div>`;
     document.getElementById('nuevo').onclick = () => formularioPublicacion(null);
+
+    const bandeja = document.getElementById('bandeja');
+    if (bandeja) bandeja.addEventListener('click', async ev => {
+      const publicar  = ev.target.closest('[data-publicar]');
+      const descartar = ev.target.closest('[data-descartar]');
+      const editar    = ev.target.closest('[data-editar]');
+
+      if (editar){
+        formularioPublicacion(data.find(p => p.id === Number(editar.dataset.editar)));
+        return;
+      }
+      if (publicar){
+        publicar.disabled = true; publicar.textContent = 'Publicando…';
+        const { error } = await db.from('publicaciones')
+          .update({ publicado:true }).eq('id', Number(publicar.dataset.publicar));
+        if (error){ mostrarError(zona, error, 'publicarlo'); return; }
+        await vistaAgenda();
+        aviso('Publicado. Ya se ve en la app.', 'ok');
+        return;
+      }
+      if (descartar){
+        /* Se pregunta porque no hay papelera: lo cargó otra persona y
+           borrarlo por error es borrar su trabajo sin que se entere. */
+        const fila = data.find(p => p.id === Number(descartar.dataset.descartar));
+        if (!confirm(`¿Descartar «${fila.titulo}»? No se puede deshacer.`)) return;
+        const { error } = await db.from('publicaciones')
+          .delete().eq('id', Number(descartar.dataset.descartar));
+        if (error){ mostrarError(zona, error, 'descartarlo'); return; }
+        await vistaAgenda();
+        aviso('Descartado.', 'ok');
+      }
+    });
 
     const lista = document.getElementById('lista');
     if (!data.length){

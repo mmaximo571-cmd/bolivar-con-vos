@@ -1,0 +1,557 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Cargar · La Bolívar con vos</title>
+<meta name="description" content="Cargá un paro o un grupo de estudio en la agenda de la app, en tres pasos.">
+<meta name="theme-color" content="#F9E830">
+<!-- Es una pantalla de trabajo interno: no se comparte ni se indexa. -->
+<meta name="robots" content="noindex, nofollow">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+<link rel="icon" type="image/png" sizes="32x32" href="../imagenes/icono-32.png">
+<link rel="icon" type="image/png" sizes="96x96" href="../imagenes/icono-96.png">
+<link rel="icon" type="image/png" sizes="192x192" href="../imagenes/icono-192.png">
+<link rel="apple-touch-icon" href="../imagenes/icono-apple.png">
+<link rel="manifest" href="../manifest.json">
+<link rel="stylesheet" href="../css/tokens.css">
+<link rel="stylesheet" href="../css/base/01-cimientos.css">
+<link rel="stylesheet" href="../css/base/02-encabezado.css">
+<link rel="stylesheet" href="../css/base/03-controles.css">
+<link rel="stylesheet" href="../css/base/04-tarjetas.css">
+<link rel="stylesheet" href="../css/base/05-secciones.css">
+<link rel="stylesheet" href="../css/base/06-hoja.css">
+<link rel="stylesheet" href="../css/base/07-avisos.css">
+<link rel="stylesheet" href="../css/base/08-calendario.css">
+<link rel="stylesheet" href="../css/base/09-avisanos.css">
+<link rel="stylesheet" href="../css/base/10-lectura.css">
+<link rel="stylesheet" href="../css/base/11-navegacion.css">
+<link rel="stylesheet" href="../css/base/12-movimiento.css">
+<link rel="stylesheet" href="../estilos-rediseno.css">
+<!-- EL TEMA, ANTES DE DIBUJAR NADA. Mismo motivo que en el glosario. -->
+<script>
+(function(){try{
+  var g = localStorage.getItem('bolivar-tema') || 'auto';
+  var oscuro = g === 'oscuro' || (g === 'auto' &&
+    window.matchMedia('(prefers-color-scheme: dark)').matches);
+  document.documentElement.dataset.tema = oscuro ? 'oscuro' : 'claro';
+}catch(e){ document.documentElement.dataset.tema = 'claro'; }})();
+</script>
+</head>
+<body class="lectura sin-js">
+
+<div id="cabecera"></div>
+
+<!-- ============================================================
+     CARGAR  ·  un paro o un grupo de estudio, en tres pasos
+
+     POR QUÉ EXISTE, Y POR QUÉ NO ES EL PANEL
+
+     Los paros y los grupos de estudio son lo que más se mueve, y
+     cargarlos en el panel pide TRECE campos: tipo, línea editorial,
+     «¿alimenta la alarma de la portada?», período, imagen, enlace,
+     avisar… Para alguien sin manejo tecnológico eso es una pared, y
+     el resultado es que la carga queda en manos de una sola persona
+     y las cosas se publican tarde.
+
+     Acá se pregunta lo único que no se puede adivinar: qué es, cuándo
+     y dónde. Los tres campos difíciles los completa el botón que la
+     persona apretó:
+
+       Un paro              -> tipo evento · línea gremial  · espera visto bueno
+       Un grupo de estudio  -> tipo evento · línea saberes  · sale publicado
+
+     Y el TÍTULO se arma solo, así nadie tiene que redactar.
+
+     LO QUE ESTA PANTALLA NO DECIDE. Que un paro no pueda publicarse
+     solo no depende de este archivo: lo impide la base
+     (`sql/tabla-publicaciones.sql`). Si esta pantalla tuviera un error
+     y mandara `publicado = true` en un paro, la base lo rechaza. Acá
+     se decide cómo se ve y qué se le explica a la persona; la garantía
+     está del otro lado.
+
+     NO ENTRA ACÁ, a propósito: imágenes, enlaces, avisos al celular, y
+     editar o borrar lo ya cargado. Eso sigue siendo del panel. Cuanto
+     más corta esta pantalla, más gente la va a usar.
+     ============================================================ -->
+
+<main class="envoltura" id="contenido" tabindex="-1">
+  <p class="bajada">Cargando…</p>
+</main>
+
+
+<script>window.RAIZ = '../';</script>
+<!-- La librería GRANDE, como el panel y por el mismo motivo: acá hay
+     sesión, y una sesión que no se renueva falla en silencio. El
+     cliente chico de `lib/datos.js` no sabe iniciar sesión. -->
+<script src="../lib/supabase.js"></script>
+<script src="../config.js"></script>
+<script src="../iconos.js"></script>
+<script src="../lib/mudanza.js"></script>
+<script src="../app.js"></script>
+<script src="../fondo-red.js"></script>
+<script>
+(async function cargar(){
+  'use strict';
+
+  document.getElementById('cabecera').innerHTML = htmlCabecera();
+  const contenido = document.getElementById('contenido');
+
+  /* ============================================================
+     PUERTA
+
+     Entra el equipo y también `comunicacion`, que es el rol liviano:
+     puede cargar esto y no entra al panel. La lista está en
+     `puedeCargar()` (app.js), no acá.
+     ============================================================ */
+  const { usuario, perfil } = await sesionActual();
+
+  if (!usuario){
+    contenido.innerHTML = `
+      <h1 class="titulo-pantalla">CARGAR</h1>
+      <p class="bajada">Entrá con tu cuenta para cargar un paro o un grupo de estudio.</p>
+      <div class="ficha">
+        <form id="login">
+          <div class="campo"><label for="correo">Correo</label>
+            <input id="correo" type="email" autocomplete="email" required></div>
+          <div class="campo"><label for="clave">Contraseña</label>
+            <input id="clave" type="password" autocomplete="current-password" required></div>
+          <button class="boton ancho" type="submit" id="btn">Entrar</button>
+        </form>
+        <div id="msj"></div>
+      </div>`;
+    document.getElementById('login').addEventListener('submit', async ev => {
+      ev.preventDefault();
+      const btn = document.getElementById('btn');
+      btn.disabled = true; btn.textContent = 'Un segundo…';
+      const { error } = await db.auth.signInWithPassword({
+        email: document.getElementById('correo').value.trim(),
+        password: document.getElementById('clave').value
+      });
+      if (error){
+        btn.disabled = false; btn.textContent = 'Entrar';
+        document.getElementById('msj').innerHTML =
+          `<div class="aviso error">${esc(
+             error.message === 'Invalid login credentials'
+               ? 'El correo o la contraseña no coinciden.' : error.message)}</div>`;
+        return;
+      }
+      location.reload();
+    });
+    return;
+  }
+
+  if (!puedeCargar(perfil)){
+    contenido.innerHTML = `
+      <h1 class="titulo-pantalla">TODAVÍA<br>NO PODÉS</h1>
+      <p class="bajada">
+        Tu cuenta (${esc(usuario.email)}) existe, pero no tiene permiso para
+        cargar en la agenda. Pedile a alguien del equipo que te lo dé: es un
+        renglón y tarda un minuto.
+      </p>
+      <a class="boton ancho" href="../">Volver a la app</a>
+      <button class="boton ancho borde" id="salir" style="margin-top:10px">Cerrar sesión</button>`;
+    document.getElementById('salir').onclick = async () => {
+      await db.auth.signOut(); location.reload();
+    };
+    return;
+  }
+
+  /* ============================================================
+     LO QUE SE ESTÁ CARGANDO
+
+     Un solo objeto con lo elegido hasta ahora. Los pasos lo llenan y
+     al final se traduce a una fila de `publicaciones`. Tenerlo en un
+     lugar es lo que permite volver atrás sin perder nada.
+     ============================================================ */
+  const esto = { que:null, fecha:null, hora:null, lugar:'', detalle:'', asunto:'' };
+
+  /* Las dos clases de cosa que se cargan acá, con TODO lo que cada una
+     implica junto. Agregar una tercera (una charla, un taller) es
+     agregar un renglón a esta tabla y nada más. */
+  const CLASES = {
+    paro: {
+      nombre: 'Un paro',
+      emoji: '✊',
+      pista: 'Una medida de fuerza, una jornada de lucha, un abrazo a la facultad.',
+      linea: 'gremial',
+      publica: false,
+      /* Cada clase pregunta UNA cosa suya, y de ahí sale el título. Que
+         las dos tengan la misma forma es lo que evita que el título
+         repita el texto de abajo: el asunto va arriba, el detalle
+         abajo, y no dicen lo mismo. */
+      campo: {
+        titulo: '¿Por qué es el paro?',
+        ejemplo: 'Contra el recorte de presupuesto',
+        falta: 'Falta decir por qué es el paro: es lo que se lee en la agenda.'
+      },
+      titulo: e => 'Paro: ' + e.asunto
+    },
+    grupo: {
+      nombre: 'Un grupo de estudio',
+      emoji: '📚',
+      pista: 'Juntarse a estudiar una materia, preparar un final, repasar un parcial.',
+      linea: 'saberes',
+      publica: true,
+      campo: {
+        titulo: '¿De qué materia?',
+        ejemplo: 'Trabajo Social I',
+        falta: 'Falta la materia: es lo que hace que el grupo se encuentre.'
+      },
+      titulo: e => 'Grupo de estudio de ' + e.asunto
+    }
+  };
+
+  /* Los lugares de siempre, para no escribirlos a mano. El último es
+     libre porque los aulas cambian de número todo el tiempo. */
+  const LUGARES = ['La facultad', 'El hall', 'El aula de siempre', 'Otro lugar'];
+
+  /* Horarios de cursada, que es cuando se junta la gente. Escribir
+     «18:00» en un teclado de celular es justo lo que queremos evitar. */
+  const HORAS = ['10:00', '12:00', '14:00', '16:00', '18:00', '20:00'];
+
+  /* ------------------------------------------------------------
+     FECHAS
+
+     `hoy`, `mañana` y los próximos días por su nombre. Se arma en el
+     momento y no con una lista fija, así «el lunes» siempre es el
+     lunes que viene y no el de la semana pasada.
+     ------------------------------------------------------------ */
+  const DIAS = ['domingo','lunes','martes','miércoles','jueves','viernes','sábado'];
+  const MESES = ['enero','febrero','marzo','abril','mayo','junio','julio',
+                 'agosto','septiembre','octubre','noviembre','diciembre'];
+
+  function aISO(d){
+    /* A mano y no con `toISOString()`, que pasa a UTC y en Argentina
+       adelanta un día toda la tarde: un grupo del martes a las 20:00
+       quedaría cargado el miércoles. */
+    const m = String(d.getMonth() + 1).padStart(2, '0');
+    const dd = String(d.getDate()).padStart(2, '0');
+    return `${d.getFullYear()}-${m}-${dd}`;
+  }
+
+  function enPalabras(iso){
+    const [a, m, d] = iso.split('-').map(Number);
+    const f = new Date(a, m - 1, d);
+    return `${DIAS[f.getDay()]} ${d} de ${MESES[m - 1]}`;
+  }
+
+  function atajosDeFecha(){
+    const hoy = new Date();
+    const lista = [];
+    for (let i = 0; i < 8; i++){
+      const d = new Date(hoy.getFullYear(), hoy.getMonth(), hoy.getDate() + i);
+      lista.push({
+        iso: aISO(d),
+        nombre: i === 0 ? 'Hoy' : i === 1 ? 'Mañana'
+                : DIAS[d.getDay()][0].toUpperCase() + DIAS[d.getDay()].slice(1) + ' ' + d.getDate()
+      });
+    }
+    return lista;
+  }
+
+  /* ------------------------------------------------------------
+     LOS PASOS
+
+     Cada uno dibuja y engancha lo suyo. `paso1` no recibe nada porque
+     es el principio; los demás pueden volver al anterior, y volver no
+     borra lo elegido (está en `esto`).
+     ------------------------------------------------------------ */
+
+  function encabezado(n, texto){
+    return `
+      <p class="bajada" style="margin-bottom:6px">Paso ${n} de 3</p>
+      <h1 class="titulo-pantalla">${texto}</h1>`;
+  }
+
+  function paso1(){
+    contenido.innerHTML = `
+      ${encabezado(1, '¿QUÉ<br>ES?')}
+      <div class="grupo">
+        ${Object.entries(CLASES).map(([clave, c]) => `
+          <button class="tarjeta ${esc(c.linea)}" data-que="${clave}"
+                  style="width:100%;text-align:left;font:inherit;cursor:pointer">
+            <h3>${c.emoji} ${esc(c.nombre)}</h3>
+            <p>${esc(c.pista)}</p>
+          </button>`).join('')}
+      </div>
+      <p class="bajada" style="margin-top:18px">
+        Si lo que querés cargar no es ninguna de las dos, avisale a alguien del
+        equipo: se carga desde el panel.
+      </p>`;
+    contenido.querySelectorAll('[data-que]').forEach(b => {
+      b.onclick = () => { esto.que = b.dataset.que; paso2(); };
+    });
+  }
+
+  function paso2(){
+    const c = CLASES[esto.que];
+    contenido.innerHTML = `
+      ${encabezado(2, '¿CUÁNDO<br>ES?')}
+      <p class="bajada">${c.emoji} ${esc(c.nombre)}</p>
+
+      <div class="ficha">
+        <h3>El día</h3>
+        <div class="chips elegir-uno" id="dias"></div>
+        <div class="campo" style="margin-top:12px">
+          <label for="otra-fecha">…o elegí otro día</label>
+          <input id="otra-fecha" type="date" value="${esc(esto.fecha || '')}">
+        </div>
+      </div>
+
+      <div class="ficha">
+        <h3>La hora</h3>
+        <div class="chips elegir-uno" id="horas"></div>
+        <div class="campo" style="margin-top:12px">
+          <label for="otra-hora">…o escribila</label>
+          <input id="otra-hora" type="time" value="${esc(esto.hora || '')}">
+        </div>
+      </div>
+
+      <div id="msj"></div>
+      <button class="boton ancho" id="seguir">Seguir</button>
+      <button class="boton ancho borde" id="atras" style="margin-top:10px">← Volver</button>`;
+
+    const dias = document.getElementById('dias');
+    dias.innerHTML = atajosDeFecha().map(a =>
+      `<button type="button" class="chip" aria-pressed="${esto.fecha === a.iso}"
+               data-iso="${a.iso}">${esc(a.nombre)}</button>`).join('');
+    dias.querySelectorAll('[data-iso]').forEach(b => {
+      b.onclick = () => { esto.fecha = b.dataset.iso; paso2(); };
+    });
+    document.getElementById('otra-fecha').onchange = ev => {
+      esto.fecha = ev.target.value || null; paso2();
+    };
+
+    const horas = document.getElementById('horas');
+    horas.innerHTML = HORAS.map(h =>
+      `<button type="button" class="chip" aria-pressed="${esto.hora === h}"
+               data-hora="${h}">${esc(h)}</button>`).join('');
+    horas.querySelectorAll('[data-hora]').forEach(b => {
+      b.onclick = () => { esto.hora = b.dataset.hora; paso2(); };
+    });
+    document.getElementById('otra-hora').onchange = ev => {
+      esto.hora = ev.target.value || null; paso2();
+    };
+
+    document.getElementById('atras').onclick = paso1;
+    document.getElementById('seguir').onclick = () => {
+      /* La fecha es lo único obligatorio de este paso: sin fecha no
+         entra al calendario, que es todo el punto. La hora puede
+         faltar (un paro dura el día entero). */
+      if (!esto.fecha){
+        document.getElementById('msj').innerHTML =
+          '<div class="aviso error">Falta el día. Sin día no aparece en el calendario.</div>';
+        return;
+      }
+      paso3();
+    };
+  }
+
+  function paso3(){
+    const c = CLASES[esto.que];
+    contenido.innerHTML = `
+      ${encabezado(3, '¿DÓNDE<br>Y QUÉ?')}
+      <p class="bajada">${c.emoji} ${esc(c.nombre)} · ${esc(enPalabras(esto.fecha))}${
+        esto.hora ? ' · ' + esc(esto.hora) : ''}</p>
+
+      <div class="ficha">
+        <h3>${esc(c.campo.titulo)}</h3>
+        <div class="campo">
+          <input id="asunto" value="${esc(esto.asunto)}"
+                 placeholder="${esc(c.campo.ejemplo)}" maxlength="80">
+        </div>
+      </div>
+
+      <div class="ficha">
+        <h3>El lugar</h3>
+        <div class="chips elegir-uno" id="lugares"></div>
+        <div class="campo" style="margin-top:12px">
+          <label for="otro-lugar">…o escribilo</label>
+          <input id="otro-lugar" value="${esc(esto.lugar)}"
+                 placeholder="Aula 3" maxlength="80">
+        </div>
+      </div>
+
+      <div class="ficha">
+        <h3>¿Querés agregar algo?</h3>
+        <div class="campo">
+          <textarea id="detalle" maxlength="400"
+                    placeholder="Opcional. Un renglón alcanza."
+                    style="min-height:90px">${esc(esto.detalle)}</textarea>
+        </div>
+      </div>
+
+      <div id="msj"></div>
+      <button class="boton ancho" id="seguir">Ver cómo va a quedar</button>
+      <button class="boton ancho borde" id="atras" style="margin-top:10px">← Volver</button>`;
+
+    const lugares = document.getElementById('lugares');
+    lugares.innerHTML = LUGARES.map(l =>
+      `<button type="button" class="chip" aria-pressed="${esto.lugar === l}"
+               data-lugar="${esc(l)}">${esc(l)}</button>`).join('');
+    lugares.querySelectorAll('[data-lugar]').forEach(b => {
+      b.onclick = () => {
+        /* PRIMERO se guarda lo que ya está escrito. Tocar un chip
+           redibuja el paso entero, y sin esto la materia que la persona
+           acababa de escribir se borraba sola: el error más enojoso que
+           puede tener una pantalla que existe para ser fácil. */
+        juntar();
+        /* «Otro lugar» no es un lugar: es pedir el campo de abajo. */
+        esto.lugar = b.dataset.lugar === 'Otro lugar' ? '' : b.dataset.lugar;
+        paso3();
+        if (b.dataset.lugar === 'Otro lugar') document.getElementById('otro-lugar').focus();
+      };
+    });
+
+    function juntar(){
+      esto.lugar   = document.getElementById('otro-lugar').value.trim();
+      esto.detalle = document.getElementById('detalle').value.trim();
+      esto.asunto  = document.getElementById('asunto').value.trim();
+    }
+
+    document.getElementById('atras').onclick = () => { juntar(); paso2(); };
+    document.getElementById('seguir').onclick = () => {
+      juntar();
+      if (!esto.asunto){
+        document.getElementById('msj').innerHTML =
+          `<div class="aviso error">${esc(c.campo.falta)}</div>`;
+        return;
+      }
+      if (!esto.lugar){
+        document.getElementById('msj').innerHTML =
+          '<div class="aviso error">Falta el lugar. Si todavía no lo sabés, poné «la facultad» y después se corrige.</div>';
+        return;
+      }
+      vistaPrevia();
+    };
+  }
+
+  /* ------------------------------------------------------------
+     LA VISTA PREVIA
+
+     Es la parte que más importa de toda la pantalla. Quien no maneja
+     tecnología no confía en un formulario a ciegas: ver la tarjeta
+     como va a salir es lo que le dice «esto es lo que estás haciendo».
+
+     Y es donde se le avisa, con todas las letras, si esto se publica
+     ya o si lo tiene que aprobar alguien. Si alguien carga un paro
+     creyendo que ya está publicado, es PEOR que no tener la pantalla.
+     ------------------------------------------------------------ */
+  function vistaPrevia(){
+    const c = CLASES[esto.que];
+    const titulo = c.titulo(esto);
+
+    contenido.innerHTML = `
+      <p class="bajada" style="margin-bottom:6px">Antes de guardar</p>
+      <h1 class="titulo-pantalla">ASÍ VA<br>A QUEDAR</h1>
+
+      <div class="tarjeta ${esc(c.linea)}">
+        <h3>${esc(titulo)}</h3>
+        <p>
+          ${esc(enPalabras(esto.fecha))}${esto.hora ? ' · ' + esc(esto.hora) : ''}<br>
+          ${esc(esto.lugar)}
+          ${esto.detalle ? '<br><br>' + esc(esto.detalle) : ''}
+        </p>
+        <div class="tarjeta-pies">
+          <span class="etiqueta ${esc(c.linea)}">${esc(NOMBRE_LINEA[c.linea])}</span>
+        </div>
+      </div>
+
+      <div class="aviso ${c.publica ? 'ok' : ''}" style="margin-top:16px">
+        ${c.publica
+          ? '<strong>Esto se va a ver ya.</strong> Apenas guardes aparece en la ' +
+            'agenda y en el calendario de la app, para todo el mundo.'
+          : '<strong>Esto lo tiene que aprobar el equipo.</strong> Cuando guardes ' +
+            'queda mandado, pero todavía NO se ve en la app: alguien del equipo lo ' +
+            'revisa y lo publica. Si es urgente, avisale además por otro lado.'}
+      </div>
+
+      <div id="msj"></div>
+      <button class="boton ancho" id="guardar">${
+        c.publica ? 'Publicar' : 'Mandar para que lo aprueben'}</button>
+      <button class="boton ancho borde" id="atras" style="margin-top:10px">← Cambiar algo</button>`;
+
+    document.getElementById('atras').onclick = paso3;
+    document.getElementById('guardar').onclick = async function(){
+      this.disabled = true;
+      this.textContent = 'Guardando…';
+
+      const fila = {
+        tipo:        'evento',
+        linea:       c.linea,
+        titulo:      titulo,
+        cuerpo:      esto.detalle || null,
+        fecha_desde: esto.fecha,
+        hora:        esto.hora || null,
+        lugar:       esto.lugar,
+        publicado:   c.publica,
+        /* Los dos que la base también exige, y que acá no se preguntan
+           nunca: un evento cargado así no hace sonar teléfonos y no
+           toca la alarma de mesas. Ver `sql/tabla-publicaciones.sql`. */
+        alarma:      'ninguna',
+        avisar:      false,
+        creado_por:  usuario.id
+      };
+
+      const { error } = await db.from('publicaciones').insert(fila);
+
+      if (error){
+        this.disabled = false;
+        this.textContent = c.publica ? 'Publicar' : 'Mandar para que lo aprueben';
+        /* El error crudo de PostgREST no le dice nada a nadie. El caso
+           más probable es que la cuenta no tenga el permiso todavía, o
+           que falte correr el archivo de la tabla. */
+        const suena = /row-level security|permission denied|42501/i.test(error.message || '');
+        document.getElementById('msj').innerHTML =
+          `<div class="aviso error">${suena
+            ? 'Tu cuenta no tiene permiso para cargar esto todavía. Pedile a ' +
+              'alguien del equipo que te lo dé (y que haya corrido ' +
+              '<code>sql/tabla-publicaciones.sql</code>).'
+            : 'No se pudo guardar: ' + esc(error.message)}</div>`;
+        return;
+      }
+
+      listo(c);
+    };
+  }
+
+  /* ------------------------------------------------------------
+     EN QUÉ QUEDÓ
+
+     Un paro mandado y sin noticias es un compañero preguntando por
+     WhatsApp, y ahí perdimos lo que ganamos. Así que se dice qué pasó
+     y qué sigue.
+     ------------------------------------------------------------ */
+  function listo(c){
+    contenido.innerHTML = `
+      <h1 class="titulo-pantalla">${c.publica ? 'YA<br>ESTÁ' : 'MANDADO'}</h1>
+      <p class="bajada">
+        ${c.publica
+          ? 'Ya se ve en la agenda y en el calendario de la app.'
+          : 'Le llegó al equipo. Falta que alguien lo revise y lo publique; ' +
+            'hasta entonces no se ve en la app.'}
+      </p>
+      <div class="grupo">
+        ${c.publica
+          ? '<a class="boton ancho" href="../agenda/">Verlo en la agenda</a>'
+          : ''}
+        <button class="boton ancho${c.publica ? ' borde' : ''}" id="otra">Cargar otra cosa</button>
+        <a class="boton ancho borde" href="../">Volver a la app</a>
+      </div>`;
+    document.getElementById('otra').onclick = () => {
+      /* Se limpia todo menos la fecha: casi siempre se cargan varias
+         cosas del mismo día, y volver a elegirlo cansa. */
+      const fecha = esto.fecha;
+      Object.assign(esto, { que:null, fecha, hora:null, lugar:'', detalle:'', asunto:'' });
+      paso1();
+    };
+  }
+
+  paso1();
+})();
+</script>
+</body>
+</html>
