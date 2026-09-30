@@ -376,6 +376,33 @@
     mio = data || [];
     if (!mio.length){ caja.innerHTML = ''; return; }
 
+    /* Cuántos dijeron «Voy», y en los grupos los números que dejaron
+       para que los sumen al de WhatsApp (tanda 3, 30/9/2026). Los
+       números los ve solo quien cargó el grupo: lo decide la base
+       (`sql/tabla-anotados.sql`), no esta pantalla. Si algo falla, la
+       lista sale igual, sin esto. */
+    const van = {}, numeros = {};
+    try {
+      const grupos = mio.filter(p => p.categoria === 'grupo').map(p => p.id);
+      const [rc, rn] = await Promise.all([
+        db.from('anotados_totales').select('*').in('publicacion_id', mio.map(p => p.id)),
+        grupos.length
+          ? db.from('anotados_contacto').select('publicacion_id,telefono').in('publicacion_id', grupos)
+          : Promise.resolve({ data: [] })
+      ]);
+      (rc.data || []).forEach(f => { van[f.publicacion_id] = Number(f.cuantos) || 0; });
+      (rn.data || []).forEach(f => {
+        (numeros[f.publicacion_id] = numeros[f.publicacion_id] || []).push(f.telefono);
+      });
+    } catch(e){}
+    const cuantosVanA = p => {
+      const n = van[p.id] || 0;
+      if (!n) return p.categoria === 'grupo' ? 'Todavía no se anotó nadie' : 'Todavía nadie dijo que va';
+      return p.categoria === 'grupo'
+        ? `${n} ${n === 1 ? 'persona anotada' : 'personas anotadas'}`
+        : `${n} ${n === 1 ? 'persona dijo' : 'personas dijeron'} que va`;
+    };
+
     caja.innerHTML = `
       <div class="titulo-seccion" style="margin-top:26px">LO QUE CARGASTE</div>
       <div class="grupo">
@@ -389,6 +416,15 @@
             <p>${esc(enPalabras(String(p.fecha_desde).slice(0, 10)))}${
               p.hora ? ' · ' + esc(p.hora) : ''}${p.lugar ? ' · ' + esc(p.lugar) : ''}</p>
             ${estado ? `<div class="tarjeta-pies"><span class="etiqueta">${estado}</span></div>` : ''}
+            ${p.publicado && !p.suspendido ? `<p class="voy-cuenta" style="margin:8px 0 0">${esc(cuantosVanA(p))}</p>` : ''}
+            ${(numeros[p.id] || []).length ? `
+              <details style="margin-top:8px">
+                <summary class="letra-chica" style="cursor:pointer;font-weight:700">${numeros[p.id].length} ${
+                  numeros[p.id].length === 1 ? 'número' : 'números'} para sumar al grupo de WhatsApp</summary>
+                <ul style="margin:6px 0 0;padding-left:18px">${numeros[p.id].map(t => `<li>${esc(t)}</li>`).join('')}</ul>
+                <p class="letra-chica" style="margin:6px 0 0">Usalos solo para sumar gente a este grupo.
+                  Se borran solos dos días después del encuentro.</p>
+              </details>` : ''}
             <div class="chips" style="margin-top:10px">
               ${p.suspendido ? '' : `<button type="button" class="chip" data-editar="${p.id}">Editar</button>`}
               ${!p.publicado ? `<button type="button" class="chip" data-publicar="${p.id}">Publicar ya</button>` : ''}

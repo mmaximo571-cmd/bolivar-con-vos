@@ -58,6 +58,9 @@ type Aviso = {
   /* Solo a quien ya recibió algo de esta publicación. Es el aviso de
      cambio: «cambió de aula» no le sirve a quien nunca supo el aula. */
   soloSiTuvo?: number;
+  /* La publicación de la que habla, en los avisos de eventos. Con esto
+     se sabe quién marcó «Voy» (sección 4 y `anotados`). */
+  pub?: number;
 };
 
 type Suscripcion = {
@@ -273,7 +276,7 @@ function avisosDeEventos(publicaciones: any[], hoy: string, ahora: number): Avis
     const titulo = String(p.titulo || '').trim();
     const donde  = [p.hora, p.lugar].filter(Boolean).join(' · ');
     const url    = `${URL_BASE}/agenda/?id=${p.id}`;
-    const base   = { canal, url, materia: p.materia || undefined };
+    const base   = { canal, url, materia: p.materia || undefined, pub: p.id as number };
 
     const esHoy    = !p.suspendido && desde === hoy;
     const esNueva  = !p.suspendido && reciente(p.publicado_at);
@@ -447,6 +450,21 @@ Deno.serve(async (pedido) => {
     }
   }
 
+  /* Quién marcó «Voy» en cada evento (tanda 3, 30/9/2026). A esa
+     persona le llegan el aviso del día y el de cambio de ESE evento
+     aunque tenga la categoría apagada o el grupo no sea de sus
+     materias: dijo que va, y «cambió de aula» es justo lo que le hace
+     falta saber. Solo cuentan las marcas atadas a un teléfono con los
+     avisos prendidos (`suscripcion_id`); las demás son solo número. */
+  const voy = new Set<string>();
+  const conVoy = [...new Set(avisos.map(a => a.pub).filter(Boolean))] as number[];
+  if (conVoy.length){
+    const { data } = await sb.from('anotados')
+      .select('publicacion_id,suscripcion_id')
+      .in('publicacion_id', conVoy).not('suscripcion_id', 'is', null);
+    for (const v of data || []) voy.add(`${v.suscripcion_id}|${v.publicacion_id}`);
+  }
+
   /* Quién ya recibió algo de cada publicación con aviso de cambio. */
   const tuvo = new Set<string>();
   const conCambio = [...new Set(avisos.map(a => a.soloSiTuvo).filter(Boolean))] as number[];
@@ -462,10 +480,11 @@ Deno.serve(async (pedido) => {
 
   async function atender(s: Suscripcion){
     for (const a of avisos){
-      if (!s[a.canal]) continue;                              /* no lo pidió */
+      const va = !!a.pub && voy.has(`${s.id}|${a.pub}`);    /* marcó «Voy» */
+      if (!s[a.canal] && !va) continue;                       /* no lo pidió */
       if (a.usuario && a.usuario !== s.usuario_id) continue;   /* no es para esta persona */
-      if (a.soloSiTuvo && !tuvo.has(`${s.id}|${a.soloSiTuvo}`)) continue;
-      if (a.canal === 'grupos' && a.materia){
+      if (a.soloSiTuvo && !va && !tuvo.has(`${s.id}|${a.soloSiTuvo}`)) continue;
+      if (a.canal === 'grupos' && a.materia && !va){
         const suyas = materiasDe.get(s.id);
         if (suyas && suyas.size && !suyas.has(normalizar(a.materia))) continue;
       }

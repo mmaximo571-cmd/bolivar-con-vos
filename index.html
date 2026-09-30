@@ -376,6 +376,9 @@ setTimeout(function(){
 <!-- El calendario del mes, el MISMO que el de Fechas (30/9/2026): los
      dos marcan lo mismo. Va después de app.js, que tiene lo que usa. -->
 <script src="lib/fecha-al-calendario.js"></script>
+<!-- «Voy» (30/9/2026): acá solo se lee qué marcó el teléfono, para la
+     tarjeta Hoy y «Dijiste que vas». Marcar se marca en Fechas. -->
+<script src="lib/voy.js"></script>
 <script src="fondo-red.js"></script>
 <script src="movimiento.js"></script>
 <script>
@@ -915,7 +918,8 @@ setTimeout(function(){
     caja.innerHTML = `
       <a class="proximo" href="${RAIZ}agenda/?id=${encodeURIComponent(p.id)}">
         <span class="proximo-cuando">${esc(cuando)}</span>
-        <span class="proximo-que">${esc(p.titulo || '')}</span>
+        <span class="proximo-que">${esc(p.titulo || '')}</span>${
+          typeof voyA === 'function' && voyA(p.id) ? '<span class="hoy-marca vas">Vas</span>' : ''}
         <span class="proximo-flecha" aria-hidden="true">→</span>
       </a>`;
   }
@@ -983,12 +987,14 @@ setTimeout(function(){
       const detalle = [p.suspendido ? 'Se suspendió' : ultimo ? 'Último día' : '', p.hora, p.lugar]
         .filter(Boolean).join(' · ');
       const suya = cat === 'grupo' && p.materia && suyas.has(normalizar(p.materia));
+      const vas  = typeof voyA === 'function' && voyA(p.id);
       return `<li><a class="hoy-item${p.suspendido ? ' suspendido' : ''}"
           href="${RAIZ}agenda/?id=${encodeURIComponent(p.id)}">
           <i class="cal-punto cat-${esc(cat)}" aria-hidden="true"></i>
           <span class="hoy-texto"><b>${esc(p.titulo || '')}</b>${
-            detalle || suya ? `<span class="hoy-detalle">${esc(detalle)}${
-              suya ? '<span class="hoy-marca">Tu materia</span>' : ''}</span>` : ''}</span>
+            detalle || suya || vas ? `<span class="hoy-detalle">${esc(detalle)}${
+              suya ? '<span class="hoy-marca">Tu materia</span>' : ''}${
+              vas ? '<span class="hoy-marca vas">Vas</span>' : ''}</span>` : ''}</span>
         </a></li>`;
     };
 
@@ -1057,7 +1063,48 @@ setTimeout(function(){
        si no, el renglón de siempre. */
     if (!pintarHoy(caja, publicaciones, hoy, saltear))
       proximoDeLaAgenda(caja, publicaciones, hoy, saltear);
+    /* Lo que ya nombran la tarjeta o el renglón no se repite abajo. */
+    const yaEsta = new Set([...caja.querySelectorAll('a[href*="?id="]')]
+      .map(a => new URL(a.href, location.href).searchParams.get('id')));
+    caja.insertAdjacentHTML('beforeend', htmlLoQueVas(publicaciones, hoy, yaEsta));
   })();
+
+  /* ============================================================
+     «DIJISTE QUE VAS» (tanda 3, 30/9/2026)
+
+     Lo que el teléfono marcó «Voy» en Fechas y todavía no pasó, hasta
+     tres. Lo de hoy no va acá: ya está en la tarjeta Hoy, con «Vas». Lo
+     que ya nombra el renglón de lo próximo, tampoco.
+     Si no marcó nada, no se dibuja: esto es un recordatorio, no una
+     invitación, y la invitación ya está en cada evento de Fechas.
+     ============================================================ */
+  function htmlLoQueVas(publicaciones, hoy, yaEsta){
+    if (typeof voyA !== 'function') return '';
+    const vienen = (publicaciones || [])
+      .filter(p => p.fecha_desde && voyA(p.id) && String(p.fecha_desde).slice(0,10) > hoy &&
+                   !(yaEsta && yaEsta.has(String(p.id))))
+      .sort((a, b) => String(a.fecha_desde).localeCompare(String(b.fecha_desde)))
+      .slice(0, 3);
+    if (!vienen.length) return '';
+
+    const cuando = p => {
+      const dias = Math.round((new Date(String(p.fecha_desde).slice(0,10)) - new Date(hoy)) / 86400000);
+      return dias === 1 ? 'Mañana' : dias <= 7 ? 'En ' + dias + ' días' : fechaLinda(p.fecha_desde);
+    };
+
+    return `
+      <section class="lo-que-vas" aria-labelledby="vas-titulo">
+        <h2 class="lo-que-vas-rotulo" id="vas-titulo">Dijiste que vas</h2>
+        <ul>${vienen.map(p => `
+          <li><a class="lo-que-vas-item${p.suspendido ? ' suspendido' : ''}"
+                 href="${RAIZ}agenda/?id=${encodeURIComponent(p.id)}">
+            <span class="proximo-cuando">${esc(p.suspendido ? 'Se suspendió' : cuando(p))}</span>
+            <span class="proximo-que">${esc(p.titulo || '')}</span>
+            <span class="proximo-flecha" aria-hidden="true">→</span>
+          </a></li>`).join('')}
+        </ul>
+      </section>`;
+  }
 
   /* ============================================================
      LA PORTADA PREGUNTA  ·  qué estudiás y si querés cargar lo hecho

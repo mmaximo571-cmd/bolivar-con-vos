@@ -73,6 +73,7 @@
 <script src="../lib/mudanza.js"></script>
 <script src="../app.js"></script>
 <script src="../lib/fecha-al-calendario.js"></script>
+<script src="../lib/voy.js"></script>
 <script src="../fondo-red.js"></script>
 <script>
 (async function pantallaAgenda(){
@@ -159,6 +160,16 @@
 
     const cuando = rangoLindo(p.fecha_desde, p.fecha_hasta);
 
+    /* «Voy» y «Me anoto» (tanda 3, 30/9/2026). Con `typeof`: si
+       `lib/voy.js` no llegó, la publicación se ve igual que antes. */
+    const hayVoy  = typeof marcarVoy === 'function';
+    const conVoy  = hayVoy && sePuedeIr(Object.assign({}, p, { categoria: categoriaDe(p) }));
+    const esGrupo = categoriaDe(p) === 'grupo';
+    /* El enlace al grupo de WhatsApp de un grupo de estudio aparece al
+       anotarse, no antes (propuesta 2). Si no se puede anotar —ya pasó,
+       o no hay `lib/voy.js`— se muestra como cualquier enlace. */
+    const waAlAnotarse = conVoy && esGrupo && esEnlaceDeWhatsApp(p.link_url);
+
     contenido.innerHTML = `
       <a href="./" style="display:inline-block;margin-top:18px;font-family:var(--fuente-sub);
          font-size:var(--letra-nota);text-transform:uppercase;letter-spacing:.06em;
@@ -181,16 +192,24 @@
           ${p.lugar ? `<dt>Dónde</dt><dd>${esc(p.lugar)}</dd>` : ''}
         </dl></div>` : ''}
 
+      ${conVoy ? '<section class="voy" id="voy" aria-label="Quiénes van"></section>' : ''}
+
       ${p.imagen_url ? `<figure class="flyer-publicacion">
           <img src="${esc(p.imagen_url)}" alt="Flyer: ${esc(p.titulo)}" loading="lazy">
         </figure>` : ''}
 
       ${p.cuerpo ? `<div style="font-size:16.5px;line-height:1.5">${escMulti(p.cuerpo)}</div>` : ''}
 
-      ${p.link_url ? `<a class="boton ancho oscuro" style="margin-top:20px"
+      ${p.link_url && !waAlAnotarse ? `<a class="boton ancho oscuro" style="margin-top:20px"
           href="${esc(urlSegura(p.link_url))}" target="_blank" rel="noopener">Abrir el enlace ↗</a>` : ''}
 
-      ${p.suspendido ? '' : htmlAgendarlo(p)}`;
+      ${p.suspendido ? '' : htmlAgendarlo(p)}
+
+      ${p.suspendido || !hayVoy ? '' : `<div class="agendarlo">
+          <div class="titulo-seccion">CONTALE A ALGUIEN</div>
+          <a class="boton borde ancho" href="${esc(enlaceCompartir(p))}"
+             target="_blank" rel="noopener">Compartir por WhatsApp ↗</a>
+        </div>`}`;
 
     /* El .ics se arma acá, con la publicación que ya está en memoria.
        El botón de Google no necesita nada: es un enlace común. */
@@ -198,6 +217,98 @@
     if (botonICS) botonICS.addEventListener('click', () => bajarICS([p], p.titulo));
 
     document.title = p.titulo + ' · La Bolívar con vos';
+    if (!conVoy) return;
+
+    /* ---------- El bloque de «Voy» ----------
+       Arriba del flyer y del texto: es lo único que se puede HACER con
+       un encuentro además de ir, y abajo de todo no lo encuentra nadie. */
+    const cajaVoy = document.getElementById('voy');
+    let cuantos = 0;
+
+    const avisosPrendidos = () => {
+      try { return 'Notification' in window && Notification.permission === 'granted'; }
+      catch(e){ return false; }
+    };
+
+    function pintarVoy(error){
+      const yo   = voyA(p.id);
+      const dejo = leerVoy().contactos.includes(Number(p.id));
+      cajaVoy.innerHTML = `
+        <div class="voy-fila">
+          ${yo ? `<span class="voy-hecho">✓ ${esGrupo ? 'Te anotaste' : 'Vas'}</span>`
+               : `<button type="button" class="boton voy-boton" data-voy="si">${esGrupo ? 'Me anoto' : 'Voy'}</button>`}
+          <span class="voy-cuantos" aria-live="polite">${esc(textoCuantos(cuantos, yo, esGrupo))}</span>
+        </div>
+        ${yo ? `<p class="letra-chica voy-nota">${avisosPrendidos()
+                 ? 'Si cambia el día, la hora o el lugar, te llega el aviso al celular.'
+                 : 'Para enterarte si cambia algo, <a href="../mi/#caja-avisos">prendé los avisos</a>.'}
+               <button type="button" class="voy-deshacer" data-voy="no">${esGrupo ? 'Desanotarme' : 'Ya no voy'}</button></p>`
+             : `<p class="letra-chica voy-nota">Sin cuenta y sin nombre: solo se cuenta cuántos van.${
+                 waAlAnotarse ? ' Al anotarte aparece el enlace al grupo de WhatsApp.' : ''}</p>`}
+        ${yo && waAlAnotarse ? `<a class="boton ancho oscuro voy-whatsapp" href="${esc(urlSegura(p.link_url))}"
+             target="_blank" rel="noopener">Entrá al grupo de WhatsApp ↗</a>` : ''}
+        ${yo && esGrupo ? `
+          <details class="voy-contacto"${dejo ? ' open' : ''}>
+            <summary>Prefiero que me sumen con mi número</summary>
+            ${dejo ? `<p class="letra-chica">Dejaste tu número. Lo ve solo quien organiza este grupo,
+                  y se borra solo dos días después del encuentro.</p>
+                <button type="button" class="boton borde" data-contacto-borrar>Borrar mi número</button>`
+              : `<form data-contacto>
+                  <label class="letra-chica" for="voy-tel">No hace falta para anotarte. Lo ve solo quien
+                    organiza este grupo, para sumarte al de WhatsApp, y se borra solo dos días
+                    después del encuentro.</label>
+                  <div class="voy-tel-fila">
+                    <input id="voy-tel" type="tel" inputmode="tel" autocomplete="tel" maxlength="24"
+                           placeholder="221 456 7890" required pattern="\\+?[0-9][0-9 \\(\\)\\-]{6,22}">
+                    <button type="submit" class="boton">Dejarlo</button>
+                  </div>
+                </form>`}
+          </details>` : ''}
+        <p class="letra-chica voy-error" role="status">${error ? esc(error) : ''}</p>`;
+    }
+
+    cajaVoy.addEventListener('click', async ev => {
+      const b = ev.target.closest('[data-voy]');
+      const borrar = ev.target.closest('[data-contacto-borrar]');
+      if (!b && !borrar) return;
+      (b || borrar).disabled = true;
+      try {
+        if (b){
+          cuantos = await marcarVoy(p.id, b.dataset.voy === 'si');
+          pintarVoy();
+          const foco = cajaVoy.querySelector('[data-voy]');
+          if (foco) foco.focus();
+        } else {
+          await dejarContacto(p.id, '');
+          pintarVoy();
+        }
+      } catch(e){
+        pintarVoy('No se pudo guardar. Fijate la conexión y probá de nuevo.');
+      }
+    });
+
+    cajaVoy.addEventListener('submit', async ev => {
+      if (!ev.target.matches('[data-contacto]')) return;
+      ev.preventDefault();
+      const tel = ev.target.querySelector('input').value.trim();
+      const boton = ev.target.querySelector('button');
+      boton.disabled = true;
+      try { await dejarContacto(p.id, tel); pintarVoy(); }
+      catch(e){ pintarVoy('No pudimos guardar el número. Revisá que sea un teléfono y probá de nuevo.'); }
+    });
+
+    pintarVoy();
+    cuantosVan().then(c => { cuantos = c[p.id] || 0; pintarVoy(); });
+
+    /* Quien marcó «Voy» antes de prender los avisos no quedó atado a su
+       teléfono. Volver a anotarse con el timbre lo ata, sin sumar otro:
+       la base usa la marca como llave. */
+    if (voyA(p.id) && avisosPrendidos()){
+      timbreDelTelefono().then(t => {
+        if (t) db.rpc('anotarme', { p_publicacion: Number(p.id), p_marca: marcaVoy(), p_endpoint: t })
+                 .then(() => {}, () => {});
+      });
+    }
     return;
   }
 
@@ -222,6 +333,8 @@
   const zonas       = document.getElementById('zonas');
 
   let publicaciones = [];
+  /* Cuántos dijeron «Voy» a cada cosa: { id: n }. */
+  let cuentas = {};
 
   /* La categoría elegida en los chips (hasta el 30/9/2026 era la línea
      editorial). Filtra la LISTA, no el
@@ -241,12 +354,21 @@
      error no se muestra, porque taparía con un cartel una agenda que
      ya estaba a la vista y era correcta. */
   async function traer(avisar = true){
-    const { data, error } = await db.from('publicaciones')
-      .select('*').eq('publicado', true).order('creado_at', { ascending:false });
+    /* Los contadores viajan juntos con la agenda y no la frenan: si la
+       vista no está, `cuantosVan` vuelve vacío. */
+    const [{ data, error }, c] = await Promise.all([
+      db.from('publicaciones')
+        .select('*').eq('publicado', true).order('creado_at', { ascending:false }),
+      typeof cuantosVan === 'function' ? cuantosVan() : Promise.resolve({})
+    ]);
     if (error){ if (avisar) mostrarError(zonas, error, 'cargar la agenda'); return false; }
     publicaciones = data;
+    cuentas = c || {};
+    if (typeof limpiarVoy === 'function') limpiarVoy(publicaciones);
     return true;
   }
+
+  const voyAca = p => typeof voyA === 'function' && voyA(p.id);
 
   function tarjeta(p){
     const f = partesFecha(p.fecha_desde);
@@ -277,6 +399,8 @@
         ${p.suspendido ? '<span class="etiqueta suspendido">Suspendido</span>'
           : cambioReciente(p) ? '<span class="etiqueta cat-paro">Cambió</span>' : ''}
         <span class="etiqueta cat-${esc(c)}">${esc(CATEGORIAS[c].nombre)}</span>
+        ${voyAca(p) ? '<span class="etiqueta voy-marca">Vas</span>' : ''}
+        ${(cuentas[p.id] || 0) >= 2 ? `<span class="voy-cuenta">Van ${cuentas[p.id]}</span>` : ''}
       </div>`;
 
     const clases = `tarjeta ${esc(p.linea)} cat-${esc(c)}${senalada}${
@@ -681,7 +805,11 @@
   /* Tope al 80% de presentismo. */
   const topeFaltas = c => Math.floor((c.total_clases || 0) * 0.2);
 
-  let vista = parametro('vista') === 'semana' ? 'semana' : 'mes';
+  /* Mes, Semana, Días (la agenda seguida, día por día) y Mío (lo de
+     la persona: clases, finales, lo que marcó «Voy» y los paros). Las
+     dos últimas son de la tanda 3 (30/9/2026). */
+  const VISTAS = ['mes', 'semana', 'dias', 'mio'];
+  let vista = VISTAS.includes(parametro('vista')) ? parametro('vista') : 'mes';
   let lunes = lunesDe(hoyISO());
 
   /* ---------- La cuenta ---------- */
@@ -694,6 +822,7 @@
   let cargandoCuenta = hayCuentaGuardada;
   let cursada  = [];
   let faltas   = {};           /* materia -> cuántas */
+  let finales  = [];           /* las mesas que cargó en Estudiemos */
 
   function cargarLibreria(){
     if (window.supabase && window.supabase.createClient) return Promise.resolve();
@@ -728,12 +857,15 @@
 
   async function traerCursada(){
     if (!cuenta) return;
-    const [cur, fal] = await Promise.all([
+    const [cur, fal, pre] = await Promise.all([
       cuenta.c.from('cursada').select('id,materia,dia,bloque,hora,aula,total_clases'),
-      cuenta.c.from('falta').select('materia')
+      cuenta.c.from('falta').select('materia'),
+      /* Para «Mío». Si falla, «Mío» sale sin finales y nada más. */
+      cuenta.c.from('preparaciones').select('materia,mesa_fecha').not('mesa_fecha', 'is', null)
     ]);
     if (cur.error || fal.error) return;
     cursada = cur.data || [];
+    finales = (!pre.error && pre.data) || [];
     /* La copia liviana que usa la tarjeta «Hoy» del inicio, que no
        tiene sesión (30/9/2026). Con `typeof`: app.js puede venir del
        caché viejo, sin la función. */
@@ -825,7 +957,7 @@
     const b = (id, n) => `<button type="button" role="tab" data-vista="${id}"
         aria-selected="${id === vista}">${n}</button>`;
     return `<div class="vistas" role="tablist" aria-label="Cómo ver el calendario">${
-      b('mes','Mes')}${b('semana','Semana')}</div>`;
+      b('mes','Mes')}${b('semana','Semana')}${b('dias','Días')}${b('mio','Mío')}</div>`;
   }
 
   function montarCal(){
@@ -853,18 +985,24 @@
     });
     const deUnDia = conEnfoque().filter(p => p.fecha_desde && !p.suspendido &&
       (!p.fecha_hasta || p.fecha_hasta.slice(0,10) === p.fecha_desde.slice(0,10)));
+    /* Un paro dura varios días y no entra en `deUnDia`, pero es lo que
+       más le cambia la semana a quien cursa: sus clases de ese día
+       salen marcadas (tanda 3). La app no sabe si la clase se da. */
+    const hayParoEl = iso => publicaciones.some(p => categoriaDe(p) === 'paro' &&
+      !p.suspendido && caeEnElDia(p, iso));
 
     let libres = 0;
     const filas = dias.map((dia, i) => {
+      const paro = hayParoEl(dia.iso);
       const celdas = BLOQUES.map(b => {
         const clase = cursada.find(c => c.dia === i+1 && c.bloque === b.k);
         if (clase){
           const restan = Math.max(topeFaltas(clase) - (faltas[clase.materia] || 0), 0);
-          return `<button type="button" class="semana-celda cursada"
+          return `<button type="button" class="semana-celda cursada${paro ? ' con-paro' : ''}"
             data-materia="${esc(clase.materia)}" data-cursada-id="${clase.id}"
-            aria-label="${esc(clase.materia)}, ${esc(clase.hora || '')}${clase.aula ? ', ' + esc(clase.aula) : ''}. Te ${restan === 1 ? 'queda 1 falta' : 'quedan ' + restan + ' faltas'}">
+            aria-label="${esc(clase.materia)}, ${esc(clase.hora || '')}${clase.aula ? ', ' + esc(clase.aula) : ''}.${paro ? ' Ese día hay paro.' : ''} Te ${restan === 1 ? 'queda 1 falta' : 'quedan ' + restan + ' faltas'}">
             <b>${esc(clase.materia)}</b>
-            <i>${clase.aula ? esc(clase.aula) + ' · ' : ''}${restan} falta${restan === 1 ? '' : 's'}</i>
+            <i>${paro ? 'Hay paro' : `${clase.aula ? esc(clase.aula) + ' · ' : ''}${restan} falta${restan === 1 ? '' : 's'}`}</i>
           </button>`;
         }
         const ev = deUnDia.find(p => caeEnElDia(p, dia.iso) && bloqueDe(p.hora) === b.k);
@@ -877,7 +1015,7 @@
           aria-label="${dia.dow} a la ${b.n.toLowerCase()}, libre"></span>`;
       }).join('');
 
-      return `<div class="semana-fila ${dia.iso === hoyISO() ? 'hoy' : ''}">
+      return `<div class="semana-fila ${dia.iso === hoyISO() ? 'hoy' : ''}${paro ? ' hay-paro' : ''}">
           <div class="semana-dia">
             <span class="dow">${dia.dow}</span><span class="num">${dia.num}</span>
           </div>${celdas}
@@ -935,8 +1073,129 @@
     cajaCal.innerHTML = `<div class="calendario">${htmlPestanas()}${cuerpo}</div>`;
   }
 
+  /* ---------- Días y Mío (tanda 3, 30/9/2026) ----------
+     Las dos listas van adentro de la misma caja del calendario, debajo
+     de las pestañas, así cambiar de vista no mueve la pantalla. Usan el
+     mismo criterio que la tarjeta «Hoy» del inicio para decir qué pasa
+     un día: lo que empieza, lo que termina, y el paro que lo cubre. Un
+     período largo en el medio no: estaría todos los días y taparía lo
+     demás. */
+  const DIAS_SEMANA = ['domingo','lunes','martes','miércoles','jueves','viernes','sábado'];
+  const HORIZONTE_DIAS = 45;
+  const HORIZONTE_MIO  = 21;
+
+  function nombreDelDia(iso){
+    const hoy = hoyISO();
+    if (iso === hoy) return 'Hoy';
+    if (iso === isoVecino(hoy, 1)) return 'Mañana';
+    const [a,m,d] = iso.split('-').map(Number);
+    return DIAS_SEMANA[new Date(a, m-1, d).getDay()];
+  }
+
+  const fechaCorta = iso => { const [, m, d] = iso.split('-').map(Number); return `${d}/${m}`; };
+
+  function queTieneElDia(iso, lista){
+    return lista.filter(p => {
+      if (!p.fecha_desde) return false;
+      const d = p.fecha_desde.slice(0,10), h = String(p.fecha_hasta || p.fecha_desde).slice(0,10);
+      if (iso < d || iso > h) return false;
+      return iso === d || iso === h || categoriaDe(p) === 'paro';
+    }).sort((a, b) => (categoriaDe(b) === 'paro') - (categoriaDe(a) === 'paro') ||
+                      String(a.hora || '99').localeCompare(String(b.hora || '99')));
+  }
+
+  function htmlItem(p, iso){
+    const c = categoriaDe(p);
+    const d = p.fecha_desde.slice(0,10), h = String(p.fecha_hasta || p.fecha_desde).slice(0,10);
+    const que = p.suspendido ? 'Se suspendió'
+              : (c !== 'paro' && h !== d && h === iso) ? 'Último día'
+              : (c !== 'paro' && h !== d && d === iso) ? 'Empieza' : '';
+    const detalle = [que, p.hora, p.lugar].filter(Boolean).join(' · ');
+    return `<li><a class="dias-item${p.suspendido ? ' suspendido' : ''}" href="?id=${p.id}">
+        <i class="cal-punto cat-${esc(c)}" aria-hidden="true"></i>
+        <span class="dias-texto"><b>${esc(p.titulo)}</b>${detalle ? `<span>${esc(detalle)}</span>` : ''}</span>
+        ${voyAca(p) ? '<span class="etiqueta voy-marca">Vas</span>' : ''}
+      </a></li>`;
+  }
+
+  function htmlDia(iso, filas, paro){
+    return `<section class="dias-dia${iso === hoyISO() ? ' hoy' : ''}${paro ? ' hay-paro' : ''}">
+        <h3 class="dias-fecha"><b>${esc(nombreDelDia(iso))}</b> <span>${esc(fechaCorta(iso))}</span></h3>
+        <ul class="dias-lista">${filas}</ul>
+      </section>`;
+  }
+
+  /* Días: la agenda seguida. Contesta «qué hay esta semana y la que
+     viene» sin tener que ir tocando días en la grilla. Respeta el modo
+     parciales, igual que la grilla. */
+  function pintarDias(){
+    const lista = conEnfoque();
+    let iso = hoyISO(), html = '';
+    for (let i = 0; i < HORIZONTE_DIAS; i++, iso = isoVecino(iso, 1)){
+      const del = queTieneElDia(iso, lista);
+      if (del.length) html += htmlDia(iso, del.map(p => htmlItem(p, iso)).join(''),
+        del.some(p => categoriaDe(p) === 'paro' && !p.suspendido));
+    }
+    cajaCal.innerHTML = `<div class="calendario">${htmlPestanas()}${html
+      ? `<div class="dias">${html}</div>`
+      : '<p class="letra-chica dias-vacio">No hay nada cargado para las próximas semanas.</p>'}</div>`;
+  }
+
+  /* Mío: lo de la persona en las próximas tres semanas. Sus clases,
+     sus finales, lo que marcó «Voy» y los paros, que le cambian el día
+     a cualquiera. Una clase en un día de paro sale marcada: la app no
+     sabe si se da, y eso es justo lo que hay que ir a preguntar. Lo
+     suspendido que había marcado sigue, tachado: dijo que iba. */
+  function pintarMio(){
+    const lista = publicaciones.filter(p => !p.suspendido || voyAca(p));
+    let iso = hoyISO(), html = '';
+    for (let i = 0; i < HORIZONTE_MIO; i++, iso = isoVecino(iso, 1)){
+      const [a,m,d] = iso.split('-').map(Number);
+      const diaCursada = ((new Date(a, m-1, d).getDay() + 6) % 7) + 1;   /* 1 = lunes */
+      const del = queTieneElDia(iso, lista)
+        .filter(p => voyAca(p) || (categoriaDe(p) === 'paro' && !p.suspendido));
+      const paro = del.some(p => categoriaDe(p) === 'paro' && !p.suspendido);
+      const clases = cursada.filter(c => c.dia === diaCursada)
+        .sort((x, y) => String(x.hora || '').localeCompare(String(y.hora || '')));
+      const deFinal = finales.filter(f => String(f.mesa_fecha).slice(0,10) === iso);
+      if (!del.length && !clases.length && !deFinal.length) continue;
+
+      const filas =
+        deFinal.map(f => `<li><a class="dias-item" href="../estudiemos/">
+            <i class="cal-punto cat-fecha" aria-hidden="true"></i>
+            <span class="dias-texto"><b>Final: ${esc(f.materia)}</b><span>Tu mesa</span></span>
+          </a></li>`).join('') +
+        del.map(p => htmlItem(p, iso)).join('') +
+        clases.map(c => `<li class="dias-clase${paro ? ' con-paro' : ''}">
+            <b>${esc(c.materia)}</b>
+            <span>${esc([c.hora, c.aula].filter(Boolean).join(' · ') || 'Clase')}</span>
+            ${paro ? '<span class="dias-aviso">Hay paro: fijate con tu cátedra si se da</span>' : ''}
+          </li>`).join('');
+      html += htmlDia(iso, filas, paro);
+    }
+
+    const pie = !hayCuentaGuardada
+      ? `<p class="letra-chica dias-vacio">Con tu cuenta, acá también aparecen tus clases y tus
+           finales. <a href="../mi/">Entrar a mi cuenta</a></p>`
+      : cargandoCuenta ? '<p class="letra-chica dias-vacio" role="status">Cargando tus clases…</p>'
+      : cuenta && !cursada.length ? `<p class="letra-chica dias-vacio">Todavía no cargaste tu cursada.
+           <a href="../mi/#cursada">Cargala en Mi perfil</a> y tus clases aparecen acá.</p>`
+      : '';
+
+    cajaCal.innerHTML = `<div class="calendario">${htmlPestanas()}${html
+      ? `<div class="dias">${html}</div>`
+      : `<div class="dias-nada">
+           <strong class="vacio-titulo">Todavía no hay nada tuyo</strong>
+           <p class="letra-chica">Tocá «Voy» en un paro, un grupo de estudio o una actividad
+             y aparece acá.</p>
+         </div>`}${pie}</div>`;
+  }
+
   function pintarVista(){
-    if (vista === 'semana') pintarSemana(); else montarCal();
+    if (vista === 'semana') pintarSemana();
+    else if (vista === 'dias') pintarDias();
+    else if (vista === 'mio') pintarMio();
+    else montarCal();
   }
 
   function pintarTodo(){
@@ -954,7 +1213,7 @@
     if (pest){
       if (pest.dataset.vista === vista) return;
       vista = pest.dataset.vista;
-      history.replaceState(null, '', vista === 'semana' ? '?vista=semana' : location.pathname);
+      history.replaceState(null, '', vista === 'mes' ? location.pathname : '?vista=' + vista);
       pintarVista();
       const elegida = cajaCal.querySelector(`[data-vista="${vista}"]`);
       if (elegida) elegida.focus();

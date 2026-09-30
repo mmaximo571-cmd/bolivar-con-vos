@@ -701,6 +701,34 @@ body.antes-de-entrar{padding-bottom:0}
   border-top:1px solid var(--linea);text-decoration:none;color:var(--texto)
 }
 
+/* «Vas»: lo que marcó «Voy» en Fechas. Amarillo, que en esta app es lo
+   tuyo, como la etiqueta `.voy-marca` de Fechas. */
+.hoy-marca.vas{background:var(--amarillo);color:var(--sobre-color)}
+
+/* «Dijiste que vas» (tanda 3, 30/9/2026): abajo de la tarjeta Hoy o
+   del renglón de lo próximo. Más callada que la tarjeta Hoy —sin sombra
+   y sin borde de color—: es un recordatorio, no una noticia. */
+.lo-que-vas{
+  margin:-4px 0 16px;padding:10px 16px 6px;
+  border:1px solid var(--linea);border-radius:var(--radio);background:var(--superficie)
+}
+
+.lo-que-vas-rotulo{
+  margin:0 0 2px;font-weight:700;font-size:10.5px;letter-spacing:.14em;
+  text-transform:uppercase;color:var(--texto-suave)
+}
+
+.lo-que-vas ul{list-style:none;margin:0;padding:0}
+
+.lo-que-vas-item{
+  display:flex;align-items:center;gap:12px;padding:8px 0;
+  text-decoration:none;color:var(--texto)
+}
+
+.lo-que-vas li + li .lo-que-vas-item{border-top:1px solid var(--linea)}
+
+.lo-que-vas-item.suspendido .proximo-que{text-decoration:line-through;color:var(--texto-suave)}
+
 /* ============================================================
    ÚLTIMO REPASO DE «MENOS MOVIMIENTO»
 

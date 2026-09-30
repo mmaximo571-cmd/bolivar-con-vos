@@ -21,7 +21,7 @@
    lista, porque acá abajo se sirve lo guardado antes que la red.
    Por qué subió cada número (v4 en adelante): `docs/HISTORIAL-SW.md`.
    Al subirlo, anotar ahí el número, la fecha y el porqué. */
-const VERSION = 'bolivar-v79';
+const VERSION = 'bolivar-v80';
 const ARMAZON = VERSION + '-armazon';
 const PAGINAS = VERSION + '-paginas';
 
