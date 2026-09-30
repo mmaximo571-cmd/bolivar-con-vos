@@ -407,4 +407,14 @@ todo una entrada con el número, la fecha y el porqué.
    «Vas» y el contador. Es nuevo `lib/voy.js`, que usan Fechas y el
    inicio: como `lib/fecha-al-calendario.js`, no va al armazón y queda
    guardado solo la primera vez que se baja. */
+/* v81 (30/9/2026) Las 17 fichas de texto pasan al dibujo de la app. Es
+   la rama del 24/9 (`claude/zealous-lamport-i64ppl`), que había quedado
+   sin unir y se pensó como v73: `estudiemos/fichas/ficha-texto.js`
+   pinta cabecera y pie, cambia los estilos sueltos por clases y suma el
+   bloque «lo que te falta», y `estudiemos/fichas/assets/fichas-texto.css`
+   se reescribe con las variables de la app. Los dos se sirven de lo
+   guardado: sin subir, quien ya abrió una ficha recibe el HTML nuevo con
+   la hoja y la lógica viejas. Al unirla, las 17 páginas cambiaron el
+   `estilos.css` que ya no existe por las hojas de `css/` y suman
+   `lib/mudanza.js`, como el resto desde el 27/9. */
 ```

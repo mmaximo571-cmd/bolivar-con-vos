@@ -78,15 +78,15 @@
     "semantic_hash": ""
   },
   "sw.js": {
-    "mtime": 1790731950.1311796,
-    "seen": 1790732169.3237357,
-    "ast_hash": "83138cb31c3b2944e0676545dd451c8c",
+    "mtime": 1790732393.8536475,
+    "seen": 1790732471.9024658,
+    "ast_hash": "f6480e28f277ed35375c6a78ea1e35dc",
     "semantic_hash": ""
   },
   "BITACORA.md": {
-    "mtime": 1790732162.5001657,
-    "seen": 1790732169.323742,
-    "ast_hash": "9e34038463451036aa41904ebe73ff95",
+    "mtime": 1790732339.244337,
+    "seen": 1790732471.902467,
+    "ast_hash": "e40690496a2e2aa2ee32d4adbba5ce3d",
     "semantic_hash": ""
   },
   "LEEME.md": {
@@ -96,8 +96,8 @@
     "semantic_hash": ""
   },
   "agenda/index.html": {
-    "mtime": 1790731816.551138,
-    "seen": 1790732169.3237553,
+    "mtime": 1790732217.6408453,
+    "seen": 1790732471.9024704,
     "ast_hash": "c0ca920d24323b4e9ead14c72b28b0e4",
     "semantic_hash": ""
   },
@@ -150,8 +150,8 @@
     "semantic_hash": ""
   },
   "index.html": {
-    "mtime": 1790732055.5056102,
-    "seen": 1790732169.3238752,
+    "mtime": 1790732217.6549554,
+    "seen": 1790732471.9025078,
     "ast_hash": "47279137bad89662fc7ef6fe31d1a777",
     "semantic_hash": ""
   },
@@ -216,9 +216,9 @@
     "semantic_hash": ""
   },
   "estudiemos/fichas/ficha-texto.js": {
-    "mtime": 1789678048.3696616,
-    "seen": 1790732169.323488,
-    "ast_hash": "e91819f504f68468a4b2fbf6e2487729",
+    "mtime": 1790732357.7856574,
+    "seen": 1790732471.9023767,
+    "ast_hash": "724c9b5e62c87fca59dcf3f9f86f3f99",
     "semantic_hash": ""
   },
   "mapa/capas.js": {
@@ -414,8 +414,8 @@
     "semantic_hash": ""
   },
   "supabase/functions/avisos/index.ts": {
-    "mtime": 1790731387.1280017,
-    "seen": 1790732169.3237243,
+    "mtime": 1790732217.657611,
+    "seen": 1790732471.902463,
     "ast_hash": "5062ad2946fa2558d98077e582c52abb",
     "semantic_hash": ""
   },
@@ -594,15 +594,15 @@
     "semantic_hash": ""
   },
   "docs/HISTORIAL-SW.md": {
-    "mtime": 1790731950.3205488,
-    "seen": 1790732169.32379,
-    "ast_hash": "e368ce3ea6c53246c1badb686177a271",
+    "mtime": 1790732394.0358472,
+    "seen": 1790732471.9024813,
+    "ast_hash": "cd29ad80cd0580789db0adfac80dcfd6",
     "semantic_hash": ""
   },
   "docs/prompts/PROMPT-DISENO.md": {
-    "mtime": 1790725615.096329,
-    "seen": 1790732169.323803,
-    "ast_hash": "98b603fdb2980414f2cd077b72470902",
+    "mtime": 1790732357.6489842,
+    "seen": 1790732471.9024842,
+    "ast_hash": "1f02247310ed54d744544b8fac397ca4",
     "semantic_hash": ""
   },
   "docs/prompts/PROMPT-ELECCIONES.md": {
@@ -642,8 +642,8 @@
     "semantic_hash": ""
   },
   "docs/PROPUESTAS.md": {
-    "mtime": 1790732162.497379,
-    "seen": 1790732169.3237967,
+    "mtime": 1790732217.6459782,
+    "seen": 1790732471.9024827,
     "ast_hash": "ec84e10761dd9e2305161fae51053334",
     "semantic_hash": ""
   },
@@ -654,8 +654,8 @@
     "semantic_hash": ""
   },
   "cargar/index.html": {
-    "mtime": 1790731942.8908694,
-    "seen": 1790732169.323765,
+    "mtime": 1790732217.641988,
+    "seen": 1790732471.9024732,
     "ast_hash": "edf02f48ad05d04966622f925de5d838",
     "semantic_hash": ""
   },
@@ -666,15 +666,27 @@
     "semantic_hash": ""
   },
   "sql/tabla-anotados.sql": {
-    "mtime": 1790731354.6929107,
-    "seen": 1790732169.3236225,
+    "mtime": 1790732217.6566114,
+    "seen": 1790732471.9024296,
     "ast_hash": "57c3f0abdffa8dfad7f794b77697763b",
     "semantic_hash": ""
   },
   "lib/voy.js": {
-    "mtime": 1790731596.8589597,
-    "seen": 1790732169.323565,
+    "mtime": 1790732217.6566114,
+    "seen": 1790732471.9024081,
     "ast_hash": "3c976c678b58d9a1880c57db5098f395",
+    "semantic_hash": ""
+  },
+  ".claude/hooks/session-start.sh": {
+    "mtime": 1790732273.66681,
+    "seen": 1790732471.9023497,
+    "ast_hash": "c2970071ca74218084e4383ab9f99c04",
+    "semantic_hash": ""
+  },
+  ".claude/settings.json": {
+    "mtime": 1790732273.66681,
+    "seen": 1790732471.9023554,
+    "ast_hash": "3850be437051ab4f71f6bcc13d97fbaa",
     "semantic_hash": ""
   }
 }
