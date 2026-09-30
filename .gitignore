@@ -37,5 +37,8 @@ graphify-out/20*/
 graphify-out/.graphify_analysis.json
 
 # Cosas de Claude Code: la configuracion del servidor de prueba lleva
-# rutas de esta maquina, no sirven en otra.
-.claude/
+# rutas de esta maquina, no sirven en otra. Se suben solo el hook que
+# instala graphify en las sesiones en la nube y su registro.
+.claude/*
+!.claude/settings.json
+!.claude/hooks/
