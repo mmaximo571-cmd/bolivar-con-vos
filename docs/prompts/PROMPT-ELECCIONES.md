@@ -223,7 +223,8 @@ Los dos momentos prioritarios son **los finales acumulados** y **el primer
 año**, en las tres carreras: Trabajo Social, Fonoaudiología y la Tecnicatura
 en Gestión Comunitaria del Riesgo.
 
-**B1 · Datos de la UNLP (sesión de Claude, con la red habilitada)**
+**B1 · Datos de la UNLP** ✅ hecho el 30/9: los números, con su fuente y lo
+que falta, están en `BITACORA.md`, «B1 hecho». El encargo queda de referencia.
 ```
 TAREA: diagnóstico de permanencia de la FTS. Del Anuario Estadístico de la
 UNLP (el último y el anterior, en unlp.edu.ar, sección de estadísticas),

@@ -451,6 +451,87 @@ materias. **La fuente real son las preguntas de B4** (sobre todo la 1 y la
 Así se podría contar cuántas materias quedan regularizadas sin rendir, sin
 poder seguir a nadie.
 
+**B1 hecho (30/9): lo que dicen los anuarios de la UNLP.** Se hizo desde
+una sesión local, porque en la nube `unlp.edu.ar` estaba bloqueado. Las
+fuentes son los dos últimos *Anuarios Estadísticos* de la Secretaría de
+Asuntos Académicos (SIU-Araucano): el
+[2024](https://unlp.edu.ar/wp-content/uploads/2025/09/SAA_Anuario_2024.pdf)
+y el
+[2023](https://unlp.edu.ar/wp-content/uploads/2025/03/Anuario_UNLP_2023_SAA-corregido-final-1.pdf).
+El número de cuadro de cada fila es el mismo en los dos.
+
+| Dato de la FTS | 2023 | 2024 | UNLP 2024 | Fuente |
+|---|---|---|---|---|
+| Ingresantes | 708 | 755 | 33.079 | Cuadro 1 |
+| Estudiantes | 2.252 | 2.491 | 123.134 | Cuadro 1 |
+| Reinscriptas/os | 1.544 | 1.736 | 90.055 | Cuadro 1 |
+| Reinscriptas/os con 2 o más materias aprobadas en el año | 1.073 | 1.126 | 50.030 | Cuadro 1 |
+| Egresadas/os | 212 | 190 | 6.738 | Cuadro 1 |
+| **Reinscriptas/os con 0 materias aprobadas en el año** | 240 (16 %) | **357 (21 %)** | 22.054 (24 %) | Cuadro 3 |
+| Reinscriptas/os con 1 sola materia aprobada | 231 | 253 | 17.971 | Cuadro 3 |
+| % de reinscriptas/os con 1 o más aprobadas | 84 % | 79 % | 76 % | Cuadro 3 |
+| % de reinscriptas/os con 2 o más aprobadas | 69 % | 65 % | 56 % | Cuadro 3 |
+| **Permanencia en primer año** (ingresantes que se reinscriben al año siguiente) | 66 % (887 de 2022 → 582) | 77 % (708 de 2023 → 547) | 78 % | Cuadro 5 |
+| Estudiantes con madre/padre sin universidad completa | — | 66 % | 53 % | Cuadro 10 |
+| Ingresantes con madre/padre sin universidad completa | — | 70 % | 56 % | Cuadro 10 |
+| Egresadas/os primera generación universitaria | — | 57 % | 41 % | Cuadro 10 |
+| Ingresantes a la Lic. en Trabajo Social (y Profesorado) | — | 392 | — | Cuadro 2 |
+| Ingresantes a la Lic. en Fonoaudiología | — | 324 | — | Cuadro 2 |
+
+Series de la FTS (cuadros 16, 17 y 18 del anuario 2024):
+
+- **Ingresantes 2008-2024:** 484, 521, 616, 569, 611, 596, 565, 370, 414,
+  345, 734, 585, 646, 778, 887, 708, 755.
+- **Egresadas/os 2008-2024:** 88, 95, 272, 171, 232, 98, 244, 326, 173,
+  106, 114, 216, 169, 285, 296, 212, 190.
+- **Reinscriptas/os con 2 o más aprobadas 2013-2024:** 760, 832, 882, 743,
+  700, 741, 923, 1.126, 1.154, 1.165, 1.073, 1.126.
+
+El Cuadro 4 (actividad del año según el tramo de la carrera) da para la
+FTS, en el tramo inicial (menos del 30 % del plan aprobado): 80, 634 y 354
+en las columnas «con finales aprobados», «con cursadas aprobadas» y «con
+inscripciones y sin actividades aprobadas». Leído en ese orden, **354
+estudiantes del primer tramo se inscribieron y no aprobaron nada en todo
+2024**, ni una cursada. El orden de las columnas sale del texto del PDF y
+conviene confirmarlo mirando el cuadro antes de citarlo.
+
+**Lo que dice, en tres renglones:** uno de cada cinco reinscriptos de la
+FTS pasó 2024 sin aprobar ninguna materia, y eso creció de un año al otro
+(240 → 357); la facultad tiene más estudiantes de primera generación que
+el promedio de la UNLP (70 % de los ingresantes contra 56 %), que es
+exactamente el grupo del que habla Ezcurra; y la permanencia en primer año
+saltó de 66 % a 77 %, así que el problema más grande ya no es solo el
+primer año sino **quedarse sin aprobar**, que es el de los finales
+acumulados.
+
+**Lo que no se encontró:**
+
+- **Nada por carrera salvo los ingresantes de TS y Fono.** Permanencia,
+  reinscriptos sin materias y egresados vienen solo por facultad. La
+  Tecnicatura en Gestión Comunitaria del Riesgo no aparece: no entra entre
+  las primeras 50 ofertas del Cuadro 2 (por diferencia, 755 − 392 − 324 =
+  39 ingresantes, pero eso no está publicado como tal).
+- **Tasa de egreso por cohorte ni duración real de la carrera.** Los
+  anuarios dan egresados por año, no cuántos de cada cohorte terminan ni
+  en cuántos años.
+- **Cuántos finales se deben.** El anuario cuenta materias aprobadas, no
+  cursadas regularizadas sin final: la cifra de «finales acumulados» sigue
+  sin fuente, y la sigue teniendo que dar la encuesta de B4.
+
+**En SEDICI**, de la FTS, sobre este tema:
+
+- Matías Daniel Causa, [«El ingreso y el primer año universitario: notas
+  sobre la situación problemática de una investigación en
+  curso»](https://sedici.unlp.edu.ar/handle/10915/95151), ponencia, FTS,
+  2019. Usa la «inclusión excluyente» de Ezcurra para el primer año de la
+  FTS: estudiantes de primera generación y una universidad que sigue
+  esperando a otro estudiante.
+- Matías Daniel Causa, [«Los sentidos de la experiencia universitaria en
+  Trabajo Social»](https://sedici.unlp.edu.ar/handle/10915/129147), tesis
+  de doctorado (FaHCE), 2021. El primer año de la FTS entre 2018 y 2020,
+  desde lo que dicen estudiantes y docentes. Es la fuente local más
+  completa para B3.
+
 **La búsqueda** tiene cinco líneas (datos de la UNLP, programas que existen,
 la voz estudiantil, bibliografía y datos de la app). Cada una tiene su
 prompt o su lista en `docs/prompts/PROMPT-ELECCIONES.md`, en «Búsqueda: permanencia y
