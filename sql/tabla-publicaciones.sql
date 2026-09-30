@@ -27,12 +27,12 @@
 -- que no dependa de que la pantalla esté bien hecha:
 --
 --   grupo de estudio (linea = 'saberes') -> puede entrar publicado.
---   paro             (linea = 'gremial') -> entra SIEMPRE sin publicar,
---                    y `comunicacion` tampoco puede publicarlo después.
---                    Lo publica el equipo desde el panel. Un grupo mal
---                    cargado cuesta un grupo; un paro mal cargado en la
---                    portada se paga caro.
---   ninguno hace sonar teléfonos (`avisar = false`).
+--   paro             (linea = 'gremial') -> hasta el 30/9/2026 entraba
+--                    sin publicar y lo aprobaba el equipo. Desde la
+--                    sección 9 se publica directo; ver ahí por qué.
+--   actividad        (linea = 'frente')  -> desde el 30/9, igual.
+--   ninguno marca `avisar`: los eventos avisan solos, por categoría
+--   (sección 8 y `supabase/functions/avisos`).
 --   ninguno toca la alarma de mesas (`alarma = 'ninguna'`).
 --
 -- POR QUÉ `alarma = 'ninguna'` NO SE NEGOCIA. Lo encontró el
@@ -275,3 +275,180 @@ create policy "publicaciones comunicacion borra novedades"
 --   select id, titulo, fecha_desde, creado_at from public.publicaciones
 --    where publicado = false and tipo = 'evento' order by creado_at;
 -- ============================================================
+
+
+-- ============================================================
+-- 8. CATEGORÍAS, SUSPENDER Y LAS MARCAS DE LOS AVISOS  ·  30/9/2026
+--
+-- Propuesta 3, tanda 1 (`docs/PROPUESTAS.md`). Hasta hoy un paro y un
+-- grupo de estudio eran los dos `tipo = 'evento'`: se veían iguales,
+-- no se podían filtrar por separado y no había cómo avisar solo uno.
+--
+--   categoria    lo que ve la estudiante: paro, grupo, actividad,
+--                fecha (académica) o comunicado. `tipo` y `linea` se
+--                quedan: las políticas de abajo los usan, y un
+--                teléfono con el panel viejo en caché los sigue
+--                mandando sin `categoria`.
+--   materia      de qué materia es un grupo de estudio. Es con lo que
+--                la función de avisos elige a quién le suena.
+--   suspendido   se suspende sin borrar: lo borrado desaparece y
+--                nadie se entera; lo suspendido queda tachado en la
+--                agenda y avisa.
+--   publicado_at cuándo empezó a verse. Es lo que abre la ventana del
+--                aviso «nuevo». `creado_at` no sirve: un paro viejo
+--                que el equipo aprueba hoy es nuevo HOY.
+--   cambiado_at  cuándo cambió algo que obliga a avisar (día, hora,
+--                lugar, suspendido). Editar una coma no cuenta.
+--
+-- Las dos marcas y la categoría las pone el disparador, no la
+-- pantalla, por lo mismo que `avisar_at`: una fecha que hay que
+-- acordarse de mandar es una fecha que alguna vez falta.
+-- ============================================================
+
+alter table public.publicaciones
+  add column if not exists categoria    text,
+  add column if not exists materia      text,
+  add column if not exists suspendido   boolean not null default false,
+  add column if not exists publicado_at timestamptz,
+  add column if not exists cambiado_at  timestamptz;
+
+-- Lo cargado antes de hoy. Un paro era un evento gremial y un grupo un
+-- evento de saberes: así los cargaba `cargar/`, así que la cuenta sale
+-- exacta. `publicado_at = creado_at` deja lo viejo FUERA de la ventana
+-- del aviso «nuevo»: correr esto no hace sonar ningún teléfono.
+update public.publicaciones set categoria = case
+    when tipo = 'fecha'   then 'fecha'
+    when tipo = 'novedad' then 'comunicado'
+    when linea = 'gremial' then 'paro'
+    when linea = 'saberes' then 'grupo'
+    else 'actividad' end
+  where categoria is null;
+
+update public.publicaciones set publicado_at = creado_at
+  where publicado and publicado_at is null;
+
+-- Los grupos cargados desde `cargar/` tienen la materia en el título.
+update public.publicaciones
+   set materia = btrim(substr(titulo, length('Grupo de estudio de ') + 1))
+ where categoria = 'grupo' and materia is null
+   and titulo ilike 'Grupo de estudio de %';
+
+alter table public.publicaciones drop constraint if exists publicaciones_categoria_check;
+alter table public.publicaciones add constraint publicaciones_categoria_check
+  check (categoria in ('paro', 'grupo', 'actividad', 'fecha', 'comunicado'));
+
+-- La categoría no puede contradecir al tipo. Sin esto, alguien con el
+-- rol liviano podía cargar una NOVEDAD con `categoria = 'paro'` y
+-- hacerla sonar en todos los teléfonos como si fuera un paro.
+alter table public.publicaciones drop constraint if exists publicaciones_categoria_coherente;
+alter table public.publicaciones add constraint publicaciones_categoria_coherente
+  check (   (categoria in ('paro', 'grupo', 'actividad') and tipo = 'evento')
+         or (categoria = 'fecha'      and tipo = 'fecha')
+         or (categoria = 'comunicado' and tipo = 'novedad'));
+
+alter table public.publicaciones drop constraint if exists publicaciones_materia_largo;
+alter table public.publicaciones add constraint publicaciones_materia_largo
+  check (materia is null or length(materia) <= 120);
+
+create or replace function public.marcas_de_publicacion()
+returns trigger
+language plpgsql
+set search_path = public
+as $fn$
+begin
+  /* Sin categoría (panel o `cargar/` viejos en caché), se deduce igual
+     que en el `update` de arriba. */
+  if new.categoria is null then
+    new.categoria := case
+      when new.tipo = 'fecha'    then 'fecha'
+      when new.tipo = 'novedad'  then 'comunicado'
+      when new.linea = 'gremial' then 'paro'
+      when new.linea = 'saberes' then 'grupo'
+      else 'actividad' end;
+  end if;
+
+  if new.publicado and (tg_op = 'INSERT' or not coalesce(old.publicado, false)) then
+    new.publicado_at := now();
+  elsif not new.publicado then
+    new.publicado_at := null;
+  end if;
+
+  /* Solo lo que ya se estaba viendo puede «cambiar»: lo que se edita
+     antes de publicarse sale con el aviso de nuevo, ya corregido. */
+  if tg_op = 'UPDATE' and new.publicado and coalesce(old.publicado, false)
+     and (new.fecha_desde is distinct from old.fecha_desde
+       or new.fecha_hasta is distinct from old.fecha_hasta
+       or new.hora        is distinct from old.hora
+       or new.lugar       is distinct from old.lugar
+       or new.suspendido  is distinct from old.suspendido) then
+    new.cambiado_at := now();
+  end if;
+
+  return new;
+end;
+$fn$;
+
+drop trigger if exists publicaciones_marcas on public.publicaciones;
+create trigger publicaciones_marcas
+  before insert or update on public.publicaciones
+  for each row execute function public.marcas_de_publicacion();
+
+create index if not exists publicaciones_avisos_idx
+  on public.publicaciones (publicado_at desc)
+  where publicado and categoria in ('paro', 'grupo', 'actividad');
+
+
+-- ============================================================
+-- 9. `comunicacion` PUBLICA DIRECTO, Y SOLO TOCA LO SUYO  ·  30/9/2026
+--
+-- Decidido el 30/9: los paros ya no esperan visto bueno. Lo que antes
+-- cuidaba la espera ahora lo cuidan tres cosas:
+--   - solo carga quien tiene el rol (con cuenta, y queda `creado_por`),
+--   - cada quien edita y suspende LO SUYO, no lo de otro,
+--   - corregir o suspender manda el aviso de cambio a quien ya tenía
+--     el aviso de nuevo.
+-- Se suma la tercera clase de evento, la actividad (charla, asamblea,
+-- jornada), que va con la línea del frente.
+-- ============================================================
+
+create or replace function public.publicacion_de_comunicacion(
+  p_tipo      text,
+  p_linea     text,
+  p_titulo    text,
+  p_alarma    text,
+  p_avisar    boolean,
+  p_publicado boolean
+) returns boolean language sql immutable as $$
+  select
+    coalesce(p_alarma, '') = 'ninguna'
+    and (
+      p_tipo = 'novedad'
+      or (
+        p_tipo = 'evento'
+        -- `avisar` sigue apagado: los eventos avisan solos, por
+        -- categoría, desde la función `avisos`. La marca manual es de
+        -- los comunicados.
+        and p_avisar = false
+        and p_titulo !~* '^\s*(inscripci[óo]n a la mesa|mesa de examen)'
+        and p_linea in ('saberes', 'gremial', 'frente')
+      )
+    );
+$$;
+
+-- Lo marcaba el revisor de Supabase (search_path cambiable). No es
+-- `security definer`, así que el riesgo es chico, pero no cuesta.
+alter function public.publicacion_de_comunicacion(text,text,text,text,boolean,boolean)
+  set search_path = public;
+
+-- Edita novedades como hasta hoy, y eventos solo los que cargó.
+drop policy if exists "publicaciones comunicacion edita novedades" on public.publicaciones;
+create policy "publicaciones comunicacion edita novedades"
+  on public.publicaciones for update to authenticated
+  using (public.es_comunicacion()
+         and (tipo = 'novedad' or creado_por = auth.uid())
+         and public.publicacion_de_comunicacion(
+               tipo, linea, titulo, alarma, avisar, publicado))
+  with check (public.es_comunicacion()
+              and (tipo = 'novedad' or creado_por = auth.uid())
+              and public.publicacion_de_comunicacion(
+                    tipo, linea, titulo, alarma, avisar, publicado));

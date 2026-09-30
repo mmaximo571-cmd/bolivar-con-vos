@@ -868,6 +868,9 @@ setTimeout(function(){
          cerró, `saltear` viene en null y este renglón vuelve a
          hacerse cargo de avisar. */
       .filter(p => p.id !== saltear)
+      /* Lo suspendido no es «lo próximo» (30/9/2026): sigue en Fechas,
+         tachado, pero acá diría que va a pasar algo que ya no pasa. */
+      .filter(p => !p.suspendido)
       .filter(p => p.fecha_desde && (p.fecha_hasta || p.fecha_desde).slice(0,10) >= hoy);
     if (!vivas.length){ caja.innerHTML = ''; return; }
 

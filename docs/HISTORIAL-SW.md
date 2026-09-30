@@ -361,4 +361,19 @@ todo una entrada con el número, la fecha y el porqué.
    queda en blanco para la persona que justamente menos va a saber por
    qué. `cargar/index.html` NO va al armazón —es de una sola pantalla—:
    lo baja quien entre y queda guardado por la regla del final. */
+/* v77 (30/9/2026) no cambia QUÉ se guarda: cambia el CONTENIDO de
+   varios que ya están en la lista, por la tanda 1 de la propuesta 3
+   (categorías y avisos por canal). `app.js` guarda los canales nuevos
+   del timbre (paros, grupos, actividades y materias) con
+   `guardar_aviso_canales`, y la campana marca los paros y lo
+   suspendido. `css/tokens.css` suma los colores `--cat-*`;
+   `css/base/03-controles.css`, `04-tarjetas.css` y `08-calendario.css`
+   suman la etiqueta y el punto por categoría, la tarjeta suspendida y
+   el día de paro pintado entero. Sin subir el número, un teléfono con
+   la app sirve el CSS viejo y Fechas dibuja los puntos sin color, o
+   el `app.js` viejo y el timbre no guarda los canales nuevos.
+   `lib/fecha-al-calendario.js` y `lib/tarjeta-avisos.js` también
+   cambian y NO van al armazón (una pantalla cada una): quedan
+   guardados por la regla del final, y subir el número los tira
+   igual. */
 ```

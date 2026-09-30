@@ -333,3 +333,111 @@ select cron.schedule(
 -- que se corrija ese secreto, cada corrida contesta «Las claves VAPID
 -- de los secretos no sirven» y no suena ningún teléfono. Ver «Los
 -- avisos al celular» en LEEME.md.
+
+
+-- ------------------------------------------------------------
+-- 7. UN CANAL POR CATEGORÍA  ·  30/9/2026
+--
+-- Propuesta 3, tanda 1. Los paros, los grupos de estudio y las
+-- actividades avisan SOLOS (al publicarse, a la mañana del día y si
+-- cambian o se suspenden), así que cada estudiante tiene que poder
+-- elegir cuáles quiere:
+--
+--   paros        prendido de fábrica: es lo que cambia el día entero.
+--   grupos       los grupos de estudio. Si la persona eligió materias
+--                (o tiene cursada cargada en su cuenta), solo los de
+--                esas materias; si no eligió ninguna, todos.
+--   actividades  charlas, asambleas, jornadas.
+--   novedades    se queda con su nombre en la base, pero en la
+--                pantalla ahora se llama «Comunicados»: sigue siendo
+--                lo que el panel marca a mano para avisar.
+--
+-- Los timbres que ya existían heredan de `novedades` los dos canales
+-- nuevos que no son paros: quien tenía las novedades prendidas quería
+-- enterarse de lo que pasa, y quien las apagó no quería.
+-- ------------------------------------------------------------
+alter table public.avisos_suscripciones
+  add column if not exists paros       boolean not null default true,
+  add column if not exists grupos      boolean,
+  add column if not exists actividades boolean,
+  add column if not exists materias    text[]  not null default '{}';
+
+update public.avisos_suscripciones set grupos = novedades      where grupos is null;
+update public.avisos_suscripciones set actividades = novedades where actividades is null;
+
+alter table public.avisos_suscripciones
+  alter column grupos      set default true,
+  alter column grupos      set not null,
+  alter column actividades set default true,
+  alter column actividades set not null;
+
+-- Un nombre nuevo y no otra versión de `guardar_aviso`: PostgREST elige
+-- la función por los nombres de los parámetros, y dos `guardar_aviso`
+-- que aceptan los mismos siete lo dejan sin saber cuál llamar. El
+-- viejo se queda: un teléfono con `app.js` del caché lo va a seguir
+-- usando unos días, y como no toca las columnas nuevas, no las pisa.
+create or replace function public.guardar_aviso_canales(
+  p_endpoint    text,
+  p_p256dh      text,
+  p_auth        text,
+  p_mesas       boolean default true,
+  p_novedades   boolean default true,
+  p_mis_fechas  boolean default false,
+  p_paros       boolean default true,
+  p_grupos      boolean default true,
+  p_actividades boolean default true,
+  p_materias    text[]  default '{}',
+  p_agente      text    default null
+) returns void
+language plpgsql
+security definer
+set search_path = public
+as $fn$
+declare
+  v_materias text[];
+begin
+  if p_endpoint is null or length(p_endpoint) < 20 or p_endpoint !~ '^https://' then
+    raise exception 'endpoint invalido';
+  end if;
+  if p_p256dh is null or p_auth is null then
+    raise exception 'faltan las claves';
+  end if;
+
+  /* Tope a lo que entra de afuera: hasta 30 materias de hasta 120
+     letras. No hay plan de estudios con más, y sin tope cualquiera
+     podría llenar la tabla con una sola llamada. */
+  select coalesce(array_agg(distinct left(btrim(m), 120)), '{}')
+    into v_materias
+    from (select unnest(coalesce(p_materias, '{}')) as m limit 30) x
+   where btrim(m) <> '';
+
+  insert into public.avisos_suscripciones
+    (endpoint, p256dh, auth, usuario_id, mesas, novedades, mis_fechas,
+     paros, grupos, actividades, materias, agente)
+  values
+    (p_endpoint, p_p256dh, p_auth, auth.uid(),
+     coalesce(p_mesas, true), coalesce(p_novedades, true),
+     coalesce(p_mis_fechas, false), coalesce(p_paros, true),
+     coalesce(p_grupos, true), coalesce(p_actividades, true),
+     v_materias, left(coalesce(p_agente, ''), 300))
+  on conflict (endpoint) do update set
+    p256dh      = excluded.p256dh,
+    auth        = excluded.auth,
+    usuario_id  = coalesce(auth.uid(), avisos_suscripciones.usuario_id),
+    mesas       = excluded.mesas,
+    novedades   = excluded.novedades,
+    mis_fechas  = excluded.mis_fechas,
+    paros       = excluded.paros,
+    grupos      = excluded.grupos,
+    actividades = excluded.actividades,
+    materias    = excluded.materias,
+    agente      = excluded.agente,
+    fallos      = 0,
+    visto_at    = now();
+end;
+$fn$;
+
+revoke all on function public.guardar_aviso_canales(text,text,text,boolean,boolean,boolean,boolean,boolean,boolean,text[],text)
+  from public;
+grant execute on function public.guardar_aviso_canales(text,text,text,boolean,boolean,boolean,boolean,boolean,boolean,text[],text)
+  to anon, authenticated;

@@ -142,6 +142,32 @@
 
 .cal-dia.con-cosas.mesa  {background:var(--dia-mesa)}
 
+/* ---- Por categoría, en Fechas (30/9/2026) ----
+   Las franjas quedan para lo que dura varios días (un período, una
+   inscripción). Lo de un día —un grupo, una asamblea— es un punto:
+   tres cosas el mismo día son tres puntos, y se cuentan de un vistazo.
+   El paro no es un punto: pinta el día entero, porque ese día no hay
+   clases y es lo primero que alguien tiene que ver en el mes. */
+.cal-barra.cat-paro       {background:var(--cat-paro)}
+.cal-barra.cat-grupo      {background:var(--cat-grupo)}
+.cal-barra.cat-actividad  {background:var(--cat-actividad)}
+.cal-barra.cat-fecha      {background:var(--cat-fecha)}
+.cal-barra.cat-comunicado {background:var(--cat-comunicado)}
+
+.cal-dia .cal-puntos{position:absolute;left:0;right:0;bottom:5px;justify-content:center}
+.cal-dia .cal-barra ~ .cal-puntos{bottom:11px}
+
+.cal-dia.con-cosas.hay-paro{
+  background:var(--dia-paro);
+  box-shadow:inset 0 0 0 1.5px color-mix(in srgb, var(--cat-paro) 55%, transparent)
+}
+.cal-dia.con-cosas.hay-paro .cal-numero{color:var(--cat-paro)}
+/* Con --texto y no --negro: sobre el fondo rojizo del paro, de noche,
+   el anillo negro de «hoy» desaparecía. */
+.cal-dia.hay-paro.hoy{box-shadow:inset 0 0 0 1.5px var(--texto)}
+.cal-dia[aria-pressed="true"].hay-paro{background:var(--amarillo)}
+.cal-dia[aria-pressed="true"].hay-paro .cal-numero{color:var(--sobre-color)}
+
 @media (min-width:900px) {
 #zona-normal > .calendario{grid-column:1}
 }

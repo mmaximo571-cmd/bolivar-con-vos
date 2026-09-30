@@ -125,6 +125,22 @@
   --marca-info:     var(--linea-info);     /*  6,3 */
   --marca-saberes:  #3E8FA6;               /*  3,6 */
 
+  /* --- Colores por CATEGORÍA (30/9/2026) ---
+
+     Lo que ve la estudiante en el calendario ya no es la línea
+     editorial sino QUÉ ES: un paro, un grupo de estudio, una
+     actividad. Cada una con su color, y el del paro es el rojo de la
+     marca porque es lo único que cambia el día entero.
+     Son marcas finas (puntos y franjas del calendario, el punto del
+     chip), así que pasan 3 contra el papel, como las de arriba. El
+     fondo suave de la etiqueta sale de estos mismos con color-mix. */
+  --cat-paro:       #B52625;   /* 6,3 */
+  --cat-grupo:      #3E8FA6;   /* 3,6 */
+  --cat-actividad:  #7A4FB5;   /* 5,6 */
+  --cat-fecha:      #1A1A1A;   /* 16,9 */
+  --cat-comunicado: #8A6D00;   /* 4,9 */
+  --dia-paro:       var(--dia-mesa);
+
   /* --- Tipografías ---
 
      Dos voces son suficientes en una pantalla chica: Archivo Black
@@ -290,6 +306,13 @@
        Los otros dos ya eran claros y quedan como están. */
     --marca-info:   #E56B62;
     --marca-frente: #C8C3AE;
+
+    /* Las categorías, aclaradas por lo mismo que las marcas. */
+    --cat-paro:       #E56B62;
+    --cat-grupo:      #7FC9DA;
+    --cat-actividad:  #B79BE6;
+    --cat-fecha:      #C8C3AE;
+    --cat-comunicado: #E0C458;
 
     /* La segunda tinta, de noche. Un negro sobre un fondo casi negro no
        se ve, así que el desplazamiento es más oscuro que el fondo de la

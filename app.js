@@ -720,7 +720,7 @@ async function traerNovedades(){
   } catch(e){}
   if (!db) return [];
   const { data, error } = await db.from('publicaciones')
-    .select('id,titulo,linea,fecha_desde,fecha_hasta,hora,lugar,creado_at')
+    .select('id,titulo,linea,categoria,suspendido,fecha_desde,fecha_hasta,hora,lugar,creado_at')
     .eq('publicado', true).order('creado_at', { ascending:false }).limit(10);
   if (error || !data) return [];
   const desde = new Date(Date.now() - NOVEDADES_DIAS * 86400000).toISOString();
@@ -736,10 +736,14 @@ function htmlNovedades(lista){
   const item = p => {
     const detalle = [p.fecha_desde ? rangoLindo(p.fecha_desde, p.fecha_hasta) : '', p.hora, p.lugar]
       .filter(Boolean).join(' · ') || (NOMBRE_LINEA[p.linea] || '');
-    return `<a class="aviso-nuevo${p.linea === 'info' ? ' urgente' : ''}${novedadLeida(p, l) ? ' leido' : ''}"
+    /* Un paro es urgente como lo es «Info importante» (30/9/2026). Lo
+       suspendido se dice en el título: la campana es justo donde se
+       entera quien no tiene los avisos prendidos. */
+    const urgente = !p.suspendido && (p.linea === 'info' || p.categoria === 'paro');
+    return `<a class="aviso-nuevo${urgente ? ' urgente' : ''}${novedadLeida(p, l) ? ' leido' : ''}"
         href="${RAIZ}agenda/?id=${encodeURIComponent(p.id)}" data-novedad="${esc(String(p.id))}">
         <i aria-hidden="true"></i>
-        <span><b>${esc(p.titulo)}</b><span>${esc(detalle)}</span></span>
+        <span><b>${p.suspendido ? 'Se suspendió: ' : ''}${esc(p.titulo)}</b><span>${esc(detalle)}</span></span>
       </a>`;
   };
 
@@ -1816,8 +1820,13 @@ function invitarAInstalar(motivo){
 
      mesas       «mañana cierra la inscripción». Sale sola.
      novedades   lo que el panel marca como para avisar. Casi nada.
+                 En pantalla se llama «Comunicados» desde el 30/9/2026.
      mis fechas  la cuenta regresiva de tus mesas de final. Necesita
                  cuenta, porque sin cuenta no hay finales cargados.
+     paros, grupos, actividades
+                 desde el 30/9/2026: avisan solos al publicarse, a la
+                 mañana del día y si cambian o se suspenden. Los grupos,
+                 solo los de tus materias si elegiste alguna.
 
    QUIÉN HACE QUÉ. Acá solo se pide el permiso y se guarda el timbre
    en `avisos_suscripciones` (ver `sql/tabla-avisos.sql`). Quien decide
@@ -1835,18 +1844,28 @@ function invitarAInstalar(motivo){
    ============================================================ */
 
 const LLAVE_AVISOS = 'bolivar-avisos';
-const AVISOS_POR_DEFECTO = { mesas:true, novedades:true, misFechas:false };
+
+/* Desde el 30/9/2026 hay un canal por categoría: paros, grupos de
+   estudio y actividades avisan solos. `novedades` sigue llamándose así
+   en la base, pero en la pantalla ahora dice «Comunicados». `materias`
+   son las que eligió para los grupos; vacía quiere decir todas. */
+const AVISOS_POR_DEFECTO = { mesas:true, novedades:true, misFechas:false,
+                             paros:true, grupos:true, actividades:true, materias:[] };
 
 function gustosDeAvisos(){
   try {
     const g = JSON.parse(localStorage.getItem(LLAVE_AVISOS) || '{}');
     return {
-      mesas:     g.mesas     !== false,
-      novedades: g.novedades !== false,
-      misFechas: g.misFechas === true,
-      endpoint:  g.endpoint || null
+      mesas:       g.mesas       !== false,
+      novedades:   g.novedades   !== false,
+      misFechas:   g.misFechas   === true,
+      paros:       g.paros       !== false,
+      grupos:      g.grupos      !== false,
+      actividades: g.actividades !== false,
+      materias:    Array.isArray(g.materias) ? g.materias.slice(0, 30) : [],
+      endpoint:    g.endpoint || null
     };
-  } catch(e){ return Object.assign({}, AVISOS_POR_DEFECTO); }
+  } catch(e){ return Object.assign({}, AVISOS_POR_DEFECTO, { materias:[] }); }
 }
 
 function guardarGustosDeAvisos(g){
@@ -1893,20 +1912,43 @@ async function guardarElTimbre(sub, gustos){
   const j = sub.toJSON();
   if (!j || !j.keys) return false;
 
-  const { error } = await db.rpc('guardar_aviso', {
-    p_endpoint:   j.endpoint,
-    p_p256dh:     j.keys.p256dh,
-    p_auth:       j.keys.auth,
-    p_mesas:      !!gustos.mesas,
-    p_novedades:  !!gustos.novedades,
-    p_mis_fechas: !!gustos.misFechas,
-    p_agente:     navigator.userAgent
+  /* `guardar_aviso_canales` sabe de los canales por categoría. Si la
+     base todavía no la tiene (un proyecto rearmado sin correr la
+     sección 7 de `sql/tabla-avisos.sql`), se cae a la de siempre: mejor
+     un timbre con tres canales que ningún timbre. */
+  const materias = Array.isArray(gustos.materias) ? gustos.materias.slice(0, 30) : [];
+  let { error } = await db.rpc('guardar_aviso_canales', {
+    p_endpoint:    j.endpoint,
+    p_p256dh:      j.keys.p256dh,
+    p_auth:        j.keys.auth,
+    p_mesas:       !!gustos.mesas,
+    p_novedades:   !!gustos.novedades,
+    p_mis_fechas:  !!gustos.misFechas,
+    p_paros:       gustos.paros !== false,
+    p_grupos:      gustos.grupos !== false,
+    p_actividades: gustos.actividades !== false,
+    p_materias:    materias,
+    p_agente:      navigator.userAgent
   });
+  if (error){
+    ({ error } = await db.rpc('guardar_aviso', {
+      p_endpoint:   j.endpoint,
+      p_p256dh:     j.keys.p256dh,
+      p_auth:       j.keys.auth,
+      p_mesas:      !!gustos.mesas,
+      p_novedades:  !!gustos.novedades,
+      p_mis_fechas: !!gustos.misFechas,
+      p_agente:     navigator.userAgent
+    }));
+  }
   if (error) return false;
 
   guardarGustosDeAvisos({
     mesas: !!gustos.mesas, novedades: !!gustos.novedades,
-    misFechas: !!gustos.misFechas, endpoint: j.endpoint
+    misFechas: !!gustos.misFechas,
+    paros: gustos.paros !== false, grupos: gustos.grupos !== false,
+    actividades: gustos.actividades !== false, materias,
+    endpoint: j.endpoint
   });
   return true;
 }
@@ -1970,8 +2012,7 @@ async function apagarAvisos(){
     if (db) { try { await db.rpc('borrar_aviso', { p_endpoint: endpoint }); } catch(e){} }
   }
   const g = gustosDeAvisos();
-  guardarGustosDeAvisos({ mesas:g.mesas, novedades:g.novedades,
-                          misFechas:g.misFechas, endpoint:null });
+  guardarGustosDeAvisos(Object.assign({}, g, { endpoint:null }));
 }
 
 

@@ -28,7 +28,7 @@ discutirla en tres meses.
 |---|---|---|---|
 | 1 | Carga fácil de paros y grupos de estudio | chico-mediano | hecha, falta correr el SQL |
 | 2 | Anotarse a un grupo de estudio | chica | se suma a la 3 (tanda 3) |
-| 3 | Calendario y avisos: que se revisen todos los días | grande, en tres tandas | lista para hacer |
+| 3 | Calendario y avisos: que se revisen todos los días | grande, en tres tandas | tanda 1 hecha (30/9) |
 
 ## Las propuestas
 
@@ -329,7 +329,9 @@ si la gente se anota.
   arriba en cada tanda.
 - **Tamaño:** grande. Partida en tres tandas; cada una se sube y se usa
   sola.
-- **Estado:** lista para hacer (decidido el 30/9/2026).
+- **Estado:** tanda 1 hecha y aplicada el 30/9/2026 (SQL en producción,
+  función `avisos` v10 subida, `sw.js` v77). Tandas 2 y 3, lista para
+  hacer.
 
 **Lo que se decidió (30/9/2026):**
 
@@ -371,6 +373,20 @@ si la gente se anota.
    filtros por categoría en vez de por línea, y lo suspendido tachado.
 7. La tarjeta de avisos en `mi/`: un interruptor por categoría y la
    elección de materias (con cuenta, sale sola de `cursada`).
+
+**Cómo quedó la tanda 1 (30/9/2026), por si hay que volver:**
+
+- La materia de un grupo se compara sin tildes ni mayúsculas contra las
+  que la persona marcó en la tarjeta de avisos y las de su `cursada`.
+  Sin ninguna, le llegan todos los grupos.
+- La tarjeta de avisos ofrece como materias las de los grupos
+  publicados que todavía no pasaron, no el plan entero.
+- Las fechas académicas no avisan solas (son decenas y se cargan de a
+  muchas). Los comunicados siguen con la marca manual de 48 horas.
+- `cargar/` sugiere el nombre de la materia desde los tres planes de
+  `carrera/`, para que coincida con lo que la gente carga en su cursada.
+- Un paro que quedó sin publicar de antes del cambio (hay uno del 30/9)
+  se publica desde la bandeja del panel o desde «Lo que cargaste».
 
 **Tanda 2 · el hábito diario**
 
