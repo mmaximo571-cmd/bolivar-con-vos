@@ -93,9 +93,10 @@ espacios, glosario, quienes, fichas), va al final de
 
 ### JavaScript
 
-- `app.js` (1970 líneas) — lo compartido por las 22 pantallas: sesión,
-  registro, hitos, utilidades, cabecera, secciones, la alerta de la
-  mesa, los errores, lo guardado entre visitas, el service worker y los
+- `app.js` (2330 líneas) — lo compartido por las 22 pantallas: sesión,
+  registro, hitos, utilidades, cabecera, secciones, la campana (la
+  bandeja de Hoy, Esta semana, Cambios y Nuevo), la alerta de la mesa,
+  los errores, lo guardado entre visitas, el service worker y los
   avisos.
 - `lib/mudanza.js` — la mudanza desde la dirección vieja de Vercel.
   Carga **antes** de `app.js` y no depende de nada.
@@ -108,7 +109,12 @@ espacios, glosario, quienes, fichas), va al final de
   `fondo-red.js` — piezas chicas, cada una de una cosa.
 - `lib/datos.js` es el cliente chico de Supabase, el que usa la
   mayoría; `lib/supabase.js` es la librería grande (213 KB) y la
-  cargan solo las pantallas que la necesitan.
+  cargan solo las pantallas que la necesitan. El chico sabe `select`,
+  `eq`, `or`, `order`, `limit`, `maybeSingle`, `insert` y `rpc`, y **no
+  tiene sesión**: lo que necesita cuenta (como juntar lo leído de la
+  campana) pasa solo en las pantallas con la grande. Preguntar
+  `'auth' in db` antes de `db.auth`: la guardia del chico tira un error
+  con cualquier cosa que no sepa.
 
 ### Lo demás
 

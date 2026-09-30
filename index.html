@@ -918,6 +918,117 @@ setTimeout(function(){
   }
 
   /* ============================================================
+     LA TARJETA «HOY» (30/9/2026)
+
+     Propuesta 3, tanda 2. Va arriba de todo, en el lugar del renglón
+     de lo próximo, cuando hoy pasa algo: un paro, un grupo de estudio,
+     una actividad, el último día de algo largo, o las clases de la
+     persona. Si no pasa nada vuelve el renglón de siempre: una tarjeta
+     que diga «hoy no hay nada» todos los días se aprende a saltear, y
+     entonces tampoco se lee el día que sí hay algo.
+
+     En rojo si hay paro: es lo único que cambia el día entero.
+
+     Las clases salen de la copia que dejan Fechas y Perfil en el
+     teléfono (`leerCopiaCursada`, en app.js), porque la portada no
+     tiene sesión. Quien no cargó su cursada no ve esa parte, y nada
+     más. Todo con `typeof`: esta pantalla llega de la red y app.js
+     puede venir del caché viejo.
+
+     Devuelve false si no dibujó nada, para que entre el renglón.
+     ============================================================ */
+  function pintarHoy(caja, publicaciones, hoy, saltear){
+    const catDe = typeof categoriaDePublicacion === 'function'
+      ? categoriaDePublicacion
+      : p => p.categoria || (p.tipo === 'fecha' ? 'fecha' : p.tipo === 'novedad' ? 'comunicado' : 'actividad');
+    const copia = typeof leerCopiaCursada === 'function' ? leerCopiaCursada() : [];
+
+    /* Lo mismo que la «Hoy» de la campana: lo que empieza hoy, el último
+       día de algo largo y el paro que cubre hoy. Un período en el medio
+       —los seminarios del cuatrimestre— no: estaría acá tres meses. */
+    const deHoy = (publicaciones || []).filter(p => {
+      if (!p.fecha_desde || p.id === saltear) return false;
+      const desde = String(p.fecha_desde).slice(0,10);
+      const hasta = String(p.fecha_hasta || p.fecha_desde).slice(0,10);
+      return desde === hoy || (hasta === hoy && hasta !== desde) ||
+             (catDe(p) === 'paro' && desde <= hoy && hoy <= hasta);
+    }).sort((a, b) => (catDe(b) === 'paro') - (catDe(a) === 'paro') ||
+                      String(a.hora || '99').localeCompare(String(b.hora || '99')));
+    const hayParo = deHoy.some(p => catDe(p) === 'paro' && !p.suspendido);
+
+    /* En la tabla `cursada` el 1 es el lunes. */
+    const [anio, mes, dia] = hoy.split('-').map(Number);
+    const fechaDeHoy = new Date(anio, mes - 1, dia);
+    const diaCursada = ((fechaDeHoy.getDay() + 6) % 7) + 1;
+    const clases = copia.filter(c => c.dia === diaCursada)
+      .sort((a, b) => String(a.hora || '').localeCompare(String(b.hora || '')));
+
+    if (!deHoy.length && !clases.length) return false;
+
+    /* Los grupos de las materias de la persona se marcan: las de su
+       cursada y las que eligió en la tarjeta de avisos. */
+    const suyas = new Set([
+      ...copia.map(c => normalizar(c.materia)),
+      ...((typeof gustosDeAvisos === 'function' && gustosDeAvisos().materias) || []).map(normalizar)
+    ].filter(Boolean));
+
+    const item = p => {
+      const cat    = catDe(p);
+      const desde  = String(p.fecha_desde).slice(0,10);
+      const hasta  = String(p.fecha_hasta || p.fecha_desde).slice(0,10);
+      const ultimo = hasta === hoy && hasta !== desde && cat !== 'paro';
+      const detalle = [p.suspendido ? 'Se suspendió' : ultimo ? 'Último día' : '', p.hora, p.lugar]
+        .filter(Boolean).join(' · ');
+      const suya = cat === 'grupo' && p.materia && suyas.has(normalizar(p.materia));
+      return `<li><a class="hoy-item${p.suspendido ? ' suspendido' : ''}"
+          href="${RAIZ}agenda/?id=${encodeURIComponent(p.id)}">
+          <i class="cal-punto cat-${esc(cat)}" aria-hidden="true"></i>
+          <span class="hoy-texto"><b>${esc(p.titulo || '')}</b>${
+            detalle || suya ? `<span class="hoy-detalle">${esc(detalle)}${
+              suya ? '<span class="hoy-marca">Tu materia</span>' : ''}</span>` : ''}</span>
+        </a></li>`;
+    };
+
+    /* Una sola línea de lo que viene después de hoy: la misma idea que
+       el renglón, así con tarjeta tampoco se pierde lo próximo. */
+    const despues = (publicaciones || [])
+      .filter(p => p.fecha_desde && !p.suspendido && p.id !== saltear &&
+                   String(p.fecha_desde).slice(0,10) > hoy)
+      .sort((a, b) => String(a.fecha_desde).localeCompare(String(b.fecha_desde)))[0];
+    let lineaDespues = '';
+    if (despues){
+      const dias = Math.round((new Date(String(despues.fecha_desde).slice(0,10)) - new Date(hoy)) / 86400000);
+      const cuando = dias === 1 ? 'Mañana' : dias <= 7 ? 'En ' + dias + ' días' : fechaLinda(despues.fecha_desde);
+      lineaDespues = `
+        <a class="hoy-despues" href="${RAIZ}agenda/?id=${encodeURIComponent(despues.id)}">
+          <span class="proximo-cuando">${esc(cuando)}</span>
+          <span class="proximo-que">${esc(despues.titulo || '')}</span>
+          <span class="proximo-flecha" aria-hidden="true">→</span>
+        </a>`;
+    }
+
+    const DIAS = ['domingo','lunes','martes','miércoles','jueves','viernes','sábado'];
+
+    caja.innerHTML = `
+      <section class="hoy-tarjeta${hayParo ? ' hay-paro' : ''}" aria-labelledby="hoy-titulo">
+        <div class="hoy-cabeza">
+          <h2 class="hoy-rotulo" id="hoy-titulo">${hayParo ? 'Hoy hay paro' : 'Hoy'}</h2>
+          <span class="hoy-fecha">${esc(DIAS[fechaDeHoy.getDay()] + ' ' + fechaLinda(hoy))}</span>
+        </div>
+        ${deHoy.length ? `<ul class="hoy-lista">${deHoy.map(item).join('')}</ul>` : ''}
+        ${clases.length ? `
+          <div class="hoy-subtitulo">Tus clases</div>
+          <ul class="hoy-clases">${clases.map(c => `
+            <li class="hoy-clase"><b>${esc(c.materia)}</b>
+              <span>${esc([c.hora, c.aula].filter(Boolean).join(' · '))}</span></li>`).join('')}
+          </ul>
+          ${hayParo ? '<p class="hoy-nota">Con paro, fijate con tu cátedra si la clase se da.</p>' : ''}` : ''}
+        ${lineaDespues}
+      </section>`;
+    return true;
+  }
+
+  /* ============================================================
      LO PROXIMO DE LA AGENDA
 
      Aca vivia la alarma de inscripcion: una tarjeta amarilla, grande,
@@ -936,8 +1047,13 @@ setTimeout(function(){
        al lado de un cartel que aclara que el dato es de antes no ayuda
        a nadie: callarse es lo correcto. */
     if (!huboRed) return;
-    proximoDeLaAgenda(document.getElementById('alarma'), publicaciones, hoyISO(),
-                      idDeLaAlertaVisible(publicaciones));
+    const caja    = document.getElementById('alarma');
+    const hoy     = hoyISO();
+    const saltear = idDeLaAlertaVisible(publicaciones);
+    /* Si hoy pasa algo, la tarjeta «Hoy» (que trae lo próximo abajo);
+       si no, el renglón de siempre. */
+    if (!pintarHoy(caja, publicaciones, hoy, saltear))
+      proximoDeLaAgenda(caja, publicaciones, hoy, saltear);
   })();
 
   /* ============================================================

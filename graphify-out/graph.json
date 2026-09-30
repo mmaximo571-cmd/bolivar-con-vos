@@ -204,7 +204,7 @@
       "file_type": "code",
       "norm_label": "aplicartema()",
       "source_file": "app.js",
-      "source_location": "L885"
+      "source_location": "L1194"
     },
     {
       "id": "app_marcartitulos",
@@ -216,7 +216,7 @@
       "file_type": "code",
       "norm_label": "marcartitulos()",
       "source_file": "app.js",
-      "source_location": "L929"
+      "source_location": "L1238"
     },
     {
       "id": "app_menosmovimiento",
@@ -240,7 +240,7 @@
       "file_type": "code",
       "norm_label": "pintaravisanos()",
       "source_file": "app.js",
-      "source_location": "L1285"
+      "source_location": "L1594"
     },
     {
       "id": "app_pintaravisanos_esconderglobo",
@@ -252,7 +252,7 @@
       "file_type": "code",
       "norm_label": "esconderglobo()",
       "source_file": "app.js",
-      "source_location": "L1368"
+      "source_location": "L1677"
     },
     {
       "id": "app_pintaravisanos_mostrarglobo",
@@ -264,7 +264,7 @@
       "file_type": "code",
       "norm_label": "mostrarglobo()",
       "source_file": "app.js",
-      "source_location": "L1355"
+      "source_location": "L1664"
     },
     {
       "id": "app_pintarnav",
@@ -276,7 +276,7 @@
       "file_type": "code",
       "norm_label": "pintarnav()",
       "source_file": "app.js",
-      "source_location": "L982"
+      "source_location": "L1291"
     },
     {
       "id": "app_pintarnav_abrir",
@@ -288,7 +288,7 @@
       "file_type": "code",
       "norm_label": "abrir()",
       "source_file": "app.js",
-      "source_location": "L1089"
+      "source_location": "L1398"
     },
     {
       "id": "app_pintartema",
@@ -300,7 +300,7 @@
       "file_type": "code",
       "norm_label": "pintartema()",
       "source_file": "app.js",
-      "source_location": "L895"
+      "source_location": "L1204"
     },
     {
       "id": "app_ponerlupa",
@@ -312,7 +312,7 @@
       "file_type": "code",
       "norm_label": "ponerlupa()",
       "source_file": "app.js",
-      "source_location": "L920"
+      "source_location": "L1229"
     },
     {
       "id": "app_temaguardado",
@@ -324,7 +324,7 @@
       "file_type": "code",
       "norm_label": "temaguardado()",
       "source_file": "app.js",
-      "source_location": "L879"
+      "source_location": "L1188"
     },
     {
       "id": "app_vigilartitulos",
@@ -336,19 +336,7 @@
       "file_type": "code",
       "norm_label": "vigilartitulos()",
       "source_file": "app.js",
-      "source_location": "L937"
-    },
-    {
-      "id": "app_alarmademesa",
-      "label": "alarmaDeMesa()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 11,
-      "community_name": "esc",
-      "file_type": "code",
-      "norm_label": "alarmademesa()",
-      "source_file": "app.js",
-      "source_location": "L1187"
+      "source_location": "L1246"
     },
     {
       "id": "app_errorencastellano",
@@ -360,7 +348,7 @@
       "file_type": "code",
       "norm_label": "errorencastellano()",
       "source_file": "app.js",
-      "source_location": "L1479"
+      "source_location": "L1788"
     },
     {
       "id": "app_esc",
@@ -396,19 +384,7 @@
       "file_type": "code",
       "norm_label": "explicarerror()",
       "source_file": "app.js",
-      "source_location": "L1454"
-    },
-    {
-      "id": "app_hoyiso",
-      "label": "hoyISO()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 11,
-      "community_name": "esc",
-      "file_type": "code",
-      "norm_label": "hoyiso()",
-      "source_file": "app.js",
-      "source_location": "L378"
+      "source_location": "L1763"
     },
     {
       "id": "app_htmlpie",
@@ -420,19 +396,7 @@
       "file_type": "code",
       "norm_label": "htmlpie()",
       "source_file": "app.js",
-      "source_location": "L1407"
-    },
-    {
-      "id": "app_iddelaalertavisible",
-      "label": "idDeLaAlertaVisible()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 11,
-      "community_name": "esc",
-      "file_type": "code",
-      "norm_label": "iddelaalertavisible()",
-      "source_file": "app.js",
-      "source_location": "L1237"
+      "source_location": "L1716"
     },
     {
       "id": "app_mostrarerror",
@@ -444,19 +408,7 @@
       "file_type": "code",
       "norm_label": "mostrarerror()",
       "source_file": "app.js",
-      "source_location": "L1482"
-    },
-    {
-      "id": "app_pintaralertamesa",
-      "label": "pintarAlertaMesa()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 11,
-      "community_name": "esc",
-      "file_type": "code",
-      "norm_label": "pintaralertamesa()",
-      "source_file": "app.js",
-      "source_location": "L1246"
+      "source_location": "L1791"
     },
     {
       "id": "estudiemos_portada_buscar",
@@ -696,7 +648,31 @@
       "file_type": "code",
       "norm_label": "abrir()",
       "source_file": "app.js",
-      "source_location": "L787"
+      "source_location": "L1078"
+    },
+    {
+      "id": "app_alarmademesa",
+      "label": "alarmaDeMesa()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 13,
+      "community_name": "htmlNovedades",
+      "file_type": "code",
+      "norm_label": "alarmademesa()",
+      "source_file": "app.js",
+      "source_location": "L1496"
+    },
+    {
+      "id": "app_armarbandeja",
+      "label": "armarBandeja()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 13,
+      "community_name": "htmlNovedades",
+      "file_type": "code",
+      "norm_label": "armarbandeja()",
+      "source_file": "app.js",
+      "source_location": "L862"
     },
     {
       "id": "app_arrancar",
@@ -708,19 +684,67 @@
       "file_type": "code",
       "norm_label": "arrancar()",
       "source_file": "app.js",
-      "source_location": "L842"
+      "source_location": "L1147"
     },
     {
-      "id": "app_fechalinda",
-      "label": "fechaLinda()",
+      "id": "app_avisodebandeja",
+      "label": "avisoDeBandeja()",
       "_callable": true,
       "_origin": "ast",
       "community": 13,
       "community_name": "htmlNovedades",
       "file_type": "code",
-      "norm_label": "fechalinda()",
+      "norm_label": "avisodebandeja()",
       "source_file": "app.js",
-      "source_location": "L363"
+      "source_location": "L828"
+    },
+    {
+      "id": "app_avisoleido",
+      "label": "avisoLeido()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 13,
+      "community_name": "htmlNovedades",
+      "file_type": "code",
+      "norm_label": "avisoleido()",
+      "source_file": "app.js",
+      "source_location": "L822"
+    },
+    {
+      "id": "app_categoriadepublicacion",
+      "label": "categoriaDePublicacion()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 13,
+      "community_name": "htmlNovedades",
+      "file_type": "code",
+      "norm_label": "categoriadepublicacion()",
+      "source_file": "app.js",
+      "source_location": "L415"
+    },
+    {
+      "id": "app_cuandoenbandeja",
+      "label": "cuandoEnBandeja()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 13,
+      "community_name": "htmlNovedades",
+      "file_type": "code",
+      "norm_label": "cuandoenbandeja()",
+      "source_file": "app.js",
+      "source_location": "L886"
+    },
+    {
+      "id": "app_hoyiso",
+      "label": "hoyISO()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 13,
+      "community_name": "htmlNovedades",
+      "file_type": "code",
+      "norm_label": "hoyiso()",
+      "source_file": "app.js",
+      "source_location": "L378"
     },
     {
       "id": "app_htmlnovedades",
@@ -732,7 +756,43 @@
       "file_type": "code",
       "norm_label": "htmlnovedades()",
       "source_file": "app.js",
-      "source_location": "L732"
+      "source_location": "L930"
+    },
+    {
+      "id": "app_iddelaalertavisible",
+      "label": "idDeLaAlertaVisible()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 13,
+      "community_name": "htmlNovedades",
+      "file_type": "code",
+      "norm_label": "iddelaalertavisible()",
+      "source_file": "app.js",
+      "source_location": "L1546"
+    },
+    {
+      "id": "app_isovecino",
+      "label": "isoVecino()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 13,
+      "community_name": "htmlNovedades",
+      "file_type": "code",
+      "norm_label": "isovecino()",
+      "source_file": "app.js",
+      "source_location": "L437"
+    },
+    {
+      "id": "app_itemdebandeja",
+      "label": "itemDeBandeja()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 13,
+      "community_name": "htmlNovedades",
+      "file_type": "code",
+      "norm_label": "itemdebandeja()",
+      "source_file": "app.js",
+      "source_location": "L899"
     },
     {
       "id": "app_leidasnovedades",
@@ -744,31 +804,19 @@
       "file_type": "code",
       "norm_label": "leidasnovedades()",
       "source_file": "app.js",
-      "source_location": "L702"
+      "source_location": "L801"
     },
     {
-      "id": "app_novedadleida",
-      "label": "novedadLeida()",
+      "id": "app_pintaralertamesa",
+      "label": "pintarAlertaMesa()",
       "_callable": true,
       "_origin": "ast",
       "community": 13,
       "community_name": "htmlNovedades",
       "file_type": "code",
-      "norm_label": "novedadleida()",
+      "norm_label": "pintaralertamesa()",
       "source_file": "app.js",
-      "source_location": "L712"
-    },
-    {
-      "id": "app_partesfecha",
-      "label": "partesFecha()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 13,
-      "community_name": "htmlNovedades",
-      "file_type": "code",
-      "norm_label": "partesfecha()",
-      "source_file": "app.js",
-      "source_location": "L356"
+      "source_location": "L1555"
     },
     {
       "id": "app_pintarcampana",
@@ -780,19 +828,19 @@
       "file_type": "code",
       "norm_label": "pintarcampana()",
       "source_file": "app.js",
-      "source_location": "L775"
+      "source_location": "L978"
     },
     {
-      "id": "app_rangolindo",
-      "label": "rangoLindo()",
+      "id": "app_repintarpanel",
+      "label": "repintarPanel()",
       "_callable": true,
       "_origin": "ast",
       "community": 13,
       "community_name": "htmlNovedades",
       "file_type": "code",
-      "norm_label": "rangolindo()",
+      "norm_label": "repintarpanel()",
       "source_file": "app.js",
-      "source_location": "L369"
+      "source_location": "L1101"
     },
     {
       "id": "app_traernovedades",
@@ -804,7 +852,19 @@
       "file_type": "code",
       "norm_label": "traernovedades()",
       "source_file": "app.js",
-      "source_location": "L716"
+      "source_location": "L993"
+    },
+    {
+      "id": "app_guardarcopiacursada",
+      "label": "guardarCopiaCursada()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 14,
+      "community_name": "leer.js",
+      "file_type": "code",
+      "norm_label": "guardarcopiacursada()",
+      "source_file": "app.js",
+      "source_location": "L512"
     },
     {
       "id": "estudiemos_fichas_leer_campos",
@@ -912,7 +972,7 @@
       "file_type": "code",
       "norm_label": "anotarquesevio()",
       "source_file": "app.js",
-      "source_location": "L1746"
+      "source_location": "L2055"
     },
     {
       "id": "app_esios",
@@ -924,7 +984,7 @@
       "file_type": "code",
       "norm_label": "esios()",
       "source_file": "app.js",
-      "source_location": "L1739"
+      "source_location": "L2048"
     },
     {
       "id": "app_invitarainstalar",
@@ -936,7 +996,7 @@
       "file_type": "code",
       "norm_label": "invitarainstalar()",
       "source_file": "app.js",
-      "source_location": "L1760"
+      "source_location": "L2069"
     },
     {
       "id": "app_invitarainstalar_cerrar",
@@ -948,7 +1008,7 @@
       "file_type": "code",
       "norm_label": "cerrar()",
       "source_file": "app.js",
-      "source_location": "L1783"
+      "source_location": "L2092"
     },
     {
       "id": "app_sedijoqueno",
@@ -960,7 +1020,7 @@
       "file_type": "code",
       "norm_label": "sedijoqueno()",
       "source_file": "app.js",
-      "source_location": "L1743"
+      "source_location": "L2052"
     },
     {
       "id": "app_sepuedeinvitarainstalar",
@@ -972,7 +1032,7 @@
       "file_type": "code",
       "norm_label": "sepuedeinvitarainstalar()",
       "source_file": "app.js",
-      "source_location": "L1752"
+      "source_location": "L2061"
     },
     {
       "id": "app_yaestainstalada",
@@ -984,7 +1044,7 @@
       "file_type": "code",
       "norm_label": "yaestainstalada()",
       "source_file": "app.js",
-      "source_location": "L1735"
+      "source_location": "L2044"
     },
     {
       "id": "estudiemos_fichas_ficha_adom",
@@ -1107,28 +1167,16 @@
       "source_location": "L92"
     },
     {
-      "id": "app_normalizar",
-      "label": "normalizar()",
+      "id": "sw_esdesupabase",
+      "label": "esDeSupabase()",
       "_callable": true,
       "_origin": "ast",
       "community": 2,
-      "community_name": "Pantalla Info \u00fatil (tr\u00e1mites y FAQ)",
+      "community_name": "Pantalla El Consejo Directivo",
       "file_type": "code",
-      "norm_label": "normalizar()",
-      "source_file": "app.js",
-      "source_location": "L384"
-    },
-    {
-      "id": "app_parametro",
-      "label": "parametro()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 2,
-      "community_name": "Pantalla Info \u00fatil (tr\u00e1mites y FAQ)",
-      "file_type": "code",
-      "norm_label": "parametro()",
-      "source_file": "app.js",
-      "source_location": "L347"
+      "norm_label": "esdesupabase()",
+      "source_file": "sw.js",
+      "source_location": "L187"
     },
     {
       "id": "lib_fecha_al_calendario_archivoics",
@@ -2175,16 +2223,28 @@
       "source_location": "L18"
     },
     {
+      "id": "app_anotarbusqueda",
+      "label": "anotarBusqueda()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 3,
+      "community_name": "Pantalla Info \u00fatil (tr\u00e1mites y FAQ)",
+      "file_type": "code",
+      "norm_label": "anotarbusqueda()",
+      "source_file": "app.js",
+      "source_location": "L238"
+    },
+    {
       "id": "app_conpaciencia",
       "label": "conPaciencia()",
       "_callable": true,
       "_origin": "ast",
       "community": 3,
-      "community_name": "Pantalla El Consejo Directivo",
+      "community_name": "Pantalla Info \u00fatil (tr\u00e1mites y FAQ)",
       "file_type": "code",
       "norm_label": "conpaciencia()",
       "source_file": "app.js",
-      "source_location": "L1505"
+      "source_location": "L1814"
     },
     {
       "id": "app_guardarenmemoria",
@@ -2192,11 +2252,11 @@
       "_callable": true,
       "_origin": "ast",
       "community": 3,
-      "community_name": "Pantalla El Consejo Directivo",
+      "community_name": "Pantalla Info \u00fatil (tr\u00e1mites y FAQ)",
       "file_type": "code",
       "norm_label": "guardarenmemoria()",
       "source_file": "app.js",
-      "source_location": "L1569"
+      "source_location": "L1878"
     },
     {
       "id": "app_memoriade",
@@ -2204,23 +2264,35 @@
       "_callable": true,
       "_origin": "ast",
       "community": 3,
-      "community_name": "Pantalla El Consejo Directivo",
+      "community_name": "Pantalla Info \u00fatil (tr\u00e1mites y FAQ)",
       "file_type": "code",
       "norm_label": "memoriade()",
       "source_file": "app.js",
-      "source_location": "L1552"
+      "source_location": "L1861"
     },
     {
-      "id": "sw_esdesupabase",
-      "label": "esDeSupabase()",
+      "id": "app_normalizar",
+      "label": "normalizar()",
       "_callable": true,
       "_origin": "ast",
       "community": 3,
-      "community_name": "Pantalla El Consejo Directivo",
+      "community_name": "Pantalla Info \u00fatil (tr\u00e1mites y FAQ)",
       "file_type": "code",
-      "norm_label": "esdesupabase()",
-      "source_file": "sw.js",
-      "source_location": "L187"
+      "norm_label": "normalizar()",
+      "source_file": "app.js",
+      "source_location": "L384"
+    },
+    {
+      "id": "app_parametro",
+      "label": "parametro()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 3,
+      "community_name": "Pantalla Info \u00fatil (tr\u00e1mites y FAQ)",
+      "file_type": "code",
+      "norm_label": "parametro()",
+      "source_file": "app.js",
+      "source_location": "L347"
     },
     {
       "id": "fondo_red_argb",
@@ -2463,6 +2535,30 @@
       "source_location": "L387"
     },
     {
+      "id": "app_esdelequipo",
+      "label": "esDelEquipo()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 38,
+      "community_name": "sesionActual",
+      "file_type": "code",
+      "norm_label": "esdelequipo()",
+      "source_file": "app.js",
+      "source_location": "L474"
+    },
+    {
+      "id": "app_sesionactual",
+      "label": "sesionActual()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 38,
+      "community_name": "sesionActual",
+      "file_type": "code",
+      "norm_label": "sesionactual()",
+      "source_file": "app.js",
+      "source_location": "L460"
+    },
+    {
       "id": "app_alcambiarmovimiento",
       "label": "alCambiarMovimiento()",
       "_callable": true,
@@ -2484,7 +2580,31 @@
       "file_type": "code",
       "norm_label": "armariso()",
       "source_file": "app.js",
-      "source_location": "L407"
+      "source_location": "L431"
+    },
+    {
+      "id": "app_avisarmostrandoguardado",
+      "label": "avisarMostrandoGuardado()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 4,
+      "community_name": "app.js",
+      "file_type": "code",
+      "norm_label": "avisarmostrandoguardado()",
+      "source_file": "app.js",
+      "source_location": "L1939"
+    },
+    {
+      "id": "app_avisarnosepudoactualizar",
+      "label": "avisarNoSePudoActualizar()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 4,
+      "community_name": "app.js",
+      "file_type": "code",
+      "norm_label": "avisarnosepudoactualizar()",
+      "source_file": "app.js",
+      "source_location": "L1946"
     },
     {
       "id": "app_caeeneldia",
@@ -2496,7 +2616,19 @@
       "file_type": "code",
       "norm_label": "caeeneldia()",
       "source_file": "app.js",
-      "source_location": "L420"
+      "source_location": "L444"
+    },
+    {
+      "id": "app_cajadelaviso",
+      "label": "cajaDelAviso()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 4,
+      "community_name": "app.js",
+      "file_type": "code",
+      "norm_label": "cajadelaviso()",
+      "source_file": "app.js",
+      "source_location": "L1914"
     },
     {
       "id": "app_cerrar",
@@ -2508,19 +2640,31 @@
       "file_type": "code",
       "norm_label": "cerrar()",
       "source_file": "app.js",
-      "source_location": "L797"
+      "source_location": "L1088"
     },
     {
-      "id": "app_guardarleidas",
-      "label": "guardarLeidas()",
+      "id": "app_cuentaguardada",
+      "label": "cuentaGuardada()",
       "_callable": true,
       "_origin": "ast",
       "community": 4,
       "community_name": "app.js",
       "file_type": "code",
-      "norm_label": "guardarleidas()",
+      "norm_label": "cuentaguardada()",
       "source_file": "app.js",
-      "source_location": "L709"
+      "source_location": "L504"
+    },
+    {
+      "id": "app_desdecuando",
+      "label": "desdeCuando()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 4,
+      "community_name": "app.js",
+      "file_type": "code",
+      "norm_label": "desdecuando()",
+      "source_file": "app.js",
+      "source_location": "L1897"
     },
     {
       "id": "app_htmlcabecera",
@@ -2532,7 +2676,7 @@
       "file_type": "code",
       "norm_label": "htmlcabecera()",
       "source_file": "app.js",
-      "source_location": "L638"
+      "source_location": "L712"
     },
     {
       "id": "app_htmlcampana",
@@ -2544,19 +2688,31 @@
       "file_type": "code",
       "norm_label": "htmlcampana()",
       "source_file": "app.js",
-      "source_location": "L694"
+      "source_location": "L792"
     },
     {
-      "id": "app_isovecino",
-      "label": "isoVecino()",
+      "id": "app_leercopiacursada",
+      "label": "leerCopiaCursada()",
       "_callable": true,
       "_origin": "ast",
       "community": 4,
       "community_name": "app.js",
       "file_type": "code",
-      "norm_label": "isovecino()",
+      "norm_label": "leercopiacursada()",
       "source_file": "app.js",
-      "source_location": "L413"
+      "source_location": "L523"
+    },
+    {
+      "id": "app_olvidarcopiacursada",
+      "label": "olvidarCopiaCursada()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 4,
+      "community_name": "app.js",
+      "file_type": "code",
+      "norm_label": "olvidarcopiacursada()",
+      "source_file": "app.js",
+      "source_location": "L532"
     },
     {
       "id": "app_olvidarmemoria",
@@ -2568,7 +2724,19 @@
       "file_type": "code",
       "norm_label": "olvidarmemoria()",
       "source_file": "app.js",
-      "source_location": "L1581"
+      "source_location": "L1890"
+    },
+    {
+      "id": "app_poneraviso",
+      "label": "ponerAviso()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 4,
+      "community_name": "app.js",
+      "file_type": "code",
+      "norm_label": "poneraviso()",
+      "source_file": "app.js",
+      "source_location": "L1930"
     },
     {
       "id": "app_puedecargar",
@@ -2580,7 +2748,7 @@
       "file_type": "code",
       "norm_label": "puedecargar()",
       "source_file": "app.js",
-      "source_location": "L458"
+      "source_location": "L482"
     },
     {
       "id": "app_sacaravisoguardado",
@@ -2592,7 +2760,7 @@
       "file_type": "code",
       "norm_label": "sacaravisoguardado()",
       "source_file": "app.js",
-      "source_location": "L1643"
+      "source_location": "L1952"
     },
     {
       "id": "app_urlsegura",
@@ -2607,64 +2775,64 @@
       "source_location": "L336"
     },
     {
-      "id": "app_avisarmostrandoguardado",
-      "label": "avisarMostrandoGuardado()",
+      "id": "app_cuentaparalacampana",
+      "label": "cuentaParaLaCampana()",
       "_callable": true,
       "_origin": "ast",
       "community": 46,
-      "community_name": "ponerAviso",
+      "community_name": "sincronizarLeidas",
       "file_type": "code",
-      "norm_label": "avisarmostrandoguardado()",
+      "norm_label": "cuentaparalacampana()",
       "source_file": "app.js",
-      "source_location": "L1630"
+      "source_location": "L1026"
     },
     {
-      "id": "app_avisarnosepudoactualizar",
-      "label": "avisarNoSePudoActualizar()",
+      "id": "app_guardarleidas",
+      "label": "guardarLeidas()",
       "_callable": true,
       "_origin": "ast",
       "community": 46,
-      "community_name": "ponerAviso",
+      "community_name": "sincronizarLeidas",
       "file_type": "code",
-      "norm_label": "avisarnosepudoactualizar()",
+      "norm_label": "guardarleidas()",
       "source_file": "app.js",
-      "source_location": "L1637"
+      "source_location": "L816"
     },
     {
-      "id": "app_cajadelaviso",
-      "label": "cajaDelAviso()",
+      "id": "app_juntarleidas",
+      "label": "juntarLeidas()",
       "_callable": true,
       "_origin": "ast",
       "community": 46,
-      "community_name": "ponerAviso",
+      "community_name": "sincronizarLeidas",
       "file_type": "code",
-      "norm_label": "cajadelaviso()",
+      "norm_label": "juntarleidas()",
       "source_file": "app.js",
-      "source_location": "L1605"
+      "source_location": "L1035"
     },
     {
-      "id": "app_desdecuando",
-      "label": "desdeCuando()",
+      "id": "app_mismasleidas",
+      "label": "mismasLeidas()",
       "_callable": true,
       "_origin": "ast",
       "community": 46,
-      "community_name": "ponerAviso",
+      "community_name": "sincronizarLeidas",
       "file_type": "code",
-      "norm_label": "desdecuando()",
+      "norm_label": "mismasleidas()",
       "source_file": "app.js",
-      "source_location": "L1588"
+      "source_location": "L1045"
     },
     {
-      "id": "app_poneraviso",
-      "label": "ponerAviso()",
+      "id": "app_sincronizarleidas",
+      "label": "sincronizarLeidas()",
       "_callable": true,
       "_origin": "ast",
       "community": 46,
-      "community_name": "ponerAviso",
+      "community_name": "sincronizarLeidas",
       "file_type": "code",
-      "norm_label": "poneraviso()",
+      "norm_label": "sincronizarleidas()",
       "source_file": "app.js",
-      "source_location": "L1621"
+      "source_location": "L1055"
     },
     {
       "id": "lib_leer_analitico_cargarpdfjs",
@@ -3135,18 +3303,6 @@
       "source_location": "L163"
     },
     {
-      "id": "app_anotarbusqueda",
-      "label": "anotarBusqueda()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 54,
-      "community_name": "anotar",
-      "file_type": "code",
-      "norm_label": "anotarbusqueda()",
-      "source_file": "app.js",
-      "source_location": "L238"
-    },
-    {
       "id": "app_anotarcarreraapp",
       "label": "anotarCarreraApp()",
       "_callable": true,
@@ -3156,7 +3312,7 @@
       "file_type": "code",
       "norm_label": "anotarcarreraapp()",
       "source_file": "app.js",
-      "source_location": "L528"
+      "source_location": "L602"
     },
     {
       "id": "app_anotarerror",
@@ -3204,7 +3360,7 @@
       "file_type": "code",
       "norm_label": "carreraactual()",
       "source_file": "app.js",
-      "source_location": "L523"
+      "source_location": "L597"
     },
     {
       "id": "app_carreraelegidaapp",
@@ -3216,7 +3372,7 @@
       "file_type": "code",
       "norm_label": "carreraelegidaapp()",
       "source_file": "app.js",
-      "source_location": "L517"
+      "source_location": "L591"
     },
     {
       "id": "app_contarvisita",
@@ -3264,7 +3420,7 @@
       "file_type": "code",
       "norm_label": "leercarreraguardada()",
       "source_file": "app.js",
-      "source_location": "L510"
+      "source_location": "L584"
     },
     {
       "id": "app_programarvisita",
@@ -3900,7 +4056,7 @@
       "file_type": "code",
       "norm_label": "apagaravisos()",
       "source_file": "app.js",
-      "source_location": "L2004"
+      "source_location": "L2313"
     },
     {
       "id": "app_clavepublicaenbytes",
@@ -3912,7 +4068,7 @@
       "file_type": "code",
       "norm_label": "clavepublicaenbytes()",
       "source_file": "app.js",
-      "source_location": "L1888"
+      "source_location": "L2197"
     },
     {
       "id": "app_guardareltimbre",
@@ -3924,7 +4080,7 @@
       "file_type": "code",
       "norm_label": "guardareltimbre()",
       "source_file": "app.js",
-      "source_location": "L1910"
+      "source_location": "L2219"
     },
     {
       "id": "app_guardargustosdeavisos",
@@ -3936,7 +4092,7 @@
       "file_type": "code",
       "norm_label": "guardargustosdeavisos()",
       "source_file": "app.js",
-      "source_location": "L1871"
+      "source_location": "L2180"
     },
     {
       "id": "app_gustosdeavisos",
@@ -3948,7 +4104,7 @@
       "file_type": "code",
       "norm_label": "gustosdeavisos()",
       "source_file": "app.js",
-      "source_location": "L1855"
+      "source_location": "L2164"
     },
     {
       "id": "app_prenderavisos",
@@ -3960,7 +4116,7 @@
       "file_type": "code",
       "norm_label": "prenderavisos()",
       "source_file": "app.js",
-      "source_location": "L1963"
+      "source_location": "L2272"
     },
     {
       "id": "app_sebancanlosavisos",
@@ -3972,7 +4128,7 @@
       "file_type": "code",
       "norm_label": "sebancanlosavisos()",
       "source_file": "app.js",
-      "source_location": "L1879"
+      "source_location": "L2188"
     },
     {
       "id": "app_suscripciondeestetelefono",
@@ -3984,7 +4140,19 @@
       "file_type": "code",
       "norm_label": "suscripciondeestetelefono()",
       "source_file": "app.js",
-      "source_location": "L1898"
+      "source_location": "L2207"
+    },
+    {
+      "id": "app_tieneavisosalcelular",
+      "label": "tieneAvisosAlCelular()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 74,
+      "community_name": "prenderAvisos",
+      "file_type": "code",
+      "norm_label": "tieneavisosalcelular()",
+      "source_file": "app.js",
+      "source_location": "L923"
     },
     {
       "id": "estudiemos_pomodoro_abrir",
@@ -4251,30 +4419,6 @@
       "source_location": "L22"
     },
     {
-      "id": "app_esdelequipo",
-      "label": "esDelEquipo()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 8,
-      "community_name": "Mi perfil (mi/index.html)",
-      "file_type": "code",
-      "norm_label": "esdelequipo()",
-      "source_file": "app.js",
-      "source_location": "L450"
-    },
-    {
-      "id": "app_sesionactual",
-      "label": "sesionActual()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 8,
-      "community_name": "Mi perfil (mi/index.html)",
-      "file_type": "code",
-      "norm_label": "sesionactual()",
-      "source_file": "app.js",
-      "source_location": "L436"
-    },
-    {
       "id": "lib_tarjeta_avisos_materiasdelosgrupos",
       "label": "materiasDeLosGrupos()",
       "_callable": true,
@@ -4309,6 +4453,42 @@
       "norm_label": "htmlmaterias()",
       "source_file": "lib/tarjeta-avisos.js",
       "source_location": "L92"
+    },
+    {
+      "id": "app_fechalinda",
+      "label": "fechaLinda()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 95,
+      "community_name": "rangoLindo",
+      "file_type": "code",
+      "norm_label": "fechalinda()",
+      "source_file": "app.js",
+      "source_location": "L363"
+    },
+    {
+      "id": "app_partesfecha",
+      "label": "partesFecha()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 95,
+      "community_name": "rangoLindo",
+      "file_type": "code",
+      "norm_label": "partesfecha()",
+      "source_file": "app.js",
+      "source_location": "L356"
+    },
+    {
+      "id": "app_rangolindo",
+      "label": "rangoLindo()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 95,
+      "community_name": "rangoLindo",
+      "file_type": "code",
+      "norm_label": "rangolindo()",
+      "source_file": "app.js",
+      "source_location": "L369"
     },
     {
       "id": "bitacora_ai_studio_2_0",
@@ -4783,93 +4963,33 @@
       "source_url": null
     },
     {
-      "id": "catedras_index",
-      "label": "Pantalla C\u00e1tedras",
+      "id": "consejo_index",
+      "label": "Pantalla El Consejo Directivo",
       "_origin": "ast",
       "author": null,
       "captured_at": null,
       "community": 2,
-      "community_name": "Pantalla Info \u00fatil (tr\u00e1mites y FAQ)",
+      "community_name": "Pantalla El Consejo Directivo",
       "contributor": null,
       "file_type": "code",
-      "norm_label": "pantalla catedras",
-      "source_file": "carrera/index.html",
-      "source_location": "L243",
-      "source_url": null
-    },
-    {
-      "id": "panel_index_vistacatedras",
-      "label": "vistaCatedras",
-      "_origin": "ast",
-      "author": null,
-      "captured_at": null,
-      "community": 2,
-      "community_name": "Pantalla Info \u00fatil (tr\u00e1mites y FAQ)",
-      "contributor": null,
-      "file_type": "code",
-      "norm_label": "vistacatedras",
-      "source_file": "panel/index.html",
-      "source_location": "L2506",
-      "source_url": null
-    },
-    {
-      "id": "panel_index_vistacategorias",
-      "label": "vistaCategorias",
-      "_origin": "ast",
-      "author": null,
-      "captured_at": null,
-      "community": 2,
-      "community_name": "Pantalla Info \u00fatil (tr\u00e1mites y FAQ)",
-      "contributor": null,
-      "file_type": "code",
-      "norm_label": "vistacategorias",
-      "source_file": "panel/index.html",
-      "source_location": "L779",
-      "source_url": null
-    },
-    {
-      "id": "panel_index_vistafaq",
-      "label": "vistaFaq (editor de preguntas frecuentes)",
-      "_origin": "ast",
-      "author": null,
-      "captured_at": null,
-      "community": 2,
-      "community_name": "Pantalla Info \u00fatil (tr\u00e1mites y FAQ)",
-      "contributor": null,
-      "file_type": "code",
-      "norm_label": "vistafaq (editor de preguntas frecuentes)",
-      "source_file": "panel/index.html",
-      "source_location": "L471",
-      "source_url": null
-    },
-    {
-      "id": "panel_index_vistatramites",
-      "label": "vistaTramites (editor de tr\u00e1mites)",
-      "_origin": "ast",
-      "author": null,
-      "captured_at": null,
-      "community": 2,
-      "community_name": "Pantalla Info \u00fatil (tr\u00e1mites y FAQ)",
-      "contributor": null,
-      "file_type": "code",
-      "norm_label": "vistatramites (editor de tramites)",
-      "source_file": "panel/index.html",
-      "source_location": "L262",
-      "source_url": null
-    },
-    {
-      "id": "tramites_index",
-      "label": "Pantalla Info \u00fatil (tr\u00e1mites y FAQ)",
-      "_origin": "ast",
-      "author": null,
-      "captured_at": null,
-      "community": 2,
-      "community_name": "Pantalla Info \u00fatil (tr\u00e1mites y FAQ)",
-      "contributor": null,
-      "file_type": "code",
-      "norm_label": "pantalla info util (tramites y faq)",
-      "source_file": "tramites/index.html",
+      "norm_label": "pantalla el consejo directivo",
+      "source_file": "consejo/index.html",
       "source_location": "L6",
+      "source_url": null
+    },
+    {
+      "id": "panel_index_vistaconsejo",
+      "label": "vistaConsejo (editor Consejo Directivo)",
+      "_origin": "ast",
+      "author": null,
+      "captured_at": null,
+      "community": 2,
+      "community_name": "Pantalla El Consejo Directivo",
+      "contributor": null,
+      "file_type": "code",
+      "norm_label": "vistaconsejo (editor consejo directivo)",
+      "source_file": "panel/index.html",
+      "source_location": "L1906",
       "source_url": null
     },
     {
@@ -4973,7 +5093,7 @@
       "author": null,
       "captured_at": null,
       "community": 3,
-      "community_name": "Pantalla El Consejo Directivo",
+      "community_name": "Pantalla Info \u00fatil (tr\u00e1mites y FAQ)",
       "contributor": null,
       "file_type": "code",
       "norm_label": "pantalla anatomofisiologia (guia de materia)",
@@ -4988,7 +5108,7 @@
       "author": null,
       "captured_at": null,
       "community": 3,
-      "community_name": "Pantalla El Consejo Directivo",
+      "community_name": "Pantalla Info \u00fatil (tr\u00e1mites y FAQ)",
       "contributor": null,
       "file_type": "code",
       "norm_label": "bloquemodelo / sinfechas",
@@ -4997,18 +5117,33 @@
       "source_url": null
     },
     {
-      "id": "consejo_index",
-      "label": "Pantalla El Consejo Directivo",
+      "id": "catedras_index",
+      "label": "Pantalla C\u00e1tedras",
       "_origin": "ast",
       "author": null,
       "captured_at": null,
       "community": 3,
-      "community_name": "Pantalla El Consejo Directivo",
+      "community_name": "Pantalla Info \u00fatil (tr\u00e1mites y FAQ)",
       "contributor": null,
       "file_type": "code",
-      "norm_label": "pantalla el consejo directivo",
-      "source_file": "consejo/index.html",
-      "source_location": "L6",
+      "norm_label": "pantalla catedras",
+      "source_file": "carrera/index.html",
+      "source_location": "L243",
+      "source_url": null
+    },
+    {
+      "id": "catedras_index_carreradelapersona",
+      "label": "carreraDeLaPersona",
+      "_origin": "ast",
+      "author": null,
+      "captured_at": null,
+      "community": 3,
+      "community_name": "Pantalla Info \u00fatil (tr\u00e1mites y FAQ)",
+      "contributor": null,
+      "file_type": "code",
+      "norm_label": "carreradelapersona",
+      "source_file": "catedras/index.html",
+      "source_location": "L107",
       "source_url": null
     },
     {
@@ -5018,7 +5153,7 @@
       "author": null,
       "captured_at": null,
       "community": 3,
-      "community_name": "Pantalla El Consejo Directivo",
+      "community_name": "Pantalla Info \u00fatil (tr\u00e1mites y FAQ)",
       "contributor": null,
       "file_type": "code",
       "norm_label": "pantalla fonoteca (practica de audiogramas)",
@@ -5033,12 +5168,27 @@
       "author": null,
       "captured_at": null,
       "community": 3,
-      "community_name": "Pantalla El Consejo Directivo",
+      "community_name": "Pantalla Info \u00fatil (tr\u00e1mites y FAQ)",
       "contributor": null,
       "file_type": "code",
       "norm_label": "pantalla estudiemos (landing de herramientas)",
       "source_file": "estudiemos/index.html",
       "source_location": "L6",
+      "source_url": null
+    },
+    {
+      "id": "estudiemos_index_esdeotracarrera",
+      "label": "esDeOtraCarrera (filtra materiales por plan)",
+      "_origin": "ast",
+      "author": null,
+      "captured_at": null,
+      "community": 3,
+      "community_name": "Pantalla Info \u00fatil (tr\u00e1mites y FAQ)",
+      "contributor": null,
+      "file_type": "code",
+      "norm_label": "esdeotracarrera (filtra materiales por plan)",
+      "source_file": "estudiemos/index.html",
+      "source_location": "L463",
       "source_url": null
     },
     {
@@ -5048,7 +5198,7 @@
       "author": null,
       "captured_at": null,
       "community": 3,
-      "community_name": "Pantalla El Consejo Directivo",
+      "community_name": "Pantalla Info \u00fatil (tr\u00e1mites y FAQ)",
       "contributor": null,
       "file_type": "code",
       "norm_label": "llevarriel / pintarflechas (riel deslizable)",
@@ -5057,33 +5207,63 @@
       "source_url": null
     },
     {
-      "id": "panel_index_subirfoto",
-      "label": "subirFoto / achicarFoto (storage fotos)",
+      "id": "panel_index_textodelpdf",
+      "label": "textoDelPdf",
       "_origin": "ast",
       "author": null,
       "captured_at": null,
       "community": 3,
-      "community_name": "Pantalla El Consejo Directivo",
+      "community_name": "Pantalla Info \u00fatil (tr\u00e1mites y FAQ)",
       "contributor": null,
       "file_type": "code",
-      "norm_label": "subirfoto / achicarfoto (storage fotos)",
+      "norm_label": "textodelpdf",
       "source_file": "panel/index.html",
-      "source_location": "L1619",
+      "source_location": "L1302",
       "source_url": null
     },
     {
-      "id": "panel_index_vistaconsejo",
-      "label": "vistaConsejo (editor Consejo Directivo)",
+      "id": "panel_index_vistacatedras",
+      "label": "vistaCatedras",
       "_origin": "ast",
       "author": null,
       "captured_at": null,
       "community": 3,
-      "community_name": "Pantalla El Consejo Directivo",
+      "community_name": "Pantalla Info \u00fatil (tr\u00e1mites y FAQ)",
       "contributor": null,
       "file_type": "code",
-      "norm_label": "vistaconsejo (editor consejo directivo)",
+      "norm_label": "vistacatedras",
       "source_file": "panel/index.html",
-      "source_location": "L1906",
+      "source_location": "L2506",
+      "source_url": null
+    },
+    {
+      "id": "panel_index_vistacategorias",
+      "label": "vistaCategorias",
+      "_origin": "ast",
+      "author": null,
+      "captured_at": null,
+      "community": 3,
+      "community_name": "Pantalla Info \u00fatil (tr\u00e1mites y FAQ)",
+      "contributor": null,
+      "file_type": "code",
+      "norm_label": "vistacategorias",
+      "source_file": "panel/index.html",
+      "source_location": "L779",
+      "source_url": null
+    },
+    {
+      "id": "panel_index_vistafaq",
+      "label": "vistaFaq (editor de preguntas frecuentes)",
+      "_origin": "ast",
+      "author": null,
+      "captured_at": null,
+      "community": 3,
+      "community_name": "Pantalla Info \u00fatil (tr\u00e1mites y FAQ)",
+      "contributor": null,
+      "file_type": "code",
+      "norm_label": "vistafaq (editor de preguntas frecuentes)",
+      "source_file": "panel/index.html",
+      "source_location": "L471",
       "source_url": null
     },
     {
@@ -5093,7 +5273,7 @@
       "author": null,
       "captured_at": null,
       "community": 3,
-      "community_name": "Pantalla El Consejo Directivo",
+      "community_name": "Pantalla Info \u00fatil (tr\u00e1mites y FAQ)",
       "contributor": null,
       "file_type": "code",
       "norm_label": "vistaguia (guia de materia anatomo)",
@@ -5108,7 +5288,7 @@
       "author": null,
       "captured_at": null,
       "community": 3,
-      "community_name": "Pantalla El Consejo Directivo",
+      "community_name": "Pantalla Info \u00fatil (tr\u00e1mites y FAQ)",
       "contributor": null,
       "file_type": "code",
       "norm_label": "vistamateriales",
@@ -5117,32 +5297,62 @@
       "source_url": null
     },
     {
-      "id": "panel_index_vistaquienes",
-      "label": "vistaQuienes (editor Qui\u00e9nes somos)",
+      "id": "panel_index_vistaprogramas",
+      "label": "vistaProgramas (programas de materias)",
       "_origin": "ast",
       "author": null,
       "captured_at": null,
       "community": 3,
-      "community_name": "Pantalla El Consejo Directivo",
+      "community_name": "Pantalla Info \u00fatil (tr\u00e1mites y FAQ)",
       "contributor": null,
       "file_type": "code",
-      "norm_label": "vistaquienes (editor quienes somos)",
+      "norm_label": "vistaprogramas (programas de materias)",
       "source_file": "panel/index.html",
-      "source_location": "L1725",
+      "source_location": "L1082",
       "source_url": null
     },
     {
-      "id": "quienes_index",
-      "label": "Pantalla Qui\u00e9nes somos",
+      "id": "panel_index_vistaprogramaspdf",
+      "label": "vistaProgramasPDF (carga masiva desde PDF)",
       "_origin": "ast",
       "author": null,
       "captured_at": null,
       "community": 3,
-      "community_name": "Pantalla El Consejo Directivo",
+      "community_name": "Pantalla Info \u00fatil (tr\u00e1mites y FAQ)",
       "contributor": null,
       "file_type": "code",
-      "norm_label": "pantalla quienes somos",
-      "source_file": "quienes/index.html",
+      "norm_label": "vistaprogramaspdf (carga masiva desde pdf)",
+      "source_file": "panel/index.html",
+      "source_location": "L1355",
+      "source_url": null
+    },
+    {
+      "id": "panel_index_vistatramites",
+      "label": "vistaTramites (editor de tr\u00e1mites)",
+      "_origin": "ast",
+      "author": null,
+      "captured_at": null,
+      "community": 3,
+      "community_name": "Pantalla Info \u00fatil (tr\u00e1mites y FAQ)",
+      "contributor": null,
+      "file_type": "code",
+      "norm_label": "vistatramites (editor de tramites)",
+      "source_file": "panel/index.html",
+      "source_location": "L262",
+      "source_url": null
+    },
+    {
+      "id": "tramites_index",
+      "label": "Pantalla Info \u00fatil (tr\u00e1mites y FAQ)",
+      "_origin": "ast",
+      "author": null,
+      "captured_at": null,
+      "community": 3,
+      "community_name": "Pantalla Info \u00fatil (tr\u00e1mites y FAQ)",
+      "contributor": null,
+      "file_type": "code",
+      "norm_label": "pantalla info util (tramites y faq)",
+      "source_file": "tramites/index.html",
       "source_location": "L6",
       "source_url": null
     },
@@ -5237,78 +5447,48 @@
       "source_url": null
     },
     {
-      "id": "catedras_index_carreradelapersona",
-      "label": "carreraDeLaPersona",
+      "id": "panel_index",
+      "label": "Pantalla Panel (administraci\u00f3n del equipo)",
       "_origin": "ast",
       "author": null,
       "captured_at": null,
       "community": 38,
-      "community_name": "esDeOtraCarrera (filtra materiales por plan)",
+      "community_name": "sesionActual",
       "contributor": null,
       "file_type": "code",
-      "norm_label": "carreradelapersona",
-      "source_file": "catedras/index.html",
-      "source_location": "L107",
-      "source_url": null
-    },
-    {
-      "id": "estudiemos_index_esdeotracarrera",
-      "label": "esDeOtraCarrera (filtra materiales por plan)",
-      "_origin": "ast",
-      "author": null,
-      "captured_at": null,
-      "community": 38,
-      "community_name": "esDeOtraCarrera (filtra materiales por plan)",
-      "contributor": null,
-      "file_type": "code",
-      "norm_label": "esdeotracarrera (filtra materiales por plan)",
-      "source_file": "estudiemos/index.html",
-      "source_location": "L463",
-      "source_url": null
-    },
-    {
-      "id": "panel_index_textodelpdf",
-      "label": "textoDelPdf",
-      "_origin": "ast",
-      "author": null,
-      "captured_at": null,
-      "community": 38,
-      "community_name": "esDeOtraCarrera (filtra materiales por plan)",
-      "contributor": null,
-      "file_type": "code",
-      "norm_label": "textodelpdf",
+      "norm_label": "pantalla panel (administracion del equipo)",
       "source_file": "panel/index.html",
-      "source_location": "L1302",
+      "source_location": "L6",
       "source_url": null
     },
     {
-      "id": "panel_index_vistaprogramas",
-      "label": "vistaProgramas (programas de materias)",
+      "id": "panel_index_panel",
+      "label": "panel() arranque y control de sesi\u00f3n",
       "_origin": "ast",
       "author": null,
       "captured_at": null,
       "community": 38,
-      "community_name": "esDeOtraCarrera (filtra materiales por plan)",
+      "community_name": "sesionActual",
       "contributor": null,
       "file_type": "code",
-      "norm_label": "vistaprogramas (programas de materias)",
+      "norm_label": "panel() arranque y control de sesion",
       "source_file": "panel/index.html",
-      "source_location": "L1082",
+      "source_location": "L136",
       "source_url": null
     },
     {
-      "id": "panel_index_vistaprogramaspdf",
-      "label": "vistaProgramasPDF (carga masiva desde PDF)",
+      "id": "tramites_index_botonguardar",
+      "label": "botonGuardar (guardados del usuario)",
       "_origin": "ast",
       "author": null,
       "captured_at": null,
       "community": 38,
-      "community_name": "esDeOtraCarrera (filtra materiales por plan)",
+      "community_name": "sesionActual",
       "contributor": null,
       "file_type": "code",
-      "norm_label": "vistaprogramaspdf (carga masiva desde pdf)",
-      "source_file": "panel/index.html",
-      "source_location": "L1355",
+      "norm_label": "botonguardar (guardados del usuario)",
+      "source_file": "tramites/index.html",
+      "source_location": "L187",
       "source_url": null
     },
     {
@@ -5385,21 +5565,6 @@
       "rationale": "Hab\u00eda cuatro lugares para 'qu\u00e9 hacemos ahora'; BITACORA manda y no se abre un quinto, para no releer LEEME (50 KB) en cada sesi\u00f3n.",
       "source_file": "BITACORA.md",
       "source_location": "L61",
-      "source_url": null
-    },
-    {
-      "id": "carrera_index_guardarprep",
-      "label": "guardarPrep",
-      "_origin": "ast",
-      "author": null,
-      "captured_at": null,
-      "community": 6,
-      "community_name": "pintarFinal (preparaci\u00f3n de final)",
-      "contributor": null,
-      "file_type": "code",
-      "norm_label": "guardarprep",
-      "source_file": "carrera/index.html",
-      "source_location": "L2552",
       "source_url": null
     },
     {
@@ -5493,21 +5658,6 @@
       "source_url": null
     },
     {
-      "id": "carrera_index_vistanueva",
-      "label": "vistaNueva (nueva preparaci\u00f3n)",
-      "_origin": "ast",
-      "author": null,
-      "captured_at": null,
-      "community": 6,
-      "community_name": "pintarFinal (preparaci\u00f3n de final)",
-      "contributor": null,
-      "file_type": "code",
-      "norm_label": "vistanueva (nueva preparacion)",
-      "source_file": "carrera/index.html",
-      "source_location": "L2687",
-      "source_url": null
-    },
-    {
       "id": "carrera_index_vistapreparacion",
       "label": "vistaPreparacion",
       "_origin": "ast",
@@ -5520,36 +5670,6 @@
       "norm_label": "vistapreparacion",
       "source_file": "carrera/index.html",
       "source_location": "L2809",
-      "source_url": null
-    },
-    {
-      "id": "tabla_preparaciones",
-      "label": "Tabla Supabase preparaciones",
-      "_origin": "ast",
-      "author": null,
-      "captured_at": null,
-      "community": 6,
-      "community_name": "pintarFinal (preparaci\u00f3n de final)",
-      "contributor": null,
-      "file_type": "concept",
-      "norm_label": "tabla supabase preparaciones",
-      "source_file": "carrera/index.html",
-      "source_location": "L2556",
-      "source_url": null
-    },
-    {
-      "id": "tabla_programas",
-      "label": "Tabla Supabase programas",
-      "_origin": "ast",
-      "author": null,
-      "captured_at": null,
-      "community": 6,
-      "community_name": "pintarFinal (preparaci\u00f3n de final)",
-      "contributor": null,
-      "file_type": "concept",
-      "norm_label": "tabla supabase programas",
-      "source_file": "carrera/index.html",
-      "source_location": "L2714",
       "source_url": null
     },
     {
@@ -5854,6 +5974,36 @@
       "source_url": null
     },
     {
+      "id": "carrera_index_guardarprep",
+      "label": "guardarPrep",
+      "_origin": "ast",
+      "author": null,
+      "captured_at": null,
+      "community": 69,
+      "community_name": "Detalle de publicaci\u00f3n (?id=)",
+      "contributor": null,
+      "file_type": "code",
+      "norm_label": "guardarprep",
+      "source_file": "carrera/index.html",
+      "source_location": "L2552",
+      "source_url": null
+    },
+    {
+      "id": "carrera_index_vistanueva",
+      "label": "vistaNueva (nueva preparaci\u00f3n)",
+      "_origin": "ast",
+      "author": null,
+      "captured_at": null,
+      "community": 69,
+      "community_name": "Detalle de publicaci\u00f3n (?id=)",
+      "contributor": null,
+      "file_type": "code",
+      "norm_label": "vistanueva (nueva preparacion)",
+      "source_file": "carrera/index.html",
+      "source_location": "L2687",
+      "source_url": null
+    },
+    {
       "id": "index_calendario_mes",
       "label": "Calendario del mes (Inicio)",
       "_origin": "ast",
@@ -5896,6 +6046,36 @@
       "norm_label": "proximodelaagenda",
       "source_file": "index.html",
       "source_location": "L814",
+      "source_url": null
+    },
+    {
+      "id": "tabla_preparaciones",
+      "label": "Tabla Supabase preparaciones",
+      "_origin": "ast",
+      "author": null,
+      "captured_at": null,
+      "community": 69,
+      "community_name": "Detalle de publicaci\u00f3n (?id=)",
+      "contributor": null,
+      "file_type": "concept",
+      "norm_label": "tabla supabase preparaciones",
+      "source_file": "carrera/index.html",
+      "source_location": "L2556",
+      "source_url": null
+    },
+    {
+      "id": "tabla_programas",
+      "label": "Tabla Supabase programas",
+      "_origin": "ast",
+      "author": null,
+      "captured_at": null,
+      "community": 69,
+      "community_name": "Detalle de publicaci\u00f3n (?id=)",
+      "contributor": null,
+      "file_type": "concept",
+      "norm_label": "tabla supabase programas",
+      "source_file": "carrera/index.html",
+      "source_location": "L2714",
       "source_url": null
     },
     {
@@ -6031,51 +6211,6 @@
       "norm_label": "pintarcuadro (animacion de apertura)",
       "source_file": "index.html",
       "source_location": "L590",
-      "source_url": null
-    },
-    {
-      "id": "panel_index",
-      "label": "Pantalla Panel (administraci\u00f3n del equipo)",
-      "_origin": "ast",
-      "author": null,
-      "captured_at": null,
-      "community": 8,
-      "community_name": "Mi perfil (mi/index.html)",
-      "contributor": null,
-      "file_type": "code",
-      "norm_label": "pantalla panel (administracion del equipo)",
-      "source_file": "panel/index.html",
-      "source_location": "L6",
-      "source_url": null
-    },
-    {
-      "id": "panel_index_panel",
-      "label": "panel() arranque y control de sesi\u00f3n",
-      "_origin": "ast",
-      "author": null,
-      "captured_at": null,
-      "community": 8,
-      "community_name": "Mi perfil (mi/index.html)",
-      "contributor": null,
-      "file_type": "code",
-      "norm_label": "panel() arranque y control de sesion",
-      "source_file": "panel/index.html",
-      "source_location": "L136",
-      "source_url": null
-    },
-    {
-      "id": "tramites_index_botonguardar",
-      "label": "botonGuardar (guardados del usuario)",
-      "_origin": "ast",
-      "author": null,
-      "captured_at": null,
-      "community": 8,
-      "community_name": "Mi perfil (mi/index.html)",
-      "contributor": null,
-      "file_type": "code",
-      "norm_label": "botonguardar (guardados del usuario)",
-      "source_file": "tramites/index.html",
-      "source_location": "L187",
       "source_url": null
     },
     {
@@ -6267,6 +6402,51 @@
       "source_url": null
     },
     {
+      "id": "panel_index_subirfoto",
+      "label": "subirFoto / achicarFoto (storage fotos)",
+      "_origin": "ast",
+      "author": null,
+      "captured_at": null,
+      "community": 91,
+      "community_name": "Pantalla Qui\u00e9nes somos",
+      "contributor": null,
+      "file_type": "code",
+      "norm_label": "subirfoto / achicarfoto (storage fotos)",
+      "source_file": "panel/index.html",
+      "source_location": "L1619",
+      "source_url": null
+    },
+    {
+      "id": "panel_index_vistaquienes",
+      "label": "vistaQuienes (editor Qui\u00e9nes somos)",
+      "_origin": "ast",
+      "author": null,
+      "captured_at": null,
+      "community": 91,
+      "community_name": "Pantalla Qui\u00e9nes somos",
+      "contributor": null,
+      "file_type": "code",
+      "norm_label": "vistaquienes (editor quienes somos)",
+      "source_file": "panel/index.html",
+      "source_location": "L1725",
+      "source_url": null
+    },
+    {
+      "id": "quienes_index",
+      "label": "Pantalla Qui\u00e9nes somos",
+      "_origin": "ast",
+      "author": null,
+      "captured_at": null,
+      "community": 91,
+      "community_name": "Pantalla Qui\u00e9nes somos",
+      "contributor": null,
+      "file_type": "code",
+      "norm_label": "pantalla quienes somos",
+      "source_file": "quienes/index.html",
+      "source_location": "L6",
+      "source_url": null
+    },
+    {
       "id": "carrera_plan_fono",
       "label": "plan-fono.js",
       "_origin": "ast",
@@ -6320,6 +6500,39 @@
       "norm_label": "datos.js",
       "source_file": "lib/datos.js",
       "source_location": "L1"
+    },
+    {
+      "id": "sql_tabla_campana",
+      "label": "tabla-campana.sql",
+      "_origin": "ast",
+      "community": 100,
+      "community_name": "public.campana_leidas",
+      "file_type": "code",
+      "norm_label": "tabla-campana.sql",
+      "source_file": "sql/tabla-campana.sql",
+      "source_location": null
+    },
+    {
+      "id": "sql_tabla_campana_public_campana_leidas",
+      "label": "public.campana_leidas",
+      "_origin": "ast",
+      "community": 100,
+      "community_name": "public.campana_leidas",
+      "file_type": "code",
+      "norm_label": "public.campana_leidas",
+      "source_file": "sql/tabla-campana.sql",
+      "source_location": "L39"
+    },
+    {
+      "id": "sql_tabla_campana_sql_auth_users",
+      "label": "auth.users",
+      "_origin": "ast",
+      "community": 100,
+      "community_name": "public.campana_leidas",
+      "file_type": "code",
+      "norm_label": "auth.users",
+      "source_file": "",
+      "source_location": ""
     },
     {
       "id": "estudiemos_portada",
@@ -6413,7 +6626,7 @@
       "node_kind": "heading",
       "norm_label": "descartadas",
       "source_file": "docs/PROPUESTAS.md",
-      "source_location": "L443"
+      "source_location": "L478"
     },
     {
       "id": "docs_propuestas_las_propuestas",
@@ -6437,7 +6650,7 @@
       "node_kind": "heading",
       "norm_label": "n. titulo corto",
       "source_file": "docs/PROPUESTAS.md",
-      "source_location": "L431"
+      "source_location": "L466"
     },
     {
       "id": "docs_propuestas_propuestas",
@@ -6627,6 +6840,28 @@
       "norm_label": "sucesos_tipo_idx",
       "source_file": "sql/tabla-registro.sql",
       "source_location": "L57"
+    },
+    {
+      "id": "sw",
+      "label": "sw.js",
+      "_origin": "ast",
+      "community": 2,
+      "community_name": "Pantalla El Consejo Directivo",
+      "file_type": "code",
+      "norm_label": "sw.js",
+      "source_file": "sw.js",
+      "source_location": "L1"
+    },
+    {
+      "id": "sw_del_armazon",
+      "label": "DEL_ARMAZON",
+      "_origin": "ast",
+      "community": 2,
+      "community_name": "Pantalla El Consejo Directivo",
+      "file_type": "code",
+      "norm_label": "del_armazon",
+      "source_file": "sw.js",
+      "source_location": "L29"
     },
     {
       "id": "lib_fecha_al_calendario",
@@ -7263,28 +7498,6 @@
       "source_location": "L104"
     },
     {
-      "id": "sw",
-      "label": "sw.js",
-      "_origin": "ast",
-      "community": 3,
-      "community_name": "Pantalla El Consejo Directivo",
-      "file_type": "code",
-      "norm_label": "sw.js",
-      "source_file": "sw.js",
-      "source_location": "L1"
-    },
-    {
-      "id": "sw_del_armazon",
-      "label": "DEL_ARMAZON",
-      "_origin": "ast",
-      "community": 3,
-      "community_name": "Pantalla El Consejo Directivo",
-      "file_type": "code",
-      "norm_label": "del_armazon",
-      "source_file": "sw.js",
-      "source_location": "L29"
-    },
-    {
       "id": "fondo_red",
       "label": "fondo-red.js",
       "_origin": "ast",
@@ -7553,7 +7766,7 @@
       "file_type": "code",
       "norm_label": "avisos_por_defecto",
       "source_file": "app.js",
-      "source_location": "L1852"
+      "source_location": "L2161"
     },
     {
       "id": "app_carreras_app",
@@ -7564,7 +7777,18 @@
       "file_type": "code",
       "norm_label": "carreras_app",
       "source_file": "app.js",
-      "source_location": "L496"
+      "source_location": "L570"
+    },
+    {
+      "id": "app_dias_bandeja",
+      "label": "DIAS_BANDEJA",
+      "_origin": "ast",
+      "community": 4,
+      "community_name": "app.js",
+      "file_type": "code",
+      "norm_label": "dias_bandeja",
+      "source_file": "app.js",
+      "source_location": "L780"
     },
     {
       "id": "app_hitosdeestavisita",
@@ -7586,7 +7810,7 @@
       "file_type": "code",
       "norm_label": "indice_pie",
       "source_file": "app.js",
-      "source_location": "L603"
+      "source_location": "L677"
     },
     {
       "id": "app_meses",
@@ -7609,6 +7833,17 @@
       "norm_label": "meses_largo",
       "source_file": "app.js",
       "source_location": "L352"
+    },
+    {
+      "id": "app_nombre_categoria",
+      "label": "NOMBRE_CATEGORIA",
+      "_origin": "ast",
+      "community": 4,
+      "community_name": "app.js",
+      "file_type": "code",
+      "norm_label": "nombre_categoria",
+      "source_file": "app.js",
+      "source_location": "L407"
     },
     {
       "id": "app_nombre_linea",
@@ -7641,7 +7876,7 @@
       "file_type": "code",
       "norm_label": "secciones",
       "source_file": "app.js",
-      "source_location": "L542"
+      "source_location": "L616"
     },
     {
       "id": "app_secciones_abajo",
@@ -7652,7 +7887,7 @@
       "file_type": "code",
       "norm_label": "secciones_abajo",
       "source_file": "app.js",
-      "source_location": "L575"
+      "source_location": "L649"
     },
     {
       "id": "app_sistemas_unlp",
@@ -7663,7 +7898,7 @@
       "file_type": "code",
       "norm_label": "sistemas_unlp",
       "source_file": "app.js",
-      "source_location": "L625"
+      "source_location": "L699"
     },
     {
       "id": "app_temas",
@@ -7674,7 +7909,7 @@
       "file_type": "code",
       "norm_label": "temas",
       "source_file": "app.js",
-      "source_location": "L877"
+      "source_location": "L1186"
     },
     {
       "id": "sql_tabla_riesgo",
@@ -9423,63 +9658,93 @@
       "source_url": null
     },
     {
-      "id": "supabase_tabla_catedras",
-      "label": "Tabla Supabase catedras",
+      "id": "consejo_armarposteos",
+      "label": "armarPosteos() (embed IG diferido)",
       "_origin": "semantic",
       "author": null,
       "captured_at": null,
       "community": 2,
-      "community_name": "Pantalla Info \u00fatil (tr\u00e1mites y FAQ)",
+      "community_name": "Pantalla El Consejo Directivo",
+      "contributor": null,
+      "file_type": "code",
+      "norm_label": "armarposteos() (embed ig diferido)",
+      "source_file": "consejo/index.html",
+      "source_location": "L367",
+      "source_url": null
+    },
+    {
+      "id": "consejo_htmlconquistas",
+      "label": "htmlConquistas() (l\u00ednea por a\u00f1o)",
+      "_origin": "semantic",
+      "author": null,
+      "captured_at": null,
+      "community": 2,
+      "community_name": "Pantalla El Consejo Directivo",
+      "contributor": null,
+      "file_type": "code",
+      "norm_label": "htmlconquistas() (linea por ano)",
+      "source_file": "consejo/index.html",
+      "source_location": "L301",
+      "source_url": null
+    },
+    {
+      "id": "consejo_conquistas",
+      "label": "Conquistas con posteo (CONQUISTAS, v70)",
+      "_origin": "semantic",
+      "author": null,
+      "captured_at": null,
+      "community": 2,
+      "community_name": "Pantalla El Consejo Directivo",
       "contributor": null,
       "file_type": "concept",
-      "norm_label": "tabla supabase catedras",
-      "source_file": "catedras/index.html",
+      "norm_label": "conquistas con posteo (conquistas, v70)",
+      "source_file": "consejo/index.html",
+      "source_location": "L104",
+      "source_url": null
+    },
+    {
+      "id": "consejo_logros_panel",
+      "label": "Solapa \u00abLos logros\u00bb del panel (logros de pagina_consejo)",
+      "_origin": "semantic",
+      "author": null,
+      "captured_at": null,
+      "community": 2,
+      "community_name": "Pantalla El Consejo Directivo",
+      "contributor": null,
+      "file_type": "concept",
+      "norm_label": "solapa \u00ablos logros\u00bb del panel (logros de pagina_consejo)",
+      "source_file": "panel/index.html",
+      "source_location": "L2287",
+      "source_url": null
+    },
+    {
+      "id": "supabase_tabla_pagina_consejo",
+      "label": "Tabla Supabase pagina_consejo",
+      "_origin": "semantic",
+      "author": null,
+      "captured_at": null,
+      "community": 2,
+      "community_name": "Pantalla El Consejo Directivo",
+      "contributor": null,
+      "file_type": "concept",
+      "norm_label": "tabla supabase pagina_consejo",
+      "source_file": "consejo/index.html",
       "source_location": null,
       "source_url": null
     },
     {
-      "id": "supabase_tabla_categorias",
-      "label": "Tabla Supabase categorias",
+      "id": "vercel_web_analytics",
+      "label": "Vercel Web Analytics (/_vercel/insights/script.js, v72)",
       "_origin": "semantic",
       "author": null,
       "captured_at": null,
       "community": 2,
-      "community_name": "Pantalla Info \u00fatil (tr\u00e1mites y FAQ)",
+      "community_name": "Pantalla El Consejo Directivo",
       "contributor": null,
       "file_type": "concept",
-      "norm_label": "tabla supabase categorias",
-      "source_file": "tramites/index.html",
-      "source_location": null,
-      "source_url": null
-    },
-    {
-      "id": "supabase_tabla_faq",
-      "label": "Tabla Supabase faq",
-      "_origin": "semantic",
-      "author": null,
-      "captured_at": null,
-      "community": 2,
-      "community_name": "Pantalla Info \u00fatil (tr\u00e1mites y FAQ)",
-      "contributor": null,
-      "file_type": "concept",
-      "norm_label": "tabla supabase faq",
-      "source_file": "tramites/index.html",
-      "source_location": null,
-      "source_url": null
-    },
-    {
-      "id": "supabase_tabla_tramites",
-      "label": "Tabla Supabase tramites",
-      "_origin": "semantic",
-      "author": null,
-      "captured_at": null,
-      "community": 2,
-      "community_name": "Pantalla Info \u00fatil (tr\u00e1mites y FAQ)",
-      "contributor": null,
-      "file_type": "concept",
-      "norm_label": "tabla supabase tramites",
-      "source_file": "tramites/index.html",
-      "source_location": null,
+      "norm_label": "vercel web analytics (/_vercel/insights/script.js, v72)",
+      "source_file": "sw.js",
+      "source_location": "L508",
       "source_url": null
     },
     {
@@ -9498,33 +9763,18 @@
       "source_url": null
     },
     {
-      "id": "consejo_armarposteos",
-      "label": "armarPosteos() (embed IG diferido)",
+      "id": "carrera_plan_planes",
+      "label": "PLANES (PLAN_TS, PLAN_TGCR, PLAN_FONO)",
       "_origin": "semantic",
       "author": null,
       "captured_at": null,
       "community": 3,
-      "community_name": "Pantalla El Consejo Directivo",
+      "community_name": "Pantalla Info \u00fatil (tr\u00e1mites y FAQ)",
       "contributor": null,
       "file_type": "code",
-      "norm_label": "armarposteos() (embed ig diferido)",
-      "source_file": "consejo/index.html",
-      "source_location": "L367",
-      "source_url": null
-    },
-    {
-      "id": "consejo_htmlconquistas",
-      "label": "htmlConquistas() (l\u00ednea por a\u00f1o)",
-      "_origin": "semantic",
-      "author": null,
-      "captured_at": null,
-      "community": 3,
-      "community_name": "Pantalla El Consejo Directivo",
-      "contributor": null,
-      "file_type": "code",
-      "norm_label": "htmlconquistas() (linea por ano)",
-      "source_file": "consejo/index.html",
-      "source_location": "L301",
+      "norm_label": "planes (plan_ts, plan_tgcr, plan_fono)",
+      "source_file": "estudiemos/index.html",
+      "source_location": null,
       "source_url": null
     },
     {
@@ -9534,7 +9784,7 @@
       "author": null,
       "captured_at": null,
       "community": 3,
-      "community_name": "Pantalla El Consejo Directivo",
+      "community_name": "Pantalla Info \u00fatil (tr\u00e1mites y FAQ)",
       "contributor": null,
       "file_type": "code",
       "norm_label": "pantalla fichas de estudio",
@@ -9543,33 +9793,18 @@
       "source_url": null
     },
     {
-      "id": "consejo_conquistas",
-      "label": "Conquistas con posteo (CONQUISTAS, v70)",
+      "id": "lib_leer_programa_leerprograma",
+      "label": "leerPrograma (lib/leer-programa.js)",
       "_origin": "semantic",
       "author": null,
       "captured_at": null,
       "community": 3,
-      "community_name": "Pantalla El Consejo Directivo",
+      "community_name": "Pantalla Info \u00fatil (tr\u00e1mites y FAQ)",
       "contributor": null,
-      "file_type": "concept",
-      "norm_label": "conquistas con posteo (conquistas, v70)",
-      "source_file": "consejo/index.html",
-      "source_location": "L104",
-      "source_url": null
-    },
-    {
-      "id": "consejo_logros_panel",
-      "label": "Solapa \u00abLos logros\u00bb del panel (logros de pagina_consejo)",
-      "_origin": "semantic",
-      "author": null,
-      "captured_at": null,
-      "community": 3,
-      "community_name": "Pantalla El Consejo Directivo",
-      "contributor": null,
-      "file_type": "concept",
-      "norm_label": "solapa \u00ablos logros\u00bb del panel (logros de pagina_consejo)",
+      "file_type": "code",
+      "norm_label": "leerprograma (lib/leer-programa.js)",
       "source_file": "panel/index.html",
-      "source_location": "L2287",
+      "source_location": null,
       "source_url": null
     },
     {
@@ -9579,7 +9814,7 @@
       "author": null,
       "captured_at": null,
       "community": 3,
-      "community_name": "Pantalla El Consejo Directivo",
+      "community_name": "Pantalla Info \u00fatil (tr\u00e1mites y FAQ)",
       "contributor": null,
       "file_type": "concept",
       "norm_label": "fonoteca oculta en estudiemos (oculta:true, v71)",
@@ -9588,17 +9823,47 @@
       "source_url": null
     },
     {
-      "id": "supabase_bucket_fotos",
-      "label": "Bucket Supabase fotos",
+      "id": "supabase_tabla_catedras",
+      "label": "Tabla Supabase catedras",
       "_origin": "semantic",
       "author": null,
       "captured_at": null,
       "community": 3,
-      "community_name": "Pantalla El Consejo Directivo",
+      "community_name": "Pantalla Info \u00fatil (tr\u00e1mites y FAQ)",
       "contributor": null,
       "file_type": "concept",
-      "norm_label": "bucket supabase fotos",
-      "source_file": "panel/index.html",
+      "norm_label": "tabla supabase catedras",
+      "source_file": "catedras/index.html",
+      "source_location": null,
+      "source_url": null
+    },
+    {
+      "id": "supabase_tabla_categorias",
+      "label": "Tabla Supabase categorias",
+      "_origin": "semantic",
+      "author": null,
+      "captured_at": null,
+      "community": 3,
+      "community_name": "Pantalla Info \u00fatil (tr\u00e1mites y FAQ)",
+      "contributor": null,
+      "file_type": "concept",
+      "norm_label": "tabla supabase categorias",
+      "source_file": "tramites/index.html",
+      "source_location": null,
+      "source_url": null
+    },
+    {
+      "id": "supabase_tabla_faq",
+      "label": "Tabla Supabase faq",
+      "_origin": "semantic",
+      "author": null,
+      "captured_at": null,
+      "community": 3,
+      "community_name": "Pantalla Info \u00fatil (tr\u00e1mites y FAQ)",
+      "contributor": null,
+      "file_type": "concept",
+      "norm_label": "tabla supabase faq",
+      "source_file": "tramites/index.html",
       "source_location": null,
       "source_url": null
     },
@@ -9609,7 +9874,7 @@
       "author": null,
       "captured_at": null,
       "community": 3,
-      "community_name": "Pantalla El Consejo Directivo",
+      "community_name": "Pantalla Info \u00fatil (tr\u00e1mites y FAQ)",
       "contributor": null,
       "file_type": "concept",
       "norm_label": "tabla supabase guia_materia",
@@ -9624,7 +9889,7 @@
       "author": null,
       "captured_at": null,
       "community": 3,
-      "community_name": "Pantalla El Consejo Directivo",
+      "community_name": "Pantalla Info \u00fatil (tr\u00e1mites y FAQ)",
       "contributor": null,
       "file_type": "concept",
       "norm_label": "tabla supabase materiales",
@@ -9633,48 +9898,33 @@
       "source_url": null
     },
     {
-      "id": "supabase_tabla_pagina_consejo",
-      "label": "Tabla Supabase pagina_consejo",
+      "id": "supabase_tabla_programas",
+      "label": "Tabla/bucket Supabase programas",
       "_origin": "semantic",
       "author": null,
       "captured_at": null,
       "community": 3,
-      "community_name": "Pantalla El Consejo Directivo",
+      "community_name": "Pantalla Info \u00fatil (tr\u00e1mites y FAQ)",
       "contributor": null,
       "file_type": "concept",
-      "norm_label": "tabla supabase pagina_consejo",
-      "source_file": "consejo/index.html",
+      "norm_label": "tabla/bucket supabase programas",
+      "source_file": "panel/index.html",
       "source_location": null,
       "source_url": null
     },
     {
-      "id": "supabase_tabla_pagina_quienes",
-      "label": "Tabla Supabase pagina_quienes",
+      "id": "supabase_tabla_tramites",
+      "label": "Tabla Supabase tramites",
       "_origin": "semantic",
       "author": null,
       "captured_at": null,
       "community": 3,
-      "community_name": "Pantalla El Consejo Directivo",
+      "community_name": "Pantalla Info \u00fatil (tr\u00e1mites y FAQ)",
       "contributor": null,
       "file_type": "concept",
-      "norm_label": "tabla supabase pagina_quienes",
-      "source_file": "quienes/index.html",
+      "norm_label": "tabla supabase tramites",
+      "source_file": "tramites/index.html",
       "source_location": null,
-      "source_url": null
-    },
-    {
-      "id": "vercel_web_analytics",
-      "label": "Vercel Web Analytics (/_vercel/insights/script.js, v72)",
-      "_origin": "semantic",
-      "author": null,
-      "captured_at": null,
-      "community": 3,
-      "community_name": "Pantalla El Consejo Directivo",
-      "contributor": null,
-      "file_type": "concept",
-      "norm_label": "vercel web analytics (/_vercel/insights/script.js, v72)",
-      "source_file": "sw.js",
-      "source_location": "L508",
       "source_url": null
     },
     {
@@ -9684,7 +9934,7 @@
       "author": null,
       "captured_at": null,
       "community": 3,
-      "community_name": "Pantalla El Consejo Directivo",
+      "community_name": "Pantalla Info \u00fatil (tr\u00e1mites y FAQ)",
       "contributor": null,
       "file_type": "rationale",
       "norm_label": "patron memoria local + conpaciencia (lectura con cache)",
@@ -9754,47 +10004,17 @@
       "source_url": null
     },
     {
-      "id": "carrera_plan_planes",
-      "label": "PLANES (PLAN_TS, PLAN_TGCR, PLAN_FONO)",
+      "id": "supabase_tabla_guardados",
+      "label": "Tabla Supabase guardados",
       "_origin": "semantic",
       "author": null,
       "captured_at": null,
       "community": 38,
-      "community_name": "esDeOtraCarrera (filtra materiales por plan)",
-      "contributor": null,
-      "file_type": "code",
-      "norm_label": "planes (plan_ts, plan_tgcr, plan_fono)",
-      "source_file": "estudiemos/index.html",
-      "source_location": null,
-      "source_url": null
-    },
-    {
-      "id": "lib_leer_programa_leerprograma",
-      "label": "leerPrograma (lib/leer-programa.js)",
-      "_origin": "semantic",
-      "author": null,
-      "captured_at": null,
-      "community": 38,
-      "community_name": "esDeOtraCarrera (filtra materiales por plan)",
-      "contributor": null,
-      "file_type": "code",
-      "norm_label": "leerprograma (lib/leer-programa.js)",
-      "source_file": "panel/index.html",
-      "source_location": null,
-      "source_url": null
-    },
-    {
-      "id": "supabase_tabla_programas",
-      "label": "Tabla/bucket Supabase programas",
-      "_origin": "semantic",
-      "author": null,
-      "captured_at": null,
-      "community": 38,
-      "community_name": "esDeOtraCarrera (filtra materiales por plan)",
+      "community_name": "sesionActual",
       "contributor": null,
       "file_type": "concept",
-      "norm_label": "tabla/bucket supabase programas",
-      "source_file": "panel/index.html",
+      "norm_label": "tabla supabase guardados",
+      "source_file": "tramites/index.html",
       "source_location": null,
       "source_url": null
     },
@@ -9859,17 +10079,32 @@
       "source_url": null
     },
     {
-      "id": "supabase_tabla_guardados",
-      "label": "Tabla Supabase guardados",
+      "id": "supabase_bucket_fotos",
+      "label": "Bucket Supabase fotos",
       "_origin": "semantic",
       "author": null,
       "captured_at": null,
-      "community": 8,
-      "community_name": "Mi perfil (mi/index.html)",
+      "community": 91,
+      "community_name": "Pantalla Qui\u00e9nes somos",
       "contributor": null,
       "file_type": "concept",
-      "norm_label": "tabla supabase guardados",
-      "source_file": "tramites/index.html",
+      "norm_label": "bucket supabase fotos",
+      "source_file": "panel/index.html",
+      "source_location": null,
+      "source_url": null
+    },
+    {
+      "id": "supabase_tabla_pagina_quienes",
+      "label": "Tabla Supabase pagina_quienes",
+      "_origin": "semantic",
+      "author": null,
+      "captured_at": null,
+      "community": 91,
+      "community_name": "Pantalla Qui\u00e9nes somos",
+      "contributor": null,
+      "file_type": "concept",
+      "norm_label": "tabla supabase pagina_quienes",
+      "source_file": "quienes/index.html",
       "source_location": null,
       "source_url": null
     },
@@ -9920,7 +10155,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "app.js",
-      "source_location": "L811",
+      "source_location": "L1111",
       "weight": 1.0
     },
     {
@@ -9932,7 +10167,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "app.js",
-      "source_location": "L812",
+      "source_location": "L1112",
       "weight": 1.0
     },
     {
@@ -9944,7 +10179,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "app.js",
-      "source_location": "L791",
+      "source_location": "L1082",
       "weight": 1.0
     },
     {
@@ -9992,7 +10227,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "app.js",
-      "source_location": "L529",
+      "source_location": "L603",
       "weight": 1.0
     },
     {
@@ -10004,7 +10239,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "app.js",
-      "source_location": "L538",
+      "source_location": "L612",
       "weight": 1.0
     },
     {
@@ -10040,7 +10275,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "app.js",
-      "source_location": "L2005",
+      "source_location": "L2314",
       "weight": 1.0
     },
     {
@@ -10052,7 +10287,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "app.js",
-      "source_location": "L2014",
+      "source_location": "L2323",
       "weight": 1.0
     },
     {
@@ -10064,19 +10299,31 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "app.js",
-      "source_location": "L2015",
+      "source_location": "L2324",
       "weight": 1.0
     },
     {
-      "source": "app_arrancar",
-      "target": "app_pintarcampana",
+      "source": "app_armarbandeja",
+      "target": "app_hoyiso",
       "relation": "calls",
       "_origin": "ast",
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "app.js",
-      "source_location": "L844",
+      "source_location": "L863",
+      "weight": 1.0
+    },
+    {
+      "source": "app_armarbandeja",
+      "target": "app_avisodebandeja",
+      "relation": "calls",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "call",
+      "source_file": "app.js",
+      "source_location": "L866",
       "weight": 1.0
     },
     {
@@ -10088,7 +10335,43 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "app.js",
-      "source_location": "L844",
+      "source_location": "L1149",
+      "weight": 1.0
+    },
+    {
+      "source": "app_arrancar",
+      "target": "app_pintarcampana",
+      "relation": "calls",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "call",
+      "source_file": "app.js",
+      "source_location": "L1151",
+      "weight": 1.0
+    },
+    {
+      "source": "app_arrancar",
+      "target": "app_repintarpanel",
+      "relation": "calls",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "call",
+      "source_file": "app.js",
+      "source_location": "L1152",
+      "weight": 1.0
+    },
+    {
+      "source": "app_arrancar",
+      "target": "app_sincronizarleidas",
+      "relation": "calls",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "call",
+      "source_file": "app.js",
+      "source_location": "L1152",
       "weight": 1.0
     },
     {
@@ -10100,7 +10383,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "app.js",
-      "source_location": "L1631",
+      "source_location": "L1940",
       "weight": 1.0
     },
     {
@@ -10112,7 +10395,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "app.js",
-      "source_location": "L1632",
+      "source_location": "L1941",
       "weight": 1.0
     },
     {
@@ -10124,7 +10407,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "app.js",
-      "source_location": "L1638",
+      "source_location": "L1947",
       "weight": 1.0
     },
     {
@@ -10136,7 +10419,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "app.js",
-      "source_location": "L1639",
+      "source_location": "L1948",
       "weight": 1.0
     },
     {
@@ -10152,6 +10435,30 @@
       "weight": 1.0
     },
     {
+      "source": "app_avisodebandeja",
+      "target": "app_categoriadepublicacion",
+      "relation": "calls",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "call",
+      "source_file": "app.js",
+      "source_location": "L829",
+      "weight": 1.0
+    },
+    {
+      "source": "app_avisodebandeja",
+      "target": "app_isovecino",
+      "relation": "calls",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "call",
+      "source_file": "app.js",
+      "source_location": "L843",
+      "weight": 1.0
+    },
+    {
       "source": "app_carreraactual",
       "target": "app_carreraelegidaapp",
       "relation": "calls",
@@ -10160,7 +10467,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "app.js",
-      "source_location": "L524",
+      "source_location": "L598",
       "weight": 1.0
     },
     {
@@ -10172,7 +10479,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "app.js",
-      "source_location": "L518",
+      "source_location": "L592",
       "weight": 1.0
     },
     {
@@ -10224,6 +10531,30 @@
       "weight": 1.0
     },
     {
+      "source": "app_cuandoenbandeja",
+      "target": "app_isovecino",
+      "relation": "calls",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "call",
+      "source_file": "app.js",
+      "source_location": "L890",
+      "weight": 1.0
+    },
+    {
+      "source": "app_cuandoenbandeja",
+      "target": "app_rangolindo",
+      "relation": "calls",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "call",
+      "source_file": "app.js",
+      "source_location": "L896",
+      "weight": 1.0
+    },
+    {
       "source": "app_errorencastellano",
       "target": "app_explicarerror",
       "relation": "calls",
@@ -10232,7 +10563,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "app.js",
-      "source_location": "L1479",
+      "source_location": "L1788",
       "weight": 1.0
     },
     {
@@ -10268,7 +10599,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "app.js",
-      "source_location": "L1946",
+      "source_location": "L2255",
       "weight": 1.0
     },
     {
@@ -10280,7 +10611,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "app.js",
-      "source_location": "L656",
+      "source_location": "L730",
       "weight": 1.0
     },
     {
@@ -10292,43 +10623,67 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "app.js",
-      "source_location": "L733",
+      "source_location": "L931",
       "weight": 1.0
     },
     {
       "source": "app_htmlnovedades",
-      "target": "app_novedadleida",
+      "target": "app_hoyiso",
       "relation": "calls",
       "_origin": "ast",
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "app.js",
-      "source_location": "L734",
+      "source_location": "L932",
       "weight": 1.0
     },
     {
       "source": "app_htmlnovedades",
-      "target": "app_rangolindo",
+      "target": "app_armarbandeja",
       "relation": "calls",
       "_origin": "ast",
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "app.js",
-      "source_location": "L737",
+      "source_location": "L933",
       "weight": 1.0
     },
     {
       "source": "app_htmlnovedades",
-      "target": "app_esc",
+      "target": "app_avisoleido",
       "relation": "calls",
       "_origin": "ast",
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "app.js",
-      "source_location": "L744",
+      "source_location": "L934",
+      "weight": 1.0
+    },
+    {
+      "source": "app_htmlnovedades",
+      "target": "app_itemdebandeja",
+      "relation": "calls",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "call",
+      "source_file": "app.js",
+      "source_location": "L938",
+      "weight": 1.0
+    },
+    {
+      "source": "app_htmlnovedades",
+      "target": "app_tieneavisosalcelular",
+      "relation": "calls",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "call",
+      "source_file": "app.js",
+      "source_location": "L968",
       "weight": 1.0
     },
     {
@@ -10340,7 +10695,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "app.js",
-      "source_location": "L1422",
+      "source_location": "L1731",
       "weight": 1.0
     },
     {
@@ -10352,7 +10707,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "app.js",
-      "source_location": "L1238",
+      "source_location": "L1547",
       "weight": 1.0
     },
     {
@@ -10364,7 +10719,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "app.js",
-      "source_location": "L1238",
+      "source_location": "L1547",
       "weight": 1.0
     },
     {
@@ -10376,7 +10731,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "app.js",
-      "source_location": "L1761",
+      "source_location": "L2070",
       "weight": 1.0
     },
     {
@@ -10388,7 +10743,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "app.js",
-      "source_location": "L1763",
+      "source_location": "L2072",
       "weight": 1.0
     },
     {
@@ -10400,7 +10755,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "app.js",
-      "source_location": "L1770",
+      "source_location": "L2079",
       "weight": 1.0
     },
     {
@@ -10412,7 +10767,55 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "app.js",
-      "source_location": "L1788",
+      "source_location": "L2097",
+      "weight": 1.0
+    },
+    {
+      "source": "app_itemdebandeja",
+      "target": "app_cuandoenbandeja",
+      "relation": "calls",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "call",
+      "source_file": "app.js",
+      "source_location": "L905",
+      "weight": 1.0
+    },
+    {
+      "source": "app_itemdebandeja",
+      "target": "app_esc",
+      "relation": "calls",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "call",
+      "source_file": "app.js",
+      "source_location": "L908",
+      "weight": 1.0
+    },
+    {
+      "source": "app_itemdebandeja",
+      "target": "app_avisoleido",
+      "relation": "calls",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "call",
+      "source_file": "app.js",
+      "source_location": "L909",
+      "weight": 1.0
+    },
+    {
+      "source": "app_leercopiacursada",
+      "target": "app_cuentaguardada",
+      "relation": "calls",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "call",
+      "source_file": "app.js",
+      "source_location": "L526",
       "weight": 1.0
     },
     {
@@ -10424,7 +10827,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "app.js",
-      "source_location": "L1484",
+      "source_location": "L1793",
       "weight": 1.0
     },
     {
@@ -10436,7 +10839,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "app.js",
-      "source_location": "L1488",
+      "source_location": "L1797",
       "weight": 1.0
     },
     {
@@ -10448,7 +10851,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "app.js",
-      "source_location": "L1259",
+      "source_location": "L1568",
       "weight": 1.0
     },
     {
@@ -10460,7 +10863,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "app.js",
-      "source_location": "L1259",
+      "source_location": "L1568",
       "weight": 1.0
     },
     {
@@ -10472,7 +10875,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "app.js",
-      "source_location": "L1272",
+      "source_location": "L1581",
       "weight": 1.0
     },
     {
@@ -10484,7 +10887,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "app.js",
-      "source_location": "L1308",
+      "source_location": "L1617",
       "weight": 1.0
     },
     {
@@ -10496,7 +10899,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "app.js",
-      "source_location": "L1358",
+      "source_location": "L1667",
       "weight": 1.0
     },
     {
@@ -10508,19 +10911,31 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "app.js",
-      "source_location": "L778",
+      "source_location": "L981",
       "weight": 1.0
     },
     {
       "source": "app_pintarcampana",
-      "target": "app_novedadleida",
+      "target": "app_armarbandeja",
       "relation": "calls",
       "_origin": "ast",
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "app.js",
-      "source_location": "L779",
+      "source_location": "L982",
+      "weight": 1.0
+    },
+    {
+      "source": "app_pintarcampana",
+      "target": "app_avisoleido",
+      "relation": "calls",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "call",
+      "source_file": "app.js",
+      "source_location": "L982",
       "weight": 1.0
     },
     {
@@ -10532,7 +10947,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "app.js",
-      "source_location": "L1000",
+      "source_location": "L1309",
       "weight": 1.0
     },
     {
@@ -10544,7 +10959,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "app.js",
-      "source_location": "L1035",
+      "source_location": "L1344",
       "weight": 1.0
     },
     {
@@ -10556,7 +10971,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "app.js",
-      "source_location": "L1037",
+      "source_location": "L1346",
       "weight": 1.0
     },
     {
@@ -10568,7 +10983,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "app.js",
-      "source_location": "L1041",
+      "source_location": "L1350",
       "weight": 1.0
     },
     {
@@ -10580,7 +10995,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "app.js",
-      "source_location": "L1042",
+      "source_location": "L1351",
       "weight": 1.0
     },
     {
@@ -10592,7 +11007,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "app.js",
-      "source_location": "L1043",
+      "source_location": "L1352",
       "weight": 1.0
     },
     {
@@ -10604,7 +11019,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "app.js",
-      "source_location": "L1131",
+      "source_location": "L1440",
       "weight": 1.0
     },
     {
@@ -10616,7 +11031,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "app.js",
-      "source_location": "L1140",
+      "source_location": "L1449",
       "weight": 1.0
     },
     {
@@ -10628,7 +11043,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "app.js",
-      "source_location": "L896",
+      "source_location": "L1205",
       "weight": 1.0
     },
     {
@@ -10640,7 +11055,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "app.js",
-      "source_location": "L897",
+      "source_location": "L1206",
       "weight": 1.0
     },
     {
@@ -10652,7 +11067,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "app.js",
-      "source_location": "L903",
+      "source_location": "L1212",
       "weight": 1.0
     },
     {
@@ -10664,7 +11079,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "app.js",
-      "source_location": "L1622",
+      "source_location": "L1931",
       "weight": 1.0
     },
     {
@@ -10676,7 +11091,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "app.js",
-      "source_location": "L1964",
+      "source_location": "L2273",
       "weight": 1.0
     },
     {
@@ -10688,7 +11103,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "app.js",
-      "source_location": "L1980",
+      "source_location": "L2289",
       "weight": 1.0
     },
     {
@@ -10700,7 +11115,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "app.js",
-      "source_location": "L1985",
+      "source_location": "L2294",
       "weight": 1.0
     },
     {
@@ -10712,7 +11127,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "app.js",
-      "source_location": "L2000",
+      "source_location": "L2309",
       "weight": 1.0
     },
     {
@@ -10740,6 +11155,18 @@
       "weight": 1.0
     },
     {
+      "source": "app_repintarpanel",
+      "target": "app_htmlnovedades",
+      "relation": "calls",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "call",
+      "source_file": "app.js",
+      "source_location": "L1105",
+      "weight": 1.0
+    },
+    {
       "source": "app_sepuedeinvitarainstalar",
       "target": "app_sedijoqueno",
       "relation": "calls",
@@ -10748,7 +11175,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "app.js",
-      "source_location": "L1753",
+      "source_location": "L2062",
       "weight": 1.0
     },
     {
@@ -10760,7 +11187,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "app.js",
-      "source_location": "L1753",
+      "source_location": "L2062",
       "weight": 1.0
     },
     {
@@ -10772,7 +11199,67 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "app.js",
-      "source_location": "L1754",
+      "source_location": "L2063",
+      "weight": 1.0
+    },
+    {
+      "source": "app_sincronizarleidas",
+      "target": "app_cuentaparalacampana",
+      "relation": "calls",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "call",
+      "source_file": "app.js",
+      "source_location": "L1056",
+      "weight": 1.0
+    },
+    {
+      "source": "app_sincronizarleidas",
+      "target": "app_leidasnovedades",
+      "relation": "calls",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "call",
+      "source_file": "app.js",
+      "source_location": "L1062",
+      "weight": 1.0
+    },
+    {
+      "source": "app_sincronizarleidas",
+      "target": "app_guardarleidas",
+      "relation": "calls",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "call",
+      "source_file": "app.js",
+      "source_location": "L1064",
+      "weight": 1.0
+    },
+    {
+      "source": "app_sincronizarleidas",
+      "target": "app_juntarleidas",
+      "relation": "calls",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "call",
+      "source_file": "app.js",
+      "source_location": "L1064",
+      "weight": 1.0
+    },
+    {
+      "source": "app_sincronizarleidas",
+      "target": "app_mismasleidas",
+      "relation": "calls",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "call",
+      "source_file": "app.js",
+      "source_location": "L1065",
       "weight": 1.0
     },
     {
@@ -10784,7 +11271,43 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "app.js",
-      "source_location": "L1899",
+      "source_location": "L2208",
+      "weight": 1.0
+    },
+    {
+      "source": "app_tieneavisosalcelular",
+      "target": "app_gustosdeavisos",
+      "relation": "calls",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "call",
+      "source_file": "app.js",
+      "source_location": "L926",
+      "weight": 1.0
+    },
+    {
+      "source": "app_traernovedades",
+      "target": "app_hoyiso",
+      "relation": "calls",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "call",
+      "source_file": "app.js",
+      "source_location": "L1000",
+      "weight": 1.0
+    },
+    {
+      "source": "app_traernovedades",
+      "target": "app_isovecino",
+      "relation": "calls",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "call",
+      "source_file": "app.js",
+      "source_location": "L1006",
       "weight": 1.0
     },
     {
@@ -10796,7 +11319,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "app.js",
-      "source_location": "L938",
+      "source_location": "L1247",
       "weight": 1.0
     },
     {
@@ -10808,7 +11331,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "app.js",
-      "source_location": "L938",
+      "source_location": "L1247",
       "weight": 1.0
     },
     {
@@ -12368,7 +12891,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "lib/datos.js",
-      "source_location": "L128",
+      "source_location": "L137",
       "weight": 1.0
     },
     {
@@ -12380,7 +12903,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "lib/datos.js",
-      "source_location": "L149",
+      "source_location": "L158",
       "weight": 1.0
     },
     {
@@ -13789,6 +14312,30 @@
     },
     {
       "source": "app",
+      "target": "app_sincronizarleidas",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "call",
+      "source_file": "app.js",
+      "source_location": "L1055",
+      "weight": 1.0
+    },
+    {
+      "source": "app",
+      "target": "app_repintarpanel",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "call",
+      "source_file": "app.js",
+      "source_location": "L1101",
+      "weight": 1.0
+    },
+    {
+      "source": "app",
       "target": "app_anotarhito",
       "relation": "contains",
       "_origin": "ast",
@@ -13820,7 +14367,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "app.js",
-      "source_location": "L702",
+      "source_location": "L801",
       "weight": 1.0
     },
     {
@@ -13832,19 +14379,19 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "app.js",
-      "source_location": "L709",
+      "source_location": "L816",
       "weight": 1.0
     },
     {
       "source": "app",
-      "target": "app_htmlnovedades",
+      "target": "app_armarbandeja",
       "relation": "contains",
       "_origin": "ast",
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "app.js",
-      "source_location": "L732",
+      "source_location": "L862",
       "weight": 1.0
     },
     {
@@ -13856,7 +14403,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "app.js",
-      "source_location": "L775",
+      "source_location": "L978",
       "weight": 1.0
     },
     {
@@ -13868,7 +14415,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "app.js",
-      "source_location": "L1783",
+      "source_location": "L2092",
       "weight": 1.0
     },
     {
@@ -13880,7 +14427,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "app.js",
-      "source_location": "L1355",
+      "source_location": "L1664",
       "weight": 1.0
     },
     {
@@ -13892,7 +14439,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "app.js",
-      "source_location": "L1368",
+      "source_location": "L1677",
       "weight": 1.0
     },
     {
@@ -13904,7 +14451,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "app.js",
-      "source_location": "L1089",
+      "source_location": "L1398",
       "weight": 1.0
     },
     {
@@ -15177,29 +15724,128 @@
     },
     {
       "source": "app",
-      "target": "app_alarmademesa",
+      "target": "app_cuentaparalacampana",
       "relation": "contains",
       "_origin": "ast",
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "app.js",
-      "source_location": "L1187",
+      "source_location": "L1026",
       "weight": 1.0
     },
     {
       "source": "app",
-      "target": "app_iddelaalertavisible",
+      "target": "app_juntarleidas",
       "relation": "contains",
       "_origin": "ast",
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "app.js",
-      "source_location": "L1237",
+      "source_location": "L1035",
       "weight": 1.0
     },
     {
       "source": "app",
-      "target": "app_pintaralertamesa",
+      "target": "app_mismasleidas",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "app.js",
+      "source_location": "L1045",
+      "weight": 1.0
+    },
+    {
+      "source": "app",
+      "target": "app_abrir",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "app.js",
+      "source_location": "L1078",
+      "weight": 1.0
+    },
+    {
+      "source": "app",
+      "target": "app_cerrar",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "app.js",
+      "source_location": "L1088",
+      "weight": 1.0
+    },
+    {
+      "source": "app",
+      "target": "app_temas",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "app.js",
+      "source_location": "L1186",
+      "weight": 1.0
+    },
+    {
+      "source": "app",
+      "target": "app_temaguardado",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "app.js",
+      "source_location": "L1188",
+      "weight": 1.0
+    },
+    {
+      "source": "app",
+      "target": "app_aplicartema",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "app.js",
+      "source_location": "L1194",
+      "weight": 1.0
+    },
+    {
+      "source": "app",
+      "target": "app_pintartema",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "app.js",
+      "source_location": "L1204",
+      "weight": 1.0
+    },
+    {
+      "source": "app",
+      "target": "app_ponerlupa",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "app.js",
+      "source_location": "L1229",
+      "weight": 1.0
+    },
+    {
+      "source": "app",
+      "target": "app_marcartitulos",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "app.js",
+      "source_location": "L1238",
+      "weight": 1.0
+    },
+    {
+      "source": "app",
+      "target": "app_vigilartitulos",
       "relation": "contains",
       "_origin": "ast",
       "confidence": "EXTRACTED",
@@ -15221,79 +15867,46 @@
     },
     {
       "source": "app",
-      "target": "app_pintaravisanos",
+      "target": "app_pintarnav",
       "relation": "contains",
       "_origin": "ast",
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "app.js",
-      "source_location": "L1285",
+      "source_location": "L1291",
       "weight": 1.0
     },
     {
       "source": "app",
-      "target": "app_htmlpie",
+      "target": "app_alarmademesa",
       "relation": "contains",
       "_origin": "ast",
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "app.js",
-      "source_location": "L1407",
+      "source_location": "L1496",
       "weight": 1.0
     },
     {
       "source": "app",
-      "target": "app_explicarerror",
+      "target": "app_iddelaalertavisible",
       "relation": "contains",
       "_origin": "ast",
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "app.js",
-      "source_location": "L1454",
+      "source_location": "L1546",
       "weight": 1.0
     },
     {
       "source": "app",
-      "target": "app_errorencastellano",
+      "target": "app_pintaralertamesa",
       "relation": "contains",
       "_origin": "ast",
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "app.js",
-      "source_location": "L1479",
-      "weight": 1.0
-    },
-    {
-      "source": "app",
-      "target": "app_mostrarerror",
-      "relation": "contains",
-      "_origin": "ast",
-      "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "source_file": "app.js",
-      "source_location": "L1482",
-      "weight": 1.0
-    },
-    {
-      "source": "app",
-      "target": "app_conpaciencia",
-      "relation": "contains",
-      "_origin": "ast",
-      "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "source_file": "app.js",
-      "source_location": "L1505",
-      "weight": 1.0
-    },
-    {
-      "source": "app",
-      "target": "app_memoriade",
-      "relation": "contains",
-      "_origin": "ast",
-      "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "source_file": "app.js",
-      "source_location": "L1552",
+      "source_location": "L1555",
       "weight": 1.0
     },
     {
@@ -15309,57 +15922,13 @@
     },
     {
       "source": "app",
-      "target": "app_guardarenmemoria",
+      "target": "app_pintaravisanos",
       "relation": "contains",
       "_origin": "ast",
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "app.js",
-      "source_location": "L1569",
-      "weight": 1.0
-    },
-    {
-      "source": "app",
-      "target": "app_olvidarmemoria",
-      "relation": "contains",
-      "_origin": "ast",
-      "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "source_file": "app.js",
-      "source_location": "L1581",
-      "weight": 1.0
-    },
-    {
-      "source": "app",
-      "target": "app_desdecuando",
-      "relation": "contains",
-      "_origin": "ast",
-      "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "source_file": "app.js",
-      "source_location": "L1588",
-      "weight": 1.0
-    },
-    {
-      "source": "app",
-      "target": "app_cajadelaviso",
-      "relation": "contains",
-      "_origin": "ast",
-      "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "source_file": "app.js",
-      "source_location": "L1605",
-      "weight": 1.0
-    },
-    {
-      "source": "app",
-      "target": "app_poneraviso",
-      "relation": "contains",
-      "_origin": "ast",
-      "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "source_file": "app.js",
-      "source_location": "L1621",
+      "source_location": "L1594",
       "weight": 1.0
     },
     {
@@ -15375,13 +15944,134 @@
     },
     {
       "source": "app",
+      "target": "app_htmlpie",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "app.js",
+      "source_location": "L1716",
+      "weight": 1.0
+    },
+    {
+      "source": "app",
+      "target": "app_explicarerror",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "app.js",
+      "source_location": "L1763",
+      "weight": 1.0
+    },
+    {
+      "source": "app",
+      "target": "app_errorencastellano",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "app.js",
+      "source_location": "L1788",
+      "weight": 1.0
+    },
+    {
+      "source": "app",
+      "target": "app_mostrarerror",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "app.js",
+      "source_location": "L1791",
+      "weight": 1.0
+    },
+    {
+      "source": "app",
+      "target": "app_conpaciencia",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "app.js",
+      "source_location": "L1814",
+      "weight": 1.0
+    },
+    {
+      "source": "app",
+      "target": "app_memoriade",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "app.js",
+      "source_location": "L1861",
+      "weight": 1.0
+    },
+    {
+      "source": "app",
+      "target": "app_guardarenmemoria",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "app.js",
+      "source_location": "L1878",
+      "weight": 1.0
+    },
+    {
+      "source": "app",
+      "target": "app_olvidarmemoria",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "app.js",
+      "source_location": "L1890",
+      "weight": 1.0
+    },
+    {
+      "source": "app",
+      "target": "app_desdecuando",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "app.js",
+      "source_location": "L1897",
+      "weight": 1.0
+    },
+    {
+      "source": "app",
+      "target": "app_cajadelaviso",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "app.js",
+      "source_location": "L1914",
+      "weight": 1.0
+    },
+    {
+      "source": "app",
+      "target": "app_poneraviso",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "app.js",
+      "source_location": "L1930",
+      "weight": 1.0
+    },
+    {
+      "source": "app",
       "target": "app_avisarmostrandoguardado",
       "relation": "contains",
       "_origin": "ast",
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "app.js",
-      "source_location": "L1630",
+      "source_location": "L1939",
       "weight": 1.0
     },
     {
@@ -15392,7 +16082,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "app.js",
-      "source_location": "L1637",
+      "source_location": "L1946",
       "weight": 1.0
     },
     {
@@ -15403,7 +16093,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "app.js",
-      "source_location": "L1643",
+      "source_location": "L1952",
       "weight": 1.0
     },
     {
@@ -15414,7 +16104,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "app.js",
-      "source_location": "L1735",
+      "source_location": "L2044",
       "weight": 1.0
     },
     {
@@ -15425,7 +16115,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "app.js",
-      "source_location": "L1739",
+      "source_location": "L2048",
       "weight": 1.0
     },
     {
@@ -15436,7 +16126,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "app.js",
-      "source_location": "L1743",
+      "source_location": "L2052",
       "weight": 1.0
     },
     {
@@ -15447,7 +16137,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "app.js",
-      "source_location": "L1746",
+      "source_location": "L2055",
       "weight": 1.0
     },
     {
@@ -15458,7 +16148,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "app.js",
-      "source_location": "L1752",
+      "source_location": "L2061",
       "weight": 1.0
     },
     {
@@ -15469,106 +16159,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "app.js",
-      "source_location": "L1760",
-      "weight": 1.0
-    },
-    {
-      "source": "app",
-      "target": "app_avisos_por_defecto",
-      "relation": "contains",
-      "_origin": "ast",
-      "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "source_file": "app.js",
-      "source_location": "L1852",
-      "weight": 1.0
-    },
-    {
-      "source": "app",
-      "target": "app_gustosdeavisos",
-      "relation": "contains",
-      "_origin": "ast",
-      "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "source_file": "app.js",
-      "source_location": "L1855",
-      "weight": 1.0
-    },
-    {
-      "source": "app",
-      "target": "app_guardargustosdeavisos",
-      "relation": "contains",
-      "_origin": "ast",
-      "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "source_file": "app.js",
-      "source_location": "L1871",
-      "weight": 1.0
-    },
-    {
-      "source": "app",
-      "target": "app_sebancanlosavisos",
-      "relation": "contains",
-      "_origin": "ast",
-      "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "source_file": "app.js",
-      "source_location": "L1879",
-      "weight": 1.0
-    },
-    {
-      "source": "app",
-      "target": "app_clavepublicaenbytes",
-      "relation": "contains",
-      "_origin": "ast",
-      "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "source_file": "app.js",
-      "source_location": "L1888",
-      "weight": 1.0
-    },
-    {
-      "source": "app",
-      "target": "app_suscripciondeestetelefono",
-      "relation": "contains",
-      "_origin": "ast",
-      "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "source_file": "app.js",
-      "source_location": "L1898",
-      "weight": 1.0
-    },
-    {
-      "source": "app",
-      "target": "app_guardareltimbre",
-      "relation": "contains",
-      "_origin": "ast",
-      "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "source_file": "app.js",
-      "source_location": "L1910",
-      "weight": 1.0
-    },
-    {
-      "source": "app",
-      "target": "app_prenderavisos",
-      "relation": "contains",
-      "_origin": "ast",
-      "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "source_file": "app.js",
-      "source_location": "L1963",
-      "weight": 1.0
-    },
-    {
-      "source": "app",
-      "target": "app_apagaravisos",
-      "relation": "contains",
-      "_origin": "ast",
-      "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "source_file": "app.js",
-      "source_location": "L2004",
+      "source_location": "L2069",
       "weight": 1.0
     },
     {
@@ -15584,6 +16175,83 @@
     },
     {
       "source": "app",
+      "target": "app_avisos_por_defecto",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "app.js",
+      "source_location": "L2161",
+      "weight": 1.0
+    },
+    {
+      "source": "app",
+      "target": "app_gustosdeavisos",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "app.js",
+      "source_location": "L2164",
+      "weight": 1.0
+    },
+    {
+      "source": "app",
+      "target": "app_guardargustosdeavisos",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "app.js",
+      "source_location": "L2180",
+      "weight": 1.0
+    },
+    {
+      "source": "app",
+      "target": "app_sebancanlosavisos",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "app.js",
+      "source_location": "L2188",
+      "weight": 1.0
+    },
+    {
+      "source": "app",
+      "target": "app_clavepublicaenbytes",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "app.js",
+      "source_location": "L2197",
+      "weight": 1.0
+    },
+    {
+      "source": "app",
+      "target": "app_suscripciondeestetelefono",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "app.js",
+      "source_location": "L2207",
+      "weight": 1.0
+    },
+    {
+      "source": "app",
+      "target": "app_guardareltimbre",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "app.js",
+      "source_location": "L2219",
+      "weight": 1.0
+    },
+    {
+      "source": "app",
       "target": "app_dedondevino",
       "relation": "contains",
       "_origin": "ast",
@@ -15591,6 +16259,28 @@
       "confidence_score": 1.0,
       "source_file": "app.js",
       "source_location": "L224",
+      "weight": 1.0
+    },
+    {
+      "source": "app",
+      "target": "app_prenderavisos",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "app.js",
+      "source_location": "L2272",
+      "weight": 1.0
+    },
+    {
+      "source": "app",
+      "target": "app_apagaravisos",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "app.js",
+      "source_location": "L2313",
       "weight": 1.0
     },
     {
@@ -15782,7 +16472,7 @@
     },
     {
       "source": "app",
-      "target": "app_armariso",
+      "target": "app_nombre_categoria",
       "relation": "contains",
       "_origin": "ast",
       "confidence": "EXTRACTED",
@@ -15793,13 +16483,35 @@
     },
     {
       "source": "app",
+      "target": "app_categoriadepublicacion",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "app.js",
+      "source_location": "L415",
+      "weight": 1.0
+    },
+    {
+      "source": "app",
+      "target": "app_armariso",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "app.js",
+      "source_location": "L431",
+      "weight": 1.0
+    },
+    {
+      "source": "app",
       "target": "app_isovecino",
       "relation": "contains",
       "_origin": "ast",
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "app.js",
-      "source_location": "L413",
+      "source_location": "L437",
       "weight": 1.0
     },
     {
@@ -15810,7 +16522,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "app.js",
-      "source_location": "L420",
+      "source_location": "L444",
       "weight": 1.0
     },
     {
@@ -15821,7 +16533,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "app.js",
-      "source_location": "L436",
+      "source_location": "L460",
       "weight": 1.0
     },
     {
@@ -15832,7 +16544,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "app.js",
-      "source_location": "L450",
+      "source_location": "L474",
       "weight": 1.0
     },
     {
@@ -15843,45 +16555,34 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "app.js",
-      "source_location": "L458",
+      "source_location": "L482",
       "weight": 1.0
     },
     {
       "source": "app",
-      "target": "app_carreras_app",
+      "target": "app_cuentaguardada",
       "relation": "contains",
       "_origin": "ast",
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "app.js",
-      "source_location": "L496",
+      "source_location": "L504",
       "weight": 1.0
     },
     {
       "source": "app",
-      "target": "app_leercarreraguardada",
+      "target": "app_guardarcopiacursada",
       "relation": "contains",
       "_origin": "ast",
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "app.js",
-      "source_location": "L510",
+      "source_location": "L512",
       "weight": 1.0
     },
     {
       "source": "app",
-      "target": "app_carreraelegidaapp",
-      "relation": "contains",
-      "_origin": "ast",
-      "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "source_file": "app.js",
-      "source_location": "L517",
-      "weight": 1.0
-    },
-    {
-      "source": "app",
-      "target": "app_carreraactual",
+      "target": "app_leercopiacursada",
       "relation": "contains",
       "_origin": "ast",
       "confidence": "EXTRACTED",
@@ -15892,35 +16593,35 @@
     },
     {
       "source": "app",
-      "target": "app_anotarcarreraapp",
+      "target": "app_olvidarcopiacursada",
       "relation": "contains",
       "_origin": "ast",
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "app.js",
-      "source_location": "L528",
+      "source_location": "L532",
       "weight": 1.0
     },
     {
       "source": "app",
-      "target": "app_secciones",
+      "target": "app_carreras_app",
       "relation": "contains",
       "_origin": "ast",
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "app.js",
-      "source_location": "L542",
+      "source_location": "L570",
       "weight": 1.0
     },
     {
       "source": "app",
-      "target": "app_secciones_abajo",
+      "target": "app_leercarreraguardada",
       "relation": "contains",
       "_origin": "ast",
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "app.js",
-      "source_location": "L575",
+      "source_location": "L584",
       "weight": 1.0
     },
     {
@@ -15936,13 +16637,68 @@
     },
     {
       "source": "app",
+      "target": "app_carreraelegidaapp",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "app.js",
+      "source_location": "L591",
+      "weight": 1.0
+    },
+    {
+      "source": "app",
+      "target": "app_carreraactual",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "app.js",
+      "source_location": "L597",
+      "weight": 1.0
+    },
+    {
+      "source": "app",
+      "target": "app_anotarcarreraapp",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "app.js",
+      "source_location": "L602",
+      "weight": 1.0
+    },
+    {
+      "source": "app",
+      "target": "app_secciones",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "app.js",
+      "source_location": "L616",
+      "weight": 1.0
+    },
+    {
+      "source": "app",
+      "target": "app_secciones_abajo",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "app.js",
+      "source_location": "L649",
+      "weight": 1.0
+    },
+    {
+      "source": "app",
       "target": "app_indice_pie",
       "relation": "contains",
       "_origin": "ast",
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "app.js",
-      "source_location": "L603",
+      "source_location": "L677",
       "weight": 1.0
     },
     {
@@ -15953,7 +16709,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "app.js",
-      "source_location": "L625",
+      "source_location": "L699",
       "weight": 1.0
     },
     {
@@ -15964,7 +16720,18 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "app.js",
-      "source_location": "L638",
+      "source_location": "L712",
+      "weight": 1.0
+    },
+    {
+      "source": "app",
+      "target": "app_dias_bandeja",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "app.js",
+      "source_location": "L780",
       "weight": 1.0
     },
     {
@@ -15975,18 +16742,73 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "app.js",
-      "source_location": "L694",
+      "source_location": "L792",
       "weight": 1.0
     },
     {
       "source": "app",
-      "target": "app_novedadleida",
+      "target": "app_avisoleido",
       "relation": "contains",
       "_origin": "ast",
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "app.js",
-      "source_location": "L712",
+      "source_location": "L822",
+      "weight": 1.0
+    },
+    {
+      "source": "app",
+      "target": "app_avisodebandeja",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "app.js",
+      "source_location": "L828",
+      "weight": 1.0
+    },
+    {
+      "source": "app",
+      "target": "app_cuandoenbandeja",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "app.js",
+      "source_location": "L886",
+      "weight": 1.0
+    },
+    {
+      "source": "app",
+      "target": "app_itemdebandeja",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "app.js",
+      "source_location": "L899",
+      "weight": 1.0
+    },
+    {
+      "source": "app",
+      "target": "app_tieneavisosalcelular",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "app.js",
+      "source_location": "L923",
+      "weight": 1.0
+    },
+    {
+      "source": "app",
+      "target": "app_htmlnovedades",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "app.js",
+      "source_location": "L930",
       "weight": 1.0
     },
     {
@@ -15997,117 +16819,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "app.js",
-      "source_location": "L716",
-      "weight": 1.0
-    },
-    {
-      "source": "app",
-      "target": "app_abrir",
-      "relation": "contains",
-      "_origin": "ast",
-      "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "source_file": "app.js",
-      "source_location": "L787",
-      "weight": 1.0
-    },
-    {
-      "source": "app",
-      "target": "app_cerrar",
-      "relation": "contains",
-      "_origin": "ast",
-      "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "source_file": "app.js",
-      "source_location": "L797",
-      "weight": 1.0
-    },
-    {
-      "source": "app",
-      "target": "app_temas",
-      "relation": "contains",
-      "_origin": "ast",
-      "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "source_file": "app.js",
-      "source_location": "L877",
-      "weight": 1.0
-    },
-    {
-      "source": "app",
-      "target": "app_temaguardado",
-      "relation": "contains",
-      "_origin": "ast",
-      "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "source_file": "app.js",
-      "source_location": "L879",
-      "weight": 1.0
-    },
-    {
-      "source": "app",
-      "target": "app_aplicartema",
-      "relation": "contains",
-      "_origin": "ast",
-      "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "source_file": "app.js",
-      "source_location": "L885",
-      "weight": 1.0
-    },
-    {
-      "source": "app",
-      "target": "app_pintartema",
-      "relation": "contains",
-      "_origin": "ast",
-      "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "source_file": "app.js",
-      "source_location": "L895",
-      "weight": 1.0
-    },
-    {
-      "source": "app",
-      "target": "app_ponerlupa",
-      "relation": "contains",
-      "_origin": "ast",
-      "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "source_file": "app.js",
-      "source_location": "L920",
-      "weight": 1.0
-    },
-    {
-      "source": "app",
-      "target": "app_marcartitulos",
-      "relation": "contains",
-      "_origin": "ast",
-      "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "source_file": "app.js",
-      "source_location": "L929",
-      "weight": 1.0
-    },
-    {
-      "source": "app",
-      "target": "app_vigilartitulos",
-      "relation": "contains",
-      "_origin": "ast",
-      "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "source_file": "app.js",
-      "source_location": "L937",
-      "weight": 1.0
-    },
-    {
-      "source": "app",
-      "target": "app_pintarnav",
-      "relation": "contains",
-      "_origin": "ast",
-      "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "source_file": "app.js",
-      "source_location": "L982",
+      "source_location": "L993",
       "weight": 1.0
     },
     {
@@ -16679,7 +17391,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "docs/PROPUESTAS.md",
-      "source_location": "L431",
+      "source_location": "L466",
       "weight": 1.0
     },
     {
@@ -16712,7 +17424,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "docs/PROPUESTAS.md",
-      "source_location": "L443",
+      "source_location": "L478",
       "weight": 1.0
     },
     {
@@ -19378,6 +20090,17 @@
       "weight": 1.0
     },
     {
+      "source": "sql_tabla_campana",
+      "target": "sql_tabla_campana_public_campana_leidas",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "sql/tabla-campana.sql",
+      "source_location": "L39",
+      "weight": 1.0
+    },
+    {
       "source": "sql_tabla_catedras",
       "target": "sql_tabla_catedras_public_catedras",
       "relation": "contains",
@@ -21268,6 +21991,17 @@
       "weight": 1.0
     },
     {
+      "source": "sql_tabla_campana_public_campana_leidas",
+      "target": "sql_tabla_campana_sql_auth_users",
+      "relation": "references",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "sql/tabla-campana.sql",
+      "source_location": "L39",
+      "weight": 1.0
+    },
+    {
       "source": "sql_tabla_cursada_public_cursada",
       "target": "sql_tabla_cursada_sql_auth_users",
       "relation": "references",
@@ -22149,6 +22883,18 @@
     },
     {
       "source": "app",
+      "target": "app_arrancar",
+      "relation": "indirect_call",
+      "_origin": "ast",
+      "confidence": "INFERRED",
+      "confidence_score": 0.85,
+      "context": "argument",
+      "source_file": "app.js",
+      "source_location": "L1155",
+      "weight": 1.0
+    },
+    {
+      "source": "app",
       "target": "app_programarvisita",
       "relation": "indirect_call",
       "_origin": "ast",
@@ -22160,18 +22906,6 @@
       "weight": 1.0
     },
     {
-      "source": "app",
-      "target": "app_arrancar",
-      "relation": "indirect_call",
-      "_origin": "ast",
-      "confidence": "INFERRED",
-      "confidence_score": 0.85,
-      "context": "argument",
-      "source_file": "app.js",
-      "source_location": "L846",
-      "weight": 1.0
-    },
-    {
       "source": "app_pintaravisanos_mostrarglobo",
       "target": "app_pintaravisanos_esconderglobo",
       "relation": "indirect_call",
@@ -22180,7 +22914,7 @@
       "confidence_score": 0.85,
       "context": "argument",
       "source_file": "app.js",
-      "source_location": "L1366",
+      "source_location": "L1675",
       "weight": 1.0
     },
     {
@@ -22516,7 +23250,7 @@
       "confidence_score": 0.85,
       "context": "collection",
       "source_file": "lib/datos.js",
-      "source_location": "L165",
+      "source_location": "L174",
       "weight": 1.0
     },
     {
@@ -22767,6 +23501,18 @@
       "weight": 1.0
     },
     {
+      "source": "docs_propuestas_3_calendario_y_avisos_que_se_revisen_todos_los_d\u00edas",
+      "target": "app_guardarcopiacursada",
+      "relation": "references",
+      "_origin": "ast",
+      "confidence": "INFERRED",
+      "confidence_score": 0.95,
+      "context": "guardarCopiaCursada",
+      "source_file": "docs/PROPUESTAS.md",
+      "source_location": "L427",
+      "weight": 1.0
+    },
+    {
       "source": "docs_propuestas_1_carga_f\u00e1cil_de_paros_y_grupos_de_estudio",
       "target": "estudiemos_fichas_leer_linea",
       "relation": "references",
@@ -22787,7 +23533,7 @@
       "confidence_score": 0.95,
       "context": "linea",
       "source_file": "docs/PROPUESTAS.md",
-      "source_location": "L357",
+      "source_location": "L356",
       "weight": 1.0
     },
     {
@@ -23192,5 +23938,5 @@
       "source_file": "panel/index.html"
     }
   ],
-  "built_at_commit": "fe96836176309248953616b302361c0420a11f40"
+  "built_at_commit": "f7bb5b5c423889ee32d3ccab752a11248f0d86cb"
 }

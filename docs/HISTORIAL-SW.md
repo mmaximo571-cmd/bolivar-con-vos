@@ -376,4 +376,18 @@ todo una entrada con el número, la fecha y el porqué.
    cambian y NO van al armazón (una pantalla cada una): quedan
    guardados por la regla del final, y subir el número los tira
    igual. */
+/* v78 (30/9/2026) no cambia QUÉ se guarda: cambia el CONTENIDO de
+   tres que ya están en la lista, por la tanda 2 de la propuesta 3.
+   `app.js` trae la campana nueva (la bandeja de Hoy, Esta semana,
+   Cambios y Nuevo, lo leído por aviso y juntado con la cuenta) y la
+   copia de la cursada que usa la tarjeta «Hoy». `lib/datos.js` suma
+   `or`, que la campana nueva usa; `estilos-rediseno.css` suma cómo se
+   ve la bandeja. Sin subir el número, un teléfono con la app sirve el
+   `app.js` viejo con la campana vieja. Si llegaran desparejos —el
+   `app.js` nuevo con el `datos.js` viejo, sin `or`—, la campana lo
+   detecta por el error de la guardia y trae lo de antes. La tarjeta
+   «Hoy» vive en `css/pantallas/inicio.css`, que no va al armazón: queda
+   guardada por la regla del final, y subir el número también la tira.
+   Esa hoja trae además el arreglo de la ruta del patio del fondo del
+   inicio, rota desde el reparto de los estilos del 27/9. */
 ```

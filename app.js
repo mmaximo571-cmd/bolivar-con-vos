@@ -398,6 +398,30 @@ const NOMBRE_LINEA = {
   saberes: 'Saberes colectivos'
 };
 
+/* Las categorías de la agenda (30/9/2026): lo que ve la estudiante es
+   QUÉ ES cada cosa, no de qué línea editorial viene. Una fila sin
+   `categoria` cae en la de su tipo, igual que en el disparador de la
+   base (`sql/tabla-publicaciones.sql`, sección 8). Fechas tiene su
+   propia copia de esto porque llega de la red y este archivo puede
+   venir del caché viejo. */
+const NOMBRE_CATEGORIA = {
+  paro:       'Paro',
+  grupo:      'Grupo de estudio',
+  actividad:  'Actividad',
+  fecha:      'Fecha académica',
+  comunicado: 'Comunicado'
+};
+
+function categoriaDePublicacion(p){
+  if (p && NOMBRE_CATEGORIA[p.categoria]) return p.categoria;
+  if (!p) return 'comunicado';
+  return p.tipo === 'fecha'    ? 'fecha'
+       : p.tipo === 'novedad'  ? 'comunicado'
+       : p.linea === 'gremial' ? 'paro'
+       : p.linea === 'saberes' ? 'grupo'
+       : 'actividad';
+}
+
 /* ------------------------------------------------------------
    CALENDARIO
    ------------------------------------------------------------ */
@@ -457,6 +481,56 @@ function esDelEquipo(perfil){ return !!perfil && perfil.rol === 'equipo'; }
    base (`sql/tabla-publicaciones.sql`). Esta solo abre la puerta. */
 function puedeCargar(perfil){
   return !!perfil && (perfil.rol === 'equipo' || perfil.rol === 'comunicacion');
+}
+
+/* ------------------------------------------------------------
+   UNA COPIA DE LA CURSADA EN EL TELÉFONO (30/9/2026)
+
+   La tarjeta «Hoy» del inicio muestra las clases del día, y el inicio
+   usa el cliente chico, que no tiene sesión (ver lib/datos.js). En vez
+   de bajar la librería grande en la portada —213 KB para tres
+   renglones—, Fechas y Perfil, que sí traen la cursada con la sesión,
+   dejan acá una copia liviana: materia, día, hora y aula.
+
+   Es de la persona y vive en SU teléfono. Se borra al cerrar sesión, y
+   el inicio no la usa si la sesión guardada es de otra cuenta o si ya
+   no hay sesión: cerrar sesión en otra pestaña alcanza para que las
+   clases dejen de verse.
+   ------------------------------------------------------------ */
+const LLAVE_CURSADA_COPIA = 'bolivar-cursada-copia';
+
+/* La cuenta que dejó guardada la librería grande, leída del teléfono y
+   sin preguntarle a la red. Null si en este teléfono no hay sesión. */
+function cuentaGuardada(){
+  try {
+    const llave = 'sb-' + new URL(window.BOLIVAR_CONFIG.url).hostname.split('.')[0] + '-auth-token';
+    const s = JSON.parse(localStorage.getItem(llave) || 'null');
+    return (s && s.user && s.user.id) || null;
+  } catch(e){ return null; }
+}
+
+function guardarCopiaCursada(clases, usuarioId){
+  if (!usuarioId || !Array.isArray(clases)) return;
+  const liviana = clases.map(c => ({
+    materia: c.materia, dia: c.dia, hora: c.hora || '', aula: c.aula || ''
+  }));
+  try {
+    localStorage.setItem(LLAVE_CURSADA_COPIA,
+      JSON.stringify({ usuario: usuarioId, t: Date.now(), clases: liviana }));
+  } catch(e){}
+}
+
+function leerCopiaCursada(){
+  try {
+    const g = JSON.parse(localStorage.getItem(LLAVE_CURSADA_COPIA) || 'null');
+    const cuenta = cuentaGuardada();
+    if (!g || !Array.isArray(g.clases) || !cuenta || g.usuario !== cuenta) return [];
+    return g.clases;
+  } catch(e){ return []; }
+}
+
+function olvidarCopiaCursada(){
+  try { localStorage.removeItem(LLAVE_CURSADA_COPIA); } catch(e){}
 }
 
 /* ------------------------------------------------------------
@@ -661,25 +735,49 @@ function htmlCabecera(){
 }
 
 /* ============================================================
-   LA CAMPANA DE NOVEDADES (18/9/2026)
+   LA CAMPANA  ·  la bandeja de todos los días (18/9 y 30/9/2026)
 
-   Avisa lo que el equipo publicó en la agenda en los últimos 14
-   días. No hay una tabla de avisos aparte: las novedades SON las
-   publicaciones nuevas, así el equipo no tiene que cargar nada dos
+   Avisa lo que pasa en la agenda. No hay una tabla de avisos aparte:
+   las novedades SON las publicaciones, así el equipo no carga nada dos
    veces.
 
-   Qué está leído vive en el teléfono (`bolivar-novedades`): la
-   fecha hasta la que se marcó todo, y las que se abrieron sueltas.
-   Es lo mismo que cualquier casilla de notificaciones, y no pide
-   cuenta. La primera vez, todo lo de los últimos 14 días está sin
-   leer: es justamente lo que alguien nuevo tiene que ver.
+   Hasta el 30/9 era la lista de las últimas diez publicaciones. Desde
+   la tanda 2 de la propuesta 3 es una BANDEJA en cuatro partes, y cada
+   publicación va una sola vez, en la primera que le toca:
+
+     Hoy           lo que empieza hoy, el último día de algo largo, y
+                   el paro que cubre hoy
+     Esta semana   lo que empieza en los próximos siete días
+     Cambios       lo que cambió o se suspendió en la última semana
+     Nuevo         lo publicado en las últimas dos semanas
+
+   Lo que ya pasó no va. Un período largo en el medio (los seminarios
+   del cuatrimestre) tampoco: estaría en «Hoy» tres meses seguidos.
+
+   LO LEÍDO VA POR AVISO, NO POR PUBLICACIÓN. Cada una tiene la clave de
+   su estado de ahora: `pub:12:nueva`, `pub:12:cambio:<ms>` o
+   `pub:12:hoy:2026-10-01`, el más reciente de los que tenga. Por eso un
+   paro leído ayer vuelve a estar sin leer el día del paro, y un grupo
+   leído vuelve a estarlo si le cambian el aula: son avisos nuevos,
+   aunque la publicación sea la misma. Es lo que hace que la campana
+   tenga algo que decir el día que importa, y nada los otros.
+
+   Vive en el teléfono (`bolivar-novedades`: el momento hasta el que se
+   marcó todo, y las claves abiertas sueltas), y con cuenta se junta en
+   `campana_leidas` (ver `sql/tabla-campana.sql`).
 
    El pedido sale cuando la pantalla ya cargó, para no competirle a
    los datos de la pantalla, y se guarda cinco minutos en la
    pestaña: pasar de Fechas a Trámites no vuelve a preguntar.
    ============================================================ */
-const NOVEDADES_DIAS = 14;
+const NOVEDADES_DIAS  = 14;          /* cuánto dura algo como «nuevo» */
+const CAMBIOS_DIAS    = 7;           /* y un cambio o una suspensión */
+const SEMANA_DIAS     = 7;
 const CLAVE_NOVEDADES = 'bolivar-novedades';
+/* La copia de cinco minutos, en la pestaña. Otra llave que la de antes
+   del 30/9, así una copia vieja sin las columnas nuevas no se reusa. */
+const CLAVE_BANDEJA   = 'bolivar-bandeja';
+const DIAS_BANDEJA    = ['domingo','lunes','martes','miércoles','jueves','viernes','sábado'];
 
 /* El respaldo de «campana» mientras no esté en iconos.js: misma
    grilla de 256 y mismo trazo que el resto, color heredado. */
@@ -699,53 +797,160 @@ function htmlCampana(){
     </button>`;
 }
 
+/* ---------- Lo leído ---------- */
 function leidasNovedades(){
   try {
     const g = JSON.parse(localStorage.getItem(CLAVE_NOVEDADES) || 'null');
-    if (g && typeof g === 'object') return { hasta: g.hasta || '', ids: Array.isArray(g.ids) ? g.ids : [] };
+    if (g && typeof g === 'object'){
+      const claves = Array.isArray(g.claves) ? g.claves.filter(c => typeof c === 'string') : [];
+      /* El formato de antes del 30/9 guardaba en `ids` las publicaciones
+         abiertas: eran, justamente, su aviso de «nueva». */
+      if (Array.isArray(g.ids)) g.ids.forEach(id => claves.push('pub:' + id + ':nueva'));
+      const t = g.hasta ? Date.parse(g.hasta) : 0;
+      return { hasta: t ? new Date(t).toISOString() : '', claves };
+    }
   } catch(e){}
-  return { hasta:'', ids:[] };
-}
-function guardarLeidas(l){
-  try { localStorage.setItem(CLAVE_NOVEDADES, JSON.stringify(l)); } catch(e){}
-}
-function novedadLeida(p, l){
-  return (l.hasta && p.creado_at <= l.hasta) || l.ids.indexOf(String(p.id)) !== -1;
+  return { hasta:'', claves:[] };
 }
 
-async function traerNovedades(){
+function guardarLeidas(l){
+  const limpio = { hasta: l.hasta || '', claves: [...new Set(l.claves || [])].slice(-300) };
+  try { localStorage.setItem(CLAVE_NOVEDADES, JSON.stringify(limpio)); } catch(e){}
+  return limpio;
+}
+
+function avisoLeido(a, l){
+  const hasta = l.hasta ? (Date.parse(l.hasta) || 0) : 0;
+  return (hasta > 0 && a.momento <= hasta) || l.claves.indexOf(a.clave) !== -1;
+}
+
+/* ---------- Dónde va cada publicación ---------- */
+function avisoDeBandeja(p, hoy, ahora){
+  const cat   = categoriaDePublicacion(p);
+  const desde = p.fecha_desde ? String(p.fecha_desde).slice(0,10) : '';
+  const hasta = p.fecha_hasta ? String(p.fecha_hasta).slice(0,10) : desde;
+  if (desde && hasta < hoy) return null;                    /* ya pasó */
+
+  const DIA    = 86400000;
+  const tPub   = Date.parse(p.publicado_at || p.creado_at || '') || 0;
+  const tCam   = Date.parse(p.cambiado_at || '') || 0;
+  const nuevo  = tPub > 0 && ahora - tPub < NOVEDADES_DIAS * DIA;
+  const cambio = tCam > 0 && ahora - tCam < CAMBIOS_DIAS * DIA;
+
+  const ultimoDia = !!desde && hasta === hoy && hasta !== desde;
+  const esHoy = !!desde && (desde === hoy || ultimoDia ||
+    (cat === 'paro' && desde <= hoy && hoy <= hasta));
+  const enSemana = !!desde && desde > hoy && desde <= isoVecino(hoy, SEMANA_DIAS);
+
+  const seccion = esHoy ? 'hoy' : enSemana ? 'semana'
+                : cambio ? 'cambios' : nuevo ? 'nuevo' : '';
+  if (!seccion) return null;
+
+  /* Su aviso de ahora: el más reciente de los que tiene. */
+  let actual = { clave: 'pub:' + p.id + ':nueva', momento: tPub };
+  if (cambio && tCam > actual.momento)
+    actual = { clave: 'pub:' + p.id + ':cambio:' + tCam, momento: tCam };
+  if (esHoy){
+    const inicioDeHoy = new Date(hoy + 'T00:00:00').getTime();
+    if (inicioDeHoy > actual.momento)
+      actual = { clave: 'pub:' + p.id + ':hoy:' + hoy, momento: inicioDeHoy };
+  }
+
+  return { p, cat, seccion, ultimoDia, cambio, clave: actual.clave, momento: actual.momento };
+}
+
+function armarBandeja(lista){
+  const hoy = hoyISO(), ahora = Date.now();
+  const b = { hoy:[], semana:[], cambios:[], nuevo:[] };
+  (lista || []).forEach(p => {
+    const a = avisoDeBandeja(p, hoy, ahora);
+    if (a) b[a.seccion].push(a);
+  });
+  const hora  = a => String(a.p.hora || '99');
+  const fecha = a => String(a.p.fecha_desde || '');
+  /* Hoy: el paro primero, después por hora. */
+  b.hoy.sort((x, y) => (y.cat === 'paro') - (x.cat === 'paro') ||
+                       hora(x).localeCompare(hora(y)));
+  b.semana.sort((x, y) => fecha(x).localeCompare(fecha(y)) || hora(x).localeCompare(hora(y)));
+  b.cambios.sort((x, y) => y.momento - x.momento);
+  b.nuevo.sort((x, y) => y.momento - x.momento);
+  b.todos = [...b.hoy, ...b.semana, ...b.cambios, ...b.nuevo];
+  return b;
+}
+
+/* ---------- Cómo se ve ---------- */
+
+/* El cuándo de cada renglón, dicho según la parte: en «Hoy» no hace
+   falta decir la fecha; en «Esta semana», el día de la semana se
+   entiende mejor que el número. */
+function cuandoEnBandeja(a, hoy){
+  const d = String(a.p.fecha_desde || '').slice(0,10);
+  if (!d) return '';
+  if (a.seccion === 'hoy') return a.ultimoDia ? 'Último día' : '';
+  if (d === isoVecino(hoy, 1)) return 'Mañana';
+  if (a.seccion === 'semana'){
+    const [y, m, dd] = d.split('-').map(Number);
+    const dia = DIAS_BANDEJA[new Date(y, m - 1, dd).getDay()];
+    return dia[0].toUpperCase() + dia.slice(1) + ' ' + dd;
+  }
+  return rangoLindo(a.p.fecha_desde, a.p.fecha_hasta);
+}
+
+function itemDeBandeja(a, l, hoy){
+  const p = a.p;
+  /* «Cambió» se dice arriba del título, en rojo: es lo que alguien que
+     ya lo tenía anotado necesita ver primero. Lo suspendido, además,
+     va tachado. En «Nuevo» no se dice: ahí todo es de esta semana. */
+  const estado  = p.suspendido ? 'Se suspendió' : (a.cambio && a.seccion !== 'nuevo') ? 'Cambió' : '';
+  const detalle = [cuandoEnBandeja(a, hoy), p.hora, p.lugar].filter(Boolean).join(' · ')
+                  || NOMBRE_CATEGORIA[a.cat] || '';
+  const urgente = !p.suspendido && (a.cat === 'paro' || (a.cat === 'comunicado' && p.linea === 'info'));
+  return `<a class="aviso-nuevo cat-${esc(a.cat)}${urgente ? ' urgente' : ''}${
+      avisoLeido(a, l) ? ' leido' : ''}${p.suspendido ? ' suspendido' : ''}"
+      href="${RAIZ}agenda/?id=${encodeURIComponent(p.id)}" data-novedad="${esc(a.clave)}">
+      <i aria-hidden="true"></i>
+      <span class="aviso-texto">
+        ${estado ? `<em class="aviso-estado">${estado}</em>` : ''}
+        <b>${esc(p.titulo)}</b>
+        <span class="aviso-detalle">${esc(detalle)}</span>
+      </span>
+    </a>`;
+}
+
+/* ¿Este teléfono ya tiene los avisos al celular? Si no, la bandeja lo
+   ofrece al final, en un renglón: es el mejor lugar para ofrecerlo,
+   porque quien abre la campana es quien quiere enterarse. */
+function tieneAvisosAlCelular(){
   try {
-    const c = JSON.parse(sessionStorage.getItem(CLAVE_NOVEDADES) || 'null');
-    if (c && Date.now() - c.t < 5 * 60 * 1000) return c.lista;
-  } catch(e){}
-  if (!db) return [];
-  const { data, error } = await db.from('publicaciones')
-    .select('id,titulo,linea,categoria,suspendido,fecha_desde,fecha_hasta,hora,lugar,creado_at')
-    .eq('publicado', true).order('creado_at', { ascending:false }).limit(10);
-  if (error || !data) return [];
-  const desde = new Date(Date.now() - NOVEDADES_DIAS * 86400000).toISOString();
-  const lista = data.filter(p => p.creado_at && p.creado_at >= desde);
-  try { sessionStorage.setItem(CLAVE_NOVEDADES, JSON.stringify({ t: Date.now(), lista })); } catch(e){}
-  return lista;
+    return typeof Notification !== 'undefined' && Notification.permission === 'granted' &&
+           !!gustosDeAvisos().endpoint;
+  } catch(e){ return false; }
 }
 
 function htmlNovedades(lista){
-  const l = leidasNovedades();
-  const sinLeer = lista.filter(p => !novedadLeida(p, l)).length;
+  const l   = leidasNovedades();
+  const hoy = hoyISO();
+  const b   = armarBandeja(lista);
+  const sinLeer = b.todos.filter(a => !avisoLeido(a, l)).length;
 
-  const item = p => {
-    const detalle = [p.fecha_desde ? rangoLindo(p.fecha_desde, p.fecha_hasta) : '', p.hora, p.lugar]
-      .filter(Boolean).join(' · ') || (NOMBRE_LINEA[p.linea] || '');
-    /* Un paro es urgente como lo es «Info importante» (30/9/2026). Lo
-       suspendido se dice en el título: la campana es justo donde se
-       entera quien no tiene los avisos prendidos. */
-    const urgente = !p.suspendido && (p.linea === 'info' || p.categoria === 'paro');
-    return `<a class="aviso-nuevo${urgente ? ' urgente' : ''}${novedadLeida(p, l) ? ' leido' : ''}"
-        href="${RAIZ}agenda/?id=${encodeURIComponent(p.id)}" data-novedad="${esc(String(p.id))}">
-        <i aria-hidden="true"></i>
-        <span><b>${p.suspendido ? 'Se suspendió: ' : ''}${esc(p.titulo)}</b><span>${esc(detalle)}</span></span>
-      </a>`;
-  };
+  const parte = (titulo, avisos, siVacia) => (avisos.length || siVacia) ? `
+    <div class="novedades-seccion">${titulo}</div>
+    ${avisos.length ? avisos.map(a => itemDeBandeja(a, l, hoy)).join('')
+                    : `<p class="novedades-nada">${siVacia}</p>`}` : '';
+
+  /* «Hoy» va siempre, aunque esté vacía: «hoy no hay nada» también es
+     algo que alguien vino a saber (que no hay paro, por ejemplo). */
+  const cuerpo = b.todos.length
+    ? parte('Hoy', b.hoy, 'Nada cargado para hoy.') +
+      parte('Esta semana', b.semana) +
+      parte('Cambios', b.cambios) +
+      parte('Nuevo', b.nuevo)
+    : `<div class="vacio" role="status">
+        <span class="vacio-icono" aria-hidden="true">${icono('agenda') || '🗓️'}</span>
+        <strong class="vacio-titulo">No hay novedades</strong>
+        <p>Nada para hoy ni para esta semana, y nada nuevo en las últimas dos
+           semanas. Te avisamos acá cuando pase.</p>
+      </div>`;
 
   return `
     <div class="novedades-fondo" data-cerrar-novedades></div>
@@ -759,16 +964,14 @@ function htmlNovedades(lista){
         <button type="button" class="novedades-cerrar" data-cerrar-novedades aria-label="Cerrar">✕</button>
       </div>
       <div class="novedades-lista">
-        ${lista.length ? lista.map(item).join('') : `
-          <div class="vacio" role="status">
-            <span class="vacio-icono" aria-hidden="true">${icono('agenda') || '🗓️'}</span>
-            <strong class="vacio-titulo">No hay novedades</strong>
-            <p>En las últimas dos semanas no se publicó nada nuevo. Te avisamos acá cuando pase.</p>
-          </div>`}
+        ${cuerpo}
+        ${tieneAvisosAlCelular() ? '' : `<a class="novedades-celular" href="${RAIZ}mi/#caja-avisos">
+          Que te avise al celular aunque no abras la app: se prende en tu perfil →</a>`}
       </div>
-      ${sinLeer ? `<div class="novedades-pie">
-        <button type="button" class="boton borde ancho" id="marcar-leidas">Marcar todas como leídas</button>
-      </div>` : ''}
+      <div class="novedades-pie">
+        ${sinLeer ? '<button type="button" class="boton borde ancho" id="marcar-leidas">Marcar todas como leídas</button>' : ''}
+        <a class="novedades-ver-todo" href="${RAIZ}agenda/">Ver todo en Fechas →</a>
+      </div>
     </aside>`;
 }
 
@@ -776,9 +979,97 @@ function pintarCampana(lista){
   const boton = document.getElementById('abrir-novedades');
   if (!boton) return;
   const l = leidasNovedades();
-  const n = lista.filter(p => !novedadLeida(p, l)).length;
+  const n = armarBandeja(lista).todos.filter(a => !avisoLeido(a, l)).length;
   boton.querySelector('.campana-badge').textContent = n ? (n > 9 ? '9+' : String(n)) : '';
   boton.setAttribute('aria-label', n ? `Novedades, ${n} sin leer` : 'Novedades');
+}
+
+/* ---------- Lo que se trae ----------
+   Lo de esta semana (y lo que empezó hace poco, por un paro de varios
+   días), lo que sigue en curso, lo nuevo y lo que cambió. El `or` es
+   de las dos librerías; si el cliente chico que quedó guardado es de
+   antes del 30/9 y no lo tiene, su guardia tira un error, y se cae a lo
+   de antes: lo último cargado. */
+async function traerNovedades(){
+  try {
+    const c = JSON.parse(sessionStorage.getItem(CLAVE_BANDEJA) || 'null');
+    if (c && Date.now() - c.t < 5 * 60 * 1000) return c.lista;
+  } catch(e){}
+  if (!db) return [];
+
+  const hoy = hoyISO();
+  const columnas = 'id,titulo,tipo,linea,categoria,materia,suspendido,fecha_desde,' +
+                   'fecha_hasta,hora,lugar,creado_at,publicado_at,cambiado_at';
+  let r;
+  try {
+    r = await db.from('publicaciones').select(columnas).eq('publicado', true)
+      .or(`fecha_desde.gte.${isoVecino(hoy, -7)},fecha_hasta.gte.${hoy},` +
+          `publicado_at.gte.${isoVecino(hoy, -NOVEDADES_DIAS)},` +
+          `cambiado_at.gte.${isoVecino(hoy, -CAMBIOS_DIAS)}`)
+      .order('fecha_desde', { ascending:true }).limit(150);
+  } catch(e){
+    r = await db.from('publicaciones').select(columnas).eq('publicado', true)
+      .order('creado_at', { ascending:false }).limit(40);
+  }
+  if (r.error || !r.data) return [];
+  try { sessionStorage.setItem(CLAVE_BANDEJA, JSON.stringify({ t: Date.now(), lista: r.data })); } catch(e){}
+  return r.data;
+}
+
+/* ---------- Lo leído, en la cuenta ----------
+   Solo en las pantallas que cargan la librería grande (Perfil, Mi año,
+   Info útil, el mapa, cargar, el panel): el cliente chico no tiene
+   sesión, a propósito (ver lib/datos.js), y su guardia tira un error si
+   se le pide `auth`. Por eso se pregunta con `in` y no con un punto.
+   Quien tiene cuenta pasa seguido por Perfil o Mi año, y ahí se junta
+   lo de todos sus teléfonos. */
+async function cuentaParaLaCampana(){
+  if (!db || !('auth' in db)) return null;
+  try {
+    const { data } = await db.auth.getSession();
+    return (data && data.session && data.session.user) || null;
+  } catch(e){ return null; }
+}
+
+/* Lo leído en uno de los dos lados vale para los dos. */
+function juntarLeidas(a, b){
+  const ta = a && a.hasta ? (Date.parse(a.hasta) || 0) : 0;
+  const tb = b && b.hasta ? (Date.parse(b.hasta) || 0) : 0;
+  const t  = Math.max(ta, tb);
+  return {
+    hasta:  t ? new Date(t).toISOString() : '',
+    claves: [...new Set([...((b && b.claves) || []), ...((a && a.claves) || [])])].slice(-300)
+  };
+}
+
+function mismasLeidas(a, b){
+  const t = x => (x && x.hasta ? (Date.parse(x.hasta) || 0) : 0);
+  const s = x => [...new Set((x && x.claves) || [])].sort().join('\n');
+  return t(a) === t(b) && s(a) === s(b);
+}
+
+/* Trae lo de la cuenta, lo junta con lo del teléfono y sube lo que la
+   cuenta no sabía. Devuelve true si cambió lo del teléfono, para que la
+   campana se repinte. Sin la tabla (falta correr el SQL) o sin red,
+   sigue todo como sin cuenta. */
+async function sincronizarLeidas(){
+  const usuario = await cuentaParaLaCampana();
+  if (!usuario) return false;
+  try {
+    const { data, error } = await db.from('campana_leidas')
+      .select('hasta,claves').eq('usuario_id', usuario.id).maybeSingle();
+    if (error) return false;
+    const local  = leidasNovedades();
+    const remoto = { hasta: (data && data.hasta) || '', claves: (data && data.claves) || [] };
+    const junto  = guardarLeidas(juntarLeidas(local, remoto));
+    if (!mismasLeidas(junto, remoto)){
+      await db.from('campana_leidas').upsert({
+        usuario_id: usuario.id, hasta: junto.hasta || null, claves: junto.claves,
+        actualizado_at: new Date().toISOString()
+      });
+    }
+    return !mismasLeidas(junto, local);
+  } catch(e){ return false; }
 }
 
 (function montarNovedades(){
@@ -807,30 +1098,44 @@ function pintarCampana(lista){
     if (boton){ boton.setAttribute('aria-expanded', 'false'); boton.focus(); }
   }
 
+  function repintarPanel(){
+    const panel = document.getElementById('panel-novedades');
+    if (!panel) return;
+    const caja = document.createElement('div');
+    caja.innerHTML = htmlNovedades(lista);
+    panel.innerHTML = caja.querySelector('#panel-novedades').innerHTML;
+    panel.focus();
+  }
+
   document.addEventListener('click', ev => {
     if (ev.target.closest('#abrir-novedades')){ abrir(); return; }
     if (ev.target.closest('[data-cerrar-novedades]')){ cerrar(); return; }
 
-    const aviso = ev.target.closest('[data-novedad]');
+    /* Abrir un aviso lo marca leído en el teléfono, y el enlace sigue su
+       camino. A la cuenta llega la próxima vez que la persona pase por
+       una pantalla con sesión: subirlo acá se cortaría con la navegación. */
+    const aviso = ev.target.closest('#panel-novedades [data-novedad]');
     if (aviso){
       const l = leidasNovedades();
-      if (l.ids.indexOf(aviso.dataset.novedad) === -1) l.ids.push(aviso.dataset.novedad);
+      l.claves.push(aviso.dataset.novedad);
       guardarLeidas(l);
-      pintarCampana(lista);            /* y el enlace sigue su camino */
+      pintarCampana(lista);
       return;
     }
 
     if (ev.target.closest('#marcar-leidas')){
-      const hasta = lista.reduce((m, p) => p.creado_at > m ? p.creado_at : m, '');
-      guardarLeidas({ hasta, ids: [] });
+      /* Hasta el aviso más reciente de la bandeja, y no hasta la hora
+         del teléfono: con el reloj adelantado, lo que se publique
+         después quedaría leído sin que nadie lo vea. */
+      const hasta = armarBandeja(lista).todos.reduce((m, a) => Math.max(m, a.momento), 0);
+      const antes = leidasNovedades();
+      guardarLeidas({
+        hasta: hasta ? new Date(Math.max(hasta, Date.parse(antes.hasta) || 0)).toISOString() : antes.hasta,
+        claves: []
+      });
       pintarCampana(lista);
-      const panel = document.getElementById('panel-novedades');
-      if (panel){
-        const caja = document.createElement('div');
-        caja.innerHTML = htmlNovedades(lista);
-        panel.innerHTML = caja.querySelector('#panel-novedades').innerHTML;
-        panel.focus();
-      }
+      repintarPanel();
+      sincronizarLeidas();
     }
   });
 
@@ -841,7 +1146,11 @@ function pintarCampana(lista){
   /* Después de que la pantalla cargó lo suyo */
   function arrancar(){
     if (!document.getElementById('abrir-novedades')) return;
-    traerNovedades().then(l => { lista = l; pintarCampana(lista); });
+    traerNovedades().then(l => {
+      lista = l;
+      pintarCampana(lista);
+      sincronizarLeidas().then(cambio => { if (cambio){ pintarCampana(lista); repintarPanel(); } });
+    });
   }
   if (document.readyState === 'complete') setTimeout(arrancar, 0);
   else window.addEventListener('load', () => setTimeout(arrancar, 300), { once:true });

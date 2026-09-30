@@ -28,7 +28,7 @@ discutirla en tres meses.
 |---|---|---|---|
 | 1 | Carga fácil de paros y grupos de estudio | chico-mediano | hecha, falta correr el SQL |
 | 2 | Anotarse a un grupo de estudio | chica | se suma a la 3 (tanda 3) |
-| 3 | Calendario y avisos: que se revisen todos los días | grande, en tres tandas | tanda 1 hecha (30/9) |
+| 3 | Calendario y avisos: que se revisen todos los días | grande, en tres tandas | tandas 1 y 2 hechas (30/9) |
 
 ## Las propuestas
 
@@ -329,9 +329,8 @@ si la gente se anota.
   arriba en cada tanda.
 - **Tamaño:** grande. Partida en tres tandas; cada una se sube y se usa
   sola.
-- **Estado:** tanda 1 hecha y aplicada el 30/9/2026 (SQL en producción,
-  función `avisos` v10 subida, `sw.js` v77). Tandas 2 y 3, lista para
-  hacer.
+- **Estado:** tandas 1 y 2 hechas el 30/9/2026 (SQL en producción,
+  función `avisos` v10 subida, `sw.js` v78). Tanda 3, lista para hacer.
 
 **Lo que se decidió (30/9/2026):**
 
@@ -394,7 +393,42 @@ si la gente se anota.
   se guarda en la cuenta si hay sesión; sin sesión, como hoy.
 - Tarjeta **Hoy** arriba del inicio: lo de hoy y sus clases, en rojo si
   hay paro.
-- «Lo que marcaste Voy» en el inicio.
+- ~~«Lo que marcaste Voy» en el inicio.~~ Pasa a la tanda 3: sin «Voy»
+  no hay nada que mostrar, y «Voy» es de la tanda 3.
+
+**Cómo quedó la tanda 2 (30/9/2026):**
+
+- **La bandeja** (`app.js`, «La campana»). Cada publicación va una vez,
+  en la primera parte que le toca: Hoy (lo que empieza hoy, el último
+  día de algo largo y el paro que cubre hoy), Esta semana (lo que
+  empieza en los próximos siete días), Cambios (cambiado o suspendido
+  en la última semana) y Nuevo (publicado en las últimas dos). Lo que
+  ya pasó y los períodos largos en el medio no van. Cambios y
+  suspensiones se dicen arriba del título, en rojo; lo suspendido va
+  tachado. Al final ofrece prender los avisos al celular si el teléfono
+  no los tiene.
+- **Lo leído va por aviso y no por publicación**: `pub:ID:nueva`,
+  `pub:ID:cambio:<ms>` o `pub:ID:hoy:<fecha>`, el más reciente. Por eso
+  el globo de la campana tiene algo que decir el día del paro aunque el
+  paro se haya leído cuando se publicó, y vuelve a sonar si un grupo
+  cambia de aula. El formato viejo del teléfono (`ids`) se lee igual.
+- **Con cuenta**, lo leído se junta en `campana_leidas`
+  (`sql/tabla-campana.sql`, aplicado): tabla propia y no una columna de
+  `preferencias`, porque una fila creada por la campana con los valores
+  por defecto le apagaba a Fechas el modo parciales. Se junta solo en
+  las pantallas con la librería grande; en las demás queda en el
+  teléfono hasta la próxima visita a Perfil, Mi año o Info útil.
+- **La tarjeta «Hoy»** (`index.html`, `pintarHoy`) ocupa el lugar del
+  renglón de lo próximo cuando hoy pasa algo o la persona tiene clases;
+  si no, vuelve el renglón. Los grupos de sus materias dicen «Tu
+  materia». Con paro se pone roja y, si tiene clases ese día, le dice
+  que se fije con la cátedra: la app no sabe si la clase se da.
+- **Las clases** salen de una copia liviana que dejan Fechas y Perfil
+  en el teléfono (`guardarCopiaCursada`, en `app.js`), porque el inicio
+  no tiene sesión. Se borra al cerrar sesión y no se usa si la sesión
+  guardada es de otra cuenta.
+- `lib/datos.js` suma `or`. De paso se arregló la ruta del patio del
+  fondo del inicio, rota desde el reparto de los estilos del 27/9.
 
 **Tanda 3 · la estudiante hace algo con el evento**
 
@@ -402,6 +436,7 @@ si la gente se anota.
   propuesta 2 entera, con su decisión de **sin cuenta** y **solo
   contar**. Quien marca Voy recibe el aviso de ese evento aunque tenga
   la categoría apagada.
+- «Lo que marcaste Voy» en el inicio (venía de la tanda 2).
 - Compartir por WhatsApp: título, día, hora, lugar y link.
 - Vista agenda continua, pestaña **Mi calendario** (clases, finales,
   Voy, paros que le tocan) y el paro cruzado con la cursada: sus clases

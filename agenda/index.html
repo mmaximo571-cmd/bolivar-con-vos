@@ -734,6 +734,10 @@
     ]);
     if (cur.error || fal.error) return;
     cursada = cur.data || [];
+    /* La copia liviana que usa la tarjeta «Hoy» del inicio, que no
+       tiene sesión (30/9/2026). Con `typeof`: app.js puede venir del
+       caché viejo, sin la función. */
+    if (typeof guardarCopiaCursada === 'function') guardarCopiaCursada(cursada, cuenta.user.id);
     /* El número sale de contar filas, nunca de un contador guardado. */
     faltas = {};
     (fal.data || []).forEach(f => { faltas[f.materia] = (faltas[f.materia] || 0) + 1; });
