@@ -90,6 +90,24 @@
 
 .etiqueta.saberes {background:color-mix(in srgb, var(--linea-saberes) 25%, var(--superficie));color:var(--texto)}
 
+/* Etiqueta y punto de CATEGORÍA (30/9/2026). Los usan Fechas, la
+   campana, `cargar/` y el panel. Pesan dos clases, así que le ganan a
+   la `.etiqueta` suelta de `estilos-rediseno.css` aunque cargue después.
+   El suspendido va tachado: se lee, pero ya no vale. */
+.etiqueta.cat-paro       {background:color-mix(in srgb, var(--cat-paro) 16%, var(--superficie))}
+.etiqueta.cat-grupo      {background:color-mix(in srgb, var(--cat-grupo) 20%, var(--superficie))}
+.etiqueta.cat-actividad  {background:color-mix(in srgb, var(--cat-actividad) 16%, var(--superficie))}
+.etiqueta.cat-fecha      {background:color-mix(in srgb, var(--cat-fecha) 10%, var(--superficie))}
+.etiqueta.cat-comunicado {background:color-mix(in srgb, var(--cat-comunicado) 18%, var(--superficie))}
+.etiqueta.suspendido     {background:var(--superficie);text-decoration:line-through;
+                          box-shadow:inset 0 0 0 1px var(--linea)}
+
+.chip .punto.cat-paro,       .cal-punto.cat-paro       {background:var(--cat-paro)}
+.chip .punto.cat-grupo,      .cal-punto.cat-grupo      {background:var(--cat-grupo)}
+.chip .punto.cat-actividad,  .cal-punto.cat-actividad  {background:var(--cat-actividad)}
+.chip .punto.cat-fecha,      .cal-punto.cat-fecha      {background:var(--cat-fecha)}
+.chip .punto.cat-comunicado, .cal-punto.cat-comunicado {background:var(--cat-comunicado)}
+
 /* ============================================================
    BOTONES
    ============================================================ */

@@ -333,40 +333,12 @@ body.antes-de-entrar{padding-bottom:0}
   border-radius:var(--radio);padding:14px;box-shadow:var(--sombra);margin-bottom:8px
 }
 
-.calendario.cuadrado .cal-grilla{gap:4px}
+.calendario.cuadrado .cal-grilla{gap:4px;--hueco:4px}
 
 .calendario.cuadrado .cal-dia{
   aspect-ratio:1;font-size:var(--letra-densa);position:relative;
   flex-direction:column;justify-content:center;gap:0;padding-bottom:9px
 }
-
-.cal-barra.asueto{background:var(--celeste)}
-
-.cal-dia.con-cosas.asueto{background:var(--dia-asueto)}
-
-/* La leyenda: dice con letras lo que la grilla dice con colores */
-.cal-leyenda{
-  margin-top:12px;border-top:1px solid var(--linea);padding-top:11px;
-  display:flex;flex-direction:column;gap:9px
-}
-
-.cal-leyenda.vacia{color:var(--texto-suave);font-size:var(--letra-densa);padding-top:12px}
-
-.cal-leyenda-fila{display:flex;align-items:flex-start;gap:9px}
-
-.cal-marca{
-  flex:0 0 auto;width:14px;height:5px;border-radius:var(--radio-pastilla);margin-top:6px
-}
-
-.cal-marca.mesa  {background:var(--rojo)}
-
-.cal-marca.asueto{background:var(--celeste)}
-
-.cal-leyenda-texto{display:flex;flex-direction:column;line-height:1.25}
-
-.cal-leyenda-texto strong{font-family:var(--fuente-sub);font-size:var(--letra-densa);font-weight:700}
-
-.cal-leyenda-texto small{color:var(--texto-suave);font-size:var(--letra-nota)}
 
 .cal-elegido{display:flex;flex-direction:column;gap:8px}
 
@@ -420,7 +392,11 @@ body.antes-de-entrar{padding-bottom:0}
 .zona-fondo::before{
   content:'';position:absolute;left:0;right:0;bottom:0;z-index:-1;
   height:min(460px,64vw);pointer-events:none;
-  background:url(imagenes/facultad-patio.webp) center bottom / contain no-repeat;
+  /* La ruta es relativa a ESTA hoja, que vive dos carpetas abajo de la
+     raíz. Cuando la regla estaba en `estilos.css` (en la raíz) alcanzaba
+     con `imagenes/…`; al repartir los estilos el 27/9 quedó apuntando a
+     `css/pantallas/imagenes/`, que no existe, y el patio no se veía. */
+  background:url(../../imagenes/facultad-patio.webp) center bottom / contain no-repeat;
   opacity:.28
 }
 
@@ -638,6 +614,92 @@ body.antes-de-entrar{padding-bottom:0}
 }
 
 .proximo-flecha{flex:0 0 auto;font-family:var(--fuente-sub);font-weight:700}
+
+/* ---- La tarjeta «Hoy» (30/9/2026) ----
+   Ocupa el lugar del renglón de lo próximo cuando hoy pasa algo. Tiene
+   el mismo canto amarillo que el renglón, así se lee como el mismo
+   lugar de la portada que creció, y no como una sección nueva.
+   Con paro se vuelve roja entera: es lo único que cambia el día. */
+.hoy-tarjeta{
+  margin-bottom:16px;padding:14px 16px 12px;
+  background:var(--superficie);color:var(--texto);
+  border:1px solid var(--linea);border-left:4px solid var(--amarillo);
+  border-radius:var(--radio);box-shadow:var(--sombra)
+}
+
+.hoy-tarjeta.hay-paro{
+  background:var(--dia-paro);
+  border-color:color-mix(in srgb, var(--cat-paro) 45%, var(--linea));
+  border-left-color:var(--cat-paro)
+}
+
+/* La fecha va ARRIBA del título y no al costado: al costado, con
+   «miércoles 30 de septiembre», «HOY HAY PARO» se partía en tres
+   renglones. En el HTML el título va primero, que es lo que tiene que
+   leer primero un lector de pantalla; el orden de la vista lo da el
+   `column-reverse`. */
+.hoy-cabeza{display:flex;flex-direction:column-reverse;gap:3px;margin-bottom:4px}
+
+.hoy-rotulo{
+  margin:0;font-family:var(--fuente-titulo);font-size:20px;line-height:1.1;
+  text-transform:uppercase;letter-spacing:0
+}
+
+.hoy-tarjeta.hay-paro .hoy-rotulo{color:var(--cat-paro)}
+
+.hoy-fecha{
+  flex:0 0 auto;font-family:var(--fuente-datos);font-weight:700;font-size:var(--letra-chica);
+  text-transform:uppercase;letter-spacing:.07em;color:var(--texto-suave)
+}
+
+.hoy-lista,.hoy-clases{list-style:none;margin:0;padding:0}
+
+.hoy-item{
+  display:flex;align-items:flex-start;gap:10px;padding:8px 0;
+  text-decoration:none;color:var(--texto)
+}
+
+.hoy-lista li + li .hoy-item{border-top:1px solid var(--linea)}
+
+/* El punto es el mismo `.cal-punto` del calendario, con su color de
+   categoría (`css/base/03-controles.css`), un poco más grande. */
+.hoy-item .cal-punto{flex:0 0 auto;width:9px;height:9px;margin-top:6px}
+
+.hoy-texto{min-width:0}
+
+.hoy-item b{display:block;font-size:var(--letra-base);line-height:1.3}
+
+.hoy-detalle{display:block;margin-top:2px;font-size:var(--letra-chica);color:var(--texto-suave)}
+
+.hoy-item.suspendido b{text-decoration:line-through;color:var(--texto-suave)}
+
+.hoy-marca{
+  display:inline-block;margin-left:6px;padding:1px 7px;border-radius:var(--radio-pastilla);
+  font-size:10.5px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;
+  color:var(--texto);background:color-mix(in srgb, var(--cat-grupo) 22%, var(--superficie))
+}
+
+.hoy-subtitulo{
+  margin:8px 0 2px;padding-top:10px;border-top:1px solid var(--linea);
+  font-weight:700;font-size:10.5px;letter-spacing:.14em;text-transform:uppercase;
+  color:var(--texto-suave)
+}
+
+.hoy-clase{display:flex;justify-content:space-between;align-items:baseline;gap:12px;padding:5px 0}
+
+.hoy-clase b{font-size:var(--letra-base);line-height:1.3}
+
+.hoy-clase span{
+  flex:0 0 auto;font-family:var(--fuente-datos);font-size:var(--letra-chica);
+  color:var(--texto-suave);white-space:nowrap
+}
+
+.hoy-nota{margin:6px 0 0;font-size:var(--letra-chica);font-weight:700;color:var(--cat-paro)}
+
+.hoy-despues{
+  display:flex;align-items:center;gap:12px;margin-top:8px;padding-top:10px;
+  border-top:1px solid var(--linea);text-decoration:none;color:var(--texto)
+}
 
 /* ============================================================
    ÚLTIMO REPASO DE «MENOS MOVIMIENTO»

@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Cargar · La Bolívar con vos</title>
-<meta name="description" content="Cargá un paro o un grupo de estudio en la agenda de la app, en tres pasos.">
+<meta name="description" content="Cargá un paro, un grupo de estudio o una actividad en la agenda de la app, en tres pasos.">
 <meta name="theme-color" content="#F9E830">
 <!-- Es una pantalla de trabajo interno: no se comparte ni se indexa. -->
 <meta name="robots" content="noindex, nofollow">
@@ -45,7 +45,7 @@
 <div id="cabecera"></div>
 
 <!-- ============================================================
-     CARGAR  ·  un paro o un grupo de estudio, en tres pasos
+     CARGAR  ·  un paro, un grupo de estudio o una actividad, en tres pasos
 
      POR QUÉ EXISTE, Y POR QUÉ NO ES EL PANEL
 
@@ -60,21 +60,25 @@
      y dónde. Los tres campos difíciles los completa el botón que la
      persona apretó:
 
-       Un paro              -> tipo evento · línea gremial  · espera visto bueno
-       Un grupo de estudio  -> tipo evento · línea saberes  · sale publicado
+       Un paro              -> categoría paro      · línea gremial
+       Un grupo de estudio  -> categoría grupo     · línea saberes
+       Una actividad        -> categoría actividad · línea frente
+
+     Las tres salen publicadas y avisan solas al celular (30/9/2026).
+     Hasta ese día el paro esperaba visto bueno del equipo.
 
      Y el TÍTULO se arma solo, así nadie tiene que redactar.
 
-     LO QUE ESTA PANTALLA NO DECIDE. Que un paro no pueda publicarse
-     solo no depende de este archivo: lo impide la base
-     (`sql/tabla-publicaciones.sql`). Si esta pantalla tuviera un error
-     y mandara `publicado = true` en un paro, la base lo rechaza. Acá
-     se decide cómo se ve y qué se le explica a la persona; la garantía
-     está del otro lado.
+     LO QUE ESTA PANTALLA NO DECIDE. Qué puede escribir cada rol, y que
+     cada quien edite y suspenda solo lo suyo, no depende de este
+     archivo: lo garantiza la base (`sql/tabla-publicaciones.sql`,
+     secciones 6 y 9). Acá se decide cómo se ve y qué se le explica a
+     la persona; la garantía está del otro lado.
 
-     NO ENTRA ACÁ, a propósito: imágenes, enlaces, avisos al celular, y
-     editar o borrar lo ya cargado. Eso sigue siendo del panel. Cuanto
-     más corta esta pantalla, más gente la va a usar.
+     NO ENTRA ACÁ, a propósito: imágenes, enlaces y borrar. Eso sigue
+     siendo del panel. Editar y suspender lo propio sí (la lista de
+     «Lo que cargaste», abajo del paso 1): el aula y la hora son lo que
+     más cambia, y corregirlo no puede depender de otra persona.
      ============================================================ -->
 
 <main class="envoltura" id="contenido" tabindex="-1">
@@ -91,6 +95,12 @@
 <script src="../iconos.js"></script>
 <script src="../lib/mudanza.js"></script>
 <script src="../app.js"></script>
+<!-- Los planes de estudio, solo para sugerir el nombre de la materia de
+     un grupo. Escrita igual que en el plan, la materia es la que
+     encuentra a quien la cursa y le hace sonar el aviso. -->
+<script src="../carrera/plan.js"></script>
+<script src="../carrera/plan-fono.js"></script>
+<script src="../carrera/plan-tgcr.js"></script>
 <script src="../fondo-red.js"></script>
 <script>
 (async function cargar(){
@@ -111,7 +121,7 @@
   if (!usuario){
     contenido.innerHTML = `
       <h1 class="titulo-pantalla">CARGAR</h1>
-      <p class="bajada">Entrá con tu cuenta para cargar un paro o un grupo de estudio.</p>
+      <p class="bajada">Entrá con tu cuenta para cargar un paro, un grupo de estudio o una actividad.</p>
       <div class="ficha">
         <form id="login">
           <div class="campo"><label for="correo">Correo</label>
@@ -166,18 +176,27 @@
      al final se traduce a una fila de `publicaciones`. Tenerlo en un
      lugar es lo que permite volver atrás sin perder nada.
      ============================================================ */
-  const esto = { que:null, fecha:null, hora:null, lugar:'', detalle:'', asunto:'' };
+  /* `editando` es el id de lo que se está corrigiendo, o null si es
+     nuevo. `antes` guarda cómo estaba, para decir si el cambio va a
+     avisar (día, hora o lugar) o no (una coma en el detalle). */
+  const esto = { que:null, fecha:null, hora:null, lugar:'', detalle:'', asunto:'',
+                 editando:null, antes:null };
 
-  /* Las dos clases de cosa que se cargan acá, con TODO lo que cada una
-     implica junto. Agregar una tercera (una charla, un taller) es
-     agregar un renglón a esta tabla y nada más. */
+  /* Las tres clases de cosa que se cargan acá, con TODO lo que cada una
+     implica junto. Agregar otra (un taller) es agregar un renglón a
+     esta tabla y nada más.
+
+     Desde el 30/9/2026 las tres se publican directo, paros incluidos, y
+     las tres avisan solas al celular de quien tenga prendido ese canal
+     (`supabase/functions/avisos`). Por eso la vista previa lo dice con
+     todas las letras. */
   const CLASES = {
     paro: {
       nombre: 'Un paro',
       emoji: '✊',
       pista: 'Una medida de fuerza, una jornada de lucha, un abrazo a la facultad.',
       linea: 'gremial',
-      publica: false,
+      categoria: 'paro',
       /* Cada clase pregunta UNA cosa suya, y de ahí sale el título. Que
          las dos tengan la misma forma es lo que evita que el título
          repita el texto de abajo: el asunto va arriba, el detalle
@@ -187,22 +206,57 @@
         ejemplo: 'Contra el recorte de presupuesto',
         falta: 'Falta decir por qué es el paro: es lo que se lee en la agenda.'
       },
-      titulo: e => 'Paro: ' + e.asunto
+      titulo: e => 'Paro: ' + e.asunto,
+      /* Al revés que `titulo`: de la fila guardada al asunto, para
+         poder editarla sin que el prefijo se duplique. */
+      asunto: p => String(p.titulo || '').replace(/^Paro:\s*/i, '')
     },
     grupo: {
       nombre: 'Un grupo de estudio',
       emoji: '📚',
       pista: 'Juntarse a estudiar una materia, preparar un final, repasar un parcial.',
       linea: 'saberes',
-      publica: true,
+      categoria: 'grupo',
       campo: {
         titulo: '¿De qué materia?',
         ejemplo: 'Trabajo Social I',
-        falta: 'Falta la materia: es lo que hace que el grupo se encuentre.'
+        falta: 'Falta la materia: es lo que hace que el grupo se encuentre.',
+        /* Sugiere los nombres del plan: escrita igual que en la cursada
+           de cada quien, la materia es la que hace sonar el aviso. */
+        sugerencias: true
       },
-      titulo: e => 'Grupo de estudio de ' + e.asunto
+      titulo: e => 'Grupo de estudio de ' + e.asunto,
+      asunto: p => p.materia ||
+        String(p.titulo || '').replace(/^Grupo de estudio de\s*/i, '')
+    },
+    actividad: {
+      nombre: 'Una actividad',
+      emoji: '📣',
+      pista: 'Una charla, una asamblea, una jornada, un taller.',
+      linea: 'frente',
+      categoria: 'actividad',
+      campo: {
+        titulo: '¿Qué es?',
+        ejemplo: 'Asamblea por el boleto estudiantil',
+        falta: 'Falta decir qué es: es el título que se lee en la agenda.'
+      },
+      titulo: e => e.asunto,
+      asunto: p => String(p.titulo || '')
     }
   };
+
+  const QUE_DE_CATEGORIA = { paro:'paro', grupo:'grupo', actividad:'actividad' };
+
+  /* Todas las materias de los tres planes, sin repetir. Si algún plan no
+     cargó, se sugiere con lo que haya: es una ayuda, no un requisito. */
+  const MATERIAS = (function(){
+    const nombres = new Set();
+    ['PLAN_TS', 'PLAN_FONO', 'PLAN_TGCR'].forEach(k => {
+      const plan = window[k];
+      ((plan && plan.materias) || []).forEach(m => { if (m && m.nombre) nombres.add(m.nombre); });
+    });
+    return [...nombres].sort((a, b) => a.localeCompare(b, 'es'));
+  })();
 
   /* Los lugares de siempre, para no escribirlos a mano. El último es
      libre porque los aulas cambian de número todo el tiempo. */
@@ -262,7 +316,7 @@
 
   function encabezado(n, texto){
     return `
-      <p class="bajada" style="margin-bottom:6px">Paso ${n} de 3</p>
+      <p class="bajada" style="margin-bottom:6px">${esto.editando ? 'Corrigiendo · ' : ''}Paso ${n} de 3</p>
       <h1 class="titulo-pantalla">${texto}</h1>`;
   }
 
@@ -278,12 +332,120 @@
           </button>`).join('')}
       </div>
       <p class="bajada" style="margin-top:18px">
-        Si lo que querés cargar no es ninguna de las dos, avisale a alguien del
+        Si lo que querés cargar no es ninguna de estas, avisale a alguien del
         equipo: se carga desde el panel.
-      </p>`;
+      </p>
+      <div id="lo-mio"></div>`;
     contenido.querySelectorAll('[data-que]').forEach(b => {
-      b.onclick = () => { esto.que = b.dataset.que; paso2(); };
+      b.onclick = () => {
+        Object.assign(esto, { que: b.dataset.que, editando: null, antes: null });
+        paso2();
+      };
     });
+    pintarLoMio();
+  }
+
+  /* ------------------------------------------------------------
+     LO QUE CARGUÉ
+
+     Lo que más cambia de un paro o un grupo es el aula y la hora, y
+     hasta hoy corregirlo exigía el panel. Acá cada quien ve lo suyo que
+     todavía no pasó y lo edita o lo suspende. La base garantiza que sea
+     lo SUYO (`creado_por`, sección 9 de `sql/tabla-publicaciones.sql`).
+
+     Suspender no borra: queda tachado en la agenda y a quien ya le
+     había llegado el aviso le llega «se suspendió». Borrar haría que
+     desaparezca sin que nadie se entere, que es lo peor para un paro.
+     ------------------------------------------------------------ */
+  let mio = [];
+
+  async function pintarLoMio(){
+    const caja = document.getElementById('lo-mio');
+    if (!caja) return;
+    const ayer = aISO(new Date(Date.now() - 86400000));
+    const { data, error } = await db.from('publicaciones')
+      .select('id,titulo,categoria,materia,fecha_desde,fecha_hasta,hora,lugar,cuerpo,publicado,suspendido')
+      .eq('creado_por', usuario.id)
+      .in('categoria', Object.keys(QUE_DE_CATEGORIA))
+      .gte('fecha_desde', ayer)
+      .order('fecha_desde', { ascending: true })
+      .limit(30);
+    /* Sin la columna `categoria` (falta correr el SQL) no se dibuja
+       nada: la carga sigue andando igual y esto es un agregado. */
+    if (error || !document.getElementById('lo-mio')) return;
+    mio = data || [];
+    if (!mio.length){ caja.innerHTML = ''; return; }
+
+    caja.innerHTML = `
+      <div class="titulo-seccion" style="margin-top:26px">LO QUE CARGASTE</div>
+      <div class="grupo">
+        ${mio.map(p => {
+          const c = CLASES[QUE_DE_CATEGORIA[p.categoria]];
+          const estado = p.suspendido ? 'Suspendido'
+                       : !p.publicado ? 'Sin publicar' : '';
+          return `
+          <div class="tarjeta ${esc(c.linea)}${p.suspendido ? ' suspendida' : ''}">
+            <h3>${c.emoji} ${esc(p.titulo)}</h3>
+            <p>${esc(enPalabras(String(p.fecha_desde).slice(0, 10)))}${
+              p.hora ? ' · ' + esc(p.hora) : ''}${p.lugar ? ' · ' + esc(p.lugar) : ''}</p>
+            ${estado ? `<div class="tarjeta-pies"><span class="etiqueta">${estado}</span></div>` : ''}
+            <div class="chips" style="margin-top:10px">
+              ${p.suspendido ? '' : `<button type="button" class="chip" data-editar="${p.id}">Editar</button>`}
+              ${!p.publicado ? `<button type="button" class="chip" data-publicar="${p.id}">Publicar ya</button>` : ''}
+              <button type="button" class="chip" data-suspender="${p.id}">${
+                p.suspendido ? 'Volver a activar' : 'Suspender'}</button>
+            </div>
+          </div>`;
+        }).join('')}
+      </div>
+      <div id="msj-mio"></div>`;
+
+    caja.querySelectorAll('[data-editar]').forEach(b => {
+      b.onclick = () => editar(mio.find(p => String(p.id) === b.dataset.editar));
+    });
+    caja.querySelectorAll('[data-suspender]').forEach(b => {
+      b.onclick = () => suspender(mio.find(p => String(p.id) === b.dataset.suspender), b);
+    });
+    caja.querySelectorAll('[data-publicar]').forEach(b => {
+      b.onclick = () => cambiarFila(Number(b.dataset.publicar), { publicado: true }, b);
+    });
+  }
+
+  function editar(p){
+    if (!p) return;
+    const que = QUE_DE_CATEGORIA[p.categoria];
+    Object.assign(esto, {
+      que,
+      fecha:   String(p.fecha_desde).slice(0, 10),
+      hora:    p.hora || null,
+      lugar:   p.lugar || '',
+      detalle: p.cuerpo || '',
+      asunto:  CLASES[que].asunto(p),
+      editando: p.id,
+      antes:   { fecha: String(p.fecha_desde).slice(0, 10), hora: p.hora || null, lugar: p.lugar || '' }
+    });
+    paso2();
+  }
+
+  async function suspender(p, boton){
+    if (!p) return;
+    const suspendiendo = !p.suspendido;
+    if (suspendiendo && !confirm(
+        '¿Suspender «' + p.titulo + '»?\n\nQueda tachado en la agenda y a quien ya ' +
+        'le había llegado el aviso le avisamos que se suspendió.')) return;
+    cambiarFila(p.id, { suspendido: suspendiendo }, boton);
+  }
+
+  async function cambiarFila(id, cambios, boton){
+    if (boton) boton.disabled = true;
+    const { error } = await db.from('publicaciones').update(cambios).eq('id', id);
+    if (error){
+      if (boton) boton.disabled = false;
+      const msj = document.getElementById('msj-mio');
+      if (msj) msj.innerHTML = `<div class="aviso error">No se pudo guardar: ${esc(error.message)}</div>`;
+      return;
+    }
+    pintarLoMio();
   }
 
   function paso2(){
@@ -361,7 +523,10 @@
         <h3>${esc(c.campo.titulo)}</h3>
         <div class="campo">
           <input id="asunto" value="${esc(esto.asunto)}"
-                 placeholder="${esc(c.campo.ejemplo)}" maxlength="80">
+                 placeholder="${esc(c.campo.ejemplo)}" maxlength="80"
+                 ${c.campo.sugerencias && MATERIAS.length ? 'list="materias-plan" autocomplete="off"' : ''}>
+          ${c.campo.sugerencias && MATERIAS.length ? `<datalist id="materias-plan">${
+            MATERIAS.map(m => `<option value="${esc(m)}">`).join('')}</datalist>` : ''}
         </div>
       </div>
 
@@ -436,19 +601,34 @@
      tecnología no confía en un formulario a ciegas: ver la tarjeta
      como va a salir es lo que le dice «esto es lo que estás haciendo».
 
-     Y es donde se le avisa, con todas las letras, si esto se publica
-     ya o si lo tiene que aprobar alguien. Si alguien carga un paro
-     creyendo que ya está publicado, es PEOR que no tener la pantalla.
+     Y es donde se le avisa, con todas las letras, que esto se publica
+     YA y que le suena el teléfono a quien tenga prendidos los avisos.
+     Desde que los paros no esperan visto bueno (30/9/2026), esta es la
+     última mirada antes de que lo lea toda la facultad.
      ------------------------------------------------------------ */
+  const ROTULO = { paro:'Paro', grupo:'Grupo de estudio', actividad:'Actividad' };
+  const CANAL  = { paro:'paros', grupo:'grupos de estudio', actividad:'actividades' };
+
   function vistaPrevia(){
     const c = CLASES[esto.que];
     const titulo = c.titulo(esto);
+    const editando = !!esto.editando;
+
+    /* Solo el día, la hora y el lugar avisan un cambio (lo decide el
+       disparador de la base). Una coma en el detalle no despierta a
+       nadie, y así se le dice a quien edita. */
+    const avisaCambio = editando && esto.antes && (
+      esto.antes.fecha !== esto.fecha ||
+      (esto.antes.hora || null) !== (esto.hora || null) ||
+      esto.antes.lugar !== esto.lugar);
+
+    const textoBoton = editando ? 'Guardar los cambios' : 'Publicar';
 
     contenido.innerHTML = `
       <p class="bajada" style="margin-bottom:6px">Antes de guardar</p>
       <h1 class="titulo-pantalla">ASÍ VA<br>A QUEDAR</h1>
 
-      <div class="tarjeta ${esc(c.linea)}">
+      <div class="tarjeta ${esc(c.linea)} cat-${esc(c.categoria)}">
         <h3>${esc(titulo)}</h3>
         <p>
           ${esc(enPalabras(esto.fecha))}${esto.hora ? ' · ' + esc(esto.hora) : ''}<br>
@@ -456,22 +636,24 @@
           ${esto.detalle ? '<br><br>' + esc(esto.detalle) : ''}
         </p>
         <div class="tarjeta-pies">
-          <span class="etiqueta ${esc(c.linea)}">${esc(NOMBRE_LINEA[c.linea])}</span>
+          <span class="etiqueta cat-${esc(c.categoria)}">${esc(ROTULO[c.categoria])}</span>
         </div>
       </div>
 
-      <div class="aviso ${c.publica ? 'ok' : ''}" style="margin-top:16px">
-        ${c.publica
-          ? '<strong>Esto se va a ver ya.</strong> Apenas guardes aparece en la ' +
-            'agenda y en el calendario de la app, para todo el mundo.'
-          : '<strong>Esto lo tiene que aprobar el equipo.</strong> Cuando guardes ' +
-            'queda mandado, pero todavía NO se ve en la app: alguien del equipo lo ' +
-            'revisa y lo publica. Si es urgente, avisale además por otro lado.'}
+      <div class="aviso ok" style="margin-top:16px">
+        ${!editando
+          ? '<strong>Esto se va a ver ya</strong> en la agenda y en el calendario de ' +
+            'la app, y les llega un aviso al celular a quienes tengan prendidos los ' +
+            'avisos de ' + CANAL[c.categoria] + '. Revisá bien el día y el lugar.'
+          : avisaCambio
+            ? '<strong>Cambia el día, la hora o el lugar.</strong> A quienes ya les ' +
+              'había llegado el aviso les llega otro con el cambio.'
+            : 'Se corrige en la agenda. Como no cambia el día, la hora ni el lugar, ' +
+              'no le suena el teléfono a nadie.'}
       </div>
 
       <div id="msj"></div>
-      <button class="boton ancho" id="guardar">${
-        c.publica ? 'Publicar' : 'Mandar para que lo aprueben'}</button>
+      <button class="boton ancho" id="guardar">${textoBoton}</button>
       <button class="boton ancho borde" id="atras" style="margin-top:10px">← Cambiar algo</button>`;
 
     document.getElementById('atras').onclick = paso3;
@@ -479,28 +661,37 @@
       this.disabled = true;
       this.textContent = 'Guardando…';
 
-      const fila = {
-        tipo:        'evento',
-        linea:       c.linea,
+      /* Lo que se escribe en los dos casos. Al editar no se toca
+         `publicado` ni `creado_por`: se corrige lo que se ve, no de
+         quién es ni si está a la vista. */
+      const comun = {
         titulo:      titulo,
         cuerpo:      esto.detalle || null,
         fecha_desde: esto.fecha,
         hora:        esto.hora || null,
         lugar:       esto.lugar,
-        publicado:   c.publica,
-        /* Los dos que la base también exige, y que acá no se preguntan
-           nunca: un evento cargado así no hace sonar teléfonos y no
-           toca la alarma de mesas. Ver `sql/tabla-publicaciones.sql`. */
-        alarma:      'ninguna',
-        avisar:      false,
-        creado_por:  usuario.id
+        materia:     c.categoria === 'grupo' ? esto.asunto : null
       };
 
-      const { error } = await db.from('publicaciones').insert(fila);
+      const { error } = editando
+        ? await db.from('publicaciones').update(comun).eq('id', esto.editando)
+        : await db.from('publicaciones').insert(Object.assign({
+            tipo:        'evento',
+            linea:       c.linea,
+            categoria:   c.categoria,
+            publicado:   true,
+            /* Los dos que la base también exige, y que acá no se
+               preguntan nunca: un evento no usa la marca manual de
+               avisar (avisa solo, por su canal) y no toca la alarma de
+               mesas. Ver `sql/tabla-publicaciones.sql`. */
+            alarma:      'ninguna',
+            avisar:      false,
+            creado_por:  usuario.id
+          }, comun));
 
       if (error){
         this.disabled = false;
-        this.textContent = c.publica ? 'Publicar' : 'Mandar para que lo aprueben';
+        this.textContent = textoBoton;
         /* El error crudo de PostgREST no le dice nada a nadie. El caso
            más probable es que la cuenta no tenga el permiso todavía, o
            que falte correr el archivo de la tabla. */
@@ -514,7 +705,7 @@
         return;
       }
 
-      listo(c);
+      listo(editando);
     };
   }
 
@@ -525,27 +716,27 @@
      WhatsApp, y ahí perdimos lo que ganamos. Así que se dice qué pasó
      y qué sigue.
      ------------------------------------------------------------ */
-  function listo(c){
+  function listo(fueEdicion){
     contenido.innerHTML = `
-      <h1 class="titulo-pantalla">${c.publica ? 'YA<br>ESTÁ' : 'MANDADO'}</h1>
+      <h1 class="titulo-pantalla">YA<br>ESTÁ</h1>
       <p class="bajada">
-        ${c.publica
-          ? 'Ya se ve en la agenda y en el calendario de la app.'
-          : 'Le llegó al equipo. Falta que alguien lo revise y lo publique; ' +
-            'hasta entonces no se ve en la app.'}
+        ${fueEdicion
+          ? 'Quedó corregido en la agenda y en el calendario de la app.'
+          : 'Ya se ve en la agenda y en el calendario de la app. El aviso al ' +
+            'celular sale en la próxima vuelta del reloj (cada hora en punto, ' +
+            'de 9 a 21).'}
       </p>
       <div class="grupo">
-        ${c.publica
-          ? '<a class="boton ancho" href="../agenda/">Verlo en la agenda</a>'
-          : ''}
-        <button class="boton ancho${c.publica ? ' borde' : ''}" id="otra">Cargar otra cosa</button>
+        <a class="boton ancho" href="../agenda/">Verlo en la agenda</a>
+        <button class="boton ancho borde" id="otra">Cargar otra cosa</button>
         <a class="boton ancho borde" href="../">Volver a la app</a>
       </div>`;
     document.getElementById('otra').onclick = () => {
       /* Se limpia todo menos la fecha: casi siempre se cargan varias
          cosas del mismo día, y volver a elegirlo cansa. */
       const fecha = esto.fecha;
-      Object.assign(esto, { que:null, fecha, hora:null, lugar:'', detalle:'', asunto:'' });
+      Object.assign(esto, { que:null, fecha, hora:null, lugar:'', detalle:'', asunto:'',
+                            editando:null, antes:null });
       paso1();
     };
   }

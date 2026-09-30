@@ -1004,9 +1004,10 @@
         </div>` : ''}
       <button class="boton ancho" id="nuevo">+ Nueva publicación</button>
       <p class="bajada" style="margin-top:10px">
-        Para un paro o un grupo de estudio hay una pantalla corta que puede usar
-        cualquiera de la agrupación: <a href="../cargar/">cargar</a>. Pide tres
-        cosas y arma el resto sola.
+        Para un paro, un grupo de estudio o una actividad hay una pantalla corta
+        que puede usar cualquiera de la agrupación: <a href="../cargar/">cargar</a>.
+        Pide tres cosas y arma el resto sola. Desde el 30/9 lo que se carga ahí
+        sale publicado y avisa solo al celular.
       </p>
       <div class="lista" style="margin-top:14px" id="lista"></div>`;
     document.getElementById('nuevo').onclick = () => formularioPublicacion(null);
@@ -1053,8 +1054,10 @@
         <div class="fila-item">
           <div class="crecer">
             <span class="etiqueta ${esc(p.linea)}">${esc(NOMBRE_LINEA[p.linea] || p.linea)}</span>
+            ${p.categoria ? `<span class="etiqueta cat-${esc(p.categoria)}">${esc(p.categoria)}</span>` : ''}
             <h3>${esc(p.titulo)}</h3>
             <p>${esc(rangoLindo(p.fecha_desde, p.fecha_hasta) || 'Sin fecha')}${p.publicado ? '' : ' · BORRADOR'}${
+              p.suspendido ? ' · SUSPENDIDO' : ''}${
               p.alarma === 'inscripcion' ? ' · ALARMA: inscripción de ' + esc(p.periodo || '')
             : p.alarma === 'mesa'        ? ' · mesa de ' + esc(p.periodo || '')
             : ''}</p>
@@ -1071,9 +1074,14 @@
 
   function formularioPublicacion(p){
     const esNuevo = !p;
-    p = p || { tipo:'novedad', linea:'info', publicado:true };
+    p = p || { tipo:'novedad', categoria:'comunicado', linea:'info', publicado:true };
 
-    const opcion = (v, txt, actual) =>
+    /* Una fila vieja sin categoría se deduce igual que en la base. */
+    const categoriaActual = p.categoria
+      || (p.tipo === 'fecha' ? 'fecha' : p.tipo === 'novedad' ? 'comunicado'
+          : p.linea === 'gremial' ? 'paro' : p.linea === 'saberes' ? 'grupo' : 'actividad');
+
+    const opcion =(v, txt, actual) =>
       `<option value="${v}"${v === actual ? ' selected' : ''}>${esc(txt)}</option>`;
 
     zona.innerHTML = `
@@ -1083,12 +1091,17 @@
       <div class="campo"><label for="titulo">Título *</label>
         <input id="titulo" value="${esc(p.titulo || '')}" placeholder="Mesa de finales de septiembre"></div>
 
+      <!-- LA CATEGORÍA (30/9/2026) reemplaza al «Tipo»: es lo que ve la
+           estudiante en el calendario y lo que decide qué canal de avisos
+           suena. El tipo se deduce de acá al guardar (TIPO_DE_CATEGORIA). -->
       <div class="dos-columnas">
-        <div class="campo"><label for="tipo">Tipo</label>
-          <select id="tipo">
-            ${opcion('novedad','Novedad', p.tipo)}
-            ${opcion('evento','Actividad o evento', p.tipo)}
-            ${opcion('fecha','Fecha clave', p.tipo)}
+        <div class="campo"><label for="categoria">Categoría</label>
+          <select id="categoria">
+            ${opcion('comunicado','Comunicado (sin fecha propia)', categoriaActual)}
+            ${opcion('fecha','Fecha académica', categoriaActual)}
+            ${opcion('paro','Paro (avisa solo)', categoriaActual)}
+            ${opcion('grupo','Grupo de estudio (avisa solo)', categoriaActual)}
+            ${opcion('actividad','Actividad: charla, asamblea… (avisa sola)', categoriaActual)}
           </select></div>
         <div class="campo"><label for="linea">Línea editorial</label>
           <select id="linea">
@@ -1096,6 +1109,19 @@
             ${opcion('gremial','Gremial (turquesa)', p.linea)}
             ${opcion('saberes','Saberes colectivos (celeste)', p.linea)}
             ${opcion('frente','Frente político (negro)', p.linea)}
+          </select></div>
+      </div>
+
+      <div class="dos-columnas">
+        <div class="campo"><label for="materia">Materia (solo grupos de estudio)</label>
+          <input id="materia" value="${esc(p.materia || '')}" maxlength="120"
+                 placeholder="Trabajo Social I">
+          <p class="letra-chica" style="margin:4px 0 0">Escrita como en el plan: con eso
+            le suena el aviso a quien la cursa.</p></div>
+        <div class="campo"><label for="suspendido">¿Se suspendió?</label>
+          <select id="suspendido">
+            <option value="no"${p.suspendido ? '' : ' selected'}>No, sigue en pie</option>
+            <option value="si"${p.suspendido ? ' selected' : ''}>Sí: queda tachado y avisa</option>
           </select></div>
       </div>
 
@@ -1158,7 +1184,9 @@
                       font-size:var(--letra-nota);line-height:1.45">
           Solo para lo que de verdad no se puede perder. El aviso sale una vez
           y vale 48 horas: pasadas esas, esta publicación ya no le suena a
-          nadie, aunque quede marcada.</small></div>
+          nadie, aunque quede marcada. Es para los comunicados: los paros, los
+          grupos y las actividades avisan solos por su canal, y esta marca en
+          ellos no hace nada.</small></div>
 
       <button class="boton ancho" id="guardar">Guardar</button>
       ${esNuevo ? '' : `<button class="boton ancho peligro" id="borrar" style="margin-top:10px">Eliminar</button>`}
@@ -1199,10 +1227,16 @@
 
       this.disabled = true; this.textContent = 'Guardando…';
 
+      const categoria = val('categoria');
+      const TIPO_DE_CATEGORIA = { paro:'evento', grupo:'evento', actividad:'evento',
+                                  fecha:'fecha', comunicado:'novedad' };
       const fila = {
         titulo:      val('titulo'),
-        tipo:        val('tipo'),
+        categoria,
+        tipo:        TIPO_DE_CATEGORIA[categoria] || 'novedad',
         linea:       val('linea'),
+        materia:     categoria === 'grupo' ? nulo('materia') : null,
+        suspendido:  val('suspendido') === 'si',
         alarma:      alarma || null,
         periodo:     (alarma === 'inscripcion' || alarma === 'mesa') ? periodo : null,
         cuerpo:      nulo('cuerpo'),

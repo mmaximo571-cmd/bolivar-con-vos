@@ -159,6 +159,12 @@
 
 .tarjeta.saberes {border-left-color:var(--linea-saberes)}
 
+/* Lo suspendido sigue en su lugar, tachado y apagado: quien lo tenía
+   anotado tiene que poder encontrarlo y ver que ya no va. Borrarlo de
+   la lista sería peor que no avisar. Lo usan Fechas y `cargar/`. */
+.tarjeta.suspendida{opacity:.62}
+.tarjeta.suspendida h3{text-decoration:line-through}
+
 @media (prefers-reduced-motion:reduce) {
 .tarjeta,.grupo > .cuerpo-grupo{transition:none}
 

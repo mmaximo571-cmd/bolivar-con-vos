@@ -21,7 +21,7 @@
    lista, porque acá abajo se sirve lo guardado antes que la red.
    Por qué subió cada número (v4 en adelante): `docs/HISTORIAL-SW.md`.
    Al subirlo, anotar ahí el número, la fecha y el porqué. */
-const VERSION = 'bolivar-v76';
+const VERSION = 'bolivar-v79';
 const ARMAZON = VERSION + '-armazon';
 const PAGINAS = VERSION + '-paginas';
 
@@ -54,8 +54,10 @@ const DEL_ARMAZON = [
   /* La mudanza a labolivarconvos.ar salio de app.js el 27/9/2026 y se
      carga antes que el: tiene que estar guardada igual que app.js, o la
      primera visita sin senal se queda sin ella. Las otras dos piezas que
-     salieron (`fecha-al-calendario` y `tarjeta-avisos`) las usa UNA
-     pantalla cada una, asi que no van aca: quedan guardadas solas. */
+     salieron (`fecha-al-calendario` y `tarjeta-avisos`) no van aca: la
+     primera la usan dos pantallas (Fechas y, desde el 30/9, el inicio)
+     y la segunda una, y ninguna dibuja su calendario sin red. Quedan
+     guardadas solas por la regla del final. */
   '/lib/mudanza.js',
   '/app.js',
   '/iconos.js',

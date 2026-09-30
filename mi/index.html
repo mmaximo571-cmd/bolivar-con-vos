@@ -207,8 +207,8 @@
                   margin-top:16px;line-height:1.5">
         <p style="margin:0 0 6px"><b>Qué guardamos:</b> tu correo, el nombre
           que pongas, los trámites que marques, las materias que estés
-          preparando y, si la cargás, tu cursada con las faltas. Nada de
-          notas.</p>
+          preparando, qué avisos de la campana ya leíste y, si la cargás,
+          tu cursada con las faltas. Nada de notas.</p>
         <p style="margin:0 0 6px"><b>Quién lo ve:</b> vos. El equipo ve tu
           nombre en la lista de cuentas; no ve tu correo, ni qué guardaste, ni
           qué estás preparando, ni tu cursada.</p>
@@ -218,7 +218,8 @@
           que lo tuyo esté en cualquier teléfono.</p>
       </div>`;
 
-    pintarAvisos(document.getElementById('caja-avisos'), { conCuenta:false });
+    pintarAvisos(document.getElementById('caja-avisos'), { conCuenta:false })
+      .then(llevarALosAvisos);
 
     let modo = 'entrar';
     const tabEntrar = document.getElementById('tab-entrar');
@@ -499,11 +500,14 @@
        tus mesas de final: la suscripción de este teléfono queda atada
        a la cuenta, y recién ahí quien manda los avisos sabe cuáles de
        las preparaciones son tuyas. */
-    pintarAvisos(document.getElementById('caja-avisos'), { conCuenta:true });
+    pintarAvisos(document.getElementById('caja-avisos'), { conCuenta:true })
+      .then(llevarALosAvisos);
 
     document.getElementById('salir').onclick = async function(){
       this.disabled = true;
       await db.auth.signOut();
+      /* Las clases no se quedan en el teléfono de quien cerró sesión. */
+      if (typeof olvidarCopiaCursada === 'function') olvidarCopiaCursada();
       refrescar();
     };
 
@@ -567,6 +571,7 @@
          signOut puede fallar por eso mismo, y no importa: lo que se está
          limpiando es el teléfono. Por eso va en try. */
       try { await db.auth.signOut(); } catch(e){}
+      if (typeof olvidarCopiaCursada === 'function') olvidarCopiaCursada();
 
       document.getElementById('contenido').innerHTML = `
         <h1 class="titulo-pantalla">LISTO</h1>
@@ -680,6 +685,16 @@
   }
   const NOMBRE_BLOQUE = { manana:'mañana', tarde:'tarde', noche:'noche' };
 
+  /* El renglón del final de la campana trae acá con `#caja-avisos`
+     (30/9/2026). La tarjeta se dibuja después de cargar, así que el
+     navegador no encuentra solo dónde bajar: se baja a mano, igual que
+     con `#cursada`. */
+  function llevarALosAvisos(){
+    if (location.hash !== '#caja-avisos') return;
+    const caja = document.getElementById('caja-avisos');
+    if (caja) caja.scrollIntoView({ block:'start' });
+  }
+
   async function montarCursada(usuario){
     const lista = document.getElementById('mi-cursada');
     const form  = document.getElementById('form-cursada');
@@ -711,6 +726,10 @@
       if (error){ mostrarError(lista, error, 'cargar tu cursada'); return; }
       filas = data || [];
       pintar();
+      /* La copia liviana que usa la tarjeta «Hoy» del inicio, que no
+         tiene sesión. Con `typeof` porque esta pantalla llega de la red
+         y app.js puede venir del caché viejo, sin la función. */
+      if (typeof guardarCopiaCursada === 'function') guardarCopiaCursada(filas, usuario.id);
     }
 
     lista.addEventListener('click', async ev => {

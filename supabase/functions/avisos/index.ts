@@ -42,19 +42,30 @@ const URL_BASE = 'https://labolivarconvos.ar';
 const TOPE_POR_CORRIDA = 4000;
 const DE_A = 20;                    /* cuántos envíos en paralelo */
 
+type Canal = 'mesas' | 'novedades' | 'mis_fechas' | 'paros' | 'grupos' | 'actividades';
+
 type Aviso = {
   clave:   string;                  /* el nombre del aviso, no el de la publicación */
-  canal:   'mesas' | 'novedades' | 'mis_fechas';
+  canal:   Canal;
   titulo:  string;
   cuerpo:  string;
   url:     string;
   usuario?: string;                 /* solo los de `mis_fechas` van a una persona */
+  materia?: string;                 /* solo los grupos: a quién le interesa */
+  /* Claves que se dan por mandadas junto con esta. «Hoy: paro» ya
+     dice todo lo que decía «nuevo paro», y no tiene que sonar después. */
+  tambien?: string[];
+  /* Solo a quien ya recibió algo de esta publicación. Es el aviso de
+     cambio: «cambió de aula» no le sirve a quien nunca supo el aula. */
+  soloSiTuvo?: number;
 };
 
 type Suscripcion = {
   id: number; endpoint: string; p256dh: string; auth: string;
   usuario_id: string | null;
   mesas: boolean; novedades: boolean; mis_fechas: boolean;
+  paros: boolean; grupos: boolean; actividades: boolean;
+  materias: string[] | null;
   fallos: number;
 };
 
@@ -152,7 +163,11 @@ function avisosDeMesas(publicaciones: any[], hoy: string): Aviso[] {
    quien recién prende los avisos es un aviso que no entiende.
    ------------------------------------------------------------ */
 function avisosDeNovedades(publicaciones: any[]): Aviso[] {
-  return (publicaciones || []).map(p => ({
+  /* Los eventos avisan solos por su canal (sección 4). Si además
+     alguien les marcó `avisar`, sonarían dos veces. */
+  return (publicaciones || [])
+    .filter(p => !CANAL_DE[p.categoria])
+    .map(p => ({
     clave:  `novedad:${p.id}`,
     canal:  'novedades' as const,
     titulo: String(p.titulo || 'Hay una novedad'),
@@ -193,6 +208,115 @@ function avisosDeFinales(preparaciones: any[], hoy: string): Aviso[] {
       url:     `${URL_BASE}/estudiemos/`,
       usuario: p.usuario_id
     });
+  }
+  return avisos;
+}
+
+
+/* ------------------------------------------------------------
+   4. LOS PAROS, LOS GRUPOS DE ESTUDIO Y LAS ACTIVIDADES
+
+   Avisan solos, sin que nadie marque nada (propuesta 3, 30/9/2026).
+   Tres momentos, y ninguno más:
+
+     nueva    en las 24 horas después de publicarse. Lo publicado a
+              la noche sale a las 9, cuando el reloj vuelve a mandar.
+     hoy      a la mañana del día en que empieza, con hora y lugar.
+     cambio   si cambió el día, la hora o el lugar, o se suspendió.
+              Solo a quien ya tenía uno de los dos anteriores.
+
+   Los tres se pisan con cuidado para que nada suene dos veces:
+   publicado hoy para hoy es un solo «Hoy: …», y publicado y corregido
+   antes de que salga el primero es un solo aviso, ya corregido.
+
+   Las `fecha` (calendario académico) no avisan por acá: son decenas y
+   se cargan de a muchas. Los comunicados siguen con la marca manual.
+   ------------------------------------------------------------ */
+const CANAL_DE: Record<string, Canal> = {
+  paro: 'paros', grupo: 'grupos', actividad: 'actividades'
+};
+
+const DIAS = ['domingo', 'lunes', 'martes', 'miércoles', 'jueves', 'viernes', 'sábado'];
+
+/* «hoy», «mañana», «el jueves» o «el 14/10», como lo diría alguien. */
+function cuandoEs(fecha: string, hoy: string){
+  const faltan = enDias(hoy, fecha);
+  if (faltan === 0) return 'hoy';
+  if (faltan === 1) return 'mañana';
+  const [, m, d] = fecha.split('-').map(Number);
+  if (faltan > 1 && faltan < 7) return `el ${DIAS[new Date(fecha + 'T12:00:00Z').getUTCDay()]} ${d}`;
+  return `el ${d}/${m}`;
+}
+
+/* Sin tildes ni mayúsculas: «Trabajo social I» y «Trabajo Social I»
+   son la misma materia, y la persona no tiene por qué escribirla igual
+   que quien cargó el grupo. */
+function normalizar(t: string){
+  return String(t || '').normalize('NFD').replace(/\p{M}/gu, '')
+    .toLowerCase().replace(/\s+/g, ' ').trim();
+}
+
+function avisosDeEventos(publicaciones: any[], hoy: string, ahora: number): Aviso[] {
+  const avisos: Aviso[] = [];
+  const DIA = 24 * 3600 * 1000;
+  const reciente = (t: string | null) => !!t && ahora - Date.parse(t) < DIA;
+
+  for (const p of publicaciones || []){
+    const canal = CANAL_DE[p.categoria];
+    if (!canal) continue;
+
+    const desde = p.fecha_desde ? String(p.fecha_desde).slice(0, 10) : '';
+    const hasta = String(p.fecha_hasta || p.fecha_desde || '').slice(0, 10);
+    /* Lo que ya pasó no avisa nada, ni siquiera que se suspendió. */
+    if (hasta && hasta < hoy) continue;
+
+    const titulo = String(p.titulo || '').trim();
+    const donde  = [p.hora, p.lugar].filter(Boolean).join(' · ');
+    const url    = `${URL_BASE}/agenda/?id=${p.id}`;
+    const base   = { canal, url, materia: p.materia || undefined };
+
+    const esHoy    = !p.suspendido && desde === hoy;
+    const esNueva  = !p.suspendido && reciente(p.publicado_at);
+    const esCambio = reciente(p.cambiado_at);
+    const claveCambio = esCambio ? `pub:${p.id}:cambio:${Date.parse(p.cambiado_at)}` : '';
+    const conCambio = esCambio ? [claveCambio] : [];
+
+    const conMayuscula = (t: string) => t ? t[0].toUpperCase() + t.slice(1) : '';
+
+    if (esHoy){
+      avisos.push({ ...base,
+        clave:   `pub:${p.id}:hoy:${hoy}`,
+        /* «Hoy: Paro: …» se lee mal; «Hoy hay paro: …» se lee bien. */
+        titulo:  /^paro:/i.test(titulo)
+                   ? titulo.replace(/^paro:\s*/i, 'Hoy hay paro: ')
+                   : `Hoy: ${titulo}`,
+        cuerpo:  donde || 'Tocá para ver los detalles.',
+        tambien: [`pub:${p.id}:nueva`, ...conCambio]
+      });
+    } else if (esNueva){
+      const cuando = desde ? cuandoEs(desde, hoy) : '';
+      avisos.push({ ...base,
+        clave:   `pub:${p.id}:nueva`,
+        titulo,
+        cuerpo:  [conMayuscula(cuando), donde]
+                   .filter(Boolean).join(' · ') || 'Tocá para ver los detalles.',
+        tambien: conCambio
+      });
+    }
+
+    /* Va DESPUÉS de los otros dos: a quien le toca el de arriba recibe
+       la versión corregida y este ya figura como mandado. */
+    if (esCambio){
+      avisos.push({ ...base,
+        clave:      claveCambio,
+        titulo:     p.suspendido ? `Se suspendió: ${titulo}` : `Cambió: ${titulo}`,
+        cuerpo:     p.suspendido
+                      ? 'Ya no se hace. Tocá para ver si hay novedades.'
+                      : [desde && conMayuscula(cuandoEs(desde, hoy)), donde]
+                          .filter(Boolean).join(' · ') || 'Tocá para ver qué cambió.',
+        soloSiTuvo: p.id
+      });
+    }
   }
   return avisos;
 }
@@ -273,7 +397,7 @@ Deno.serve(async (pedido) => {
   avisos.push(...avisosDeMesas(paraMesas || [], hoy));
 
   const { data: paraNovedades } = await sb.from('publicaciones')
-    .select('id,titulo,linea,cuerpo')
+    .select('id,titulo,linea,cuerpo,categoria')
     .eq('publicado', true).eq('avisar', true)
     .gte('avisar_at', new Date(Date.now() - 48 * 3600 * 1000).toISOString());
   avisos.push(...avisosDeNovedades(paraNovedades || []));
@@ -283,12 +407,56 @@ Deno.serve(async (pedido) => {
     .gte('mesa_fecha', hoy).lte('mesa_fecha', sumarDias(hoy, 7));
   avisos.push(...avisosDeFinales(paraFinales || [], hoy));
 
+  /* Lo publicado o cambiado en el último día, y lo que empieza hoy. */
+  const haceUnDia = new Date(Date.now() - 24 * 3600 * 1000).toISOString();
+  const { data: paraEventos } = await sb.from('publicaciones')
+    .select('id,titulo,categoria,materia,fecha_desde,fecha_hasta,hora,lugar,suspendido,publicado_at,cambiado_at')
+    .eq('publicado', true)
+    .in('categoria', Object.keys(CANAL_DE))
+    .or(`publicado_at.gte."${haceUnDia}",cambiado_at.gte."${haceUnDia}",fecha_desde.eq.${hoy}`);
+  avisos.push(...avisosDeEventos(paraEventos || [], hoy, Date.now()));
+
   if (!avisos.length) return Response.json({ hoy, hora, avisos: 0, enviados: 0 });
 
   /* ---- A quiénes ---- */
   const { data: suscripciones } = await sb.from('avisos_suscripciones')
-    .select('id,endpoint,p256dh,auth,usuario_id,mesas,novedades,mis_fechas,fallos')
+    .select('id,endpoint,p256dh,auth,usuario_id,mesas,novedades,mis_fechas,paros,grupos,actividades,materias,fallos')
     .limit(TOPE_POR_CORRIDA);
+  const cola = (suscripciones || []) as Suscripcion[];
+
+  /* Las materias de cada quien: las que eligió en la tarjeta de avisos
+     y, si tiene cuenta, las de su cursada. Solo se buscan si hay algún
+     grupo para avisar. Quien no tiene ninguna recibe todos los grupos:
+     no saber qué cursa no es motivo para no avisarle. */
+  const materiasDe = new Map<number, Set<string>>();
+  if (avisos.some(a => a.canal === 'grupos' && a.materia)){
+    const cuentas = [...new Set(cola.map(s => s.usuario_id).filter(Boolean))] as string[];
+    const deCursada = new Map<string, string[]>();
+    for (let i = 0; i < cuentas.length; i += 200){
+      const { data } = await sb.from('cursada')
+        .select('usuario_id,materia').in('usuario_id', cuentas.slice(i, i + 200));
+      for (const c of data || []){
+        const l = deCursada.get(c.usuario_id) || [];
+        l.push(c.materia);
+        deCursada.set(c.usuario_id, l);
+      }
+    }
+    for (const s of cola){
+      const todas = [...(s.materias || []), ...(s.usuario_id ? deCursada.get(s.usuario_id) || [] : [])];
+      materiasDe.set(s.id, new Set(todas.map(normalizar).filter(Boolean)));
+    }
+  }
+
+  /* Quién ya recibió algo de cada publicación con aviso de cambio. */
+  const tuvo = new Set<string>();
+  const conCambio = [...new Set(avisos.map(a => a.soloSiTuvo).filter(Boolean))] as number[];
+  for (const id of conCambio){
+    const { data } = await sb.from('avisos_enviados')
+      .select('suscripcion_id,clave').like('clave', `pub:${id}:%`);
+    for (const e of data || []){
+      if (/^pub:\d+:(nueva|hoy:)/.test(e.clave)) tuvo.add(`${e.suscripcion_id}|${id}`);
+    }
+  }
 
   let enviados = 0, rebotes = 0, bajas = 0;
 
@@ -296,6 +464,11 @@ Deno.serve(async (pedido) => {
     for (const a of avisos){
       if (!s[a.canal]) continue;                              /* no lo pidió */
       if (a.usuario && a.usuario !== s.usuario_id) continue;   /* no es para esta persona */
+      if (a.soloSiTuvo && !tuvo.has(`${s.id}|${a.soloSiTuvo}`)) continue;
+      if (a.canal === 'grupos' && a.materia){
+        const suyas = materiasDe.get(s.id);
+        if (suyas && suyas.size && !suyas.has(normalizar(a.materia))) continue;
+      }
 
       /* Se anota ANTES de mandar. Si la clave ya estaba, este aviso
          ya salió —en esta corrida o en la de hace una hora— y acá se
@@ -303,6 +476,14 @@ Deno.serve(async (pedido) => {
       const { error: yaEstaba } = await sb.from('avisos_enviados')
         .insert({ suscripcion_id: s.id, clave: a.clave });
       if (yaEstaba) continue;
+
+      /* Las que este aviso ya cubre. Si alguna estaba, no importa:
+         `upsert` con `ignoreDuplicates` no se queja. */
+      if (a.tambien && a.tambien.length){
+        await sb.from('avisos_enviados').upsert(
+          a.tambien.map(clave => ({ suscripcion_id: s.id, clave })),
+          { onConflict: 'suscripcion_id,clave', ignoreDuplicates: true });
+      }
 
       try {
         await webpush.sendNotification(
@@ -349,7 +530,6 @@ Deno.serve(async (pedido) => {
 
   /* De a veinte: de a uno tarda demasiado con cuatro mil teléfonos, y
      todos juntos es la forma de que el servicio de push nos corte. */
-  const cola = (suscripciones || []) as Suscripcion[];
   for (let i = 0; i < cola.length; i += DE_A){
     await Promise.all(cola.slice(i, i + DE_A).map(atender));
   }

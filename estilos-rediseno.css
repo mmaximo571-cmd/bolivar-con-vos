@@ -129,7 +129,10 @@
   transition:background var(--t-chico,180ms) ease, transform var(--t-toque,140ms) ease
 }
 
-.cal-grilla{gap:4px 2px}
+/* --hueco es el mismo hueco entre columnas: la banda de lo que dura
+   varios días lo cubre justo (`css/base/08-calendario.css`). Si se toca
+   uno, se toca el otro. */
+.cal-grilla{gap:4px 2px;--hueco:2px}
 .cal-nombre-dia{font-size:11px;letter-spacing:.08em}
 
 /* CÍRCULOS PERFECTOS. La celda sigue siendo cuadrada —el ancho lo
@@ -531,6 +534,15 @@
   flex:0 0 auto;width:8px;height:8px;border-radius:99px;margin-top:6px;
   background:var(--celeste)
 }
+/* El punto va del color de la categoría (30/9/2026), el mismo que en el
+   calendario de Fechas. «Urgente» y «leído» van DESPUÉS a propósito:
+   pesan lo mismo y tienen que ganar, así lo leído se apaga en gris
+   aunque sea un paro. */
+.aviso-nuevo.cat-paro i       {background:var(--cat-paro)}
+.aviso-nuevo.cat-grupo i      {background:var(--cat-grupo)}
+.aviso-nuevo.cat-actividad i  {background:var(--cat-actividad)}
+.aviso-nuevo.cat-fecha i      {background:var(--cat-fecha)}
+.aviso-nuevo.cat-comunicado i {background:var(--cat-comunicado)}
 .aviso-nuevo.urgente i{background:var(--rojo-hoy)}
 .aviso-nuevo.leido i{background:var(--linea)}
 .aviso-nuevo b{display:block;font-weight:700;font-size:14.5px;line-height:1.3;letter-spacing:-.01em}
@@ -542,6 +554,38 @@
   padding:12px 16px calc(18px + env(safe-area-inset-bottom));
   border-top:1px solid var(--linea)
 }
+
+/* ---- La bandeja (30/9/2026) ----
+   Cuatro partes con su rótulo: Hoy, Esta semana, Cambios, Nuevo. El
+   texto de cada aviso va en clases propias y no en `span` a secas: la
+   regla de arriba pinta de gris y achica TODO span de adentro, y el
+   título quedaba gris como el detalle. */
+.novedades-seccion{
+  font-weight:700;font-size:10.5px;letter-spacing:.14em;text-transform:uppercase;
+  color:var(--texto-suave);margin:12px 4px 0
+}
+.novedades-seccion:first-child{margin-top:2px}
+.novedades-nada{margin:0 4px;font-size:13px;line-height:1.4;color:var(--texto-suave)}
+.aviso-nuevo .aviso-texto{display:block;min-width:0;margin:0;font-size:inherit;color:var(--texto)}
+.aviso-nuevo .aviso-detalle{
+  display:block;font-size:12.5px;line-height:1.4;color:var(--texto-suave);margin-top:4px
+}
+.aviso-estado{
+  display:block;font-style:normal;font-weight:700;font-size:10.5px;
+  letter-spacing:.08em;text-transform:uppercase;color:var(--cat-paro);margin-bottom:3px
+}
+.aviso-nuevo.suspendido b{text-decoration:line-through;color:var(--texto-suave)}
+.novedades-celular{
+  display:block;margin-top:6px;padding:12px 13px;border-radius:16px;
+  background:var(--superficie);border:1px dashed var(--texto-suave);
+  font-size:13px;line-height:1.4;color:var(--texto);text-decoration:none
+}
+.novedades-ver-todo{
+  display:block;text-align:center;margin-top:10px;font-weight:700;font-size:13.5px;
+  color:var(--texto);text-decoration:none
+}
+.novedades-pie .boton + .novedades-ver-todo{margin-top:12px}
+.novedades-ver-todo:first-child{margin-top:0}
 
 /* ------------------------------------------------------------
    8 · VACÍO

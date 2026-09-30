@@ -27,7 +27,8 @@ discutirla en tres meses.
 | # | Propuesta | Tamaño | Estado |
 |---|---|---|---|
 | 1 | Carga fácil de paros y grupos de estudio | chico-mediano | hecha, falta correr el SQL |
-| 2 | Anotarse a un grupo de estudio | chica | lista para hacer |
+| 2 | Anotarse a un grupo de estudio | chica | se suma a la 3 (tanda 3) |
+| 3 | Calendario y avisos: que se revisen todos los días | grande, en tres tandas | tandas 1 y 2 hechas (30/9) |
 
 ## Las propuestas
 
@@ -195,7 +196,8 @@ del panel. Cuanto más chica la pantalla, más gente la va a usar.
     qué anotarse. **Se hace después de la 1**, no en paralelo.
 - **Tamaño:** chica (bajó al decidir que alcanza con el número, ver
   abajo). Sigue haciéndose después de la 1.
-- **Estado:** lista para hacer
+- **Estado:** lista para hacer. Desde el 30/9/2026 va dentro de la
+  tanda 3 de la propuesta 3, junto con «Voy».
 
 **La decisión que manda sobre todo lo demás: ¿con cuenta o sin cuenta?**
 
@@ -302,6 +304,160 @@ número en el panel.
 después, y avisar al que se anotó cuando el grupo cambia de aula. Lo
 último es lo primero que va a hacer falta, pero mejor una vez que se vea
 si la gente se anota.
+
+### 3. Calendario y avisos: que se revisen todos los días
+
+- **Qué:** que la estudiante abra la app y sepa en dos segundos qué pasa
+  hoy (hay paro, hay grupo de su materia, hay asamblea), que el
+  calendario distinga a simple vista un paro de un grupo de estudio, y
+  que el teléfono le avise solo, sin que nadie marque «avisar» a mano.
+- **Por qué:** se viene un mes con mucha carga (grupos de estudio,
+  paros, actividades) y hoy el calendario y la campana no lo aguantan:
+  - Un paro y un grupo de estudio son los dos `tipo = 'evento'`: se
+    ven iguales y no se pueden filtrar por separado.
+  - La campana muestra las últimas 10 de 14 días, no distingue lo nuevo
+    de lo que es mañana ni de lo que cambió, y lo leído vive en un solo
+    teléfono.
+  - Al celular solo sale una novedad si alguien marca `avisar`, y solo
+    en las 48 horas siguientes. No hay recordatorio del día, ni aviso de
+    «se suspendió» o «cambió de aula», que es lo que más se necesita.
+- **Dónde toca:** `sql/tabla-publicaciones.sql`, `sql/tabla-avisos.sql`,
+  `supabase/functions/avisos/`, `cargar/`, `panel/` (el formulario de
+  publicaciones), `agenda/`, `app.js` (la campana), `index.html` (la
+  tarjeta Hoy), `lib/tarjeta-avisos.js`, `lib/fecha-al-calendario.js`,
+  `css/base/07-avisos.css` y `08-calendario.css`, `sw.js` con `VERSION`
+  arriba en cada tanda.
+- **Tamaño:** grande. Partida en tres tandas; cada una se sube y se usa
+  sola.
+- **Estado:** tandas 1 y 2 hechas el 30/9/2026 (SQL en producción,
+  función `avisos` v10 subida, `sw.js` v78). Tanda 3, lista para hacer.
+
+**Lo que se decidió (30/9/2026):**
+
+| Tema | Decisión |
+|---|---|
+| Clasificación | Categorías visibles: **Paro, Grupo de estudio, Actividad, Fecha académica, Comunicado**. Cada una con ícono, color, filtro e interruptor de aviso propios. |
+| Avisos automáticos | **Al publicar**, **el mismo día a la mañana** (con hora y lugar) y **cuando cambia o se suspende**. Sin recordatorio del día anterior. Se respeta la franja de 9 a 21. |
+| A quién | General para todes; los **grupos de estudio de sus materias** se resaltan y avisan. |
+| Canales | Uno por categoría: Paros (prendido de fábrica), Grupos de mis materias, Actividades, Comunicados. Las mesas y «mis fechas» siguen como están. |
+| Paros | **Se publican directo** desde `cargar/`, sin visto bueno. |
+| `cargar/` | Suma **Actividades** y **Editar y suspender** lo propio. Sin repetición semanal ni cupo por ahora. |
+| Qué hace la estudiante | «**Voy**» (me anoto, en los grupos), **pasarlo al calendario** y **compartir por WhatsApp**. |
+| Campana | **Bandeja completa**: Hoy, Esta semana, Nuevo, Cambios; lo leído se sincroniza con cuenta. |
+| Portada | **Tarjeta Hoy** y **lo que marcó «Voy»**. Sin tira de la semana. |
+| Calendario | **Puntos por categoría** (el paro pinta el día entero), **vista agenda continua**, **Mi calendario** y **paro cruzado con la cursada**. |
+
+**Tanda 1 · lo que hace falta para cargar este mes**
+
+1. `publicaciones`: columnas `categoria` (`paro`, `grupo`, `actividad`,
+   `fecha`, `comunicado`), `materia` (para los grupos), `suspendido`
+   y `cambiado_at` (la pone un disparador cuando cambian fecha, hora o
+   lugar, igual que `avisar_at`). Lo cargado hasta hoy se completa desde
+   `tipo` y `linea`: evento gremial = paro, evento saberes = grupo, otro
+   evento = actividad, fecha = fecha, novedad = comunicado. `tipo` se
+   queda: las políticas de hoy lo usan.
+2. Políticas: el rol liviano publica paros directo y edita o suspende
+   **solo lo suyo** (ya existe `creado_por`).
+3. `cargar/`: tercer botón «Una actividad», y una lista «Lo que cargué»
+   con Editar y Suspender.
+4. `avisos_suscripciones`: columnas `paros`, `grupos`, `actividades`,
+   `comunicados` y `materias text[]`. `guardar_aviso` nuevo, **sin
+   borrar el viejo**: un teléfono con `app.js` del caché lo va a seguir
+   llamando unos días.
+5. La función `avisos`: tres claves por publicación
+   (`pub:ID:nueva`, `pub:ID:hoy:FECHA`, `pub:ID:cambio:CAMBIADO_AT`)
+   en `avisos_enviados`, así nada suena dos veces. Lo publicado a la
+   noche sale a las 9.
+6. `agenda/`: puntos por categoría en la grilla, el paro pinta el día,
+   filtros por categoría en vez de por línea, y lo suspendido tachado.
+7. La tarjeta de avisos en `mi/`: un interruptor por categoría y la
+   elección de materias (con cuenta, sale sola de `cursada`).
+
+**Cómo quedó la tanda 1 (30/9/2026), por si hay que volver:**
+
+- La materia de un grupo se compara sin tildes ni mayúsculas contra las
+  que la persona marcó en la tarjeta de avisos y las de su `cursada`.
+  Sin ninguna, le llegan todos los grupos.
+- La tarjeta de avisos ofrece como materias las de los grupos
+  publicados que todavía no pasaron, no el plan entero.
+- Las fechas académicas no avisan solas (son decenas y se cargan de a
+  muchas). Los comunicados siguen con la marca manual de 48 horas.
+- `cargar/` sugiere el nombre de la materia desde los tres planes de
+  `carrera/`, para que coincida con lo que la gente carga en su cursada.
+- Un paro que quedó sin publicar de antes del cambio (hay uno del 30/9)
+  se publica desde la bandeja del panel o desde «Lo que cargaste».
+
+**Tanda 2 · el hábito diario**
+
+- La campana como bandeja: Hoy, Esta semana, Nuevo, Cambios. Lo leído
+  se guarda en la cuenta si hay sesión; sin sesión, como hoy.
+- Tarjeta **Hoy** arriba del inicio: lo de hoy y sus clases, en rojo si
+  hay paro.
+- ~~«Lo que marcaste Voy» en el inicio.~~ Pasa a la tanda 3: sin «Voy»
+  no hay nada que mostrar, y «Voy» es de la tanda 3.
+
+**Cómo quedó la tanda 2 (30/9/2026):**
+
+- **La bandeja** (`app.js`, «La campana»). Cada publicación va una vez,
+  en la primera parte que le toca: Hoy (lo que empieza hoy, el último
+  día de algo largo y el paro que cubre hoy), Esta semana (lo que
+  empieza en los próximos siete días), Cambios (cambiado o suspendido
+  en la última semana) y Nuevo (publicado en las últimas dos). Lo que
+  ya pasó y los períodos largos en el medio no van. Cambios y
+  suspensiones se dicen arriba del título, en rojo; lo suspendido va
+  tachado. Al final ofrece prender los avisos al celular si el teléfono
+  no los tiene.
+- **Lo leído va por aviso y no por publicación**: `pub:ID:nueva`,
+  `pub:ID:cambio:<ms>` o `pub:ID:hoy:<fecha>`, el más reciente. Por eso
+  el globo de la campana tiene algo que decir el día del paro aunque el
+  paro se haya leído cuando se publicó, y vuelve a sonar si un grupo
+  cambia de aula. El formato viejo del teléfono (`ids`) se lee igual.
+- **Con cuenta**, lo leído se junta en `campana_leidas`
+  (`sql/tabla-campana.sql`, aplicado): tabla propia y no una columna de
+  `preferencias`, porque una fila creada por la campana con los valores
+  por defecto le apagaba a Fechas el modo parciales. Se junta solo en
+  las pantallas con la librería grande; en las demás queda en el
+  teléfono hasta la próxima visita a Perfil, Mi año o Info útil.
+- **La tarjeta «Hoy»** (`index.html`, `pintarHoy`) ocupa el lugar del
+  renglón de lo próximo cuando hoy pasa algo o la persona tiene clases;
+  si no, vuelve el renglón. Los grupos de sus materias dicen «Tu
+  materia». Con paro se pone roja y, si tiene clases ese día, le dice
+  que se fije con la cátedra: la app no sabe si la clase se da.
+- **Las clases** salen de una copia liviana que dejan Fechas y Perfil
+  en el teléfono (`guardarCopiaCursada`, en `app.js`), porque el inicio
+  no tiene sesión. Se borra al cerrar sesión y no se usa si la sesión
+  guardada es de otra cuenta.
+- `lib/datos.js` suma `or`. De paso se arregló la ruta del patio del
+  fondo del inicio, rota desde el reparto de los estilos del 27/9.
+
+**Tanda 3 · la estudiante hace algo con el evento**
+
+- «Voy» en cualquier evento y «Me anoto» en los grupos: es la
+  propuesta 2 entera, con su decisión de **sin cuenta** y **solo
+  contar**. Quien marca Voy recibe el aviso de ese evento aunque tenga
+  la categoría apagada.
+- «Lo que marcaste Voy» en el inicio (venía de la tanda 2).
+- Compartir por WhatsApp: título, día, hora, lugar y link.
+- Vista agenda continua, pestaña **Mi calendario** (clases, finales,
+  Voy, paros que le tocan) y el paro cruzado con la cursada: sus clases
+  de un día de paro salen marcadas.
+
+**Dudas abiertas:**
+
+- **Paros sin visto bueno.** Con aviso automático al publicar, un paro
+  mal cargado le suena a toda la facultad y no se puede des-mandar. Lo
+  que lo acota: solo carga el rol liviano (con cuenta, con `creado_por`),
+  y editar o suspender manda el aviso de corrección. Vale revisar quién
+  tiene ese rol antes de la tanda 1.
+- **«Que se actualice solo» en el calendario del celular.** El `.ics`
+  bajado y el enlace de Google son una copia: si el evento cambia, no se
+  enteran. Lo que se actualiza solo es un calendario **suscripto**
+  (`webcal://`), que necesita una función de Supabase que sirva el
+  `.ics` en vivo. Se puede sumar a la tanda 3; mientras tanto, el aviso
+  de cambio es el que cubre.
+- **Grupos de mis materias sin cuenta.** Sin sesión no hay `cursada`:
+  la materia se elige a mano en la tarjeta de avisos y se guarda en la
+  suscripción, no en el teléfono.
 
 ---
 
