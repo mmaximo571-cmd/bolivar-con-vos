@@ -400,4 +400,11 @@ todo una entrada con el número, la fecha y el porqué.
    `--hueco`, el hueco de la grilla que cubre la banda. Y el inicio pasa
    a usar el MISMO calendario que Fechas (`lib/fecha-al-calendario.js`,
    que no va al armazón): desde el 30/9 los dos marcan lo mismo. */
+/* v80 (30/9/2026) Tanda 3 de la propuesta 3: «Voy» y «Me anoto». Cambia
+   el CONTENIDO de dos del armazón: `css/base/01-cimientos.css` suma lo
+   de Fechas (la caja de «Voy», las vistas Días y Mío, la clase de un
+   día de paro en la semana) y `css/base/03-controles.css` la etiqueta
+   «Vas» y el contador. Es nuevo `lib/voy.js`, que usan Fechas y el
+   inicio: como `lib/fecha-al-calendario.js`, no va al armazón y queda
+   guardado solo la primera vez que se baja. */
 ```

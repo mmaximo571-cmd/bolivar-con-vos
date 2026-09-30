@@ -42,8 +42,8 @@
 --   supabase.com -> proyecto -> SQL Editor -> New query -> pegar -> Run
 -- Se puede correr más de una vez sin romper nada.
 --
--- ESTADO: escrito el 30/9/2026, TODAVÍA SIN APLICAR. Es la base de la
--- tanda 3 (propuesta 3); se aplica cuando esté la pantalla que lo usa.
+-- ESTADO: aplicado en producción el 30/9/2026 (migración `tabla_anotados`),
+-- después de un ensayo con begin/rollback y 22 pruebas de permisos.
 -- ============================================================
 
 

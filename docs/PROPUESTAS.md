@@ -27,8 +27,8 @@ discutirla en tres meses.
 | # | Propuesta | Tamaño | Estado |
 |---|---|---|---|
 | 1 | Carga fácil de paros y grupos de estudio | chico-mediano | hecha, falta correr el SQL |
-| 2 | Anotarse a un grupo de estudio | chica | se suma a la 3 (tanda 3) |
-| 3 | Calendario y avisos: que se revisen todos los días | grande, en tres tandas | tandas 1 y 2 hechas (30/9) |
+| 2 | Anotarse a un grupo de estudio | chica | hecha en la tanda 3 de la 3 (30/9) |
+| 3 | Calendario y avisos: que se revisen todos los días | grande, en tres tandas | las tres hechas (30/9); falta subir la función `avisos` v11 |
 
 ## Las propuestas
 
@@ -330,7 +330,9 @@ si la gente se anota.
 - **Tamaño:** grande. Partida en tres tandas; cada una se sube y se usa
   sola.
 - **Estado:** tandas 1 y 2 hechas el 30/9/2026 (SQL en producción,
-  función `avisos` v10 subida, `sw.js` v78). Tanda 3, lista para hacer.
+  función `avisos` v10 subida, `sw.js` v78). Tanda 3 hecha el mismo día
+  (SQL en producción, `sw.js` v80); la función `avisos` v11, que le
+  avisa a quien marcó «Voy», está escrita y falta subirla.
 
 **Lo que se decidió (30/9/2026):**
 
@@ -441,6 +443,47 @@ si la gente se anota.
 - Vista agenda continua, pestaña **Mi calendario** (clases, finales,
   Voy, paros que le tocan) y el paro cruzado con la cursada: sus clases
   de un día de paro salen marcadas.
+
+**Cómo quedó la tanda 3 (30/9/2026):**
+
+- **`sql/tabla-anotados.sql`, aplicado** (migración `tabla_anotados`),
+  después de ensayarlo con begin/rollback y 22 pruebas de permisos:
+  anotarse sin cuenta, el mismo teléfono no suma dos veces, nadie lee
+  la tabla, el contador sale de la vista, no se anota a lo suspendido
+  ni a una fecha académica, el número lo ve solo quien cargó el grupo
+  y desanotarse se lo lleva.
+- **`lib/voy.js`** (nuevo, lo cargan Fechas y el inicio): la marca al
+  azar del teléfono (`bolivar-voy`), qué marcó, marcar y desmarcar,
+  dejar el número y el enlace para compartir. Qué ids marcó el teléfono
+  vive en el teléfono: la base no sabe de quién es cada marca.
+- **El detalle de Fechas** (`agenda/?id=`): la caja de «Voy» (o «Me
+  anoto» en los grupos) va arriba del flyer, con el contador. Con cero
+  no dice «van 0»: invita. En un grupo con enlace de WhatsApp, el
+  enlace aparece al anotarse; abajo, «Prefiero que me sumen con mi
+  número», opcional. Abajo de todo, «Compartir por WhatsApp» con
+  título, día, hora, lugar y enlace. Quien marcó «Voy» antes de prender
+  los avisos queda atado a su teléfono la próxima vez que abre el
+  detalle con los avisos prendidos.
+- **La lista de Fechas**: «Vas» en lo marcado y «Van N» desde dos.
+- **Las pestañas Días y Mío**, al lado de Mes y Semana. Días es la
+  agenda seguida de las próximas seis semanas, día por día. Mío son tres
+  semanas de lo de la persona: sus clases y sus finales (con cuenta), lo
+  que marcó «Voy» y los paros. Una clase en un día de paro dice «Hay
+  paro: fijate con tu cátedra si se da». En Semana, esa clase sale con
+  borde rojo y «Hay paro».
+- **El inicio**: «Vas» en la tarjeta Hoy y en el renglón de lo próximo,
+  y «Dijiste que vas» abajo, con lo marcado que viene (sin repetir lo
+  que ya dice el renglón).
+- **`cargar/`**, en «Lo que cargaste»: cuántos van a cada cosa y, en los
+  grupos, los números que dejaron, con el aviso de para qué son y de
+  que se borran solos.
+- **La función `avisos` v11** (`supabase/functions/avisos/index.ts`):
+  quien marcó «Voy» con los avisos prendidos recibe el aviso del día y
+  el de cambio de ese evento aunque tenga la categoría apagada o el
+  grupo no sea de sus materias. **Está escrita pero no subida**: la
+  subida a producción quedó para que la autorice Máximo. Hasta
+  entonces «Voy» anda entero salvo esa parte.
+- No entró: el calendario suscripto (`webcal://`), que sigue en dudas.
 
 **Dudas abiertas:**
 

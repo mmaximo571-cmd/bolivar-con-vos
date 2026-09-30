@@ -107,6 +107,10 @@ espacios, glosario, quienes, fichas), va al final de
   suma las opciones (filtros, semana, la lista).
 - `lib/tarjeta-avisos.js` — `pintarAvisos()`. Después de `app.js`, solo
   en `mi/`.
+- `lib/voy.js` — «Voy» y «Me anoto» (30/9/2026): la marca al azar del
+  teléfono, qué marcó, marcar y desmarcar, el número para el grupo y
+  compartir por WhatsApp. Después de `app.js`, en `agenda/` y en el
+  inicio. No va al armazón.
 - `config.js`, `iconos.js`, `lectura.js`, `movimiento.js`,
   `fondo-red.js` — piezas chicas, cada una de una cosa.
 - `lib/datos.js` es el cliente chico de Supabase, el que usa la
