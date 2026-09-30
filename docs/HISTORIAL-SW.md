@@ -390,4 +390,14 @@ todo una entrada con el número, la fecha y el porqué.
    guardada por la regla del final, y subir el número también la tira.
    Esa hoja trae además el arreglo de la ruta del patio del fondo del
    inicio, rota desde el reparto de los estilos del 27/9. */
+/* v79 (30/9/2026) no cambia QUÉ se guarda: cambia el CONTENIDO de tres
+   que ya están en la lista. `css/base/08-calendario.css` rehace cómo se
+   marca el mes: el calendario de Fechas rayaba todas las semanas con
+   los períodos largos y no se entendía (captura del 30/9). Ahora son
+   puntos para lo de un día, una banda suave para lo que dura de 2 a 10
+   días, y lo más largo va abajo, en «Todo el mes». Se sacan las reglas
+   de `.cal-barra`, que ya no usa nadie. `estilos-rediseno.css` suma
+   `--hueco`, el hueco de la grilla que cubre la banda. Y el inicio pasa
+   a usar el MISMO calendario que Fechas (`lib/fecha-al-calendario.js`,
+   que no va al armazón): desde el 30/9 los dos marcan lo mismo. */
 ```

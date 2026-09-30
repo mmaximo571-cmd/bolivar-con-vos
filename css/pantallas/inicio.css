@@ -333,40 +333,12 @@ body.antes-de-entrar{padding-bottom:0}
   border-radius:var(--radio);padding:14px;box-shadow:var(--sombra);margin-bottom:8px
 }
 
-.calendario.cuadrado .cal-grilla{gap:4px}
+.calendario.cuadrado .cal-grilla{gap:4px;--hueco:4px}
 
 .calendario.cuadrado .cal-dia{
   aspect-ratio:1;font-size:var(--letra-densa);position:relative;
   flex-direction:column;justify-content:center;gap:0;padding-bottom:9px
 }
-
-.cal-barra.asueto{background:var(--celeste)}
-
-.cal-dia.con-cosas.asueto{background:var(--dia-asueto)}
-
-/* La leyenda: dice con letras lo que la grilla dice con colores */
-.cal-leyenda{
-  margin-top:12px;border-top:1px solid var(--linea);padding-top:11px;
-  display:flex;flex-direction:column;gap:9px
-}
-
-.cal-leyenda.vacia{color:var(--texto-suave);font-size:var(--letra-densa);padding-top:12px}
-
-.cal-leyenda-fila{display:flex;align-items:flex-start;gap:9px}
-
-.cal-marca{
-  flex:0 0 auto;width:14px;height:5px;border-radius:var(--radio-pastilla);margin-top:6px
-}
-
-.cal-marca.mesa  {background:var(--rojo)}
-
-.cal-marca.asueto{background:var(--celeste)}
-
-.cal-leyenda-texto{display:flex;flex-direction:column;line-height:1.25}
-
-.cal-leyenda-texto strong{font-family:var(--fuente-sub);font-size:var(--letra-densa);font-weight:700}
-
-.cal-leyenda-texto small{color:var(--texto-suave);font-size:var(--letra-nota)}
 
 .cal-elegido{display:flex;flex-direction:column;gap:8px}
 

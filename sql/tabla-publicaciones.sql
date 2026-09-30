@@ -327,6 +327,14 @@ update public.publicaciones set categoria = case
 update public.publicaciones set publicado_at = creado_at
   where publicado and publicado_at is null;
 
+-- Corrección del 30/9: tres grupos de estudio cargados desde el panel
+-- con la línea gremial habían quedado como paros por la regla de arriba.
+update public.publicaciones
+   set categoria = 'grupo',
+       materia = coalesce(materia, nullif(btrim(regexp_replace(titulo,
+                   '^\s*grupo de estudio\s*(de|:)?\s*', '', 'i'), ' .'), ''))
+ where tipo = 'evento' and categoria <> 'grupo' and titulo ~* '^\s*grupo de estudio';
+
 -- Los grupos cargados desde `cargar/` tienen la materia en el título.
 update public.publicaciones
    set materia = btrim(substr(titulo, length('Grupo de estudio de ') + 1))
@@ -362,6 +370,9 @@ begin
     new.categoria := case
       when new.tipo = 'fecha'    then 'fecha'
       when new.tipo = 'novedad'  then 'comunicado'
+      /* Antes que la línea: en el panel se cargaron grupos de estudio
+         con la línea gremial, y quedaban como paros (30/9/2026). */
+      when new.titulo ~* '^\s*grupo de estudio' then 'grupo'
       when new.linea = 'gremial' then 'paro'
       when new.linea = 'saberes' then 'grupo'
       else 'actividad' end;

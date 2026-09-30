@@ -101,8 +101,10 @@ espacios, glosario, quienes, fichas), va al final de
 - `lib/mudanza.js` — la mudanza desde la dirección vieja de Vercel.
   Carga **antes** de `app.js` y no depende de nada.
 - `lib/fecha-al-calendario.js` — pasar una fecha al calendario del
-  celular (ICS y Google). Carga **después** de `app.js` y solo en
-  `agenda/`.
+  celular (ICS y Google) y `montarCalendario`, el calendario del mes.
+  Carga **después** de `app.js`, en `agenda/` y en el inicio: desde el
+  30/9/2026 los dos calendarios son el mismo y marcan lo mismo; Fechas
+  suma las opciones (filtros, semana, la lista).
 - `lib/tarjeta-avisos.js` — `pintarAvisos()`. Después de `app.js`, solo
   en `mi/`.
 - `config.js`, `iconos.js`, `lectura.js`, `movimiento.js`,

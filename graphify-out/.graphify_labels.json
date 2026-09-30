@@ -1,8 +1,8 @@
 {
   "0": "La carrera se elige una vez (bolivar-carrera-v2)",
   "1": "Pantalla Mi año (carrera)",
-  "2": "Pantalla El Consejo Directivo",
-  "3": "Pantalla Info útil (trámites y FAQ)",
+  "2": "tabla-anotados.sql",
+  "3": "Pantalla El Consejo Directivo",
   "4": "app.js",
   "5": "avisanos.js",
   "6": "pintarFinal (preparación de final)",
@@ -10,7 +10,7 @@
   "8": "Mi perfil (mi/index.html)",
   "9": "manifest.json",
   "10": "pintarNav",
-  "11": "esc",
+  "11": "Pantalla Info útil (trámites y FAQ)",
   "12": "portada.js",
   "13": "htmlNovedades",
   "14": "leer.js",
@@ -45,7 +45,7 @@
   "43": "Chat y botón «Avisanos»",
   "44": "public.pagina_quienes",
   "45": "public.programas",
-  "46": "sincronizarLeidas",
+  "46": "esc",
   "47": "leer-analitico.js",
   "48": "El molde para pedirle diseño a una IA",
   "49": "mudanza.js",
@@ -99,5 +99,6 @@
   "97": "tabla-programas-pdf.sql",
   "98": "tabla-seguridad.sql",
   "99": "tabla-publicaciones.sql",
-  "100": "public.campana_leidas"
+  "100": "public.campana_leidas",
+  "101": "vistaProgramas (programas de materias)"
 }

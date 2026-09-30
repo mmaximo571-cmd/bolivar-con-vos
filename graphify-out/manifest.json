@@ -78,15 +78,15 @@
     "semantic_hash": ""
   },
   "sw.js": {
-    "mtime": 1790729805.1191921,
-    "seen": 1790729875.9339297,
-    "ast_hash": "2e9abf1bfb48d55076b78a7b862b4b13",
+    "mtime": 1790731273.651579,
+    "seen": 1790731277.484382,
+    "ast_hash": "a85387514b69300d79005617aca9a926",
     "semantic_hash": ""
   },
   "BITACORA.md": {
-    "mtime": 1790729865.419834,
-    "seen": 1790729875.9339314,
-    "ast_hash": "ed7c6b3ed221cfbcf2f7920da8a8ced5",
+    "mtime": 1790731273.6792808,
+    "seen": 1790731277.4843836,
+    "ast_hash": "b0f252b1c1488c61fe31a93bd68917a8",
     "semantic_hash": ""
   },
   "LEEME.md": {
@@ -150,9 +150,9 @@
     "semantic_hash": ""
   },
   "index.html": {
-    "mtime": 1790729685.1402519,
-    "seen": 1790729875.9339747,
-    "ast_hash": "3f4bc6070d9e9df2ecc1eb85eadfd3ce",
+    "mtime": 1790730986.3951454,
+    "seen": 1790731277.4844656,
+    "ast_hash": "f2185a0bc9946c4ebb3df7f9b15d7190",
     "semantic_hash": ""
   },
   "mi/index.html": {
@@ -444,9 +444,9 @@
     "semantic_hash": ""
   },
   "lib/fecha-al-calendario.js": {
-    "mtime": 1790728057.751886,
-    "seen": 1790728549.7816727,
-    "ast_hash": "4ccdd285dca281549cb258d835a326d4",
+    "mtime": 1790731018.6035862,
+    "seen": 1790731277.484307,
+    "ast_hash": "ea88f42946adc34891de78ab01d80ec5",
     "semantic_hash": ""
   },
   "lib/mudanza.js": {
@@ -594,9 +594,9 @@
     "semantic_hash": ""
   },
   "docs/HISTORIAL-SW.md": {
-    "mtime": 1790729823.2912965,
-    "seen": 1790729875.9339464,
-    "ast_hash": "20b2fdf78d5ec6603efc950407cb9b70",
+    "mtime": 1790731273.6764853,
+    "seen": 1790731277.4844344,
+    "ast_hash": "c80e10d65c64c46c89f18b924f5c9190",
     "semantic_hash": ""
   },
   "docs/prompts/PROMPT-DISENO.md": {
@@ -648,9 +648,9 @@
     "semantic_hash": ""
   },
   "sql/tabla-publicaciones.sql": {
-    "mtime": 1790727476.3279028,
-    "seen": 1790728549.7817776,
-    "ast_hash": "96e23f3b7bceb7ffbee3ec865d279699",
+    "mtime": 1790731124.5086799,
+    "seen": 1790731277.484368,
+    "ast_hash": "0c4f04499e5d209e8ef927f3b27682f9",
     "semantic_hash": ""
   },
   "cargar/index.html": {
@@ -663,6 +663,12 @@
     "mtime": 1790729094.335856,
     "seen": 1790729875.9338887,
     "ast_hash": "f4aa1f05b797eee215e47c4a8e811389",
+    "semantic_hash": ""
+  },
+  "sql/tabla-anotados.sql": {
+    "mtime": 1790730769.0835934,
+    "seen": 1790731277.4843404,
+    "ast_hash": "fcf126039a57a8442bfeecd23cc783c3",
     "semantic_hash": ""
   }
 }

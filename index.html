@@ -339,8 +339,8 @@ setTimeout(function(){
       LO QUE SE VIENE
       <a href="agenda/">Ver fechas</a>
     </div>
-    <div class="calendario cuadrado" id="calendario">
-      <div class="esq-calendario">
+    <div class="calendario-inicio" id="calendario">
+      <div class="calendario cuadrado"><div class="esq-calendario">
         <div class="esqueleto esq-linea titulo"></div>
         <div class="esq-grilla">
           <div class="esqueleto"></div><div class="esqueleto"></div>
@@ -351,7 +351,7 @@ setTimeout(function(){
           <div class="esqueleto"></div><div class="esqueleto"></div>
           <div class="esqueleto"></div><div class="esqueleto"></div>
         </div>
-      </div>
+      </div></div>
     </div>
 
     <!-- La portada: las ilustraciones de la facultad, deslizándose -->
@@ -373,6 +373,9 @@ setTimeout(function(){
 <script src="iconos.js"></script>
 <script src="lib/mudanza.js"></script>
 <script src="app.js"></script>
+<!-- El calendario del mes, el MISMO que el de Fechas (30/9/2026): los
+     dos marcan lo mismo. Va después de app.js, que tiene lo que usa. -->
+<script src="lib/fecha-al-calendario.js"></script>
 <script src="fondo-red.js"></script>
 <script src="movimiento.js"></script>
 <script>
@@ -1415,147 +1418,45 @@ setTimeout(function(){
     alCambiarQuieto(pidioQuieto => { if (pidioQuieto) parar(); });
   })();
 
-  /* ---------- Calendario cuadrado de lo que se viene ----------
+  /* ---------- El calendario de lo que se viene ----------
 
-     En el calendario del inicio NO va todo lo de la agenda: van solo
-     las mesas de examen y los asuetos. El resto (desarrollo de
-     seminarios, ultimos plazos, inscripciones) sigue estando en la
-     agenda, pero acá ensuciaba y tapaba lo importante.
+     Hasta el 30/9/2026 este calendario tenía su propio código y marcaba
+     solo mesas y asuetos, así que decía otra cosa que el de Fechas.
+     Decisión del 30/9: LOS DOS MARCAN LO MISMO. Por eso ahora es el
+     mismo calendario, `montarCalendario` de `lib/fecha-al-calendario.js`,
+     con los mismos puntos, bandas y paros. Lo que Fechas tiene de más son
+     las opciones: filtros, semana, la lista entera y el modo parciales.
 
-     Si mañana hay que sumar o sacar una familia de fechas, se toca
-     SOLO esta lista.                                                */
-  const QUE_VA_AL_CALENDARIO = [
-    { id:'mesa',   nombre:'Mesas de examen',
-      prueba: t => /^mesa de examen/i.test(t) },
-    { id:'asueto', nombre:'Asuetos y recesos',
-      prueba: t => /^receso|^d[ií]a de la universidad|^d[ií]a del estudiante|^d[ií]a del trabajador|^semana de la memoria/i.test(t) }
-  ];
-
-  function familiaDe(p){
-    const f = QUE_VA_AL_CALENDARIO.find(x => x.prueba(p.titulo || ''));
-    return f ? f.id : null;
-  }
-
+     Tocar un día muestra abajo lo de ese día, como antes. */
   (function pintarCalendario(){
     /* Sin red no se dibuja. Un calendario del mes con los días
        vacíos no dice «no pude cargar»: dice «no hay nada», que es una
        mentira distinta y peor. */
     if (!huboRed) return;
     const caja = document.getElementById('calendario');
-    const hoy  = partesFecha(hoyISO());
-    let mes = hoy.mes, anio = hoy.anio, elegido = null;
+    /* Esta pantalla llega de la red y el guion del calendario puede
+       venir del caché viejo o no llegar: sin él, queda el esqueleto
+       antes que una pantalla rota. */
+    if (typeof montarCalendario !== 'function') return;
 
-    /* Solo las que pasan el filtro, y solo si tienen fecha */
-    const enCalendario = publicaciones
-      .filter(p => p.fecha_desde && familiaDe(p))
-      .map(p => ({
-        ...p,
-        familia: familiaDe(p),
-        desde: p.fecha_desde.slice(0,10),
-        hasta: (p.fecha_hasta || p.fecha_desde).slice(0,10)
-      }));
+    const catDe = typeof categoriaDePublicacion === 'function' ? categoriaDePublicacion
+      : p => p.categoria || 'actividad';
+    const nombreCat = c => (typeof NOMBRE_CATEGORIA === 'object' && NOMBRE_CATEGORIA[c]) || '';
 
-    const delDia = iso => enCalendario.filter(p => iso >= p.desde && iso <= p.hasta);
-
-    const DIAS_LARGO = ['lunes','martes','miércoles','jueves',
-                        'viernes','sábado','domingo'];
-
-    function dibujar(){
-      const primero = new Date(anio, mes-1, 1);
-      const cuantos = new Date(anio, mes, 0).getDate();
-      /* getDay(): 0 es domingo. Acá la semana arranca el lunes. */
-      const arranca = (primero.getDay() + 6) % 7;
-      const dd = n => String(n).padStart(2,'0');
-      const iso = d => `${anio}-${dd(mes)}-${dd(d)}`;
-
-      let celdas = '';
-      for (let i = 0; i < arranca; i++) celdas += `<div class="cal-dia vacio"></div>`;
-
-      for (let d = 1; d <= cuantos; d++){
-        const hoyIso = iso(d);
-        const cosas  = delDia(hoyIso);
-        const fam    = cosas.length ? cosas[0].familia : null;
-
-        /* La barrita: se estira sobre los dias seguidos de la misma
-           familia, asi una mesa de dos semanas se lee como una franja
-           continua y no como doce puntitos sueltos. */
-        let barra = '';
-        if (fam){
-          const anterior = d > 1 && delDia(iso(d-1)).some(c => c.familia === fam);
-          const siguiente = d < cuantos && delDia(iso(d+1)).some(c => c.familia === fam);
-          barra = `<span class="cal-barra ${fam}${anterior ? ' sigue-izq' : ''}${
-                     siguiente ? ' sigue-der' : ''}"></span>`;
-        }
-
-        /* CÓMO SE LEE ESTE DÍA EN VOZ ALTA.
-
-           Adentro del botón hay un número y una barrita de color. Para
-           quien ve, eso alcanza: la posición en la grilla dice qué día
-           de la semana es y el color dice de qué se trata. Para un
-           lector de pantalla no hay grilla ni color: hay un botón que
-           dice «14». Treinta botones que dicen un número cada uno.
-
-           Así que el día se nombra entero, y se dice qué hay. El texto
-           va en aria-label y no en el botón porque la pantalla ya lo
-           muestra de otra forma: repetirlo a la vista sería ruido. */
-        const nombreDelDia = DIAS_LARGO[(new Date(anio, mes-1, d).getDay() + 6) % 7];
-        const esHoy = hoyIso === hoyISO();
-        const comoSeLee = nombreDelDia + ' ' + d + ' de ' + MESES_LARGO[mes-1] +
-          (esHoy ? ', hoy' : '') +
-          (cosas.length ? ': ' + cosas.map(c => c.titulo).join('; ') : '');
-
-        celdas += `<button class="cal-dia${fam ? ' con-cosas ' + fam : ''}${
-            esHoy ? ' hoy' : ''}"
-            data-iso="${hoyIso}" aria-pressed="${hoyIso === elegido}"
-            aria-label="${esc(comoSeLee)}"
-            ${fam ? '' : 'tabindex="-1"'}>
-            <span class="cal-numero" aria-hidden="true">${d}</span>${barra}
-          </button>`;
-      }
-
-      caja.innerHTML = `
-        <div class="cal-cabecera">
-          <button class="cal-flecha" data-paso="-1" aria-label="Mes anterior">‹</button>
-          <div class="cal-mes">${esc(MESES_LARGO[mes-1])} ${anio}</div>
-          <button class="cal-flecha" data-paso="1" aria-label="Mes siguiente">›</button>
-        </div>
-        <div class="cal-grilla">
-          ${['L','M','X','J','V','S','D'].map(d =>
-              `<div class="cal-nombre-dia">${d}</div>`).join('')}
-          ${celdas}
-        </div>
-        ${leyendaDelMes()}
-        <div class="cal-elegido" id="cal-elegido"></div>`;
-
-      pintarElegido();
+    function tarjetas(lista){
+      return lista.map(p => `<a class="tarjeta ${esc(p.linea)}${p.suspendido ? ' suspendida' : ''}"
+          href="agenda/?id=${encodeURIComponent(p.id)}">
+          <span class="etiqueta cat-${esc(catDe(p))}">${esc(nombreCat(catDe(p)) || NOMBRE_LINEA[p.linea] || '')}</span>
+          <h3>${esc(p.titulo)}</h3>
+          <p>${esc(rangoLindo(p.fecha_desde, p.fecha_hasta))}${
+             p.hora ? ' · ' + esc(p.hora) : ''}${p.lugar ? ' · ' + esc(p.lugar) : ''}</p>
+        </a>`).join('');
     }
 
-    /* La leyenda: dice con todas las letras cuándo cae cada cosa este
-       mes. Es lo que convierte una grilla de números en información. */
-    function leyendaDelMes(){
-      const primero = `${anio}-${String(mes).padStart(2,'0')}-01`;
-      const ultimo  = `${anio}-${String(mes).padStart(2,'0')}-${new Date(anio,mes,0).getDate()}`;
-      const delMes = enCalendario
-        .filter(p => p.desde <= ultimo && p.hasta >= primero)
-        .sort((a,b) => a.desde.localeCompare(b.desde));
-
-      if (!delMes.length){
-        return `<div class="cal-leyenda vacia">Este mes no hay mesas ni asuetos.</div>`;
-      }
-      return `<div class="cal-leyenda">` + delMes.map(p =>
-        `<div class="cal-leyenda-fila">
-           <span class="cal-marca ${p.familia}"></span>
-           <span class="cal-leyenda-texto">
-             <strong>${esc(p.titulo)}</strong>
-             <small>${esc(rangoLindo(p.fecha_desde, p.fecha_hasta))}</small>
-           </span>
-         </div>`).join('') + `</div>`;
-    }
-
-    function pintarElegido(){
-      const zona = document.getElementById('cal-elegido');
-      if (!elegido){ zona.innerHTML = ''; return; }
-      const cosas = delDia(elegido);
+    let zona = null;
+    function pintarElegido(iso, cosas){
+      if (!zona) return;
+      if (!iso){ zona.innerHTML = ''; return; }
       zona.innerHTML = cosas.length ? tarjetas(cosas)
         : `<div class="vacio" role="status">
             <span class="vacio-icono" aria-hidden="true">🗓️</span>
@@ -1564,73 +1465,15 @@ setTimeout(function(){
           </div>`;
     }
 
-    function tarjetas(lista){
-      return lista.map(p => `<a class="tarjeta ${esc(p.linea)}" href="agenda/?id=${p.id}">
-          <span class="etiqueta ${esc(p.linea)}">${esc(NOMBRE_LINEA[p.linea] || p.linea)}</span>
-          <h3>${esc(p.titulo)}</h3>
-          <p>${esc(rangoLindo(p.fecha_desde, p.fecha_hasta))}${
-             p.hora ? ' · ' + esc(p.hora) : ''}${p.lugar ? ' · ' + esc(p.lugar) : ''}</p>
-        </a>`).join('');
+    montarCalendario(caja, publicaciones, pintarElegido,
+      () => pintarElegido(null, []),
+      { clase: 'cuadrado', enlace: id => 'agenda/?id=' + encodeURIComponent(id) });
+
+    const cal = caja.querySelector('.calendario');
+    if (cal){
+      cal.insertAdjacentHTML('beforeend', '<div class="cal-elegido" id="cal-elegido"></div>');
+      zona = cal.querySelector('#cal-elegido');
     }
-
-    caja.addEventListener('click', e => {
-      const flecha = e.target.closest('.cal-flecha');
-      if (flecha){
-        mes += +flecha.dataset.paso;
-        if (mes < 1){ mes = 12; anio--; }
-        if (mes > 12){ mes = 1;  anio++; }
-        elegido = null; dibujar(); return;
-      }
-      const dia = e.target.closest('.cal-dia');
-      if (dia && !dia.classList.contains('vacio')){
-        elegido = (elegido === dia.dataset.iso) ? null : dia.dataset.iso;
-        dibujar();
-      }
-    });
-
-    /* MOVERSE CON LAS FLECHAS.
-
-       Con el tabulador solo se para en los días que tienen algo, que es
-       lo correcto: nadie quiere tabular treinta veces para cruzar un
-       mes. Pero entonces los días vacíos quedaban fuera del alcance del
-       teclado, y «¿el 17 está libre?» es una pregunta legítima.
-
-       Las flechas recorren el mes entero, día por día y semana por
-       semana. No cambian de mes: en el borde no pasa nada, y para eso
-       están los botones ‹ › de arriba, que ya se alcanzan tabulando. Es
-       menos de lo que hace un calendario de escritorio, y es todo lo
-       que hace falta acá.
-
-       No se toca el tabindex al pasar: un día vacío recibe el foco
-       porque se lo damos nosotros, pero sigue sin sumar una parada de
-       tabulador para quien no vino a explorar el mes. */
-    caja.addEventListener('keydown', e => {
-      const dia = e.target.closest && e.target.closest('.cal-dia');
-      if (!dia || dia.classList.contains('vacio')) return;
-
-      const pasos = { ArrowRight:1, ArrowLeft:-1, ArrowDown:7, ArrowUp:-7 };
-      const dias = caja.querySelectorAll('.cal-dia:not(.vacio)');
-      let destino = null;
-
-      if (Object.prototype.hasOwnProperty.call(pasos, e.key)){
-        const n = +dia.dataset.iso.slice(8) + pasos[e.key];
-        destino = caja.querySelector(
-          '.cal-dia[data-iso$="-' + String(n).padStart(2,'0') + '"]');
-      } else if (e.key === 'Home'){
-        destino = dias[0];
-      } else if (e.key === 'End'){
-        destino = dias[dias.length - 1];
-      } else {
-        return;
-      }
-
-      /* Fuera del mes no hay a dónde ir, y ahí el freno es no hacer
-         nada: mover el foco a otro lado sorprende más que quedarse. */
-      e.preventDefault();
-      if (destino) destino.focus();
-    });
-
-    dibujar();
   })();
 
   /* ---------- Los nueve accesos ---------- */

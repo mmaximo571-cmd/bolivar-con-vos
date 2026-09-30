@@ -129,7 +129,10 @@
   transition:background var(--t-chico,180ms) ease, transform var(--t-toque,140ms) ease
 }
 
-.cal-grilla{gap:4px 2px}
+/* --hueco es el mismo hueco entre columnas: la banda de lo que dura
+   varios días lo cubre justo (`css/base/08-calendario.css`). Si se toca
+   uno, se toca el otro. */
+.cal-grilla{gap:4px 2px;--hueco:2px}
 .cal-nombre-dia{font-size:11px;letter-spacing:.08em}
 
 /* CÍRCULOS PERFECTOS. La celda sigue siendo cuadrada —el ancho lo

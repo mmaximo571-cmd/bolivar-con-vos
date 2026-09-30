@@ -339,40 +339,28 @@
       "source_location": "L1246"
     },
     {
+      "id": "app_anotarbusqueda",
+      "label": "anotarBusqueda()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 11,
+      "community_name": "Pantalla Info \u00fatil (tr\u00e1mites y FAQ)",
+      "file_type": "code",
+      "norm_label": "anotarbusqueda()",
+      "source_file": "app.js",
+      "source_location": "L238"
+    },
+    {
       "id": "app_errorencastellano",
       "label": "errorEnCastellano()",
       "_callable": true,
       "_origin": "ast",
       "community": 11,
-      "community_name": "esc",
+      "community_name": "Pantalla Info \u00fatil (tr\u00e1mites y FAQ)",
       "file_type": "code",
       "norm_label": "errorencastellano()",
       "source_file": "app.js",
       "source_location": "L1788"
-    },
-    {
-      "id": "app_esc",
-      "label": "esc()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 11,
-      "community_name": "esc",
-      "file_type": "code",
-      "norm_label": "esc()",
-      "source_file": "app.js",
-      "source_location": "L323"
-    },
-    {
-      "id": "app_escmulti",
-      "label": "escMulti()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 11,
-      "community_name": "esc",
-      "file_type": "code",
-      "norm_label": "escmulti()",
-      "source_file": "app.js",
-      "source_location": "L344"
     },
     {
       "id": "app_explicarerror",
@@ -380,23 +368,11 @@
       "_callable": true,
       "_origin": "ast",
       "community": 11,
-      "community_name": "esc",
+      "community_name": "Pantalla Info \u00fatil (tr\u00e1mites y FAQ)",
       "file_type": "code",
       "norm_label": "explicarerror()",
       "source_file": "app.js",
       "source_location": "L1763"
-    },
-    {
-      "id": "app_htmlpie",
-      "label": "htmlPie()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 11,
-      "community_name": "esc",
-      "file_type": "code",
-      "norm_label": "htmlpie()",
-      "source_file": "app.js",
-      "source_location": "L1716"
     },
     {
       "id": "app_mostrarerror",
@@ -404,11 +380,35 @@
       "_callable": true,
       "_origin": "ast",
       "community": 11,
-      "community_name": "esc",
+      "community_name": "Pantalla Info \u00fatil (tr\u00e1mites y FAQ)",
       "file_type": "code",
       "norm_label": "mostrarerror()",
       "source_file": "app.js",
       "source_location": "L1791"
+    },
+    {
+      "id": "app_normalizar",
+      "label": "normalizar()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 11,
+      "community_name": "Pantalla Info \u00fatil (tr\u00e1mites y FAQ)",
+      "file_type": "code",
+      "norm_label": "normalizar()",
+      "source_file": "app.js",
+      "source_location": "L384"
+    },
+    {
+      "id": "app_parametro",
+      "label": "parametro()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 11,
+      "community_name": "Pantalla Info \u00fatil (tr\u00e1mites y FAQ)",
+      "file_type": "code",
+      "norm_label": "parametro()",
+      "source_file": "app.js",
+      "source_location": "L347"
     },
     {
       "id": "estudiemos_portada_buscar",
@@ -651,18 +651,6 @@
       "source_location": "L1078"
     },
     {
-      "id": "app_alarmademesa",
-      "label": "alarmaDeMesa()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 13,
-      "community_name": "htmlNovedades",
-      "file_type": "code",
-      "norm_label": "alarmademesa()",
-      "source_file": "app.js",
-      "source_location": "L1496"
-    },
-    {
       "id": "app_armarbandeja",
       "label": "armarBandeja()",
       "_callable": true,
@@ -735,16 +723,28 @@
       "source_location": "L886"
     },
     {
-      "id": "app_hoyiso",
-      "label": "hoyISO()",
+      "id": "app_cuentaparalacampana",
+      "label": "cuentaParaLaCampana()",
       "_callable": true,
       "_origin": "ast",
       "community": 13,
       "community_name": "htmlNovedades",
       "file_type": "code",
-      "norm_label": "hoyiso()",
+      "norm_label": "cuentaparalacampana()",
       "source_file": "app.js",
-      "source_location": "L378"
+      "source_location": "L1026"
+    },
+    {
+      "id": "app_guardarleidas",
+      "label": "guardarLeidas()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 13,
+      "community_name": "htmlNovedades",
+      "file_type": "code",
+      "norm_label": "guardarleidas()",
+      "source_file": "app.js",
+      "source_location": "L816"
     },
     {
       "id": "app_htmlnovedades",
@@ -757,18 +757,6 @@
       "norm_label": "htmlnovedades()",
       "source_file": "app.js",
       "source_location": "L930"
-    },
-    {
-      "id": "app_iddelaalertavisible",
-      "label": "idDeLaAlertaVisible()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 13,
-      "community_name": "htmlNovedades",
-      "file_type": "code",
-      "norm_label": "iddelaalertavisible()",
-      "source_file": "app.js",
-      "source_location": "L1546"
     },
     {
       "id": "app_isovecino",
@@ -795,6 +783,18 @@
       "source_location": "L899"
     },
     {
+      "id": "app_juntarleidas",
+      "label": "juntarLeidas()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 13,
+      "community_name": "htmlNovedades",
+      "file_type": "code",
+      "norm_label": "juntarleidas()",
+      "source_file": "app.js",
+      "source_location": "L1035"
+    },
+    {
       "id": "app_leidasnovedades",
       "label": "leidasNovedades()",
       "_callable": true,
@@ -807,16 +807,16 @@
       "source_location": "L801"
     },
     {
-      "id": "app_pintaralertamesa",
-      "label": "pintarAlertaMesa()",
+      "id": "app_mismasleidas",
+      "label": "mismasLeidas()",
       "_callable": true,
       "_origin": "ast",
       "community": 13,
       "community_name": "htmlNovedades",
       "file_type": "code",
-      "norm_label": "pintaralertamesa()",
+      "norm_label": "mismasleidas()",
       "source_file": "app.js",
-      "source_location": "L1555"
+      "source_location": "L1045"
     },
     {
       "id": "app_pintarcampana",
@@ -841,6 +841,18 @@
       "norm_label": "repintarpanel()",
       "source_file": "app.js",
       "source_location": "L1101"
+    },
+    {
+      "id": "app_sincronizarleidas",
+      "label": "sincronizarLeidas()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 13,
+      "community_name": "htmlNovedades",
+      "file_type": "code",
+      "norm_label": "sincronizarleidas()",
+      "source_file": "app.js",
+      "source_location": "L1055"
     },
     {
       "id": "app_traernovedades",
@@ -1035,18 +1047,6 @@
       "source_location": "L2061"
     },
     {
-      "id": "app_yaestainstalada",
-      "label": "yaEstaInstalada()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 15,
-      "community_name": "invitarAInstalar",
-      "file_type": "code",
-      "norm_label": "yaestainstalada()",
-      "source_file": "app.js",
-      "source_location": "L2044"
-    },
-    {
       "id": "estudiemos_fichas_ficha_adom",
       "label": "aDom()",
       "_callable": true,
@@ -1167,18 +1167,6 @@
       "source_location": "L92"
     },
     {
-      "id": "sw_esdesupabase",
-      "label": "esDeSupabase()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 2,
-      "community_name": "Pantalla El Consejo Directivo",
-      "file_type": "code",
-      "norm_label": "esdesupabase()",
-      "source_file": "sw.js",
-      "source_location": "L187"
-    },
-    {
       "id": "lib_fecha_al_calendario_archivoics",
       "label": "archivoICS()",
       "_callable": true,
@@ -1188,7 +1176,7 @@
       "file_type": "code",
       "norm_label": "archivoics()",
       "source_file": "lib/fecha-al-calendario.js",
-      "source_location": "L136"
+      "source_location": "L138"
     },
     {
       "id": "lib_fecha_al_calendario_bajarics",
@@ -1200,7 +1188,7 @@
       "file_type": "code",
       "norm_label": "bajarics()",
       "source_file": "lib/fecha-al-calendario.js",
-      "source_location": "L156"
+      "source_location": "L158"
     },
     {
       "id": "lib_fecha_al_calendario_detalledelevento",
@@ -1212,7 +1200,7 @@
       "file_type": "code",
       "norm_label": "detalledelevento()",
       "source_file": "lib/fecha-al-calendario.js",
-      "source_location": "L67"
+      "source_location": "L69"
     },
     {
       "id": "lib_fecha_al_calendario_doblarrenglon",
@@ -1224,7 +1212,7 @@
       "file_type": "code",
       "norm_label": "doblarrenglon()",
       "source_file": "lib/fecha-al-calendario.js",
-      "source_location": "L102"
+      "source_location": "L104"
     },
     {
       "id": "lib_fecha_al_calendario_escaparics",
@@ -1236,7 +1224,7 @@
       "file_type": "code",
       "norm_label": "escaparics()",
       "source_file": "lib/fecha-al-calendario.js",
-      "source_location": "L90"
+      "source_location": "L92"
     },
     {
       "id": "lib_fecha_al_calendario_eventoics",
@@ -1248,7 +1236,7 @@
       "file_type": "code",
       "norm_label": "eventoics()",
       "source_file": "lib/fecha-al-calendario.js",
-      "source_location": "L113"
+      "source_location": "L115"
     },
     {
       "id": "lib_fecha_al_calendario_horanumeros",
@@ -1260,7 +1248,7 @@
       "file_type": "code",
       "norm_label": "horanumeros()",
       "source_file": "lib/fecha-al-calendario.js",
-      "source_location": "L33"
+      "source_location": "L35"
     },
     {
       "id": "lib_fecha_al_calendario_htmlagendarlo",
@@ -1272,7 +1260,7 @@
       "file_type": "code",
       "norm_label": "htmlagendarlo()",
       "source_file": "lib/fecha-al-calendario.js",
-      "source_location": "L179"
+      "source_location": "L181"
     },
     {
       "id": "lib_fecha_al_calendario_montarcalendario",
@@ -1284,7 +1272,7 @@
       "file_type": "code",
       "norm_label": "montarcalendario()",
       "source_file": "lib/fecha-al-calendario.js",
-      "source_location": "L220"
+      "source_location": "L222"
     },
     {
       "id": "lib_fecha_al_calendario_montarcalendario_dibujar",
@@ -1296,7 +1284,7 @@
       "file_type": "code",
       "norm_label": "dibujar()",
       "source_file": "lib/fecha-al-calendario.js",
-      "source_location": "L274"
+      "source_location": "L308"
     },
     {
       "id": "lib_fecha_al_calendario_montarcalendario_elegir",
@@ -1308,7 +1296,7 @@
       "file_type": "code",
       "norm_label": "elegir()",
       "source_file": "lib/fecha-al-calendario.js",
-      "source_location": "L335"
+      "source_location": "L398"
     },
     {
       "id": "lib_fecha_al_calendario_montarcalendario_iralmes",
@@ -1320,7 +1308,31 @@
       "file_type": "code",
       "norm_label": "iralmes()",
       "source_file": "lib/fecha-al-calendario.js",
-      "source_location": "L346"
+      "source_location": "L430"
+    },
+    {
+      "id": "lib_fecha_al_calendario_montarcalendario_marcasde",
+      "label": "marcasDe()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 20,
+      "community_name": "fecha-al-calendario.js",
+      "file_type": "code",
+      "norm_label": "marcasde()",
+      "source_file": "lib/fecha-al-calendario.js",
+      "source_location": "L296"
+    },
+    {
+      "id": "lib_fecha_al_calendario_montarcalendario_pintarpie",
+      "label": "pintarPie()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 20,
+      "community_name": "fecha-al-calendario.js",
+      "file_type": "code",
+      "norm_label": "pintarpie()",
+      "source_file": "lib/fecha-al-calendario.js",
+      "source_location": "L370"
     },
     {
       "id": "lib_fecha_al_calendario_montarcalendario_publicacionesde",
@@ -1332,19 +1344,7 @@
       "file_type": "code",
       "norm_label": "publicacionesde()",
       "source_file": "lib/fecha-al-calendario.js",
-      "source_location": "L270"
-    },
-    {
-      "id": "lib_fecha_al_calendario_montarcalendario_referencia",
-      "label": "referencia()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 20,
-      "community_name": "fecha-al-calendario.js",
-      "file_type": "code",
-      "norm_label": "referencia()",
-      "source_file": "lib/fecha-al-calendario.js",
-      "source_location": "L247"
+      "source_location": "L291"
     },
     {
       "id": "lib_fecha_al_calendario_nombredearchivo",
@@ -1356,7 +1356,7 @@
       "file_type": "code",
       "norm_label": "nombredearchivo()",
       "source_file": "lib/fecha-al-calendario.js",
-      "source_location": "L151"
+      "source_location": "L153"
     },
     {
       "id": "lib_fecha_al_calendario_puntasdelevento",
@@ -1368,7 +1368,7 @@
       "file_type": "code",
       "norm_label": "puntasdelevento()",
       "source_file": "lib/fecha-al-calendario.js",
-      "source_location": "L47"
+      "source_location": "L49"
     },
     {
       "id": "lib_fecha_al_calendario_solonumeros",
@@ -1380,7 +1380,7 @@
       "file_type": "code",
       "norm_label": "solonumeros()",
       "source_file": "lib/fecha-al-calendario.js",
-      "source_location": "L30"
+      "source_location": "L32"
     },
     {
       "id": "lib_fecha_al_calendario_todaviaviene",
@@ -1392,7 +1392,7 @@
       "file_type": "code",
       "norm_label": "todaviaviene()",
       "source_file": "lib/fecha-al-calendario.js",
-      "source_location": "L172"
+      "source_location": "L174"
     },
     {
       "id": "lib_fecha_al_calendario_urlgooglecalendar",
@@ -1404,19 +1404,7 @@
       "file_type": "code",
       "norm_label": "urlgooglecalendar()",
       "source_file": "lib/fecha-al-calendario.js",
-      "source_location": "L74"
-    },
-    {
-      "id": "fondo_red_apagar",
-      "label": "apagar()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 21,
-      "community_name": "riesgo.js",
-      "file_type": "code",
-      "norm_label": "apagar()",
-      "source_file": "fondo-red.js",
-      "source_location": "L429"
+      "source_location": "L76"
     },
     {
       "id": "mapa_riesgo_abrir",
@@ -2223,24 +2211,12 @@
       "source_location": "L18"
     },
     {
-      "id": "app_anotarbusqueda",
-      "label": "anotarBusqueda()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 3,
-      "community_name": "Pantalla Info \u00fatil (tr\u00e1mites y FAQ)",
-      "file_type": "code",
-      "norm_label": "anotarbusqueda()",
-      "source_file": "app.js",
-      "source_location": "L238"
-    },
-    {
       "id": "app_conpaciencia",
       "label": "conPaciencia()",
       "_callable": true,
       "_origin": "ast",
       "community": 3,
-      "community_name": "Pantalla Info \u00fatil (tr\u00e1mites y FAQ)",
+      "community_name": "Pantalla El Consejo Directivo",
       "file_type": "code",
       "norm_label": "conpaciencia()",
       "source_file": "app.js",
@@ -2252,7 +2228,7 @@
       "_callable": true,
       "_origin": "ast",
       "community": 3,
-      "community_name": "Pantalla Info \u00fatil (tr\u00e1mites y FAQ)",
+      "community_name": "Pantalla El Consejo Directivo",
       "file_type": "code",
       "norm_label": "guardarenmemoria()",
       "source_file": "app.js",
@@ -2264,35 +2240,35 @@
       "_callable": true,
       "_origin": "ast",
       "community": 3,
-      "community_name": "Pantalla Info \u00fatil (tr\u00e1mites y FAQ)",
+      "community_name": "Pantalla El Consejo Directivo",
       "file_type": "code",
       "norm_label": "memoriade()",
       "source_file": "app.js",
       "source_location": "L1861"
     },
     {
-      "id": "app_normalizar",
-      "label": "normalizar()",
+      "id": "sw_esdesupabase",
+      "label": "esDeSupabase()",
       "_callable": true,
       "_origin": "ast",
       "community": 3,
-      "community_name": "Pantalla Info \u00fatil (tr\u00e1mites y FAQ)",
+      "community_name": "Pantalla El Consejo Directivo",
       "file_type": "code",
-      "norm_label": "normalizar()",
-      "source_file": "app.js",
-      "source_location": "L384"
+      "norm_label": "esdesupabase()",
+      "source_file": "sw.js",
+      "source_location": "L189"
     },
     {
-      "id": "app_parametro",
-      "label": "parametro()",
+      "id": "fondo_red_apagar",
+      "label": "apagar()",
       "_callable": true,
       "_origin": "ast",
-      "community": 3,
-      "community_name": "Pantalla Info \u00fatil (tr\u00e1mites y FAQ)",
+      "community": 31,
+      "community_name": "fondo-red.js",
       "file_type": "code",
-      "norm_label": "parametro()",
-      "source_file": "app.js",
-      "source_location": "L347"
+      "norm_label": "apagar()",
+      "source_file": "fondo-red.js",
+      "source_location": "L429"
     },
     {
       "id": "fondo_red_argb",
@@ -2775,64 +2751,88 @@
       "source_location": "L336"
     },
     {
-      "id": "app_cuentaparalacampana",
-      "label": "cuentaParaLaCampana()",
+      "id": "app_alarmademesa",
+      "label": "alarmaDeMesa()",
       "_callable": true,
       "_origin": "ast",
       "community": 46,
-      "community_name": "sincronizarLeidas",
+      "community_name": "esc",
       "file_type": "code",
-      "norm_label": "cuentaparalacampana()",
+      "norm_label": "alarmademesa()",
       "source_file": "app.js",
-      "source_location": "L1026"
+      "source_location": "L1496"
     },
     {
-      "id": "app_guardarleidas",
-      "label": "guardarLeidas()",
+      "id": "app_esc",
+      "label": "esc()",
       "_callable": true,
       "_origin": "ast",
       "community": 46,
-      "community_name": "sincronizarLeidas",
+      "community_name": "esc",
       "file_type": "code",
-      "norm_label": "guardarleidas()",
+      "norm_label": "esc()",
       "source_file": "app.js",
-      "source_location": "L816"
+      "source_location": "L323"
     },
     {
-      "id": "app_juntarleidas",
-      "label": "juntarLeidas()",
+      "id": "app_escmulti",
+      "label": "escMulti()",
       "_callable": true,
       "_origin": "ast",
       "community": 46,
-      "community_name": "sincronizarLeidas",
+      "community_name": "esc",
       "file_type": "code",
-      "norm_label": "juntarleidas()",
+      "norm_label": "escmulti()",
       "source_file": "app.js",
-      "source_location": "L1035"
+      "source_location": "L344"
     },
     {
-      "id": "app_mismasleidas",
-      "label": "mismasLeidas()",
+      "id": "app_hoyiso",
+      "label": "hoyISO()",
       "_callable": true,
       "_origin": "ast",
       "community": 46,
-      "community_name": "sincronizarLeidas",
+      "community_name": "esc",
       "file_type": "code",
-      "norm_label": "mismasleidas()",
+      "norm_label": "hoyiso()",
       "source_file": "app.js",
-      "source_location": "L1045"
+      "source_location": "L378"
     },
     {
-      "id": "app_sincronizarleidas",
-      "label": "sincronizarLeidas()",
+      "id": "app_htmlpie",
+      "label": "htmlPie()",
       "_callable": true,
       "_origin": "ast",
       "community": 46,
-      "community_name": "sincronizarLeidas",
+      "community_name": "esc",
       "file_type": "code",
-      "norm_label": "sincronizarleidas()",
+      "norm_label": "htmlpie()",
       "source_file": "app.js",
-      "source_location": "L1055"
+      "source_location": "L1716"
+    },
+    {
+      "id": "app_iddelaalertavisible",
+      "label": "idDeLaAlertaVisible()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 46,
+      "community_name": "esc",
+      "file_type": "code",
+      "norm_label": "iddelaalertavisible()",
+      "source_file": "app.js",
+      "source_location": "L1546"
+    },
+    {
+      "id": "app_pintaralertamesa",
+      "label": "pintarAlertaMesa()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 46,
+      "community_name": "esc",
+      "file_type": "code",
+      "norm_label": "pintaralertamesa()",
+      "source_file": "app.js",
+      "source_location": "L1555"
     },
     {
       "id": "lib_leer_analitico_cargarpdfjs",
@@ -3445,6 +3445,18 @@
       "norm_label": "queaparato()",
       "source_file": "app.js",
       "source_location": "L128"
+    },
+    {
+      "id": "app_yaestainstalada",
+      "label": "yaEstaInstalada()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 54,
+      "community_name": "anotar",
+      "file_type": "code",
+      "norm_label": "yaestainstalada()",
+      "source_file": "app.js",
+      "source_location": "L2044"
     },
     {
       "id": "mapa_capas_capariesgo",
@@ -4753,21 +4765,6 @@
       "source_url": null
     },
     {
-      "id": "glosario_index",
-      "label": "Pantalla Glosario universitario",
-      "_origin": "ast",
-      "author": null,
-      "captured_at": null,
-      "community": 1,
-      "community_name": "Pantalla Mi a\u00f1o (carrera)",
-      "contributor": null,
-      "file_type": "code",
-      "norm_label": "pantalla glosario universitario",
-      "source_file": "glosario/index.html",
-      "source_location": "L6",
-      "source_url": null
-    },
-    {
       "id": "index",
       "label": "Pantalla Inicio",
       "_origin": "ast",
@@ -4855,6 +4852,141 @@
       "norm_label": "tema claro/oscuro (localstorage bolivar-tema)",
       "source_file": "sin-conexion.html",
       "source_location": "L13",
+      "source_url": null
+    },
+    {
+      "id": "panel_index_textodelpdf",
+      "label": "textoDelPdf",
+      "_origin": "ast",
+      "author": null,
+      "captured_at": null,
+      "community": 101,
+      "community_name": "vistaProgramas (programas de materias)",
+      "contributor": null,
+      "file_type": "code",
+      "norm_label": "textodelpdf",
+      "source_file": "panel/index.html",
+      "source_location": "L1302",
+      "source_url": null
+    },
+    {
+      "id": "panel_index_vistaprogramas",
+      "label": "vistaProgramas (programas de materias)",
+      "_origin": "ast",
+      "author": null,
+      "captured_at": null,
+      "community": 101,
+      "community_name": "vistaProgramas (programas de materias)",
+      "contributor": null,
+      "file_type": "code",
+      "norm_label": "vistaprogramas (programas de materias)",
+      "source_file": "panel/index.html",
+      "source_location": "L1082",
+      "source_url": null
+    },
+    {
+      "id": "panel_index_vistaprogramaspdf",
+      "label": "vistaProgramasPDF (carga masiva desde PDF)",
+      "_origin": "ast",
+      "author": null,
+      "captured_at": null,
+      "community": 101,
+      "community_name": "vistaProgramas (programas de materias)",
+      "contributor": null,
+      "file_type": "code",
+      "norm_label": "vistaprogramaspdf (carga masiva desde pdf)",
+      "source_file": "panel/index.html",
+      "source_location": "L1355",
+      "source_url": null
+    },
+    {
+      "id": "catedras_index",
+      "label": "Pantalla C\u00e1tedras",
+      "_origin": "ast",
+      "author": null,
+      "captured_at": null,
+      "community": 11,
+      "community_name": "Pantalla Info \u00fatil (tr\u00e1mites y FAQ)",
+      "contributor": null,
+      "file_type": "code",
+      "norm_label": "pantalla catedras",
+      "source_file": "carrera/index.html",
+      "source_location": "L243",
+      "source_url": null
+    },
+    {
+      "id": "panel_index_vistacatedras",
+      "label": "vistaCatedras",
+      "_origin": "ast",
+      "author": null,
+      "captured_at": null,
+      "community": 11,
+      "community_name": "Pantalla Info \u00fatil (tr\u00e1mites y FAQ)",
+      "contributor": null,
+      "file_type": "code",
+      "norm_label": "vistacatedras",
+      "source_file": "panel/index.html",
+      "source_location": "L2506",
+      "source_url": null
+    },
+    {
+      "id": "panel_index_vistacategorias",
+      "label": "vistaCategorias",
+      "_origin": "ast",
+      "author": null,
+      "captured_at": null,
+      "community": 11,
+      "community_name": "Pantalla Info \u00fatil (tr\u00e1mites y FAQ)",
+      "contributor": null,
+      "file_type": "code",
+      "norm_label": "vistacategorias",
+      "source_file": "panel/index.html",
+      "source_location": "L779",
+      "source_url": null
+    },
+    {
+      "id": "panel_index_vistafaq",
+      "label": "vistaFaq (editor de preguntas frecuentes)",
+      "_origin": "ast",
+      "author": null,
+      "captured_at": null,
+      "community": 11,
+      "community_name": "Pantalla Info \u00fatil (tr\u00e1mites y FAQ)",
+      "contributor": null,
+      "file_type": "code",
+      "norm_label": "vistafaq (editor de preguntas frecuentes)",
+      "source_file": "panel/index.html",
+      "source_location": "L471",
+      "source_url": null
+    },
+    {
+      "id": "panel_index_vistatramites",
+      "label": "vistaTramites (editor de tr\u00e1mites)",
+      "_origin": "ast",
+      "author": null,
+      "captured_at": null,
+      "community": 11,
+      "community_name": "Pantalla Info \u00fatil (tr\u00e1mites y FAQ)",
+      "contributor": null,
+      "file_type": "code",
+      "norm_label": "vistatramites (editor de tramites)",
+      "source_file": "panel/index.html",
+      "source_location": "L262",
+      "source_url": null
+    },
+    {
+      "id": "tramites_index",
+      "label": "Pantalla Info \u00fatil (tr\u00e1mites y FAQ)",
+      "_origin": "ast",
+      "author": null,
+      "captured_at": null,
+      "community": 11,
+      "community_name": "Pantalla Info \u00fatil (tr\u00e1mites y FAQ)",
+      "contributor": null,
+      "file_type": "code",
+      "norm_label": "pantalla info util (tramites y faq)",
+      "source_file": "tramites/index.html",
+      "source_location": "L6",
       "source_url": null
     },
     {
@@ -4963,36 +5095,6 @@
       "source_url": null
     },
     {
-      "id": "consejo_index",
-      "label": "Pantalla El Consejo Directivo",
-      "_origin": "ast",
-      "author": null,
-      "captured_at": null,
-      "community": 2,
-      "community_name": "Pantalla El Consejo Directivo",
-      "contributor": null,
-      "file_type": "code",
-      "norm_label": "pantalla el consejo directivo",
-      "source_file": "consejo/index.html",
-      "source_location": "L6",
-      "source_url": null
-    },
-    {
-      "id": "panel_index_vistaconsejo",
-      "label": "vistaConsejo (editor Consejo Directivo)",
-      "_origin": "ast",
-      "author": null,
-      "captured_at": null,
-      "community": 2,
-      "community_name": "Pantalla El Consejo Directivo",
-      "contributor": null,
-      "file_type": "code",
-      "norm_label": "vistaconsejo (editor consejo directivo)",
-      "source_file": "panel/index.html",
-      "source_location": "L1906",
-      "source_url": null
-    },
-    {
       "id": "leeme_agrupacion_simon_bolivar",
       "label": "Agrupaci\u00f3n Sim\u00f3n Bol\u00edvar (Conducci\u00f3n del CEFTS, FTS-UNLP)",
       "_origin": "ast",
@@ -5093,7 +5195,7 @@
       "author": null,
       "captured_at": null,
       "community": 3,
-      "community_name": "Pantalla Info \u00fatil (tr\u00e1mites y FAQ)",
+      "community_name": "Pantalla El Consejo Directivo",
       "contributor": null,
       "file_type": "code",
       "norm_label": "pantalla anatomofisiologia (guia de materia)",
@@ -5108,7 +5210,7 @@
       "author": null,
       "captured_at": null,
       "community": 3,
-      "community_name": "Pantalla Info \u00fatil (tr\u00e1mites y FAQ)",
+      "community_name": "Pantalla El Consejo Directivo",
       "contributor": null,
       "file_type": "code",
       "norm_label": "bloquemodelo / sinfechas",
@@ -5117,33 +5219,18 @@
       "source_url": null
     },
     {
-      "id": "catedras_index",
-      "label": "Pantalla C\u00e1tedras",
+      "id": "consejo_index",
+      "label": "Pantalla El Consejo Directivo",
       "_origin": "ast",
       "author": null,
       "captured_at": null,
       "community": 3,
-      "community_name": "Pantalla Info \u00fatil (tr\u00e1mites y FAQ)",
+      "community_name": "Pantalla El Consejo Directivo",
       "contributor": null,
       "file_type": "code",
-      "norm_label": "pantalla catedras",
-      "source_file": "carrera/index.html",
-      "source_location": "L243",
-      "source_url": null
-    },
-    {
-      "id": "catedras_index_carreradelapersona",
-      "label": "carreraDeLaPersona",
-      "_origin": "ast",
-      "author": null,
-      "captured_at": null,
-      "community": 3,
-      "community_name": "Pantalla Info \u00fatil (tr\u00e1mites y FAQ)",
-      "contributor": null,
-      "file_type": "code",
-      "norm_label": "carreradelapersona",
-      "source_file": "catedras/index.html",
-      "source_location": "L107",
+      "norm_label": "pantalla el consejo directivo",
+      "source_file": "consejo/index.html",
+      "source_location": "L6",
       "source_url": null
     },
     {
@@ -5153,7 +5240,7 @@
       "author": null,
       "captured_at": null,
       "community": 3,
-      "community_name": "Pantalla Info \u00fatil (tr\u00e1mites y FAQ)",
+      "community_name": "Pantalla El Consejo Directivo",
       "contributor": null,
       "file_type": "code",
       "norm_label": "pantalla fonoteca (practica de audiogramas)",
@@ -5168,27 +5255,12 @@
       "author": null,
       "captured_at": null,
       "community": 3,
-      "community_name": "Pantalla Info \u00fatil (tr\u00e1mites y FAQ)",
+      "community_name": "Pantalla El Consejo Directivo",
       "contributor": null,
       "file_type": "code",
       "norm_label": "pantalla estudiemos (landing de herramientas)",
       "source_file": "estudiemos/index.html",
       "source_location": "L6",
-      "source_url": null
-    },
-    {
-      "id": "estudiemos_index_esdeotracarrera",
-      "label": "esDeOtraCarrera (filtra materiales por plan)",
-      "_origin": "ast",
-      "author": null,
-      "captured_at": null,
-      "community": 3,
-      "community_name": "Pantalla Info \u00fatil (tr\u00e1mites y FAQ)",
-      "contributor": null,
-      "file_type": "code",
-      "norm_label": "esdeotracarrera (filtra materiales por plan)",
-      "source_file": "estudiemos/index.html",
-      "source_location": "L463",
       "source_url": null
     },
     {
@@ -5198,7 +5270,7 @@
       "author": null,
       "captured_at": null,
       "community": 3,
-      "community_name": "Pantalla Info \u00fatil (tr\u00e1mites y FAQ)",
+      "community_name": "Pantalla El Consejo Directivo",
       "contributor": null,
       "file_type": "code",
       "norm_label": "llevarriel / pintarflechas (riel deslizable)",
@@ -5207,63 +5279,18 @@
       "source_url": null
     },
     {
-      "id": "panel_index_textodelpdf",
-      "label": "textoDelPdf",
+      "id": "panel_index_vistaconsejo",
+      "label": "vistaConsejo (editor Consejo Directivo)",
       "_origin": "ast",
       "author": null,
       "captured_at": null,
       "community": 3,
-      "community_name": "Pantalla Info \u00fatil (tr\u00e1mites y FAQ)",
+      "community_name": "Pantalla El Consejo Directivo",
       "contributor": null,
       "file_type": "code",
-      "norm_label": "textodelpdf",
+      "norm_label": "vistaconsejo (editor consejo directivo)",
       "source_file": "panel/index.html",
-      "source_location": "L1302",
-      "source_url": null
-    },
-    {
-      "id": "panel_index_vistacatedras",
-      "label": "vistaCatedras",
-      "_origin": "ast",
-      "author": null,
-      "captured_at": null,
-      "community": 3,
-      "community_name": "Pantalla Info \u00fatil (tr\u00e1mites y FAQ)",
-      "contributor": null,
-      "file_type": "code",
-      "norm_label": "vistacatedras",
-      "source_file": "panel/index.html",
-      "source_location": "L2506",
-      "source_url": null
-    },
-    {
-      "id": "panel_index_vistacategorias",
-      "label": "vistaCategorias",
-      "_origin": "ast",
-      "author": null,
-      "captured_at": null,
-      "community": 3,
-      "community_name": "Pantalla Info \u00fatil (tr\u00e1mites y FAQ)",
-      "contributor": null,
-      "file_type": "code",
-      "norm_label": "vistacategorias",
-      "source_file": "panel/index.html",
-      "source_location": "L779",
-      "source_url": null
-    },
-    {
-      "id": "panel_index_vistafaq",
-      "label": "vistaFaq (editor de preguntas frecuentes)",
-      "_origin": "ast",
-      "author": null,
-      "captured_at": null,
-      "community": 3,
-      "community_name": "Pantalla Info \u00fatil (tr\u00e1mites y FAQ)",
-      "contributor": null,
-      "file_type": "code",
-      "norm_label": "vistafaq (editor de preguntas frecuentes)",
-      "source_file": "panel/index.html",
-      "source_location": "L471",
+      "source_location": "L1906",
       "source_url": null
     },
     {
@@ -5273,7 +5300,7 @@
       "author": null,
       "captured_at": null,
       "community": 3,
-      "community_name": "Pantalla Info \u00fatil (tr\u00e1mites y FAQ)",
+      "community_name": "Pantalla El Consejo Directivo",
       "contributor": null,
       "file_type": "code",
       "norm_label": "vistaguia (guia de materia anatomo)",
@@ -5288,72 +5315,12 @@
       "author": null,
       "captured_at": null,
       "community": 3,
-      "community_name": "Pantalla Info \u00fatil (tr\u00e1mites y FAQ)",
+      "community_name": "Pantalla El Consejo Directivo",
       "contributor": null,
       "file_type": "code",
       "norm_label": "vistamateriales",
       "source_file": "panel/index.html",
       "source_location": "L889",
-      "source_url": null
-    },
-    {
-      "id": "panel_index_vistaprogramas",
-      "label": "vistaProgramas (programas de materias)",
-      "_origin": "ast",
-      "author": null,
-      "captured_at": null,
-      "community": 3,
-      "community_name": "Pantalla Info \u00fatil (tr\u00e1mites y FAQ)",
-      "contributor": null,
-      "file_type": "code",
-      "norm_label": "vistaprogramas (programas de materias)",
-      "source_file": "panel/index.html",
-      "source_location": "L1082",
-      "source_url": null
-    },
-    {
-      "id": "panel_index_vistaprogramaspdf",
-      "label": "vistaProgramasPDF (carga masiva desde PDF)",
-      "_origin": "ast",
-      "author": null,
-      "captured_at": null,
-      "community": 3,
-      "community_name": "Pantalla Info \u00fatil (tr\u00e1mites y FAQ)",
-      "contributor": null,
-      "file_type": "code",
-      "norm_label": "vistaprogramaspdf (carga masiva desde pdf)",
-      "source_file": "panel/index.html",
-      "source_location": "L1355",
-      "source_url": null
-    },
-    {
-      "id": "panel_index_vistatramites",
-      "label": "vistaTramites (editor de tr\u00e1mites)",
-      "_origin": "ast",
-      "author": null,
-      "captured_at": null,
-      "community": 3,
-      "community_name": "Pantalla Info \u00fatil (tr\u00e1mites y FAQ)",
-      "contributor": null,
-      "file_type": "code",
-      "norm_label": "vistatramites (editor de tramites)",
-      "source_file": "panel/index.html",
-      "source_location": "L262",
-      "source_url": null
-    },
-    {
-      "id": "tramites_index",
-      "label": "Pantalla Info \u00fatil (tr\u00e1mites y FAQ)",
-      "_origin": "ast",
-      "author": null,
-      "captured_at": null,
-      "community": 3,
-      "community_name": "Pantalla Info \u00fatil (tr\u00e1mites y FAQ)",
-      "contributor": null,
-      "file_type": "code",
-      "norm_label": "pantalla info util (tramites y faq)",
-      "source_file": "tramites/index.html",
-      "source_location": "L6",
       "source_url": null
     },
     {
@@ -5568,6 +5535,51 @@
       "source_url": null
     },
     {
+      "id": "catedras_index_carreradelapersona",
+      "label": "carreraDeLaPersona",
+      "_origin": "ast",
+      "author": null,
+      "captured_at": null,
+      "community": 54,
+      "community_name": "anotar",
+      "contributor": null,
+      "file_type": "code",
+      "norm_label": "carreradelapersona",
+      "source_file": "catedras/index.html",
+      "source_location": "L107",
+      "source_url": null
+    },
+    {
+      "id": "estudiemos_index_esdeotracarrera",
+      "label": "esDeOtraCarrera (filtra materiales por plan)",
+      "_origin": "ast",
+      "author": null,
+      "captured_at": null,
+      "community": 54,
+      "community_name": "anotar",
+      "contributor": null,
+      "file_type": "code",
+      "norm_label": "esdeotracarrera (filtra materiales por plan)",
+      "source_file": "estudiemos/index.html",
+      "source_location": "L463",
+      "source_url": null
+    },
+    {
+      "id": "carrera_index_guardarprep",
+      "label": "guardarPrep",
+      "_origin": "ast",
+      "author": null,
+      "captured_at": null,
+      "community": 6,
+      "community_name": "pintarFinal (preparaci\u00f3n de final)",
+      "contributor": null,
+      "file_type": "code",
+      "norm_label": "guardarprep",
+      "source_file": "carrera/index.html",
+      "source_location": "L2552",
+      "source_url": null
+    },
+    {
       "id": "carrera_index_pintarfinal",
       "label": "pintarFinal (preparaci\u00f3n de final)",
       "_origin": "ast",
@@ -5658,6 +5670,21 @@
       "source_url": null
     },
     {
+      "id": "carrera_index_vistanueva",
+      "label": "vistaNueva (nueva preparaci\u00f3n)",
+      "_origin": "ast",
+      "author": null,
+      "captured_at": null,
+      "community": 6,
+      "community_name": "pintarFinal (preparaci\u00f3n de final)",
+      "contributor": null,
+      "file_type": "code",
+      "norm_label": "vistanueva (nueva preparacion)",
+      "source_file": "carrera/index.html",
+      "source_location": "L2687",
+      "source_url": null
+    },
+    {
       "id": "carrera_index_vistapreparacion",
       "label": "vistaPreparacion",
       "_origin": "ast",
@@ -5670,6 +5697,36 @@
       "norm_label": "vistapreparacion",
       "source_file": "carrera/index.html",
       "source_location": "L2809",
+      "source_url": null
+    },
+    {
+      "id": "tabla_preparaciones",
+      "label": "Tabla Supabase preparaciones",
+      "_origin": "ast",
+      "author": null,
+      "captured_at": null,
+      "community": 6,
+      "community_name": "pintarFinal (preparaci\u00f3n de final)",
+      "contributor": null,
+      "file_type": "concept",
+      "norm_label": "tabla supabase preparaciones",
+      "source_file": "carrera/index.html",
+      "source_location": "L2556",
+      "source_url": null
+    },
+    {
+      "id": "tabla_programas",
+      "label": "Tabla Supabase programas",
+      "_origin": "ast",
+      "author": null,
+      "captured_at": null,
+      "community": 6,
+      "community_name": "pintarFinal (preparaci\u00f3n de final)",
+      "contributor": null,
+      "file_type": "concept",
+      "norm_label": "tabla supabase programas",
+      "source_file": "carrera/index.html",
+      "source_location": "L2714",
       "source_url": null
     },
     {
@@ -5974,36 +6031,6 @@
       "source_url": null
     },
     {
-      "id": "carrera_index_guardarprep",
-      "label": "guardarPrep",
-      "_origin": "ast",
-      "author": null,
-      "captured_at": null,
-      "community": 69,
-      "community_name": "Detalle de publicaci\u00f3n (?id=)",
-      "contributor": null,
-      "file_type": "code",
-      "norm_label": "guardarprep",
-      "source_file": "carrera/index.html",
-      "source_location": "L2552",
-      "source_url": null
-    },
-    {
-      "id": "carrera_index_vistanueva",
-      "label": "vistaNueva (nueva preparaci\u00f3n)",
-      "_origin": "ast",
-      "author": null,
-      "captured_at": null,
-      "community": 69,
-      "community_name": "Detalle de publicaci\u00f3n (?id=)",
-      "contributor": null,
-      "file_type": "code",
-      "norm_label": "vistanueva (nueva preparacion)",
-      "source_file": "carrera/index.html",
-      "source_location": "L2687",
-      "source_url": null
-    },
-    {
       "id": "index_calendario_mes",
       "label": "Calendario del mes (Inicio)",
       "_origin": "ast",
@@ -6046,36 +6073,6 @@
       "norm_label": "proximodelaagenda",
       "source_file": "index.html",
       "source_location": "L814",
-      "source_url": null
-    },
-    {
-      "id": "tabla_preparaciones",
-      "label": "Tabla Supabase preparaciones",
-      "_origin": "ast",
-      "author": null,
-      "captured_at": null,
-      "community": 69,
-      "community_name": "Detalle de publicaci\u00f3n (?id=)",
-      "contributor": null,
-      "file_type": "concept",
-      "norm_label": "tabla supabase preparaciones",
-      "source_file": "carrera/index.html",
-      "source_location": "L2556",
-      "source_url": null
-    },
-    {
-      "id": "tabla_programas",
-      "label": "Tabla Supabase programas",
-      "_origin": "ast",
-      "author": null,
-      "captured_at": null,
-      "community": 69,
-      "community_name": "Detalle de publicaci\u00f3n (?id=)",
-      "contributor": null,
-      "file_type": "concept",
-      "norm_label": "tabla supabase programas",
-      "source_file": "carrera/index.html",
-      "source_location": "L2714",
       "source_url": null
     },
     {
@@ -6399,6 +6396,21 @@
       "norm_label": "el buscador mira toda la app",
       "source_file": "LEEME.md",
       "source_location": "L442",
+      "source_url": null
+    },
+    {
+      "id": "glosario_index",
+      "label": "Pantalla Glosario universitario",
+      "_origin": "ast",
+      "author": null,
+      "captured_at": null,
+      "community": 91,
+      "community_name": "Pantalla Qui\u00e9nes somos",
+      "contributor": null,
+      "file_type": "code",
+      "norm_label": "pantalla glosario universitario",
+      "source_file": "glosario/index.html",
+      "source_location": "L6",
       "source_url": null
     },
     {
@@ -6842,26 +6854,136 @@
       "source_location": "L57"
     },
     {
-      "id": "sw",
-      "label": "sw.js",
+      "id": "sql_tabla_anotados",
+      "label": "tabla-anotados.sql",
       "_origin": "ast",
       "community": 2,
-      "community_name": "Pantalla El Consejo Directivo",
+      "community_name": "tabla-anotados.sql",
       "file_type": "code",
-      "norm_label": "sw.js",
-      "source_file": "sw.js",
-      "source_location": "L1"
+      "norm_label": "tabla-anotados.sql",
+      "source_file": "sql/tabla-anotados.sql",
+      "source_location": null
     },
     {
-      "id": "sw_del_armazon",
-      "label": "DEL_ARMAZON",
+      "id": "sql_tabla_anotados_anotados_suscripcion_idx",
+      "label": "anotados_suscripcion_idx",
       "_origin": "ast",
       "community": 2,
-      "community_name": "Pantalla El Consejo Directivo",
+      "community_name": "tabla-anotados.sql",
       "file_type": "code",
-      "norm_label": "del_armazon",
-      "source_file": "sw.js",
-      "source_location": "L29"
+      "norm_label": "anotados_suscripcion_idx",
+      "source_file": "sql/tabla-anotados.sql",
+      "source_location": "L61"
+    },
+    {
+      "id": "sql_tabla_anotados_public_anotable",
+      "label": "public.anotable()",
+      "_origin": "ast",
+      "community": 2,
+      "community_name": "tabla-anotados.sql",
+      "file_type": "code",
+      "norm_label": "public.anotable()",
+      "source_file": "sql/tabla-anotados.sql",
+      "source_location": "L124"
+    },
+    {
+      "id": "sql_tabla_anotados_public_anotados",
+      "label": "public.anotados",
+      "_origin": "ast",
+      "community": 2,
+      "community_name": "tabla-anotados.sql",
+      "file_type": "code",
+      "norm_label": "public.anotados",
+      "source_file": "sql/tabla-anotados.sql",
+      "source_location": "L52"
+    },
+    {
+      "id": "sql_tabla_anotados_public_anotados_contacto",
+      "label": "public.anotados_contacto",
+      "_origin": "ast",
+      "community": 2,
+      "community_name": "tabla-anotados.sql",
+      "file_type": "code",
+      "norm_label": "public.anotados_contacto",
+      "source_file": "sql/tabla-anotados.sql",
+      "source_location": "L64"
+    },
+    {
+      "id": "sql_tabla_anotados_public_anotados_totales",
+      "label": "public.anotados_totales",
+      "_origin": "ast",
+      "community": 2,
+      "community_name": "tabla-anotados.sql",
+      "file_type": "code",
+      "norm_label": "public.anotados_totales",
+      "source_file": "sql/tabla-anotados.sql",
+      "source_location": "L109"
+    },
+    {
+      "id": "sql_tabla_anotados_public_anotados_totales_calc",
+      "label": "public.anotados_totales_calc()",
+      "_origin": "ast",
+      "community": 2,
+      "community_name": "tabla-anotados.sql",
+      "file_type": "code",
+      "norm_label": "public.anotados_totales_calc()",
+      "source_file": "sql/tabla-anotados.sql",
+      "source_location": "L97"
+    },
+    {
+      "id": "sql_tabla_anotados_public_anotarme",
+      "label": "public.anotarme()",
+      "_origin": "ast",
+      "community": 2,
+      "community_name": "tabla-anotados.sql",
+      "file_type": "code",
+      "norm_label": "public.anotarme()",
+      "source_file": "sql/tabla-anotados.sql",
+      "source_location": "L134"
+    },
+    {
+      "id": "sql_tabla_anotados_public_dejar_contacto",
+      "label": "public.dejar_contacto()",
+      "_origin": "ast",
+      "community": 2,
+      "community_name": "tabla-anotados.sql",
+      "file_type": "code",
+      "norm_label": "public.dejar_contacto()",
+      "source_file": "sql/tabla-anotados.sql",
+      "source_location": "L186"
+    },
+    {
+      "id": "sql_tabla_anotados_public_desanotarme",
+      "label": "public.desanotarme()",
+      "_origin": "ast",
+      "community": 2,
+      "community_name": "tabla-anotados.sql",
+      "file_type": "code",
+      "norm_label": "public.desanotarme()",
+      "source_file": "sql/tabla-anotados.sql",
+      "source_location": "L173"
+    },
+    {
+      "id": "sql_tabla_anotados_sql_public_avisos_suscripciones",
+      "label": "public.avisos_suscripciones",
+      "_origin": "ast",
+      "community": 2,
+      "community_name": "tabla-anotados.sql",
+      "file_type": "code",
+      "norm_label": "public.avisos_suscripciones",
+      "source_file": "",
+      "source_location": ""
+    },
+    {
+      "id": "sql_tabla_anotados_sql_public_publicaciones",
+      "label": "public.publicaciones",
+      "_origin": "ast",
+      "community": 2,
+      "community_name": "tabla-anotados.sql",
+      "file_type": "code",
+      "norm_label": "public.publicaciones",
+      "source_file": "",
+      "source_location": ""
     },
     {
       "id": "lib_fecha_al_calendario",
@@ -6883,7 +7005,7 @@
       "file_type": "code",
       "norm_label": "nombre_categoria_cal",
       "source_file": "lib/fecha-al-calendario.js",
-      "source_location": "L202"
+      "source_location": "L204"
     },
     {
       "id": "mapa_riesgo",
@@ -7496,6 +7618,28 @@
       "norm_label": "que hacer con lo que salga",
       "source_file": "docs/prompts/PROMPT-FICHAS.md",
       "source_location": "L104"
+    },
+    {
+      "id": "sw",
+      "label": "sw.js",
+      "_origin": "ast",
+      "community": 3,
+      "community_name": "Pantalla El Consejo Directivo",
+      "file_type": "code",
+      "norm_label": "sw.js",
+      "source_file": "sw.js",
+      "source_location": "L1"
+    },
+    {
+      "id": "sw_del_armazon",
+      "label": "DEL_ARMAZON",
+      "_origin": "ast",
+      "community": 3,
+      "community_name": "Pantalla El Consejo Directivo",
+      "file_type": "code",
+      "norm_label": "del_armazon",
+      "source_file": "sw.js",
+      "source_location": "L29"
     },
     {
       "id": "fondo_red",
@@ -8980,17 +9124,6 @@
       "source_location": ""
     },
     {
-      "id": "public_avisos_suscripciones",
-      "label": "public.avisos_suscripciones",
-      "_origin": "ast",
-      "community": 78,
-      "community_name": "tabla-buzon.sql",
-      "file_type": "code",
-      "norm_label": "public.avisos_suscripciones",
-      "source_file": "",
-      "source_location": ""
-    },
-    {
       "id": "public_perfiles",
       "label": "public.perfiles",
       "_origin": "ast",
@@ -9141,6 +9274,17 @@
       "community_name": "tabla-buzon.sql",
       "file_type": "code",
       "norm_label": "auth.users",
+      "source_file": "",
+      "source_location": ""
+    },
+    {
+      "id": "sql_tabla_buzon_sql_public_avisos_suscripciones",
+      "label": "public.avisos_suscripciones",
+      "_origin": "ast",
+      "community": 78,
+      "community_name": "tabla-buzon.sql",
+      "file_type": "code",
+      "norm_label": "public.avisos_suscripciones",
       "source_file": "",
       "source_location": ""
     },
@@ -9573,7 +9717,7 @@
       "file_type": "code",
       "norm_label": "public.marcas_de_publicacion()",
       "source_file": "sql/tabla-publicaciones.sql",
-      "source_location": "L353"
+      "source_location": "L361"
     },
     {
       "id": "sql_tabla_publicaciones_public_publicacion_de_comunicacion",
@@ -9606,7 +9750,7 @@
       "file_type": "code",
       "norm_label": "publicaciones_avisos_idx",
       "source_file": "sql/tabla-publicaciones.sql",
-      "source_location": "L396"
+      "source_location": "L407"
     },
     {
       "id": "sql_tabla_publicaciones_publicaciones_creado_por_idx",
@@ -9628,7 +9772,7 @@
       "file_type": "code",
       "norm_label": "publicaciones_marcas",
       "source_file": "sql/tabla-publicaciones.sql",
-      "source_location": "L392"
+      "source_location": "L403"
     },
     {
       "id": "sql_tabla_publicaciones_publicaciones_pendientes_idx",
@@ -9658,93 +9802,108 @@
       "source_url": null
     },
     {
-      "id": "consejo_armarposteos",
-      "label": "armarPosteos() (embed IG diferido)",
+      "id": "carrera_plan_planes",
+      "label": "PLANES (PLAN_TS, PLAN_TGCR, PLAN_FONO)",
       "_origin": "semantic",
       "author": null,
       "captured_at": null,
-      "community": 2,
-      "community_name": "Pantalla El Consejo Directivo",
+      "community": 101,
+      "community_name": "vistaProgramas (programas de materias)",
       "contributor": null,
       "file_type": "code",
-      "norm_label": "armarposteos() (embed ig diferido)",
-      "source_file": "consejo/index.html",
-      "source_location": "L367",
-      "source_url": null
-    },
-    {
-      "id": "consejo_htmlconquistas",
-      "label": "htmlConquistas() (l\u00ednea por a\u00f1o)",
-      "_origin": "semantic",
-      "author": null,
-      "captured_at": null,
-      "community": 2,
-      "community_name": "Pantalla El Consejo Directivo",
-      "contributor": null,
-      "file_type": "code",
-      "norm_label": "htmlconquistas() (linea por ano)",
-      "source_file": "consejo/index.html",
-      "source_location": "L301",
-      "source_url": null
-    },
-    {
-      "id": "consejo_conquistas",
-      "label": "Conquistas con posteo (CONQUISTAS, v70)",
-      "_origin": "semantic",
-      "author": null,
-      "captured_at": null,
-      "community": 2,
-      "community_name": "Pantalla El Consejo Directivo",
-      "contributor": null,
-      "file_type": "concept",
-      "norm_label": "conquistas con posteo (conquistas, v70)",
-      "source_file": "consejo/index.html",
-      "source_location": "L104",
-      "source_url": null
-    },
-    {
-      "id": "consejo_logros_panel",
-      "label": "Solapa \u00abLos logros\u00bb del panel (logros de pagina_consejo)",
-      "_origin": "semantic",
-      "author": null,
-      "captured_at": null,
-      "community": 2,
-      "community_name": "Pantalla El Consejo Directivo",
-      "contributor": null,
-      "file_type": "concept",
-      "norm_label": "solapa \u00ablos logros\u00bb del panel (logros de pagina_consejo)",
-      "source_file": "panel/index.html",
-      "source_location": "L2287",
-      "source_url": null
-    },
-    {
-      "id": "supabase_tabla_pagina_consejo",
-      "label": "Tabla Supabase pagina_consejo",
-      "_origin": "semantic",
-      "author": null,
-      "captured_at": null,
-      "community": 2,
-      "community_name": "Pantalla El Consejo Directivo",
-      "contributor": null,
-      "file_type": "concept",
-      "norm_label": "tabla supabase pagina_consejo",
-      "source_file": "consejo/index.html",
+      "norm_label": "planes (plan_ts, plan_tgcr, plan_fono)",
+      "source_file": "estudiemos/index.html",
       "source_location": null,
       "source_url": null
     },
     {
-      "id": "vercel_web_analytics",
-      "label": "Vercel Web Analytics (/_vercel/insights/script.js, v72)",
+      "id": "lib_leer_programa_leerprograma",
+      "label": "leerPrograma (lib/leer-programa.js)",
       "_origin": "semantic",
       "author": null,
       "captured_at": null,
-      "community": 2,
-      "community_name": "Pantalla El Consejo Directivo",
+      "community": 101,
+      "community_name": "vistaProgramas (programas de materias)",
+      "contributor": null,
+      "file_type": "code",
+      "norm_label": "leerprograma (lib/leer-programa.js)",
+      "source_file": "panel/index.html",
+      "source_location": null,
+      "source_url": null
+    },
+    {
+      "id": "supabase_tabla_programas",
+      "label": "Tabla/bucket Supabase programas",
+      "_origin": "semantic",
+      "author": null,
+      "captured_at": null,
+      "community": 101,
+      "community_name": "vistaProgramas (programas de materias)",
       "contributor": null,
       "file_type": "concept",
-      "norm_label": "vercel web analytics (/_vercel/insights/script.js, v72)",
-      "source_file": "sw.js",
-      "source_location": "L508",
+      "norm_label": "tabla/bucket supabase programas",
+      "source_file": "panel/index.html",
+      "source_location": null,
+      "source_url": null
+    },
+    {
+      "id": "supabase_tabla_catedras",
+      "label": "Tabla Supabase catedras",
+      "_origin": "semantic",
+      "author": null,
+      "captured_at": null,
+      "community": 11,
+      "community_name": "Pantalla Info \u00fatil (tr\u00e1mites y FAQ)",
+      "contributor": null,
+      "file_type": "concept",
+      "norm_label": "tabla supabase catedras",
+      "source_file": "catedras/index.html",
+      "source_location": null,
+      "source_url": null
+    },
+    {
+      "id": "supabase_tabla_categorias",
+      "label": "Tabla Supabase categorias",
+      "_origin": "semantic",
+      "author": null,
+      "captured_at": null,
+      "community": 11,
+      "community_name": "Pantalla Info \u00fatil (tr\u00e1mites y FAQ)",
+      "contributor": null,
+      "file_type": "concept",
+      "norm_label": "tabla supabase categorias",
+      "source_file": "tramites/index.html",
+      "source_location": null,
+      "source_url": null
+    },
+    {
+      "id": "supabase_tabla_faq",
+      "label": "Tabla Supabase faq",
+      "_origin": "semantic",
+      "author": null,
+      "captured_at": null,
+      "community": 11,
+      "community_name": "Pantalla Info \u00fatil (tr\u00e1mites y FAQ)",
+      "contributor": null,
+      "file_type": "concept",
+      "norm_label": "tabla supabase faq",
+      "source_file": "tramites/index.html",
+      "source_location": null,
+      "source_url": null
+    },
+    {
+      "id": "supabase_tabla_tramites",
+      "label": "Tabla Supabase tramites",
+      "_origin": "semantic",
+      "author": null,
+      "captured_at": null,
+      "community": 11,
+      "community_name": "Pantalla Info \u00fatil (tr\u00e1mites y FAQ)",
+      "contributor": null,
+      "file_type": "concept",
+      "norm_label": "tabla supabase tramites",
+      "source_file": "tramites/index.html",
+      "source_location": null,
       "source_url": null
     },
     {
@@ -9763,18 +9922,33 @@
       "source_url": null
     },
     {
-      "id": "carrera_plan_planes",
-      "label": "PLANES (PLAN_TS, PLAN_TGCR, PLAN_FONO)",
+      "id": "consejo_armarposteos",
+      "label": "armarPosteos() (embed IG diferido)",
       "_origin": "semantic",
       "author": null,
       "captured_at": null,
       "community": 3,
-      "community_name": "Pantalla Info \u00fatil (tr\u00e1mites y FAQ)",
+      "community_name": "Pantalla El Consejo Directivo",
       "contributor": null,
       "file_type": "code",
-      "norm_label": "planes (plan_ts, plan_tgcr, plan_fono)",
-      "source_file": "estudiemos/index.html",
-      "source_location": null,
+      "norm_label": "armarposteos() (embed ig diferido)",
+      "source_file": "consejo/index.html",
+      "source_location": "L367",
+      "source_url": null
+    },
+    {
+      "id": "consejo_htmlconquistas",
+      "label": "htmlConquistas() (l\u00ednea por a\u00f1o)",
+      "_origin": "semantic",
+      "author": null,
+      "captured_at": null,
+      "community": 3,
+      "community_name": "Pantalla El Consejo Directivo",
+      "contributor": null,
+      "file_type": "code",
+      "norm_label": "htmlconquistas() (linea por ano)",
+      "source_file": "consejo/index.html",
+      "source_location": "L301",
       "source_url": null
     },
     {
@@ -9784,7 +9958,7 @@
       "author": null,
       "captured_at": null,
       "community": 3,
-      "community_name": "Pantalla Info \u00fatil (tr\u00e1mites y FAQ)",
+      "community_name": "Pantalla El Consejo Directivo",
       "contributor": null,
       "file_type": "code",
       "norm_label": "pantalla fichas de estudio",
@@ -9793,18 +9967,33 @@
       "source_url": null
     },
     {
-      "id": "lib_leer_programa_leerprograma",
-      "label": "leerPrograma (lib/leer-programa.js)",
+      "id": "consejo_conquistas",
+      "label": "Conquistas con posteo (CONQUISTAS, v70)",
       "_origin": "semantic",
       "author": null,
       "captured_at": null,
       "community": 3,
-      "community_name": "Pantalla Info \u00fatil (tr\u00e1mites y FAQ)",
+      "community_name": "Pantalla El Consejo Directivo",
       "contributor": null,
-      "file_type": "code",
-      "norm_label": "leerprograma (lib/leer-programa.js)",
+      "file_type": "concept",
+      "norm_label": "conquistas con posteo (conquistas, v70)",
+      "source_file": "consejo/index.html",
+      "source_location": "L104",
+      "source_url": null
+    },
+    {
+      "id": "consejo_logros_panel",
+      "label": "Solapa \u00abLos logros\u00bb del panel (logros de pagina_consejo)",
+      "_origin": "semantic",
+      "author": null,
+      "captured_at": null,
+      "community": 3,
+      "community_name": "Pantalla El Consejo Directivo",
+      "contributor": null,
+      "file_type": "concept",
+      "norm_label": "solapa \u00ablos logros\u00bb del panel (logros de pagina_consejo)",
       "source_file": "panel/index.html",
-      "source_location": null,
+      "source_location": "L2287",
       "source_url": null
     },
     {
@@ -9814,57 +10003,12 @@
       "author": null,
       "captured_at": null,
       "community": 3,
-      "community_name": "Pantalla Info \u00fatil (tr\u00e1mites y FAQ)",
+      "community_name": "Pantalla El Consejo Directivo",
       "contributor": null,
       "file_type": "concept",
       "norm_label": "fonoteca oculta en estudiemos (oculta:true, v71)",
       "source_file": "estudiemos/portada.js",
       "source_location": "L102",
-      "source_url": null
-    },
-    {
-      "id": "supabase_tabla_catedras",
-      "label": "Tabla Supabase catedras",
-      "_origin": "semantic",
-      "author": null,
-      "captured_at": null,
-      "community": 3,
-      "community_name": "Pantalla Info \u00fatil (tr\u00e1mites y FAQ)",
-      "contributor": null,
-      "file_type": "concept",
-      "norm_label": "tabla supabase catedras",
-      "source_file": "catedras/index.html",
-      "source_location": null,
-      "source_url": null
-    },
-    {
-      "id": "supabase_tabla_categorias",
-      "label": "Tabla Supabase categorias",
-      "_origin": "semantic",
-      "author": null,
-      "captured_at": null,
-      "community": 3,
-      "community_name": "Pantalla Info \u00fatil (tr\u00e1mites y FAQ)",
-      "contributor": null,
-      "file_type": "concept",
-      "norm_label": "tabla supabase categorias",
-      "source_file": "tramites/index.html",
-      "source_location": null,
-      "source_url": null
-    },
-    {
-      "id": "supabase_tabla_faq",
-      "label": "Tabla Supabase faq",
-      "_origin": "semantic",
-      "author": null,
-      "captured_at": null,
-      "community": 3,
-      "community_name": "Pantalla Info \u00fatil (tr\u00e1mites y FAQ)",
-      "contributor": null,
-      "file_type": "concept",
-      "norm_label": "tabla supabase faq",
-      "source_file": "tramites/index.html",
-      "source_location": null,
       "source_url": null
     },
     {
@@ -9874,7 +10018,7 @@
       "author": null,
       "captured_at": null,
       "community": 3,
-      "community_name": "Pantalla Info \u00fatil (tr\u00e1mites y FAQ)",
+      "community_name": "Pantalla El Consejo Directivo",
       "contributor": null,
       "file_type": "concept",
       "norm_label": "tabla supabase guia_materia",
@@ -9889,7 +10033,7 @@
       "author": null,
       "captured_at": null,
       "community": 3,
-      "community_name": "Pantalla Info \u00fatil (tr\u00e1mites y FAQ)",
+      "community_name": "Pantalla El Consejo Directivo",
       "contributor": null,
       "file_type": "concept",
       "norm_label": "tabla supabase materiales",
@@ -9898,33 +10042,33 @@
       "source_url": null
     },
     {
-      "id": "supabase_tabla_programas",
-      "label": "Tabla/bucket Supabase programas",
+      "id": "supabase_tabla_pagina_consejo",
+      "label": "Tabla Supabase pagina_consejo",
       "_origin": "semantic",
       "author": null,
       "captured_at": null,
       "community": 3,
-      "community_name": "Pantalla Info \u00fatil (tr\u00e1mites y FAQ)",
+      "community_name": "Pantalla El Consejo Directivo",
       "contributor": null,
       "file_type": "concept",
-      "norm_label": "tabla/bucket supabase programas",
-      "source_file": "panel/index.html",
+      "norm_label": "tabla supabase pagina_consejo",
+      "source_file": "consejo/index.html",
       "source_location": null,
       "source_url": null
     },
     {
-      "id": "supabase_tabla_tramites",
-      "label": "Tabla Supabase tramites",
+      "id": "vercel_web_analytics",
+      "label": "Vercel Web Analytics (/_vercel/insights/script.js, v72)",
       "_origin": "semantic",
       "author": null,
       "captured_at": null,
       "community": 3,
-      "community_name": "Pantalla Info \u00fatil (tr\u00e1mites y FAQ)",
+      "community_name": "Pantalla El Consejo Directivo",
       "contributor": null,
       "file_type": "concept",
-      "norm_label": "tabla supabase tramites",
-      "source_file": "tramites/index.html",
-      "source_location": null,
+      "norm_label": "vercel web analytics (/_vercel/insights/script.js, v72)",
+      "source_file": "sw.js",
+      "source_location": "L508",
       "source_url": null
     },
     {
@@ -9934,7 +10078,7 @@
       "author": null,
       "captured_at": null,
       "community": 3,
-      "community_name": "Pantalla Info \u00fatil (tr\u00e1mites y FAQ)",
+      "community_name": "Pantalla El Consejo Directivo",
       "contributor": null,
       "file_type": "rationale",
       "norm_label": "patron memoria local + conpaciencia (lectura con cache)",
@@ -12915,7 +13059,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "lib/fecha-al-calendario.js",
-      "source_location": "L144",
+      "source_location": "L146",
       "weight": 1.0
     },
     {
@@ -12927,7 +13071,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "lib/fecha-al-calendario.js",
-      "source_location": "L157",
+      "source_location": "L159",
       "weight": 1.0
     },
     {
@@ -12939,7 +13083,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "lib/fecha-al-calendario.js",
-      "source_location": "L162",
+      "source_location": "L164",
       "weight": 1.0
     },
     {
@@ -12951,24 +13095,12 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "lib/fecha-al-calendario.js",
-      "source_location": "L114",
+      "source_location": "L116",
       "weight": 1.0
     },
     {
       "source": "lib_fecha_al_calendario_eventoics",
       "target": "lib_fecha_al_calendario_solonumeros",
-      "relation": "calls",
-      "_origin": "ast",
-      "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "context": "call",
-      "source_file": "lib/fecha-al-calendario.js",
-      "source_location": "L120",
-      "weight": 1.0
-    },
-    {
-      "source": "lib_fecha_al_calendario_eventoics",
-      "target": "lib_fecha_al_calendario_escaparics",
       "relation": "calls",
       "_origin": "ast",
       "confidence": "EXTRACTED",
@@ -12980,6 +13112,18 @@
     },
     {
       "source": "lib_fecha_al_calendario_eventoics",
+      "target": "lib_fecha_al_calendario_escaparics",
+      "relation": "calls",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "call",
+      "source_file": "lib/fecha-al-calendario.js",
+      "source_location": "L124",
+      "weight": 1.0
+    },
+    {
+      "source": "lib_fecha_al_calendario_eventoics",
       "target": "lib_fecha_al_calendario_detalledelevento",
       "relation": "calls",
       "_origin": "ast",
@@ -12987,7 +13131,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "lib/fecha-al-calendario.js",
-      "source_location": "L123",
+      "source_location": "L125",
       "weight": 1.0
     },
     {
@@ -12999,7 +13143,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "lib/fecha-al-calendario.js",
-      "source_location": "L180",
+      "source_location": "L182",
       "weight": 1.0
     },
     {
@@ -13011,7 +13155,19 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "lib/fecha-al-calendario.js",
-      "source_location": "L185",
+      "source_location": "L187",
+      "weight": 1.0
+    },
+    {
+      "source": "lib_fecha_al_calendario_montarcalendario_dibujar",
+      "target": "lib_fecha_al_calendario_montarcalendario_marcasde",
+      "relation": "calls",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "call",
+      "source_file": "lib/fecha-al-calendario.js",
+      "source_location": "L328",
       "weight": 1.0
     },
     {
@@ -13023,7 +13179,19 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "lib/fecha-al-calendario.js",
-      "source_location": "L291",
+      "source_location": "L349",
+      "weight": 1.0
+    },
+    {
+      "source": "lib_fecha_al_calendario_montarcalendario_dibujar",
+      "target": "lib_fecha_al_calendario_montarcalendario_pintarpie",
+      "relation": "calls",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "call",
+      "source_file": "lib/fecha-al-calendario.js",
+      "source_location": "L363",
       "weight": 1.0
     },
     {
@@ -13035,7 +13203,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "lib/fecha-al-calendario.js",
-      "source_location": "L337",
+      "source_location": "L400",
       "weight": 1.0
     },
     {
@@ -13047,7 +13215,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "lib/fecha-al-calendario.js",
-      "source_location": "L338",
+      "source_location": "L401",
       "weight": 1.0
     },
     {
@@ -13059,7 +13227,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "lib/fecha-al-calendario.js",
-      "source_location": "L350",
+      "source_location": "L434",
       "weight": 1.0
     },
     {
@@ -13071,7 +13239,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "lib/fecha-al-calendario.js",
-      "source_location": "L50",
+      "source_location": "L52",
       "weight": 1.0
     },
     {
@@ -13083,7 +13251,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "lib/fecha-al-calendario.js",
-      "source_location": "L57",
+      "source_location": "L59",
       "weight": 1.0
     },
     {
@@ -13095,7 +13263,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "lib/fecha-al-calendario.js",
-      "source_location": "L75",
+      "source_location": "L77",
       "weight": 1.0
     },
     {
@@ -13107,7 +13275,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "lib/fecha-al-calendario.js",
-      "source_location": "L79",
+      "source_location": "L81",
       "weight": 1.0
     },
     {
@@ -14756,18 +14924,6 @@
     },
     {
       "source": "lib_fecha_al_calendario_montarcalendario",
-      "target": "lib_fecha_al_calendario_montarcalendario_referencia",
-      "relation": "contains",
-      "_origin": "ast",
-      "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "context": "call",
-      "source_file": "lib/fecha-al-calendario.js",
-      "source_location": "L247",
-      "weight": 1.0
-    },
-    {
-      "source": "lib_fecha_al_calendario_montarcalendario",
       "target": "lib_fecha_al_calendario_montarcalendario_dibujar",
       "relation": "contains",
       "_origin": "ast",
@@ -14775,7 +14931,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "lib/fecha-al-calendario.js",
-      "source_location": "L274",
+      "source_location": "L308",
       "weight": 1.0
     },
     {
@@ -14787,7 +14943,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "lib/fecha-al-calendario.js",
-      "source_location": "L335",
+      "source_location": "L398",
       "weight": 1.0
     },
     {
@@ -14799,7 +14955,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "lib/fecha-al-calendario.js",
-      "source_location": "L346",
+      "source_location": "L430",
       "weight": 1.0
     },
     {
@@ -15219,7 +15375,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "sw.js",
-      "source_location": "L187",
+      "source_location": "L189",
       "weight": 1.0
     },
     {
@@ -18348,7 +18504,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "lib/fecha-al-calendario.js",
-      "source_location": "L102",
+      "source_location": "L104",
       "weight": 1.0
     },
     {
@@ -18359,7 +18515,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "lib/fecha-al-calendario.js",
-      "source_location": "L113",
+      "source_location": "L115",
       "weight": 1.0
     },
     {
@@ -18370,7 +18526,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "lib/fecha-al-calendario.js",
-      "source_location": "L136",
+      "source_location": "L138",
       "weight": 1.0
     },
     {
@@ -18381,7 +18537,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "lib/fecha-al-calendario.js",
-      "source_location": "L151",
+      "source_location": "L153",
       "weight": 1.0
     },
     {
@@ -18392,7 +18548,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "lib/fecha-al-calendario.js",
-      "source_location": "L156",
+      "source_location": "L158",
       "weight": 1.0
     },
     {
@@ -18403,7 +18559,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "lib/fecha-al-calendario.js",
-      "source_location": "L172",
+      "source_location": "L174",
       "weight": 1.0
     },
     {
@@ -18414,7 +18570,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "lib/fecha-al-calendario.js",
-      "source_location": "L179",
+      "source_location": "L181",
       "weight": 1.0
     },
     {
@@ -18425,7 +18581,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "lib/fecha-al-calendario.js",
-      "source_location": "L202",
+      "source_location": "L204",
       "weight": 1.0
     },
     {
@@ -18436,7 +18592,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "lib/fecha-al-calendario.js",
-      "source_location": "L220",
+      "source_location": "L222",
       "weight": 1.0
     },
     {
@@ -18447,7 +18603,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "lib/fecha-al-calendario.js",
-      "source_location": "L30",
+      "source_location": "L32",
       "weight": 1.0
     },
     {
@@ -18458,7 +18614,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "lib/fecha-al-calendario.js",
-      "source_location": "L33",
+      "source_location": "L35",
       "weight": 1.0
     },
     {
@@ -18469,7 +18625,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "lib/fecha-al-calendario.js",
-      "source_location": "L47",
+      "source_location": "L49",
       "weight": 1.0
     },
     {
@@ -18480,7 +18636,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "lib/fecha-al-calendario.js",
-      "source_location": "L67",
+      "source_location": "L69",
       "weight": 1.0
     },
     {
@@ -18491,7 +18647,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "lib/fecha-al-calendario.js",
-      "source_location": "L74",
+      "source_location": "L76",
       "weight": 1.0
     },
     {
@@ -18502,7 +18658,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "lib/fecha-al-calendario.js",
-      "source_location": "L90",
+      "source_location": "L92",
       "weight": 1.0
     },
     {
@@ -18513,7 +18669,29 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "lib/fecha-al-calendario.js",
-      "source_location": "L270",
+      "source_location": "L291",
+      "weight": 1.0
+    },
+    {
+      "source": "lib_fecha_al_calendario_montarcalendario",
+      "target": "lib_fecha_al_calendario_montarcalendario_marcasde",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "lib/fecha-al-calendario.js",
+      "source_location": "L296",
+      "weight": 1.0
+    },
+    {
+      "source": "lib_fecha_al_calendario_montarcalendario",
+      "target": "lib_fecha_al_calendario_montarcalendario_pintarpie",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "lib/fecha-al-calendario.js",
+      "source_location": "L370",
       "weight": 1.0
     },
     {
@@ -19793,6 +19971,105 @@
       "weight": 1.0
     },
     {
+      "source": "sql_tabla_anotados",
+      "target": "sql_tabla_anotados_public_anotados_totales",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "sql/tabla-anotados.sql",
+      "source_location": "L109",
+      "weight": 1.0
+    },
+    {
+      "source": "sql_tabla_anotados",
+      "target": "sql_tabla_anotados_public_anotable",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "sql/tabla-anotados.sql",
+      "source_location": "L124",
+      "weight": 1.0
+    },
+    {
+      "source": "sql_tabla_anotados",
+      "target": "sql_tabla_anotados_public_anotarme",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "sql/tabla-anotados.sql",
+      "source_location": "L134",
+      "weight": 1.0
+    },
+    {
+      "source": "sql_tabla_anotados",
+      "target": "sql_tabla_anotados_public_desanotarme",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "sql/tabla-anotados.sql",
+      "source_location": "L173",
+      "weight": 1.0
+    },
+    {
+      "source": "sql_tabla_anotados",
+      "target": "sql_tabla_anotados_public_dejar_contacto",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "sql/tabla-anotados.sql",
+      "source_location": "L186",
+      "weight": 1.0
+    },
+    {
+      "source": "sql_tabla_anotados",
+      "target": "sql_tabla_anotados_public_anotados",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "sql/tabla-anotados.sql",
+      "source_location": "L52",
+      "weight": 1.0
+    },
+    {
+      "source": "sql_tabla_anotados",
+      "target": "sql_tabla_anotados_anotados_suscripcion_idx",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "sql/tabla-anotados.sql",
+      "source_location": "L61",
+      "weight": 1.0
+    },
+    {
+      "source": "sql_tabla_anotados",
+      "target": "sql_tabla_anotados_public_anotados_contacto",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "sql/tabla-anotados.sql",
+      "source_location": "L64",
+      "weight": 1.0
+    },
+    {
+      "source": "sql_tabla_anotados",
+      "target": "sql_tabla_anotados_public_anotados_totales_calc",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "sql/tabla-anotados.sql",
+      "source_location": "L97",
+      "weight": 1.0
+    },
+    {
       "source": "sql_tabla_avisanos",
       "target": "sql_tabla_avisanos_consultas_pendientes_idx",
       "relation": "contains",
@@ -20383,7 +20660,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "sql/tabla-publicaciones.sql",
-      "source_location": "L353",
+      "source_location": "L361",
       "weight": 1.0
     },
     {
@@ -20394,7 +20671,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "sql/tabla-publicaciones.sql",
-      "source_location": "L392",
+      "source_location": "L403",
       "weight": 1.0
     },
     {
@@ -20405,7 +20682,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "sql/tabla-publicaciones.sql",
-      "source_location": "L396",
+      "source_location": "L407",
       "weight": 1.0
     },
     {
@@ -20781,6 +21058,17 @@
       "weight": 1.0
     },
     {
+      "source": "sql_tabla_anotados_anotados_suscripcion_idx",
+      "target": "sql_tabla_anotados_public_anotados",
+      "relation": "indexes",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "sql/tabla-anotados.sql",
+      "source_location": "L61",
+      "weight": 1.0
+    },
+    {
       "source": "sql_tabla_avisanos_consultas_pendientes_idx",
       "target": "sql_tabla_avisanos_public_consultas",
       "relation": "indexes",
@@ -20920,7 +21208,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "sql/tabla-publicaciones.sql",
-      "source_location": "L396",
+      "source_location": "L407",
       "weight": 1.0
     },
     {
@@ -21141,6 +21429,61 @@
       "confidence_score": 1.0,
       "source_file": "LEEME.md",
       "source_location": "L52",
+      "weight": 1.0
+    },
+    {
+      "source": "sql_tabla_anotados_public_anotable",
+      "target": "sql_tabla_anotados_sql_public_publicaciones",
+      "relation": "reads_from",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "sql/tabla-anotados.sql",
+      "source_location": "L127",
+      "weight": 1.0
+    },
+    {
+      "source": "sql_tabla_anotados_public_anotados_totales_calc",
+      "target": "sql_tabla_anotados_public_anotados",
+      "relation": "reads_from",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "sql/tabla-anotados.sql",
+      "source_location": "L101",
+      "weight": 1.0
+    },
+    {
+      "source": "sql_tabla_anotados_public_anotados_totales_calc",
+      "target": "sql_tabla_anotados_sql_public_publicaciones",
+      "relation": "reads_from",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "sql/tabla-anotados.sql",
+      "source_location": "L102",
+      "weight": 1.0
+    },
+    {
+      "source": "sql_tabla_anotados_public_anotarme",
+      "target": "sql_tabla_anotados_sql_public_avisos_suscripciones",
+      "relation": "reads_from",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "sql/tabla-anotados.sql",
+      "source_location": "L160",
+      "weight": 1.0
+    },
+    {
+      "source": "sql_tabla_anotados_public_anotarme",
+      "target": "sql_tabla_anotados_public_anotados",
+      "relation": "reads_from",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "sql/tabla-anotados.sql",
+      "source_location": "L182",
       "weight": 1.0
     },
     {
@@ -21925,6 +22268,39 @@
       "weight": 1.0
     },
     {
+      "source": "sql_tabla_anotados_public_anotados",
+      "target": "sql_tabla_anotados_sql_public_avisos_suscripciones",
+      "relation": "references",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "sql/tabla-anotados.sql",
+      "source_location": "L52",
+      "weight": 1.0
+    },
+    {
+      "source": "sql_tabla_anotados_public_anotados",
+      "target": "sql_tabla_anotados_sql_public_publicaciones",
+      "relation": "references",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "sql/tabla-anotados.sql",
+      "source_location": "L52",
+      "weight": 1.0
+    },
+    {
+      "source": "sql_tabla_anotados_public_anotados_contacto",
+      "target": "sql_tabla_anotados_sql_public_publicaciones",
+      "relation": "references",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "sql/tabla-anotados.sql",
+      "source_location": "L64",
+      "weight": 1.0
+    },
+    {
       "source": "sql_tabla_avisos_public_avisos_enviados",
       "target": "sql_tabla_avisos_public_avisos_suscripciones",
       "relation": "references",
@@ -21959,17 +22335,6 @@
     },
     {
       "source": "sql_tabla_buzon_public_buzon_pedidos",
-      "target": "public_avisos_suscripciones",
-      "relation": "references",
-      "_origin": "ast",
-      "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "source_file": "sql/tabla-buzon.sql",
-      "source_location": "L156",
-      "weight": 1.0
-    },
-    {
-      "source": "sql_tabla_buzon_public_buzon_pedidos",
       "target": "sql_tabla_buzon_sql_auth",
       "relation": "references",
       "_origin": "ast",
@@ -21982,6 +22347,17 @@
     {
       "source": "sql_tabla_buzon_public_buzon_pedidos",
       "target": "sql_tabla_buzon_sql_auth_users",
+      "relation": "references",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "sql/tabla-buzon.sql",
+      "source_location": "L156",
+      "weight": 1.0
+    },
+    {
+      "source": "sql_tabla_buzon_public_buzon_pedidos",
+      "target": "sql_tabla_buzon_sql_public_avisos_suscripciones",
       "relation": "references",
       "_origin": "ast",
       "confidence": "EXTRACTED",
@@ -22702,7 +23078,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "sql/tabla-publicaciones.sql",
-      "source_location": "L392",
+      "source_location": "L403",
       "weight": 1.0
     },
     {
@@ -23094,7 +23470,7 @@
       "confidence_score": 0.85,
       "context": "argument",
       "source_file": "lib/fecha-al-calendario.js",
-      "source_location": "L137",
+      "source_location": "L139",
       "weight": 1.0
     },
     {
@@ -23106,7 +23482,7 @@
       "confidence_score": 0.85,
       "context": "argument",
       "source_file": "lib/fecha-al-calendario.js",
-      "source_location": "L146",
+      "source_location": "L148",
       "weight": 1.0
     },
     {
@@ -23118,7 +23494,7 @@
       "confidence_score": 0.85,
       "context": "argument",
       "source_file": "lib/fecha-al-calendario.js",
-      "source_location": "L133",
+      "source_location": "L135",
       "weight": 1.0
     },
     {
@@ -23214,7 +23590,7 @@
       "confidence_score": 0.85,
       "context": "argument",
       "source_file": "sw.js",
-      "source_location": "L210",
+      "source_location": "L212",
       "weight": 1.0
     },
     {
@@ -23938,5 +24314,5 @@
       "source_file": "panel/index.html"
     }
   ],
-  "built_at_commit": "f7bb5b5c423889ee32d3ccab752a11248f0d86cb"
+  "built_at_commit": "200e328271bbfd34b66974a9bac813f090091236"
 }
