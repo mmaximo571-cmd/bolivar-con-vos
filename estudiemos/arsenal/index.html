@@ -1,0 +1,136 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>El Arsenal · La Bolívar con vos</title>
+<meta name="description" content="Libros, revistas, películas y cortos que recomendamos para acompañar la carrera, cada uno con el porqué. Por la Agrupación Simón Bolívar.">
+<meta name="theme-color" content="#F9E830">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Roboto:wght@400;500;700&family=Roboto+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="icon" type="image/png" sizes="32x32" href="../../imagenes/icono-32.png">
+<link rel="icon" type="image/png" sizes="96x96" href="../../imagenes/icono-96.png">
+<link rel="icon" type="image/png" sizes="192x192" href="../../imagenes/icono-192.png">
+<link rel="apple-touch-icon" href="../../imagenes/icono-apple.png">
+<link rel="manifest" href="../../manifest.json">
+
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="La Bolivar con vos">
+<meta property="og:title" content="El Arsenal · La Bolívar con vos">
+<meta property="og:description" content="Libros, revistas, películas y cortos que recomendamos para la carrera, cada uno con el porqué.">
+<meta property="og:image" content="https://labolivarconvos.ar/imagenes/compartir.png">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="stylesheet" href="../../css/tokens.css">
+<link rel="stylesheet" href="../../css/base/01-cimientos.css">
+<link rel="stylesheet" href="../../css/base/02-encabezado.css">
+<link rel="stylesheet" href="../../css/base/03-controles.css">
+<link rel="stylesheet" href="../../css/base/04-tarjetas.css">
+<link rel="stylesheet" href="../../css/base/05-secciones.css">
+<link rel="stylesheet" href="../../css/base/06-hoja.css">
+<link rel="stylesheet" href="../../css/base/07-avisos.css">
+<link rel="stylesheet" href="../../css/base/08-calendario.css">
+<link rel="stylesheet" href="../../css/base/09-avisanos.css">
+<link rel="stylesheet" href="../../css/base/10-lectura.css">
+<link rel="stylesheet" href="../../css/base/11-navegacion.css">
+<link rel="stylesheet" href="../../css/base/12-movimiento.css">
+<link rel="stylesheet" href="../../estilos-rediseno.css">
+<!-- La hoja del Arsenal va en su carpeta y no en `css/pantallas/`: todo lo
+     de esta carpeta lo pide el service worker primero a la red (ver
+     sw.js, v82), así que un cambio de estilo llega en la visita siguiente
+     sin subir la versión. Carga última, como estudiemos.css en su portada. -->
+<link rel="stylesheet" href="arsenal.css">
+<script>
+(function(){try{
+  var g = localStorage.getItem('bolivar-tema') || 'auto';
+  var oscuro = g === 'oscuro' || (g === 'auto' &&
+    window.matchMedia('(prefers-color-scheme: dark)').matches);
+  document.documentElement.dataset.tema = oscuro ? 'oscuro' : 'claro';
+}catch(e){ document.documentElement.dataset.tema = 'claro'; }})();
+</script>
+<script defer src="/_vercel/insights/script.js"></script>
+</head>
+<body class="pantalla-arsenal">
+
+<div id="cabecera"></div>
+
+<!-- ============================================================
+     EL ARSENAL
+
+     Lo que se ve acá lo arma arsenal.js a partir de datos.json. Para
+     sumar un libro, una peli o un disco NO se toca este archivo: se
+     suma un bloque al JSON (ver COMO-SUMAR.md, en esta carpeta).
+     ============================================================ -->
+<main class="envoltura mov" id="contenido" tabindex="-1">
+  <a class="ars-volver" href="../">← Estudiemos</a>
+  <h1 class="titulo-pantalla"><span class="mov-renglon"><span>El Arsenal</span></span></h1>
+  <p class="bajada" data-entra>
+    Libros, revistas, películas y cortos que nos sirvieron en la carrera y
+    en el territorio, cada uno con el porqué. Guardá lo que quieras leer o
+    ver el finde: queda en este teléfono, sin cuenta.
+  </p>
+
+  <noscript>
+    <div class="aviso">El Arsenal se arma con JavaScript, y en este
+    navegador está apagado. Prendelo y volvé a entrar.</div>
+  </noscript>
+
+  <div class="ars-problemas" id="problemas" hidden></div>
+
+  <div class="chips ars-filtros" id="filtros" role="group" aria-label="Filtrar por disciplina" hidden></div>
+
+  <div id="filas" aria-busy="true">
+    <div class="ars-cargando" aria-hidden="true">
+      <div class="esqueleto ars-esq-titulo"></div>
+      <div class="ars-esq-riel">
+        <div class="esqueleto ars-esq-tarjeta"></div>
+        <div class="esqueleto ars-esq-tarjeta"></div>
+        <div class="esqueleto ars-esq-tarjeta"></div>
+      </div>
+    </div>
+    <p class="solo-lectores">Cargando el Arsenal…</p>
+  </div>
+
+  <div class="vacio" id="vacio" hidden>
+    <div class="vacio-titulo" id="vacio-titulo">Todavía no hay nada acá</div>
+    <p>Si tenés algo para recomendar, pasánoslo por Instagram.</p>
+  </div>
+
+  <p class="ars-sumar">
+    ¿Hay algo que te sirvió y no está?
+    <a href="https://www.instagram.com/SimonBolivarfts" target="_blank" rel="noopener">Pasánoslo por
+    Instagram</a> y lo vemos para sumarlo.
+  </p>
+</main>
+
+<!-- Lo que responde cada toque: «Guardado para el finde». Fuera del
+     <main> para que quede fijo abajo, arriba de la barra. -->
+<div class="ars-aviso" id="aviso" role="status" aria-live="polite"></div>
+
+<div id="pie"></div>
+
+<!-- Sin esto app.js asume './' y registra /estudiemos/arsenal/sw.js, que no existe -->
+<script>window.RAIZ = '../../';</script>
+<script src="../../lib/datos.js"></script>
+<script src="../../config.js"></script>
+<script src="../../iconos.js"></script>
+<script src="../../lib/mudanza.js"></script>
+<script src="../../app.js"></script>
+<script src="../../fondo-red.js"></script>
+<script src="../../movimiento.js"></script>
+<script>
+(function(){
+  document.getElementById('cabecera').innerHTML = htmlCabecera();
+  document.getElementById('pie').innerHTML = htmlPie();
+  pintarNav('estudiemos');
+  /* Entra la fila entera y no cada tarjeta: un riel que llega de a una
+     tarjeta es ruido. El `typeof` es por el service worker: con el
+     armazón de ayer, movimiento.js puede no estar. */
+  if (typeof entrarAlLlegar === 'function')
+    entrarAlLlegar(document.getElementById('filas'), '.ars-fila');
+})();
+</script>
+<script src="marcas.js"></script>
+<script src="arsenal.js"></script>
+</body>
+</html>

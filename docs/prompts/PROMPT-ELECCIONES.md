@@ -118,7 +118,9 @@ cambian después).
 MATERIAL: ninguno.
 ```
 
-**S3 · La bandeja de comunicación**
+**S3 · La bandeja de comunicación** 🟡 la bandeja, hecha el 30/9 en
+`cargar/?ver=buzon` (no en el panel: `comunicacion` no entra ahí); falta
+enlazar el buzón. Ver `BITACORA.md`, «La sesión 3».
 ```
 TAREA: sección del panel para el rol comunicacion, pensada para el celular:
 una tarjeta por pedido, botones publicar y responder / en gestión / descartar,

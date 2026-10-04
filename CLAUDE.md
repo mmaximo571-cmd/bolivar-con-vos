@@ -49,7 +49,7 @@ tener que abrir 5000 líneas cuando el cambio es de veinte.
 |---|---|---|
 | `css/tokens.css` (310 líneas) | colores, tipografías, redondeos, sombras, modo oscuro | **cualquier cambio de aspecto de toda la app empieza y termina acá** |
 | `css/base/01..12-*.css` | lo que usan todas, partido en doce componentes (ver abajo) | cuando la regla es de un componente compartido |
-| `css/pantallas/*.css` | lo que usa **una sola** pantalla: `carrera`, `inicio`, `estudiemos`, `consejo`, `trayecto`, `anatomo`, `tramites` | cuando el cambio es de esa pantalla |
+| `css/pantallas/*.css` | lo que usa **una sola** pantalla: `carrera`, `inicio`, `estudiemos`, `consejo`, `trayecto`, `anatomo`, `tramites`, `salud-mental`. Excepción: `tramites.css` la carga también Salud mental, entera y a propósito (usa sus acordeones) | cuando el cambio es de esa pantalla; si es de `tramites.css`, mirar también Salud mental |
 | `estilos-rediseno.css` | el rediseño de las tarjetas; **carga último, así que en las tarjetas manda este** | ojo: si una regla de tarjeta no hace efecto, está pisada desde acá |
 
 La regla del reparto: una clase que usa más de una pantalla, o que

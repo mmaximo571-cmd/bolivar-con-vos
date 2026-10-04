@@ -680,7 +680,12 @@ const INDICE_PIE = SECCIONES.concat([
   { id:'trayecto', texto:'Trayecto optativo', url:RAIZ+'trayecto/' },
   /* Para las prácticas territoriales. Solo en el pie: no es de todos
      los días y la barra de abajo ya tiene sus cuatro. */
-  { id:'mapa',     texto:'Mapa de riesgo', url:RAIZ+'mapa/' }
+  { id:'mapa',     texto:'Mapa de riesgo', url:RAIZ+'mapa/' },
+  /* Salud mental (30/9/2026) tenía una sola puerta, el cuadro de la
+     grilla del inicio, y el buscador del inicio (que sale de esta
+     lista) contestaba «sin resultados» a «salud mental» o «psicólogo».
+     Justo la pantalla que alguien busca cuando la necesita. */
+  { id:'salud-mental', texto:'Salud mental', url:RAIZ+'salud-mental/' }
 ]);
 
 /* Los sistemas de la facultad y de la universidad. No son de la app:

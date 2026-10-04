@@ -1,0 +1,507 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Salud mental · La Bolívar con vos</title>
+<meta name="description" content="Tus derechos, el servicio gratuito de salud mental de la UNLP y dónde pedir ayuda en La Plata, Berisso y Ensenada.">
+<meta name="theme-color" content="#F9E830">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+<!-- Iconos de la app: pestana, Google, y pantalla de inicio del celular -->
+<link rel="icon" type="image/png" sizes="32x32" href="../imagenes/icono-32.png">
+<link rel="icon" type="image/png" sizes="96x96" href="../imagenes/icono-96.png">
+<link rel="icon" type="image/png" sizes="192x192" href="../imagenes/icono-192.png">
+<link rel="apple-touch-icon" href="../imagenes/icono-apple.png">
+<link rel="manifest" href="../manifest.json">
+
+<!-- Como se ve cuando alguien comparte el link por WhatsApp o Instagram -->
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="La Bolivar con vos">
+<meta property="og:title" content="Salud mental · La Bolívar con vos">
+<meta property="og:description" content="Sin derechos no hay salud mental. Líneas de ayuda, hospitales y el servicio gratuito de la UNLP.">
+<meta property="og:image" content="https://labolivarconvos.ar/imagenes/compartir.png">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="stylesheet" href="../css/tokens.css">
+<link rel="stylesheet" href="../css/base/01-cimientos.css">
+<link rel="stylesheet" href="../css/base/02-encabezado.css">
+<link rel="stylesheet" href="../css/base/03-controles.css">
+<link rel="stylesheet" href="../css/base/04-tarjetas.css">
+<link rel="stylesheet" href="../css/base/05-secciones.css">
+<link rel="stylesheet" href="../css/base/06-hoja.css">
+<link rel="stylesheet" href="../css/base/07-avisos.css">
+<link rel="stylesheet" href="../css/base/08-calendario.css">
+<link rel="stylesheet" href="../css/base/09-avisanos.css">
+<link rel="stylesheet" href="../css/base/10-lectura.css">
+<link rel="stylesheet" href="../css/base/11-navegacion.css">
+<link rel="stylesheet" href="../css/base/12-movimiento.css">
+<!-- LA HOJA DE INFO ÚTIL TAMBIÉN. Esta pantalla está armada con sus
+     piezas —los cuadros con borde celeste, los pasos, el resumen de la
+     ventanita— y esas reglas viven en tramites.css. Cargarla es mejor
+     que copiarlas: si cambia el cuadro de Info útil, cambia acá. Si
+     algún día se suben a la base (pide subir el service worker), esta
+     línea se va. -->
+<link rel="stylesheet" href="../css/pantallas/tramites.css">
+<link rel="stylesheet" href="../css/pantallas/salud-mental.css">
+<link rel="stylesheet" href="../estilos-rediseno.css">
+<!-- EL TEMA, ANTES DE DIBUJAR NADA. Mismo motivo que en el glosario. -->
+<script>
+(function(){try{
+  var g = localStorage.getItem('bolivar-tema') || 'auto';
+  var oscuro = g === 'oscuro' || (g === 'auto' &&
+    window.matchMedia('(prefers-color-scheme: dark)').matches);
+  document.documentElement.dataset.tema = oscuro ? 'oscuro' : 'claro';
+}catch(e){ document.documentElement.dataset.tema = 'claro'; }})();
+</script>
+<!-- Estadisticas de visitas (Vercel Web Analytics, sin cookies) -->
+<script defer src="/_vercel/insights/script.js"></script>
+</head>
+<body class="lectura sin-js">
+
+<div id="cabecera"></div>
+
+<!-- ============================================================
+     SALUD MENTAL
+
+     Entró al inicio el 30/9/2026, en el lugar de «Certificados, cartas
+     y notas» (que sigue en Info útil). La propuesta se diseñó aparte y
+     se armó acá con las piezas de Info útil: acordeones, cuadros con
+     borde celeste y la hoja que sube desde abajo.
+
+     ESCRITO EN LA PANTALLA Y NO EN SUPABASE, como Espacios: son ocho
+     líneas y doce lugares, y esta pantalla tiene que abrir sin señal,
+     que es justo cuando alguien puede estar necesitando el número. Los
+     datos salen del recursero de la Bolívar sobre la Ley 26.657. No
+     cambiar teléfonos ni horarios de memoria.
+
+     CORREGIDOS CONTRA LA FUENTE OFICIAL (3/10/2026, antes de publicar):
+     la UNLP es 47 N° 380 y los turnos, martes de 14 a 17 y jueves de 9
+     a 12 (unlp.edu.ar); el 135 atiende de 8 a 24 y desde La Plata va
+     el 0800 345 1435 (asistenciaalsuicida.org.ar); San Martín, el
+     483-5429 interno 419 (los dos de antes eran de la Dirección);
+     Larrain, 4435; Gutiérrez, Diagonal 114; Elina de la Serna, 8 N° 483
+     entre 41 y 42 con los teléfonos de la Región Sanitaria XI (el
+     0800-333-4111 del recursero no aparece en ninguna fuente: volver a
+     ponerlo solo si alguien lo confirma llamando).
+
+     LO URGENTE VA EN EL HTML, no en el guion: el 0800 y el 135 tienen
+     que verse aunque el JavaScript no llegue a correr.
+     ============================================================ -->
+<main id="contenido" tabindex="-1">
+
+  <div class="banda sol placa">
+    <div class="envoltura">
+      <p class="ceja-lectura aparece">Ley Nacional de Salud Mental · 26.657</p>
+      <h1 class="grito placa-salud aparece">
+        <span class="chico">Sin derechos</span>
+        <span class="chico"><em>no hay</em></span>
+        <span class="grande">Salud</span>
+        <span class="grande">mental</span>
+      </h1>
+      <p class="bajada-lectura aparece">
+        Tus derechos, el servicio gratuito de la UNLP y dónde pedir ayuda
+        en La Plata, Berisso y Ensenada.
+      </p>
+    </div>
+  </div>
+
+  <div class="envoltura">
+
+    <!-- `salud-urgente` y no `urgente`: app.js dibuja en todas las
+         pantallas `.alerta-mesa.urgente` y `.aviso-nuevo.urgente`, y
+         una regla `.urgente` de esta hoja les ganaba (la alerta de la
+         mesa dejaba de flotar y caía al pie). -->
+    <section class="salud-urgente" aria-labelledby="urgente-titulo">
+      <p class="urgente-ceja">Si es urgente</p>
+      <h2 id="urgente-titulo">¿Necesitás hablar con alguien ahora?</h2>
+      <a class="llamar lleno" href="tel:08009990091">
+        <span class="llamar-texto">
+          <strong>0800-999-0091</strong>
+          <span class="llamar-que">Urgencias en salud mental · gratis, 24 hs, todo el país</span>
+        </span>
+        <span class="llamar-accion">Llamar</span>
+      </a>
+      <!-- El 135 NO atiende las 24 horas: el Centro de Asistencia al
+           Suicida atiende de 8 a 24 (asistenciaalsuicida.org.ar,
+           «Horarios», 3/10/2026). Y es gratis solo desde CABA y GBA;
+           desde La Plata conviene el 0800 345 1435, gratis en todo el
+           país. Por eso el horario va en el botón y no en la letra
+           chica. -->
+      <a class="llamar borde" href="tel:135">
+        <span class="llamar-texto">
+          <strong>135</strong>
+          <span class="llamar-que">Prevención del suicidio · de 8 a 24 hs · gratis desde CABA y GBA</span>
+        </span>
+        <span class="llamar-accion">Llamar</span>
+      </a>
+      <p class="urgente-otros">
+        Si hay riesgo de vida: <a href="tel:107">107</a> (SAME) o
+        <a href="tel:911">911</a>. Desde La Plata o el resto del país, la
+        línea del 135 es <a href="tel:08003451435">0800 345 1435</a> (gratis)
+        o <a href="tel:01152751135">011 5275-1135</a>.
+      </p>
+    </section>
+
+    <div class="buscador salud-buscador">
+      <span class="lupa" id="lupa">🔍</span>
+      <input id="filtro" type="search" autocomplete="off"
+             placeholder="Buscar hospital, línea, barrio…"
+             aria-label="Buscar en salud mental">
+    </div>
+
+    <div class="salud-grupos" id="grupos"></div>
+
+    <p class="letra-chica salud-fuente">
+      Los datos salen del recursero de la Bolívar sobre la Ley 26.657. Si
+      un teléfono o un horario cambió, avisanos y lo corregimos.
+    </p>
+  </div>
+
+</main>
+
+<div id="pie"></div>
+
+<!-- La ventanita de cada hospital -->
+<div class="hoja-fondo" id="hoja-fondo" hidden>
+  <div class="hoja" role="dialog" aria-modal="true" aria-labelledby="hoja-titulo">
+    <button class="hoja-cerrar" id="hoja-cerrar" aria-label="Cerrar">✕</button>
+    <div id="hoja-cuerpo"></div>
+  </div>
+</div>
+
+<script>window.RAIZ = '../';</script>
+<script src="../lib/datos.js"></script>
+<script src="../config.js"></script>
+<script src="../iconos.js"></script>
+<script src="../lib/mudanza.js"></script>
+<script src="../app.js"></script>
+<script src="../fondo-red.js"></script>
+<script src="../lectura.js"></script>
+<script>
+(function saludMental(){
+  document.getElementById('cabecera').innerHTML = htmlCabecera();
+  document.getElementById('pie').innerHTML = htmlPie();
+  pintarNav('salud-mental');
+  document.body.classList.remove('sin-js');
+  vigilarAparicion();
+
+  const lupa = icono('buscador');
+  if (lupa) document.getElementById('lupa').innerHTML = lupa;
+
+  /* ============================================================
+     LOS DATOS (del recursero de la Bolívar, Ley 26.657)
+     ============================================================ */
+  const LINEAS = [
+    { num:'0800-999-0091', titulo:'Orientación y apoyo en la urgencia en salud mental', detalle:'Gratis, las 24 horas, en todo el país.' },
+    { num:'135', titulo:'Línea de Prevención del Suicidio', detalle:'De 8 a 24 hs. Gratis desde CABA y GBA; confidencial y especializada.' },
+    { num:'0800-345-1435', titulo:'Prevención del Suicidio, desde todo el país', detalle:'La misma línea del 135, gratis desde La Plata y el resto del país. De 8 a 24 hs. También: 011 5275-1135.' },
+    { num:'0800-222-5462', titulo:'Provincia de Buenos Aires: asistencia y derivación en salud mental', detalle:'Lunes a viernes de 8 a 24 hs; fines de semana de 10 a 22 hs.' },
+    { num:'144', titulo:'Violencia de género', detalle:'Asesoramiento, contención e información para mujeres y personas LGBTIQ+. Las 24 horas, todos los días.' },
+    { num:'107', titulo:'SAME · emergencias médicas', detalle:'Atención de urgencia, las 24 horas.' },
+    { num:'911', titulo:'Central de emergencias', detalle:'Atención de urgencia, las 24 horas.' },
+    { num:'0800-444-4000', titulo:'Prevención y asistencia al juego compulsivo', detalle:'Las 24 horas, los 365 días del año.' }
+  ];
+
+  const LUGARES = [
+    { id:1, nombre:'HIGA San Martín', zona:'La Plata', tipo:'hosp', h24:true, atencion:'Las 24 horas', edad:'Desde los 15 años', dir:'Calle 1 y 70', tels:['0221 483-5429'], interno:'Salud mental: interno 419' },
+    { id:2, nombre:'Hospital Alejandro Korn', zona:'Melchor Romero', tipo:'hosp', h24:true, atencion:'Las 24 horas', edad:'Desde los 15 años', dir:'520 y 175', tels:['0221 478-0181'], interno:'Interno 422' },
+    { id:3, nombre:'HIGA R. Rossi', zona:'La Plata', tipo:'hosp', atencion:'Lunes a sábados, de 9 a 17', edad:'Desde los 15 años', dir:'37 entre 116 y 117', tels:['0221 482-8821'], interno:'Interno salud mental: 254' },
+    { id:4, nombre:'HIGA San Roque', zona:'Gonnet', tipo:'hosp', atencion:'Lunes a viernes, de 13 a 18', edad:'Desde los 15 años', dir:'508 entre 18 y 19', tels:['0221 484-0290','0221 471-0063','0221 471-1593'] },
+    { id:5, nombre:'Hospital Mario V. Larrain', zona:'Berisso', tipo:'hosp', dir:'Calle 5 N° 4435, entre 166 y Montevideo', tels:['0221 464-5164','0221 461-1101'] },
+    { id:6, nombre:'Hospital Cestino', zona:'Ensenada', tipo:'hosp', atencion:'Psicología: los turnos se dan los lunes', dir:'San Martín y EE.UU.', tels:['0221 469-1255','0221 469-1041'] },
+    { id:7, nombre:'Espacio de escucha · Hospital Gutiérrez', zona:'La Plata', tipo:'hosp', dir:'Diagonal 114 entre 39 y 40', tels:['0221 483-0171','0221 423-6141'], interno:'Líneas rotativas: 483-0171 al 75 · 423-6141 al 43' },
+    { id:8, nombre:'Espacio de escucha · Hospital Elina de la Serna', zona:'La Plata', tipo:'hosp', infancias:true, atencion:'Infanto juvenil', dir:'Calle 8 N° 483, entre 41 y 42', tels:['0221 421-2729','0221 483-3869'] },
+    { id:9, nombre:'Guardia Hospital de Niños Sor Ludovica', zona:'La Plata', tipo:'hosp', h24:true, infancias:true, atencion:'Las 24 horas', edad:'Hasta los 14 años', dir:'14 entre 65 y 66', tels:['0221 453-5901'], interno:'Líneas rotativas: 453-5901 al 10' },
+    { id:10, nombre:'Colegio de Psicologxs · Distrito XI', zona:'La Plata', tipo:'org', atencion:'A través del Sistema de Atención a la Comunidad (SAC)', tels:['0221 421-1107'] },
+    { id:11, nombre:'IOMA', zona:'Provincia', tipo:'org', resumen:'Para consultas por atención en policonsultorios de IOMA o para acceder a la cartilla prestacional.', tels:['0810-999-4662'], correo:'saludmental@ioma.gba.gov.ar' },
+    { id:12, nombre:'Casa de la Mujer', zona:'La Plata', tipo:'org', resumen:'Acompañamiento y orientación en salud mental, con enfoque de género.', dir:'Calle 10 entre 53 y 54' }
+  ];
+
+  const FILTROS = [
+    { id:'todos',     texto:'Todos',               pasa: () => true },
+    { id:'h24',       texto:'24 horas',            pasa: l => l.h24 },
+    { id:'infancias', texto:'Infancias',           pasa: l => l.infancias },
+    { id:'berisso',   texto:'Berisso y Ensenada',  pasa: l => /Berisso|Ensenada/.test(l.zona) },
+    { id:'org',       texto:'Otras instituciones', pasa: l => l.tipo === 'org' }
+  ];
+
+  const aTel = n => 'tel:' + n.replace(/\D/g, '');
+
+  /* ============================================================
+     LOS GRUPOS
+
+     Cada acordeón es una entrada de esta lista, en el orden en que
+     aparece. Para sumar uno (la sección de perspectiva de género, por
+     ejemplo) alcanza con agregar otra entrada acá:
+
+       clave   — cómo se lo recuerda abierto o cerrado
+       titulo  — el encabezado
+       icono   — opcional, un nombre de iconos.js
+       dibujo  — recibe `coincide` (la búsqueda) y devuelve
+                 { cuenta, html }, o null si con esa búsqueda no hay
+                 nada que mostrar y el grupo no aparece
+     ============================================================ */
+  const GRUPOS = [
+    {
+      clave:'unlp', titulo:'Servicio de salud mental UNLP', icono:'ayuda',
+      dibujo: coincide => !coincide('servicio salud mental estudiantil unlp universidad edificio de salud 47 turno libreta sanitaria gratis gratuito psicologo') ? null : {
+        cuenta:'Gratis',
+        html:`
+          <p>La UNLP tiene un <strong>servicio gratuito de atención y asesoramiento en salud mental</strong> para sus estudiantes.</p>
+          <div class="ficha"><dl>
+            <dt>Dónde</dt><dd>Edificio de Salud · calle 47 entre 2 y 3, N° 380</dd>
+            <dt>Cuándo</dt><dd>Martes de 14 a 17 hs y jueves de 9 a 12 hs</dd>
+            <dt>Cómo</dt><dd>El turno se pide en persona</dd>
+          </dl></div>
+          <p class="salud-subtitulo">Para pedir turno</p>
+          <ol class="pasos">
+            <li><div class="paso-titulo">Acercate un martes a la tarde o un jueves a la mañana</div>
+                <div class="paso-detalle">Martes de 14 a 17, jueves de 9 a 12, al Edificio de Salud.</div></li>
+            <li><div class="paso-titulo">Llevá tu Libreta Sanitaria Estudiantil</div>
+                <div class="paso-detalle">Tiene que estar actualizada.</div></li>
+            <li><div class="paso-titulo">¿Todavía no la tenés?</div>
+                <div class="paso-detalle">Llevá el certificado de alumne regular impreso y tu DNI o pasaporte en mano: con eso empezás a hacerla.</div></li>
+          </ol>
+          <a class="boton ancho oscuro" target="_blank" rel="noopener"
+             href="https://www.google.com/maps/search/?api=1&amp;query=Calle+47+380,+La+Plata,+Buenos+Aires">Cómo llegar ↗
+            <span class="solo-lectores">(se abre en otra pestaña)</span></a>`
+      }
+    },
+    {
+      clave:'lineas', titulo:'Líneas telefónicas',
+      dibujo: coincide => {
+        const lineas = LINEAS.filter(l =>
+          coincide(l.num + ' ' + l.num.replace(/\D/g, '') + ' ' + l.titulo + ' ' + l.detalle));
+        if (!lineas.length) return null;
+        return {
+          cuenta: lineas.length,
+          html: `<div class="lineas">${lineas.map(l => `
+            <div class="linea-tel">
+              <div class="linea-tel-cabeza">
+                <strong>${esc(l.num)}</strong>
+                <a class="boton" href="${aTel(l.num)}" aria-label="Llamar al ${esc(l.num)}">Llamar</a>
+              </div>
+              <h3>${esc(l.titulo)}</h3>
+              <p>${esc(l.detalle)}</p>
+            </div>`).join('')}</div>`
+        };
+      }
+    },
+    {
+      clave:'hosp', titulo:'Hospitales y CAPS',
+      dibujo: coincide => {
+        const conBusqueda = LUGARES.filter(l => coincide([l.nombre, l.zona, l.dir,
+          l.atencion, l.resumen, l.edad, (l.tels || []).join(' ')].join(' ')));
+        if (!conBusqueda.length) return null;
+        const filtro = FILTROS.find(f => f.id === filtroLugares);
+        const lugares = conBusqueda.filter(filtro.pasa);
+        return {
+          cuenta: conBusqueda.length,
+          html: `
+            <div class="chips salud-chips" role="group" aria-label="Filtrar lugares">
+              ${FILTROS.map(f => `<button type="button" class="chip" data-filtro="${f.id}"
+                  aria-pressed="${f.id === filtroLugares}">${esc(f.texto)}</button>`).join('')}
+            </div>
+            ${lugares.length ? `<div class="rejilla-fichas">${lugares.map(l => `
+              <button type="button" class="tarjeta-cuadro" data-lugar="${l.id}">
+                <span class="cuadro-arriba">
+                  <span class="nombre">${esc(l.nombre)}</span>
+                  <span class="cuadro-zona">${esc(l.zona)}</span>
+                </span>
+                <span class="marca-tipo ${l.h24 ? 'guia' : 'enlace'}">${
+                  l.h24 ? '24 horas' : l.tipo === 'org' ? 'Consultas' : 'Con horario'}</span>
+              </button>`).join('')}</div>`
+            : `<div class="vacio">No hay lugares con ese filtro.</div>`}`
+        };
+      }
+    },
+    {
+      clave:'derechos', titulo:'Tus derechos',
+      dibujo: coincide => !coincide('derechos ley 26.657 atencion calidad consentimiento acompañamiento orientacion discriminacion autonomia') ? null : {
+        cuenta: 3,
+        html:`
+          <p style="margin-bottom:16px"><strong>Sos sujeto de derechos.</strong> Conocé los tuyos:</p>
+          <div class="derechos">
+            <div class="derecho">
+              <h3>Atención de calidad</h3>
+              <p>Tenés derecho a recibir atención en salud mental de calidad, sin discriminación y en igualdad de condiciones.</p>
+            </div>
+            <div class="derecho">
+              <h3>Entender y decidir</h3>
+              <p>Que te expliquen tu situación y las propuestas de tratamiento que hay. El consentimiento tiene que ser <strong>libre y bien informado</strong>, respetando tu autonomía.</p>
+            </div>
+            <div class="derecho">
+              <h3>Acompañamiento</h3>
+              <p>Tenés derecho al acompañamiento y a la orientación durante tu proceso.</p>
+            </div>
+          </div>
+          <button type="button" class="ir-a-hosp" data-ir="hosp">
+            <span class="ir-a-hosp-texto">
+              <strong>Ante cualquier consulta, acercate a la institución de salud más cercana</strong>
+              <small>Ver hospitales y CAPS</small>
+            </span>
+            <span class="ir-a-hosp-flecha" aria-hidden="true">→</span>
+          </button>`
+      }
+    }
+  ];
+
+  /* ============================================================
+     DIBUJAR
+
+     Igual que Info útil: la lista se vuelve a dibujar con cada tecla,
+     así que antes se anota qué quedó abierto. Mientras se busca se abre
+     todo lo que tiene resultados y no se anota nada; al borrar la
+     búsqueda vuelve como la habías dejado.
+
+     LO QUE SE BUSCA ACÁ NO SE ANOTA. Info útil guarda las búsquedas
+     (`anotarBusqueda`) para saber qué falta cargar; en esta pantalla
+     alguien puede estar escribiendo «suicidio», y eso no se registra
+     en ningún lado.
+     ============================================================ */
+  const grupos = document.getElementById('grupos');
+  const filtro = document.getElementById('filtro');
+  const abiertos = new Set(['unlp']);
+  let filtroLugares = 'todos';
+  let ultimaFueBusqueda = false;
+
+  const PALABRAS_VACIAS = new Set('de del la las el los en y o a al un una para con por que como'.split(' '));
+
+  function recordarAbiertos(){
+    grupos.querySelectorAll('details.grupo').forEach(d => {
+      if (d.open) abiertos.add(d.dataset.grupo);
+      else        abiertos.delete(d.dataset.grupo);
+    });
+  }
+
+  function dibujar(){
+    if (!ultimaFueBusqueda) recordarAbiertos();
+    const texto = filtro.value.trim();
+    const palabras = normalizar(texto).split(/\s+/)
+      .filter(p => p && !PALABRAS_VACIAS.has(p));
+    const buscando = palabras.length > 0;
+    const coincide = t => {
+      const n = normalizar(t || '');
+      return palabras.every(p => n.includes(p));
+    };
+
+    const html = GRUPOS.map(g => {
+      const d = g.dibujo(coincide);
+      if (!d) return '';
+      const ico = g.icono && icono(g.icono);
+      return `
+        <details class="grupo" data-grupo="${g.clave}"
+                 ${buscando || abiertos.has(g.clave) ? 'open' : ''}>
+          <summary>
+            <span class="nombre-grupo">${ico ? `<span class="titulo-icono">${ico}</span>` : ''}${esc(g.titulo)}</span>
+            <span class="cuenta-grupo">${esc(String(d.cuenta))}</span>
+            <span class="flecha" aria-hidden="true">▼</span>
+          </summary>
+          <div class="cuerpo-grupo"><div>${d.html}</div></div>
+        </details>`;
+    }).join('');
+
+    grupos.innerHTML = html || `
+      <div class="vacio">
+        <div class="vacio-titulo">No encontramos «${esc(texto)}»</div>
+        <p>Probá con el nombre del hospital, el barrio o el número. Si es
+          urgente, llamá al <a href="tel:08009990091">0800-999-0091</a>.</p>
+      </div>`;
+    ultimaFueBusqueda = buscando;
+  }
+
+  filtro.addEventListener('input', dibujar);
+
+  grupos.addEventListener('click', e => {
+    const chip = e.target.closest('[data-filtro]');
+    if (chip){
+      filtroLugares = chip.dataset.filtro;
+      dibujar();
+      const igual = grupos.querySelector('[data-filtro="' + filtroLugares + '"]');
+      if (igual) igual.focus();
+      return;
+    }
+    const lugar = e.target.closest('[data-lugar]');
+    if (lugar){ abrirLugar(Number(lugar.dataset.lugar), lugar); return; }
+
+    /* De los derechos a los hospitales: se abre ese grupo, se cierra
+       este, y se lleva la vista hasta allá. */
+    if (e.target.closest('[data-ir="hosp"]')){
+      recordarAbiertos();
+      abiertos.add('hosp');
+      abiertos.delete('derechos');
+      filtroLugares = 'todos';
+      if (filtro.value){ filtro.value = ''; ultimaFueBusqueda = false; }
+      dibujar();
+      const hosp = grupos.querySelector('[data-grupo="hosp"] > summary');
+      if (hosp){ hosp.scrollIntoView({ block:'start' }); hosp.focus({ preventScroll:true }); }
+    }
+  });
+
+  /* ============================================================
+     LA VENTANITA DE CADA LUGAR
+     ============================================================ */
+  const fondo  = document.getElementById('hoja-fondo');
+  const cuerpo = document.getElementById('hoja-cuerpo');
+  let quienAbrio = null;
+
+  function abrirLugar(id, desde){
+    const l = LUGARES.find(x => x.id === id);
+    if (!l) return;
+    quienAbrio = desde || null;
+
+    const filas = [];
+    if (l.atencion) filas.push(['Atención', l.atencion]);
+    if (l.edad)     filas.push(['Edad', l.edad]);
+    if (l.dir)      filas.push(['Dónde', l.dir + (l.zona !== 'Provincia' ? ', ' + l.zona : '')]);
+    if (l.tels && l.tels.length)
+      filas.push([l.telRotulo || 'Teléfono', l.tels.join(' · ') + (l.interno ? '\n' + l.interno : '')]);
+    if (l.correo)   filas.push(['Correo', l.correo]);
+
+    const mapa = l.dir ? 'https://www.google.com/maps/search/?api=1&query=' +
+      encodeURIComponent(l.dir + ', ' + (l.zona === 'Provincia' ? 'La Plata' : l.zona) + ', Buenos Aires') : '';
+
+    cuerpo.innerHTML = `
+      <div class="hoja-cod">${l.tipo === 'org' ? 'Institución' : 'Hospital'} · ${esc(l.zona)}</div>
+      <h2 id="hoja-titulo">${esc(l.nombre)}</h2>
+      ${l.resumen ? `<p class="hoja-resumen">${esc(l.resumen)}</p>` : ''}
+      <div class="ficha"><dl>
+        ${filas.map(([dt, dd]) => `<dt>${esc(dt)}</dt><dd>${esc(dd)}</dd>`).join('')}
+      </dl></div>
+      <div class="hoja-acciones">
+        ${(l.tels || []).slice(0, 2).map(t =>
+          `<a class="boton ancho" href="${aTel(t)}">Llamar al ${esc(t)}</a>`).join('')}
+        ${l.correo ? `<a class="boton ancho borde" href="mailto:${esc(l.correo)}">Escribir un correo</a>` : ''}
+        ${mapa ? `<a class="boton ancho oscuro" href="${esc(mapa)}" target="_blank" rel="noopener">Cómo llegar ↗
+            <span class="solo-lectores">(se abre en otra pestaña)</span></a>` : ''}
+      </div>
+      <p class="letra-chica" style="margin-top:20px">
+        Antes de ir, llamá para confirmar el horario. Si algo cambió,
+        avisanos y lo corregimos.
+      </p>`;
+
+    fondo.hidden = false;
+    document.body.style.overflow = 'hidden';
+    document.getElementById('hoja-cerrar').focus();
+  }
+
+  function cerrarLugar(){
+    fondo.hidden = true;
+    document.body.style.overflow = '';
+    /* El foco vuelve al cuadro que la abrió, si sigue ahí: con lector
+       de pantalla, cerrar no puede mandarte al principio de todo. */
+    if (quienAbrio && document.contains(quienAbrio)) quienAbrio.focus();
+    quienAbrio = null;
+  }
+  document.getElementById('hoja-cerrar').addEventListener('click', cerrarLugar);
+  fondo.addEventListener('click', e => { if (e.target === fondo) cerrarLugar(); });
+  document.addEventListener('keydown', e => {
+    if (e.key === 'Escape' && !fondo.hidden) cerrarLugar();
+  });
+
+  dibujar();
+})();
+</script>
+</body>
+</html>

@@ -28,7 +28,7 @@ discutirla en tres meses.
 |---|---|---|---|
 | 1 | Carga fácil de paros y grupos de estudio | chico-mediano | hecha, falta correr el SQL |
 | 2 | Anotarse a un grupo de estudio | chica | hecha en la tanda 3 de la 3 (30/9) |
-| 3 | Calendario y avisos: que se revisen todos los días | grande, en tres tandas | las tres hechas (30/9); falta subir la función `avisos` v11 |
+| 3 | Calendario y avisos: que se revisen todos los días | grande, en tres tandas | hecha: las tres tandas y la función `avisos` v11 en producción (30/9) |
 
 ## Las propuestas
 
@@ -332,7 +332,7 @@ si la gente se anota.
 - **Estado:** tandas 1 y 2 hechas el 30/9/2026 (SQL en producción,
   función `avisos` v10 subida, `sw.js` v78). Tanda 3 hecha el mismo día
   (SQL en producción, `sw.js` v80); la función `avisos` v11, que le
-  avisa a quien marcó «Voy», está escrita y falta subirla.
+  avisa a quien marcó «Voy», subida el 30/9 a las 10:31.
 
 **Lo que se decidió (30/9/2026):**
 
@@ -480,9 +480,8 @@ si la gente se anota.
 - **La función `avisos` v11** (`supabase/functions/avisos/index.ts`):
   quien marcó «Voy» con los avisos prendidos recibe el aviso del día y
   el de cambio de ese evento aunque tenga la categoría apagada o el
-  grupo no sea de sus materias. **Está escrita pero no subida**: la
-  subida a producción quedó para que la autorice Máximo. Hasta
-  entonces «Voy» anda entero salvo esa parte.
+  grupo no sea de sus materias. **Subida el 30/9/2026 a las 10:31**,
+  con el visto bueno de Máximo, igual al archivo del repo.
 - No entró: el calendario suscripto (`webcal://`), que sigue en dudas.
 
 **Dudas abiertas:**

@@ -83,6 +83,18 @@
                       try { m = JSON.parse(localStorage.getItem('bolivar-fichas-psicologia') || '{}') || {}; } catch(err){}
                       const n = Object.keys(m).length;
                       return n ? { a: n / 10, texto: 'Respondiste ' + n + ' de 10' } : null; } },
+    /* El Arsenal (30/9): libros, revistas, pelis y cortos que
+       recomendamos, con el porqué. La lista vive en arsenal/datos.json;
+       acá no se cuenta cuántos hay para no bajar el JSON en la portada.
+       Lo que sí se sabe sin bajar nada es cuánto guardaste para el finde
+       (lo escribe arsenal/marcas.js). */
+    { id:'arsenal', modo:'repasar', nombre:'El Arsenal', emoji:'🔖',
+      desc:'Libros, revistas, pelis y cortos que recomendamos, cada uno con el porqué.',
+      href:'arsenal/', carreras:null,
+      dato: () => { let n = 0;
+                    try { const g = JSON.parse(localStorage.getItem('bolivar-arsenal') || '{}') || {};
+                          n = Object.keys(g.finde || {}).length; } catch(err){}
+                    return n ? n + ' para el finde' : 'Libros · revistas · pelis'; } },
     /* `enFila`: no va en la grilla de Repasar, tiene su fila arriba de
        los modos. Sigue en la lista para que el buscador la encuentre. */
     { id:'videos', modo:'repasar', nombre:'En un minuto', emoji:'▶️', oculta: !cuantosVideos, enFila: true,
@@ -133,7 +145,8 @@
     psico:    trazo('<path d="M7 21v-3.2A7.5 7.5 0 1 1 19.2 12l1.3 3H18.5v2.5a2 2 0 0 1-2 2H14V21"/><path d="M11.5 7.5a2.5 2.5 0 0 1 2.5 2.5c0 1.5-2.5 1.8-2.5 3.5"/>'),
     linea:    trazo('<path d="M12 2.5v19"/><circle cx="12" cy="6" r="2.3" fill="currentColor"/><circle cx="12" cy="12" r="2.3" fill="currentColor"/><circle cx="12" cy="18" r="2.3" fill="currentColor"/><path d="M14.5 6H20M4 12h5.5M14.5 18H20"/>'),
     fonoteca: trazo('<path d="M4 14v-2a8 8 0 0 1 16 0v2"/><rect x="3" y="14" width="4.5" height="6.5" rx="1.5"/><rect x="16.5" y="14" width="4.5" height="6.5" rx="1.5"/>'),
-    anatomo:  trazo('<path d="M12 2.8l8 4.6v9.2l-8 4.6-8-4.6V7.4z"/><path d="M4 7.4l8 4.6 8-4.6M12 12v9.2"/>')
+    anatomo:  trazo('<path d="M12 2.8l8 4.6v9.2l-8 4.6-8-4.6V7.4z"/><path d="M4 7.4l8 4.6 8-4.6M12 12v9.2"/>'),
+    arsenal:  trazo('<path d="M4.5 4h4v16h-4zM10.5 4h4v16h-4z"/><path d="M15.6 5.2l3.5-.9 3.3 14.9-3.5.9z"/>')
   };
   function icono_(h){
     if (PROPIOS[h.id]) return PROPIOS[h.id];

@@ -79,6 +79,10 @@
      siendo del panel. Editar y suspender lo propio sí (la lista de
      «Lo que cargaste», abajo del paso 1): el aula y la hora son lo que
      más cambia, y corregirlo no puede depender de otra persona.
+
+     Y DESDE EL 30/9/2026, EL BUZÓN. La pestaña «Buzón» es la bandeja de
+     `decilo/`: contesta la misma gente que carga paros, y el rol
+     `comunicacion` no entra al panel. Ver «EL BUZÓN», abajo de todo.
      ============================================================ -->
 
 <main class="envoltura" id="contenido" tabindex="-1">
@@ -322,6 +326,7 @@
 
   function paso1(){
     contenido.innerHTML = `
+      ${htmlPestanas('cargar')}
       ${encabezado(1, '¿QUÉ<br>ES?')}
       <div class="grupo">
         ${Object.entries(CLASES).map(([clave, c]) => `
@@ -342,6 +347,8 @@
         paso2();
       };
     });
+    engancharPestanas();
+    contarSinContestar();
     pintarLoMio();
   }
 
@@ -777,7 +784,408 @@
     };
   }
 
-  paso1();
+  /* ============================================================
+     EL BUZÓN  ·  la bandeja de «Decilo» (sesión 3, 30/9/2026)
+
+     Lo que la gente deja en `decilo/` llega acá, y se contesta desde el
+     celular. Va en esta pantalla y no en el panel porque la usa el rol
+     `comunicacion`, que no entra al panel (decisión del 30/9).
+     `modera_buzon()` de `sql/tabla-buzon.sql` deja moderar a los mismos
+     dos roles que `puedeCargar()`: si uno cambia, cambia el otro.
+
+     Tres cosas que garantiza la base y que acá solo se explican: un
+     pedido no vuelve a «sin contestar», uno descartado no se publica, y
+     la fecha de cada cambio la pone el disparador, no la app. El texto
+     de quien escribió no se edita: si trae algo que no puede salir, se
+     descarta.
+     ============================================================ */
+
+  /* Lo que está sin contestar, para el número de la pestaña. Es lo
+     único que tiene que ver de un vistazo quien entra a cargar un paro. */
+  let sinContestar = 0;
+
+  function htmlPestanas(cual){
+    return `
+      <div class="pestanas" role="tablist" aria-label="Qué querés hacer">
+        <button type="button" class="pestana" role="tab" id="tab-cargar"
+                aria-selected="${cual === 'cargar'}" data-ver="cargar">Cargar</button>
+        <button type="button" class="pestana" role="tab" id="tab-buzon"
+                aria-selected="${cual === 'buzon'}" data-ver="buzon">${esc(rotuloBuzon())}</button>
+      </div>`;
+  }
+
+  const rotuloBuzon = () => 'Buzón' + (sinContestar ? ' · ' + sinContestar : '');
+
+  function engancharPestanas(){
+    const tabs = [...contenido.querySelectorAll('.pestanas [data-ver]')];
+    tabs.forEach((b, i) => {
+      /* Una sola parada de tabulador para las dos; las flechas cambian
+         de una a otra, que es lo que espera un lector de pantalla de
+         algo que se anuncia como pestañas. */
+      b.tabIndex = b.getAttribute('aria-selected') === 'true' ? 0 : -1;
+      b.onclick = () => ir(b.dataset.ver);
+      b.onkeydown = ev => {
+        if (ev.key !== 'ArrowRight' && ev.key !== 'ArrowLeft') return;
+        ev.preventDefault();
+        ir(tabs[(i + 1) % tabs.length].dataset.ver);
+      };
+    });
+  }
+
+  /* `?ver=buzon` en la dirección: así el panel lleva directo a la
+     bandeja, y recargar no te devuelve a «Cargar». */
+  function ir(cual){
+    const u = new URL(location.href);
+    if (cual === 'buzon') u.searchParams.set('ver', 'buzon');
+    else u.searchParams.delete('ver');
+    history.replaceState(null, '', u);
+    if (cual === 'buzon') bandeja(); else paso1();
+    const t = document.getElementById('tab-' + cual);
+    if (t) t.focus();
+  }
+
+  async function contarSinContestar(){
+    try {
+      const { count, error } = await db.from('buzon_pedidos')
+        .select('id', { count:'exact', head:true }).eq('estado', 'recibido');
+      if (error) return;
+      sinContestar = count || 0;
+      const t = document.getElementById('tab-buzon');
+      if (t) t.textContent = rotuloBuzon();
+    } catch(e){}
+  }
+
+  const ESTADOS = {
+    recibido:   { filtro:'Sin contestar', texto:'Sin contestar', fecha:'creado_at' },
+    en_gestion: { filtro:'En gestión',    texto:'En gestión',    fecha:'en_gestion_at' },
+    resuelto:   { filtro:'Resueltos',     texto:'Resuelto',      fecha:'resuelto_at' },
+    descartado: { filtro:'Descartados',   texto:'Descartado',    fecha:'descartado_at' }
+  };
+
+  /* Qué quiere decir cada estado, dicho para quien lo elige. */
+  const QUE_SIGNIFICA = {
+    en_gestion: 'Lo estamos moviendo. Si está publicado, en el tablero se ve «En gestión» con la fecha de hoy.',
+    resuelto:   'Ya tiene solución. Suma a los resueltos del tablero.',
+    descartado: 'Spam, repetido o algo que no puede salir. No se publica, pero se cuenta ' +
+                'aparte en los totales: no se esconde.'
+  };
+
+  /* LAS RESPUESTAS YA ESCRITAS
+     BORRADOR del 30/9/2026. Las escribió Claude con `marca/VOZ.md`
+     porque las del equipo de comunicación todavía no llegaron: hay que
+     reemplazarlas por las suyas. Tocar una la copia en el campo, y
+     siempre se puede cambiar antes de guardar.
+     Las que tienen [corchetes] piden completar algo, y la bandeja no
+     deja guardar mientras quede uno: se publicaría tal cual. */
+  const RESPUESTAS = [
+    { nombre:'Lo estamos viendo', estado:'en_gestion',
+      texto:'Gracias por escribirnos. Ya lo estamos viendo con quien corresponde, y acá ' +
+            'vamos a contar en qué queda.' },
+    { nombre:'Lo llevamos a la cátedra', estado:'en_gestion',
+      texto:'Lo llevamos a la cátedra y estamos esperando que nos contesten. Apenas sepamos ' +
+            'algo, lo publicamos acá.' },
+    { nombre:'Es de la facultad', estado:'en_gestion',
+      texto:'Esto no depende de una cátedra sino de la gestión de la facultad. Lo vamos a ' +
+            'plantear, y acá te contamos qué nos responden.' },
+    { nombre:'Resuelto', estado:'resuelto',
+      texto:'Ya está resuelto: [qué cambió]. Gracias por avisar: sin tu pedido no nos ' +
+            'enterábamos.' },
+    { nombre:'Hay un trámite', estado:'resuelto',
+      texto:'Esto tiene un trámite propio, y en la app está explicado paso a paso: ' +
+            'labolivarconvos.ar/tramites. Si te trabás en algún paso, escribinos de nuevo.' },
+    { nombre:'Grupo de estudio', estado:'resuelto',
+      texto:'Para [materia] hay grupos de estudio: los encontrás en Fechas, con el día y el ' +
+            'lugar. Si ninguno te queda cómodo, contanos y vemos de armar otro.' },
+    { nombre:'No es nuestro', estado:'resuelto',
+      texto:'Esto no lo puede resolver el centro de estudiantes, pero sabemos quién sí: ' +
+            '[a quién hay que ir y cómo].' },
+    { nombre:'Repetido', estado:'descartado',
+      texto:'Nos llegó el mismo pedido de otra persona y lo seguimos ahí, en el tablero.' }
+  ];
+
+  let pedidos = [], nombreCategoria = {}, filtro = 'recibido', abierto = null;
+
+  function bandeja(){
+    contenido.innerHTML = `
+      ${htmlPestanas('buzon')}
+      <h1 class="titulo-pantalla">BUZÓN</h1>
+      <p class="bajada">Lo que llega a <a href="../decilo/">Decilo</a>. La meta es contestar
+        todo en menos de 48 horas: el tablero público muestra cuánto tardamos.</p>
+      <div class="chips elegir-uno" id="filtros" role="group" aria-label="Qué pedidos ver"></div>
+      <div id="msj-buzon" role="status" aria-live="polite"></div>
+      <div id="pedidos" aria-busy="true">
+        <div class="esqueleto esq-linea"></div><div class="esqueleto esq-linea media"></div>
+      </div>`;
+    engancharPestanas();
+    traerPedidos();
+  }
+
+  async function traerPedidos(){
+    const [cat, ped] = await Promise.all([
+      db.from('buzon_categorias').select('clave,nombre'),
+      db.from('buzon_pedidos')
+        .select('id,texto,categoria,carrera,estado,publicado,respuesta,creado_at,' +
+                'en_gestion_at,resuelto_at,descartado_at,pidio_aviso')
+        .order('creado_at', { ascending:false })
+        .limit(300)
+    ]);
+    const caja = document.getElementById('pedidos');
+    if (!caja) return;   /* se fue a «Cargar» mientras esto llegaba */
+    caja.removeAttribute('aria-busy');
+
+    if (ped.error){
+      const falta = /does not exist|schema cache|42P01/i.test(ped.error.message || '');
+      caja.innerHTML = `<div class="aviso error">${falta
+        ? 'Falta correr <code>sql/tabla-buzon.sql</code> en Supabase.'
+        : 'No pudimos traer los pedidos. Probá de nuevo en un rato.'}</div>`;
+      return;
+    }
+
+    nombreCategoria = {};
+    (cat.data || []).forEach(c => { nombreCategoria[c.clave] = c.nombre; });
+    pedidos = ped.data || [];
+    sinContestar = pedidos.filter(p => p.estado === 'recibido').length;
+    const t = document.getElementById('tab-buzon');
+    if (t) t.textContent = rotuloBuzon();
+    pintarBandeja();
+  }
+
+  /* «hace 5 horas», «hace 3 días». En horas hasta las 48, porque la
+     meta se cuenta en horas y «hace 1 día» esconde si van 25 o 47. */
+  function hace(iso){
+    const h = Math.floor((Date.now() - Date.parse(iso)) / 3600000);
+    if (h < 1) return 'hace un rato';
+    if (h < 48) return `hace ${h} ${h === 1 ? 'hora' : 'horas'}`;
+    return `hace ${Math.floor(h / 24)} días`;
+  }
+
+  function pintarBandeja(){
+    const filtros = document.getElementById('filtros');
+    const caja = document.getElementById('pedidos');
+    if (!filtros || !caja) return;
+
+    const cuantos = e => pedidos.filter(p => p.estado === e).length;
+    filtros.innerHTML = Object.entries(ESTADOS).map(([e, x]) =>
+      `<button type="button" class="chip" aria-pressed="${filtro === e}"
+               data-filtro="${e}">${esc(x.filtro)} · ${cuantos(e)}</button>`).join('');
+    filtros.querySelectorAll('[data-filtro]').forEach(b => {
+      b.onclick = () => {
+        if (!sePuedeCerrar()) return;
+        filtro = b.dataset.filtro; abierto = null; pintarBandeja();
+      };
+    });
+
+    /* Lo sin contestar va del más viejo al más nuevo: el que lleva más
+       horas esperando es el primero que se pasa de las 48. Lo demás, lo
+       último que se movió arriba. */
+    const f = ESTADOS[filtro].fecha;
+    const lista = pedidos.filter(p => p.estado === filtro).sort((a, b) =>
+      filtro === 'recibido'
+        ? Date.parse(a.creado_at) - Date.parse(b.creado_at)
+        : Date.parse(b[f] || b.creado_at) - Date.parse(a[f] || a.creado_at));
+
+    if (!lista.length){
+      caja.innerHTML = `<div class="vacio">${filtro === 'recibido'
+        ? 'No hay nada sin contestar. Cuando alguien escriba en Decilo, aparece acá.'
+        : 'Por ahora no hay ninguno.'}</div>`;
+      return;
+    }
+
+    caja.innerHTML = `<div class="grupo">${lista.map(htmlPedido).join('')}</div>`;
+    caja.querySelectorAll('[data-contestar]').forEach(b => {
+      b.onclick = () => {
+        if (!sePuedeCerrar()) return;
+        abierto = Number(b.dataset.contestar);
+        pintarBandeja();
+        /* El foco va a lo primero que hay que decidir, no arriba de todo. */
+        const primero = document.querySelector(`#pedido-${abierto} [data-estado]`);
+        if (primero) primero.focus();
+      };
+    });
+    if (abierto) engancharEditor(lista.find(p => p.id === abierto));
+  }
+
+  /* Con un pedido abierto, los filtros y los «Contestar» de los demás
+     siguen a la vista, y tocarlos redibuja la lista: lo escrito y sin
+     guardar se perdía sin aviso. En el celular, con la lista larga, es
+     fácil tocar el de abajo. */
+  function sePuedeCerrar(){
+    if (!abierto) return true;
+    const t = document.getElementById('respuesta-' + abierto);
+    const p = pedidos.find(x => x.id === abierto);
+    if (!t || !p || t.value.trim() === (p.respuesta || '').trim()) return true;
+    return confirm('La respuesta que estás escribiendo no está guardada. ¿Dejarla igual?');
+  }
+
+  function htmlPedido(p){
+    const e = ESTADOS[p.estado] || ESTADOS.recibido;
+    const carrera = CARRERAS_APP.filter(c => c.id === p.carrera)[0];
+    const horas = Math.floor((Date.now() - Date.parse(p.creado_at)) / 3600000);
+    /* Pasadas las 36 horas se dice en voz alta: faltan doce para la
+       meta, y es el último momento en que todavía se llega. */
+    const apurado = p.estado === 'recibido' && horas >= 36;
+
+    return `
+      <article class="modulo" id="pedido-${p.id}">
+        <div class="modulo-cabeza">
+          <span class="espacio-estado${p.estado === 'resuelto' ? ' abierto' : ''}">${esc(e.texto)}</span>
+          <span class="modulo-numero">${esc(hace(p.creado_at))}</span>
+        </div>
+        <p>${escMulti(p.texto)}</p>
+        <p class="letra-chica">
+          ${esc(nombreCategoria[p.categoria] || p.categoria)}${carrera ? ' · ' + esc(carrera.corto) : ''}
+          · ${p.publicado ? '<strong>publicado en el tablero</strong>' : 'sin publicar'}${
+          /* El aviso al autor es la sesión 4, que todavía no está: que
+             nadie crea que ya le llegó. */
+          p.pidio_aviso ? ' · pidió aviso al celular (todavía no sale solo)' : ''}
+        </p>
+        ${apurado ? `<p class="letra-chica"><strong>Lleva ${horas} horas sin respuesta.</strong>
+          La meta son 48.</p>` : ''}
+        ${p.respuesta && abierto !== p.id
+          ? `<div class="aviso ok"><strong>Respuesta:</strong> ${escMulti(p.respuesta)}</div>` : ''}
+        ${abierto === p.id ? htmlEditor(p) : `
+          <div class="chips" style="margin-top:10px">
+            <button type="button" class="chip" data-contestar="${p.id}">${
+              p.estado === 'recibido' ? 'Contestar' : 'Cambiar'}</button>
+          </div>`}
+      </article>`;
+  }
+
+  function htmlEditor(p){
+    const n = p.id;
+    return `
+      <div style="margin-top:14px">
+        <h3>¿En qué quedó?</h3>
+        <div class="chips elegir-uno" role="group" aria-label="En qué quedó el pedido">
+          ${['en_gestion', 'resuelto', 'descartado'].map(e => `
+            <button type="button" class="chip" data-estado="${e}" aria-pressed="${p.estado === e}">${
+              e === 'descartado' ? 'Descartar' : esc(ESTADOS[e].texto)}</button>`).join('')}
+        </div>
+        <p class="letra-chica" id="significa-${n}"></p>
+
+        <h3 style="margin-top:16px">La respuesta</h3>
+        <p class="letra-chica" style="margin-top:0">Tocá una ya escrita para empezar, y cambiala a gusto.</p>
+        <div class="chips" style="margin-top:8px">
+          ${RESPUESTAS.map((r, i) => `
+            <button type="button" class="chip" data-ya="${i}">${esc(r.nombre)}</button>`).join('')}
+        </div>
+        <div class="campo" style="margin-top:10px">
+          <label for="respuesta-${n}">Sale con el pedido, como respuesta del CEFTS</label>
+          <textarea id="respuesta-${n}" maxlength="1000"
+                    style="min-height:110px">${esc(p.respuesta || '')}</textarea>
+        </div>
+
+        <div class="campo">
+          <label for="publicar-${n}" style="text-transform:none;letter-spacing:0">
+            <input type="checkbox" id="publicar-${n}" style="width:auto;margin-right:8px"${
+              p.publicado ? ' checked' : ''}>
+            Publicarlo en el tablero de Decilo
+          </label>
+          <p class="letra-chica">Sale el texto tal cual lo escribieron. Si nombra a alguien o
+            trae algo que no puede salir, descartalo: el texto no se edita.</p>
+        </div>
+
+        <div id="msj-${n}"></div>
+        <button type="button" class="boton ancho" data-guardar>Guardar</button>
+        <button type="button" class="boton ancho borde" data-cancelar
+                style="margin-top:10px">Cancelar</button>
+      </div>`;
+  }
+
+  function engancharEditor(p){
+    if (!p) return;
+    const caja     = document.getElementById('pedido-' + p.id);
+    const texto    = document.getElementById('respuesta-' + p.id);
+    const publicar = document.getElementById('publicar-' + p.id);
+    const significa= document.getElementById('significa-' + p.id);
+    const guardar  = caja.querySelector('[data-guardar]');
+    /* «Sin contestar» no se ofrece: la base no deja volver ahí. */
+    let estado = p.estado === 'recibido' ? null : p.estado;
+    /* Lo que tenía «publicar» antes de pasar por Descartar. Sin esto,
+       tocar Descartar sin querer y después otro estado dejaba el tilde
+       apagado, y un pedido publicado salía del tablero con un
+       «Guardado.» y nada más. */
+    let publicarAntes = publicar.checked;
+
+    function acomodar(){
+      caja.querySelectorAll('[data-estado]').forEach(b =>
+        b.setAttribute('aria-pressed', String(b.dataset.estado === estado)));
+      significa.textContent = estado ? QUE_SIGNIFICA[estado] : '';
+      /* Descartado y publicado no van juntos: lo frena la base, y acá
+         se ve antes de apretar. */
+      if (estado === 'descartado'){
+        if (!publicar.disabled) publicarAntes = publicar.checked;
+        publicar.checked = false;
+      } else if (publicar.disabled){
+        publicar.checked = publicarAntes;
+      }
+      publicar.disabled = estado === 'descartado';
+      guardar.textContent = publicar.checked ? 'Guardar y publicar' : 'Guardar';
+    }
+
+    caja.querySelectorAll('[data-estado]').forEach(b => {
+      b.onclick = () => { estado = b.dataset.estado; acomodar(); };
+    });
+    caja.querySelectorAll('[data-ya]').forEach(b => {
+      b.onclick = () => {
+        const r = RESPUESTAS[Number(b.dataset.ya)];
+        /* Pisar sin preguntar algo escrito a mano es perderlo. */
+        const hay = texto.value.trim();
+        if (hay && hay !== r.texto &&
+            !confirm('¿Reemplazar lo que está escrito por «' + r.nombre + '»?')) return;
+        texto.value = r.texto;
+        /* La respuesta sugiere un estado, pero no le gana al que ya se
+           eligió a mano. */
+        if (!estado) estado = r.estado;
+        acomodar();
+        /* Si trae corchetes, queda marcado lo que hay que completar. */
+        texto.focus();
+        const i = r.texto.indexOf('[');
+        if (i >= 0) texto.setSelectionRange(i, r.texto.indexOf(']', i) + 1);
+      };
+    });
+    publicar.onchange = acomodar;
+    caja.querySelector('[data-cancelar]').onclick = () => { abierto = null; pintarBandeja(); };
+    guardar.onclick = () => guardarPedido(p, estado, texto.value.trim(), publicar.checked, guardar);
+    acomodar();
+  }
+
+  async function guardarPedido(p, estado, respuesta, publicado, boton){
+    const msj = document.getElementById('msj-' + p.id);
+    const falla = t => { msj.innerHTML = `<div class="aviso error">${t}</div>`; };
+
+    if (!estado) return falla('Elegí en qué quedó: en gestión, resuelto o descartar.');
+    if (/\[[^\]]*\]/.test(respuesta))
+      return falla('Quedó algo entre corchetes para completar. Así como está, se publicaría tal cual.');
+
+    const cambios = { estado, respuesta: respuesta || null,
+                      publicado: estado === 'descartado' ? false : publicado };
+    const rotulo = boton.textContent;
+    boton.disabled = true; boton.textContent = 'Guardando…';
+
+    /* Con `select` para saber si cambió una fila: sin permiso, la base
+       no da error, dice «listo» y no toca nada. */
+    const { data, error } = await db.from('buzon_pedidos')
+      .update(cambios).eq('id', p.id).select('id');
+
+    if (error || !(data || []).length){
+      boton.disabled = false; boton.textContent = rotulo;
+      const permiso = !error || /row-level security|permission denied|42501/i.test(error.message || '');
+      return falla(permiso
+        ? 'Tu cuenta no tiene permiso para moderar el buzón. Pedile a alguien del equipo que te lo dé.'
+        : 'No se pudo guardar: ' + esc(error.message));
+    }
+
+    abierto = null;
+    await traerPedidos();
+    const aviso = document.getElementById('msj-buzon');
+    if (aviso) aviso.innerHTML = `<div class="aviso ok">${cambios.publicado
+      ? 'Guardado. Ya se ve en el tablero de <a href="../decilo/">Decilo</a>.'
+      : 'Guardado.'}</div>`;
+  }
+
+  if (new URLSearchParams(location.search).get('ver') === 'buzon') bandeja();
+  else paso1();
 })();
 </script>
 </body>

@@ -1,0 +1,251 @@
+/* ============================================================
+   EL ARSENAL (30/9/2026)
+
+   Filas que se deslizan con el dedo, una por tema, con tarjetas
+   grandes. En el teléfono se ve una tarjeta entera y el borde de la
+   siguiente: es lo que avisa, sin decirlo, que la fila sigue.
+
+   Las voces, las de Estudiemos:
+     Archivo Black  los nombres (filas, títulos, portadas)
+     Roboto         lo que se lee: el porqué
+     Roboto Mono    los datos: tipo, autoría, año, cuántos
+
+   El amarillo es para UNA cosa por tarjeta: el botón que lleva al
+   material. Las dos marcas van de contorno, y marcadas se rellenan
+   de tinta (el finde) o de rojo, en chico (el fuego).
+
+   Las portadas sin imagen se dibujan: el título grande sobre una de
+   tres tintas, con la trama de puntos de la serigrafía. Así sumar un
+   material no obliga a conseguir una foto de la tapa.
+   ============================================================ */
+
+.pantalla-arsenal{
+  --mono:'Roboto Mono', ui-monospace, monospace;
+  /* Una tarjeta entera y el borde de la siguiente, en cualquier teléfono. */
+  --ars-ancho:min(80vw, 288px);
+}
+@media (min-width:900px){
+  .pantalla-arsenal{ --ars-ancho:300px; }
+}
+
+.ars-volver{
+  display:inline-flex;align-items:center;min-height:48px;margin:0 0 2px;
+  font-family:var(--fuente-sub);font-weight:700;font-size:var(--letra-nota);
+  color:var(--texto);text-decoration:none
+}
+.ars-volver:focus-visible{outline:3px solid var(--celeste);outline-offset:2px;border-radius:var(--radio-chico)}
+
+/* ---------- Los filtros: a lo ancho de la pantalla ---------- */
+.ars-filtros{margin:4px -16px 0;padding:4px 16px 10px;scroll-padding-inline:16px}
+.ars-filtros .chip{min-height:44px;cursor:pointer}
+.ars-filtros .chip:focus-visible{outline:3px solid var(--celeste);outline-offset:2px}
+
+/* ---------- Una fila ---------- */
+.ars-fila{margin:26px 0 0}
+.ars-fila-cabeza{display:flex;align-items:center;flex-wrap:wrap;gap:6px 10px;margin:0 0 10px}
+.ars-fila-cabeza h2{
+  margin:0;font-family:var(--fuente-titulo);font-weight:400;
+  font-size:22px;line-height:1.1;letter-spacing:-.005em
+}
+.ars-cuenta{
+  font-family:var(--mono);font-size:12px;font-weight:500;line-height:1;
+  min-width:26px;padding:4px 8px;text-align:center;
+  border:1.5px solid var(--tinta-borde);border-radius:var(--radio-pastilla)
+}
+.ars-fila-cabeza p{flex-basis:100%;margin:0;color:var(--texto-suave);font-size:var(--letra-nota)}
+
+/* El finde se distingue por la tinta: su cuenta va llena. */
+.es-finde .ars-cuenta{background:var(--texto);color:var(--fondo);border-color:var(--texto)}
+
+/* Las flechas solo con mouse, y solo si la fila no entra entera: en
+   el teléfono el riel se corre con el dedo. */
+.ars-flechas{display:none;gap:6px;margin-left:auto}
+@media (hover:hover) and (pointer:fine){
+  .ars-fila.desborda .ars-flechas{display:flex}
+}
+.ars-flechas button{
+  width:38px;height:38px;display:grid;place-items:center;padding:0;cursor:pointer;
+  background:var(--superficie);color:var(--texto);
+  border:1.5px solid var(--tinta-borde);border-radius:50%
+}
+.ars-flechas button:hover:not(:disabled){background:var(--superficie-2)}
+.ars-flechas button:disabled{opacity:.35;cursor:default}
+.ars-flechas svg{width:18px;height:18px;fill:none;stroke:currentColor;stroke-width:2.2;stroke-linecap:round;stroke-linejoin:round}
+
+/* ---------- El riel: sale hasta el borde de la pantalla ---------- */
+.ars-riel{
+  list-style:none;display:flex;gap:14px;
+  margin:0 -16px;padding:4px 16px 18px;
+  overflow-x:auto;scroll-snap-type:x mandatory;scroll-padding-inline:16px;
+  overscroll-behavior-x:contain;-webkit-overflow-scrolling:touch;scrollbar-width:none
+}
+.ars-riel::-webkit-scrollbar{display:none}
+/* `min-width:0`: sin esto, un ítem de flex no se achica por debajo de
+   su contenido más ancho, y la autoría de la portada (que va en un solo
+   renglón) estiraba la tarjeta más allá de la pantalla. */
+.ars-item{flex:0 0 var(--ars-ancho);min-width:0;display:flex;scroll-snap-align:start}
+
+/* ---------- La tarjeta ---------- */
+.ars-tarjeta{
+  position:relative;display:flex;flex-direction:column;width:100%;min-width:0;overflow:hidden;
+  /* El borde y la sombra de las tarjetas del rediseño (como .est-tile):
+     `--tinta-borde` ahí es un gris suave, no la tinta negra. */
+  background:var(--superficie);border:1px solid var(--tinta-borde);
+  border-radius:var(--radio);box-shadow:var(--sombra-1, var(--sombra));
+  transition:opacity var(--t-medio) ease
+}
+
+/* La que se sacó del finde se queda atenuada hasta el próximo dibujo:
+   así se puede tocar de nuevo y vuelve. */
+.ars-tarjeta.sacada{opacity:.5}
+.ars-tarjeta.sacada .ars-portada{filter:grayscale(1)}
+
+/* La que se pidió por link (…/#m-el-id) se marca un rato. */
+.ars-tarjeta.pedida{animation:ars-pedida 2.6s var(--sale) both}
+@keyframes ars-pedida{
+  0%, 65%{box-shadow:0 0 0 4px var(--celeste), var(--sombra)}
+  100%{box-shadow:var(--sombra)}
+}
+
+/* ---------- La portada ---------- */
+.ars-portada{
+  position:relative;min-height:150px;overflow:hidden;
+  display:flex;flex-direction:column;justify-content:flex-end;
+  padding:46px 16px 16px;border-bottom:1px solid var(--tinta-borde)
+}
+/* La trama de puntos de la serigrafía, que se desvanece en diagonal. */
+.ars-portada::before{
+  content:'';position:absolute;inset:0;pointer-events:none;opacity:.16;
+  background-image:radial-gradient(currentColor 1.1px, transparent 1.7px);
+  background-size:9px 9px;
+  -webkit-mask-image:linear-gradient(135deg, #000 10%, transparent 75%);
+          mask-image:linear-gradient(135deg, #000 10%, transparent 75%)
+}
+.tinta-amarillo{background:var(--amarillo);color:var(--sobre-color)}
+.tinta-negro{background:var(--negro);color:var(--amarillo)}
+.tinta-papel{background:var(--superficie-2);color:var(--texto)}
+
+/* Entero y sin cortar: con la portada dibujada es el único título que
+   se ve. Lo largo se achica en vez de irse a seis renglones. */
+.ars-portada-titulo{
+  position:relative;flex:none;font-family:var(--fuente-titulo);font-size:23px;line-height:1.06;
+  letter-spacing:-.01em;overflow-wrap:break-word;hyphens:auto
+}
+.ars-portada-titulo.largo{font-size:20px}
+.ars-portada-titulo.muy-largo{font-size:17px;line-height:1.1}
+
+/* Con imagen: la tapa parada en el medio, como en un estante, sobre
+   la misma tinta. Sirve para libros, afiches y discos por igual,
+   porque no se recorta. */
+.ars-portada.con-imagen{min-height:0;aspect-ratio:16 / 10}
+.ars-portada.con-imagen .ars-portada-titulo{display:none}
+.ars-portada img{
+  position:absolute;left:50%;top:52%;height:80%;width:auto;max-width:72%;
+  object-fit:contain;transform:translate(-50%, -50%) rotate(-2deg);
+  border:1.5px solid var(--negro);box-shadow:3px 3px 0 var(--negro);background:var(--superficie)
+}
+:root[data-tema="oscuro"] .ars-portada img{filter:brightness(.88)}
+
+/* ---------- Los sellos: tipo y «Nuevo» ---------- */
+.ars-sellos{position:absolute;top:10px;left:10px;right:10px;display:flex;gap:6px;z-index:1;pointer-events:none}
+.ars-tipo,
+.ars-nuevo{
+  font-family:var(--mono);font-weight:500;font-size:11px;line-height:1;
+  letter-spacing:.08em;text-transform:uppercase;padding:5px 7px;border-radius:4px;
+  border:1.5px solid var(--tinta-borde)
+}
+.ars-tipo{background:var(--superficie);color:var(--texto)}
+.ars-nuevo{background:var(--rojo-solido);border-color:var(--rojo-solido);color:#FFFFFF}
+
+/* ---------- Lo escrito ---------- */
+.ars-cuerpo{display:flex;flex-direction:column;flex:1 1 auto;padding:14px}
+.ars-titulo{
+  margin:0 0 4px;font-family:var(--fuente-titulo);font-weight:400;
+  font-size:19px;line-height:1.15;overflow-wrap:anywhere
+}
+.ars-ficha{margin:0 0 12px;font-family:var(--mono);font-size:12px;line-height:1.4;color:var(--texto-suave)}
+.ars-porque{margin:0 0 16px;font-size:var(--letra-densa);line-height:1.45;color:var(--texto)}
+.ars-porque-rotulo{
+  display:block;margin:0 0 4px;font-family:var(--mono);font-size:11px;
+  letter-spacing:.08em;text-transform:uppercase;color:var(--texto-suave)
+}
+
+/* El pie va siempre abajo: en una fila, los botones de todas las
+   tarjetas quedan a la misma altura aunque el porqué sea más largo. */
+.ars-pie{margin-top:auto;display:flex;flex-direction:column;gap:10px}
+.ars-cta .ars-cta-ico{width:16px;height:16px;flex:none;fill:none;stroke:currentColor;stroke-width:2.4;stroke-linecap:round;stroke-linejoin:round}
+.ars-cta:focus-visible{outline:3px solid var(--celeste);outline-offset:3px}
+
+/* ---------- Las dos marcas ---------- */
+.ars-marcas{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.ars-marca{
+  min-height:44px;display:flex;align-items:center;justify-content:center;gap:6px;
+  padding:8px 10px;cursor:pointer;
+  font-family:var(--fuente-sub);font-weight:700;font-size:13.5px;line-height:1.1;
+  color:var(--texto);background:transparent;
+  border:1.5px solid color-mix(in srgb, var(--texto) 40%, transparent);
+  border-radius:var(--radio-pastilla);
+  -webkit-user-select:none;user-select:none;
+  transition:background var(--t-chico) ease, color var(--t-chico) ease, border-color var(--t-chico) ease
+}
+.ars-marca-ico{width:18px;height:18px;flex:none;fill:none;stroke:currentColor;stroke-width:2;stroke-linejoin:round;stroke-linecap:round}
+@media (hover:hover) and (pointer:fine){
+  .ars-marca:hover{background:var(--superficie-2)}
+}
+.ars-marca:active{transform:translate(1px, 1px)}
+.ars-marca:focus-visible{outline:3px solid var(--celeste);outline-offset:2px}
+
+.ars-marca.finde[aria-pressed="true"]{background:var(--texto);border-color:var(--texto);color:var(--fondo)}
+.ars-marca.finde[aria-pressed="true"] .ars-marca-ico{fill:currentColor}
+.ars-marca.sirvio[aria-pressed="true"]{border-color:var(--rojo)}
+.ars-marca.sirvio[aria-pressed="true"] .ars-marca-ico{fill:var(--rojo);stroke:var(--rojo)}
+
+.ars-marca.recien[aria-pressed="true"] .ars-marca-ico{animation:ars-salto 320ms var(--sale)}
+@keyframes ars-salto{
+  0%{transform:scale(.6)}
+  55%{transform:scale(1.22)}
+  100%{transform:scale(1)}
+}
+
+/* ---------- Cargando ---------- */
+.ars-esq-titulo{width:46%;height:22px;margin:26px 0 12px}
+.ars-esq-riel{display:flex;gap:14px;overflow:hidden;margin-right:-16px}
+.ars-esq-tarjeta{flex:0 0 var(--ars-ancho);height:440px;border-radius:var(--radio)}
+
+/* ---------- Los problemas del JSON (solo en la compu de quien prueba) ---------- */
+.ars-problemas{
+  margin:14px 0 4px;padding:12px 14px;font-size:var(--letra-nota);
+  background:var(--aviso-error);border:2px dashed var(--rojo);border-radius:var(--radio)
+}
+.ars-problemas small{display:block;color:var(--texto-suave)}
+.ars-problemas ul{margin:8px 0 0;padding-left:18px}
+.ars-problemas li + li{margin-top:4px}
+
+/* ---------- Pie de la pantalla ---------- */
+#vacio{margin-top:24px}
+.ars-sumar{
+  margin:34px 0 8px;padding-top:18px;border-top:1px solid var(--linea);
+  color:var(--texto-suave);font-size:var(--letra-nota)
+}
+.ars-sumar a{color:var(--texto);font-weight:700}
+
+/* ---------- El aviso de cada toque ---------- */
+/* Arriba del botón rojo de «Avisanos», que flota a 74 px del borde y
+   mide 56 (09-avisanos.css): a 92 px, en el teléfono, el botón le
+   tapaba el final a la frase. */
+.ars-aviso{
+  position:fixed;left:50%;bottom:calc(142px + env(safe-area-inset-bottom, 0px));z-index:40;
+  width:max-content;max-width:min(92vw, 420px);padding:12px 16px;
+  background:var(--negro);color:var(--sobre-negro);font-size:var(--letra-nota);line-height:1.35;
+  border:1px solid var(--linea-negro);border-radius:12px;box-shadow:var(--sombra);
+  opacity:0;pointer-events:none;transform:translate(-50%, 10px);
+  transition:opacity var(--t-chico) ease, transform var(--t-medio) var(--sale)
+}
+.ars-aviso.visible{opacity:1;transform:translate(-50%, 0)}
+
+@media (prefers-reduced-motion:reduce){
+  .ars-aviso{transition:none;transform:translate(-50%, 0)}
+  .ars-marca.recien[aria-pressed="true"] .ars-marca-ico{animation:none}
+  .ars-tarjeta.pedida{animation:none;box-shadow:0 0 0 4px var(--celeste), var(--sombra)}
+  .ars-marca:active{transform:none}
+}

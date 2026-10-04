@@ -80,7 +80,7 @@ quien conteste.
 |---|---|---|
 | 1 | ✅ **El reloj de los avisos**, 27/9. Corre cada hora. Falta un secreto y no lo puede cargar Claude: ver abajo | Sin esto no avisa nada, y las tres sesiones que siguen se apoyan acá |
 | 2 | ✅ **Buzón: la pantalla pública** (era S2), 27/9. Está en `decilo/`, publicada y sin enlazar | Es la pieza central |
-| 3 | **La bandeja de comunicación** (era S3). Recién acá se enlaza el buzón desde Inicio | Un buzón sin quien conteste es peor que no tener buzón: el tablero público muestra «recibido» para siempre |
+| 3 | **La bandeja de comunicación** (era S3). Recién acá se enlaza el buzón desde Inicio. La bandeja, hecha el 30/9 en `cargar/?ver=buzon`; **falta enlazar el buzón** (ver abajo) | Un buzón sin quien conteste es peor que no tener buzón: el tablero público muestra «recibido» para siempre |
 | 4 | **Aviso al autor cuando su pedido cambia de estado** (la mitad de S4) | Es lo que convierte pedidos en avisos prendidos |
 | 5 | ✅ **La tarjeta para historias** (era S5), 27/9. Se adelantó: es la única que no esperaba material de nadie | La única palanca de alcance que es código |
 
@@ -202,6 +202,49 @@ botón aparece con el texto justo, la imagen se arma, y compartir devuelve
 «descargada» con el archivo `mi-avance-12-de-31.png`. **Falta un teléfono de
 verdad** para ver el menú de compartir de Android y de iPhone, que es lo
 único que no existe en este entorno.
+
+**La sesión 3, la bandeja, hecha el 30/9 (sin enlazar todavía el buzón).**
+**No quedó en el panel, como decía el encargo, sino en `cargar/`**, como una
+pestaña «Buzón» al lado de «Cargar»: el 30/9 se decidió que el rol
+`comunicacion` no entra al panel, y `cargar/` ya era su pantalla, pensada
+para el celular. Máximo eligió esa opción. El panel suma un renglón
+«Buzón» en Herramientas del equipo, con lo que hay sin contestar y el
+botón que lleva a `cargar/?ver=buzon`.
+
+Lo que hace: cuatro filtros con su número (sin contestar, en gestión,
+resueltos, descartados), lo sin contestar **del más viejo al más nuevo**
+y, pasadas las 36 horas, «lleva N horas sin respuesta». Cada pedido se
+contesta en la misma tarjeta: en qué quedó (en gestión, resuelto,
+descartar, con una línea que explica qué significa cada uno en el
+tablero), la respuesta, y «publicarlo en el tablero», que se apaga solo al
+descartar. El botón dice «Guardar y publicar» cuando publica, para que no
+se publique sin darse cuenta. Sin CSS nuevo: `.pestanas`, `.modulo`,
+`.espacio-estado`, `.chips`, `.campo`.
+
+**Las respuestas ya escritas son un borrador de Claude**, con
+`marca/VOZ.md`, porque las del equipo no llegaron: ocho, en la constante
+`RESPUESTAS` de `cargar/index.html`, marcadas como borrador. Las que
+necesitan un dato llevan [corchetes], y la bandeja **no deja guardar
+mientras quede uno**, porque se publicaría tal cual. Tocar una no pisa lo
+escrito a mano sin preguntar.
+
+Dos cosas que la pantalla dice porque la base no las muestra: **si el
+autor pidió aviso, se aclara que todavía no sale solo** (es la sesión 4),
+y al guardar se pide la fila de vuelta, porque una cuenta sin permiso
+recibe «listo» de la base sin que se toque nada.
+
+**Probado** a 375 px con la base simulada: el orden, el aviso de las 36
+horas, que no deje guardar sin estado ni con corchetes, guardar y
+publicar, descartar (publicar queda apagado y deshabilitado), «Cambiar»
+un pedido en gestión (trae el estado y la respuesta), no pisar lo
+escrito, el contador de la pestaña y las flechas del teclado entre
+pestañas. Sin errores en la consola ni desborde. **Falta** probarla con
+una cuenta de verdad del rol `comunicacion`, en un teléfono.
+
+**Lo que falta para cerrar la sesión 3 es enlazar el buzón** desde Inicio
+y desde Avisanos, y es la última vez que se puede cambiar el nombre de
+`decilo/` sin romper nada. Es de Máximo decidir cuándo: una vez
+enlazado, se publica.
 
 **La revisión de las tres sesiones (27/9, al cerrar).** Como las tres se
 hicieron sin nadie del otro lado, se les pasó `/code-review` a fondo. Salieron
@@ -749,7 +792,8 @@ sobre los otros. Ahora mandan así, y no se abre un quinto:
 | 30/9 | **Propuesta 3, tanda 1: categorías y avisos que salen solos (v77).** `publicaciones` suma `categoria` (paro, grupo, actividad, fecha, comunicado), `materia`, `suspendido`, `publicado_at` y `cambiado_at`; las marcas las pone un disparador y un `check` impide que la categoría contradiga al tipo. **Los paros se publican directo** desde `cargar/` (decisión del 30/9), que suma «Una actividad» y la lista «Lo que cargaste» para editar, suspender o publicar lo propio; la base deja tocar solo lo de `creado_por`. La función `avisos` (v10) manda por canal (paros, grupos, actividades) **al publicarse, a la mañana del día y si cambia o se suspende**, este último solo a quien ya había recibido algo de esa publicación; nada suena dos veces (`tambien`). Los grupos van a quien tiene esa materia marcada o en su cursada; sin ninguna, a todos. Fechas: puntos por categoría, el paro pinta el día entero, filtros por categoría, lo suspendido tachado y «Cambió» por tres días. Perfil: un interruptor por canal y elección de materias. SQL **aplicado en producción** y probado con una transacción deshecha; la lógica de avisos, probada en Node con cinco casos. Detalle en `docs/PROPUESTAS.md` (propuesta 3). | `—` |
 | 30/9 | **Propuesta 3, tanda 2: la campana como bandeja y la tarjeta «Hoy» (v78).** La campana deja de ser la lista de las últimas diez y pasa a tener **Hoy, Esta semana, Cambios y Nuevo**; cada publicación va una vez y lo que ya pasó no va. **Lo leído va por aviso y no por publicación** (`pub:ID:nueva`, `pub:ID:cambio:<ms>`, `pub:ID:hoy:<fecha>`): el globo tiene algo que decir el día del paro aunque el paro se haya leído al publicarse, y vuelve a sonar si un grupo cambia de aula. Con cuenta, lo leído se junta en **`campana_leidas`** (`sql/tabla-campana.sql`, **aplicado** y probado con dos cuentas en una transacción deshecha), solo en las pantallas con la librería grande. Tabla propia y no columna de `preferencias`: una fila creada por la campana le apagaba a Fechas el modo parciales. En el inicio, **la tarjeta «Hoy»** reemplaza al renglón de lo próximo cuando hoy pasa algo o la persona tiene clases: roja si hay paro, «Tu materia» en los grupos suyos, y lo próximo abajo. Las clases salen de una **copia liviana de la cursada** que dejan Fechas y Perfil en el teléfono, porque el inicio no tiene sesión; se borra al cerrar sesión. `lib/datos.js` suma `or`. «Lo que marcaste Voy» pasa a la tanda 3. **De paso:** la ilustración del patio del fondo del inicio no se veía desde el 27/9 (ruta relativa rota al repartir los estilos). Probado: 15 casos en Node de lo leído y la sincronización (con la hora de Argentina), y el inicio real a 390 px en claro y oscuro con las consultas a Supabase respondidas con datos de ejemplo: con paro, grupo y clases, y sin nada hoy (vuelve el renglón). | `—` |
 | 30/9 | **El calendario del mes se rehizo, y el del inicio pasó a ser el mismo (v79).** Máximo mandó una captura de Fechas: cada período largo («Desarrollo de seminarios», del 18/8 al 21/11) rayaba todas las semanas y con varios a la vez no se entendía nada. Se buscaron referencias de calendarios de teléfono y se tomó lo que coincide: la grilla es para ubicarse y el detalle va en la lista; **puntos** para lo de un día, una **banda suave** (el rango de Material) para lo que dura de 2 a 10 días, y lo más largo va abajo en **«Todo el mes»** con hasta cuándo dura. El paro sigue pintando el día. **Decisión: los dos calendarios marcan lo mismo**, así que el del inicio dejó su código propio (solo mesas y asuetos) y usa `montarCalendario`; Fechas suma las opciones. Las flechas del teclado pasaron al calendario compartido. **Datos corregidos en producción:** tres «Grupo de estudio» cargados con la línea gremial habían quedado como paros (el disparador ahora mira el título primero), y «Paro Docente 72 horas», cargado como novedad, pasó a paro con el visto bueno de Máximo (sale el aviso del día). Probado con un calco de los datos reales de septiembre, a 390 px, claro y oscuro. | `—` |
-| 30/9 | **Tanda 3 de la propuesta 3: «Voy» y «Me anoto» (v80).** Las sesiones en la nube se quedaron sin tokens y la terminó una sesión local: primero se unió el PR #5 (tandas 1 y 2, v79 en producción), después se aplicó `sql/tabla-anotados.sql` con 22 pruebas antes y se armó `lib/voy.js`, la caja de «Voy» en el detalle de Fechas, las pestañas Días y Mío, el paro cruzado con la cursada, «Dijiste que vas» en el inicio y los contadores en `cargar/`. La función `avisos` v11 (avisarle a quien marcó «Voy» aunque tenga la categoría apagada) quedó escrita y sin subir: la subida a producción la autoriza Máximo. Detalle en `docs/PROPUESTAS.md`, propuesta 3 | — |
+| 30/9 | **Tanda 3 de la propuesta 3: «Voy» y «Me anoto» (v80).** Las sesiones en la nube se quedaron sin tokens y la terminó una sesión local: primero se unió el PR #5 (tandas 1 y 2, v79 en producción), después se aplicó `sql/tabla-anotados.sql` con 22 pruebas antes y se armó `lib/voy.js`, la caja de «Voy» en el detalle de Fechas, las pestañas Días y Mío, el paro cruzado con la cursada, «Dijiste que vas» en el inicio y los contadores en `cargar/`. La función `avisos` v11 (avisarle a quien marcó «Voy» aunque tenga la categoría apagada) quedó escrita ese día y se subió el 30/9 a las 10:31, con el visto bueno de Máximo. Detalle en `docs/PROPUESTAS.md`, propuesta 3 | — |
+| 30/9 → 3/10 | **Salud mental, El Arsenal y la bandeja del Buzón (v82).** Se hicieron el 30/9 a la mañana y quedaron sin subir hasta el 3/10. **Salud mental** (`salud-mental/`, hoja `css/pantallas/salud-mental.css`, que carga también `tramites.css` para los acordeones): el 0800 y el 135 escritos en el HTML para que se vean sin JavaScript, el servicio gratuito de la UNLP, 8 líneas, 12 lugares con filtros y la hoja de cada uno, y los derechos de la Ley 26.657. Datos escritos en la pantalla, como Espacios, y no en Supabase. En el inicio **ocupa el lugar de «Certificados»** (la categoría 4 sigue en Info útil; lo eligió Máximo) y desde el 3/10 está en el índice del pie y en el buscador del inicio. **El Arsenal** (`estudiemos/arsenal/`): libros, artículos y pelis con el porqué, marcas «Para el finde» y «Me sirvió» guardadas en el teléfono, la lista en `datos.json` que se edita a mano (instructivo en `COMO-SUMAR.md`), y su tarjeta en Estudiemos. `sw.js` pide esa carpeta primero a la red (v82, ver `docs/HISTORIAL-SW.md`). **La bandeja del Buzón**: ver «La sesión 3» más arriba. **Antes de publicar se le pasó una revisión con verificación de cada hallazgo (3/10)** y se corrigió: siete datos de Salud mental contra las fuentes oficiales (la UNLP es 47 N° 380 y los turnos, martes de 14 a 17 y jueves de 9 a 12; el 135 atiende de 8 a 24 y desde La Plata va el 0800 345 1435; los teléfonos del San Martín eran los de la Dirección; Larrain 4435; Diagonal 114; Elina de la Serna 8 N° 483 con los teléfonos de la Región Sanitaria XI; Colegio de Psicólogos, Distrito XI), la clase `.urgente` de Salud mental que pisaba la alerta de la mesa y los paros de la campana (ahora `salud-urgente`), el Arsenal colgado con señal floja la primera vez, y en la bandeja: Descartar ya no despublica sin avisar, no se pierde una respuesta a medio escribir, y el panel no dice «no hay pedidos» cuando la consulta falla. **Queda para Máximo:** confirmar llamando el 0800-333-4111 que el recursero daba para el Elina de la Serna (se sacó por no aparecer en ninguna fuente) y el horario del 0800-222-5462 de Provincia, que anunció el 8/9 que pasaría a 24 horas. | — |
 
 **Ojo con lo de las materias libres.** El listado sale de un documento que se
 llama, textualmente, «**Propuesta** de materias libres … para agregar al régimen

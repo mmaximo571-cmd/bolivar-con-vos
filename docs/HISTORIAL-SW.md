@@ -417,4 +417,22 @@ todo una entrada con el número, la fecha y el porqué.
    la hoja y la lógica viejas. Al unirla, las 17 páginas cambiaron el
    `estilos.css` que ya no existe por las hojas de `css/` y suman
    `lib/mudanza.js`, como el resto desde el 27/9. */
+/* v82 (30/9/2026) El Arsenal (`estudiemos/arsenal/`). No cambia el
+   armazón: cambia CÓMO se sirve lo de esa carpeta. Su lista,
+   `datos.json`, la edita la agrupación a mano en GitHub, y con la regla
+   del final (lo guardado primero) un material recién sumado no aparecía
+   hasta la visita siguiente: lo mismo que pasó con `videos.js` (v61). A
+   diferencia de los videos, esto SÍ se guarda, porque el Arsenal y la
+   lista del finde tienen que abrir sin señal. Así que todo lo de la
+   carpeta que no es la pantalla (el JSON, `arsenal.js`, `marcas.js`,
+   `arsenal.css`, las portadas) va como las pantallas: primero la red,
+   a los 6 s lo guardado. Se sube el número porque cambia el propio
+   `sw.js` y conviene que el nuevo tome el control en la visita
+   siguiente, no cuando el navegador quiera.
+   Antes de publicarla (3/10), dos cosas más entran en la misma v82:
+   los 6 s pasan a ser para ir a lo guardado y no para rendirse (si no
+   hay copia, se sigue esperando a la red; cortar dejaba la pantalla en
+   «Cargando el Arsenal…» con señal floja), y `app.js`, que está en el
+   armazón, suma Salud mental a `INDICE_PIE`: el buscador del inicio no
+   la encontraba. */
 ```

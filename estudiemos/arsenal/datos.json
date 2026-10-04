@@ -1,0 +1,72 @@
+{
+  "_leeme": "Para sumar un material, copiá un bloque de \"materiales\", pegalo abajo del último y cambiale todo. Las reglas (y las tres cosas que rompen este archivo) están en COMO-SUMAR.md, en esta misma carpeta.",
+
+  "biblioteca": {
+    "nombre": "Catálogo de las Bibliotecas UNLP",
+    "buscar": "https://catalogo.bibliotecas.unlp.edu.ar/Search/Results?type=AllFields&lookfor={q}"
+  },
+
+  "disciplinas": [
+    { "id": "trabajo-social",     "nombre": "Trabajo Social",       "carreras": ["ts"] },
+    { "id": "fonoaudiologia",     "nombre": "Fonoaudiología",       "carreras": ["fono"] },
+    { "id": "cultura-territorio", "nombre": "Cultura y Territorio", "carreras": ["tgcr"] }
+  ],
+
+  "filas": [
+    { "id": "para-la-cursada",      "titulo": "Para la cursada",      "bajada": "Lo que te ordena una materia o un campo antes del parcial o del TP." },
+    { "id": "antes-de-la-practica", "titulo": "Antes de la práctica", "bajada": "Para llegar al barrio, la escuela o el hospital sabiendo con qué mirada entrás." },
+    { "id": "sin-apuro",            "titulo": "Sin apuro",            "bajada": "Pelis, discos y lecturas para cuando no hay parcial a la vista." }
+  ],
+
+  "tipos": {
+    "libro":    { "nombre": "Libro",    "boton": "Buscar en Biblioteca", "portada": "amarillo" },
+    "articulo": { "nombre": "Artículo", "boton": "Leer PDF",             "portada": "papel" },
+    "revista":  { "nombre": "Revista",  "boton": "Leer online",          "portada": "papel" },
+    "ensayo":   { "nombre": "Ensayo",   "boton": "Leer",                 "portada": "amarillo" },
+    "pelicula": { "nombre": "Película", "boton": "Ver película",         "portada": "negro" },
+    "corto":    { "nombre": "Corto",    "boton": "Ver corto",            "portada": "negro" },
+    "disco":    { "nombre": "Disco",    "boton": "Escuchar",             "portada": "negro" }
+  },
+
+  "materiales": [
+    {
+      "id": "ts-campos-de-intervencion",
+      "titulo": "El trabajo social en diferentes campos de intervención profesional",
+      "autoria": "Margarita Rozas Pagaza y Mariana Gabrinetti (coords.)",
+      "anio": "2016",
+      "tipo": "libro",
+      "disciplinas": ["trabajo-social"],
+      "fila": "para-la-cursada",
+      "porque": "Si todavía no tenés claro dónde labura une trabajadore social, este libro te lo baja a tierra: comunidad, salud, discapacidad, justicia penal juvenil y educación, cada uno con su capítulo. Lo escribieron docentes de cuatro cátedras de la facultad. Leelo salteado: arrancá por el campo donde te toca la práctica.",
+      "dato": "Libro de Cátedra · unas 100 págs.",
+      "boton": { "texto": "Ver en SEDICI", "url": "https://sedici.unlp.edu.ar/handle/10915/56855" },
+      "sumado": "2026-09-30"
+    },
+    {
+      "id": "fono-medicalizacion-sordos",
+      "titulo": "La medicalización histórica de los sordos en Argentina como disciplinamiento social",
+      "autoria": "María Inés Rey y Roberto R. Ringuelet",
+      "anio": "2015",
+      "tipo": "articulo",
+      "disciplinas": ["fonoaudiologia"],
+      "fila": "antes-de-la-practica",
+      "porque": "Si vas a trabajar con personas sordas, este artículo te hace revisar de dónde sale la idea de que la sordera es algo a corregir, y qué hizo el oralismo en las escuelas. Te lo pasamos para discutirlo en la cursada y en la práctica: por qué la LSA es una lengua y no un parche.",
+      "dato": "Revista de Psicología UNLP · 18 págs.",
+      "boton": { "texto": "Ver en SEDICI", "url": "https://sedici.unlp.edu.ar/handle/10915/51943" },
+      "sumado": "2026-09-30"
+    },
+    {
+      "id": "diagnostico-esperanza",
+      "titulo": "Diagnóstico esperanza",
+      "autoria": "César González",
+      "anio": "2013",
+      "tipo": "pelicula",
+      "disciplinas": ["cultura-territorio", "trabajo-social"],
+      "fila": "antes-de-la-practica",
+      "porque": "César González la filmó en la villa Carlos Gardel, su barrio, en Morón, para que la villa se cuente desde adentro y no desde el noticiero. Mirala antes de salir a territorio: sirve para revisar con qué mirada entrás y para discutir estigma y representación. Es para mayores de 16: si la vas a pasar en un taller, mirala antes.",
+      "dato": "85 min · +16",
+      "boton": { "texto": "Ver película", "url": "https://www.youtube.com/watch?v=UHuzD-i1JW0" },
+      "sumado": "2026-09-30"
+    }
+  ]
+}

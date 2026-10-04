@@ -447,6 +447,10 @@
       que:'Los posteos que se muestran en la portada. Se cargan a mano: la agrupación elige cuál va.',
       enlace:'../', donde:'la portada' },
 
+    { p:'buzon', grupo:'equipo', emoji:'📮', nombre:'Buzón',
+      que:'Los pedidos que llegan a Decilo: se contestan, se publican o se descartan. La bandeja está en Cargar, pensada para el celular.',
+      enlace:'../decilo/', donde:'Decilo' },
+
     { p:'avisanos', grupo:'equipo', emoji:'💬', nombre:'Avisanos',
       que:'Lo que el chat no supo contestar, y los contactos a los que deriva cuando no sabe.',
       enlace:'../', donde:'el chat, en toda la app' },
@@ -491,7 +495,7 @@
 
     <div class="panel-marco">
       <nav class="panel-indice" aria-label="Secciones del panel">
-        <!-- Con el índice abierto en la computadora son catorce
+        <!-- Con el índice abierto en la computadora son quince
              paradas de tabulador antes del contenido. Este enlace las
              saltea; no se ve hasta que se lo enfoca. -->
         <a class="saltar" href="#obra-titulo">Saltar al contenido de la sección</a>
@@ -3532,6 +3536,31 @@
   }
 
   /* ============================================================ */
+  /* ============================================================
+     BUZÓN
+
+     La bandeja vive en `cargar/?ver=buzon` y no acá: la usa el rol
+     `comunicacion`, que no entra al panel (decisión del 30/9/2026), y
+     se contesta desde el celular. Esto es la puerta, para que el equipo
+     la encuentre desde donde ya trabaja.
+     ============================================================ */
+  async function vistaBuzon(){
+    const { count, error } = await db.from('buzon_pedidos')
+      .select('id', { count:'exact', head:true }).eq('estado', 'recibido');
+    /* Si la consulta falla, `count` llega vacío y decía «No hay pedidos
+       sin contestar»: una tranquilidad falsa justo en lo que mide la
+       meta de las 48 horas. */
+    zona.innerHTML = `
+      <div class="ficha">
+        <p style="margin-top:0">${error
+          ? 'No pudimos contar los pedidos sin contestar. Abrí la bandeja para verlos. '
+          : count
+          ? `<strong>${count} ${count === 1 ? 'pedido sin contestar' : 'pedidos sin contestar'}.</strong> `
+          : 'No hay pedidos sin contestar. '}La meta es contestar todo en menos de 48 horas.</p>
+        <a class="boton ancho" href="../cargar/?ver=buzon">Abrir la bandeja</a>
+      </div>`;
+  }
+
   function dibujar(){
     pintarCabeza();
     cajaAvisos.innerHTML = '';
@@ -3543,7 +3572,7 @@
        materiales:vistaMateriales, guia:vistaGuia, avisanos:vistaAvisanos,
        quienes:vistaQuienes, consejo:vistaConsejo, registro:vistaRegistro,
        categorias:vistaCategorias, catedras:vistaCatedras, riesgo:vistaRiesgo,
-       instagram:vistaInstagram }[actual])())
+       instagram:vistaInstagram, buzon:vistaBuzon }[actual])())
       /* SI LA VISTA SE CAE, QUE LO DIGA.
          Cuando una vista se rompe a mitad de camino —un archivo que no
          cargó, una tabla que no está— la promesa quedaba rechazada en

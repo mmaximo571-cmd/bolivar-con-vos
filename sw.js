@@ -21,7 +21,7 @@
    lista, porque acá abajo se sirve lo guardado antes que la red.
    Por qué subió cada número (v4 en adelante): `docs/HISTORIAL-SW.md`.
    Al subirlo, anotar ahí el número, la fecha y el porqué. */
-const VERSION = 'bolivar-v81';
+const VERSION = 'bolivar-v82';
 const ARMAZON = VERSION + '-armazon';
 const PAGINAS = VERSION + '-paginas';
 
@@ -231,6 +231,42 @@ self.addEventListener('fetch', evento => {
   if (pedido.destination === 'video' || pedido.headers.has('range') ||
       /\.(mp4|webm|mov)$/i.test(url.pathname) ||
       (pedido.mode !== 'navigate' && url.pathname.indexOf('/estudiemos/videos/') === 0)) return;
+
+  /* El Arsenal (v82): su lista, datos.json, la edita la agrupación a
+     mano, y servida de lo guardado un material recién sumado no
+     aparecía hasta la visita siguiente (lo mismo que videos.js). Pero a
+     diferencia de los videos, SÍ se guarda: sin señal, el Arsenal y la
+     lista del finde tienen que abrir. Todo lo de la carpeta va como las
+     pantallas, primero la red; lo que no es pantalla, si falla, no cae
+     en sin-conexion.html: un JSON que llega como HTML rompe peor.
+     LOS 6 SEGUNDOS SON PARA IR A LO GUARDADO, NO PARA RENDIRSE: si a
+     los 6 s no hay copia (la primera visita con señal floja), se sigue
+     esperando a la red. Cortar ahí dejaba arsenal.js sin correr y la
+     pantalla en «Cargando el Arsenal…» para siempre. El 504 queda solo
+     para cuando la red falla de verdad y no hay copia. */
+  if (pedido.mode !== 'navigate' && url.pathname.indexOf('/estudiemos/arsenal/') === 0){
+    evento.respondWith((async () => {
+      const red = fetch(pedido).then(r => {
+        if (r.ok){
+          const copia = r.clone();
+          caches.open(PAGINAS).then(c => c.put(pedido, copia));
+        }
+        return r;
+      });
+      try {
+        return await Promise.race([
+          red,
+          new Promise((_, no) => setTimeout(() => no(new Error('lenta')), 6000))
+        ]);
+      } catch(e){
+        const guardada = await caches.match(pedido, { ignoreSearch:true });
+        if (guardada) return guardada;
+        try { return await red; }
+        catch(err){ return new Response('', { status:504 }); }
+      }
+    })());
+    return;
+  }
 
   /* Las pantallas: primero la red, y si no hay, la última que vimos.
      Así el contenido siempre está fresco cuando se puede. */

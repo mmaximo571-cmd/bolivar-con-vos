@@ -1592,7 +1592,9 @@ setTimeout(function(){
     /* La 8, «Dónde curso», entra siempre: desde el 18/9/2026 lleva a su
        pantalla propia (`donde-curso/`), que tiene contenido aunque la
        categoría de Info útil esté vacía. */
-    const conContenido = categorias.filter(c => c.id === 8 ||
+    /* La 4, «Certificados», también entra siempre, pero no como ella:
+       su lugar es el de Salud mental (ver más abajo). */
+    const conContenido = categorias.filter(c => c.id === 8 || c.id === 4 ||
       tramites.some(t => t.categoria_id === c.id) ||
       preguntas.some(p => p.categoria_id === c.id));
 
@@ -1613,19 +1615,35 @@ setTimeout(function(){
                        bajada:'Buffet y fotocopiadora',
                        url:'espacios/' };
     const yaTieneCatedras = propias.some(p => p.url === 'catedras/');
-    const categoriasQueEntran = conContenido
-      .filter(c => !(yaTieneCatedras && c.id === 9))
-      .slice(0, 7 - propias.length);
+    const enFila = conContenido.filter(c => !(yaTieneCatedras && c.id === 9));
+
+    /* SALUD MENTAL OCUPA EL LUGAR DE «CERTIFICADOS» (30/9/2026, lo
+       eligió Máximo): la 4 sale de la grilla y sigue en Info útil. Es
+       una pantalla propia, no una categoría, así que no puede depender
+       de que haya categorías: entra siempre, también en la primera
+       visita sin red, y el recorte de abajo no la saca nunca. Queda
+       donde iba la 4 y, si la 4 cayera fuera de los nueve, en el
+       último lugar antes de Espacios. */
+    const saludMental = { dibujo: icono('ayuda') || '🛟',
+                          nombre:'Salud mental',
+                          bajada:'Líneas, hospitales y tus derechos',
+                          url:'salud-mental/' };
+    const cupo = 7 - propias.length;
+    const puertas = enFila.filter(c => c.id !== 4).slice(0, cupo - 1)
+      .map(c => ({
+        dibujo: iconoDeCategoria(c), nombre: c.nombre,
+        bajada: bajadaDeCategoria(c),
+        url: c.id === 8 ? 'donde-curso/' : 'tramites/?categoria=' + c.id
+      }));
+    const donde = enFila.findIndex(c => c.id === 4);
+    puertas.splice(donde === -1 ? puertas.length : Math.min(donde, puertas.length),
+                   0, saludMental);
 
     const accesos = [{ dibujo: icono('carrera') || '🎓',
                        nombre:'Mi año',
                        bajada:'Qué podés cursar y promocionar',
                        url:'carrera/', destacado:true }].concat(propias,
-      categoriasQueEntran.map(c => ({
-        dibujo: iconoDeCategoria(c), nombre: c.nombre,
-        bajada: bajadaDeCategoria(c),
-        url: c.id === 8 ? 'donde-curso/' : 'tramites/?categoria=' + c.id
-      })), espacios);
+      puertas, espacios);
 
     /* La flecha y la bajada van siempre en el HTML; en el celular el
        CSS las esconde, porque en un cuadro de 100 px no entran. */
@@ -2017,7 +2035,8 @@ setTimeout(function(){
     quienes:    'quienes somos agrupacion simon bolivar contacto avisanos escribinos consejo',
     catedras:   'catedras mails mail contacto profesores titular equipo docente correo',
     glosario:   'glosario vocabulario palabras que significa que es diccionario',
-    trayecto:   'trayecto optativo tramo 120 horas actividades acreditar seminarios optativos 255'
+    trayecto:   'trayecto optativo tramo 120 horas actividades acreditar seminarios optativos 255',
+    'salud-mental': 'salud mental psicologo psicologa psicologia terapia angustia ansiedad ayuda urgencia hospital guardia 0800 135 suicidio ley 26657 derechos'
   };
 
   /* ---------- Las cátedras, recién cuando hace falta ----------
