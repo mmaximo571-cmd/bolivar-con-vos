@@ -435,4 +435,15 @@ todo una entrada con el número, la fecha y el porqué.
    «Cargando el Arsenal…» con señal floja), y `app.js`, que está en el
    armazón, suma Salud mental a `INDICE_PIE`: el buscador del inicio no
    la encontraba. */
+/* v83 (4/10/2026) La época de parciales (propuesta 4). `app.js`, que
+   está en el armazón, suma el hito «abrió una ficha» (se anota al tocar
+   el link, porque las fichas dibujadas no cargan `app.js`). Lo demás es
+   de una sola pantalla y no va a la lista: `estudiemos/parciales.js`
+   (nuevo, la tira arriba de Estudiemos), `estudiemos/estudiemos.css`
+   (sus atajos), `estudiemos/pomodoro.js` (el hito «terminó un
+   pomodoro») y Fechas (el hito «prendió época de parciales», `?cat=` en
+   el link, y la fecha en la clave `bolivar-enfoque` para que la cuenta
+   no pise lo que se prendió desde Estudiemos). Se sube para que el
+   `app.js` nuevo y esos guiones, que salen de lo guardado, lleguen en
+   la visita siguiente. */
 ```

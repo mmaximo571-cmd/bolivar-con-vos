@@ -217,6 +217,21 @@ function anotarHito(nombre){
   anotar('hito', n);
 }
 
+/* «Abrio una ficha» (4/10/2026). Las fichas dibujadas no cargan
+   app.js, asi que no lo pueden anotar ellas: se anota al tocar el
+   link, desde donde sea (la portada de Estudiemos, el indice de
+   fichas, el buscador, «Segui donde dejaste»). El indice solo no
+   cuenta: abrirlo no es abrir una ficha. Sin esto, el reel de
+   parciales se veia como visitas y no como gente estudiando. */
+document.addEventListener('click', function(ev){
+  try {
+    const a = ev.target.closest && ev.target.closest('a[href]');
+    if (!a) return;
+    if (/\/estudiemos\/fichas\/[^/?#]/.test(new URL(a.href, location.href).pathname))
+      anotarHito('abrió una ficha');
+  } catch(e){ /* un link raro no tiene que romper el toque */ }
+});
+
 /* De que link vino. Es un dato del LINK, no de la persona: lo pone
    la campaña en la direccion (`?de=historia-carreras`) y sirve para
    saber que publicacion funciono. Se limpia a mano porque va

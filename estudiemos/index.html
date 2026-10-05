@@ -102,6 +102,10 @@
        herramientas, el riel mostraba una y media y escondía el resto.
        El orden de los modos lo pone portada.js según la carrera. -->
   <div id="portada">
+    <!-- LA ÉPOCA DE PARCIALES (4/10/2026). Hasta el 21/11, lo primero:
+         el interruptor de Fechas y sus atajos. Es donde cae el reel de
+         parciales. La llena parciales.js; después del 21/11 se saca. -->
+    <section id="parciales" aria-label="Época de parciales" hidden></section>
     <section id="seguir" aria-label="Seguí donde dejaste"></section>
 
     <!-- EL POMODORO (20/9). Va pegado a «Seguí donde dejaste» porque
@@ -285,6 +289,7 @@
      prolijidad: son independientes, no se llaman entre ellos. -->
 <script src="pomodoro.js"></script>
 <script src="portada.js"></script>
+<script src="parciales.js"></script>
 <script>
 (async function estudiemos(){
 

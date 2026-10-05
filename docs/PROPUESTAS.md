@@ -29,6 +29,7 @@ discutirla en tres meses.
 | 1 | Carga fácil de paros y grupos de estudio | chico-mediano | hecha, falta correr el SQL |
 | 2 | Anotarse a un grupo de estudio | chica | hecha en la tanda 3 de la 3 (30/9) |
 | 3 | Calendario y avisos: que se revisen todos los días | grande, en tres tandas | hecha: las tres tandas y la función `avisos` v11 en producción (30/9) |
+| 4 | Época de parciales en Estudiemos (va con el reel) | chica | hecha el 4/10 (v83), falta publicar |
 
 ## Las propuestas
 
@@ -500,6 +501,37 @@ si la gente se anota.
 - **Grupos de mis materias sin cuenta.** Sin sesión no hay `cursada`:
   la materia se elige a mano en la tarjeta de avisos y se guarda en la
   suscripción, no en el teléfono.
+
+### 4. Época de parciales en Estudiemos
+
+- **Qué:** una tira arriba de Estudiemos, hasta el cierre del 2.º
+  cuatrimestre, con el interruptor «Época de parciales» y dos atajos: los
+  grupos de estudio de Fechas y las fichas de tu carrera. Más
+  tres hitos de estudio: «prendió época de parciales», «terminó un
+  pomodoro» y «abrió una ficha».
+- **Por qué:** se vienen los parciales y la gente no vuelve a estudiar: la
+  semana del 27/9 al 3/10 Estudiemos y sus pantallas tuvieron 195 visitas
+  de 1.577 (12 %). El interruptor existe
+  pero está escondido en las opciones de Fechas. Y no hay ningún hito de
+  estudio: si el reel de `marca/REEL-PARCIALES.md` funciona, hoy solo se
+  vería como visitas, no como gente estudiando. La tira es donde cae el
+  link del reel.
+- **Dónde toca:** `estudiemos/index.html` y `estudiemos/portada.js` (la
+  tira), `css/pantallas/estudiemos.css`; el interruptor comparte la clave
+  `bolivar-enfoque` con `agenda/index.html`, así que prenderlo en un lado lo
+  prende en el otro. Hitos con `anotarHito()` de `app.js`: en el
+  interruptor de los dos lados, al terminar una fase de foco en
+  `estudiemos/pomodoro.js` (`terminar()`), y al tocar una ficha en el
+  índice o en la portada, porque las fichas dibujadas no cargan `app.js`.
+  Subir `VERSION` de `sw.js`.
+- **Tamaño:** chica (una sesión).
+- **Estado:** hecha el 4/10/2026 (v83), sin publicar. Detalle en `BITACORA.md`.
+
+Notas: la tira se esconde sola después del 21/11 (cierre de clases del
+2.º cuatrimestre, cargado en Fechas) para no quedar vieja. En la tira, el
+interruptor con `typeof` antes de llamar a lo de `app.js`, por si llega
+el viejo del caché. Los grupos de estudio los carga el equipo desde el
+panel: sin grupos, el atajo lleva a una lista vacía y conviene esconderlo.
 
 ---
 

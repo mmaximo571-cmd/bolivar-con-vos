@@ -134,7 +134,13 @@
      ahí no se hace sonar nada horas después, solo se cuenta. */
   function terminar(callado){
     const era = p.fase;
-    if (era === 'foco'){ p.hechos++; p.hoy++; }
+    if (era === 'foco'){
+      p.hechos++; p.hoy++;
+      /* El hito cuenta también el que terminó con la pantalla cerrada:
+         es un foco que pasó, igual que en el número de abajo. Uno por
+         visita, como todos los hitos. */
+      if (typeof anotarHito === 'function') anotarHito('terminó un pomodoro');
+    }
     const sigue = era === 'foco' ? (p.hechos % 4 === 0 ? 'largo' : 'corto') : 'foco';
     p.fase = sigue;
     p.corriendo = false;

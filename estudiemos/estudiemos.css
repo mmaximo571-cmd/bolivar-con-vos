@@ -352,6 +352,23 @@
   .hoja-pomodoro .hoja-manija::before{ display:none; }
 }
 
+/* ---------- La época de parciales (4/10/2026, parciales.js) ----------
+   La tarjeta es la `.enfoque` de Fechas, a propósito: el mismo
+   interruptor tiene que verse igual en las dos pantallas, para que el
+   reel muestre uno y se encuentre el mismo. Lo único propio son los
+   atajos, que van siempre a la vista: en Fechas lo de abajo se
+   despliega al prender, pero acá sirven igual con la tira apagada. */
+.est-parciales{ margin:16px 0 0; }
+.est-parciales-atajos{ list-style:none; margin:0; padding:0 14px 2px; }
+.est-parciales-atajos a{
+  display:grid; grid-template-columns:1fr auto; gap:12px; align-items:center;
+  padding:12px 0; border-top:1px solid var(--linea); color:var(--texto); text-decoration:none;
+}
+.est-parciales-atajos .nombre{ display:block; font-weight:500; font-size:15px; }
+.est-parciales-atajos .mas{ display:block; font-size:12.5px; line-height:1.35; color:var(--texto-suave); margin-top:2px; }
+.est-parciales-atajos svg{ width:18px; height:18px; stroke:currentColor; fill:none; stroke-width:2; color:var(--texto-suave); }
+.est-parciales-atajos a:focus-visible{ outline:3px solid var(--amarillo); outline-offset:-3px; border-radius:6px; }
+
 @media (prefers-reduced-motion:reduce){
   .est-territorio .pin, .est-territorio .barrios{ opacity:1; }
   .est-territorio.viva .agua, .est-territorio.viva .pin, .est-territorio.viva .onda,

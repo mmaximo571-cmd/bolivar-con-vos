@@ -339,8 +339,13 @@
   /* La categoría elegida en los chips (hasta el 30/9/2026 era la línea
      editorial). Filtra la LISTA, no el
      calendario: la grilla sigue mostrando todo el mes, así se ve que
-     hay otras cosas esos días aunque abajo no aparezcan. */
-  let catElegida = 'todas';
+     hay otras cosas esos días aunque abajo no aparezcan.
+
+     Puede venir en el link (`?cat=grupo`, 4/10/2026): la tira de
+     parciales de Estudiemos manda directo a los grupos de estudio. Si
+     esa categoría no tiene nada, pintarFiltros vuelve a «Todas». */
+  let catElegida = Object.prototype.hasOwnProperty.call(CATEGORIAS, parametro('cat'))
+    ? parametro('cat') : 'todas';
 
   /* Qué meses están desplegados, y qué día señaló el estudiante en el
      calendario. Viven acá afuera porque la lista se redibuja entera
@@ -881,9 +886,20 @@
   const CLAVE_ENFOQUE = 'bolivar-enfoque';
   let enfoque = false;
   let enfoqueCats = ['info', 'saberes'];
+  /* Cuándo se tocó por última vez en este teléfono (4/10/2026). Desde
+     que la tira de Estudiemos prende el mismo interruptor, el teléfono
+     puede saber algo más nuevo que la cuenta: Estudiemos no tiene
+     sesión y no puede subirlo. Sin la fecha, al entrar acá la cuenta
+     pisaba lo que se acababa de prender. Lo guardado antes de esto no
+     tiene fecha y cuenta como viejo, que es como se portaba. */
+  let enfoqueCuando = 0;
   try {
     const g = JSON.parse(localStorage.getItem(CLAVE_ENFOQUE) || 'null');
-    if (g){ enfoque = !!g.enfoque; if (Array.isArray(g.cats) && g.cats.length) enfoqueCats = g.cats; }
+    if (g){
+      enfoque = !!g.enfoque;
+      if (Array.isArray(g.cats) && g.cats.length) enfoqueCats = g.cats;
+      enfoqueCuando = Number(g.cuando) || 0;
+    }
   } catch(e){}
 
   function conEnfoque(){
@@ -892,19 +908,22 @@
 
   async function traerPreferencias(){
     const { data, error } = await cuenta.c.from('preferencias')
-      .select('enfoque,enfoque_cats').maybeSingle();
+      .select('enfoque,enfoque_cats,actualizado_at').maybeSingle();
     if (error) return;
-    if (data){
+    const deLaCuenta = data ? (Date.parse(data.actualizado_at) || 0) : 0;
+    if (data && enfoqueCuando <= deLaCuenta){
       enfoque = !!data.enfoque;
       if (Array.isArray(data.enfoque_cats) && data.enfoque_cats.length) enfoqueCats = data.enfoque_cats;
-      guardarEnfoqueLocal();
-    } else if (enfoque){
-      guardarPreferencias();     /* lo del teléfono sube a la cuenta */
+      guardarEnfoqueLocal(deLaCuenta);
+    } else if (data || enfoque){
+      guardarPreferencias();     /* lo del teléfono, más nuevo, sube a la cuenta */
     }
   }
 
-  function guardarEnfoqueLocal(){
-    try { localStorage.setItem(CLAVE_ENFOQUE, JSON.stringify({ enfoque, cats: enfoqueCats })); } catch(e){}
+  function guardarEnfoqueLocal(cuando){
+    enfoqueCuando = cuando || Date.now();
+    try { localStorage.setItem(CLAVE_ENFOQUE,
+      JSON.stringify({ enfoque, cats: enfoqueCats, cuando: enfoqueCuando })); } catch(e){}
   }
 
   function guardarPreferencias(){
@@ -1232,6 +1251,8 @@
       enfoque = ev.target.closest('[data-apagar-enfoque]') ? false : !enfoque;
       catElegida = 'todas';
       guardarPreferencias();
+      /* Con `typeof`: app.js puede venir del caché viejo. */
+      if (enfoque && typeof anotarHito === 'function') anotarHito('prendió época de parciales');
       recordarAbiertos();
       pintarTodo();
       const sw = document.getElementById('sw-enfoque');
