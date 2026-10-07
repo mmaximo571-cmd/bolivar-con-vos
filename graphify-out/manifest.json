@@ -78,15 +78,15 @@
     "semantic_hash": ""
   },
   "sw.js": {
-    "mtime": 1791393681.879109,
-    "seen": 1791393884.77996,
-    "ast_hash": "54da739833cbe301a065d097476d7078",
+    "mtime": 1791401310.2147756,
+    "seen": 1791401334.8787231,
+    "ast_hash": "8d4e04c3c1dc08cfca8c646693ef1c94",
     "semantic_hash": ""
   },
   "BITACORA.md": {
-    "mtime": 1791393413.7459848,
-    "seen": 1791393884.7799616,
-    "ast_hash": "b6be8ef041ffe25c7048794f922eb69b",
+    "mtime": 1791401326.565829,
+    "seen": 1791401334.878725,
+    "ast_hash": "4cb5866f7e0ca490b43db2164adca79d",
     "semantic_hash": ""
   },
   "LEEME.md": {
@@ -108,9 +108,9 @@
     "semantic_hash": ""
   },
   "carrera/index.html": {
-    "mtime": 1790725615.0649657,
-    "seen": 1790732169.3237698,
-    "ast_hash": "5071677d41b64aa292cfc8f8a6ab1985",
+    "mtime": 1791401172.6564164,
+    "seen": 1791401334.878735,
+    "ast_hash": "493299ff6c3f08e3c617ba41ecd0e1d4",
     "semantic_hash": ""
   },
   "catedras/index.html": {
@@ -594,9 +594,9 @@
     "semantic_hash": ""
   },
   "docs/HISTORIAL-SW.md": {
-    "mtime": 1791393690.4759047,
-    "seen": 1791393884.7799795,
-    "ast_hash": "81f37af9f4b83e9b39df9293f3a10216",
+    "mtime": 1791401326.5613995,
+    "seen": 1791401334.878745,
+    "ast_hash": "720494a470c9c497d4d753f65dce1027",
     "semantic_hash": ""
   },
   "docs/prompts/PROMPT-DISENO.md": {
@@ -696,9 +696,9 @@
     "semantic_hash": ""
   },
   "estudiemos/arsenal/datos.json": {
-    "mtime": 1791078407.5727594,
-    "seen": 1791164635.5954764,
-    "ast_hash": "dc7b9d1978eb1285d22a040f18ba6e8b",
+    "mtime": 1791401281.6942906,
+    "seen": 1791401334.878569,
+    "ast_hash": "a5d63f010e1953fe8938509c164ba272",
     "semantic_hash": ""
   },
   "estudiemos/arsenal/marcas.js": {
@@ -831,6 +831,36 @@
     "mtime": 1791393665.630453,
     "seen": 1791393884.779876,
     "ast_hash": "3cd99e8d377f5a7e12d430aa91a6d1e2",
+    "semantic_hash": ""
+  },
+  "sql/tabla-mi-ano.sql": {
+    "mtime": 1791401038.9400952,
+    "seen": 1791401334.8786948,
+    "ast_hash": "fcd2da5123041063e40ac8d9cb7263ae",
+    "semantic_hash": ""
+  },
+  "docs/prompts/PROMPT-CURADURIA.md": {
+    "mtime": 1791400602.4572566,
+    "seen": 1791401334.8787487,
+    "ast_hash": "35d159d985c2d896b20882204e5b2824",
+    "semantic_hash": ""
+  },
+  "docs/prompts/gemini/1-curaduria.txt": {
+    "mtime": 1791400587.4118075,
+    "seen": 1791401334.878762,
+    "ast_hash": "857e06c496c63f848492687969396cbf",
+    "semantic_hash": ""
+  },
+  "docs/prompts/gemini/2-ideas.txt": {
+    "mtime": 1791400587.415606,
+    "seen": 1791401334.8787637,
+    "ast_hash": "0f597a028911bb1fef0edc17088f914e",
+    "semantic_hash": ""
+  },
+  "docs/prompts/gemini/3-diseno.txt": {
+    "mtime": 1791400628.8342538,
+    "seen": 1791401334.8787658,
+    "ast_hash": "4f3b8a86379cfb097a80ab3044fa1fe3",
     "semantic_hash": ""
   }
 }

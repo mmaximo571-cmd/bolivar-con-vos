@@ -462,4 +462,11 @@ todo una entrada con el número, la fecha y el porqué.
    contenido de `manifest.json`, que está en la lista: suma
    `share_target`. `lib/compartido.js` lo usan `cargar/` y `decilo/`, y
    no va a la lista. */
+/* v86 (7/10/2026) «Mi año» en la cuenta. Les estudiantes armaban la
+   cuenta en el celular, entraban en la tablet y Mi año aparecía vacío:
+   vivía solo en el teléfono. Cambia `carrera/index.html`, que es de
+   una sola pantalla y no va a la lista; se sube para que la pantalla
+   nueva, que sale de lo guardado, llegue en la visita siguiente. Hace
+   falta correr `sql/tabla-mi-ano.sql`: sin la tabla, Mi año sigue como
+   antes y no avisa nada. */
 ```

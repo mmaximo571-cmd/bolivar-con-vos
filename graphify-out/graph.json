@@ -435,6 +435,18 @@
       "source_location": "L426"
     },
     {
+      "id": "congreso_congreso_cerrarhoja",
+      "label": "cerrarHoja()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 104,
+      "community_name": "congreso.js",
+      "file_type": "code",
+      "norm_label": "cerrarhoja()",
+      "source_file": "congreso/congreso.js",
+      "source_location": "L304"
+    },
+    {
       "id": "congreso_congreso_dialindo",
       "label": "diaLindo()",
       "_callable": true,
@@ -649,6 +661,18 @@
       "norm_label": "traermesas()",
       "source_file": "congreso/congreso.js",
       "source_location": "L249"
+    },
+    {
+      "id": "estudiemos_pomodoro_reloj",
+      "label": "reloj()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 104,
+      "community_name": "congreso.js",
+      "file_type": "code",
+      "norm_label": "reloj()",
+      "source_file": "estudiemos/pomodoro.js",
+      "source_location": "L75"
     },
     {
       "id": "app_esdelequipo",
@@ -5283,18 +5307,6 @@
       "source_location": "L947"
     },
     {
-      "id": "congreso_congreso_cerrarhoja",
-      "label": "cerrarHoja()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 76,
-      "community_name": "pomodoro.js",
-      "file_type": "code",
-      "norm_label": "cerrarhoja()",
-      "source_file": "congreso/congreso.js",
-      "source_location": "L304"
-    },
-    {
       "id": "estudiemos_pomodoro_abrir",
       "label": "abrir()",
       "_callable": true,
@@ -5461,18 +5473,6 @@
       "norm_label": "reiniciar()",
       "source_file": "estudiemos/pomodoro.js",
       "source_location": "L166"
-    },
-    {
-      "id": "estudiemos_pomodoro_reloj",
-      "label": "reloj()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 76,
-      "community_name": "pomodoro.js",
-      "file_type": "code",
-      "norm_label": "reloj()",
-      "source_file": "estudiemos/pomodoro.js",
-      "source_location": "L75"
     },
     {
       "id": "estudiemos_pomodoro_saltear",
@@ -7769,6 +7769,114 @@
       "source_location": "L1"
     },
     {
+      "id": "docs_prompts_prompt_elecciones",
+      "label": "PROMPT-ELECCIONES.md",
+      "_origin": "ast",
+      "community": 104,
+      "community_name": "congreso.js",
+      "file_type": "document",
+      "node_kind": "page",
+      "norm_label": "prompt-elecciones.md",
+      "source_file": "docs/prompts/PROMPT-ELECCIONES.md",
+      "source_location": "L1"
+    },
+    {
+      "id": "docs_prompts_prompt_elecciones_bloque_com\u00fan_va_siempre",
+      "label": "Bloque com\u00fan (va siempre)",
+      "_origin": "ast",
+      "community": 104,
+      "community_name": "congreso.js",
+      "file_type": "document",
+      "node_kind": "heading",
+      "norm_label": "bloque comun (va siempre)",
+      "source_file": "docs/prompts/PROMPT-ELECCIONES.md",
+      "source_location": "L69"
+    },
+    {
+      "id": "docs_prompts_prompt_elecciones_b\u00fasqueda_permanencia_y_estudio",
+      "label": "B\u00fasqueda: permanencia y estudio",
+      "_origin": "ast",
+      "community": 104,
+      "community_name": "congreso.js",
+      "file_type": "document",
+      "node_kind": "heading",
+      "norm_label": "busqueda: permanencia y estudio",
+      "source_file": "docs/prompts/PROMPT-ELECCIONES.md",
+      "source_location": "L221"
+    },
+    {
+      "id": "docs_prompts_prompt_elecciones_fuera_del_c\u00f3digo_para_el_chat_com\u00fan_no_para_una_sesi\u00f3n_de_c\u00f3digo",
+      "label": "Fuera del c\u00f3digo (para el chat com\u00fan, no para una sesi\u00f3n de c\u00f3digo)",
+      "_origin": "ast",
+      "community": 104,
+      "community_name": "congreso.js",
+      "file_type": "document",
+      "node_kind": "heading",
+      "norm_label": "fuera del codigo (para el chat comun, no para una sesion de codigo)",
+      "source_file": "docs/prompts/PROMPT-ELECCIONES.md",
+      "source_location": "L321"
+    },
+    {
+      "id": "docs_prompts_prompt_elecciones_los_15_d\u00edas_20_10_al_3_11_sin_c\u00f3digo",
+      "label": "Los 15 d\u00edas (20/10 al 3/11): sin c\u00f3digo",
+      "_origin": "ast",
+      "community": 104,
+      "community_name": "congreso.js",
+      "file_type": "document",
+      "node_kind": "heading",
+      "norm_label": "los 15 dias (20/10 al 3/11): sin codigo",
+      "source_file": "docs/prompts/PROMPT-ELECCIONES.md",
+      "source_location": "L201"
+    },
+    {
+      "id": "docs_prompts_prompt_elecciones_prompts_para_las_sesiones_hacia_las_elecciones_24_9_al_6_11",
+      "label": "Prompts para las sesiones hacia las elecciones (24/9 al 6/11)",
+      "_origin": "ast",
+      "community": 104,
+      "community_name": "congreso.js",
+      "file_type": "document",
+      "node_kind": "heading",
+      "norm_label": "prompts para las sesiones hacia las elecciones (24/9 al 6/11)",
+      "source_file": "docs/prompts/PROMPT-ELECCIONES.md",
+      "source_location": "L1"
+    },
+    {
+      "id": "docs_prompts_prompt_elecciones_semana_1_28_9_al_4_10_el_buz\u00f3n_y_la_bandeja",
+      "label": "Semana 1 (28/9 al 4/10): el buz\u00f3n y la bandeja",
+      "_origin": "ast",
+      "community": 104,
+      "community_name": "congreso.js",
+      "file_type": "document",
+      "node_kind": "heading",
+      "norm_label": "semana 1 (28/9 al 4/10): el buzon y la bandeja",
+      "source_file": "docs/prompts/PROMPT-ELECCIONES.md",
+      "source_location": "L95"
+    },
+    {
+      "id": "docs_prompts_prompt_elecciones_semana_2_5_10_al_11_10_llegar_a_m\u00e1s",
+      "label": "Semana 2 (5/10 al 11/10): llegar a m\u00e1s",
+      "_origin": "ast",
+      "community": 104,
+      "community_name": "congreso.js",
+      "file_type": "document",
+      "node_kind": "heading",
+      "norm_label": "semana 2 (5/10 al 11/10): llegar a mas",
+      "source_file": "docs/prompts/PROMPT-ELECCIONES.md",
+      "source_location": "L145"
+    },
+    {
+      "id": "docs_prompts_prompt_elecciones_semana_3_12_10_al_18_10_cerrar_y_probar",
+      "label": "Semana 3 (12/10 al 18/10): cerrar y probar",
+      "_origin": "ast",
+      "community": 104,
+      "community_name": "congreso.js",
+      "file_type": "document",
+      "node_kind": "heading",
+      "norm_label": "semana 3 (12/10 al 18/10): cerrar y probar",
+      "source_file": "docs/prompts/PROMPT-ELECCIONES.md",
+      "source_location": "L173"
+    },
+    {
       "id": "public_tocar_congreso_mesa",
       "label": "public.tocar_congreso_mesa",
       "_origin": "ast",
@@ -7978,6 +8086,114 @@
       "source_location": "L1"
     },
     {
+      "id": "docs_prompts_prompt_curaduria",
+      "label": "PROMPT-CURADURIA.md",
+      "_origin": "ast",
+      "community": 109,
+      "community_name": "Curadur\u00eda y lluvia de ideas sin Claude",
+      "file_type": "document",
+      "node_kind": "page",
+      "norm_label": "prompt-curaduria.md",
+      "source_file": "docs/prompts/PROMPT-CURADURIA.md",
+      "source_location": "L1"
+    },
+    {
+      "id": "docs_prompts_prompt_curaduria_1_el_cargador_lo_que_va_antes_de_todo_pedido",
+      "label": "1. El cargador: lo que va antes de todo pedido",
+      "_origin": "ast",
+      "community": 109,
+      "community_name": "Curadur\u00eda y lluvia de ideas sin Claude",
+      "file_type": "document",
+      "node_kind": "heading",
+      "norm_label": "1. el cargador: lo que va antes de todo pedido",
+      "source_file": "docs/prompts/PROMPT-CURADURIA.md",
+      "source_location": "L15"
+    },
+    {
+      "id": "docs_prompts_prompt_curaduria_2_molde_de_curadur\u00eda",
+      "label": "2. Molde de curadur\u00eda",
+      "_origin": "ast",
+      "community": 109,
+      "community_name": "Curadur\u00eda y lluvia de ideas sin Claude",
+      "file_type": "document",
+      "node_kind": "heading",
+      "norm_label": "2. molde de curaduria",
+      "source_file": "docs/prompts/PROMPT-CURADURIA.md",
+      "source_location": "L71"
+    },
+    {
+      "id": "docs_prompts_prompt_curaduria_3_molde_de_lluvia_de_ideas",
+      "label": "3. Molde de lluvia de ideas",
+      "_origin": "ast",
+      "community": 109,
+      "community_name": "Curadur\u00eda y lluvia de ideas sin Claude",
+      "file_type": "document",
+      "node_kind": "heading",
+      "norm_label": "3. molde de lluvia de ideas",
+      "source_file": "docs/prompts/PROMPT-CURADURIA.md",
+      "source_location": "L124"
+    },
+    {
+      "id": "docs_prompts_prompt_curaduria_4_c\u00f3mo_vuelve_a_claude_en_quince_l\u00edneas",
+      "label": "4. C\u00f3mo vuelve a Claude en quince l\u00edneas",
+      "_origin": "ast",
+      "community": 109,
+      "community_name": "Curadur\u00eda y lluvia de ideas sin Claude",
+      "file_type": "document",
+      "node_kind": "heading",
+      "norm_label": "4. como vuelve a claude en quince lineas",
+      "source_file": "docs/prompts/PROMPT-CURADURIA.md",
+      "source_location": "L171"
+    },
+    {
+      "id": "docs_prompts_prompt_curaduria_5_lo_que_gemini_hace_mal_ac\u00e1_siempre",
+      "label": "5. Lo que Gemini hace mal ac\u00e1, siempre",
+      "_origin": "ast",
+      "community": 109,
+      "community_name": "Curadur\u00eda y lluvia de ideas sin Claude",
+      "file_type": "document",
+      "node_kind": "heading",
+      "norm_label": "5. lo que gemini hace mal aca, siempre",
+      "source_file": "docs/prompts/PROMPT-CURADURIA.md",
+      "source_location": "L193"
+    },
+    {
+      "id": "docs_prompts_prompt_curaduria_6_con_qu\u00e9_m\u00e1s_se_puede_seguir_cuando_no_hay_tokens",
+      "label": "6. Con qu\u00e9 m\u00e1s se puede seguir cuando no hay tokens",
+      "_origin": "ast",
+      "community": 109,
+      "community_name": "Curadur\u00eda y lluvia de ideas sin Claude",
+      "file_type": "document",
+      "node_kind": "heading",
+      "norm_label": "6. con que mas se puede seguir cuando no hay tokens",
+      "source_file": "docs/prompts/PROMPT-CURADURIA.md",
+      "source_location": "L211"
+    },
+    {
+      "id": "docs_prompts_prompt_curaduria_7_lo_que_no_se_delega_ni_ac\u00e1_ni_en_ning\u00fan_lado",
+      "label": "7. Lo que no se delega, ni ac\u00e1 ni en ning\u00fan lado",
+      "_origin": "ast",
+      "community": 109,
+      "community_name": "Curadur\u00eda y lluvia de ideas sin Claude",
+      "file_type": "document",
+      "node_kind": "heading",
+      "norm_label": "7. lo que no se delega, ni aca ni en ningun lado",
+      "source_file": "docs/prompts/PROMPT-CURADURIA.md",
+      "source_location": "L237"
+    },
+    {
+      "id": "docs_prompts_prompt_curaduria_curadur\u00eda_y_lluvia_de_ideas_sin_claude",
+      "label": "Curadur\u00eda y lluvia de ideas sin Claude",
+      "_origin": "ast",
+      "community": 109,
+      "community_name": "Curadur\u00eda y lluvia de ideas sin Claude",
+      "file_type": "document",
+      "node_kind": "heading",
+      "norm_label": "curaduria y lluvia de ideas sin claude",
+      "source_file": "docs/prompts/PROMPT-CURADURIA.md",
+      "source_location": "L1"
+    },
+    {
       "id": "estudiemos_arsenal_arsenal",
       "label": "arsenal.js",
       "_origin": "ast",
@@ -7987,6 +8203,50 @@
       "norm_label": "arsenal.js",
       "source_file": "estudiemos/arsenal/arsenal.js",
       "source_location": "L1"
+    },
+    {
+      "id": "sql_tabla_mi_ano",
+      "label": "tabla-mi-ano.sql",
+      "_origin": "ast",
+      "community": 110,
+      "community_name": "tabla-mi-ano.sql",
+      "file_type": "code",
+      "norm_label": "tabla-mi-ano.sql",
+      "source_file": "sql/tabla-mi-ano.sql",
+      "source_location": null
+    },
+    {
+      "id": "sql_tabla_mi_ano_public_guardar_mi_ano",
+      "label": "public.guardar_mi_ano()",
+      "_origin": "ast",
+      "community": 110,
+      "community_name": "tabla-mi-ano.sql",
+      "file_type": "code",
+      "norm_label": "public.guardar_mi_ano()",
+      "source_file": "sql/tabla-mi-ano.sql",
+      "source_location": "L75"
+    },
+    {
+      "id": "sql_tabla_mi_ano_public_mi_ano",
+      "label": "public.mi_ano",
+      "_origin": "ast",
+      "community": 110,
+      "community_name": "tabla-mi-ano.sql",
+      "file_type": "code",
+      "norm_label": "public.mi_ano",
+      "source_file": "sql/tabla-mi-ano.sql",
+      "source_location": "L39"
+    },
+    {
+      "id": "sql_tabla_mi_ano_sql_auth_users",
+      "label": "auth.users",
+      "_origin": "ast",
+      "community": 110,
+      "community_name": "tabla-mi-ano.sql",
+      "file_type": "code",
+      "norm_label": "auth.users",
+      "source_file": "",
+      "source_location": ""
     },
     {
       "id": "estudiemos_portada",
@@ -10705,114 +10965,6 @@
       "norm_label": "pomodoro.js",
       "source_file": "estudiemos/pomodoro.js",
       "source_location": "L1"
-    },
-    {
-      "id": "docs_prompts_prompt_elecciones",
-      "label": "PROMPT-ELECCIONES.md",
-      "_origin": "ast",
-      "community": 76,
-      "community_name": "pomodoro.js",
-      "file_type": "document",
-      "node_kind": "page",
-      "norm_label": "prompt-elecciones.md",
-      "source_file": "docs/prompts/PROMPT-ELECCIONES.md",
-      "source_location": "L1"
-    },
-    {
-      "id": "docs_prompts_prompt_elecciones_bloque_com\u00fan_va_siempre",
-      "label": "Bloque com\u00fan (va siempre)",
-      "_origin": "ast",
-      "community": 76,
-      "community_name": "pomodoro.js",
-      "file_type": "document",
-      "node_kind": "heading",
-      "norm_label": "bloque comun (va siempre)",
-      "source_file": "docs/prompts/PROMPT-ELECCIONES.md",
-      "source_location": "L69"
-    },
-    {
-      "id": "docs_prompts_prompt_elecciones_b\u00fasqueda_permanencia_y_estudio",
-      "label": "B\u00fasqueda: permanencia y estudio",
-      "_origin": "ast",
-      "community": 76,
-      "community_name": "pomodoro.js",
-      "file_type": "document",
-      "node_kind": "heading",
-      "norm_label": "busqueda: permanencia y estudio",
-      "source_file": "docs/prompts/PROMPT-ELECCIONES.md",
-      "source_location": "L221"
-    },
-    {
-      "id": "docs_prompts_prompt_elecciones_fuera_del_c\u00f3digo_para_el_chat_com\u00fan_no_para_una_sesi\u00f3n_de_c\u00f3digo",
-      "label": "Fuera del c\u00f3digo (para el chat com\u00fan, no para una sesi\u00f3n de c\u00f3digo)",
-      "_origin": "ast",
-      "community": 76,
-      "community_name": "pomodoro.js",
-      "file_type": "document",
-      "node_kind": "heading",
-      "norm_label": "fuera del codigo (para el chat comun, no para una sesion de codigo)",
-      "source_file": "docs/prompts/PROMPT-ELECCIONES.md",
-      "source_location": "L321"
-    },
-    {
-      "id": "docs_prompts_prompt_elecciones_los_15_d\u00edas_20_10_al_3_11_sin_c\u00f3digo",
-      "label": "Los 15 d\u00edas (20/10 al 3/11): sin c\u00f3digo",
-      "_origin": "ast",
-      "community": 76,
-      "community_name": "pomodoro.js",
-      "file_type": "document",
-      "node_kind": "heading",
-      "norm_label": "los 15 dias (20/10 al 3/11): sin codigo",
-      "source_file": "docs/prompts/PROMPT-ELECCIONES.md",
-      "source_location": "L201"
-    },
-    {
-      "id": "docs_prompts_prompt_elecciones_prompts_para_las_sesiones_hacia_las_elecciones_24_9_al_6_11",
-      "label": "Prompts para las sesiones hacia las elecciones (24/9 al 6/11)",
-      "_origin": "ast",
-      "community": 76,
-      "community_name": "pomodoro.js",
-      "file_type": "document",
-      "node_kind": "heading",
-      "norm_label": "prompts para las sesiones hacia las elecciones (24/9 al 6/11)",
-      "source_file": "docs/prompts/PROMPT-ELECCIONES.md",
-      "source_location": "L1"
-    },
-    {
-      "id": "docs_prompts_prompt_elecciones_semana_1_28_9_al_4_10_el_buz\u00f3n_y_la_bandeja",
-      "label": "Semana 1 (28/9 al 4/10): el buz\u00f3n y la bandeja",
-      "_origin": "ast",
-      "community": 76,
-      "community_name": "pomodoro.js",
-      "file_type": "document",
-      "node_kind": "heading",
-      "norm_label": "semana 1 (28/9 al 4/10): el buzon y la bandeja",
-      "source_file": "docs/prompts/PROMPT-ELECCIONES.md",
-      "source_location": "L95"
-    },
-    {
-      "id": "docs_prompts_prompt_elecciones_semana_2_5_10_al_11_10_llegar_a_m\u00e1s",
-      "label": "Semana 2 (5/10 al 11/10): llegar a m\u00e1s",
-      "_origin": "ast",
-      "community": 76,
-      "community_name": "pomodoro.js",
-      "file_type": "document",
-      "node_kind": "heading",
-      "norm_label": "semana 2 (5/10 al 11/10): llegar a mas",
-      "source_file": "docs/prompts/PROMPT-ELECCIONES.md",
-      "source_location": "L145"
-    },
-    {
-      "id": "docs_prompts_prompt_elecciones_semana_3_12_10_al_18_10_cerrar_y_probar",
-      "label": "Semana 3 (12/10 al 18/10): cerrar y probar",
-      "_origin": "ast",
-      "community": 76,
-      "community_name": "pomodoro.js",
-      "file_type": "document",
-      "node_kind": "heading",
-      "norm_label": "semana 3 (12/10 al 18/10): cerrar y probar",
-      "source_file": "docs/prompts/PROMPT-ELECCIONES.md",
-      "source_location": "L173"
     },
     {
       "id": "estudiemos_huella",
@@ -20655,6 +20807,94 @@
       "weight": 1.0
     },
     {
+      "source": "docs_prompts_prompt_curaduria",
+      "target": "docs_prompts_prompt_curaduria_curadur\u00eda_y_lluvia_de_ideas_sin_claude",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "docs/prompts/PROMPT-CURADURIA.md",
+      "source_location": "L1",
+      "weight": 1.0
+    },
+    {
+      "source": "docs_prompts_prompt_curaduria_curadur\u00eda_y_lluvia_de_ideas_sin_claude",
+      "target": "docs_prompts_prompt_curaduria_3_molde_de_lluvia_de_ideas",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "docs/prompts/PROMPT-CURADURIA.md",
+      "source_location": "L124",
+      "weight": 1.0
+    },
+    {
+      "source": "docs_prompts_prompt_curaduria_curadur\u00eda_y_lluvia_de_ideas_sin_claude",
+      "target": "docs_prompts_prompt_curaduria_1_el_cargador_lo_que_va_antes_de_todo_pedido",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "docs/prompts/PROMPT-CURADURIA.md",
+      "source_location": "L15",
+      "weight": 1.0
+    },
+    {
+      "source": "docs_prompts_prompt_curaduria_curadur\u00eda_y_lluvia_de_ideas_sin_claude",
+      "target": "docs_prompts_prompt_curaduria_4_c\u00f3mo_vuelve_a_claude_en_quince_l\u00edneas",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "docs/prompts/PROMPT-CURADURIA.md",
+      "source_location": "L171",
+      "weight": 1.0
+    },
+    {
+      "source": "docs_prompts_prompt_curaduria_curadur\u00eda_y_lluvia_de_ideas_sin_claude",
+      "target": "docs_prompts_prompt_curaduria_5_lo_que_gemini_hace_mal_ac\u00e1_siempre",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "docs/prompts/PROMPT-CURADURIA.md",
+      "source_location": "L193",
+      "weight": 1.0
+    },
+    {
+      "source": "docs_prompts_prompt_curaduria_curadur\u00eda_y_lluvia_de_ideas_sin_claude",
+      "target": "docs_prompts_prompt_curaduria_6_con_qu\u00e9_m\u00e1s_se_puede_seguir_cuando_no_hay_tokens",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "docs/prompts/PROMPT-CURADURIA.md",
+      "source_location": "L211",
+      "weight": 1.0
+    },
+    {
+      "source": "docs_prompts_prompt_curaduria_curadur\u00eda_y_lluvia_de_ideas_sin_claude",
+      "target": "docs_prompts_prompt_curaduria_7_lo_que_no_se_delega_ni_ac\u00e1_ni_en_ning\u00fan_lado",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "docs/prompts/PROMPT-CURADURIA.md",
+      "source_location": "L237",
+      "weight": 1.0
+    },
+    {
+      "source": "docs_prompts_prompt_curaduria_curadur\u00eda_y_lluvia_de_ideas_sin_claude",
+      "target": "docs_prompts_prompt_curaduria_2_molde_de_curadur\u00eda",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "docs/prompts/PROMPT-CURADURIA.md",
+      "source_location": "L71",
+      "weight": 1.0
+    },
+    {
       "source": "docs_prompts_prompt_diseno",
       "target": "docs_prompts_prompt_diseno_el_molde_para_pedirle_dise\u00f1o_a_una_ia",
       "relation": "contains",
@@ -25110,6 +25350,28 @@
       "weight": 1.0
     },
     {
+      "source": "sql_tabla_mi_ano",
+      "target": "sql_tabla_mi_ano_public_mi_ano",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "sql/tabla-mi-ano.sql",
+      "source_location": "L39",
+      "weight": 1.0
+    },
+    {
+      "source": "sql_tabla_mi_ano",
+      "target": "sql_tabla_mi_ano_public_guardar_mi_ano",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "sql/tabla-mi-ano.sql",
+      "source_location": "L75",
+      "weight": 1.0
+    },
+    {
       "source": "sql_tabla_organizador",
       "target": "sql_tabla_organizador_preparaciones_unico_idx",
       "relation": "contains",
@@ -27220,6 +27482,17 @@
       "weight": 1.0
     },
     {
+      "source": "sql_tabla_mi_ano_public_mi_ano",
+      "target": "sql_tabla_mi_ano_sql_auth_users",
+      "relation": "references",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "sql/tabla-mi-ano.sql",
+      "source_location": "L39",
+      "weight": 1.0
+    },
+    {
       "source": "sql_tabla_organizador_public_preparaciones",
       "target": "sql_tabla_organizador_public_programas",
       "relation": "references",
@@ -29258,5 +29531,5 @@
       "source_file": "panel/index.html"
     }
   ],
-  "built_at_commit": "42d5cb1089bc0644e57cd153bdeb7cbc5185573e"
+  "built_at_commit": "613a66ae0eb5efa273cca29a4287331e50016fda"
 }

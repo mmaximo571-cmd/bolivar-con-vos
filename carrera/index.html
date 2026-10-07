@@ -246,8 +246,9 @@
     </button>
     <p class="letra-chica no-imprimir">
       Lo que marcás se guarda en este teléfono, y cada carrera por separado.
-      No se sube a ningún lado salvo que vos crees una copia de respaldo,
-      acá abajo.
+      Si entrás con tu cuenta, se guarda también en ella y lo ves en
+      cualquier aparato donde entres. Sin cuenta no se sube a ningún lado,
+      salvo que vos crees una copia de respaldo, acá abajo.
     </p>
   </section>
 
@@ -424,6 +425,8 @@ function persistir(){
   try { localStorage.setItem(LLAVE, JSON.stringify(guardado)); } catch(e){}
   /* Y si hay copia de respaldo, se actualiza sola. */
   if (typeof respaldarLuego === 'function') respaldarLuego();
+  /* Y si hay cuenta, también la cuenta. */
+  if (typeof anoALaCuentaLuego === 'function') anoALaCuentaLuego();
 }
 
 /* ============================================================
@@ -2433,6 +2436,37 @@ function pintarRespaldo(){
   if (!caja) return;
   const cod = codigoRespaldo();
 
+  /* Con cuenta, la cuenta es la copia: el código queda para traer un
+     año de antes, de cuando no había cuenta. */
+  if (cuentaAno && !anoSinTabla){
+    const enCuenta = {
+      guardando: '<p class="respaldo-estado">Guardando en tu cuenta…</p>',
+      guardado:  '<p class="respaldo-estado ok">Tu año está al día en tu cuenta.</p>',
+      'sin-red': '<p class="respaldo-estado mal">No se pudo guardar en tu cuenta: sin ' +
+                 'conexión. Queda en este aparato y se sube solo cuando vuelva la señal.</p>'
+    }[estadoCuentaAno] || '';
+    caja.innerHTML =
+      '<div class="titulo-seccion">TU AÑO ESTÁ EN TU CUENTA</div>' +
+      '<p class="letra-chica" style="margin-top:0">' +
+        'Lo que marcás se guarda en tu cuenta. Entrá con la misma cuenta en ' +
+        'otro celular, en la tablet o en la compu, y aparece solo.</p>' +
+      enCuenta +
+      (cod ? '<p class="letra-chica">Tu código de respaldo, <b>' + esc(cod) +
+             '</b>, también se sigue actualizando.</p>' : '') +
+      '<button class="boton texto ancho" id="pedir-codigo">Traer un año con un código de respaldo</button>' +
+      '<div id="respaldo-mensaje"></div>';
+    document.getElementById('pedir-codigo').onclick = pedirCodigo;
+    return;
+  }
+
+  /* Sin sesión (y solo cuando ya se sabe que no hay): la cuenta es la
+     forma fácil de pasar el año, y es lo que la gente prueba primero. */
+  const conCuenta = siuConCuenta === false
+    ? '<p class="letra-chica">Con una cuenta es más fácil: tu año se guarda en ' +
+      'ella y aparece en cualquier aparato donde entres. ' +
+      '<a href="../mi/">Entrar o crear una cuenta</a></p>'
+    : '';
+
   const estado = {
     guardando: '<p class="respaldo-estado">Guardando la copia…</p>',
     guardado:  '<p class="respaldo-estado ok">La copia está al día.</p>',
@@ -2451,6 +2485,7 @@ function pintarRespaldo(){
         'Podés dejar una copia con un código, sin dar mail ni nombre.</p>' +
       '<button class="boton ancho" id="crear-respaldo">Crear mi código de respaldo</button>' +
       '<button class="boton texto ancho" id="pedir-codigo">Ya tengo un código</button>' +
+      conCuenta +
       '<div id="respaldo-mensaje"></div>';
 
     document.getElementById('crear-respaldo').onclick = async function(){
@@ -2561,6 +2596,253 @@ function pedirCodigo(){
     }
   };
 }
+
+/* ============================================================
+   MI AÑO EN LA CUENTA (7/10/2026)
+
+   Les estudiantes armaban la cuenta en el celular, entraban con ella
+   en la tablet, y la tablet aparecía vacía: Mi año vivía solo en el
+   teléfono y la cuenta nunca lo había tenido. Ahora, con sesión, cada
+   cambio se guarda también en la tabla `mi_ano`
+   (`sql/tabla-mi-ano.sql`), y al abrir Mi año en otro aparato se baja.
+
+   El teléfono se acuerda, en `bolivar-mi-ano-cuenta`, de con qué
+   cuenta y sobre qué versión de arriba quedó al día, y de cómo era su
+   año en ese momento (la huella). Con eso sabe quién cambió algo desde
+   entonces:
+   - solo este aparato  → se sube y listo;
+   - solo el otro       → se baja lo de arriba, tal cual. Así una
+                          materia que se desmarcó en la tablet queda
+                          desmarcada también en el celular;
+   - los dos            → se juntan materia por materia y queda el
+                          estado más avanzado. No se pierde nada de lo
+                          que marcaron (lo eligió Máximo el 7/10).
+   La primera vez de una cuenta en un aparato también se juntan: puede
+   ser alguien que ya venía marcando sin cuenta.
+
+   Si el aparato estaba al día con OTRA cuenta (la tablet de la casa,
+   compartida), lo que tiene es de otra persona: manda lo de la cuenta
+   nueva y no se mezcla nada.
+
+   Sin sesión, nada de esto corre y Mi año sigue como antes.
+   ============================================================ */
+const LLAVE_CUENTA_ANO = 'bolivar-mi-ano-cuenta';
+
+let cuentaAno = null;          /* el id de la cuenta, si hay sesión */
+let anoSinTabla = false;       /* falta correr `sql/tabla-mi-ano.sql` */
+let estadoCuentaAno = '';      /* '' | guardando | guardado | sin-red */
+let sincronizandoAno = false;
+let otraVueltaAno = false;
+let temporizadorAno = null;
+
+function leerEnlaceAno(){
+  try { return JSON.parse(localStorage.getItem(LLAVE_CUENTA_ANO)) || {}; }
+  catch(e){ return {}; }
+}
+function anotarEnlaceAno(enlace){
+  try { localStorage.setItem(LLAVE_CUENTA_ANO, JSON.stringify(enlace)); } catch(e){}
+}
+
+/* Lo que importa de Mi año, escrito siempre igual. Compara lo que la
+   persona marcó y no cómo quedó escrito: `elegirCarrera` agrega
+   objetos vacíos y una carrera recién mirada, y eso no es un cambio.
+   Si lo fuera, cada visita parecería «cambié algo acá» y se juntaría
+   en vez de bajar: una materia desmarcada en otro aparato volvería. */
+function huellaAno(g){
+  const ordenado = o => Object.keys(o || {}).sort()
+    .reduce((r, k) => { r[k] = o[k]; return r; }, {});
+  const porCarrera = {};
+  Object.keys((g && g.datos) || {}).sort().forEach(id => {
+    const d = g.datos[id] || {};
+    const estados = {};
+    Object.keys(d.estados || {}).sort().forEach(c => {
+      if (d.estados[c] && d.estados[c] !== 'pendiente') estados[c] = d.estados[c];
+    });
+    const una = { estados, notas: ordenado(d.notas), fechas: ordenado(d.fechas),
+      regular: ordenado(d.regular), anio: d.anio || null, dialogo: d.dialogo || null,
+      suponer: !!d.suponer, idioma: !!d.idioma };
+    const vacia = !una.anio && !una.dialogo && !una.suponer && !una.idioma &&
+      ['estados', 'notas', 'fechas', 'regular'].every(k => !Object.keys(una[k]).length);
+    if (!vacia) porCarrera[id] = una;
+  });
+  return JSON.stringify({ carrera: (g && g.carrera) || 'ts',
+    eligio: !!(g && g.eligioCarrera), datos: porCarrera });
+}
+
+function hayAlgoEnAno(g){
+  const h = JSON.parse(huellaAno(g));
+  return h.eligio || Object.keys(h.datos).length > 0;
+}
+
+/* Junta dos años materia por materia. `a` es el de este aparato: en lo
+   que no es una materia (la carrera que se está mirando, «suponer»),
+   manda lo de acá, que es lo que la persona tiene adelante. */
+function juntarAnos(a, b){
+  a = a || {}; b = b || {};
+  const r = {
+    carrera: a.eligioCarrera ? a.carrera : (b.carrera || a.carrera || 'ts'),
+    eligioCarrera: !!(a.eligioCarrera || b.eligioCarrera),
+    datos: {}
+  };
+  if (a.momento || b.momento) r.momento = a.momento || b.momento;
+
+  const ids = Object.keys(a.datos || {}).concat(Object.keys(b.datos || {}));
+  ids.filter((id, i) => ids.indexOf(id) === i).forEach(id => {
+    const x = (a.datos || {})[id] || {}, y = (b.datos || {})[id] || {};
+    const d = {
+      estados:{}, notas:{}, fechas:{}, regular:{},
+      suponer: x.suponer !== undefined ? !!x.suponer : !!y.suponer,
+      idioma: !!(x.idioma || y.idioma)
+    };
+    const anio = x.anio || y.anio;
+    if (anio) d.anio = anio;
+    if (x.dialogo === 'listo' || y.dialogo === 'listo') d.dialogo = 'listo';
+    else if (x.dialogo || y.dialogo) d.dialogo = x.dialogo || y.dialogo;
+
+    const cods = [];
+    [x, y].forEach(o => ['estados', 'notas', 'fechas', 'regular'].forEach(k =>
+      Object.keys(o[k] || {}).forEach(c => { if (cods.indexOf(c) === -1) cods.push(c); })));
+
+    cods.forEach(c => {
+      const ex = (x.estados || {})[c] || 'pendiente';
+      const ey = (y.estados || {})[c] || 'pendiente';
+      /* Gana el estado más avanzado y, con él, su nota, su fecha y su
+         año. De la otra punta solo se completa lo que falte si estaba
+         en el mismo estado: el año de una cursada no es de una
+         aprobada. */
+      const [gana, otra] = (ORDEN[ey] || 0) > (ORDEN[ex] || 0) ? [y, x] : [x, y];
+      const estado = (ORDEN[ey] || 0) > (ORDEN[ex] || 0) ? ey : ex;
+      const mismo = ((otra.estados || {})[c] || 'pendiente') === estado;
+      if (estado !== 'pendiente') d.estados[c] = estado;
+      ['notas', 'fechas', 'regular'].forEach(k => {
+        const v = (gana[k] || {})[c] !== undefined ? gana[k][c]
+                : (mismo ? (otra[k] || {})[c] : undefined);
+        if (v !== undefined && v !== null && v !== '') d[k][c] = v;
+      });
+    });
+    r.datos[id] = d;
+  });
+  return r;
+}
+
+/* Pone en pantalla un año que vino de arriba. */
+function aplicarAno(nuevo){
+  guardado = Object.assign({ carrera:'ts', datos:{} }, JSON.parse(JSON.stringify(nuevo)));
+  if (!guardado.datos) guardado.datos = {};
+  elegirCarrera(guardado.carrera || 'ts');      /* esto ya lo guarda en el teléfono */
+  if (guardado.eligioCarrera) mostrarBienvenida(false);
+  pintarSelectorCarrera();
+  pintarTodo();
+}
+
+async function guardarAnoArriba(version, copia){
+  estadoCuentaAno = 'guardando';
+  pintarRespaldo();
+  const { data, error } = await db.rpc('guardar_mi_ano',
+    { p_datos: copia, p_version: version || 0 });
+  if (error) throw error;
+  return data;          /* null: otro aparato guardó en el medio */
+}
+
+/* Una vuelta. Devuelve false si otro aparato guardó justo en el medio:
+   hay que volver a leer y juntar otra vez. */
+async function unaVueltaAno(){
+  const enlace = leerEnlaceAno();
+  const mio = enlace.usuario === cuentaAno;
+  const local = huellaAno(guardado);
+  const cambioAca = !mio || local !== enlace.huella;
+
+  /* Lo más común: se marcó algo acá y nadie más tocó. Se guarda
+     derecho, sin leer antes; si arriba ya había otra versión, la base
+     no pisa nada y se sigue por el camino largo. */
+  if (mio && cambioAca && enlace.version > 0){
+    const copia = JSON.parse(JSON.stringify(guardado));
+    const v = await guardarAnoArriba(enlace.version, copia);
+    if (v){
+      anotarEnlaceAno({ usuario: cuentaAno, version: v, huella: huellaAno(copia) });
+      return true;
+    }
+  }
+
+  const { data: fila, error } = await db.from('mi_ano')
+    .select('datos, version').maybeSingle();
+  if (error) throw error;
+
+  let queda;
+  if (enlace.usuario && !mio){
+    queda = fila ? fila.datos : { carrera: guardado.carrera || 'ts', datos: {} };
+  } else if (!fila){
+    queda = guardado;
+  } else if (!mio){
+    queda = juntarAnos(guardado, fila.datos);
+  } else if (fila.version === enlace.version){
+    queda = guardado;
+  } else if (!cambioAca){
+    queda = fila.datos;
+  } else {
+    queda = juntarAnos(guardado, fila.datos);
+  }
+  if (huellaAno(queda) !== local) aplicarAno(queda);
+
+  const copia = JSON.parse(JSON.stringify(guardado));
+  let version = fila ? fila.version : 0;
+  const hayQueSubir = fila ? huellaAno(copia) !== huellaAno(fila.datos) : hayAlgoEnAno(copia);
+  if (hayQueSubir){
+    const v = await guardarAnoArriba(version, copia);
+    if (!v) return false;
+    version = v;
+  }
+  anotarEnlaceAno({ usuario: cuentaAno, version, huella: huellaAno(copia) });
+  return true;
+}
+
+async function sincronizarAno(){
+  if (!cuentaAno || anoSinTabla) return;
+  if (sincronizandoAno){ otraVueltaAno = true; return; }
+  sincronizandoAno = true;
+  clearTimeout(temporizadorAno);
+  try {
+    /* Tres vueltas alcanzan: que otro aparato guarde justo en el medio
+       tres veces seguidas no pasa con una persona y dos aparatos. */
+    for (let i = 0; i < 3; i++){
+      if (await unaVueltaAno()) break;
+    }
+    estadoCuentaAno = 'guardado';
+  } catch(e){
+    /* La tabla todavía no está en la base: se sigue como sin cuenta, en
+       silencio. Decirle «sin conexión» a alguien con señal sería
+       mentirle. */
+    const codigo = e && e.code;
+    if (codigo === '42P01' || codigo === 'PGRST205' || codigo === 'PGRST202' ||
+        codigo === '42883'){
+      anoSinTabla = true;
+      estadoCuentaAno = '';
+    } else {
+      estadoCuentaAno = 'sin-red';
+    }
+  }
+  sincronizandoAno = false;
+  pintarRespaldo();
+  if (otraVueltaAno){ otraVueltaAno = false; anoALaCuentaLuego(); }
+}
+
+/* Se llama desde persistir(), o sea con cada cambio. Espera un poco,
+   como el respaldo: marcar cinco materias es una subida sola. */
+function anoALaCuentaLuego(){
+  if (!cuentaAno || anoSinTabla) return;
+  const enlace = leerEnlaceAno();
+  if (enlace.usuario === cuentaAno && huellaAno(guardado) === enlace.huella) return;
+  clearTimeout(temporizadorAno);
+  temporizadorAno = setTimeout(sincronizarAno, 2500);
+}
+
+/* Quien va y viene entre el celular y la tablet deja Mi año abierto en
+   los dos: al volver a mirarlo, se trae lo que cambió en el otro. Y lo
+   que no se pudo subir sin señal, se sube cuando vuelve. */
+document.addEventListener('visibilitychange', () => {
+  if (document.visibilityState === 'visible') sincronizarAno();
+});
+addEventListener('online', () => { sincronizarAno(); });
 
 /* ------------------------------------------------------------
    EL MOMENTO GANADO
@@ -3439,8 +3721,12 @@ async function averiguarCuentaSiu(){
   try {
     const { data } = await db.auth.getSession();
     siuConCuenta = !!(data && data.session);
+    cuentaAno = siuConCuenta ? data.session.user.id : null;
   } catch(e){ siuConCuenta = false; }
   pintarDesdeSiu();
+  /* La misma pregunta sirve para Mi año en la cuenta. */
+  pintarRespaldo();
+  if (cuentaAno) sincronizarAno();
 }
 
 function pintarDesdeSiu(){

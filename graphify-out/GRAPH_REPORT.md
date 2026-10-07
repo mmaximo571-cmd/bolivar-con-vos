@@ -1,17 +1,17 @@
 # Graph Report - bolivar-con-vos  (2026-10-07)
 
 ## Corpus Check
-- 86 files · ~314,406 words
+- 88 files · ~322,668 words
 - Verdict: corpus is large enough that graph structure adds value.
 - Unclassified: 35 file(s) not represented in the graph (top: .css 25, (none) 5, .geojson 4)
 
 ## Summary
-- 979 nodes · 1491 edges · 109 communities (68 shown, 41 thin omitted)
+- 992 nodes · 1502 edges · 111 communities (69 shown, 42 thin omitted)
 - Extraction: 94% EXTRACTED · 6% INFERRED · 0% AMBIGUOUS · INFERRED: 96 edges (avg confidence: 0.85)
 - Token cost: 0 input · 0 output
 
 ## Graph Freshness
-- Built from commit: `42d5cb10`
+- Built from commit: `613a66ae`
 - Run `git rev-parse HEAD` and compare to check if the graph is stale.
 - Run `graphify update .` after code changes (no API cost).
 
@@ -113,6 +113,8 @@
 - sesionActual
 - leer-aviso.js
 - compartido.js
+- Curaduría y lluvia de ideas sin Claude
+- tabla-mi-ano.sql
 
 ## God Nodes (most connected - your core abstractions)
 1. `Pantalla Mi año (carrera)` - 19 edges
@@ -150,7 +152,7 @@
 - **Pantallas que muestran publicaciones de la agenda** — tabla_publicaciones, index_proximodelaagenda, index_calendario_mes, agenda_index_traer, agenda_index_detalle_publicacion, carrera_index_vistanueva [INFERRED 0.85]
 - **El Panel edita el contenido que leen las pantallas públicas** — panel_index, tramites_index, quienes_index, consejo_index, anatomo_index, catedras_index, estudiemos_index [INFERRED 0.95]
 
-## Communities (109 total, 41 thin omitted)
+## Communities (111 total, 42 thin omitted)
 
 ### Community 0 - "La carrera se elige una vez (bolivar-carrera-v2)"
 Cohesion: 0.14
@@ -381,8 +383,8 @@ Cohesion: 0.25
 Nodes (9): apagarAvisos(), clavePublicaEnBytes(), guardarElTimbre(), guardarGustosDeAvisos(), gustosDeAvisos(), prenderAvisos(), seBancanLosAvisos(), suscripcionDeEsteTelefono() (+1 more)
 
 ### Community 76 - "pomodoro.js"
-Cohesion: 0.13
-Nodes (27): cerrarHoja(), Bloque común (va siempre), Búsqueda: permanencia y estudio, Fuera del código (para el chat común, no para una sesión de código), Los 15 días (20/10 al 3/11): sin código, Prompts para las sesiones hacia las elecciones (24/9 al 6/11), Semana 1 (28/9 al 4/10): el buzón y la bandeja, Semana 2 (5/10 al 11/10): llegar a más (+19 more)
+Cohesion: 0.27
+Nodes (17): abrir(), arrancar(), cambiarPreset(), despertar(), despertarAudio(), guardar(), hoyEs(), latir() (+9 more)
 
 ### Community 77 - "huella.js"
 Cohesion: 0.83
@@ -409,8 +411,8 @@ Cohesion: 0.33
 Nodes (6): PLANES (PLAN_TS, PLAN_TGCR, PLAN_FONO), leerPrograma (lib/leer-programa.js), textoDelPdf, vistaProgramas (programas de materias), vistaProgramasPDF (carga masiva desde PDF), Tabla/bucket Supabase programas
 
 ### Community 104 - "congreso.js"
-Cohesion: 0.22
-Nodes (22): abrirHoja(), abrirLoQuePideElEnlace(), ahoraEnLaPlata(), cargarMuro(), diaLindo(), estadoDe(), etiquetaEstado(), guardarMio() (+14 more)
+Cohesion: 0.12
+Nodes (32): abrirHoja(), abrirLoQuePideElEnlace(), ahoraEnLaPlata(), cargarMuro(), cerrarHoja(), diaLindo(), estadoDe(), etiquetaEstado() (+24 more)
 
 ### Community 105 - "tabla-congreso.sql"
 Cohesion: 0.21
@@ -424,22 +426,26 @@ Nodes (6): esDelEquipo(), sesionActual(), Pantalla Panel (administración del eq
 Cohesion: 0.29
 Nodes (16): aISO(), bajarGritos(), buscarFecha(), buscarHora(), buscarLugar(), conAnio(), fechaValida(), leerAviso() (+8 more)
 
+### Community 109 - "Curaduría y lluvia de ideas sin Claude"
+Cohesion: 0.22
+Nodes (8): 1. El cargador: lo que va antes de todo pedido, 2. Molde de curaduría, 3. Molde de lluvia de ideas, 4. Cómo vuelve a Claude en quince líneas, 5. Lo que Gemini hace mal acá, siempre, 6. Con qué más se puede seguir cuando no hay tokens, 7. Lo que no se delega, ni acá ni en ningún lado, Curaduría y lluvia de ideas sin Claude
+
 ## Knowledge Gaps
-- **171 isolated node(s):** `session-start.sh script`, `__hitosDeEstaVisita`, `MESES`, `MESES_LARGO`, `NOMBRE_SECCION` (+166 more)
-  These have ≤1 connection - possible missing edges or undocumented components. (Counts symbols only; 309 node(s) total have ≤1 connection when file, concept and rationale nodes are included.)
-- **41 thin communities (<3 nodes) omitted from report** — run `graphify query` to explore isolated nodes.
+- **178 isolated node(s):** `session-start.sh script`, `__hitosDeEstaVisita`, `MESES`, `MESES_LARGO`, `NOMBRE_SECCION` (+173 more)
+  These have ≤1 connection - possible missing edges or undocumented components. (Counts symbols only; 319 node(s) total have ≤1 connection when file, concept and rationale nodes are included.)
+- **42 thin communities (<3 nodes) omitted from report** — run `graphify query` to explore isolated nodes.
 
 ## Suggested Questions
 _Questions this graph is uniquely positioned to answer:_
 
 - **Why does `Pantalla Inicio` connect `Pantalla Mi año (carrera)` to `movimiento.js`, `app.js`, `Detalle de publicación (?id=)`, `Pantalla El Consejo Directivo`, `Mi perfil (mi/index.html)`, `manifest.json`?**
-  _High betweenness centrality (0.093) - this node is a cross-community bridge._
+  _High betweenness centrality (0.091) - this node is a cross-community bridge._
 - **Why does `pedido()` connect `riesgo.js` to `Pantalla El Consejo Directivo`, `fondo-red.js`?**
-  _High betweenness centrality (0.068) - this node is a cross-community bridge._
+  _High betweenness centrality (0.066) - this node is a cross-community bridge._
 - **Why does `Vercel Web Analytics (/_vercel/insights/script.js, v72)` connect `Pantalla El Consejo Directivo` to `Pantalla Mi año (carrera)`?**
-  _High betweenness centrality (0.060) - this node is a cross-community bridge._
+  _High betweenness centrality (0.059) - this node is a cross-community bridge._
 - **What connects `session-start.sh script`, `__hitosDeEstaVisita`, `MESES` to the rest of the system?**
-  _171 weakly-connected nodes found - possible documentation gaps or missing edges._
+  _178 weakly-connected nodes found - possible documentation gaps or missing edges._
 - **Should `La carrera se elige una vez (bolivar-carrera-v2)` be split into smaller, more focused modules?**
   _Cohesion score 0.14285714285714285 - nodes in this community are weakly interconnected._
 - **Should `app.js` be split into smaller, more focused modules?**
