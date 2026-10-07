@@ -1,0 +1,272 @@
+/* ==========================================================
+   LA BOLIVAR CON VOS · CONGRESO
+   La pantalla del I° Congreso Interdisciplinario «Voces que habitan»
+   (`congreso/`, octubre 2026). La carga solo esa pantalla, entre la
+   base y `estilos-rediseno.css`.
+
+   LA ESTÉTICA SALE DE LAS PLACAS DEL CONGRESO, no de la app: el mismo
+   amarillo, el rojo de «VOCES QUE HABITAN», el celeste de los títulos
+   de cada mesa, la letra angosta y pesada (Anton, que es la que más se
+   parece a la de las placas y solo la baja esta pantalla) y las
+   etiquetas amarillas con el nombre de quien expone. Por suerte son
+   los mismos tres colores de la agrupación, así que se usan los de
+   `tokens.css` y de noche se dan vuelta solos.
+   ========================================================== */
+
+.congreso{
+  --fuente-afiche: 'Anton', 'Archivo Black', sans-serif;
+  /* La cuadrícula de las placas, apenas: es papel cuadriculado, no un
+     dibujo. De noche se apaga casi del todo. */
+  --cuadricula: rgba(249, 232, 48, .28);
+}
+:root[data-tema="oscuro"] .congreso{ --cuadricula: rgba(249, 232, 48, .06) }
+
+/* ---------- La portada ---------- */
+.cg-portada{ overflow:hidden }
+.cg-portada .envoltura{ display:grid; gap:18px }
+
+.cg-marca{
+  display:flex; align-items:center; gap:14px; margin:0;
+  font-family:var(--fuente-afiche); font-weight:400;
+  line-height:.95; text-transform:uppercase; letter-spacing:.005em
+}
+/* El «I°» de la placa: un palo rojo y un circulito. Es dibujo, no
+   letra, así que el lector de pantalla lee el texto escondido. */
+.cg-numero{ display:flex; align-items:flex-start; gap:6px; flex:none }
+.cg-numero .palo{ width:clamp(14px, 3.4vw, 22px); height:clamp(64px, 17vw, 112px); background:var(--rojo-solido) }
+.cg-numero .grado{
+  width:clamp(18px, 4.6vw, 30px); height:clamp(18px, 4.6vw, 30px);
+  border:clamp(4px, 1.1vw, 7px) solid var(--rojo-solido); border-radius:50%
+}
+.cg-marca .palabras{ display:flex; flex-direction:column }
+.cg-marca .grande{ font-size:clamp(48px, 13.5vw, 96px) }
+.cg-marca .chica { font-size:clamp(23px, 6.6vw, 47px) }
+
+.cg-lema{
+  margin:4px 0 0; font-family:var(--fuente-afiche); font-weight:400;
+  font-size:clamp(30px, 8.6vw, 60px); line-height:1; color:var(--rojo-solido);
+  text-transform:uppercase
+}
+.cg-subrayado{
+  /* Fijo y no `--superficie`: la banda es amarilla de día y de noche,
+     así que la franja también es la misma. */
+  display:inline-block; margin:0; padding:6px 12px;
+  background:#FDFCF7; color:var(--sobre-color);
+  font-weight:700; font-size:clamp(16px, 4.4vw, 20px)
+}
+.cg-datos{ display:flex; flex-wrap:wrap; gap:6px 18px; margin:0; padding:0; list-style:none; font-weight:500 }
+.cg-datos li::before{ content:'· '; color:var(--rojo-solido); font-weight:700 }
+.cg-datos li:first-child::before{ content:'' }
+
+.cg-acciones{ display:flex; flex-wrap:wrap; gap:10px }
+.cg-acciones .boton{ flex:1 1 200px; min-height:48px }
+
+.cg-logo{
+  /* En el celular va primero, chico, como un sello: al lado del título
+     no entra y abajo de él quedaba flotando solo en un renglón. */
+  order:-1; width:clamp(92px, 26vw, 190px); height:auto; justify-self:start;
+  filter:drop-shadow(var(--sombra))
+}
+.cg-fachada{
+  display:block; width:100%; height:auto; margin-top:6px;
+  border:2px solid var(--negro); border-radius:var(--radio-chico)
+}
+@media (min-width:720px){
+  .cg-portada .envoltura{ grid-template-columns:1fr auto; align-items:start }
+  .cg-portada .cg-logo{ order:0; grid-row:1 / span 3; grid-column:2; justify-self:end }
+  .cg-portada .envoltura > :not(.cg-logo){ grid-column:1 }
+  .cg-portada .cg-fachada{ grid-column:1 / -1 }
+}
+
+/* ---------- Lo que sigue (o lo que está pasando) ---------- */
+.cg-ahora{
+  display:grid; gap:4px; margin:0 0 18px; padding:14px 16px;
+  background:var(--negro); color:var(--sobre-negro); border-radius:var(--radio)
+}
+.cg-ahora .rotulo{
+  font-size:var(--letra-mini); font-weight:700; letter-spacing:.08em;
+  text-transform:uppercase; color:var(--amarillo)
+}
+.cg-ahora .rotulo.vivo::before{
+  content:''; display:inline-block; width:8px; height:8px; margin-right:6px;
+  border-radius:50%; background:#FF5A4F; vertical-align:1px;
+  animation:cg-latido 1.6s ease-in-out infinite
+}
+@keyframes cg-latido{ 50%{ opacity:.25 } }
+@media (prefers-reduced-motion:reduce){ .cg-ahora .rotulo.vivo::before{ animation:none } }
+.cg-ahora strong{ font-size:var(--letra-guia) }
+.cg-ahora .boton{ justify-self:start; margin-top:8px; background:var(--amarillo); color:var(--sobre-color) }
+
+/* ---------- Las bandas cuadriculadas ---------- */
+.cg-cuadriculada{
+  background-color:var(--fondo);
+  background-image:
+    linear-gradient(var(--cuadricula) 2px, transparent 2px),
+    linear-gradient(90deg, var(--cuadricula) 2px, transparent 2px);
+  background-size:44px 44px
+}
+
+.cg-titulo{
+  margin:0 0 6px; font-family:var(--fuente-afiche); font-weight:400;
+  font-size:clamp(40px, 11vw, 72px); line-height:.95;
+  text-transform:uppercase; color:var(--rojo-solido)
+}
+:root[data-tema="oscuro"] .cg-titulo{ color:var(--rojo) }
+/* Sobre la banda amarilla el fondo no cambia de noche: el rojo tampoco. */
+:root[data-tema="oscuro"] .banda.sol .cg-titulo{ color:var(--rojo-solido) }
+.cg-guia{ margin:0 0 20px; color:var(--texto-suave); max-width:46ch }
+
+/* ---------- El cronograma ---------- */
+.cg-dia{
+  margin:26px 0 10px; font-size:var(--letra-mini); font-weight:700;
+  letter-spacing:.08em; text-transform:uppercase; color:var(--texto-suave)
+}
+.cg-dia:first-of-type{ margin-top:0 }
+
+.cg-mesa{
+  position:relative; margin:0 0 14px; padding:16px 16px 14px;
+  background:var(--superficie); border:2px solid var(--texto);
+  border-radius:var(--radio); box-shadow:var(--sombra)
+}
+.cg-mesa.paso{ opacity:.72 }
+.cg-mesa.en-vivo{ border-color:var(--rojo-solido); box-shadow:4px 4px 0 var(--rojo-solido) }
+
+.cg-serie{
+  display:flex; align-items:center; gap:10px; margin:0 0 4px;
+  font-weight:700; font-size:var(--letra-chica)
+}
+.cg-serie::before{ content:''; flex:0 0 28px; height:2px; background:var(--texto) }
+.cg-estado{
+  margin-left:auto; padding:2px 8px; border-radius:var(--radio-pastilla);
+  font-size:var(--letra-mini); letter-spacing:.04em; text-transform:uppercase;
+  background:var(--superficie-2); color:var(--texto-suave)
+}
+.cg-estado.vivo{ background:var(--rojo-solido); color:var(--sobre-negro) }
+.cg-estado.hoy { background:var(--amarillo); color:var(--sobre-color) }
+
+.cg-mesa h3{
+  margin:0; font-family:var(--fuente-afiche); font-weight:400;
+  font-size:clamp(27px, 7.4vw, 38px); line-height:1.02; text-transform:uppercase;
+  color:var(--celeste-hondo)
+}
+:root[data-tema="oscuro"] .cg-mesa h3{ color:var(--celeste-claro) }
+.cg-mesa .bajada{ margin:6px 0 0; font-size:var(--letra-densa) }
+
+/* La pastilla de fecha, hora y aula: la misma caja de borde rojo de
+   las placas. */
+.cg-cuando{
+  display:flex; flex-wrap:wrap; gap:4px 16px; margin:12px 0 0; padding:8px 12px;
+  border:1.5px solid var(--rojo-solido); border-radius:var(--radio-chico);
+  font-weight:700; color:var(--rojo-solido); list-style:none
+}
+:root[data-tema="oscuro"] .cg-cuando{ color:var(--rojo); border-color:var(--rojo) }
+
+/* Las etiquetas amarillas con el nombre, como en las placas. */
+.cg-gente{ display:flex; flex-wrap:wrap; gap:6px; margin:12px 0 0; padding:0; list-style:none }
+.cg-gente li{
+  padding:4px 10px; border-radius:var(--radio-chico);
+  background:var(--amarillo); color:var(--sobre-color);
+  font-weight:700; font-size:var(--letra-nota)
+}
+
+.cg-eje{
+  display:inline-block; margin-top:10px; padding:2px 8px;
+  background:var(--celeste-hondo); color:#fff;
+  font-size:var(--letra-mini); font-weight:700; letter-spacing:.04em; text-transform:uppercase
+}
+
+.cg-mesa-acciones{ display:flex; flex-wrap:wrap; gap:8px; margin-top:14px }
+.cg-mesa-acciones .boton{ flex:1 1 150px; min-height:44px }
+
+/* ---------- Los ejes ---------- */
+.cg-ejes{ position:relative; display:grid; gap:12px }
+@media (min-width:720px){ .cg-ejes{ grid-template-columns:repeat(3, 1fr) } }
+.cg-ojitos{ position:absolute; left:-10px; bottom:-30px; width:58px; height:auto; pointer-events:none }
+
+.cg-eje-tarjeta{
+  /* El recuadro blanco de borde punteado de la placa de los ejes. Fijo,
+     como la franja de la portada: la banda amarilla no se da vuelta. */
+  display:flex; flex-direction:column; gap:8px; padding:16px;
+  background:#FDFCF7; color:var(--sobre-color); border:2px dashed var(--celeste);
+  border-radius:var(--radio)
+}
+.cg-eje-tarjeta h3{
+  align-self:flex-start; margin:0; padding:2px 10px;
+  background:var(--celeste-hondo); color:#fff;
+  font-size:clamp(24px, 6.4vw, 30px); line-height:1.15
+}
+.cg-eje-tarjeta p{ margin:0; font-size:var(--letra-densa); line-height:1.5 }
+.cg-eje-tarjeta .boton{ margin-top:auto; min-height:44px }
+
+/* ---------- La hoja: preguntas y aportes ---------- */
+.cg-hoja h2{
+  margin:0 40px 4px 0; font-family:var(--fuente-afiche); font-weight:400;
+  font-size:clamp(26px, 7vw, 34px); line-height:1.05; text-transform:uppercase
+}
+.cg-hoja .cg-cuando{ margin-top:8px }
+.cg-placa{ margin:14px 0 0 }
+.cg-placa summary{ cursor:pointer; font-weight:700; color:var(--texto-suave) }
+.cg-placa img{ display:block; width:100%; max-width:420px; height:auto; margin:10px auto 0; border-radius:var(--radio-chico) }
+
+.cg-formulario{
+  margin:18px 0 10px; padding:14px; background:var(--superficie-2);
+  border-radius:var(--radio)
+}
+.cg-formulario .campo:last-of-type{ margin-bottom:10px }
+.cg-formulario textarea{ min-height:84px }
+.cg-cuenta{ display:block; margin-top:4px; text-align:right; font-size:var(--letra-mini); color:var(--texto-suave) }
+.cg-cerrado{ margin:18px 0 10px }
+
+.cg-muro-cabeza{
+  display:flex; align-items:baseline; justify-content:space-between; gap:10px;
+  margin:20px 0 8px
+}
+.cg-muro-cabeza h3{ margin:0; font-size:var(--letra-base) }
+.cg-muro-cabeza span{ font-size:var(--letra-chica); color:var(--texto-suave) }
+
+.cg-muro{ display:grid; gap:8px; margin:0; padding:0; list-style:none }
+.cg-voz{
+  display:grid; grid-template-columns:1fr auto; gap:6px 12px; align-items:start;
+  padding:12px; background:var(--superficie); border:1.5px solid var(--linea);
+  border-radius:var(--radio-chico)
+}
+.cg-voz.mia{ border-color:var(--amarillo); box-shadow:inset 4px 0 0 var(--amarillo) }
+.cg-voz.respondida .texto{ text-decoration:line-through; text-decoration-color:var(--texto-suave); color:var(--texto-suave) }
+.cg-voz .texto{ margin:0; white-space:pre-line; overflow-wrap:anywhere }
+.cg-voz .quien{ grid-column:1; margin:0; font-size:var(--letra-chica); color:var(--texto-suave) }
+
+/* El apoyo: una flecha y un número, a la derecha, del alto de dos
+   renglones. Grande a propósito: se toca en una sala, parada, con
+   el teléfono en una mano. */
+.cg-apoyo{
+  grid-column:2; grid-row:1 / span 2;
+  display:flex; flex-direction:column; align-items:center; justify-content:center;
+  min-width:52px; min-height:52px; padding:4px 6px;
+  border:1.5px solid var(--texto); border-radius:var(--radio-chico);
+  background:transparent; color:var(--texto); font:inherit; cursor:pointer
+}
+.cg-apoyo .flecha{ font-size:18px; line-height:1 }
+.cg-apoyo .cuantos{ font-weight:700; font-size:var(--letra-nota) }
+.cg-apoyo[aria-pressed="true"]{ background:var(--amarillo); border-color:var(--sobre-color); color:var(--sobre-color) }
+.cg-apoyo:disabled{ opacity:.5; cursor:default }
+
+/* ---------- Sobre el congreso ---------- */
+.cg-lectura p{ max-width:62ch; line-height:1.6 }
+.cg-lectura h3{ margin:26px 0 8px; font-size:var(--letra-sub) }
+.cg-cita{
+  margin:18px 0; padding:14px 16px; border-left:6px solid var(--rojo-solido);
+  background:var(--superficie); font-size:var(--letra-guia); line-height:1.45
+}
+.cg-cita mark{ background:var(--amarillo); color:var(--sobre-color); padding:0 2px }
+
+/* ---------- Dónde ---------- */
+.cg-aulas{ display:flex; flex-wrap:wrap; gap:6px; margin:10px 0 16px; padding:0; list-style:none }
+.cg-aulas li{
+  padding:4px 10px; border:1.5px solid var(--texto); border-radius:var(--radio-pastilla);
+  font-weight:500; font-size:var(--letra-nota)
+}
+.cg-firmas{
+  display:flex; flex-wrap:wrap; align-items:center; gap:12px 22px; margin-top:22px;
+  font-size:var(--letra-chica); color:var(--texto-suave)
+}
+.cg-firmas img{ height:56px; width:auto }

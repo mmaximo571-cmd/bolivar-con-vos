@@ -216,7 +216,7 @@
       "file_type": "code",
       "norm_label": "aplicartema()",
       "source_file": "app.js",
-      "source_location": "L1214"
+      "source_location": "L1218"
     },
     {
       "id": "app_carreraactual",
@@ -264,7 +264,7 @@
       "file_type": "code",
       "norm_label": "marcartitulos()",
       "source_file": "app.js",
-      "source_location": "L1258"
+      "source_location": "L1262"
     },
     {
       "id": "app_menosmovimiento",
@@ -288,7 +288,7 @@
       "file_type": "code",
       "norm_label": "pintaravisanos()",
       "source_file": "app.js",
-      "source_location": "L1614"
+      "source_location": "L1618"
     },
     {
       "id": "app_pintaravisanos_esconderglobo",
@@ -300,7 +300,7 @@
       "file_type": "code",
       "norm_label": "esconderglobo()",
       "source_file": "app.js",
-      "source_location": "L1697"
+      "source_location": "L1701"
     },
     {
       "id": "app_pintaravisanos_mostrarglobo",
@@ -312,7 +312,7 @@
       "file_type": "code",
       "norm_label": "mostrarglobo()",
       "source_file": "app.js",
-      "source_location": "L1684"
+      "source_location": "L1688"
     },
     {
       "id": "app_pintarnav",
@@ -324,7 +324,7 @@
       "file_type": "code",
       "norm_label": "pintarnav()",
       "source_file": "app.js",
-      "source_location": "L1311"
+      "source_location": "L1315"
     },
     {
       "id": "app_pintarnav_abrir",
@@ -336,7 +336,7 @@
       "file_type": "code",
       "norm_label": "abrir()",
       "source_file": "app.js",
-      "source_location": "L1418"
+      "source_location": "L1422"
     },
     {
       "id": "app_pintartema",
@@ -348,7 +348,7 @@
       "file_type": "code",
       "norm_label": "pintartema()",
       "source_file": "app.js",
-      "source_location": "L1224"
+      "source_location": "L1228"
     },
     {
       "id": "app_ponerlupa",
@@ -360,7 +360,7 @@
       "file_type": "code",
       "norm_label": "ponerlupa()",
       "source_file": "app.js",
-      "source_location": "L1249"
+      "source_location": "L1253"
     },
     {
       "id": "app_temaguardado",
@@ -372,7 +372,7 @@
       "file_type": "code",
       "norm_label": "temaguardado()",
       "source_file": "app.js",
-      "source_location": "L1208"
+      "source_location": "L1212"
     },
     {
       "id": "app_vigilartitulos",
@@ -384,7 +384,319 @@
       "file_type": "code",
       "norm_label": "vigilartitulos()",
       "source_file": "app.js",
-      "source_location": "L1266"
+      "source_location": "L1270"
+    },
+    {
+      "id": "congreso_congreso_abrirhoja",
+      "label": "abrirHoja()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 104,
+      "community_name": "congreso.js",
+      "file_type": "code",
+      "norm_label": "abrirhoja()",
+      "source_file": "congreso/congreso.js",
+      "source_location": "L285"
+    },
+    {
+      "id": "congreso_congreso_abrirloquepideelenlace",
+      "label": "abrirLoQuePideElEnlace()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 104,
+      "community_name": "congreso.js",
+      "file_type": "code",
+      "norm_label": "abrirloquepideelenlace()",
+      "source_file": "congreso/congreso.js",
+      "source_location": "L538"
+    },
+    {
+      "id": "congreso_congreso_ahoraenlaplata",
+      "label": "ahoraEnLaPlata()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 104,
+      "community_name": "congreso.js",
+      "file_type": "code",
+      "norm_label": "ahoraenlaplata()",
+      "source_file": "congreso/congreso.js",
+      "source_location": "L110"
+    },
+    {
+      "id": "congreso_congreso_cargarmuro",
+      "label": "cargarMuro()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 104,
+      "community_name": "congreso.js",
+      "file_type": "code",
+      "norm_label": "cargarmuro()",
+      "source_file": "congreso/congreso.js",
+      "source_location": "L426"
+    },
+    {
+      "id": "congreso_congreso_cerrarhoja",
+      "label": "cerrarHoja()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 104,
+      "community_name": "congreso.js",
+      "file_type": "code",
+      "norm_label": "cerrarhoja()",
+      "source_file": "congreso/congreso.js",
+      "source_location": "L304"
+    },
+    {
+      "id": "congreso_congreso_dialindo",
+      "label": "diaLindo()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 104,
+      "community_name": "congreso.js",
+      "file_type": "code",
+      "norm_label": "dialindo()",
+      "source_file": "congreso/congreso.js",
+      "source_location": "L140"
+    },
+    {
+      "id": "congreso_congreso_estadode",
+      "label": "estadoDe()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 104,
+      "community_name": "congreso.js",
+      "file_type": "code",
+      "norm_label": "estadode()",
+      "source_file": "congreso/congreso.js",
+      "source_location": "L130"
+    },
+    {
+      "id": "congreso_congreso_etiquetaestado",
+      "label": "etiquetaEstado()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 104,
+      "community_name": "congreso.js",
+      "file_type": "code",
+      "norm_label": "etiquetaestado()",
+      "source_file": "congreso/congreso.js",
+      "source_location": "L157"
+    },
+    {
+      "id": "congreso_congreso_guardarmio",
+      "label": "guardarMio()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 104,
+      "community_name": "congreso.js",
+      "file_type": "code",
+      "norm_label": "guardarmio()",
+      "source_file": "congreso/congreso.js",
+      "source_location": "L91"
+    },
+    {
+      "id": "congreso_congreso_htmlcuando",
+      "label": "htmlCuando()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 104,
+      "community_name": "congreso.js",
+      "file_type": "code",
+      "norm_label": "htmlcuando()",
+      "source_file": "congreso/congreso.js",
+      "source_location": "L163"
+    },
+    {
+      "id": "congreso_congreso_htmlgente",
+      "label": "htmlGente()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 104,
+      "community_name": "congreso.js",
+      "file_type": "code",
+      "norm_label": "htmlgente()",
+      "source_file": "congreso/congreso.js",
+      "source_location": "L171"
+    },
+    {
+      "id": "congreso_congreso_htmlmesa",
+      "label": "htmlMesa()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 104,
+      "community_name": "congreso.js",
+      "file_type": "code",
+      "norm_label": "htmlmesa()",
+      "source_file": "congreso/congreso.js",
+      "source_location": "L177"
+    },
+    {
+      "id": "congreso_congreso_leermio",
+      "label": "leerMio()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 104,
+      "community_name": "congreso.js",
+      "file_type": "code",
+      "norm_label": "leermio()",
+      "source_file": "congreso/congreso.js",
+      "source_location": "L79"
+    },
+    {
+      "id": "congreso_congreso_mandar",
+      "label": "mandar()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 104,
+      "community_name": "congreso.js",
+      "file_type": "code",
+      "norm_label": "mandar()",
+      "source_file": "congreso/congreso.js",
+      "source_location": "L461"
+    },
+    {
+      "id": "congreso_congreso_marca",
+      "label": "marca()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 104,
+      "community_name": "congreso.js",
+      "file_type": "code",
+      "norm_label": "marca()",
+      "source_file": "congreso/congreso.js",
+      "source_location": "L96"
+    },
+    {
+      "id": "congreso_congreso_motivo",
+      "label": "motivo()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 104,
+      "community_name": "congreso.js",
+      "file_type": "code",
+      "norm_label": "motivo()",
+      "source_file": "congreso/congreso.js",
+      "source_location": "L448"
+    },
+    {
+      "id": "congreso_congreso_pintarahora",
+      "label": "pintarAhora()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 104,
+      "community_name": "congreso.js",
+      "file_type": "code",
+      "norm_label": "pintarahora()",
+      "source_file": "congreso/congreso.js",
+      "source_location": "L224"
+    },
+    {
+      "id": "congreso_congreso_pintaraulas",
+      "label": "pintarAulas()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 104,
+      "community_name": "congreso.js",
+      "file_type": "code",
+      "norm_label": "pintaraulas()",
+      "source_file": "congreso/congreso.js",
+      "source_location": "L243"
+    },
+    {
+      "id": "congreso_congreso_pintarhoja",
+      "label": "pintarHoja()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 104,
+      "community_name": "congreso.js",
+      "file_type": "code",
+      "norm_label": "pintarhoja()",
+      "source_file": "congreso/congreso.js",
+      "source_location": "L330"
+    },
+    {
+      "id": "congreso_congreso_pintarmesas",
+      "label": "pintarMesas()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 104,
+      "community_name": "congreso.js",
+      "file_type": "code",
+      "norm_label": "pintarmesas()",
+      "source_file": "congreso/congreso.js",
+      "source_location": "L202"
+    },
+    {
+      "id": "congreso_congreso_pintarmuro",
+      "label": "pintarMuro()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 104,
+      "community_name": "congreso.js",
+      "file_type": "code",
+      "norm_label": "pintarmuro()",
+      "source_file": "congreso/congreso.js",
+      "source_location": "L391"
+    },
+    {
+      "id": "congreso_congreso_sepuedeescribir",
+      "label": "sePuedeEscribir()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 104,
+      "community_name": "congreso.js",
+      "file_type": "code",
+      "norm_label": "sepuedeescribir()",
+      "source_file": "congreso/congreso.js",
+      "source_location": "L321"
+    },
+    {
+      "id": "congreso_congreso_traermesas",
+      "label": "traerMesas()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 104,
+      "community_name": "congreso.js",
+      "file_type": "code",
+      "norm_label": "traermesas()",
+      "source_file": "congreso/congreso.js",
+      "source_location": "L249"
+    },
+    {
+      "id": "estudiemos_pomodoro_reloj",
+      "label": "reloj()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 104,
+      "community_name": "congreso.js",
+      "file_type": "code",
+      "norm_label": "reloj()",
+      "source_file": "estudiemos/pomodoro.js",
+      "source_location": "L75"
+    },
+    {
+      "id": "app_esdelequipo",
+      "label": "esDelEquipo()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 106,
+      "community_name": "sesionActual",
+      "file_type": "code",
+      "norm_label": "esdelequipo()",
+      "source_file": "app.js",
+      "source_location": "L489"
+    },
+    {
+      "id": "app_sesionactual",
+      "label": "sesionActual()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 106,
+      "community_name": "sesionActual",
+      "file_type": "code",
+      "norm_label": "sesionactual()",
+      "source_file": "app.js",
+      "source_location": "L475"
     },
     {
       "id": "estudiemos_arsenal_arsenal_alfiltrar",
@@ -912,7 +1224,7 @@
       "file_type": "code",
       "norm_label": "abrir()",
       "source_file": "app.js",
-      "source_location": "L1098"
+      "source_location": "L1102"
     },
     {
       "id": "app_alarmademesa",
@@ -924,7 +1236,7 @@
       "file_type": "code",
       "norm_label": "alarmademesa()",
       "source_file": "app.js",
-      "source_location": "L1516"
+      "source_location": "L1520"
     },
     {
       "id": "app_armarbandeja",
@@ -936,7 +1248,7 @@
       "file_type": "code",
       "norm_label": "armarbandeja()",
       "source_file": "app.js",
-      "source_location": "L882"
+      "source_location": "L886"
     },
     {
       "id": "app_arrancar",
@@ -948,7 +1260,7 @@
       "file_type": "code",
       "norm_label": "arrancar()",
       "source_file": "app.js",
-      "source_location": "L1167"
+      "source_location": "L1171"
     },
     {
       "id": "app_avisodebandeja",
@@ -960,7 +1272,7 @@
       "file_type": "code",
       "norm_label": "avisodebandeja()",
       "source_file": "app.js",
-      "source_location": "L848"
+      "source_location": "L852"
     },
     {
       "id": "app_avisoleido",
@@ -972,7 +1284,7 @@
       "file_type": "code",
       "norm_label": "avisoleido()",
       "source_file": "app.js",
-      "source_location": "L842"
+      "source_location": "L846"
     },
     {
       "id": "app_categoriadepublicacion",
@@ -996,7 +1308,7 @@
       "file_type": "code",
       "norm_label": "cuandoenbandeja()",
       "source_file": "app.js",
-      "source_location": "L906"
+      "source_location": "L910"
     },
     {
       "id": "app_hoyiso",
@@ -1020,7 +1332,7 @@
       "file_type": "code",
       "norm_label": "htmlnovedades()",
       "source_file": "app.js",
-      "source_location": "L950"
+      "source_location": "L954"
     },
     {
       "id": "app_iddelaalertavisible",
@@ -1032,7 +1344,7 @@
       "file_type": "code",
       "norm_label": "iddelaalertavisible()",
       "source_file": "app.js",
-      "source_location": "L1566"
+      "source_location": "L1570"
     },
     {
       "id": "app_isovecino",
@@ -1056,7 +1368,7 @@
       "file_type": "code",
       "norm_label": "itemdebandeja()",
       "source_file": "app.js",
-      "source_location": "L919"
+      "source_location": "L923"
     },
     {
       "id": "app_leidasnovedades",
@@ -1068,7 +1380,7 @@
       "file_type": "code",
       "norm_label": "leidasnovedades()",
       "source_file": "app.js",
-      "source_location": "L821"
+      "source_location": "L825"
     },
     {
       "id": "app_pintaralertamesa",
@@ -1080,7 +1392,7 @@
       "file_type": "code",
       "norm_label": "pintaralertamesa()",
       "source_file": "app.js",
-      "source_location": "L1575"
+      "source_location": "L1579"
     },
     {
       "id": "app_pintarcampana",
@@ -1092,7 +1404,7 @@
       "file_type": "code",
       "norm_label": "pintarcampana()",
       "source_file": "app.js",
-      "source_location": "L998"
+      "source_location": "L1002"
     },
     {
       "id": "app_repintarpanel",
@@ -1104,7 +1416,7 @@
       "file_type": "code",
       "norm_label": "repintarpanel()",
       "source_file": "app.js",
-      "source_location": "L1121"
+      "source_location": "L1125"
     },
     {
       "id": "app_traernovedades",
@@ -1116,7 +1428,7 @@
       "file_type": "code",
       "norm_label": "traernovedades()",
       "source_file": "app.js",
-      "source_location": "L1013"
+      "source_location": "L1017"
     },
     {
       "id": "app_guardarcopiacursada",
@@ -1236,7 +1548,7 @@
       "file_type": "code",
       "norm_label": "anotarquesevio()",
       "source_file": "app.js",
-      "source_location": "L2075"
+      "source_location": "L2079"
     },
     {
       "id": "app_errorencastellano",
@@ -1248,7 +1560,7 @@
       "file_type": "code",
       "norm_label": "errorencastellano()",
       "source_file": "app.js",
-      "source_location": "L1808"
+      "source_location": "L1812"
     },
     {
       "id": "app_esc",
@@ -1284,7 +1596,7 @@
       "file_type": "code",
       "norm_label": "esios()",
       "source_file": "app.js",
-      "source_location": "L2068"
+      "source_location": "L2072"
     },
     {
       "id": "app_explicarerror",
@@ -1296,7 +1608,7 @@
       "file_type": "code",
       "norm_label": "explicarerror()",
       "source_file": "app.js",
-      "source_location": "L1783"
+      "source_location": "L1787"
     },
     {
       "id": "app_htmlpie",
@@ -1308,7 +1620,7 @@
       "file_type": "code",
       "norm_label": "htmlpie()",
       "source_file": "app.js",
-      "source_location": "L1736"
+      "source_location": "L1740"
     },
     {
       "id": "app_invitarainstalar",
@@ -1320,7 +1632,7 @@
       "file_type": "code",
       "norm_label": "invitarainstalar()",
       "source_file": "app.js",
-      "source_location": "L2089"
+      "source_location": "L2093"
     },
     {
       "id": "app_invitarainstalar_cerrar",
@@ -1332,7 +1644,7 @@
       "file_type": "code",
       "norm_label": "cerrar()",
       "source_file": "app.js",
-      "source_location": "L2112"
+      "source_location": "L2116"
     },
     {
       "id": "app_mostrarerror",
@@ -1344,7 +1656,7 @@
       "file_type": "code",
       "norm_label": "mostrarerror()",
       "source_file": "app.js",
-      "source_location": "L1811"
+      "source_location": "L1815"
     },
     {
       "id": "app_sedijoqueno",
@@ -1356,7 +1668,7 @@
       "file_type": "code",
       "norm_label": "sedijoqueno()",
       "source_file": "app.js",
-      "source_location": "L2072"
+      "source_location": "L2076"
     },
     {
       "id": "app_sepuedeinvitarainstalar",
@@ -1368,7 +1680,7 @@
       "file_type": "code",
       "norm_label": "sepuedeinvitarainstalar()",
       "source_file": "app.js",
-      "source_location": "L2081"
+      "source_location": "L2085"
     },
     {
       "id": "estudiemos_fichas_ficha_adom",
@@ -1729,18 +2041,6 @@
       "norm_label": "urlgooglecalendar()",
       "source_file": "lib/fecha-al-calendario.js",
       "source_location": "L76"
-    },
-    {
-      "id": "fondo_red_apagar",
-      "label": "apagar()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 21,
-      "community_name": "riesgo.js",
-      "file_type": "code",
-      "norm_label": "apagar()",
-      "source_file": "fondo-red.js",
-      "source_location": "L429"
     },
     {
       "id": "mapa_riesgo_abrir",
@@ -2727,6 +3027,18 @@
       "source_location": "L362"
     },
     {
+      "id": "fondo_red_apagar",
+      "label": "apagar()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 31,
+      "community_name": "fondo-red.js",
+      "file_type": "code",
+      "norm_label": "apagar()",
+      "source_file": "fondo-red.js",
+      "source_location": "L429"
+    },
+    {
       "id": "fondo_red_argb",
       "label": "aRGB()",
       "_callable": true,
@@ -2976,7 +3288,7 @@
       "file_type": "code",
       "norm_label": "conpaciencia()",
       "source_file": "app.js",
-      "source_location": "L1834"
+      "source_location": "L1838"
     },
     {
       "id": "app_guardarenmemoria",
@@ -2988,7 +3300,7 @@
       "file_type": "code",
       "norm_label": "guardarenmemoria()",
       "source_file": "app.js",
-      "source_location": "L1898"
+      "source_location": "L1902"
     },
     {
       "id": "app_memoriade",
@@ -3000,7 +3312,7 @@
       "file_type": "code",
       "norm_label": "memoriade()",
       "source_file": "app.js",
-      "source_location": "L1881"
+      "source_location": "L1885"
     },
     {
       "id": "sw_esdesupabase",
@@ -3048,7 +3360,7 @@
       "file_type": "code",
       "norm_label": "avisarmostrandoguardado()",
       "source_file": "app.js",
-      "source_location": "L1959"
+      "source_location": "L1963"
     },
     {
       "id": "app_avisarnosepudoactualizar",
@@ -3060,7 +3372,7 @@
       "file_type": "code",
       "norm_label": "avisarnosepudoactualizar()",
       "source_file": "app.js",
-      "source_location": "L1966"
+      "source_location": "L1970"
     },
     {
       "id": "app_caeeneldia",
@@ -3084,7 +3396,7 @@
       "file_type": "code",
       "norm_label": "cajadelaviso()",
       "source_file": "app.js",
-      "source_location": "L1934"
+      "source_location": "L1938"
     },
     {
       "id": "app_cerrar",
@@ -3096,7 +3408,7 @@
       "file_type": "code",
       "norm_label": "cerrar()",
       "source_file": "app.js",
-      "source_location": "L1108"
+      "source_location": "L1112"
     },
     {
       "id": "app_cuentaguardada",
@@ -3120,7 +3432,7 @@
       "file_type": "code",
       "norm_label": "cuentaparalacampana()",
       "source_file": "app.js",
-      "source_location": "L1046"
+      "source_location": "L1050"
     },
     {
       "id": "app_desdecuando",
@@ -3132,7 +3444,7 @@
       "file_type": "code",
       "norm_label": "desdecuando()",
       "source_file": "app.js",
-      "source_location": "L1917"
+      "source_location": "L1921"
     },
     {
       "id": "app_guardarleidas",
@@ -3144,7 +3456,7 @@
       "file_type": "code",
       "norm_label": "guardarleidas()",
       "source_file": "app.js",
-      "source_location": "L836"
+      "source_location": "L840"
     },
     {
       "id": "app_htmlcabecera",
@@ -3156,7 +3468,7 @@
       "file_type": "code",
       "norm_label": "htmlcabecera()",
       "source_file": "app.js",
-      "source_location": "L732"
+      "source_location": "L736"
     },
     {
       "id": "app_htmlcampana",
@@ -3168,7 +3480,7 @@
       "file_type": "code",
       "norm_label": "htmlcampana()",
       "source_file": "app.js",
-      "source_location": "L812"
+      "source_location": "L816"
     },
     {
       "id": "app_juntarleidas",
@@ -3180,7 +3492,7 @@
       "file_type": "code",
       "norm_label": "juntarleidas()",
       "source_file": "app.js",
-      "source_location": "L1055"
+      "source_location": "L1059"
     },
     {
       "id": "app_leercopiacursada",
@@ -3204,7 +3516,7 @@
       "file_type": "code",
       "norm_label": "mismasleidas()",
       "source_file": "app.js",
-      "source_location": "L1065"
+      "source_location": "L1069"
     },
     {
       "id": "app_olvidarcopiacursada",
@@ -3228,7 +3540,7 @@
       "file_type": "code",
       "norm_label": "olvidarmemoria()",
       "source_file": "app.js",
-      "source_location": "L1910"
+      "source_location": "L1914"
     },
     {
       "id": "app_poneraviso",
@@ -3240,7 +3552,7 @@
       "file_type": "code",
       "norm_label": "poneraviso()",
       "source_file": "app.js",
-      "source_location": "L1950"
+      "source_location": "L1954"
     },
     {
       "id": "app_puedecargar",
@@ -3264,7 +3576,7 @@
       "file_type": "code",
       "norm_label": "sacaravisoguardado()",
       "source_file": "app.js",
-      "source_location": "L1972"
+      "source_location": "L1976"
     },
     {
       "id": "app_sincronizarleidas",
@@ -3276,7 +3588,7 @@
       "file_type": "code",
       "norm_label": "sincronizarleidas()",
       "source_file": "app.js",
-      "source_location": "L1075"
+      "source_location": "L1079"
     },
     {
       "id": "app_urlsegura",
@@ -4008,7 +4320,7 @@
       "file_type": "code",
       "norm_label": "yaestainstalada()",
       "source_file": "app.js",
-      "source_location": "L2064"
+      "source_location": "L2068"
     },
     {
       "id": "mapa_capas_capariesgo",
@@ -4620,7 +4932,7 @@
       "file_type": "code",
       "norm_label": "apagaravisos()",
       "source_file": "app.js",
-      "source_location": "L2333"
+      "source_location": "L2337"
     },
     {
       "id": "app_clavepublicaenbytes",
@@ -4632,7 +4944,7 @@
       "file_type": "code",
       "norm_label": "clavepublicaenbytes()",
       "source_file": "app.js",
-      "source_location": "L2217"
+      "source_location": "L2221"
     },
     {
       "id": "app_guardareltimbre",
@@ -4644,7 +4956,7 @@
       "file_type": "code",
       "norm_label": "guardareltimbre()",
       "source_file": "app.js",
-      "source_location": "L2239"
+      "source_location": "L2243"
     },
     {
       "id": "app_guardargustosdeavisos",
@@ -4656,7 +4968,7 @@
       "file_type": "code",
       "norm_label": "guardargustosdeavisos()",
       "source_file": "app.js",
-      "source_location": "L2200"
+      "source_location": "L2204"
     },
     {
       "id": "app_gustosdeavisos",
@@ -4668,7 +4980,7 @@
       "file_type": "code",
       "norm_label": "gustosdeavisos()",
       "source_file": "app.js",
-      "source_location": "L2184"
+      "source_location": "L2188"
     },
     {
       "id": "app_prenderavisos",
@@ -4680,7 +4992,7 @@
       "file_type": "code",
       "norm_label": "prenderavisos()",
       "source_file": "app.js",
-      "source_location": "L2292"
+      "source_location": "L2296"
     },
     {
       "id": "app_sebancanlosavisos",
@@ -4692,7 +5004,7 @@
       "file_type": "code",
       "norm_label": "sebancanlosavisos()",
       "source_file": "app.js",
-      "source_location": "L2208"
+      "source_location": "L2212"
     },
     {
       "id": "app_suscripciondeestetelefono",
@@ -4704,7 +5016,7 @@
       "file_type": "code",
       "norm_label": "suscripciondeestetelefono()",
       "source_file": "app.js",
-      "source_location": "L2227"
+      "source_location": "L2231"
     },
     {
       "id": "app_tieneavisosalcelular",
@@ -4716,7 +5028,7 @@
       "file_type": "code",
       "norm_label": "tieneavisosalcelular()",
       "source_file": "app.js",
-      "source_location": "L943"
+      "source_location": "L947"
     },
     {
       "id": "estudiemos_pomodoro_abrir",
@@ -4887,18 +5199,6 @@
       "source_location": "L166"
     },
     {
-      "id": "estudiemos_pomodoro_reloj",
-      "label": "reloj()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 76,
-      "community_name": "pomodoro.js",
-      "file_type": "code",
-      "norm_label": "reloj()",
-      "source_file": "estudiemos/pomodoro.js",
-      "source_location": "L75"
-    },
-    {
       "id": "estudiemos_pomodoro_saltear",
       "label": "saltear()",
       "_callable": true,
@@ -4981,30 +5281,6 @@
       "norm_label": "leer()",
       "source_file": "estudiemos/huella.js",
       "source_location": "L22"
-    },
-    {
-      "id": "app_esdelequipo",
-      "label": "esDelEquipo()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 8,
-      "community_name": "Mi perfil (mi/index.html)",
-      "file_type": "code",
-      "norm_label": "esdelequipo()",
-      "source_file": "app.js",
-      "source_location": "L489"
-    },
-    {
-      "id": "app_sesionactual",
-      "label": "sesionActual()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 8,
-      "community_name": "Mi perfil (mi/index.html)",
-      "file_type": "code",
-      "norm_label": "sesionactual()",
-      "source_file": "app.js",
-      "source_location": "L475"
     },
     {
       "id": "lib_tarjeta_avisos_materiasdelosgrupos",
@@ -5443,6 +5719,36 @@
       "source_url": null
     },
     {
+      "id": "index_buscar",
+      "label": "buscar (buscador de tr\u00e1mites, FAQ y c\u00e1tedras)",
+      "_origin": "ast",
+      "author": null,
+      "captured_at": null,
+      "community": 1,
+      "community_name": "Pantalla Mi a\u00f1o (carrera)",
+      "contributor": null,
+      "file_type": "code",
+      "norm_label": "buscar (buscador de tramites, faq y catedras)",
+      "source_file": "index.html",
+      "source_location": "L1814",
+      "source_url": null
+    },
+    {
+      "id": "index_pedircatedras",
+      "label": "pedirCatedras",
+      "_origin": "ast",
+      "author": null,
+      "captured_at": null,
+      "community": 1,
+      "community_name": "Pantalla Mi a\u00f1o (carrera)",
+      "contributor": null,
+      "file_type": "code",
+      "norm_label": "pedircatedras",
+      "source_file": "index.html",
+      "source_location": "L1778",
+      "source_url": null
+    },
+    {
       "id": "lib_supabase",
       "label": "lib/supabase.js (cliente Supabase completo)",
       "_origin": "ast",
@@ -5500,6 +5806,21 @@
       "norm_label": "tabla supabase faq",
       "source_file": "index.html",
       "source_location": "L771",
+      "source_url": null
+    },
+    {
+      "id": "tabla_tramites",
+      "label": "Tabla Supabase tramites",
+      "_origin": "ast",
+      "author": null,
+      "captured_at": null,
+      "community": 1,
+      "community_name": "Pantalla Mi a\u00f1o (carrera)",
+      "contributor": null,
+      "file_type": "concept",
+      "norm_label": "tabla supabase tramites",
+      "source_file": "index.html",
+      "source_location": "L769",
       "source_url": null
     },
     {
@@ -5593,48 +5914,48 @@
       "source_url": null
     },
     {
-      "id": "index_buscar",
-      "label": "buscar (buscador de tr\u00e1mites, FAQ y c\u00e1tedras)",
+      "id": "panel_index",
+      "label": "Pantalla Panel (administraci\u00f3n del equipo)",
       "_origin": "ast",
       "author": null,
       "captured_at": null,
-      "community": 104,
-      "community_name": "buscar (buscador de tr\u00e1mites, FAQ y c\u00e1tedras)",
+      "community": 106,
+      "community_name": "sesionActual",
       "contributor": null,
       "file_type": "code",
-      "norm_label": "buscar (buscador de tramites, faq y catedras)",
-      "source_file": "index.html",
-      "source_location": "L1814",
+      "norm_label": "pantalla panel (administracion del equipo)",
+      "source_file": "panel/index.html",
+      "source_location": "L6",
       "source_url": null
     },
     {
-      "id": "index_pedircatedras",
-      "label": "pedirCatedras",
+      "id": "panel_index_panel",
+      "label": "panel() arranque y control de sesi\u00f3n",
       "_origin": "ast",
       "author": null,
       "captured_at": null,
-      "community": 104,
-      "community_name": "buscar (buscador de tr\u00e1mites, FAQ y c\u00e1tedras)",
+      "community": 106,
+      "community_name": "sesionActual",
       "contributor": null,
       "file_type": "code",
-      "norm_label": "pedircatedras",
-      "source_file": "index.html",
-      "source_location": "L1778",
+      "norm_label": "panel() arranque y control de sesion",
+      "source_file": "panel/index.html",
+      "source_location": "L136",
       "source_url": null
     },
     {
-      "id": "tabla_tramites",
-      "label": "Tabla Supabase tramites",
+      "id": "tramites_index_botonguardar",
+      "label": "botonGuardar (guardados del usuario)",
       "_origin": "ast",
       "author": null,
       "captured_at": null,
-      "community": 104,
-      "community_name": "buscar (buscador de tr\u00e1mites, FAQ y c\u00e1tedras)",
+      "community": 106,
+      "community_name": "sesionActual",
       "contributor": null,
-      "file_type": "concept",
-      "norm_label": "tabla supabase tramites",
-      "source_file": "index.html",
-      "source_location": "L769",
+      "file_type": "code",
+      "norm_label": "botonguardar (guardados del usuario)",
+      "source_file": "tramites/index.html",
+      "source_location": "L187",
       "source_url": null
     },
     {
@@ -6874,51 +7195,6 @@
       "source_url": null
     },
     {
-      "id": "panel_index",
-      "label": "Pantalla Panel (administraci\u00f3n del equipo)",
-      "_origin": "ast",
-      "author": null,
-      "captured_at": null,
-      "community": 8,
-      "community_name": "Mi perfil (mi/index.html)",
-      "contributor": null,
-      "file_type": "code",
-      "norm_label": "pantalla panel (administracion del equipo)",
-      "source_file": "panel/index.html",
-      "source_location": "L6",
-      "source_url": null
-    },
-    {
-      "id": "panel_index_panel",
-      "label": "panel() arranque y control de sesi\u00f3n",
-      "_origin": "ast",
-      "author": null,
-      "captured_at": null,
-      "community": 8,
-      "community_name": "Mi perfil (mi/index.html)",
-      "contributor": null,
-      "file_type": "code",
-      "norm_label": "panel() arranque y control de sesion",
-      "source_file": "panel/index.html",
-      "source_location": "L136",
-      "source_url": null
-    },
-    {
-      "id": "tramites_index_botonguardar",
-      "label": "botonGuardar (guardados del usuario)",
-      "_origin": "ast",
-      "author": null,
-      "captured_at": null,
-      "community": 8,
-      "community_name": "Mi perfil (mi/index.html)",
-      "contributor": null,
-      "file_type": "code",
-      "norm_label": "botonguardar (guardados del usuario)",
-      "source_file": "tramites/index.html",
-      "source_location": "L187",
-      "source_url": null
-    },
-    {
       "id": "bitacora_explicarerror",
       "label": "explicarError() / errores en castellano",
       "_origin": "ast",
@@ -7202,6 +7478,312 @@
       "community_name": "public.publicaciones",
       "file_type": "code",
       "norm_label": "public.publicaciones",
+      "source_file": "",
+      "source_location": ""
+    },
+    {
+      "id": "congreso_congreso",
+      "label": "congreso.js",
+      "_origin": "ast",
+      "community": 104,
+      "community_name": "congreso.js",
+      "file_type": "code",
+      "norm_label": "congreso.js",
+      "source_file": "congreso/congreso.js",
+      "source_location": "L1"
+    },
+    {
+      "id": "docs_prompts_prompt_elecciones",
+      "label": "PROMPT-ELECCIONES.md",
+      "_origin": "ast",
+      "community": 104,
+      "community_name": "congreso.js",
+      "file_type": "document",
+      "node_kind": "page",
+      "norm_label": "prompt-elecciones.md",
+      "source_file": "docs/prompts/PROMPT-ELECCIONES.md",
+      "source_location": "L1"
+    },
+    {
+      "id": "docs_prompts_prompt_elecciones_bloque_com\u00fan_va_siempre",
+      "label": "Bloque com\u00fan (va siempre)",
+      "_origin": "ast",
+      "community": 104,
+      "community_name": "congreso.js",
+      "file_type": "document",
+      "node_kind": "heading",
+      "norm_label": "bloque comun (va siempre)",
+      "source_file": "docs/prompts/PROMPT-ELECCIONES.md",
+      "source_location": "L69"
+    },
+    {
+      "id": "docs_prompts_prompt_elecciones_b\u00fasqueda_permanencia_y_estudio",
+      "label": "B\u00fasqueda: permanencia y estudio",
+      "_origin": "ast",
+      "community": 104,
+      "community_name": "congreso.js",
+      "file_type": "document",
+      "node_kind": "heading",
+      "norm_label": "busqueda: permanencia y estudio",
+      "source_file": "docs/prompts/PROMPT-ELECCIONES.md",
+      "source_location": "L221"
+    },
+    {
+      "id": "docs_prompts_prompt_elecciones_fuera_del_c\u00f3digo_para_el_chat_com\u00fan_no_para_una_sesi\u00f3n_de_c\u00f3digo",
+      "label": "Fuera del c\u00f3digo (para el chat com\u00fan, no para una sesi\u00f3n de c\u00f3digo)",
+      "_origin": "ast",
+      "community": 104,
+      "community_name": "congreso.js",
+      "file_type": "document",
+      "node_kind": "heading",
+      "norm_label": "fuera del codigo (para el chat comun, no para una sesion de codigo)",
+      "source_file": "docs/prompts/PROMPT-ELECCIONES.md",
+      "source_location": "L321"
+    },
+    {
+      "id": "docs_prompts_prompt_elecciones_los_15_d\u00edas_20_10_al_3_11_sin_c\u00f3digo",
+      "label": "Los 15 d\u00edas (20/10 al 3/11): sin c\u00f3digo",
+      "_origin": "ast",
+      "community": 104,
+      "community_name": "congreso.js",
+      "file_type": "document",
+      "node_kind": "heading",
+      "norm_label": "los 15 dias (20/10 al 3/11): sin codigo",
+      "source_file": "docs/prompts/PROMPT-ELECCIONES.md",
+      "source_location": "L201"
+    },
+    {
+      "id": "docs_prompts_prompt_elecciones_prompts_para_las_sesiones_hacia_las_elecciones_24_9_al_6_11",
+      "label": "Prompts para las sesiones hacia las elecciones (24/9 al 6/11)",
+      "_origin": "ast",
+      "community": 104,
+      "community_name": "congreso.js",
+      "file_type": "document",
+      "node_kind": "heading",
+      "norm_label": "prompts para las sesiones hacia las elecciones (24/9 al 6/11)",
+      "source_file": "docs/prompts/PROMPT-ELECCIONES.md",
+      "source_location": "L1"
+    },
+    {
+      "id": "docs_prompts_prompt_elecciones_semana_1_28_9_al_4_10_el_buz\u00f3n_y_la_bandeja",
+      "label": "Semana 1 (28/9 al 4/10): el buz\u00f3n y la bandeja",
+      "_origin": "ast",
+      "community": 104,
+      "community_name": "congreso.js",
+      "file_type": "document",
+      "node_kind": "heading",
+      "norm_label": "semana 1 (28/9 al 4/10): el buzon y la bandeja",
+      "source_file": "docs/prompts/PROMPT-ELECCIONES.md",
+      "source_location": "L95"
+    },
+    {
+      "id": "docs_prompts_prompt_elecciones_semana_2_5_10_al_11_10_llegar_a_m\u00e1s",
+      "label": "Semana 2 (5/10 al 11/10): llegar a m\u00e1s",
+      "_origin": "ast",
+      "community": 104,
+      "community_name": "congreso.js",
+      "file_type": "document",
+      "node_kind": "heading",
+      "norm_label": "semana 2 (5/10 al 11/10): llegar a mas",
+      "source_file": "docs/prompts/PROMPT-ELECCIONES.md",
+      "source_location": "L145"
+    },
+    {
+      "id": "docs_prompts_prompt_elecciones_semana_3_12_10_al_18_10_cerrar_y_probar",
+      "label": "Semana 3 (12/10 al 18/10): cerrar y probar",
+      "_origin": "ast",
+      "community": 104,
+      "community_name": "congreso.js",
+      "file_type": "document",
+      "node_kind": "heading",
+      "norm_label": "semana 3 (12/10 al 18/10): cerrar y probar",
+      "source_file": "docs/prompts/PROMPT-ELECCIONES.md",
+      "source_location": "L173"
+    },
+    {
+      "id": "public_tocar_congreso_mesa",
+      "label": "public.tocar_congreso_mesa",
+      "_origin": "ast",
+      "community": 105,
+      "community_name": "tabla-congreso.sql",
+      "file_type": "code",
+      "norm_label": "public.tocar_congreso_mesa",
+      "source_file": "",
+      "source_location": ""
+    },
+    {
+      "id": "sql_tabla_congreso",
+      "label": "tabla-congreso.sql",
+      "_origin": "ast",
+      "community": 105,
+      "community_name": "tabla-congreso.sql",
+      "file_type": "code",
+      "norm_label": "tabla-congreso.sql",
+      "source_file": "sql/tabla-congreso.sql",
+      "source_location": null
+    },
+    {
+      "id": "sql_tabla_congreso_al_tocar_congreso_mesa",
+      "label": "al_tocar_congreso_mesa",
+      "_origin": "ast",
+      "community": 105,
+      "community_name": "tabla-congreso.sql",
+      "file_type": "code",
+      "norm_label": "al_tocar_congreso_mesa",
+      "source_file": "sql/tabla-congreso.sql",
+      "source_location": "L130"
+    },
+    {
+      "id": "sql_tabla_congreso_congreso_interv_eje_idx",
+      "label": "congreso_interv_eje_idx",
+      "_origin": "ast",
+      "community": 105,
+      "community_name": "tabla-congreso.sql",
+      "file_type": "code",
+      "norm_label": "congreso_interv_eje_idx",
+      "source_file": "sql/tabla-congreso.sql",
+      "source_location": "L155"
+    },
+    {
+      "id": "sql_tabla_congreso_congreso_interv_marca_idx",
+      "label": "congreso_interv_marca_idx",
+      "_origin": "ast",
+      "community": 105,
+      "community_name": "tabla-congreso.sql",
+      "file_type": "code",
+      "norm_label": "congreso_interv_marca_idx",
+      "source_file": "sql/tabla-congreso.sql",
+      "source_location": "L157"
+    },
+    {
+      "id": "sql_tabla_congreso_congreso_interv_mesa_idx",
+      "label": "congreso_interv_mesa_idx",
+      "_origin": "ast",
+      "community": 105,
+      "community_name": "tabla-congreso.sql",
+      "file_type": "code",
+      "norm_label": "congreso_interv_mesa_idx",
+      "source_file": "sql/tabla-congreso.sql",
+      "source_location": "L153"
+    },
+    {
+      "id": "sql_tabla_congreso_congreso_mesas_fecha_idx",
+      "label": "congreso_mesas_fecha_idx",
+      "_origin": "ast",
+      "community": 105,
+      "community_name": "tabla-congreso.sql",
+      "file_type": "code",
+      "norm_label": "congreso_mesas_fecha_idx",
+      "source_file": "sql/tabla-congreso.sql",
+      "source_location": "L83"
+    },
+    {
+      "id": "sql_tabla_congreso_congreso_votos_marca_idx",
+      "label": "congreso_votos_marca_idx",
+      "_origin": "ast",
+      "community": 105,
+      "community_name": "tabla-congreso.sql",
+      "file_type": "code",
+      "norm_label": "congreso_votos_marca_idx",
+      "source_file": "sql/tabla-congreso.sql",
+      "source_location": "L167"
+    },
+    {
+      "id": "sql_tabla_congreso_public_congreso_apoyar",
+      "label": "public.congreso_apoyar()",
+      "_origin": "ast",
+      "community": 105,
+      "community_name": "tabla-congreso.sql",
+      "file_type": "code",
+      "norm_label": "public.congreso_apoyar()",
+      "source_file": "sql/tabla-congreso.sql",
+      "source_location": "L301"
+    },
+    {
+      "id": "sql_tabla_congreso_public_congreso_intervenciones",
+      "label": "public.congreso_intervenciones",
+      "_origin": "ast",
+      "community": 105,
+      "community_name": "tabla-congreso.sql",
+      "file_type": "code",
+      "norm_label": "public.congreso_intervenciones",
+      "source_file": "sql/tabla-congreso.sql",
+      "source_location": "L137"
+    },
+    {
+      "id": "sql_tabla_congreso_public_congreso_intervenir",
+      "label": "public.congreso_intervenir()",
+      "_origin": "ast",
+      "community": 105,
+      "community_name": "tabla-congreso.sql",
+      "file_type": "code",
+      "norm_label": "public.congreso_intervenir()",
+      "source_file": "sql/tabla-congreso.sql",
+      "source_location": "L217"
+    },
+    {
+      "id": "sql_tabla_congreso_public_congreso_mesas",
+      "label": "public.congreso_mesas",
+      "_origin": "ast",
+      "community": 105,
+      "community_name": "tabla-congreso.sql",
+      "file_type": "code",
+      "norm_label": "public.congreso_mesas",
+      "source_file": "sql/tabla-congreso.sql",
+      "source_location": "L57"
+    },
+    {
+      "id": "sql_tabla_congreso_public_congreso_moderar",
+      "label": "public.congreso_moderar()",
+      "_origin": "ast",
+      "community": 105,
+      "community_name": "tabla-congreso.sql",
+      "file_type": "code",
+      "norm_label": "public.congreso_moderar()",
+      "source_file": "sql/tabla-congreso.sql",
+      "source_location": "L342"
+    },
+    {
+      "id": "sql_tabla_congreso_public_congreso_muro",
+      "label": "public.congreso_muro()",
+      "_origin": "ast",
+      "community": 105,
+      "community_name": "tabla-congreso.sql",
+      "file_type": "code",
+      "norm_label": "public.congreso_muro()",
+      "source_file": "sql/tabla-congreso.sql",
+      "source_location": "L188"
+    },
+    {
+      "id": "sql_tabla_congreso_public_congreso_votos",
+      "label": "public.congreso_votos",
+      "_origin": "ast",
+      "community": 105,
+      "community_name": "tabla-congreso.sql",
+      "file_type": "code",
+      "norm_label": "public.congreso_votos",
+      "source_file": "sql/tabla-congreso.sql",
+      "source_location": "L160"
+    },
+    {
+      "id": "sql_tabla_congreso_public_tocar_congreso_mesa",
+      "label": "public.tocar_congreso_mesa()",
+      "_origin": "ast",
+      "community": 105,
+      "community_name": "tabla-congreso.sql",
+      "file_type": "code",
+      "norm_label": "public.tocar_congreso_mesa()",
+      "source_file": "sql/tabla-congreso.sql",
+      "source_location": "L122"
+    },
+    {
+      "id": "sql_tabla_congreso_sql_public",
+      "label": "public",
+      "_origin": "ast",
+      "community": 105,
+      "community_name": "tabla-congreso.sql",
+      "file_type": "code",
+      "norm_label": "public",
       "source_file": "",
       "source_location": ""
     },
@@ -8624,7 +9206,7 @@
       "file_type": "code",
       "norm_label": "avisos_por_defecto",
       "source_file": "app.js",
-      "source_location": "L2181"
+      "source_location": "L2185"
     },
     {
       "id": "app_carreras_app",
@@ -8646,7 +9228,7 @@
       "file_type": "code",
       "norm_label": "dias_bandeja",
       "source_file": "app.js",
-      "source_location": "L800"
+      "source_location": "L804"
     },
     {
       "id": "app_hitosdeestavisita",
@@ -8756,7 +9338,7 @@
       "file_type": "code",
       "norm_label": "sistemas_unlp",
       "source_file": "app.js",
-      "source_location": "L719"
+      "source_location": "L723"
     },
     {
       "id": "app_temas",
@@ -8767,7 +9349,7 @@
       "file_type": "code",
       "norm_label": "temas",
       "source_file": "app.js",
-      "source_location": "L1206"
+      "source_location": "L1210"
     },
     {
       "id": "sql_tabla_riesgo",
@@ -9891,114 +10473,6 @@
       "source_location": "L1"
     },
     {
-      "id": "docs_prompts_prompt_elecciones",
-      "label": "PROMPT-ELECCIONES.md",
-      "_origin": "ast",
-      "community": 76,
-      "community_name": "pomodoro.js",
-      "file_type": "document",
-      "node_kind": "page",
-      "norm_label": "prompt-elecciones.md",
-      "source_file": "docs/prompts/PROMPT-ELECCIONES.md",
-      "source_location": "L1"
-    },
-    {
-      "id": "docs_prompts_prompt_elecciones_bloque_com\u00fan_va_siempre",
-      "label": "Bloque com\u00fan (va siempre)",
-      "_origin": "ast",
-      "community": 76,
-      "community_name": "pomodoro.js",
-      "file_type": "document",
-      "node_kind": "heading",
-      "norm_label": "bloque comun (va siempre)",
-      "source_file": "docs/prompts/PROMPT-ELECCIONES.md",
-      "source_location": "L69"
-    },
-    {
-      "id": "docs_prompts_prompt_elecciones_b\u00fasqueda_permanencia_y_estudio",
-      "label": "B\u00fasqueda: permanencia y estudio",
-      "_origin": "ast",
-      "community": 76,
-      "community_name": "pomodoro.js",
-      "file_type": "document",
-      "node_kind": "heading",
-      "norm_label": "busqueda: permanencia y estudio",
-      "source_file": "docs/prompts/PROMPT-ELECCIONES.md",
-      "source_location": "L221"
-    },
-    {
-      "id": "docs_prompts_prompt_elecciones_fuera_del_c\u00f3digo_para_el_chat_com\u00fan_no_para_una_sesi\u00f3n_de_c\u00f3digo",
-      "label": "Fuera del c\u00f3digo (para el chat com\u00fan, no para una sesi\u00f3n de c\u00f3digo)",
-      "_origin": "ast",
-      "community": 76,
-      "community_name": "pomodoro.js",
-      "file_type": "document",
-      "node_kind": "heading",
-      "norm_label": "fuera del codigo (para el chat comun, no para una sesion de codigo)",
-      "source_file": "docs/prompts/PROMPT-ELECCIONES.md",
-      "source_location": "L321"
-    },
-    {
-      "id": "docs_prompts_prompt_elecciones_los_15_d\u00edas_20_10_al_3_11_sin_c\u00f3digo",
-      "label": "Los 15 d\u00edas (20/10 al 3/11): sin c\u00f3digo",
-      "_origin": "ast",
-      "community": 76,
-      "community_name": "pomodoro.js",
-      "file_type": "document",
-      "node_kind": "heading",
-      "norm_label": "los 15 dias (20/10 al 3/11): sin codigo",
-      "source_file": "docs/prompts/PROMPT-ELECCIONES.md",
-      "source_location": "L201"
-    },
-    {
-      "id": "docs_prompts_prompt_elecciones_prompts_para_las_sesiones_hacia_las_elecciones_24_9_al_6_11",
-      "label": "Prompts para las sesiones hacia las elecciones (24/9 al 6/11)",
-      "_origin": "ast",
-      "community": 76,
-      "community_name": "pomodoro.js",
-      "file_type": "document",
-      "node_kind": "heading",
-      "norm_label": "prompts para las sesiones hacia las elecciones (24/9 al 6/11)",
-      "source_file": "docs/prompts/PROMPT-ELECCIONES.md",
-      "source_location": "L1"
-    },
-    {
-      "id": "docs_prompts_prompt_elecciones_semana_1_28_9_al_4_10_el_buz\u00f3n_y_la_bandeja",
-      "label": "Semana 1 (28/9 al 4/10): el buz\u00f3n y la bandeja",
-      "_origin": "ast",
-      "community": 76,
-      "community_name": "pomodoro.js",
-      "file_type": "document",
-      "node_kind": "heading",
-      "norm_label": "semana 1 (28/9 al 4/10): el buzon y la bandeja",
-      "source_file": "docs/prompts/PROMPT-ELECCIONES.md",
-      "source_location": "L95"
-    },
-    {
-      "id": "docs_prompts_prompt_elecciones_semana_2_5_10_al_11_10_llegar_a_m\u00e1s",
-      "label": "Semana 2 (5/10 al 11/10): llegar a m\u00e1s",
-      "_origin": "ast",
-      "community": 76,
-      "community_name": "pomodoro.js",
-      "file_type": "document",
-      "node_kind": "heading",
-      "norm_label": "semana 2 (5/10 al 11/10): llegar a mas",
-      "source_file": "docs/prompts/PROMPT-ELECCIONES.md",
-      "source_location": "L145"
-    },
-    {
-      "id": "docs_prompts_prompt_elecciones_semana_3_12_10_al_18_10_cerrar_y_probar",
-      "label": "Semana 3 (12/10 al 18/10): cerrar y probar",
-      "_origin": "ast",
-      "community": 76,
-      "community_name": "pomodoro.js",
-      "file_type": "document",
-      "node_kind": "heading",
-      "norm_label": "semana 3 (12/10 al 18/10): cerrar y probar",
-      "source_file": "docs/prompts/PROMPT-ELECCIONES.md",
-      "source_location": "L173"
-    },
-    {
       "id": "estudiemos_huella",
       "label": "huella.js",
       "_origin": "ast",
@@ -10008,17 +10482,6 @@
       "norm_label": "huella.js",
       "source_file": "estudiemos/huella.js",
       "source_location": "L1"
-    },
-    {
-      "id": "public",
-      "label": "public",
-      "_origin": "ast",
-      "community": 78,
-      "community_name": "tabla-buzon.sql",
-      "file_type": "code",
-      "norm_label": "public",
-      "source_file": "",
-      "source_location": ""
     },
     {
       "id": "public_buzon_al_moderar",
@@ -10171,6 +10634,17 @@
       "community_name": "tabla-buzon.sql",
       "file_type": "code",
       "norm_label": "auth.users",
+      "source_file": "",
+      "source_location": ""
+    },
+    {
+      "id": "sql_tabla_buzon_sql_public",
+      "label": "public",
+      "_origin": "ast",
+      "community": 78,
+      "community_name": "tabla-buzon.sql",
+      "file_type": "code",
+      "norm_label": "public",
       "source_file": "",
       "source_location": ""
     },
@@ -10766,6 +11240,21 @@
       "source_url": null
     },
     {
+      "id": "supabase_tabla_guardados",
+      "label": "Tabla Supabase guardados",
+      "_origin": "semantic",
+      "author": null,
+      "captured_at": null,
+      "community": 106,
+      "community_name": "sesionActual",
+      "contributor": null,
+      "file_type": "concept",
+      "norm_label": "tabla supabase guardados",
+      "source_file": "tramites/index.html",
+      "source_location": null,
+      "source_url": null
+    },
+    {
       "id": "leeme",
       "label": "LEEME \u00b7 La Bol\u00edvar con vos",
       "_origin": "semantic",
@@ -11157,21 +11646,6 @@
       "source_url": null
     },
     {
-      "id": "supabase_tabla_guardados",
-      "label": "Tabla Supabase guardados",
-      "_origin": "semantic",
-      "author": null,
-      "captured_at": null,
-      "community": 8,
-      "community_name": "Mi perfil (mi/index.html)",
-      "contributor": null,
-      "file_type": "concept",
-      "norm_label": "tabla supabase guardados",
-      "source_file": "tramites/index.html",
-      "source_location": null,
-      "source_url": null
-    },
-    {
       "id": "ref_jsr_supabase",
       "label": "ref_jsr_supabase",
       "_origin": "semantic",
@@ -11218,7 +11692,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "app.js",
-      "source_location": "L1131",
+      "source_location": "L1135",
       "weight": 1.0
     },
     {
@@ -11230,7 +11704,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "app.js",
-      "source_location": "L1132",
+      "source_location": "L1136",
       "weight": 1.0
     },
     {
@@ -11242,7 +11716,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "app.js",
-      "source_location": "L1102",
+      "source_location": "L1106",
       "weight": 1.0
     },
     {
@@ -11338,7 +11812,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "app.js",
-      "source_location": "L2334",
+      "source_location": "L2338",
       "weight": 1.0
     },
     {
@@ -11350,7 +11824,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "app.js",
-      "source_location": "L2343",
+      "source_location": "L2347",
       "weight": 1.0
     },
     {
@@ -11362,7 +11836,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "app.js",
-      "source_location": "L2344",
+      "source_location": "L2348",
       "weight": 1.0
     },
     {
@@ -11374,7 +11848,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "app.js",
-      "source_location": "L883",
+      "source_location": "L887",
       "weight": 1.0
     },
     {
@@ -11386,7 +11860,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "app.js",
-      "source_location": "L886",
+      "source_location": "L890",
       "weight": 1.0
     },
     {
@@ -11398,7 +11872,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "app.js",
-      "source_location": "L1169",
+      "source_location": "L1173",
       "weight": 1.0
     },
     {
@@ -11410,7 +11884,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "app.js",
-      "source_location": "L1171",
+      "source_location": "L1175",
       "weight": 1.0
     },
     {
@@ -11422,7 +11896,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "app.js",
-      "source_location": "L1172",
+      "source_location": "L1176",
       "weight": 1.0
     },
     {
@@ -11434,7 +11908,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "app.js",
-      "source_location": "L1172",
+      "source_location": "L1176",
       "weight": 1.0
     },
     {
@@ -11446,7 +11920,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "app.js",
-      "source_location": "L1960",
+      "source_location": "L1964",
       "weight": 1.0
     },
     {
@@ -11458,7 +11932,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "app.js",
-      "source_location": "L1961",
+      "source_location": "L1965",
       "weight": 1.0
     },
     {
@@ -11470,7 +11944,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "app.js",
-      "source_location": "L1967",
+      "source_location": "L1971",
       "weight": 1.0
     },
     {
@@ -11482,7 +11956,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "app.js",
-      "source_location": "L1968",
+      "source_location": "L1972",
       "weight": 1.0
     },
     {
@@ -11506,7 +11980,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "app.js",
-      "source_location": "L849",
+      "source_location": "L853",
       "weight": 1.0
     },
     {
@@ -11518,7 +11992,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "app.js",
-      "source_location": "L863",
+      "source_location": "L867",
       "weight": 1.0
     },
     {
@@ -11602,7 +12076,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "app.js",
-      "source_location": "L910",
+      "source_location": "L914",
       "weight": 1.0
     },
     {
@@ -11614,7 +12088,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "app.js",
-      "source_location": "L916",
+      "source_location": "L920",
       "weight": 1.0
     },
     {
@@ -11626,7 +12100,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "app.js",
-      "source_location": "L1808",
+      "source_location": "L1812",
       "weight": 1.0
     },
     {
@@ -11662,7 +12136,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "app.js",
-      "source_location": "L2275",
+      "source_location": "L2279",
       "weight": 1.0
     },
     {
@@ -11674,7 +12148,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "app.js",
-      "source_location": "L750",
+      "source_location": "L754",
       "weight": 1.0
     },
     {
@@ -11686,7 +12160,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "app.js",
-      "source_location": "L951",
+      "source_location": "L955",
       "weight": 1.0
     },
     {
@@ -11698,7 +12172,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "app.js",
-      "source_location": "L952",
+      "source_location": "L956",
       "weight": 1.0
     },
     {
@@ -11710,24 +12184,12 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "app.js",
-      "source_location": "L953",
+      "source_location": "L957",
       "weight": 1.0
     },
     {
       "source": "app_htmlnovedades",
       "target": "app_avisoleido",
-      "relation": "calls",
-      "_origin": "ast",
-      "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "context": "call",
-      "source_file": "app.js",
-      "source_location": "L954",
-      "weight": 1.0
-    },
-    {
-      "source": "app_htmlnovedades",
-      "target": "app_itemdebandeja",
       "relation": "calls",
       "_origin": "ast",
       "confidence": "EXTRACTED",
@@ -11739,6 +12201,18 @@
     },
     {
       "source": "app_htmlnovedades",
+      "target": "app_itemdebandeja",
+      "relation": "calls",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "call",
+      "source_file": "app.js",
+      "source_location": "L962",
+      "weight": 1.0
+    },
+    {
+      "source": "app_htmlnovedades",
       "target": "app_tieneavisosalcelular",
       "relation": "calls",
       "_origin": "ast",
@@ -11746,7 +12220,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "app.js",
-      "source_location": "L988",
+      "source_location": "L992",
       "weight": 1.0
     },
     {
@@ -11758,7 +12232,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "app.js",
-      "source_location": "L1751",
+      "source_location": "L1755",
       "weight": 1.0
     },
     {
@@ -11770,7 +12244,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "app.js",
-      "source_location": "L1567",
+      "source_location": "L1571",
       "weight": 1.0
     },
     {
@@ -11782,7 +12256,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "app.js",
-      "source_location": "L1567",
+      "source_location": "L1571",
       "weight": 1.0
     },
     {
@@ -11794,7 +12268,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "app.js",
-      "source_location": "L2090",
+      "source_location": "L2094",
       "weight": 1.0
     },
     {
@@ -11806,7 +12280,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "app.js",
-      "source_location": "L2092",
+      "source_location": "L2096",
       "weight": 1.0
     },
     {
@@ -11818,7 +12292,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "app.js",
-      "source_location": "L2099",
+      "source_location": "L2103",
       "weight": 1.0
     },
     {
@@ -11830,7 +12304,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "app.js",
-      "source_location": "L2117",
+      "source_location": "L2121",
       "weight": 1.0
     },
     {
@@ -11842,7 +12316,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "app.js",
-      "source_location": "L925",
+      "source_location": "L929",
       "weight": 1.0
     },
     {
@@ -11854,7 +12328,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "app.js",
-      "source_location": "L928",
+      "source_location": "L932",
       "weight": 1.0
     },
     {
@@ -11866,7 +12340,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "app.js",
-      "source_location": "L929",
+      "source_location": "L933",
       "weight": 1.0
     },
     {
@@ -11890,7 +12364,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "app.js",
-      "source_location": "L1813",
+      "source_location": "L1817",
       "weight": 1.0
     },
     {
@@ -11902,7 +12376,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "app.js",
-      "source_location": "L1817",
+      "source_location": "L1821",
       "weight": 1.0
     },
     {
@@ -11914,7 +12388,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "app.js",
-      "source_location": "L1588",
+      "source_location": "L1592",
       "weight": 1.0
     },
     {
@@ -11926,7 +12400,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "app.js",
-      "source_location": "L1588",
+      "source_location": "L1592",
       "weight": 1.0
     },
     {
@@ -11938,7 +12412,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "app.js",
-      "source_location": "L1601",
+      "source_location": "L1605",
       "weight": 1.0
     },
     {
@@ -11950,7 +12424,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "app.js",
-      "source_location": "L1637",
+      "source_location": "L1641",
       "weight": 1.0
     },
     {
@@ -11962,7 +12436,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "app.js",
-      "source_location": "L1687",
+      "source_location": "L1691",
       "weight": 1.0
     },
     {
@@ -11974,7 +12448,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "app.js",
-      "source_location": "L1001",
+      "source_location": "L1005",
       "weight": 1.0
     },
     {
@@ -11986,7 +12460,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "app.js",
-      "source_location": "L1002",
+      "source_location": "L1006",
       "weight": 1.0
     },
     {
@@ -11998,7 +12472,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "app.js",
-      "source_location": "L1002",
+      "source_location": "L1006",
       "weight": 1.0
     },
     {
@@ -12010,7 +12484,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "app.js",
-      "source_location": "L1329",
+      "source_location": "L1333",
       "weight": 1.0
     },
     {
@@ -12022,7 +12496,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "app.js",
-      "source_location": "L1364",
+      "source_location": "L1368",
       "weight": 1.0
     },
     {
@@ -12034,7 +12508,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "app.js",
-      "source_location": "L1366",
+      "source_location": "L1370",
       "weight": 1.0
     },
     {
@@ -12046,7 +12520,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "app.js",
-      "source_location": "L1370",
+      "source_location": "L1374",
       "weight": 1.0
     },
     {
@@ -12058,7 +12532,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "app.js",
-      "source_location": "L1371",
+      "source_location": "L1375",
       "weight": 1.0
     },
     {
@@ -12070,7 +12544,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "app.js",
-      "source_location": "L1372",
+      "source_location": "L1376",
       "weight": 1.0
     },
     {
@@ -12082,7 +12556,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "app.js",
-      "source_location": "L1460",
+      "source_location": "L1464",
       "weight": 1.0
     },
     {
@@ -12094,7 +12568,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "app.js",
-      "source_location": "L1469",
+      "source_location": "L1473",
       "weight": 1.0
     },
     {
@@ -12106,7 +12580,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "app.js",
-      "source_location": "L1225",
+      "source_location": "L1229",
       "weight": 1.0
     },
     {
@@ -12118,7 +12592,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "app.js",
-      "source_location": "L1226",
+      "source_location": "L1230",
       "weight": 1.0
     },
     {
@@ -12130,7 +12604,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "app.js",
-      "source_location": "L1232",
+      "source_location": "L1236",
       "weight": 1.0
     },
     {
@@ -12142,7 +12616,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "app.js",
-      "source_location": "L1951",
+      "source_location": "L1955",
       "weight": 1.0
     },
     {
@@ -12154,7 +12628,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "app.js",
-      "source_location": "L2293",
+      "source_location": "L2297",
       "weight": 1.0
     },
     {
@@ -12166,7 +12640,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "app.js",
-      "source_location": "L2309",
+      "source_location": "L2313",
       "weight": 1.0
     },
     {
@@ -12178,7 +12652,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "app.js",
-      "source_location": "L2314",
+      "source_location": "L2318",
       "weight": 1.0
     },
     {
@@ -12190,7 +12664,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "app.js",
-      "source_location": "L2329",
+      "source_location": "L2333",
       "weight": 1.0
     },
     {
@@ -12226,7 +12700,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "app.js",
-      "source_location": "L1125",
+      "source_location": "L1129",
       "weight": 1.0
     },
     {
@@ -12238,7 +12712,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "app.js",
-      "source_location": "L2082",
+      "source_location": "L2086",
       "weight": 1.0
     },
     {
@@ -12250,7 +12724,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "app.js",
-      "source_location": "L2082",
+      "source_location": "L2086",
       "weight": 1.0
     },
     {
@@ -12262,7 +12736,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "app.js",
-      "source_location": "L2083",
+      "source_location": "L2087",
       "weight": 1.0
     },
     {
@@ -12274,7 +12748,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "app.js",
-      "source_location": "L1076",
+      "source_location": "L1080",
       "weight": 1.0
     },
     {
@@ -12286,7 +12760,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "app.js",
-      "source_location": "L1082",
+      "source_location": "L1086",
       "weight": 1.0
     },
     {
@@ -12298,7 +12772,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "app.js",
-      "source_location": "L1084",
+      "source_location": "L1088",
       "weight": 1.0
     },
     {
@@ -12310,7 +12784,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "app.js",
-      "source_location": "L1084",
+      "source_location": "L1088",
       "weight": 1.0
     },
     {
@@ -12322,7 +12796,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "app.js",
-      "source_location": "L1085",
+      "source_location": "L1089",
       "weight": 1.0
     },
     {
@@ -12334,7 +12808,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "app.js",
-      "source_location": "L2228",
+      "source_location": "L2232",
       "weight": 1.0
     },
     {
@@ -12346,7 +12820,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "app.js",
-      "source_location": "L946",
+      "source_location": "L950",
       "weight": 1.0
     },
     {
@@ -12358,7 +12832,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "app.js",
-      "source_location": "L1020",
+      "source_location": "L1024",
       "weight": 1.0
     },
     {
@@ -12370,7 +12844,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "app.js",
-      "source_location": "L1026",
+      "source_location": "L1030",
       "weight": 1.0
     },
     {
@@ -12382,7 +12856,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "app.js",
-      "source_location": "L1267",
+      "source_location": "L1271",
       "weight": 1.0
     },
     {
@@ -12394,7 +12868,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "app.js",
-      "source_location": "L1267",
+      "source_location": "L1271",
       "weight": 1.0
     },
     {
@@ -12455,6 +12929,390 @@
       "context": "call",
       "source_file": "carrera/tarjeta-avance.js",
       "source_location": "L121",
+      "weight": 1.0
+    },
+    {
+      "source": "congreso_congreso_abrirhoja",
+      "target": "congreso_congreso_pintarhoja",
+      "relation": "calls",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "call",
+      "source_file": "congreso/congreso.js",
+      "source_location": "L291",
+      "weight": 1.0
+    },
+    {
+      "source": "congreso_congreso_abrirhoja",
+      "target": "congreso_congreso_cargarmuro",
+      "relation": "calls",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "call",
+      "source_file": "congreso/congreso.js",
+      "source_location": "L292",
+      "weight": 1.0
+    },
+    {
+      "source": "congreso_congreso_abrirloquepideelenlace",
+      "target": "congreso_congreso_abrirhoja",
+      "relation": "calls",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "call",
+      "source_file": "congreso/congreso.js",
+      "source_location": "L543",
+      "weight": 1.0
+    },
+    {
+      "source": "congreso_congreso_cargarmuro",
+      "target": "congreso_congreso_pintarmuro",
+      "relation": "calls",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "call",
+      "source_file": "congreso/congreso.js",
+      "source_location": "L430",
+      "weight": 1.0
+    },
+    {
+      "source": "congreso_congreso_htmlcuando",
+      "target": "congreso_congreso_dialindo",
+      "relation": "calls",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "call",
+      "source_file": "congreso/congreso.js",
+      "source_location": "L165",
+      "weight": 1.0
+    },
+    {
+      "source": "congreso_congreso_htmlmesa",
+      "target": "congreso_congreso_estadode",
+      "relation": "calls",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "call",
+      "source_file": "congreso/congreso.js",
+      "source_location": "L178",
+      "weight": 1.0
+    },
+    {
+      "source": "congreso_congreso_htmlmesa",
+      "target": "congreso_congreso_etiquetaestado",
+      "relation": "calls",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "call",
+      "source_file": "congreso/congreso.js",
+      "source_location": "L183",
+      "weight": 1.0
+    },
+    {
+      "source": "congreso_congreso_htmlmesa",
+      "target": "congreso_congreso_htmlgente",
+      "relation": "calls",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "call",
+      "source_file": "congreso/congreso.js",
+      "source_location": "L186",
+      "weight": 1.0
+    },
+    {
+      "source": "congreso_congreso_htmlmesa",
+      "target": "congreso_congreso_htmlcuando",
+      "relation": "calls",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "call",
+      "source_file": "congreso/congreso.js",
+      "source_location": "L187",
+      "weight": 1.0
+    },
+    {
+      "source": "congreso_congreso_mandar",
+      "target": "congreso_congreso_marca",
+      "relation": "calls",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "call",
+      "source_file": "congreso/congreso.js",
+      "source_location": "L478",
+      "weight": 1.0
+    },
+    {
+      "source": "congreso_congreso_mandar",
+      "target": "congreso_congreso_motivo",
+      "relation": "calls",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "call",
+      "source_file": "congreso/congreso.js",
+      "source_location": "L483",
+      "weight": 1.0
+    },
+    {
+      "source": "congreso_congreso_mandar",
+      "target": "congreso_congreso_leermio",
+      "relation": "calls",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "call",
+      "source_file": "congreso/congreso.js",
+      "source_location": "L486",
+      "weight": 1.0
+    },
+    {
+      "source": "congreso_congreso_mandar",
+      "target": "congreso_congreso_guardarmio",
+      "relation": "calls",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "call",
+      "source_file": "congreso/congreso.js",
+      "source_location": "L489",
+      "weight": 1.0
+    },
+    {
+      "source": "congreso_congreso_mandar",
+      "target": "congreso_congreso_cargarmuro",
+      "relation": "calls",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "call",
+      "source_file": "congreso/congreso.js",
+      "source_location": "L495",
+      "weight": 1.0
+    },
+    {
+      "source": "congreso_congreso_marca",
+      "target": "congreso_congreso_guardarmio",
+      "relation": "calls",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "call",
+      "source_file": "congreso/congreso.js",
+      "source_location": "L102",
+      "weight": 1.0
+    },
+    {
+      "source": "congreso_congreso_marca",
+      "target": "congreso_congreso_leermio",
+      "relation": "calls",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "call",
+      "source_file": "congreso/congreso.js",
+      "source_location": "L97",
+      "weight": 1.0
+    },
+    {
+      "source": "congreso_congreso_pintarahora",
+      "target": "congreso_congreso_estadode",
+      "relation": "calls",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "call",
+      "source_file": "congreso/congreso.js",
+      "source_location": "L226",
+      "weight": 1.0
+    },
+    {
+      "source": "congreso_congreso_pintarahora",
+      "target": "congreso_congreso_dialindo",
+      "relation": "calls",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "call",
+      "source_file": "congreso/congreso.js",
+      "source_location": "L235",
+      "weight": 1.0
+    },
+    {
+      "source": "congreso_congreso_pintarhoja",
+      "target": "congreso_congreso_leermio",
+      "relation": "calls",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "call",
+      "source_file": "congreso/congreso.js",
+      "source_location": "L332",
+      "weight": 1.0
+    },
+    {
+      "source": "congreso_congreso_pintarhoja",
+      "target": "congreso_congreso_htmlgente",
+      "relation": "calls",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "call",
+      "source_file": "congreso/congreso.js",
+      "source_location": "L339",
+      "weight": 1.0
+    },
+    {
+      "source": "congreso_congreso_pintarhoja",
+      "target": "congreso_congreso_htmlcuando",
+      "relation": "calls",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "call",
+      "source_file": "congreso/congreso.js",
+      "source_location": "L340",
+      "weight": 1.0
+    },
+    {
+      "source": "congreso_congreso_pintarhoja",
+      "target": "congreso_congreso_sepuedeescribir",
+      "relation": "calls",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "call",
+      "source_file": "congreso/congreso.js",
+      "source_location": "L350",
+      "weight": 1.0
+    },
+    {
+      "source": "congreso_congreso_pintarmesas",
+      "target": "congreso_congreso_ahoraenlaplata",
+      "relation": "calls",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "call",
+      "source_file": "congreso/congreso.js",
+      "source_location": "L203",
+      "weight": 1.0
+    },
+    {
+      "source": "congreso_congreso_pintarmesas",
+      "target": "congreso_congreso_estadode",
+      "relation": "calls",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "call",
+      "source_file": "congreso/congreso.js",
+      "source_location": "L209",
+      "weight": 1.0
+    },
+    {
+      "source": "congreso_congreso_pintarmesas",
+      "target": "congreso_congreso_dialindo",
+      "relation": "calls",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "call",
+      "source_file": "congreso/congreso.js",
+      "source_location": "L212",
+      "weight": 1.0
+    },
+    {
+      "source": "congreso_congreso_pintarmesas",
+      "target": "congreso_congreso_htmlmesa",
+      "relation": "calls",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "call",
+      "source_file": "congreso/congreso.js",
+      "source_location": "L214",
+      "weight": 1.0
+    },
+    {
+      "source": "congreso_congreso_pintarmesas",
+      "target": "congreso_congreso_pintarahora",
+      "relation": "calls",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "call",
+      "source_file": "congreso/congreso.js",
+      "source_location": "L219",
+      "weight": 1.0
+    },
+    {
+      "source": "congreso_congreso_pintarmesas",
+      "target": "congreso_congreso_pintaraulas",
+      "relation": "calls",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "call",
+      "source_file": "congreso/congreso.js",
+      "source_location": "L220",
+      "weight": 1.0
+    },
+    {
+      "source": "congreso_congreso_pintarmuro",
+      "target": "congreso_congreso_leermio",
+      "relation": "calls",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "call",
+      "source_file": "congreso/congreso.js",
+      "source_location": "L394",
+      "weight": 1.0
+    },
+    {
+      "source": "congreso_congreso_sepuedeescribir",
+      "target": "congreso_congreso_ahoraenlaplata",
+      "relation": "calls",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "call",
+      "source_file": "congreso/congreso.js",
+      "source_location": "L327",
+      "weight": 1.0
+    },
+    {
+      "source": "congreso_congreso_traermesas",
+      "target": "congreso_congreso_pintarmesas",
+      "relation": "calls",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "call",
+      "source_file": "congreso/congreso.js",
+      "source_location": "L252",
+      "weight": 1.0
+    },
+    {
+      "source": "congreso_congreso_traermesas",
+      "target": "congreso_congreso_abrirloquepideelenlace",
+      "relation": "calls",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "call",
+      "source_file": "congreso/congreso.js",
+      "source_location": "L272",
       "weight": 1.0
     },
     {
@@ -16047,6 +16905,18 @@
     },
     {
       "source": "app",
+      "target": "app_pintarcampana",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "call",
+      "source_file": "app.js",
+      "source_location": "L1002",
+      "weight": 1.0
+    },
+    {
+      "source": "app",
       "target": "app_sincronizarleidas",
       "relation": "contains",
       "_origin": "ast",
@@ -16054,7 +16924,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "app.js",
-      "source_location": "L1075",
+      "source_location": "L1079",
       "weight": 1.0
     },
     {
@@ -16066,7 +16936,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "app.js",
-      "source_location": "L1121",
+      "source_location": "L1125",
       "weight": 1.0
     },
     {
@@ -16102,7 +16972,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "app.js",
-      "source_location": "L821",
+      "source_location": "L825",
       "weight": 1.0
     },
     {
@@ -16114,7 +16984,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "app.js",
-      "source_location": "L836",
+      "source_location": "L840",
       "weight": 1.0
     },
     {
@@ -16126,19 +16996,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "app.js",
-      "source_location": "L882",
-      "weight": 1.0
-    },
-    {
-      "source": "app",
-      "target": "app_pintarcampana",
-      "relation": "contains",
-      "_origin": "ast",
-      "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "context": "call",
-      "source_file": "app.js",
-      "source_location": "L998",
+      "source_location": "L886",
       "weight": 1.0
     },
     {
@@ -16150,7 +17008,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "app.js",
-      "source_location": "L2112",
+      "source_location": "L2116",
       "weight": 1.0
     },
     {
@@ -16162,7 +17020,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "app.js",
-      "source_location": "L1684",
+      "source_location": "L1688",
       "weight": 1.0
     },
     {
@@ -16174,7 +17032,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "app.js",
-      "source_location": "L1697",
+      "source_location": "L1701",
       "weight": 1.0
     },
     {
@@ -16186,7 +17044,127 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "app.js",
-      "source_location": "L1418",
+      "source_location": "L1422",
+      "weight": 1.0
+    },
+    {
+      "source": "congreso_congreso",
+      "target": "congreso_congreso_ahoraenlaplata",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "call",
+      "source_file": "congreso/congreso.js",
+      "source_location": "L110",
+      "weight": 1.0
+    },
+    {
+      "source": "congreso_congreso",
+      "target": "congreso_congreso_estadode",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "call",
+      "source_file": "congreso/congreso.js",
+      "source_location": "L130",
+      "weight": 1.0
+    },
+    {
+      "source": "congreso_congreso",
+      "target": "congreso_congreso_pintarmesas",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "call",
+      "source_file": "congreso/congreso.js",
+      "source_location": "L202",
+      "weight": 1.0
+    },
+    {
+      "source": "congreso_congreso",
+      "target": "congreso_congreso_traermesas",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "call",
+      "source_file": "congreso/congreso.js",
+      "source_location": "L249",
+      "weight": 1.0
+    },
+    {
+      "source": "congreso_congreso",
+      "target": "congreso_congreso_abrirhoja",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "call",
+      "source_file": "congreso/congreso.js",
+      "source_location": "L285",
+      "weight": 1.0
+    },
+    {
+      "source": "congreso_congreso",
+      "target": "congreso_congreso_pintarmuro",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "call",
+      "source_file": "congreso/congreso.js",
+      "source_location": "L391",
+      "weight": 1.0
+    },
+    {
+      "source": "congreso_congreso",
+      "target": "congreso_congreso_motivo",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "call",
+      "source_file": "congreso/congreso.js",
+      "source_location": "L448",
+      "weight": 1.0
+    },
+    {
+      "source": "congreso_congreso",
+      "target": "congreso_congreso_leermio",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "call",
+      "source_file": "congreso/congreso.js",
+      "source_location": "L79",
+      "weight": 1.0
+    },
+    {
+      "source": "congreso_congreso",
+      "target": "congreso_congreso_guardarmio",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "call",
+      "source_file": "congreso/congreso.js",
+      "source_location": "L91",
+      "weight": 1.0
+    },
+    {
+      "source": "congreso_congreso",
+      "target": "congreso_congreso_marca",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "call",
+      "source_file": "congreso/congreso.js",
+      "source_location": "L96",
       "weight": 1.0
     },
     {
@@ -17597,7 +18575,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "app.js",
-      "source_location": "L1013",
+      "source_location": "L1017",
       "weight": 1.0
     },
     {
@@ -17608,7 +18586,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "app.js",
-      "source_location": "L1046",
+      "source_location": "L1050",
       "weight": 1.0
     },
     {
@@ -17619,7 +18597,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "app.js",
-      "source_location": "L1055",
+      "source_location": "L1059",
       "weight": 1.0
     },
     {
@@ -17630,7 +18608,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "app.js",
-      "source_location": "L1065",
+      "source_location": "L1069",
       "weight": 1.0
     },
     {
@@ -17641,7 +18619,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "app.js",
-      "source_location": "L1098",
+      "source_location": "L1102",
       "weight": 1.0
     },
     {
@@ -17652,7 +18630,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "app.js",
-      "source_location": "L1108",
+      "source_location": "L1112",
       "weight": 1.0
     },
     {
@@ -17663,7 +18641,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "app.js",
-      "source_location": "L1206",
+      "source_location": "L1210",
       "weight": 1.0
     },
     {
@@ -17674,7 +18652,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "app.js",
-      "source_location": "L1208",
+      "source_location": "L1212",
       "weight": 1.0
     },
     {
@@ -17685,7 +18663,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "app.js",
-      "source_location": "L1214",
+      "source_location": "L1218",
       "weight": 1.0
     },
     {
@@ -17696,7 +18674,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "app.js",
-      "source_location": "L1224",
+      "source_location": "L1228",
       "weight": 1.0
     },
     {
@@ -17707,7 +18685,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "app.js",
-      "source_location": "L1249",
+      "source_location": "L1253",
       "weight": 1.0
     },
     {
@@ -17718,7 +18696,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "app.js",
-      "source_location": "L1258",
+      "source_location": "L1262",
       "weight": 1.0
     },
     {
@@ -17729,7 +18707,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "app.js",
-      "source_location": "L1266",
+      "source_location": "L1270",
       "weight": 1.0
     },
     {
@@ -17751,7 +18729,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "app.js",
-      "source_location": "L1311",
+      "source_location": "L1315",
       "weight": 1.0
     },
     {
@@ -17762,7 +18740,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "app.js",
-      "source_location": "L1516",
+      "source_location": "L1520",
       "weight": 1.0
     },
     {
@@ -17784,7 +18762,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "app.js",
-      "source_location": "L1566",
+      "source_location": "L1570",
       "weight": 1.0
     },
     {
@@ -17795,7 +18773,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "app.js",
-      "source_location": "L1575",
+      "source_location": "L1579",
       "weight": 1.0
     },
     {
@@ -17806,7 +18784,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "app.js",
-      "source_location": "L1614",
+      "source_location": "L1618",
       "weight": 1.0
     },
     {
@@ -17828,7 +18806,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "app.js",
-      "source_location": "L1736",
+      "source_location": "L1740",
       "weight": 1.0
     },
     {
@@ -17839,7 +18817,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "app.js",
-      "source_location": "L1783",
+      "source_location": "L1787",
       "weight": 1.0
     },
     {
@@ -17850,7 +18828,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "app.js",
-      "source_location": "L1808",
+      "source_location": "L1812",
       "weight": 1.0
     },
     {
@@ -17861,7 +18839,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "app.js",
-      "source_location": "L1811",
+      "source_location": "L1815",
       "weight": 1.0
     },
     {
@@ -17872,7 +18850,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "app.js",
-      "source_location": "L1834",
+      "source_location": "L1838",
       "weight": 1.0
     },
     {
@@ -17883,7 +18861,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "app.js",
-      "source_location": "L1881",
+      "source_location": "L1885",
       "weight": 1.0
     },
     {
@@ -17894,7 +18872,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "app.js",
-      "source_location": "L1898",
+      "source_location": "L1902",
       "weight": 1.0
     },
     {
@@ -17905,7 +18883,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "app.js",
-      "source_location": "L1910",
+      "source_location": "L1914",
       "weight": 1.0
     },
     {
@@ -17916,7 +18894,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "app.js",
-      "source_location": "L1917",
+      "source_location": "L1921",
       "weight": 1.0
     },
     {
@@ -17927,7 +18905,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "app.js",
-      "source_location": "L1934",
+      "source_location": "L1938",
       "weight": 1.0
     },
     {
@@ -17938,7 +18916,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "app.js",
-      "source_location": "L1950",
+      "source_location": "L1954",
       "weight": 1.0
     },
     {
@@ -17949,7 +18927,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "app.js",
-      "source_location": "L1959",
+      "source_location": "L1963",
       "weight": 1.0
     },
     {
@@ -17960,7 +18938,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "app.js",
-      "source_location": "L1966",
+      "source_location": "L1970",
       "weight": 1.0
     },
     {
@@ -17971,7 +18949,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "app.js",
-      "source_location": "L1972",
+      "source_location": "L1976",
       "weight": 1.0
     },
     {
@@ -17982,7 +18960,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "app.js",
-      "source_location": "L2064",
+      "source_location": "L2068",
       "weight": 1.0
     },
     {
@@ -17993,7 +18971,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "app.js",
-      "source_location": "L2068",
+      "source_location": "L2072",
       "weight": 1.0
     },
     {
@@ -18004,7 +18982,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "app.js",
-      "source_location": "L2072",
+      "source_location": "L2076",
       "weight": 1.0
     },
     {
@@ -18015,7 +18993,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "app.js",
-      "source_location": "L2075",
+      "source_location": "L2079",
       "weight": 1.0
     },
     {
@@ -18026,7 +19004,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "app.js",
-      "source_location": "L2081",
+      "source_location": "L2085",
       "weight": 1.0
     },
     {
@@ -18037,7 +19015,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "app.js",
-      "source_location": "L2089",
+      "source_location": "L2093",
       "weight": 1.0
     },
     {
@@ -18059,7 +19037,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "app.js",
-      "source_location": "L2181",
+      "source_location": "L2185",
       "weight": 1.0
     },
     {
@@ -18070,7 +19048,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "app.js",
-      "source_location": "L2184",
+      "source_location": "L2188",
       "weight": 1.0
     },
     {
@@ -18081,7 +19059,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "app.js",
-      "source_location": "L2200",
+      "source_location": "L2204",
       "weight": 1.0
     },
     {
@@ -18092,7 +19070,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "app.js",
-      "source_location": "L2208",
+      "source_location": "L2212",
       "weight": 1.0
     },
     {
@@ -18103,7 +19081,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "app.js",
-      "source_location": "L2217",
+      "source_location": "L2221",
       "weight": 1.0
     },
     {
@@ -18114,7 +19092,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "app.js",
-      "source_location": "L2227",
+      "source_location": "L2231",
       "weight": 1.0
     },
     {
@@ -18125,7 +19103,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "app.js",
-      "source_location": "L2239",
+      "source_location": "L2243",
       "weight": 1.0
     },
     {
@@ -18136,7 +19114,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "app.js",
-      "source_location": "L2292",
+      "source_location": "L2296",
       "weight": 1.0
     },
     {
@@ -18147,7 +19125,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "app.js",
-      "source_location": "L2333",
+      "source_location": "L2337",
       "weight": 1.0
     },
     {
@@ -18587,7 +19565,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "app.js",
-      "source_location": "L719",
+      "source_location": "L723",
       "weight": 1.0
     },
     {
@@ -18598,7 +19576,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "app.js",
-      "source_location": "L732",
+      "source_location": "L736",
       "weight": 1.0
     },
     {
@@ -18609,7 +19587,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "app.js",
-      "source_location": "L800",
+      "source_location": "L804",
       "weight": 1.0
     },
     {
@@ -18620,7 +19598,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "app.js",
-      "source_location": "L812",
+      "source_location": "L816",
       "weight": 1.0
     },
     {
@@ -18631,7 +19609,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "app.js",
-      "source_location": "L842",
+      "source_location": "L846",
       "weight": 1.0
     },
     {
@@ -18642,7 +19620,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "app.js",
-      "source_location": "L848",
+      "source_location": "L852",
       "weight": 1.0
     },
     {
@@ -18653,7 +19631,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "app.js",
-      "source_location": "L906",
+      "source_location": "L910",
       "weight": 1.0
     },
     {
@@ -18664,7 +19642,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "app.js",
-      "source_location": "L919",
+      "source_location": "L923",
       "weight": 1.0
     },
     {
@@ -18675,7 +19653,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "app.js",
-      "source_location": "L943",
+      "source_location": "L947",
       "weight": 1.0
     },
     {
@@ -18686,7 +19664,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "app.js",
-      "source_location": "L950",
+      "source_location": "L954",
       "weight": 1.0
     },
     {
@@ -18742,6 +19720,138 @@
       "confidence_score": 1.0,
       "source_file": ".claude/hooks/session-start.sh",
       "source_location": "L1",
+      "weight": 1.0
+    },
+    {
+      "source": "congreso_congreso",
+      "target": "congreso_congreso_dialindo",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "congreso/congreso.js",
+      "source_location": "L140",
+      "weight": 1.0
+    },
+    {
+      "source": "congreso_congreso",
+      "target": "congreso_congreso_etiquetaestado",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "congreso/congreso.js",
+      "source_location": "L157",
+      "weight": 1.0
+    },
+    {
+      "source": "congreso_congreso",
+      "target": "congreso_congreso_htmlcuando",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "congreso/congreso.js",
+      "source_location": "L163",
+      "weight": 1.0
+    },
+    {
+      "source": "congreso_congreso",
+      "target": "congreso_congreso_htmlgente",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "congreso/congreso.js",
+      "source_location": "L171",
+      "weight": 1.0
+    },
+    {
+      "source": "congreso_congreso",
+      "target": "congreso_congreso_htmlmesa",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "congreso/congreso.js",
+      "source_location": "L177",
+      "weight": 1.0
+    },
+    {
+      "source": "congreso_congreso",
+      "target": "congreso_congreso_pintarahora",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "congreso/congreso.js",
+      "source_location": "L224",
+      "weight": 1.0
+    },
+    {
+      "source": "congreso_congreso",
+      "target": "congreso_congreso_pintaraulas",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "congreso/congreso.js",
+      "source_location": "L243",
+      "weight": 1.0
+    },
+    {
+      "source": "congreso_congreso",
+      "target": "congreso_congreso_sepuedeescribir",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "congreso/congreso.js",
+      "source_location": "L321",
+      "weight": 1.0
+    },
+    {
+      "source": "congreso_congreso",
+      "target": "congreso_congreso_pintarhoja",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "congreso/congreso.js",
+      "source_location": "L330",
+      "weight": 1.0
+    },
+    {
+      "source": "congreso_congreso",
+      "target": "congreso_congreso_cargarmuro",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "congreso/congreso.js",
+      "source_location": "L426",
+      "weight": 1.0
+    },
+    {
+      "source": "congreso_congreso",
+      "target": "congreso_congreso_mandar",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "congreso/congreso.js",
+      "source_location": "L461",
+      "weight": 1.0
+    },
+    {
+      "source": "congreso_congreso",
+      "target": "congreso_congreso_abrirloquepideelenlace",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "congreso/congreso.js",
+      "source_location": "L538",
       "weight": 1.0
     },
     {
@@ -22617,6 +23727,160 @@
       "weight": 1.0
     },
     {
+      "source": "sql_tabla_congreso",
+      "target": "sql_tabla_congreso_public_tocar_congreso_mesa",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "sql/tabla-congreso.sql",
+      "source_location": "L122",
+      "weight": 1.0
+    },
+    {
+      "source": "sql_tabla_congreso",
+      "target": "sql_tabla_congreso_al_tocar_congreso_mesa",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "sql/tabla-congreso.sql",
+      "source_location": "L130",
+      "weight": 1.0
+    },
+    {
+      "source": "sql_tabla_congreso",
+      "target": "sql_tabla_congreso_public_congreso_intervenciones",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "sql/tabla-congreso.sql",
+      "source_location": "L137",
+      "weight": 1.0
+    },
+    {
+      "source": "sql_tabla_congreso",
+      "target": "sql_tabla_congreso_congreso_interv_mesa_idx",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "sql/tabla-congreso.sql",
+      "source_location": "L153",
+      "weight": 1.0
+    },
+    {
+      "source": "sql_tabla_congreso",
+      "target": "sql_tabla_congreso_congreso_interv_eje_idx",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "sql/tabla-congreso.sql",
+      "source_location": "L155",
+      "weight": 1.0
+    },
+    {
+      "source": "sql_tabla_congreso",
+      "target": "sql_tabla_congreso_congreso_interv_marca_idx",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "sql/tabla-congreso.sql",
+      "source_location": "L157",
+      "weight": 1.0
+    },
+    {
+      "source": "sql_tabla_congreso",
+      "target": "sql_tabla_congreso_public_congreso_votos",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "sql/tabla-congreso.sql",
+      "source_location": "L160",
+      "weight": 1.0
+    },
+    {
+      "source": "sql_tabla_congreso",
+      "target": "sql_tabla_congreso_congreso_votos_marca_idx",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "sql/tabla-congreso.sql",
+      "source_location": "L167",
+      "weight": 1.0
+    },
+    {
+      "source": "sql_tabla_congreso",
+      "target": "sql_tabla_congreso_public_congreso_muro",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "sql/tabla-congreso.sql",
+      "source_location": "L188",
+      "weight": 1.0
+    },
+    {
+      "source": "sql_tabla_congreso",
+      "target": "sql_tabla_congreso_public_congreso_intervenir",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "sql/tabla-congreso.sql",
+      "source_location": "L217",
+      "weight": 1.0
+    },
+    {
+      "source": "sql_tabla_congreso",
+      "target": "sql_tabla_congreso_public_congreso_apoyar",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "sql/tabla-congreso.sql",
+      "source_location": "L301",
+      "weight": 1.0
+    },
+    {
+      "source": "sql_tabla_congreso",
+      "target": "sql_tabla_congreso_public_congreso_moderar",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "sql/tabla-congreso.sql",
+      "source_location": "L342",
+      "weight": 1.0
+    },
+    {
+      "source": "sql_tabla_congreso",
+      "target": "sql_tabla_congreso_public_congreso_mesas",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "sql/tabla-congreso.sql",
+      "source_location": "L57",
+      "weight": 1.0
+    },
+    {
+      "source": "sql_tabla_congreso",
+      "target": "sql_tabla_congreso_congreso_mesas_fecha_idx",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "sql/tabla-congreso.sql",
+      "source_location": "L83",
+      "weight": 1.0
+    },
+    {
       "source": "sql_tabla_consejo",
       "target": "sql_tabla_consejo_public_pagina_consejo",
       "relation": "contains",
@@ -23319,6 +24583,61 @@
       "weight": 1.0
     },
     {
+      "source": "sql_tabla_congreso_congreso_interv_eje_idx",
+      "target": "sql_tabla_congreso_public_congreso_intervenciones",
+      "relation": "indexes",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "sql/tabla-congreso.sql",
+      "source_location": "L155",
+      "weight": 1.0
+    },
+    {
+      "source": "sql_tabla_congreso_congreso_interv_marca_idx",
+      "target": "sql_tabla_congreso_public_congreso_intervenciones",
+      "relation": "indexes",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "sql/tabla-congreso.sql",
+      "source_location": "L157",
+      "weight": 1.0
+    },
+    {
+      "source": "sql_tabla_congreso_congreso_interv_mesa_idx",
+      "target": "sql_tabla_congreso_public_congreso_intervenciones",
+      "relation": "indexes",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "sql/tabla-congreso.sql",
+      "source_location": "L153",
+      "weight": 1.0
+    },
+    {
+      "source": "sql_tabla_congreso_congreso_mesas_fecha_idx",
+      "target": "sql_tabla_congreso_public_congreso_mesas",
+      "relation": "indexes",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "sql/tabla-congreso.sql",
+      "source_location": "L83",
+      "weight": 1.0
+    },
+    {
+      "source": "sql_tabla_congreso_congreso_votos_marca_idx",
+      "target": "sql_tabla_congreso_public_congreso_votos",
+      "relation": "indexes",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "sql/tabla-congreso.sql",
+      "source_location": "L167",
+      "weight": 1.0
+    },
+    {
       "source": "sql_tabla_cursada_cursada_celda_idx",
       "target": "sql_tabla_cursada_public_cursada",
       "relation": "indexes",
@@ -23778,6 +25097,72 @@
       "confidence_score": 1.0,
       "source_file": "sql/tabla-buzon.sql",
       "source_location": "L68",
+      "weight": 1.0
+    },
+    {
+      "source": "sql_tabla_congreso_public_congreso_apoyar",
+      "target": "sql_tabla_congreso_public_congreso_votos",
+      "relation": "reads_from",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "sql/tabla-congreso.sql",
+      "source_location": "L327",
+      "weight": 1.0
+    },
+    {
+      "source": "sql_tabla_congreso_public_congreso_intervenir",
+      "target": "sql_tabla_congreso_public_congreso_mesas",
+      "relation": "reads_from",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "sql/tabla-congreso.sql",
+      "source_location": "L247",
+      "weight": 1.0
+    },
+    {
+      "source": "sql_tabla_congreso_public_congreso_intervenir",
+      "target": "sql_tabla_congreso_public_congreso_intervenciones",
+      "relation": "reads_from",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "sql/tabla-congreso.sql",
+      "source_location": "L274",
+      "weight": 1.0
+    },
+    {
+      "source": "sql_tabla_congreso_public_congreso_muro",
+      "target": "sql_tabla_congreso_public_congreso_votos",
+      "relation": "reads_from",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "sql/tabla-congreso.sql",
+      "source_location": "L198",
+      "weight": 1.0
+    },
+    {
+      "source": "sql_tabla_congreso_public_congreso_muro",
+      "target": "sql_tabla_congreso_public_congreso_intervenciones",
+      "relation": "reads_from",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "sql/tabla-congreso.sql",
+      "source_location": "L200",
+      "weight": 1.0
+    },
+    {
+      "source": "sql_tabla_congreso_public_congreso_muro",
+      "target": "sql_tabla_congreso_public_congreso_mesas",
+      "relation": "reads_from",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "sql/tabla-congreso.sql",
+      "source_location": "L204",
       "weight": 1.0
     },
     {
@@ -24574,17 +25959,6 @@
     },
     {
       "source": "sql_tabla_buzon_public_buzon_pedidos",
-      "target": "public",
-      "relation": "references",
-      "_origin": "ast",
-      "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "source_file": "sql/tabla-buzon.sql",
-      "source_location": "L156",
-      "weight": 1.0
-    },
-    {
-      "source": "sql_tabla_buzon_public_buzon_pedidos",
       "target": "sql_tabla_buzon_sql_auth",
       "relation": "references",
       "_origin": "ast",
@@ -24597,6 +25971,17 @@
     {
       "source": "sql_tabla_buzon_public_buzon_pedidos",
       "target": "sql_tabla_buzon_sql_auth_users",
+      "relation": "references",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "sql/tabla-buzon.sql",
+      "source_location": "L156",
+      "weight": 1.0
+    },
+    {
+      "source": "sql_tabla_buzon_public_buzon_pedidos",
+      "target": "sql_tabla_buzon_sql_public",
       "relation": "references",
       "_origin": "ast",
       "confidence": "EXTRACTED",
@@ -24625,6 +26010,39 @@
       "confidence_score": 1.0,
       "source_file": "sql/tabla-campana.sql",
       "source_location": "L39",
+      "weight": 1.0
+    },
+    {
+      "source": "sql_tabla_congreso_public_congreso_intervenciones",
+      "target": "sql_tabla_congreso_public_congreso_mesas",
+      "relation": "references",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "sql/tabla-congreso.sql",
+      "source_location": "L137",
+      "weight": 1.0
+    },
+    {
+      "source": "sql_tabla_congreso_public_congreso_intervenciones",
+      "target": "sql_tabla_congreso_sql_public",
+      "relation": "references",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "sql/tabla-congreso.sql",
+      "source_location": "L137",
+      "weight": 1.0
+    },
+    {
+      "source": "sql_tabla_congreso_public_congreso_votos",
+      "target": "sql_tabla_congreso_public_congreso_intervenciones",
+      "relation": "references",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "sql/tabla-congreso.sql",
+      "source_location": "L160",
       "weight": 1.0
     },
     {
@@ -25277,6 +26695,17 @@
       "weight": 1.0
     },
     {
+      "source": "sql_tabla_congreso_al_tocar_congreso_mesa",
+      "target": "public_tocar_congreso_mesa",
+      "relation": "triggers",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "sql/tabla-congreso.sql",
+      "source_location": "L130",
+      "weight": 1.0
+    },
+    {
       "source": "sql_tabla_consejo_al_tocar_consejo",
       "target": "sql_tabla_consejo_sql_public_tocar_quienes",
       "relation": "triggers",
@@ -25483,7 +26912,7 @@
       "confidence_score": 0.85,
       "context": "argument",
       "source_file": "app.js",
-      "source_location": "L1175",
+      "source_location": "L1179",
       "weight": 1.0
     },
     {
@@ -25507,7 +26936,7 @@
       "confidence_score": 0.85,
       "context": "argument",
       "source_file": "app.js",
-      "source_location": "L1695",
+      "source_location": "L1699",
       "weight": 1.0
     },
     {
@@ -25520,6 +26949,66 @@
       "context": "argument",
       "source_file": "app.js",
       "source_location": "L322",
+      "weight": 1.0
+    },
+    {
+      "source": "congreso_congreso",
+      "target": "congreso_congreso_cerrarhoja",
+      "relation": "indirect_call",
+      "_origin": "ast",
+      "confidence": "INFERRED",
+      "confidence_score": 0.85,
+      "context": "argument",
+      "source_file": "congreso/congreso.js",
+      "source_location": "L317",
+      "weight": 1.0
+    },
+    {
+      "source": "congreso_congreso_abrirhoja",
+      "target": "estudiemos_pomodoro_reloj",
+      "relation": "indirect_call",
+      "_origin": "ast",
+      "confidence": "INFERRED",
+      "confidence_score": 0.85,
+      "context": "argument",
+      "source_file": "congreso/congreso.js",
+      "source_location": "L293",
+      "weight": 1.0
+    },
+    {
+      "source": "congreso_congreso_cerrarhoja",
+      "target": "estudiemos_pomodoro_reloj",
+      "relation": "indirect_call",
+      "_origin": "ast",
+      "confidence": "INFERRED",
+      "confidence_score": 0.85,
+      "context": "argument",
+      "source_file": "congreso/congreso.js",
+      "source_location": "L306",
+      "weight": 1.0
+    },
+    {
+      "source": "congreso_congreso_pintarhoja",
+      "target": "congreso_congreso_mandar",
+      "relation": "indirect_call",
+      "_origin": "ast",
+      "confidence": "INFERRED",
+      "confidence_score": 0.85,
+      "context": "argument",
+      "source_file": "congreso/congreso.js",
+      "source_location": "L387",
+      "weight": 1.0
+    },
+    {
+      "source": "estudiemos_arsenal_arsenal",
+      "target": "congreso_congreso_marca",
+      "relation": "indirect_call",
+      "_origin": "ast",
+      "confidence": "INFERRED",
+      "confidence_score": 0.85,
+      "context": "argument",
+      "source_file": "estudiemos/arsenal/arsenal.js",
+      "source_location": "L485",
       "weight": 1.0
     },
     {
@@ -26615,5 +28104,5 @@
       "source_file": "panel/index.html"
     }
   ],
-  "built_at_commit": "fe881f9de7323290311e51bce58e1859e363ed36"
+  "built_at_commit": "8d914ef97b6c6ef19b215e52843557820aa5d87a"
 }

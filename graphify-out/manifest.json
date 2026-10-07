@@ -1,8 +1,8 @@
 {
   "app.js": {
-    "mtime": 1791164367.1491911,
-    "seen": 1791164635.5954602,
-    "ast_hash": "6973c48c07b06d10a4fa9b90041482cb",
+    "mtime": 1791387379.4768572,
+    "seen": 1791387786.0080876,
+    "ast_hash": "8d24ac612efcec329af238541fd8cd90",
     "semantic_hash": ""
   },
   "carrera/plan-fono.js": {
@@ -78,9 +78,9 @@
     "semantic_hash": ""
   },
   "sw.js": {
-    "mtime": 1791164464.7740414,
-    "seen": 1791164635.5955837,
-    "ast_hash": "0edb45e46ec484b4a5d21e9392f930ac",
+    "mtime": 1791387515.8551116,
+    "seen": 1791387786.0082064,
+    "ast_hash": "eee0feb600ee15416e67ffb3ec8a775d",
     "semantic_hash": ""
   },
   "BITACORA.md": {
@@ -150,9 +150,9 @@
     "semantic_hash": ""
   },
   "index.html": {
-    "mtime": 1791078351.9056692,
-    "seen": 1791164635.5956323,
-    "ast_hash": "cdaaaf9ec52692c3a2d8393c4181954d",
+    "mtime": 1791387432.7799444,
+    "seen": 1791387786.0082562,
+    "ast_hash": "b281c3ca43d422f7150708d83149fcea",
     "semantic_hash": ""
   },
   "mi/index.html": {
@@ -162,9 +162,9 @@
     "semantic_hash": ""
   },
   "panel/index.html": {
-    "mtime": 1791078390.731089,
-    "seen": 1791164635.595641,
-    "ast_hash": "9bc30a6db4aa5933e858152d45ef5847",
+    "mtime": 1791387506.4278169,
+    "seen": 1791387786.0082643,
+    "ast_hash": "d9314df0af63c08a2dd70aea27787337",
     "semantic_hash": ""
   },
   "quienes/index.html": {
@@ -594,9 +594,9 @@
     "semantic_hash": ""
   },
   "docs/HISTORIAL-SW.md": {
-    "mtime": 1791164465.4766288,
-    "seen": 1791164635.5956006,
-    "ast_hash": "8f0cf00f8fe0e6cda62c2b6328c8b80c",
+    "mtime": 1791387516.075663,
+    "seen": 1791387786.0082252,
+    "ast_hash": "450e8eb68575a82b1469f782c1f01606",
     "semantic_hash": ""
   },
   "docs/prompts/PROMPT-DISENO.md": {
@@ -729,6 +729,90 @@
     "mtime": 1791078448.4494996,
     "seen": 1791164635.5956442,
     "ast_hash": "5375da4c0821f4a61ba409e6c946f8d7",
+    "semantic_hash": ""
+  },
+  "congreso/congreso.js": {
+    "mtime": 1791387347.244033,
+    "seen": 1791387786.0081003,
+    "ast_hash": "fda229658618c495315ad2cc5dd1069d",
+    "semantic_hash": ""
+  },
+  "sql/tabla-congreso.sql": {
+    "mtime": 1791386976.1608195,
+    "seen": 1791387786.0081782,
+    "ast_hash": "67ab99e16c9f1fd993f62899084ac9a5",
+    "semantic_hash": ""
+  },
+  "congreso/index.html": {
+    "mtime": 1791387186.747122,
+    "seen": 1791387786.00822,
+    "ast_hash": "05704d84d7f776250d830fa0b0f00018",
+    "semantic_hash": ""
+  },
+  "congreso/circular-voces-que-habitan.pdf": {
+    "mtime": 1791386775.3349323,
+    "seen": 1791387786.0082757,
+    "ast_hash": "85283e52f1873d272c3b6352c20c8a99",
+    "semantic_hash": ""
+  },
+  "congreso/fachada-trazo.webp": {
+    "mtime": 1791386774.174612,
+    "seen": 1791387786.0082772,
+    "ast_hash": "6ac751114c7c226af725644711c83847",
+    "semantic_hash": ""
+  },
+  "congreso/fachada.webp": {
+    "mtime": 1791386774.047944,
+    "seen": 1791387786.0082788,
+    "ast_hash": "70cb289a274b5e769cb12bb20786fa34",
+    "semantic_hash": ""
+  },
+  "congreso/logo.webp": {
+    "mtime": 1791387703.3090842,
+    "seen": 1791387786.0082798,
+    "ast_hash": "fa12cbe06f5e4c9ab37d42270c883f1b",
+    "semantic_hash": ""
+  },
+  "congreso/ojitos.webp": {
+    "mtime": 1791386774.181535,
+    "seen": 1791387786.008281,
+    "ast_hash": "4b8564281e9e92c254c170d5cc78e94a",
+    "semantic_hash": ""
+  },
+  "congreso/placas/mesa-1.webp": {
+    "mtime": 1791386774.5492172,
+    "seen": 1791387786.0082824,
+    "ast_hash": "4e9d33fa4e067608266b0931c188b8b2",
+    "semantic_hash": ""
+  },
+  "congreso/placas/mesa-3.webp": {
+    "mtime": 1791386774.7247083,
+    "seen": 1791387786.0082836,
+    "ast_hash": "ea0fa5d2a4c91bf43d0baca8b948e3bc",
+    "semantic_hash": ""
+  },
+  "congreso/placas/mesa-4.webp": {
+    "mtime": 1791386774.88385,
+    "seen": 1791387786.0082846,
+    "ast_hash": "9859c4e02a20b2dd9e0afaf468ed409c",
+    "semantic_hash": ""
+  },
+  "congreso/placas/mesa-5.webp": {
+    "mtime": 1791386775.0509818,
+    "seen": 1791387786.0082862,
+    "ast_hash": "9bed04a077017bf835903aa572f4fbd6",
+    "semantic_hash": ""
+  },
+  "congreso/placas/mesa-6.webp": {
+    "mtime": 1791386775.2325244,
+    "seen": 1791387786.0082874,
+    "ast_hash": "941a62baaecf5073895fb5cd18bbb904",
+    "semantic_hash": ""
+  },
+  "congreso/placas/portada.webp": {
+    "mtime": 1791386774.3652968,
+    "seen": 1791387786.0082889,
+    "ast_hash": "ead2ab34457d8e6728049bb0801ec140",
     "semantic_hash": ""
   }
 }

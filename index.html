@@ -222,6 +222,21 @@ setTimeout(function(){
     <!-- LA ALARMA: se anota sola cuando abre la inscripción a una mesa -->
     <div id="alarma"></div>
 
+    <!-- EL CONGRESO, DESTACADO MIENTRAS DURA (7/10/2026). Escrito acá
+         y no armado por el guion: se ve desde el primer cuadro. El
+         guion de abajo de todo lo esconde pasado octubre y le suma la
+         mesa que sigue; si la base no contesta, queda como está. -->
+    <a class="cg-destacado" id="congreso-destacado" href="congreso/" hidden>
+      <img src="congreso/logo.webp" width="84" height="84" alt="">
+      <span class="cg-destacado-texto">
+        <span class="ceja">Todo octubre en la FTS</span>
+        <strong>I° Congreso Interdisciplinario</strong>
+        <span class="lema">Voces que habitan</span>
+        <span class="sigue" id="congreso-sigue">El cronograma, tu pregunta para cada mesa y la inscripción.</span>
+      </span>
+      <span class="cuadro-flecha" aria-hidden="true">→</span>
+    </a>
+
     <!-- Cómo venís con tu carrera, si usaste el organizador -->
     <div id="mi-cursada"></div>
 
@@ -2178,6 +2193,32 @@ setTimeout(function(){
 
   entrada.addEventListener('input', buscar);
 
+})();
+</script>
+<script>
+/* EL CONGRESO EN EL INICIO. Se muestra hasta el 31/10/2026 (después
+   queda en el pie y en el buscador) y dice cuál es la mesa que sigue.
+   Va aparte del guion del inicio: si esto falla, no se lleva puesta
+   la portada. */
+(async function congresoEnElInicio(){
+  const tarjeta = document.getElementById('congreso-destacado');
+  if (!tarjeta || hoyISO() > '2026-10-31') return;
+  tarjeta.hidden = false;
+  try {
+    const { data, error } = await db.from('congreso_mesas')
+      .select('titulo,fecha,hora,lugar').eq('publicada', true)
+      .order('fecha', { ascending:true }).order('hora', { ascending:true });
+    if (error || !data) return;
+    const hoy = hoyISO();
+    const m = data.find(x => x.fecha >= hoy);
+    if (!m) return;
+    const f = partesFecha(m.fecha);
+    const cuando = m.fecha === hoy ? 'Hoy' : (f ? f.dia + '/' + f.mes : '');
+    document.getElementById('congreso-sigue').textContent =
+      'Lo que sigue: ' + m.titulo + ' · ' + cuando +
+      (m.hora ? ' · ' + String(m.hora).slice(0, 5) + ' h' : '') +
+      (m.lugar ? ' · ' + m.lugar : '');
+  } catch(e){ /* queda el texto escrito */ }
 })();
 </script>
 </body>

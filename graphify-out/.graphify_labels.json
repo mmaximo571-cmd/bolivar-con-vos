@@ -103,5 +103,7 @@
   "101": "vistaProgramas (programas de materias)",
   "102": "ref_jsr_supabase",
   "103": "public.publicaciones",
-  "104": "buscar (buscador de trámites, FAQ y cátedras)"
+  "104": "congreso.js",
+  "105": "tabla-congreso.sql",
+  "106": "sesionActual"
 }

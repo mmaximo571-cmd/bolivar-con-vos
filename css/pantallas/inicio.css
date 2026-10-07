@@ -744,3 +744,25 @@ body.antes-de-entrar{padding-bottom:0}
 
 /* Antes de entrar no hay barra, asi que tampoco hace falta el hueco. */
 body.antes-de-entrar{ padding-bottom:0 }
+
+/* ---------- El congreso, destacado en octubre de 2026 ----------
+   La tarjeta que lleva a `congreso/`. Amarilla, con el borde y la
+   sombra de tinta de las placas del congreso, y el lema en rojo. Se
+   saca sola el 31/10 (lo decide el guion del final de `index.html`);
+   cuando se vaya, esto se puede borrar. */
+.cg-destacado{
+  display:grid; grid-template-columns:auto 1fr auto; align-items:center; gap:14px;
+  margin:4px 0 22px; padding:14px 16px;
+  background:var(--amarillo); color:var(--sobre-color); text-decoration:none;
+  border:2px solid var(--negro); border-radius:var(--radio); box-shadow:var(--sombra)
+}
+.cg-destacado[hidden]{ display:none }
+.cg-destacado img{ width:72px; height:72px; border-radius:50% }
+.cg-destacado-texto{ display:flex; flex-direction:column; gap:2px; min-width:0 }
+.cg-destacado .ceja{ font-size:var(--letra-mini); font-weight:700; letter-spacing:.06em; text-transform:uppercase }
+.cg-destacado strong{ font-family:var(--fuente-titulo); font-size:clamp(18px, 4.8vw, 22px); line-height:1.1 }
+.cg-destacado .lema{ font-weight:700; color:var(--rojo-solido); text-transform:uppercase; letter-spacing:.02em }
+.cg-destacado .sigue{ margin-top:4px; font-size:var(--letra-nota); line-height:1.35 }
+.cg-destacado .cuadro-flecha{ font-size:22px; font-weight:700 }
+.cg-destacado:active{ transform:translate(2px, 2px); box-shadow:none }
+@media (min-width:900px){ #zona-normal > .cg-destacado{ grid-column:1 / -1 } }

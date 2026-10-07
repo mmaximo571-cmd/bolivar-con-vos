@@ -700,7 +700,11 @@ const INDICE_PIE = SECCIONES.concat([
      grilla del inicio, y el buscador del inicio (que sale de esta
      lista) contestaba «sin resultados» a «salud mental» o «psicólogo».
      Justo la pantalla que alguien busca cuando la necesita. */
-  { id:'salud-mental', texto:'Salud mental', url:RAIZ+'salud-mental/' }
+  { id:'salud-mental', texto:'Salud mental', url:RAIZ+'salud-mental/' },
+  /* El congreso de octubre de 2026 (7/10). En octubre tiene además la
+     tarjeta grande del inicio; acá queda para que el buscador lo
+     encuentre y para después, cuando la tarjeta se va. */
+  { id:'congreso', texto:'Congreso «Voces que habitan»', url:RAIZ+'congreso/' }
 ]);
 
 /* Los sistemas de la facultad y de la universidad. No son de la app:

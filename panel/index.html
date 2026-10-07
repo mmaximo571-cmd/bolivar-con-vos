@@ -443,6 +443,10 @@
       que:'Quién nos representa en el Consejo Directivo y qué se consiguió ahí.',
       enlace:'../consejo/', donde:'Consejo' },
 
+    { p:'congreso', grupo:'agrupacion', emoji:'🎤', nombre:'Congreso',
+      que:'Las mesas de «Voces que habitan» (fecha, hora, aula, quién expone) y la moderación de las preguntas y los aportes que manda la gente.',
+      enlace:'../congreso/', donde:'Congreso' },
+
     { p:'instagram', grupo:'agrupacion', emoji:'📸', nombre:'Instagram',
       que:'Los posteos que se muestran en la portada. Se cargan a mano: la agrupación elige cuál va.',
       enlace:'../', donde:'la portada' },
@@ -3561,6 +3565,299 @@
       </div>`;
   }
 
+  /* ============================================================
+     CONGRESO  ·  «Voces que habitan», octubre 2026
+
+     Dos partes, con dos botones arriba:
+       - LAS MESAS: el cronograma de `congreso/`. Una mesa sin publicar
+         no se ve en la app (sirve para cargarla antes de anunciarla).
+       - MODERAR: lo que manda la gente, de una mesa o de un eje. Se
+         publica solo; acá se oculta lo que no corresponde y se marca
+         lo que ya se respondió en la sala. Se refresca solo cada 15 s
+         mientras está abierto, para moderar en vivo desde el celular.
+
+     Todo lo de la base está en `sql/tabla-congreso.sql`. Moderar entra
+     por `congreso_moderar()`, que deja al equipo y a comunicación.
+     ============================================================ */
+  const EJES_CONGRESO = { salud:'Salud', territorio:'Territorio', tecnologias:'Nuevas tecnologías' };
+  let modoCongreso = 'mesas';
+  let moderarQue = '';
+  let relojCongreso = null;
+
+  function escribirExpositores(lista){
+    return (Array.isArray(lista) ? lista : [])
+      .map(x => x.bio ? `${x.nombre} · ${x.bio}` : x.nombre).join('\n');
+  }
+  /* Uno por renglón: «Nombre · una línea de bio». La bio es opcional. */
+  function leerExpositores(texto){
+    return texto.split('\n').map(l => l.trim()).filter(Boolean).map(l => {
+      const i = l.indexOf('·');
+      const nombre = (i < 0 ? l : l.slice(0, i)).trim();
+      const bio = i < 0 ? '' : l.slice(i + 1).trim();
+      return bio ? { nombre, bio } : { nombre };
+    }).filter(x => x.nombre);
+  }
+  /* Las placas de la carpeta están escritas `placas/mesa-1.webp`: desde
+     el panel hay que subir un nivel y entrar a `congreso/`. */
+  const placaVisible = p => !p ? '' : /^https:\/\//.test(p) ? p : '../congreso/' + p;
+
+  async function vistaCongreso(){
+    clearInterval(relojCongreso);
+    const { data: mesas, error } = await db.from('congreso_mesas')
+      .select('*').order('fecha', { ascending:true }).order('hora', { ascending:true });
+
+    if (error){
+      zona.innerHTML = /congreso_mesas/.test(error.message || '')
+        ? `<div class="aviso error">
+             <strong>Falta activar esta sección.</strong><br>
+             Hay que correr <b>sql/tabla-congreso.sql</b> en el SQL Editor de
+             Supabase. Es una sola vez.
+           </div>`
+        : `<div class="aviso error">No se pudo cargar: ${esc(error.message)}</div>`;
+      return;
+    }
+
+    zona.innerHTML = `
+      <div class="fila-item" style="gap:8px;margin-bottom:16px" role="group" aria-label="Qué hacer">
+        <button class="boton${modoCongreso === 'mesas' ? '' : ' borde'}" data-modo="mesas"
+                aria-pressed="${modoCongreso === 'mesas'}">Las mesas</button>
+        <button class="boton${modoCongreso === 'moderar' ? '' : ' borde'}" data-modo="moderar"
+                aria-pressed="${modoCongreso === 'moderar'}">Moderar</button>
+      </div>
+      <div id="congreso-zona"></div>`;
+
+    zona.querySelectorAll('[data-modo]').forEach(b => b.onclick = () => {
+      modoCongreso = b.dataset.modo; vistaCongreso();
+    });
+
+    if (modoCongreso === 'mesas') pintarMesasCongreso(mesas || []);
+    else pintarModeracion(mesas || []);
+  }
+
+  function pintarMesasCongreso(mesas, editando){
+    const caja = document.getElementById('congreso-zona');
+    const m = editando || null;
+
+    caja.innerHTML = `
+      <div class="ficha" id="form-mesa">
+        <h3 style="margin-top:0">${m ? 'Editar la mesa' : 'Nueva mesa'}</h3>
+        <div class="campo"><label for="cm-numero">Número de «Voces que habitan»</label>
+          <p class="letra-chica" style="margin:0 0 6px">El de la placa: 1, 2, 3… Sale en números romanos.</p>
+          <input id="cm-numero" type="number" min="1" max="99" value="${esc(m && m.numero || '')}"></div>
+        <div class="campo"><label for="cm-titulo">Título</label>
+          <input id="cm-titulo" value="${esc(m && m.titulo || '')}" placeholder="Derecho a la salud: ¿qué puede la APS?"></div>
+        <div class="campo"><label for="cm-bajada">Bajada</label>
+          <input id="cm-bajada" value="${esc(m && m.bajada || '')}" placeholder="Territorios, prácticas y cuidados en debate."></div>
+        <div class="campo"><label for="cm-eje">Eje</label>
+          <select id="cm-eje">
+            <option value="">Ninguno en particular</option>
+            ${Object.keys(EJES_CONGRESO).map(k => `<option value="${k}"${m && m.eje === k ? ' selected' : ''}>${EJES_CONGRESO[k]}</option>`).join('')}
+          </select></div>
+        <div class="fila-item" style="gap:10px;flex-wrap:wrap">
+          <div class="campo" style="flex:1 1 150px"><label for="cm-fecha">Fecha</label>
+            <input id="cm-fecha" type="date" value="${esc(m && m.fecha || '')}"></div>
+          <div class="campo" style="flex:1 1 110px"><label for="cm-hora">Hora</label>
+            <input id="cm-hora" type="time" value="${esc(m && String(m.hora || '').slice(0, 5) || '')}"></div>
+          <div class="campo" style="flex:1 1 150px"><label for="cm-lugar">Aula</label>
+            <input id="cm-lugar" value="${esc(m && m.lugar || '')}" placeholder="Aula Magna"></div>
+        </div>
+        <div class="campo"><label for="cm-gente">Quiénes exponen</label>
+          <p class="letra-chica" style="margin:0 0 6px">Uno por renglón. Si querés sumar una bio
+            corta, va después de un <b>·</b> — Ejemplo: <code>Ana Fuks · Trabajadora social, docente de la FTS</code></p>
+          <textarea id="cm-gente" style="min-height:90px">${esc(escribirExpositores(m && m.expositores))}</textarea></div>
+        <div class="campo"><label for="cm-placa-archivo">La placa</label>
+          <div id="cm-placa-vista">${m && m.placa
+            ? `<img src="${esc(placaVisible(m.placa))}" alt="" style="max-width:160px;border-radius:6px;display:block;margin-bottom:8px">
+               <button type="button" class="boton texto" id="cm-placa-sacar">Sacar la placa</button>` : ''}</div>
+          <input id="cm-placa-archivo" type="file" accept="image/*"></div>
+        <label class="fila-item" style="gap:8px;margin:6px 0">
+          <input type="checkbox" id="cm-publicada" ${!m || m.publicada ? 'checked' : ''}>
+          Publicada (se ve en la app)</label>
+        <label class="fila-item" style="gap:8px;margin:6px 0 14px">
+          <input type="checkbox" id="cm-abiertas" ${!m || m.preguntas_abiertas ? 'checked' : ''}>
+          Recibe preguntas</label>
+        <button class="boton ancho" id="cm-guardar">${m ? 'Guardar los cambios' : 'Agregar la mesa'}</button>
+        ${m ? '<button class="boton borde ancho" id="cm-cancelar" style="margin-top:8px">Cancelar</button>' : ''}
+      </div>
+
+      <h3 class="titulo-pantalla" style="font-size:22px">LAS MESAS (${mesas.length})</h3>
+      ${mesas.length ? mesas.map(x => `
+        <div class="tarjeta" style="margin-bottom:8px${x.publicada ? '' : ';opacity:.65'}">
+          <h3>${x.numero ? 'Voces que habitan ' + esc(x.numero) + ' · ' : ''}${esc(x.titulo)}</h3>
+          <div class="meta">
+            <span>${esc(fechaLinda(x.fecha))}${x.hora ? ' · ' + esc(String(x.hora).slice(0, 5)) : ''}</span>
+            ${x.lugar ? `<span>${esc(x.lugar)}</span>` : ''}
+            ${x.publicada ? '' : '<span>Sin publicar</span>'}
+            ${x.preguntas_abiertas ? '' : '<span>Preguntas cerradas</span>'}
+          </div>
+          <div class="fila-item" style="gap:8px;margin-top:10px">
+            <button class="boton" data-editar="${esc(x.id)}">Editar</button>
+            <a class="boton borde" href="../congreso/?mesa=${esc(x.id)}" target="_blank" rel="noopener">Ver ↗</a>
+            <button class="boton texto" data-borrar="${esc(x.id)}">Borrar</button>
+          </div>
+        </div>`).join('') : '<div class="vacio">Todavía no hay mesas.</div>'}`;
+
+    let placa = m ? m.placa : null;
+    let placaNueva = null;   // la que se subió y todavía no se guardó
+
+    const sacar = document.getElementById('cm-placa-sacar');
+    if (sacar) sacar.onclick = () => { placa = null; document.getElementById('cm-placa-vista').innerHTML = ''; };
+
+    document.getElementById('cm-placa-archivo').onchange = async function(){
+      const archivo = this.files && this.files[0];
+      if (!archivo) return;
+      const vista = document.getElementById('cm-placa-vista');
+      vista.innerHTML = '<p class="letra-chica">Subiendo…</p>';
+      try {
+        const subida = await subirFoto(archivo, 'congreso');
+        if (placaNueva) await borrarFoto(placaNueva);
+        placaNueva = subida.nombre;
+        placa = subida.url;
+        vista.innerHTML = `<img src="${esc(subida.url)}" alt="" style="max-width:160px;border-radius:6px;display:block;margin-bottom:8px">`;
+      } catch(e){
+        vista.innerHTML = `<div class="aviso error">${esc(e.message || e)}</div>`;
+      }
+    };
+
+    const cancelar = document.getElementById('cm-cancelar');
+    if (cancelar) cancelar.onclick = () => pintarMesasCongreso(mesas);
+
+    document.getElementById('cm-guardar').onclick = async function(){
+      const fila = {
+        numero: Number(val('cm-numero')) || null,
+        titulo: val('cm-titulo'),
+        bajada: val('cm-bajada'),
+        eje: nulo('cm-eje'),
+        fecha: val('cm-fecha'),
+        hora: nulo('cm-hora'),
+        lugar: val('cm-lugar'),
+        expositores: leerExpositores(document.getElementById('cm-gente').value),
+        placa: placa || null,
+        publicada: document.getElementById('cm-publicada').checked,
+        preguntas_abiertas: document.getElementById('cm-abiertas').checked
+      };
+      if (fila.titulo.length < 3 || !fila.fecha){
+        aviso('Falta el título o la fecha.', 'error'); return;
+      }
+      this.disabled = true; this.textContent = 'Guardando…';
+      const { error } = m
+        ? await db.from('congreso_mesas').update(fila).eq('id', m.id)
+        : await db.from('congreso_mesas').insert(fila);
+      this.disabled = false;
+      if (error){
+        this.textContent = m ? 'Guardar los cambios' : 'Agregar la mesa';
+        aviso('No se pudo guardar: ' + error.message, 'error'); return;
+      }
+      aviso(m ? 'Mesa guardada. Ya se ve así en la app.' : 'Mesa agregada.', 'ok');
+      vistaCongreso();
+    };
+
+    caja.querySelectorAll('[data-editar]').forEach(b => b.onclick = () => {
+      pintarMesasCongreso(mesas, mesas.find(x => String(x.id) === b.dataset.editar));
+      document.getElementById('form-mesa').scrollIntoView({ behavior:'smooth', block:'start' });
+      document.getElementById('cm-titulo').focus();
+    });
+    caja.querySelectorAll('[data-borrar]').forEach(b => b.onclick = async () => {
+      const x = mesas.find(y => String(y.id) === b.dataset.borrar);
+      if (!x || !confirm(`¿Borrar «${x.titulo}»? Se borran también sus preguntas. No se puede deshacer.`)) return;
+      const { error } = await db.from('congreso_mesas').delete().eq('id', x.id);
+      if (error){ aviso('No se pudo borrar: ' + error.message, 'error'); return; }
+      aviso('Mesa borrada.', 'ok');
+      vistaCongreso();
+    });
+  }
+
+  function pintarModeracion(mesas){
+    const caja = document.getElementById('congreso-zona');
+    const opciones = mesas.map(m => ({ v:'m:' + m.id, t:(m.numero ? m.numero + ' · ' : '') + m.titulo }))
+      .concat(Object.keys(EJES_CONGRESO).map(k => ({ v:'e:' + k, t:'Aportes · ' + EJES_CONGRESO[k] })));
+    if (!opciones.some(o => o.v === moderarQue)){
+      /* Por defecto, la mesa de hoy o la próxima. */
+      const hoy = hoyISO();
+      const prox = mesas.find(m => m.fecha >= hoy) || mesas[0];
+      moderarQue = prox ? 'm:' + prox.id : 'e:salud';
+    }
+
+    caja.innerHTML = `
+      <div class="campo"><label for="cm-que">Qué moderar</label>
+        <select id="cm-que">${opciones.map(o =>
+          `<option value="${esc(o.v)}"${o.v === moderarQue ? ' selected' : ''}>${esc(o.t)}</option>`).join('')}</select></div>
+      <p class="letra-chica">Ordenadas por apoyos. Se actualiza sola cada 15 segundos.
+        <b>Ocultar</b> no borra: deja de verse en la app y se puede volver a mostrar.
+        <b>Respondida</b> la baja al final de la lista y la tacha, para que la sala sepa que ya pasó.</p>
+      <div id="cm-mesa-extra"></div>
+      <div id="cm-muro" aria-live="polite"></div>`;
+
+    document.getElementById('cm-que').onchange = function(){ moderarQue = this.value; pintarModeracion(mesas); };
+
+    const [tipo, clave] = moderarQue.split(':');
+    const mesa = tipo === 'm' ? mesas.find(m => String(m.id) === clave) : null;
+    if (mesa){
+      document.getElementById('cm-mesa-extra').innerHTML = `
+        <div class="fila-item" style="gap:8px;margin-bottom:12px;flex-wrap:wrap">
+          <button class="boton borde" id="cm-abrir-cerrar">${mesa.preguntas_abiertas ? 'Cerrar las preguntas' : 'Abrir las preguntas'}</button>
+          <a class="boton borde" href="../congreso/?mesa=${esc(mesa.id)}" target="_blank" rel="noopener">Abrir en la app ↗</a>
+        </div>`;
+      document.getElementById('cm-abrir-cerrar').onclick = async function(){
+        this.disabled = true;
+        const { error } = await db.from('congreso_mesas')
+          .update({ preguntas_abiertas: !mesa.preguntas_abiertas }).eq('id', mesa.id);
+        if (error){ this.disabled = false; aviso('No se pudo cambiar: ' + error.message, 'error'); return; }
+        mesa.preguntas_abiertas = !mesa.preguntas_abiertas;
+        aviso(mesa.preguntas_abiertas ? 'La mesa vuelve a recibir preguntas.' : 'Preguntas cerradas. Las que hay siguen a la vista.', 'ok');
+        pintarModeracion(mesas);
+      };
+    }
+
+    async function traer(){
+      const muro = document.getElementById('cm-muro');
+      if (!muro) { clearInterval(relojCongreso); return; }
+      const { data, error } = await db.rpc('congreso_muro', tipo === 'm'
+        ? { p_mesa: Number(clave), p_eje: null } : { p_mesa: null, p_eje: clave });
+      if (!document.getElementById('cm-muro')) return;
+      if (error){ muro.innerHTML = `<div class="aviso error">No se pudo cargar: ${esc(error.message)}</div>`; return; }
+      const lista = (data || []).slice().sort((a, b) =>
+        (a.oculta - b.oculta) || (a.respondida - b.respondida) || (b.apoyos - a.apoyos));
+      muro.innerHTML = lista.length ? lista.map(v => `
+        <div class="tarjeta" style="margin-bottom:8px${v.oculta ? ';opacity:.55' : ''}">
+          <p style="margin:0 0 6px;white-space:pre-line${v.respondida ? ';text-decoration:line-through' : ''}">${esc(v.texto)}</p>
+          <div class="meta">
+            <span><b>${Number(v.apoyos)}</b> ${v.apoyos == 1 ? 'apoyo' : 'apoyos'}</span>
+            <span>${esc(v.nombre || 'Anónimo')}</span>
+            <span>${esc(new Date(v.creado_at).toLocaleTimeString('es-AR', { hour:'2-digit', minute:'2-digit' }))}</span>
+            ${v.oculta ? '<span>Oculta</span>' : ''}
+          </div>
+          <div class="fila-item" style="gap:8px;margin-top:10px;flex-wrap:wrap">
+            <button class="boton${v.oculta ? '' : ' borde'}" data-moderar="${esc(v.id)}" data-oculta="${!v.oculta}">
+              ${v.oculta ? 'Volver a mostrar' : 'Ocultar'}</button>
+            ${v.oculta ? '' : `<button class="boton borde" data-moderar="${esc(v.id)}" data-respondida="${!v.respondida}">
+              ${v.respondida ? 'No está respondida' : 'Respondida'}</button>`}
+          </div>
+        </div>`).join('')
+        : `<div class="vacio">Todavía no llegó nada${tipo === 'm' ? ' a esta mesa' : ' a este eje'}.</div>`;
+    }
+
+    caja.onclick = async ev => {
+      const b = ev.target.closest('[data-moderar]');
+      if (!b) return;
+      b.disabled = true;
+      const { error } = await db.rpc('congreso_moderar', {
+        p_id: Number(b.dataset.moderar),
+        p_oculta: b.dataset.oculta ? b.dataset.oculta === 'true' : null,
+        p_respondida: b.dataset.respondida ? b.dataset.respondida === 'true' : null
+      });
+      if (error){ b.disabled = false; aviso('No se pudo guardar: ' + error.message, 'error'); return; }
+      traer();
+    };
+
+    traer();
+    clearInterval(relojCongreso);
+    relojCongreso = setInterval(() => {
+      if (actual !== 'congreso' || modoCongreso !== 'moderar') { clearInterval(relojCongreso); return; }
+      if (!document.hidden) traer();
+    }, 15000);
+  }
+
   function dibujar(){
     pintarCabeza();
     cajaAvisos.innerHTML = '';
@@ -3572,7 +3869,7 @@
        materiales:vistaMateriales, guia:vistaGuia, avisanos:vistaAvisanos,
        quienes:vistaQuienes, consejo:vistaConsejo, registro:vistaRegistro,
        categorias:vistaCategorias, catedras:vistaCatedras, riesgo:vistaRiesgo,
-       instagram:vistaInstagram, buzon:vistaBuzon }[actual])())
+       instagram:vistaInstagram, buzon:vistaBuzon, congreso:vistaCongreso }[actual])())
       /* SI LA VISTA SE CAE, QUE LO DIGA.
          Cuando una vista se rompe a mitad de camino —un archivo que no
          cargó, una tabla que no está— la promesa quedaba rechazada en

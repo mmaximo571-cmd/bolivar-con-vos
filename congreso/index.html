@@ -1,0 +1,262 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>I° Congreso Interdisciplinario · Voces que habitan · La Bolívar con vos</title>
+<meta name="description" content="El primer congreso interdisciplinario para estudiantes de la FTS UNLP, octubre 2026: cronograma, preguntas a quienes exponen, aportes por eje e inscripción.">
+<meta name="theme-color" content="#F9E830">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<!-- Anton es SOLO de esta pantalla: es la letra de las placas del
+     congreso. Las demás siguen con Archivo Black. -->
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=Archivo+Black&family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+<link rel="icon" type="image/png" sizes="32x32" href="../imagenes/icono-32.png">
+<link rel="icon" type="image/png" sizes="96x96" href="../imagenes/icono-96.png">
+<link rel="icon" type="image/png" sizes="192x192" href="../imagenes/icono-192.png">
+<link rel="apple-touch-icon" href="../imagenes/icono-apple.png">
+<link rel="manifest" href="../manifest.json">
+
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="La Bolivar con vos">
+<meta property="og:title" content="I° Congreso Interdisciplinario · Voces que habitan">
+<meta property="og:description" content="De estudiantes para estudiantes. Octubre 2026 en la FTS UNLP: el cronograma, y tu pregunta para cada mesa.">
+<meta property="og:image" content="https://labolivarconvos.ar/congreso/placas/portada.webp">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="stylesheet" href="../css/tokens.css">
+<link rel="stylesheet" href="../css/base/01-cimientos.css">
+<link rel="stylesheet" href="../css/base/02-encabezado.css">
+<link rel="stylesheet" href="../css/base/03-controles.css">
+<link rel="stylesheet" href="../css/base/04-tarjetas.css">
+<link rel="stylesheet" href="../css/base/05-secciones.css">
+<link rel="stylesheet" href="../css/base/06-hoja.css">
+<link rel="stylesheet" href="../css/base/07-avisos.css">
+<link rel="stylesheet" href="../css/base/08-calendario.css">
+<link rel="stylesheet" href="../css/base/09-avisanos.css">
+<link rel="stylesheet" href="../css/base/10-lectura.css">
+<link rel="stylesheet" href="../css/base/11-navegacion.css">
+<link rel="stylesheet" href="../css/base/12-movimiento.css">
+<link rel="stylesheet" href="../css/pantallas/congreso.css">
+<link rel="stylesheet" href="../estilos-rediseno.css">
+<!-- EL TEMA, ANTES DE DIBUJAR NADA. Mismo motivo que en el glosario. -->
+<script>
+(function(){try{
+  var g = localStorage.getItem('bolivar-tema') || 'auto';
+  var oscuro = g === 'oscuro' || (g === 'auto' &&
+    window.matchMedia('(prefers-color-scheme: dark)').matches);
+  document.documentElement.dataset.tema = oscuro ? 'oscuro' : 'claro';
+}catch(e){ document.documentElement.dataset.tema = 'claro'; }})();
+</script>
+<script defer src="/_vercel/insights/script.js"></script>
+</head>
+<body class="lectura sin-js congreso">
+
+<div id="cabecera"></div>
+
+<!-- ============================================================
+     I° CONGRESO INTERDISCIPLINARIO · VOCES QUE HABITAN
+
+     Lo organiza la agrupación y dura todo octubre de 2026. Lo que
+     decidió Máximo el 7/10:
+       - la información (cronograma, ejes, lugar) se lee sin cuenta y
+         el cronograma se edita desde el panel;
+       - se participa SIN CUENTA y con nombre opcional: preguntas a
+         quienes exponen en cada mesa, que el resto apoya con ↑, y
+         aportes por eje, que se apoyan con «Me sumo»;
+       - todo sale publicado al toque y se oculta desde el panel;
+       - la inscripción es el formulario de Google de la agrupación.
+     Las tablas y sus candados están en `sql/tabla-congreso.sql`.
+
+     LO QUE ESTÁ ESCRITO ACÁ Y NO EN LA BASE: la portada, los ejes y
+     «por qué un congreso». Salen de la circular, que no cambia. Lo que
+     cambia de un día para el otro —qué mesa, a qué hora, en qué aula—
+     es lo único que viene de Supabase.
+     ============================================================ -->
+<main id="contenido" tabindex="-1">
+
+  <section class="banda sol cg-portada" aria-labelledby="cg-titulo">
+    <div class="envoltura">
+      <p class="ceja-lectura aparece">Agrupación Simón Bolívar · Conducción del CEFTS</p>
+
+      <h1 class="cg-marca aparece" id="cg-titulo">
+        <span class="cg-numero" aria-hidden="true"><span class="palo"></span><span class="grado"></span></span>
+        <span class="palabras"><span class="grande">Congreso</span><span class="chica">Interdisciplinario</span></span>
+        <span class="solo-lectores">Primer congreso interdisciplinario</span>
+      </h1>
+
+      <img class="cg-logo" src="logo.webp" width="360" height="360"
+           alt="Logo del congreso: el patio de la facultad, el mapa de América Latina y un libro abierto, con la leyenda «I° Congreso Interdisciplinario 2026 · Voces que habitan»">
+
+      <div class="aparece">
+        <p class="cg-lema">-Voces que habitan-</p>
+        <p class="cg-subrayado">De estudiantes para estudiantes</p>
+      </div>
+
+      <ul class="cg-datos aparece">
+        <li>Todo octubre 2026</li>
+        <li>Facultad de Trabajo Social · UNLP</li>
+        <li>Calle 9 esq. 63, La Plata</li>
+        <li>Presencial</li>
+      </ul>
+
+      <div class="cg-acciones aparece">
+        <a class="boton oscuro" href="https://forms.gle/e9saqFhyb5N7hnpe8"
+           target="_blank" rel="noopener">Inscribirme ↗
+          <span class="solo-lectores">(formulario de Google, se abre en otra pestaña)</span></a>
+        <a class="boton borde" href="#cronograma">Ver el cronograma</a>
+      </div>
+
+      <img class="cg-fachada aparece" src="fachada.webp" width="790" height="391" loading="lazy"
+           alt="Dibujo de la fachada de la Facultad de Trabajo Social sobre la calle 9, con estudiantes en la vereda y el mural">
+    </div>
+  </section>
+
+  <!-- ============ EL CRONOGRAMA ============ -->
+  <section class="banda cg-cuadriculada" id="cronograma" aria-labelledby="cron-titulo">
+    <div class="envoltura">
+      <div id="cg-ahora"></div>
+
+      <h2 class="cg-titulo" id="cron-titulo">Cronograma</h2>
+      <p class="cg-guia">Cada mesa es un «Voces que habitan». Tocá
+        <strong>Preguntar</strong> y dejá tu pregunta para quienes exponen:
+        las que más apoyos tienen son las que se leen primero.</p>
+
+      <div id="cg-mesas" aria-live="polite">
+        <div class="esq-tarjeta"><div class="esqueleto esq-linea titulo"></div><div class="esqueleto esq-linea"></div><div class="esqueleto esq-linea media"></div></div>
+        <div class="esq-tarjeta"><div class="esqueleto esq-linea titulo"></div><div class="esqueleto esq-linea"></div><div class="esqueleto esq-linea corta"></div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ LOS EJES ============ -->
+  <section class="banda sol" id="ejes" aria-labelledby="ejes-titulo">
+    <div class="envoltura">
+      <h2 class="cg-titulo" id="ejes-titulo">Tres ejes</h2>
+      <p class="cg-guia" style="color:inherit">No es que cada carrera tome uno: son
+        problemas que exceden a cualquier disciplina sola. Dejá tu aporte en el eje
+        que quieras; sirven para armar las conclusiones del congreso.</p>
+
+      <div class="cg-ejes">
+        <article class="cg-eje-tarjeta" id="eje-salud">
+          <h3>Salud</h3>
+          <p>No como algo individual ni solo como enfermedad: las condiciones en las
+            que se vive, se trabaja y se estudia deciden quién puede cuidarse y
+            acceder. Equidad, desigualdad y la salud como derecho.</p>
+          <button type="button" class="boton" data-eje="salud">Aportes de Salud</button>
+        </article>
+        <article class="cg-eje-tarjeta" id="eje-territorio">
+          <h3>Territorio</h3>
+          <p>No es solo un lugar en el mapa: es un espacio que se construye entre
+            quienes lo habitan, con sus lazos, sus desigualdades, sus riesgos y sus
+            formas de organizarse para transformarlo.</p>
+          <button type="button" class="boton" data-eje="territorio">Aportes de Territorio</button>
+        </article>
+        <article class="cg-eje-tarjeta" id="eje-tecnologias">
+          <h3>Nuevas tecnologías</h3>
+          <p>Las NTIC abren la accesibilidad y el derecho a la comunicación, y también
+            pueden debilitar los lazos o deshumanizar la intervención. ¿Cómo usarlas
+            sin reemplazar el encuentro ni la escucha?</p>
+          <button type="button" class="boton" data-eje="tecnologias">Aportes de Nuevas tecnologías</button>
+        </article>
+        <img class="cg-ojitos" src="ojitos.webp" width="120" height="113" alt="" loading="lazy">
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ POR QUÉ ============ -->
+  <section class="banda papel cg-lectura" id="por-que" aria-labelledby="porque-titulo">
+    <div class="envoltura">
+      <h2 class="cg-titulo" id="porque-titulo">¿Por qué un congreso?</h2>
+
+      <p>Porque quienes transitamos la formación <strong>también producimos
+        saberes</strong>: en las prácticas, en las instituciones y los territorios,
+        en la militancia y en la propia vida universitaria. Un congreso pensado y
+        organizado por estudiantes, y dirigido a estudiantes, es una apuesta por el
+        protagonismo estudiantil en la Facultad.</p>
+
+      <blockquote class="cg-cita">En un contexto de ataque a la Universidad Pública y a
+        las profesiones en las que nos formamos, <mark>discutir nuestras disciplinas,
+        recuperar los saberes situados y construir la interdisciplina</mark> es una
+        tarea colectiva.</blockquote>
+
+      <p>En la FTS conviven <strong>Trabajo Social, Fonoaudiología y la Tecnicatura
+        en Gestión Comunitaria del Riesgo</strong>. Encontrarnos antes del ejercicio
+        profesional es ensayar lo que después nos va a pedir el territorio: dialogar
+        con otros saberes, reconocer los límites de la propia disciplina y construir
+        respuestas en conjunto. La interdisciplina que reclamamos para la
+        intervención empieza a aprenderse en las aulas.</p>
+
+      <h3>Sobre el nombre</h3>
+      <p><strong>La voz</strong> es el lenguaje y la comunicación como derechos, y
+        también tomar la palabra, ser escuchades e incidir en lo que nos afecta.
+        <strong>Habitar</strong> es el territorio como algo que se construye: tejer
+        vínculos, producir sentidos y transformarlo. Voces, en plural, porque ninguna
+        disciplina sola alcanza para leer una realidad compleja.</p>
+
+      <h3>Para quién</h3>
+      <p>Estudiantes, docentes, graduades y profesionales de las tres carreras, y
+        público interesado de la región. Es presencial, con actividades, talleres y
+        paneles con invitades. <strong>Hay certificado de asistencia</strong> con aval
+        de la Facultad de Trabajo Social (UNLP).</p>
+
+      <div class="cg-acciones" style="margin-top:20px">
+        <a class="boton borde" href="circular-voces-que-habitan.pdf" target="_blank" rel="noopener"
+           download>Bajar la circular completa (PDF, 2 MB)</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ DÓNDE E INSCRIPCIÓN ============ -->
+  <section class="banda cg-cuadriculada" id="donde" aria-labelledby="donde-titulo">
+    <div class="envoltura">
+      <h2 class="cg-titulo" id="donde-titulo">Dónde</h2>
+      <p style="margin:0"><strong>Facultad de Trabajo Social, UNLP</strong><br>
+        Calle 9 esquina 63, La Plata.</p>
+      <ul class="cg-aulas" id="cg-aulas" aria-label="Las aulas del congreso">
+        <li>Aula Magna</li><li>Aula 14</li><li>Aula 4</li>
+      </ul>
+      <div class="cg-acciones">
+        <a class="boton borde" target="_blank" rel="noopener"
+           href="https://www.google.com/maps/search/?api=1&query=Facultad+de+Trabajo+Social+UNLP+calle+9+y+63+La+Plata">Cómo llegar ↗
+          <span class="solo-lectores">(Google Maps, se abre en otra pestaña)</span></a>
+        <a class="boton oscuro" href="https://forms.gle/e9saqFhyb5N7hnpe8"
+           target="_blank" rel="noopener">Inscribirme ↗
+          <span class="solo-lectores">(formulario de Google, se abre en otra pestaña)</span></a>
+      </div>
+
+      <p style="margin:22px 0 0">¿Dudas? Escribinos a
+        <a href="mailto:simonbolivarfts@gmail.com">simonbolivarfts@gmail.com</a> o por
+        <a href="https://www.instagram.com/simonbolivarfts/" target="_blank" rel="noopener">Instagram ↗</a>.</p>
+
+      <div class="cg-firmas">
+        <img src="../imagenes/marca-roja.webp" width="168" height="139" alt="Agrupación Simón Bolívar" loading="lazy">
+        <span>Organizan la Agrupación Simón Bolívar, conducción del CEFTS, y la
+          Facultad de Trabajo Social (UNLP).</span>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<!-- LA HOJA de una mesa (sus preguntas) o de un eje (sus aportes). -->
+<div class="hoja-fondo" id="cg-fondo" hidden>
+  <div class="hoja cg-hoja" role="dialog" aria-modal="true" aria-labelledby="cg-hoja-titulo">
+    <button class="hoja-cerrar" id="cg-cerrar" type="button" aria-label="Cerrar">✕</button>
+    <div id="cg-hoja-cuerpo"></div>
+  </div>
+</div>
+
+<div id="pie"></div>
+
+<script>window.RAIZ = '../';</script>
+<script src="../lib/datos.js"></script>
+<script src="../config.js"></script>
+<script src="../iconos.js"></script>
+<script src="../lib/mudanza.js"></script>
+<script src="../app.js"></script>
+<script src="../fondo-red.js"></script>
+<script src="../lectura.js"></script>
+<script src="../lib/fecha-al-calendario.js"></script>
+<script src="congreso.js"></script>
+</body>
+</html>

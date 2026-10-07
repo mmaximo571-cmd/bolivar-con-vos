@@ -446,4 +446,12 @@ todo una entrada con el número, la fecha y el porqué.
    no pise lo que se prendió desde Estudiemos). Se sube para que el
    `app.js` nuevo y esos guiones, que salen de lo guardado, lleguen en
    la visita siguiente. */
+/* v84 (7/10/2026) El I° Congreso Interdisciplinario «Voces que habitan»
+   (`congreso/`, nueva). `app.js`, que está en el armazón, suma el
+   congreso a `INDICE_PIE` (el pie y el buscador del inicio). Lo demás es
+   de una sola pantalla y no va a la lista: `congreso/congreso.js`,
+   `css/pantallas/congreso.css`, el logo, la fachada y las placas de
+   `congreso/`, y la tarjeta destacada del inicio (`index.html` y
+   `css/pantallas/inicio.css`). Se sube para que el `app.js` nuevo
+   llegue en la visita siguiente. */
 ```
