@@ -183,6 +183,95 @@
       "dato": "EDULP · Periodismo y Comunicación",
       "boton": { "texto": "Leer en EDULP", "url": "https://libros.unlp.edu.ar/index.php/unlp/catalog/book/521" },
       "sumado": "2026-10-07"
+    },
+    {
+      "id": "cruzar-el-muro",
+      "titulo": "Cruzar el muro",
+      "autoria": "CELS, Movimiento por la Desmanicomialización en Romero y ELA",
+      "anio": "2023",
+      "tipo": "pelicula",
+      "disciplinas": ["trabajo-social"],
+      "fila": "antes-de-la-practica",
+      "porque": "Tres mujeres salen del hospital de Melchor Romero, acá en La Plata, después de muchos años de encierro. El documental muestra qué le hace el manicomio a una vida y a una familia, y el trabajo de varias disciplinas para que haya un afuera. Si te interesa la salud mental como campo de intervención, empezá por acá.",
+      "dato": "65 min · documental",
+      "boton": { "texto": "Ver película", "url": "https://www.youtube.com/watch?v=xcxwaLGJUWw" },
+      "sumado": "2026-10-07"
+    },
+    {
+      "id": "desamparados-bajo-el-agua",
+      "titulo": "Desamparados bajo el agua",
+      "autoria": "Uriel Fernández (0221.com.ar y Proyecto Raíz)",
+      "anio": "2023",
+      "tipo": "pelicula",
+      "disciplinas": ["cultura-territorio"],
+      "fila": "antes-de-la-practica",
+      "porque": "A diez años del 2 de abril hablan inundados, familiares de quienes murieron, sobrevivientes y especialistas. Deja planteada la pregunta que está en el centro de la gestión del riesgo: una ciudad que se inunda y todavía no conoce su territorio ni sabe qué hacer cuando sube el agua. Va bien con los dos libros sobre la inundación que hay en el Arsenal.",
+      "dato": "67 min · documental",
+      "boton": { "texto": "Ver película", "url": "https://www.youtube.com/watch?v=wig7kfUHZ08" },
+      "sumado": "2026-10-07"
+    },
+    {
+      "id": "inundaciones-unlp-conicet",
+      "titulo": "Las inundaciones en La Plata, Berisso y Ensenada",
+      "autoria": "Universidad Nacional de La Plata",
+      "anio": "2018",
+      "tipo": "corto",
+      "disciplinas": ["cultura-territorio"],
+      "fila": "para-la-cursada",
+      "porque": "Seis minutos de la UNLP sobre lo que investigó con el CONICET después de la inundación de La Plata, Berisso y Ensenada. Sirve para entrar al tema antes de leer «Bases científicas para una ciudad resiliente», que está acá mismo.",
+      "dato": "6 min",
+      "boton": { "texto": "Ver corto", "url": "https://www.youtube.com/watch?v=6wSfv4MV8MQ" },
+      "sumado": "2026-10-07"
+    },
+    {
+      "id": "sordoyentes",
+      "titulo": "Sordoyentes",
+      "autoria": "Asociación Civil Señas en Acción",
+      "tipo": "corto",
+      "disciplinas": ["fonoaudiologia"],
+      "fila": "sin-apuro",
+      "porque": "Una hija sorda de padres oyentes y un hijo oyente de padres sordos se enamoran, y las dos familias chocan con sus prejuicios. Sale de la obra en Lengua de Señas Argentina que armó Señas en Acción con experiencias de personas sordas. Te sirve para mirar la sordera desde lo que la gente puede, no desde lo que le falta.",
+      "dato": "18 min",
+      "boton": { "texto": "Ver corto", "url": "https://www.youtube.com/watch?v=FJx_uywgnUA" },
+      "sumado": "2026-10-07"
+    },
+    {
+      "id": "comunidad-sorda-cas",
+      "titulo": "La comunidad sorda",
+      "autoria": "Confederación Argentina de Sordos",
+      "anio": "2022",
+      "tipo": "corto",
+      "disciplinas": ["fonoaudiologia"],
+      "fila": "para-la-cursada",
+      "porque": "Dos minutos de la capacitación que dio la Confederación Argentina de Sordos en el Congreso, por una ley federal de LSA: qué es la comunidad sorda y por qué importa la Lengua de Señas Argentina. Contado por la propia comunidad, que es a quien hay que escuchar primero.",
+      "dato": "2 min",
+      "boton": { "texto": "Ver corto", "url": "https://www.youtube.com/watch?v=9XLe2Ki-muA" },
+      "sumado": "2026-10-07"
+    },
+    {
+      "id": "liturgia-villera",
+      "titulo": "Liturgia villera",
+      "autoria": "César González",
+      "anio": "2023",
+      "tipo": "corto",
+      "disciplinas": ["cultura-territorio", "trabajo-social"],
+      "fila": "sin-apuro",
+      "porque": "El arte que nace en barrios populares del conurbano, como Fuerte Apache y la Carlos Gardel: poemas, canciones y cine como refugio y como herramienta política. Lo hizo César González, el de «Diagnóstico esperanza», que también está en el Arsenal. Para mirar el barrio por lo que crea, no solo por lo que le falta.",
+      "dato": "23 min · documental",
+      "boton": { "texto": "Ver corto", "url": "https://www.youtube.com/watch?v=vf5rB4Hcoso" },
+      "sumado": "2026-10-07"
+    },
+    {
+      "id": "transitando-el-abismo",
+      "titulo": "Transitando el abismo",
+      "autoria": "César González",
+      "tipo": "corto",
+      "disciplinas": ["trabajo-social"],
+      "fila": "sin-apuro",
+      "porque": "Alma, travesti y villera, camina Buenos Aires entre paredes que denuncian al patriarcado y al FMI. Un corto para pensar identidad, exclusión y resistencia contadas desde quien las vive, no desde el noticiero.",
+      "dato": "20 min",
+      "boton": { "texto": "Ver corto", "url": "https://www.youtube.com/watch?v=pkr9sd9xzKw" },
+      "sumado": "2026-10-07"
     }
   ]
 }
