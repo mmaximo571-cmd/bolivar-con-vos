@@ -66,10 +66,10 @@
     "semantic_hash": "db11e2b0cbacdd7b06f7c2a025bae585"
   },
   "manifest.json": {
-    "mtime": 1789678048.537288,
-    "seen": 1790732169.32357,
-    "ast_hash": "11c91a35a41b66240c236de2aa6819d9",
-    "semantic_hash": "11c91a35a41b66240c236de2aa6819d9"
+    "mtime": 1791393690.5449457,
+    "seen": 1791393884.779894,
+    "ast_hash": "5beeb8a378bab9868b3173937d1c65e8",
+    "semantic_hash": ""
   },
   "movimiento.js": {
     "mtime": 1790725615.1300547,
@@ -78,15 +78,15 @@
     "semantic_hash": ""
   },
   "sw.js": {
-    "mtime": 1791387515.8551116,
-    "seen": 1791387786.0082064,
-    "ast_hash": "eee0feb600ee15416e67ffb3ec8a775d",
+    "mtime": 1791393681.879109,
+    "seen": 1791393884.77996,
+    "ast_hash": "54da739833cbe301a065d097476d7078",
     "semantic_hash": ""
   },
   "BITACORA.md": {
-    "mtime": 1791164738.1497788,
-    "seen": 1791164781.9766603,
-    "ast_hash": "625f987b19a88b016b2772baa3f05653",
+    "mtime": 1791393413.7459848,
+    "seen": 1791393884.7799616,
+    "ast_hash": "b6be8ef041ffe25c7048794f922eb69b",
     "semantic_hash": ""
   },
   "LEEME.md": {
@@ -432,9 +432,9 @@
     "semantic_hash": ""
   },
   "decilo/index.html": {
-    "mtime": 1790725615.0805874,
-    "seen": 1790732169.323784,
-    "ast_hash": "b44d5209f4167fd94b1874299a0ccc97",
+    "mtime": 1791393751.538679,
+    "seen": 1791393884.7799778,
+    "ast_hash": "4eb77b908074fc9f1132af185d116256",
     "semantic_hash": ""
   },
   "carrera/tarjeta-avance.js": {
@@ -594,9 +594,9 @@
     "semantic_hash": ""
   },
   "docs/HISTORIAL-SW.md": {
-    "mtime": 1791387516.075663,
-    "seen": 1791387786.0082252,
-    "ast_hash": "450e8eb68575a82b1469f782c1f01606",
+    "mtime": 1791393690.4759047,
+    "seen": 1791393884.7799795,
+    "ast_hash": "81f37af9f4b83e9b39df9293f3a10216",
     "semantic_hash": ""
   },
   "docs/prompts/PROMPT-DISENO.md": {
@@ -654,9 +654,9 @@
     "semantic_hash": ""
   },
   "cargar/index.html": {
-    "mtime": 1791389973.7724862,
-    "seen": 1791390061.264437,
-    "ast_hash": "3b46f9e4eea13558143995024faf67a2",
+    "mtime": 1791393826.0898461,
+    "seen": 1791393884.7799685,
+    "ast_hash": "048962ae82aefad78879fac74937fba9",
     "semantic_hash": ""
   },
   "sql/tabla-campana.sql": {
@@ -822,9 +822,15 @@
     "semantic_hash": ""
   },
   "supabase/functions/leer-placa/index.ts": {
-    "mtime": 1791389925.0137627,
-    "seen": 1791390061.264424,
-    "ast_hash": "a45d585744b2b12d8c998019cbcc25d0",
+    "mtime": 1791393052.9185946,
+    "seen": 1791393884.7799566,
+    "ast_hash": "61f34af13154761f9c5e358b0884d8ae",
+    "semantic_hash": ""
+  },
+  "lib/compartido.js": {
+    "mtime": 1791393665.630453,
+    "seen": 1791393884.779876,
+    "ast_hash": "3cd99e8d377f5a7e12d430aa91a6d1e2",
     "semantic_hash": ""
   }
 }

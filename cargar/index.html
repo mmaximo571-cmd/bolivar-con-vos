@@ -108,6 +108,8 @@
 <script src="../fondo-red.js"></script>
 <!-- Lee un mensaje pegado de WhatsApp y llena los pasos (7/10/2026). -->
 <script src="../lib/leer-aviso.js"></script>
+<!-- Lo que llega desde el menú Compartir del celular (7/10/2026). -->
+<script src="../lib/compartido.js"></script>
 <script>
 (async function cargar(){
   'use strict';
@@ -128,6 +130,10 @@
     contenido.innerHTML = `
       <h1 class="titulo-pantalla">CARGAR</h1>
       <p class="bajada">Entrá con tu cuenta para cargar un paro, un grupo de estudio o una actividad.</p>
+      ${(window.vinoCompartido && vinoCompartido()) ? `
+        <div class="aviso ok">Llegaste desde «Compartir». Si sos del equipo, entrá y
+          sigo con lo que mandaste. Si no, podés
+          <a href="../decilo/?compartido=1">mandárselo a la agrupación por Decilo</a>.</div>` : ''}
       <div class="ficha">
         <form id="login">
           <div class="campo"><label for="correo">Correo</label>
@@ -156,6 +162,26 @@
       }
       location.reload();
     });
+    return;
+  }
+
+  /* «Compartir con La Bolívar» le aparece a cualquiera que tenga la app
+     instalada, no solo al equipo: Android no deja elegir a quién. Quien
+     no puede cargar no tiene que chocar con «no podés», sino encontrar
+     qué hacer con lo que quiso mandar: Decilo, con el texto ya puesto. */
+  if (!puedeCargar(perfil) && (window.vinoCompartido && vinoCompartido())){
+    const c = await leerCompartido();
+    contenido.innerHTML = `
+      <h1 class="titulo-pantalla">¿QUERÉS<br>AVISARNOS?</h1>
+      <p class="bajada">
+        Compartir con La Bolívar sirve para que el equipo cargue paros y
+        actividades en la agenda, y tu cuenta no tiene ese permiso. Si querés
+        que la agrupación vea lo que mandaste, mandalo por Decilo${
+          c && c.texto ? ': el texto ya va a estar puesto' : ''}.${
+          c && c.placa ? ' La imagen no se puede mandar por ahí: contalo en palabras.' : ''}
+      </p>
+      <a class="boton ancho" href="../decilo/?compartido=1">Mandarlo por Decilo</a>
+      <a class="boton ancho borde" href="../" style="margin-top:10px">Volver a la app</a>`;
     return;
   }
 
@@ -521,7 +547,10 @@
     if (r.que === 'grupo' && window.leerAviso){
       asunto = window.leerAviso(r.texto || '', { materias: MATERIAS, que: 'grupo' }).asunto || asunto;
     }
-    document.getElementById('pegado').value = r.texto || '';
+    /* Sin transcripción no se pisa lo que ya estaba: puede ser el
+       mensaje que vino compartido junto con la placa. */
+    const cuadro = document.getElementById('pegado');
+    if (r.texto) cuadro.value = r.texto;
     Object.assign(esto, {
       que: r.que, fecha: r.fecha, hora: r.hora, lugar: r.lugar || '', asunto,
       detalle: '', editando: null, antes: null
@@ -1442,8 +1471,42 @@
       : 'Guardado.'}</div>`;
   }
 
+  /* ------------------------------------------------------------
+     LO QUE LLEGÓ POR «COMPARTIR» (7/10/2026)
+
+     Hace lo mismo que si se hubiera pegado el mensaje o subido la
+     placa a mano. Se borra apenas se lee: volver a esta pantalla más
+     tarde no tiene que traer de nuevo lo de hoy.
+     ------------------------------------------------------------ */
+  async function recibirCompartido(){
+    const c = await leerCompartido();
+    limpiarDireccionCompartido();
+    if (!c) return;
+    await olvidarCompartido();
+    const pegado = document.getElementById('pegado');
+    if (!pegado) return;
+    if (c.texto) pegado.value = c.texto;
+    if (c.placa){ desdeLaPlaca(c.placa); return; }
+
+    /* Instagram y casi todas las redes comparten solo el link, y de un
+       link solo no se lee nada (ver la nota de Instagram en la
+       BITACORA). Se dice qué hacer en vez de mostrar «no me di cuenta». */
+    if (/https?:\/\//.test(c.texto) && !c.texto.replace(/https?:\/\/\S+/g, '').trim()){
+      pegado.value = '';
+      document.getElementById('msj-pegado').innerHTML =
+        '<div class="aviso error">Me llegó solo el link del posteo, y de un link no puedo ' +
+        'leer nada. Abrí el posteo, sacale una captura a la placa y compartí la captura. ' +
+        'O copiá el texto del posteo y pegalo acá.</div>';
+      return;
+    }
+    desdeElMensaje(c.texto, null);
+  }
+
   if (new URLSearchParams(location.search).get('ver') === 'buzon') bandeja();
-  else paso1();
+  else {
+    paso1();
+    if ((window.vinoCompartido && vinoCompartido())) recibirCompartido();
+  }
 })();
 </script>
 </body>

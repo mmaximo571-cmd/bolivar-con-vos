@@ -435,18 +435,6 @@
       "source_location": "L426"
     },
     {
-      "id": "congreso_congreso_cerrarhoja",
-      "label": "cerrarHoja()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 104,
-      "community_name": "congreso.js",
-      "file_type": "code",
-      "norm_label": "cerrarhoja()",
-      "source_file": "congreso/congreso.js",
-      "source_location": "L304"
-    },
-    {
       "id": "congreso_congreso_dialindo",
       "label": "diaLindo()",
       "_callable": true,
@@ -663,18 +651,6 @@
       "source_location": "L249"
     },
     {
-      "id": "estudiemos_pomodoro_reloj",
-      "label": "reloj()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 104,
-      "community_name": "congreso.js",
-      "file_type": "code",
-      "norm_label": "reloj()",
-      "source_file": "estudiemos/pomodoro.js",
-      "source_location": "L75"
-    },
-    {
       "id": "app_esdelequipo",
       "label": "esDelEquipo()",
       "_callable": true,
@@ -889,6 +865,42 @@
       "norm_label": "sumardias()",
       "source_file": "lib/leer-aviso.js",
       "source_location": "L84"
+    },
+    {
+      "id": "lib_compartido_leercompartido",
+      "label": "leerCompartido()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 108,
+      "community_name": "compartido.js",
+      "file_type": "code",
+      "norm_label": "leercompartido()",
+      "source_file": "lib/compartido.js",
+      "source_location": "L25"
+    },
+    {
+      "id": "lib_compartido_limpiardireccion",
+      "label": "limpiarDireccion()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 108,
+      "community_name": "compartido.js",
+      "file_type": "code",
+      "norm_label": "limpiardireccion()",
+      "source_file": "lib/compartido.js",
+      "source_location": "L50"
+    },
+    {
+      "id": "lib_compartido_olvidarcompartido",
+      "label": "olvidarCompartido()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 108,
+      "community_name": "compartido.js",
+      "file_type": "code",
+      "norm_label": "olvidarcompartido()",
+      "source_file": "lib/compartido.js",
+      "source_location": "L44"
     },
     {
       "id": "estudiemos_arsenal_arsenal_alfiltrar",
@@ -3564,7 +3576,7 @@
       "file_type": "code",
       "norm_label": "esdesupabase()",
       "source_file": "sw.js",
-      "source_location": "L189"
+      "source_location": "L190"
     },
     {
       "id": "app_alcambiarmovimiento",
@@ -5271,6 +5283,18 @@
       "source_location": "L947"
     },
     {
+      "id": "congreso_congreso_cerrarhoja",
+      "label": "cerrarHoja()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 76,
+      "community_name": "pomodoro.js",
+      "file_type": "code",
+      "norm_label": "cerrarhoja()",
+      "source_file": "congreso/congreso.js",
+      "source_location": "L304"
+    },
+    {
       "id": "estudiemos_pomodoro_abrir",
       "label": "abrir()",
       "_callable": true,
@@ -5437,6 +5461,18 @@
       "norm_label": "reiniciar()",
       "source_file": "estudiemos/pomodoro.js",
       "source_location": "L166"
+    },
+    {
+      "id": "estudiemos_pomodoro_reloj",
+      "label": "reloj()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 76,
+      "community_name": "pomodoro.js",
+      "file_type": "code",
+      "norm_label": "reloj()",
+      "source_file": "estudiemos/pomodoro.js",
+      "source_location": "L75"
     },
     {
       "id": "estudiemos_pomodoro_saltear",
@@ -5959,6 +5995,36 @@
       "source_url": null
     },
     {
+      "id": "index_buscar",
+      "label": "buscar (buscador de tr\u00e1mites, FAQ y c\u00e1tedras)",
+      "_origin": "ast",
+      "author": null,
+      "captured_at": null,
+      "community": 1,
+      "community_name": "Pantalla Mi a\u00f1o (carrera)",
+      "contributor": null,
+      "file_type": "code",
+      "norm_label": "buscar (buscador de tramites, faq y catedras)",
+      "source_file": "index.html",
+      "source_location": "L1814",
+      "source_url": null
+    },
+    {
+      "id": "index_pedircatedras",
+      "label": "pedirCatedras",
+      "_origin": "ast",
+      "author": null,
+      "captured_at": null,
+      "community": 1,
+      "community_name": "Pantalla Mi a\u00f1o (carrera)",
+      "contributor": null,
+      "file_type": "code",
+      "norm_label": "pedircatedras",
+      "source_file": "index.html",
+      "source_location": "L1778",
+      "source_url": null
+    },
+    {
       "id": "lib_supabase",
       "label": "lib/supabase.js (cliente Supabase completo)",
       "_origin": "ast",
@@ -6016,6 +6082,21 @@
       "norm_label": "tabla supabase faq",
       "source_file": "index.html",
       "source_location": "L771",
+      "source_url": null
+    },
+    {
+      "id": "tabla_tramites",
+      "label": "Tabla Supabase tramites",
+      "_origin": "ast",
+      "author": null,
+      "captured_at": null,
+      "community": 1,
+      "community_name": "Pantalla Mi a\u00f1o (carrera)",
+      "contributor": null,
+      "file_type": "concept",
+      "norm_label": "tabla supabase tramites",
+      "source_file": "index.html",
+      "source_location": "L769",
       "source_url": null
     },
     {
@@ -6151,51 +6232,6 @@
       "norm_label": "botonguardar (guardados del usuario)",
       "source_file": "tramites/index.html",
       "source_location": "L187",
-      "source_url": null
-    },
-    {
-      "id": "index_buscar",
-      "label": "buscar (buscador de tr\u00e1mites, FAQ y c\u00e1tedras)",
-      "_origin": "ast",
-      "author": null,
-      "captured_at": null,
-      "community": 108,
-      "community_name": "buscar (buscador de tr\u00e1mites, FAQ y c\u00e1tedras)",
-      "contributor": null,
-      "file_type": "code",
-      "norm_label": "buscar (buscador de tramites, faq y catedras)",
-      "source_file": "index.html",
-      "source_location": "L1814",
-      "source_url": null
-    },
-    {
-      "id": "index_pedircatedras",
-      "label": "pedirCatedras",
-      "_origin": "ast",
-      "author": null,
-      "captured_at": null,
-      "community": 108,
-      "community_name": "buscar (buscador de tr\u00e1mites, FAQ y c\u00e1tedras)",
-      "contributor": null,
-      "file_type": "code",
-      "norm_label": "pedircatedras",
-      "source_file": "index.html",
-      "source_location": "L1778",
-      "source_url": null
-    },
-    {
-      "id": "tabla_tramites",
-      "label": "Tabla Supabase tramites",
-      "_origin": "ast",
-      "author": null,
-      "captured_at": null,
-      "community": 108,
-      "community_name": "buscar (buscador de tr\u00e1mites, FAQ y c\u00e1tedras)",
-      "contributor": null,
-      "file_type": "concept",
-      "norm_label": "tabla supabase tramites",
-      "source_file": "index.html",
-      "source_location": "L769",
       "source_url": null
     },
     {
@@ -7733,114 +7769,6 @@
       "source_location": "L1"
     },
     {
-      "id": "docs_prompts_prompt_elecciones",
-      "label": "PROMPT-ELECCIONES.md",
-      "_origin": "ast",
-      "community": 104,
-      "community_name": "congreso.js",
-      "file_type": "document",
-      "node_kind": "page",
-      "norm_label": "prompt-elecciones.md",
-      "source_file": "docs/prompts/PROMPT-ELECCIONES.md",
-      "source_location": "L1"
-    },
-    {
-      "id": "docs_prompts_prompt_elecciones_bloque_com\u00fan_va_siempre",
-      "label": "Bloque com\u00fan (va siempre)",
-      "_origin": "ast",
-      "community": 104,
-      "community_name": "congreso.js",
-      "file_type": "document",
-      "node_kind": "heading",
-      "norm_label": "bloque comun (va siempre)",
-      "source_file": "docs/prompts/PROMPT-ELECCIONES.md",
-      "source_location": "L69"
-    },
-    {
-      "id": "docs_prompts_prompt_elecciones_b\u00fasqueda_permanencia_y_estudio",
-      "label": "B\u00fasqueda: permanencia y estudio",
-      "_origin": "ast",
-      "community": 104,
-      "community_name": "congreso.js",
-      "file_type": "document",
-      "node_kind": "heading",
-      "norm_label": "busqueda: permanencia y estudio",
-      "source_file": "docs/prompts/PROMPT-ELECCIONES.md",
-      "source_location": "L221"
-    },
-    {
-      "id": "docs_prompts_prompt_elecciones_fuera_del_c\u00f3digo_para_el_chat_com\u00fan_no_para_una_sesi\u00f3n_de_c\u00f3digo",
-      "label": "Fuera del c\u00f3digo (para el chat com\u00fan, no para una sesi\u00f3n de c\u00f3digo)",
-      "_origin": "ast",
-      "community": 104,
-      "community_name": "congreso.js",
-      "file_type": "document",
-      "node_kind": "heading",
-      "norm_label": "fuera del codigo (para el chat comun, no para una sesion de codigo)",
-      "source_file": "docs/prompts/PROMPT-ELECCIONES.md",
-      "source_location": "L321"
-    },
-    {
-      "id": "docs_prompts_prompt_elecciones_los_15_d\u00edas_20_10_al_3_11_sin_c\u00f3digo",
-      "label": "Los 15 d\u00edas (20/10 al 3/11): sin c\u00f3digo",
-      "_origin": "ast",
-      "community": 104,
-      "community_name": "congreso.js",
-      "file_type": "document",
-      "node_kind": "heading",
-      "norm_label": "los 15 dias (20/10 al 3/11): sin codigo",
-      "source_file": "docs/prompts/PROMPT-ELECCIONES.md",
-      "source_location": "L201"
-    },
-    {
-      "id": "docs_prompts_prompt_elecciones_prompts_para_las_sesiones_hacia_las_elecciones_24_9_al_6_11",
-      "label": "Prompts para las sesiones hacia las elecciones (24/9 al 6/11)",
-      "_origin": "ast",
-      "community": 104,
-      "community_name": "congreso.js",
-      "file_type": "document",
-      "node_kind": "heading",
-      "norm_label": "prompts para las sesiones hacia las elecciones (24/9 al 6/11)",
-      "source_file": "docs/prompts/PROMPT-ELECCIONES.md",
-      "source_location": "L1"
-    },
-    {
-      "id": "docs_prompts_prompt_elecciones_semana_1_28_9_al_4_10_el_buz\u00f3n_y_la_bandeja",
-      "label": "Semana 1 (28/9 al 4/10): el buz\u00f3n y la bandeja",
-      "_origin": "ast",
-      "community": 104,
-      "community_name": "congreso.js",
-      "file_type": "document",
-      "node_kind": "heading",
-      "norm_label": "semana 1 (28/9 al 4/10): el buzon y la bandeja",
-      "source_file": "docs/prompts/PROMPT-ELECCIONES.md",
-      "source_location": "L95"
-    },
-    {
-      "id": "docs_prompts_prompt_elecciones_semana_2_5_10_al_11_10_llegar_a_m\u00e1s",
-      "label": "Semana 2 (5/10 al 11/10): llegar a m\u00e1s",
-      "_origin": "ast",
-      "community": 104,
-      "community_name": "congreso.js",
-      "file_type": "document",
-      "node_kind": "heading",
-      "norm_label": "semana 2 (5/10 al 11/10): llegar a mas",
-      "source_file": "docs/prompts/PROMPT-ELECCIONES.md",
-      "source_location": "L145"
-    },
-    {
-      "id": "docs_prompts_prompt_elecciones_semana_3_12_10_al_18_10_cerrar_y_probar",
-      "label": "Semana 3 (12/10 al 18/10): cerrar y probar",
-      "_origin": "ast",
-      "community": 104,
-      "community_name": "congreso.js",
-      "file_type": "document",
-      "node_kind": "heading",
-      "norm_label": "semana 3 (12/10 al 18/10): cerrar y probar",
-      "source_file": "docs/prompts/PROMPT-ELECCIONES.md",
-      "source_location": "L173"
-    },
-    {
       "id": "public_tocar_congreso_mesa",
       "label": "public.tocar_congreso_mesa",
       "_origin": "ast",
@@ -8036,6 +7964,17 @@
       "file_type": "code",
       "norm_label": "leer-aviso.js",
       "source_file": "lib/leer-aviso.js",
+      "source_location": "L1"
+    },
+    {
+      "id": "lib_compartido",
+      "label": "compartido.js",
+      "_origin": "ast",
+      "community": 108,
+      "community_name": "compartido.js",
+      "file_type": "code",
+      "norm_label": "compartido.js",
+      "source_file": "lib/compartido.js",
       "source_location": "L1"
     },
     {
@@ -10768,6 +10707,114 @@
       "source_location": "L1"
     },
     {
+      "id": "docs_prompts_prompt_elecciones",
+      "label": "PROMPT-ELECCIONES.md",
+      "_origin": "ast",
+      "community": 76,
+      "community_name": "pomodoro.js",
+      "file_type": "document",
+      "node_kind": "page",
+      "norm_label": "prompt-elecciones.md",
+      "source_file": "docs/prompts/PROMPT-ELECCIONES.md",
+      "source_location": "L1"
+    },
+    {
+      "id": "docs_prompts_prompt_elecciones_bloque_com\u00fan_va_siempre",
+      "label": "Bloque com\u00fan (va siempre)",
+      "_origin": "ast",
+      "community": 76,
+      "community_name": "pomodoro.js",
+      "file_type": "document",
+      "node_kind": "heading",
+      "norm_label": "bloque comun (va siempre)",
+      "source_file": "docs/prompts/PROMPT-ELECCIONES.md",
+      "source_location": "L69"
+    },
+    {
+      "id": "docs_prompts_prompt_elecciones_b\u00fasqueda_permanencia_y_estudio",
+      "label": "B\u00fasqueda: permanencia y estudio",
+      "_origin": "ast",
+      "community": 76,
+      "community_name": "pomodoro.js",
+      "file_type": "document",
+      "node_kind": "heading",
+      "norm_label": "busqueda: permanencia y estudio",
+      "source_file": "docs/prompts/PROMPT-ELECCIONES.md",
+      "source_location": "L221"
+    },
+    {
+      "id": "docs_prompts_prompt_elecciones_fuera_del_c\u00f3digo_para_el_chat_com\u00fan_no_para_una_sesi\u00f3n_de_c\u00f3digo",
+      "label": "Fuera del c\u00f3digo (para el chat com\u00fan, no para una sesi\u00f3n de c\u00f3digo)",
+      "_origin": "ast",
+      "community": 76,
+      "community_name": "pomodoro.js",
+      "file_type": "document",
+      "node_kind": "heading",
+      "norm_label": "fuera del codigo (para el chat comun, no para una sesion de codigo)",
+      "source_file": "docs/prompts/PROMPT-ELECCIONES.md",
+      "source_location": "L321"
+    },
+    {
+      "id": "docs_prompts_prompt_elecciones_los_15_d\u00edas_20_10_al_3_11_sin_c\u00f3digo",
+      "label": "Los 15 d\u00edas (20/10 al 3/11): sin c\u00f3digo",
+      "_origin": "ast",
+      "community": 76,
+      "community_name": "pomodoro.js",
+      "file_type": "document",
+      "node_kind": "heading",
+      "norm_label": "los 15 dias (20/10 al 3/11): sin codigo",
+      "source_file": "docs/prompts/PROMPT-ELECCIONES.md",
+      "source_location": "L201"
+    },
+    {
+      "id": "docs_prompts_prompt_elecciones_prompts_para_las_sesiones_hacia_las_elecciones_24_9_al_6_11",
+      "label": "Prompts para las sesiones hacia las elecciones (24/9 al 6/11)",
+      "_origin": "ast",
+      "community": 76,
+      "community_name": "pomodoro.js",
+      "file_type": "document",
+      "node_kind": "heading",
+      "norm_label": "prompts para las sesiones hacia las elecciones (24/9 al 6/11)",
+      "source_file": "docs/prompts/PROMPT-ELECCIONES.md",
+      "source_location": "L1"
+    },
+    {
+      "id": "docs_prompts_prompt_elecciones_semana_1_28_9_al_4_10_el_buz\u00f3n_y_la_bandeja",
+      "label": "Semana 1 (28/9 al 4/10): el buz\u00f3n y la bandeja",
+      "_origin": "ast",
+      "community": 76,
+      "community_name": "pomodoro.js",
+      "file_type": "document",
+      "node_kind": "heading",
+      "norm_label": "semana 1 (28/9 al 4/10): el buzon y la bandeja",
+      "source_file": "docs/prompts/PROMPT-ELECCIONES.md",
+      "source_location": "L95"
+    },
+    {
+      "id": "docs_prompts_prompt_elecciones_semana_2_5_10_al_11_10_llegar_a_m\u00e1s",
+      "label": "Semana 2 (5/10 al 11/10): llegar a m\u00e1s",
+      "_origin": "ast",
+      "community": 76,
+      "community_name": "pomodoro.js",
+      "file_type": "document",
+      "node_kind": "heading",
+      "norm_label": "semana 2 (5/10 al 11/10): llegar a mas",
+      "source_file": "docs/prompts/PROMPT-ELECCIONES.md",
+      "source_location": "L145"
+    },
+    {
+      "id": "docs_prompts_prompt_elecciones_semana_3_12_10_al_18_10_cerrar_y_probar",
+      "label": "Semana 3 (12/10 al 18/10): cerrar y probar",
+      "_origin": "ast",
+      "community": 76,
+      "community_name": "pomodoro.js",
+      "file_type": "document",
+      "node_kind": "heading",
+      "norm_label": "semana 3 (12/10 al 18/10): cerrar y probar",
+      "source_file": "docs/prompts/PROMPT-ELECCIONES.md",
+      "source_location": "L173"
+    },
+    {
       "id": "estudiemos_huella",
       "label": "huella.js",
       "_origin": "ast",
@@ -11207,7 +11254,7 @@
       "file_type": "code",
       "norm_label": "icons",
       "source_file": "manifest.json",
-      "source_location": "L13"
+      "source_location": "L24"
     },
     {
       "id": "manifest_id",
@@ -11254,6 +11301,50 @@
       "source_location": "L10"
     },
     {
+      "id": "manifest_params_files",
+      "label": "files",
+      "_origin": "ast",
+      "community": 9,
+      "community_name": "manifest.json",
+      "file_type": "code",
+      "norm_label": "files",
+      "source_file": "manifest.json",
+      "source_location": "L21"
+    },
+    {
+      "id": "manifest_params_text",
+      "label": "text",
+      "_origin": "ast",
+      "community": 9,
+      "community_name": "manifest.json",
+      "file_type": "code",
+      "norm_label": "text",
+      "source_file": "manifest.json",
+      "source_location": "L19"
+    },
+    {
+      "id": "manifest_params_title",
+      "label": "title",
+      "_origin": "ast",
+      "community": 9,
+      "community_name": "manifest.json",
+      "file_type": "code",
+      "norm_label": "title",
+      "source_file": "manifest.json",
+      "source_location": "L18"
+    },
+    {
+      "id": "manifest_params_url",
+      "label": "url",
+      "_origin": "ast",
+      "community": 9,
+      "community_name": "manifest.json",
+      "file_type": "code",
+      "norm_label": "url",
+      "source_file": "manifest.json",
+      "source_location": "L20"
+    },
+    {
       "id": "manifest_scope",
       "label": "scope",
       "_origin": "ast",
@@ -11263,6 +11354,61 @@
       "norm_label": "scope",
       "source_file": "manifest.json",
       "source_location": "L8"
+    },
+    {
+      "id": "manifest_share_target",
+      "label": "share_target",
+      "_origin": "ast",
+      "community": 9,
+      "community_name": "manifest.json",
+      "file_type": "code",
+      "norm_label": "share_target",
+      "source_file": "manifest.json",
+      "source_location": "L13"
+    },
+    {
+      "id": "manifest_share_target_action",
+      "label": "action",
+      "_origin": "ast",
+      "community": 9,
+      "community_name": "manifest.json",
+      "file_type": "code",
+      "norm_label": "action",
+      "source_file": "manifest.json",
+      "source_location": "L14"
+    },
+    {
+      "id": "manifest_share_target_enctype",
+      "label": "enctype",
+      "_origin": "ast",
+      "community": 9,
+      "community_name": "manifest.json",
+      "file_type": "code",
+      "norm_label": "enctype",
+      "source_file": "manifest.json",
+      "source_location": "L16"
+    },
+    {
+      "id": "manifest_share_target_method",
+      "label": "method",
+      "_origin": "ast",
+      "community": 9,
+      "community_name": "manifest.json",
+      "file_type": "code",
+      "norm_label": "method",
+      "source_file": "manifest.json",
+      "source_location": "L15"
+    },
+    {
+      "id": "manifest_share_target_params",
+      "label": "params",
+      "_origin": "ast",
+      "community": 9,
+      "community_name": "manifest.json",
+      "file_type": "code",
+      "norm_label": "params",
+      "source_file": "manifest.json",
+      "source_location": "L17"
     },
     {
       "id": "manifest_short_name",
@@ -15603,6 +15749,18 @@
       "weight": 1.0
     },
     {
+      "source": "lib_compartido_leercompartido",
+      "target": "lib_compartido_olvidarcompartido",
+      "relation": "calls",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "call",
+      "source_file": "lib/compartido.js",
+      "source_location": "L32",
+      "weight": 1.0
+    },
+    {
       "source": "lib_datos_crearcliente_consulta",
       "target": "lib_datos_crearcliente_pedir",
       "relation": "calls",
@@ -18683,7 +18841,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "sw.js",
-      "source_location": "L189",
+      "source_location": "L190",
       "weight": 1.0
     },
     {
@@ -22312,6 +22470,39 @@
       "weight": 1.0
     },
     {
+      "source": "lib_compartido",
+      "target": "lib_compartido_leercompartido",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "lib/compartido.js",
+      "source_location": "L25",
+      "weight": 1.0
+    },
+    {
+      "source": "lib_compartido",
+      "target": "lib_compartido_olvidarcompartido",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "lib/compartido.js",
+      "source_location": "L44",
+      "weight": 1.0
+    },
+    {
+      "source": "lib_compartido",
+      "target": "lib_compartido_limpiardireccion",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "lib/compartido.js",
+      "source_location": "L50",
+      "weight": 1.0
+    },
+    {
       "source": "lib_fecha_al_calendario",
       "target": "lib_fecha_al_calendario_doblarrenglon",
       "relation": "contains",
@@ -23171,7 +23362,7 @@
     },
     {
       "source": "manifest",
-      "target": "manifest_icons",
+      "target": "manifest_share_target",
       "relation": "contains",
       "_origin": "ast",
       "confidence": "EXTRACTED",
@@ -23189,6 +23380,17 @@
       "confidence_score": 1.0,
       "source_file": "manifest.json",
       "source_location": "L2",
+      "weight": 1.0
+    },
+    {
+      "source": "manifest",
+      "target": "manifest_icons",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "manifest.json",
+      "source_location": "L24",
       "weight": 1.0
     },
     {
@@ -23266,6 +23468,94 @@
       "confidence_score": 1.0,
       "source_file": "manifest.json",
       "source_location": "L9",
+      "weight": 1.0
+    },
+    {
+      "source": "manifest_share_target",
+      "target": "manifest_share_target_action",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "manifest.json",
+      "source_location": "L14",
+      "weight": 1.0
+    },
+    {
+      "source": "manifest_share_target",
+      "target": "manifest_share_target_method",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "manifest.json",
+      "source_location": "L15",
+      "weight": 1.0
+    },
+    {
+      "source": "manifest_share_target",
+      "target": "manifest_share_target_enctype",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "manifest.json",
+      "source_location": "L16",
+      "weight": 1.0
+    },
+    {
+      "source": "manifest_share_target",
+      "target": "manifest_share_target_params",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "manifest.json",
+      "source_location": "L17",
+      "weight": 1.0
+    },
+    {
+      "source": "manifest_share_target_params",
+      "target": "manifest_params_title",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "manifest.json",
+      "source_location": "L18",
+      "weight": 1.0
+    },
+    {
+      "source": "manifest_share_target_params",
+      "target": "manifest_params_text",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "manifest.json",
+      "source_location": "L19",
+      "weight": 1.0
+    },
+    {
+      "source": "manifest_share_target_params",
+      "target": "manifest_params_url",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "manifest.json",
+      "source_location": "L20",
+      "weight": 1.0
+    },
+    {
+      "source": "manifest_share_target_params",
+      "target": "manifest_params_files",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "manifest.json",
+      "source_location": "L21",
       "weight": 1.0
     },
     {
@@ -28184,7 +28474,7 @@
       "confidence_score": 0.85,
       "context": "argument",
       "source_file": "sw.js",
-      "source_location": "L212",
+      "source_location": "L245",
       "weight": 1.0
     },
     {
@@ -28968,5 +29258,5 @@
       "source_file": "panel/index.html"
     }
   ],
-  "built_at_commit": "44eb5f78576c603a924466a374ede10ec65fb7c2"
+  "built_at_commit": "42d5cb1089bc0644e57cd153bdeb7cbc5185573e"
 }

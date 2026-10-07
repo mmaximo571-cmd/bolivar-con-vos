@@ -182,6 +182,7 @@
 <script src="../app.js"></script>
 <script src="../fondo-red.js"></script>
 <script src="../lectura.js"></script>
+<script src="../lib/compartido.js"></script>
 <script>
 (function decilo(){
   document.getElementById('cabecera').innerHTML = htmlCabecera();
@@ -254,6 +255,20 @@
       ? 'Te faltan ' + (10 - n) + ' caracteres para que se pueda mandar.'
       : n + ' de 800 caracteres.';
   });
+
+  /* LO QUE LLEGÓ POR «COMPARTIR» (7/10/2026)
+     Quien compartió algo con la app y no puede cargar en la agenda llega
+     acá desde `cargar/`, con lo que mandó ya escrito. Se borra apenas se
+     pone en el cuadro, y no pisa nada que ya se haya empezado a escribir. */
+  if (window.vinoCompartido && vinoCompartido()){
+    leerCompartido().then(c => {
+      limpiarDireccionCompartido();
+      olvidarCompartido();
+      if (!c || !c.texto || elTexto.value.trim()) return;
+      elTexto.value = c.texto.slice(0, 800);
+      elTexto.dispatchEvent(new Event('input'));
+    });
+  }
 
   /* ------------------------------------------------------------
      EL AVISO AL TELÉFONO

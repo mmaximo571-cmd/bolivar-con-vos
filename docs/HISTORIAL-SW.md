@@ -454,4 +454,12 @@ todo una entrada con el número, la fecha y el porqué.
    `congreso/`, y la tarjeta destacada del inicio (`index.html` y
    `css/pantallas/inicio.css`). Se sube para que el `app.js` nuevo
    llegue en la visita siguiente. */
+/* v85 (7/10/2026) «Compartir con La Bolívar» desde el celular. Cambian
+   dos cosas del service worker mismo: ataja el POST a `/compartir` (lo
+   que manda el menú Compartir de Android), lo guarda en la caja
+   `bolivar-compartido` y lleva a `cargar/?compartido=1`; y al activarse
+   ya no borra esa caja, que no es de ninguna versión. Además cambia el
+   contenido de `manifest.json`, que está en la lista: suma
+   `share_target`. `lib/compartido.js` lo usan `cargar/` y `decilo/`, y
+   no va a la lista. */
 ```

@@ -21,7 +21,7 @@
    lista, porque acá abajo se sirve lo guardado antes que la red.
    Por qué subió cada número (v4 en adelante): `docs/HISTORIAL-SW.md`.
    Al subirlo, anotar ahí el número, la fecha y el porqué. */
-const VERSION = 'bolivar-v84';
+const VERSION = 'bolivar-v85';
 const ARMAZON = VERSION + '-armazon';
 const PAGINAS = VERSION + '-paginas';
 
@@ -108,8 +108,9 @@ self.addEventListener('install', evento => {
 self.addEventListener('activate', evento => {
   evento.waitUntil((async () => {
     const nombres = await caches.keys();
+    /* Menos lo compartido, que no es de ninguna versión (ver «Compartir»). */
     await Promise.all(nombres
-      .filter(n => n.indexOf(VERSION) !== 0)
+      .filter(n => n.indexOf(VERSION) !== 0 && n !== 'bolivar-compartido')
       .map(n => caches.delete(n)));
     await self.clients.claim();
   })());
@@ -192,6 +193,38 @@ function esDeSupabase(url){
 
 self.addEventListener('fetch', evento => {
   const pedido = evento.request;
+
+  /* «COMPARTIR» DESDE EL CELULAR (7/10/2026, v85)
+     Lo que se comparte con la app (`share_target` en manifest.json)
+     llega acá como un formulario. No hay servidor que lo reciba —el
+     sitio es estático—, así que se guarda en una caja aparte y se
+     manda a `cargar/`, que lo lee con `lib/compartido.js`. La caja no
+     lleva la versión en el nombre a propósito: lo compartido no es
+     parte de la app, y que una actualización justo en ese momento lo
+     borre es perder lo que alguien acaba de mandar. */
+  if (pedido.method === 'POST' && new URL(pedido.url).pathname === '/compartir'){
+    evento.respondWith((async () => {
+      try {
+        const datos = await pedido.formData();
+        /* WhatsApp manda el mensaje en `texto`; otras apps mandan un
+           título o un enlace aparte. Se juntan en un solo texto. */
+        const texto = ['titulo', 'texto', 'enlace']
+          .map(k => String(datos.get(k) || '').trim()).filter(Boolean).join('\n');
+        const placa = datos.get('placa');
+        await caches.delete('bolivar-compartido');
+        const caja = await caches.open('bolivar-compartido');
+        const cuando = { 'X-Cuando': String(Date.now()) };
+        await caja.put('/compartido/texto', new Response(texto, { headers: cuando }));
+        if (placa && placa.size){
+          await caja.put('/compartido/placa', new Response(placa, {
+            headers: { 'Content-Type': placa.type || 'image/jpeg' } }));
+        }
+      } catch(e){}
+      return Response.redirect('/cargar/?compartido=1', 303);
+    })());
+    return;
+  }
+
   if (pedido.method !== 'GET') return;
 
   const url = new URL(pedido.url);
