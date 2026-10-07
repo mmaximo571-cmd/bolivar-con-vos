@@ -105,5 +105,7 @@
   "103": "public.publicaciones",
   "104": "congreso.js",
   "105": "tabla-congreso.sql",
-  "106": "sesionActual"
+  "106": "sesionActual",
+  "107": "leer-aviso.js",
+  "108": "buscar (buscador de trámites, FAQ y cátedras)"
 }

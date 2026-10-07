@@ -699,6 +699,198 @@
       "source_location": "L475"
     },
     {
+      "id": "lib_leer_aviso_aiso",
+      "label": "aISO()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 107,
+      "community_name": "leer-aviso.js",
+      "file_type": "code",
+      "norm_label": "aiso()",
+      "source_file": "lib/leer-aviso.js",
+      "source_location": "L61"
+    },
+    {
+      "id": "lib_leer_aviso_bajargritos",
+      "label": "bajarGritos()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 107,
+      "community_name": "leer-aviso.js",
+      "file_type": "code",
+      "norm_label": "bajargritos()",
+      "source_file": "lib/leer-aviso.js",
+      "source_location": "L252"
+    },
+    {
+      "id": "lib_leer_aviso_buscarfecha",
+      "label": "buscarFecha()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 107,
+      "community_name": "leer-aviso.js",
+      "file_type": "code",
+      "norm_label": "buscarfecha()",
+      "source_file": "lib/leer-aviso.js",
+      "source_location": "L94"
+    },
+    {
+      "id": "lib_leer_aviso_buscarhora",
+      "label": "buscarHora()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 107,
+      "community_name": "leer-aviso.js",
+      "file_type": "code",
+      "norm_label": "buscarhora()",
+      "source_file": "lib/leer-aviso.js",
+      "source_location": "L156"
+    },
+    {
+      "id": "lib_leer_aviso_buscarlugar",
+      "label": "buscarLugar()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 107,
+      "community_name": "leer-aviso.js",
+      "file_type": "code",
+      "norm_label": "buscarlugar()",
+      "source_file": "lib/leer-aviso.js",
+      "source_location": "L205"
+    },
+    {
+      "id": "lib_leer_aviso_conanio",
+      "label": "conAnio()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 107,
+      "community_name": "leer-aviso.js",
+      "file_type": "code",
+      "norm_label": "conanio()",
+      "source_file": "lib/leer-aviso.js",
+      "source_location": "L76"
+    },
+    {
+      "id": "lib_leer_aviso_fechavalida",
+      "label": "fechaValida()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 107,
+      "community_name": "leer-aviso.js",
+      "file_type": "code",
+      "norm_label": "fechavalida()",
+      "source_file": "lib/leer-aviso.js",
+      "source_location": "L67"
+    },
+    {
+      "id": "lib_leer_aviso_leeraviso",
+      "label": "leerAviso()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 107,
+      "community_name": "leer-aviso.js",
+      "file_type": "code",
+      "norm_label": "leeraviso()",
+      "source_file": "lib/leer-aviso.js",
+      "source_location": "L322"
+    },
+    {
+      "id": "lib_leer_aviso_limpiarrenglon",
+      "label": "limpiarRenglon()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 107,
+      "community_name": "leer-aviso.js",
+      "file_type": "code",
+      "norm_label": "limpiarrenglon()",
+      "source_file": "lib/leer-aviso.js",
+      "source_location": "L240"
+    },
+    {
+      "id": "lib_leer_aviso_materiadelgrupo",
+      "label": "materiaDelGrupo()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 107,
+      "community_name": "leer-aviso.js",
+      "file_type": "code",
+      "norm_label": "materiadelgrupo()",
+      "source_file": "lib/leer-aviso.js",
+      "source_location": "L290"
+    },
+    {
+      "id": "lib_leer_aviso_mayuscula",
+      "label": "mayuscula()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 107,
+      "community_name": "leer-aviso.js",
+      "file_type": "code",
+      "norm_label": "mayuscula()",
+      "source_file": "lib/leer-aviso.js",
+      "source_location": "L249"
+    },
+    {
+      "id": "lib_leer_aviso_motivodelparo",
+      "label": "motivoDelParo()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 107,
+      "community_name": "leer-aviso.js",
+      "file_type": "code",
+      "norm_label": "motivodelparo()",
+      "source_file": "lib/leer-aviso.js",
+      "source_location": "L270"
+    },
+    {
+      "id": "lib_leer_aviso_nombredelaactividad",
+      "label": "nombreDeLaActividad()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 107,
+      "community_name": "leer-aviso.js",
+      "file_type": "code",
+      "norm_label": "nombredelaactividad()",
+      "source_file": "lib/leer-aviso.js",
+      "source_location": "L305"
+    },
+    {
+      "id": "lib_leer_aviso_plano",
+      "label": "plano()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 107,
+      "community_name": "leer-aviso.js",
+      "file_type": "code",
+      "norm_label": "plano()",
+      "source_file": "lib/leer-aviso.js",
+      "source_location": "L57"
+    },
+    {
+      "id": "lib_leer_aviso_recortar",
+      "label": "recortar()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 107,
+      "community_name": "leer-aviso.js",
+      "file_type": "code",
+      "norm_label": "recortar()",
+      "source_file": "lib/leer-aviso.js",
+      "source_location": "L261"
+    },
+    {
+      "id": "lib_leer_aviso_sumardias",
+      "label": "sumarDias()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 107,
+      "community_name": "leer-aviso.js",
+      "file_type": "code",
+      "norm_label": "sumardias()",
+      "source_file": "lib/leer-aviso.js",
+      "source_location": "L84"
+    },
+    {
       "id": "estudiemos_arsenal_arsenal_alfiltrar",
       "label": "alFiltrar()",
       "_callable": true,
@@ -2953,6 +3145,54 @@
       "norm_label": ".rendervals()",
       "source_file": "estudiemos/fichas/ficha-texto.js",
       "source_location": "L137"
+    },
+    {
+      "id": "supabase_functions_leer_placa_index_hoyenargentina",
+      "label": "hoyEnArgentina()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 23,
+      "community_name": "Component",
+      "file_type": "code",
+      "norm_label": "hoyenargentina()",
+      "source_file": "supabase/functions/leer-placa/index.ts",
+      "source_location": "L60"
+    },
+    {
+      "id": "supabase_functions_leer_placa_index_instrucciones",
+      "label": "instrucciones()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 23,
+      "community_name": "Component",
+      "file_type": "code",
+      "norm_label": "instrucciones()",
+      "source_file": "supabase/functions/leer-placa/index.ts",
+      "source_location": "L83"
+    },
+    {
+      "id": "supabase_functions_leer_placa_index_responder",
+      "label": "responder()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 23,
+      "community_name": "Component",
+      "file_type": "code",
+      "norm_label": "responder()",
+      "source_file": "supabase/functions/leer-placa/index.ts",
+      "source_location": "L51"
+    },
+    {
+      "id": "supabase_functions_leer_placa_index_sanear",
+      "label": "sanear()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 23,
+      "community_name": "Component",
+      "file_type": "code",
+      "norm_label": "sanear()",
+      "source_file": "supabase/functions/leer-placa/index.ts",
+      "source_location": "L101"
     },
     {
       "id": "lectura_fotode",
@@ -5719,36 +5959,6 @@
       "source_url": null
     },
     {
-      "id": "index_buscar",
-      "label": "buscar (buscador de tr\u00e1mites, FAQ y c\u00e1tedras)",
-      "_origin": "ast",
-      "author": null,
-      "captured_at": null,
-      "community": 1,
-      "community_name": "Pantalla Mi a\u00f1o (carrera)",
-      "contributor": null,
-      "file_type": "code",
-      "norm_label": "buscar (buscador de tramites, faq y catedras)",
-      "source_file": "index.html",
-      "source_location": "L1814",
-      "source_url": null
-    },
-    {
-      "id": "index_pedircatedras",
-      "label": "pedirCatedras",
-      "_origin": "ast",
-      "author": null,
-      "captured_at": null,
-      "community": 1,
-      "community_name": "Pantalla Mi a\u00f1o (carrera)",
-      "contributor": null,
-      "file_type": "code",
-      "norm_label": "pedircatedras",
-      "source_file": "index.html",
-      "source_location": "L1778",
-      "source_url": null
-    },
-    {
       "id": "lib_supabase",
       "label": "lib/supabase.js (cliente Supabase completo)",
       "_origin": "ast",
@@ -5806,21 +6016,6 @@
       "norm_label": "tabla supabase faq",
       "source_file": "index.html",
       "source_location": "L771",
-      "source_url": null
-    },
-    {
-      "id": "tabla_tramites",
-      "label": "Tabla Supabase tramites",
-      "_origin": "ast",
-      "author": null,
-      "captured_at": null,
-      "community": 1,
-      "community_name": "Pantalla Mi a\u00f1o (carrera)",
-      "contributor": null,
-      "file_type": "concept",
-      "norm_label": "tabla supabase tramites",
-      "source_file": "index.html",
-      "source_location": "L769",
       "source_url": null
     },
     {
@@ -5956,6 +6151,51 @@
       "norm_label": "botonguardar (guardados del usuario)",
       "source_file": "tramites/index.html",
       "source_location": "L187",
+      "source_url": null
+    },
+    {
+      "id": "index_buscar",
+      "label": "buscar (buscador de tr\u00e1mites, FAQ y c\u00e1tedras)",
+      "_origin": "ast",
+      "author": null,
+      "captured_at": null,
+      "community": 108,
+      "community_name": "buscar (buscador de tr\u00e1mites, FAQ y c\u00e1tedras)",
+      "contributor": null,
+      "file_type": "code",
+      "norm_label": "buscar (buscador de tramites, faq y catedras)",
+      "source_file": "index.html",
+      "source_location": "L1814",
+      "source_url": null
+    },
+    {
+      "id": "index_pedircatedras",
+      "label": "pedirCatedras",
+      "_origin": "ast",
+      "author": null,
+      "captured_at": null,
+      "community": 108,
+      "community_name": "buscar (buscador de tr\u00e1mites, FAQ y c\u00e1tedras)",
+      "contributor": null,
+      "file_type": "code",
+      "norm_label": "pedircatedras",
+      "source_file": "index.html",
+      "source_location": "L1778",
+      "source_url": null
+    },
+    {
+      "id": "tabla_tramites",
+      "label": "Tabla Supabase tramites",
+      "_origin": "ast",
+      "author": null,
+      "captured_at": null,
+      "community": 108,
+      "community_name": "buscar (buscador de tr\u00e1mites, FAQ y c\u00e1tedras)",
+      "contributor": null,
+      "file_type": "concept",
+      "norm_label": "tabla supabase tramites",
+      "source_file": "index.html",
+      "source_location": "L769",
       "source_url": null
     },
     {
@@ -7631,7 +7871,7 @@
       "file_type": "code",
       "norm_label": "al_tocar_congreso_mesa",
       "source_file": "sql/tabla-congreso.sql",
-      "source_location": "L130"
+      "source_location": "L134"
     },
     {
       "id": "sql_tabla_congreso_congreso_interv_eje_idx",
@@ -7642,7 +7882,7 @@
       "file_type": "code",
       "norm_label": "congreso_interv_eje_idx",
       "source_file": "sql/tabla-congreso.sql",
-      "source_location": "L155"
+      "source_location": "L159"
     },
     {
       "id": "sql_tabla_congreso_congreso_interv_marca_idx",
@@ -7653,7 +7893,7 @@
       "file_type": "code",
       "norm_label": "congreso_interv_marca_idx",
       "source_file": "sql/tabla-congreso.sql",
-      "source_location": "L157"
+      "source_location": "L161"
     },
     {
       "id": "sql_tabla_congreso_congreso_interv_mesa_idx",
@@ -7664,7 +7904,7 @@
       "file_type": "code",
       "norm_label": "congreso_interv_mesa_idx",
       "source_file": "sql/tabla-congreso.sql",
-      "source_location": "L153"
+      "source_location": "L157"
     },
     {
       "id": "sql_tabla_congreso_congreso_mesas_fecha_idx",
@@ -7675,7 +7915,7 @@
       "file_type": "code",
       "norm_label": "congreso_mesas_fecha_idx",
       "source_file": "sql/tabla-congreso.sql",
-      "source_location": "L83"
+      "source_location": "L87"
     },
     {
       "id": "sql_tabla_congreso_congreso_votos_marca_idx",
@@ -7686,7 +7926,7 @@
       "file_type": "code",
       "norm_label": "congreso_votos_marca_idx",
       "source_file": "sql/tabla-congreso.sql",
-      "source_location": "L167"
+      "source_location": "L171"
     },
     {
       "id": "sql_tabla_congreso_public_congreso_apoyar",
@@ -7697,7 +7937,7 @@
       "file_type": "code",
       "norm_label": "public.congreso_apoyar()",
       "source_file": "sql/tabla-congreso.sql",
-      "source_location": "L301"
+      "source_location": "L305"
     },
     {
       "id": "sql_tabla_congreso_public_congreso_intervenciones",
@@ -7708,7 +7948,7 @@
       "file_type": "code",
       "norm_label": "public.congreso_intervenciones",
       "source_file": "sql/tabla-congreso.sql",
-      "source_location": "L137"
+      "source_location": "L141"
     },
     {
       "id": "sql_tabla_congreso_public_congreso_intervenir",
@@ -7719,7 +7959,7 @@
       "file_type": "code",
       "norm_label": "public.congreso_intervenir()",
       "source_file": "sql/tabla-congreso.sql",
-      "source_location": "L217"
+      "source_location": "L221"
     },
     {
       "id": "sql_tabla_congreso_public_congreso_mesas",
@@ -7730,7 +7970,7 @@
       "file_type": "code",
       "norm_label": "public.congreso_mesas",
       "source_file": "sql/tabla-congreso.sql",
-      "source_location": "L57"
+      "source_location": "L61"
     },
     {
       "id": "sql_tabla_congreso_public_congreso_moderar",
@@ -7741,7 +7981,7 @@
       "file_type": "code",
       "norm_label": "public.congreso_moderar()",
       "source_file": "sql/tabla-congreso.sql",
-      "source_location": "L342"
+      "source_location": "L346"
     },
     {
       "id": "sql_tabla_congreso_public_congreso_muro",
@@ -7752,7 +7992,7 @@
       "file_type": "code",
       "norm_label": "public.congreso_muro()",
       "source_file": "sql/tabla-congreso.sql",
-      "source_location": "L188"
+      "source_location": "L192"
     },
     {
       "id": "sql_tabla_congreso_public_congreso_votos",
@@ -7763,7 +8003,7 @@
       "file_type": "code",
       "norm_label": "public.congreso_votos",
       "source_file": "sql/tabla-congreso.sql",
-      "source_location": "L160"
+      "source_location": "L164"
     },
     {
       "id": "sql_tabla_congreso_public_tocar_congreso_mesa",
@@ -7774,7 +8014,7 @@
       "file_type": "code",
       "norm_label": "public.tocar_congreso_mesa()",
       "source_file": "sql/tabla-congreso.sql",
-      "source_location": "L122"
+      "source_location": "L126"
     },
     {
       "id": "sql_tabla_congreso_sql_public",
@@ -7786,6 +8026,17 @@
       "norm_label": "public",
       "source_file": "",
       "source_location": ""
+    },
+    {
+      "id": "lib_leer_aviso",
+      "label": "leer-aviso.js",
+      "_origin": "ast",
+      "community": 107,
+      "community_name": "leer-aviso.js",
+      "file_type": "code",
+      "norm_label": "leer-aviso.js",
+      "source_file": "lib/leer-aviso.js",
+      "source_location": "L1"
     },
     {
       "id": "estudiemos_arsenal_arsenal",
@@ -8550,6 +8801,50 @@
       "norm_label": "partes",
       "source_file": "estudiemos/fichas/ficha-texto.js",
       "source_location": "L44"
+    },
+    {
+      "id": "supabase_functions_leer_placa_index",
+      "label": "leer-placa/index.ts",
+      "_origin": "ast",
+      "community": 23,
+      "community_name": "Component",
+      "file_type": "code",
+      "norm_label": "leer-placa/index.ts",
+      "source_file": "supabase/functions/leer-placa/index.ts",
+      "source_location": "L1"
+    },
+    {
+      "id": "supabase_functions_leer_placa_index_cors",
+      "label": "CORS",
+      "_origin": "ast",
+      "community": 23,
+      "community_name": "Component",
+      "file_type": "code",
+      "norm_label": "cors",
+      "source_file": "supabase/functions/leer-placa/index.ts",
+      "source_location": "L45"
+    },
+    {
+      "id": "supabase_functions_leer_placa_index_esquema",
+      "label": "ESQUEMA",
+      "_origin": "ast",
+      "community": 23,
+      "community_name": "Component",
+      "file_type": "code",
+      "norm_label": "esquema",
+      "source_file": "supabase/functions/leer-placa/index.ts",
+      "source_location": "L69"
+    },
+    {
+      "id": "supabase_functions_leer_placa_index_modelos",
+      "label": "MODELOS",
+      "_origin": "ast",
+      "community": 23,
+      "community_name": "Component",
+      "file_type": "code",
+      "norm_label": "modelos",
+      "source_file": "supabase/functions/leer-placa/index.ts",
+      "source_location": "L39"
     },
     {
       "id": "sql_contenido_catedras",
@@ -15704,6 +15999,282 @@
       "weight": 1.0
     },
     {
+      "source": "lib_leer_aviso_bajargritos",
+      "target": "lib_leer_aviso_mayuscula",
+      "relation": "calls",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "call",
+      "source_file": "lib/leer-aviso.js",
+      "source_location": "L255",
+      "weight": 1.0
+    },
+    {
+      "source": "lib_leer_aviso_buscarfecha",
+      "target": "lib_leer_aviso_conanio",
+      "relation": "calls",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "call",
+      "source_file": "lib/leer-aviso.js",
+      "source_location": "L102",
+      "weight": 1.0
+    },
+    {
+      "source": "lib_leer_aviso_buscarfecha",
+      "target": "lib_leer_aviso_sumardias",
+      "relation": "calls",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "call",
+      "source_file": "lib/leer-aviso.js",
+      "source_location": "L119",
+      "weight": 1.0
+    },
+    {
+      "source": "lib_leer_aviso_buscarfecha",
+      "target": "lib_leer_aviso_aiso",
+      "relation": "calls",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "call",
+      "source_file": "lib/leer-aviso.js",
+      "source_location": "L150",
+      "weight": 1.0
+    },
+    {
+      "source": "lib_leer_aviso_buscarlugar",
+      "target": "lib_leer_aviso_limpiarrenglon",
+      "relation": "calls",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "call",
+      "source_file": "lib/leer-aviso.js",
+      "source_location": "L211",
+      "weight": 1.0
+    },
+    {
+      "source": "lib_leer_aviso_buscarlugar",
+      "target": "lib_leer_aviso_mayuscula",
+      "relation": "calls",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "call",
+      "source_file": "lib/leer-aviso.js",
+      "source_location": "L212",
+      "weight": 1.0
+    },
+    {
+      "source": "lib_leer_aviso_conanio",
+      "target": "lib_leer_aviso_fechavalida",
+      "relation": "calls",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "call",
+      "source_file": "lib/leer-aviso.js",
+      "source_location": "L77",
+      "weight": 1.0
+    },
+    {
+      "source": "lib_leer_aviso_leeraviso",
+      "target": "lib_leer_aviso_plano",
+      "relation": "calls",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "call",
+      "source_file": "lib/leer-aviso.js",
+      "source_location": "L327",
+      "weight": 1.0
+    },
+    {
+      "source": "lib_leer_aviso_leeraviso",
+      "target": "lib_leer_aviso_buscarfecha",
+      "relation": "calls",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "call",
+      "source_file": "lib/leer-aviso.js",
+      "source_location": "L342",
+      "weight": 1.0
+    },
+    {
+      "source": "lib_leer_aviso_leeraviso",
+      "target": "lib_leer_aviso_motivodelparo",
+      "relation": "calls",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "call",
+      "source_file": "lib/leer-aviso.js",
+      "source_location": "L343",
+      "weight": 1.0
+    },
+    {
+      "source": "lib_leer_aviso_leeraviso",
+      "target": "lib_leer_aviso_materiadelgrupo",
+      "relation": "calls",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "call",
+      "source_file": "lib/leer-aviso.js",
+      "source_location": "L344",
+      "weight": 1.0
+    },
+    {
+      "source": "lib_leer_aviso_leeraviso",
+      "target": "lib_leer_aviso_nombredelaactividad",
+      "relation": "calls",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "call",
+      "source_file": "lib/leer-aviso.js",
+      "source_location": "L345",
+      "weight": 1.0
+    },
+    {
+      "source": "lib_leer_aviso_leeraviso",
+      "target": "lib_leer_aviso_buscarhora",
+      "relation": "calls",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "call",
+      "source_file": "lib/leer-aviso.js",
+      "source_location": "L348",
+      "weight": 1.0
+    },
+    {
+      "source": "lib_leer_aviso_leeraviso",
+      "target": "lib_leer_aviso_buscarlugar",
+      "relation": "calls",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "call",
+      "source_file": "lib/leer-aviso.js",
+      "source_location": "L348",
+      "weight": 1.0
+    },
+    {
+      "source": "lib_leer_aviso_materiadelgrupo",
+      "target": "lib_leer_aviso_plano",
+      "relation": "calls",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "call",
+      "source_file": "lib/leer-aviso.js",
+      "source_location": "L296",
+      "weight": 1.0
+    },
+    {
+      "source": "lib_leer_aviso_motivodelparo",
+      "target": "lib_leer_aviso_limpiarrenglon",
+      "relation": "calls",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "call",
+      "source_file": "lib/leer-aviso.js",
+      "source_location": "L278",
+      "weight": 1.0
+    },
+    {
+      "source": "lib_leer_aviso_motivodelparo",
+      "target": "lib_leer_aviso_plano",
+      "relation": "calls",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "call",
+      "source_file": "lib/leer-aviso.js",
+      "source_location": "L281",
+      "weight": 1.0
+    },
+    {
+      "source": "lib_leer_aviso_motivodelparo",
+      "target": "lib_leer_aviso_bajargritos",
+      "relation": "calls",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "call",
+      "source_file": "lib/leer-aviso.js",
+      "source_location": "L282",
+      "weight": 1.0
+    },
+    {
+      "source": "lib_leer_aviso_motivodelparo",
+      "target": "lib_leer_aviso_mayuscula",
+      "relation": "calls",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "call",
+      "source_file": "lib/leer-aviso.js",
+      "source_location": "L282",
+      "weight": 1.0
+    },
+    {
+      "source": "lib_leer_aviso_motivodelparo",
+      "target": "lib_leer_aviso_recortar",
+      "relation": "calls",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "call",
+      "source_file": "lib/leer-aviso.js",
+      "source_location": "L282",
+      "weight": 1.0
+    },
+    {
+      "source": "lib_leer_aviso_nombredelaactividad",
+      "target": "lib_leer_aviso_plano",
+      "relation": "calls",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "call",
+      "source_file": "lib/leer-aviso.js",
+      "source_location": "L307",
+      "weight": 1.0
+    },
+    {
+      "source": "lib_leer_aviso_nombredelaactividad",
+      "target": "lib_leer_aviso_bajargritos",
+      "relation": "calls",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "call",
+      "source_file": "lib/leer-aviso.js",
+      "source_location": "L309",
+      "weight": 1.0
+    },
+    {
+      "source": "lib_leer_aviso_nombredelaactividad",
+      "target": "lib_leer_aviso_recortar",
+      "relation": "calls",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "call",
+      "source_file": "lib/leer-aviso.js",
+      "source_location": "L316",
+      "weight": 1.0
+    },
+    {
       "source": "lib_leer_programa_agruparreferencias",
       "target": "lib_leer_programa_esruido",
       "relation": "calls",
@@ -18056,6 +18627,54 @@
       "weight": 1.0
     },
     {
+      "source": "supabase_functions_leer_placa_index",
+      "target": "supabase_functions_leer_placa_index_sanear",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "call",
+      "source_file": "supabase/functions/leer-placa/index.ts",
+      "source_location": "L101",
+      "weight": 1.0
+    },
+    {
+      "source": "supabase_functions_leer_placa_index",
+      "target": "supabase_functions_leer_placa_index_responder",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "call",
+      "source_file": "supabase/functions/leer-placa/index.ts",
+      "source_location": "L51",
+      "weight": 1.0
+    },
+    {
+      "source": "supabase_functions_leer_placa_index",
+      "target": "supabase_functions_leer_placa_index_hoyenargentina",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "call",
+      "source_file": "supabase/functions/leer-placa/index.ts",
+      "source_location": "L60",
+      "weight": 1.0
+    },
+    {
+      "source": "supabase_functions_leer_placa_index",
+      "target": "supabase_functions_leer_placa_index_instrucciones",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "call",
+      "source_file": "supabase/functions/leer-placa/index.ts",
+      "source_location": "L83",
+      "weight": 1.0
+    },
+    {
       "source": "sw",
       "target": "sw_esdesupabase",
       "relation": "contains",
@@ -18102,6 +18721,18 @@
       "context": "import",
       "source_file": "supabase/functions/avisos/index.ts",
       "source_location": "L36",
+      "weight": 1.0
+    },
+    {
+      "source": "supabase_functions_leer_placa_index",
+      "target": "ref_jsr_supabase_supabase_js_2",
+      "relation": "imports_from",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "import",
+      "source_file": "supabase/functions/leer-placa/index.ts",
+      "source_location": "L35",
       "weight": 1.0
     },
     {
@@ -21967,6 +22598,182 @@
       "weight": 1.0
     },
     {
+      "source": "lib_leer_aviso",
+      "target": "lib_leer_aviso_buscarhora",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "lib/leer-aviso.js",
+      "source_location": "L156",
+      "weight": 1.0
+    },
+    {
+      "source": "lib_leer_aviso",
+      "target": "lib_leer_aviso_buscarlugar",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "lib/leer-aviso.js",
+      "source_location": "L205",
+      "weight": 1.0
+    },
+    {
+      "source": "lib_leer_aviso",
+      "target": "lib_leer_aviso_limpiarrenglon",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "lib/leer-aviso.js",
+      "source_location": "L240",
+      "weight": 1.0
+    },
+    {
+      "source": "lib_leer_aviso",
+      "target": "lib_leer_aviso_mayuscula",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "lib/leer-aviso.js",
+      "source_location": "L249",
+      "weight": 1.0
+    },
+    {
+      "source": "lib_leer_aviso",
+      "target": "lib_leer_aviso_bajargritos",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "lib/leer-aviso.js",
+      "source_location": "L252",
+      "weight": 1.0
+    },
+    {
+      "source": "lib_leer_aviso",
+      "target": "lib_leer_aviso_recortar",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "lib/leer-aviso.js",
+      "source_location": "L261",
+      "weight": 1.0
+    },
+    {
+      "source": "lib_leer_aviso",
+      "target": "lib_leer_aviso_motivodelparo",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "lib/leer-aviso.js",
+      "source_location": "L270",
+      "weight": 1.0
+    },
+    {
+      "source": "lib_leer_aviso",
+      "target": "lib_leer_aviso_materiadelgrupo",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "lib/leer-aviso.js",
+      "source_location": "L290",
+      "weight": 1.0
+    },
+    {
+      "source": "lib_leer_aviso",
+      "target": "lib_leer_aviso_nombredelaactividad",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "lib/leer-aviso.js",
+      "source_location": "L305",
+      "weight": 1.0
+    },
+    {
+      "source": "lib_leer_aviso",
+      "target": "lib_leer_aviso_leeraviso",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "lib/leer-aviso.js",
+      "source_location": "L322",
+      "weight": 1.0
+    },
+    {
+      "source": "lib_leer_aviso",
+      "target": "lib_leer_aviso_plano",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "lib/leer-aviso.js",
+      "source_location": "L57",
+      "weight": 1.0
+    },
+    {
+      "source": "lib_leer_aviso",
+      "target": "lib_leer_aviso_aiso",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "lib/leer-aviso.js",
+      "source_location": "L61",
+      "weight": 1.0
+    },
+    {
+      "source": "lib_leer_aviso",
+      "target": "lib_leer_aviso_fechavalida",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "lib/leer-aviso.js",
+      "source_location": "L67",
+      "weight": 1.0
+    },
+    {
+      "source": "lib_leer_aviso",
+      "target": "lib_leer_aviso_conanio",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "lib/leer-aviso.js",
+      "source_location": "L76",
+      "weight": 1.0
+    },
+    {
+      "source": "lib_leer_aviso",
+      "target": "lib_leer_aviso_sumardias",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "lib/leer-aviso.js",
+      "source_location": "L84",
+      "weight": 1.0
+    },
+    {
+      "source": "lib_leer_aviso",
+      "target": "lib_leer_aviso_buscarfecha",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "lib/leer-aviso.js",
+      "source_location": "L94",
+      "weight": 1.0
+    },
+    {
       "source": "lib_leer_programa",
       "target": "lib_leer_programa_esruido",
       "relation": "contains",
@@ -23734,7 +24541,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "sql/tabla-congreso.sql",
-      "source_location": "L122",
+      "source_location": "L126",
       "weight": 1.0
     },
     {
@@ -23745,7 +24552,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "sql/tabla-congreso.sql",
-      "source_location": "L130",
+      "source_location": "L134",
       "weight": 1.0
     },
     {
@@ -23756,7 +24563,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "sql/tabla-congreso.sql",
-      "source_location": "L137",
+      "source_location": "L141",
       "weight": 1.0
     },
     {
@@ -23767,7 +24574,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "sql/tabla-congreso.sql",
-      "source_location": "L153",
+      "source_location": "L157",
       "weight": 1.0
     },
     {
@@ -23778,7 +24585,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "sql/tabla-congreso.sql",
-      "source_location": "L155",
+      "source_location": "L159",
       "weight": 1.0
     },
     {
@@ -23789,7 +24596,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "sql/tabla-congreso.sql",
-      "source_location": "L157",
+      "source_location": "L161",
       "weight": 1.0
     },
     {
@@ -23800,7 +24607,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "sql/tabla-congreso.sql",
-      "source_location": "L160",
+      "source_location": "L164",
       "weight": 1.0
     },
     {
@@ -23811,7 +24618,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "sql/tabla-congreso.sql",
-      "source_location": "L167",
+      "source_location": "L171",
       "weight": 1.0
     },
     {
@@ -23822,7 +24629,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "sql/tabla-congreso.sql",
-      "source_location": "L188",
+      "source_location": "L192",
       "weight": 1.0
     },
     {
@@ -23833,7 +24640,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "sql/tabla-congreso.sql",
-      "source_location": "L217",
+      "source_location": "L221",
       "weight": 1.0
     },
     {
@@ -23844,7 +24651,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "sql/tabla-congreso.sql",
-      "source_location": "L301",
+      "source_location": "L305",
       "weight": 1.0
     },
     {
@@ -23855,7 +24662,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "sql/tabla-congreso.sql",
-      "source_location": "L342",
+      "source_location": "L346",
       "weight": 1.0
     },
     {
@@ -23866,7 +24673,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "sql/tabla-congreso.sql",
-      "source_location": "L57",
+      "source_location": "L61",
       "weight": 1.0
     },
     {
@@ -23877,7 +24684,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "sql/tabla-congreso.sql",
-      "source_location": "L83",
+      "source_location": "L87",
       "weight": 1.0
     },
     {
@@ -24442,6 +25249,39 @@
       "weight": 1.0
     },
     {
+      "source": "supabase_functions_leer_placa_index",
+      "target": "supabase_functions_leer_placa_index_modelos",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "supabase/functions/leer-placa/index.ts",
+      "source_location": "L39",
+      "weight": 1.0
+    },
+    {
+      "source": "supabase_functions_leer_placa_index",
+      "target": "supabase_functions_leer_placa_index_cors",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "supabase/functions/leer-placa/index.ts",
+      "source_location": "L45",
+      "weight": 1.0
+    },
+    {
+      "source": "supabase_functions_leer_placa_index",
+      "target": "supabase_functions_leer_placa_index_esquema",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "supabase/functions/leer-placa/index.ts",
+      "source_location": "L69",
+      "weight": 1.0
+    },
+    {
       "source": "sw",
       "target": "sw_del_armazon",
       "relation": "contains",
@@ -24590,7 +25430,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "sql/tabla-congreso.sql",
-      "source_location": "L155",
+      "source_location": "L159",
       "weight": 1.0
     },
     {
@@ -24601,7 +25441,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "sql/tabla-congreso.sql",
-      "source_location": "L157",
+      "source_location": "L161",
       "weight": 1.0
     },
     {
@@ -24612,7 +25452,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "sql/tabla-congreso.sql",
-      "source_location": "L153",
+      "source_location": "L157",
       "weight": 1.0
     },
     {
@@ -24623,7 +25463,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "sql/tabla-congreso.sql",
-      "source_location": "L83",
+      "source_location": "L87",
       "weight": 1.0
     },
     {
@@ -24634,7 +25474,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "sql/tabla-congreso.sql",
-      "source_location": "L167",
+      "source_location": "L171",
       "weight": 1.0
     },
     {
@@ -25107,7 +25947,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "sql/tabla-congreso.sql",
-      "source_location": "L327",
+      "source_location": "L331",
       "weight": 1.0
     },
     {
@@ -25118,7 +25958,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "sql/tabla-congreso.sql",
-      "source_location": "L247",
+      "source_location": "L251",
       "weight": 1.0
     },
     {
@@ -25129,7 +25969,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "sql/tabla-congreso.sql",
-      "source_location": "L274",
+      "source_location": "L278",
       "weight": 1.0
     },
     {
@@ -25140,7 +25980,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "sql/tabla-congreso.sql",
-      "source_location": "L198",
+      "source_location": "L202",
       "weight": 1.0
     },
     {
@@ -25151,7 +25991,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "sql/tabla-congreso.sql",
-      "source_location": "L200",
+      "source_location": "L204",
       "weight": 1.0
     },
     {
@@ -25162,7 +26002,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "sql/tabla-congreso.sql",
-      "source_location": "L204",
+      "source_location": "L208",
       "weight": 1.0
     },
     {
@@ -26020,7 +26860,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "sql/tabla-congreso.sql",
-      "source_location": "L137",
+      "source_location": "L141",
       "weight": 1.0
     },
     {
@@ -26031,7 +26871,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "sql/tabla-congreso.sql",
-      "source_location": "L137",
+      "source_location": "L141",
       "weight": 1.0
     },
     {
@@ -26042,7 +26882,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "sql/tabla-congreso.sql",
-      "source_location": "L160",
+      "source_location": "L164",
       "weight": 1.0
     },
     {
@@ -26702,7 +27542,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "sql/tabla-congreso.sql",
-      "source_location": "L130",
+      "source_location": "L134",
       "weight": 1.0
     },
     {
@@ -27228,6 +28068,18 @@
       "weight": 1.0
     },
     {
+      "source": "lib_leer_aviso_nombredelaactividad",
+      "target": "lib_leer_aviso_limpiarrenglon",
+      "relation": "indirect_call",
+      "_origin": "ast",
+      "confidence": "INFERRED",
+      "confidence_score": 0.85,
+      "context": "argument",
+      "source_file": "lib/leer-aviso.js",
+      "source_location": "L306",
+      "weight": 1.0
+    },
+    {
       "source": "lib_mudanza",
       "target": "lib_mudanza_pintaravisomudanza",
       "relation": "indirect_call",
@@ -27453,6 +28305,18 @@
       "context": "collection",
       "source_file": "mapa/riesgo.js",
       "source_location": "L951",
+      "weight": 1.0
+    },
+    {
+      "source": "supabase_functions_leer_placa_index",
+      "target": "estudiemos_fichas_ficha_texto_component_clave",
+      "relation": "indirect_call",
+      "_origin": "ast",
+      "confidence": "INFERRED",
+      "confidence_score": 0.85,
+      "context": "collection",
+      "source_file": "supabase/functions/leer-placa/index.ts",
+      "source_location": "L152",
       "weight": 1.0
     },
     {
@@ -28104,5 +28968,5 @@
       "source_file": "panel/index.html"
     }
   ],
-  "built_at_commit": "8d914ef97b6c6ef19b215e52843557820aa5d87a"
+  "built_at_commit": "44eb5f78576c603a924466a374ede10ec65fb7c2"
 }

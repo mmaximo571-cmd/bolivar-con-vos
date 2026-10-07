@@ -162,9 +162,9 @@
     "semantic_hash": ""
   },
   "panel/index.html": {
-    "mtime": 1791387506.4278169,
-    "seen": 1791387786.0082643,
-    "ast_hash": "d9314df0af63c08a2dd70aea27787337",
+    "mtime": 1791389622.8483932,
+    "seen": 1791389716.7209315,
+    "ast_hash": "cba9d4e24d65195914f0ef3040e621be",
     "semantic_hash": ""
   },
   "quienes/index.html": {
@@ -654,9 +654,9 @@
     "semantic_hash": ""
   },
   "cargar/index.html": {
-    "mtime": 1791078381.2629342,
-    "seen": 1791164635.5955923,
-    "ast_hash": "c70b95a7346e99d506752addb7bf4505",
+    "mtime": 1791389973.7724862,
+    "seen": 1791390061.264437,
+    "ast_hash": "3b46f9e4eea13558143995024faf67a2",
     "semantic_hash": ""
   },
   "sql/tabla-campana.sql": {
@@ -738,15 +738,15 @@
     "semantic_hash": ""
   },
   "sql/tabla-congreso.sql": {
-    "mtime": 1791386976.1608195,
-    "seen": 1791387786.0081782,
-    "ast_hash": "67ab99e16c9f1fd993f62899084ac9a5",
+    "mtime": 1791388114.526361,
+    "seen": 1791389716.720845,
+    "ast_hash": "295b51c2880146b5982e081de3957b13",
     "semantic_hash": ""
   },
   "congreso/index.html": {
-    "mtime": 1791387186.747122,
-    "seen": 1791387786.00822,
-    "ast_hash": "05704d84d7f776250d830fa0b0f00018",
+    "mtime": 1791387793.4839745,
+    "seen": 1791389716.7208867,
+    "ast_hash": "be6deba111af495d84a15d923946ec13",
     "semantic_hash": ""
   },
   "congreso/circular-voces-que-habitan.pdf": {
@@ -813,6 +813,18 @@
     "mtime": 1791386774.3652968,
     "seen": 1791387786.0082889,
     "ast_hash": "ead2ab34457d8e6728049bb0801ec140",
+    "semantic_hash": ""
+  },
+  "lib/leer-aviso.js": {
+    "mtime": 1791389690.1881166,
+    "seen": 1791389716.7208023,
+    "ast_hash": "6fb8350129d404af6c00226f4f6b5d82",
+    "semantic_hash": ""
+  },
+  "supabase/functions/leer-placa/index.ts": {
+    "mtime": 1791389925.0137627,
+    "seen": 1791390061.264424,
+    "ast_hash": "a45d585744b2b12d8c998019cbcc25d0",
     "semantic_hash": ""
   }
 }

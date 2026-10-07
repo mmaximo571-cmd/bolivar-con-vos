@@ -1080,8 +1080,11 @@
     });
   }
 
-  function formularioPublicacion(p){
-    const esNuevo = !p;
+  /* `copia` (7/10/2026): se abre lleno con lo de otra publicación pero
+     se guarda como una nueva. Las fechas llegan vacías a propósito: una
+     copia con la fecha vieja se publicaría en el pasado sin que se note. */
+  function formularioPublicacion(p, copia){
+    const esNuevo = !p || !!copia;
     p = p || { tipo:'novedad', categoria:'comunicado', linea:'info', publicado:true };
 
     /* Una fila vieja sin categoría se deduce igual que en la base. */
@@ -1094,7 +1097,9 @@
 
     zona.innerHTML = `
       <button class="mini" id="volver">← Volver a la lista</button>
-      <h3 class="titulo-pantalla" style="font-size:24px">${esNuevo ? 'NUEVA PUBLICACIÓN' : 'EDITAR PUBLICACIÓN'}</h3>
+      <h3 class="titulo-pantalla" style="font-size:24px">${copia ? 'COPIA' : esNuevo ? 'NUEVA PUBLICACIÓN' : 'EDITAR PUBLICACIÓN'}</h3>
+      ${copia ? `<div class="aviso ok">Es una copia de «${esc(copia)}». Poné la fecha nueva y
+        revisá el resto antes de guardar: se guarda como otra publicación.</div>` : ''}
 
       <div class="campo"><label for="titulo">Título *</label>
         <input id="titulo" value="${esc(p.titulo || '')}" placeholder="Mesa de finales de septiembre"></div>
@@ -1197,10 +1202,21 @@
           ellos no hace nada.</small></div>
 
       <button class="boton ancho" id="guardar">Guardar</button>
+      ${esNuevo ? '' : `<button class="boton ancho borde" id="duplicar" style="margin-top:10px">Duplicar con otra fecha</button>`}
       ${esNuevo ? '' : `<button class="boton ancho peligro" id="borrar" style="margin-top:10px">Eliminar</button>`}
       <div id="msj"></div>`;
 
     document.getElementById('volver').onclick = vistaAgenda;
+
+    const btnDuplicar = document.getElementById('duplicar');
+    if (btnDuplicar) btnDuplicar.onclick = () => {
+      /* Sin el aviso ni la suspensión: la copia es otra cosa, y que le
+         suene el teléfono a la gente tiene que volver a decidirse. */
+      formularioPublicacion(Object.assign({}, p, {
+        fecha_desde: null, fecha_hasta: null, suspendido: false, avisar: false
+      }), p.titulo);
+      window.scrollTo(0, 0);
+    };
 
     document.getElementById('guardar').onclick = async function(){
       if (!val('titulo')){

@@ -1,17 +1,17 @@
 # Graph Report - bolivar-con-vos  (2026-10-07)
 
 ## Corpus Check
-- 83 files · ~307,930 words
+- 85 files · ~312,943 words
 - Verdict: corpus is large enough that graph structure adds value.
 - Unclassified: 35 file(s) not represented in the graph (top: .css 25, (none) 5, .geojson 4)
 
 ## Summary
-- 941 nodes · 1429 edges · 107 communities (67 shown, 40 thin omitted)
-- Extraction: 93% EXTRACTED · 7% INFERRED · 0% AMBIGUOUS · INFERRED: 94 edges (avg confidence: 0.85)
+- 966 nodes · 1478 edges · 109 communities (69 shown, 40 thin omitted)
+- Extraction: 94% EXTRACTED · 6% INFERRED · 0% AMBIGUOUS · INFERRED: 96 edges (avg confidence: 0.85)
 - Token cost: 0 input · 0 output
 
 ## Graph Freshness
-- Built from commit: `8d914ef9`
+- Built from commit: `44eb5f78`
 - Run `git rev-parse HEAD` and compare to check if the graph is stale.
 - Run `graphify update .` after code changes (no API cost).
 
@@ -111,6 +111,8 @@
 - congreso.js
 - tabla-congreso.sql
 - sesionActual
+- leer-aviso.js
+- buscar (buscador de trámites, FAQ y cátedras)
 
 ## God Nodes (most connected - your core abstractions)
 1. `Pantalla Mi año (carrera)` - 19 edges
@@ -148,15 +150,15 @@
 - **Pantallas que muestran publicaciones de la agenda** — tabla_publicaciones, index_proximodelaagenda, index_calendario_mes, agenda_index_traer, agenda_index_detalle_publicacion, carrera_index_vistanueva [INFERRED 0.85]
 - **El Panel edita el contenido que leen las pantallas públicas** — panel_index, tramites_index, quienes_index, consejo_index, anatomo_index, catedras_index, estudiemos_index [INFERRED 0.95]
 
-## Communities (107 total, 40 thin omitted)
+## Communities (109 total, 40 thin omitted)
 
 ### Community 0 - "La carrera se elige una vez (bolivar-carrera-v2)"
 Cohesion: 0.14
 Nodes (14): Versión 2.0 de AI Studio (React + Tailwind), La carrera se elige una vez (bolivar-carrera-v2), Congelamiento de código (16-17/9), El embudo del 21 (hitos y origen de Instagram), Lanzamiento 21 de septiembre (Día del Estudiante), El plan de estudios se imprime, no se publica en PDF, anotar(): registro de visitas, búsquedas y errores, Riel deslizable de herramientas de Estudiemos (+6 more)
 
 ### Community 1 - "Pantalla Mi año (carrera)"
-Cohesion: 0.16
-Nodes (16): Pantalla Agenda (Fechas y novedades), Tema claro/oscuro (localStorage bolivar-tema), Pantalla Mi año (carrera), Vista plan (Mi año), estilos.css, Pantalla Glosario universitario, icono(), iconoDeCategoria() (+8 more)
+Cohesion: 0.20
+Nodes (13): Pantalla Agenda (Fechas y novedades), Tema claro/oscuro (localStorage bolivar-tema), Pantalla Mi año (carrera), Vista plan (Mi año), estilos.css, Pantalla Glosario universitario, icono(), iconoDeCategoria() (+5 more)
 
 ### Community 2 - "tabla-anotados.sql"
 Cohesion: 0.27
@@ -243,8 +245,8 @@ Cohesion: 0.12
 Nodes (16): Dónde vive, El navegador de Instagram, El orden, y por qué cada solapa tiene que poder salir sola, El volumen, si hay tonos, La Fonoteca: el simulador de práctica audiológica, La regla que va antes que todas, Lo que no se negocia, en todas las solapas, Nada copiado (+8 more)
 
 ### Community 23 - "Component"
-Cohesion: 0.13
-Nodes (15): crearMarcas(), avisar(), escribir(), leer(), poner(), tiene(), vacio(), get() (+7 more)
+Cohesion: 0.09
+Nodes (18): crearMarcas(), avisar(), escribir(), leer(), poner(), tiene(), vacio(), get() (+10 more)
 
 ### Community 24 - "LEEME · La Bolívar con vos"
 Cohesion: 0.67
@@ -418,22 +420,30 @@ Nodes (14): public.tocar_congreso_mesa, al_tocar_congreso_mesa, congreso_interv_
 Cohesion: 0.33
 Nodes (6): esDelEquipo(), sesionActual(), Pantalla Panel (administración del equipo), panel() arranque y control de sesión, Tabla Supabase guardados, botonGuardar (guardados del usuario)
 
+### Community 107 - "leer-aviso.js"
+Cohesion: 0.29
+Nodes (16): aISO(), bajarGritos(), buscarFecha(), buscarHora(), buscarLugar(), conAnio(), fechaValida(), leerAviso() (+8 more)
+
+### Community 108 - "buscar (buscador de trámites, FAQ y cátedras)"
+Cohesion: 0.67
+Nodes (3): buscar (buscador de trámites, FAQ y cátedras), pedirCatedras, Tabla Supabase tramites
+
 ## Knowledge Gaps
-- **161 isolated node(s):** `session-start.sh script`, `__hitosDeEstaVisita`, `MESES`, `MESES_LARGO`, `NOMBRE_SECCION` (+156 more)
-  These have ≤1 connection - possible missing edges or undocumented components. (Counts symbols only; 294 node(s) total have ≤1 connection when file, concept and rationale nodes are included.)
+- **164 isolated node(s):** `session-start.sh script`, `__hitosDeEstaVisita`, `MESES`, `MESES_LARGO`, `NOMBRE_SECCION` (+159 more)
+  These have ≤1 connection - possible missing edges or undocumented components. (Counts symbols only; 301 node(s) total have ≤1 connection when file, concept and rationale nodes are included.)
 - **40 thin communities (<3 nodes) omitted from report** — run `graphify query` to explore isolated nodes.
 
 ## Suggested Questions
 _Questions this graph is uniquely positioned to answer:_
 
-- **Why does `Pantalla Inicio` connect `Pantalla Mi año (carrera)` to `movimiento.js`, `app.js`, `Detalle de publicación (?id=)`, `Pantalla El Consejo Directivo`, `Mi perfil (mi/index.html)`, `manifest.json`?**
-  _High betweenness centrality (0.099) - this node is a cross-community bridge._
+- **Why does `Pantalla Inicio` connect `Pantalla Mi año (carrera)` to `movimiento.js`, `app.js`, `Detalle de publicación (?id=)`, `Pantalla El Consejo Directivo`, `Mi perfil (mi/index.html)`, `manifest.json`, `buscar (buscador de trámites, FAQ y cátedras)`?**
+  _High betweenness centrality (0.086) - this node is a cross-community bridge._
 - **Why does `pedido()` connect `riesgo.js` to `Pantalla El Consejo Directivo`, `fondo-red.js`?**
-  _High betweenness centrality (0.075) - this node is a cross-community bridge._
+  _High betweenness centrality (0.068) - this node is a cross-community bridge._
 - **Why does `Vercel Web Analytics (/_vercel/insights/script.js, v72)` connect `Pantalla El Consejo Directivo` to `Pantalla Mi año (carrera)`?**
-  _High betweenness centrality (0.069) - this node is a cross-community bridge._
+  _High betweenness centrality (0.060) - this node is a cross-community bridge._
 - **What connects `session-start.sh script`, `__hitosDeEstaVisita`, `MESES` to the rest of the system?**
-  _161 weakly-connected nodes found - possible documentation gaps or missing edges._
+  _164 weakly-connected nodes found - possible documentation gaps or missing edges._
 - **Should `La carrera se elige una vez (bolivar-carrera-v2)` be split into smaller, more focused modules?**
   _Cohesion score 0.14285714285714285 - nodes in this community are weakly interconnected._
 - **Should `app.js` be split into smaller, more focused modules?**

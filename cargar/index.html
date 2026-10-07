@@ -106,6 +106,8 @@
 <script src="../carrera/plan-fono.js"></script>
 <script src="../carrera/plan-tgcr.js"></script>
 <script src="../fondo-red.js"></script>
+<!-- Lee un mensaje pegado de WhatsApp y llena los pasos (7/10/2026). -->
+<script src="../lib/leer-aviso.js"></script>
 <script>
 (async function cargar(){
   'use strict';
@@ -183,8 +185,15 @@
   /* `editando` es el id de lo que se está corrigiendo, o null si es
      nuevo. `antes` guarda cómo estaba, para decir si el cambio va a
      avisar (día, hora o lugar) o no (una coma en el detalle). */
+  /* `pegado` es el mensaje de WhatsApp del que salió todo, si salió de
+     uno, y `relativa` la palabra («mañana») de la que salió la fecha.
+     `repite` es el título de lo que se está copiando. Los tres sirven
+     solo para decirle a la persona qué hay que revisar. */
   const esto = { que:null, fecha:null, hora:null, lugar:'', detalle:'', asunto:'',
-                 editando:null, antes:null };
+                 editando:null, antes:null, pegado:null, relativa:null, repite:null, placa:false };
+
+  /* Todo lo que no es lo cargado: lo que se limpia al empezar otra cosa. */
+  const SIN_ORIGEN = { pegado:null, relativa:null, repite:null, placa:false };
 
   /* Las tres clases de cosa que se cargan acá, con TODO lo que cada una
      implica junto. Agregar otra (un taller) es agregar un renglón a
@@ -320,14 +329,69 @@
 
   function encabezado(n, texto){
     return `
-      <p class="bajada" style="margin-bottom:6px">${esto.editando ? 'Corrigiendo · ' : ''}Paso ${n} de 3</p>
-      <h1 class="titulo-pantalla">${texto}</h1>`;
+      <p class="bajada" style="margin-bottom:6px">${esto.editando ? 'Corrigiendo · '
+        : esto.repite ? 'Repitiendo · ' : esto.placa ? 'Desde la placa · '
+        : esto.pegado ? 'Desde el mensaje · ' : ''}Paso ${n} de 3</p>
+      <h1 class="titulo-pantalla">${texto}</h1>
+      ${cajaDeOrigen()}`;
+  }
+
+  /* LO QUE HAY QUE REVISAR
+
+     Cuando los pasos vienen llenos —de un mensaje pegado o de una
+     copia— lo peligroso es pasar «Seguir» sin mirar. Por eso arriba de
+     cada paso se dice qué faltó y qué se adivinó, y el mensaje queda a
+     mano para copiar un renglón. Lo que falta se calcula con lo que hay
+     AHORA: al completarlo, deja de aparecer. */
+  const QUE_FALTA = { paro:'por qué es el paro', grupo:'la materia', actividad:'qué es' };
+
+  function cajaDeOrigen(){
+    if (esto.editando || (!esto.pegado && !esto.repite)) return '';
+    if (esto.repite) return `
+      <div class="aviso ok">Copiaste «${esc(esto.repite)}». Elegí el día nuevo y
+        revisá que la hora y el lugar sigan siendo los mismos.</div>`;
+    const falta = [
+      !esto.fecha  && 'el día',
+      !esto.hora   && 'la hora',
+      !esto.asunto && QUE_FALTA[esto.que],
+      !esto.lugar  && 'el lugar'
+    ].filter(Boolean);
+    const lista = falta.length > 1
+      ? falta.slice(0, -1).join(', ') + ' y ' + falta[falta.length - 1] : falta[0];
+    return `
+      <div class="aviso ok">
+        Completé lo que pude leer ${esto.placa ? 'de la placa' : 'del mensaje'}. <strong>Revisalo:</strong> lo
+        adiviné, no lo sé.${falta.length ? ` No encontré ${esc(lista)}.` : ''}${
+        esto.relativa && esto.fecha ? ` «${esc(esto.relativa)}» lo tomé como el
+        ${esc(enPalabras(esto.fecha))}: si ${esto.placa ? 'la placa' : 'el mensaje'} es de otro día, cambiá la fecha.` : ''}
+        <details style="margin-top:8px">
+          <summary style="cursor:pointer;font-weight:700">${esto.placa
+            ? 'Ver el texto de la placa' : 'Ver el mensaje que pegaste'}</summary>
+          <p style="white-space:pre-wrap;margin:6px 0 0">${esc(esto.pegado)}</p>
+        </details>
+      </div>`;
   }
 
   function paso1(){
     contenido.innerHTML = `
       ${htmlPestanas('cargar')}
       ${encabezado(1, '¿QUÉ<br>ES?')}
+      <div class="ficha">
+        <h3>¿Te llegó por WhatsApp?</h3>
+        <p class="bajada" style="margin-top:4px">Pegá el mensaje y completo los pasos
+          con lo que diga. Vos revisás todo antes de publicar.</p>
+        <div class="campo">
+          <label for="pegado">El mensaje</label>
+          <textarea id="pegado" style="min-height:96px"
+                    placeholder="✊ PARO este jueves en defensa de la universidad pública…">${esc(esto.pegado || '')}</textarea>
+        </div>
+        <div id="msj-pegado" role="status" aria-live="polite"></div>
+        <button type="button" class="boton ancho" id="leer">Leer el mensaje</button>
+        <p class="bajada" style="margin:14px 0 8px">¿Es una placa? Subí la imagen y la leo.</p>
+        <button type="button" class="boton ancho borde" id="subir-placa">Subir la foto de la placa</button>
+        <input id="placa" type="file" accept="image/*" hidden>
+      </div>
+      <div class="titulo-seccion" style="margin-top:22px">O ELEGÍ QUÉ ES</div>
       <div class="grupo">
         ${Object.entries(CLASES).map(([clave, c]) => `
           <button class="tarjeta ${esc(c.linea)}" data-que="${clave}"
@@ -340,16 +404,153 @@
         Si lo que querés cargar no es ninguna de estas, avisale a alguien del
         equipo: se carga desde el panel.
       </p>
-      <div id="lo-mio"></div>`;
+      <div id="lo-mio"></div>
+      <div id="para-repetir"></div>`;
+
+    const pegado = document.getElementById('pegado');
+    document.getElementById('leer').onclick = () => {
+      if (!pegado.value.trim()){
+        document.getElementById('msj-pegado').innerHTML =
+          '<div class="aviso error">Primero pegá el mensaje en el cuadro.</div>';
+        pegado.focus();
+        return;
+      }
+      desdeElMensaje(pegado.value.trim(), null);
+    };
+
+    const placa = document.getElementById('placa');
+    document.getElementById('subir-placa').onclick = () => placa.click();
+    placa.onchange = () => {
+      const archivo = placa.files && placa.files[0];
+      /* Se vacía para que elegir la misma foto otra vez vuelva a leerla. */
+      placa.value = '';
+      if (archivo) desdeLaPlaca(archivo);
+    };
+
+    /* Con un mensaje pegado, tocar una clase es decir «es esto»: se
+       vuelve a leer sabiéndolo, que es lo que permite sacar el asunto
+       cuando el lector no se dio cuenta solo (o se equivocó de clase). */
     contenido.querySelectorAll('[data-que]').forEach(b => {
       b.onclick = () => {
-        Object.assign(esto, { que: b.dataset.que, editando: null, antes: null });
+        if (pegado.value.trim()){ desdeElMensaje(pegado.value.trim(), b.dataset.que); return; }
+        Object.assign(esto, { que: b.dataset.que, editando: null, antes: null }, SIN_ORIGEN);
         paso2();
       };
     });
     engancharPestanas();
     contarSinContestar();
     pintarLoMio();
+    pintarParaRepetir();
+  }
+
+  /* Del mensaje a los pasos. Nunca salta la vista previa: sin día va al
+     paso 2, y con día va al 3, que es donde están los textos —el asunto
+     y el lugar— que más chances tienen de haber salido mal. */
+  function desdeElMensaje(texto, que){
+    const l = window.leerAviso
+      ? window.leerAviso(texto, { materias: MATERIAS, que })
+      : { que, fecha:null, hora:null, lugar:'', asunto:'', relativa:null };
+    Object.assign(esto, {
+      que: l.que, fecha: l.fecha, hora: l.hora, lugar: l.lugar, asunto: l.asunto,
+      detalle: '', editando: null, antes: null
+    }, SIN_ORIGEN, { pegado: texto, relativa: l.relativa });
+    seguirConLoLeido('No me di cuenta de qué es.');
+  }
+
+  function seguirConLoLeido(sinClase){
+    if (!esto.que){
+      document.getElementById('msj-pegado').innerHTML =
+        `<div class="aviso error">${sinClase} Tocá abajo si es un paro, ` +
+        'un grupo de estudio o una actividad, y sigo con lo que leí.</div>';
+      return;
+    }
+    if (esto.fecha) paso3(); else paso2();
+  }
+
+  /* ------------------------------------------------------------
+     LA PLACA (7/10/2026)
+
+     Una imagen no se lee con reglas: la lee Gemini, en la función
+     `leer-placa` (ver el porqué allá). Esto achica la foto, se la
+     manda y pone lo que vuelve en los mismos pasos que un mensaje
+     pegado. La transcripción queda en el cuadro de texto: si Gemini no
+     supo qué es, tocar una clase la vuelve a leer con las reglas.
+
+     Si falla —sin cupo, sin señal, Google cambió algo— se dice qué
+     hacer en vez de esto, que es lo mismo que se hacía antes.
+     ------------------------------------------------------------ */
+  const PROBLEMA_PLACA = {
+    cupo: 'Por hoy se terminaron las lecturas gratis de placas.',
+    imagen: 'No pude abrir esa imagen. Probá con una captura de pantalla de la placa.',
+    'sin-permiso': 'Tu cuenta no tiene permiso para leer placas.'
+  };
+
+  async function desdeLaPlaca(archivo){
+    const msj = document.getElementById('msj-pegado');
+    const boton = document.getElementById('subir-placa');
+    boton.disabled = true;
+    boton.textContent = 'Leyendo la placa…';
+    msj.innerHTML = '<div class="aviso ok">Leyendo la placa. Tarda unos segundos.</div>';
+
+    let r = null, problema = 'gemini';
+    try {
+      const { base64, tipo } = await achicar(archivo);
+      const { data, error } = await db.functions.invoke('leer-placa', { body: { imagen: base64, tipo } });
+      if (!error) r = data;
+      else {
+        /* El error de la función viene adentro de la respuesta. */
+        try { problema = (await error.context.json()).error || problema; } catch(e){}
+      }
+    } catch(e){ problema = 'imagen'; }
+
+    if (!document.getElementById('subir-placa')) return;
+    boton.disabled = false;
+    boton.textContent = 'Subir la foto de la placa';
+
+    if (!r){
+      msj.innerHTML = `<div class="aviso error">${PROBLEMA_PLACA[problema] ||
+        'No pude leer la placa ahora.'} Si el posteo tiene el texto, copialo y pegalo
+        arriba; si no, elegí abajo qué es y cargalo a mano.</div>`;
+      return;
+    }
+
+    /* La materia se busca además en la transcripción con la lista del
+       plan: escrita igual que en el plan es la que hace sonar el aviso,
+       y Gemini no conoce el plan. */
+    let asunto = r.asunto || '';
+    if (r.que === 'grupo' && window.leerAviso){
+      asunto = window.leerAviso(r.texto || '', { materias: MATERIAS, que: 'grupo' }).asunto || asunto;
+    }
+    document.getElementById('pegado').value = r.texto || '';
+    Object.assign(esto, {
+      que: r.que, fecha: r.fecha, hora: r.hora, lugar: r.lugar || '', asunto,
+      detalle: '', editando: null, antes: null
+    }, SIN_ORIGEN, { pegado: r.texto || '', relativa: r.relativa, placa: true });
+    seguirConLoLeido('Leí la placa pero no me di cuenta de qué es.');
+  }
+
+  /* A 1600 px de lado y en JPEG: una foto del teléfono pasa de 4 MB a
+     unos 300 KB, que sube rápido con poca señal y se lee igual. El
+     fondo blanco es para las PNG transparentes, que en JPEG saldrían
+     negras. */
+  async function achicar(archivo){
+    const url = URL.createObjectURL(archivo);
+    try {
+      const img = await new Promise((ok, mal) => {
+        const i = new Image(); i.onload = () => ok(i); i.onerror = mal; i.src = url;
+      });
+      const escala = Math.min(1, 1600 / Math.max(img.naturalWidth, img.naturalHeight));
+      const lienzo = document.createElement('canvas');
+      lienzo.width = Math.round(img.naturalWidth * escala);
+      lienzo.height = Math.round(img.naturalHeight * escala);
+      const ctx = lienzo.getContext('2d');
+      ctx.fillStyle = '#fff';
+      ctx.fillRect(0, 0, lienzo.width, lienzo.height);
+      ctx.drawImage(img, 0, 0, lienzo.width, lienzo.height);
+      return { base64: lienzo.toDataURL('image/jpeg', 0.85).split(',')[1], tipo: 'image/jpeg' };
+    } finally {
+      URL.revokeObjectURL(url);
+    }
   }
 
   /* ------------------------------------------------------------
@@ -437,6 +638,7 @@
               ${!p.publicado ? `<button type="button" class="chip" data-publicar="${p.id}">Publicar ya</button>` : ''}
               <button type="button" class="chip" data-suspender="${p.id}">${
                 p.suspendido ? 'Volver a activar' : 'Suspender'}</button>
+              <button type="button" class="chip" data-repetir="${p.id}">Repetir otro día</button>
             </div>
           </div>`;
         }).join('')}
@@ -452,6 +654,9 @@
     caja.querySelectorAll('[data-publicar]').forEach(b => {
       b.onclick = () => cambiarFila(Number(b.dataset.publicar), { publicado: true }, b);
     });
+    caja.querySelectorAll('[data-repetir]').forEach(b => {
+      b.onclick = () => repetir(mio.find(p => String(p.id) === b.dataset.repetir));
+    });
   }
 
   function editar(p){
@@ -466,8 +671,61 @@
       asunto:  CLASES[que].asunto(p),
       editando: p.id,
       antes:   { fecha: String(p.fecha_desde).slice(0, 10), hora: p.hora || null, lugar: p.lugar || '' }
-    });
+    }, SIN_ORIGEN);
     paso2();
+  }
+
+  /* REPETIR (7/10/2026)
+
+     La asamblea de cada martes, el grupo de siempre: cargarlos de nuevo
+     cada semana era repetir los tres pasos para cambiar solo el día. Se
+     copia todo menos la fecha, que queda vacía a propósito: una copia
+     con la fecha vieja se publicaría en el pasado sin que nadie lo note. */
+  function repetir(p){
+    if (!p) return;
+    const que = QUE_DE_CATEGORIA[p.categoria];
+    Object.assign(esto, {
+      que, fecha: null,
+      hora:    p.hora || null,
+      lugar:   p.lugar || '',
+      detalle: p.cuerpo || '',
+      asunto:  CLASES[que].asunto(p),
+      editando: null, antes: null
+    }, SIN_ORIGEN, { repite: p.titulo });
+    paso2();
+  }
+
+  /* Lo que ya pasó no está en «Lo que cargaste» (esa lista es para
+     corregir lo que viene), así que lo repetible de antes va aparte:
+     lo último de cada título, para que la asamblea semanal no salga
+     cinco veces. */
+  async function pintarParaRepetir(){
+    const caja = document.getElementById('para-repetir');
+    if (!caja) return;
+    const ayer = aISO(new Date(Date.now() - 86400000));
+    const { data, error } = await db.from('publicaciones')
+      .select('id,titulo,categoria,materia,fecha_desde,hora,lugar,cuerpo')
+      .eq('creado_por', usuario.id)
+      .in('categoria', Object.keys(QUE_DE_CATEGORIA))
+      .lt('fecha_desde', ayer)
+      .order('fecha_desde', { ascending: false })
+      .limit(30);
+    if (error || !data || !document.getElementById('para-repetir')) return;
+    const vistos = new Set();
+    const pasadas = data.filter(p => !vistos.has(p.titulo) && vistos.add(p.titulo)).slice(0, 6);
+    if (!pasadas.length){ caja.innerHTML = ''; return; }
+    caja.innerHTML = `
+      <div class="titulo-seccion" style="margin-top:26px">REPETIR ALGO QUE YA PASÓ</div>
+      <p class="bajada">Se copia todo y elegís el día nuevo.</p>
+      <div class="chips">
+        ${pasadas.map(p => `
+          <button type="button" class="chip" data-repetir="${p.id}"
+                  aria-label="Repetir ${esc(p.titulo)}">${
+            CLASES[QUE_DE_CATEGORIA[p.categoria]].emoji} ${esc(p.titulo)}</button>`).join('')}
+      </div>`;
+    caja.querySelectorAll('[data-repetir]').forEach(b => {
+      b.onclick = () => repetir(pasadas.find(p => String(p.id) === b.dataset.repetir));
+    });
   }
 
   async function suspender(p, boton){
@@ -779,7 +1037,7 @@
          cosas del mismo día, y volver a elegirlo cansa. */
       const fecha = esto.fecha;
       Object.assign(esto, { que:null, fecha, hora:null, lugar:'', detalle:'', asunto:'',
-                            editando:null, antes:null });
+                            editando:null, antes:null }, SIN_ORIGEN);
       paso1();
     };
   }
