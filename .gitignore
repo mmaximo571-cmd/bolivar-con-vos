@@ -42,3 +42,6 @@ graphify-out/.graphify_analysis.json
 .claude/*
 !.claude/settings.json
 !.claude/hooks/
+# Las skills del proyecto (hacer-ficha y su revisor): sirven en
+# cualquier maquina y en la nube, no llevan rutas de esta.
+!.claude/skills/
