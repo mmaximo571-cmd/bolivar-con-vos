@@ -49,17 +49,17 @@
 ### 3 · CÓMO TE DAS CUENTA
 
 #### 1. ¿Cómo se clasifican respectivamente las articulaciones mecánicas Martillo-Yunque y Yunque-Estribo de la cadena de huesecillos?
-A) Ambas son enartrosis de amplio rango de movimiento.
-B) Martillo-Yunque es un encaje recíproco y Yunque-Estribo es una enartrosis.
+A) Martillo-Yunque es un encaje recíproco y Yunque-Estribo es una enartrosis.
+B) Ambas son enartrosis de amplio rango de movimiento.
 C) Martillo-Yunque es una trocoide y Yunque-Estribo es una artrodia plana.
-- CORRECTA: B
+- CORRECTA: A
 - WHY: El criterio de clasificación articular define de forma exacta estas dos uniones sinoviales exclusivas de la caja del tímpano (CUADERNILLO ANATOMOFISIOLOGÍA 2DA ED.pdf, pág. 106).
 
 #### 2. Si analizás la membrana timpánica de forma clínica, ¿cómo se denomina su porción superior caracterizada por ser más delgada y menos tensa?
 A) Pars condensa o porción inferior.
-B) Pars fláccida o membrana de Scharpnell.
-C) Rodete anular de Gerlach superior.
-- CORRECTA: B
+B) Rodete anular de Gerlach superior.
+C) Pars fláccida o membrana de Scharpnell.
+- CORRECTA: C
 - WHY: El criterio morfológico divide al tímpano en la pars condensa (zona gruesa tensa inferior) y la pars fláccida (zona superior delgada) (CUADERNILLO ANATOMOFISIOLOGÍA 2DA ED.pdf, pág. 107).
 
 #### 3. ¿Qué fibras nerviosas atraviesan de manera exclusiva el compartimento anterosuperior del conducto auditivo interno?
@@ -77,24 +77,24 @@ C) La membrana tectoria superior.
 - WHY: El criterio histofuncional indica que la membrana basilar funciona como piso del conducto coclear brindando asiento al órgano sensorial de Corti (CUADERNILLO ANATOMOFISIOLOGÍA 2DA ED.pdf, pág. 119).
 
 #### 5. ¿Qué rol específico desempeñan las aproximadamente 12.000 células ciliadas externas ubicadas en el órgano de Corti?
-A) Se encargan de generar la señal eléctrica inicial que viaja directo al cerebro.
-B) Amplifican las señales sonoras antes de llegar a las células ciliadas internas para aumentar la sensibilidad.
+A) Amplifican las señales sonoras antes de llegar a las células ciliadas internas para aumentar la sensibilidad.
+B) Se encargan de generar la señal eléctrica inicial que viaja directo al cerebro.
 C) Conducen la perilinfa hacia el helicotrema terminal.
-- CORRECTA: B
+- CORRECTA: A
 - WHY: El criterio de fisiología auditiva distingue a las células ciliadas externas por su función amplificadora de sonidos de baja intensidad, a diferencia de las internas que transducen la señal (CUADERNILLO ANATOMOFISIOLOGÍA 2DA ED.pdf, pág. 119).
 
 #### 6. ¿Qué pared de la caja del tímpano aloja al promontorio, la ventana oval y la ventana redonda que comunican con el oído interno?
-A) La pared superior o tegmen tympani.
-B) La pared interna o laberíntica.
+A) La pared interna o laberíntica.
+B) La pared superior o tegmen tympani.
 C) La pared anterior o tubárica.
-- CORRECTA: B
+- CORRECTA: A
 - WHY: El criterio de límites anatómicos asocia estas ventanas de comunicación del oído medio con el oído interno directamente a la pared medial o interna de la caja (CUADERNILLO ANATOMOFISIOLOGÍA 2DA ED.pdf, pág. 104).
 
 #### 7. ¿Qué acción muscular sobre la cadena de huesecillos se encarga de aumentar la tensión de la membrana timpánica y la presión del líquido interno?
 A) El músculo del estribo.
-B) El músculo del martillo o tensor del tímpano.
-C) El músculo periestafilino externo.
-- CORRECTA: B
+B) El músculo periestafilino externo.
+C) El músculo del martillo o tensor del tímpano.
+- CORRECTA: C
 - WHY: El criterio mecánico establece que el músculo del martillo tensa el tímpano y empuja el estribo en la ventana oval, aumentando la presión del oído interno (CUADERNILLO ANATOMOFISIOLOGÍA 2DA ED.pdf, pág. 106).
 
 #### 8. ¿Qué músculos del velo del paladar controlan de forma directa la apertura y el cierre de la trompa de Eustaquio durante la deglución?

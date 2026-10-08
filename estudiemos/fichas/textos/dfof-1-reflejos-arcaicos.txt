@@ -43,17 +43,17 @@ MÁQUINA 2 · REFLEJOS SUPERFICIALES ESPINALES
 3 · CÓMO TE DAS CUENTA
 
 1. ¿Qué complicación fisiológica puede generar la persistencia patológica del reflejo de succión más allá de los 8 meses?
-A) Cierre inmediato de la glándula tiroides.
-B) Ahogos, apnea, disfagia, tos y vómitos por descoordinación.
+A) Ahogos, apnea, disfagia, tos y vómitos por descoordinación.
+B) Cierre inmediato de la glándula tiroides.
 C) Osificación prematura de las suturas craneales.
-- CORRECTA: B
+- CORRECTA: A
 - POR QUÉ: El criterio de maduración neuromuscular indica que la succión debe volverse voluntaria; si persiste el reflejo arcaico, choca con la respiración provocando fatiga y penetración (pág. 67).
 
 2. ¿Cuál de los siguientes reflejos se caracteriza por durar de forma ininterrumpida durante toda la vida del individuo?
 A) El reflejo de búsqueda.
-B) El reflejo de deglución.
-C) El reflejo de protrusión lingual.
-- CORRECTA: B
+B) El reflejo de protrusión lingual.
+C) El reflejo de deglución.
+- CORRECTA: C
 - POR QUÉ: El criterio de supervivencia establece que el reflejo de deglución, presente desde la semana 21 de gestación, acompaña al sujeto de por vida sin integrarse ni desaparecer (pág. 67).
 
 3. Al rozar suavemente la mejilla de un recién nacido con el pezón, ¿qué respuesta motora define al reflejo de búsqueda?
@@ -78,10 +78,10 @@ C) Desaparece al finalizar la primera semana de gestación.
 - POR QUÉ: El criterio del desarrollo alimentario ubica en el cuarto mes la desaparición de la protrusión para permitir la introducción de alimentos con cuchara sin expulsión (pág. 67).
 
 6. Al estimular la zona costolumbar de la espalda del bebé, ¿en qué consiste la respuesta del reflejo de incurvación del tronco?
-A) Extensión simultánea de los cuatro miembros hacia adelante.
-B) Inclinación de la columna vertebral hacia el lado estimulado.
+A) Inclinación de la columna vertebral hacia el lado estimulado.
+B) Extensión simultánea de los cuatro miembros hacia adelante.
 C) Cierre hermético de ambas palmas de las manos.
-- CORRECTA: B
+- CORRECTA: A
 - POR QUÉ: El criterio de evaluación espinal asocia la inclinación del eje corporal lateral con el estímulo táctil directo sobre los receptores cutáneos costolumbares (pág. 68).
 
 7. ¿Qué reflejo postural responde con extensión de miembros en la dirección de la cara y flexión de los opuestos al rotar la cabeza?

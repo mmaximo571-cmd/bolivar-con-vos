@@ -42,24 +42,24 @@ MÁQUINA 2 · CLASIFICACIÓN GNÓSICA (NARBONA)
 3 · CÓMO TE DAS CUENTA
 
 1. ¿Qué prueba clínica se administra para diagnosticar de forma precisa un trastorno inconsistente del habla?
-A) Una audiometría tonal profunda en cabina insonorizada.
-B) Tres pruebas de denominación de imágenes en una misma sesión evaluando la variación de pronunciación.
+A) Tres pruebas de denominación de imágenes en una misma sesión evaluando la variación de pronunciación.
+B) Una audiometría tonal profunda en cabina insonorizada.
 C) El test del Moro y prensión palmar en decúbito ventral.
-- CORRECTA: B
+- CORRECTA: A
 - POR QUÉ: El criterio diagnóstico establece que si un niño pronuncia de manera diferente más de 10 palabras (más del 40% de variación) se confirma el trastorno inconsistente (pág. 109).
 
 2. Un niño de 6 años dice "pamén" en lugar de "también", pero al pedírselo es capaz de pronunciar todos los sonidos aislados sin error. ¿Qué patología presenta?
 A) Presenta un trastorno de articulación o dislalia.
-B) No tiene trastorno de articulación; se clasifica como una dificultad organizativa fonológica.
-C) Presenta una dispraxia verbal de nivel 3.
-- CORRECTA: B
+B) Presenta una dispraxia verbal de nivel 3.
+C) No tiene trastorno de articulación; se clasifica como una dificultad organizativa fonológica.
+- CORRECTA: C
 - POR QUÉ: El criterio fonético-fonológico indica que al estar el repertorio fonético completo, la alteración radica en la distribución de sonidos en la palabra y no en el patrón motor (pág. 104).
 
 3. Al evaluar la dislalia en hablantes de español, ¿cuáles son los sonidos que se ven afectados con mayor frecuencia?
-A) Los sonidos bilabiales /p/, /b/ y /m/.
-B) Los sonidos /r/, /ɾ/, /s/ y /θ/.
+A) Los sonidos /r/, /ɾ/, /s/ y /θ/.
+B) Los sonidos bilabiales /p/, /b/ y /m/.
 C) Los fonemas vocálicos /a/ y /o/.
-- CORRECTA: B
+- CORRECTA: A
 - POR QUÉ: El criterio de desarrollo fonológico típico establece que los fonemas vibrantes, alveolares y fricativos son de adquisición tardía y por ende los más alterados (pág. 103).
 
 4. ¿Qué alteración nuclear define a la dispraxia verbal pediátrica según la definición de la ASHA?
@@ -70,10 +70,10 @@ C) La ausencia completa de secreción de saliva por las glándulas parótidas.
 - POR QUÉ: El criterio neurológico motor sitúa el origen de la dispraxia en la falla de planificación de movimientos articulados precisos en ausencia de parálisis neuromuscular (pág. 110).
 
 5. ¿Cómo se denominan los procesos de simplificación que afectan a la estructura silábica, como las omisiones de consonantes finales?
-A) Procesos sistémicos o de sustitución.
-B) Procesos estructurales de simplificación.
+A) Procesos estructurales de simplificación.
+B) Procesos sistémicos o de sustitución.
 C) Procesos de deslateralización por yeísmo.
-- CORRECTA: B
+- CORRECTA: A
 - POR QUÉ: El criterio de clasificación fonológica asocia las omisiones y asimilaciones con los procesos estructurales de la sílaba, y los cambios de fonemas con los sistémicos (pág. 106).
 
 6. Al evaluar a un "hablante tardío", ¿qué pauta de vocabulario se espera encontrar típicamente a los 2 años de edad?

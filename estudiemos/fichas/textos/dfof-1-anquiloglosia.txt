@@ -42,9 +42,9 @@ MÁQUINA 2 · COMPROMISO EN EL HABLA Y MASTICACIÓN
 
 1. ¿Qué forma característica adopta la lengua de un paciente con anquiloglosia al intentar sacarla de la boca?
 A) Forma de cilindro alargado.
-B) Forma de corazón.
-C) Forma de raqueta asimétrica.
-- CORRECTA: B
+B) Forma de raqueta asimétrica.
+C) Forma de corazón.
+- CORRECTA: C
 - POR QUÉ: El criterio de inspección clínica asocia la tracción central del frenillo corto con la muesca media apical que le da forma de corazón a la lengua (pág. 63).
 
 2. ¿Cuál de los siguientes fonemas consonánticos se verá directamente dificultado en su pronunciación por un frenillo corto?
@@ -69,24 +69,24 @@ C) Impiden de forma total y absoluta la pronunciación de fonemas bilabiales.
 - POR QUÉ: El criterio foniátrico describe que las compensaciones logran producir el sonido de forma desviada a costa de tensionar el sistema y deformar la acústica (pág. 63).
 
 5. ¿Qué alteración ocurre en la masticación de sólidos debido a un frenillo lingual corto?
-A) Pérdida completa de la secreción de saliva por las glándulas mayores.
-B) Dificultad para trasladar los alimentos adecuadamente y atipias en la musculatura perioral.
+A) Dificultad para trasladar los alimentos adecuadamente y atipias en la musculatura perioral.
+B) Pérdida completa de la secreción de saliva por las glándulas mayores.
 C) Fractura inmediata de los incisivos centrales inferiores al morder.
-- CORRECTA: B
+- CORRECTA: A
 - POR QUÉ: El criterio funcional señala que la limitación en la lateralización lingual impide llevar el bolo a las muelas, forzando muecas periorales para compensar (pág. 63).
 
 6. ¿Cómo se clasifica a la anquiloglosia en la cual la lengua está fijada por completo al piso de la boca?
-A) Anquiloglosia parcial.
-B) Anquiloglosia completa o total.
+A) Anquiloglosia completa o total.
+B) Anquiloglosia parcial.
 C) Anquiloglosia atípica alveolar.
-- CORRECTA: B
+- CORRECTA: A
 - POR QUÉ: El criterio de clasificación diferencia la fijación absoluta (completa) de las limitaciones restrictivas de longitud variable (parciales) (pág. 62).
 
 7. ¿Qué intervención quirúrgica se menciona como alternativa común para solucionar clínicamente un frenillo corto?
 A) La palatoplastia de Veau.
-B) La frenectomía.
-C) La glosectomía parcial.
-- CORRECTA: B
+B) La glosectomía parcial.
+C) La frenectomía.
+- CORRECTA: C
 - POR QUÉ: El criterio quirúrgico define a la frenectomía como el procedimiento específico para liberar la tensión apical de la lengua cortando el frenillo (pág. 63).
 
 8. ¿Por qué se produce una tensión oral excesiva en las mejillas de los lactantes con anquiloglosia?

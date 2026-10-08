@@ -42,9 +42,9 @@ MÁQUINA 2 · FORMACIÓN DE LA LENGUA
 
 1. ¿De qué procesos embrionarios se origina específicamente el paladar primario de la cara?
 A) De los procesos palatinos derivados de las maxilas.
-B) De la fusión de los procesos nasales medios.
-C) Del extremo anterior del cartílago de Meckel.
-- CORRECTA: B
+B) Del extremo anterior del cartílago de Meckel.
+C) De la fusión de los procesos nasales medios.
+- CORRECTA: C
 - POR QUÉ: El criterio de origen del paladar asocia la cuña central triangular del paladar primario exclusivamente con la fusión de los procesos nasales medios (pág. 59).
 
 2. ¿Qué estructura anatómica del adulto demarca el vértice de unión entre el paladar primario y el secundario?
@@ -63,23 +63,23 @@ C) El tercer arco faríngeo.
 
 4. ¿De dónde provienen embriológicamente los músculos que permiten la movilidad voluntaria de la lengua?
 A) Del cartílago de Meckel del primer arco.
-B) De las células de los somitos occipitales que migran.
-C) Del sincitiotrofoblasto uterino.
-- CORRECTA: B
+B) Del sincitiotrofoblasto uterino.
+C) De las células de los somitos occipitales que migran.
+- CORRECTA: C
 - POR QUÉ: El criterio histogenético indica que los miocitos linguales no son locales de los arcos, sino que migran desde los somitos occipitales hacia el piso bucal (pág. 61).
 
 5. ¿Qué estructuras de la nariz se desarrollan específicamente a partir de los procesos nasales laterales?
-A) La porción central del labio superior.
-B) Las alas de la nariz.
+A) Las alas de la nariz.
+B) La porción central del labio superior.
 C) El tabique nasal cartilaginoso únicamente.
-- CORRECTA: B
+- CORRECTA: A
 - POR QUÉ: El criterio de diferenciación nasal asigna las alas de la nariz a los procesos laterales, y la premaxila y labio central a los medios (pág. 56).
 
 6. ¿Qué proceso embrionario da origen a los procesos palatinos que conforman el paladar secundario?
-A) El proceso frontonasal medio.
-B) Los procesos maxilares.
+A) Los procesos maxilares.
+B) El proceso frontonasal medio.
 C) El arco hioideo posterior.
-- CORRECTA: B
+- CORRECTA: A
 - POR QUÉ: El criterio de desarrollo palatino establece que los procesos palatinos emergen bilateralmente como repliegues de los procesos maxilares (pág. 59).
 
 7. ¿Qué demarca en la lengua del adulto el límite entre el cuerpo (anterior) y la raíz (posterior)?

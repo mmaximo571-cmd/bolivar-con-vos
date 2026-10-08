@@ -43,23 +43,23 @@ MÁQUINA 2 · COMPROMISO ALIMENTARIO EN EL LACTANTE
 
 1. ¿Qué hito de desarrollo prenatal de la cara resulta de mayor riesgo frente a la acción de una noxa para causar FLAP?
 A) La tercera semana durante la formación de la línea primitiva.
-B) La sexta semana de gestación.
-C) El momento exacto de la fecundación bicelular.
-- CORRECTA: B
+B) El momento exacto de la fecundación bicelular.
+C) La sexta semana de gestación.
+- CORRECTA: C
 - POR QUÉ: El criterio cronológico-embrionario sitúa a la sexta semana como el momento de máximo riesgo en la fusión de los procesos maxilares y nasomediales (pág. 126).
 
 2. ¿Qué estructura anatómica se encuentra intacta en la fisura palatina submucosa clásica?
 A) El hueso palatino de forma completa.
-B) La mucosa que recubre el paladar (piel de la boca).
-C) Los músculos constrictores superiores de la faringe.
-- CORRECTA: B
+B) Los músculos constrictores superiores de la faringe.
+C) La mucosa que recubre el paladar (piel de la boca).
+- CORRECTA: C
 - POR QUÉ: El criterio anatomopatológico define a la fisura submucosa por la conservación del plano mucoso superficial, ocultando la hendidura ósea y muscular subyacente (pág. 130).
 
 3. Al hablar un niño con fisura de paladar secundario, ¿qué tipo de alteración fonoarticulatoria es típica?
-A) Pérdida completa de la audición coclear posnatal inmediata.
-B) Escape de aire nasal al intentar pronunciar fonemas orales.
+A) Escape de aire nasal al intentar pronunciar fonemas orales.
+B) Pérdida completa de la audición coclear posnatal inmediata.
 C) Incapacidad absoluta para articular fonemas bilabiales como /p/.
-- CORRECTA: B
+- CORRECTA: A
 - POR QUÉ: El criterio foniátrico asocia la falta de cierre del esfínter velofaríngeo con el desvío de la corriente de aire hacia la cavidad nasal en sonidos orales (pág. 132).
 
 4. ¿Para qué se utiliza específicamente la placa obturatriz en el tratamiento del lactante con fisura palatina?
@@ -77,10 +77,10 @@ C) Coincide de forma obligatoria con los 36 meses del niño.
 - POR QUÉ: El criterio quirúrgico cronológico prioriza el cierre labial temprano para modelar el labio-yugal, postergando el paladar duro para más adelante (pág. 134).
 
 6. Al evaluar el habla de un niño con fisura de paladar primario exclusiva, ¿qué consonantes se verán afectadas?
-A) Las consonantes velares /k/ y /g/ de forma prioritaria.
-B) Los fonemas labiales, dentales, alveolares y post-alveolares.
+A) Los fonemas labiales, dentales, alveolares y post-alveolares.
+B) Las consonantes velares /k/ y /g/ de forma prioritaria.
 C) Únicamente las vocales nasales de la escala de Heuser.
-- CORRECTA: B
+- CORRECTA: A
 - POR QUÉ: El criterio de punto de articulación indica que al estar afectado el sector anterior del labio y premaxila, se comprometen los fonemas anteriores (pág. 132).
 
 7. ¿Qué maniobra se enseña a los adultos cuidadores para facilitar la adaptación de la placa obturatriz en la boca del bebé?

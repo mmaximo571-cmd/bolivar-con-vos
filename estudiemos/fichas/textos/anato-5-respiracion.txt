@@ -53,10 +53,10 @@ C) Se contrae lateralmente sin modificar su altura vertical.
 - WHY: El criterio fisiológico del diafragma indica que su contracción aplana sus cúpulas para disminuir la presión pulmonar y permitir el ingreso del aire (CUADERNILLO ANATOMOFISIOLOGÍA 2DA ED.pdf, pág. 82).
 
 #### 2. ¿Cómo se clasifica a la séptima costilla de la caja torácica según sus uniones óseas?
-A) Como una costilla falsa de cartílago conjunto.
-B) Como la costilla verdadera más larga unida de forma directa al esternón.
+A) Como la costilla verdadera más larga unida de forma directa al esternón.
+B) Como una costilla falsa de cartílago conjunto.
 C) Como una costilla flotante posterior sin inserción anterior.
-- CORRECTA: B
+- CORRECTA: A
 - WHY: El criterio anatómico determina de forma exacta que las costillas de la 1ª a la 7ª son verdaderas y resalta a la 7ª como la de mayor longitud (CUADERNILLO ANATOMOFISIOLOGÍA 2DA ED.pdf, pág. 71).
 
 #### 3. Si comparás la espiración de la respiración tranquila con la del habla, ¿qué diferencia muscular encontrás?
@@ -75,9 +75,9 @@ C) Filtración de barrera alveolar derecha.
 
 #### 5. ¿Por qué la respiración exclusivamente oral se considera patológica si se realiza de manera habitual durante el reposo tranquilo?
 A) Porque impide la activación del sistema nervioso voluntario.
-B) Porque no cumple las funciones de filtración, humidificación y calentamiento del aire, alterando el crecimiento orofacial.
-C) Porque disminuye la capacidad total de la capacidad vital a un 10%.
-- CORRECTA: B
+B) Porque disminuye la capacidad total de la capacidad vital a un 10%.
+C) Porque no cumple las funciones de filtración, humidificación y calentamiento del aire, alterando el crecimiento orofacial.
+- CORRECTA: C
 - WHY: El criterio clínico indica que el patrón oronasal o de respiración oral tranquila altera las presiones intraorales y expone la vía aérea sin filtrar (CUADERNILLO ANATOMOFISIOLOGÍA 2DA ED.pdf, pág. 79).
 
 #### 6. ¿Cuáles son los tres elementos óseos principales que constituyen la estructura anatómica del esternón?
@@ -89,9 +89,9 @@ C) Las siete escotaduras bilaterales anteriores.
 
 #### 7. Si analizás los bronquios principales derecho e izquierdo, ¿cuál de ellos presenta un recorrido más vertical y mayor calibre?
 A) El bronquio izquierdo.
-B) El bronquio derecho.
-C) Ambos son idénticos y simétricos en su recorrido.
-- CORRECTA: B
+B) Ambos son idénticos y simétricos en su recorrido.
+C) El bronquio derecho.
+- CORRECTA: C
 - WHY: El criterio de segmentación bronquial asocia la verticalidad, menor longitud y mayor calibre directamente al bronquio fuente derecho (CUADERNILLO ANATOMOFISIOLOGÍA 2DA ED.pdf, pág. 96, 97).
 
 #### 8. ¿Qué estructura anatómica se sitúa entre la sexta vértebra cervical y la cuarta vértebra torácica antes de dividirse en bronquios?

@@ -56,17 +56,17 @@ C) El trastorno de regulación del lactante prematuro.
 - POR QUÉ: El criterio de diagnóstico diferencial define a las disgnacias como anomalías dentoesqueleticas que comprometen la masticación sin poner en riesgo la vía aérea ni el balance hídrico del niño (pág. 124).
 
 3. ¿Qué comportamiento define conceptualmente a la "selectividad alimentaria" en un desorden alimenticio pediátrico (PFD)?
-A) El consumo de alimentos exclusivamente mediante sonda nasogástrica.
-B) Limitar la dieta a 10-15 alimentos o menos, mostrando una marcada aversión sensorial de texturas o sabor.
+A) Limitar la dieta a 10-15 alimentos o menos, mostrando una marcada aversión sensorial de texturas o sabor.
+B) El consumo de alimentos exclusivamente mediante sonda nasogástrica.
 C) El llanto desorganizado antes de la mamada por calostro ausente.
-- CORRECTA: B
+- CORRECTA: A
 - POR QUÉ: El criterio conductual de Chatoor asocia la selectividad con restricciones dietarias severas basadas en el rechazo a las cualidades físicas de los alimentos (pág. 121).
 
 4. Al evaluar a un paciente que sufrió asfixia traumática o procedimientos orales dolorosos, ¿qué alteración conductual es común detectar?
 A) Una dislalia por yeísmo deslateralizado.
-B) Rechazo a alimentarse por trauma asociado.
-C) Aumento desmedido de la presión intraoral voluntaria.
-- CORRECTA: B
+B) Aumento desmedido de la presión intraoral voluntaria.
+C) Rechazo a alimentarse por trauma asociado.
+- CORRECTA: C
 - POR QUÉ: El criterio etiológico asocia las aversiones conductuales al trauma secundario de eventos invasivos tempranos o alimentación forzada (pág. 121).
 
 5. ¿De qué manera repercute un estilo de alimentación "negligente" del cuidador sobre la salud del niño?
@@ -84,10 +84,10 @@ C) Disfagia neurogénica traumática posnatal.
 - POR QUÉ: El criterio de localización anatómica asocia la dificultad inicial de coordinación bucal y de compuertas faríngeas con la disfagia orofaríngea (pág. 120).
 
 7. Ante un cuadro de disfagia severa con riesgo inminente de vida por aspiraciones repetidas, ¿qué vía de alimentación se prescribe?
-A) Alimentación por vía oral exclusiva con líquidos claros.
-B) Vías no orales alternas como sonda nasogástrica o gastrostomía.
+A) Vías no orales alternas como sonda nasogástrica o gastrostomía.
+B) Alimentación por vía oral exclusiva con líquidos claros.
 C) Alimentación mixta con mamadera de pezón artificial por goteo.
-- CORRECTA: B
+- CORRECTA: A
 - POR QUÉ: El criterio de seguridad nutricional obliga a excluir el tránsito bucal para aislar la vía aérea de penetraciones de bolo (pág. 119).
 
 8. ¿Qué disfunción respiratoria de origen funcional suele actuar como causa directa de las disfunciones alimentarias orales?

@@ -48,16 +48,16 @@
 
 #### 1. ¿Qué característica morfológica y posicional define de manera única al hueso hioides?
 A) Que es un hueso plano e inmóvil que se fusiona al temporal a los 18 años.
-B) Que es un hueso impar, móvil y flotante que no se articula con ningún otro hueso.
-C) Que es un hueso par que rodea lateralmente a la glándula tiroides.
-- CORRECTA: B
+B) Que es un hueso par que rodea lateralmente a la glándula tiroides.
+C) Que es un hueso impar, móvil y flotante que no se articula con ningún otro hueso.
+- CORRECTA: C
 - WHY: El criterio osteológico establece que el hioides se mantiene suspendido en el cuello únicamente mediante ligamentos y músculos, sin uniones óseas directas (CUADERNILLO ANATOMOFISIOLOGÍA 2DA ED.pdf, pág. 57).
 
 #### 2. Si analizás las porciones topográficas de la faringe, ¿cuál de ellas tiene un rol puramente respiratorio?
 A) La laringofaringe.
-B) La nasofaringe.
-C) La orofaringe.
-- CORRECTA: B
+B) La orofaringe.
+C) La nasofaringe.
+- CORRECTA: C
 - WHY: El criterio fisiológico indica que mientras la bucofaringe y laringofaringe son compartidas con el digestivo, la nasofaringe es exclusivamente respiratoria (CUADERNILLO ANATOMOFISIOLOGÍA 2DA ED.pdf, pág. 50).
 
 #### 3. ¿Qué par craneal o nervio es responsable directo de la inervación sensitiva, motora y vasomotora superior de la laringe?
@@ -69,9 +69,9 @@ C) El nervio glosofaríngeo (IX).
 
 #### 4. ¿De qué elementos anatómicos está compuesta estructuralmente una cuerda vocal verdadera?
 A) De un cartílago hialino, un tendón y una membrana sinovial protectora.
-B) De un ligamento, un músculo y una capa de mucosa elástica.
-C) De tejido conjuntivo fibroso laxo sin irrigación sanguínea.
-- CORRECTA: B
+B) De tejido conjuntivo fibroso laxo sin irrigación sanguínea.
+C) De un ligamento, un músculo y una capa de mucosa elástica.
+- CORRECTA: C
 - WHY: El criterio histológico determina que cada pliegue o cortina vocal verdadera posee esta constitución de tres capas para permitir su vibración (CUADERNILLO ANATOMOFISIOLOGÍA 2DA ED.pdf, pág. 55).
 
 #### 5. ¿Qué acción mecánica realiza el cartílago epiglótico durante el acto voluntario de tragar?
@@ -82,17 +82,17 @@ C) Se osifica para dar un soporte rígido a la base de la lengua.
 - WHY: El criterio valvular define que la epiglotis actúa desviando el bolo alimenticio hacia los lados del orificio laríngeo para asegurar una deglución segura (CUADERNILLO ANATOMOFISIOLOGÍA 2DA ED.pdf, pág. 53).
 
 #### 6. ¿Cuáles son las cuerdas vocales que carecen de participación directa en la producción del habla y cumplen un rol protector?
-A) Las cuerdas vocales verdaderas.
-B) Las cuerdas vocales falsas o pliegues vestibulares.
+A) Las cuerdas vocales falsas o pliegues vestibulares.
+B) Las cuerdas vocales verdaderas.
 C) Los pliegues ariepiglóticos mediales.
-- CORRECTA: B
+- CORRECTA: A
 - WHY: El criterio funcional divide los pliegues en verdaderos (fonadores esenciales) y falsos (protectores que ayudan a cerrar la glotis al deglutir) (CUADERNILLO ANATOMOFISIOLOGÍA 2DA ED.pdf, pág. 56).
 
 #### 7. ¿Qué tipo de músculos de la faringe intervienen de forma directa reduciendo su diámetro para propulsar el bolo alimenticio?
-A) Los músculos elevadores faríngeos.
-B) Los músculos constrictores.
+A) Los músculos constrictores.
+B) Los músculos elevadores faríngeos.
 C) Los músculos suprahioideos laterales.
-- CORRECTA: B
+- CORRECTA: A
 - WHY: El criterio funcional indica que los constrictores (superior, medio e inferior) estrechan el conducto durante el peristaltismo de deglución (CUADERNILLO ANATOMOFISIOLOGÍA 2DA ED.pdf, pág. 50, 51).
 
 #### 8. ¿Qué grupo muscular suprahioideo inervado de forma mixta por el nervio facial y el trigémino desciende la mandíbula?

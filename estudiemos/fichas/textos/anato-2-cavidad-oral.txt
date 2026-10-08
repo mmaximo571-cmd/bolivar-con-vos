@@ -56,16 +56,16 @@ C) El maxilar superior y el vómer medial.
 
 #### 2. Durante la deglución activa, ¿qué acción realizan los músculos del paladar blando para proteger las vías aéreas?
 A) Descienden para empujar el bolo de forma mecánica hacia la laringe.
-B) Se contraen para elevarse y aislar la bucofaringe de la nasofaringe.
-C) Se relajan para permitir que el aire ingrese por la nariz de forma simultánea.
-- CORRECTA: B
+B) Se relajan para permitir que el aire ingrese por la nariz de forma simultánea.
+C) Se contraen para elevarse y aislar la bucofaringe de la nasofaringe.
+- CORRECTA: C
 - WHY: El criterio funcional establece que la elevación del velo del paladar aísla las cavidades evitando que la comida retorne hacia la vía aérea nasal (CUADERNILLO ANATOMOFISIOLOGÍA 2DA ED.pdf, pág. 39).
 
 #### 3. ¿Qué pares craneales tienen una importancia funcional directa en la dinámica y sensibilidad del sistema estomatognático?
 A) I, II, III y IV.
-B) V, VII, IX y XII.
-C) VI, VIII, X y XI.
-- CORRECTA: B
+B) VI, VIII, X y XI.
+C) V, VII, IX y XII.
+- CORRECTA: C
 - WHY: El criterio de correlación clínica identifica al trigémino (V), facial (VII), glosofaríngeo (IX) e hipogloso (XII) como los pares esenciales de este sistema (CUADERNILLO ANATOMOFISIOLOGÍA 2DA ED.pdf, pág. 35).
 
 #### 4. Si analizás la dentición de un nene de 4 años, ¿qué piezas dentales notarás que están ausentes de forma natural?
@@ -76,10 +76,10 @@ C) Los molares multirradiculares.
 - WHY: El criterio de desarrollo odontológico determina que la dentición primaria o de leche consta de 20 dientes y carece por completo de premolares (CUADERNILLO ANATOMOFISIOLOGÍA 2DA ED.pdf, pág. 44, 45).
 
 #### 5. ¿Cómo se clasifica el ligamento periodontal que tiene la función de aislar la raíz dentaria del medio bucal?
-A) Ligamento de inserción.
-B) Ligamento de protección.
+A) Ligamento de protección.
+B) Ligamento de inserción.
 C) Ligamento de suspensión interalveolar.
-- CORRECTA: B
+- CORRECTA: A
 - WHY: El criterio de clasificación histofuncional divide al ligamento en de inserción (sujeta el diente) y de protección (aísla la raíz del medio externo) (CUADERNILLO ANATOMOFISIOLOGÍA 2DA ED.pdf, pág. 47, 48).
 
 #### 6. ¿Qué nombre recibe la zona mucosa ubicada por detrás de los incisivos superiores conocida popularmente como arrugas palatinas?

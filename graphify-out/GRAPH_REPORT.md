@@ -1,17 +1,17 @@
 # Graph Report - bolivar-con-vos  (2026-10-07)
 
 ## Corpus Check
-- 88 files · ~324,496 words
+- 88 files · ~324,804 words
 - Verdict: corpus is large enough that graph structure adds value.
 - Unclassified: 35 file(s) not represented in the graph (top: .css 25, (none) 5, .geojson 4)
 
 ## Summary
-- 992 nodes · 1502 edges · 111 communities (69 shown, 42 thin omitted)
+- 993 nodes · 1504 edges · 112 communities (70 shown, 42 thin omitted)
 - Extraction: 94% EXTRACTED · 6% INFERRED · 0% AMBIGUOUS · INFERRED: 96 edges (avg confidence: 0.85)
 - Token cost: 0 input · 0 output
 
 ## Graph Freshness
-- Built from commit: `69366c77`
+- Built from commit: `28dcbbee`
 - Run `git rev-parse HEAD` and compare to check if the graph is stale.
 - Run `graphify update .` after code changes (no API cost).
 
@@ -115,14 +115,15 @@
 - compartido.js
 - Curaduría y lluvia de ideas sin Claude
 - tabla-mi-ano.sql
+- buscar (buscador de trámites, FAQ y cátedras)
 
 ## God Nodes (most connected - your core abstractions)
 1. `Pantalla Mi año (carrera)` - 19 edges
 2. `Pantalla Inicio` - 17 edges
 3. `pintarNav()` - 14 edges
 4. `pintar()` - 12 edges
-5. `desdeTexto()` - 11 edges
-6. `Component` - 10 edges
+5. `Component` - 11 edges
+6. `desdeTexto()` - 11 edges
 7. `pasar()` - 10 edges
 8. `Mi perfil (mi/index.html)` - 10 edges
 9. `htmlNovedades()` - 9 edges
@@ -152,15 +153,15 @@
 - **Pantallas que muestran publicaciones de la agenda** — tabla_publicaciones, index_proximodelaagenda, index_calendario_mes, agenda_index_traer, agenda_index_detalle_publicacion, carrera_index_vistanueva [INFERRED 0.85]
 - **El Panel edita el contenido que leen las pantallas públicas** — panel_index, tramites_index, quienes_index, consejo_index, anatomo_index, catedras_index, estudiemos_index [INFERRED 0.95]
 
-## Communities (111 total, 42 thin omitted)
+## Communities (112 total, 42 thin omitted)
 
 ### Community 0 - "La carrera se elige una vez (bolivar-carrera-v2)"
 Cohesion: 0.14
 Nodes (14): Versión 2.0 de AI Studio (React + Tailwind), La carrera se elige una vez (bolivar-carrera-v2), Congelamiento de código (16-17/9), El embudo del 21 (hitos y origen de Instagram), Lanzamiento 21 de septiembre (Día del Estudiante), El plan de estudios se imprime, no se publica en PDF, anotar(): registro de visitas, búsquedas y errores, Riel deslizable de herramientas de Estudiemos (+6 more)
 
 ### Community 1 - "Pantalla Mi año (carrera)"
-Cohesion: 0.16
-Nodes (16): Pantalla Agenda (Fechas y novedades), Tema claro/oscuro (localStorage bolivar-tema), Pantalla Mi año (carrera), Vista plan (Mi año), estilos.css, Pantalla Glosario universitario, icono(), iconoDeCategoria() (+8 more)
+Cohesion: 0.20
+Nodes (13): Pantalla Agenda (Fechas y novedades), Tema claro/oscuro (localStorage bolivar-tema), Pantalla Mi año (carrera), Vista plan (Mi año), estilos.css, Pantalla Glosario universitario, icono(), iconoDeCategoria() (+5 more)
 
 ### Community 2 - "tabla-anotados.sql"
 Cohesion: 0.27
@@ -430,6 +431,10 @@ Nodes (16): aISO(), bajarGritos(), buscarFecha(), buscarHora(), buscarLugar(), c
 Cohesion: 0.22
 Nodes (8): 1. El cargador: lo que va antes de todo pedido, 2. Molde de curaduría, 3. Molde de lluvia de ideas, 4. Cómo vuelve a Claude en quince líneas, 5. Lo que Gemini hace mal acá, siempre, 6. Con qué más se puede seguir cuando no hay tokens, 7. Lo que no se delega, ni acá ni en ningún lado, Curaduría y lluvia de ideas sin Claude
 
+### Community 111 - "buscar (buscador de trámites, FAQ y cátedras)"
+Cohesion: 0.67
+Nodes (3): buscar (buscador de trámites, FAQ y cátedras), pedirCatedras, Tabla Supabase tramites
+
 ## Knowledge Gaps
 - **178 isolated node(s):** `session-start.sh script`, `__hitosDeEstaVisita`, `MESES`, `MESES_LARGO`, `NOMBRE_SECCION` (+173 more)
   These have ≤1 connection - possible missing edges or undocumented components. (Counts symbols only; 319 node(s) total have ≤1 connection when file, concept and rationale nodes are included.)
@@ -438,7 +443,7 @@ Nodes (8): 1. El cargador: lo que va antes de todo pedido, 2. Molde de curadurí
 ## Suggested Questions
 _Questions this graph is uniquely positioned to answer:_
 
-- **Why does `Pantalla Inicio` connect `Pantalla Mi año (carrera)` to `movimiento.js`, `app.js`, `Detalle de publicación (?id=)`, `Pantalla El Consejo Directivo`, `Mi perfil (mi/index.html)`, `manifest.json`?**
+- **Why does `Pantalla Inicio` connect `Pantalla Mi año (carrera)` to `movimiento.js`, `app.js`, `Detalle de publicación (?id=)`, `Pantalla El Consejo Directivo`, `Mi perfil (mi/index.html)`, `manifest.json`, `buscar (buscador de trámites, FAQ y cátedras)`?**
   _High betweenness centrality (0.091) - this node is a cross-community bridge._
 - **Why does `pedido()` connect `riesgo.js` to `Pantalla El Consejo Directivo`, `fondo-red.js`?**
   _High betweenness centrality (0.066) - this node is a cross-community bridge._

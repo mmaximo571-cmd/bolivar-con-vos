@@ -50,17 +50,17 @@
 ### 3 · CÓMO TE DAS CUENTA
 
 #### 1. ¿Cuál es la diferencia conceptual exacta que el cuadernillo establece entre sistema y aparato?
-A) Un sistema posee un control exclusivamente voluntario, mientras que un aparato es involuntario.
-B) Un sistema es un conjunto de órganos asociados que se rigen por principios; un aparato es un conjunto de órganos que contribuyen a una misma función.
+A) Un sistema es un conjunto de órganos asociados que se rigen por principios; un aparato es un conjunto de órganos que contribuyen a una misma función.
+B) Un sistema posee un control exclusivamente voluntario, mientras que un aparato es involuntario.
 C) No existe diferencia, se utilizan como sinónimos absolutos en toda la materia.
-- CORRECTA: B
+- CORRECTA: A
 - WHY: El criterio de diferenciación biológica establece de manera rigurosa que el sistema se asocia bajo leyes o principios rectores propios, a diferencia del aparato (CUADERNILLO ANATOMOFISIOLOGÍA 2DA ED.pdf, pág. 59).
 
 #### 2. Durante la fase oral de la deglución, ¿qué esfínter o válvula actúa de forma directa para evitar que el alimento caiga a la hipofaringe antes de tiempo?
-A) El esfínter esofágico superior.
-B) El esfínter palatogloso o segunda válvula.
+A) El esfínter palatogloso o segunda válvula.
+B) El esfínter esofágico superior.
 C) El esfínter velofaríngeo superior.
-- CORRECTA: B
+- CORRECTA: A
 - WHY: El criterio valvular indica que esta unión entre el velo y la lengua retiene el bolo en la cavidad oral durante su preparación (CUADERNILLO ANATOMOFISIOLOGÍA 2DA ED.pdf, pág. 65).
 
 #### 3. Si un paciente sufre de parálisis velo-faríngea y el alimento se desvía hacia las fosas nasales al deglutir, ¿qué válvula está fallando?
@@ -78,24 +78,24 @@ C) La unidad Linguo-hioidea.
 - WHY: El criterio de evaluación postural determina que la unidad cráneo-cervical y sus fijaciones óseas musculares sostienen el peso del cráneo (CUADERNILLO ANATOMOFISIOLOGÍA 2DA ED.pdf, pág. 29, 61).
 
 #### 5. ¿Cuánto tiempo se calcula que dura la fase faríngea en un proceso deglutorio normal y saludable?
-A) Aproximadamente 8 a 10 segundos en total.
-B) Exactamente 1 segundo.
+A) Exactamente 1 segundo.
+B) Aproximadamente 8 a 10 segundos en total.
 C) Entre 3 y 5 segundos.
-- CORRECTA: B
+- CORRECTA: A
 - WHY: El criterio de temporalidad fisiológica establece que la fase faríngea es un acto automático ultra rápido de un segundo de duración (CUADERNILLO ANATOMOFISIOLOGÍA 2DA ED.pdf, pág. 65).
 
 #### 6. ¿Qué reflejo es el único capaz de hacer retroceder de forma física el bolo alimenticio una vez que este ha ingresado a la fase esofágica?
 A) El reflejo de apnea voluntaria.
-B) El reflejo del vómito.
-C) El reflejo de regurgitación voluntaria.
-- CORRECTA: B
+B) El reflejo de regurgitación voluntaria.
+C) El reflejo del vómito.
+- CORRECTA: C
 - WHY: El criterio clínico indica que en la etapa esofágica el tránsito es unidireccional y solo el reflejo del vómito altera este curso hacia el estómago (CUADERNILLO ANATOMOFISIOLOGÍA 2DA ED.pdf, pág. 67).
 
 #### 7. ¿Qué se produce en la vía aerodigestiva a nivel neurológico al momento exacto de cruzarse el istmo de las fauces?
 A) Un aumento inmediato de la frecuencia cardíaca.
-B) La inhibición temporal de la respiración o apnea.
-C) Una contracción del músculo diafragma inspiratorio.
-- CORRECTA: B
+B) Una contracción del músculo diafragma inspiratorio.
+C) La inhibición temporal de la respiración o apnea.
+- CORRECTA: C
 - WHY: El criterio fisiológico de protección aérea exige que el SNC interrumpa la respiración para evitar la penetración de comida a la laringe (CUADERNILLO ANATOMOFISIOLOGÍA 2DA ED.pdf, pág. 65).
 
 #### 8. ¿Qué músculos de la nuca y hombro deben contraerse activamente para evitar que el cráneo desequilibrado se desplace hacia adelante?

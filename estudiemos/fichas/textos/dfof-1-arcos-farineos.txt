@@ -44,16 +44,16 @@ MÁQUINA 2 · BOLSAS Y HENDIDURAS FARÍNGEAS
 
 1. ¿Qué par craneal inerva de forma exclusiva a los músculos masticadores derivados del primer arco faríngeo?
 A) El nervio facial (VII).
-B) El nervio trigémino (V).
-C) El nervio glosofaríngeo (IX).
-- CORRECTA: B
+B) El nervio glosofaríngeo (IX).
+C) El nervio trigémino (V).
+- CORRECTA: C
 - POR QUÉ: El criterio de inervación segmentaria asigna al nervio trigémino el control de todas las estructuras motoras que se originan del cartílago de Meckel (pág. 54).
 
 2. ¿Cuál de las siguientes estructuras musculares proviene del segundo arco faríngeo?
 A) El vientre anterior del músculo digástrico.
-B) El vientre posterior del músculo digástrico.
-C) El músculo estilofaríngeo.
-- CORRECTA: B
+B) El músculo estilofaríngeo.
+C) El vientre posterior del músculo digástrico.
+- CORRECTA: C
 - POR QUÉ: El criterio de clasificación diferencia el vientre anterior (primer arco, trigémino) del vientre posterior (segundo arco, facial) (pág. 54).
 
 3. ¿Qué glándula de secreción endocrina deriva específicamente de la tercera bolsa faríngea?
@@ -71,10 +71,10 @@ C) El conducto auditivo externo.
 - POR QUÉ: El criterio anatómico define que la primera hendidura es la única ectodérmica que persiste, modelando el conducto auditivo externo (pág. 56).
 
 5. ¿Qué par craneal se encarga de inervar al músculo estilofaríngeo, derivado del tercer arco?
-A) El nervio trigémino (V).
-B) El nervio glosofaríngeo (IX).
+A) El nervio glosofaríngeo (IX).
+B) El nervio trigémino (V).
 C) El nervio vago (X).
-- CORRECTA: B
+- CORRECTA: A
 - POR QUÉ: El criterio neurológico asocia de forma exclusiva el tercer arco faríngeo y el músculo estilofaríngeo con el nervio glosofaríngeo (pág. 54).
 
 6. Al dañarse el desarrollo del cuarto arco faríngeo, ¿qué músculo del paladar blando se verá afectado?
@@ -85,10 +85,10 @@ C) El músculo milohioideo.
 - POR QUÉ: El criterio miológico diferencia al elevador del velo (cuarto arco, inervado por el vago) del tensor del velo (primer arco, inervado por el trigémino) (pág. 54).
 
 7. ¿Qué estructura esquelética del oído medio se deriva del cartílago de Reichert del segundo arco?
-A) El martillo.
-B) El estribo.
+A) El estribo.
+B) El martillo.
 C) La premaxila.
-- CORRECTA: B
+- CORRECTA: A
 - POR QUÉ: El criterio de osificación asocia el estribo y el proceso estiloides al segundo arco, mientras el martillo deriva del primer arco (pág. 54).
 
 8. ¿Qué ocurre con las hendiduras faríngeas segunda, tercera y cuarta durante el desarrollo típico?

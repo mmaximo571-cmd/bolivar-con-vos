@@ -55,10 +55,10 @@ C) Provoca un ruido silbante oronasal constante de oposición.
 - POR QUÉ: El criterio fisiológico establece que en reposo la espiración ocurre por la simple relajación elástica de los pulmones y el diafragma sin consumir energía (pág. 81).
 
 3. Al evaluar el modo respiratorio de un sujeto en reposo tranquilo, ¿cuál se considera de carácter patológico?
-A) El modo nasal y silente.
-B) El modo oral con inspiración ruidosa.
+A) El modo oral con inspiración ruidosa.
+B) El modo nasal y silente.
 C) El modo diafragmático armónico.
-- CORRECTA: B
+- CORRECTA: A
 - POR QUÉ: El criterio clínico indica que en reposo tranquilo el aire debe ingresar por la nariz; el ingreso bucal (modo oral) indica disfunción u obstrucción de la vía aérea alta (pág. 85).
 
 4. ¿Qué estructuras anatómicas delimitan el inicio y el fin de la zona de conducción respiratoria?

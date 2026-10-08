@@ -44,9 +44,9 @@ MÁQUINA 2 · SISTEMA DE VÁLVULAS PROTECTORAS
 
 1. ¿Qué evento respiratorio es gatillado por el sistema nervioso central cuando el bolo cruza el istmo de las fauces?
 A) Taquipnea severa voluntaria.
-B) Inhibición de la respiración (apnea protectora).
-C) Inspiración profunda silenciosa del 10% del ciclo.
-- CORRECTA: B
+B) Inspiración profunda silenciosa del 10% del ciclo.
+C) Inhibición de la respiración (apnea protectora).
+- CORRECTA: C
 - POR QUÉ: El criterio de seguridad deglutoria indica que el SNC detiene momentáneamente la respiración (apnea) para evitar que el flujo de aire arrastre partículas hacia la laringe abierta (pág. 21).
 
 2. ¿Cuál es la duración fisiológica normal de la fase faríngea de la deglución?
@@ -58,9 +58,9 @@ C) Dura más de un minuto en recién nacidos.
 
 3. Al masticar, ¿qué esfínter actúa como segunda válvula cerrando la cavidad oral por detrás para que el bolo no caiga antes de tiempo?
 A) El esfínter velofaríngeo anterior.
-B) El esfínter palatogloso.
-C) El esfínter esofágico superior.
-- CORRECTA: B
+B) El esfínter esofágico superior.
+C) El esfínter palatogloso.
+- CORRECTA: C
 - POR QUÉ: El criterio de válvulas indica que el palatogloso sella el istmo de las fauces previniendo el derrame prematuro del bolo hacia la hipofaringe antes del disparo reflejo (pág. 21).
 
 4. ¿Qué movimiento laríngeo-hioideo coordina el descenso de la epiglotis durante la respuesta faríngea?

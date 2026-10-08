@@ -80,6 +80,9 @@ datos que no son de acá.
 >   punto 1.
 > - Por pregunta:
 >   PREGUNTA / A) B) C) / CORRECTA: / POR QUÉ: dos renglones.
+> - Repartí las correctas entre A, B y C: tres, tres y dos, en la
+>   combinación que sea, mezcladas y nunca tres seguidas en la misma
+>   letra. Si la correcta cae siempre en la misma, se aprueba sin leer.
 > - El POR QUÉ **no repite** la opción correcta: explica el criterio
 >   con el que se decide. Se muestra siempre, se acierte o no, y es lo
 >   único que la persona estudia de esta parte.

@@ -71,16 +71,16 @@ C) El conducto neuroentérico en contacto con la cavidad coriónica.
 
 5. ¿Qué población celular nueva aparece entre los días 11 y 12 entre el citotrofoblasto y la membrana exocelómica?
 A) Las células prenotocordales epiblásticas.
-B) El mesodermo extraembrionario derivado del saco vitelino.
-C) El endodermo visceral anterior definitivo.
-- CORRECTA: B
+B) El endodermo visceral anterior definitivo.
+C) El mesodermo extraembrionario derivado del saco vitelino.
+- CORRECTA: C
 - POR QUÉ: El criterio del desarrollo extraembrionario define la aparición de esta población que luego formará la cavidad coriónica (pág. 31).
 
 6. ¿De qué estructura deriva el saco vitelino definitivo o secundario en el día 13 del desarrollo?
-A) Directamente de la cavidad amniótica epiblástica.
-B) De células producidas por el hipoblasto que migran por el interior de la membrana exocelómica.
+A) De células producidas por el hipoblasto que migran por el interior de la membrana exocelómica.
+B) Directamente de la cavidad amniótica epiblástica.
 C) De la desintegración del conducto vitelino primitivo.
-- CORRECTA: B
+- CORRECTA: A
 - POR QUÉ: El criterio ontogénico describe la formación del saco definitivo a partir de la migración de la capa ventral del hipoblasto (pág. 32).
 
 7. ¿Qué estructura conecta temporalmente las cavidades amniótica y del saco vitelino en el embrión?

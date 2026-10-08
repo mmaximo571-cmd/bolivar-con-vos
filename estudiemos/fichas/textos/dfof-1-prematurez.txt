@@ -43,24 +43,24 @@ MÁQUINA 2 · COMPLICACIONES Y ALTAS CLÍNICAS
 3 · CÓMO TE DAS CUENTA
 
 1. ¿Hasta qué momento de la vida del ser humano continúa activa la migración neuronal en el cerebro?
-A) Finaliza estrictamente con el parto al nacer el bebé.
-B) Continúa activa hasta los dos años de vida del niño.
+A) Continúa activa hasta los dos años de vida del niño.
+B) Finaliza estrictamente con el parto al nacer el bebé.
 C) Se extiende de forma irreversible hasta la dentición permanente a los 12 años.
-- CORRECTA: B
+- CORRECTA: A
 - POR QUÉ: El criterio de desarrollo neurológico establece que la migración celular continúa de forma posnatal hasta los dos años, mientras que la producción de neuronas (proliferación) termina al nacer (pág. 65).
 
 2. ¿Qué ocurre con las neuronas existentes del cerebro del bebé prematuro si no reciben estimulación adecuada?
-A) Se dividen nuevamente por mitosis acelerada.
-B) Mueren en mayor cantidad mediante el proceso de apoptosis.
+A) Mueren en mayor cantidad mediante el proceso de apoptosis.
+B) Se dividen nuevamente por mitosis acelerada.
 C) Se transforman automáticamente en células musculares de la mímica.
-- CORRECTA: B
+- CORRECTA: A
 - POR QUÉ: El criterio de neuroplasticidad señala que la falta de estimulación externa provoca que los axones no hagan sinapsis y las células sobrantes sean eliminadas por apoptosis (pág. 65).
 
 3. ¿Cuál de los siguientes estados neonatales diarios es considerado NO apto para intervenciones de alimentación?
 A) El estado somnoliento.
-B) El estado de sueño profundo.
-C) El estado de alerta activa.
-- CORRECTA: B
+B) El estado de alerta activa.
+C) El estado de sueño profundo.
+- CORRECTA: C
 - POR QUÉ: El criterio de seguridad en neonatología prohíbe manipular al bebé en sueño profundo debido al riesgo de desorganización y aspiración de secreciones (pág. 65).
 
 4. ¿A partir de qué peso mínimo se autoriza clínicamente el alta de un bebé prematuro para irse a su casa?
@@ -86,9 +86,9 @@ C) La parálisis inmediata de los músculos de la mímica por frío.
 
 7. ¿Qué proceso del desarrollo cerebral consiste en el recubrimiento de los axones con tejido adiposo para mejorar la conducción?
 A) La apoptosis celular.
-B) La mielinización.
-C) La sinaptogénesis.
-- CORRECTA: B
+B) La sinaptogénesis.
+C) La mielinización.
+- CORRECTA: C
 - POR QUÉ: El criterio de histología nerviosa define a la mielinización como la vaina grasa aislante indispensable para que el impulso viaje rápido por el axón (pág. 65).
 
 8. ¿Durante qué rango de edad del bebé prematuro es fundamental intervenir precozmente debido a la velocidad del desarrollo cerebral?

@@ -42,24 +42,24 @@ MÁQUINA 2 · DETERMINANTES DEL DESARROLLO
 3 · CÓMO TE DAS CUENTA
 
 1. ¿Cuál es la diferencia conceptual exacta entre un "sistema" y un "aparato" según el cuadernillo?
-A) El sistema se asocia para una función y el aparato se rige por leyes anatómicas específicas.
-B) El sistema involucra órganos bajo leyes o principios comunes; el aparato solo contribuye a una misma función.
+A) El sistema involucra órganos bajo leyes o principios comunes; el aparato solo contribuye a una misma función.
+B) El sistema se asocia para una función y el aparato se rige por leyes anatómicas específicas.
 C) El aparato es una unidad morfofuncional autorregulada y el sistema es la suma de órganos sueltos.
-- CORRECTA: B
+- CORRECTA: A
 - POR QUÉ: El criterio teórico del cuadernillo define textualmente que un sistema se rige por leyes o principios asociados, a diferencia de la mera contribución funcional de un aparato (pág. 4).
 
 2. ¿Qué ocurre conceptualmente ante una alteración morfológica o sensomotora en la unidad cráneo-mandibular?
 A) Se produce una parálisis completa de todas las funciones de la cavidad bucal.
-B) Provoca adaptaciones de compensación en las otras unidades para equilibrar el sistema.
-C) Se detiene inmediatamente la respiración nasal del individuo.
-- CORRECTA: B
+B) Se detiene inmediatamente la respiración nasal del individuo.
+C) Provoca adaptaciones de compensación en las otras unidades para equilibrar el sistema.
+- CORRECTA: C
 - POR QUÉ: El criterio neuromuscular establece una interdependencia entre unidades funcionales; el desequilibrio de una obliga a las demás a generar adaptaciones eficientes para cumplir la demanda vital (pág. 9, 10).
 
 3. Al definir la salud del sistema orgánico, ¿qué postula la Organización Mundial de la Salud (OMS)?
 A) Que es únicamente la ausencia completa de enfermedades infectocontagiosas graves.
-B) Que implica un estado de bienestar físico, mental y social completo del individuo.
-C) Que depende exclusivamente de la estructura biológica heredada genéticamente.
-- CORRECTA: B
+B) Que depende exclusivamente de la estructura biológica heredada genéticamente.
+C) Que implica un estado de bienestar físico, mental y social completo del individuo.
+- CORRECTA: C
 - POR QUÉ: El criterio de salud colectiva adoptado de la OMS va más allá de lo orgánico, integrando la adaptación social y el bienestar psicológico (pág. 3, 12).
 
 4. Si una persona tiene una postura mandibular de reposo alterada, ¿qué estructura neuromuscular-articular se verá directamente influenciada?

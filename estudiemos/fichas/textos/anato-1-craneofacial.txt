@@ -49,10 +49,10 @@
 ### 3 · CÓMO TE DAS CUENTA
 
 #### 1. ¿Cuál es la cantidad exacta de huesos que componen el neurocráneo y el viscerocráneo respectivamente según el cuadernillo?
-A) 14 huesos en el cráneo y 8 en la cara.
-B) 8 huesos en el cráneo y 14 en la cara.
+A) 8 huesos en el cráneo y 14 en la cara.
+B) 14 huesos en el cráneo y 8 en la cara.
 C) 10 huesos en el cráneo y 12 en la cara.
-- CORRECTA: B
+- CORRECTA: A
 - POR QUÉ: El criterio de clasificación ósea determina de manera exacta que el neurocráneo (cráneo) está compuesto por ocho huesos y el viscerocráneo (cara) por catorce huesos (CUADERNILLO ANATOMOFISIOLOGÍA 2DA ED.pdf, pág. 18).
 
 #### 2. Si estás observando las suturas craneales de un recién nacido, ¿cómo se denominan estas uniones que aún no se han fusionado?
@@ -64,9 +64,9 @@ C) Suturas escamosas secundarias.
 
 #### 3. ¿Cómo se describe la posición anatómica estándar respecto a los pies y las manos?
 A) Cuerpo acostado, brazos extendidos y manos con palmas hacia el cuerpo.
-B) Cuerpo en levitación (puntas de pie), brazos extendidos y manos en supinación (palmas hacia afuera).
-C) Cuerpo erguido con pies planos, brazos relajados y manos en pronación.
-- CORRECTA: B
+B) Cuerpo erguido con pies planos, brazos relajados y manos en pronación.
+C) Cuerpo en levitación (puntas de pie), brazos extendidos y manos en supinación (palmas hacia afuera).
+- CORRECTA: C
 - POR QUÉ: El criterio de la anatomía descriptiva define de manera precisa que la posición anatómica exige el cuerpo en levitación y manos en supinación (CUADERNILLO ANATOMOFISIOLOGÍA 2DA ED.pdf, pág. 14).
 
 #### 4. Si tu hombro se encuentra cerca de la línea media y tu mano se encuentra lejos de ella, ¿qué par de términos de relación debés aplicar?
@@ -99,9 +99,9 @@ C) Porque no posee inserciones óseas proximales estables.
 
 #### 8. ¿Qué nervio se encarga de inervar de manera general a todos los músculos de la mímica o cutáneos faciales?
 A) El nervio trigémino (V).
-B) El nervio facial (VII).
-C) El nervio glosofaríngeo (IX).
-- CORRECTA: B
+B) El nervio glosofaríngeo (IX).
+C) El nervio facial (VII).
+- CORRECTA: C
 - POR QUÉ: El criterio de inervación neurológica asocia el control de los músculos de la mímica directamente al nervio facial o séptimo par craneal (CUADERNILLO ANATOMOFISIOLOGÍA 2DA ED.pdf, pág. 33).
 
 ---

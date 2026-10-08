@@ -477,4 +477,14 @@ todo una entrada con el número, la fecha y el porqué.
    sigue siendo `estudiemos/arsenal/` y va por red primero como desde
    v82. Se sube para que el `app.js` nuevo, y la hoja del inicio, que
    salen de lo guardado, lleguen en la visita siguiente. */
+/* v88 (7/10/2026) Las correctas de las fichas de texto, repartidas.
+   En las 21 de `estudiemos/fichas/textos/` la correcta era casi
+   siempre la B (anato-3, 4 y 6, ocho de ocho): se aprobaba sin leer.
+   Se reordenaron las opciones (73 preguntas, ningún texto cambia) para
+   que cada ficha quede 3/3/2 entre A, B y C. Los `.txt` y
+   `ficha-texto.js` salen de lo guardado por la regla del final, y
+   tienen que llegar JUNTOS: `ficha-texto.js` ahora guarda una huella
+   del orden de las opciones y descarta las respuestas viejas si no
+   coincide. Un `.txt` nuevo con el guion viejo marcaría mal lo ya
+   respondido, porque lo guardado es la letra. */
 ```

@@ -40,6 +40,16 @@
    Se guarda también cuántas preguntas tenía: si el texto cambia y
    pasa a tener otra cantidad, las respuestas viejas no sirven y se
    descartan en vez de marcar mal las nuevas.
+
+   Y una huella del orden de las opciones (7/10/2026). Lo guardado es
+   la LETRA que tocó cada persona: el 7/10 se reordenaron las opciones
+   de las 21 fichas, porque la correcta era casi siempre la B, y una
+   «A» vieja pasaba a señalar otra opción. Si la huella no coincide se
+   descartan las respuestas y se conservan las partes vistas, que no
+   dependen del orden. Lo guardado antes de ese día no tiene huella y
+   se descarta una vez. Cualquier retoque al texto de una opción
+   también la cambia: se pierden las respuestas de esa ficha, que es
+   mejor que mostrarlas mal.
    ------------------------------------------------------------ */
 const PARTES = [
   { id: "que-es", nombre: "Qué es" },
@@ -54,10 +64,16 @@ class Component extends DCLogic {
   clave() {
     return "bolivar-ficha-" + String(this.props.ficha || "").split("/").pop().replace(/\.txt$/, "");
   }
+  huella(quiz) {
+    const s = quiz.map((q) => q.options.map((o) => o.letter + ")" + o.text).join("\n")).join("\n\n");
+    let h = 5381;
+    for (let i = 0; i < s.length; i++) h = ((h * 33) ^ s.charCodeAt(i)) >>> 0;
+    return h.toString(36);
+  }
   leerGuardado(n) {
     try {
       const d = JSON.parse(localStorage.getItem(this.clave()) || "null");
-      if (d && d.n === n) return d;
+      if (d && d.n === n) return d.orden === this.orden ? d : { ans: {}, vistas: d.vistas };
     } catch (e) {}
     return null;
   }
@@ -65,7 +81,7 @@ class Component extends DCLogic {
     if (!this.state.f) return;
     try {
       localStorage.setItem(this.clave(), JSON.stringify({
-        n: this.state.f.quiz.length, ans: this.state.ans, vistas: this.state.vistas,
+        n: this.state.f.quiz.length, orden: this.orden, ans: this.state.ans, vistas: this.state.vistas,
       }));
     } catch (e) {}
   }
@@ -127,6 +143,7 @@ class Component extends DCLogic {
          entero quedaba metido en el texto, en letra normal. */
       const texto = (await res.text()).replace(/\(([^()]*?\.pdf),\s*(p[áa]gs?\.[^)]*)\)/gi, "($2)");
       const f = mod.parseFicha(texto);
+      this.orden = this.huella(f.quiz);
       const g = this.leerGuardado(f.quiz.length);
       this.setState({ f, err: "", sel: {}, ans: (g && g.ans) || {}, vistas: (g && g.vistas) || [] });
     } catch (e) {

@@ -78,9 +78,9 @@
     "semantic_hash": ""
   },
   "sw.js": {
-    "mtime": 1791418111.4131503,
-    "seen": 1791418328.6748312,
-    "ast_hash": "353df3fa4aa696172e94db8122470321",
+    "mtime": 1791419032.3592956,
+    "seen": 1791419180.194886,
+    "ast_hash": "e79fd2c1771e79861bb23eda32b86d9e",
     "semantic_hash": ""
   },
   "BITACORA.md": {
@@ -216,9 +216,9 @@
     "semantic_hash": ""
   },
   "estudiemos/fichas/ficha-texto.js": {
-    "mtime": 1790732357.7856574,
-    "seen": 1790732471.9023767,
-    "ast_hash": "724c9b5e62c87fca59dcf3f9f86f3f99",
+    "mtime": 1791419125.759353,
+    "seen": 1791419180.1947808,
+    "ast_hash": "ba0f7cef3479956b5f807cd204f8bd7f",
     "semantic_hash": ""
   },
   "mapa/capas.js": {
@@ -594,9 +594,9 @@
     "semantic_hash": ""
   },
   "docs/HISTORIAL-SW.md": {
-    "mtime": 1791418112.3640482,
-    "seen": 1791418328.6748514,
-    "ast_hash": "950aa1d7fdb7384eee808cbaee069609",
+    "mtime": 1791419038.703079,
+    "seen": 1791419180.1949039,
+    "ast_hash": "a85ed8a2aeda6fdb153d94f2846986bf",
     "semantic_hash": ""
   },
   "docs/prompts/PROMPT-DISENO.md": {
@@ -612,9 +612,9 @@
     "semantic_hash": ""
   },
   "docs/prompts/PROMPT-FICHAS.md": {
-    "mtime": 1790725615.096329,
-    "seen": 1790732169.3238127,
-    "ast_hash": "9147d106a94bb896330b61447d8636e1",
+    "mtime": 1791419071.8684082,
+    "seen": 1791419180.1949117,
+    "ast_hash": "d5d4a66f137befbf73a5e819a2162cce",
     "semantic_hash": ""
   },
   "docs/prompts/PROMPT-FONOTECA.md": {
