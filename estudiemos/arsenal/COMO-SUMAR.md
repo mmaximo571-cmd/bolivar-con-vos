@@ -38,7 +38,7 @@ Copiá uno entero, pegalo abajo del último y cambiale los datos:
 | `autoria` | conviene | Autora, autor, directora, banda. |
 | `anio` | conviene | Entre comillas: `"2005"`. |
 | `disciplinas` | conviene | Una o varias de `"disciplinas"`: `["trabajo-social", "cultura-territorio"]`. Decide en qué filtro aparece. En «Todo» sale siempre. |
-| `fila` | conviene | Una de `"filas"`: en qué fila va. Sin fila, va a «Más del Arsenal». |
+| `fila` | conviene | Una de `"filas"`: en qué fila va. Sin fila, va a «Más para leer, mirar y escuchar». |
 | `boton` | conviene | `{ "texto": "Leer PDF", "url": "https://…" }`. **Sin `boton`, el botón busca el título en el catálogo de las bibliotecas de la UNLP** (el de `"biblioteca"`, arriba del archivo), que es lo que corresponde a un libro que no está en internet. |
 | `buscar` | no | Solo para los que no tienen `boton`: qué se busca en el catálogo si el título no alcanza (por ejemplo, el título sin el subtítulo). Sin esto se busca el título. |
 | `dato` | no | Lo que ayuda a decidir: `"120 min"`, `"18 páginas"`, `"8 temas"`. |

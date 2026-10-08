@@ -1,8 +1,8 @@
 {
   "app.js": {
-    "mtime": 1791387379.4768572,
-    "seen": 1791387786.0080876,
-    "ast_hash": "8d24ac612efcec329af238541fd8cd90",
+    "mtime": 1791418078.6140773,
+    "seen": 1791418328.6746342,
+    "ast_hash": "c3468480f9e96369864f40f91fa1b8bf",
     "semantic_hash": ""
   },
   "carrera/plan-fono.js": {
@@ -78,15 +78,15 @@
     "semantic_hash": ""
   },
   "sw.js": {
-    "mtime": 1791401310.2147756,
-    "seen": 1791401334.8787231,
-    "ast_hash": "8d4e04c3c1dc08cfca8c646693ef1c94",
+    "mtime": 1791418111.4131503,
+    "seen": 1791418328.6748312,
+    "ast_hash": "353df3fa4aa696172e94db8122470321",
     "semantic_hash": ""
   },
   "BITACORA.md": {
-    "mtime": 1791401326.565829,
-    "seen": 1791401334.878725,
-    "ast_hash": "4cb5866f7e0ca490b43db2164adca79d",
+    "mtime": 1791418321.2200427,
+    "seen": 1791418328.674833,
+    "ast_hash": "5b8579d1e91cb69f003a0a843513eb43",
     "semantic_hash": ""
   },
   "LEEME.md": {
@@ -150,9 +150,9 @@
     "semantic_hash": ""
   },
   "index.html": {
-    "mtime": 1791387432.7799444,
-    "seen": 1791387786.0082562,
-    "ast_hash": "b281c3ca43d422f7150708d83149fcea",
+    "mtime": 1791418078.6160717,
+    "seen": 1791418328.674904,
+    "ast_hash": "b2fc4276f33bd48e47c8e237707836aa",
     "semantic_hash": ""
   },
   "mi/index.html": {
@@ -396,9 +396,9 @@
     "semantic_hash": ""
   },
   "estudiemos/portada.js": {
-    "mtime": 1790775251.0857015,
-    "seen": 1791164635.5954933,
-    "ast_hash": "739e095dea37846c2d07df9c055b411a",
+    "mtime": 1791418023.031227,
+    "seen": 1791418328.6746676,
+    "ast_hash": "67d88d0820fb799f102c314965f638f7",
     "semantic_hash": ""
   },
   "estudiemos/territorio.js": {
@@ -594,9 +594,9 @@
     "semantic_hash": ""
   },
   "docs/HISTORIAL-SW.md": {
-    "mtime": 1791401326.5613995,
-    "seen": 1791401334.878745,
-    "ast_hash": "720494a470c9c497d4d753f65dce1027",
+    "mtime": 1791418112.3640482,
+    "seen": 1791418328.6748514,
+    "ast_hash": "950aa1d7fdb7384eee808cbaee069609",
     "semantic_hash": ""
   },
   "docs/prompts/PROMPT-DISENO.md": {
@@ -690,15 +690,15 @@
     "semantic_hash": ""
   },
   "estudiemos/arsenal/arsenal.js": {
-    "mtime": 1791078407.472506,
-    "seen": 1791164635.5954747,
-    "ast_hash": "25d43625087bcef01c709e5782ed8ce4",
+    "mtime": 1791418016.8461695,
+    "seen": 1791418328.674649,
+    "ast_hash": "46fa3a867bf6effb4801b44414345075",
     "semantic_hash": ""
   },
   "estudiemos/arsenal/datos.json": {
-    "mtime": 1791401281.6942906,
-    "seen": 1791401334.878569,
-    "ast_hash": "a5d63f010e1953fe8938509c164ba272",
+    "mtime": 1791402148.3134575,
+    "seen": 1791418328.674651,
+    "ast_hash": "6ffbd48efae32c80e409f8d74c0b17a1",
     "semantic_hash": ""
   },
   "estudiemos/arsenal/marcas.js": {
@@ -714,15 +714,15 @@
     "semantic_hash": ""
   },
   "estudiemos/arsenal/COMO-SUMAR.md": {
-    "mtime": 1791078415.0814214,
-    "seen": 1791164635.5956213,
-    "ast_hash": "8914ded40f6764a7a2d6e1d409c90907",
+    "mtime": 1791418017.096281,
+    "seen": 1791418328.6748922,
+    "ast_hash": "c9ac63cd133d989e53cc422b1382bdb1",
     "semantic_hash": ""
   },
   "estudiemos/arsenal/index.html": {
-    "mtime": 1790775149.2014146,
-    "seen": 1791164635.5956225,
-    "ast_hash": "63b8110d94c1ce587ac6875454737930",
+    "mtime": 1791418016.5401578,
+    "seen": 1791418328.6748939,
+    "ast_hash": "e2869e9d900412ce3aa8a8b019829f4a",
     "semantic_hash": ""
   },
   "salud-mental/index.html": {
@@ -834,9 +834,9 @@
     "semantic_hash": ""
   },
   "sql/tabla-mi-ano.sql": {
-    "mtime": 1791401038.9400952,
-    "seen": 1791401334.8786948,
-    "ast_hash": "fcd2da5123041063e40ac8d9cb7263ae",
+    "mtime": 1791401846.940435,
+    "seen": 1791418328.6747384,
+    "ast_hash": "9ad8a2a65b559ef7d9cb409227b0bf19",
     "semantic_hash": ""
   },
   "docs/prompts/PROMPT-CURADURIA.md": {

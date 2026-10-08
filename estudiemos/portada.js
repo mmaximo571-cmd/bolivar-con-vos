@@ -83,12 +83,14 @@
                       try { m = JSON.parse(localStorage.getItem('bolivar-fichas-psicologia') || '{}') || {}; } catch(err){}
                       const n = Object.keys(m).length;
                       return n ? { a: n / 10, texto: 'Respondiste ' + n + ' de 10' } : null; } },
-    /* El Arsenal (30/9): libros, revistas, pelis y cortos que
+    /* El Arsenal (30/9), que desde el 7/10 se llama «Leé, mirá,
+       escuchá» (la carpeta sigue siendo arsenal/, para no romper los
+       links que ya circulan): libros, revistas, pelis y cortos que
        recomendamos, con el porqué. La lista vive en arsenal/datos.json;
        acá no se cuenta cuántos hay para no bajar el JSON en la portada.
        Lo que sí se sabe sin bajar nada es cuánto guardaste para el finde
        (lo escribe arsenal/marcas.js). */
-    { id:'arsenal', modo:'repasar', nombre:'El Arsenal', emoji:'🔖',
+    { id:'arsenal', modo:'repasar', nombre:'Leé, mirá, escuchá', emoji:'🔖',
       desc:'Libros, revistas, pelis y cortos que recomendamos, cada uno con el porqué.',
       href:'arsenal/', carreras:null,
       dato: () => { let n = 0;

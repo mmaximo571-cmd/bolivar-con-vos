@@ -137,7 +137,7 @@
 
       let fila = texto(m.fila);
       if (fila && !hayFila.has(fila)){
-        problemas.push(donde + ': la fila "' + fila + '" no está en "filas". Va a «Más del Arsenal».');
+        problemas.push(donde + ': la fila "' + fila + '" no está en "filas". Va a «Más para leer, mirar y escuchar».');
         fila = '';
       }
 
@@ -323,7 +323,7 @@
     });
     const sueltos = lista.filter(m => !m.fila);
     if (sueltos.length)
-      html += htmlFila({ id: '-mas', titulo: arsenal.filas.length ? 'Más del Arsenal' : 'Todo el Arsenal' }, sueltos, false);
+      html += htmlFila({ id: '-mas', titulo: arsenal.filas.length ? 'Más para leer, mirar y escuchar' : 'Todo' }, sueltos, false);
     cont.innerHTML = html;
 
     vacio.hidden = lista.length > 0;
@@ -472,7 +472,7 @@
     history.replaceState(null, '', u.pathname + u.search);
     pintar();
     const n = visibles().length;
-    avisar(n ? (n === 1 ? 'Un material' : n + ' materiales') + (filtro === TODO ? ' en todo el Arsenal.' : ' en este filtro.') : 'Nada en este filtro, todavía.');
+    avisar(n ? (n === 1 ? 'Un material' : n + ' materiales') + (filtro === TODO ? ' en toda la lista.' : ' en este filtro.') : 'Nada en este filtro, todavía.');
   }
 
   filtros.addEventListener('click', ev => {
@@ -537,7 +537,7 @@
       /* `no-cache`: que el navegador pregunte siempre si cambió. El
          service worker, además, lo pide primero a la red (ver sw.js). */
       const r = await conPaciencia(fetch('datos.json', { cache: 'no-cache' }), 12);
-      if (!r.ok) throw Object.assign(new Error('No encontramos la lista del Arsenal (error ' + r.status + ').'), { status: r.status });
+      if (!r.ok) throw Object.assign(new Error('No encontramos la lista (error ' + r.status + ').'), { status: r.status });
       const t = await r.text();
       try { crudo = JSON.parse(t); }
       catch(err){ throw errorDeJSON(err, t); }
@@ -545,11 +545,11 @@
       cont.removeAttribute('aria-busy');
       if (err && err.esDelJSON){
         anotar('error', 'arsenal: ' + err.message);
-        cont.innerHTML = `<div class="aviso error"><strong>No pudimos abrir el Arsenal.</strong><br>
+        cont.innerHTML = `<div class="aviso error"><strong>No pudimos abrir la lista.</strong><br>
           Se nos rompió la lista de nuestro lado. Probá de nuevo en un rato.${
           esPrueba() ? `<br><small>${e(err.message)}</small>` : ''}</div>`;
       } else {
-        mostrarError(cont, err, 'cargar el Arsenal');
+        mostrarError(cont, err, 'cargar la lista');
       }
       return;
     }

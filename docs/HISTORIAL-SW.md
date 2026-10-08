@@ -469,4 +469,12 @@ todo una entrada con el número, la fecha y el porqué.
    nueva, que sale de lo guardado, llegue en la visita siguiente. Hace
    falta correr `sql/tabla-mi-ano.sql`: sin la tabla, Mi año sigue como
    antes y no avisa nada. */
+/* v87 (7/10/2026) El Arsenal pasa a llamarse «Leé, mirá, escuchá» y
+   suma una tarjeta propia en el inicio, debajo de «A dónde ir», con
+   tres tapas que cambian cada día (`index.html` y
+   `css/pantallas/inicio.css`). `app.js`, que está en el armazón, lo
+   suma a `INDICE_PIE` (el pie y el buscador del inicio). La carpeta
+   sigue siendo `estudiemos/arsenal/` y va por red primero como desde
+   v82. Se sube para que el `app.js` nuevo, y la hoja del inicio, que
+   salen de lo guardado, lleguen en la visita siguiente. */
 ```

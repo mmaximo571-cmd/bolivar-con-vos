@@ -704,7 +704,11 @@ const INDICE_PIE = SECCIONES.concat([
   /* El congreso de octubre de 2026 (7/10). En octubre tiene además la
      tarjeta grande del inicio; acá queda para que el buscador lo
      encuentre y para después, cuando la tarjeta se va. */
-  { id:'congreso', texto:'Congreso «Voces que habitan»', url:RAIZ+'congreso/' }
+  { id:'congreso', texto:'Congreso «Voces que habitan»', url:RAIZ+'congreso/' },
+  /* El ex Arsenal (7/10): libros, pelis y revistas. Tiene su tarjeta
+     en el inicio; acá queda para el pie y para que el buscador del
+     inicio conteste a «libros» o «películas». */
+  { id:'arsenal', texto:'Leé, mirá, escuchá', url:RAIZ+'estudiemos/arsenal/' }
 ]);
 
 /* Los sistemas de la facultad y de la universidad. No son de la app:

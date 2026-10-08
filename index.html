@@ -297,6 +297,22 @@ setTimeout(function(){
       <div class="esq-cuadro"></div>
     </div>
 
+    <!-- LEÉ, MIRÁ, ESCUCHÁ (7/10/2026). El Arsenal de Estudiemos, con
+         nombre nuevo y una puerta en el inicio: hasta acá solo se
+         llegaba desde Estudiemos › Repasar, y no lo encontraba nadie.
+         La tarjeta es un link entero y anda sin JavaScript; las tres
+         portadas las pone `pintarRecomendados()` cuando la tarjeta
+         está por verse. Si la lista no llega, queda la puerta sola. -->
+    <section class="lme" aria-labelledby="lme-titulo">
+      <a class="lme-puerta" href="estudiemos/arsenal/">
+        <span class="lme-ceja">Libros, pelis y revistas que recomendamos</span>
+        <span class="lme-titulo" id="lme-titulo">Leé, mirá, escuchá</span>
+        <span class="lme-bajada">Cada uno con el porqué. Guardá lo que quieras para el finde.</span>
+        <span class="cuadro-flecha" aria-hidden="true">→</span>
+      </a>
+      <div class="lme-riel" id="lme-riel" hidden></div>
+    </section>
+
     <!-- Para quien recién llega -->
     <div class="titulo-seccion">SI RECIÉN EMPEZÁS</div>
     <div class="kit" id="kit"></div>
@@ -1299,6 +1315,79 @@ setTimeout(function(){
   }
   pintarKit();
 
+  /* ---------- Leé, mirá, escuchá: tres recomendados ----------
+     La lista es la de Estudiemos (`estudiemos/arsenal/datos.json`, 17
+     KB). No se pide al abrir: se pide recién cuando la tarjeta está
+     por verse, así quien entra a mirar la mesa de hoy no la paga.
+
+     Se eligen tres, uno de cada cosa —para leer, para ver, para
+     escuchar— mientras haya de cada una, y cambian cada día: si fueran
+     siempre los mismos tres, a la segunda semana la tarjeta deja de
+     verse. Con carrera elegida salen los de su disciplina, y si son
+     menos de tres, de toda la lista. */
+  let recomendados = null;
+  const GRUPOS_LME = [['libro','articulo','revista','ensayo'], ['pelicula','corto'], ['disco']];
+
+  function elegirRecomendados(d){
+    const todos = (d.materiales || []).filter(m => m && m.oculto !== true && m.id && m.titulo);
+    const elegida = carreraElegida();
+    const deSuCarrera = !elegida ? todos : todos.filter(m => (m.disciplinas || []).some(id =>
+      (d.disciplinas || []).some(x => x.id === id && (x.carreras || []).indexOf(elegida.id) !== -1)));
+    const base = deSuCarrera.length >= 3 ? deSuCarrera : todos;
+    const dia = Math.floor((Date.now() - new Date().getTimezoneOffset() * 6e4) / 864e5);
+    const grupos = GRUPOS_LME.map(tipos => base.filter(m => tipos.indexOf(m.tipo) !== -1)
+      .sort((a, b) => a.id < b.id ? -1 : 1)).filter(g => g.length);
+    const sueltos = base.filter(m => !GRUPOS_LME.some(t => t.indexOf(m.tipo) !== -1));
+    if (sueltos.length) grupos.push(sueltos);
+    const elegidos = [];
+    for (let vuelta = 0; elegidos.length < 3 && vuelta < base.length; vuelta++){
+      grupos.forEach(g => {
+        const m = g[(dia + vuelta) % g.length];
+        if (elegidos.length < 3 && elegidos.indexOf(m) === -1) elegidos.push(m);
+      });
+    }
+    return elegidos;
+  }
+
+  function pintarRecomendados(){
+    const riel = document.getElementById('lme-riel');
+    if (!recomendados) return;
+    const tipos = recomendados.tipos || {};
+    const elegidos = elegirRecomendados(recomendados);
+    riel.hidden = !elegidos.length;
+    riel.innerHTML = elegidos.map(m => {
+      const t = tipos[m.tipo] || {};
+      const tinta = ['amarillo','negro','papel'].indexOf(t.portada) !== -1 ? t.portada : 'papel';
+      return `<a class="lme-tapa ${tinta}" href="estudiemos/arsenal/#m-${esc(m.id)}">
+          <span class="lme-tipo">${esc(t.nombre || m.tipo || '')}</span>
+          <span class="lme-tapa-titulo">${esc(m.titulo)}</span>
+        </a>`;
+    }).join('');
+  }
+
+  (function pedirRecomendados(){
+    const tarjeta = document.querySelector('.lme');
+    const riel = document.getElementById('lme-riel');
+    let pedido = false;
+    const pedir = () => {
+      if (pedido) return;
+      pedido = true;
+      riel.hidden = false;
+      riel.innerHTML = '<div class="esqueleto lme-esq"></div>'.repeat(3);
+      fetch('estudiemos/arsenal/datos.json')
+        .then(r => { if (!r.ok) throw new Error(r.status); return r.json(); })
+        .then(d => { recomendados = d; pintarRecomendados(); })
+        /* Sin la lista queda la puerta sola, que igual lleva. */
+        .catch(() => { riel.hidden = true; riel.innerHTML = ''; });
+    };
+    if (!('IntersectionObserver' in window)) return pedir();
+    const ojo = new IntersectionObserver(e => {
+      if (e.some(x => x.isIntersecting)){ ojo.disconnect(); pedir(); }
+    }, { rootMargin:'400px 0px' });
+    ojo.observe(tarjeta);
+  })();
+  document.addEventListener('bolivar:carrera', pintarRecomendados);
+
   /* ---------- La portada: el carrusel de ilustraciones ---------- */
   (function pintarCarrusel(){
     /* El "alt" describe el dibujo; el "pie" es lo que se lee en
@@ -1958,7 +2047,7 @@ setTimeout(function(){
      con un armazón de ayer, movimiento.js puede no estar. */
   if (typeof entrarAlLlegar === 'function'){
     entrarAlLlegar(zonaFondo,
-      '.titulo-seccion, #kit > *, #novedades > .tarjeta, .calendario, .carrusel',
+      '.titulo-seccion, .lme, #kit > *, #novedades > .tarjeta, .calendario, .carrusel',
       { soloAbajo: true });
   }
   const tituloRes  = document.getElementById('titulo-resultados');
@@ -2051,7 +2140,8 @@ setTimeout(function(){
     catedras:   'catedras mails mail contacto profesores titular equipo docente correo',
     glosario:   'glosario vocabulario palabras que significa que es diccionario',
     trayecto:   'trayecto optativo tramo 120 horas actividades acreditar seminarios optativos 255',
-    'salud-mental': 'salud mental psicologo psicologa psicologia terapia angustia ansiedad ayuda urgencia hospital guardia 0800 135 suicidio ley 26657 derechos'
+    'salud-mental': 'salud mental psicologo psicologa psicologia terapia angustia ansiedad ayuda urgencia hospital guardia 0800 135 suicidio ley 26657 derechos',
+    arsenal:    'arsenal libros libro pelis peliculas pelicula cine documentales cortos revistas lecturas leer ver escuchar discos musica recomendaciones recomendados para el finde'
   };
 
   /* ---------- Las cátedras, recién cuando hace falta ----------
