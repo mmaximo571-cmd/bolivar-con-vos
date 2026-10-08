@@ -2175,6 +2175,69 @@ setTimeout(function(){
       }, function(){ /* sin red se busca en lo demás, que es casi todo */ });
   }
 
+  /* ---------- Las fichas de Estudiemos, igual que las cátedras ----------
+
+     (8/10/2026) Lo que más se buscaba acá sin encontrarlo era material
+     de estudio: «ficha», «resumen», «intro», «teoría», «trabajo social
+     ii». El buscador mandaba a la portada de Estudiemos y ahí había que
+     buscar de nuevo; ahora trae la ficha.
+
+     La lista no se copia: sale de las tarjetas de `estudiemos/fichas/`,
+     como en el buscador de Estudiemos (`traerCatalogo()` en
+     estudiemos/portada.js). Así una ficha nueva aparece en los dos sin
+     tocar nada más. Se pide recién con la segunda letra, por lo mismo
+     que las cátedras. «Para imprimir» queda afuera: son los PDF de los
+     trípticos, que cada ficha ya tiene adentro. */
+  let fichas = null, yaPediFichas = false;
+
+  function pedirFichas(){
+    if (yaPediFichas) return;
+    yaPediFichas = true;
+    const base = new URL('estudiemos/fichas/', location.href);
+    fetch(base.href)
+      .then(function(r){ return r.ok ? r.text() : Promise.reject(r.status); })
+      .then(function(html){
+        const doc = new DOMParser().parseFromString(html, 'text/html');
+        const lista = [], vistas = {};
+        const texto = el => (el ? el.textContent : '').replace(/\s+/g, ' ').trim();
+        /* De qué carrera es cada sección: «FONOAUDIOLOGÍA» y las de sus
+           materias que vienen abajo son de Fono hasta que arranca
+           «TRABAJO SOCIAL». Sirve para mostrar primero lo de cada uno. */
+        let carrera = null;
+        doc.querySelectorAll('.titulo-seccion').forEach(function(t){
+          if (t.id === 'fichas-fono') carrera = 'fono';
+          if (t.id === 'fichas-ts') carrera = 'ts';
+          const grupo = t.nextElementSibling;
+          if (t.id === 'fichas-imprimir' || !grupo || !grupo.classList.contains('lista')) return;
+          grupo.querySelectorAll('a.tarjeta').forEach(function(a){
+            /* Con el `?`: las de Anatomo 3 a 6 son todas `leer/?f=…`. Y
+               las comunes a las dos carreras están en las dos listas:
+               salen una vez, marcadas de las dos. */
+            const destino = new URL(a.getAttribute('href'), base);
+            if (vistas[destino.href]){
+              if (carrera) vistas[destino.href].carreras.push(carrera);
+              return;
+            }
+            lista.push(vistas[destino.href] = {
+              carreras: carrera ? [carrera] : [],
+              /* La dirección entera, no la ruta: así sirve igual con la
+                 app en la raíz que en una subcarpeta. */
+              url: destino.href,
+              titulo: texto(a.querySelector('h3')),
+              detalle: texto(a.querySelector('p')),
+              tipo: texto(a.querySelector('.material-tipo')) || 'Ficha',
+              /* La materia está en la sección o en `.meta`: es lo que se
+                 escribe («historia social», «anatomo»), no el título. */
+              mas: texto(t) + ' ' + texto(a.querySelector('.meta'))
+            });
+          });
+        });
+        fichas = lista;
+        if (entrada.value.trim().length >= 2) buscar();
+      })
+      .catch(function(){ /* sin red se busca en lo demás */ });
+  }
+
   /* Una tarjeta de resultado. Todas iguales por fuera: lo único que
      cambia es el rótulo de abajo, que dice de qué parte de la app
      salió. Es lo que evita que «Promoción directa» y «Promoción de
@@ -2206,6 +2269,7 @@ setTimeout(function(){
     zonaNormal.hidden = true;  zonaFondo.hidden = true;
 
     pedirCatedras();
+    pedirFichas();
 
     const hoy = hoyISO();
     const tiene = (...partes) => normalizar(partes.filter(Boolean).join(' ')).includes(q);
@@ -2235,6 +2299,14 @@ setTimeout(function(){
       .filter(c => tiene(c.materia, c.materia_cod, (c.mails || []).join(' ')))
       .slice(0, 4);
 
+    /* Las de tu carrera primero: «ficha» a secas trae las de todas, y
+       sin esto las cuatro primeras eran siempre de Fono. */
+    const tuya = (carreraElegidaApp() || {}).id;
+    const eHit = (fichas || [])
+      .filter(f => tiene(f.titulo, f.detalle, f.tipo, f.mas))
+      .sort((a, b) => (b.carreras.includes(tuya) ? 1 : 0) - (a.carreras.includes(tuya) ? 1 : 0))
+      .slice(0, 4);
+
     const gHit = GLOSARIO.filter(g => tiene(g.palabra, g.corta, g.mas)).slice(0, 3);
 
     const sHit = INDICE_PIE
@@ -2242,7 +2314,7 @@ setTimeout(function(){
       .slice(0, 3);
 
     const total = tHit.length + fHit.length + pHit.length +
-                  cHit.length + gHit.length + sHit.length;
+                  eHit.length + cHit.length + gHit.length + sHit.length;
 
     tituloRes.textContent = total
       ? `${total} ${total === 1 ? 'RESULTADO' : 'RESULTADOS'}`
@@ -2271,6 +2343,11 @@ setTimeout(function(){
         [rangoLindo(p.fecha_desde, p.fecha_hasta), p.hora, p.lugar]
           .filter(Boolean).join(' · ') || recortar(p.cuerpo, 120),
         (p.fecha_hasta || p.fecha_desde || '') >= hoy ? 'Fecha' : 'Fecha que ya pasó')).join('') +
+
+      /* Antes que la cátedra: quien busca «laringe» quiere estudiarla,
+         no el mail de la materia. */
+      eHit.map(f => resultado(f.url, f.titulo, f.detalle,
+        f.tipo + ' · Estudiemos')).join('') +
 
       cHit.map(c => resultado('catedras/?q=' + encodeURIComponent(c.materia),
         c.materia, (c.mails || []).join(' · '), 'Cátedra')).join('') +

@@ -484,6 +484,12 @@
   const filtro = $('filtro');
   if (filtro){
     filtro.addEventListener('input', buscar);
+    /* Lo que se busca acá es la lista de fichas que faltan, escrita
+       con las palabras de quien la busca (8/10/2026). El `typeof`, por
+       si llega un app.js viejo del caché. */
+    filtro.addEventListener('input', () => {
+      if (typeof anotarBusqueda === 'function') anotarBusqueda(filtro.value);
+    });
     filtro.addEventListener('focus', () => { traerCatalogo(); }, { once:true });
   }
 })();
