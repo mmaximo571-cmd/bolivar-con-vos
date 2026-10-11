@@ -361,17 +361,45 @@
   async function traer(avisar = true){
     /* Los contadores viajan juntos con la agenda y no la frenan: si la
        vista no está, `cuantosVan` vuelve vacío. */
-    const [{ data, error }, c] = await Promise.all([
+    const [{ data, error }, c, rCongreso] = await Promise.all([
       db.from('publicaciones')
         .select('*').eq('publicado', true).order('creado_at', { ascending:false }),
-      typeof cuantosVan === 'function' ? cuantosVan() : Promise.resolve({})
+      typeof cuantosVan === 'function' ? cuantosVan() : Promise.resolve({}),
+      db.from('congreso_mesas').select('id,titulo,fecha,hora,lugar')
+        .eq('publicada', true).order('fecha', { ascending:true })
+        .order('hora', { ascending:true })
     ]);
     if (error){ if (avisar) mostrarError(zonas, error, 'cargar la agenda'); return false; }
-    publicaciones = data;
+    /* Si las mesas no llegan, la agenda sale igual, sin ellas. */
+    publicaciones = data.concat((!rCongreso.error && rCongreso.data || []).map(comoFecha));
     cuentas = c || {};
     if (typeof limpiarVoy === 'function') limpiarVoy(publicaciones);
     return true;
   }
+
+  /* LAS MESAS DEL CONGRESO (10/10/2026). Se leen de `congreso_mesas`,
+     la tabla que edita el equipo desde el panel, y no se copian a
+     `publicaciones`: un cambio de aula tiene que llegar a todos lados
+     sin cargarlo dos veces. Acá se disfrazan de actividad de un día y
+     llevan a su hoja de preguntas en `congreso/`, no a `?id=`. El id
+     con letras no choca con los de la agenda, y «Voy» no las ve
+     (cuenta con números). Línea «saberes» para que el modo parciales
+     no las esconda. Lo mismo hace el calendario del inicio. */
+  function comoFecha(m){
+    return {
+      id: 'congreso-' + m.id,
+      titulo: m.titulo,
+      fecha_desde: m.fecha,
+      fecha_hasta: null,
+      hora: m.hora ? String(m.hora).slice(0, 5) : '',
+      lugar: m.lugar || '',
+      categoria: 'actividad',
+      linea: 'saberes',
+      etiqueta: 'Congreso',
+      url: '../congreso/?mesa=' + encodeURIComponent(m.id)
+    };
+  }
+  const hrefDe = p => p.url || '?id=' + encodeURIComponent(p.id);
 
   const voyAca = p => typeof voyA === 'function' && voyA(p.id);
 
@@ -403,7 +431,7 @@
         ${esHoy ? '<span class="insignia-hoy">Hoy</span>' : ''}
         ${p.suspendido ? '<span class="etiqueta suspendido">Suspendido</span>'
           : cambioReciente(p) ? '<span class="etiqueta cat-paro">Cambió</span>' : ''}
-        <span class="etiqueta cat-${esc(c)}">${esc(CATEGORIAS[c].nombre)}</span>
+        <span class="etiqueta cat-${esc(c)}">${esc(p.etiqueta || CATEGORIAS[c].nombre)}</span>
         ${voyAca(p) ? '<span class="etiqueta voy-marca">Vas</span>' : ''}
         ${(cuentas[p.id] || 0) >= 2 ? `<span class="voy-cuenta">Van ${cuentas[p.id]}</span>` : ''}
       </div>`;
@@ -411,13 +439,13 @@
     const clases = `tarjeta ${esc(p.linea)} cat-${esc(c)}${senalada}${
       p.suspendido ? ' suspendida' : ''}`;
 
-    if (f) return `<a class="${clases}${esHoy ? ' es-hoy' : ''}" href="?id=${p.id}" data-fecha="${esc(p.fecha_desde.slice(0,10))}">
+    if (f) return `<a class="${clases}${esHoy ? ' es-hoy' : ''}" href="${esc(hrefDe(p))}" data-fecha="${esc(p.fecha_desde.slice(0,10))}">
         <div class="tarjeta-fecha">
           <div class="cubo-fecha"><span class="dia">${f.dia}</span><span class="mes">${f.mesCorto}</span></div>
           <div>${cuerpo}</div>
         </div></a>`;
 
-    return `<a class="${clases}" href="?id=${p.id}">${cuerpo}</a>`;
+    return `<a class="${clases}" href="${esc(hrefDe(p))}">${cuerpo}</a>`;
   }
 
   /* '2026-09-04' -> '2026-09'. Agrupar por mes y no por categoría es la
@@ -711,7 +739,7 @@
     const meta = [p.hora, p.lugar].filter(Boolean).map(esc).join(' · ');
 
     cajaProximo.innerHTML = `
-      <a class="proximo" href="?id=${p.id}">
+      <a class="proximo" href="${esc(hrefDe(p))}">
         <span class="proximo-texto">
           <span class="proximo-ceja">
             <b>Lo próximo</b>
@@ -1025,7 +1053,7 @@
           </button>`;
         }
         const ev = deUnDia.find(p => caeEnElDia(p, dia.iso) && bloqueDe(p.hora) === b.k);
-        if (ev) return `<a class="semana-celda evento ${esc(ev.linea)}" href="?id=${ev.id}">
+        if (ev) return `<a class="semana-celda evento ${esc(ev.linea)}" href="${esc(hrefDe(ev))}">
             <b>${esc(ev.titulo)}</b>
             <i>${esc(ev.hora || NOMBRE_LINEA[ev.linea] || '')}</i>
           </a>`;
@@ -1130,7 +1158,7 @@
               : (c !== 'paro' && h !== d && h === iso) ? 'Último día'
               : (c !== 'paro' && h !== d && d === iso) ? 'Empieza' : '';
     const detalle = [que, p.hora, p.lugar].filter(Boolean).join(' · ');
-    return `<li><a class="dias-item${p.suspendido ? ' suspendido' : ''}" href="?id=${p.id}">
+    return `<li><a class="dias-item${p.suspendido ? ' suspendido' : ''}" href="${esc(hrefDe(p))}">
         <i class="cal-punto cat-${esc(c)}" aria-hidden="true"></i>
         <span class="dias-texto"><b>${esc(p.titulo)}</b>${detalle ? `<span>${esc(detalle)}</span>` : ''}</span>
         ${voyAca(p) ? '<span class="etiqueta voy-marca">Vas</span>' : ''}
