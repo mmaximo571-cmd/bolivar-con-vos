@@ -11,69 +11,64 @@ evita que el buzón se vea antes de tiempo no es la rama: es que **no se
 enlaza desde Inicio ni desde Avisanos hasta la sesión 3**, cuando existe la
 bandeja.
 
-**El orden, después del replanteo del 27/9** (está en `BITACORA.md`, en «El
-replanteo del 27/9»; manda sobre las semanas de abajo):
+**El orden, después de la revisión del 10/10** (está en `BITACORA.md`, en
+«La revisión del 10/10»; manda sobre las semanas de abajo):
 
 | # | Sesión | Prompt |
 |---|---|---|
 | — | ✅ Buzón: tabla y permisos | S1, hecho el 24/9 |
-| 1 | ✅ El reloj de los avisos | hecho el 27/9. Falta un secreto: ver abajo |
+| 1 | ✅ El reloj de los avisos | hecho el 27/9; los avisos andan desde el 30/9 |
 | 2 | ✅ Buzón: la pantalla pública, en `decilo/`, sin enlazar | hecho el 27/9 |
-| **3** | **La bandeja de comunicación, y se enlaza el buzón** | **la que sigue**, abajo |
-| 4 | Aviso al autor cuando cambia el estado | S4, solo esa parte |
+| 3 | ✅ La bandeja de comunicación | hecha el 30/9, en `cargar/?ver=buzon` |
+| **A** | **Abrir Decilo: revisión de seguridad y enlace** | **la que sigue**, antes del jue 15/10, abajo |
+| **B** | **Aviso al autor cuando cambia el estado** | antes del lun 19/10: S4, el (3), y el (1) si sobra |
 | 5 | ✅ La tarjeta para historias | hecho el 27/9, adelantada |
 
-**La que sigue es la 3, y es la que falta para que el buzón se pueda
-mostrar.** Antes de abrirla hacen falta tres cosas que no son código: las
-~10 respuestas ya escritas del equipo, quiénes reciben el rol
-`comunicacion` (con su cuenta creada en la app y los avisos prendidos), y
-el `VAPID_PRIVADA` de verdad en los secretos, sin el cual los avisos del
-buzón no salen.
+**La que sigue es la A.** Antes de abrirla hacen falta dos cosas que no
+son código: que Máximo apruebe o reescriba las ocho respuestas de la
+bandeja, y que decida el freno de textos repetidos (`sql/tabla-buzon.sql`
+rechaza un texto que ya llegó en las últimas 24 h, de cualquiera). La
+persona con rol `comunicacion` ya existe (hay una). La clave de los
+avisos ya está bien.
+
+**Sesión A · Abrir Decilo** (escrita el 10/10)
+```
+TAREA: abrir el buzón. Ya existen y no se rehacen: la tabla
+(`sql/tabla-buzon.sql`, aplicada), la pantalla (`decilo/`, publicada sin
+enlazar) y la bandeja (`cargar/?ver=buzon`). Falta:
+ 1. /security-review de `decilo/index.html` y de la pestaña Buzón de
+    `cargar/index.html`: se escribe sin cuenta.
+ 2. Las respuestas de `RESPUESTAS` en `cargar/index.html`: poner las que
+    aprobó Máximo y sacar la marca de borrador.
+ 3. El freno de textos repetidos, como lo haya decidido Máximo (si cambia,
+    apply_migration y el .sql en el repo).
+ 4. Enlazar `decilo/` desde Inicio y desde Avisanos, SIN entrar a la fila
+    de secciones. Subir el service worker si cambia algo del armazón.
+Al cerrar: el link etiquetado para el posteo de Instagram del mismo día.
+MATERIAL: las respuestas aprobadas y la decisión del freno.
+```
 **Cortados:** S6 (la pregunta de la semana pasa a encuesta de Instagram o
 formulario), S8 y S10 (no hay lanzamiento en bloque ni merge), S9 (se prueba
 en el teléfono al día siguiente de cada push) y el resumen diario de S4. S11
 y S12 quedan juntos el 2/11.
 
-**Sesión 3 · La bandeja de comunicación** (reescrita el 27/9 con lo que ya
-existe)
-```
-TAREA: la bandeja del buzón en el panel, para el rol comunicacion y pensada
-para el celular. Lo que ya está hecho y no hay que rehacer: la tabla
-(`sql/tabla-buzon.sql`, aplicada, con el rol `comunicacion`, `modera_buzon()` y
-la vista `buzon_totales`) y la pantalla pública (`decilo/`, publicada y sin
-enlazar). Falta:
- 1. Una tarjeta por pedido con los tres botones: publicar y responder / en
-    gestión / descartar. Las fechas las pone la base, no el panel.
- 2. Las respuestas ya escritas, que se editan antes de mandar (MATERIAL).
- 3. Que quien tenga rol comunicacion vea SOLO esto y Novedades. El panel ya
-    se lee como índice de cuatro grupos: sumala donde corresponda.
- 4. Enlazar `decilo/` desde Inicio y desde Avisanos, recién ahora. SIN
-    entrar a la fila de secciones. Si el nombre `decilo/` no gusta, este es
-    el último momento para cambiarlo.
-Ojo con lo que el panel usa: `lib/supabase.js` (la librería grande, porque
-tiene sesión). No abras `panel/index.html` entero: `graphify query` primero.
-MATERIAL: las ~10 respuestas ya escritas del equipo de comunicación, y
-quiénes reciben el rol `comunicacion`.
-```
-
 **Hecha · Sesión 1 · El reloj de los avisos** (27/9). Quedó corriendo:
 `pg_cron` y `pg_net` instalados, `cron.job` con `avisos-cada-hora`, y una
 función nueva y chica, `reloj`, que despierta a `avisos` identificándose con
 un pase de un solo uso, así la clave de servicio no queda escrita en
-`cron.job`. **Falta un secreto y no lo puede cargar Claude:**
-`VAPID_PRIVADA` tiene cargada la clave pública en vez de la privada, y por
-eso no salió nunca un aviso. Ver `sql/tabla-avisos.sql`, «6. EL RELOJ».
+`cron.job`. La clave `VAPID_PRIVADA` se corrigió después: los avisos salen
+desde el 30/9. Ver `sql/tabla-avisos.sql`, «6. EL RELOJ».
 
 ---
 
 ## Bloque común (va siempre)
 
 ```
-PLAN: sección «Hacia las elecciones» de BITACORA.md, empezando por «El
-replanteo del 27/9», que manda sobre el resto (grep -n "Hacia las
+PLAN: sección «Hacia las elecciones» de BITACORA.md, empezando por «La
+revisión del 10/10», que manda sobre el resto (grep -n "Hacia las
 elecciones" y "Dónde estamos" para los límites).
-RAMA: main. Se publica pieza por pieza. El buzón no se enlaza desde Inicio
-ni desde Avisanos hasta que exista la bandeja.
+RAMA: main. Se publica pieza por pieza. El buzón se enlaza en la sesión A,
+no antes.
 
 Reglas:
 - No leas LEEME.md enteros ni el resto de BITACORA.md: grep -n por lo que necesites.

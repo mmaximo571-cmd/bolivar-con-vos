@@ -17,8 +17,73 @@ Si algo de acá quedó viejo, se corrige acá mismo al cerrar la sesión.
 **Cada sesión arranca con un prompt de `docs/prompts/PROMPT-ELECCIONES.md`**: uno por
 tarea, en orden, con el material que necesita. ~~Se trabaja en la rama
 `lanzamiento-2` hasta el lunes 19/10.~~ **Cambiado el 27/9: se trabaja en
-`main` y se publica pieza por pieza.** Ver «El replanteo del 27/9», acá
-abajo, que manda sobre el resto de la sección.
+`main` y se publica pieza por pieza.** Ver «La revisión del 10/10», acá
+abajo, que manda sobre el resto de la sección, y después «El replanteo del
+27/9».
+
+### La revisión del 10/10: abrir Decilo esta semana
+
+**Esto manda sobre el replanteo del 27/9 y sobre el resto de la sección.**
+
+**El registro al 10/10**, leído de Supabase:
+
+| Qué | 27/9 | 10/10 | Meta (corregida hoy) | Al ritmo de hoy |
+|---|---|---|---|---|
+| «Eligió carrera» | 694 | **793** | **1.000** | ~950 |
+| Avisos prendidos (`avisos_suscripciones`) | 93 | **95** | **130** | ~110 |
+| Cuentas | 474 | 522 | — | — |
+| Pedidos en Decilo | 0 | **0** | todos contestados en menos de 48 h | — |
+| Avisos entregados | 0 | **344** | — | — |
+| «Compartió su avance» | — | 13 | — | — |
+
+**Lo que anduvo.** **Los avisos al celular andan**: salieron dos tandas,
+las dos por paros que avisan solos: 82 teléfonos el 30/9 y 90 el 7/10.
+`avisos` va por la v12, así que «Voy» ya está subido. Los picos de visitas
+siguen pegados a Instagram (el 28 y 29/9 por el paro de 72 h, el 6 y 7/10
+por el congreso). Fuera de esos días, la app está en 140 a 170 visitas
+diarias y entre 3 y 8 «eligió carrera».
+
+**Lo que no anduvo.**
+- **Decilo cumplió dos semanas publicado y sin enlazar**, y por eso tiene
+  cero pedidos. La bandeja está lista desde el 30/9.
+- **No se hizo la sesión 4** (el aviso al autor): `avisos` no tiene nada
+  del buzón.
+- **No se marcó ninguna novedad con aviso desde el 27/9.** Los 95
+  teléfonos solo recibieron paros.
+- **Los avisos prendidos no crecen**: desde el 27/9 entraron 17
+  suscripciones y el total subió 2. Se pierden teléfonos casi al mismo
+  ritmo en que entran.
+- **La tarjeta para historias se compartió 13 veces en dos semanas.**
+  No es la palanca de alcance que se esperaba: el alcance sigue
+  saliendo de Instagram.
+- Las sesiones se fueron a cosas fuera del plan (Arsenal, congreso,
+  fichas, carga desde WhatsApp). Casi todo suma al eje de permanencia,
+  pero se comió las sesiones del buzón.
+
+**Lo decidido hoy (Máximo):**
+1. **Decilo se abre esta semana**, antes del jueves 15/10. Si se abre
+   el 20/10 o más tarde, queda poco margen para que se vea que se
+   contesta.
+2. **Después del enlace va la sesión 4**, el aviso al autor, antes
+   del lunes 19/10.
+3. **Las metas pasan a 1.000 y 130.** La de Decilo no cambia.
+4. **El congreso no necesita nada**: las actividades ya están cargadas.
+
+**El orden que queda:**
+
+| Cuándo | Qué | Quién |
+|---|---|---|
+| Antes de la sesión A | Aprobar o reescribir las ocho respuestas de la bandeja (`RESPUESTAS`, en `cargar/index.html`: hoy son un borrador de Claude). Decidir el freno de textos repetidos (ver «La novena», más abajo). Que la persona con rol `comunicacion` (hay **una**) tenga los avisos prendidos y pruebe la bandeja en su teléfono | Máximo y comunicación |
+| Sesión A, antes del jue 15/10 | **Abrir Decilo:** `/security-review` de `decilo/` y de la bandeja, sacar la marca de borrador de las respuestas, enlazar desde Inicio y desde Avisanos | Claude |
+| El mismo día | Publicar en Instagram que Decilo abrió: posteo e historia con el link `?de=` | Comunicación |
+| Sesión B, antes del lun 19/10 | **Aviso al autor** cuando cambia su pedido. Si sobra tiempo, el aviso al equipo cuando entra un pedido: con una sola persona contestando, sirve más que el resumen diario | Claude |
+| 20/10 al 3/11, sin código | Mirar la bandeja todos los días y contestar en menos de 48 h. **Una novedad con aviso por semana** | Comunicación |
+| Lun 2/11 | El informe y la ficha «Cómo se vota» (hay recordatorio) | Máximo y Claude |
+
+**Línea de corte:** si la sesión B no llega antes del 19/10, Decilo abre
+igual, sin aviso al autor: quien deja un pedido mira el tablero. **Si la A
+no llega antes del 19/10, Decilo no abre antes de votar**: por la misma
+regla del 27/9, mejor no abrirlo que dejarlo mudo.
 
 ### El replanteo del 27/9: menos sesiones
 
