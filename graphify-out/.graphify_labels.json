@@ -14,7 +14,7 @@
   "12": "portada.js",
   "13": "htmlNovedades",
   "14": "leer.js",
-  "15": "esc",
+  "15": "invitarAInstalar",
   "16": "ficha.js",
   "17": "pantallaMiCuenta",
   "18": "tabla-avisanos.sql",
@@ -111,5 +111,7 @@
   "109": "Curaduría y lluvia de ideas sin Claude",
   "110": "tabla-mi-ano.sql",
   "111": "revisar-ficha.mjs",
-  "112": "arreglo-rls-rendimiento.sql"
+  "112": "arreglo-rls-rendimiento.sql",
+  "113": "arreglo-seguridad-11-10.sql",
+  "114": "Pantalla Estudiemos (landing de herramientas)"
 }

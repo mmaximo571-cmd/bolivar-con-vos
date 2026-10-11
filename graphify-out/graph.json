@@ -1239,6 +1239,42 @@
       "source_location": "L37"
     },
     {
+      "id": "app_conpaciencia",
+      "label": "conPaciencia()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 114,
+      "community_name": "Pantalla Estudiemos (landing de herramientas)",
+      "file_type": "code",
+      "norm_label": "conpaciencia()",
+      "source_file": "app.js",
+      "source_location": "L1842"
+    },
+    {
+      "id": "app_guardarenmemoria",
+      "label": "guardarEnMemoria()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 114,
+      "community_name": "Pantalla Estudiemos (landing de herramientas)",
+      "file_type": "code",
+      "norm_label": "guardarenmemoria()",
+      "source_file": "app.js",
+      "source_location": "L1906"
+    },
+    {
+      "id": "app_memoriade",
+      "label": "memoriaDe()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 114,
+      "community_name": "Pantalla Estudiemos (landing de herramientas)",
+      "file_type": "code",
+      "norm_label": "memoriade()",
+      "source_file": "app.js",
+      "source_location": "L1889"
+    },
+    {
       "id": "estudiemos_portada_buscar",
       "label": "buscar()",
       "_callable": true,
@@ -1796,47 +1832,11 @@
       "_callable": true,
       "_origin": "ast",
       "community": 15,
-      "community_name": "esc",
+      "community_name": "invitarAInstalar",
       "file_type": "code",
       "norm_label": "anotarquesevio()",
       "source_file": "app.js",
       "source_location": "L2083"
-    },
-    {
-      "id": "app_errorencastellano",
-      "label": "errorEnCastellano()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 15,
-      "community_name": "esc",
-      "file_type": "code",
-      "norm_label": "errorencastellano()",
-      "source_file": "app.js",
-      "source_location": "L1816"
-    },
-    {
-      "id": "app_esc",
-      "label": "esc()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 15,
-      "community_name": "esc",
-      "file_type": "code",
-      "norm_label": "esc()",
-      "source_file": "app.js",
-      "source_location": "L338"
-    },
-    {
-      "id": "app_escmulti",
-      "label": "escMulti()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 15,
-      "community_name": "esc",
-      "file_type": "code",
-      "norm_label": "escmulti()",
-      "source_file": "app.js",
-      "source_location": "L359"
     },
     {
       "id": "app_esios",
@@ -1844,35 +1844,11 @@
       "_callable": true,
       "_origin": "ast",
       "community": 15,
-      "community_name": "esc",
+      "community_name": "invitarAInstalar",
       "file_type": "code",
       "norm_label": "esios()",
       "source_file": "app.js",
       "source_location": "L2076"
-    },
-    {
-      "id": "app_explicarerror",
-      "label": "explicarError()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 15,
-      "community_name": "esc",
-      "file_type": "code",
-      "norm_label": "explicarerror()",
-      "source_file": "app.js",
-      "source_location": "L1791"
-    },
-    {
-      "id": "app_htmlpie",
-      "label": "htmlPie()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 15,
-      "community_name": "esc",
-      "file_type": "code",
-      "norm_label": "htmlpie()",
-      "source_file": "app.js",
-      "source_location": "L1744"
     },
     {
       "id": "app_invitarainstalar",
@@ -1880,7 +1856,7 @@
       "_callable": true,
       "_origin": "ast",
       "community": 15,
-      "community_name": "esc",
+      "community_name": "invitarAInstalar",
       "file_type": "code",
       "norm_label": "invitarainstalar()",
       "source_file": "app.js",
@@ -1892,23 +1868,11 @@
       "_callable": true,
       "_origin": "ast",
       "community": 15,
-      "community_name": "esc",
+      "community_name": "invitarAInstalar",
       "file_type": "code",
       "norm_label": "cerrar()",
       "source_file": "app.js",
       "source_location": "L2120"
-    },
-    {
-      "id": "app_mostrarerror",
-      "label": "mostrarError()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 15,
-      "community_name": "esc",
-      "file_type": "code",
-      "norm_label": "mostrarerror()",
-      "source_file": "app.js",
-      "source_location": "L1819"
     },
     {
       "id": "app_sedijoqueno",
@@ -1916,7 +1880,7 @@
       "_callable": true,
       "_origin": "ast",
       "community": 15,
-      "community_name": "esc",
+      "community_name": "invitarAInstalar",
       "file_type": "code",
       "norm_label": "sedijoqueno()",
       "source_file": "app.js",
@@ -1928,11 +1892,23 @@
       "_callable": true,
       "_origin": "ast",
       "community": 15,
-      "community_name": "esc",
+      "community_name": "invitarAInstalar",
       "file_type": "code",
       "norm_label": "sepuedeinvitarainstalar()",
       "source_file": "app.js",
       "source_location": "L2089"
+    },
+    {
+      "id": "app_yaestainstalada",
+      "label": "yaEstaInstalada()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 15,
+      "community_name": "invitarAInstalar",
+      "file_type": "code",
+      "norm_label": "yaestainstalada()",
+      "source_file": "app.js",
+      "source_location": "L2072"
     },
     {
       "id": "estudiemos_fichas_ficha_adom",
@@ -2293,18 +2269,6 @@
       "norm_label": "urlgooglecalendar()",
       "source_file": "lib/fecha-al-calendario.js",
       "source_location": "L76"
-    },
-    {
-      "id": "fondo_red_apagar",
-      "label": "apagar()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 21,
-      "community_name": "riesgo.js",
-      "file_type": "code",
-      "norm_label": "apagar()",
-      "source_file": "fondo-red.js",
-      "source_location": "L429"
     },
     {
       "id": "mapa_riesgo_abrir",
@@ -3339,6 +3303,78 @@
       "source_location": "L253"
     },
     {
+      "id": "app_errorencastellano",
+      "label": "errorEnCastellano()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 3,
+      "community_name": "Pantalla Info \u00fatil (tr\u00e1mites y FAQ)",
+      "file_type": "code",
+      "norm_label": "errorencastellano()",
+      "source_file": "app.js",
+      "source_location": "L1816"
+    },
+    {
+      "id": "app_esc",
+      "label": "esc()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 3,
+      "community_name": "Pantalla Info \u00fatil (tr\u00e1mites y FAQ)",
+      "file_type": "code",
+      "norm_label": "esc()",
+      "source_file": "app.js",
+      "source_location": "L338"
+    },
+    {
+      "id": "app_escmulti",
+      "label": "escMulti()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 3,
+      "community_name": "Pantalla Info \u00fatil (tr\u00e1mites y FAQ)",
+      "file_type": "code",
+      "norm_label": "escmulti()",
+      "source_file": "app.js",
+      "source_location": "L359"
+    },
+    {
+      "id": "app_explicarerror",
+      "label": "explicarError()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 3,
+      "community_name": "Pantalla Info \u00fatil (tr\u00e1mites y FAQ)",
+      "file_type": "code",
+      "norm_label": "explicarerror()",
+      "source_file": "app.js",
+      "source_location": "L1791"
+    },
+    {
+      "id": "app_htmlpie",
+      "label": "htmlPie()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 3,
+      "community_name": "Pantalla Info \u00fatil (tr\u00e1mites y FAQ)",
+      "file_type": "code",
+      "norm_label": "htmlpie()",
+      "source_file": "app.js",
+      "source_location": "L1744"
+    },
+    {
+      "id": "app_mostrarerror",
+      "label": "mostrarError()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 3,
+      "community_name": "Pantalla Info \u00fatil (tr\u00e1mites y FAQ)",
+      "file_type": "code",
+      "norm_label": "mostrarerror()",
+      "source_file": "app.js",
+      "source_location": "L1819"
+    },
+    {
       "id": "app_normalizar",
       "label": "normalizar()",
       "_callable": true,
@@ -3361,6 +3397,18 @@
       "norm_label": "parametro()",
       "source_file": "app.js",
       "source_location": "L362"
+    },
+    {
+      "id": "fondo_red_apagar",
+      "label": "apagar()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 31,
+      "community_name": "fondo-red.js",
+      "file_type": "code",
+      "norm_label": "apagar()",
+      "source_file": "fondo-red.js",
+      "source_location": "L429"
     },
     {
       "id": "fondo_red_argb",
@@ -3601,42 +3649,6 @@
       "norm_label": "sumarcapa()",
       "source_file": "fondo-red.js",
       "source_location": "L387"
-    },
-    {
-      "id": "app_conpaciencia",
-      "label": "conPaciencia()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 38,
-      "community_name": "Pantalla El Consejo Directivo",
-      "file_type": "code",
-      "norm_label": "conpaciencia()",
-      "source_file": "app.js",
-      "source_location": "L1842"
-    },
-    {
-      "id": "app_guardarenmemoria",
-      "label": "guardarEnMemoria()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 38,
-      "community_name": "Pantalla El Consejo Directivo",
-      "file_type": "code",
-      "norm_label": "guardarenmemoria()",
-      "source_file": "app.js",
-      "source_location": "L1906"
-    },
-    {
-      "id": "app_memoriade",
-      "label": "memoriaDe()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 38,
-      "community_name": "Pantalla El Consejo Directivo",
-      "file_type": "code",
-      "norm_label": "memoriade()",
-      "source_file": "app.js",
-      "source_location": "L1889"
     },
     {
       "id": "sw_esdesupabase",
@@ -4633,18 +4645,6 @@
       "norm_label": "queaparato()",
       "source_file": "app.js",
       "source_location": "L128"
-    },
-    {
-      "id": "app_yaestainstalada",
-      "label": "yaEstaInstalada()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 54,
-      "community_name": "anotar",
-      "file_type": "code",
-      "norm_label": "yaestainstalada()",
-      "source_file": "app.js",
-      "source_location": "L2072"
     },
     {
       "id": "mapa_capas_capariesgo",
@@ -6283,6 +6283,111 @@
       "source_url": null
     },
     {
+      "id": "anatomo_index",
+      "label": "Pantalla Anatomofisiolog\u00eda (gu\u00eda de materia)",
+      "_origin": "ast",
+      "author": null,
+      "captured_at": null,
+      "community": 114,
+      "community_name": "Pantalla Estudiemos (landing de herramientas)",
+      "contributor": null,
+      "file_type": "code",
+      "norm_label": "pantalla anatomofisiologia (guia de materia)",
+      "source_file": "anatomo/index.html",
+      "source_location": "L6",
+      "source_url": null
+    },
+    {
+      "id": "anatomo_index_bloquemodelo",
+      "label": "bloqueModelo / sinFechas",
+      "_origin": "ast",
+      "author": null,
+      "captured_at": null,
+      "community": 114,
+      "community_name": "Pantalla Estudiemos (landing de herramientas)",
+      "contributor": null,
+      "file_type": "code",
+      "norm_label": "bloquemodelo / sinfechas",
+      "source_file": "anatomo/index.html",
+      "source_location": "L248",
+      "source_url": null
+    },
+    {
+      "id": "estudiemos_fonoteca_index",
+      "label": "Pantalla Fonoteca (pr\u00e1ctica de audiogramas)",
+      "_origin": "ast",
+      "author": null,
+      "captured_at": null,
+      "community": 114,
+      "community_name": "Pantalla Estudiemos (landing de herramientas)",
+      "contributor": null,
+      "file_type": "code",
+      "norm_label": "pantalla fonoteca (practica de audiogramas)",
+      "source_file": "estudiemos/fonoteca/index.html",
+      "source_location": "L6",
+      "source_url": null
+    },
+    {
+      "id": "estudiemos_index",
+      "label": "Pantalla Estudiemos (landing de herramientas)",
+      "_origin": "ast",
+      "author": null,
+      "captured_at": null,
+      "community": 114,
+      "community_name": "Pantalla Estudiemos (landing de herramientas)",
+      "contributor": null,
+      "file_type": "code",
+      "norm_label": "pantalla estudiemos (landing de herramientas)",
+      "source_file": "estudiemos/index.html",
+      "source_location": "L6",
+      "source_url": null
+    },
+    {
+      "id": "estudiemos_index_llevarriel",
+      "label": "llevarRiel / pintarFlechas (riel deslizable)",
+      "_origin": "ast",
+      "author": null,
+      "captured_at": null,
+      "community": 114,
+      "community_name": "Pantalla Estudiemos (landing de herramientas)",
+      "contributor": null,
+      "file_type": "code",
+      "norm_label": "llevarriel / pintarflechas (riel deslizable)",
+      "source_file": "estudiemos/index.html",
+      "source_location": "L323",
+      "source_url": null
+    },
+    {
+      "id": "panel_index_vistaguia",
+      "label": "vistaGuia (gu\u00eda de materia Anatomo)",
+      "_origin": "ast",
+      "author": null,
+      "captured_at": null,
+      "community": 114,
+      "community_name": "Pantalla Estudiemos (landing de herramientas)",
+      "contributor": null,
+      "file_type": "code",
+      "norm_label": "vistaguia (guia de materia anatomo)",
+      "source_file": "panel/index.html",
+      "source_location": "L2070",
+      "source_url": null
+    },
+    {
+      "id": "panel_index_vistamateriales",
+      "label": "vistaMateriales",
+      "_origin": "ast",
+      "author": null,
+      "captured_at": null,
+      "community": 114,
+      "community_name": "Pantalla Estudiemos (landing de herramientas)",
+      "contributor": null,
+      "file_type": "code",
+      "norm_label": "vistamateriales",
+      "source_file": "panel/index.html",
+      "source_location": "L889",
+      "source_url": null
+    },
+    {
       "id": "mi_index_cambiarmodo",
       "label": "cambiarModo()",
       "_origin": "ast",
@@ -6662,36 +6767,6 @@
       "source_url": null
     },
     {
-      "id": "anatomo_index",
-      "label": "Pantalla Anatomofisiolog\u00eda (gu\u00eda de materia)",
-      "_origin": "ast",
-      "author": null,
-      "captured_at": null,
-      "community": 38,
-      "community_name": "Pantalla El Consejo Directivo",
-      "contributor": null,
-      "file_type": "code",
-      "norm_label": "pantalla anatomofisiologia (guia de materia)",
-      "source_file": "anatomo/index.html",
-      "source_location": "L6",
-      "source_url": null
-    },
-    {
-      "id": "anatomo_index_bloquemodelo",
-      "label": "bloqueModelo / sinFechas",
-      "_origin": "ast",
-      "author": null,
-      "captured_at": null,
-      "community": 38,
-      "community_name": "Pantalla El Consejo Directivo",
-      "contributor": null,
-      "file_type": "code",
-      "norm_label": "bloquemodelo / sinfechas",
-      "source_file": "anatomo/index.html",
-      "source_location": "L248",
-      "source_url": null
-    },
-    {
       "id": "consejo_index",
       "label": "Pantalla El Consejo Directivo",
       "_origin": "ast",
@@ -6704,51 +6779,6 @@
       "norm_label": "pantalla el consejo directivo",
       "source_file": "consejo/index.html",
       "source_location": "L6",
-      "source_url": null
-    },
-    {
-      "id": "estudiemos_fonoteca_index",
-      "label": "Pantalla Fonoteca (pr\u00e1ctica de audiogramas)",
-      "_origin": "ast",
-      "author": null,
-      "captured_at": null,
-      "community": 38,
-      "community_name": "Pantalla El Consejo Directivo",
-      "contributor": null,
-      "file_type": "code",
-      "norm_label": "pantalla fonoteca (practica de audiogramas)",
-      "source_file": "estudiemos/fonoteca/index.html",
-      "source_location": "L6",
-      "source_url": null
-    },
-    {
-      "id": "estudiemos_index",
-      "label": "Pantalla Estudiemos (landing de herramientas)",
-      "_origin": "ast",
-      "author": null,
-      "captured_at": null,
-      "community": 38,
-      "community_name": "Pantalla El Consejo Directivo",
-      "contributor": null,
-      "file_type": "code",
-      "norm_label": "pantalla estudiemos (landing de herramientas)",
-      "source_file": "estudiemos/index.html",
-      "source_location": "L6",
-      "source_url": null
-    },
-    {
-      "id": "estudiemos_index_llevarriel",
-      "label": "llevarRiel / pintarFlechas (riel deslizable)",
-      "_origin": "ast",
-      "author": null,
-      "captured_at": null,
-      "community": 38,
-      "community_name": "Pantalla El Consejo Directivo",
-      "contributor": null,
-      "file_type": "code",
-      "norm_label": "llevarriel / pintarflechas (riel deslizable)",
-      "source_file": "estudiemos/index.html",
-      "source_location": "L323",
       "source_url": null
     },
     {
@@ -6779,36 +6809,6 @@
       "norm_label": "vistaconsejo (editor consejo directivo)",
       "source_file": "panel/index.html",
       "source_location": "L1906",
-      "source_url": null
-    },
-    {
-      "id": "panel_index_vistaguia",
-      "label": "vistaGuia (gu\u00eda de materia Anatomo)",
-      "_origin": "ast",
-      "author": null,
-      "captured_at": null,
-      "community": 38,
-      "community_name": "Pantalla El Consejo Directivo",
-      "contributor": null,
-      "file_type": "code",
-      "norm_label": "vistaguia (guia de materia anatomo)",
-      "source_file": "panel/index.html",
-      "source_location": "L2070",
-      "source_url": null
-    },
-    {
-      "id": "panel_index_vistamateriales",
-      "label": "vistaMateriales",
-      "_origin": "ast",
-      "author": null,
-      "captured_at": null,
-      "community": 38,
-      "community_name": "Pantalla El Consejo Directivo",
-      "contributor": null,
-      "file_type": "code",
-      "norm_label": "vistamateriales",
-      "source_file": "panel/index.html",
-      "source_location": "L889",
       "source_url": null
     },
     {
@@ -8503,7 +8503,7 @@
       "file_type": "code",
       "norm_label": "buzon_pedidos_categoria_idx",
       "source_file": "sql/arreglo-rls-rendimiento.sql",
-      "source_location": "L208"
+      "source_location": "L207"
     },
     {
       "id": "sql_arreglo_rls_rendimiento_buzon_pedidos_moderado_por_idx",
@@ -8514,7 +8514,7 @@
       "file_type": "code",
       "norm_label": "buzon_pedidos_moderado_por_idx",
       "source_file": "sql/arreglo-rls-rendimiento.sql",
-      "source_location": "L209"
+      "source_location": "L208"
     },
     {
       "id": "sql_arreglo_rls_rendimiento_guardados_tramite_idx",
@@ -8525,7 +8525,7 @@
       "file_type": "code",
       "norm_label": "guardados_tramite_idx",
       "source_file": "sql/arreglo-rls-rendimiento.sql",
-      "source_location": "L210"
+      "source_location": "L209"
     },
     {
       "id": "sql_arreglo_rls_rendimiento_preparaciones_programa_idx",
@@ -8536,7 +8536,7 @@
       "file_type": "code",
       "norm_label": "preparaciones_programa_idx",
       "source_file": "sql/arreglo-rls-rendimiento.sql",
-      "source_location": "L211"
+      "source_location": "L210"
     },
     {
       "id": "sql_arreglo_rls_rendimiento_public_cuidar_creado_por",
@@ -8547,7 +8547,7 @@
       "file_type": "code",
       "norm_label": "public.cuidar_creado_por()",
       "source_file": "sql/arreglo-rls-rendimiento.sql",
-      "source_location": "L179"
+      "source_location": "L178"
     },
     {
       "id": "sql_arreglo_rls_rendimiento_publicaciones_cuidar_creado_por",
@@ -8558,7 +8558,7 @@
       "file_type": "code",
       "norm_label": "publicaciones_cuidar_creado_por",
       "source_file": "sql/arreglo-rls-rendimiento.sql",
-      "source_location": "L199"
+      "source_location": "L198"
     },
     {
       "id": "sql_arreglo_rls_rendimiento_reportes_riesgo_revisado_por_idx",
@@ -8569,7 +8569,95 @@
       "file_type": "code",
       "norm_label": "reportes_riesgo_revisado_por_idx",
       "source_file": "sql/arreglo-rls-rendimiento.sql",
-      "source_location": "L212"
+      "source_location": "L211"
+    },
+    {
+      "id": "public_consultas",
+      "label": "public.consultas",
+      "_origin": "ast",
+      "community": 113,
+      "community_name": "arreglo-seguridad-11-10.sql",
+      "file_type": "code",
+      "norm_label": "public.consultas",
+      "source_file": "",
+      "source_location": ""
+    },
+    {
+      "id": "public_sucesos",
+      "label": "public.sucesos",
+      "_origin": "ast",
+      "community": 113,
+      "community_name": "arreglo-seguridad-11-10.sql",
+      "file_type": "code",
+      "norm_label": "public.sucesos",
+      "source_file": "",
+      "source_location": ""
+    },
+    {
+      "id": "sql_arreglo_seguridad_11_10",
+      "label": "arreglo-seguridad-11-10.sql",
+      "_origin": "ast",
+      "community": 113,
+      "community_name": "arreglo-seguridad-11-10.sql",
+      "file_type": "code",
+      "norm_label": "arreglo-seguridad-11-10.sql",
+      "source_file": "sql/arreglo-seguridad-11-10.sql",
+      "source_location": null
+    },
+    {
+      "id": "sql_arreglo_seguridad_11_10_perfiles_cuidar_rol",
+      "label": "perfiles_cuidar_rol",
+      "_origin": "ast",
+      "community": 113,
+      "community_name": "arreglo-seguridad-11-10.sql",
+      "file_type": "code",
+      "norm_label": "perfiles_cuidar_rol",
+      "source_file": "sql/arreglo-seguridad-11-10.sql",
+      "source_location": "L78"
+    },
+    {
+      "id": "sql_arreglo_seguridad_11_10_public_cuidar_rol",
+      "label": "public.cuidar_rol()",
+      "_origin": "ast",
+      "community": 113,
+      "community_name": "arreglo-seguridad-11-10.sql",
+      "file_type": "code",
+      "norm_label": "public.cuidar_rol()",
+      "source_file": "sql/arreglo-seguridad-11-10.sql",
+      "source_location": "L59"
+    },
+    {
+      "id": "sql_arreglo_seguridad_11_10_public_freno_consultas",
+      "label": "public.freno_consultas()",
+      "_origin": "ast",
+      "community": 113,
+      "community_name": "arreglo-seguridad-11-10.sql",
+      "file_type": "code",
+      "norm_label": "public.freno_consultas()",
+      "source_file": "sql/arreglo-seguridad-11-10.sql",
+      "source_location": "L129"
+    },
+    {
+      "id": "sql_arreglo_seguridad_11_10_public_freno_sucesos",
+      "label": "public.freno_sucesos()",
+      "_origin": "ast",
+      "community": 113,
+      "community_name": "arreglo-seguridad-11-10.sql",
+      "file_type": "code",
+      "norm_label": "public.freno_sucesos()",
+      "source_file": "sql/arreglo-seguridad-11-10.sql",
+      "source_location": "L100"
+    },
+    {
+      "id": "sql_arreglo_seguridad_11_10_sql_public_cuidar_rol",
+      "label": "public.cuidar_rol",
+      "_origin": "ast",
+      "community": 113,
+      "community_name": "arreglo-seguridad-11-10.sql",
+      "file_type": "code",
+      "norm_label": "public.cuidar_rol",
+      "source_file": "",
+      "source_location": ""
     },
     {
       "id": "estudiemos_portada",
@@ -8889,7 +8977,7 @@
       "file_type": "code",
       "norm_label": "freno_consultas",
       "source_file": "sql/tabla-avisanos.sql",
-      "source_location": "L170"
+      "source_location": "L179"
     },
     {
       "id": "sql_tabla_avisanos_public_consultas",
@@ -8922,7 +9010,7 @@
       "file_type": "code",
       "norm_label": "public.freno_consultas()",
       "source_file": "sql/tabla-avisanos.sql",
-      "source_location": "L146"
+      "source_location": "L152"
     },
     {
       "id": "public_freno_sucesos",
@@ -8955,7 +9043,7 @@
       "file_type": "code",
       "norm_label": "freno_sucesos",
       "source_file": "sql/tabla-registro.sql",
-      "source_location": "L118"
+      "source_location": "L123"
     },
     {
       "id": "sql_tabla_registro_public_freno_sucesos",
@@ -8966,7 +9054,7 @@
       "file_type": "code",
       "norm_label": "public.freno_sucesos()",
       "source_file": "sql/tabla-registro.sql",
-      "source_location": "L98"
+      "source_location": "L100"
     },
     {
       "id": "sql_tabla_registro_public_resumen_registro",
@@ -8977,7 +9065,7 @@
       "file_type": "code",
       "norm_label": "public.resumen_registro()",
       "source_file": "sql/tabla-registro.sql",
-      "source_location": "L135"
+      "source_location": "L140"
     },
     {
       "id": "sql_tabla_registro_public_sucesos",
@@ -10014,7 +10102,7 @@
       "file_type": "code",
       "norm_label": "public.tocar_preparacion()",
       "source_file": "sql/tabla-organizador.sql",
-      "source_location": "L159"
+      "source_location": "L162"
     },
     {
       "id": "sql_tabla_organizador_sql_auth_users",
@@ -12108,6 +12196,39 @@
       "source_location": null
     },
     {
+      "id": "sql_tabla_seguridad_perfiles_cuidar_rol",
+      "label": "perfiles_cuidar_rol",
+      "_origin": "ast",
+      "community": 98,
+      "community_name": "tabla-seguridad.sql",
+      "file_type": "code",
+      "norm_label": "perfiles_cuidar_rol",
+      "source_file": "sql/tabla-seguridad.sql",
+      "source_location": "L77"
+    },
+    {
+      "id": "sql_tabla_seguridad_public_cuidar_rol",
+      "label": "public.cuidar_rol()",
+      "_origin": "ast",
+      "community": 98,
+      "community_name": "tabla-seguridad.sql",
+      "file_type": "code",
+      "norm_label": "public.cuidar_rol()",
+      "source_file": "sql/tabla-seguridad.sql",
+      "source_location": "L58"
+    },
+    {
+      "id": "sql_tabla_seguridad_sql_public_cuidar_rol",
+      "label": "public.cuidar_rol",
+      "_origin": "ast",
+      "community": 98,
+      "community_name": "tabla-seguridad.sql",
+      "file_type": "code",
+      "norm_label": "public.cuidar_rol",
+      "source_file": "",
+      "source_location": ""
+    },
+    {
       "id": "public_marcas_de_publicacion",
       "label": "public.marcas_de_publicacion",
       "_origin": "ast",
@@ -12283,6 +12404,82 @@
       "source_url": null
     },
     {
+      "id": "estudiemos_fichas_index",
+      "label": "Pantalla Fichas de estudio",
+      "_origin": "semantic",
+      "author": null,
+      "captured_at": null,
+      "community": 114,
+      "community_name": "Pantalla Estudiemos (landing de herramientas)",
+      "contributor": null,
+      "file_type": "code",
+      "norm_label": "pantalla fichas de estudio",
+      "source_file": "estudiemos/index.html",
+      "source_location": null,
+      "source_url": null
+    },
+    {
+      "id": "fonoteca_oculta",
+      "label": "Fonoteca oculta en Estudiemos (oculta:true, v71)",
+      "_origin": "semantic",
+      "author": null,
+      "captured_at": null,
+      "community": 114,
+      "community_name": "Pantalla Estudiemos (landing de herramientas)",
+      "contributor": null,
+      "file_type": "concept",
+      "norm_label": "fonoteca oculta en estudiemos (oculta:true, v71)",
+      "source_file": "estudiemos/portada.js",
+      "source_location": "L102",
+      "source_url": null
+    },
+    {
+      "id": "supabase_tabla_guia_materia",
+      "label": "Tabla Supabase guia_materia",
+      "_origin": "semantic",
+      "author": null,
+      "captured_at": null,
+      "community": 114,
+      "community_name": "Pantalla Estudiemos (landing de herramientas)",
+      "contributor": null,
+      "file_type": "concept",
+      "norm_label": "tabla supabase guia_materia",
+      "source_file": "anatomo/index.html",
+      "source_location": null,
+      "source_url": null
+    },
+    {
+      "id": "supabase_tabla_materiales",
+      "label": "Tabla Supabase materiales",
+      "_origin": "semantic",
+      "author": null,
+      "captured_at": null,
+      "community": 114,
+      "community_name": "Pantalla Estudiemos (landing de herramientas)",
+      "contributor": null,
+      "file_type": "concept",
+      "norm_label": "tabla supabase materiales",
+      "source_file": "panel/index.html",
+      "source_location": null,
+      "source_url": null
+    },
+    {
+      "id": "patron_memoria_offline",
+      "label": "Patr\u00f3n memoria local + conPaciencia (lectura con cach\u00e9)",
+      "_origin": "semantic",
+      "author": null,
+      "captured_at": null,
+      "community": 114,
+      "community_name": "Pantalla Estudiemos (landing de herramientas)",
+      "contributor": null,
+      "file_type": "rationale",
+      "norm_label": "patron memoria local + conpaciencia (lectura con cache)",
+      "rationale": "Las pantallas p\u00fablicas muestran lo guardado en memoria y actualizan desde Supabase con tiempo l\u00edmite, para el webview lento de Instagram.",
+      "source_file": "quienes/index.html",
+      "source_location": null,
+      "source_url": null
+    },
+    {
       "id": "leeme",
       "label": "LEEME \u00b7 La Bol\u00edvar con vos",
       "_origin": "semantic",
@@ -12448,21 +12645,6 @@
       "source_url": null
     },
     {
-      "id": "estudiemos_fichas_index",
-      "label": "Pantalla Fichas de estudio",
-      "_origin": "semantic",
-      "author": null,
-      "captured_at": null,
-      "community": 38,
-      "community_name": "Pantalla El Consejo Directivo",
-      "contributor": null,
-      "file_type": "code",
-      "norm_label": "pantalla fichas de estudio",
-      "source_file": "estudiemos/index.html",
-      "source_location": null,
-      "source_url": null
-    },
-    {
       "id": "consejo_conquistas",
       "label": "Conquistas con posteo (CONQUISTAS, v70)",
       "_origin": "semantic",
@@ -12493,21 +12675,6 @@
       "source_url": null
     },
     {
-      "id": "fonoteca_oculta",
-      "label": "Fonoteca oculta en Estudiemos (oculta:true, v71)",
-      "_origin": "semantic",
-      "author": null,
-      "captured_at": null,
-      "community": 38,
-      "community_name": "Pantalla El Consejo Directivo",
-      "contributor": null,
-      "file_type": "concept",
-      "norm_label": "fonoteca oculta en estudiemos (oculta:true, v71)",
-      "source_file": "estudiemos/portada.js",
-      "source_location": "L102",
-      "source_url": null
-    },
-    {
       "id": "supabase_bucket_fotos",
       "label": "Bucket Supabase fotos",
       "_origin": "semantic",
@@ -12518,36 +12685,6 @@
       "contributor": null,
       "file_type": "concept",
       "norm_label": "bucket supabase fotos",
-      "source_file": "panel/index.html",
-      "source_location": null,
-      "source_url": null
-    },
-    {
-      "id": "supabase_tabla_guia_materia",
-      "label": "Tabla Supabase guia_materia",
-      "_origin": "semantic",
-      "author": null,
-      "captured_at": null,
-      "community": 38,
-      "community_name": "Pantalla El Consejo Directivo",
-      "contributor": null,
-      "file_type": "concept",
-      "norm_label": "tabla supabase guia_materia",
-      "source_file": "anatomo/index.html",
-      "source_location": null,
-      "source_url": null
-    },
-    {
-      "id": "supabase_tabla_materiales",
-      "label": "Tabla Supabase materiales",
-      "_origin": "semantic",
-      "author": null,
-      "captured_at": null,
-      "community": 38,
-      "community_name": "Pantalla El Consejo Directivo",
-      "contributor": null,
-      "file_type": "concept",
-      "norm_label": "tabla supabase materiales",
       "source_file": "panel/index.html",
       "source_location": null,
       "source_url": null
@@ -12595,22 +12732,6 @@
       "norm_label": "vercel web analytics (/_vercel/insights/script.js, v72)",
       "source_file": "sw.js",
       "source_location": "L508",
-      "source_url": null
-    },
-    {
-      "id": "patron_memoria_offline",
-      "label": "Patr\u00f3n memoria local + conPaciencia (lectura con cach\u00e9)",
-      "_origin": "semantic",
-      "author": null,
-      "captured_at": null,
-      "community": 38,
-      "community_name": "Pantalla El Consejo Directivo",
-      "contributor": null,
-      "file_type": "rationale",
-      "norm_label": "patron memoria local + conpaciencia (lectura con cache)",
-      "rationale": "Las pantallas p\u00fablicas muestran lo guardado en memoria y actualizan desde Supabase con tiempo l\u00edmite, para el webview lento de Instagram.",
-      "source_file": "quienes/index.html",
-      "source_location": null,
       "source_url": null
     },
     {
@@ -25240,7 +25361,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "sql/arreglo-rls-rendimiento.sql",
-      "source_location": "L179",
+      "source_location": "L178",
       "weight": 1.0
     },
     {
@@ -25251,7 +25372,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "sql/arreglo-rls-rendimiento.sql",
-      "source_location": "L199",
+      "source_location": "L198",
       "weight": 1.0
     },
     {
@@ -25262,7 +25383,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "sql/arreglo-rls-rendimiento.sql",
-      "source_location": "L208",
+      "source_location": "L207",
       "weight": 1.0
     },
     {
@@ -25273,7 +25394,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "sql/arreglo-rls-rendimiento.sql",
-      "source_location": "L209",
+      "source_location": "L208",
       "weight": 1.0
     },
     {
@@ -25284,7 +25405,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "sql/arreglo-rls-rendimiento.sql",
-      "source_location": "L210",
+      "source_location": "L209",
       "weight": 1.0
     },
     {
@@ -25295,7 +25416,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "sql/arreglo-rls-rendimiento.sql",
-      "source_location": "L211",
+      "source_location": "L210",
       "weight": 1.0
     },
     {
@@ -25306,7 +25427,51 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "sql/arreglo-rls-rendimiento.sql",
-      "source_location": "L212",
+      "source_location": "L211",
+      "weight": 1.0
+    },
+    {
+      "source": "sql_arreglo_seguridad_11_10",
+      "target": "sql_arreglo_seguridad_11_10_public_freno_sucesos",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "sql/arreglo-seguridad-11-10.sql",
+      "source_location": "L100",
+      "weight": 1.0
+    },
+    {
+      "source": "sql_arreglo_seguridad_11_10",
+      "target": "sql_arreglo_seguridad_11_10_public_freno_consultas",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "sql/arreglo-seguridad-11-10.sql",
+      "source_location": "L129",
+      "weight": 1.0
+    },
+    {
+      "source": "sql_arreglo_seguridad_11_10",
+      "target": "sql_arreglo_seguridad_11_10_public_cuidar_rol",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "sql/arreglo-seguridad-11-10.sql",
+      "source_location": "L59",
+      "weight": 1.0
+    },
+    {
+      "source": "sql_arreglo_seguridad_11_10",
+      "target": "sql_arreglo_seguridad_11_10_perfiles_cuidar_rol",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "sql/arreglo-seguridad-11-10.sql",
+      "source_location": "L78",
       "weight": 1.0
     },
     {
@@ -25603,7 +25768,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "sql/tabla-avisanos.sql",
-      "source_location": "L146",
+      "source_location": "L152",
       "weight": 1.0
     },
     {
@@ -25614,7 +25779,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "sql/tabla-avisanos.sql",
-      "source_location": "L170",
+      "source_location": "L179",
       "weight": 1.0
     },
     {
@@ -26230,7 +26395,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "sql/tabla-organizador.sql",
-      "source_location": "L159",
+      "source_location": "L162",
       "weight": 1.0
     },
     {
@@ -26400,13 +26565,24 @@
     },
     {
       "source": "sql_tabla_registro",
+      "target": "sql_tabla_registro_public_freno_sucesos",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "sql/tabla-registro.sql",
+      "source_location": "L100",
+      "weight": 1.0
+    },
+    {
+      "source": "sql_tabla_registro",
       "target": "sql_tabla_registro_freno_sucesos",
       "relation": "contains",
       "_origin": "ast",
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "sql/tabla-registro.sql",
-      "source_location": "L118",
+      "source_location": "L123",
       "weight": 1.0
     },
     {
@@ -26417,7 +26593,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "sql/tabla-registro.sql",
-      "source_location": "L135",
+      "source_location": "L140",
       "weight": 1.0
     },
     {
@@ -26451,17 +26627,6 @@
       "confidence_score": 1.0,
       "source_file": "sql/tabla-registro.sql",
       "source_location": "L58",
-      "weight": 1.0
-    },
-    {
-      "source": "sql_tabla_registro",
-      "target": "sql_tabla_registro_public_freno_sucesos",
-      "relation": "contains",
-      "_origin": "ast",
-      "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "source_file": "sql/tabla-registro.sql",
-      "source_location": "L98",
       "weight": 1.0
     },
     {
@@ -26561,6 +26726,28 @@
       "confidence_score": 1.0,
       "source_file": "sql/tabla-riesgo.sql",
       "source_location": "L76",
+      "weight": 1.0
+    },
+    {
+      "source": "sql_tabla_seguridad",
+      "target": "sql_tabla_seguridad_public_cuidar_rol",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "sql/tabla-seguridad.sql",
+      "source_location": "L58",
+      "weight": 1.0
+    },
+    {
+      "source": "sql_tabla_seguridad",
+      "target": "sql_tabla_seguridad_perfiles_cuidar_rol",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "sql/tabla-seguridad.sql",
+      "source_location": "L77",
       "weight": 1.0
     },
     {
@@ -26745,7 +26932,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "sql/arreglo-rls-rendimiento.sql",
-      "source_location": "L208",
+      "source_location": "L207",
       "weight": 1.0
     },
     {
@@ -26756,7 +26943,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "sql/arreglo-rls-rendimiento.sql",
-      "source_location": "L209",
+      "source_location": "L208",
       "weight": 1.0
     },
     {
@@ -26767,7 +26954,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "sql/arreglo-rls-rendimiento.sql",
-      "source_location": "L210",
+      "source_location": "L209",
       "weight": 1.0
     },
     {
@@ -26778,7 +26965,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "sql/arreglo-rls-rendimiento.sql",
-      "source_location": "L211",
+      "source_location": "L210",
       "weight": 1.0
     },
     {
@@ -26789,7 +26976,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "sql/arreglo-rls-rendimiento.sql",
-      "source_location": "L212",
+      "source_location": "L211",
       "weight": 1.0
     },
     {
@@ -27299,6 +27486,28 @@
       "weight": 1.0
     },
     {
+      "source": "sql_arreglo_seguridad_11_10_public_freno_consultas",
+      "target": "public_consultas",
+      "relation": "reads_from",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "sql/arreglo-seguridad-11-10.sql",
+      "source_location": "L144",
+      "weight": 1.0
+    },
+    {
+      "source": "sql_arreglo_seguridad_11_10_public_freno_sucesos",
+      "target": "public_sucesos",
+      "relation": "reads_from",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "sql/arreglo-seguridad-11-10.sql",
+      "source_location": "L113",
+      "weight": 1.0
+    },
+    {
       "source": "sql_tabla_anotados_public_anotable",
       "target": "sql_tabla_anotados_sql_public_publicaciones",
       "relation": "reads_from",
@@ -27361,7 +27570,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "sql/tabla-avisanos.sql",
-      "source_location": "L158",
+      "source_location": "L167",
       "weight": 1.0
     },
     {
@@ -27471,7 +27680,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "sql/tabla-registro.sql",
-      "source_location": "L103",
+      "source_location": "L114",
       "weight": 1.0
     },
     {
@@ -28978,7 +29187,18 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "sql/arreglo-rls-rendimiento.sql",
-      "source_location": "L199",
+      "source_location": "L198",
+      "weight": 1.0
+    },
+    {
+      "source": "sql_arreglo_seguridad_11_10_perfiles_cuidar_rol",
+      "target": "sql_arreglo_seguridad_11_10_sql_public_cuidar_rol",
+      "relation": "triggers",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "sql/arreglo-seguridad-11-10.sql",
+      "source_location": "L78",
       "weight": 1.0
     },
     {
@@ -28989,7 +29209,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "sql/tabla-avisanos.sql",
-      "source_location": "L170",
+      "source_location": "L179",
       "weight": 1.0
     },
     {
@@ -29077,7 +29297,18 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "sql/tabla-registro.sql",
-      "source_location": "L118",
+      "source_location": "L123",
+      "weight": 1.0
+    },
+    {
+      "source": "sql_tabla_seguridad_perfiles_cuidar_rol",
+      "target": "sql_tabla_seguridad_sql_public_cuidar_rol",
+      "relation": "triggers",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "sql/tabla-seguridad.sql",
+      "source_location": "L77",
       "weight": 1.0
     },
     {
@@ -30460,5 +30691,5 @@
       "source_file": "panel/index.html"
     }
   ],
-  "built_at_commit": "63b11a0abaeb6dafe7ca2f83e3cbaa5c04a0309c"
+  "built_at_commit": "3e2fa8f6266404c0fc121b0bc2df9c11dc75064a"
 }

@@ -60,9 +60,11 @@ create index if not exists sucesos_fecha_idx on public.sucesos (creado_at desc);
 alter table public.sucesos enable row level security;
 
 -- Sin cuenta SOLO se puede anotar. Ni leer, ni editar, ni borrar.
-revoke insert, update, delete on public.sucesos from anon;
-grant insert on public.sucesos to anon;
-grant insert, select, delete on public.sucesos to authenticated;
+-- Y solo las cuatro columnas que manda `anotar()` (11/10/2026): con
+-- `id` o `creado_at` a mano se esquivaba el freno y se trababa la tabla.
+revoke insert, update, delete on public.sucesos from anon, authenticated;
+grant insert (tipo, pantalla, detalle, dispositivo) on public.sucesos to anon, authenticated;
+grant select, delete on public.sucesos to authenticated;
 
 drop policy if exists "sucesos cualquiera anota" on public.sucesos;
 create policy "sucesos cualquiera anota"
@@ -99,6 +101,9 @@ create or replace function public.freno_sucesos()
 returns trigger language plpgsql security definer set search_path = public as $$
 declare ultimos int;
 begin
+  -- La fecha la pone la base, nunca quien anota.
+  new.creado_at := now();
+
   select count(*) into ultimos
     from public.sucesos where creado_at > now() - interval '1 minute';
   if ultimos >= 600 then

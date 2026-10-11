@@ -44,13 +44,39 @@ begin
   end loop;
 end $$;
 
+-- El rol NO se cuida acá sino con el disparador `perfiles_cuidar_rol`
+-- (arreglo-seguridad-11-10.sql). La versión que leía `perfiles` desde
+-- adentro de la política daba «infinite recursion» y no dejaba editar
+-- nada; no volver a ponerla.
 create policy "perfiles cada quien edita el suyo, sin tocarse el rol"
   on public.perfiles for update to authenticated
-  using (id = auth.uid())
-  with check (
-        id = auth.uid()
-    and rol is not distinct from (select p.rol from public.perfiles p where p.id = auth.uid())
-  );
+  using (id = (select auth.uid()))
+  with check (id = (select auth.uid()));
+
+-- Nadie fuera del equipo se cambia el rol. Sin sesión (supabase.com, la
+-- clave de servicio) no se frena: así se sigue ascendiendo a alguien.
+create or replace function public.cuidar_rol()
+returns trigger
+language plpgsql
+security invoker
+set search_path = ''
+as $$
+begin
+  if new.rol is distinct from old.rol then
+    if auth.uid() is not null then
+      if not public.es_equipo() then
+        raise exception 'El rol no se cambia desde la app.'
+          using errcode = '42501';
+      end if;
+    end if;
+  end if;
+  return new;
+end $$;
+
+drop trigger if exists perfiles_cuidar_rol on public.perfiles;
+create trigger perfiles_cuidar_rol
+  before update of rol on public.perfiles
+  for each row execute function public.cuidar_rol();
 
 
 -- ============================================================
@@ -83,7 +109,9 @@ revoke truncate, trigger, references on all tables in schema public
 --   · «Leaked password protection» está APAGADA. Con estudiantes
 --     creándose cuentas, conviene prenderla: compara la contraseña
 --     contra las listas de contraseñas filtradas y no deja usar una
---     que ya se sabe pública. Es un interruptor, no cuesta nada.
+--     que ya se sabe pública. Es un interruptor, pero (11/10/2026)
+--     viene solo en los planes pagos de Supabase: con el gratis queda
+--     apagada.
 --
 -- Y una decisión, no un error: `contactos` se lee sin cuenta, así que
 -- el Instagram, el WhatsApp o el mail que carguen ahí quedan a la

@@ -486,9 +486,9 @@
     "semantic_hash": ""
   },
   "sql/tabla-avisanos.sql": {
-    "mtime": 1790725615.1300547,
-    "seen": 1790732169.3236275,
-    "ast_hash": "212c4d9ca1a68d98cbcb2bc6d3cfab0b",
+    "mtime": 1791744079.139772,
+    "seen": 1791744126.7656286,
+    "ast_hash": "905a70079881dd779fdc333e7e4ddea1",
     "semantic_hash": ""
   },
   "sql/tabla-avisos.sql": {
@@ -546,9 +546,9 @@
     "semantic_hash": ""
   },
   "sql/tabla-organizador.sql": {
-    "mtime": 1790725615.1300547,
-    "seen": 1790732169.3236778,
-    "ast_hash": "793365c3108748ae87a4e4c59a6ecf10",
+    "mtime": 1791744000.431804,
+    "seen": 1791744027.0064375,
+    "ast_hash": "ac544124f60296371bda2af8d75c28d9",
     "semantic_hash": ""
   },
   "sql/tabla-posteos-ig.sql": {
@@ -570,9 +570,9 @@
     "semantic_hash": ""
   },
   "sql/tabla-registro.sql": {
-    "mtime": 1790725615.14568,
-    "seen": 1790732169.3237038,
-    "ast_hash": "041293b13e99464774613824bd6fc915",
+    "mtime": 1791744000.5248463,
+    "seen": 1791744027.0064454,
+    "ast_hash": "9fd9b8946b2ee5394532f3dcc7898772",
     "semantic_hash": ""
   },
   "sql/tabla-respaldos.sql": {
@@ -588,9 +588,9 @@
     "semantic_hash": ""
   },
   "sql/tabla-seguridad.sql": {
-    "mtime": 1790725615.14568,
-    "seen": 1790732169.3237185,
-    "ast_hash": "13c70cb9b680cf53ce1df6881965457c",
+    "mtime": 1791744009.462986,
+    "seen": 1791744027.0064502,
+    "ast_hash": "43aaf9aa9b83349469150626103df13a",
     "semantic_hash": ""
   },
   "docs/HISTORIAL-SW.md": {
@@ -888,9 +888,15 @@
     "semantic_hash": ""
   },
   "sql/arreglo-rls-rendimiento.sql": {
-    "mtime": 1791685527.5522351,
-    "seen": 1791685866.3271704,
-    "ast_hash": "006d27aa5c7b7fde667cc88cde5640cb",
+    "mtime": 1791744000.3799427,
+    "seen": 1791744027.0064034,
+    "ast_hash": "3c14691da424d49c547c5d8caca4dd05",
+    "semantic_hash": ""
+  },
+  "sql/arreglo-seguridad-11-10.sql": {
+    "mtime": 1791744088.7410574,
+    "seen": 1791744126.7656174,
+    "ast_hash": "90aef36d2d3cae6bbfb6cce7d4c623c4",
     "semantic_hash": ""
   }
 }

@@ -122,7 +122,13 @@ alter table public.consultas enable row level security;
 -- tenían ningún tope. Con eso, un renglón de 500 letras podía traer
 -- dos campos de megabytes al lado. La base tiene 500 MB: llenarla es
 -- tirar abajo la app entera, no solo Avisanos.
-grant insert on public.consultas to anon, authenticated;
+--
+-- Y OTRO (cerrado el 11/10/2026): se podían mandar `creado_at` e `id`
+-- a mano. Con una fecha vieja el renglón esquivaba el freno de abajo,
+-- que cuenta solo lo del último minuto. Ahora se escriben únicamente
+-- las tres columnas que manda avisanos.js, y la fecha la pone el freno.
+revoke insert on public.consultas from anon, authenticated;
+grant insert (texto, carrera, pantalla) on public.consultas to anon, authenticated;
 grant select, update, delete on public.consultas to authenticated;
 
 drop policy if exists "consultas cualquiera pregunta" on public.consultas;
@@ -148,6 +154,9 @@ returns trigger language plpgsql security definer set search_path = public as $$
 declare
   ultimas int;
 begin
+  -- La fecha la pone la base, nunca quien pregunta.
+  new.creado_at := now();
+
   select count(*) into ultimas
     from public.consultas where creado_at > now() - interval '1 minute';
   if ultimas >= 20 then

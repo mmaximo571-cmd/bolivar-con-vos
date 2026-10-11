@@ -148,7 +148,10 @@ create policy "cada uno crea la suya"
 drop policy if exists "cada uno edita la suya" on public.preparaciones;
 create policy "cada uno edita la suya"
   on public.preparaciones for update to authenticated
-  using (usuario_id = auth.uid());
+  using (usuario_id = auth.uid())
+  -- Sin esto se podía cambiar el usuario_id y pasarle la fila a otra
+  -- cuenta (11/10/2026).
+  with check (usuario_id = auth.uid());
 
 drop policy if exists "cada uno borra la suya" on public.preparaciones;
 create policy "cada uno borra la suya"

@@ -58,13 +58,11 @@
 alter policy "perfil_propio_select" on public.perfiles
   using ((id = (select auth.uid())) or (select public.es_equipo()));
 
+-- El rol lo cuida el disparador de arreglo-seguridad-11-10.sql: leer
+-- `perfiles` desde esta política daba «infinite recursion».
 alter policy "perfiles cada quien edita el suyo, sin tocarse el rol" on public.perfiles
   using (id = (select auth.uid()))
-  with check (
-    id = (select auth.uid())
-    and not (rol is distinct from (select p.rol from public.perfiles p
-                                    where p.id = (select auth.uid())))
-  );
+  with check (id = (select auth.uid()));
 
 alter policy "guardados_propios" on public.guardados
   using (usuario_id = (select auth.uid()))
@@ -72,7 +70,8 @@ alter policy "guardados_propios" on public.guardados
 
 alter policy "cada uno ve la suya"    on public.preparaciones using (usuario_id = (select auth.uid()));
 alter policy "cada uno crea la suya"  on public.preparaciones with check (usuario_id = (select auth.uid()));
-alter policy "cada uno edita la suya" on public.preparaciones using (usuario_id = (select auth.uid()));
+alter policy "cada uno edita la suya" on public.preparaciones
+  using (usuario_id = (select auth.uid())) with check (usuario_id = (select auth.uid()));
 alter policy "cada uno borra la suya" on public.preparaciones using (usuario_id = (select auth.uid()));
 
 alter policy "cada uno ve lo suyo" on public.mi_ano using (usuario_id = (select auth.uid()));
