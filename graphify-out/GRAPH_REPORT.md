@@ -1,17 +1,17 @@
-# Graph Report - bolivar-con-vos  (2026-10-07)
+# Graph Report - bolivar-con-vos  (2026-10-10)
 
 ## Corpus Check
-- 88 files · ~324,804 words
+- 90 files · ~333,451 words
 - Verdict: corpus is large enough that graph structure adds value.
 - Unclassified: 35 file(s) not represented in the graph (top: .css 25, (none) 5, .geojson 4)
 
 ## Summary
-- 993 nodes · 1504 edges · 112 communities (70 shown, 42 thin omitted)
-- Extraction: 94% EXTRACTED · 6% INFERRED · 0% AMBIGUOUS · INFERRED: 96 edges (avg confidence: 0.85)
+- 1020 nodes · 1530 edges · 112 communities (70 shown, 42 thin omitted)
+- Extraction: 94% EXTRACTED · 6% INFERRED · 0% AMBIGUOUS · INFERRED: 97 edges (avg confidence: 0.85)
 - Token cost: 0 input · 0 output
 
 ## Graph Freshness
-- Built from commit: `28dcbbee`
+- Built from commit: `1019cef2`
 - Run `git rev-parse HEAD` and compare to check if the graph is stale.
 - Run `graphify update .` after code changes (no API cost).
 
@@ -115,7 +115,7 @@
 - compartido.js
 - Curaduría y lluvia de ideas sin Claude
 - tabla-mi-ano.sql
-- buscar (buscador de trámites, FAQ y cátedras)
+- revisar-ficha.mjs
 
 ## God Nodes (most connected - your core abstractions)
 1. `Pantalla Mi año (carrera)` - 19 edges
@@ -160,8 +160,8 @@ Cohesion: 0.14
 Nodes (14): Versión 2.0 de AI Studio (React + Tailwind), La carrera se elige una vez (bolivar-carrera-v2), Congelamiento de código (16-17/9), El embudo del 21 (hitos y origen de Instagram), Lanzamiento 21 de septiembre (Día del Estudiante), El plan de estudios se imprime, no se publica en PDF, anotar(): registro de visitas, búsquedas y errores, Riel deslizable de herramientas de Estudiemos (+6 more)
 
 ### Community 1 - "Pantalla Mi año (carrera)"
-Cohesion: 0.20
-Nodes (13): Pantalla Agenda (Fechas y novedades), Tema claro/oscuro (localStorage bolivar-tema), Pantalla Mi año (carrera), Vista plan (Mi año), estilos.css, Pantalla Glosario universitario, icono(), iconoDeCategoria() (+5 more)
+Cohesion: 0.16
+Nodes (16): Pantalla Agenda (Fechas y novedades), Tema claro/oscuro (localStorage bolivar-tema), Pantalla Mi año (carrera), Vista plan (Mi año), estilos.css, Pantalla Glosario universitario, icono(), iconoDeCategoria() (+8 more)
 
 ### Community 2 - "tabla-anotados.sql"
 Cohesion: 0.27
@@ -204,8 +204,8 @@ Cohesion: 0.18
 Nodes (23): alFiltrar(), alMarcar(), armar(), arrancar(), avisar(), errorDeJSON(), esDeAfuera(), esNuevo() (+15 more)
 
 ### Community 12 - "portada.js"
-Cohesion: 0.18
-Nodes (20): buscar(), carrera(), carreraDeMateria(), deQuien(), duracion(), estado(), hace(), icono_() (+12 more)
+Cohesion: 0.11
+Nodes (28): 1. De dónde viene el contenido, 2. El nombre, 3. Camino A · Ficha de texto (a y b), 4. Camino C · Ficha con diseño propio (Claude Design), 5. Registrar, 6. Probar, 7. Cerrar, Hacer una ficha de Estudiemos (+20 more)
 
 ### Community 13 - "htmlNovedades"
 Cohesion: 0.17
@@ -241,7 +241,7 @@ Nodes (21): archivoICS(), bajarICS(), detalleDelEvento(), doblarRenglon(), escap
 
 ### Community 21 - "riesgo.js"
 Cohesion: 0.07
-Nodes (45): abrir(), aFila(), armarCapaBase(), armarMapa(), base(), bloquearDetras(), cambiarEstadoBase(), cargarBase() (+37 more)
+Nodes (46): apagar(), abrir(), aFila(), armarCapaBase(), armarMapa(), base(), bloquearDetras(), cambiarEstadoBase() (+38 more)
 
 ### Community 22 - "PROMPT-FONOTECA.md"
 Cohesion: 0.12
@@ -276,8 +276,8 @@ Cohesion: 0.67
 Nodes (3): vistaAvisanos (contactos y consultas), Tabla Supabase consultas, Tabla Supabase contactos
 
 ### Community 31 - "fondo-red.js"
-Cohesion: 0.19
-Nodes (14): apagar(), armarTodo(), arrancar(), bucle(), Capa(), deLienzo(), esDeNoche(), marcarMedicion() (+6 more)
+Cohesion: 0.20
+Nodes (13): armarTodo(), arrancar(), bucle(), Capa(), deLienzo(), esDeNoche(), marcarMedicion(), nuevoLienzo() (+5 more)
 
 ### Community 35 - "El Trayecto Optativo: qué tiene que decir la pantalla"
 Cohesion: 0.29
@@ -431,26 +431,26 @@ Nodes (16): aISO(), bajarGritos(), buscarFecha(), buscarHora(), buscarLugar(), c
 Cohesion: 0.22
 Nodes (8): 1. El cargador: lo que va antes de todo pedido, 2. Molde de curaduría, 3. Molde de lluvia de ideas, 4. Cómo vuelve a Claude en quince líneas, 5. Lo que Gemini hace mal acá, siempre, 6. Con qué más se puede seguir cuando no hay tokens, 7. Lo que no se delega, ni acá ni en ningún lado, Curaduría y lluvia de ideas sin Claude
 
-### Community 111 - "buscar (buscador de trámites, FAQ y cátedras)"
-Cohesion: 0.67
-Nodes (3): buscar (buscador de trámites, FAQ y cátedras), pedirCatedras, Tabla Supabase tramites
+### Community 111 - "revisar-ficha.mjs"
+Cohesion: 0.11
+Nodes (14): aqui, correctas, cuenta, errores, f, masLarga, nunca, ojos (+6 more)
 
 ## Knowledge Gaps
-- **178 isolated node(s):** `session-start.sh script`, `__hitosDeEstaVisita`, `MESES`, `MESES_LARGO`, `NOMBRE_SECCION` (+173 more)
-  These have ≤1 connection - possible missing edges or undocumented components. (Counts symbols only; 319 node(s) total have ≤1 connection when file, concept and rationale nodes are included.)
+- **195 isolated node(s):** `session-start.sh script`, `aqui`, `raiz`, `texto`, `f` (+190 more)
+  These have ≤1 connection - possible missing edges or undocumented components. (Counts symbols only; 343 node(s) total have ≤1 connection when file, concept and rationale nodes are included.)
 - **42 thin communities (<3 nodes) omitted from report** — run `graphify query` to explore isolated nodes.
 
 ## Suggested Questions
 _Questions this graph is uniquely positioned to answer:_
 
-- **Why does `Pantalla Inicio` connect `Pantalla Mi año (carrera)` to `movimiento.js`, `app.js`, `Detalle de publicación (?id=)`, `Pantalla El Consejo Directivo`, `Mi perfil (mi/index.html)`, `manifest.json`, `buscar (buscador de trámites, FAQ y cátedras)`?**
-  _High betweenness centrality (0.091) - this node is a cross-community bridge._
-- **Why does `pedido()` connect `riesgo.js` to `Pantalla El Consejo Directivo`, `fondo-red.js`?**
-  _High betweenness centrality (0.066) - this node is a cross-community bridge._
-- **Why does `Vercel Web Analytics (/_vercel/insights/script.js, v72)` connect `Pantalla El Consejo Directivo` to `Pantalla Mi año (carrera)`?**
+- **Why does `Pantalla Inicio` connect `Pantalla Mi año (carrera)` to `movimiento.js`, `app.js`, `Detalle de publicación (?id=)`, `Pantalla El Consejo Directivo`, `Mi perfil (mi/index.html)`, `manifest.json`?**
+  _High betweenness centrality (0.100) - this node is a cross-community bridge._
+- **Why does `pedido()` connect `riesgo.js` to `Pantalla El Consejo Directivo`?**
+  _High betweenness centrality (0.062) - this node is a cross-community bridge._
+- **Why does `4. Época de parciales en Estudiemos` connect `anotar` to `pomodoro.js`, `leer.js`?**
   _High betweenness centrality (0.059) - this node is a cross-community bridge._
-- **What connects `session-start.sh script`, `__hitosDeEstaVisita`, `MESES` to the rest of the system?**
-  _178 weakly-connected nodes found - possible documentation gaps or missing edges._
+- **What connects `session-start.sh script`, `aqui`, `raiz` to the rest of the system?**
+  _195 weakly-connected nodes found - possible documentation gaps or missing edges._
 - **Should `La carrera se elige una vez (bolivar-carrera-v2)` be split into smaller, more focused modules?**
   _Cohesion score 0.14285714285714285 - nodes in this community are weakly interconnected._
 - **Should `app.js` be split into smaller, more focused modules?**

@@ -84,9 +84,9 @@
     "semantic_hash": ""
   },
   "BITACORA.md": {
-    "mtime": 1791421710.742602,
-    "seen": 1791423343.3071012,
-    "ast_hash": "370d82611854eb6a18efa688b2eb7463",
+    "mtime": 1791423397.5102923,
+    "seen": 1791682723.895223,
+    "ast_hash": "6cfc6a4421b91d15210a06774cda16a7",
     "semantic_hash": ""
   },
   "LEEME.md": {
@@ -150,9 +150,9 @@
     "semantic_hash": ""
   },
   "index.html": {
-    "mtime": 1791423280.4471881,
-    "seen": 1791423343.307167,
-    "ast_hash": "00c643208495b06d4b317ade4476643d",
+    "mtime": 1791682685.255954,
+    "seen": 1791682723.8952816,
+    "ast_hash": "82e9e04ad7dfef2b1b327e4458e3e97c",
     "semantic_hash": ""
   },
   "mi/index.html": {
@@ -732,15 +732,15 @@
     "semantic_hash": ""
   },
   "congreso/congreso.js": {
-    "mtime": 1791387347.244033,
-    "seen": 1791387786.0081003,
-    "ast_hash": "fda229658618c495315ad2cc5dd1069d",
+    "mtime": 1791682569.6655433,
+    "seen": 1791682723.8950915,
+    "ast_hash": "38376bd7e599c7dff9dbb98cddbec765",
     "semantic_hash": ""
   },
   "sql/tabla-congreso.sql": {
-    "mtime": 1791388114.526361,
-    "seen": 1791389716.720845,
-    "ast_hash": "295b51c2880146b5982e081de3957b13",
+    "mtime": 1791682583.0442715,
+    "seen": 1791682723.8951838,
+    "ast_hash": "519c8446fadd6d8216011416e27bde0d",
     "semantic_hash": ""
   },
   "congreso/index.html": {
@@ -861,6 +861,30 @@
     "mtime": 1791400628.8342538,
     "seen": 1791401334.8787658,
     "ast_hash": "4f3b8a86379cfb097a80ab3044fa1fe3",
+    "semantic_hash": ""
+  },
+  ".claude/skills/hacer-ficha/scripts/revisar-ficha.mjs": {
+    "mtime": 1791422435.0899885,
+    "seen": 1791682723.895074,
+    "ast_hash": "79e0bea459c774bff27d19a96efdc160",
+    "semantic_hash": ""
+  },
+  ".claude/skills/hacer-ficha/SKILL.md": {
+    "mtime": 1791422453.9162743,
+    "seen": 1791682723.895221,
+    "ast_hash": "4b9ff7c681a75da8b08176230d73c88d",
+    "semantic_hash": ""
+  },
+  "congreso/placas/semana-1.webp": {
+    "mtime": 1791682554.5969381,
+    "seen": 1791682723.895322,
+    "ast_hash": "fedd4efe4c691191558a7dd4aa401173",
+    "semantic_hash": ""
+  },
+  "congreso/placas/semana-2.webp": {
+    "mtime": 1791682554.7445374,
+    "seen": 1791682723.8953238,
+    "ast_hash": "78ac90e59159866520dd0e75a6212480",
     "semantic_hash": ""
   }
 }
