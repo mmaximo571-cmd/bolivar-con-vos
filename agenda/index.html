@@ -383,8 +383,10 @@
      sin cargarlo dos veces. Acá se disfrazan de actividad de un día y
      llevan a su hoja de preguntas en `congreso/`, no a `?id=`. El id
      con letras no choca con los de la agenda, y «Voy» no las ve
-     (cuenta con números). Línea «saberes» para que el modo parciales
-     no las esconda. Lo mismo hace el calendario del inicio. */
+     (cuenta con números). Van en dos líneas, «saberes» e «info»
+     (`lineas`), para que el modo parciales no las esconda: cualquiera
+     de las dos que esté visible alcanza. Lo mismo hace el calendario
+     del inicio. */
   function comoFecha(m){
     return {
       id: 'congreso-' + m.id,
@@ -395,6 +397,7 @@
       lugar: m.lugar || '',
       categoria: 'actividad',
       linea: 'saberes',
+      lineas: ['saberes', 'info'],
       etiqueta: 'Congreso',
       url: '../congreso/?mesa=' + encodeURIComponent(m.id)
     };
@@ -931,7 +934,9 @@
   } catch(e){}
 
   function conEnfoque(){
-    return enfoque ? publicaciones.filter(p => enfoqueCats.includes(p.linea)) : publicaciones;
+    return enfoque
+      ? publicaciones.filter(p => (p.lineas || [p.linea]).some(l => enfoqueCats.includes(l)))
+      : publicaciones;
   }
 
   async function traerPreferencias(){
