@@ -803,6 +803,7 @@ setTimeout(function(){
 
   /* ---------- Traemos todo de una sola vez ---------- */
   let categorias = [], tramites = [], preguntas = [], publicaciones = [], placas = [];
+  let mesasCongreso = [];
 
   /* ============================================================
      LO GUARDADO DE LA VISITA ANTERIOR, MIENTRAS LLEGA LO DE AHORA
@@ -841,7 +842,7 @@ setTimeout(function(){
        si se pidieran aparte el río tendría que esperarlas después de
        estar dibujado, y saltaría. Yendo acá no cuestan ni una décima:
        las cinco consultas salen juntas. */
-    const [rCat, rTra, rFaq, rPub, rIg] = await conPaciencia(Promise.all([
+    const [rCat, rTra, rFaq, rPub, rIg, rCongreso] = await conPaciencia(Promise.all([
       db.from('categorias').select('*').order('orden'),
       db.from('tramites').select('id,titulo,resumen,categoria_id,palabras_clave')
         .eq('publicado', true).order('orden'),
@@ -852,7 +853,11 @@ setTimeout(function(){
       /* Todos los que haya cargados, hasta un techo sensato: la fila
          los muestra a todos y se carga solo la portada de cada uno. */
       db.from('posteos_ig').select('id,permalink,epigrafe,imagen,imagenes,publicado_at')
-        .order('publicado_at', { ascending:false }).limit(30)
+        .order('publicado_at', { ascending:false }).limit(30),
+      /* Las mesas del congreso, para el calendario (10/10/2026). */
+      db.from('congreso_mesas').select('id,titulo,fecha,hora,lugar')
+        .eq('publicada', true).order('fecha', { ascending:true })
+        .order('hora', { ascending:true })
     ]));
     for (const r of [rCat, rTra, rFaq, rPub]) if (r.error) throw r.error;
     categorias = rCat.data; tramites = rTra.data;
@@ -862,6 +867,9 @@ setTimeout(function(){
        entera de nada más. Una novedad escrita que no llega es un error;
        una placa que no llega, no. */
     placas = (!rIg.error && rIg.data) ? rIg.data.filter(p => p.imagen) : [];
+    /* Igual que las placas: si las mesas no llegan, el calendario sale
+       sin el congreso y nada más. */
+    mesasCongreso = (!rCongreso.error && rCongreso.data) ? rCongreso.data : [];
     huboRed = true;
     guardarEnMemoria('inicio', {
       categorias: categorias, tramites: tramites, preguntas: preguntas });
@@ -1594,10 +1602,29 @@ setTimeout(function(){
       : p => p.categoria || 'actividad';
     const nombreCat = c => (typeof NOMBRE_CATEGORIA === 'object' && NOMBRE_CATEGORIA[c]) || '';
 
+    /* LAS MESAS DEL CONGRESO (10/10/2026). Se leen de `congreso_mesas`,
+       la misma tabla que la pantalla del congreso y que edita el equipo
+       desde el panel, y no se copian a `publicaciones`: un cambio de
+       aula tiene que llegar a los dos lados sin cargarlo dos veces. Acá
+       se disfrazan de actividad de un día y llevan a su hoja de
+       preguntas en `congreso/`. Solo van al calendario. */
+    const delCongreso = mesasCongreso.map(m => ({
+      id: 'congreso-' + m.id,
+      titulo: m.titulo,
+      fecha_desde: m.fecha,
+      fecha_hasta: null,
+      hora: m.hora ? String(m.hora).slice(0, 5) : '',
+      lugar: m.lugar || '',
+      categoria: 'actividad',
+      linea: '',
+      etiqueta: 'Congreso',
+      url: 'congreso/?mesa=' + encodeURIComponent(m.id)
+    }));
+
     function tarjetas(lista){
       return lista.map(p => `<a class="tarjeta ${esc(p.linea)}${p.suspendido ? ' suspendida' : ''}"
-          href="agenda/?id=${encodeURIComponent(p.id)}">
-          <span class="etiqueta cat-${esc(catDe(p))}">${esc(nombreCat(catDe(p)) || NOMBRE_LINEA[p.linea] || '')}</span>
+          href="${p.url ? esc(p.url) : 'agenda/?id=' + encodeURIComponent(p.id)}">
+          <span class="etiqueta cat-${esc(catDe(p))}">${esc(p.etiqueta || nombreCat(catDe(p)) || NOMBRE_LINEA[p.linea] || '')}</span>
           <h3>${esc(p.titulo)}</h3>
           <p>${esc(rangoLindo(p.fecha_desde, p.fecha_hasta))}${
              p.hora ? ' · ' + esc(p.hora) : ''}${p.lugar ? ' · ' + esc(p.lugar) : ''}</p>
@@ -1616,7 +1643,7 @@ setTimeout(function(){
           </div>`;
     }
 
-    montarCalendario(caja, publicaciones, pintarElegido,
+    montarCalendario(caja, publicaciones.concat(delCongreso), pintarElegido,
       () => pintarElegido(null, []),
       { clase: 'cuadrado', enlace: id => 'agenda/?id=' + encodeURIComponent(id) });
 
