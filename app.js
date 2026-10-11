@@ -708,7 +708,11 @@ const INDICE_PIE = SECCIONES.concat([
   /* El ex Arsenal (7/10): libros, pelis y revistas. Tiene su tarjeta
      en el inicio; acá queda para el pie y para que el buscador del
      inicio conteste a «libros» o «películas». */
-  { id:'arsenal', texto:'Leé, mirá, escuchá', url:RAIZ+'estudiemos/arsenal/' }
+  { id:'arsenal', texto:'Leé, mirá, escuchá', url:RAIZ+'estudiemos/arsenal/' },
+  /* Los micros hasta la facu, para quien no es de La Plata (11/10/2026).
+     Tiene la tarjeta del kit en el inicio; acá queda para volver y para
+     que el buscador conteste a «micro», «colectivo» o «dónde queda». */
+  { id:'llegar', texto:'Cómo llegar a la facu', url:RAIZ+'llegar/' }
 ]);
 
 /* Los sistemas de la facultad y de la universidad. No son de la app:

@@ -1,8 +1,8 @@
 {
   "app.js": {
-    "mtime": 1791418078.6140773,
-    "seen": 1791418328.6746342,
-    "ast_hash": "c3468480f9e96369864f40f91fa1b8bf",
+    "mtime": 1791761279.2273529,
+    "seen": 1791761451.9195602,
+    "ast_hash": "5fef21593f17b38187e423b646914b9c",
     "semantic_hash": ""
   },
   "carrera/plan-fono.js": {
@@ -78,15 +78,15 @@
     "semantic_hash": ""
   },
   "sw.js": {
-    "mtime": 1791419032.3592956,
-    "seen": 1791419180.194886,
-    "ast_hash": "e79fd2c1771e79861bb23eda32b86d9e",
+    "mtime": 1791761290.3471622,
+    "seen": 1791761451.9196928,
+    "ast_hash": "94e32d4dd71e1cc84dafd696e904c38a",
     "semantic_hash": ""
   },
   "BITACORA.md": {
-    "mtime": 1791685784.5320606,
-    "seen": 1791685866.3272264,
-    "ast_hash": "8efa28c2808d007b7f8b630d11a44189",
+    "mtime": 1791761886.8729477,
+    "seen": 1791761893.240494,
+    "ast_hash": "c8893234becae16ee26971c36da050c6",
     "semantic_hash": ""
   },
   "LEEME.md": {
@@ -150,9 +150,9 @@
     "semantic_hash": ""
   },
   "index.html": {
-    "mtime": 1791682685.255954,
-    "seen": 1791682723.8952816,
-    "ast_hash": "82e9e04ad7dfef2b1b327e4458e3e97c",
+    "mtime": 1791761279.29726,
+    "seen": 1791761451.919751,
+    "ast_hash": "5f7f7a71b0f289158eab115efb81f60c",
     "semantic_hash": ""
   },
   "mi/index.html": {
@@ -594,9 +594,9 @@
     "semantic_hash": ""
   },
   "docs/HISTORIAL-SW.md": {
-    "mtime": 1791419038.703079,
-    "seen": 1791419180.1949039,
-    "ast_hash": "a85ed8a2aeda6fdb153d94f2846986bf",
+    "mtime": 1791761290.3481598,
+    "seen": 1791761451.9197133,
+    "ast_hash": "d216a723dd86b19304f746016604bdf5",
     "semantic_hash": ""
   },
   "docs/prompts/PROMPT-DISENO.md": {
@@ -897,6 +897,12 @@
     "mtime": 1791744088.7410574,
     "seen": 1791744126.7656174,
     "ast_hash": "90aef36d2d3cae6bbfb6cce7d4c623c4",
+    "semantic_hash": ""
+  },
+  "llegar/index.html": {
+    "mtime": 1791761834.4003997,
+    "seen": 1791761893.2405548,
+    "ast_hash": "cd5687de3a4a9565ec1b6042a24675da",
     "semantic_hash": ""
   }
 }

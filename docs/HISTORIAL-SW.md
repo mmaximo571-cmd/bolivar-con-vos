@@ -487,4 +487,9 @@ todo una entrada con el número, la fecha y el porqué.
    del orden de las opciones y descarta las respuestas viejas si no
    coincide. Un `.txt` nuevo con el guion viejo marcaría mal lo ya
    respondido, porque lo guardado es la letra. */
+/* v89 (11/10/2026) La pantalla nueva «Cómo llegar a la facu»
+   (`llegar/`), para les ingresantes que no son de La Plata. La
+   pantalla y su hoja (`css/pantallas/llegar.css`) no van al armazón;
+   sube por `app.js`, que la suma al índice del pie. Sin número nuevo,
+   el pie y el buscador del inicio seguirían sin conocerla. */
 ```

@@ -1,0 +1,463 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Cómo llegar a la facu · La Bolívar con vos</title>
+<meta name="description" content="Cómo llegar en micro a la Facultad de Trabajo Social (9 y 63, La Plata) desde la estación de tren, la terminal o el centro, y cómo se lee la ciudad si no sos de acá.">
+<meta name="theme-color" content="#F9E830">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+<!-- Iconos de la app: pestana, Google, y pantalla de inicio del celular -->
+<link rel="icon" type="image/png" sizes="32x32" href="../imagenes/icono-32.png">
+<link rel="icon" type="image/png" sizes="96x96" href="../imagenes/icono-96.png">
+<link rel="icon" type="image/png" sizes="192x192" href="../imagenes/icono-192.png">
+<link rel="apple-touch-icon" href="../imagenes/icono-apple.png">
+<link rel="manifest" href="../manifest.json">
+
+<!-- Como se ve cuando alguien comparte el link por WhatsApp o Instagram -->
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="La Bolivar con vos">
+<meta property="og:title" content="Cómo llegar a la facu · La Bolívar con vos">
+<meta property="og:description" content="La facu está en 9 y 63. Qué micro tomar desde la estación, la terminal o el centro.">
+<meta property="og:image" content="https://labolivarconvos.ar/imagenes/compartir.png">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="stylesheet" href="../css/tokens.css">
+<link rel="stylesheet" href="../css/base/01-cimientos.css">
+<link rel="stylesheet" href="../css/base/02-encabezado.css">
+<link rel="stylesheet" href="../css/base/03-controles.css">
+<link rel="stylesheet" href="../css/base/04-tarjetas.css">
+<link rel="stylesheet" href="../css/base/05-secciones.css">
+<link rel="stylesheet" href="../css/base/06-hoja.css">
+<link rel="stylesheet" href="../css/base/07-avisos.css">
+<link rel="stylesheet" href="../css/base/08-calendario.css">
+<link rel="stylesheet" href="../css/base/09-avisanos.css">
+<link rel="stylesheet" href="../css/base/10-lectura.css">
+<link rel="stylesheet" href="../css/base/11-navegacion.css">
+<link rel="stylesheet" href="../css/base/12-movimiento.css">
+<link rel="stylesheet" href="../css/pantallas/llegar.css">
+<link rel="stylesheet" href="../estilos-rediseno.css">
+<!-- EL TEMA, ANTES DE DIBUJAR NADA. Mismo motivo que en el glosario. -->
+<script>
+(function(){try{
+  var g = localStorage.getItem('bolivar-tema') || 'auto';
+  var oscuro = g === 'oscuro' || (g === 'auto' &&
+    window.matchMedia('(prefers-color-scheme: dark)').matches);
+  document.documentElement.dataset.tema = oscuro ? 'oscuro' : 'claro';
+}catch(e){ document.documentElement.dataset.tema = 'claro'; }})();
+</script>
+<!-- Estadisticas de visitas (Vercel Web Analytics, sin cookies) -->
+<script defer src="/_vercel/insights/script.js"></script>
+</head>
+<body class="lectura sin-js">
+
+<div id="cabecera"></div>
+
+<!-- ============================================================
+     CÓMO LLEGAR A LA FACU (11/10/2026)
+
+     Para les ingresantes que no son de La Plata: quien llega de otra
+     ciudad no sabe que acá las direcciones son esquinas, ni que «el
+     202» son diez recorridos distintos.
+
+     ESCRITO EN EL HTML Y NO EN SUPABASE, como Espacios y el glosario:
+     se usa parado en una esquina, muchas veces con poca señal, y tiene
+     que abrir igual.
+
+     DE DÓNDE SALIERON LOS RECORRIDOS. De las relaciones de colectivos
+     de OpenStreetMap (consultadas por Overpass el 11/10/2026), cruzadas
+     con la página de la facultad en Moovit. El dato fuerte es uno solo y
+     es el que se repite en todos: los cinco ramales de abajo salen de la
+     estación (1 y 44), suben por Diagonal 74 hasta Plaza Italia y bajan
+     por AVENIDA 7 hasta Plaza España (7 y 66). La facu queda a dos
+     cuadras de la avenida. Por eso la pantalla enseña «llegá a Avenida 7»
+     y no una lista de paradas: los ramales cambian, la avenida no.
+
+     LO QUE NO ESTÁ VERIFICADO EN LA CALLE: la parada exacta donde
+     arranca cada ramal en la estación, y los horarios. Por eso no se
+     escriben, y para el viaje en vivo se manda a Google Maps. Si alguien
+     de la agrupación lo confirma tomándolos, se suma acá.
+
+     No hay precios a propósito: cambian cada pocos meses y una tarifa
+     vieja es peor que ninguna.
+
+     LOS COLORES DE CADA LÍNEA (11/10/2026). Quien no es de acá ve venir
+     el micro de lejos, antes de poder leer el número: el color es lo
+     primero que reconoce. Salen de tres lados que coinciden:
+       - Este y 520: «unidades amarillas y blancas» (Wikipedia, las dos
+         las opera Unión Platense) y «mostaza» para el sector Este
+         (Municipalidad, vía visitalaplata.com.ar y La Plata Herald, 2025).
+       - 202, 275 y 307: las imágenes identificatorias de xcolectivo.com.ar
+         (de ahí los hex de llegar.css); el 307 coincide con Wikipedia
+         (turquesa y rojo), el 275 con OpenStreetMap (verde).
+       - El «cartel rojo» del ramal El Carmen del 202 sale de una nota de
+         0221 del 4/10/2023.
+     Es la pintura de la empresa: puede haber unidades viejas, retro o
+     prestadas pintadas distinto. Por eso la pantalla dice siempre que
+     manda el cartel. El 520 renumeró sus ramales: el viejo 18 es hoy
+     «1 - ex 18» (omnilineas), y la pantalla nombra los dos.
+     ============================================================ -->
+<main id="contenido" tabindex="-1">
+
+  <div class="banda tinta">
+    <div class="envoltura">
+      <p class="ceja-lectura aparece">Si no sos de La Plata</p>
+      <h1 class="grito aparece">Cómo llegar<br><em>a la facu</em></h1>
+      <p class="bajada-lectura aparece">
+        La Facultad de Trabajo Social está en <strong>calle 9 esquina 63</strong>.
+        Acá te contamos qué micro tomar desde donde llegues y cómo leer la
+        ciudad de las diagonales sin irte por la tangente.
+      </p>
+    </div>
+  </div>
+
+  <div class="banda papel">
+    <div class="envoltura">
+
+      <article class="modulo llegar-destino aparece">
+        <p class="llegar-rotulo">La dirección</p>
+        <p class="llegar-esquina">9 y 63</p>
+        <p class="llegar-nota">Así se dice en La Plata: con la esquina, no con el número.
+          A dos cuadras de Avenida&nbsp;7 y a tres de Plaza España.</p>
+        <div class="espacio-acciones">
+          <a class="boton" data-viaje="aca"
+             href="https://www.google.com/maps/dir/?api=1&amp;destination=Facultad+de+Trabajo+Social+UNLP%2C+calle+9+y+63%2C+La+Plata&amp;travelmode=transit"
+             target="_blank" rel="noopener">Cómo llego desde donde estoy ↗
+            <span class="solo-lectores">(abre Google Maps en otra pestaña)</span></a>
+          <a class="boton borde"
+             href="https://www.google.com/maps/search/?api=1&amp;query=Facultad+de+Trabajo+Social+UNLP%2C+calle+9+y+63%2C+La+Plata"
+             target="_blank" rel="noopener">Ver en el mapa ↗
+            <span class="solo-lectores">(abre Google Maps en otra pestaña)</span></a>
+        </div>
+      </article>
+
+      <!-- ===== LA AVENIDA 7 ===== -->
+      <h2 class="titulo-seccion">LA REGLA DE ORO</h2>
+      <p class="llegar-parrafo">
+        Casi todo lo que te sirve <strong>baja por Avenida&nbsp;7</strong>. Llegá
+        a la avenida, tomá un micro que vaya hacia Plaza España (para el lado
+        de las calles con número más alto: 50, 60, 66) y bajate en
+        <strong>7 y 63</strong> o <strong>7 y 64</strong>. De ahí son dos
+        cuadras caminando hasta 9.
+      </p>
+
+      <figure class="llegar-esquema aparece">
+        <svg viewBox="0 0 340 430" role="img" aria-labelledby="esquema-titulo esquema-desc">
+          <title id="esquema-titulo">El recorrido por Avenida 7</title>
+          <desc id="esquema-desc">Desde la estación de tren (1 y 44) y la terminal (4 y 42)
+            los micros van a Plaza Italia (7 y 44) y bajan por Avenida 7, pasando por
+            Plaza San Martín y Plaza Rocha (7 y 60). Hay que bajarse en 7 y 63 o 64,
+            antes de Plaza España (7 y 66), y caminar dos cuadras por 63 hasta la
+            facultad, en 9 y 63.</desc>
+          <!-- Las dos entradas que confluyen en Plaza Italia -->
+          <path class="av7-tramo" d="M60 34 C60 70 120 74 120 104"/>
+          <path class="av7-tramo" d="M180 34 C180 70 120 74 120 104"/>
+          <!-- La avenida -->
+          <line class="av7-avenida" x1="120" y1="104" x2="120" y2="384"/>
+          <!-- A pie hasta la facu -->
+          <line class="av7-pie" x1="120" y1="314" x2="232" y2="314"/>
+
+          <circle class="av7-parada" cx="60"  cy="28" r="7"/>
+          <text class="av7-nombre" x="60" y="12" text-anchor="middle">Estación</text>
+          <circle class="av7-parada" cx="180" cy="28" r="7"/>
+          <text class="av7-nombre" x="180" y="12" text-anchor="middle">Terminal</text>
+          <text class="av7-dato" x="72" y="52">1 y 44</text>
+          <text class="av7-dato" x="192" y="52">4 y 42</text>
+
+          <circle class="av7-parada" cx="120" cy="110" r="7"/>
+          <text class="av7-nombre" x="136" y="108">Plaza Italia</text>
+          <text class="av7-dato" x="136" y="124">7 y 44</text>
+
+          <circle class="av7-parada chica" cx="120" cy="170" r="5"/>
+          <text class="av7-nombre" x="136" y="168">Plaza San Martín</text>
+          <text class="av7-dato" x="136" y="184">7 y 51 · el centro</text>
+
+          <circle class="av7-parada chica" cx="120" cy="240" r="5"/>
+          <text class="av7-nombre" x="136" y="238">Plaza Rocha</text>
+          <text class="av7-dato" x="136" y="254">7 y 60</text>
+
+          <circle class="av7-bajada" cx="120" cy="314" r="11"/>
+          <text class="av7-nombre fuerte" x="12" y="300">Bajate</text>
+          <text class="av7-dato" x="12" y="316">7 y 63/64</text>
+          <text class="av7-dato" x="136" y="306">2 cuadras</text>
+          <text class="av7-dato" x="136" y="332">por 63</text>
+
+          <rect class="av7-facu" x="232" y="296" width="96" height="38" rx="6"/>
+          <text class="av7-facu-texto" x="280" y="320" text-anchor="middle">LA FACU</text>
+          <text class="av7-dato" x="280" y="352" text-anchor="middle">9 y 63</text>
+
+          <circle class="av7-parada chica" cx="120" cy="384" r="5"/>
+          <text class="av7-nombre" x="136" y="382">Plaza España</text>
+          <text class="av7-dato" x="136" y="398">7 y 66 · 3 cuadras de la facu</text>
+        </svg>
+        <figcaption>El dibujo no está a escala: es para saber en qué orden
+          pasan las cosas por la ventanilla.</figcaption>
+      </figure>
+
+      <!-- ===== LAS LÍNEAS Y SUS COLORES ===== -->
+      <h2 class="titulo-seccion">LOS MICROS QUE TE SIRVEN</h2>
+      <p class="llegar-parrafo">Cada empresa pinta sus micros de un color, y
+        se ve de lejos, antes que el número. Estos son los que te dejan cerca.</p>
+      <ul class="llegar-lineas">
+        <li>
+          <span class="micro micro-este" aria-hidden="true"></span>
+          <div><strong>Este · ramales 12, 14 y 16</strong>
+            <span class="micro-color">Amarillo mostaza y blanco</span>
+            Pasan por la terminal y la estación y bajan por Avenida&nbsp;7.</div>
+        </li>
+        <li>
+          <span class="micro micro-este" aria-hidden="true"></span>
+          <div><strong>520 · ramal 1 (el ex 18)</strong>
+            <span class="micro-color">Amarillo y blanco, igual que el Este</span>
+            Es la misma empresa, así que de lejos se confunden: mirá el número.
+            Sale de la estación y baja por 7 hasta Plaza España.</div>
+        </li>
+        <li>
+          <span class="micro micro-202" aria-hidden="true"></span>
+          <div><strong>202 · ramal El Carmen</strong>
+            <span class="micro-color">Rojo, con franjas amarilla y celeste</span>
+            El 202 tiene muchos ramales que van a Berisso: el que te sirve es
+            el de <strong class="en-linea">cartel rojo</strong>, La Plata – El Carmen.</div>
+        </li>
+        <li>
+          <span class="micro micro-307" aria-hidden="true"></span>
+          <div><strong>307 · ramal A16</strong>
+            <span class="micro-color">Verde agua y rojo</span>
+            Pasa por Plaza Italia y baja por Avenida&nbsp;7.</div>
+        </li>
+        <li>
+          <span class="micro micro-275" aria-hidden="true"></span>
+          <div><strong>275</strong>
+            <span class="micro-color">Blanco, verde y amarillo</span>
+            No baja por 7: para en 66 y 10, a unos cuatro minutos de la facu.</div>
+        </li>
+      </ul>
+      <p class="llegar-nota llegar-aviso-color">El color es una pista, no una
+        garantía: hay micros viejos o prestados pintados distinto. Lo que
+        manda es el número y el ramal del cartel.</p>
+
+      <!-- ===== DESDE DÓNDE VENÍS ===== -->
+      <h2 class="titulo-seccion" id="desde-titulo">¿DESDE DÓNDE VENÍS?</h2>
+      <div class="chips llegar-origenes" role="group" aria-labelledby="desde-titulo" hidden>
+        <button type="button" class="chip" data-origen="estacion" aria-pressed="true">Estación de tren</button>
+        <button type="button" class="chip" data-origen="terminal" aria-pressed="false">Terminal de micros</button>
+        <button type="button" class="chip" data-origen="centro" aria-pressed="false">El centro</button>
+        <button type="button" class="chip" data-origen="otro" aria-pressed="false">Otro lado</button>
+      </div>
+
+      <section class="modulo llegar-origen" id="origen-estacion" aria-labelledby="t-estacion">
+        <h3 id="t-estacion">Desde la estación de tren · 1&nbsp;y&nbsp;44</h3>
+        <p class="llegar-nota">Es donde te deja el tren Roca si venís de Constitución.</p>
+        <ol class="pasos llegar-pasos">
+          <li><strong>Tomá un micro que baje por Avenida&nbsp;7.</strong>
+            Varios ramales arrancan su recorrido en la estación: Este 12, 520
+            ramal 1 (el ex 18) y 202 ramal El Carmen. Si no lo encontrás, caminá seis
+            cuadras por Avenida 44 hasta Plaza Italia (7 y 44) y tomalo ahí.</li>
+          <li><strong>Pedí bajar en 7 y 63 o 64.</strong>
+            Tocá el timbre una cuadra antes. Si te pasaste, bajate en Plaza
+            España.</li>
+          <li><strong>Caminá dos cuadras por 63, hasta 9.</strong>
+            La facu está en la esquina.</li>
+        </ol>
+        <p class="llegar-alternativa"><strong>Otra opción, el Tren Universitario.</strong>
+          Sale de la misma estación y se paga con la SUBE. La parada más
+          cercana es <em>Diagonal 73</em>, a unos 17 minutos caminando de la facu.</p>
+        <a class="boton borde ancho" target="_blank" rel="noopener"
+           href="https://www.google.com/maps/dir/?api=1&amp;origin=Estaci%C3%B3n+La+Plata%2C+1+y+44%2C+La+Plata&amp;destination=Facultad+de+Trabajo+Social+UNLP%2C+calle+9+y+63%2C+La+Plata&amp;travelmode=transit">
+          Abrir en Google Maps ↗
+          <span class="solo-lectores">(se abre en otra pestaña)</span></a>
+      </section>
+
+      <section class="modulo llegar-origen" id="origen-terminal" aria-labelledby="t-terminal">
+        <h3 id="t-terminal">Desde la terminal de micros · 4&nbsp;y&nbsp;42</h3>
+        <p class="llegar-nota">Es donde te deja el micro de larga distancia, y los
+          que vienen de CABA por autopista, como el 129.</p>
+        <ol class="pasos llegar-pasos">
+          <li><strong>Caminá hasta Plaza Italia (7 y 44).</strong>
+            Son unas cinco cuadras: tres hasta Avenida&nbsp;7 y dos más por la
+            avenida.</li>
+          <li><strong>Tomá un micro que baje por Avenida&nbsp;7.</strong>
+            Te sirven Este 12, 14 y 16, 520 ramal 1 (ex 18), 202 ramal El Carmen y
+            307 ramal A16. Esperalo del lado que va para las calles más
+            altas (hacia 50, 60).</li>
+          <li><strong>Bajate en 7 y 63 o 64 y caminá dos cuadras por 63, hasta 9.</strong></li>
+        </ol>
+        <a class="boton borde ancho" target="_blank" rel="noopener"
+           href="https://www.google.com/maps/dir/?api=1&amp;origin=Terminal+de+%C3%93mnibus+La+Plata&amp;destination=Facultad+de+Trabajo+Social+UNLP%2C+calle+9+y+63%2C+La+Plata&amp;travelmode=transit">
+          Abrir en Google Maps ↗
+          <span class="solo-lectores">(se abre en otra pestaña)</span></a>
+      </section>
+
+      <section class="modulo llegar-origen" id="origen-centro" aria-labelledby="t-centro">
+        <h3 id="t-centro">Desde el centro</h3>
+        <p class="llegar-nota">Plaza San Martín (7 y 51), Plaza Moreno, calle 8, la zona
+          de los ministerios.</p>
+        <ol class="pasos llegar-pasos">
+          <li><strong>Buscá Avenida&nbsp;7.</strong>
+            Si estás en Plaza Moreno, son cinco cuadras hacia el lado de los
+            números bajos (12, 11, 10…).</li>
+          <li><strong>Tomá cualquiera de las líneas que bajan por 7</strong>
+            (Este 12, 14 y 16, 520, 202 ramal El Carmen, 307 ramal A16) y
+            bajate en 7 y 63 o 64.</li>
+          <li><strong>O caminá.</strong> Desde Plaza San Martín son unas
+            doce cuadras por Avenida&nbsp;7: unos 20 minutos.</li>
+        </ol>
+      </section>
+
+      <section class="modulo llegar-origen" id="origen-otro" aria-labelledby="t-otro">
+        <h3 id="t-otro">Desde otro lado</h3>
+        <p>Si vivís en un barrio, en Berisso, Ensenada o por la ruta, lo más
+          seguro es pedirle el viaje a una app con tu ubicación: Google Maps o
+          Moovit te dicen qué línea, qué ramal y dónde bajarte, y Moovit
+          además te avisa cuando llega tu parada.</p>
+        <p>Además de las que bajan por 7, cerca de la facu pasan
+          <strong>el 275</strong> y <strong>el 202</strong> por otros ramales,
+          con parada en 66 y 10, a unos cuatro minutos caminando.</p>
+        <a class="boton ancho" target="_blank" rel="noopener"
+           href="https://www.google.com/maps/dir/?api=1&amp;destination=Facultad+de+Trabajo+Social+UNLP%2C+calle+9+y+63%2C+La+Plata&amp;travelmode=transit">
+          Cómo llego desde donde estoy ↗
+          <span class="solo-lectores">(abre Google Maps en otra pestaña)</span></a>
+      </section>
+
+      <p class="llegar-parrafo"><strong>Para volver</strong>, las mismas líneas,
+        en la misma avenida pero de la vereda de enfrente: suben por 7 hasta
+        Plaza Italia y terminan en la terminal y la estación. Si salís de
+        noche, mirá en la app cuándo pasa el próximo antes de salir de la facu.</p>
+
+      <!-- ===== CÓMO SE LEE LA CIUDAD ===== -->
+      <h2 class="titulo-seccion">CÓMO SE LEE LA PLATA</h2>
+      <ul class="llegar-claves">
+        <li>
+          <span class="llegar-clave-icono" aria-hidden="true">#</span>
+          <div><strong>Las calles tienen números, no nombres.</strong>
+            Van de un lado del 1 al 31 y del otro del 32 al 72, y se cruzan
+            formando un cuadrado. Por eso una dirección es una esquina:
+            «9&nbsp;y&nbsp;63».</div>
+        </li>
+        <li>
+          <span class="llegar-clave-icono" aria-hidden="true">↔</span>
+          <div><strong>«Entre» es la mitad de la cuadra.</strong>
+            «63 entre 8 y 9» es sobre la calle 63, en la cuadra que va de 8 a 9.</div>
+        </li>
+        <li>
+          <span class="llegar-clave-icono" aria-hidden="true">▤</span>
+          <div><strong>Las avenidas son más anchas y llevan los micros.</strong>
+            Hay una más o menos cada seis cuadras: 1, 7, 13… y 44, 60, 66, 72.
+            Cuando te pierdas, buscá la avenida más cerca.</div>
+        </li>
+        <li>
+          <span class="llegar-clave-icono" aria-hidden="true">⟋</span>
+          <div><strong>Las diagonales cortan en ángulo y son las que desorientan.</strong>
+            Si caminaste por una, al llegar a la esquina fijate los dos
+            carteles antes de seguir.</div>
+        </li>
+        <li>
+          <span class="llegar-clave-icono" aria-hidden="true">◎</span>
+          <div><strong>Las plazas sirven de brújula.</strong>
+            Están en el cruce de las avenidas: Plaza Italia (7 y 44), San
+            Martín (7 y 51), Rocha (7 y 60), España (7 y 66). La de la facu
+            es Plaza España.</div>
+        </li>
+      </ul>
+
+      <!-- ===== ANTES DE SUBIR ===== -->
+      <h2 class="titulo-seccion">ANTES DE SUBIR</h2>
+      <ul class="llegar-claves">
+        <li>
+          <span class="llegar-clave-icono" aria-hidden="true">💳</span>
+          <div><strong>Se paga con la SUBE, no con efectivo.</strong>
+            La tarjeta se compra en kioscos y puntos SUBE, y se carga en los
+            mismos lugares. Registrala a tu nombre: si la perdés, recuperás la
+            plata, y la necesitás para el boleto universitario.</div>
+        </li>
+        <li>
+          <span class="llegar-clave-icono" aria-hidden="true">🎓</span>
+          <div><strong>Como estudiante, podés pedir el boleto universitario.</strong>
+            Te acreditan un montón de boletos en la SUBE, pero no son gratis:
+            los tenés que pagar.
+            <a href="../tramites/?categoria=11">Cómo se pide, paso a paso</a>.</div>
+        </li>
+        <li>
+          <span class="llegar-clave-icono" aria-hidden="true">✋</span>
+          <div><strong>El micro no para solo.</strong>
+            Hacele seña con la mano cuando se acerca. Al subir, decile al chofer
+            hasta dónde vas y apoyá la tarjeta.</div>
+        </li>
+        <li>
+          <span class="llegar-clave-icono" aria-hidden="true">🔔</span>
+          <div><strong>Para bajar, tocá el timbre.</strong>
+            Hacelo una cuadra antes y bajá por la puerta de atrás.</div>
+        </li>
+        <li>
+          <span class="llegar-clave-icono" aria-hidden="true">🚌</span>
+          <div><strong>Mirá el ramal, no solo el número.</strong>
+            Una misma línea tiene varios recorridos: el ramal está en el cartel
+            de adelante. Si dudás, preguntale al chofer «¿pasa por 7&nbsp;y&nbsp;64?».</div>
+        </li>
+      </ul>
+
+      <p class="llegar-fuente">
+        Los recorridos salen de los mapas de colectivos de
+        <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener">OpenStreetMap</a>
+        y de Moovit, y los colores de Wikipedia, Xcolectivo y la
+        Municipalidad, revisados el 11 de octubre de 2026. Los ramales cambian:
+        si alguno ya no pasa por donde dice acá, avisanos.
+      </p>
+
+    </div>
+  </div>
+
+</main>
+
+<div id="pie"></div>
+
+<script>window.RAIZ = '../';</script>
+<script src="../lib/datos.js"></script>
+<script src="../config.js"></script>
+<script src="../iconos.js"></script>
+<script src="../lib/mudanza.js"></script>
+<script src="../app.js"></script>
+<script src="../fondo-red.js"></script>
+<script src="../lectura.js"></script>
+<script>
+(function llegar(){
+  document.getElementById('cabecera').innerHTML = htmlCabecera();
+  document.getElementById('pie').innerHTML = htmlPie();
+  pintarNav('llegar');
+  document.body.classList.remove('sin-js');
+  vigilarAparicion();
+
+  /* LOS CUATRO ORÍGENES. Sin JavaScript se ven los cuatro uno abajo del
+     otro, que también sirve; con JavaScript se ve uno solo, el que se
+     eligió, porque quien está parado en la terminal no necesita leer
+     cómo se llega desde el centro.
+
+     Se recuerda en el teléfono: quien viene siempre en el Roca abre la
+     pantalla y ya está en «Estación». */
+  const LLAVE = 'bolivar-llegar-origen';
+  const chips = document.querySelector('.llegar-origenes');
+  const botones = [...chips.querySelectorAll('[data-origen]')];
+  const paneles = [...document.querySelectorAll('.llegar-origen')];
+
+  function mostrar(origen){
+    if (!botones.some(b => b.dataset.origen === origen)) origen = 'estacion';
+    botones.forEach(b => b.setAttribute('aria-pressed', String(b.dataset.origen === origen)));
+    paneles.forEach(p => { p.hidden = p.id !== 'origen-' + origen; });
+  }
+
+  let guardado = null;
+  try { guardado = localStorage.getItem(LLAVE); } catch(e){}
+  chips.hidden = false;
+  mostrar(guardado);
+
+  chips.addEventListener('click', e => {
+    const b = e.target.closest('[data-origen]');
+    if (!b) return;
+    mostrar(b.dataset.origen);
+    try { localStorage.setItem(LLAVE, b.dataset.origen); } catch(e){}
+  });
+})();
+</script>
+</body>
+</html>

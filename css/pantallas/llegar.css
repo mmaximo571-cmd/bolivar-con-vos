@@ -1,0 +1,161 @@
+/* ==========================================================
+   LA BOLIVAR CON VOS · SOLO PARA CÓMO LLEGAR A LA FACU
+   El esquema de Avenida 7, la esquina grande y las claves de la
+   ciudad. Los pasos son los `.pasos` de la base; los botones, los de
+   Espacios (`.espacio-acciones`).
+   Carga después de la base y antes de estilos-rediseno.
+   ========================================================== */
+
+/* ---- La esquina ----
+   Es lo único que alguien tiene que poder leerle a un chofer o a quien
+   pasa por la calle, así que va en grande y sola. */
+.llegar-rotulo{
+  font-family:var(--fuente-datos);font-weight:700;font-size:var(--letra-mini);
+  letter-spacing:.16em;text-transform:uppercase;color:var(--texto-suave);margin:0
+}
+
+.llegar-esquina{
+  font-family:var(--fuente-titulo);font-size:var(--letra-dato);line-height:1;
+  margin:6px 0 8px
+}
+
+.llegar-nota{color:var(--texto-suave);font-size:var(--letra-nota);margin:4px 0 0}
+
+.llegar-parrafo{margin:0 0 14px}
+
+/* ---- El esquema de Avenida 7 ----
+   Dibujado y no un mapa de verdad: un mapa necesita señal y además
+   muestra cien calles, y para tomarse un micro alcanza con saber el
+   orden en que pasan cuatro plazas. */
+.llegar-esquema{
+  margin:4px 0 0;padding:14px 10px 10px;background:var(--superficie);
+  border:1.5px solid var(--tinta-borde);border-radius:var(--radio);box-shadow:var(--sombra)
+}
+
+.llegar-esquema svg{display:block;width:100%;max-width:400px;height:auto;margin:0 auto}
+
+.llegar-esquema figcaption{
+  font-size:var(--letra-chica);color:var(--texto-suave);margin-top:6px;text-align:center
+}
+
+.av7-avenida{stroke:var(--celeste);stroke-width:8;stroke-linecap:round}
+
+.av7-tramo{fill:none;stroke:var(--celeste);stroke-width:5;stroke-linecap:round;opacity:.65}
+
+.av7-pie{stroke:var(--texto);stroke-width:2.5;stroke-dasharray:3 6;stroke-linecap:round}
+
+.av7-parada{fill:var(--superficie);stroke:var(--texto);stroke-width:3}
+
+.av7-parada.chica{stroke-width:2.5}
+
+.av7-bajada{fill:var(--amarillo);stroke:var(--texto);stroke-width:3}
+
+.av7-facu{fill:var(--amarillo);stroke:var(--texto);stroke-width:2}
+
+.av7-facu-texto{
+  fill:var(--sobre-color);font-family:var(--fuente-titulo);font-size:15px
+}
+
+.av7-nombre{fill:var(--texto);font-family:var(--fuente-sub);font-weight:700;font-size:14px}
+
+.av7-nombre.fuerte{font-family:var(--fuente-titulo);font-weight:400;font-size:16px}
+
+.av7-dato{fill:var(--texto-suave);font-family:var(--fuente-datos);font-size:12px}
+
+/* ---- Desde dónde venís ---- */
+.llegar-origenes{margin-bottom:8px}
+
+.llegar-origen h3{margin:0}
+
+.llegar-pasos li strong{display:block;margin-bottom:2px}
+
+.llegar-alternativa{
+  font-size:var(--letra-nota);border-top:1px solid var(--linea);
+  padding-top:12px;margin:0 0 14px
+}
+
+/* ---- Las claves: cómo se lee la ciudad y antes de subir ---- */
+.llegar-claves{list-style:none;margin:0;padding:0}
+
+.llegar-claves li{
+  display:grid;grid-template-columns:32px 1fr;gap:12px;align-items:start;
+  padding:12px 0;border-bottom:1px solid var(--linea)
+}
+
+.llegar-claves li:last-child{border-bottom:none}
+
+.llegar-claves strong{display:block}
+
+.llegar-claves a{
+  text-decoration:underline;text-decoration-color:var(--celeste);
+  text-decoration-thickness:2px;text-underline-offset:3px
+}
+
+.llegar-clave-icono{
+  width:32px;height:32px;border-radius:50%;background:var(--amarillo);
+  color:var(--sobre-color);font-family:var(--fuente-titulo);font-size:15px;
+  display:flex;align-items:center;justify-content:center
+}
+
+.llegar-fuente{
+  font-size:var(--letra-chica);color:var(--texto-suave);margin:28px 0 0
+}
+
+.llegar-fuente a{color:inherit;text-decoration:underline}
+
+/* ---- Los micros y sus colores ----
+   Cada muestra es el costado de un micro visto de lejos: techo, franja y
+   carrocería, en ese orden de arriba abajo, como en los identificadores
+   de xcolectivo.com.ar de donde salen los colores del 202, el 275 y el
+   307. Son los colores de la pintura y NO cambian en modo oscuro: un
+   micro rojo es rojo de noche también. El borde de tinta lo despega del
+   fondo oscuro. */
+.llegar-lineas{list-style:none;margin:0 0 6px;padding:0}
+
+.llegar-lineas li{
+  display:grid;grid-template-columns:52px 1fr;gap:12px;align-items:start;
+  padding:12px 0;border-bottom:1px solid var(--linea)
+}
+
+.llegar-lineas li:last-child{border-bottom:none}
+
+.llegar-lineas strong{display:block}
+
+.llegar-lineas strong.en-linea{display:inline}
+
+.micro-color{
+  display:block;font-size:var(--letra-nota);font-weight:700;
+  color:var(--texto-suave);margin-bottom:2px
+}
+
+.micro{
+  display:block;width:52px;height:34px;margin-top:2px;
+  border:1.5px solid var(--tinta-borde);border-radius:8px 8px 4px 4px;
+  position:relative;overflow:hidden
+}
+
+/* Las ventanillas: una banda clara cortada, para que se lea «micro» y
+   no «bandera». */
+.micro::after{
+  content:'';position:absolute;left:5px;right:5px;top:15px;height:8px;
+  background:repeating-linear-gradient(90deg, rgba(255,255,255,.85) 0 8px, transparent 8px 11px);
+  border-radius:2px
+}
+
+.micro-este{background:linear-gradient(#FFFFFF 0 40%, #E8B70E 40% 100%)}
+
+.micro-este::after{
+  background:repeating-linear-gradient(90deg, rgba(26,26,26,.55) 0 8px, transparent 8px 11px)
+}
+
+.micro-202{background:linear-gradient(#FFCC00 0 22%, #0099FF 22% 36%, #FF0033 36% 100%)}
+
+.micro-275{background:linear-gradient(#039735 0 22%, #FFCC00 22% 36%, #FFFFFF 36% 100%)}
+
+.micro-275::after{
+  background:repeating-linear-gradient(90deg, rgba(26,26,26,.55) 0 8px, transparent 8px 11px)
+}
+
+.micro-307{background:linear-gradient(#FF0000 0 30%, #339966 30% 100%)}
+
+.llegar-aviso-color{margin:0 0 4px}

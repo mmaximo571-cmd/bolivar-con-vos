@@ -1310,7 +1310,13 @@ setTimeout(function(){
          dice lo que hay ahí: las aulas siguen en Info útil. */
       { titulo:'Buffet y fotocopiadora',
         texto:'Horarios, la app del buffet y el WhatsApp de la fotocopiadora para pedir tus apuntes.',
-        url:'espacios/' }
+        url:'espacios/' },
+      /* Para quien no es de La Plata (11/10/2026): llegar el primer día
+         es lo primero de todo, pero va último porque las otras tres le
+         sirven a cualquiera. */
+      { titulo:'Cómo llegar a la facu',
+        texto:'Qué micro tomar desde la estación, la terminal o el centro, y cómo se leen las calles con números.',
+        url:'llegar/' }
     ];
     document.getElementById('kit').innerHTML = kit.map((k, n) => `
       <a class="tarjeta-kit" href="${k.url}">
@@ -1708,7 +1714,7 @@ setTimeout(function(){
     10: 'Proyectos y convocatorias',
     4:  'Constancias, equivalencias y diploma',
     3:  'Facultad, UNLP, PROGRESAR y comedor',
-    11: 'Cómo pedir el boleto gratuito',
+    11: 'Cómo pedir el boleto universitario',
     12: 'Tus derechos al alquilar',
     13: 'DAE, DIVE y ventanilla de alumnos'
     };
@@ -2168,6 +2174,7 @@ setTimeout(function(){
     glosario:   'glosario vocabulario palabras que significa que es diccionario',
     trayecto:   'trayecto optativo tramo 120 horas actividades acreditar seminarios optativos 255',
     'salud-mental': 'salud mental psicologo psicologa psicologia terapia angustia ansiedad ayuda urgencia hospital guardia 0800 135 suicidio ley 26657 derechos',
+    llegar:     'como llegar llego micro micros colectivo colectivos bondi linea lineas ramal parada direccion donde queda ubicacion 9 y 63 tren roca terminal estacion sube avenida 7 la plata ciudad perdido',
     arsenal:    'arsenal libros libro pelis peliculas pelicula cine documentales cortos revistas lecturas leer ver escuchar discos musica recomendaciones recomendados para el finde'
   };
 
