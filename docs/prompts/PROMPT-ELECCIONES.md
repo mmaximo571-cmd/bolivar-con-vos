@@ -24,9 +24,9 @@ bandeja.
 | **B** | **Aviso al autor cuando cambia el estado** | antes del lun 19/10: S4, el (3), y el (1) si sobra |
 | 5 | ✅ La tarjeta para historias | hecho el 27/9, adelantada |
 
-**La que sigue es la A.** Antes de abrirla hacen falta dos cosas que no
-son código: ya están aprobadas las respuestas de la bandeja (10/10);
-falta que Máximo decida el freno de textos repetidos (`sql/tabla-buzon.sql`
+**La que sigue es la A.** Las respuestas de la bandeja ya están aprobadas
+(10/10). Antes de abrirla falta una sola cosa, y no es código: que Máximo
+decida el freno de textos repetidos (`sql/tabla-buzon.sql`
 rechaza un texto que ya llegó en las últimas 24 h, de cualquiera). La
 persona con rol `comunicacion` ya existe (hay una). La clave de los
 avisos ya está bien.
