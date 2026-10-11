@@ -1299,18 +1299,6 @@
       "source_location": "L264"
     },
     {
-      "id": "estudiemos_portada_estado",
-      "label": "estado()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 12,
-      "community_name": "portada.js",
-      "file_type": "code",
-      "norm_label": "estado()",
-      "source_file": "estudiemos/portada.js",
-      "source_location": "L359"
-    },
-    {
       "id": "estudiemos_portada_hace",
       "label": "hace()",
       "_callable": true,
@@ -3241,6 +3229,18 @@
       "norm_label": ".rendervals()",
       "source_file": "estudiemos/fichas/ficha-texto.js",
       "source_location": "L154"
+    },
+    {
+      "id": "estudiemos_portada_estado",
+      "label": "estado()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 23,
+      "community_name": "Component",
+      "file_type": "code",
+      "norm_label": "estado()",
+      "source_file": "estudiemos/portada.js",
+      "source_location": "L359"
     },
     {
       "id": "supabase_functions_leer_placa_index_hoyenargentina",
@@ -7838,7 +7838,7 @@
       "node_kind": "heading",
       "norm_label": "bloque comun (va siempre)",
       "source_file": "docs/prompts/PROMPT-ELECCIONES.md",
-      "source_location": "L69"
+      "source_location": "L61"
     },
     {
       "id": "docs_prompts_prompt_elecciones_b\u00fasqueda_permanencia_y_estudio",
@@ -7850,7 +7850,7 @@
       "node_kind": "heading",
       "norm_label": "busqueda: permanencia y estudio",
       "source_file": "docs/prompts/PROMPT-ELECCIONES.md",
-      "source_location": "L221"
+      "source_location": "L213"
     },
     {
       "id": "docs_prompts_prompt_elecciones_fuera_del_c\u00f3digo_para_el_chat_com\u00fan_no_para_una_sesi\u00f3n_de_c\u00f3digo",
@@ -7862,7 +7862,7 @@
       "node_kind": "heading",
       "norm_label": "fuera del codigo (para el chat comun, no para una sesion de codigo)",
       "source_file": "docs/prompts/PROMPT-ELECCIONES.md",
-      "source_location": "L321"
+      "source_location": "L313"
     },
     {
       "id": "docs_prompts_prompt_elecciones_los_15_d\u00edas_20_10_al_3_11_sin_c\u00f3digo",
@@ -7874,7 +7874,7 @@
       "node_kind": "heading",
       "norm_label": "los 15 dias (20/10 al 3/11): sin codigo",
       "source_file": "docs/prompts/PROMPT-ELECCIONES.md",
-      "source_location": "L201"
+      "source_location": "L193"
     },
     {
       "id": "docs_prompts_prompt_elecciones_prompts_para_las_sesiones_hacia_las_elecciones_24_9_al_6_11",
@@ -7898,7 +7898,7 @@
       "node_kind": "heading",
       "norm_label": "semana 1 (28/9 al 4/10): el buzon y la bandeja",
       "source_file": "docs/prompts/PROMPT-ELECCIONES.md",
-      "source_location": "L95"
+      "source_location": "L87"
     },
     {
       "id": "docs_prompts_prompt_elecciones_semana_2_5_10_al_11_10_llegar_a_m\u00e1s",
@@ -7910,7 +7910,7 @@
       "node_kind": "heading",
       "norm_label": "semana 2 (5/10 al 11/10): llegar a mas",
       "source_file": "docs/prompts/PROMPT-ELECCIONES.md",
-      "source_location": "L145"
+      "source_location": "L137"
     },
     {
       "id": "docs_prompts_prompt_elecciones_semana_3_12_10_al_18_10_cerrar_y_probar",
@@ -7922,7 +7922,7 @@
       "node_kind": "heading",
       "norm_label": "semana 3 (12/10 al 18/10): cerrar y probar",
       "source_file": "docs/prompts/PROMPT-ELECCIONES.md",
-      "source_location": "L173"
+      "source_location": "L165"
     },
     {
       "id": "public_tocar_congreso_mesa",
@@ -8427,6 +8427,149 @@
       "norm_label": "texto",
       "source_file": ".claude/skills/hacer-ficha/scripts/revisar-ficha.mjs",
       "source_location": "L31"
+    },
+    {
+      "id": "public_buzon_pedidos",
+      "label": "public.buzon_pedidos",
+      "_origin": "ast",
+      "community": 112,
+      "community_name": "arreglo-rls-rendimiento.sql",
+      "file_type": "code",
+      "norm_label": "public.buzon_pedidos",
+      "source_file": "",
+      "source_location": ""
+    },
+    {
+      "id": "public_cuidar_creado_por",
+      "label": "public.cuidar_creado_por",
+      "_origin": "ast",
+      "community": 112,
+      "community_name": "arreglo-rls-rendimiento.sql",
+      "file_type": "code",
+      "norm_label": "public.cuidar_creado_por",
+      "source_file": "",
+      "source_location": ""
+    },
+    {
+      "id": "public_guardados",
+      "label": "public.guardados",
+      "_origin": "ast",
+      "community": 112,
+      "community_name": "arreglo-rls-rendimiento.sql",
+      "file_type": "code",
+      "norm_label": "public.guardados",
+      "source_file": "",
+      "source_location": ""
+    },
+    {
+      "id": "public_preparaciones",
+      "label": "public.preparaciones",
+      "_origin": "ast",
+      "community": 112,
+      "community_name": "arreglo-rls-rendimiento.sql",
+      "file_type": "code",
+      "norm_label": "public.preparaciones",
+      "source_file": "",
+      "source_location": ""
+    },
+    {
+      "id": "public_reportes_riesgo",
+      "label": "public.reportes_riesgo",
+      "_origin": "ast",
+      "community": 112,
+      "community_name": "arreglo-rls-rendimiento.sql",
+      "file_type": "code",
+      "norm_label": "public.reportes_riesgo",
+      "source_file": "",
+      "source_location": ""
+    },
+    {
+      "id": "sql_arreglo_rls_rendimiento",
+      "label": "arreglo-rls-rendimiento.sql",
+      "_origin": "ast",
+      "community": 112,
+      "community_name": "arreglo-rls-rendimiento.sql",
+      "file_type": "code",
+      "norm_label": "arreglo-rls-rendimiento.sql",
+      "source_file": "sql/arreglo-rls-rendimiento.sql",
+      "source_location": null
+    },
+    {
+      "id": "sql_arreglo_rls_rendimiento_buzon_pedidos_categoria_idx",
+      "label": "buzon_pedidos_categoria_idx",
+      "_origin": "ast",
+      "community": 112,
+      "community_name": "arreglo-rls-rendimiento.sql",
+      "file_type": "code",
+      "norm_label": "buzon_pedidos_categoria_idx",
+      "source_file": "sql/arreglo-rls-rendimiento.sql",
+      "source_location": "L208"
+    },
+    {
+      "id": "sql_arreglo_rls_rendimiento_buzon_pedidos_moderado_por_idx",
+      "label": "buzon_pedidos_moderado_por_idx",
+      "_origin": "ast",
+      "community": 112,
+      "community_name": "arreglo-rls-rendimiento.sql",
+      "file_type": "code",
+      "norm_label": "buzon_pedidos_moderado_por_idx",
+      "source_file": "sql/arreglo-rls-rendimiento.sql",
+      "source_location": "L209"
+    },
+    {
+      "id": "sql_arreglo_rls_rendimiento_guardados_tramite_idx",
+      "label": "guardados_tramite_idx",
+      "_origin": "ast",
+      "community": 112,
+      "community_name": "arreglo-rls-rendimiento.sql",
+      "file_type": "code",
+      "norm_label": "guardados_tramite_idx",
+      "source_file": "sql/arreglo-rls-rendimiento.sql",
+      "source_location": "L210"
+    },
+    {
+      "id": "sql_arreglo_rls_rendimiento_preparaciones_programa_idx",
+      "label": "preparaciones_programa_idx",
+      "_origin": "ast",
+      "community": 112,
+      "community_name": "arreglo-rls-rendimiento.sql",
+      "file_type": "code",
+      "norm_label": "preparaciones_programa_idx",
+      "source_file": "sql/arreglo-rls-rendimiento.sql",
+      "source_location": "L211"
+    },
+    {
+      "id": "sql_arreglo_rls_rendimiento_public_cuidar_creado_por",
+      "label": "public.cuidar_creado_por()",
+      "_origin": "ast",
+      "community": 112,
+      "community_name": "arreglo-rls-rendimiento.sql",
+      "file_type": "code",
+      "norm_label": "public.cuidar_creado_por()",
+      "source_file": "sql/arreglo-rls-rendimiento.sql",
+      "source_location": "L179"
+    },
+    {
+      "id": "sql_arreglo_rls_rendimiento_publicaciones_cuidar_creado_por",
+      "label": "publicaciones_cuidar_creado_por",
+      "_origin": "ast",
+      "community": 112,
+      "community_name": "arreglo-rls-rendimiento.sql",
+      "file_type": "code",
+      "norm_label": "publicaciones_cuidar_creado_por",
+      "source_file": "sql/arreglo-rls-rendimiento.sql",
+      "source_location": "L199"
+    },
+    {
+      "id": "sql_arreglo_rls_rendimiento_reportes_riesgo_revisado_por_idx",
+      "label": "reportes_riesgo_revisado_por_idx",
+      "_origin": "ast",
+      "community": 112,
+      "community_name": "arreglo-rls-rendimiento.sql",
+      "file_type": "code",
+      "norm_label": "reportes_riesgo_revisado_por_idx",
+      "source_file": "sql/arreglo-rls-rendimiento.sql",
+      "source_location": "L212"
     },
     {
       "id": "estudiemos_portada",
@@ -11311,7 +11454,7 @@
       "file_type": "code",
       "norm_label": "buzon_al_moderar",
       "source_file": "sql/tabla-buzon.sql",
-      "source_location": "L393"
+      "source_location": "L396"
     },
     {
       "id": "sql_tabla_buzon_public_buzon_al_entrar",
@@ -11333,7 +11476,7 @@
       "file_type": "code",
       "norm_label": "public.buzon_al_moderar()",
       "source_file": "sql/tabla-buzon.sql",
-      "source_location": "L357"
+      "source_location": "L360"
     },
     {
       "id": "sql_tabla_buzon_public_buzon_categorias",
@@ -11366,7 +11509,7 @@
       "file_type": "code",
       "norm_label": "public.buzon_totales",
       "source_file": "sql/tabla-buzon.sql",
-      "source_location": "L447"
+      "source_location": "L450"
     },
     {
       "id": "sql_tabla_buzon_public_buzon_totales_calc",
@@ -11377,7 +11520,7 @@
       "file_type": "code",
       "norm_label": "public.buzon_totales_calc()",
       "source_file": "sql/tabla-buzon.sql",
-      "source_location": "L411"
+      "source_location": "L414"
     },
     {
       "id": "sql_tabla_buzon_public_es_comunicacion",
@@ -12543,6 +12686,42 @@
       "type": "external"
     },
     {
+      "id": "ref_node_fs",
+      "label": "ref_node_fs",
+      "_origin": "semantic",
+      "community": 111,
+      "community_name": "revisar-ficha.mjs",
+      "external": true,
+      "file_type": "concept",
+      "norm_label": "ref_node_fs",
+      "source_file": "",
+      "type": "external"
+    },
+    {
+      "id": "ref_node_path",
+      "label": "ref_node_path",
+      "_origin": "semantic",
+      "community": 111,
+      "community_name": "revisar-ficha.mjs",
+      "external": true,
+      "file_type": "concept",
+      "norm_label": "ref_node_path",
+      "source_file": "",
+      "type": "external"
+    },
+    {
+      "id": "ref_node_url",
+      "label": "ref_node_url",
+      "_origin": "semantic",
+      "community": 111,
+      "community_name": "revisar-ficha.mjs",
+      "external": true,
+      "file_type": "concept",
+      "norm_label": "ref_node_url",
+      "source_file": "",
+      "type": "external"
+    },
+    {
       "id": "ref_jsr_supabase_supabase_js_2",
       "label": "ref_jsr_supabase_supabase_js_2",
       "_origin": "semantic",
@@ -12563,39 +12742,6 @@
       "external": true,
       "file_type": "concept",
       "norm_label": "ref_npm_web_push_3_6_7",
-      "source_file": "",
-      "type": "external"
-    },
-    {
-      "id": "ref_node_fs",
-      "label": "ref_node_fs",
-      "community": 111,
-      "community_name": "revisar-ficha.mjs",
-      "external": true,
-      "file_type": "concept",
-      "norm_label": "ref_node_fs",
-      "source_file": "",
-      "type": "external"
-    },
-    {
-      "id": "ref_node_path",
-      "label": "ref_node_path",
-      "community": 111,
-      "community_name": "revisar-ficha.mjs",
-      "external": true,
-      "file_type": "concept",
-      "norm_label": "ref_node_path",
-      "source_file": "",
-      "type": "external"
-    },
-    {
-      "id": "ref_node_url",
-      "label": "ref_node_url",
-      "community": 111,
-      "community_name": "revisar-ficha.mjs",
-      "external": true,
-      "file_type": "concept",
-      "norm_label": "ref_node_url",
       "source_file": "",
       "type": "external"
     }
@@ -21574,7 +21720,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "docs/prompts/PROMPT-ELECCIONES.md",
-      "source_location": "L145",
+      "source_location": "L137",
       "weight": 1.0
     },
     {
@@ -21585,7 +21731,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "docs/prompts/PROMPT-ELECCIONES.md",
-      "source_location": "L173",
+      "source_location": "L165",
       "weight": 1.0
     },
     {
@@ -21596,7 +21742,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "docs/prompts/PROMPT-ELECCIONES.md",
-      "source_location": "L201",
+      "source_location": "L193",
       "weight": 1.0
     },
     {
@@ -21607,7 +21753,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "docs/prompts/PROMPT-ELECCIONES.md",
-      "source_location": "L221",
+      "source_location": "L213",
       "weight": 1.0
     },
     {
@@ -21618,7 +21764,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "docs/prompts/PROMPT-ELECCIONES.md",
-      "source_location": "L321",
+      "source_location": "L313",
       "weight": 1.0
     },
     {
@@ -21629,7 +21775,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "docs/prompts/PROMPT-ELECCIONES.md",
-      "source_location": "L69",
+      "source_location": "L61",
       "weight": 1.0
     },
     {
@@ -21640,7 +21786,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "docs/prompts/PROMPT-ELECCIONES.md",
-      "source_location": "L95",
+      "source_location": "L87",
       "weight": 1.0
     },
     {
@@ -25087,6 +25233,83 @@
       "weight": 1.0
     },
     {
+      "source": "sql_arreglo_rls_rendimiento",
+      "target": "sql_arreglo_rls_rendimiento_public_cuidar_creado_por",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "sql/arreglo-rls-rendimiento.sql",
+      "source_location": "L179",
+      "weight": 1.0
+    },
+    {
+      "source": "sql_arreglo_rls_rendimiento",
+      "target": "sql_arreglo_rls_rendimiento_publicaciones_cuidar_creado_por",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "sql/arreglo-rls-rendimiento.sql",
+      "source_location": "L199",
+      "weight": 1.0
+    },
+    {
+      "source": "sql_arreglo_rls_rendimiento",
+      "target": "sql_arreglo_rls_rendimiento_buzon_pedidos_categoria_idx",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "sql/arreglo-rls-rendimiento.sql",
+      "source_location": "L208",
+      "weight": 1.0
+    },
+    {
+      "source": "sql_arreglo_rls_rendimiento",
+      "target": "sql_arreglo_rls_rendimiento_buzon_pedidos_moderado_por_idx",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "sql/arreglo-rls-rendimiento.sql",
+      "source_location": "L209",
+      "weight": 1.0
+    },
+    {
+      "source": "sql_arreglo_rls_rendimiento",
+      "target": "sql_arreglo_rls_rendimiento_guardados_tramite_idx",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "sql/arreglo-rls-rendimiento.sql",
+      "source_location": "L210",
+      "weight": 1.0
+    },
+    {
+      "source": "sql_arreglo_rls_rendimiento",
+      "target": "sql_arreglo_rls_rendimiento_preparaciones_programa_idx",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "sql/arreglo-rls-rendimiento.sql",
+      "source_location": "L211",
+      "weight": 1.0
+    },
+    {
+      "source": "sql_arreglo_rls_rendimiento",
+      "target": "sql_arreglo_rls_rendimiento_reportes_riesgo_revisado_por_idx",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "sql/arreglo-rls-rendimiento.sql",
+      "source_location": "L212",
+      "weight": 1.0
+    },
+    {
       "source": "sql_contenido_catedras",
       "target": "sql_contenido_catedras_mails_de_las_c\u00e1tedras_material_en_crudo",
       "relation": "contains",
@@ -25589,7 +25812,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "sql/tabla-buzon.sql",
-      "source_location": "L357",
+      "source_location": "L360",
       "weight": 1.0
     },
     {
@@ -25600,7 +25823,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "sql/tabla-buzon.sql",
-      "source_location": "L393",
+      "source_location": "L396",
       "weight": 1.0
     },
     {
@@ -25611,7 +25834,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "sql/tabla-buzon.sql",
-      "source_location": "L411",
+      "source_location": "L414",
       "weight": 1.0
     },
     {
@@ -25622,7 +25845,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "sql/tabla-buzon.sql",
-      "source_location": "L447",
+      "source_location": "L450",
       "weight": 1.0
     },
     {
@@ -26515,6 +26738,61 @@
       "weight": 1.0
     },
     {
+      "source": "sql_arreglo_rls_rendimiento_buzon_pedidos_categoria_idx",
+      "target": "public_buzon_pedidos",
+      "relation": "indexes",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "sql/arreglo-rls-rendimiento.sql",
+      "source_location": "L208",
+      "weight": 1.0
+    },
+    {
+      "source": "sql_arreglo_rls_rendimiento_buzon_pedidos_moderado_por_idx",
+      "target": "public_buzon_pedidos",
+      "relation": "indexes",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "sql/arreglo-rls-rendimiento.sql",
+      "source_location": "L209",
+      "weight": 1.0
+    },
+    {
+      "source": "sql_arreglo_rls_rendimiento_guardados_tramite_idx",
+      "target": "public_guardados",
+      "relation": "indexes",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "sql/arreglo-rls-rendimiento.sql",
+      "source_location": "L210",
+      "weight": 1.0
+    },
+    {
+      "source": "sql_arreglo_rls_rendimiento_preparaciones_programa_idx",
+      "target": "public_preparaciones",
+      "relation": "indexes",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "sql/arreglo-rls-rendimiento.sql",
+      "source_location": "L211",
+      "weight": 1.0
+    },
+    {
+      "source": "sql_arreglo_rls_rendimiento_reportes_riesgo_revisado_por_idx",
+      "target": "public_reportes_riesgo",
+      "relation": "indexes",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "sql/arreglo-rls-rendimiento.sql",
+      "source_location": "L212",
+      "weight": 1.0
+    },
+    {
       "source": "sql_tabla_alarma_publicaciones_alarma_idx",
       "target": "sql_tabla_alarma_sql_public_publicaciones",
       "relation": "indexes",
@@ -27094,7 +27372,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "sql/tabla-buzon.sql",
-      "source_location": "L441",
+      "source_location": "L444",
       "weight": 1.0
     },
     {
@@ -28693,6 +28971,17 @@
       "weight": 1.0
     },
     {
+      "source": "sql_arreglo_rls_rendimiento_publicaciones_cuidar_creado_por",
+      "target": "public_cuidar_creado_por",
+      "relation": "triggers",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "sql/arreglo-rls-rendimiento.sql",
+      "source_location": "L199",
+      "weight": 1.0
+    },
+    {
       "source": "sql_tabla_avisanos_freno_consultas",
       "target": "public_freno_consultas",
       "relation": "triggers",
@@ -28722,7 +29011,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "sql/tabla-buzon.sql",
-      "source_location": "L393",
+      "source_location": "L396",
       "weight": 1.0
     },
     {
@@ -29754,7 +30043,7 @@
       "confidence_score": 0.95,
       "context": "reloj",
       "source_file": "docs/prompts/PROMPT-ELECCIONES.md",
-      "source_location": "L61",
+      "source_location": "L54",
       "weight": 1.0
     },
     {
@@ -30171,5 +30460,5 @@
       "source_file": "panel/index.html"
     }
   ],
-  "built_at_commit": "1019cef2e4a614d50f73e01654a45f35d8c4c399"
+  "built_at_commit": "63b11a0abaeb6dafe7ca2f83e3cbaa5c04a0309c"
 }

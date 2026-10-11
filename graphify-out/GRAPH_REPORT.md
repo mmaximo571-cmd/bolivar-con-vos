@@ -1,17 +1,17 @@
 # Graph Report - bolivar-con-vos  (2026-10-10)
 
 ## Corpus Check
-- 90 files · ~333,451 words
+- 91 files · ~335,870 words
 - Verdict: corpus is large enough that graph structure adds value.
 - Unclassified: 35 file(s) not represented in the graph (top: .css 25, (none) 5, .geojson 4)
 
 ## Summary
-- 1020 nodes · 1530 edges · 112 communities (70 shown, 42 thin omitted)
+- 1033 nodes · 1543 edges · 113 communities (71 shown, 42 thin omitted)
 - Extraction: 94% EXTRACTED · 6% INFERRED · 0% AMBIGUOUS · INFERRED: 97 edges (avg confidence: 0.85)
 - Token cost: 0 input · 0 output
 
 ## Graph Freshness
-- Built from commit: `1019cef2`
+- Built from commit: `63b11a0a`
 - Run `git rev-parse HEAD` and compare to check if the graph is stale.
 - Run `graphify update .` after code changes (no API cost).
 
@@ -116,6 +116,7 @@
 - Curaduría y lluvia de ideas sin Claude
 - tabla-mi-ano.sql
 - revisar-ficha.mjs
+- arreglo-rls-rendimiento.sql
 
 ## God Nodes (most connected - your core abstractions)
 1. `Pantalla Mi año (carrera)` - 19 edges
@@ -153,7 +154,7 @@
 - **Pantallas que muestran publicaciones de la agenda** — tabla_publicaciones, index_proximodelaagenda, index_calendario_mes, agenda_index_traer, agenda_index_detalle_publicacion, carrera_index_vistanueva [INFERRED 0.85]
 - **El Panel edita el contenido que leen las pantallas públicas** — panel_index, tramites_index, quienes_index, consejo_index, anatomo_index, catedras_index, estudiemos_index [INFERRED 0.95]
 
-## Communities (112 total, 42 thin omitted)
+## Communities (113 total, 42 thin omitted)
 
 ### Community 0 - "La carrera se elige una vez (bolivar-carrera-v2)"
 Cohesion: 0.14
@@ -205,7 +206,7 @@ Nodes (23): alFiltrar(), alMarcar(), armar(), arrancar(), avisar(), errorDeJSON(
 
 ### Community 12 - "portada.js"
 Cohesion: 0.11
-Nodes (28): 1. De dónde viene el contenido, 2. El nombre, 3. Camino A · Ficha de texto (a y b), 4. Camino C · Ficha con diseño propio (Claude Design), 5. Registrar, 6. Probar, 7. Cerrar, Hacer una ficha de Estudiemos (+20 more)
+Nodes (27): 1. De dónde viene el contenido, 2. El nombre, 3. Camino A · Ficha de texto (a y b), 4. Camino C · Ficha con diseño propio (Claude Design), 5. Registrar, 6. Probar, 7. Cerrar, Hacer una ficha de Estudiemos (+19 more)
 
 ### Community 13 - "htmlNovedades"
 Cohesion: 0.17
@@ -249,7 +250,7 @@ Nodes (16): Dónde vive, El navegador de Instagram, El orden, y por qué cada so
 
 ### Community 23 - "Component"
 Cohesion: 0.09
-Nodes (18): crearMarcas(), avisar(), escribir(), leer(), poner(), tiene(), vacio(), get() (+10 more)
+Nodes (19): crearMarcas(), avisar(), escribir(), leer(), poner(), tiene(), vacio(), get() (+11 more)
 
 ### Community 24 - "LEEME · La Bolívar con vos"
 Cohesion: 0.67
@@ -435,20 +436,24 @@ Nodes (8): 1. El cargador: lo que va antes de todo pedido, 2. Molde de curadurí
 Cohesion: 0.11
 Nodes (14): aqui, correctas, cuenta, errores, f, masLarga, nunca, ojos (+6 more)
 
+### Community 112 - "arreglo-rls-rendimiento.sql"
+Cohesion: 0.17
+Nodes (11): public.buzon_pedidos, public.cuidar_creado_por, public.guardados, public.preparaciones, public.reportes_riesgo, buzon_pedidos_categoria_idx, buzon_pedidos_moderado_por_idx, guardados_tramite_idx (+3 more)
+
 ## Knowledge Gaps
 - **195 isolated node(s):** `session-start.sh script`, `aqui`, `raiz`, `texto`, `f` (+190 more)
-  These have ≤1 connection - possible missing edges or undocumented components. (Counts symbols only; 343 node(s) total have ≤1 connection when file, concept and rationale nodes are included.)
+  These have ≤1 connection - possible missing edges or undocumented components. (Counts symbols only; 348 node(s) total have ≤1 connection when file, concept and rationale nodes are included.)
 - **42 thin communities (<3 nodes) omitted from report** — run `graphify query` to explore isolated nodes.
 
 ## Suggested Questions
 _Questions this graph is uniquely positioned to answer:_
 
 - **Why does `Pantalla Inicio` connect `Pantalla Mi año (carrera)` to `movimiento.js`, `app.js`, `Detalle de publicación (?id=)`, `Pantalla El Consejo Directivo`, `Mi perfil (mi/index.html)`, `manifest.json`?**
-  _High betweenness centrality (0.100) - this node is a cross-community bridge._
+  _High betweenness centrality (0.091) - this node is a cross-community bridge._
 - **Why does `pedido()` connect `riesgo.js` to `Pantalla El Consejo Directivo`?**
-  _High betweenness centrality (0.062) - this node is a cross-community bridge._
-- **Why does `4. Época de parciales en Estudiemos` connect `anotar` to `pomodoro.js`, `leer.js`?**
-  _High betweenness centrality (0.059) - this node is a cross-community bridge._
+  _High betweenness centrality (0.056) - this node is a cross-community bridge._
+- **Why does `Vercel Web Analytics (/_vercel/insights/script.js, v72)` connect `Pantalla El Consejo Directivo` to `Pantalla Mi año (carrera)`?**
+  _High betweenness centrality (0.051) - this node is a cross-community bridge._
 - **What connects `session-start.sh script`, `aqui`, `raiz` to the rest of the system?**
   _195 weakly-connected nodes found - possible documentation gaps or missing edges._
 - **Should `La carrera se elige una vez (bolivar-carrera-v2)` be split into smaller, more focused modules?**

@@ -84,9 +84,9 @@
     "semantic_hash": ""
   },
   "BITACORA.md": {
-    "mtime": 1791423397.5102923,
-    "seen": 1791682723.895223,
-    "ast_hash": "6cfc6a4421b91d15210a06774cda16a7",
+    "mtime": 1791685784.5320606,
+    "seen": 1791685866.3272264,
+    "ast_hash": "8efa28c2808d007b7f8b630d11a44189",
     "semantic_hash": ""
   },
   "LEEME.md": {
@@ -504,9 +504,9 @@
     "semantic_hash": ""
   },
   "sql/tabla-buzon.sql": {
-    "mtime": 1790725615.1300547,
-    "seen": 1790732169.323641,
-    "ast_hash": "684af86590b15e4df6523ac3a79832f2",
+    "mtime": 1791684839.344138,
+    "seen": 1791685866.3271863,
+    "ast_hash": "0488d5454b70f06721f8f2f79b3208f9",
     "semantic_hash": ""
   },
   "sql/tabla-catedras.sql": {
@@ -606,9 +606,9 @@
     "semantic_hash": ""
   },
   "docs/prompts/PROMPT-ELECCIONES.md": {
-    "mtime": 1790775609.0670936,
-    "seen": 1791164635.5956051,
-    "ast_hash": "9fdcb842c106e799c91e061973886985",
+    "mtime": 1791684903.7141182,
+    "seen": 1791685866.3272495,
+    "ast_hash": "3201c92811f5e20a965f72227a686fa4",
     "semantic_hash": ""
   },
   "docs/prompts/PROMPT-FICHAS.md": {
@@ -654,9 +654,9 @@
     "semantic_hash": ""
   },
   "cargar/index.html": {
-    "mtime": 1791393826.0898461,
-    "seen": 1791393884.7799685,
-    "ast_hash": "048962ae82aefad78879fac74937fba9",
+    "mtime": 1791684718.252529,
+    "seen": 1791685866.327233,
+    "ast_hash": "be37e06776a9b85cf375e8dd9638e34d",
     "semantic_hash": ""
   },
   "sql/tabla-campana.sql": {
@@ -885,6 +885,12 @@
     "mtime": 1791682554.7445374,
     "seen": 1791682723.8953238,
     "ast_hash": "78ac90e59159866520dd0e75a6212480",
+    "semantic_hash": ""
+  },
+  "sql/arreglo-rls-rendimiento.sql": {
+    "mtime": 1791685527.5522351,
+    "seen": 1791685866.3271704,
+    "ast_hash": "006d27aa5c7b7fde667cc88cde5640cb",
     "semantic_hash": ""
   }
 }
