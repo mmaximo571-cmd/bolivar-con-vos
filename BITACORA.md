@@ -73,7 +73,7 @@ diarias y entre 3 y 8 «eligió carrera».
 
 | Cuándo | Qué | Quién |
 |---|---|---|
-| Antes de la sesión A | Aprobar o reescribir las ocho respuestas de la bandeja (`RESPUESTAS`, en `cargar/index.html`: hoy son un borrador de Claude). Decidir el freno de textos repetidos (ver «La novena», más abajo). Que la persona con rol `comunicacion` (hay **una**) tenga los avisos prendidos y pruebe la bandeja en su teléfono | Máximo y comunicación |
+| Antes de la sesión A | ✅ Las respuestas de la bandeja, aprobadas el 10/10: quedan siete («No es nuestro» pasa a en gestión, «Repetido» se saca). Decidir el freno de textos repetidos (ver «La novena», más abajo). Que la persona con rol `comunicacion` (hay **una**) tenga los avisos prendidos y pruebe la bandeja en su teléfono | Máximo y comunicación |
 | Sesión A, antes del jue 15/10 | **Abrir Decilo:** `/security-review` de `decilo/` y de la bandeja, sacar la marca de borrador de las respuestas, enlazar desde Inicio y desde Avisanos | Claude |
 | El mismo día | Publicar en Instagram que Decilo abrió: posteo e historia con el link `?de=` | Comunicación |
 | Sesión B, antes del lun 19/10 | **Aviso al autor** cuando cambia su pedido. Si sobra tiempo, el aviso al equipo cuando entra un pedido: con una sola persona contestando, sirve más que el resumen diario | Claude |

@@ -1158,9 +1158,11 @@
   };
 
   /* LAS RESPUESTAS YA ESCRITAS
-     BORRADOR del 30/9/2026. Las escribió Claude con `marca/VOZ.md`
-     porque las del equipo de comunicación todavía no llegaron: hay que
-     reemplazarlas por las suyas. Tocar una la copia en el campo, y
+     Las escribió Claude con `marca/VOZ.md` el 30/9/2026 y Máximo las
+     aprobó el 10/10. «No es nuestro» va en gestión y no en resuelto,
+     porque derivar no es resolver y el tablero cuenta los resueltos.
+     «Repetido» se sacó: un descartado no se publica, así que esa
+     respuesta no la leía nadie. Tocar una la copia en el campo, y
      siempre se puede cambiar antes de guardar.
      Las que tienen [corchetes] piden completar algo, y la bandeja no
      deja guardar mientras quede uno: se publicaría tal cual. */
@@ -1183,11 +1185,9 @@
     { nombre:'Grupo de estudio', estado:'resuelto',
       texto:'Para [materia] hay grupos de estudio: los encontrás en Fechas, con el día y el ' +
             'lugar. Si ninguno te queda cómodo, contanos y vemos de armar otro.' },
-    { nombre:'No es nuestro', estado:'resuelto',
+    { nombre:'No es nuestro', estado:'en_gestion',
       texto:'Esto no lo puede resolver el centro de estudiantes, pero sabemos quién sí: ' +
-            '[a quién hay que ir y cómo].' },
-    { nombre:'Repetido', estado:'descartado',
-      texto:'Nos llegó el mismo pedido de otra persona y lo seguimos ahí, en el tablero.' }
+            '[a quién hay que ir y cómo].' }
   ];
 
   let pedidos = [], nombreCategoria = {}, filtro = 'recibido', abierto = null;
