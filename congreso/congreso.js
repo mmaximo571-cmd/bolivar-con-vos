@@ -46,25 +46,36 @@
   const CADA_CUANTO = 20000;   // refrescar el muro abierto
   const LARGO_MAXIMO = 600;    // el mismo tope que la base
 
-  /* Lo que decían las placas el 7/10/2026. Es la RESERVA, no la
-     fuente: si la base contesta, manda la base. */
+  /* Lo que decían las placas el 7/10/2026, con el cronograma
+     confirmado del 10/10 (las dos placas por semana: se sumaron
+     «Riesgo, comunicación y comunidad» y la del implante coclear, y la
+     del 22 a las 13 cambió de nombre). Es la RESERVA, no la fuente: si
+     la base contesta, manda la base. */
   const MESAS_DE_RESERVA = [
     { id:null, numero:1, titulo:'Derecho a la salud: ¿qué puede la APS?',
       bajada:'Territorios, prácticas y cuidados en debate.', eje:'salud',
       fecha:'2026-10-09', hora:'12:00', lugar:'Aula Magna', placa:'placas/mesa-1.webp',
       expositores:[{nombre:'Ale Wagner'},{nombre:'Ana Fuks'},{nombre:'Cynthia Ramacciotti'}] },
-    { id:null, numero:3, titulo:'Trabajo Social y la justicia hoy',
+    { id:null, numero:3, titulo:'El Trabajo Social y la justicia hoy',
       bajada:'Transformaciones, tensiones y desafíos para la intervención.', eje:null,
       fecha:'2026-10-14', hora:'14:30', lugar:'Aula 14', placa:'placas/mesa-3.webp',
-      expositores:[{nombre:'Luciana Ponziani'},{nombre:'Marcela Velurtas'},{nombre:'Analía Chillemi'}] },
+      expositores:[{nombre:'Marcela Velurtas'},{nombre:'Analía Chillemi'},{nombre:'Luciana Ponziani'}] },
+    { id:null, numero:null, titulo:'Riesgo, comunicación y comunidad',
+      bajada:'', eje:null,
+      fecha:'2026-10-16', hora:'15:00', lugar:'Aula 4', placa:'placas/semana-1.webp',
+      expositores:[{nombre:'Myriam Selman'},{nombre:'Vanesa Arrua'}] },
     { id:null, numero:4, titulo:'Niñeces e intervención fonoaudiológica',
       bajada:'', eje:null,
       fecha:'2026-10-16', hora:'18:00', lugar:'Aula 14', placa:'placas/mesa-4.webp',
       expositores:[{nombre:'Silvia Cesanelli'},{nombre:'Gisele Prado'}] },
-    { id:null, numero:5, titulo:'¿La IA puede reemplazarnos?',
+    { id:null, numero:null, titulo:'Intervención fonoaudiológica',
+      bajada:'Implante coclear y rehabilitación auditiva.', eje:null,
+      fecha:'2026-10-19', hora:'15:00', lugar:'Aula 9', placa:'placas/semana-2.webp',
+      expositores:[{nombre:'Lic. Sofía Mirá'}] },
+    { id:null, numero:5, titulo:'Subjetividades en modo avión',
       bajada:'Nuevas subjetividades e intervención profesional.', eje:'tecnologias',
-      fecha:'2026-10-22', hora:'13:00', lugar:'Aula Magna', placa:'placas/mesa-5.webp',
-      expositores:[{nombre:'Verónica Sforzin'},{nombre:'Javier'},{nombre:'Daniel T'}] },
+      fecha:'2026-10-22', hora:'13:00', lugar:'Aula Magna', placa:'placas/semana-2.webp',
+      expositores:[{nombre:'Verónica Sforzin'},{nombre:'Javier Cabrera Grosso'},{nombre:'Daniel Tricher'}] },
     { id:null, numero:6, titulo:'Experiencias de gestión comunitaria del riesgo',
       bajada:'Con el CEPA (Cuerpo de Evacuación y Primeros Auxilios, La Plata), en conjunto con la cátedra Estado, Territorio y Problemáticas Sociales.',
       eje:'territorio', fecha:'2026-10-22', hora:'17:00', lugar:'Aula 4', placa:'placas/mesa-6.webp',

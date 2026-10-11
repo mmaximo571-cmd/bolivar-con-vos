@@ -373,6 +373,11 @@ grant execute on function public.congreso_moderar(bigint, boolean, boolean) to a
 -- Falta «Voces que Habitan II»: no estaba entre las placas.
 -- Los ejes de III y IV no los dice la placa: quedan sin eje hasta que
 -- alguien los ponga en el panel.
+--
+-- 10/10/2026: el cronograma confirmado (dos placas, una por semana).
+-- Se sumaron dos mesas sin número de serie (la placa no lo dice) y con
+-- la placa de su semana, y la V pasó a llamarse «Subjetividades en
+-- modo avión». En producción se cambió con un update, no con esto.
 -- ------------------------------------------------------------
 insert into public.congreso_mesas (numero, titulo, bajada, eje, fecha, hora, lugar, expositores, placa)
 select * from (values
@@ -381,21 +386,31 @@ select * from (values
    date '2026-10-09', time '12:00', 'Aula Magna',
    '[{"nombre":"Ale Wagner"},{"nombre":"Ana Fuks"},{"nombre":"Cynthia Ramacciotti"}]'::jsonb,
    'placas/mesa-1.webp'),
-  (3::smallint, 'Trabajo Social y la justicia hoy',
+  (3::smallint, 'El Trabajo Social y la justicia hoy',
    'Transformaciones, tensiones y desafíos para la intervención.', null,
    date '2026-10-14', time '14:30', 'Aula 14',
-   '[{"nombre":"Luciana Ponziani"},{"nombre":"Marcela Velurtas"},{"nombre":"Analía Chillemi"}]'::jsonb,
+   '[{"nombre":"Marcela Velurtas"},{"nombre":"Analía Chillemi"},{"nombre":"Luciana Ponziani"}]'::jsonb,
    'placas/mesa-3.webp'),
+  (null::smallint, 'Riesgo, comunicación y comunidad',
+   '', null,
+   date '2026-10-16', time '15:00', 'Aula 4',
+   '[{"nombre":"Myriam Selman"},{"nombre":"Vanesa Arrua"}]'::jsonb,
+   'placas/semana-1.webp'),
   (4::smallint, 'Niñeces e intervención fonoaudiológica',
    '', null,
    date '2026-10-16', time '18:00', 'Aula 14',
    '[{"nombre":"Silvia Cesanelli"},{"nombre":"Gisele Prado"}]'::jsonb,
    'placas/mesa-4.webp'),
-  (5::smallint, '¿La IA puede reemplazarnos?',
+  (null::smallint, 'Intervención fonoaudiológica',
+   'Implante coclear y rehabilitación auditiva.', null,
+   date '2026-10-19', time '15:00', 'Aula 9',
+   '[{"nombre":"Lic. Sofía Mirá"}]'::jsonb,
+   'placas/semana-2.webp'),
+  (5::smallint, 'Subjetividades en modo avión',
    'Nuevas subjetividades e intervención profesional.', 'tecnologias',
    date '2026-10-22', time '13:00', 'Aula Magna',
-   '[{"nombre":"Verónica Sforzin"},{"nombre":"Javier"},{"nombre":"Daniel T"}]'::jsonb,
-   'placas/mesa-5.webp'),
+   '[{"nombre":"Verónica Sforzin"},{"nombre":"Javier Cabrera Grosso"},{"nombre":"Daniel Tricher"}]'::jsonb,
+   'placas/semana-2.webp'),
   (6::smallint, 'Experiencias de gestión comunitaria del riesgo',
    'Con el CEPA (Cuerpo de Evacuación y Primeros Auxilios, La Plata), en conjunto con la cátedra Estado, Territorio y Problemáticas Sociales.', 'territorio',
    date '2026-10-22', time '17:00', 'Aula 4',
