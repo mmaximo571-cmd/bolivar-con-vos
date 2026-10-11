@@ -311,9 +311,12 @@ begin
   end if;
 
   -- El mismo pedido repetido, que es lo que hace un botón trabado.
+  -- Una hora y no un día (10/10/2026): con un día, si dos personas
+  -- escribían el mismo reclamo obvio, la segunda quedaba afuera y
+  -- «llegaron» contaba uno. Una hora alcanza para el botón trabado.
   if exists (select 1 from public.buzon_pedidos
               where texto = new.texto
-                and creado_at > now() - interval '1 day') then
+                and creado_at > now() - interval '1 hour') then
     raise exception 'Ese pedido ya llegó.' using errcode = '54000';
   end if;
 

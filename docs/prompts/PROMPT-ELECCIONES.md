@@ -24,10 +24,9 @@ bandeja.
 | **B** | **Aviso al autor cuando cambia el estado** | antes del lun 19/10: S4, el (3), y el (1) si sobra |
 | 5 | ✅ La tarjeta para historias | hecho el 27/9, adelantada |
 
-**La que sigue es la A.** Las respuestas de la bandeja ya están aprobadas
-(10/10). Antes de abrirla falta una sola cosa, y no es código: que Máximo
-decida el freno de textos repetidos (`sql/tabla-buzon.sql`
-rechaza un texto que ya llegó en las últimas 24 h, de cualquiera). La
+**La que sigue es la A, y no espera nada.** Las respuestas de la bandeja
+están aprobadas y el freno de textos repetidos bajó de un día a una hora
+(10/10, aplicado en la base). La
 persona con rol `comunicacion` ya existe (hay una). La clave de los
 avisos ya está bien.
 
@@ -39,12 +38,11 @@ enlazar) y la bandeja (`cargar/?ver=buzon`). Falta:
  1. /security-review de `decilo/index.html` y de la pestaña Buzón de
     `cargar/index.html`: se escribe sin cuenta.
  2. (Hecho el 10/10: las respuestas de `RESPUESTAS` están aprobadas.)
- 3. El freno de textos repetidos, como lo haya decidido Máximo (si cambia,
-    apply_migration y el .sql en el repo).
+ 3. (Hecho el 10/10: el freno de textos repetidos es de una hora.)
  4. Enlazar `decilo/` desde Inicio y desde Avisanos, SIN entrar a la fila
     de secciones. Subir el service worker si cambia algo del armazón.
 Al cerrar: el link etiquetado para el posteo de Instagram del mismo día.
-MATERIAL: la decisión del freno.
+MATERIAL: ninguno.
 ```
 **Cortados:** S6 (la pregunta de la semana pasa a encuesta de Instagram o
 formulario), S8 y S10 (no hay lanzamiento en bloque ni merge), S9 (se prueba
