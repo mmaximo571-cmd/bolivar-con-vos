@@ -1,0 +1,145 @@
+/* ============================================================
+   MIS PARCIALES (11/10/2026) · la hoja de esta pantalla sola
+
+   Carga después de estilos-rediseno.css, como estudiemos.css. Usa
+   las piezas de la base (tarjeta, campo, boton, chip) y suma lo suyo:
+   la cuenta de días al costado de cada parcial, las preguntas y la
+   práctica de a una.
+   ============================================================ */
+.pantalla-mis-parciales{ --mono:'Roboto Mono', ui-monospace, monospace; }
+
+.mp-volver{ margin:16px 0 0; }
+.mp-privado{
+  margin:-6px 0 18px; padding:10px 12px;
+  font-size:var(--letra-nota); line-height:1.45; color:var(--texto);
+  background:var(--superficie-2); border-radius:var(--radio-chico);
+  border-left:4px solid var(--celeste);
+}
+.mp-arriba{ margin:0 0 12px; }
+.mp-opcional{ text-transform:none; letter-spacing:0; }
+.mp-vacio{ list-style:none; color:var(--texto-suave); font-size:var(--letra-nota); line-height:1.45; margin:0 0 14px; }
+.mp-botones{ display:flex; flex-wrap:wrap; gap:10px; margin:12px 0 0; }
+.mp-botones .boton{ flex:1 1 150px; min-height:46px; }
+.mp-error{ margin:0 0 4px; color:var(--rojo-solido); font-weight:700; font-size:var(--letra-nota); }
+.mp-error[hidden]{ display:none; }
+.mp-ceja{
+  display:block; font-family:var(--mono); font-size:11px; letter-spacing:.08em;
+  text-transform:uppercase; color:var(--texto-suave);
+}
+
+/* El aviso de lo que se acaba de hacer. Pegado abajo, arriba de la
+   barra de navegación, para que se vea aunque se esté lejos de arriba. */
+.mp-estado{
+  position:fixed; left:50%; bottom:calc(84px + env(safe-area-inset-bottom, 0px)); z-index:80;
+  transform:translate(-50%, 16px); opacity:0; pointer-events:none;
+  display:flex; align-items:center; gap:12px;
+  width:max-content; max-width:calc(100vw - 32px);
+  padding:11px 14px; border-radius:var(--radio);
+  background:var(--negro); color:var(--sobre-negro);
+  font-size:var(--letra-nota); line-height:1.4; box-shadow:0 6px 20px rgba(0,0,0,.25);
+  transition:opacity var(--t-medio, .2s) ease, transform var(--t-medio, .2s) ease;
+}
+.mp-estado.visible{ opacity:1; transform:translate(-50%, 0); pointer-events:auto; }
+.mp-deshacer{
+  flex:0 0 auto; background:transparent; border:0; padding:6px 4px; min-height:36px;
+  color:var(--amarillo); font:inherit; font-weight:700; text-decoration:underline; cursor:pointer;
+}
+
+/* ---------- Las fechas ---------- */
+.mp-parcial{
+  display:grid; grid-template-columns:auto 1fr; gap:14px; align-items:start;
+  margin:0 0 12px;
+}
+.mp-cuenta{
+  display:flex; flex-direction:column; align-items:center; justify-content:center;
+  min-width:64px; min-height:64px; padding:6px;
+  background:var(--amarillo); color:var(--sobre-color);
+  border:1.5px solid var(--negro); border-radius:var(--radio-chico);
+}
+.mp-cuenta b{ font-family:var(--fuente-titulo); font-weight:400; font-size:28px; line-height:1; }
+.mp-cuenta span{ font-size:var(--letra-mini); font-weight:700; text-transform:uppercase; letter-spacing:.06em; margin-top:2px; }
+.mp-parcial.cerca .mp-cuenta{ background:var(--negro); color:var(--amarillo); }
+/* En el tema oscuro la caja negra se perdía contra el fondo. */
+[data-tema="oscuro"] .mp-parcial.cerca .mp-cuenta{ border-color:var(--amarillo); }
+.mp-parcial.pasado{ grid-template-columns:1fr; opacity:.75; }
+.mp-cuerpo{ min-width:0; }
+.mp-parcial h3{ margin:2px 0 4px; font-family:var(--fuente-titulo); font-weight:400; font-size:clamp(18px, 5vw, 22px); line-height:1.12; overflow-wrap:anywhere; }
+.mp-cuando{ margin:0; font-size:var(--letra-nota); line-height:1.4; }
+.mp-temas{ margin:6px 0 0; font-size:var(--letra-nota); line-height:1.45; color:var(--texto-suave); white-space:pre-line; }
+.mp-temas b{ color:var(--texto); }
+
+.mp-acciones{ display:flex; flex-wrap:wrap; gap:6px; margin:10px 0 0; }
+.mp-accion{
+  min-height:38px; padding:7px 13px; border-radius:var(--radio-pastilla);
+  border:1px solid var(--linea); background:var(--superficie); color:var(--texto);
+  font-family:var(--fuente-sub); font-size:13px; font-weight:500; cursor:pointer;
+}
+.mp-accion.principal{ background:var(--negro); color:var(--sobre-negro); border-color:var(--negro); font-weight:700; }
+.mp-accion[aria-expanded="true"]{ background:var(--superficie-2); }
+.mp-accion:focus-visible{ outline:3px solid var(--celeste); outline-offset:2px; }
+.mp-calendario{ margin:12px 0 0; }
+.mp-calendario[hidden]{ display:none; }
+
+.mp-form{ margin:12px 0 16px; }
+.mp-form[hidden]{ display:none; }
+.mp-form h3{ margin:0 0 12px; font-family:var(--fuente-titulo); font-weight:400; font-size:var(--letra-sub); text-transform:uppercase; }
+.mp-dos{ display:grid; grid-template-columns:1fr 1fr; gap:10px; }
+.mp-sugeridas{ display:flex; flex-wrap:wrap; gap:6px; margin:8px 0 0; }
+.mp-sugeridas:empty{ display:none; }
+.mp-sugeridas .chip{ white-space:normal; text-align:left; }
+.mp-borrar{ flex:1 1 100%; color:var(--rojo-solido); }
+.mp-pegar-texto{ min-height:180px !important; font-family:var(--mono) !important; font-size:14px !important; }
+
+.mp-pasados{ margin:4px 0 20px; }
+.mp-pasados[hidden]{ display:none; }
+.mp-pasados summary{ cursor:pointer; padding:10px 0; font-family:var(--fuente-sub); font-weight:700; font-size:var(--letra-nota); }
+
+/* ---------- Las preguntas ---------- */
+.mp-filtro{ flex-wrap:wrap; overflow:visible; margin:0 0 6px; }
+.mp-filtro[hidden]{ display:none; }
+.mp-filtro .chip{ white-space:normal; text-align:left; }
+.mp-resumen{ margin:0; font-size:var(--letra-nota); color:var(--texto-suave); }
+.mp-banco-acciones .mp-botones{ margin:8px 0 14px; }
+
+.mp-preguntas{ list-style:none; margin:0; padding:0; }
+.mp-preg{
+  margin:0 0 10px; padding:12px 14px;
+  background:var(--superficie); border:1px solid var(--linea); border-radius:var(--radio);
+}
+.mp-preg-cabeza{ display:flex; align-items:center; justify-content:space-between; gap:10px; margin:0 0 6px; }
+.mp-fuente{ min-width:0; font-family:var(--mono); font-size:11px; letter-spacing:.04em; color:var(--texto-suave); overflow-wrap:anywhere; }
+.mp-insignia{
+  flex:0 0 auto; padding:3px 9px; border-radius:var(--radio-pastilla);
+  font-size:var(--letra-mini); font-weight:700; letter-spacing:.04em; text-transform:uppercase;
+  background:var(--superficie-2); color:var(--texto-suave);
+}
+.mp-insignia.repasar{ background:var(--aviso-error); color:var(--negro); }
+.mp-insignia.sabe{ background:var(--aviso-ok); color:var(--negro); }
+.mp-preg-texto{ margin:0; font-size:var(--letra-base); line-height:1.5; white-space:pre-line; }
+.mp-resp{ margin:8px 0 0; }
+.mp-resp summary{ cursor:pointer; font-size:var(--letra-nota); font-weight:700; color:var(--celeste-hondo); padding:4px 0; }
+[data-tema="oscuro"] .mp-resp summary{ color:var(--celeste-claro); }
+.mp-resp p{ margin:6px 0 0; font-size:var(--letra-nota); line-height:1.5; white-space:pre-line; }
+.mp-preg .mp-acciones{ margin-top:8px; }
+.mp-preg .mp-accion{ min-height:34px; padding:5px 12px; font-size:12.5px; }
+
+/* ---------- Practicar ---------- */
+.mp-practica{ margin:0 0 16px; }
+.mp-practica[hidden]{ display:none; }
+.mp-practica:focus{ outline:none; }
+.mp-practica-cabeza{ display:flex; align-items:center; justify-content:space-between; gap:10px; }
+.mp-practica-barra{ height:4px; margin:10px 0 14px; background:var(--linea); border-radius:4px; overflow:hidden; }
+.mp-practica-barra i{ display:block; height:100%; background:var(--amarillo); transition:width var(--t-medio, .2s) ease; }
+.mp-practica-texto{ margin:6px 0 14px; font-size:clamp(17px, 4.6vw, 20px); line-height:1.45; font-weight:500; white-space:pre-line; }
+.mp-practica-resp{
+  margin:0 0 12px; padding:12px 14px; background:var(--superficie-2);
+  border-radius:var(--radio-chico); border-left:4px solid var(--amarillo);
+}
+.mp-practica-resp[hidden]{ display:none; }
+.mp-practica-resp p{ margin:4px 0 0; line-height:1.5; white-space:pre-line; }
+.mp-practica-consigna{ margin:0; }
+.mp-practica-final{ margin:4px 0 6px; font-family:var(--fuente-titulo); font-weight:400; font-size:clamp(20px, 5.4vw, 26px); line-height:1.15; }
+
+@media (prefers-reduced-motion: reduce){
+  .mp-estado, .mp-practica-barra i{ transition:none; }
+}

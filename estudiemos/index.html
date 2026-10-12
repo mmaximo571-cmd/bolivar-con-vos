@@ -248,6 +248,20 @@
       <button class="pomo-otro" id="pomo-reiniciar" type="button">Reiniciar</button>
     </div>
 
+    <!-- LA PAUSA VOCAL (11/10/2026). Solo en el descanso: una pausa de
+         voz y una del cuerpo (dos y dos en el largo). La llena
+         pomodoro.js; «Otra» corre la rueda. Va DEBAJO de los botones:
+         arriba empujaba «Pausar» fuera de la pantalla del teléfono. -->
+    <section class="pomo-pausa" id="pomo-pausa" aria-labelledby="pomo-pausa-titulo" hidden>
+      <div class="pomo-pausa-cabeza">
+        <h3 id="pomo-pausa-titulo">Pausa vocal</h3>
+        <button class="pomo-otro" id="pomo-pausa-otra" type="button">Otra</button>
+      </div>
+      <ol class="pomo-pausa-lista" id="pomo-pausa-lista"></ol>
+      <p class="pomo-pausa-ojo">Si algo molesta, duele o te deja la voz ronca, pará.
+        No reemplaza lo que te indique tu fonoaudióloga.</p>
+    </section>
+
     <div class="pomo-ajustes">
       <div class="pomo-presets" role="group" aria-label="Ritmo">
         <button type="button" data-preset="25" aria-pressed="true">25 · 5</button>

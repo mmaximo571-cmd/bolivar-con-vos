@@ -47,6 +47,67 @@
     largo: 'Cortá de verdad.'
   };
 
+  /* ---------- Las pausas vocales (11/10/2026) ----------
+     El descanso no es solo «parate»: quien estudia Fonoaudiología se
+     pasa el día leyendo higiene vocal y nunca la hace. Cada descanso
+     corto propone UNA pausa de voz y UNA del cuerpo; el largo, dos y
+     dos. Van rotando con los focos hechos, para que dos descansos
+     seguidos no digan lo mismo, y «Otra» corre la rueda.
+     Son ejercicios que se pueden hacer en una biblioteca o en un aula
+     vacía: nada que necesite gritar, ni material que no se tenga. */
+  const VOZ = [
+    { corto:'Tomá agua', titulo:'Agua, de a sorbos',
+      como:'Un vaso entero, despacio, no de un trago.',
+      porque:'La mucosa que cubre los pliegues vocales necesita agua para vibrar sin roce.' },
+    { corto:'Vibrá los labios', titulo:'Vibración de labios',
+      como:'Labios sueltos: soplá haciendo «brrr» como un motorcito, con sonido suave. Subí y bajá el tono como una sirena, 30 segundos.',
+      porque:'Es un ejercicio de tracto vocal semiocluido: la boca casi cerrada reparte la presión del aire y la voz sale con menos esfuerzo.' },
+    { corto:'Una «u» por el sorbete', titulo:'Fonación en sorbete',
+      como:'Si tenés un sorbete, hacé una «u» suave a través de él, de 30 segundos a un minuto. Con medio vaso de agua, burbujeando, también vale.',
+      porque:'Otro semiocluido: el sorbete devuelve presión hacia los pliegues y los deja vibrar con menos choque.' },
+    { corto:'Hacé «mmm»', titulo:'Mmm, con la boca cerrada',
+      como:'Labios juntos, dientes separados y un «mmm» en un tono cómodo, 30 segundos. Buscá la vibración en los labios y la nariz: si la sentís en la garganta, bajá el volumen.',
+      porque:'Con la resonancia adelante, la laringe no tiene que hacer la fuerza.' },
+    { corto:'Bostezo y suspiro', titulo:'Bostezo y suspiro',
+      como:'Bostezá de verdad, con la boca grande, y soltá el aire en un «haaa» suave que baja de agudo a grave. Tres veces.',
+      porque:'El bostezo baja la laringe y abre la faringe; el suspiro la deja ahí, sin apretar.' },
+    { corto:'Silencio vocal', titulo:'Dos minutos de silencio',
+      como:'Ni hablar ni susurrar. Si tenés que decir algo, escribilo.',
+      porque:'El susurro no descansa la voz: muchas veces se hace apretando más que al hablar.' },
+    { corto:'Respirá abajo', titulo:'Respiración costodiafragmática',
+      como:'Una mano en el abdomen. Inhalá por la nariz en cuatro tiempos, que se inflen la panza y las costillas de abajo, sin subir los hombros. Exhalá en una «sss» larga, de seis a ocho tiempos. Cuatro veces.',
+      porque:'Es el apoyo que estudiás: el aire sale parejo y la garganta no tiene que frenarlo.' },
+    { corto:'Soltá la mandíbula', titulo:'Masaje de maseteros',
+      como:'Con las yemas, círculos lentos debajo de los pómulos, con la boca entreabierta y la lengua suelta. 30 segundos.',
+      porque:'Mientras te concentrás, la mandíbula se aprieta sin que te des cuenta, y esa tensión baja al cuello y a la laringe.' }
+  ];
+  const CUERPO = [
+    { corto:'Cuello', titulo:'Cuello al costado',
+      como:'Llevá la oreja hacia el hombro, sin subir el hombro ni girar la cara. 15 segundos de cada lado, respirando.',
+      porque:'Un cuello duro tira de los músculos que sostienen la laringe.' },
+    { corto:'Hombros', titulo:'Hombros arriba y abajo',
+      como:'Subilos hasta las orejas, sostené tres segundos y soltalos de golpe. Cinco veces.',
+      porque:'Después de un rato sobre el apunte, los hombros quedan arriba sin que lo notes.' },
+    { corto:'Mirá lejos', titulo:'Mirá lejos',
+      como:'Veinte segundos mirando algo a más de seis metros: la ventana, el fondo del pasillo.',
+      porque:'Leer en el celular deja los ojos enfocados a treinta centímetros todo el foco; mirar lejos los afloja.' },
+    { corto:'Estirate', titulo:'Parate y estirate',
+      como:'De pie, entrelazá los dedos y estirate hacia el techo. Después dejá caer el tronco hacia adelante, flojo, y subí despacio.',
+      porque:'Sentarse mucho rato aplasta el abdomen, y con él la respiración.' },
+    { corto:'Caminá', titulo:'Caminá un poco',
+      como:'Hasta la cocina, el patio o el pasillo, y volvé. Sin el celular, si podés.',
+      porque:'Moverse es lo que el cuerpo pide después de quedarse quieto.' }
+  ];
+  /* Ocho y cinco no tienen divisor común: la misma pareja de voz y
+     cuerpo recién se repite a los cuarenta descansos. */
+  function pausas(){
+    const base = p.hechos + p.otra;
+    const de = (lista, i) => Object.assign({ tipo: lista === VOZ ? 'voz' : 'cuerpo' }, lista[i % lista.length]);
+    return p.fase === 'largo'
+      ? [de(VOZ, base), de(CUERPO, base), de(VOZ, base + 3), de(CUERPO, base + 2)]
+      : [de(VOZ, base), de(CUERPO, base)];
+  }
+
   function hoyEs(){
     const f = new Date();
     return f.getFullYear() + '-' + (f.getMonth() + 1) + '-' + f.getDate();
@@ -54,7 +115,7 @@
 
   /* ---------- Lo guardado ---------- */
   const NUEVO = () => ({ preset:'25', fase:'foco', resta: 25 * 60000, fin:null,
-                         corriendo:false, hechos:0, hoy:0, dia:hoyEs(), mudo:false });
+                         corriendo:false, hechos:0, hoy:0, dia:hoyEs(), mudo:false, otra:0 });
   let p = NUEVO();
   let aviso = '';        // lo último que pasó, en castellano
 
@@ -65,6 +126,7 @@
     } catch(err){}
     if (!PRESETS[p.preset]) p.preset = '25';
     if (!NOMBRE[p.fase])    p.fase   = 'foco';
+    if (!Number.isFinite(p.otra)) p.otra = 0;
     /* La cuenta del día es del día: a la mañana siguiente arranca en cero. */
     if (p.dia !== hoyEs()){ p.dia = hoyEs(); p.hoy = 0; }
   }
@@ -221,7 +283,9 @@
     hoja.dataset.fase = p.fase;
 
     rotulo.textContent = p.corriendo || aviso ? NOMBRE[p.fase] : 'Pomodoro';
-    bajada.textContent = p.corriendo ? BAJADA[p.fase]
+    /* En el descanso, la tira ya dice qué hacer: la primera pausa. */
+    const lasPausas = p.fase === 'foco' ? [] : pausas();
+    bajada.textContent = p.corriendo ? (lasPausas.length ? 'Pausa: ' + lasPausas[0].corto.toLowerCase() + '.' : BAJADA[p.fase])
       : aviso ? aviso
       : PRESETS[p.preset].foco + ' minutos de foco, ' + PRESETS[p.preset].corto + ' de descanso.';
     chico.textContent = texto;
@@ -243,6 +307,7 @@
     botonSaltar.textContent = p.fase === 'foco' ? 'Saltar al descanso' : 'Saltar al foco';
     dicho.textContent = aviso;
     dicho.hidden = !aviso;
+    pintarPausas(lasPausas);
     /* El dato, en la voz de la pantalla: lo que la app midió. */
     cuenta.textContent = p.hoy
       ? p.hoy + (p.hoy === 1 ? ' foco terminado hoy' : ' focos terminados hoy')
@@ -257,6 +322,36 @@
     presets.forEach(b => b.setAttribute('aria-pressed', String(b.dataset.preset === p.preset)));
 
     document.title = p.corriendo ? texto + ' · ' + NOMBRE[p.fase] + ' · Estudiemos' : TITULO;
+  }
+
+  /* Se escribe solo si cambió: pintar() corre cuatro veces por
+     segundo, y rehacer la lista cada vez le sacaría el foco al botón
+     «Otra» y le haría releer todo a un lector de pantalla. */
+  const cajaPausa = $('pomo-pausa'), listaPausa = $('pomo-pausa-lista');
+  let pausaPintada = '';
+  function pintarPausas(lista){
+    if (!cajaPausa) return;
+    cajaPausa.hidden = !lista.length;
+    const firma = lista.map(x => x.titulo).join('|');
+    if (firma === pausaPintada) return;
+    pausaPintada = firma;
+    listaPausa.innerHTML = '';
+    lista.forEach(x => {
+      const li = document.createElement('li');
+      li.className = 'pomo-pausa-' + x.tipo;
+      const ceja = document.createElement('span');
+      ceja.className = 'pomo-pausa-ceja';
+      ceja.textContent = x.tipo === 'voz' ? 'Voz' : 'Cuerpo';
+      const tit = document.createElement('strong');
+      tit.textContent = x.titulo;
+      const como = document.createElement('p');
+      como.textContent = x.como;
+      const porque = document.createElement('p');
+      porque.className = 'pomo-pausa-porque';
+      porque.textContent = x.porque;
+      li.append(ceja, tit, como, porque);
+      listaPausa.appendChild(li);
+    });
   }
 
   /* ---------- La hoja ----------
@@ -353,6 +448,9 @@
     if (!p.mudo){ despertarAudio(); sonar(); }
   });
   presets.forEach(b => b.addEventListener('click', () => cambiarPreset(b.dataset.preset)));
+  if ($('pomo-pausa-otra')) $('pomo-pausa-otra').addEventListener('click', () => {
+    p.otra++; guardar(); pintar();
+  });
   fondo.addEventListener('click', ev => { if (ev.target === fondo) cerrar(); });
   document.addEventListener('keydown', ev => {
     if (!fondo.hidden && ev.key === 'Escape') cerrar();

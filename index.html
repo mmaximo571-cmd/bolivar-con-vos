@@ -237,6 +237,11 @@ setTimeout(function(){
       <span class="cuadro-flecha" aria-hidden="true">→</span>
     </a>
 
+    <!-- MIS PARCIALES (11/10/2026): cuántos días faltan para el que
+         viene. Solo si hay uno anotado en este teléfono; si no, no hay
+         nada. La llena lib/mis-parciales.js, acá abajo. -->
+    <div id="cuenta-parciales" hidden></div>
+
     <!-- Cómo venís con tu carrera, si usaste el organizador -->
     <div id="mi-cursada"></div>
 
@@ -410,6 +415,16 @@ setTimeout(function(){
 <!-- «Voy» (30/9/2026): acá solo se lee qué marcó el teléfono, para la
      tarjeta Hoy y «Dijiste que vas». Marcar se marca en Fechas. -->
 <script src="lib/voy.js"></script>
+<!-- La cuenta de Mis parciales. No espera a nada: lee el teléfono. Al
+     volver con «atrás» desde el organizador, la página sale del bfcache
+     con la cuenta vieja, y por eso se repinta. -->
+<script src="lib/mis-parciales.js"></script>
+<script>
+pintarCuentaParciales(document.getElementById('cuenta-parciales'));
+addEventListener('pageshow', function(ev){
+  if (ev.persisted) pintarCuentaParciales(document.getElementById('cuenta-parciales'));
+});
+</script>
 <script src="fondo-red.js"></script>
 <script src="movimiento.js"></script>
 <script>

@@ -97,7 +97,8 @@
 
   function atajos(){
     const c = carrera();
-    const lista = [];
+    const lista = [{ href:'mis-parciales/', nombre:'Mis parciales',
+      mas:'Anotá las fechas y practicá con preguntas de parciales viejos' }];
     if (grupos) lista.push({ href:'../agenda/?cat=grupo', nombre:'Grupos de estudio',
       mas: grupos + ' para sumarte, en Fechas' });
     const f = c === 'tgcr' ? null : FICHAS[c || ''];
@@ -108,8 +109,8 @@
 
   function pintar(){
     const ico = (typeof icono === 'function' && icono('enfoque')) || '◎';
-    /* Puede quedar sin atajos (la Tecnicatura, sin grupos cargados):
-       entonces la tira es solo el interruptor, sin una lista vacía. */
+    /* Desde el 11/10 siempre hay uno, Mis parciales, que sirve a las
+       tres carreras. La guarda contra la lista vacía queda igual. */
     const lista = atajos();
     caja.innerHTML = `
       <div class="enfoque est-parciales${encendida ? ' encendido' : ''}">

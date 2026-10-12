@@ -109,6 +109,22 @@
     { id:'pomodoro', modo:'repasar', nombre:'Pomodoro', emoji:'⏱️', suelta:true,
       desc:'El reloj de estudio: 25 minutos de foco y 5 de descanso, sin salir de acá.',
       href:'#pomodoro', carreras:null, dato: () => '25 · 5 minutos' },
+    /* Mis parciales (11/10/2026): primera de Practicar, porque es la
+       que se usa todas las semanas de parciales. El dato lee lo que
+       ya anotó; lib/mis-parciales.js no carga acá y no hace falta. */
+    { id:'mis-parciales', modo:'practicar', nombre:'Mis parciales', emoji:'🗓️',
+      desc:'Las fechas con la cuenta regresiva en el inicio, y las preguntas de parciales viejos para practicar.',
+      href:'mis-parciales/', carreras:null,
+      dato: () => {
+        let g = null;
+        try { g = JSON.parse(localStorage.getItem('bolivar-mis-parciales') || 'null'); } catch(err){}
+        const hoy = typeof hoyISO === 'function' ? hoyISO() : new Date().toISOString().slice(0, 10);
+        const vienen = g && Array.isArray(g.parciales) ? g.parciales.filter(p => p && p.fecha >= hoy).length : 0;
+        const preguntas = g && Array.isArray(g.preguntas) ? g.preguntas.length : 0;
+        if (!vienen && !preguntas) return 'Fechas y preguntas viejas';
+        return [vienen ? vienen + (vienen === 1 ? ' parcial' : ' parciales') : '',
+                preguntas ? preguntas + (preguntas === 1 ? ' pregunta' : ' preguntas') : ''].filter(Boolean).join(' · ');
+      } },
     /* OCULTA desde el 21/9: Máximo la revisa en la semana, antes no
        sale en la grilla, el buscador ni «Seguí donde dejaste». La página
        sigue andando por su dirección. Para volver a mostrarla: sacar

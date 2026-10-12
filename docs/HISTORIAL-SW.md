@@ -498,4 +498,17 @@ todo una entrada con el número, la fecha y el porqué.
    (`css/pantallas/ingreso.css`) no van al armazón; sube por `app.js`,
    que la suma al índice del pie, y por el inicio, que la pone primera
    en el kit y le enseña palabras al buscador. */
+/* v91 (11/10/2026) Tres piezas de estudio. «Mis parciales»
+   (`estudiemos/mis-parciales/`): las fechas con la cuenta regresiva en
+   el inicio y las preguntas de parciales viejos para practicar, todo
+   en el teléfono; lo compartido con el inicio está en
+   `lib/mis-parciales.js`. «Fono a Color» (`lib/lectura-a-color.js`),
+   la lectura adaptada en las 31 fichas: letra, tamaño, aire, fondo de
+   color, alto contraste, regla de lectura y marcador. Y las pausas
+   vocales del pomodoro. Ninguna pieza nueva va al armazón (las usa
+   una pantalla, o solo las fichas), pero cambian `pomodoro.js`,
+   `portada.js`, `parciales.js`, `estudiemos.css` y
+   `css/pantallas/inicio.css`, que salen de lo guardado: sin número
+   nuevo, Estudiemos seguiría con el pomodoro sin pausas y sin la
+   herramienta nueva. */
 ```

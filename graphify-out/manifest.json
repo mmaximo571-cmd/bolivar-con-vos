@@ -78,15 +78,15 @@
     "semantic_hash": ""
   },
   "sw.js": {
-    "mtime": 1791763359.1062648,
-    "seen": 1791763479.3138103,
-    "ast_hash": "70f366f514b7b90be605f2e31de7df45",
+    "mtime": 1791765271.1543427,
+    "seen": 1791765585.517099,
+    "ast_hash": "62abf62a7006b6e5bb133780b21c8941",
     "semantic_hash": ""
   },
   "BITACORA.md": {
-    "mtime": 1791763468.3145719,
-    "seen": 1791763479.3138137,
-    "ast_hash": "52174e1f747bb493fd4c8ab692494fb3",
+    "mtime": 1791764429.4722855,
+    "seen": 1791765585.5171025,
+    "ast_hash": "f5cbd3203ddf9ff68e2a31fd9e5b81b9",
     "semantic_hash": ""
   },
   "LEEME.md": {
@@ -138,9 +138,9 @@
     "semantic_hash": ""
   },
   "estudiemos/index.html": {
-    "mtime": 1791164725.188045,
-    "seen": 1791164781.976699,
-    "ast_hash": "4248538cce0411065125dca2797ecaa0",
+    "mtime": 1791765481.8727443,
+    "seen": 1791765585.5171525,
+    "ast_hash": "b4072fd9bb2291088bbf66255574222f",
     "semantic_hash": ""
   },
   "glosario/index.html": {
@@ -150,9 +150,9 @@
     "semantic_hash": ""
   },
   "index.html": {
-    "mtime": 1791763352.6403458,
-    "seen": 1791763479.313876,
-    "ast_hash": "c1344deea2aa47d30a76dcad92515c00",
+    "mtime": 1791764963.8116925,
+    "seen": 1791765585.517159,
+    "ast_hash": "00af8cfbdba063a6e38fc5c18fea0be7",
     "semantic_hash": ""
   },
   "mi/index.html": {
@@ -396,9 +396,9 @@
     "semantic_hash": ""
   },
   "estudiemos/portada.js": {
-    "mtime": 1791423205.1990688,
-    "seen": 1791423343.3068411,
-    "ast_hash": "33197783c765d5c1f464d05265716794",
+    "mtime": 1791765024.6278315,
+    "seen": 1791765585.5169537,
+    "ast_hash": "07fa9268cba828a4fb0ae6cb2210bd02",
     "semantic_hash": ""
   },
   "estudiemos/territorio.js": {
@@ -420,9 +420,9 @@
     "semantic_hash": ""
   },
   "estudiemos/pomodoro.js": {
-    "mtime": 1791164367.215589,
-    "seen": 1791164635.5954916,
-    "ast_hash": "972410867a21eb4132a8f2b5733e5be1",
+    "mtime": 1791764542.6998107,
+    "seen": 1791765585.5169518,
+    "ast_hash": "82e99e098c67db2a8b1cdef79be37fe3",
     "semantic_hash": ""
   },
   "supabase/functions/reloj/index.ts": {
@@ -594,9 +594,9 @@
     "semantic_hash": ""
   },
   "docs/HISTORIAL-SW.md": {
-    "mtime": 1791763368.262135,
-    "seen": 1791763479.3138325,
-    "ast_hash": "5b68bffa09b5ce8340e8ce40d07b24d0",
+    "mtime": 1791765271.2668238,
+    "seen": 1791765585.517119,
+    "ast_hash": "6c59341e2646841d69f9a5cb1f5241d2",
     "semantic_hash": ""
   },
   "docs/prompts/PROMPT-DISENO.md": {
@@ -708,9 +708,9 @@
     "semantic_hash": ""
   },
   "estudiemos/parciales.js": {
-    "mtime": 1791164724.9789762,
-    "seen": 1791164781.9765775,
-    "ast_hash": "6836e31de6dbb1b0f62d47bc77c4613c",
+    "mtime": 1791765037.8812475,
+    "seen": 1791765585.5169494,
+    "ast_hash": "4a79d817c6b061b5a667e1cef02bbfa9",
     "semantic_hash": ""
   },
   "estudiemos/arsenal/COMO-SUMAR.md": {
@@ -726,9 +726,9 @@
     "semantic_hash": ""
   },
   "salud-mental/index.html": {
-    "mtime": 1791078448.4494996,
-    "seen": 1791164635.5956442,
-    "ast_hash": "5375da4c0821f4a61ba409e6c946f8d7",
+    "mtime": 1791764374.9083369,
+    "seen": 1791765585.5171738,
+    "ast_hash": "b8e3c34f6f79b54eb74a94aad99d7ceb",
     "semantic_hash": ""
   },
   "congreso/congreso.js": {
@@ -909,6 +909,30 @@
     "mtime": 1791763423.2903354,
     "seen": 1791763479.3138778,
     "ast_hash": "2b0958be90b2cb232c882e486e179cf1",
+    "semantic_hash": ""
+  },
+  "estudiemos/mis-parciales/mis-parciales.js": {
+    "mtime": 1791765419.4528565,
+    "seen": 1791765585.5169463,
+    "ast_hash": "88c9f241712bfadcb91ffcc056a1b0df",
+    "semantic_hash": ""
+  },
+  "lib/lectura-a-color.js": {
+    "mtime": 1791765558.7479384,
+    "seen": 1791765585.516986,
+    "ast_hash": "f50def6319d3e065ea6573afc18ebdbe",
+    "semantic_hash": ""
+  },
+  "lib/mis-parciales.js": {
+    "mtime": 1791764746.9218516,
+    "seen": 1791765585.5169933,
+    "ast_hash": "82573ab51529363c84fa51242958fed7",
+    "semantic_hash": ""
+  },
+  "estudiemos/mis-parciales/index.html": {
+    "mtime": 1791764786.634164,
+    "seen": 1791765585.5171537,
+    "ast_hash": "7cf6081b3c10a24a2a2b0e9b1ccdc653",
     "semantic_hash": ""
   }
 }

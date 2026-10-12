@@ -352,6 +352,26 @@
   .hoja-pomodoro .hoja-manija::before{ display:none; }
 }
 
+/* LA PAUSA VOCAL (11/10/2026). Va a la izquierda aunque la hoja esté
+   centrada: son instrucciones, y un texto de tres renglones centrado
+   se lee a los saltos. El borde distingue voz (celeste) de cuerpo. */
+.pomo-pausa{ margin:16px 0 0; text-align:left; }
+.pomo-pausa[hidden]{ display:none; }
+.pomo-pausa-cabeza{ display:flex; align-items:center; justify-content:space-between; gap:8px; margin:0 0 8px; }
+.pomo-pausa-cabeza h3{ margin:0; font-family:var(--fuente-sub); font-size:13px; font-weight:800; letter-spacing:.06em; text-transform:uppercase; }
+.pomo-pausa-cabeza .pomo-otro{ flex:0 0 auto; padding:8px 18px; min-height:40px; }
+.pomo-pausa-lista{ list-style:none; margin:0; padding:0; display:grid; gap:8px; }
+.pomo-pausa-lista li{
+  background:var(--superficie-2); border-radius:var(--radio-chico, 8px);
+  border-left:4px solid var(--celeste); padding:10px 12px;
+}
+.pomo-pausa-lista li.pomo-pausa-cuerpo{ border-left-color:var(--amarillo); }
+.pomo-pausa-ceja{ display:block; font-family:var(--mono); font-size:10.5px; letter-spacing:.08em; text-transform:uppercase; color:var(--texto-suave); }
+.pomo-pausa-lista strong{ display:block; font-size:15px; margin:2px 0 4px; }
+.pomo-pausa-lista p{ margin:0; font-size:13.5px; line-height:1.5; }
+.pomo-pausa-lista .pomo-pausa-porque{ margin-top:6px; font-size:12.5px; color:var(--texto-suave); }
+.pomo-pausa-ojo{ margin:8px 0 0; font-size:12px; line-height:1.45; color:var(--texto-suave); }
+
 /* ---------- La época de parciales (4/10/2026, parciales.js) ----------
    La tarjeta es la `.enfoque` de Fechas, a propósito: el mismo
    interruptor tiene que verse igual en las dos pantallas, para que el

@@ -14,7 +14,7 @@
   "12": "portada.js",
   "13": "htmlNovedades",
   "14": "leer.js",
-  "15": "invitarAInstalar",
+  "15": "esc",
   "16": "ficha.js",
   "17": "pantallaMiCuenta",
   "18": "tabla-avisanos.sql",
@@ -113,5 +113,7 @@
   "111": "revisar-ficha.mjs",
   "112": "arreglo-rls-rendimiento.sql",
   "113": "arreglo-seguridad-11-10.sql",
-  "114": "Pantalla Estudiemos (landing de herramientas)"
+  "114": "mis-parciales/mis-parciales.js",
+  "115": "lib/mis-parciales.js",
+  "116": "montar"
 }

@@ -1,0 +1,215 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Mis parciales · Estudiemos · La Bolívar con vos</title>
+<meta name="description" content="Anotá las fechas de tus parciales, mirá cuántos días faltan y practicá con las preguntas de parciales viejos.">
+<meta name="theme-color" content="#F9E830">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Roboto:wght@400;500;700&family=Roboto+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="icon" type="image/png" sizes="32x32" href="../../imagenes/icono-32.png">
+<link rel="icon" type="image/png" sizes="96x96" href="../../imagenes/icono-96.png">
+<link rel="icon" type="image/png" sizes="192x192" href="../../imagenes/icono-192.png">
+<link rel="apple-touch-icon" href="../../imagenes/icono-apple.png">
+<link rel="manifest" href="../../manifest.json">
+
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="La Bolivar con vos">
+<meta property="og:title" content="Mis parciales · La Bolívar con vos">
+<meta property="og:description" content="Las fechas de tus parciales con la cuenta regresiva, y las preguntas de parciales viejos para practicar.">
+<meta property="og:image" content="https://labolivarconvos.ar/imagenes/compartir.png">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="stylesheet" href="../../css/tokens.css">
+<link rel="stylesheet" href="../../css/base/01-cimientos.css">
+<link rel="stylesheet" href="../../css/base/02-encabezado.css">
+<link rel="stylesheet" href="../../css/base/03-controles.css">
+<link rel="stylesheet" href="../../css/base/04-tarjetas.css">
+<link rel="stylesheet" href="../../css/base/05-secciones.css">
+<link rel="stylesheet" href="../../css/base/06-hoja.css">
+<link rel="stylesheet" href="../../css/base/07-avisos.css">
+<link rel="stylesheet" href="../../css/base/08-calendario.css">
+<link rel="stylesheet" href="../../css/base/09-avisanos.css">
+<link rel="stylesheet" href="../../css/base/10-lectura.css">
+<link rel="stylesheet" href="../../css/base/11-navegacion.css">
+<link rel="stylesheet" href="../../css/base/12-movimiento.css">
+<link rel="stylesheet" href="../../estilos-rediseno.css">
+<!-- La hoja propia va al lado, como estudiemos.css: es de esta
+     pantalla sola y la baja solo quien entra. -->
+<link rel="stylesheet" href="mis-parciales.css">
+<script>
+(function(){try{
+  var g = localStorage.getItem('bolivar-tema') || 'auto';
+  var oscuro = g === 'oscuro' || (g === 'auto' &&
+    window.matchMedia('(prefers-color-scheme: dark)').matches);
+  document.documentElement.dataset.tema = oscuro ? 'oscuro' : 'claro';
+}catch(e){ document.documentElement.dataset.tema = 'claro'; }})();
+</script>
+<!-- Estadisticas de visitas (Vercel Web Analytics, sin cookies) -->
+<script defer src="/_vercel/insights/script.js"></script>
+</head>
+<body class="pantalla-mis-parciales">
+
+<div id="cabecera"></div>
+
+<main class="envoltura" id="contenido" tabindex="-1">
+  <p class="mp-volver"><a href="../">← Estudiemos</a></p>
+  <h1 class="titulo-pantalla">Mis parciales</h1>
+  <p class="bajada">Anotá la fecha y el inicio de la app te cuenta los días.
+    Cargá las preguntas de parciales viejos y practicá con ellas antes de rendir.</p>
+  <p class="mp-privado">Queda guardado <b>en este teléfono</b>: no hace falta
+    cuenta y nadie más lo ve. Si borrás los datos del navegador, se borra.</p>
+
+  <!-- Lo que se acaba de hacer, con «Deshacer» cuando se borró algo. -->
+  <div class="mp-estado" id="mp-estado" role="status" aria-live="polite"></div>
+
+  <!-- ============ LAS FECHAS ============ -->
+  <section aria-labelledby="mp-t-fechas">
+    <h2 class="titulo-seccion" id="mp-t-fechas">Lo que viene</h2>
+    <div id="mp-proximos"></div>
+    <button class="boton ancho" id="mp-nuevo" type="button">+ Anotar un parcial</button>
+
+    <form class="tarjeta mp-form" id="mp-form-parcial" hidden novalidate>
+      <h3 id="mp-form-parcial-titulo">Anotar un parcial</h3>
+      <div class="campo">
+        <label for="mp-materia">Materia</label>
+        <input id="mp-materia" list="mp-lista-materias" autocomplete="off" required
+               placeholder="Ej.: Anatomofisiología">
+        <div class="mp-sugeridas" id="mp-sugeridas"></div>
+      </div>
+      <div class="campo">
+        <label for="mp-que">Qué es</label>
+        <input id="mp-que" list="mp-lista-que" autocomplete="off" value="1.º parcial">
+      </div>
+      <div class="mp-dos">
+        <div class="campo">
+          <label for="mp-fecha">Día</label>
+          <input id="mp-fecha" type="date" required>
+        </div>
+        <div class="campo">
+          <label for="mp-hora">Hora <span class="mp-opcional">(si la sabés)</span></label>
+          <input id="mp-hora" type="time">
+        </div>
+      </div>
+      <div class="campo">
+        <label for="mp-lugar">Dónde <span class="mp-opcional">(si lo sabés)</span></label>
+        <input id="mp-lugar" autocomplete="off" placeholder="Ej.: Aula 5, o virtual">
+      </div>
+      <div class="campo">
+        <label for="mp-temas">Qué entra <span class="mp-opcional">(si lo sabés)</span></label>
+        <textarea id="mp-temas" placeholder="Ej.: Unidades 1 a 3. Laringe, faringe y deglución."></textarea>
+      </div>
+      <p class="mp-error" id="mp-error-parcial" role="alert" hidden></p>
+      <div class="mp-botones">
+        <button class="boton" type="submit">Guardar</button>
+        <button class="boton borde" type="button" data-cancelar>Cancelar</button>
+        <button class="boton texto mp-borrar" type="button" id="mp-borrar-parcial" hidden>Borrar este parcial</button>
+      </div>
+    </form>
+
+    <details class="mp-pasados" id="mp-pasados" hidden>
+      <summary id="mp-pasados-titulo">Los que ya pasaron</summary>
+      <div id="mp-pasados-lista"></div>
+    </details>
+  </section>
+
+  <!-- ============ LAS PREGUNTAS ============ -->
+  <section aria-labelledby="mp-t-preguntas">
+    <h2 class="titulo-seccion" id="mp-t-preguntas">Preguntas de parciales viejos</h2>
+    <p class="letra-chica mp-arriba">Las que circulan en el grupo, las que te acordás de
+      cuando rendiste, las que dio la cátedra para practicar. Con la respuesta, si la tenés.</p>
+
+    <!-- PRACTICAR. Reemplaza a la lista mientras dura: una pregunta
+         por vez, primero las que marcaste «a repasar». -->
+    <div class="tarjeta mp-practica" id="mp-practica" hidden tabindex="-1"></div>
+
+    <div id="mp-banco">
+      <div class="chips mp-filtro" id="mp-filtro" role="group" aria-label="Elegí la materia"></div>
+      <div class="mp-banco-acciones" id="mp-banco-acciones"></div>
+      <ul class="mp-preguntas" id="mp-preguntas"></ul>
+      <div class="mp-botones">
+        <button class="boton" id="mp-nueva-preg" type="button">+ Cargar una pregunta</button>
+        <button class="boton borde" id="mp-pegar" type="button">Pegar varias</button>
+      </div>
+
+      <form class="tarjeta mp-form" id="mp-form-preg" hidden novalidate>
+        <h3 id="mp-form-preg-titulo">Cargar una pregunta</h3>
+        <div class="campo">
+          <label for="mp-preg-materia">Materia</label>
+          <input id="mp-preg-materia" list="mp-lista-materias" autocomplete="off" required>
+        </div>
+        <div class="campo">
+          <label for="mp-preg-fuente">De dónde salió <span class="mp-opcional">(si sabés)</span></label>
+          <input id="mp-preg-fuente" autocomplete="off" placeholder="Ej.: 1.º parcial 2025">
+        </div>
+        <div class="campo">
+          <label for="mp-preg-texto">La pregunta</label>
+          <textarea id="mp-preg-texto" required></textarea>
+        </div>
+        <div class="campo">
+          <label for="mp-preg-resp">La respuesta <span class="mp-opcional">(si la tenés)</span></label>
+          <textarea id="mp-preg-resp" placeholder="Lo que contestarías, o dónde está en el apunte."></textarea>
+        </div>
+        <p class="mp-error" id="mp-error-preg" role="alert" hidden></p>
+        <div class="mp-botones">
+          <button class="boton" type="submit">Guardar</button>
+          <button class="boton borde" type="button" data-cancelar>Cancelar</button>
+        </div>
+      </form>
+
+      <form class="tarjeta mp-form" id="mp-form-pegar" hidden novalidate>
+        <h3>Pegar varias</h3>
+        <p class="letra-chica mp-arriba">Pegá el texto como venga: una pregunta por renglón, o
+          numeradas (1., 2.…). Si abajo de una pregunta hay un renglón que empieza con
+          <b>R:</b>, se guarda como su respuesta. Lo que te comparten desde esta pantalla
+          entra tal cual.</p>
+        <div class="campo">
+          <label for="mp-pegar-materia">Materia</label>
+          <input id="mp-pegar-materia" list="mp-lista-materias" autocomplete="off" required>
+        </div>
+        <div class="campo">
+          <label for="mp-pegar-fuente">De dónde salieron <span class="mp-opcional">(si sabés)</span></label>
+          <input id="mp-pegar-fuente" autocomplete="off" placeholder="Ej.: Parciales 2024">
+        </div>
+        <div class="campo">
+          <label for="mp-pegar-texto">El texto</label>
+          <textarea id="mp-pegar-texto" class="mp-pegar-texto" required
+                    placeholder="1. ¿Qué cartílagos forman el esqueleto de la laringe?&#10;R: Tiroides, cricoides, epiglotis y aritenoides.&#10;&#10;2. ¿Qué nervio inerva al músculo cricotiroideo?"></textarea>
+        </div>
+        <p class="letra-chica" id="mp-pegar-cuenta" aria-live="polite"></p>
+        <p class="mp-error" id="mp-error-pegar" role="alert" hidden></p>
+        <div class="mp-botones">
+          <button class="boton" type="submit">Cargarlas</button>
+          <button class="boton borde" type="button" data-cancelar>Cancelar</button>
+        </div>
+      </form>
+    </div>
+  </section>
+
+  <datalist id="mp-lista-materias"></datalist>
+  <datalist id="mp-lista-que">
+    <option value="1.º parcial"><option value="2.º parcial"><option value="Recuperatorio">
+    <option value="Parcial integrador"><option value="Oral"><option value="Entrega de TP">
+  </datalist>
+</main>
+
+<div id="pie"></div>
+
+<script>window.RAIZ = '../../';</script>
+<script src="../../lib/datos.js"></script>
+<script src="../../config.js"></script>
+<script src="../../iconos.js"></script>
+<script src="../../lib/mudanza.js"></script>
+<script src="../../app.js"></script>
+<script src="../../fondo-red.js"></script>
+<!-- «Pasalo a tu calendario», el mismo de Fechas. Después de app.js. -->
+<script src="../../lib/fecha-al-calendario.js"></script>
+<!-- Los planes, para sugerir los nombres de las materias tal cual. -->
+<script src="../../carrera/plan.js"></script>
+<script src="../../carrera/plan-tgcr.js"></script>
+<script src="../../carrera/plan-fono.js"></script>
+<script src="../../lib/mis-parciales.js"></script>
+<script src="mis-parciales.js"></script>
+</body>
+</html>
