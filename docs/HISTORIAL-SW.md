@@ -492,4 +492,10 @@ todo una entrada con el número, la fecha y el porqué.
    pantalla y su hoja (`css/pantallas/llegar.css`) no van al armazón;
    sube por `app.js`, que la suma al índice del pie. Sin número nuevo,
    el pie y el buscador del inicio seguirían sin conocerla. */
+/* v90 (11/10/2026) La pantalla nueva «Ingreso 2027» (`ingreso/`): la
+   inscripción del 9/11 al 11/12, los papeles y las fechas de la
+   resolución 964-26 de la UNLP. La pantalla y su hoja
+   (`css/pantallas/ingreso.css`) no van al armazón; sube por `app.js`,
+   que la suma al índice del pie, y por el inicio, que la pone primera
+   en el kit y le enseña palabras al buscador. */
 ```

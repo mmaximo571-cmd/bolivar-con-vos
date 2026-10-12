@@ -1,0 +1,364 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Ingreso 2027 · La Bolívar con vos</title>
+<meta name="description" content="Cómo anotarte para empezar en 2027 una carrera de la Facultad de Trabajo Social de la UNLP: la inscripción va del 9 de noviembre al 11 de diciembre de 2026. Qué papeles tener listos y las fechas que no se pueden pasar.">
+<meta name="theme-color" content="#F9E830">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+<!-- Iconos de la app: pestana, Google, y pantalla de inicio del celular -->
+<link rel="icon" type="image/png" sizes="32x32" href="../imagenes/icono-32.png">
+<link rel="icon" type="image/png" sizes="96x96" href="../imagenes/icono-96.png">
+<link rel="icon" type="image/png" sizes="192x192" href="../imagenes/icono-192.png">
+<link rel="apple-touch-icon" href="../imagenes/icono-apple.png">
+<link rel="manifest" href="../manifest.json">
+
+<!-- Como se ve cuando alguien comparte el link por WhatsApp o Instagram -->
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="La Bolivar con vos">
+<meta property="og:title" content="Ingreso 2027 · La Bolívar con vos">
+<meta property="og:description" content="La inscripción para empezar en 2027 va del 9 de noviembre al 11 de diciembre. Qué papeles tener listos, explicado.">
+<meta property="og:image" content="https://labolivarconvos.ar/imagenes/compartir.png">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="stylesheet" href="../css/tokens.css">
+<link rel="stylesheet" href="../css/base/01-cimientos.css">
+<link rel="stylesheet" href="../css/base/02-encabezado.css">
+<link rel="stylesheet" href="../css/base/03-controles.css">
+<link rel="stylesheet" href="../css/base/04-tarjetas.css">
+<link rel="stylesheet" href="../css/base/05-secciones.css">
+<link rel="stylesheet" href="../css/base/06-hoja.css">
+<link rel="stylesheet" href="../css/base/07-avisos.css">
+<link rel="stylesheet" href="../css/base/08-calendario.css">
+<link rel="stylesheet" href="../css/base/09-avisanos.css">
+<link rel="stylesheet" href="../css/base/10-lectura.css">
+<link rel="stylesheet" href="../css/base/11-navegacion.css">
+<link rel="stylesheet" href="../css/base/12-movimiento.css">
+<link rel="stylesheet" href="../css/pantallas/ingreso.css">
+<link rel="stylesheet" href="../estilos-rediseno.css">
+<!-- EL TEMA, ANTES DE DIBUJAR NADA. Mismo motivo que en el glosario. -->
+<script>
+(function(){try{
+  var g = localStorage.getItem('bolivar-tema') || 'auto';
+  var oscuro = g === 'oscuro' || (g === 'auto' &&
+    window.matchMedia('(prefers-color-scheme: dark)').matches);
+  document.documentElement.dataset.tema = oscuro ? 'oscuro' : 'claro';
+}catch(e){ document.documentElement.dataset.tema = 'claro'; }})();
+</script>
+<!-- Estadisticas de visitas (Vercel Web Analytics, sin cookies) -->
+<script defer src="/_vercel/insights/script.js"></script>
+</head>
+<body class="lectura sin-js">
+
+
+<div id="cabecera"></div>
+
+<!-- ============================================================
+     INGRESO 2027 (11/10/2026)
+
+     Para quien quiere empezar a estudiar en la facu en 2027, y para
+     les estudiantes que se lo van a mandar a un hermano, una amiga o
+     alguien del barrio.
+
+     DE DÓNDE SALE TODO. De la resolución 964-26 de la UNLP, la que fija
+     la inscripción de las 17 facultades para el ciclo 2027 (la pasó
+     Máximo el 11/10/2026). Es una sola para toda la universidad, así
+     que acá está lo que vale para cualquier carrera. Las fechas de la
+     pantalla son las de la resolución, tal cual.
+
+     LO QUE NO ESTÁ, A PROPÓSITO: lo propio de la facultad. El curso de
+     ingreso, la dirección exacta del formulario y el mail de consultas
+     los publica la FTS, y para 2027 todavía no salieron. Las guías de
+     años anteriores dicen otras cosas (en 2025 la inscripción de la
+     FTS cerraba en febrero, no en diciembre): copiar eso sería peor que
+     no decir nada. Cuando la facultad publique, se suma acá.
+
+     ESCRITO EN EL HTML Y NO EN SUPABASE, como Cómo llegar y el
+     glosario: quien la necesita muchas veces todavía no tiene la app ni
+     buena señal, y tiene que abrir igual.
+
+     La lista de papeles se tilda y queda guardada en el teléfono: el
+     trámite se hace en varios días (sacar la foto del DNI hoy, pedir
+     el certificado al colegio la semana que viene) y hay que saber qué
+     falta sin volver a leer todo.
+     ============================================================ -->
+<main id="contenido" tabindex="-1">
+
+  <div class="banda tinta">
+    <div class="envoltura">
+      <p class="ceja-lectura aparece">Ingreso 2027</p>
+      <h1 class="grito aparece">Anotarte<br><em>en la facu</em></h1>
+      <p class="bajada-lectura aparece">
+        Para empezar a estudiar en 2027, la inscripción va del
+        <strong>9 de noviembre al 11 de diciembre de 2026</strong>. Es por
+        internet, desde la página de la facultad. Acá te contamos qué papeles
+        tener listos y qué fechas no se te pueden pasar.
+      </p>
+    </div>
+  </div>
+
+  <div class="banda papel">
+    <div class="envoltura">
+
+      <article class="modulo ingreso-ventana aparece">
+        <p class="ingreso-rotulo">La inscripción</p>
+        <p class="ingreso-fechas-grandes">9/11 <span aria-hidden="true">→</span><span class="solo-lectores">al</span> 11/12</p>
+        <p class="ingreso-estado" id="ingreso-estado">Del lunes 9 de noviembre al viernes 11 de diciembre de 2026.</p>
+        <div class="espacio-acciones">
+          <a class="boton" href="https://trabajosocial.unlp.edu.ar/" target="_blank" rel="noopener">Página de la facultad ↗
+            <span class="solo-lectores">(abre en otra pestaña)</span></a>
+          <a class="boton borde" id="ingreso-agendar" hidden target="_blank" rel="noopener">Agendá que abre ↗
+            <span class="solo-lectores">(abre Google Calendar en otra pestaña)</span></a>
+        </div>
+      </article>
+
+      <!-- ===== UNA SOLA CARRERA ===== -->
+      <h2 class="titulo-seccion">ANTES DE EMPEZAR</h2>
+      <div class="aviso ingreso-una-sola aparece">
+        <strong>Una sola carrera, en una sola universidad.</strong>
+        La UNLP te deja anotarte en una carrera por año, y lo que completás vale
+        como declaración jurada. Si ya te anotaste para 2027 en otra carrera o en
+        otra universidad nacional, no vas a poder anotarte acá. Elegí antes de
+        mandar el formulario.
+      </div>
+
+      <!-- ===== LOS PAPELES ===== -->
+      <h2 class="titulo-seccion">QUÉ TENER LISTO</h2>
+      <p class="ingreso-parrafo">Se sube todo en el formulario, así que conviene
+        tenerlo en el teléfono antes de empezar. Tildá lo que ya tenés:
+        <span id="ingreso-guardado">queda guardado en este teléfono.</span></p>
+      <ul class="ingreso-papeles" id="ingreso-papeles">
+        <li><label><input type="checkbox" data-papel="dni">
+          <span><strong>Foto del DNI, de los dos lados.</strong>
+            Si venís de otro país, del pasaporte o la cédula de allá.</span></label></li>
+        <li><label><input type="checkbox" data-papel="foto">
+          <span><strong>Una foto tuya de frente.</strong>
+            Que se te vea bien la cara.</span></label></li>
+        <li><label><input type="checkbox" data-papel="secundario">
+          <span><strong>El título o certificado del secundario, en PDF.</strong>
+            Si todavía no terminaste, el certificado provisorio que te da el
+            colegio, donde diga que estás cursando o rindiendo el último año.</span></label></li>
+        <li><label><input type="checkbox" data-papel="mail">
+          <span><strong>Un mail que revises seguido.</strong>
+            El que pongas en el formulario es por donde te van a llegar todos
+            los avisos oficiales. Si no lo mirás, te los perdés.</span></label></li>
+        <li><label><input type="checkbox" data-papel="idioma">
+          <span><strong>Solo si tu lengua no es el español:</strong>
+            el certificado CELU o el CertEA (más abajo te contamos).</span></label></li>
+      </ul>
+
+      <!-- ===== EL TRÁMITE ===== -->
+      <h2 class="titulo-seccion">CÓMO ES EL TRÁMITE</h2>
+      <ol class="pasos ingreso-pasos">
+        <li><strong>Completás el formulario virtual</strong>
+          Está en la página de la facultad, entre el 9 de noviembre y el 11 de
+          diciembre. Ahí subís las fotos y el PDF.</li>
+        <li><strong>Tu inscripción queda «condicional»</strong>
+          Quiere decir que la inscripción vale, pero todavía tienen que revisar
+          tus papeles. Es normal, le pasa a todo el mundo.</li>
+        <li><strong>Te llega el plan de estudios por mail</strong>
+          La facultad te manda la copia del plan de la carrera que elegiste.
+          Guardalo: ahí están todas las materias que vas a cursar.</li>
+        <li><strong>Llevás los originales en papel</strong>
+          Cuando la facultad te lo pida, vas a Alumnos con los papeles de verdad.
+          Tienen que ser los mismos que subiste: si no coinciden, o si no los
+          llevás, se cae la inscripción.</li>
+      </ol>
+      <p class="ingreso-nota">Lo que viene después (el curso de ingreso, cuándo
+        empieza la cursada) lo anuncia la facultad. Cuando salga, lo sumamos acá.</p>
+
+      <!-- ===== LAS FECHAS ===== -->
+      <h2 class="titulo-seccion">LAS FECHAS QUE NO SE PUEDEN PASAR</h2>
+      <p class="ingreso-parrafo">Anotarte es el primer paso. Para que la
+        inscripción quede firme hay que cumplir con esto:</p>
+      <ol class="ingreso-calendario" id="ingreso-calendario">
+        <li data-fecha="2026-12-11">
+          <time datetime="2026-12-11"><span>11</span> dic 2026</time>
+          <div><strong>Cierra la inscripción.</strong>
+            Último día para completar el formulario.</div></li>
+        <li data-fecha="2027-06-30">
+          <time datetime="2027-06-30"><span>30</span> jun 2027</time>
+          <div><strong>Secundario terminado.</strong>
+            Para esa fecha no te puede quedar ninguna materia del secundario.</div></li>
+        <li data-fecha="2027-07-12">
+          <time datetime="2027-07-12"><span>12</span> jul 2027</time>
+          <div><strong>El papel que lo demuestra.</strong>
+            Último día para llevar a Alumnos el certificado de que terminaste.</div></li>
+        <li data-fecha="2027-08-27">
+          <time datetime="2027-08-27"><span>27</span> ago 2027</time>
+          <div><strong>Las vacunas.</strong>
+            Fotocopia del carnet con Hepatitis&nbsp;B, doble o triple bacteriana y
+            triple viral (las del calendario nacional según tu edad).</div></li>
+        <li data-fecha="2027-11-26">
+          <time datetime="2027-11-26"><span>26</span> nov 2027</time>
+          <div><strong>Si venís de otro país: la residencia.</strong>
+            Copia del trámite de Migraciones terminado (precaria, temporaria o
+            permanente).</div></li>
+        <li data-fecha="2028-03-03">
+          <time datetime="2028-03-03"><span>3</span> mar 2028</time>
+          <div><strong>Si entraste con certificado provisorio: el título.</strong>
+            El certificado único o el título original, con una fotocopia.</div></li>
+      </ol>
+
+      <!-- ===== CASOS ===== -->
+      <h2 class="titulo-seccion">SI TU CASO ES DISTINTO</h2>
+      <div class="ingreso-casos">
+        <details class="tarjeta">
+          <summary>Todavía estoy terminando el secundario</summary>
+          <div class="respuesta">
+            <p>Te podés anotar igual, con el certificado provisorio del colegio.
+              Lo que importa es que para el <strong>30 de junio de 2027</strong>
+              no debas ninguna materia, y que lleves la constancia a Alumnos hasta
+              el <strong>12 de julio</strong>.</p>
+            <p>Mientras no presentes el certificado de que terminaste, podés
+              cursar pero <strong>no podés rendir finales ni promocionar</strong>
+              materias. Y el título original lo tenés que llevar hasta el 3 de
+              marzo de 2028.</p>
+          </div>
+        </details>
+        <details class="tarjeta">
+          <summary>Terminé el secundario en otro país</summary>
+          <div class="respuesta">
+            <p>El certificado tiene que ser el analítico, con todas las materias y
+              notas de todos los años. Tiene que estar legalizado por la autoridad
+              educativa de tu país y el Consulado argentino, o apostillado.</p>
+            <p>Si no está en español, además va la traducción de un traductor
+              público nacional. Y hasta el 3 de marzo de 2028 tenés que presentar
+              la convalidación del Ministerio de Educación de la Nación.</p>
+          </div>
+        </details>
+        <details class="tarjeta">
+          <summary>Mi lengua no es el español</summary>
+          <div class="respuesta">
+            <p>Tenés que mostrar que manejás el español con un certificado, y
+              presentarlo en el mismo período de la inscripción. Valen el
+              <strong>CELU</strong> («Español Lengua y Uso», del consorcio ELSE) y
+              el <strong>CertEA</strong> (Certificado de Español Académico, de la
+              Facultad de Humanidades de la UNLP). El nivel que piden lo decide
+              cada facultad, y pueden aceptar otros equivalentes: preguntá antes.</p>
+          </div>
+        </details>
+        <details class="tarjeta">
+          <summary>No soy de Argentina</summary>
+          <div class="respuesta">
+            <p>Para anotarte alcanza con el pasaporte o la cédula de tu país. Una
+              vez que termines el trámite de residencia en Migraciones (precaria,
+              temporaria o permanente), llevás una copia a Alumnos hasta el
+              <strong>26 de noviembre de 2027</strong>.</p>
+          </div>
+        </details>
+        <details class="tarjeta">
+          <summary>Me trabé con el formulario</summary>
+          <div class="respuesta">
+            <p>Las facultades tienen que darte otra forma de pedir ayuda si el
+              formulario no te anda: mail, WhatsApp u otra. Fijate en la página de
+              la facultad. Y si no sabés por dónde arrancar, escribinos con el
+              botón de Avisanos: alguien de la agrupación te da una mano.</p>
+          </div>
+        </details>
+        <details class="tarjeta">
+          <summary>No llego con alguna fecha</summary>
+          <div class="respuesta">
+            <p>La universidad y cada facultad pueden dar prórrogas o excepciones.
+              No lo dejes para último momento, pero si se te complica, preguntá
+              en Alumnos antes de que venza el plazo y no después.</p>
+          </div>
+        </details>
+      </div>
+
+      <p class="ingreso-fuente">
+        Sale de la resolución 964-26 de la UNLP, que fija la inscripción para el
+        ciclo 2027 en las 17 facultades. Revisado el 11 de octubre de 2026. Lo
+        propio de la Facultad de Trabajo Social (el curso de ingreso, a dónde
+        escribir) todavía no se publicó: cuando salga, lo sumamos.
+      </p>
+    </div>
+  </div>
+</main>
+<div id="pie"></div>
+<script>window.RAIZ = '../';</script>
+<script src="../lib/datos.js"></script>
+<script src="../config.js"></script>
+<script src="../iconos.js"></script>
+<script src="../lib/mudanza.js"></script>
+<script src="../app.js"></script>
+<script src="../lib/fecha-al-calendario.js"></script>
+<script src="../fondo-red.js"></script>
+<script src="../lectura.js"></script>
+<script>
+(function ingreso(){
+  document.getElementById('cabecera').innerHTML = htmlCabecera();
+  document.getElementById('pie').innerHTML = htmlPie();
+  pintarNav('ingreso');
+  document.body.classList.remove('sin-js');
+  vigilarAparicion();
+
+  const ABRE = '2026-11-09', CIERRA = '2026-12-11';
+  const hoy = hoyISO();
+  /* Días enteros entre dos fechas ISO. Con UTC para que el cambio de
+     horario no reste una hora y redondee mal. */
+  const dias = (a, b) => {
+    const [y1, m1, d1] = a.split('-').map(Number), [y2, m2, d2] = b.split('-').map(Number);
+    return Math.round((Date.UTC(y2, m2 - 1, d2) - Date.UTC(y1, m1 - 1, d1)) / 864e5);
+  };
+  const plural = (n, uno, varios) => n + ' ' + (n === 1 ? uno : varios);
+
+  /* EN QUÉ MOMENTO ESTAMOS. Sin JavaScript queda la frase con las dos
+     fechas, que alcanza; con JavaScript se dice lo que importa hoy. */
+  const estado = document.getElementById('ingreso-estado');
+  const ventana = document.querySelector('.ingreso-ventana');
+  if (hoy < ABRE){
+    estado.innerHTML = 'Abre el <strong>lunes 9 de noviembre</strong>: faltan '
+      + plural(dias(hoy, ABRE), 'día', 'días') + '. Cierra el viernes 11 de diciembre.';
+  } else if (hoy <= CIERRA){
+    const quedan = dias(hoy, CIERRA);
+    ventana.classList.add('abierta');
+    estado.innerHTML = quedan === 0
+      ? '<strong>Hoy es el último día</strong> para anotarte.'
+      : '<strong>Está abierta.</strong> Quedan ' + plural(quedan, 'día', 'días')
+        + ': cierra el viernes 11 de diciembre.';
+  } else {
+    estado.innerHTML = 'La inscripción cerró el 11 de diciembre. Si te quedaste afuera, '
+      + 'preguntá en la facultad: puede haber prórroga.';
+  }
+
+  /* El aviso al calendario, solo antes de que abra: después ya no
+     sirve. Dura todo el período, así el teléfono lo muestra los 33 días. */
+  if (hoy < ABRE && typeof urlGoogleCalendar === 'function'){
+    const agendar = document.getElementById('ingreso-agendar');
+    agendar.href = urlGoogleCalendar({
+      titulo: 'Inscripción a la facu (ingreso 2027)',
+      cuerpo: 'Del 9/11 al 11/12. El formulario está en la página de la facultad. '
+        + 'Qué papeles tener listos: labolivarconvos.ar/ingreso/',
+      lugar: 'trabajosocial.unlp.edu.ar',
+      fecha_desde: ABRE, fecha_hasta: CIERRA
+    });
+    agendar.hidden = false;
+  }
+
+  /* Las fechas que ya pasaron se apagan, para que se vea de un golpe
+     cuál es la próxima. */
+  let proxima = null;
+  document.querySelectorAll('#ingreso-calendario [data-fecha]').forEach(li => {
+    if (li.dataset.fecha < hoy) li.classList.add('paso');
+    else if (!proxima){ proxima = li; li.classList.add('proxima'); }
+  });
+
+  /* LA LISTA DE PAPELES, guardada en el teléfono. Si el navegador no
+     deja guardar, la lista se tilda igual y se avisa que no va a quedar. */
+  const LLAVE = 'bolivar-ingreso-papeles';
+  const cajas = [...document.querySelectorAll('#ingreso-papeles [data-papel]')];
+  let tildados = [];
+  try { tildados = JSON.parse(localStorage.getItem(LLAVE) || '[]'); }
+  catch(e){ document.getElementById('ingreso-guardado').textContent = 'en este navegador no va a quedar guardado.'; }
+  cajas.forEach(c => { c.checked = tildados.includes(c.dataset.papel); });
+  document.getElementById('ingreso-papeles').addEventListener('change', () => {
+    const marcados = cajas.filter(c => c.checked).map(c => c.dataset.papel);
+    try { localStorage.setItem(LLAVE, JSON.stringify(marcados)); } catch(e){}
+  });
+})();
+</script>
+</body>
+</html>

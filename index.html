@@ -1294,6 +1294,13 @@ setTimeout(function(){
       return c ? 'tramites/?categoria=' + c.id : 'tramites/';
     };
     const kit = [
+      /* Va primera porque es el paso cero: antes de los trámites de
+         adentro, hay que entrar (11/10/2026). Le sirve hasta marzo de
+         2028, que es la última fecha de la pantalla; para el ingreso
+         2028 se cambia el texto, no se saca. */
+      { titulo:'Anotarte para 2027',
+        texto:'La inscripción va del 9 de noviembre al 11 de diciembre. Qué papeles tener listos y las fechas que no se pueden pasar.',
+        url:'ingreso/' },
       { titulo:'Trámites básicos',
         texto:'Lo primero que vas a tener que hacer sí o sí: inscribirte, sacar constancias, anotarte a finales.',
         url: buscarCat('Inscripciones') },
@@ -2175,6 +2182,7 @@ setTimeout(function(){
     trayecto:   'trayecto optativo tramo 120 horas actividades acreditar seminarios optativos 255',
     'salud-mental': 'salud mental psicologo psicologa psicologia terapia angustia ansiedad ayuda urgencia hospital guardia 0800 135 suicidio ley 26657 derechos',
     llegar:     'como llegar llego micro micros colectivo colectivos bondi linea lineas ramal parada direccion donde queda ubicacion 9 y 63 tren roca terminal estacion sube avenida 7 la plata ciudad perdido',
+    ingreso:    'ingreso ingresante ingresantes inscripcion inscribirme anotarme anotarse empezar la facu 2027 carrera nueva papeles documentacion dni foto titulo secundario certificado vacunas declaracion jurada curso de ingreso',
     arsenal:    'arsenal libros libro pelis peliculas pelicula cine documentales cortos revistas lecturas leer ver escuchar discos musica recomendaciones recomendados para el finde'
   };
 

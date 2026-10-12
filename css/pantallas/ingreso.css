@@ -1,0 +1,109 @@
+/* ==========================================================
+   LA BOLIVAR CON VOS · SOLO PARA INGRESO 2027
+   Las fechas grandes de la inscripción, la lista de papeles que se
+   tilda y la línea de fechas que hay que cumplir. Los pasos son los
+   `.pasos` de la base; los botones, los de Espacios
+   (`.espacio-acciones`); los casos, las `details.tarjeta` de la base.
+   Carga después de la base y antes de estilos-rediseno.
+   ========================================================== */
+
+/* ---- La ventana de inscripción ----
+   Las dos fechas en grande y solas, como la esquina de Cómo llegar:
+   es lo único que alguien tiene que recordar de memoria. */
+.ingreso-rotulo{
+  font-family:var(--fuente-datos);font-weight:700;font-size:var(--letra-mini);
+  letter-spacing:.16em;text-transform:uppercase;color:var(--texto-suave);margin:0
+}
+
+.ingreso-fechas-grandes{
+  font-family:var(--fuente-titulo);font-size:var(--letra-dato);line-height:1;
+  margin:6px 0 8px
+}
+
+.ingreso-estado{color:var(--texto-suave);font-size:var(--letra-nota);margin:4px 0 0}
+
+.ingreso-estado strong{color:var(--texto)}
+
+/* Mientras está abierta, el módulo se marca con el amarillo de la
+   casa: es el único momento en que hay que hacer algo ya. */
+.ingreso-ventana.abierta{border-left:6px solid var(--amarillo)}
+
+.ingreso-parrafo{margin:0 0 14px}
+
+.ingreso-nota{
+  font-size:var(--letra-nota);color:var(--texto-suave);
+  border-top:1px solid var(--linea);padding-top:12px;margin:0 0 14px
+}
+
+.ingreso-pasos li strong{display:block;margin-bottom:2px}
+
+/* ---- La lista de papeles ----
+   Toda la fila es el blanco del dedo, no solo el cuadradito: se tilda
+   con el pulgar, muchas veces caminando. */
+.ingreso-papeles{list-style:none;margin:0;padding:0}
+
+.ingreso-papeles li{border-bottom:1px solid var(--linea)}
+
+.ingreso-papeles li:last-child{border-bottom:none}
+
+.ingreso-papeles label{
+  display:grid;grid-template-columns:28px 1fr;gap:12px;align-items:start;
+  padding:12px 0;cursor:pointer
+}
+
+.ingreso-papeles input{
+  width:24px;height:24px;margin:1px 0 0;accent-color:var(--celeste);cursor:pointer
+}
+
+.ingreso-papeles strong{display:block}
+
+/* Lo tildado se apaga pero se sigue leyendo: puede hacer falta volver
+   a mirar qué era exactamente lo que había que subir. */
+.ingreso-papeles input:checked + span{color:var(--texto-suave)}
+
+.ingreso-papeles input:checked + span strong{
+  text-decoration:line-through;text-decoration-color:var(--celeste);
+  text-decoration-thickness:2px
+}
+
+/* ---- Las fechas que hay que cumplir ---- */
+.ingreso-calendario{list-style:none;margin:0;padding:0}
+
+.ingreso-calendario li{
+  display:grid;grid-template-columns:64px 1fr;gap:14px;align-items:start;
+  padding:12px 0;border-bottom:1px solid var(--linea)
+}
+
+.ingreso-calendario li:last-child{border-bottom:none}
+
+.ingreso-calendario time{
+  font-family:var(--fuente-datos);font-size:var(--letra-mini);font-weight:700;
+  text-transform:uppercase;letter-spacing:.06em;color:var(--texto-suave);
+  text-align:center;line-height:1.2
+}
+
+.ingreso-calendario time span{
+  display:block;font-family:var(--fuente-titulo);font-weight:400;
+  font-size:26px;letter-spacing:0;color:var(--texto)
+}
+
+.ingreso-calendario strong{display:block}
+
+/* La próxima, con el redondel amarillo de los pasos: se ve de un golpe
+   cuál es la que viene. Las que pasaron se apagan. */
+.ingreso-calendario li.proxima time span{
+  background:var(--amarillo);color:var(--sobre-color);border-radius:50%;
+  width:48px;height:48px;line-height:48px;margin:0 auto 4px
+}
+
+.ingreso-calendario li.paso{opacity:.5}
+
+.ingreso-casos{display:grid;gap:10px}
+
+.ingreso-casos .respuesta p{margin:0 0 8px}
+
+.ingreso-casos .respuesta p:last-child{margin-bottom:0}
+
+.ingreso-fuente{
+  font-size:var(--letra-chica);color:var(--texto-suave);margin:28px 0 0
+}

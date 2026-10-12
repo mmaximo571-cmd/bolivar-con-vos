@@ -1,8 +1,8 @@
 {
   "app.js": {
-    "mtime": 1791761279.2273529,
-    "seen": 1791761451.9195602,
-    "ast_hash": "5fef21593f17b38187e423b646914b9c",
+    "mtime": 1791763352.1756878,
+    "seen": 1791763479.313661,
+    "ast_hash": "ab0b8f36d441caf328225faeae7392a9",
     "semantic_hash": ""
   },
   "carrera/plan-fono.js": {
@@ -78,15 +78,15 @@
     "semantic_hash": ""
   },
   "sw.js": {
-    "mtime": 1791761290.3471622,
-    "seen": 1791761451.9196928,
-    "ast_hash": "94e32d4dd71e1cc84dafd696e904c38a",
+    "mtime": 1791763359.1062648,
+    "seen": 1791763479.3138103,
+    "ast_hash": "70f366f514b7b90be605f2e31de7df45",
     "semantic_hash": ""
   },
   "BITACORA.md": {
-    "mtime": 1791761886.8729477,
-    "seen": 1791761893.240494,
-    "ast_hash": "c8893234becae16ee26971c36da050c6",
+    "mtime": 1791763468.3145719,
+    "seen": 1791763479.3138137,
+    "ast_hash": "52174e1f747bb493fd4c8ab692494fb3",
     "semantic_hash": ""
   },
   "LEEME.md": {
@@ -150,9 +150,9 @@
     "semantic_hash": ""
   },
   "index.html": {
-    "mtime": 1791761279.29726,
-    "seen": 1791761451.919751,
-    "ast_hash": "5f7f7a71b0f289158eab115efb81f60c",
+    "mtime": 1791763352.6403458,
+    "seen": 1791763479.313876,
+    "ast_hash": "c1344deea2aa47d30a76dcad92515c00",
     "semantic_hash": ""
   },
   "mi/index.html": {
@@ -594,9 +594,9 @@
     "semantic_hash": ""
   },
   "docs/HISTORIAL-SW.md": {
-    "mtime": 1791761290.3481598,
-    "seen": 1791761451.9197133,
-    "ast_hash": "d216a723dd86b19304f746016604bdf5",
+    "mtime": 1791763368.262135,
+    "seen": 1791763479.3138325,
+    "ast_hash": "5b68bffa09b5ce8340e8ce40d07b24d0",
     "semantic_hash": ""
   },
   "docs/prompts/PROMPT-DISENO.md": {
@@ -900,9 +900,15 @@
     "semantic_hash": ""
   },
   "llegar/index.html": {
-    "mtime": 1791761834.4003997,
-    "seen": 1791761893.2405548,
-    "ast_hash": "cd5687de3a4a9565ec1b6042a24675da",
+    "mtime": 1791761997.3903842,
+    "seen": 1791763479.31388,
+    "ast_hash": "e90265281d87837e7b0624b77ae0bde1",
+    "semantic_hash": ""
+  },
+  "ingreso/index.html": {
+    "mtime": 1791763423.2903354,
+    "seen": 1791763479.3138778,
+    "ast_hash": "2b0958be90b2cb232c882e486e179cf1",
     "semantic_hash": ""
   }
 }

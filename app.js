@@ -712,7 +712,11 @@ const INDICE_PIE = SECCIONES.concat([
   /* Los micros hasta la facu, para quien no es de La Plata (11/10/2026).
      Tiene la tarjeta del kit en el inicio; acá queda para volver y para
      que el buscador conteste a «micro», «colectivo» o «dónde queda». */
-  { id:'llegar', texto:'Cómo llegar a la facu', url:RAIZ+'llegar/' }
+  { id:'llegar', texto:'Cómo llegar a la facu', url:RAIZ+'llegar/' },
+  /* La inscripción para el ciclo 2027 (11/10/2026). Tiene la primera
+     tarjeta del kit en el inicio; acá queda para que el buscador
+     conteste a «inscripción», «ingreso» o «anotarme». */
+  { id:'ingreso', texto:'Ingreso 2027', url:RAIZ+'ingreso/' }
 ]);
 
 /* Los sistemas de la facultad y de la universidad. No son de la app:
