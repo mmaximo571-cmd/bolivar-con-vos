@@ -179,11 +179,12 @@
    acerca. Abajo a la izquierda, enfrente de Avisanos (que está a la
    derecha, a 74 de la base), y por encima de la hoja, del menú y del
    chat (80, 91 y 90): tiene que poder tocarse con cualquier cosa
-   abierta. Negro con borde amarillo para que se vea en los dos modos. */
+   abierta. Negro con borde lila, el del pilar de género: se ve en los
+   dos modos. */
 .salida-rapida{
   position:fixed;left:14px;bottom:calc(74px + env(safe-area-inset-bottom, 0px));z-index:95;
   display:inline-flex;align-items:center;gap:8px;min-height:48px;padding:0 18px;
-  border-radius:var(--radio-pastilla);border:2px solid var(--amarillo);
+  border-radius:var(--radio-pastilla);border:2px solid var(--lila-genero, #9E6DFF);
   background:var(--negro);color:var(--sobre-negro);text-decoration:none;
   font-family:var(--fuente-sub);font-weight:700;font-size:var(--letra-chica);
   letter-spacing:.06em;text-transform:uppercase;
@@ -197,3 +198,60 @@
    final suba por arriba: 74 de la base + 48 del botón + 12. El `~`
    alcanza porque el botón y la hoja son hermanos, hijos del cuerpo. */
 .salida-rapida ~ .hoja-fondo .hoja{padding-bottom:calc(134px + env(safe-area-inset-bottom, 0px))}
+
+/* ---- El pilar de violencia de género (11/10/2026) ----
+   Con los tonos del cuadernillo de la UDA, para que se distinga de
+   salud mental de un vistazo: el violeta oscuro (#382E68) y el lila
+   (#9E6DFF) son los dos colores que más usa, sacados del PDF.
+
+   NO SE PINTA PIEZA POR PIEZA: adentro de la sección se cambian las
+   variables. Lo que en la app es amarillo (botones, números de los
+   pasos, marcas) pasa a lila, y lo que es celeste (la estructura), a
+   violeta. Así cualquier pieza que se sume al pilar sale teñida sola.
+
+   Contrastes: el texto oscuro de los botones sobre el lila da 5,1; el
+   blanco del título sobre el violeta, 11,9. */
+:root{--lila-genero:#9E6DFF;--violeta-genero:#382E68}
+
+.pilar-genero{
+  --amarillo:var(--lila-genero);
+  --celeste:var(--violeta-genero);
+  --superficie:#FBF9FF;
+  --superficie-2:#EFE8FF;
+  --linea:#DCD0F5;
+  background:#F1EBFF;border-radius:calc(var(--radio) + 4px);
+  margin-top:38px;padding:0 14px 6px;overflow:hidden
+}
+
+/* El título, como la placa de arriba del cuadernillo: violeta, con
+   la franja lila abajo. Llega hasta los bordes de la sección. */
+.pilar-genero > .titulo-seccion{
+  margin:0 -14px 4px;padding:15px 14px 13px;
+  background:var(--violeta-genero);color:#FFFFFF;
+  border-bottom:4px solid var(--lila-genero)
+}
+
+/* De noche: el mismo violeta como fondo, más hondo, y el lila
+   aclarado para la estructura (sobre un fondo oscuro el violeta del
+   día no se ve). El texto de los botones sigue siendo oscuro: 7,4. */
+:root[data-tema="oscuro"] .pilar-genero{
+  --amarillo:#B79BE6;
+  --celeste:#B79BE6;
+  --superficie:#2A2340;
+  --superficie-2:#352C50;
+  --linea:#463B66;
+  background:#201A2F
+}
+
+/* El 144 de «Si es urgente», con el borde del pilar. */
+.llamar.borde.genero{border-color:var(--lila-genero)}
+
+/* Cada título es el primero de su sección, y `.titulo-seccion:first-
+   child` le baja el aire a 22. El pilar que viene después de otro lo
+   recupera, salvo el de género, que ya trae el suyo en la sección. */
+.pilar + .pilar:not(.pilar-genero) > .titulo-seccion{margin-top:38px}
+
+/* La sección es 28 px más angosta que la página, y el correo de la UDA
+   («consejeriaconsultas@gmail.com») no se parte solo: estiraba la
+   ficha y el `overflow:hidden` de la sección la cortaba a la derecha. */
+.pilar-genero .ficha dd{min-width:0;overflow-wrap:anywhere}

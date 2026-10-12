@@ -187,7 +187,7 @@
       <!-- El 144 acá arriba y no solo en la lista: es el número del
            pilar de género, y tiene que verse sin el guion, igual que
            el 0800. El WhatsApp es el de la 144 de la Provincia. -->
-      <a class="llamar borde" href="tel:144">
+      <a class="llamar borde genero" href="tel:144">
         <span class="llamar-texto">
           <strong>144</strong>
           <span class="llamar-que">Violencia de género · gratis, 24 hs, confidencial</span>
@@ -848,17 +848,21 @@
       return palabras.every(p => n.includes(p));
     };
 
-    /* El título del pilar sale antes del primer grupo que se dibuja:
-       si la búsqueda vacía un pilar entero, su título tampoco aparece. */
-    let pilarAnterior = null;
-    const html = GRUPOS.map(g => {
+    /* Cada pilar es una <section> con su título, y adentro sus grupos.
+       La sección es lo que deja teñir el de género con los tonos del
+       cuadernillo de la UDA (ver `.pilar-genero` en la hoja). Si la
+       búsqueda vacía un pilar entero, no aparece ni su título. */
+    const porPilar = [];
+    GRUPOS.forEach(g => {
       const d = g.dibujo(coincide);
-      if (!d) return '';
+      if (!d) return;
       const ico = g.icono && icono(g.icono);
-      const titulo = g.pilar !== pilarAnterior
-        ? `<h2 class="titulo-seccion">${esc(PILARES[g.pilar])}</h2>` : '';
-      pilarAnterior = g.pilar;
-      return `${titulo}
+      let pilar = porPilar[porPilar.length - 1];
+      if (!pilar || pilar.clave !== g.pilar){
+        pilar = { clave: g.pilar, grupos: [] };
+        porPilar.push(pilar);
+      }
+      pilar.grupos.push(`
         <details class="grupo" data-grupo="${g.clave}"
                  ${buscando || abiertos.has(g.clave) ? 'open' : ''}>
           <summary>
@@ -867,8 +871,13 @@
             <span class="flecha" aria-hidden="true">▼</span>
           </summary>
           <div class="cuerpo-grupo"><div>${d.html}</div></div>
-        </details>`;
-    }).join('');
+        </details>`);
+    });
+    const html = porPilar.map(p => `
+      <section class="pilar pilar-${p.clave}" aria-labelledby="pilar-${p.clave}">
+        <h2 class="titulo-seccion" id="pilar-${p.clave}">${esc(PILARES[p.clave])}</h2>
+        ${p.grupos.join('')}
+      </section>`).join('');
 
     grupos.innerHTML = html || `
       <div class="vacio">

@@ -518,4 +518,9 @@ todo una entrada con el número, la fecha y el porqué.
    pantalla en sí no hace falta: se pide primero a la red. También
    cambia `css/pantallas/salud-mental.css` (el botón de salida rápida),
    que sale de lo guardado. */
+/* v93 (11/10/2026) El pilar de violencia de género de Salud mental,
+   con los tonos del cuadernillo de la UDA (violeta y lila). Cambia
+   `css/pantallas/salud-mental.css`, que sale de lo guardado: sin
+   número nuevo, quien ya entró con la v92 lo seguiría viendo igual que
+   salud mental. */
 ```
