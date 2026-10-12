@@ -46,6 +46,13 @@
   const CADA_CUANTO = 20000;   // refrescar el muro abierto
   const LARGO_MAXIMO = 600;    // el mismo tope que la base
 
+  /* EL CANAL DE YOUTUBE (12/10/2026). Las mesas se transmiten en vivo
+     y quedan guardadas. Si una mesa tiene su propio enlace (`video`,
+     desde el panel) se usa ese, que lleva directo; si no, el canal:
+     `/live` abre el vivo que esté al aire y `/streams`, los guardados.
+     Vacío, no se muestra nada de YouTube. */
+  const CANAL = 'https://www.youtube.com/@Sim%C3%B3nBol%C3%ADvar-l7h';
+
   /* Lo que decían las placas el 7/10/2026, con el cronograma
      confirmado del 10/10 (las dos placas por semana: se sumaron
      «Riesgo, comunicación y comunidad» y la del implante coclear, y la
@@ -55,6 +62,7 @@
     { id:null, numero:1, titulo:'Derecho a la salud: ¿qué puede la APS?',
       bajada:'Territorios, prácticas y cuidados en debate.', eje:'salud',
       fecha:'2026-10-09', hora:'12:00', lugar:'Aula Magna', placa:'placas/mesa-1.webp',
+      se_transmite:false,
       expositores:[{nombre:'Ale Wagner'},{nombre:'Ana Fuks'},{nombre:'Cynthia Ramacciotti'}] },
     { id:null, numero:3, titulo:'El Trabajo Social y la justicia hoy',
       bajada:'Transformaciones, tensiones y desafíos para la intervención.', eje:null,
@@ -185,6 +193,44 @@
         ${g.map(x => `<li>${esc(x.nombre)}</li>`).join('')}</ul>` : '';
   }
 
+  /* YouTube: el enlace de la mesa si lo tiene, si no el canal. Antes
+     de la mesa no hay botón, solo el aviso de que se transmite: un
+     botón a un vivo que todavía no empezó lleva a una página vacía. */
+  function urlYoutube(m, estado){
+    if (m.se_transmite === false) return '';
+    if (m.video) return m.video;
+    if (!CANAL) return '';
+    const canal = CANAL.replace(/\/+$/, '');
+    return estado === 'vivo' ? canal + '/live' : estado === 'paso' ? canal + '/streams' : canal;
+  }
+
+  function notaYoutube(m, estado){
+    if (m.se_transmite === false)
+      return `<p class="cg-transmision">${estado === 'paso'
+        ? 'Esta mesa no se pudo grabar.' : 'Esta mesa no se transmite.'}</p>`;
+    if (estado === 'paso' || estado === 'vivo' || !urlYoutube(m, estado)) return '';
+    return `<p class="cg-transmision">Se transmite en vivo por
+      <a href="${esc(urlYoutube(m, estado))}" target="_blank" rel="noopener">YouTube ↗<span
+      class="solo-lectores"> (se abre en otra pestaña)</span></a> y queda guardada.</p>`;
+  }
+
+  function botonYoutube(m, estado){
+    const url = urlYoutube(m, estado);
+    if (!url || (estado !== 'vivo' && estado !== 'paso')) return '';
+    const vivo = estado === 'vivo';
+    return `<a class="boton cg-youtube${vivo ? ' vivo' : ' borde'}" href="${esc(url)}"
+        target="_blank" rel="noopener">${vivo ? 'Ver en vivo' : 'Ver la grabación'} ↗<span
+        class="solo-lectores"> en YouTube (se abre en otra pestaña)</span></a>`;
+  }
+
+  /* En la hoja de preguntas también: quien mira desde su casa pregunta
+     desde acá. */
+  function htmlYoutubeEnLaHoja(m){
+    const estado = estadoDe(m, ahoraEnLaPlata());
+    const boton = botonYoutube(m, estado);
+    return notaYoutube(m, estado) + (boton ? `<div class="cg-mesa-acciones">${boton}</div>` : '');
+  }
+
   function htmlMesa(m, i, ahora){
     const estado = estadoDe(m, ahora);
     const serie = m.numero ? 'Voces que habitan ' + (ROMANOS[m.numero] || m.numero) : 'Voces que habitan';
@@ -196,8 +242,10 @@
         ${m.bajada ? `<p class="bajada">${esc(m.bajada)}</p>` : ''}
         ${htmlGente(m)}
         ${htmlCuando(m)}
+        ${notaYoutube(m, estado)}
         ${m.eje && EJES[m.eje] ? `<span class="cg-eje">Eje ${esc(EJES[m.eje])}</span>` : ''}
         <div class="cg-mesa-acciones">
+          ${botonYoutube(m, estado)}
           <button type="button" class="boton${estado === 'vivo' ? ' oscuro' : ''}" data-mesa="${i}">
             ${estado === 'paso' ? 'Ver las preguntas' : 'Preguntar'}</button>
           ${estado !== 'paso' && typeof urlGoogleCalendar === 'function' ? `
@@ -245,9 +293,25 @@
         <strong>${esc(m.titulo)}</strong>
         <span>${esc(diaLindo(m.fecha))}${m.hora ? ' · ' + esc(horaLinda(m.hora)) + ' h' : ''}${
           m.lugar ? ' · ' + esc(m.lugar) : ''}</span>
-        <button type="button" class="boton" data-mesa="${j}">${vivo ? 'Preguntar ahora' : 'Dejar una pregunta'}</button>
+        ${notaYoutube(m, vivo ? 'vivo' : 'viene')}
+        <div class="cg-ahora-acciones">
+          <button type="button" class="boton" data-mesa="${j}">${vivo ? 'Preguntar ahora' : 'Dejar una pregunta'}</button>
+          ${vivo ? botonYoutube(m, 'vivo') : ''}
+        </div>
       </div>`;
   }
+
+  /* El aviso general, abajo de la guía del cronograma. */
+  function pintarCanal(){
+    const caja = document.getElementById('cg-canal');
+    if (!caja || !CANAL) return;
+    caja.innerHTML = `¿No podés venir? Las mesas se transmiten en vivo por
+      <a href="${esc(CANAL)}" target="_blank" rel="noopener">nuestro canal de YouTube ↗<span
+      class="solo-lectores"> (se abre en otra pestaña)</span></a> y después quedan guardadas.
+      La primera no se pudo grabar.`;
+    caja.hidden = false;
+  }
+  pintarCanal();
 
   /* Las aulas de «Dónde» salen de las mesas: si el panel cambia un
      aula, cambia también abajo. */
@@ -265,7 +329,7 @@
     try {
       const { data, error } = await conPaciencia(
         db.from('congreso_mesas')
-          .select('id,numero,titulo,bajada,eje,fecha,hora,lugar,expositores,placa,preguntas_abiertas')
+          .select('id,numero,titulo,bajada,eje,fecha,hora,lugar,expositores,placa,preguntas_abiertas,video,se_transmite')
           .eq('publicada', true)
           .order('fecha', { ascending:true })
           .order('hora',  { ascending:true }), 12);
@@ -349,6 +413,7 @@
         <h2 id="cg-hoja-titulo">${esc(m.titulo)}</h2>
         ${htmlGente(m)}
         ${htmlCuando(m)}
+        ${htmlYoutubeEnLaHoja(m)}
         ${m.placa ? `<details class="cg-placa"><summary>Ver la placa</summary>
           <img src="${esc(urlPlaca(m.placa))}" alt="La placa de la mesa ${esc(m.titulo)}" loading="lazy"></details>` : ''}`
       : `

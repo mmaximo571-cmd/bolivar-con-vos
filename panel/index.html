@@ -3686,6 +3686,14 @@
             ? `<img src="${esc(placaVisible(m.placa))}" alt="" style="max-width:160px;border-radius:6px;display:block;margin-bottom:8px">
                <button type="button" class="boton texto" id="cm-placa-sacar">Sacar la placa</button>` : ''}</div>
           <input id="cm-placa-archivo" type="file" accept="image/*"></div>
+        <div class="campo"><label for="cm-video">Enlace de YouTube de esta mesa (opcional)</label>
+          <p class="letra-chica" style="margin:0 0 6px">El del vivo: después de la mesa YouTube deja la
+            grabación en la misma dirección, así que no hay que cambiarlo. Si queda vacío, la app
+            manda al canal.</p>
+          <input id="cm-video" type="url" value="${esc(m && m.video || '')}" placeholder="https://www.youtube.com/live/…"></div>
+        <label class="fila-item" style="gap:8px;margin:6px 0">
+          <input type="checkbox" id="cm-transmite" ${!m || m.se_transmite !== false ? 'checked' : ''}>
+          Se transmite por YouTube (si no, la app dice que no se grabó)</label>
         <label class="fila-item" style="gap:8px;margin:6px 0">
           <input type="checkbox" id="cm-publicada" ${!m || m.publicada ? 'checked' : ''}>
           Publicada (se ve en la app)</label>
@@ -3705,6 +3713,7 @@
             ${x.lugar ? `<span>${esc(x.lugar)}</span>` : ''}
             ${x.publicada ? '' : '<span>Sin publicar</span>'}
             ${x.preguntas_abiertas ? '' : '<span>Preguntas cerradas</span>'}
+            ${x.se_transmite === false ? '<span>No se transmite</span>' : x.video ? '<span>Con enlace de YouTube</span>' : ''}
           </div>
           <div class="fila-item" style="gap:8px;margin-top:10px">
             <button class="boton" data-editar="${esc(x.id)}">Editar</button>
@@ -3749,11 +3758,16 @@
         lugar: val('cm-lugar'),
         expositores: leerExpositores(document.getElementById('cm-gente').value),
         placa: placa || null,
+        video: nulo('cm-video'),
+        se_transmite: document.getElementById('cm-transmite').checked,
         publicada: document.getElementById('cm-publicada').checked,
         preguntas_abiertas: document.getElementById('cm-abiertas').checked
       };
       if (fila.titulo.length < 3 || !fila.fecha){
         aviso('Falta el título o la fecha.', 'error'); return;
+      }
+      if (fila.video && !/^https:\/\//.test(fila.video)){
+        aviso('El enlace de YouTube tiene que empezar con https://', 'error'); return;
       }
       this.disabled = true; this.textContent = 'Guardando…';
       const { error } = m

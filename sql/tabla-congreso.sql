@@ -79,10 +79,22 @@ create table if not exists public.congreso_mesas (
   -- Quien modera puede cerrar las preguntas de una mesa (por ejemplo,
   -- cuando terminó la ronda) sin ocultar las que ya están.
   preguntas_abiertas boolean not null default true,
+  -- YouTube (12/10/2026). Las mesas se transmiten en vivo por el canal
+  -- y quedan guardadas. `video` es el enlace de ESA mesa: el del vivo
+  -- sirve también después, porque YouTube guarda la grabación en la
+  -- misma dirección. Si queda vacío, la app manda al canal.
+  -- `se_transmite` en falso es para la que no se grabó (la primera).
+  video           text     check (video is null or video ~ '^https://'),
+  se_transmite    boolean  not null default true,
   publicada       boolean  not null default true,
   creado_at       timestamptz not null default now(),
   actualizado_at  timestamptz not null default now()
 );
+
+-- Para la tabla que ya estaba creada antes del 12/10.
+alter table public.congreso_mesas
+  add column if not exists video        text check (video is null or video ~ '^https://'),
+  add column if not exists se_transmite boolean not null default true;
 
 create index if not exists congreso_mesas_fecha_idx on public.congreso_mesas (fecha, hora);
 
@@ -418,3 +430,8 @@ select * from (values
    'placas/mesa-6.webp')
 ) as v(numero, titulo, bajada, eje, fecha, hora, lugar, expositores, placa)
 where not exists (select 1 from public.congreso_mesas);
+
+-- 12/10/2026: la primera mesa no se pudo grabar. Las demás se
+-- transmiten en vivo por YouTube (ver `video` y `se_transmite`).
+update public.congreso_mesas set se_transmite = false
+ where numero = 1 and fecha = date '2026-10-09';

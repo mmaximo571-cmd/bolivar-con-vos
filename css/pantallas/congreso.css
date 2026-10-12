@@ -178,6 +178,16 @@
 .cg-mesa-acciones{ display:flex; flex-wrap:wrap; gap:8px; margin-top:14px }
 .cg-mesa-acciones .boton{ flex:1 1 150px; min-height:44px }
 
+/* ---------- YouTube: el vivo y la grabación ---------- */
+.cg-transmision{ margin:10px 0 0; font-size:var(--letra-chica); color:var(--texto-suave) }
+.cg-ahora .cg-transmision,
+.cg-ahora .cg-transmision a{ color:inherit }
+.cg-canal{ margin-top:-8px }
+/* Rojo como el «Ahora» de la mesa: es lo mismo, dicho en botón. */
+.boton.cg-youtube.vivo{ background:var(--rojo-solido); color:var(--sobre-negro); border-color:transparent }
+.cg-ahora-acciones{ display:flex; flex-wrap:wrap; gap:8px; margin-top:8px }
+.cg-ahora-acciones .boton{ margin-top:0 }
+
 /* ---------- Los ejes ---------- */
 .cg-ejes{ position:relative; display:grid; gap:12px }
 @media (min-width:720px){ .cg-ejes{ grid-template-columns:repeat(3, 1fr) } }
