@@ -699,8 +699,10 @@ const INDICE_PIE = SECCIONES.concat([
   /* Salud mental (30/9/2026) tenía una sola puerta, el cuadro de la
      grilla del inicio, y el buscador del inicio (que sale de esta
      lista) contestaba «sin resultados» a «salud mental» o «psicólogo».
-     Justo la pantalla que alguien busca cuando la necesita. */
-  { id:'salud-mental', texto:'Salud mental', url:RAIZ+'salud-mental/' },
+     Justo la pantalla que alguien busca cuando la necesita. Desde el
+     11/10/2026 suma violencia de género: el nombre lo dice, la URL
+     sigue igual. */
+  { id:'salud-mental', texto:'Salud mental y género', url:RAIZ+'salud-mental/' },
   /* El congreso de octubre de 2026 (7/10). En octubre tiene además la
      tarjeta grande del inicio; acá queda para que el buscador lo
      encuentre y para después, cuando la tarjeta se va. */

@@ -1,7 +1,7 @@
 # Graph Report - bolivar-con-vos  (2026-10-11)
 
 ## Corpus Check
-- 95 files · ~354,308 words
+- 95 files · ~356,381 words
 - Verdict: corpus is large enough that graph structure adds value.
 - Unclassified: 38 file(s) not represented in the graph (top: .css 28, (none) 5, .geojson 4)
 
@@ -11,7 +11,7 @@
 - Token cost: 0 input · 0 output
 
 ## Graph Freshness
-- Built from commit: `53f3b31c`
+- Built from commit: `ffecb7bd`
 - Run `git rev-parse HEAD` and compare to check if the graph is stale.
 - Run `graphify update .` after code changes (no API cost).
 
@@ -470,11 +470,11 @@ Nodes (8): aplicar(), guardar(), montar(), abrir(), cerrar(), pintarTira(), pren
 _Questions this graph is uniquely positioned to answer:_
 
 - **Why does `Pantalla Inicio` connect `Pantalla Mi año (carrera)` to `movimiento.js`, `app.js`, `Detalle de publicación (?id=)`, `Pantalla El Consejo Directivo`, `Mi perfil (mi/index.html)`, `manifest.json`?**
-  _High betweenness centrality (0.076) - this node is a cross-community bridge._
+  _High betweenness centrality (0.075) - this node is a cross-community bridge._
 - **Why does `4. Época de parciales en Estudiemos` connect `anotar` to `pomodoro.js`, `leer.js`?**
   _High betweenness centrality (0.062) - this node is a cross-community bridge._
 - **Why does `pedido()` connect `riesgo.js` to `Pantalla El Consejo Directivo`, `fondo-red.js`?**
-  _High betweenness centrality (0.062) - this node is a cross-community bridge._
+  _High betweenness centrality (0.061) - this node is a cross-community bridge._
 - **What connects `session-start.sh script`, `aqui`, `raiz` to the rest of the system?**
   _197 weakly-connected nodes found - possible documentation gaps or missing edges._
 - **Should `La carrera se elige una vez (bolivar-carrera-v2)` be split into smaller, more focused modules?**

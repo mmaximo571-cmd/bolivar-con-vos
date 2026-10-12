@@ -1,8 +1,8 @@
 {
   "app.js": {
-    "mtime": 1791763352.1756878,
-    "seen": 1791763479.313661,
-    "ast_hash": "ab0b8f36d441caf328225faeae7392a9",
+    "mtime": 1791766774.2965937,
+    "seen": 1791766840.7899802,
+    "ast_hash": "0f37f24584bea00e887e1b120ac4735a",
     "semantic_hash": ""
   },
   "carrera/plan-fono.js": {
@@ -78,9 +78,9 @@
     "semantic_hash": ""
   },
   "sw.js": {
-    "mtime": 1791765271.1543427,
-    "seen": 1791765585.517099,
-    "ast_hash": "62abf62a7006b6e5bb133780b21c8941",
+    "mtime": 1791766774.3026462,
+    "seen": 1791766840.790116,
+    "ast_hash": "92a719e313031666bc25af4d2aee99e6",
     "semantic_hash": ""
   },
   "BITACORA.md": {
@@ -150,9 +150,9 @@
     "semantic_hash": ""
   },
   "index.html": {
-    "mtime": 1791764963.8116925,
-    "seen": 1791765585.517159,
-    "ast_hash": "00af8cfbdba063a6e38fc5c18fea0be7",
+    "mtime": 1791766774.3006516,
+    "seen": 1791766840.7901752,
+    "ast_hash": "6cfe34c268d9431be724122e21f325d0",
     "semantic_hash": ""
   },
   "mi/index.html": {
@@ -594,9 +594,9 @@
     "semantic_hash": ""
   },
   "docs/HISTORIAL-SW.md": {
-    "mtime": 1791765271.2668238,
-    "seen": 1791765585.517119,
-    "ast_hash": "6c59341e2646841d69f9a5cb1f5241d2",
+    "mtime": 1791766957.8639078,
+    "seen": 1791767042.531757,
+    "ast_hash": "b2f924a418e84f93812c7ee0b5a1af7f",
     "semantic_hash": ""
   },
   "docs/prompts/PROMPT-DISENO.md": {
@@ -726,9 +726,9 @@
     "semantic_hash": ""
   },
   "salud-mental/index.html": {
-    "mtime": 1791764374.9083369,
-    "seen": 1791765585.5171738,
-    "ast_hash": "b8e3c34f6f79b54eb74a94aad99d7ceb",
+    "mtime": 1791766957.8548796,
+    "seen": 1791767042.5318148,
+    "ast_hash": "82ce11579aa4e386fe59a98d89588a34",
     "semantic_hash": ""
   },
   "congreso/congreso.js": {

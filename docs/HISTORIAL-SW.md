@@ -511,4 +511,11 @@ todo una entrada con el número, la fecha y el porqué.
    `css/pantallas/inicio.css`, que salen de lo guardado: sin número
    nuevo, Estudiemos seguiría con el pomodoro sin pausas y sin la
    herramienta nueva. */
+/* v92 (11/10/2026) Salud mental se amplía a violencia de género: el
+   nombre en el menú y en el pie pasa a «Salud mental y género», y eso
+   vive en `app.js`, que sale de lo guardado. Sin número nuevo, los
+   teléfonos que ya tienen la app seguirían diciendo «Salud mental». La
+   pantalla en sí no hace falta: se pide primero a la red. También
+   cambia `css/pantallas/salud-mental.css` (el botón de salida rápida),
+   que sale de lo guardado. */
 ```

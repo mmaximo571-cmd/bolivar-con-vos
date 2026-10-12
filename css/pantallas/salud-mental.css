@@ -173,3 +173,27 @@
 @media (prefers-reduced-motion:reduce) {
 .llamar:active,.ir-a-hosp:active{transform:none}
 }
+
+/* ---- Salida rápida (11/10/2026) ----
+   Para quien está leyendo lo de violencia de género y alguien se
+   acerca. Abajo a la izquierda, enfrente de Avisanos (que está a la
+   derecha, a 74 de la base), y por encima de la hoja, del menú y del
+   chat (80, 91 y 90): tiene que poder tocarse con cualquier cosa
+   abierta. Negro con borde amarillo para que se vea en los dos modos. */
+.salida-rapida{
+  position:fixed;left:14px;bottom:calc(74px + env(safe-area-inset-bottom, 0px));z-index:95;
+  display:inline-flex;align-items:center;gap:8px;min-height:48px;padding:0 18px;
+  border-radius:var(--radio-pastilla);border:2px solid var(--amarillo);
+  background:var(--negro);color:var(--sobre-negro);text-decoration:none;
+  font-family:var(--fuente-sub);font-weight:700;font-size:var(--letra-chica);
+  letter-spacing:.06em;text-transform:uppercase;
+  box-shadow:0 4px 16px rgba(0,0,0,.28)
+}
+
+.salida-rapida span[aria-hidden]{font-size:18px;line-height:1}
+
+/* Con la salida rápida encima, lo último de la hoja quedaba abajo del
+   botón («Cómo llegar» tapado a medias). Este aire de más deja que el
+   final suba por arriba: 74 de la base + 48 del botón + 12. El `~`
+   alcanza porque el botón y la hoja son hermanos, hijos del cuerpo. */
+.salida-rapida ~ .hoja-fondo .hoja{padding-bottom:calc(134px + env(safe-area-inset-bottom, 0px))}

@@ -3,8 +3,8 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Salud mental · La Bolívar con vos</title>
-<meta name="description" content="Tus derechos, el servicio gratuito de salud mental de la UNLP y dónde pedir ayuda en La Plata, Berisso y Ensenada.">
+<title>Salud mental y género · La Bolívar con vos</title>
+<meta name="description" content="Salud mental y violencia de género: tus derechos, el servicio gratuito de la UNLP, la UDA de la Facultad y dónde pedir ayuda en La Plata, Berisso y Ensenada.">
 <meta name="theme-color" content="#F9E830">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -19,8 +19,8 @@
 <!-- Como se ve cuando alguien comparte el link por WhatsApp o Instagram -->
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="La Bolivar con vos">
-<meta property="og:title" content="Salud mental · La Bolívar con vos">
-<meta property="og:description" content="Sin derechos no hay salud mental. Líneas de ayuda, hospitales y el servicio gratuito de la UNLP.">
+<meta property="og:title" content="Salud mental y género · La Bolívar con vos">
+<meta property="og:description" content="Sin derechos no hay salud mental. Líneas de ayuda, hospitales, el servicio gratuito de la UNLP y dónde pedir ayuda ante la violencia de género.">
 <meta property="og:image" content="https://labolivarconvos.ar/imagenes/compartir.png">
 <meta name="twitter:card" content="summary_large_image">
 <link rel="stylesheet" href="../css/tokens.css">
@@ -58,6 +58,18 @@
 <script defer src="/_vercel/insights/script.js"></script>
 </head>
 <body class="lectura sin-js">
+
+<!-- SALIDA RÁPIDA (11/10/2026). Un enlace común, para que ande aunque el
+     guion no corra; con el guion, el salto es con `location.replace`,
+     así «atrás» no vuelve acá. Va a una búsqueda del clima: una página
+     que no llama la atención. `noreferrer`, para que la otra página no
+     sepa de dónde se vino. Primero en el cuerpo, así es lo primero que
+     encuentra el teclado. -->
+<a class="salida-rapida" id="salida-rapida" rel="noreferrer"
+   href="https://www.google.com/search?q=clima+la+plata"
+   aria-label="Salida rápida: cambia a otra página">
+  <span aria-hidden="true">✕</span> Salida rápida
+</a>
 
 <div id="cabecera"></div>
 
@@ -108,12 +120,28 @@
      más), el CPA de Tolosa («0221 471732», uno de menos), el cuarto del
      Reencuentro («421557») y los dos del CAPS 24, que son los del CAPS
      34 y los turnos del CAPS 31. Si alguien los confirma, se suman.
+
+     SE AMPLIÓ A GÉNERO (11/10/2026, lo pidió Máximo): la pantalla ahora
+     tiene dos pilares, salud mental y violencia de género, cada uno con
+     su título (`pilar` en GRUPOS). Lo de género sale del «Cuadernillo
+     informativo» de la UDA de la FTS (mayo de 2025): la UDA y sus
+     horarios, la primera escucha, los tipos y modalidades, las
+     políticas de la UNLP con sus enlaces, la Dirección de Políticas de
+     Género de la Municipalidad y los recurseros. La URL sigue siendo
+     `salud-mental/` para no romper los enlaces que ya circulan.
+     LO QUE EL CUADERNILLO TRAE EN IMÁGENES Y NO EN TEXTO: los logos de
+     la página 13. Que el WhatsApp 221 508-5988 sea el de la Línea 144
+     de la Provincia y la emergencia el 911 se dedujo de lo que dice al
+     lado («asesoramiento, información o contención, gratis y
+     confidencial» / «situación de riesgo»). Las tres planillas de la
+     última página son los enlaces de «La Plata», «Berisso» y
+     «Ensenada». Si alguien ve el cuadernillo y no coincide, corregir.
      ============================================================ -->
 <main id="contenido" tabindex="-1">
 
   <div class="banda sol placa">
     <div class="envoltura">
-      <p class="ceja-lectura aparece">Ley Nacional de Salud Mental · 26.657</p>
+      <p class="ceja-lectura aparece">Salud mental · Violencia de género</p>
       <h1 class="grito placa-salud aparece">
         <span class="chico">Sin derechos</span>
         <span class="chico"><em>no hay</em></span>
@@ -121,8 +149,8 @@
         <span class="grande">mental</span>
       </h1>
       <p class="bajada-lectura aparece">
-        Tus derechos, el servicio gratuito de la UNLP y dónde pedir ayuda
-        en La Plata, Berisso y Ensenada.
+        Tus derechos, el servicio gratuito de la UNLP, la UDA de la
+        Facultad y dónde pedir ayuda en La Plata, Berisso y Ensenada.
       </p>
     </div>
   </div>
@@ -156,11 +184,23 @@
         </span>
         <span class="llamar-accion">Llamar</span>
       </a>
+      <!-- El 144 acá arriba y no solo en la lista: es el número del
+           pilar de género, y tiene que verse sin el guion, igual que
+           el 0800. El WhatsApp es el de la 144 de la Provincia. -->
+      <a class="llamar borde" href="tel:144">
+        <span class="llamar-texto">
+          <strong>144</strong>
+          <span class="llamar-que">Violencia de género · gratis, 24 hs, confidencial</span>
+        </span>
+        <span class="llamar-accion">Llamar</span>
+      </a>
       <p class="urgente-otros">
         Si hay riesgo de vida: <a href="tel:107">107</a> (SAME) o
-        <a href="tel:911">911</a>. Desde La Plata o el resto del país, la
-        línea del 135 es <a href="tel:08003451435">0800 345 1435</a> (gratis)
-        o <a href="tel:01152751135">011 5275-1135</a>.
+        <a href="tel:911">911</a>. La 144 de la Provincia también atiende
+        por WhatsApp: <a href="https://wa.me/5492215085988" target="_blank"
+        rel="noopener">221 508-5988</a>. Desde La Plata o el resto del país,
+        la línea del 135 es <a href="tel:08003451435">0800 345 1435</a>
+        (gratis) o <a href="tel:01152751135">011 5275-1135</a>.
       </p>
     </section>
 
@@ -218,6 +258,17 @@
   document.body.classList.remove('sin-js');
   vigilarAparicion();
 
+  /* Salida rápida: `replace` y no un enlace común, para que el botón
+     «atrás» no traiga de vuelta esta pantalla. Antes se vacía el
+     buscador y se cierra la hoja, por si la página queda en la memoria
+     del navegador y vuelve tal cual estaba. */
+  document.getElementById('salida-rapida').addEventListener('click', e => {
+    e.preventDefault();
+    document.getElementById('filtro').value = '';
+    document.getElementById('hoja-fondo').hidden = true;
+    location.replace(e.currentTarget.href);
+  });
+
   const lupa = icono('buscador');
   if (lupa) document.getElementById('lupa').innerHTML = lupa;
 
@@ -233,7 +284,8 @@
     /* Un celular de La Plata: se muestra como se lo dice acá (con el
        15) y se marca con el formato que anda desde cualquier lado. */
     { num:'221 15 361-6507', tel:'+5492213616507', titulo:'Municipalidad de La Plata: violencias, en los CAPS', detalle:'Programa de Prevención y Abordaje de las Violencias en el Primer Nivel de Atención.' },
-    { num:'144', titulo:'Violencia de género', detalle:'Asesoramiento, contención e información para mujeres y personas LGBTIQ+. Las 24 horas, todos los días.' },
+    { num:'144', titulo:'Violencia de género', detalle:'Asesoramiento, contención e información para mujeres y personas LGBTIQ+. Las 24 horas, todos los días. Gratis y confidencial.',
+      whatsapp:'221 508-5988', paraWhatsapp:'la 144 de la Provincia' },
     { num:'107', titulo:'SAME · emergencias médicas', detalle:'Atención de urgencia, las 24 horas.' },
     { num:'911', titulo:'Central de emergencias', detalle:'Atención de urgencia, las 24 horas.' },
     { num:'0800-444-4000', titulo:'Prevención y asistencia al juego compulsivo', detalle:'Las 24 horas, los 365 días del año.' }
@@ -265,7 +317,7 @@
     { id:9, nombre:'Guardia Hospital de Niños Sor Ludovica', zona:'La Plata', tipo:'hosp', h24:true, infancias:true, atencion:'Las 24 horas', edad:'Hasta los 14 años', dir:'14 entre 65 y 66', tels:['0221 453-5901'], interno:'Líneas rotativas: 453-5901 al 10' },
     { id:10, nombre:'Colegio de Psicologxs · Distrito XI', zona:'La Plata', tipo:'org', resumen:'Asistencia psicológica por obra social, particular o a través del Sistema de Atención a la Comunidad (SAC).', tels:['0221 421-1107'] },
     { id:11, nombre:'IOMA', zona:'Provincia', tipo:'org', resumen:'Para consultas por atención en policonsultorios de IOMA o para acceder a la cartilla prestacional.', tels:['0810-999-4662'], correo:'saludmental@ioma.gba.gov.ar' },
-    { id:12, nombre:'Casa de la Mujer', zona:'La Plata', tipo:'org', resumen:'Acompañamiento y orientación en salud mental, con enfoque de género.', dir:'Calle 10 entre 53 y 54' },
+    { id:12, nombre:'Casa de la Mujer', zona:'La Plata', tipo:'org', genero:true, resumen:'Acompañamiento y orientación en salud mental, con enfoque de género.', dir:'Calle 10 entre 53 y 54' },
 
     /* Del recursero de la FTS (11/10/2026) */
     { id:13, nombre:'Hospital José Ingenieros', zona:'Melchor Romero', tipo:'hosp', atencion:'Turnos por teléfono el último martes de cada mes, de 9 a 11', dir:'161 y 514', tels:['0221 478-1158'] },
@@ -289,7 +341,12 @@
     { id:29, nombre:'CPA Centro de Fomento Villa Elvira', zona:'Villa Elvira', tipo:'centro', consumos:true, atencion:'Lunes a viernes, de 9 a 16', dir:'120 y 75' },
     { id:30, nombre:'Centro Ni un Pibe Menos por la Droga', zona:'Melchor Romero', tipo:'org', consumos:true, resumen:'Institución comunitaria con convenio con la Subsecretaría de Salud Mental, Consumos Problemáticos y Violencias en el ámbito de la Salud Pública.', dir:'173 y 515' },
     { id:31, nombre:'Vientos La Plata «Jorge Julio López»', zona:'Los Hornos', tipo:'org', consumos:true, resumen:'Institución comunitaria con convenio con la Subsecretaría de Salud Mental, Consumos Problemáticos y Violencias en el ámbito de la Salud Pública.', dir:'66 N° 2965' },
-    { id:32, nombre:'La Casita de los Pibes', zona:'Villa Elvira', tipo:'org', consumos:true, resumen:'Casa de Atención y Acompañamiento Comunitario, con convenio con la Subsecretaría de Salud Mental, Consumos Problemáticos y Violencias en el ámbito de la Salud Pública.', dir:'122 y 609' }
+    { id:32, nombre:'La Casita de los Pibes', zona:'Villa Elvira', tipo:'org', consumos:true, resumen:'Casa de Atención y Acompañamiento Comunitario, con convenio con la Subsecretaría de Salud Mental, Consumos Problemáticos y Violencias en el ámbito de la Salud Pública.', dir:'122 y 609' },
+
+    /* Del cuadernillo de la UDA (11/10/2026). `genero` marca lo que se
+       muestra también en el pilar de violencia de género. */
+    { id:33, nombre:'Dirección de Políticas de Género y Diversidad', zona:'La Plata', tipo:'org', genero:true, resumen:'De la Municipalidad de La Plata. Un equipo interdisciplinario que contiene y asesora en situaciones de violencia de género.', atencion:'Lunes a viernes, de 8 a 17.30. Se puede pedir turno por teléfono, WhatsApp o correo', dir:'Calle 7 N° 850, esquina 49, piso 1', tels:['0221 512-8546'],
+      whatsapp:[ { num:'221 570-3534', para:'Turnos' } ], correo:'violenciadegenero@laplata.gob.ar' }
   ];
 
   /* LOS CAPS (Municipalidad de La Plata), del recursero de la FTS.
@@ -366,9 +423,47 @@
     { id:'h24',       texto:'24 horas',            pasa: l => l.h24 },
     { id:'infancias', texto:'Infancias',           pasa: l => l.infancias },
     { id:'consumos',  texto:'Consumos',            pasa: l => l.consumos },
+    { id:'genero',    texto:'Género',              pasa: l => l.genero },
     { id:'berisso',   texto:'Berisso y Ensenada',  pasa: l => /Berisso|Ensenada/.test(l.zona) },
     { id:'org',       texto:'Otras instituciones', pasa: l => l.tipo === 'org' }
   ];
+
+  /* Los enlaces del cuadernillo de la UDA. Van a Drive, a planillas
+     y a Instagram, y no se abren sin señal: lo que tiene que andar sin
+     red (los números) está escrito en la pantalla. */
+  const ENLACES_GENERO = {
+    identidad:   'https://drive.google.com/drive/folders/1n0NX0EDxYca2FSYHI_6b3_3gkevheJHg',
+    programa:    'https://drive.google.com/file/d/16s1AAZ-9KkV98ltDqkrIl8zEwCD5vwsD/view',
+    protocolo:   'https://drive.google.com/file/d/1lUU5FYEM83TR0BQJ38XBSr_nrG4Earg2/view',
+    menstrual:   'https://drive.google.com/file/d/1B4peqAdta4cn26e5KlGM05P559ecWBSl/view',
+    facultades:  'https://drive.google.com/file/d/1rLvFbsGtyOrfz5JKCrpgcFnOU_EpdL0M/view',
+    disidencias: 'https://drive.google.com/file/d/1Wwo8bLTYMo36Q1Vn1I_ucu3PAXnoXifG/view',
+    laPlata:     'https://docs.google.com/spreadsheets/d/1Fja7ZWmZXLs4b_PtDrZlXRrJFbJDpUAf/edit',
+    berisso:     'https://docs.google.com/spreadsheets/d/1I4pwqUVxcBrjkUeMSeq46JQ9o2f5o3b-/edit',
+    ensenada:    'https://docs.google.com/spreadsheets/d/13cnZ2rsabDyk76DwY4kd8CEVtgvvv86q/edit',
+    consejeria:  'https://www.instagram.com/consejeria.unlp/',
+    feministas:  'https://www.instagram.com/politicasfeministas.unlp/'
+  };
+
+  const PILARES = {
+    salud:  'Salud mental',
+    genero: 'Violencia de género',
+    ambos:  'En la Facultad y por teléfono'
+  };
+
+  const enlace = (url, texto) => `<a href="${esc(url)}" target="_blank" rel="noopener">${esc(texto)} ↗<span class="solo-lectores"> (se abre en otra pestaña)</span></a>`;
+
+  /* El cuadro de un lugar. Lo usan los hospitales y el pilar de género:
+     el clic lo atiende el mismo `data-lugar`, esté donde esté. */
+  const cuadroLugar = l => `
+    <button type="button" class="tarjeta-cuadro" data-lugar="${l.id}">
+      <span class="cuadro-arriba">
+        <span class="nombre">${esc(l.nombre)}</span>
+        <span class="cuadro-zona">${esc(l.zona)}</span>
+      </span>
+      <span class="marca-tipo ${l.h24 ? 'guia' : 'enlace'}">${
+        l.h24 ? '24 horas' : l.tipo === 'org' ? 'Consultas' : 'Con horario'}</span>
+    </button>`;
 
   const aTel = n => 'tel:' + n.replace(/\D/g, '');
   /* Los celulares de La Plata (WhatsApp y turnos de los CAPS), con el
@@ -381,9 +476,10 @@
      LOS GRUPOS
 
      Cada acordeón es una entrada de esta lista, en el orden en que
-     aparece. Para sumar uno (la sección de perspectiva de género, por
-     ejemplo) alcanza con agregar otra entrada acá:
+     aparece. Para sumar uno alcanza con agregar otra entrada acá:
 
+       pilar   — bajo qué título va (ver PILARES): los de un mismo
+                 pilar tienen que quedar juntos en la lista
        clave   — cómo se lo recuerda abierto o cerrado
        titulo  — el encabezado
        icono   — opcional, un nombre de iconos.js
@@ -393,7 +489,7 @@
      ============================================================ */
   const GRUPOS = [
     {
-      clave:'unlp', titulo:'Servicio de salud mental UNLP', icono:'ayuda',
+      pilar:'salud', clave:'unlp', titulo:'Servicio de salud mental UNLP', icono:'ayuda',
       dibujo: coincide => !coincide('servicio salud mental estudiantil unlp universidad edificio de salud 47 turno libreta sanitaria gratis gratuito psicologo') ? null : {
         cuenta:'Gratis',
         html:`
@@ -418,25 +514,7 @@
       }
     },
     {
-      clave:'fts', titulo:'En la Facultad: Inclusión Educativa',
-      dibujo: coincide => !coincide('facultad fts trabajo social inclusion educativa escucha acompañamiento regimen academico articulo 57 cuidado crianza gestacion violencia genero discapacidad trabajadores correo mail') ? null : {
-        cuenta:'FTS',
-        html:`
-          <p>La <strong>Dirección de Inclusión Educativa</strong> de la Facultad acompaña la cursada de estudiantes y docentes.</p>
-          <ul style="margin:14px 0 0;padding-left:20px;line-height:1.5">
-            <li>Te ofrece un <strong>espacio de escucha</strong>, en privado, si necesitás acompañamiento o un apoyo específico.</li>
-            <li>El régimen académico (art. 57) garantiza la accesibilidad si estás atravesando una gestación o la crianza, violencia por motivos de género, una discapacidad, un problema de salud, tareas de cuidado, o si trabajás.</li>
-            <li>Trabaja junto con las cátedras para acompañarte en las materias.</li>
-          </ul>
-          <div class="ficha"><dl>
-            <dt>Correo</dt><dd>inclusioneducativa.fts@gmail.com</dd>
-            <dt>En persona</dt><dd>Miércoles y viernes, de 9 a 12</dd>
-          </dl></div>
-          <a class="boton ancho" href="mailto:inclusioneducativa.fts@gmail.com">Escribir un correo</a>`
-      }
-    },
-    {
-      clave:'adonde', titulo:'¿Guardia o turno?',
+      pilar:'salud', clave:'adonde', titulo:'¿Guardia o turno?',
       dibujo: coincide => !coincide('guardia turno urgencia crisis unidad de atencion en crisis uac ambulatoria consultorio primera escucha demanda espontanea donde ir') ? null : {
         cuenta: 2,
         html:`
@@ -453,32 +531,13 @@
       }
     },
     {
-      clave:'lineas', titulo:'Líneas telefónicas',
-      dibujo: coincide => {
-        const lineas = LINEAS.filter(l =>
-          coincide(l.num + ' ' + l.num.replace(/\D/g, '') + ' ' + l.titulo + ' ' + l.detalle));
-        if (!lineas.length) return null;
-        return {
-          cuenta: lineas.length,
-          html: `<div class="lineas">${lineas.map(l => `
-            <div class="linea-tel">
-              <div class="linea-tel-cabeza">
-                <strong>${esc(l.num)}</strong>
-                <a class="boton" href="${l.tel ? 'tel:' + l.tel : aTel(l.num)}" aria-label="Llamar al ${esc(l.num)}">Llamar</a>
-              </div>
-              <h3>${esc(l.titulo)}</h3>
-              <p>${esc(l.detalle)}</p>
-            </div>`).join('')}</div>`
-        };
-      }
-    },
-    {
-      clave:'hosp', titulo:'Hospitales y centros de salud',
+      pilar:'salud', clave:'hosp', titulo:'Hospitales y centros de salud',
       dibujo: coincide => {
         const conBusqueda = LUGARES.filter(l => coincide([l.nombre, l.zona, l.dir,
           l.atencion, l.resumen, l.edad, (l.tels || []).join(' '),
           (l.ademas || []).join(' '), (l.whatsapp || []).map(w => w.num + ' ' + w.para).join(' '),
           l.consumos ? 'consumos problematicos adicciones' : '',
+          l.genero ? 'genero violencia mujeres diversidad' : '',
           l.whatsapp ? 'whatsapp' : ''].join(' ')));
         if (!conBusqueda.length) return null;
         const filtro = FILTROS.find(f => f.id === filtroLugares);
@@ -490,21 +549,13 @@
               ${FILTROS.map(f => `<button type="button" class="chip" data-filtro="${f.id}"
                   aria-pressed="${f.id === filtroLugares}">${esc(f.texto)}</button>`).join('')}
             </div>
-            ${lugares.length ? `<div class="rejilla-fichas">${lugares.map(l => `
-              <button type="button" class="tarjeta-cuadro" data-lugar="${l.id}">
-                <span class="cuadro-arriba">
-                  <span class="nombre">${esc(l.nombre)}</span>
-                  <span class="cuadro-zona">${esc(l.zona)}</span>
-                </span>
-                <span class="marca-tipo ${l.h24 ? 'guia' : 'enlace'}">${
-                  l.h24 ? '24 horas' : l.tipo === 'org' ? 'Consultas' : 'Con horario'}</span>
-              </button>`).join('')}</div>`
+            ${lugares.length ? `<div class="rejilla-fichas">${lugares.map(cuadroLugar).join('')}</div>`
             : `<div class="vacio">No hay lugares con ese filtro.</div>`}`
         };
       }
     },
     {
-      clave:'caps', titulo:'CAPS: centros de salud del barrio',
+      pilar:'salud', clave:'caps', titulo:'CAPS: centros de salud del barrio',
       dibujo: coincide => {
         const barrios = CAPS.map(([barrio, lista]) => [barrio, lista.filter(c =>
           coincide(['caps centro atencion primaria barrio municipalidad', barrio,
@@ -535,7 +586,7 @@
       }
     },
     {
-      clave:'derechos', titulo:'Tus derechos',
+      pilar:'salud', clave:'derechos', titulo:'Tus derechos',
       dibujo: coincide => !coincide('derechos ley 26.657 26657 red cuidado comunitario atencion calidad consentimiento acompañamiento orientacion discriminacion autonomia') ? null : {
         cuenta: 3,
         html:`
@@ -563,6 +614,197 @@
             <span class="ir-a-hosp-flecha" aria-hidden="true">→</span>
           </button>`
       }
+    },
+    {
+      pilar:'genero', clave:'uda', titulo:'En la Facultad: la UDA',
+      dibujo: coincide => !coincide('uda unidad de atencion discriminacion violencia genero acoso abuso facultad fts trabajo social secretaria derechos humanos psicologa trabajadora social escucha acompañamiento entrevista denuncia correo mail consejeriaconsultas') ? null : {
+        cuenta:'FTS',
+        html:`
+          <p>La <strong>Unidad de Atención frente a situaciones de discriminación y violencia por razones de género</strong> (UDA) de la Facultad escucha, acompaña y orienta a quien esté atravesando una situación de violencia o discriminación por motivos de género, también si no pasó en la facultad.</p>
+          <div class="ficha"><dl>
+            <dt>Quiénes</dt><dd>Una trabajadora social y una psicóloga, de la Secretaría de Derechos Humanos y Género</dd>
+            <dt>Cuándo</dt><dd>Martes de 9 a 11 y miércoles de 16 a 18, en la secretaría</dd>
+            <dt>Otro horario</dt><dd>Se pacta una entrevista por correo</dd>
+            <dt>Correo</dt><dd>consejeriaconsultas@gmail.com</dd>
+          </dl></div>
+          <p style="margin-top:14px">No hace falta haber hecho una denuncia: te escuchan y te cuentan qué opciones hay. Podés ir solx o con alguien de confianza.</p>
+          <p class="letra-chica" style="margin:10px 0 14px">Los horarios son los del cuadernillo de la UDA (mayo de 2025): si podés, escribí antes para confirmarlos.</p>
+          <a class="boton ancho" href="mailto:consejeriaconsultas@gmail.com">Escribir a la UDA</a>`
+      }
+    },
+    {
+      pilar:'genero', clave:'genero-ayuda', titulo:'Dónde pedir ayuda',
+      dibujo: coincide => {
+        const lugares = LUGARES.filter(l => l.genero);
+        if (!coincide('ayuda asistencia asesoramiento contencion 144 911 whatsapp riesgo emergencia municipalidad recursero facultades disidencias lgbt trans consejeria derechos sexuales reproductivos aborto anticoncepcion politicas feministas instagram la plata berisso ensenada ' +
+            lugares.map(l => l.nombre + ' ' + l.dir + ' ' + (l.tels || []).join(' ')).join(' '))) return null;
+        return {
+          cuenta: lugares.length + 2,
+          html: `
+            <p>Si vivís violencia de género, o conocés a alguien que la está atravesando:</p>
+            <p class="letra-chica" style="margin:8px 0 12px">El botón <strong>Salida rápida</strong>, abajo a la izquierda, te cambia de página al toque. No borra el historial del navegador: si alguien puede revisar tu teléfono, conviene entrar desde una pestaña privada.</p>
+            <div class="lineas">
+              <div class="linea-tel">
+                <div class="linea-tel-cabeza">
+                  <strong>144</strong>
+                  <a class="boton" href="tel:144" aria-label="Llamar al 144">Llamar</a>
+                </div>
+                <h3>Asesoramiento, información o contención</h3>
+                <p>Gratis y confidencial, las 24 horas. También por WhatsApp:
+                  ${enlace(aWhatsapp('221 508-5988'), '221 508-5988')}</p>
+              </div>
+              <div class="linea-tel">
+                <div class="linea-tel-cabeza">
+                  <strong>911</strong>
+                  <a class="boton" href="tel:911" aria-label="Llamar al 911">Llamar</a>
+                </div>
+                <h3>Si hay riesgo</h3>
+                <p>Ante una situación de riesgo que necesita una intervención de emergencia.</p>
+              </div>
+            </div>
+            <p class="salud-subtitulo">Equipos que acompañan</p>
+            <div class="rejilla-fichas">${lugares.map(cuadroLugar).join('')}</div>
+            <p class="salud-subtitulo">Más espacios</p>
+            <ul style="margin:0;padding-left:20px;line-height:1.5">
+              <li>Los equipos que abordan violencia de género en cada facultad de la UNLP: ${enlace(ENLACES_GENERO.facultades, 'ver el listado')}</li>
+              <li>El recursero de la UNLP para las disidencias sexo-genéricas, con dispositivos, programas y espacios de atención: ${enlace(ENLACES_GENERO.disidencias, 'ver el recursero')}</li>
+              <li>La Consejería de Derechos Sexuales, Reproductivos y No Reproductivos de la UNLP: ${enlace(ENLACES_GENERO.consejeria, '@consejeria.unlp')}</li>
+              <li>Políticas feministas de la UNLP: ${enlace(ENLACES_GENERO.feministas, '@politicasfeministas.unlp')}</li>
+              <li>Espacios de asistencia en ${enlace(ENLACES_GENERO.laPlata, 'La Plata')}, ${enlace(ENLACES_GENERO.berisso, 'Berisso')} y ${enlace(ENLACES_GENERO.ensenada, 'Ensenada')}</li>
+            </ul>`
+        };
+      }
+    },
+    {
+      pilar:'genero', clave:'genero-unlp', titulo:'Tus derechos en la UNLP',
+      dibujo: coincide => !coincide('derechos unlp universidad acoso abuso violencia genero adecuaciones academicas faltas inasistencias regularidad recuperar plazos evaluacion parcial protocolo identidad de genero 26743 nombre autopercibido titulo diploma trans menstrual menstruacion licencia docentes nodocentes programa institucional denuncia') ? null : {
+        cuenta: 6,
+        html:`
+          <div class="derechos">
+            <div class="derecho">
+              <h3>Adecuaciones académicas</h3>
+              <p>Si estás atravesando violencia de género, tenés derecho a que se adecúe tu cursada para no perder la regularidad: justificar faltas, recuperar contenidos o extender plazos y fechas de evaluación.</p>
+              <p style="margin-top:8px"><strong>No hace falta una denuncia formal.</strong> Alcanza con contarlo en la UDA, que con una escucha respetuosa puede enmarcar la situación y pedirle a las autoridades que se garantice. Donde no hay UDA, lo hace la Oficina de Derechos Humanos y Políticas de Igualdad de Presidencia.</p>
+            </div>
+            <div class="derecho">
+              <h3>Protocolo de actuación</h3>
+              <p>Rige en todos los ámbitos y prácticas de la vida universitaria. Es la herramienta para intervenir en situaciones de discriminación o violencia de género en la universidad y hacerlas cesar.</p>
+              <p style="margin-top:8px">${enlace(ENLACES_GENERO.protocolo, 'Leer el protocolo')}</p>
+            </div>
+            <div class="derecho">
+              <h3>Identidad de género</h3>
+              <p>La UNLP se declara libre de discriminación por identidad de género (Ley 26.743): en todas sus dependencias se reconoce tu nombre y tu género autopercibidos con solo pedirlo, aunque no coincidan con tu DNI. Los títulos y diplomas también se tramitan así.</p>
+              <p style="margin-top:8px">${enlace(ENLACES_GENERO.identidad, 'Ver la normativa')}</p>
+            </div>
+            <div class="derecho">
+              <h3>Salud menstrual</h3>
+              <p>Todes les estudiantes tienen un día hábil por mes de inasistencia justificada por salud menstrual, para no perder la regularidad por los síntomas.</p>
+              <p style="margin-top:8px">${enlace(ENLACES_GENERO.menstrual, 'Ver el régimen')}</p>
+            </div>
+            <div class="derecho">
+              <h3>Programa contra la violencia de género</h3>
+              <p>El Programa Institucional busca visibilizar y desnaturalizar la violencia de género, y que la perspectiva de género atraviese todas las políticas y prácticas de la universidad.</p>
+              <p style="margin-top:8px">${enlace(ENLACES_GENERO.programa, 'Ver el programa')}</p>
+            </div>
+            <div class="derecho">
+              <h3>Licencia para docentes y nodocentes</h3>
+              <p>Hasta 30 días por año, corridos o alternados y con goce de haberes, para hacer la denuncia y acceder a la asistencia necesaria.</p>
+            </div>
+          </div>`
+      }
+    },
+    {
+      pilar:'genero', clave:'genero-escucha', titulo:'Si alguien te cuenta',
+      dibujo: coincide => !coincide('primera escucha si alguien te cuenta me conto amiga amigo compañera compañero acompañar escuchar ayudar otra persona red riesgo denuncia comisaria que hago') ? null : {
+        cuenta: 7,
+        html:`
+          <p>La primera escucha es fundamental para quien decide contar la violencia que está atravesando. Algunas claves:</p>
+          <ol class="pasos">
+            <li><div class="paso-titulo">Escuchá con empatía</div>
+                <div class="paso-detalle">Una escucha activa, que le haga fácil hablar.</div></li>
+            <li><div class="paso-titulo">Creele y no juzgues</div>
+                <div class="paso-detalle">No insinúes que está exagerando.</div></li>
+            <li><div class="paso-titulo">Tratá de saber cuál es el riesgo</div>
+                <div class="paso-detalle">Qué tipo de violencia es, si conviven, si su casa es un lugar seguro, con quién cuenta.</div></li>
+            <li><div class="paso-titulo">Ayudá a ver la red</div>
+                <div class="paso-detalle">Amigxs, familia, vecinxs, organizaciones o instituciones que puedan colaborar. Muchas veces quien está en esa situación no logra verla.</div></li>
+            <li><div class="paso-titulo">Preguntá qué quiere hacer</div>
+                <div class="paso-detalle">No empujes a nadie a denunciar en la comisaría: puede enfrentarle a algo para lo que todavía no está preparade. Contale que la opción existe, y respetá lo que hoy pueda decidir.</div></li>
+            <li><div class="paso-titulo">Si hay riesgo, decíselo</div>
+                <div class="paso-detalle">Que lo que te cuenta te preocupa. Avisale de los riesgos y aceptá su elección.</div></li>
+            <li><div class="paso-titulo">Contale qué recursos hay</div>
+                <div class="paso-detalle">Con claridad y siendo sincerx sobre lo que implica cada proceso. Ofrecé acompañarle a la UDA, o preguntá si alguien puede ir con elle.</div></li>
+          </ol>`
+      }
+    },
+    {
+      pilar:'genero', clave:'genero-que-es', titulo:'¿Qué es la violencia de género?',
+      dibujo: coincide => !coincide('que es violencia de genero tipos modalidades fisica psicologica sexual economica patrimonial simbolica domestica institucional laboral libertad reproductiva obstetrica mediatica acoso abuso estructural vincular derechos humanos ley 26485 patriarcado') ? null : {
+        cuenta:'Ley 26.485',
+        html:`
+          <p>Es toda conducta, acción u omisión basada en una <strong>relación desigual de poder entre los géneros</strong> que afecte, de forma directa o indirecta, la vida, la libertad, la dignidad, la integridad física, psicológica, sexual, económica o patrimonial, o la seguridad de una persona. Es una violación de los derechos humanos.</p>
+          <p style="margin-top:10px">Se la puede pensar en dos dimensiones: la <strong>estructural</strong>, que tiene que ver con cómo se organizó la sociedad, de forma asimétrica y jerárquica, y la <strong>vincular</strong>, su expresión entre personas que tienen un vínculo: en la pareja, la familia, el trabajo, la consulta médica.</p>
+          <p class="salud-subtitulo">Tipos</p>
+          <div class="ficha"><dl>
+            <dt>Física</dt><dd>Contra el cuerpo: causa dolor, daño o riesgo de producirlo.</dd>
+            <dt>Psicológica</dt><dd>Daña la autoestima y busca controlar o degradar: amenazas, humillación, vigilancia constante, celos excesivos, chantaje, aislamiento, culpabilización.</dd>
+            <dt>Sexual</dt><dd>Vulnera el derecho a decidir sobre la vida sexual o reproductiva, con o sin acceso genital, también dentro de la pareja o el matrimonio: acoso, abuso, violación, trata.</dd>
+            <dt>Económica y patrimonial</dt><dd>Daña los recursos: retener documentos o bienes, controlar los ingresos, limitar lo necesario para vivir, pagar menos por igual tarea.</dd>
+            <dt>Simbólica</dt><dd>Estereotipos, mensajes e imágenes que reproducen la desigualdad y naturalizan la subordinación.</dd>
+          </dl></div>
+          <p class="salud-subtitulo">Dónde se da</p>
+          <div class="ficha"><dl>
+            <dt>Doméstica</dt><dd>La ejerce alguien del grupo familiar, en cualquier lugar.</dd>
+            <dt>Institucional</dt><dd>Funcionarixs o personal de una institución que demoran o impiden el acceso a derechos y políticas públicas. También en partidos, sindicatos, clubes y organizaciones.</dd>
+            <dt>Laboral</dt><dd>Discriminación para acceder a un trabajo, ascender o conservarlo, o cobrar menos por igual tarea.</dd>
+            <dt>Contra la libertad reproductiva</dt><dd>Vulnera el derecho a decidir cuántos embarazos tener y cuándo (Ley 25.673).</dd>
+            <dt>Obstétrica</dt><dd>La ejerce el personal de salud sobre el cuerpo y los procesos reproductivos: trato deshumanizado, medicalización de más (Ley 25.929).</dd>
+            <dt>Mediática</dt><dd>Mensajes e imágenes estereotipados en los medios que humillan, discriminan o promueven la explotación.</dd>
+          </dl></div>
+          <p style="margin-top:14px">En la universidad también pasa: discriminación, abuso o acoso sexual, basados en el poder desigual que atraviesa las relaciones. Para eso están la UDA y el protocolo.</p>`
+      }
+    },
+    {
+      pilar:'ambos', clave:'fts', titulo:'En la Facultad: Inclusión Educativa',
+      dibujo: coincide => !coincide('facultad fts trabajo social inclusion educativa escucha acompañamiento regimen academico articulo 57 cuidado crianza gestacion violencia genero discapacidad trabajadores correo mail') ? null : {
+        cuenta:'FTS',
+        html:`
+          <p>La <strong>Dirección de Inclusión Educativa</strong> de la Facultad acompaña la cursada de estudiantes y docentes.</p>
+          <ul style="margin:14px 0 0;padding-left:20px;line-height:1.5">
+            <li>Te ofrece un <strong>espacio de escucha</strong>, en privado, si necesitás acompañamiento o un apoyo específico.</li>
+            <li>El régimen académico (art. 57) garantiza la accesibilidad si estás atravesando una gestación o la crianza, violencia por motivos de género, una discapacidad, un problema de salud, tareas de cuidado, o si trabajás.</li>
+            <li>Trabaja junto con las cátedras para acompañarte en las materias.</li>
+          </ul>
+          <div class="ficha"><dl>
+            <dt>Correo</dt><dd>inclusioneducativa.fts@gmail.com</dd>
+            <dt>En persona</dt><dd>Miércoles y viernes, de 9 a 12</dd>
+          </dl></div>
+          <a class="boton ancho" href="mailto:inclusioneducativa.fts@gmail.com">Escribir un correo</a>`
+      }
+    },
+    {
+      pilar:'ambos', clave:'lineas', titulo:'Líneas telefónicas',
+      dibujo: coincide => {
+        const lineas = LINEAS.filter(l =>
+          coincide(l.num + ' ' + l.num.replace(/\D/g, '') + ' ' + l.titulo + ' ' + l.detalle +
+            (l.whatsapp ? ' whatsapp ' + l.whatsapp + ' ' + l.whatsapp.replace(/\D/g, '') : '')));
+        if (!lineas.length) return null;
+        return {
+          cuenta: lineas.length,
+          html: `<div class="lineas">${lineas.map(l => `
+            <div class="linea-tel">
+              <div class="linea-tel-cabeza">
+                <strong>${esc(l.num)}</strong>
+                <a class="boton" href="${l.tel ? 'tel:' + l.tel : aTel(l.num)}" aria-label="Llamar al ${esc(l.num)}">Llamar</a>
+              </div>
+              <h3>${esc(l.titulo)}</h3>
+              <p>${esc(l.detalle)}</p>
+              ${l.whatsapp ? `<p>WhatsApp (${esc(l.paraWhatsapp)}):
+                <a href="${aWhatsapp(l.whatsapp)}" target="_blank" rel="noopener">${esc(l.whatsapp)} ↗
+                <span class="solo-lectores">(se abre en otra pestaña)</span></a></p>` : ''}
+            </div>`).join('')}</div>`
+        };
+      }
     }
   ];
 
@@ -581,7 +823,8 @@
      ============================================================ */
   const grupos = document.getElementById('grupos');
   const filtro = document.getElementById('filtro');
-  const abiertos = new Set(['unlp']);
+  /* Abiertos de entrada, uno por pilar: lo primero a mano de cada uno. */
+  const abiertos = new Set(['unlp', 'uda']);
   let filtroLugares = 'todos';
   let ultimaFueBusqueda = false;
 
@@ -605,11 +848,17 @@
       return palabras.every(p => n.includes(p));
     };
 
+    /* El título del pilar sale antes del primer grupo que se dibuja:
+       si la búsqueda vacía un pilar entero, su título tampoco aparece. */
+    let pilarAnterior = null;
     const html = GRUPOS.map(g => {
       const d = g.dibujo(coincide);
       if (!d) return '';
       const ico = g.icono && icono(g.icono);
-      return `
+      const titulo = g.pilar !== pilarAnterior
+        ? `<h2 class="titulo-seccion">${esc(PILARES[g.pilar])}</h2>` : '';
+      pilarAnterior = g.pilar;
+      return `${titulo}
         <details class="grupo" data-grupo="${g.clave}"
                  ${buscando || abiertos.has(g.clave) ? 'open' : ''}>
           <summary>
