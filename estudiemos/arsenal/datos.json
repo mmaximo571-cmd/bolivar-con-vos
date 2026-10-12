@@ -15,7 +15,9 @@
   "filas": [
     { "id": "para-la-cursada",      "titulo": "Para la cursada",      "bajada": "Lo que te ordena una materia o un campo antes del parcial o del TP." },
     { "id": "antes-de-la-practica", "titulo": "Antes de la práctica", "bajada": "Para llegar al barrio, la escuela o el hospital sabiendo con qué mirada entrás." },
-    { "id": "sin-apuro",            "titulo": "Sin apuro",            "bajada": "Pelis, discos y lecturas para cuando no hay parcial a la vista." }
+    { "id": "sin-apuro",            "titulo": "Sin apuro",            "bajada": "Pelis, discos y lecturas para cuando no hay parcial a la vista." },
+    { "id": "donde-buscar",         "titulo": "Dónde buscar",         "bajada": "Bibliotecas, repositorios y revistas para cuando la bibliografía de la materia no alcanza." },
+    { "id": "la-coyuntura",         "titulo": "Para leer la coyuntura", "bajada": "Medios y agencias para estar al tanto de lo que pasa en el país, en el trabajo y en la región." }
   ],
 
   "tipos": {
@@ -25,7 +27,10 @@
     "ensayo":   { "nombre": "Ensayo",   "boton": "Leer",                 "portada": "amarillo" },
     "pelicula": { "nombre": "Película", "boton": "Ver película",         "portada": "negro" },
     "corto":    { "nombre": "Corto",    "boton": "Ver corto",            "portada": "negro" },
-    "disco":    { "nombre": "Disco",    "boton": "Escuchar",             "portada": "negro" }
+    "disco":    { "nombre": "Disco",    "boton": "Escuchar",             "portada": "negro" },
+    "biblioteca":  { "nombre": "Biblioteca",  "boton": "Entrar", "portada": "amarillo" },
+    "repositorio": { "nombre": "Repositorio", "boton": "Buscar", "portada": "papel" },
+    "medio":       { "nombre": "Medio",       "boton": "Leer",   "portada": "negro" }
   },
 
   "materiales": [
@@ -272,6 +277,140 @@
       "dato": "20 min",
       "boton": { "texto": "Ver corto", "url": "https://www.youtube.com/watch?v=pkr9sd9xzKw" },
       "sumado": "2026-10-07"
+    },
+    {
+      "id": "biblioteca-trabajo-social",
+      "titulo": "Biblioteca de la Facultad de Trabajo Social",
+      "autoria": "Facultad de Trabajo Social, UNLP",
+      "tipo": "biblioteca",
+      "disciplinas": ["trabajo-social", "fonoaudiologia", "cultura-territorio"],
+      "fila": "donde-buscar",
+      "porque": "La biblioteca de la casa. Antes de comprar o fotocopiar un libro de la bibliografía, fijate si está acá: en la página tenés el catálogo y cómo pedir préstamos.",
+      "boton": { "texto": "Entrar", "url": "https://tsocial.bibliotecas.unlp.edu.ar/" },
+      "sumado": "2026-10-11"
+    },
+    {
+      "id": "biblioteca-publica-unlp",
+      "titulo": "Biblioteca Pública de la UNLP",
+      "autoria": "Universidad Nacional de La Plata",
+      "tipo": "biblioteca",
+      "disciplinas": ["trabajo-social", "fonoaudiologia", "cultura-territorio"],
+      "fila": "donde-buscar",
+      "porque": "La biblioteca grande de la universidad. Te sirve cuando el libro no está en la de la facultad, y también como lugar para ir a estudiar. Mirá el catálogo antes de ir.",
+      "boton": { "texto": "Entrar", "url": "https://biblio.unlp.edu.ar/" },
+      "sumado": "2026-10-11"
+    },
+    {
+      "id": "sedici",
+      "titulo": "SEDICI",
+      "autoria": "Repositorio institucional de la UNLP",
+      "tipo": "repositorio",
+      "disciplinas": ["trabajo-social", "fonoaudiologia", "cultura-territorio"],
+      "fila": "donde-buscar",
+      "porque": "Acá la UNLP sube tesis, artículos, libros de cátedra y revistas de todas sus facultades, gratis y legal. Si buscás un antecedente para un TP o querés ver cómo armó su tesis alguien de la facultad, empezá por acá.",
+      "dato": "Acceso abierto",
+      "boton": { "texto": "Buscar en SEDICI", "url": "https://sedici.unlp.edu.ar/" },
+      "sumado": "2026-10-11"
+    },
+    {
+      "id": "google-academico",
+      "titulo": "Google Académico",
+      "autoria": "Google",
+      "tipo": "repositorio",
+      "disciplinas": ["trabajo-social", "fonoaudiologia", "cultura-territorio"],
+      "fila": "donde-buscar",
+      "porque": "El buscador de Google, pero solo de textos académicos: artículos, tesis, libros. Si encontraste un buen texto, tocá «Citado por» y vas a dar con otros que discuten lo mismo.",
+      "boton": { "texto": "Buscar", "url": "https://scholar.google.es/schhp?hl=es" },
+      "sumado": "2026-10-11"
+    },
+    {
+      "id": "revista-margen",
+      "titulo": "Margen",
+      "autoria": "Revista de Trabajo Social y Ciencias Sociales",
+      "tipo": "revista",
+      "disciplinas": ["trabajo-social"],
+      "fila": "donde-buscar",
+      "porque": "Una revista de Trabajo Social que sale en digital desde 1998, gratis. Tiene artículos sobre intervención, territorio, grupos, consumos problemáticos y padecimiento subjetivo. Buscá por tema cuando necesites otra mirada para un TP.",
+      "dato": "Acceso abierto",
+      "boton": { "texto": "Leer online", "url": "https://www.margen.org/" },
+      "sumado": "2026-10-11"
+    },
+    {
+      "id": "voces-emergentes",
+      "titulo": "Voces Emergentes",
+      "autoria": "Estudiantes de la Facultad de Trabajo Social, UNLP",
+      "tipo": "revista",
+      "disciplinas": ["trabajo-social"],
+      "fila": "donde-buscar",
+      "porque": "La revista que hacen estudiantes de la facultad, con sus experiencias y sus primeros textos académicos. Sirve para ver cómo escribe une compa un artículo, y para animarte a mandar el tuyo.",
+      "boton": { "texto": "Ver en SEDICI", "url": "https://sedici.unlp.edu.ar/handle/10915/63732" },
+      "sumado": "2026-10-11"
+    },
+    {
+      "id": "revista-crisis",
+      "titulo": "Crisis",
+      "autoria": "Revista de crítica política y cultural",
+      "tipo": "medio",
+      "disciplinas": ["trabajo-social", "cultura-territorio"],
+      "fila": "la-coyuntura",
+      "porque": "Investigaciones y crónicas largas sobre política, economía y cultura argentina. Para cuando querés entender un tema de la coyuntura más allá del titular.",
+      "boton": { "texto": "Leer", "url": "https://revistacrisis.com.ar/" },
+      "sumado": "2026-10-11"
+    },
+    {
+      "id": "nodal",
+      "titulo": "NODAL",
+      "autoria": "Noticias de América Latina y el Caribe",
+      "tipo": "medio",
+      "disciplinas": ["trabajo-social", "cultura-territorio"],
+      "fila": "la-coyuntura",
+      "porque": "Un portal de noticias de toda la región. Para saber qué pasa en el resto de América Latina, que los medios de acá casi no cubren.",
+      "boton": { "texto": "Leer", "url": "https://www.nodal.am/" },
+      "sumado": "2026-10-11"
+    },
+    {
+      "id": "clae",
+      "titulo": "CLAE",
+      "autoria": "Centro Latinoamericano de Análisis Estratégico",
+      "tipo": "medio",
+      "disciplinas": ["trabajo-social", "cultura-territorio"],
+      "fila": "la-coyuntura",
+      "porque": "Análisis de la política y la economía latinoamericana. Es más de opinión que de noticia: sirve para pensar la región con un poco más de profundidad.",
+      "boton": { "texto": "Leer", "url": "https://estrategia.la/" },
+      "sumado": "2026-10-11"
+    },
+    {
+      "id": "agn-prensa",
+      "titulo": "AGN Prensa",
+      "autoria": "Diario online",
+      "tipo": "medio",
+      "disciplinas": ["trabajo-social", "cultura-territorio"],
+      "fila": "la-coyuntura",
+      "porque": "Un diario online con noticias del país a lo largo del día. Para estar al tanto de lo que pasa.",
+      "boton": { "texto": "Leer", "url": "https://agnprensa.com/" },
+      "sumado": "2026-10-11"
+    },
+    {
+      "id": "agencia-paco-urondo",
+      "titulo": "Agencia Paco Urondo",
+      "autoria": "Agencia de noticias",
+      "tipo": "medio",
+      "disciplinas": ["trabajo-social", "cultura-territorio"],
+      "fila": "la-coyuntura",
+      "porque": "Una agencia de noticias que sigue de cerca la política nacional. Te dejamos directo la sección de política.",
+      "boton": { "texto": "Leer", "url": "https://www.agenciapacourondo.com.ar/secciones/politica" },
+      "sumado": "2026-10-11"
+    },
+    {
+      "id": "mundo-gremial",
+      "titulo": "Mundo Gremial",
+      "autoria": "Noticias sindicales",
+      "tipo": "medio",
+      "disciplinas": ["trabajo-social", "cultura-territorio"],
+      "fila": "la-coyuntura",
+      "porque": "Noticias de los sindicatos, las paritarias y el mundo del trabajo. Para seguir qué se está discutiendo en lo laboral.",
+      "boton": { "texto": "Leer", "url": "https://mundogremial.com/" },
+      "sumado": "2026-10-11"
     }
   ]
 }
