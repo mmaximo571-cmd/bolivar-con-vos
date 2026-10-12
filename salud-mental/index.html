@@ -87,6 +87,27 @@
 
      LO URGENTE VA EN EL HTML, no en el guion: el 0800 y el 135 tienen
      que verse aunque el JavaScript no llegue a correr.
+
+     EL RECURSERO DE LA FTS (11/10/2026). Se sumó la «Red de atención en
+     salud mental y consumos problemáticos» (2024), que armó la Mesa de
+     Salud Mental de la Facultad, convocada por la Dirección de Redes en
+     Salud de la Secretaría de Relaciones Institucionales. De ahí salen:
+     guardia o turno, la Dirección de Inclusión Educativa, el 0800 666
+     0101, los lugares nuevos (José Ingenieros, Reencuentro, Sbarra, San
+     Juan de Dios, los centros comunitarios, los CPA, las instituciones
+     conveniadas), los WhatsApp de turnos, los CAPS y el mapa. El crédito
+     va visible al pie: lo pidió Máximo.
+     DONDE EL RECURSERO Y LO CORREGIDO EL 3/10 NO COINCIDEN, QUEDÓ LO
+     CORREGIDO: la UNLP (el recursero dice 47 N° 328 y martes y jueves de
+     14 a 17), el San Martín (483-5759 / 6588, los de la Dirección),
+     Larrain (4453) y el 0800-333-4111 del Elina de la Serna. Tampoco se
+     copió lo del Sor Ludovica (UAC de 13 a 18 desde los 15 años: es el
+     renglón del San Roque repetido en un hospital de niños).
+     NÚMEROS QUE NO SE PUSIERON por venir mal escritos en el recursero:
+     la Unidad Residencial de City Bell («221 48144880», un dígito de
+     más), el CPA de Tolosa («0221 471732», uno de menos), el cuarto del
+     Reencuentro («421557») y los dos del CAPS 24, que son los del CAPS
+     34 y los turnos del CAPS 31. Si alguien los confirma, se suman.
      ============================================================ -->
 <main id="contenido" tabindex="-1">
 
@@ -152,10 +173,21 @@
 
     <div class="salud-grupos" id="grupos"></div>
 
-    <p class="letra-chica salud-fuente">
-      Los datos salen del recursero de la Bolívar sobre la Ley 26.657. Si
-      un teléfono o un horario cambió, avisanos y lo corregimos.
-    </p>
+    <!-- EL CRÉDITO. Fuera de los acordeones y escrito en el HTML: tiene
+         que verse siempre, también si el guion no corre. -->
+    <aside class="derecho salud-fuente" aria-labelledby="fuente-titulo">
+      <h3 id="fuente-titulo">Quién armó esta red</h3>
+      <p>Esta guía sale de la <strong>Red de atención en salud mental y
+        consumos problemáticos</strong> (2024), el recursero que pensó y
+        armó la <strong>Mesa de Salud Mental de la Facultad de Trabajo
+        Social (UNLP)</strong>, convocada en octubre de 2023 por la
+        Dirección de Redes en Salud de la Secretaría de Relaciones
+        Institucionales. También suma el recursero de la Bolívar sobre la
+        Ley 26.657.</p>
+      <p class="letra-chica" style="margin-top:10px">
+        Si un teléfono o un horario cambió, avisanos y lo corregimos.
+      </p>
+    </aside>
   </div>
 
 </main>
@@ -193,40 +225,157 @@
      LOS DATOS (del recursero de la Bolívar, Ley 26.657)
      ============================================================ */
   const LINEAS = [
-    { num:'0800-999-0091', titulo:'Orientación y apoyo en la urgencia en salud mental', detalle:'Gratis, las 24 horas, en todo el país.' },
+    { num:'0800-999-0091', titulo:'Orientación y apoyo en la urgencia en salud mental', detalle:'Gratis, las 24 horas, en todo el país. Atienden profesionales del Hospital Nacional en Red Laura Bonaparte: atención, contención y derivación.' },
     { num:'135', titulo:'Línea de Prevención del Suicidio', detalle:'De 8 a 24 hs. Gratis desde CABA y GBA; confidencial y especializada.' },
     { num:'0800-345-1435', titulo:'Prevención del Suicidio, desde todo el país', detalle:'La misma línea del 135, gratis desde La Plata y el resto del país. De 8 a 24 hs. También: 011 5275-1135.' },
     { num:'0800-222-5462', titulo:'Provincia de Buenos Aires: asistencia y derivación en salud mental', detalle:'Lunes a viernes de 8 a 24 hs; fines de semana de 10 a 22 hs.' },
+    { num:'0800-666-0101', titulo:'Municipalidad de La Plata: consumos problemáticos', detalle:'Equipo interdisciplinario de la Dirección de Adicciones. Lunes a viernes de 8 a 18 hs.' },
+    /* Un celular de La Plata: se muestra como se lo dice acá (con el
+       15) y se marca con el formato que anda desde cualquier lado. */
+    { num:'221 15 361-6507', tel:'+5492213616507', titulo:'Municipalidad de La Plata: violencias, en los CAPS', detalle:'Programa de Prevención y Abordaje de las Violencias en el Primer Nivel de Atención.' },
     { num:'144', titulo:'Violencia de género', detalle:'Asesoramiento, contención e información para mujeres y personas LGBTIQ+. Las 24 horas, todos los días.' },
     { num:'107', titulo:'SAME · emergencias médicas', detalle:'Atención de urgencia, las 24 horas.' },
     { num:'911', titulo:'Central de emergencias', detalle:'Atención de urgencia, las 24 horas.' },
     { num:'0800-444-4000', titulo:'Prevención y asistencia al juego compulsivo', detalle:'Las 24 horas, los 365 días del año.' }
   ];
 
+  /* tipo: 'hosp' (hospital), 'centro' (centro comunitario o CPA) u
+     'org' (otras instituciones). `ademas` son los servicios de adentro,
+     uno por renglón; `whatsapp`, los números que dan turnos por ahí.
+     `consumos` marca lo que el recursero de la FTS da para consumos
+     problemáticos. */
   const LUGARES = [
-    { id:1, nombre:'HIGA San Martín', zona:'La Plata', tipo:'hosp', h24:true, atencion:'Las 24 horas', edad:'Desde los 15 años', dir:'Calle 1 y 70', tels:['0221 483-5429'], interno:'Salud mental: interno 419' },
-    { id:2, nombre:'Hospital Alejandro Korn', zona:'Melchor Romero', tipo:'hosp', h24:true, atencion:'Las 24 horas', edad:'Desde los 15 años', dir:'520 y 175', tels:['0221 478-0181'], interno:'Interno 422' },
-    { id:3, nombre:'HIGA R. Rossi', zona:'La Plata', tipo:'hosp', atencion:'Lunes a sábados, de 9 a 17', edad:'Desde los 15 años', dir:'37 entre 116 y 117', tels:['0221 482-8821'], interno:'Interno salud mental: 254' },
-    { id:4, nombre:'HIGA San Roque', zona:'Gonnet', tipo:'hosp', atencion:'Lunes a viernes, de 13 a 18', edad:'Desde los 15 años', dir:'508 entre 18 y 19', tels:['0221 484-0290','0221 471-0063','0221 471-1593'] },
+    { id:1, nombre:'HIGA San Martín', zona:'La Plata', tipo:'hosp', h24:true, atencion:'Las 24 horas', edad:'Desde los 15 años', dir:'Calle 1 y 70', tels:['0221 483-5429'], interno:'Salud mental: interno 419',
+      ademas:['Hospital de Día: por derivación de otros efectores de salud, de la guardia o de la internación de salud mental'] },
+    { id:2, nombre:'Hospital Alejandro Korn', zona:'Melchor Romero', tipo:'hosp', h24:true, consumos:true, atencion:'Las 24 horas', edad:'Desde los 15 años', dir:'520 y 175', tels:['0221 478-0181'], interno:'Interno 422',
+      whatsapp:[ { num:'221 660-1507', para:'Consultorios externos de adultos: admisiones lunes, jueves y viernes a las 7' },
+                 { num:'221 409-0804', para:'Consultorios externos infanto juvenil (también llamadas)' } ],
+      ademas:['«Sala Carrillo», consumo problemático (adultxs): interno 598, desde las 8.30',
+              'Servicio de Externación: Centro de Salud Mental Comunitaria Franco Basaglia, Centro de Día Pichón Riviere y Casa Pre Alta. Acompañamiento a personas con padecimiento mental y discapacidad, con actividades grupales'] },
+    { id:3, nombre:'HIGA R. Rossi', zona:'La Plata', tipo:'hosp', consumos:true, atencion:'Unidad de Atención en Crisis: lunes a sábados, de 9 a 17. Domingos, guardia pasiva', edad:'Desde los 15 años', dir:'37 entre 116 y 117', tels:['0221 482-8821'], interno:'Interno salud mental: 254',
+      whatsapp:[ { num:'221 556-7674', para:'Turnos: lunes a viernes de 8 a 16' },
+                 { num:'221 399-7048', para:'Grupo de consumos problemáticos (SAPS)' } ],
+      ademas:['Grupo terapéutico para personas con consumos problemáticos (SAPS): los viernes de 10 a 11. Turnos por WhatsApp o en persona en el SAPS'] },
+    { id:4, nombre:'HIGA San Roque', zona:'Gonnet', tipo:'hosp', atencion:'Unidad de Atención en Crisis: lunes a viernes, de 13 a 18', edad:'Desde los 15 años', dir:'508 entre 18 y 19', tels:['0221 484-0290','0221 471-0063','0221 471-1593'],
+      ademas:['Psicología y psiquiatría: turnos de lunes a viernes, de 7 a 16'] },
     { id:5, nombre:'Hospital Mario V. Larrain', zona:'Berisso', tipo:'hosp', dir:'Calle 5 N° 4435, entre 166 y Montevideo', tels:['0221 464-5164','0221 461-1101'] },
     { id:6, nombre:'Hospital Cestino', zona:'Ensenada', tipo:'hosp', atencion:'Psicología: los turnos se dan los lunes', dir:'San Martín y EE.UU.', tels:['0221 469-1255','0221 469-1041'] },
-    { id:7, nombre:'Espacio de escucha · Hospital Gutiérrez', zona:'La Plata', tipo:'hosp', dir:'Diagonal 114 entre 39 y 40', tels:['0221 483-0171','0221 423-6141'], interno:'Líneas rotativas: 483-0171 al 75 · 423-6141 al 43' },
-    { id:8, nombre:'Espacio de escucha · Hospital Elina de la Serna', zona:'La Plata', tipo:'hosp', infancias:true, atencion:'Infanto juvenil', dir:'Calle 8 N° 483, entre 41 y 42', tels:['0221 421-2729','0221 483-3869'] },
+    { id:7, nombre:'Espacio de escucha · Hospital Gutiérrez', zona:'La Plata', tipo:'hosp', atencion:'Admisiones en salud mental', dir:'Diagonal 114 entre 39 y 40', tels:['0221 483-0171','0221 423-6141'], interno:'Líneas rotativas: 483-0171 al 75 · 423-6141 al 43' },
+    { id:8, nombre:'Espacio de escucha · Hospital Elina de la Serna', zona:'La Plata', tipo:'hosp', infancias:true, atencion:'Admisiones en salud mental infanto juvenil (psicología y psiquiatría)', dir:'Calle 8 N° 483, entre 41 y 42', tels:['0221 421-2729','0221 483-3869'] },
     { id:9, nombre:'Guardia Hospital de Niños Sor Ludovica', zona:'La Plata', tipo:'hosp', h24:true, infancias:true, atencion:'Las 24 horas', edad:'Hasta los 14 años', dir:'14 entre 65 y 66', tels:['0221 453-5901'], interno:'Líneas rotativas: 453-5901 al 10' },
-    { id:10, nombre:'Colegio de Psicologxs · Distrito XI', zona:'La Plata', tipo:'org', atencion:'A través del Sistema de Atención a la Comunidad (SAC)', tels:['0221 421-1107'] },
+    { id:10, nombre:'Colegio de Psicologxs · Distrito XI', zona:'La Plata', tipo:'org', resumen:'Asistencia psicológica por obra social, particular o a través del Sistema de Atención a la Comunidad (SAC).', tels:['0221 421-1107'] },
     { id:11, nombre:'IOMA', zona:'Provincia', tipo:'org', resumen:'Para consultas por atención en policonsultorios de IOMA o para acceder a la cartilla prestacional.', tels:['0810-999-4662'], correo:'saludmental@ioma.gba.gov.ar' },
-    { id:12, nombre:'Casa de la Mujer', zona:'La Plata', tipo:'org', resumen:'Acompañamiento y orientación en salud mental, con enfoque de género.', dir:'Calle 10 entre 53 y 54' }
+    { id:12, nombre:'Casa de la Mujer', zona:'La Plata', tipo:'org', resumen:'Acompañamiento y orientación en salud mental, con enfoque de género.', dir:'Calle 10 entre 53 y 54' },
+
+    /* Del recursero de la FTS (11/10/2026) */
+    { id:13, nombre:'Hospital José Ingenieros', zona:'Melchor Romero', tipo:'hosp', atencion:'Turnos por teléfono el último martes de cada mes, de 9 a 11', dir:'161 y 514', tels:['0221 478-1158'] },
+    { id:14, nombre:'Hospital Reencuentro', zona:'La Plata', tipo:'hosp', atencion:'Orientación por teléfono de 8 a 14', dir:'64 entre 6 y 7', tels:['0221 483-1313','0221 427-0748','0221 422-0275'],
+      ademas:['Tratamientos individuales y grupales','Hospital de Día'] },
+    { id:15, nombre:'Hospital Noel H. Sbarra', zona:'La Plata', tipo:'hosp', infancias:true, atencion:'Admisiones en salud mental infanto juvenil (psicología y psiquiatría)', dir:'8 y 67',
+      whatsapp:[ { num:'221 565-1650', para:'Turnos' } ] },
+    { id:16, nombre:'Hospital San Juan de Dios', zona:'La Plata', tipo:'hosp', infancias:true, atencion:'Salud mental solo para pacientes del hospital. Consultorio infanto juvenil (12 a 18 años): los martes a las 12', dir:'24 y 70', tels:['0221 457-5454'] },
+    { id:17, nombre:'Centro Comunitario de Berisso', zona:'Berisso', tipo:'centro', dir:'Calle 4 (Río de Janeiro) N° 4431, entre 166 y Montevideo', tels:['0221 464-6419'] },
+    { id:18, nombre:'Centro Provincial de Atención (CPA) Berisso', zona:'Berisso', tipo:'centro', consumos:true, atencion:'Lunes y viernes de 9 a 16; martes, miércoles y jueves de 9 a 15', dir:'126 y 37 (ex 96)', tels:['0221 571-0652'] },
+    { id:19, nombre:'Centro Comunitario de Ensenada', zona:'Ensenada', tipo:'centro', atencion:'Lunes a viernes, de 9 a 17', dir:'De La Paz N° 480 (ex EE.UU.), entre Eva Perón y L. N. Alem', tels:['0221 469-1917'] },
+    { id:20, nombre:'Centro Provincial de Atención (CPA) Punta Lara', zona:'Punta Lara, Ensenada', tipo:'centro', consumos:true, atencion:'Lunes, miércoles y viernes, de 8 a 13', dir:'126 entre 5 y 7, Centro Cultural «Emma Córdoba»', tels:['0221 601-7051'] },
+    { id:21, nombre:'Hospital Municipal de Punta Lara', zona:'Punta Lara, Ensenada', tipo:'hosp', atencion:'Psicología: turnos los últimos lunes de cada mes, en persona o por teléfono, de 8 a 20', dir:'Camino Almirante Brown y 78', tels:['0221 644-1377'] },
+    { id:22, nombre:'Centro Comunitario Las Rosas', zona:'Melchor Romero', tipo:'centro', atencion:'Psicología, actividades y talleres', dir:'159 y 514', tels:['0221 542-1240'] },
+    { id:23, nombre:'Centro Comunitario de Salud Mental City Bell', zona:'City Bell', tipo:'centro', atencion:'Lunes a viernes, de 9 a 17. Psicología, trabajo social y psiquiatría', dir:'Camino General Belgrano y 447', tels:['0221 418-7643'] },
+    { id:24, nombre:'Unidad Residencial de Abordaje de Consumos Problemáticos', zona:'City Bell', tipo:'centro', consumos:true, atencion:'Las 24 horas', dir:'Camino General Belgrano y 447' },
+    { id:25, nombre:'Centro Provincial de Atención (CPA) Tolosa', zona:'Tolosa', tipo:'centro', consumos:true, atencion:'Lunes a viernes, de 9 a 17', dir:'3 y 526' },
+    { id:26, nombre:'CPA El Retiro', zona:'Olmos', tipo:'centro', consumos:true, dir:'Club Corazones del Retiro, 160 entre 49 y 50' },
+    { id:27, nombre:'CPA Quinta Roth', zona:'San Carlos', tipo:'centro', consumos:true, dir:'518 y 141' },
+    { id:28, nombre:'CPA Altos de San Lorenzo', zona:'Altos de San Lorenzo', tipo:'centro', consumos:true, atencion:'Lunes, miércoles y jueves de 9 a 13; viernes de 9 a 12', dir:'29 y 88 (Puente de Fierro)', tels:['0221 307-5644'] },
+    { id:29, nombre:'CPA Centro de Fomento Villa Elvira', zona:'Villa Elvira', tipo:'centro', consumos:true, atencion:'Lunes a viernes, de 9 a 16', dir:'120 y 75' },
+    { id:30, nombre:'Centro Ni un Pibe Menos por la Droga', zona:'Melchor Romero', tipo:'org', consumos:true, resumen:'Institución comunitaria con convenio con la Subsecretaría de Salud Mental, Consumos Problemáticos y Violencias en el ámbito de la Salud Pública.', dir:'173 y 515' },
+    { id:31, nombre:'Vientos La Plata «Jorge Julio López»', zona:'Los Hornos', tipo:'org', consumos:true, resumen:'Institución comunitaria con convenio con la Subsecretaría de Salud Mental, Consumos Problemáticos y Violencias en el ámbito de la Salud Pública.', dir:'66 N° 2965' },
+    { id:32, nombre:'La Casita de los Pibes', zona:'Villa Elvira', tipo:'org', consumos:true, resumen:'Casa de Atención y Acompañamiento Comunitario, con convenio con la Subsecretaría de Salud Mental, Consumos Problemáticos y Violencias en el ámbito de la Salud Pública.', dir:'122 y 609' }
   ];
+
+  /* LOS CAPS (Municipalidad de La Plata), del recursero de la FTS.
+     `tel` es el fijo; `turnos`, el celular de turnos (se guarda sin el
+     15 y se muestra con él). Agrupados por barrio, en el orden del
+     recursero. */
+  const CAPS = [
+    ['Villa Elvira', [
+      { n:'6',  dir:'122 entre 80 y 81', tel:'0221 452-0077', turnos:'6260333', para:'Adolescentes y adultos' },
+      { n:'7',  dir:'7 y 82',            tel:'0221 453-2585', turnos:'6260280', para:'Adolescentes y adultos' },
+      { n:'19', dir:'4 y 611',           tel:'0221 486-1836', turnos:'6260304', para:'Niños, adolescentes y adultos' },
+      { n:'26', dir:'122 y 605',         tel:'0221 486-4112', turnos:'6260267', para:'Adolescentes y adultos' },
+      { n:'CIMM', dir:'70 entre 5 y 6',  tel:'0221 422-2074', turnos:'6260260' },
+      { n:'35', dir:'99 y 121',          tel:'0221 486-5374' },
+      { n:'43', dir:'7 y 632',           tel:'0221 491-0689', turnos:'6260239', para:'Adolescentes y adultos' } ]],
+    ['Ignacio Correas', [
+      { n:'22', dir:'29 y 696',          tel:'0221 491-2084', turnos:'6260296', para:'Niños, adolescentes y adultos' } ]],
+    ['San Carlos', [
+      { n:'20', dir:'139 entre 33 y 34', tel:'0221 470-0029', turnos:'6799891', para:'Niños y adolescentes' },
+      { n:'42', dir:'149 entre 35 y 36', tel:'0221 479-8399', turnos:'6260240', para:'Niños, adolescentes y adultos' } ]],
+    ['Los Hornos', [
+      { n:'1',  dir:'145 entre 59 y 60', tel:'0221 450-9717', turnos:'6260244', para:'Niños, adolescentes y adultos' },
+      { n:'2',  dir:'66 y 143',          tel:'0221 450-9599', para:'Niños, adolescentes y adultos' },
+      { n:'16', dir:'66 entre 173 y 174', tel:'0221 450-4767' },
+      { n:'37', dir:'137 entre 79 y 80', tel:'0221 450-7199' },
+      { n:'44', dir:'59 y 154',          tel:'0221 456-4808', turnos:'6260237', para:'Adolescentes y adultos' } ]],
+    ['Altos de San Lorenzo', [
+      { n:'8',  dir:'20 y 85',           tel:'0221 451-5845' },
+      { n:'41', dir:'84 entre 131 y 132', tel:'0221 453-1423', turnos:'6260279', para:'Adultos' },
+      { n:'46', dir:'16 y 608',          tel:'0221 486-4858', para:'Adultos' } ]],
+    ['Tolosa', [
+      { n:'9',  dir:'3 y 528',           tel:'0221 424-9595', para:'Adolescentes y adultos, psicopedagogía' },
+      { n:'14', dir:'16 entre 529 y 530', tel:'0221 425-9122' },
+      { n:'15', dir:'520 y 118',         tel:'0221 471-4785', para:'Niños, adolescentes y adultos' },
+      { n:'27', dir:'526 entre 24 y 25', tel:'0221 470-0095', turnos:'6260340', para:'Adolescentes y adultos' } ]],
+    ['Ringuelet', [
+      { n:'25', dir:'514 y 12',          tel:'0221 471-2160', turnos:'6260334' } ]],
+    ['Gonnet', [
+      { n:'28', dir:'10 y 491',          tel:'0221 471-1068', para:'Adolescentes y adultos' },
+      { n:'38', dir:'7 y 477',           tel:'0221 480-3821', turnos:'6260319', para:'Adolescentes y adultos' } ]],
+    ['City Bell', [
+      { n:'5',  dir:'12 y 19',           para:'Adultos' },
+      { n:'17', dir:'449 y 27',          tel:'0221 473-2299', turnos:'6260292', para:'Niños, adolescentes y adultos' } ]],
+    ['Hernández', [
+      { n:'32', dir:'131 y 510',         tel:'0221 471-0037', turnos:'6260339', para:'Adolescentes y adultos' } ]],
+    ['Gorina', [
+      { n:'12', dir:'138 y 481',         tel:'0221 471-5078', turnos:'6260295', para:'Adolescentes y adultos' },
+      { n:'36', dir:'412 y 29',          tel:'0221 474-0101', turnos:'6260297', para:'Niños, adolescentes y adultos' } ]],
+    ['Villa Elisa', [
+      { n:'4',  dir:'Camino Centenario y Arana', tel:'0221 487-0267', turnos:'6260328', para:'Adolescentes y adultos' } ]],
+    ['Melchor Romero', [
+      { n:'31', dir:'186 y 492',         turnos:'6260299', para:'Niños, adolescentes y adultos' },
+      { n:'34', dir:'156 entre 528 y 529', tel:'0221 470-6925', turnos:'6260289', para:'Adultos' } ]],
+    ['Abasto', [
+      { n:'10', dir:'208 y 516',         tel:'0221 491-3845' } ]],
+    ['El Peligro', [
+      { n:'24', dir:'Ruta 2, km 44',     para:'Niños, adolescentes y adultos' } ]],
+    ['El Retiro', [
+      { n:'45', dir:'46 y 158',          tel:'0221 470-0965', para:'Niños, adolescentes y adultos' } ]],
+    ['Etcheverry', [
+      { n:'23', dir:'53 y 228',          tel:'0221 496-1393' } ]],
+    ['Arana', [
+      { n:'21', dir:'131 entre 635 y 636', tel:'0221 491-0711', turnos:'6260296', para:'Niños, adolescentes y adultos' } ]],
+    ['Arturo Seguí', [
+      { n:'11', dir:'143 y 414 bis',     tel:'0221 474-1804', turnos:'6260275', para:'Niños, adolescentes y adultos' } ]],
+    ['La Plata (casco)', [
+      { n:'13', dir:'41 entre 10 y 11',  tel:'0221 427-2867', turnos:'6260259', para:'Adultos' } ]]
+  ];
+
+  const MAPA_SALUD = 'https://www.google.com/maps/d/u/0/viewer?mid=1yqzEuon2I549Z_Hs3Byj2Z7b3Jyn7AJh&ll=-34.9672540450156%2C-57.84468478317006&z=11';
 
   const FILTROS = [
     { id:'todos',     texto:'Todos',               pasa: () => true },
     { id:'h24',       texto:'24 horas',            pasa: l => l.h24 },
     { id:'infancias', texto:'Infancias',           pasa: l => l.infancias },
+    { id:'consumos',  texto:'Consumos',            pasa: l => l.consumos },
     { id:'berisso',   texto:'Berisso y Ensenada',  pasa: l => /Berisso|Ensenada/.test(l.zona) },
     { id:'org',       texto:'Otras instituciones', pasa: l => l.tipo === 'org' }
   ];
 
   const aTel = n => 'tel:' + n.replace(/\D/g, '');
+  /* Los celulares de La Plata (WhatsApp y turnos de los CAPS), con el
+     prefijo internacional: así marcan desde cualquier teléfono. Llegan
+     con la característica y sin el 15 («221 660-1507»). */
+  const celular = n => '+549' + n.replace(/\D/g, '');
+  const aWhatsapp = n => 'https://wa.me/' + celular(n).slice(1);
 
   /* ============================================================
      LOS GRUPOS
@@ -269,6 +418,41 @@
       }
     },
     {
+      clave:'fts', titulo:'En la Facultad: Inclusión Educativa',
+      dibujo: coincide => !coincide('facultad fts trabajo social inclusion educativa escucha acompañamiento regimen academico articulo 57 cuidado crianza gestacion violencia genero discapacidad trabajadores correo mail') ? null : {
+        cuenta:'FTS',
+        html:`
+          <p>La <strong>Dirección de Inclusión Educativa</strong> de la Facultad acompaña la cursada de estudiantes y docentes.</p>
+          <ul style="margin:14px 0 0;padding-left:20px;line-height:1.5">
+            <li>Te ofrece un <strong>espacio de escucha</strong>, en privado, si necesitás acompañamiento o un apoyo específico.</li>
+            <li>El régimen académico (art. 57) garantiza la accesibilidad si estás atravesando una gestación o la crianza, violencia por motivos de género, una discapacidad, un problema de salud, tareas de cuidado, o si trabajás.</li>
+            <li>Trabaja junto con las cátedras para acompañarte en las materias.</li>
+          </ul>
+          <div class="ficha"><dl>
+            <dt>Correo</dt><dd>inclusioneducativa.fts@gmail.com</dd>
+            <dt>En persona</dt><dd>Miércoles y viernes, de 9 a 12</dd>
+          </dl></div>
+          <a class="boton ancho" href="mailto:inclusioneducativa.fts@gmail.com">Escribir un correo</a>`
+      }
+    },
+    {
+      clave:'adonde', titulo:'¿Guardia o turno?',
+      dibujo: coincide => !coincide('guardia turno urgencia crisis unidad de atencion en crisis uac ambulatoria consultorio primera escucha demanda espontanea donde ir') ? null : {
+        cuenta: 2,
+        html:`
+          <div class="derechos">
+            <div class="derecho">
+              <h3>Guardias y Unidades de Atención en Crisis</h3>
+              <p>Son para la <strong>urgencia</strong>: algo que irrumpe en la vida cotidiana y genera un malestar que necesita atención inmediata. Atienden equipos interdisciplinarios (trabajo social, psiquiatría, psicología, enfermería) en hospitales públicos y privados, 12 o 24 horas, todos los días del año. Podés ir solx o con alguien de confianza.</p>
+            </div>
+            <div class="derecho">
+              <h3>Atención ambulatoria</h3>
+              <p>Consultorios externos y servicios de salud mental, también comunitarios: atención individual o grupal, acompañamiento y tratamiento, con <strong>turno programado</strong>, por demanda espontánea o con una primera escucha.</p>
+            </div>
+          </div>`
+      }
+    },
+    {
       clave:'lineas', titulo:'Líneas telefónicas',
       dibujo: coincide => {
         const lineas = LINEAS.filter(l =>
@@ -280,7 +464,7 @@
             <div class="linea-tel">
               <div class="linea-tel-cabeza">
                 <strong>${esc(l.num)}</strong>
-                <a class="boton" href="${aTel(l.num)}" aria-label="Llamar al ${esc(l.num)}">Llamar</a>
+                <a class="boton" href="${l.tel ? 'tel:' + l.tel : aTel(l.num)}" aria-label="Llamar al ${esc(l.num)}">Llamar</a>
               </div>
               <h3>${esc(l.titulo)}</h3>
               <p>${esc(l.detalle)}</p>
@@ -289,10 +473,13 @@
       }
     },
     {
-      clave:'hosp', titulo:'Hospitales y CAPS',
+      clave:'hosp', titulo:'Hospitales y centros de salud',
       dibujo: coincide => {
         const conBusqueda = LUGARES.filter(l => coincide([l.nombre, l.zona, l.dir,
-          l.atencion, l.resumen, l.edad, (l.tels || []).join(' ')].join(' ')));
+          l.atencion, l.resumen, l.edad, (l.tels || []).join(' '),
+          (l.ademas || []).join(' '), (l.whatsapp || []).map(w => w.num + ' ' + w.para).join(' '),
+          l.consumos ? 'consumos problematicos adicciones' : '',
+          l.whatsapp ? 'whatsapp' : ''].join(' ')));
         if (!conBusqueda.length) return null;
         const filtro = FILTROS.find(f => f.id === filtroLugares);
         const lugares = conBusqueda.filter(filtro.pasa);
@@ -317,10 +504,42 @@
       }
     },
     {
+      clave:'caps', titulo:'CAPS: centros de salud del barrio',
+      dibujo: coincide => {
+        const barrios = CAPS.map(([barrio, lista]) => [barrio, lista.filter(c =>
+          coincide(['caps centro atencion primaria barrio municipalidad', barrio,
+            'caps ' + c.n, c.dir, c.para, c.tel, c.turnos].join(' ')))])
+          .filter(([, lista]) => lista.length);
+        if (!barrios.length) return null;
+        const total = barrios.reduce((s, [, lista]) => s + lista.length, 0);
+        return {
+          cuenta: total,
+          html: `
+            <p>Los Centros de Atención Primaria de la Salud de la Municipalidad de La Plata. Buscá el de tu barrio.</p>
+            ${barrios.map(([barrio, lista]) => `
+              <p class="salud-subtitulo">${esc(barrio)}</p>
+              <div class="lineas">${lista.map(c => `
+                <div class="linea-tel">
+                  <div class="linea-tel-cabeza">
+                    <strong>CAPS ${esc(c.n)}</strong>
+                    ${c.tel ? `<a class="boton" href="${aTel(c.tel)}" aria-label="Llamar al CAPS ${esc(c.n)}">Llamar</a>` : ''}
+                  </div>
+                  <h3>${esc(c.dir)}</h3>
+                  ${c.para ? `<p>Atención: ${esc(c.para)}</p>` : ''}
+                  ${c.tel ? `<p>Teléfono: ${esc(c.tel)}</p>` : ''}
+                  ${c.turnos ? `<p>Turnos: <a href="tel:${celular('221' + c.turnos)}">221 15 ${esc(c.turnos.slice(0, 3) + '-' + c.turnos.slice(3))}</a></p>` : ''}
+                </div>`).join('')}</div>`).join('')}
+            <a class="boton ancho oscuro" target="_blank" rel="noopener" href="${esc(MAPA_SALUD)}">Mapa de hospitales y CAPS ↗
+              <span class="solo-lectores">(se abre en otra pestaña)</span></a>`
+        };
+      }
+    },
+    {
       clave:'derechos', titulo:'Tus derechos',
-      dibujo: coincide => !coincide('derechos ley 26.657 atencion calidad consentimiento acompañamiento orientacion discriminacion autonomia') ? null : {
+      dibujo: coincide => !coincide('derechos ley 26.657 26657 red cuidado comunitario atencion calidad consentimiento acompañamiento orientacion discriminacion autonomia') ? null : {
         cuenta: 3,
         html:`
+          <p style="margin-bottom:12px">La Ley 26.657 (art. 3) entiende la salud mental como un proceso hecho de componentes históricos, socioeconómicos, culturales, biológicos y psicológicos, atado a los derechos humanos y sociales de cada persona. Por eso el cuidado no es solo individual: se construye en red, con otrxs.</p>
           <p style="margin-bottom:16px"><strong>Sos sujeto de derechos.</strong> Conocé los tuyos:</p>
           <div class="derechos">
             <div class="derecho">
@@ -339,7 +558,7 @@
           <button type="button" class="ir-a-hosp" data-ir="hosp">
             <span class="ir-a-hosp-texto">
               <strong>Ante cualquier consulta, acercate a la institución de salud más cercana</strong>
-              <small>Ver hospitales y CAPS</small>
+              <small>Ver hospitales y centros de salud</small>
             </span>
             <span class="ir-a-hosp-flecha" aria-hidden="true">→</span>
           </button>`
@@ -457,13 +676,15 @@
     if (l.dir)      filas.push(['Dónde', l.dir + (l.zona !== 'Provincia' ? ', ' + l.zona : '')]);
     if (l.tels && l.tels.length)
       filas.push([l.telRotulo || 'Teléfono', l.tels.join(' · ') + (l.interno ? '\n' + l.interno : '')]);
+    (l.whatsapp || []).forEach(w => filas.push(['WhatsApp', w.num + '\n' + w.para]));
     if (l.correo)   filas.push(['Correo', l.correo]);
+    if (l.ademas)   filas.push(['Además', l.ademas.join('\n\n')]);
 
     const mapa = l.dir ? 'https://www.google.com/maps/search/?api=1&query=' +
       encodeURIComponent(l.dir + ', ' + (l.zona === 'Provincia' ? 'La Plata' : l.zona) + ', Buenos Aires') : '';
 
     cuerpo.innerHTML = `
-      <div class="hoja-cod">${l.tipo === 'org' ? 'Institución' : 'Hospital'} · ${esc(l.zona)}</div>
+      <div class="hoja-cod">${{ org:'Institución', centro:'Centro de salud' }[l.tipo] || 'Hospital'} · ${esc(l.zona)}</div>
       <h2 id="hoja-titulo">${esc(l.nombre)}</h2>
       ${l.resumen ? `<p class="hoja-resumen">${esc(l.resumen)}</p>` : ''}
       <div class="ficha"><dl>
@@ -472,6 +693,9 @@
       <div class="hoja-acciones">
         ${(l.tels || []).slice(0, 2).map(t =>
           `<a class="boton ancho" href="${aTel(t)}">Llamar al ${esc(t)}</a>`).join('')}
+        ${(l.whatsapp || []).map(w =>
+          `<a class="boton ancho borde" href="${aWhatsapp(w.num)}" target="_blank" rel="noopener">WhatsApp ${esc(w.num)} ↗
+            <span class="solo-lectores">(${esc(w.para)}; se abre en otra pestaña)</span></a>`).join('')}
         ${l.correo ? `<a class="boton ancho borde" href="mailto:${esc(l.correo)}">Escribir un correo</a>` : ''}
         ${mapa ? `<a class="boton ancho oscuro" href="${esc(mapa)}" target="_blank" rel="noopener">Cómo llegar ↗
             <span class="solo-lectores">(se abre en otra pestaña)</span></a>` : ''}
