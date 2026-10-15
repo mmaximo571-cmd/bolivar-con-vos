@@ -48,9 +48,9 @@
     "semantic_hash": "dee865def3cc416e133ce37a26f6b815"
   },
   "lib/avisanos.js": {
-    "mtime": 1789761136.8411674,
-    "seen": 1790732169.3235354,
-    "ast_hash": "46fc5cfcdcbb147625e3613f26087b9a",
+    "mtime": 1792088027.350342,
+    "seen": 1792088213.935008,
+    "ast_hash": "04eb6a191d3c3774c3a0eccf847a6616",
     "semantic_hash": ""
   },
   "lib/datos.js": {
@@ -78,15 +78,15 @@
     "semantic_hash": ""
   },
   "sw.js": {
-    "mtime": 1791767517.3159862,
-    "seen": 1791767594.309766,
-    "ast_hash": "9c70331b7d001eab7e2c4ff387140b84",
+    "mtime": 1792088049.7662945,
+    "seen": 1792088213.9350944,
+    "ast_hash": "05ae7a1bd31486ad018f3863acb86c27",
     "semantic_hash": ""
   },
   "BITACORA.md": {
-    "mtime": 1791764429.4722855,
-    "seen": 1791765585.5171025,
-    "ast_hash": "f5cbd3203ddf9ff68e2a31fd9e5b81b9",
+    "mtime": 1792088203.09933,
+    "seen": 1792088213.9350977,
+    "ast_hash": "f41a615b7847340c731281ee6a034c63",
     "semantic_hash": ""
   },
   "LEEME.md": {
@@ -150,9 +150,9 @@
     "semantic_hash": ""
   },
   "index.html": {
-    "mtime": 1791767185.2430043,
-    "seen": 1791767594.3098285,
-    "ast_hash": "6cfe34c268d9431be724122e21f325d0",
+    "mtime": 1792088010.8352096,
+    "seen": 1792088213.9351537,
+    "ast_hash": "7e2c39547c78e43c37090ffc659b713b",
     "semantic_hash": ""
   },
   "mi/index.html": {
@@ -162,9 +162,9 @@
     "semantic_hash": ""
   },
   "panel/index.html": {
-    "mtime": 1791389622.8483932,
-    "seen": 1791389716.7209315,
-    "ast_hash": "cba9d4e24d65195914f0ef3040e621be",
+    "mtime": 1791821088.447348,
+    "seen": 1792088213.935165,
+    "ast_hash": "fa4c9588fd92690b7afc8012c3492da4",
     "semantic_hash": ""
   },
   "quienes/index.html": {
@@ -432,9 +432,9 @@
     "semantic_hash": ""
   },
   "decilo/index.html": {
-    "mtime": 1791393751.538679,
-    "seen": 1791393884.7799778,
-    "ast_hash": "4eb77b908074fc9f1132af185d116256",
+    "mtime": 1792088164.756672,
+    "seen": 1792088213.9351118,
+    "ast_hash": "a3ed27c39cb4373abdb8c918db5213ef",
     "semantic_hash": ""
   },
   "carrera/tarjeta-avance.js": {
@@ -594,9 +594,9 @@
     "semantic_hash": ""
   },
   "docs/HISTORIAL-SW.md": {
-    "mtime": 1791767517.3304205,
-    "seen": 1791767594.3097866,
-    "ast_hash": "688a891b070173280c1f900891bd4d81",
+    "mtime": 1792088051.308977,
+    "seen": 1792088213.935113,
+    "ast_hash": "d79feb04f932e2b3e3ba55955fda129c",
     "semantic_hash": ""
   },
   "docs/prompts/PROMPT-DISENO.md": {
@@ -696,9 +696,9 @@
     "semantic_hash": ""
   },
   "estudiemos/arsenal/datos.json": {
-    "mtime": 1791402148.3134575,
-    "seen": 1791418328.674651,
-    "ast_hash": "6ffbd48efae32c80e409f8d74c0b17a1",
+    "mtime": 1791768490.4560392,
+    "seen": 1792088213.9349802,
+    "ast_hash": "6a8729b055cdefc2f682dce5c03e8932",
     "semantic_hash": ""
   },
   "estudiemos/arsenal/marcas.js": {
@@ -726,27 +726,27 @@
     "semantic_hash": ""
   },
   "salud-mental/index.html": {
-    "mtime": 1791767488.9456449,
-    "seen": 1791767594.3098443,
+    "mtime": 1791767657.5326035,
+    "seen": 1792088213.9351678,
     "ast_hash": "4992d192232c3c193d007781ff949e6e",
     "semantic_hash": ""
   },
   "congreso/congreso.js": {
-    "mtime": 1791682569.6655433,
-    "seen": 1791682723.8950915,
-    "ast_hash": "38376bd7e599c7dff9dbb98cddbec765",
+    "mtime": 1791824678.9921541,
+    "seen": 1792088213.9349763,
+    "ast_hash": "3bce88771f579f3a09d26ff353033e41",
     "semantic_hash": ""
   },
   "sql/tabla-congreso.sql": {
-    "mtime": 1791682583.0442715,
-    "seen": 1791682723.8951838,
-    "ast_hash": "519c8446fadd6d8216011416e27bde0d",
+    "mtime": 1791821013.5583456,
+    "seen": 1792088213.9350631,
+    "ast_hash": "d815251d79042f4203b055a3f3ea48ab",
     "semantic_hash": ""
   },
   "congreso/index.html": {
-    "mtime": 1791387793.4839745,
-    "seen": 1791389716.7208867,
-    "ast_hash": "be6deba111af495d84a15d923946ec13",
+    "mtime": 1791821062.6634326,
+    "seen": 1792088213.935109,
+    "ast_hash": "d2e44a6b99a21b2f8467c577ad4a4b4b",
     "semantic_hash": ""
   },
   "congreso/circular-voces-que-habitan.pdf": {
@@ -933,6 +933,12 @@
     "mtime": 1791764786.634164,
     "seen": 1791765585.5171537,
     "ast_hash": "7cf6081b3c10a24a2a2b0e9b1ccdc653",
+    "semantic_hash": ""
+  },
+  "docs/prompts/PROMPT-PLACAS-SERIE.md": {
+    "mtime": 1791769156.5345051,
+    "seen": 1792088213.9351244,
+    "ast_hash": "4269b62b0e8bb8ce491fcc9fe3f2b1ce",
     "semantic_hash": ""
   }
 }

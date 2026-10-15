@@ -75,10 +75,12 @@
      ninguna regla de seguridad: todo lo que esta pantalla pueda
      hacer, lo puede hacer cualquiera con la dirección de la base.
 
-     TODAVÍA NO ESTÁ ENLAZADA de Inicio ni de Avisanos, y no entra en
-     la fila de secciones. Se enlaza cuando exista la bandeja del
-     equipo de comunicación: un buzón que recibe y no contesta es peor
-     que no tener buzón. Ver «El replanteo del 27/9» en BITACORA.md.
+     ENLAZADA DESDE EL 15/10/2026, desde el Inicio (debajo de los
+     accesos) y desde Avisanos, y a propósito no desde la fila de
+     secciones. Estuvo publicada sin enlazar hasta que la bandeja del
+     equipo de comunicación pudo contestar: un buzón que recibe y no
+     contesta es peor que no tener buzón. Ver «La revisión del 10/10»
+     en BITACORA.md.
      ============================================================ -->
 <main id="contenido" tabindex="-1">
 
@@ -463,6 +465,13 @@
      ------------------------------------------------------------ */
   function htmlTotales(t){
     if (!t) return '';
+    /* El día que abre no hay nada que contar, y «0 de 0 tuvieron
+       respuesta» suena a que no se contestó nada. */
+    if (!t.llegaron) return `<div class="modulo aparece">
+      <p class="cuenta-total">0 <small>pedidos</small></p>
+      <p>Todavía no llegó ninguno. Acá se va a ver cuántos llegaron y cuántos
+        tuvieron respuesta en menos de 48 horas.</p>
+    </div>`;
     const horas = t.horas_primera_respuesta;
     return `<div class="modulo aparece">
       <p class="cuenta-total">${t.llegaron} <small>${t.llegaron === 1 ? 'pedido' : 'pedidos'}</small></p>

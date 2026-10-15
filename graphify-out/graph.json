@@ -396,7 +396,7 @@
       "file_type": "code",
       "norm_label": "abrirhoja()",
       "source_file": "congreso/congreso.js",
-      "source_location": "L296"
+      "source_location": "L360"
     },
     {
       "id": "congreso_congreso_abrirloquepideelenlace",
@@ -408,7 +408,7 @@
       "file_type": "code",
       "norm_label": "abrirloquepideelenlace()",
       "source_file": "congreso/congreso.js",
-      "source_location": "L549"
+      "source_location": "L614"
     },
     {
       "id": "congreso_congreso_ahoraenlaplata",
@@ -420,7 +420,19 @@
       "file_type": "code",
       "norm_label": "ahoraenlaplata()",
       "source_file": "congreso/congreso.js",
-      "source_location": "L121"
+      "source_location": "L129"
+    },
+    {
+      "id": "congreso_congreso_botonyoutube",
+      "label": "botonYoutube()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 104,
+      "community_name": "congreso.js",
+      "file_type": "code",
+      "norm_label": "botonyoutube()",
+      "source_file": "congreso/congreso.js",
+      "source_location": "L217"
     },
     {
       "id": "congreso_congreso_cargarmuro",
@@ -432,19 +444,7 @@
       "file_type": "code",
       "norm_label": "cargarmuro()",
       "source_file": "congreso/congreso.js",
-      "source_location": "L437"
-    },
-    {
-      "id": "congreso_congreso_cerrarhoja",
-      "label": "cerrarHoja()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 104,
-      "community_name": "congreso.js",
-      "file_type": "code",
-      "norm_label": "cerrarhoja()",
-      "source_file": "congreso/congreso.js",
-      "source_location": "L315"
+      "source_location": "L502"
     },
     {
       "id": "congreso_congreso_dialindo",
@@ -456,7 +456,7 @@
       "file_type": "code",
       "norm_label": "dialindo()",
       "source_file": "congreso/congreso.js",
-      "source_location": "L151"
+      "source_location": "L159"
     },
     {
       "id": "congreso_congreso_estadode",
@@ -468,7 +468,7 @@
       "file_type": "code",
       "norm_label": "estadode()",
       "source_file": "congreso/congreso.js",
-      "source_location": "L141"
+      "source_location": "L149"
     },
     {
       "id": "congreso_congreso_etiquetaestado",
@@ -480,7 +480,7 @@
       "file_type": "code",
       "norm_label": "etiquetaestado()",
       "source_file": "congreso/congreso.js",
-      "source_location": "L168"
+      "source_location": "L176"
     },
     {
       "id": "congreso_congreso_guardarmio",
@@ -492,7 +492,7 @@
       "file_type": "code",
       "norm_label": "guardarmio()",
       "source_file": "congreso/congreso.js",
-      "source_location": "L102"
+      "source_location": "L110"
     },
     {
       "id": "congreso_congreso_htmlcuando",
@@ -504,7 +504,7 @@
       "file_type": "code",
       "norm_label": "htmlcuando()",
       "source_file": "congreso/congreso.js",
-      "source_location": "L174"
+      "source_location": "L182"
     },
     {
       "id": "congreso_congreso_htmlgente",
@@ -516,7 +516,7 @@
       "file_type": "code",
       "norm_label": "htmlgente()",
       "source_file": "congreso/congreso.js",
-      "source_location": "L182"
+      "source_location": "L190"
     },
     {
       "id": "congreso_congreso_htmlmesa",
@@ -528,7 +528,19 @@
       "file_type": "code",
       "norm_label": "htmlmesa()",
       "source_file": "congreso/congreso.js",
-      "source_location": "L188"
+      "source_location": "L234"
+    },
+    {
+      "id": "congreso_congreso_htmlyoutubeenlahoja",
+      "label": "htmlYoutubeEnLaHoja()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 104,
+      "community_name": "congreso.js",
+      "file_type": "code",
+      "norm_label": "htmlyoutubeenlahoja()",
+      "source_file": "congreso/congreso.js",
+      "source_location": "L228"
     },
     {
       "id": "congreso_congreso_leermio",
@@ -540,7 +552,7 @@
       "file_type": "code",
       "norm_label": "leermio()",
       "source_file": "congreso/congreso.js",
-      "source_location": "L90"
+      "source_location": "L98"
     },
     {
       "id": "congreso_congreso_mandar",
@@ -552,7 +564,7 @@
       "file_type": "code",
       "norm_label": "mandar()",
       "source_file": "congreso/congreso.js",
-      "source_location": "L472"
+      "source_location": "L537"
     },
     {
       "id": "congreso_congreso_marca",
@@ -564,7 +576,7 @@
       "file_type": "code",
       "norm_label": "marca()",
       "source_file": "congreso/congreso.js",
-      "source_location": "L107"
+      "source_location": "L115"
     },
     {
       "id": "congreso_congreso_motivo",
@@ -576,7 +588,19 @@
       "file_type": "code",
       "norm_label": "motivo()",
       "source_file": "congreso/congreso.js",
-      "source_location": "L459"
+      "source_location": "L524"
+    },
+    {
+      "id": "congreso_congreso_notayoutube",
+      "label": "notaYoutube()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 104,
+      "community_name": "congreso.js",
+      "file_type": "code",
+      "norm_label": "notayoutube()",
+      "source_file": "congreso/congreso.js",
+      "source_location": "L207"
     },
     {
       "id": "congreso_congreso_pintarahora",
@@ -588,7 +612,7 @@
       "file_type": "code",
       "norm_label": "pintarahora()",
       "source_file": "congreso/congreso.js",
-      "source_location": "L235"
+      "source_location": "L283"
     },
     {
       "id": "congreso_congreso_pintaraulas",
@@ -600,7 +624,19 @@
       "file_type": "code",
       "norm_label": "pintaraulas()",
       "source_file": "congreso/congreso.js",
-      "source_location": "L254"
+      "source_location": "L318"
+    },
+    {
+      "id": "congreso_congreso_pintarcanal",
+      "label": "pintarCanal()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 104,
+      "community_name": "congreso.js",
+      "file_type": "code",
+      "norm_label": "pintarcanal()",
+      "source_file": "congreso/congreso.js",
+      "source_location": "L305"
     },
     {
       "id": "congreso_congreso_pintarhoja",
@@ -612,7 +648,7 @@
       "file_type": "code",
       "norm_label": "pintarhoja()",
       "source_file": "congreso/congreso.js",
-      "source_location": "L341"
+      "source_location": "L405"
     },
     {
       "id": "congreso_congreso_pintarmesas",
@@ -624,7 +660,7 @@
       "file_type": "code",
       "norm_label": "pintarmesas()",
       "source_file": "congreso/congreso.js",
-      "source_location": "L213"
+      "source_location": "L261"
     },
     {
       "id": "congreso_congreso_pintarmuro",
@@ -636,7 +672,7 @@
       "file_type": "code",
       "norm_label": "pintarmuro()",
       "source_file": "congreso/congreso.js",
-      "source_location": "L402"
+      "source_location": "L467"
     },
     {
       "id": "congreso_congreso_sepuedeescribir",
@@ -648,7 +684,7 @@
       "file_type": "code",
       "norm_label": "sepuedeescribir()",
       "source_file": "congreso/congreso.js",
-      "source_location": "L332"
+      "source_location": "L396"
     },
     {
       "id": "congreso_congreso_traermesas",
@@ -660,19 +696,19 @@
       "file_type": "code",
       "norm_label": "traermesas()",
       "source_file": "congreso/congreso.js",
-      "source_location": "L260"
+      "source_location": "L324"
     },
     {
-      "id": "estudiemos_pomodoro_reloj",
-      "label": "reloj()",
+      "id": "congreso_congreso_urlyoutube",
+      "label": "urlYoutube()",
       "_callable": true,
       "_origin": "ast",
       "community": 104,
       "community_name": "congreso.js",
       "file_type": "code",
-      "norm_label": "reloj()",
-      "source_file": "estudiemos/pomodoro.js",
-      "source_location": "L137"
+      "norm_label": "urlyoutube()",
+      "source_file": "congreso/congreso.js",
+      "source_location": "L199"
     },
     {
       "id": "app_esdelequipo",
@@ -3771,54 +3807,6 @@
       "source_location": "L154"
     },
     {
-      "id": "supabase_functions_leer_placa_index_hoyenargentina",
-      "label": "hoyEnArgentina()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 23,
-      "community_name": "Component",
-      "file_type": "code",
-      "norm_label": "hoyenargentina()",
-      "source_file": "supabase/functions/leer-placa/index.ts",
-      "source_location": "L60"
-    },
-    {
-      "id": "supabase_functions_leer_placa_index_instrucciones",
-      "label": "instrucciones()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 23,
-      "community_name": "Component",
-      "file_type": "code",
-      "norm_label": "instrucciones()",
-      "source_file": "supabase/functions/leer-placa/index.ts",
-      "source_location": "L83"
-    },
-    {
-      "id": "supabase_functions_leer_placa_index_responder",
-      "label": "responder()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 23,
-      "community_name": "Component",
-      "file_type": "code",
-      "norm_label": "responder()",
-      "source_file": "supabase/functions/leer-placa/index.ts",
-      "source_location": "L51"
-    },
-    {
-      "id": "supabase_functions_leer_placa_index_sanear",
-      "label": "sanear()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 23,
-      "community_name": "Component",
-      "file_type": "code",
-      "norm_label": "sanear()",
-      "source_file": "supabase/functions/leer-placa/index.ts",
-      "source_location": "L101"
-    },
-    {
       "id": "lectura_fotode",
       "label": "fotoDe()",
       "_callable": true,
@@ -4824,7 +4812,7 @@
       "file_type": "code",
       "norm_label": "abrir()",
       "source_file": "lib/avisanos.js",
-      "source_location": "L420"
+      "source_location": "L430"
     },
     {
       "id": "lib_avisanos_buscar",
@@ -4848,7 +4836,7 @@
       "file_type": "code",
       "norm_label": "cerrar()",
       "source_file": "lib/avisanos.js",
-      "source_location": "L413"
+      "source_location": "L423"
     },
     {
       "id": "lib_avisanos_comoseescribe",
@@ -4968,7 +4956,7 @@
       "file_type": "code",
       "norm_label": "montar()",
       "source_file": "lib/avisanos.js",
-      "source_location": "L346"
+      "source_location": "L355"
     },
     {
       "id": "lib_avisanos_normalizar",
@@ -5016,7 +5004,7 @@
       "file_type": "code",
       "norm_label": "pasarapersona()",
       "source_file": "lib/avisanos.js",
-      "source_location": "L317"
+      "source_location": "L326"
     },
     {
       "id": "lib_avisanos_preguntarcarrera",
@@ -5040,7 +5028,7 @@
       "file_type": "code",
       "norm_label": "responder()",
       "source_file": "lib/avisanos.js",
-      "source_location": "L279"
+      "source_location": "L288"
     },
     {
       "id": "lib_avisanos_sugerencias",
@@ -5052,7 +5040,7 @@
       "file_type": "code",
       "norm_label": "sugerencias()",
       "source_file": "lib/avisanos.js",
-      "source_location": "L339"
+      "source_location": "L348"
     },
     {
       "id": "lib_avisanos_traer",
@@ -5715,6 +5703,54 @@
       "source_location": "L96"
     },
     {
+      "id": "supabase_functions_leer_placa_index_hoyenargentina",
+      "label": "hoyEnArgentina()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 70,
+      "community_name": "avisos/index.ts",
+      "file_type": "code",
+      "norm_label": "hoyenargentina()",
+      "source_file": "supabase/functions/leer-placa/index.ts",
+      "source_location": "L60"
+    },
+    {
+      "id": "supabase_functions_leer_placa_index_instrucciones",
+      "label": "instrucciones()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 70,
+      "community_name": "avisos/index.ts",
+      "file_type": "code",
+      "norm_label": "instrucciones()",
+      "source_file": "supabase/functions/leer-placa/index.ts",
+      "source_location": "L83"
+    },
+    {
+      "id": "supabase_functions_leer_placa_index_responder",
+      "label": "responder()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 70,
+      "community_name": "avisos/index.ts",
+      "file_type": "code",
+      "norm_label": "responder()",
+      "source_file": "supabase/functions/leer-placa/index.ts",
+      "source_location": "L51"
+    },
+    {
+      "id": "supabase_functions_leer_placa_index_sanear",
+      "label": "sanear()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 70,
+      "community_name": "avisos/index.ts",
+      "file_type": "code",
+      "norm_label": "sanear()",
+      "source_file": "supabase/functions/leer-placa/index.ts",
+      "source_location": "L101"
+    },
+    {
       "id": "carrera_tarjeta_avance_ablob",
       "label": "aBlob()",
       "_callable": true,
@@ -5893,6 +5929,18 @@
       "norm_label": "tieneavisosalcelular()",
       "source_file": "app.js",
       "source_location": "L961"
+    },
+    {
+      "id": "congreso_congreso_cerrarhoja",
+      "label": "cerrarHoja()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 76,
+      "community_name": "pomodoro.js",
+      "file_type": "code",
+      "norm_label": "cerrarhoja()",
+      "source_file": "congreso/congreso.js",
+      "source_location": "L379"
     },
     {
       "id": "estudiemos_pomodoro_abrir",
@@ -6085,6 +6133,18 @@
       "norm_label": "reiniciar()",
       "source_file": "estudiemos/pomodoro.js",
       "source_location": "L228"
+    },
+    {
+      "id": "estudiemos_pomodoro_reloj",
+      "label": "reloj()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 76,
+      "community_name": "pomodoro.js",
+      "file_type": "code",
+      "norm_label": "reloj()",
+      "source_file": "estudiemos/pomodoro.js",
+      "source_location": "L137"
     },
     {
       "id": "estudiemos_pomodoro_saltear",
@@ -8381,114 +8441,6 @@
       "source_location": "L1"
     },
     {
-      "id": "docs_prompts_prompt_elecciones",
-      "label": "PROMPT-ELECCIONES.md",
-      "_origin": "ast",
-      "community": 104,
-      "community_name": "congreso.js",
-      "file_type": "document",
-      "node_kind": "page",
-      "norm_label": "prompt-elecciones.md",
-      "source_file": "docs/prompts/PROMPT-ELECCIONES.md",
-      "source_location": "L1"
-    },
-    {
-      "id": "docs_prompts_prompt_elecciones_bloque_com\u00fan_va_siempre",
-      "label": "Bloque com\u00fan (va siempre)",
-      "_origin": "ast",
-      "community": 104,
-      "community_name": "congreso.js",
-      "file_type": "document",
-      "node_kind": "heading",
-      "norm_label": "bloque comun (va siempre)",
-      "source_file": "docs/prompts/PROMPT-ELECCIONES.md",
-      "source_location": "L61"
-    },
-    {
-      "id": "docs_prompts_prompt_elecciones_b\u00fasqueda_permanencia_y_estudio",
-      "label": "B\u00fasqueda: permanencia y estudio",
-      "_origin": "ast",
-      "community": 104,
-      "community_name": "congreso.js",
-      "file_type": "document",
-      "node_kind": "heading",
-      "norm_label": "busqueda: permanencia y estudio",
-      "source_file": "docs/prompts/PROMPT-ELECCIONES.md",
-      "source_location": "L213"
-    },
-    {
-      "id": "docs_prompts_prompt_elecciones_fuera_del_c\u00f3digo_para_el_chat_com\u00fan_no_para_una_sesi\u00f3n_de_c\u00f3digo",
-      "label": "Fuera del c\u00f3digo (para el chat com\u00fan, no para una sesi\u00f3n de c\u00f3digo)",
-      "_origin": "ast",
-      "community": 104,
-      "community_name": "congreso.js",
-      "file_type": "document",
-      "node_kind": "heading",
-      "norm_label": "fuera del codigo (para el chat comun, no para una sesion de codigo)",
-      "source_file": "docs/prompts/PROMPT-ELECCIONES.md",
-      "source_location": "L313"
-    },
-    {
-      "id": "docs_prompts_prompt_elecciones_los_15_d\u00edas_20_10_al_3_11_sin_c\u00f3digo",
-      "label": "Los 15 d\u00edas (20/10 al 3/11): sin c\u00f3digo",
-      "_origin": "ast",
-      "community": 104,
-      "community_name": "congreso.js",
-      "file_type": "document",
-      "node_kind": "heading",
-      "norm_label": "los 15 dias (20/10 al 3/11): sin codigo",
-      "source_file": "docs/prompts/PROMPT-ELECCIONES.md",
-      "source_location": "L193"
-    },
-    {
-      "id": "docs_prompts_prompt_elecciones_prompts_para_las_sesiones_hacia_las_elecciones_24_9_al_6_11",
-      "label": "Prompts para las sesiones hacia las elecciones (24/9 al 6/11)",
-      "_origin": "ast",
-      "community": 104,
-      "community_name": "congreso.js",
-      "file_type": "document",
-      "node_kind": "heading",
-      "norm_label": "prompts para las sesiones hacia las elecciones (24/9 al 6/11)",
-      "source_file": "docs/prompts/PROMPT-ELECCIONES.md",
-      "source_location": "L1"
-    },
-    {
-      "id": "docs_prompts_prompt_elecciones_semana_1_28_9_al_4_10_el_buz\u00f3n_y_la_bandeja",
-      "label": "Semana 1 (28/9 al 4/10): el buz\u00f3n y la bandeja",
-      "_origin": "ast",
-      "community": 104,
-      "community_name": "congreso.js",
-      "file_type": "document",
-      "node_kind": "heading",
-      "norm_label": "semana 1 (28/9 al 4/10): el buzon y la bandeja",
-      "source_file": "docs/prompts/PROMPT-ELECCIONES.md",
-      "source_location": "L87"
-    },
-    {
-      "id": "docs_prompts_prompt_elecciones_semana_2_5_10_al_11_10_llegar_a_m\u00e1s",
-      "label": "Semana 2 (5/10 al 11/10): llegar a m\u00e1s",
-      "_origin": "ast",
-      "community": 104,
-      "community_name": "congreso.js",
-      "file_type": "document",
-      "node_kind": "heading",
-      "norm_label": "semana 2 (5/10 al 11/10): llegar a mas",
-      "source_file": "docs/prompts/PROMPT-ELECCIONES.md",
-      "source_location": "L137"
-    },
-    {
-      "id": "docs_prompts_prompt_elecciones_semana_3_12_10_al_18_10_cerrar_y_probar",
-      "label": "Semana 3 (12/10 al 18/10): cerrar y probar",
-      "_origin": "ast",
-      "community": 104,
-      "community_name": "congreso.js",
-      "file_type": "document",
-      "node_kind": "heading",
-      "norm_label": "semana 3 (12/10 al 18/10): cerrar y probar",
-      "source_file": "docs/prompts/PROMPT-ELECCIONES.md",
-      "source_location": "L165"
-    },
-    {
       "id": "public_tocar_congreso_mesa",
       "label": "public.tocar_congreso_mesa",
       "_origin": "ast",
@@ -8519,7 +8471,7 @@
       "file_type": "code",
       "norm_label": "al_tocar_congreso_mesa",
       "source_file": "sql/tabla-congreso.sql",
-      "source_location": "L134"
+      "source_location": "L146"
     },
     {
       "id": "sql_tabla_congreso_congreso_interv_eje_idx",
@@ -8530,7 +8482,7 @@
       "file_type": "code",
       "norm_label": "congreso_interv_eje_idx",
       "source_file": "sql/tabla-congreso.sql",
-      "source_location": "L159"
+      "source_location": "L171"
     },
     {
       "id": "sql_tabla_congreso_congreso_interv_marca_idx",
@@ -8541,7 +8493,7 @@
       "file_type": "code",
       "norm_label": "congreso_interv_marca_idx",
       "source_file": "sql/tabla-congreso.sql",
-      "source_location": "L161"
+      "source_location": "L173"
     },
     {
       "id": "sql_tabla_congreso_congreso_interv_mesa_idx",
@@ -8552,7 +8504,7 @@
       "file_type": "code",
       "norm_label": "congreso_interv_mesa_idx",
       "source_file": "sql/tabla-congreso.sql",
-      "source_location": "L157"
+      "source_location": "L169"
     },
     {
       "id": "sql_tabla_congreso_congreso_mesas_fecha_idx",
@@ -8563,7 +8515,7 @@
       "file_type": "code",
       "norm_label": "congreso_mesas_fecha_idx",
       "source_file": "sql/tabla-congreso.sql",
-      "source_location": "L87"
+      "source_location": "L99"
     },
     {
       "id": "sql_tabla_congreso_congreso_votos_marca_idx",
@@ -8574,7 +8526,7 @@
       "file_type": "code",
       "norm_label": "congreso_votos_marca_idx",
       "source_file": "sql/tabla-congreso.sql",
-      "source_location": "L171"
+      "source_location": "L183"
     },
     {
       "id": "sql_tabla_congreso_public_congreso_apoyar",
@@ -8585,7 +8537,7 @@
       "file_type": "code",
       "norm_label": "public.congreso_apoyar()",
       "source_file": "sql/tabla-congreso.sql",
-      "source_location": "L305"
+      "source_location": "L317"
     },
     {
       "id": "sql_tabla_congreso_public_congreso_intervenciones",
@@ -8596,7 +8548,7 @@
       "file_type": "code",
       "norm_label": "public.congreso_intervenciones",
       "source_file": "sql/tabla-congreso.sql",
-      "source_location": "L141"
+      "source_location": "L153"
     },
     {
       "id": "sql_tabla_congreso_public_congreso_intervenir",
@@ -8607,7 +8559,7 @@
       "file_type": "code",
       "norm_label": "public.congreso_intervenir()",
       "source_file": "sql/tabla-congreso.sql",
-      "source_location": "L221"
+      "source_location": "L233"
     },
     {
       "id": "sql_tabla_congreso_public_congreso_mesas",
@@ -8629,7 +8581,7 @@
       "file_type": "code",
       "norm_label": "public.congreso_moderar()",
       "source_file": "sql/tabla-congreso.sql",
-      "source_location": "L346"
+      "source_location": "L358"
     },
     {
       "id": "sql_tabla_congreso_public_congreso_muro",
@@ -8640,7 +8592,7 @@
       "file_type": "code",
       "norm_label": "public.congreso_muro()",
       "source_file": "sql/tabla-congreso.sql",
-      "source_location": "L192"
+      "source_location": "L204"
     },
     {
       "id": "sql_tabla_congreso_public_congreso_votos",
@@ -8651,7 +8603,7 @@
       "file_type": "code",
       "norm_label": "public.congreso_votos",
       "source_file": "sql/tabla-congreso.sql",
-      "source_location": "L164"
+      "source_location": "L176"
     },
     {
       "id": "sql_tabla_congreso_public_tocar_congreso_mesa",
@@ -8662,7 +8614,7 @@
       "file_type": "code",
       "norm_label": "public.tocar_congreso_mesa()",
       "source_file": "sql/tabla-congreso.sql",
-      "source_location": "L126"
+      "source_location": "L138"
     },
     {
       "id": "sql_tabla_congreso_sql_public",
@@ -9279,6 +9231,78 @@
       "source_location": "L1"
     },
     {
+      "id": "docs_prompts_prompt_placas_serie",
+      "label": "PROMPT-PLACAS-SERIE.md",
+      "_origin": "ast",
+      "community": 117,
+      "community_name": "Prompt para Claude Design: las placas de la serie \u00abLo nuevo\u00bb",
+      "file_type": "document",
+      "node_kind": "page",
+      "norm_label": "prompt-placas-serie.md",
+      "source_file": "docs/prompts/PROMPT-PLACAS-SERIE.md",
+      "source_location": "L1"
+    },
+    {
+      "id": "docs_prompts_prompt_placas_serie_antes_de_bajar_los_png",
+      "label": "Antes de bajar los PNG",
+      "_origin": "ast",
+      "community": 117,
+      "community_name": "Prompt para Claude Design: las placas de la serie \u00abLo nuevo\u00bb",
+      "file_type": "document",
+      "node_kind": "heading",
+      "norm_label": "antes de bajar los png",
+      "source_file": "docs/prompts/PROMPT-PLACAS-SERIE.md",
+      "source_location": "L135"
+    },
+    {
+      "id": "docs_prompts_prompt_placas_serie_c\u00f3mo_se_usa",
+      "label": "C\u00f3mo se usa",
+      "_origin": "ast",
+      "community": 117,
+      "community_name": "Prompt para Claude Design: las placas de la serie \u00abLo nuevo\u00bb",
+      "file_type": "document",
+      "node_kind": "heading",
+      "norm_label": "como se usa",
+      "source_file": "docs/prompts/PROMPT-PLACAS-SERIE.md",
+      "source_location": "L11"
+    },
+    {
+      "id": "docs_prompts_prompt_placas_serie_el_prompt_base",
+      "label": "El prompt base",
+      "_origin": "ast",
+      "community": 117,
+      "community_name": "Prompt para Claude Design: las placas de la serie \u00abLo nuevo\u00bb",
+      "file_type": "document",
+      "node_kind": "heading",
+      "norm_label": "el prompt base",
+      "source_file": "docs/prompts/PROMPT-PLACAS-SERIE.md",
+      "source_location": "L27"
+    },
+    {
+      "id": "docs_prompts_prompt_placas_serie_la_nota_de_arte_de_cada_pieza",
+      "label": "La nota de arte de cada pieza",
+      "_origin": "ast",
+      "community": 117,
+      "community_name": "Prompt para Claude Design: las placas de la serie \u00abLo nuevo\u00bb",
+      "file_type": "document",
+      "node_kind": "heading",
+      "norm_label": "la nota de arte de cada pieza",
+      "source_file": "docs/prompts/PROMPT-PLACAS-SERIE.md",
+      "source_location": "L112"
+    },
+    {
+      "id": "docs_prompts_prompt_placas_serie_prompt_para_claude_design_las_placas_de_la_serie_lo_nuevo",
+      "label": "Prompt para Claude Design: las placas de la serie \u00abLo nuevo\u00bb",
+      "_origin": "ast",
+      "community": 117,
+      "community_name": "Prompt para Claude Design: las placas de la serie \u00abLo nuevo\u00bb",
+      "file_type": "document",
+      "node_kind": "heading",
+      "norm_label": "prompt para claude design: las placas de la serie \u00ablo nuevo\u00bb",
+      "source_file": "docs/prompts/PROMPT-PLACAS-SERIE.md",
+      "source_location": "L1"
+    },
+    {
       "id": "estudiemos_portada",
       "label": "portada.js",
       "_origin": "ast",
@@ -9885,17 +9909,6 @@
       "source_location": "L1"
     },
     {
-      "id": "supabase_functions_reloj_index",
-      "label": "reloj/index.ts",
-      "_origin": "ast",
-      "community": 21,
-      "community_name": "riesgo.js",
-      "file_type": "code",
-      "norm_label": "reloj/index.ts",
-      "source_file": "supabase/functions/reloj/index.ts",
-      "source_location": "L1"
-    },
-    {
       "id": "docs_prompts_prompt_fonoteca",
       "label": "PROMPT-FONOTECA.md",
       "_origin": "ast",
@@ -10142,50 +10155,6 @@
       "norm_label": "partes",
       "source_file": "estudiemos/fichas/ficha-texto.js",
       "source_location": "L54"
-    },
-    {
-      "id": "supabase_functions_leer_placa_index",
-      "label": "leer-placa/index.ts",
-      "_origin": "ast",
-      "community": 23,
-      "community_name": "Component",
-      "file_type": "code",
-      "norm_label": "leer-placa/index.ts",
-      "source_file": "supabase/functions/leer-placa/index.ts",
-      "source_location": "L1"
-    },
-    {
-      "id": "supabase_functions_leer_placa_index_cors",
-      "label": "CORS",
-      "_origin": "ast",
-      "community": 23,
-      "community_name": "Component",
-      "file_type": "code",
-      "norm_label": "cors",
-      "source_file": "supabase/functions/leer-placa/index.ts",
-      "source_location": "L45"
-    },
-    {
-      "id": "supabase_functions_leer_placa_index_esquema",
-      "label": "ESQUEMA",
-      "_origin": "ast",
-      "community": 23,
-      "community_name": "Component",
-      "file_type": "code",
-      "norm_label": "esquema",
-      "source_file": "supabase/functions/leer-placa/index.ts",
-      "source_location": "L69"
-    },
-    {
-      "id": "supabase_functions_leer_placa_index_modelos",
-      "label": "MODELOS",
-      "_origin": "ast",
-      "community": 23,
-      "community_name": "Component",
-      "file_type": "code",
-      "norm_label": "modelos",
-      "source_file": "supabase/functions/leer-placa/index.ts",
-      "source_location": "L39"
     },
     {
       "id": "sql_contenido_catedras",
@@ -11903,6 +11872,61 @@
       "source_location": "L242"
     },
     {
+      "id": "supabase_functions_leer_placa_index",
+      "label": "leer-placa/index.ts",
+      "_origin": "ast",
+      "community": 70,
+      "community_name": "avisos/index.ts",
+      "file_type": "code",
+      "norm_label": "leer-placa/index.ts",
+      "source_file": "supabase/functions/leer-placa/index.ts",
+      "source_location": "L1"
+    },
+    {
+      "id": "supabase_functions_leer_placa_index_cors",
+      "label": "CORS",
+      "_origin": "ast",
+      "community": 70,
+      "community_name": "avisos/index.ts",
+      "file_type": "code",
+      "norm_label": "cors",
+      "source_file": "supabase/functions/leer-placa/index.ts",
+      "source_location": "L45"
+    },
+    {
+      "id": "supabase_functions_leer_placa_index_esquema",
+      "label": "ESQUEMA",
+      "_origin": "ast",
+      "community": 70,
+      "community_name": "avisos/index.ts",
+      "file_type": "code",
+      "norm_label": "esquema",
+      "source_file": "supabase/functions/leer-placa/index.ts",
+      "source_location": "L69"
+    },
+    {
+      "id": "supabase_functions_leer_placa_index_modelos",
+      "label": "MODELOS",
+      "_origin": "ast",
+      "community": 70,
+      "community_name": "avisos/index.ts",
+      "file_type": "code",
+      "norm_label": "modelos",
+      "source_file": "supabase/functions/leer-placa/index.ts",
+      "source_location": "L39"
+    },
+    {
+      "id": "supabase_functions_reloj_index",
+      "label": "reloj/index.ts",
+      "_origin": "ast",
+      "community": 70,
+      "community_name": "avisos/index.ts",
+      "file_type": "code",
+      "norm_label": "reloj/index.ts",
+      "source_file": "supabase/functions/reloj/index.ts",
+      "source_location": "L1"
+    },
+    {
       "id": "public_marcar_cuando_se_aviso",
       "label": "public.marcar_cuando_se_aviso",
       "_origin": "ast",
@@ -12107,6 +12131,114 @@
       "norm_label": "pomodoro.js",
       "source_file": "estudiemos/pomodoro.js",
       "source_location": "L1"
+    },
+    {
+      "id": "docs_prompts_prompt_elecciones",
+      "label": "PROMPT-ELECCIONES.md",
+      "_origin": "ast",
+      "community": 76,
+      "community_name": "pomodoro.js",
+      "file_type": "document",
+      "node_kind": "page",
+      "norm_label": "prompt-elecciones.md",
+      "source_file": "docs/prompts/PROMPT-ELECCIONES.md",
+      "source_location": "L1"
+    },
+    {
+      "id": "docs_prompts_prompt_elecciones_bloque_com\u00fan_va_siempre",
+      "label": "Bloque com\u00fan (va siempre)",
+      "_origin": "ast",
+      "community": 76,
+      "community_name": "pomodoro.js",
+      "file_type": "document",
+      "node_kind": "heading",
+      "norm_label": "bloque comun (va siempre)",
+      "source_file": "docs/prompts/PROMPT-ELECCIONES.md",
+      "source_location": "L61"
+    },
+    {
+      "id": "docs_prompts_prompt_elecciones_b\u00fasqueda_permanencia_y_estudio",
+      "label": "B\u00fasqueda: permanencia y estudio",
+      "_origin": "ast",
+      "community": 76,
+      "community_name": "pomodoro.js",
+      "file_type": "document",
+      "node_kind": "heading",
+      "norm_label": "busqueda: permanencia y estudio",
+      "source_file": "docs/prompts/PROMPT-ELECCIONES.md",
+      "source_location": "L213"
+    },
+    {
+      "id": "docs_prompts_prompt_elecciones_fuera_del_c\u00f3digo_para_el_chat_com\u00fan_no_para_una_sesi\u00f3n_de_c\u00f3digo",
+      "label": "Fuera del c\u00f3digo (para el chat com\u00fan, no para una sesi\u00f3n de c\u00f3digo)",
+      "_origin": "ast",
+      "community": 76,
+      "community_name": "pomodoro.js",
+      "file_type": "document",
+      "node_kind": "heading",
+      "norm_label": "fuera del codigo (para el chat comun, no para una sesion de codigo)",
+      "source_file": "docs/prompts/PROMPT-ELECCIONES.md",
+      "source_location": "L313"
+    },
+    {
+      "id": "docs_prompts_prompt_elecciones_los_15_d\u00edas_20_10_al_3_11_sin_c\u00f3digo",
+      "label": "Los 15 d\u00edas (20/10 al 3/11): sin c\u00f3digo",
+      "_origin": "ast",
+      "community": 76,
+      "community_name": "pomodoro.js",
+      "file_type": "document",
+      "node_kind": "heading",
+      "norm_label": "los 15 dias (20/10 al 3/11): sin codigo",
+      "source_file": "docs/prompts/PROMPT-ELECCIONES.md",
+      "source_location": "L193"
+    },
+    {
+      "id": "docs_prompts_prompt_elecciones_prompts_para_las_sesiones_hacia_las_elecciones_24_9_al_6_11",
+      "label": "Prompts para las sesiones hacia las elecciones (24/9 al 6/11)",
+      "_origin": "ast",
+      "community": 76,
+      "community_name": "pomodoro.js",
+      "file_type": "document",
+      "node_kind": "heading",
+      "norm_label": "prompts para las sesiones hacia las elecciones (24/9 al 6/11)",
+      "source_file": "docs/prompts/PROMPT-ELECCIONES.md",
+      "source_location": "L1"
+    },
+    {
+      "id": "docs_prompts_prompt_elecciones_semana_1_28_9_al_4_10_el_buz\u00f3n_y_la_bandeja",
+      "label": "Semana 1 (28/9 al 4/10): el buz\u00f3n y la bandeja",
+      "_origin": "ast",
+      "community": 76,
+      "community_name": "pomodoro.js",
+      "file_type": "document",
+      "node_kind": "heading",
+      "norm_label": "semana 1 (28/9 al 4/10): el buzon y la bandeja",
+      "source_file": "docs/prompts/PROMPT-ELECCIONES.md",
+      "source_location": "L87"
+    },
+    {
+      "id": "docs_prompts_prompt_elecciones_semana_2_5_10_al_11_10_llegar_a_m\u00e1s",
+      "label": "Semana 2 (5/10 al 11/10): llegar a m\u00e1s",
+      "_origin": "ast",
+      "community": 76,
+      "community_name": "pomodoro.js",
+      "file_type": "document",
+      "node_kind": "heading",
+      "norm_label": "semana 2 (5/10 al 11/10): llegar a mas",
+      "source_file": "docs/prompts/PROMPT-ELECCIONES.md",
+      "source_location": "L137"
+    },
+    {
+      "id": "docs_prompts_prompt_elecciones_semana_3_12_10_al_18_10_cerrar_y_probar",
+      "label": "Semana 3 (12/10 al 18/10): cerrar y probar",
+      "_origin": "ast",
+      "community": 76,
+      "community_name": "pomodoro.js",
+      "file_type": "document",
+      "node_kind": "heading",
+      "norm_label": "semana 3 (12/10 al 18/10): cerrar y probar",
+      "source_file": "docs/prompts/PROMPT-ELECCIONES.md",
+      "source_location": "L165"
     },
     {
       "id": "estudiemos_huella",
@@ -13465,8 +13597,8 @@
       "id": "ref_jsr_supabase_supabase_js_2",
       "label": "ref_jsr_supabase_supabase_js_2",
       "_origin": "semantic",
-      "community": 21,
-      "community_name": "riesgo.js",
+      "community": 70,
+      "community_name": "avisos/index.ts",
       "external": true,
       "file_type": "concept",
       "norm_label": "ref_jsr_supabase_supabase_js_2",
@@ -14744,7 +14876,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "congreso/congreso.js",
-      "source_location": "L302",
+      "source_location": "L366",
       "weight": 1.0
     },
     {
@@ -14756,7 +14888,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "congreso/congreso.js",
-      "source_location": "L303",
+      "source_location": "L367",
       "weight": 1.0
     },
     {
@@ -14768,7 +14900,19 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "congreso/congreso.js",
-      "source_location": "L554",
+      "source_location": "L619",
+      "weight": 1.0
+    },
+    {
+      "source": "congreso_congreso_botonyoutube",
+      "target": "congreso_congreso_urlyoutube",
+      "relation": "calls",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "call",
+      "source_file": "congreso/congreso.js",
+      "source_location": "L218",
       "weight": 1.0
     },
     {
@@ -14780,7 +14924,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "congreso/congreso.js",
-      "source_location": "L441",
+      "source_location": "L506",
       "weight": 1.0
     },
     {
@@ -14792,7 +14936,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "congreso/congreso.js",
-      "source_location": "L176",
+      "source_location": "L184",
       "weight": 1.0
     },
     {
@@ -14804,7 +14948,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "congreso/congreso.js",
-      "source_location": "L189",
+      "source_location": "L235",
       "weight": 1.0
     },
     {
@@ -14816,7 +14960,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "congreso/congreso.js",
-      "source_location": "L194",
+      "source_location": "L240",
       "weight": 1.0
     },
     {
@@ -14828,7 +14972,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "congreso/congreso.js",
-      "source_location": "L197",
+      "source_location": "L243",
       "weight": 1.0
     },
     {
@@ -14840,7 +14984,79 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "congreso/congreso.js",
-      "source_location": "L198",
+      "source_location": "L244",
+      "weight": 1.0
+    },
+    {
+      "source": "congreso_congreso_htmlmesa",
+      "target": "congreso_congreso_notayoutube",
+      "relation": "calls",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "call",
+      "source_file": "congreso/congreso.js",
+      "source_location": "L245",
+      "weight": 1.0
+    },
+    {
+      "source": "congreso_congreso_htmlmesa",
+      "target": "congreso_congreso_botonyoutube",
+      "relation": "calls",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "call",
+      "source_file": "congreso/congreso.js",
+      "source_location": "L248",
+      "weight": 1.0
+    },
+    {
+      "source": "congreso_congreso_htmlyoutubeenlahoja",
+      "target": "congreso_congreso_ahoraenlaplata",
+      "relation": "calls",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "call",
+      "source_file": "congreso/congreso.js",
+      "source_location": "L229",
+      "weight": 1.0
+    },
+    {
+      "source": "congreso_congreso_htmlyoutubeenlahoja",
+      "target": "congreso_congreso_estadode",
+      "relation": "calls",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "call",
+      "source_file": "congreso/congreso.js",
+      "source_location": "L229",
+      "weight": 1.0
+    },
+    {
+      "source": "congreso_congreso_htmlyoutubeenlahoja",
+      "target": "congreso_congreso_botonyoutube",
+      "relation": "calls",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "call",
+      "source_file": "congreso/congreso.js",
+      "source_location": "L230",
+      "weight": 1.0
+    },
+    {
+      "source": "congreso_congreso_htmlyoutubeenlahoja",
+      "target": "congreso_congreso_notayoutube",
+      "relation": "calls",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "call",
+      "source_file": "congreso/congreso.js",
+      "source_location": "L231",
       "weight": 1.0
     },
     {
@@ -14852,7 +15068,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "congreso/congreso.js",
-      "source_location": "L489",
+      "source_location": "L554",
       "weight": 1.0
     },
     {
@@ -14864,7 +15080,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "congreso/congreso.js",
-      "source_location": "L494",
+      "source_location": "L559",
       "weight": 1.0
     },
     {
@@ -14876,7 +15092,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "congreso/congreso.js",
-      "source_location": "L497",
+      "source_location": "L562",
       "weight": 1.0
     },
     {
@@ -14888,7 +15104,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "congreso/congreso.js",
-      "source_location": "L500",
+      "source_location": "L565",
       "weight": 1.0
     },
     {
@@ -14900,7 +15116,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "congreso/congreso.js",
-      "source_location": "L506",
+      "source_location": "L571",
       "weight": 1.0
     },
     {
@@ -14912,7 +15128,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "congreso/congreso.js",
-      "source_location": "L108",
+      "source_location": "L116",
       "weight": 1.0
     },
     {
@@ -14924,7 +15140,19 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "congreso/congreso.js",
-      "source_location": "L113",
+      "source_location": "L121",
+      "weight": 1.0
+    },
+    {
+      "source": "congreso_congreso_notayoutube",
+      "target": "congreso_congreso_urlyoutube",
+      "relation": "calls",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "call",
+      "source_file": "congreso/congreso.js",
+      "source_location": "L211",
       "weight": 1.0
     },
     {
@@ -14936,7 +15164,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "congreso/congreso.js",
-      "source_location": "L237",
+      "source_location": "L285",
       "weight": 1.0
     },
     {
@@ -14948,7 +15176,31 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "congreso/congreso.js",
-      "source_location": "L246",
+      "source_location": "L294",
+      "weight": 1.0
+    },
+    {
+      "source": "congreso_congreso_pintarahora",
+      "target": "congreso_congreso_notayoutube",
+      "relation": "calls",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "call",
+      "source_file": "congreso/congreso.js",
+      "source_location": "L296",
+      "weight": 1.0
+    },
+    {
+      "source": "congreso_congreso_pintarahora",
+      "target": "congreso_congreso_botonyoutube",
+      "relation": "calls",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "call",
+      "source_file": "congreso/congreso.js",
+      "source_location": "L299",
       "weight": 1.0
     },
     {
@@ -14960,7 +15212,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "congreso/congreso.js",
-      "source_location": "L343",
+      "source_location": "L407",
       "weight": 1.0
     },
     {
@@ -14972,7 +15224,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "congreso/congreso.js",
-      "source_location": "L350",
+      "source_location": "L414",
       "weight": 1.0
     },
     {
@@ -14984,7 +15236,19 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "congreso/congreso.js",
-      "source_location": "L351",
+      "source_location": "L415",
+      "weight": 1.0
+    },
+    {
+      "source": "congreso_congreso_pintarhoja",
+      "target": "congreso_congreso_htmlyoutubeenlahoja",
+      "relation": "calls",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "call",
+      "source_file": "congreso/congreso.js",
+      "source_location": "L416",
       "weight": 1.0
     },
     {
@@ -14996,7 +15260,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "congreso/congreso.js",
-      "source_location": "L361",
+      "source_location": "L426",
       "weight": 1.0
     },
     {
@@ -15008,7 +15272,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "congreso/congreso.js",
-      "source_location": "L214",
+      "source_location": "L262",
       "weight": 1.0
     },
     {
@@ -15020,7 +15284,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "congreso/congreso.js",
-      "source_location": "L220",
+      "source_location": "L268",
       "weight": 1.0
     },
     {
@@ -15032,7 +15296,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "congreso/congreso.js",
-      "source_location": "L223",
+      "source_location": "L271",
       "weight": 1.0
     },
     {
@@ -15044,7 +15308,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "congreso/congreso.js",
-      "source_location": "L225",
+      "source_location": "L273",
       "weight": 1.0
     },
     {
@@ -15056,7 +15320,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "congreso/congreso.js",
-      "source_location": "L230",
+      "source_location": "L278",
       "weight": 1.0
     },
     {
@@ -15068,7 +15332,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "congreso/congreso.js",
-      "source_location": "L231",
+      "source_location": "L279",
       "weight": 1.0
     },
     {
@@ -15080,7 +15344,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "congreso/congreso.js",
-      "source_location": "L405",
+      "source_location": "L470",
       "weight": 1.0
     },
     {
@@ -15092,7 +15356,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "congreso/congreso.js",
-      "source_location": "L338",
+      "source_location": "L402",
       "weight": 1.0
     },
     {
@@ -15104,7 +15368,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "congreso/congreso.js",
-      "source_location": "L263",
+      "source_location": "L327",
       "weight": 1.0
     },
     {
@@ -15116,7 +15380,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "congreso/congreso.js",
-      "source_location": "L283",
+      "source_location": "L347",
       "weight": 1.0
     },
     {
@@ -17120,7 +17384,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "lib/avisanos.js",
-      "source_location": "L421",
+      "source_location": "L431",
       "weight": 1.0
     },
     {
@@ -17204,7 +17468,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "lib/avisanos.js",
-      "source_location": "L371",
+      "source_location": "L380",
       "weight": 1.0
     },
     {
@@ -17216,7 +17480,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "lib/avisanos.js",
-      "source_location": "L381",
+      "source_location": "L390",
       "weight": 1.0
     },
     {
@@ -17228,7 +17492,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "lib/avisanos.js",
-      "source_location": "L390",
+      "source_location": "L399",
       "weight": 1.0
     },
     {
@@ -17240,7 +17504,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "lib/avisanos.js",
-      "source_location": "L393",
+      "source_location": "L402",
       "weight": 1.0
     },
     {
@@ -17252,7 +17516,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "lib/avisanos.js",
-      "source_location": "L405",
+      "source_location": "L415",
       "weight": 1.0
     },
     {
@@ -17264,7 +17528,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "lib/avisanos.js",
-      "source_location": "L410",
+      "source_location": "L420",
       "weight": 1.0
     },
     {
@@ -17300,7 +17564,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "lib/avisanos.js",
-      "source_location": "L270",
+      "source_location": "L271",
       "weight": 1.0
     },
     {
@@ -17312,7 +17576,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "lib/avisanos.js",
-      "source_location": "L273",
+      "source_location": "L274",
       "weight": 1.0
     },
     {
@@ -17324,7 +17588,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "lib/avisanos.js",
-      "source_location": "L318",
+      "source_location": "L327",
       "weight": 1.0
     },
     {
@@ -17336,7 +17600,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "lib/avisanos.js",
-      "source_location": "L319",
+      "source_location": "L328",
       "weight": 1.0
     },
     {
@@ -17372,7 +17636,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "lib/avisanos.js",
-      "source_location": "L280",
+      "source_location": "L289",
       "weight": 1.0
     },
     {
@@ -17384,7 +17648,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "lib/avisanos.js",
-      "source_location": "L283",
+      "source_location": "L292",
       "weight": 1.0
     },
     {
@@ -17396,7 +17660,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "lib/avisanos.js",
-      "source_location": "L293",
+      "source_location": "L302",
       "weight": 1.0
     },
     {
@@ -17408,7 +17672,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "lib/avisanos.js",
-      "source_location": "L306",
+      "source_location": "L315",
       "weight": 1.0
     },
     {
@@ -17420,7 +17684,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "lib/avisanos.js",
-      "source_location": "L306",
+      "source_location": "L315",
       "weight": 1.0
     },
     {
@@ -19688,7 +19952,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "congreso/congreso.js",
-      "source_location": "L102",
+      "source_location": "L110",
       "weight": 1.0
     },
     {
@@ -19700,7 +19964,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "congreso/congreso.js",
-      "source_location": "L107",
+      "source_location": "L115",
       "weight": 1.0
     },
     {
@@ -19712,7 +19976,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "congreso/congreso.js",
-      "source_location": "L121",
+      "source_location": "L129",
       "weight": 1.0
     },
     {
@@ -19724,7 +19988,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "congreso/congreso.js",
-      "source_location": "L141",
+      "source_location": "L149",
       "weight": 1.0
     },
     {
@@ -19736,7 +20000,19 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "congreso/congreso.js",
-      "source_location": "L213",
+      "source_location": "L261",
+      "weight": 1.0
+    },
+    {
+      "source": "congreso_congreso",
+      "target": "congreso_congreso_pintarcanal",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "call",
+      "source_file": "congreso/congreso.js",
+      "source_location": "L305",
       "weight": 1.0
     },
     {
@@ -19748,7 +20024,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "congreso/congreso.js",
-      "source_location": "L260",
+      "source_location": "L324",
       "weight": 1.0
     },
     {
@@ -19760,7 +20036,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "congreso/congreso.js",
-      "source_location": "L296",
+      "source_location": "L360",
       "weight": 1.0
     },
     {
@@ -19772,7 +20048,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "congreso/congreso.js",
-      "source_location": "L402",
+      "source_location": "L467",
       "weight": 1.0
     },
     {
@@ -19784,7 +20060,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "congreso/congreso.js",
-      "source_location": "L459",
+      "source_location": "L524",
       "weight": 1.0
     },
     {
@@ -19796,7 +20072,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "congreso/congreso.js",
-      "source_location": "L90",
+      "source_location": "L98",
       "weight": 1.0
     },
     {
@@ -22954,7 +23230,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "congreso/congreso.js",
-      "source_location": "L151",
+      "source_location": "L159",
       "weight": 1.0
     },
     {
@@ -22965,7 +23241,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "congreso/congreso.js",
-      "source_location": "L168",
+      "source_location": "L176",
       "weight": 1.0
     },
     {
@@ -22976,7 +23252,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "congreso/congreso.js",
-      "source_location": "L174",
+      "source_location": "L182",
       "weight": 1.0
     },
     {
@@ -22987,7 +23263,51 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "congreso/congreso.js",
-      "source_location": "L182",
+      "source_location": "L190",
+      "weight": 1.0
+    },
+    {
+      "source": "congreso_congreso",
+      "target": "congreso_congreso_urlyoutube",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "congreso/congreso.js",
+      "source_location": "L199",
+      "weight": 1.0
+    },
+    {
+      "source": "congreso_congreso",
+      "target": "congreso_congreso_notayoutube",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "congreso/congreso.js",
+      "source_location": "L207",
+      "weight": 1.0
+    },
+    {
+      "source": "congreso_congreso",
+      "target": "congreso_congreso_botonyoutube",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "congreso/congreso.js",
+      "source_location": "L217",
+      "weight": 1.0
+    },
+    {
+      "source": "congreso_congreso",
+      "target": "congreso_congreso_htmlyoutubeenlahoja",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "congreso/congreso.js",
+      "source_location": "L228",
       "weight": 1.0
     },
     {
@@ -22998,7 +23318,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "congreso/congreso.js",
-      "source_location": "L188",
+      "source_location": "L234",
       "weight": 1.0
     },
     {
@@ -23009,7 +23329,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "congreso/congreso.js",
-      "source_location": "L235",
+      "source_location": "L283",
       "weight": 1.0
     },
     {
@@ -23020,7 +23340,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "congreso/congreso.js",
-      "source_location": "L254",
+      "source_location": "L318",
       "weight": 1.0
     },
     {
@@ -23031,7 +23351,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "congreso/congreso.js",
-      "source_location": "L332",
+      "source_location": "L396",
       "weight": 1.0
     },
     {
@@ -23042,7 +23362,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "congreso/congreso.js",
-      "source_location": "L341",
+      "source_location": "L405",
       "weight": 1.0
     },
     {
@@ -23053,7 +23373,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "congreso/congreso.js",
-      "source_location": "L437",
+      "source_location": "L502",
       "weight": 1.0
     },
     {
@@ -23064,7 +23384,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "congreso/congreso.js",
-      "source_location": "L472",
+      "source_location": "L537",
       "weight": 1.0
     },
     {
@@ -23075,7 +23395,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "congreso/congreso.js",
-      "source_location": "L549",
+      "source_location": "L614",
       "weight": 1.0
     },
     {
@@ -23549,6 +23869,61 @@
       "confidence_score": 1.0,
       "source_file": "docs/prompts/PROMPT-FONOTECA.md",
       "source_location": "L75",
+      "weight": 1.0
+    },
+    {
+      "source": "docs_prompts_prompt_placas_serie",
+      "target": "docs_prompts_prompt_placas_serie_prompt_para_claude_design_las_placas_de_la_serie_lo_nuevo",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "docs/prompts/PROMPT-PLACAS-SERIE.md",
+      "source_location": "L1",
+      "weight": 1.0
+    },
+    {
+      "source": "docs_prompts_prompt_placas_serie_prompt_para_claude_design_las_placas_de_la_serie_lo_nuevo",
+      "target": "docs_prompts_prompt_placas_serie_c\u00f3mo_se_usa",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "docs/prompts/PROMPT-PLACAS-SERIE.md",
+      "source_location": "L11",
+      "weight": 1.0
+    },
+    {
+      "source": "docs_prompts_prompt_placas_serie_prompt_para_claude_design_las_placas_de_la_serie_lo_nuevo",
+      "target": "docs_prompts_prompt_placas_serie_la_nota_de_arte_de_cada_pieza",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "docs/prompts/PROMPT-PLACAS-SERIE.md",
+      "source_location": "L112",
+      "weight": 1.0
+    },
+    {
+      "source": "docs_prompts_prompt_placas_serie_prompt_para_claude_design_las_placas_de_la_serie_lo_nuevo",
+      "target": "docs_prompts_prompt_placas_serie_antes_de_bajar_los_png",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "docs/prompts/PROMPT-PLACAS-SERIE.md",
+      "source_location": "L135",
+      "weight": 1.0
+    },
+    {
+      "source": "docs_prompts_prompt_placas_serie_prompt_para_claude_design_las_placas_de_la_serie_lo_nuevo",
+      "target": "docs_prompts_prompt_placas_serie_el_prompt_base",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "docs/prompts/PROMPT-PLACAS-SERIE.md",
+      "source_location": "L27",
       "weight": 1.0
     },
     {
@@ -25000,7 +25375,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "lib/avisanos.js",
-      "source_location": "L279",
+      "source_location": "L288",
       "weight": 1.0
     },
     {
@@ -25011,7 +25386,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "lib/avisanos.js",
-      "source_location": "L317",
+      "source_location": "L326",
       "weight": 1.0
     },
     {
@@ -25022,7 +25397,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "lib/avisanos.js",
-      "source_location": "L339",
+      "source_location": "L348",
       "weight": 1.0
     },
     {
@@ -25033,7 +25408,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "lib/avisanos.js",
-      "source_location": "L346",
+      "source_location": "L355",
       "weight": 1.0
     },
     {
@@ -25044,7 +25419,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "lib/avisanos.js",
-      "source_location": "L413",
+      "source_location": "L423",
       "weight": 1.0
     },
     {
@@ -25055,7 +25430,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "lib/avisanos.js",
-      "source_location": "L420",
+      "source_location": "L430",
       "weight": 1.0
     },
     {
@@ -27739,7 +28114,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "sql/tabla-congreso.sql",
-      "source_location": "L126",
+      "source_location": "L138",
       "weight": 1.0
     },
     {
@@ -27750,7 +28125,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "sql/tabla-congreso.sql",
-      "source_location": "L134",
+      "source_location": "L146",
       "weight": 1.0
     },
     {
@@ -27761,7 +28136,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "sql/tabla-congreso.sql",
-      "source_location": "L141",
+      "source_location": "L153",
       "weight": 1.0
     },
     {
@@ -27772,7 +28147,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "sql/tabla-congreso.sql",
-      "source_location": "L157",
+      "source_location": "L169",
       "weight": 1.0
     },
     {
@@ -27783,7 +28158,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "sql/tabla-congreso.sql",
-      "source_location": "L159",
+      "source_location": "L171",
       "weight": 1.0
     },
     {
@@ -27794,7 +28169,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "sql/tabla-congreso.sql",
-      "source_location": "L161",
+      "source_location": "L173",
       "weight": 1.0
     },
     {
@@ -27805,7 +28180,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "sql/tabla-congreso.sql",
-      "source_location": "L164",
+      "source_location": "L176",
       "weight": 1.0
     },
     {
@@ -27816,7 +28191,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "sql/tabla-congreso.sql",
-      "source_location": "L171",
+      "source_location": "L183",
       "weight": 1.0
     },
     {
@@ -27827,7 +28202,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "sql/tabla-congreso.sql",
-      "source_location": "L192",
+      "source_location": "L204",
       "weight": 1.0
     },
     {
@@ -27838,7 +28213,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "sql/tabla-congreso.sql",
-      "source_location": "L221",
+      "source_location": "L233",
       "weight": 1.0
     },
     {
@@ -27849,7 +28224,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "sql/tabla-congreso.sql",
-      "source_location": "L305",
+      "source_location": "L317",
       "weight": 1.0
     },
     {
@@ -27860,7 +28235,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "sql/tabla-congreso.sql",
-      "source_location": "L346",
+      "source_location": "L358",
       "weight": 1.0
     },
     {
@@ -27882,7 +28257,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "sql/tabla-congreso.sql",
-      "source_location": "L87",
+      "source_location": "L99",
       "weight": 1.0
     },
     {
@@ -28727,7 +29102,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "sql/tabla-congreso.sql",
-      "source_location": "L159",
+      "source_location": "L171",
       "weight": 1.0
     },
     {
@@ -28738,7 +29113,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "sql/tabla-congreso.sql",
-      "source_location": "L161",
+      "source_location": "L173",
       "weight": 1.0
     },
     {
@@ -28749,7 +29124,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "sql/tabla-congreso.sql",
-      "source_location": "L157",
+      "source_location": "L169",
       "weight": 1.0
     },
     {
@@ -28760,7 +29135,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "sql/tabla-congreso.sql",
-      "source_location": "L87",
+      "source_location": "L99",
       "weight": 1.0
     },
     {
@@ -28771,7 +29146,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "sql/tabla-congreso.sql",
-      "source_location": "L171",
+      "source_location": "L183",
       "weight": 1.0
     },
     {
@@ -29277,7 +29652,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "sql/tabla-congreso.sql",
-      "source_location": "L331",
+      "source_location": "L343",
       "weight": 1.0
     },
     {
@@ -29288,7 +29663,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "sql/tabla-congreso.sql",
-      "source_location": "L251",
+      "source_location": "L263",
       "weight": 1.0
     },
     {
@@ -29299,7 +29674,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "sql/tabla-congreso.sql",
-      "source_location": "L278",
+      "source_location": "L290",
       "weight": 1.0
     },
     {
@@ -29310,7 +29685,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "sql/tabla-congreso.sql",
-      "source_location": "L202",
+      "source_location": "L214",
       "weight": 1.0
     },
     {
@@ -29321,7 +29696,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "sql/tabla-congreso.sql",
-      "source_location": "L204",
+      "source_location": "L216",
       "weight": 1.0
     },
     {
@@ -29332,7 +29707,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "sql/tabla-congreso.sql",
-      "source_location": "L208",
+      "source_location": "L220",
       "weight": 1.0
     },
     {
@@ -30190,7 +30565,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "sql/tabla-congreso.sql",
-      "source_location": "L141",
+      "source_location": "L153",
       "weight": 1.0
     },
     {
@@ -30201,7 +30576,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "sql/tabla-congreso.sql",
-      "source_location": "L141",
+      "source_location": "L153",
       "weight": 1.0
     },
     {
@@ -30212,7 +30587,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "sql/tabla-congreso.sql",
-      "source_location": "L164",
+      "source_location": "L176",
       "weight": 1.0
     },
     {
@@ -30905,7 +31280,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "sql/tabla-congreso.sql",
-      "source_location": "L134",
+      "source_location": "L146",
       "weight": 1.0
     },
     {
@@ -31174,7 +31549,7 @@
       "confidence_score": 0.85,
       "context": "argument",
       "source_file": "congreso/congreso.js",
-      "source_location": "L328",
+      "source_location": "L392",
       "weight": 1.0
     },
     {
@@ -31186,7 +31561,7 @@
       "confidence_score": 0.85,
       "context": "argument",
       "source_file": "congreso/congreso.js",
-      "source_location": "L304",
+      "source_location": "L368",
       "weight": 1.0
     },
     {
@@ -31198,7 +31573,7 @@
       "confidence_score": 0.85,
       "context": "argument",
       "source_file": "congreso/congreso.js",
-      "source_location": "L317",
+      "source_location": "L381",
       "weight": 1.0
     },
     {
@@ -31210,7 +31585,7 @@
       "confidence_score": 0.85,
       "context": "argument",
       "source_file": "congreso/congreso.js",
-      "source_location": "L398",
+      "source_location": "L463",
       "weight": 1.0
     },
     {
@@ -31426,7 +31801,7 @@
       "confidence_score": 0.85,
       "context": "argument",
       "source_file": "lib/avisanos.js",
-      "source_location": "L299",
+      "source_location": "L308",
       "weight": 1.0
     },
     {
@@ -32390,5 +32765,5 @@
       "source_file": "panel/index.html"
     }
   ],
-  "built_at_commit": "ffecb7bd93c58f5e124e8b91d33310c3de172036"
+  "built_at_commit": "14da070f050c8a3689a815270e7528a28fa82b54"
 }

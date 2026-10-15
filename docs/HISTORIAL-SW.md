@@ -523,4 +523,10 @@ todo una entrada con el número, la fecha y el porqué.
    `css/pantallas/salud-mental.css`, que sale de lo guardado: sin
    número nuevo, quien ya entró con la v92 lo seguiría viendo igual que
    salud mental. */
+/* v94 (15/10/2026) Abre Decilo: la puerta en el inicio, debajo de
+   los accesos, y dos enlaces en Avisanos (en el saludo y al pasar con
+   una persona). Cambian `css/pantallas/inicio.css` y
+   `lib/avisanos.js`, que salen de lo guardado: sin número nuevo, quien
+   ya tiene la app vería la tarjeta sin estilo y el chat sin el
+   enlace. */
 ```

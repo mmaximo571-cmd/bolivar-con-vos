@@ -1,17 +1,17 @@
-# Graph Report - bolivar-con-vos  (2026-10-11)
+# Graph Report - bolivar-con-vos  (2026-10-15)
 
 ## Corpus Check
-- 95 files · ~356,381 words
+- 96 files · ~360,565 words
 - Verdict: corpus is large enough that graph structure adds value.
 - Unclassified: 38 file(s) not represented in the graph (top: .css 28, (none) 5, .geojson 4)
 
 ## Summary
-- 1096 nodes · 1645 edges · 117 communities (75 shown, 42 thin omitted)
+- 1107 nodes · 1666 edges · 118 communities (76 shown, 42 thin omitted)
 - Extraction: 94% EXTRACTED · 6% INFERRED · 0% AMBIGUOUS · INFERRED: 100 edges (avg confidence: 0.85)
 - Token cost: 0 input · 0 output
 
 ## Graph Freshness
-- Built from commit: `ffecb7bd`
+- Built from commit: `14da070f`
 - Run `git rev-parse HEAD` and compare to check if the graph is stale.
 - Run `graphify update .` after code changes (no API cost).
 
@@ -122,6 +122,7 @@
 - mis-parciales/mis-parciales.js
 - lib/mis-parciales.js
 - montar
+- Prompt para Claude Design: las placas de la serie «Lo nuevo»
 
 ## God Nodes (most connected - your core abstractions)
 1. `Pantalla Mi año (carrera)` - 19 edges
@@ -159,7 +160,7 @@
 - **Pantallas que muestran publicaciones de la agenda** — tabla_publicaciones, index_proximodelaagenda, index_calendario_mes, agenda_index_traer, agenda_index_detalle_publicacion, carrera_index_vistanueva [INFERRED 0.85]
 - **El Panel edita el contenido que leen las pantallas públicas** — panel_index, tramites_index, quienes_index, consejo_index, anatomo_index, catedras_index, estudiemos_index [INFERRED 0.95]
 
-## Communities (117 total, 42 thin omitted)
+## Communities (118 total, 42 thin omitted)
 
 ### Community 0 - "La carrera se elige una vez (bolivar-carrera-v2)"
 Cohesion: 0.14
@@ -247,15 +248,15 @@ Nodes (21): archivoICS(), bajarICS(), detalleDelEvento(), doblarRenglon(), escap
 
 ### Community 21 - "riesgo.js"
 Cohesion: 0.07
-Nodes (45): abrir(), aFila(), armarCapaBase(), armarMapa(), base(), bloquearDetras(), cambiarEstadoBase(), cargarBase() (+37 more)
+Nodes (44): abrir(), aFila(), armarCapaBase(), armarMapa(), base(), bloquearDetras(), cambiarEstadoBase(), cargarBase() (+36 more)
 
 ### Community 22 - "PROMPT-FONOTECA.md"
 Cohesion: 0.12
 Nodes (16): Dónde vive, El navegador de Instagram, El orden, y por qué cada solapa tiene que poder salir sola, El volumen, si hay tonos, La Fonoteca: el simulador de práctica audiológica, La regla que va antes que todas, Lo que no se negocia, en todas las solapas, Nada copiado (+8 more)
 
 ### Community 23 - "Component"
-Cohesion: 0.09
-Nodes (18): crearMarcas(), avisar(), escribir(), leer(), poner(), tiene(), vacio(), get() (+10 more)
+Cohesion: 0.13
+Nodes (15): crearMarcas(), avisar(), escribir(), leer(), poner(), tiene(), vacio(), get() (+7 more)
 
 ### Community 24 - "LEEME · La Bolívar con vos"
 Cohesion: 0.67
@@ -374,8 +375,8 @@ Cohesion: 0.24
 Nodes (10): Detalle de publicación (?id=), dibujar (agenda agrupada por mes), montarCal (calendario), pintarBajarTodo, refrescarAlVolver, traer (publicaciones), Calendario del mes (Inicio), pintarFilaCarrera (+2 more)
 
 ### Community 70 - "avisos/index.ts"
-Cohesion: 0.15
-Nodes (13): ref_npm_web_push_3_6_7, atender(), Aviso, avisosDeEventos(), avisosDeFinales(), avisosDeMesas(), Canal, CANAL_DE (+5 more)
+Cohesion: 0.09
+Nodes (17): ref_jsr_supabase_supabase_js_2, ref_npm_web_push_3_6_7, atender(), Aviso, avisosDeEventos(), avisosDeFinales(), avisosDeMesas(), Canal (+9 more)
 
 ### Community 71 - "tabla-avisos.sql"
 Cohesion: 0.19
@@ -390,8 +391,8 @@ Cohesion: 0.25
 Nodes (9): apagarAvisos(), clavePublicaEnBytes(), guardarElTimbre(), guardarGustosDeAvisos(), gustosDeAvisos(), prenderAvisos(), seBancanLosAvisos(), suscripcionDeEsteTelefono() (+1 more)
 
 ### Community 76 - "pomodoro.js"
-Cohesion: 0.24
-Nodes (19): abrir(), arrancar(), cambiarPreset(), despertar(), despertarAudio(), guardar(), hoyEs(), latir() (+11 more)
+Cohesion: 0.12
+Nodes (29): cerrarHoja(), Bloque común (va siempre), Búsqueda: permanencia y estudio, Fuera del código (para el chat común, no para una sesión de código), Los 15 días (20/10 al 3/11): sin código, Prompts para las sesiones hacia las elecciones (24/9 al 6/11), Semana 1 (28/9 al 4/10): el buzón y la bandeja, Semana 2 (5/10 al 11/10): llegar a más (+21 more)
 
 ### Community 77 - "huella.js"
 Cohesion: 0.83
@@ -418,8 +419,8 @@ Cohesion: 0.33
 Nodes (6): PLANES (PLAN_TS, PLAN_TGCR, PLAN_FONO), leerPrograma (lib/leer-programa.js), textoDelPdf, vistaProgramas (programas de materias), vistaProgramasPDF (carga masiva desde PDF), Tabla/bucket Supabase programas
 
 ### Community 104 - "congreso.js"
-Cohesion: 0.12
-Nodes (32): abrirHoja(), abrirLoQuePideElEnlace(), ahoraEnLaPlata(), cargarMuro(), cerrarHoja(), diaLindo(), estadoDe(), etiquetaEstado() (+24 more)
+Cohesion: 0.19
+Nodes (26): abrirHoja(), abrirLoQuePideElEnlace(), ahoraEnLaPlata(), botonYoutube(), cargarMuro(), diaLindo(), estadoDe(), etiquetaEstado() (+18 more)
 
 ### Community 105 - "tabla-congreso.sql"
 Cohesion: 0.21
@@ -461,22 +462,26 @@ Nodes (11): claveMateria(), cuantoFaltaParcial(), DIAS_PARCIAL, diasHastaParcial
 Cohesion: 0.33
 Nodes (8): aplicar(), guardar(), montar(), abrir(), cerrar(), pintarTira(), prenderMarcador(), pedirLetra()
 
+### Community 117 - "Prompt para Claude Design: las placas de la serie «Lo nuevo»"
+Cohesion: 0.33
+Nodes (5): Antes de bajar los PNG, Cómo se usa, El prompt base, La nota de arte de cada pieza, Prompt para Claude Design: las placas de la serie «Lo nuevo»
+
 ## Knowledge Gaps
-- **197 isolated node(s):** `session-start.sh script`, `aqui`, `raiz`, `texto`, `f` (+192 more)
-  These have ≤1 connection - possible missing edges or undocumented components. (Counts symbols only; 360 node(s) total have ≤1 connection when file, concept and rationale nodes are included.)
+- **201 isolated node(s):** `session-start.sh script`, `aqui`, `raiz`, `texto`, `f` (+196 more)
+  These have ≤1 connection - possible missing edges or undocumented components. (Counts symbols only; 366 node(s) total have ≤1 connection when file, concept and rationale nodes are included.)
 - **42 thin communities (<3 nodes) omitted from report** — run `graphify query` to explore isolated nodes.
 
 ## Suggested Questions
 _Questions this graph is uniquely positioned to answer:_
 
 - **Why does `Pantalla Inicio` connect `Pantalla Mi año (carrera)` to `movimiento.js`, `app.js`, `Detalle de publicación (?id=)`, `Pantalla El Consejo Directivo`, `Mi perfil (mi/index.html)`, `manifest.json`?**
-  _High betweenness centrality (0.075) - this node is a cross-community bridge._
+  _High betweenness centrality (0.068) - this node is a cross-community bridge._
+- **Why does `reloj()` connect `pomodoro.js` to `congreso.js`?**
+  _High betweenness centrality (0.065) - this node is a cross-community bridge._
 - **Why does `4. Época de parciales en Estudiemos` connect `anotar` to `pomodoro.js`, `leer.js`?**
-  _High betweenness centrality (0.062) - this node is a cross-community bridge._
-- **Why does `pedido()` connect `riesgo.js` to `Pantalla El Consejo Directivo`, `fondo-red.js`?**
-  _High betweenness centrality (0.061) - this node is a cross-community bridge._
+  _High betweenness centrality (0.063) - this node is a cross-community bridge._
 - **What connects `session-start.sh script`, `aqui`, `raiz` to the rest of the system?**
-  _197 weakly-connected nodes found - possible documentation gaps or missing edges._
+  _201 weakly-connected nodes found - possible documentation gaps or missing edges._
 - **Should `La carrera se elige una vez (bolivar-carrera-v2)` be split into smaller, more focused modules?**
   _Cohesion score 0.14285714285714285 - nodes in this community are weakly interconnected._
 - **Should `app.js` be split into smaller, more focused modules?**

@@ -302,6 +302,19 @@ setTimeout(function(){
       <div class="esq-cuadro"></div>
     </div>
 
+    <!-- DECILO (15/10/2026). El buzón abre: hasta acá estaba publicado
+         sin enlazar porque no había bandeja que contestara. Va pegado a
+         los accesos y no en la fila de secciones (decisión del 10/10),
+         en negro para que no se confunda con una sección más: es lo
+         único del inicio donde se le escribe al centro y no se lee. Un
+         link entero, sin JavaScript. -->
+    <a class="decilo-puerta" href="decilo/">
+      <span class="decilo-ceja">Sin cuenta y sin nombre</span>
+      <span class="decilo-titulo">Decilo</span>
+      <span class="decilo-bajada">Un pedido, un reclamo o una propuesta para el CEFTS. Te contestamos a la vista de todos.</span>
+      <span class="cuadro-flecha" aria-hidden="true">→</span>
+    </a>
+
     <!-- LEÉ, MIRÁ, ESCUCHÁ (7/10/2026). El Arsenal de Estudiemos, con
          nombre nuevo y una puerta en el inicio: hasta acá solo se
          llegaba desde Estudiemos › Repasar, y no lo encontraba nadie.
@@ -2102,7 +2115,7 @@ addEventListener('pageshow', function(ev){
      con un armazón de ayer, movimiento.js puede no estar. */
   if (typeof entrarAlLlegar === 'function'){
     entrarAlLlegar(zonaFondo,
-      '.titulo-seccion, .lme, #kit > *, #novedades > .tarjeta, .calendario, .carrusel',
+      '.titulo-seccion, .decilo-puerta, .lme, #kit > *, #novedades > .tarjeta, .calendario, .carrusel',
       { soloAbajo: true });
   }
   const tituloRes  = document.getElementById('titulo-resultados');
