@@ -1511,6 +1511,26 @@ cuántos rebotaron. Para probar sin esperar la hora en punto, se corre a mano
 el bloque de adentro del `$CRON$` que está en `sql/tabla-avisos.sql`, en «6. EL
 RELOJ»; para probar de noche, con `?forzar=si`.
 
+**Para probar un aviso nuevo sin que suene ningún teléfono** (15/10/2026):
+el mismo bloque con `?ensayo=si` en la dirección del reloj
+(`.../functions/v1/reloj?ensayo=si`). `avisos` arma todo, no manda ni anota
+nada, y contesta cada aviso con `a_cuantos` (a cuántos teléfonos saldría) y
+`ya_salio` (a cuántos ya les llegó). Así se probó el aviso del buzón: con un
+teléfono falso (`https://prueba.invalid/...`, todos los canales apagados) y
+dos pedidos de ensayo, borrados después.
+
+### Los avisos del buzón (sesión B, 15/10/2026, `avisos` v13)
+
+Dos, y ninguno se prende ni se apaga desde Mi perfil: van con nombre de
+teléfono.
+- **Al autor**, si en Decilo marcó «avisame cuando cambie»: cuando su pedido
+  pasa a en gestión y cuando pasa a resuelto, uno por estado, con la respuesta
+  en el cuerpo. Descartar no avisa.
+- **Al equipo**, cuando entra un pedido: a los teléfonos que prendieron los
+  avisos con la sesión abierta de una cuenta `equipo` o `comunicacion`. Suena
+  una vez por pedido que entra y dice cuántos esperan. El 15/10 eran 2
+  teléfonos.
+
 ### FALTA: el secreto `VAPID_PRIVADA` está mal cargado (27/9)
 
 El reloj corre, llega hasta `avisos`, y ahí se corta: **`VAPID_PRIVADA` tiene

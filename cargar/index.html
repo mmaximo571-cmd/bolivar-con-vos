@@ -1322,9 +1322,11 @@
         <p class="letra-chica">
           ${esc(nombreCategoria[p.categoria] || p.categoria)}${carrera ? ' · ' + esc(carrera.corto) : ''}
           · ${p.publicado ? '<strong>publicado en el tablero</strong>' : 'sin publicar'}${
-          /* El aviso al autor es la sesión 4, que todavía no está: que
-             nadie crea que ya le llegó. */
-          p.pidio_aviso ? ' · pidió aviso al celular (todavía no sale solo)' : ''}
+          /* El aviso al autor (sesión B, 15/10/2026) sale con el reloj, a
+             la hora en punto y de 9 a 21, y solo al pasar a en gestión o
+             a resuelto: descartar no avisa. Dicho acá para que quien
+             contesta sepa qué le llega a la otra persona. */
+          p.pidio_aviso ? ' · pidió aviso al celular: le llega al pasarlo a en gestión o a resuelto' : ''}
         </p>
         ${apurado ? `<p class="letra-chica"><strong>Lleva ${horas} horas sin respuesta.</strong>
           La meta son 48.</p>` : ''}

@@ -67,11 +67,17 @@ Deno.serve(async (pedido) => {
 
   if (!autorizado) return new Response('No', { status: 401 });
 
-  /* `?forzar=si` es lo único que cambia una corrida: saltea el horario
-     de 9 a 21. Se pasa tal cual para poder probar de noche. */
-  const forzar = new URL(pedido.url).searchParams.get('forzar') === 'si' ? '?forzar=si' : '';
+  /* Dos cosas cambian una corrida, y se pasan tal cual: `?forzar=si`
+     saltea el horario de 9 a 21, para probar de noche, y `?ensayo=si`
+     (15/10/2026) arma todo sin mandar nada, para probar un aviso nuevo
+     sin que suene ningún teléfono. Ninguna otra cosa pasa. */
+  const pide = new URL(pedido.url).searchParams;
+  const pasa = new URLSearchParams();
+  if (pide.get('forzar') === 'si') pasa.set('forzar', 'si');
+  if (pide.get('ensayo') === 'si') pasa.set('ensayo', 'si');
+  const extra = pasa.toString() ? `?${pasa}` : '';
 
-  const r = await fetch(`${base}/functions/v1/avisos${forzar}`, {
+  const r = await fetch(`${base}/functions/v1/avisos${extra}`, {
     method:  'POST',
     headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${clave_servicio}` },
     body:    '{}'

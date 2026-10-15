@@ -490,7 +490,7 @@
     const cuando = fecha(p[e.fecha] || p.creado_at);
     const carrera = CARRERAS_APP.filter(c => c.id === p.carrera)[0];
 
-    return `<article class="modulo aparece">
+    return `<article class="modulo aparece" id="pedido-${Number(p.id)}">
       <div class="modulo-cabeza">
         <span class="espacio-estado${p.estado === 'resuelto' ? ' abierto' : ''}">${esc(e.texto)}</span>
         <span class="modulo-numero">${esc(cuando)}</span>
@@ -554,7 +554,17 @@
 
     dondeTablero.innerHTML = pedidos.data.map(htmlPedido).join('');
     vigilarAparicion();
+
+    /* El aviso al celular trae `#pedido-N` (15/10/2026). El tablero llega
+       después que la página, así que el navegador no encuentra el ancla
+       solo. Una vez: después de mandar un pedido no tiene que saltar. */
+    if (!yaFueAlAncla && /^#pedido-\d+$/.test(location.hash)){
+      yaFueAlAncla = true;
+      const ancla = document.querySelector(location.hash);
+      if (ancla) ancla.scrollIntoView({ block:'center' });
+    }
   }
+  let yaFueAlAncla = false;
 
   traerCategorias();
   traerTablero();

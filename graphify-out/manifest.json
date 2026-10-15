@@ -84,15 +84,15 @@
     "semantic_hash": ""
   },
   "BITACORA.md": {
-    "mtime": 1792088203.09933,
-    "seen": 1792088213.9350977,
-    "ast_hash": "f41a615b7847340c731281ee6a034c63",
+    "mtime": 1792088892.2254913,
+    "seen": 1792088921.0568552,
+    "ast_hash": "0c68ec98d5c110718a00658cf3579fd6",
     "semantic_hash": ""
   },
   "LEEME.md": {
-    "mtime": 1790725615.0649657,
-    "seen": 1790732169.323748,
-    "ast_hash": "22a06c2f33beb729754b4ec5577e76df",
+    "mtime": 1792088892.0986795,
+    "seen": 1792088921.0568569,
+    "ast_hash": "62b2c3ab360ead5f86f4ca765a7b4bdb",
     "semantic_hash": ""
   },
   "agenda/index.html": {
@@ -414,9 +414,9 @@
     "semantic_hash": ""
   },
   "supabase/functions/avisos/index.ts": {
-    "mtime": 1790732217.657611,
-    "seen": 1790732471.902463,
-    "ast_hash": "5062ad2946fa2558d98077e582c52abb",
+    "mtime": 1792088654.9221098,
+    "seen": 1792088921.056845,
+    "ast_hash": "b2a167c7cf15f2dc46bc035273a8201b",
     "semantic_hash": ""
   },
   "estudiemos/pomodoro.js": {
@@ -426,15 +426,15 @@
     "semantic_hash": ""
   },
   "supabase/functions/reloj/index.ts": {
-    "mtime": 1790555277.3763928,
-    "seen": 1790732169.32373,
-    "ast_hash": "58d49ead1f7f00efab6f8601bfaf5328",
+    "mtime": 1792088614.660486,
+    "seen": 1792088921.0568497,
+    "ast_hash": "c2e81150928e13b83518a4847078bb9d",
     "semantic_hash": ""
   },
   "decilo/index.html": {
-    "mtime": 1792088164.756672,
-    "seen": 1792088213.9351118,
-    "ast_hash": "a3ed27c39cb4373abdb8c918db5213ef",
+    "mtime": 1792088627.5626168,
+    "seen": 1792088921.0568705,
+    "ast_hash": "b9826341067c6e2a21c43fedc8e2eae5",
     "semantic_hash": ""
   },
   "carrera/tarjeta-avance.js": {
@@ -606,9 +606,9 @@
     "semantic_hash": ""
   },
   "docs/prompts/PROMPT-ELECCIONES.md": {
-    "mtime": 1791684903.7141182,
-    "seen": 1791685866.3272495,
-    "ast_hash": "3201c92811f5e20a965f72227a686fa4",
+    "mtime": 1792088896.1431546,
+    "seen": 1792088921.0568786,
+    "ast_hash": "c55b1ea8ab60cfabe884ee5f52bda939",
     "semantic_hash": ""
   },
   "docs/prompts/PROMPT-FICHAS.md": {
@@ -654,9 +654,9 @@
     "semantic_hash": ""
   },
   "cargar/index.html": {
-    "mtime": 1791684718.252529,
-    "seen": 1791685866.327233,
-    "ast_hash": "be37e06776a9b85cf375e8dd9638e34d",
+    "mtime": 1792088627.6114817,
+    "seen": 1792088921.056862,
+    "ast_hash": "90677f1cd2749170ab20f444bf90633d",
     "semantic_hash": ""
   },
   "sql/tabla-campana.sql": {

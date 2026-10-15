@@ -19,6 +19,9 @@
    dos relojes se superponen el que llega segundo tiene que rebotar
    contra la clave primaria y no mandar nada.
 
+   PARA PROBAR sin que suene nada: `?ensayo=si` (en la dirección del
+   reloj, que lo pasa) contesta qué avisos saldrían y a cuántos.
+
    HORARIO. No manda nada entre las 21 y las 9 de Argentina. Un
    teléfono que suena a las cuatro de la mañana no vuelve a tener los
    avisos prendidos nunca más, y el aviso que importa —la mesa— se
@@ -46,7 +49,10 @@ type Canal = 'mesas' | 'novedades' | 'mis_fechas' | 'paros' | 'grupos' | 'activi
 
 type Aviso = {
   clave:   string;                  /* el nombre del aviso, no el de la publicación */
-  canal:   Canal;
+  /* 'buzon' no es un canal que se prenda o se apague: sus avisos van
+     con nombre de teléfono, en `para` (sección 5). */
+  canal:   Canal | 'buzon';
+  para?:   number[];                /* solo el buzón: a qué suscripciones */
   titulo:  string;
   cuerpo:  string;
   url:     string;
@@ -325,6 +331,79 @@ function avisosDeEventos(publicaciones: any[], hoy: string, ahora: number): Avis
 }
 
 
+/* ------------------------------------------------------------
+   5. EL BUZÓN  ·  Decilo (sesión B, 15/10/2026)
+
+   Dos avisos, y ninguno va por canal: van a teléfonos con nombre
+   (`para`), así que no se prenden ni se apagan desde Mi perfil.
+
+     al autor   cuando su pedido pasa a «en gestión» o a «resuelto»,
+                si al dejarlo marcó «avisame cuando cambie». Uno por
+                estado: corregir una coma de la respuesta no vuelve a
+                sonar, y pasar directo a resuelto suena una sola vez.
+                Lleva la respuesta en el cuerpo, porque un pedido sin
+                publicar no está en el tablero y el aviso es la única
+                forma de que quien lo escribió la lea.
+                «Descartado» no avisa: casi siempre es spam o un
+                repetido, y lo único que diría es «no se publica».
+     al equipo  cuando entra un pedido, a los teléfonos atados a una
+                cuenta con rol equipo o comunicación. La clave es el
+                pedido sin contestar más nuevo: suena una vez por pedido
+                que entra, dice cuántos esperan, y si entran tres en la
+                misma hora suena una sola vez. Con una persona sola
+                contestando, sirve más que un resumen diario.
+
+   Los dos miran 48 horas para atrás, como las novedades: lo movido a
+   las once de la noche sale a las nueve, y nada más viejo que eso.
+   ------------------------------------------------------------ */
+const ESTADO_DEL_PEDIDO: Record<string, { titulo: string; cuerpo: string; fecha: string }> = {
+  en_gestion: { titulo: 'Tu pedido en Decilo está en gestión',
+                cuerpo: 'El CEFTS ya lo está moviendo.',
+                fecha:  'en_gestion_at' },
+  resuelto:   { titulo: 'Tu pedido en Decilo se resolvió',
+                cuerpo: 'El CEFTS lo dio por resuelto.',
+                fecha:  'resuelto_at' }
+};
+
+const recortar = (t: string, n: number) =>
+  t.length <= n ? t : t.slice(0, n - 1).trimEnd() + '…';
+
+function avisosDelBuzon(movidos: any[], sinContestar: any[], desde: number): Aviso[] {
+  const avisos: Aviso[] = [];
+
+  for (const p of movidos || []){
+    const e = ESTADO_DEL_PEDIDO[p.estado];
+    if (!e || !p.suscripcion_id || !p[e.fecha]) continue;
+    if (Date.parse(p[e.fecha]) < desde) continue;
+
+    const respuesta = String(p.respuesta || '').replace(/\s+/g, ' ').trim();
+    avisos.push({
+      clave:  `buzon:${p.id}:${p.estado}`,
+      canal:  'buzon',
+      titulo: e.titulo,
+      cuerpo: respuesta ? recortar(respuesta, 180) : e.cuerpo,
+      url:    `${URL_BASE}/decilo/${p.publicado ? `#pedido-${p.id}` : ''}`,
+      para:   [p.suscripcion_id]
+    });
+  }
+
+  const elMasNuevo = (sinContestar || [])[0];
+  if (elMasNuevo && Date.parse(elMasNuevo.creado_at) >= desde){
+    const n = sinContestar.length;
+    avisos.push({
+      clave:  `buzon-equipo:${elMasNuevo.id}`,
+      canal:  'buzon',
+      titulo: 'Llegó un pedido a Decilo',
+      cuerpo: (n === 1 ? 'Está sin contestar.' : `Hay ${n} sin contestar.`) +
+              ' La meta es responder en menos de 48 horas.',
+      url:    `${URL_BASE}/cargar/?ver=buzon`,
+      para:   []       /* los teléfonos del equipo, que se buscan con la cola */
+    });
+  }
+  return avisos;
+}
+
+
 /* ============================================================
    LA CORRIDA
    ============================================================ */
@@ -385,8 +464,13 @@ Deno.serve(async (pedido) => {
   const { hoy, hora } = ahoraEnArgentina();
   const url = new URL(pedido.url);
   const aLaFuerza = url.searchParams.get('forzar') === 'si';
+  /* `?ensayo=si` arma todo y no manda nada ni anota nada: contesta qué
+     avisos saldrían y a cuántos teléfonos. Existe para probar un aviso
+     nuevo contra la base de verdad sin que suene ningún teléfono. Como
+     no manda, no mira el horario. */
+  const ensayo = url.searchParams.get('ensayo') === 'si';
 
-  if ((hora < 9 || hora >= 21) && !aLaFuerza){
+  if ((hora < 9 || hora >= 21) && !aLaFuerza && !ensayo){
     return Response.json({ hoy, hora, salteado: 'fuera de horario' });
   }
 
@@ -419,6 +503,19 @@ Deno.serve(async (pedido) => {
     .or(`publicado_at.gte."${haceUnDia}",cambiado_at.gte."${haceUnDia}",fecha_desde.eq.${hoy}`);
   avisos.push(...avisosDeEventos(paraEventos || [], hoy, Date.now()));
 
+  const haceDosDias = new Date(Date.now() - 48 * 3600 * 1000).toISOString();
+  const { data: pedidosMovidos } = await sb.from('buzon_pedidos')
+    .select('id,estado,publicado,respuesta,suscripcion_id,en_gestion_at,resuelto_at')
+    .not('suscripcion_id', 'is', null)
+    .or(`en_gestion_at.gte."${haceDosDias}",resuelto_at.gte."${haceDosDias}"`);
+  const { data: pedidosSinContestar } = await sb.from('buzon_pedidos')
+    .select('id,creado_at')
+    .eq('estado', 'recibido')
+    .order('id', { ascending: false })
+    .limit(200);
+  avisos.push(...avisosDelBuzon(pedidosMovidos || [], pedidosSinContestar || [],
+                                Date.parse(haceDosDias)));
+
   if (!avisos.length) return Response.json({ hoy, hora, avisos: 0, enviados: 0 });
 
   /* ---- A quiénes ---- */
@@ -426,6 +523,18 @@ Deno.serve(async (pedido) => {
     .select('id,endpoint,p256dh,auth,usuario_id,mesas,novedades,mis_fechas,paros,grupos,actividades,materias,fallos')
     .limit(TOPE_POR_CORRIDA);
   const cola = (suscripciones || []) as Suscripcion[];
+
+  /* El aviso al equipo del buzón: los teléfonos que se prendieron con
+     la sesión abierta de alguien que modera (`modera_buzon()` en
+     `tabla-buzon.sql`). Quien prendió los avisos sin entrar a su
+     cuenta no está atado a nadie, y no le llega. */
+  const alEquipo = avisos.find(a => a.clave.startsWith('buzon-equipo:'));
+  if (alEquipo){
+    const { data: quienes } = await sb.from('perfiles')
+      .select('id').in('rol', ['equipo', 'comunicacion']);
+    const moderan = new Set((quienes || []).map(q => q.id));
+    alEquipo.para = cola.filter(s => s.usuario_id && moderan.has(s.usuario_id)).map(s => s.id);
+  }
 
   /* Las materias de cada quien: las que eligió en la tarjeta de avisos
      y, si tiene cuenta, las de su cursada. Solo se buscan si hay algún
@@ -477,17 +586,24 @@ Deno.serve(async (pedido) => {
   }
 
   let enviados = 0, rebotes = 0, bajas = 0;
+  const plan = new Map<string, number>();     /* solo en ensayo */
 
   async function atender(s: Suscripcion){
     for (const a of avisos){
-      const va = !!a.pub && voy.has(`${s.id}|${a.pub}`);    /* marcó «Voy» */
-      if (!s[a.canal] && !va) continue;                       /* no lo pidió */
-      if (a.usuario && a.usuario !== s.usuario_id) continue;   /* no es para esta persona */
-      if (a.soloSiTuvo && !va && !tuvo.has(`${s.id}|${a.soloSiTuvo}`)) continue;
-      if (a.canal === 'grupos' && a.materia && !va){
-        const suyas = materiasDe.get(s.id);
-        if (suyas && suyas.size && !suyas.has(normalizar(a.materia))) continue;
+      if (a.canal === 'buzon'){
+        if (!a.para || !a.para.includes(s.id)) continue;       /* no es para este teléfono */
+      } else {
+        const va = !!a.pub && voy.has(`${s.id}|${a.pub}`);    /* marcó «Voy» */
+        if (!s[a.canal] && !va) continue;                       /* no lo pidió */
+        if (a.usuario && a.usuario !== s.usuario_id) continue;   /* no es para esta persona */
+        if (a.soloSiTuvo && !va && !tuvo.has(`${s.id}|${a.soloSiTuvo}`)) continue;
+        if (a.canal === 'grupos' && a.materia && !va){
+          const suyas = materiasDe.get(s.id);
+          if (suyas && suyas.size && !suyas.has(normalizar(a.materia))) continue;
+        }
       }
+
+      if (ensayo){ plan.set(a.clave, (plan.get(a.clave) || 0) + 1); continue; }
 
       /* Se anota ANTES de mandar. Si la clave ya estaba, este aviso
          ya salió —en esta corrida o en la de hace una hora— y acá se
@@ -551,6 +667,23 @@ Deno.serve(async (pedido) => {
      todos juntos es la forma de que el servicio de push nos corte. */
   for (let i = 0; i < cola.length; i += DE_A){
     await Promise.all(cola.slice(i, i + DE_A).map(atender));
+  }
+
+  /* El ensayo cuenta también a quién ya le salió cada uno: esos no
+     vuelven a sonar en la corrida de verdad. Sin endpoints ni nombres:
+     solo números. */
+  if (ensayo){
+    const { data: yaSalieron } = await sb.from('avisos_enviados')
+      .select('clave').in('clave', avisos.map(a => a.clave));
+    const ya = new Map<string, number>();
+    for (const e of yaSalieron || []) ya.set(e.clave, (ya.get(e.clave) || 0) + 1);
+    return Response.json({
+      hoy, hora, ensayo: true, suscripciones: cola.length,
+      avisos: avisos.map(a => ({
+        clave: a.clave, titulo: a.titulo, cuerpo: a.cuerpo, url: a.url,
+        a_cuantos: plan.get(a.clave) || 0, ya_salio: ya.get(a.clave) || 0
+      }))
+    });
   }
 
   return Response.json({

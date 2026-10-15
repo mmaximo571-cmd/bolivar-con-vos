@@ -20,8 +20,8 @@ bandeja.
 | 1 | ✅ El reloj de los avisos | hecho el 27/9; los avisos andan desde el 30/9 |
 | 2 | ✅ Buzón: la pantalla pública, en `decilo/`, sin enlazar | hecho el 27/9 |
 | 3 | ✅ La bandeja de comunicación | hecha el 30/9, en `cargar/?ver=buzon` |
-| **A** | **Abrir Decilo: revisión de seguridad y enlace** | **la que sigue**, antes del jue 15/10, abajo |
-| **B** | **Aviso al autor cuando cambia el estado** | antes del lun 19/10: S4, el (3), y el (1) si sobra |
+| A | ✅ Abrir Decilo: revisión de seguridad y enlace | hecha el 15/10 (v94) |
+| B | ✅ Aviso al autor cuando cambia el estado, y al equipo cuando entra un pedido | hecha el 15/10 (`avisos` v13) |
 | 5 | ✅ La tarjeta para historias | hecho el 27/9, adelantada |
 
 **La que sigue es la A, y no espera nada.** Las respuestas de la bandeja
