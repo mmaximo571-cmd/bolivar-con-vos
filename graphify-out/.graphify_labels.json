@@ -37,7 +37,7 @@
   "35": "El Trayecto Optativo: qué tiene que decir la pantalla",
   "36": "tabla-organizador.sql",
   "37": "pintar() (cuenta de las 120 horas por área)",
-  "38": "Pantalla El Consejo Directivo",
+  "38": "Pantalla Estudiemos (landing de herramientas)",
   "39": "tabla-respaldos.sql",
   "40": "tabla-riesgo.sql",
   "41": "pintarAccesos",
@@ -67,7 +67,7 @@
   "65": "crearCliente",
   "66": "movimiento.js",
   "67": "localStorage bolivar-carrera-resumen",
-  "68": "elegirCarrera",
+  "68": "pintarFormulario",
   "69": "Detalle de publicación (?id=)",
   "70": "avisos/index.ts",
   "71": "tabla-avisos.sql",
@@ -116,5 +116,8 @@
   "114": "mis-parciales/mis-parciales.js",
   "115": "lib/mis-parciales.js",
   "116": "montar",
-  "117": "Prompt para Claude Design: las placas de la serie «Lo nuevo»"
+  "117": "Prompt para Claude Design: las placas de la serie «Lo nuevo»",
+  "118": "Pantalla El Consejo Directivo",
+  "119": "tabla-feriazo.sql",
+  "120": "buscar (buscador de trámites, FAQ y cátedras)"
 }

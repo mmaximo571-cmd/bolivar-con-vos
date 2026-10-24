@@ -1,8 +1,8 @@
 {
   "app.js": {
-    "mtime": 1791767185.2319741,
-    "seen": 1791767594.3096256,
-    "ast_hash": "0f37f24584bea00e887e1b120ac4735a",
+    "mtime": 1792884056.7947092,
+    "seen": 1792884526.3531322,
+    "ast_hash": "af3e19f169c0faea932feced5495b7e1",
     "semantic_hash": ""
   },
   "carrera/plan-fono.js": {
@@ -78,9 +78,9 @@
     "semantic_hash": ""
   },
   "sw.js": {
-    "mtime": 1792088049.7662945,
-    "seen": 1792088213.9350944,
-    "ast_hash": "05ae7a1bd31486ad018f3863acb86c27",
+    "mtime": 1792884071.0827048,
+    "seen": 1792884526.3532953,
+    "ast_hash": "ce1b0be8deef48a1de097519d5f1d32e",
     "semantic_hash": ""
   },
   "BITACORA.md": {
@@ -150,9 +150,9 @@
     "semantic_hash": ""
   },
   "index.html": {
-    "mtime": 1792088010.8352096,
-    "seen": 1792088213.9351537,
-    "ast_hash": "7e2c39547c78e43c37090ffc659b713b",
+    "mtime": 1792884056.9991622,
+    "seen": 1792884526.3533666,
+    "ast_hash": "20b8f6146114caa85600cdb550d54a33",
     "semantic_hash": ""
   },
   "mi/index.html": {
@@ -594,9 +594,9 @@
     "semantic_hash": ""
   },
   "docs/HISTORIAL-SW.md": {
-    "mtime": 1792088051.308977,
-    "seen": 1792088213.935113,
-    "ast_hash": "d79feb04f932e2b3e3ba55955fda129c",
+    "mtime": 1792884076.9051826,
+    "seen": 1792884526.3533173,
+    "ast_hash": "6e15d2e0812ecab4e552f498c46c2a68",
     "semantic_hash": ""
   },
   "docs/prompts/PROMPT-DISENO.md": {
@@ -654,9 +654,9 @@
     "semantic_hash": ""
   },
   "cargar/index.html": {
-    "mtime": 1792088627.6114817,
-    "seen": 1792088921.056862,
-    "ast_hash": "90677f1cd2749170ab20f444bf90633d",
+    "mtime": 1792884029.439374,
+    "seen": 1792884526.353306,
+    "ast_hash": "e348361883fb0c360407fb02357242f0",
     "semantic_hash": ""
   },
   "sql/tabla-campana.sql": {
@@ -939,6 +939,24 @@
     "mtime": 1791769156.5345051,
     "seen": 1792088213.9351244,
     "ast_hash": "4269b62b0e8bb8ce491fcc9fe3f2b1ce",
+    "semantic_hash": ""
+  },
+  "cargar/feriazo.js": {
+    "mtime": 1792884349.66237,
+    "seen": 1792884526.353135,
+    "ast_hash": "5b940da124fe69e5d24306fbad0e904f",
+    "semantic_hash": ""
+  },
+  "sql/tabla-feriazo.sql": {
+    "mtime": 1792883812.1271203,
+    "seen": 1792884526.3532598,
+    "ast_hash": "6c4cb1694305f0278ff0c937d83499c4",
+    "semantic_hash": ""
+  },
+  "feriazo/index.html": {
+    "mtime": 1792884247.6827197,
+    "seen": 1792884526.3533628,
+    "ast_hash": "7edac1eef243d6ab5e663d7ec646e7a7",
     "semantic_hash": ""
   }
 }
