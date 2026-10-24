@@ -39,8 +39,8 @@
 --
 -- ESTADO: ensayado el 24/10/2026 con begin/rollback (7 rechazos
 -- esperados: instagram repetido o con @, foto que no es `feriazo-`,
--- estudiante que carga o sube foto, sin cuenta que carga o borra).
--- FALTA CORRERLO en producción.
+-- estudiante que carga o sube foto, sin cuenta que carga o borra), y
+-- aplicado en producción ese mismo día (migración `tabla_feriazo`).
 -- ============================================================
 
 
