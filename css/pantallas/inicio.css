@@ -785,6 +785,23 @@ body.antes-de-entrar{ padding-bottom:0 }
 .decilo-puerta .cuadro-flecha{grid-column:2;grid-row:1 / span 3;font-size:22px;font-weight:700;color:var(--amarillo)}
 .decilo-puerta:active{transform:translate(2px, 2px);box-shadow:none}
 
+/* ---------- Feriazo (24/10/2026) ----------
+   La misma forma que Decilo, en amarillo: es para mirar, no para
+   escribirle al centro. `--sobre-color` es la tinta que va arriba del
+   amarillo en los dos modos. */
+.feriazo-puerta{
+  display:grid;grid-template-columns:1fr auto;column-gap:12px;align-items:center;
+  margin:4px 0 22px;padding:14px 16px;
+  background:var(--amarillo);color:var(--sobre-color);text-decoration:none;
+  border:2px solid var(--tinta-borde);border-radius:var(--radio);box-shadow:var(--sombra)
+}
+.feriazo-puerta > :not(.cuadro-flecha){grid-column:1}
+.feriazo-ceja{font-size:var(--letra-mini);font-weight:700;letter-spacing:.06em;text-transform:uppercase}
+.feriazo-titulo{font-family:var(--fuente-titulo);font-size:clamp(22px, 6vw, 28px);line-height:1.05;margin:3px 0 4px}
+.feriazo-bajada{font-size:var(--letra-nota);line-height:1.35}
+.feriazo-puerta .cuadro-flecha{grid-column:2;grid-row:1 / span 3;font-size:22px;font-weight:700}
+.feriazo-puerta:active{transform:translate(2px, 2px);box-shadow:none}
+
 /* ---------- Leé, mirá, escuchá (7/10/2026) ----------
    La puerta del ex Arsenal. Una tarjeta de papel con la tinta de la
    pantalla de adentro: el título en la letra grande y abajo tres

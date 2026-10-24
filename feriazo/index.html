@@ -1,0 +1,326 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Feriazo · La Bolívar con vos</title>
+<meta name="description" content="Los emprendimientos de estudiantes, docentes y no docentes de la Facultad de Trabajo Social de la UNLP, con su Instagram.">
+<meta name="theme-color" content="#F9E830">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+<!-- Iconos de la app: pestana, Google, y pantalla de inicio del celular -->
+<link rel="icon" type="image/png" sizes="32x32" href="../imagenes/icono-32.png">
+<link rel="icon" type="image/png" sizes="96x96" href="../imagenes/icono-96.png">
+<link rel="icon" type="image/png" sizes="192x192" href="../imagenes/icono-192.png">
+<link rel="apple-touch-icon" href="../imagenes/icono-apple.png">
+<link rel="manifest" href="../manifest.json">
+
+<!-- Como se ve cuando alguien comparte el link por WhatsApp o Instagram -->
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="La Bolivar con vos">
+<meta property="og:title" content="Feriazo · estudiantes y trabajadores">
+<meta property="og:description" content="Los emprendimientos de la gente de la facu, con su Instagram. Acá no se vende: se conoce.">
+<meta property="og:image" content="https://labolivarconvos.ar/imagenes/compartir.png">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="stylesheet" href="../css/tokens.css">
+<link rel="stylesheet" href="../css/base/01-cimientos.css">
+<link rel="stylesheet" href="../css/base/02-encabezado.css">
+<link rel="stylesheet" href="../css/base/03-controles.css">
+<link rel="stylesheet" href="../css/base/04-tarjetas.css">
+<link rel="stylesheet" href="../css/base/05-secciones.css">
+<link rel="stylesheet" href="../css/base/06-hoja.css">
+<link rel="stylesheet" href="../css/base/07-avisos.css">
+<link rel="stylesheet" href="../css/base/08-calendario.css">
+<link rel="stylesheet" href="../css/base/09-avisanos.css">
+<link rel="stylesheet" href="../css/base/10-lectura.css">
+<link rel="stylesheet" href="../css/base/11-navegacion.css">
+<link rel="stylesheet" href="../css/base/12-movimiento.css">
+<link rel="stylesheet" href="../css/pantallas/feriazo.css">
+<link rel="stylesheet" href="../estilos-rediseno.css">
+<!-- EL TEMA, ANTES DE DIBUJAR NADA. Va acá arriba y no en app.js a
+     propósito: app.js carga al final del cuerpo, así que la pantalla
+     arrancaría clara y pegaría un salto a oscura. Son tres renglones. -->
+<script>
+(function(){try{
+  var g = localStorage.getItem('bolivar-tema') || 'auto';
+  var oscuro = g === 'oscuro' || (g === 'auto' &&
+    window.matchMedia('(prefers-color-scheme: dark)').matches);
+  document.documentElement.dataset.tema = oscuro ? 'oscuro' : 'claro';
+}catch(e){ document.documentElement.dataset.tema = 'claro'; }})();
+</script>
+<!-- Estadisticas de visitas (Vercel Web Analytics, sin cookies) -->
+<script defer src="/_vercel/insights/script.js"></script>
+</head>
+<body>
+
+<div id="cabecera"></div>
+
+<main class="envoltura" id="contenido" tabindex="-1">
+  <p class="fz-ceja">Estudiantes y trabajadores</p>
+  <h1 class="titulo-pantalla">Feriazo</h1>
+  <p class="bajada">
+    Lo que hacen compañeras y compañeros, docentes y no docentes de la
+    facu. <strong>Acá no se compra ni se vende: se conoce.</strong> Si algo
+    te gusta, escribile por su Instagram.
+  </p>
+
+  <div class="buscador" style="margin-bottom:6px">
+    <span class="lupa">🔍</span>
+    <input id="filtro" type="search" autocomplete="off"
+           placeholder="Buscar: alfajores, aros, plantas…" aria-label="Buscar un emprendimiento">
+  </div>
+
+  <div class="chips" id="chips" role="group" aria-label="Rubro" hidden></div>
+
+  <p class="letra-chica fz-cuenta" id="cuenta" role="status" aria-live="polite"></p>
+
+  <div class="fz-lista" id="lista">
+    <div class="esq-tarjeta"><div class="esqueleto esq-linea titulo"></div><div class="esqueleto esq-linea"></div><div class="esqueleto esq-linea media"></div></div>
+    <div class="esq-tarjeta"><div class="esqueleto esq-linea titulo"></div><div class="esqueleto esq-linea"></div><div class="esqueleto esq-linea corta"></div></div>
+  </div>
+
+  <!-- Sin JavaScript también se lee: es lo que tiene que encontrar
+       quien llega buscando cómo sumarse. -->
+  <section class="fz-sumate" aria-labelledby="fz-sumate-titulo">
+    <h2 id="fz-sumate-titulo">¿Tenés un emprendimiento?</h2>
+    <p>Mandanos por Instagram el nombre, tu usuario, una línea de qué hacés
+      y una foto o el logo, y lo sumamos. Es gratis y lo carga la agrupación.</p>
+    <a class="boton" href="https://www.instagram.com/SimonBolivarfts" target="_blank"
+       rel="noopener">Escribinos a @SimonBolivarfts <span class="solo-lectores">(se abre Instagram)</span></a>
+    <p class="letra-chica">¿Ya está y querés cambiar algo, o bajarlo? Pedilo por
+      <a href="../decilo/">Decilo</a>.</p>
+  </section>
+</main>
+
+<div id="pie"></div>
+
+<script>window.RAIZ = '../';</script>
+<!-- El cliente CHICO: esta pantalla solo lee datos públicos. -->
+<script src="../lib/datos.js"></script>
+<script src="../config.js"></script>
+<script src="../iconos.js"></script>
+<script src="../lib/mudanza.js"></script>
+<script src="../app.js"></script>
+<script src="../fondo-red.js"></script>
+<script>
+(async function feriazo(){
+
+  document.getElementById('cabecera').innerHTML = htmlCabecera();
+  document.getElementById('pie').innerHTML = htmlPie();
+  pintarNav('feriazo');
+
+  const lista  = document.getElementById('lista');
+  const chips  = document.getElementById('chips');
+  const filtro = document.getElementById('filtro');
+  const cuenta = document.getElementById('cuenta');
+
+  /* La misma lista que el `check` de `sql/tabla-feriazo.sql` y que
+     `cargar/feriazo.js`: si se agrega un rubro, va en los tres. */
+  const RUBROS_FERIAZO = {
+    comida:    { texto:'Comida',            emoji:'🍪' },
+    ropa:      { texto:'Ropa y accesorios', emoji:'👕' },
+    arte:      { texto:'Arte y artesanías', emoji:'🎨' },
+    bienestar: { texto:'Cosmética y bienestar', emoji:'🌿' },
+    plantas:   { texto:'Plantas y huerta',  emoji:'🪴' },
+    libros:    { texto:'Libros y papelería', emoji:'📓' },
+    servicios: { texto:'Servicios y clases', emoji:'🛠' },
+    otros:     { texto:'Otros',             emoji:'✨' }
+  };
+
+  const CARRERA = { ts:'Trabajo Social', fono:'Fonoaudiología', tgcr:'Gestión del Riesgo' };
+
+  /* «Estudiante de Trabajo Social», «Docente de Fono», «No docente». */
+  function quienLoHace(e){
+    const base = { estudiante:'Estudiante', docente:'Docente', nodocente:'No docente' }[e.quien] || '';
+    return base && e.carrera && CARRERA[e.carrera] ? base + ' de ' + CARRERA[e.carrera] : base;
+  }
+
+  /* EL ORDEN SE MEZCLA EN CADA VISITA. En orden alfabético, «Alfajores
+     Ana» sale siempre primero y «Zapatillas Zoe» siempre al fondo, que
+     es donde no llega nadie. Mezclado, cada emprendimiento tiene las
+     mismas chances de ser el primero que alguien ve. Se mezcla UNA vez
+     por visita: si se mezclara al filtrar, la lista saltaría cada vez
+     que se toca un chip. */
+  function mezclar(filas){
+    const a = filas.slice();
+    for (let i = a.length - 1; i > 0; i--){
+      const j = Math.floor(Math.random() * (i + 1));
+      [a[i], a[j]] = [a[j], a[i]];
+    }
+    return a;
+  }
+
+  let todos = [];
+  let rubroActivo = null;     // null = todos
+  let enganchado = false;
+
+  /* ============================================================
+     LO GUARDADO DE LA VISITA ANTERIOR
+
+     Un emprendimiento no vence como una fecha: mostrar la lista de la
+     semana pasada mientras llega la nueva no engaña a nadie.
+     ============================================================ */
+  const memoria = memoriaDe('feriazo');
+  if (memoria && (memoria.datos || []).length){
+    todos = mezclar(memoria.datos);
+    dibujar();
+    enganchar();
+    avisarMostrandoGuardado(memoria.cuando);
+  }
+
+  let frescos = null;
+  try {
+    const { data, error } = await conPaciencia(
+      db.from('feriazo')
+        .select('id,nombre,instagram,descripcion,rubro,quien,carrera,foto')
+        .eq('publicado', true));
+    if (error) throw error;
+    frescos = data || [];
+  } catch (e) {
+    if (memoria){
+      avisarNoSePudoActualizar(memoria.cuando);
+      return;
+    }
+    if (e && /feriazo/.test(e.message || '')){
+      lista.innerHTML = `<div class="vacio">
+          Esta sección todavía no está activada.<br>
+          <small>Al equipo: falta correr <b>sql/tabla-feriazo.sql</b> en Supabase.</small>
+        </div>`;
+      filtro.parentElement.hidden = true;
+      return;
+    }
+    mostrarError(lista, e, 'cargar los emprendimientos');
+    return;
+  }
+
+  if (!frescos.length){
+    olvidarMemoria('feriazo');
+    sacarAvisoGuardado();
+    lista.innerHTML = `<div class="vacio">
+        Todavía no hay emprendimientos cargados.<br>
+        <small>Si tenés uno, sé el primero: abajo dice cómo.</small>
+      </div>`;
+    chips.hidden = true;
+    filtro.parentElement.hidden = true;
+    return;
+  }
+
+  todos = mezclar(frescos);
+  guardarEnMemoria('feriazo', frescos);
+  dibujar();
+  enganchar();
+  sacarAvisoGuardado();
+
+
+  /* ---------- Los chips de rubro ---------- */
+  function pintarChips(){
+    /* Solo los rubros que tienen algo: un chip que lleva a una lista
+       vacía es una promesa que no se cumple. Con uno solo, no hay nada
+       que elegir. */
+    const conDatos = Object.keys(RUBROS_FERIAZO).filter(r => todos.some(x => x.rubro === r));
+    if (conDatos.length < 2){ chips.hidden = true; return; }
+    if (rubroActivo && !conDatos.includes(rubroActivo)) rubroActivo = null;
+    chips.hidden = false;
+    chips.innerHTML =
+      `<button class="chip" data-rubro="" aria-pressed="${rubroActivo ? 'false' : 'true'}">Todos</button>` +
+      conDatos.map(r => `
+        <button class="chip" data-rubro="${esc(r)}" aria-pressed="${r === rubroActivo}">
+          <span aria-hidden="true">${RUBROS_FERIAZO[r].emoji}</span> ${esc(RUBROS_FERIAZO[r].texto)}</button>`).join('');
+  }
+
+  /* ---------- Una tarjeta ---------- */
+  /* `function` y no `const`: lo guardado se dibuja arriba de todo,
+     antes de que este renglón se lea, y una `const` todavía no existe. */
+  function inicial(e){ return (e.nombre || '?').trim().charAt(0).toUpperCase(); }
+  function htmlInicial(letra){
+    return `<span class="fz-foto fz-inicial" aria-hidden="true">${esc(letra)}</span>`;
+  }
+
+  function htmlTarjeta(e){
+    const rubro = RUBROS_FERIAZO[e.rubro] || RUBROS_FERIAZO.otros;
+    const quien = quienLoHace(e);
+    /* El usuario ya viene limpio de la base (el `check` solo deja
+       letras, números, punto y guion bajo); igual se escapa, porque
+       esta pantalla no tiene por qué confiar en eso. */
+    const ig = encodeURIComponent(e.instagram);
+    /* Sin foto, la inicial sobre amarillo: la tarjeta mide lo mismo y
+       la lista no queda dentada. */
+    const foto = /^https:\/\//i.test(e.foto || '')
+      ? `<img class="fz-foto" src="${esc(e.foto)}" alt="" width="96" height="96"
+              loading="lazy" decoding="async" data-inicial="${esc(inicial(e))}">`
+      : htmlInicial(inicial(e));
+    return `
+      <article class="tarjeta fz-tarjeta">
+        ${foto}
+        <div class="fz-texto">
+          <h2 class="fz-nombre">${esc(e.nombre)}</h2>
+          <p class="fz-meta"><span aria-hidden="true">${rubro.emoji}</span> ${esc(rubro.texto)}${
+            quien ? ' · ' + esc(quien) : ''}</p>
+          <p class="fz-desc">${esc(e.descripcion)}</p>
+          <a class="fz-ig" href="https://www.instagram.com/${ig}/" target="_blank" rel="noopener">
+            @${esc(e.instagram)} <span class="solo-lectores">en Instagram (se abre aparte)</span></a>
+        </div>
+      </article>`;
+  }
+
+  /* ---------- La lista ---------- */
+  function dibujar(){
+    pintarChips();
+
+    const busca = normalizar(filtro.value.trim());
+
+    /* BUSCAR PISA EL CHIP, igual que en Cátedras: quien escribe
+       «alfajores» quiere encontrarlos, esté el chip que esté. */
+    const filas = busca
+      ? todos.filter(e =>
+          normalizar(e.nombre).includes(busca) ||
+          normalizar(e.descripcion).includes(busca) ||
+          normalizar(e.instagram).includes(busca) ||
+          normalizar((RUBROS_FERIAZO[e.rubro] || {}).texto).includes(busca))
+      : todos.filter(e => !rubroActivo || e.rubro === rubroActivo);
+
+    cuenta.textContent = filas.length === todos.length
+      ? `${todos.length} emprendimiento${todos.length === 1 ? '' : 's'} · el orden se mezcla en cada visita`
+      : `${filas.length} de ${todos.length}`;
+
+    if (!filas.length){
+      lista.innerHTML = `<div class="vacio">
+          No encontramos ningún emprendimiento con eso.<br>
+          <small>Probá con otra palabra, o mirá todos.</small>
+        </div>`;
+      return;
+    }
+    lista.innerHTML = filas.map(htmlTarjeta).join('');
+
+    /* Una foto que ya no está (se borró del depósito y quedó la lista
+       guardada de ayer) se ve como imagen rota. Mejor la inicial. */
+    lista.querySelectorAll('img.fz-foto').forEach(img =>
+      img.addEventListener('error', () => {
+        img.outerHTML = htmlInicial(img.dataset.inicial || '?');
+      }, { once: true }));
+  }
+
+  /* ---------- Enganchar una sola vez ---------- */
+  function enganchar(){
+    if (enganchado) return;
+    enganchado = true;
+
+    filtro.addEventListener('input', function(){
+      anotarBusqueda(filtro.value);
+      dibujar();
+    });
+
+    chips.addEventListener('click', function(ev){
+      const b = ev.target.closest('[data-rubro]');
+      if (!b) return;
+      rubroActivo = b.dataset.rubro || null;
+      filtro.value = '';
+      dibujar();
+    });
+  }
+
+})();
+</script>
+</body>
+</html>

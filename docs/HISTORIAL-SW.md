@@ -529,4 +529,10 @@ todo una entrada con el número, la fecha y el porqué.
    `lib/avisanos.js`, que salen de lo guardado: sin número nuevo, quien
    ya tiene la app vería la tarjeta sin estilo y el chat sin el
    enlace. */
+/* v95 (24/10/2026) Feriazo: la pantalla nueva `feriazo/` (los
+   emprendimientos de estudiantes, docentes y no docentes), su puerta
+   amarilla en el inicio y su renglón en el menú ☰. Cambian `app.js`
+   (SECCIONES), que está en el armazón, y `css/pantallas/inicio.css`,
+   que sale de lo guardado: sin número nuevo, quien ya tiene la app no
+   vería Feriazo en el menú y la puerta saldría sin estilo. */
 ```

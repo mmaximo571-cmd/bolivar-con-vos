@@ -331,6 +331,17 @@ setTimeout(function(){
       <div class="lme-riel" id="lme-riel" hidden></div>
     </section>
 
+    <!-- FERIAZO (24/10/2026). Los emprendimientos de estudiantes,
+         docentes y no docentes. Amarillo y no negro como Decilo: no es
+         para escribirle al centro, es para mirar. Un link entero, sin
+         JavaScript. -->
+    <a class="feriazo-puerta" href="feriazo/">
+      <span class="feriazo-ceja">Estudiantes y trabajadores</span>
+      <span class="feriazo-titulo">Feriazo</span>
+      <span class="feriazo-bajada">Lo que hace la gente de la facu, con su Instagram. Acá no se vende: se conoce.</span>
+      <span class="cuadro-flecha" aria-hidden="true">→</span>
+    </a>
+
     <!-- Para quien recién llega -->
     <div class="titulo-seccion">SI RECIÉN EMPEZÁS</div>
     <div class="kit" id="kit"></div>
@@ -2115,7 +2126,7 @@ addEventListener('pageshow', function(ev){
      con un armazón de ayer, movimiento.js puede no estar. */
   if (typeof entrarAlLlegar === 'function'){
     entrarAlLlegar(zonaFondo,
-      '.titulo-seccion, .decilo-puerta, .lme, #kit > *, #novedades > .tarjeta, .calendario, .carrusel',
+      '.titulo-seccion, .decilo-puerta, .lme, .feriazo-puerta, #kit > *, #novedades > .tarjeta, .calendario, .carrusel',
       { soloAbajo: true });
   }
   const tituloRes  = document.getElementById('titulo-resultados');

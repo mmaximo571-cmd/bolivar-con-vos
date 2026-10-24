@@ -637,6 +637,10 @@ const SECCIONES = [
   /* De las tres carreras: el buffet y la fotocopiadora. Va en el ☰ y en
      el pie, no en la barra de abajo, que sigue con cuatro. */
   { id:'espacios',   texto:'Espacios autogestivos', icono:'🤝', url:RAIZ+'espacios/' },
+  /* Los emprendimientos de la gente de la facu (24/10/2026). Va al lado
+     de Espacios porque es de la misma familia: lo que se arma entre
+     quienes están en la facultad. Tiene además su puerta en el inicio. */
+  { id:'feriazo',    texto:'Feriazo',         icono:'🧺', url:RAIZ+'feriazo/' },
   { id:'mi',         texto:'Perfil',          icono:'👤', url:RAIZ+'mi/' },
   { id:'quienes',    texto:'¿Quiénes somos?', icono:'✊', url:RAIZ+'quienes/' }
 ];

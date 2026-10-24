@@ -1,0 +1,70 @@
+/* ==========================================================
+   LA BOLIVAR CON VOS · SOLO PARA FERIAZO (24/10/2026)
+   Los emprendimientos de la gente de la facu. El fondo, el borde y la
+   sombra de la tarjeta los pone `.tarjeta` (base y rediseño); acá va
+   solo cómo se acomodan la foto y el texto adentro.
+   Carga después de base/12 y antes de estilos-rediseno.
+   ========================================================== */
+
+.fz-ceja{
+  margin:18px 0 2px;font-family:var(--fuente-sub);font-weight:700;
+  font-size:var(--letra-mini);text-transform:uppercase;letter-spacing:.08em;
+  color:var(--texto-suave)
+}
+
+.fz-cuenta{margin:4px 0 12px;color:var(--texto-suave)}
+
+/* Una columna en el teléfono, dos desde 720: la descripción tiene que
+   entrar en tres renglones sin que la tarjeta quede como una tira. */
+.fz-lista{display:grid;gap:12px}
+@media (min-width:720px){ .fz-lista{grid-template-columns:1fr 1fr} }
+
+.fz-tarjeta{
+  display:grid;grid-template-columns:76px minmax(0,1fr);gap:14px;align-items:start;
+  /* `.tarjeta` no deja seleccionar (es para las que se tocan enteras).
+     Esta no se toca entera, y el usuario de Instagram se copia. */
+  -webkit-user-select:text;user-select:text
+}
+@media (min-width:400px){ .fz-tarjeta{grid-template-columns:96px minmax(0,1fr)} }
+
+/* Las fotos de perfil de Instagram son cuadradas: el recorte en
+   cuadrado es el que menos les come. */
+.fz-foto{
+  display:block;width:100%;aspect-ratio:1 / 1;object-fit:cover;
+  border-radius:var(--radio-chico);border:2px solid var(--tinta-borde);
+  background:var(--superficie-2)
+}
+.fz-inicial{
+  display:flex;align-items:center;justify-content:center;
+  background:var(--amarillo);color:var(--sobre-color);
+  font-family:var(--fuente-titulo);font-size:34px;line-height:1
+}
+
+.fz-texto{min-width:0}
+.fz-nombre{
+  margin:0 0 3px;font-family:var(--fuente-titulo);font-weight:400;
+  font-size:var(--letra-guia);line-height:1.1;overflow-wrap:anywhere
+}
+.fz-meta{margin:0 0 6px;font-size:var(--letra-chica);color:var(--texto-suave)}
+.fz-desc{margin:0 0 8px;font-size:var(--letra-base);line-height:1.4}
+
+/* El usuario de Instagram es EL dato de la tarjeta: va en negrita y
+   con el área de toque de un dedo, aunque el texto sea corto. */
+.fz-ig{
+  display:inline-flex;align-items:center;min-height:44px;
+  font-weight:700;text-decoration:underline;text-underline-offset:3px;
+  overflow-wrap:anywhere
+}
+
+/* «¿Tenés un emprendimiento?» */
+.fz-sumate{
+  margin:26px 0 8px;padding:16px;
+  border:2px dashed var(--tinta-borde);border-radius:var(--radio)
+}
+.fz-sumate h2{
+  margin:0 0 6px;font-family:var(--fuente-titulo);font-weight:400;
+  font-size:var(--letra-guia);line-height:1.1
+}
+.fz-sumate p{margin:0 0 12px}
+.fz-sumate p:last-child{margin:12px 0 0}
+.fz-sumate a:not(.boton){text-decoration:underline}

@@ -110,6 +110,8 @@
 <script src="../lib/leer-aviso.js"></script>
 <!-- Lo que llega desde el menú Compartir del celular (7/10/2026). -->
 <script src="../lib/compartido.js"></script>
+<!-- La pestaña Feriazo: los emprendimientos de la facu (24/10/2026). -->
+<script src="feriazo.js"></script>
 <script>
 (async function cargar(){
   'use strict';
@@ -1098,6 +1100,8 @@
                 aria-selected="${cual === 'cargar'}" data-ver="cargar">Cargar</button>
         <button type="button" class="pestana" role="tab" id="tab-buzon"
                 aria-selected="${cual === 'buzon'}" data-ver="buzon">${esc(rotuloBuzon())}</button>
+        <button type="button" class="pestana" role="tab" id="tab-feriazo"
+                aria-selected="${cual === 'feriazo'}" data-ver="feriazo">Feriazo</button>
       </div>`;
   }
 
@@ -1123,10 +1127,12 @@
      bandeja, y recargar no te devuelve a «Cargar». */
   function ir(cual){
     const u = new URL(location.href);
-    if (cual === 'buzon') u.searchParams.set('ver', 'buzon');
+    if (cual === 'buzon' || cual === 'feriazo') u.searchParams.set('ver', cual);
     else u.searchParams.delete('ver');
     history.replaceState(null, '', u);
-    if (cual === 'buzon') bandeja(); else paso1();
+    if (cual === 'buzon') bandeja();
+    else if (cual === 'feriazo') feriazo();
+    else paso1();
     const t = document.getElementById('tab-' + cual);
     if (t) t.focus();
   }
@@ -1191,6 +1197,14 @@
   ];
 
   let pedidos = [], nombreCategoria = {}, filtro = 'recibido', abierto = null;
+
+  /* FERIAZO (24/10/2026). Todo lo suyo está en `cargar/feriazo.js`;
+     acá solo la pestaña. */
+  function feriazo(){
+    contenido.innerHTML = `${htmlPestanas('feriazo')}<div id="feriazo-zona"></div>`;
+    engancharPestanas();
+    montarFeriazoCarga(document.getElementById('feriazo-zona'));
+  }
 
   function bandeja(){
     contenido.innerHTML = `
@@ -1505,6 +1519,7 @@
   }
 
   if (new URLSearchParams(location.search).get('ver') === 'buzon') bandeja();
+  else if (new URLSearchParams(location.search).get('ver') === 'feriazo') feriazo();
   else {
     paso1();
     if ((window.vinoCompartido && vinoCompartido())) recibirCompartido();
