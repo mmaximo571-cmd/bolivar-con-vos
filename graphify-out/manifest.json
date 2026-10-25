@@ -1,8 +1,8 @@
 {
   "app.js": {
-    "mtime": 1792884056.7947092,
-    "seen": 1792884526.3531322,
-    "ast_hash": "af3e19f169c0faea932feced5495b7e1",
+    "mtime": 1792893545.079823,
+    "seen": 1792893778.1757076,
+    "ast_hash": "d43e4cea10fd9f953be7b74315517f21",
     "semantic_hash": ""
   },
   "carrera/plan-fono.js": {
@@ -78,15 +78,15 @@
     "semantic_hash": ""
   },
   "sw.js": {
-    "mtime": 1792889214.0164974,
-    "seen": 1792889272.5358372,
-    "ast_hash": "3a71ebc588fa4647f90129e6fbdaa3ea",
+    "mtime": 1792893760.5121841,
+    "seen": 1792893778.1758552,
+    "ast_hash": "e5eeee766e2165313596e3fddb022ac0",
     "semantic_hash": ""
   },
   "BITACORA.md": {
-    "mtime": 1792088892.2254913,
-    "seen": 1792088921.0568552,
-    "ast_hash": "0c68ec98d5c110718a00658cf3579fd6",
+    "mtime": 1792894149.6204937,
+    "seen": 1792894167.4630587,
+    "ast_hash": "6b6507485ad0f945a277a521e69320fb",
     "semantic_hash": ""
   },
   "LEEME.md": {
@@ -96,9 +96,9 @@
     "semantic_hash": ""
   },
   "agenda/index.html": {
-    "mtime": 1792889199.7684398,
-    "seen": 1792889272.535845,
-    "ast_hash": "75c32db5768fe8ab9b0f2cdf08606958",
+    "mtime": 1792893425.372819,
+    "seen": 1792893778.175862,
+    "ast_hash": "392a00c929d6da8fb805060c25fd2522",
     "semantic_hash": ""
   },
   "anatomo/index.html": {
@@ -138,9 +138,9 @@
     "semantic_hash": ""
   },
   "estudiemos/index.html": {
-    "mtime": 1791765481.8727443,
-    "seen": 1791765585.5171525,
-    "ast_hash": "b4072fd9bb2291088bbf66255574222f",
+    "mtime": 1792893425.6485705,
+    "seen": 1792893778.1759422,
+    "ast_hash": "7ff3c57a12f0b7f62a9f9a6d632a4844",
     "semantic_hash": ""
   },
   "glosario/index.html": {
@@ -150,21 +150,21 @@
     "semantic_hash": ""
   },
   "index.html": {
-    "mtime": 1792884056.9991622,
-    "seen": 1792884526.3533666,
-    "ast_hash": "20b8f6146114caa85600cdb550d54a33",
+    "mtime": 1792893760.5111845,
+    "seen": 1792893778.1759503,
+    "ast_hash": "c278d0f6a9e49140dde17e3cccce4a59",
     "semantic_hash": ""
   },
   "mi/index.html": {
-    "mtime": 1792888451.5283153,
-    "seen": 1792888595.4564245,
-    "ast_hash": "88c48d7566150878320e935f3544a5e6",
+    "mtime": 1792893425.524317,
+    "seen": 1792893778.17596,
+    "ast_hash": "7b41f7dd97f289b689d265b4cf4c9c0d",
     "semantic_hash": ""
   },
   "panel/index.html": {
-    "mtime": 1791821088.447348,
-    "seen": 1792088213.935165,
-    "ast_hash": "fa4c9588fd92690b7afc8012c3492da4",
+    "mtime": 1792893732.8037808,
+    "seen": 1792893778.1759615,
+    "ast_hash": "f9440a250b3ec1df7f96e4018f668893",
     "semantic_hash": ""
   },
   "quienes/index.html": {
@@ -594,9 +594,9 @@
     "semantic_hash": ""
   },
   "docs/HISTORIAL-SW.md": {
-    "mtime": 1792889213.998488,
-    "seen": 1792889272.5358598,
-    "ast_hash": "b8b7576b2fe411bc7a6715c675aba780",
+    "mtime": 1792893760.514176,
+    "seen": 1792893778.1758907,
+    "ast_hash": "ed7526284294e27dc7002e13898bd09e",
     "semantic_hash": ""
   },
   "docs/prompts/PROMPT-DISENO.md": {
@@ -906,9 +906,9 @@
     "semantic_hash": ""
   },
   "ingreso/index.html": {
-    "mtime": 1791763423.2903354,
-    "seen": 1791763479.3138778,
-    "ast_hash": "2b0958be90b2cb232c882e486e179cf1",
+    "mtime": 1792893871.533438,
+    "seen": 1792894167.4631386,
+    "ast_hash": "079d8ccdce3e2c6e3c43aad650219e64",
     "semantic_hash": ""
   },
   "estudiemos/mis-parciales/mis-parciales.js": {
@@ -957,6 +957,24 @@
     "mtime": 1792884247.6827197,
     "seen": 1792884526.3533628,
     "ast_hash": "7edac1eef243d6ab5e663d7ec646e7a7",
+    "semantic_hash": ""
+  },
+  "lib/recorrido.js": {
+    "mtime": 1792894081.609919,
+    "seen": 1792894167.4629543,
+    "ast_hash": "5d3e9b2b9e171383ff5c7210732bda52",
+    "semantic_hash": ""
+  },
+  "sql/tabla-ingresantes.sql": {
+    "mtime": 1792893020.347191,
+    "seen": 1792893778.1758296,
+    "ast_hash": "1b3790d0239c038fd2968beeabca2a1c",
+    "semantic_hash": ""
+  },
+  "primeros-pasos/index.html": {
+    "mtime": 1792893510.0844038,
+    "seen": 1792893778.175963,
+    "ast_hash": "a7d9bd7ac8b0d1bb0fcb40ff6f46f2ac",
     "semantic_hash": ""
   }
 }

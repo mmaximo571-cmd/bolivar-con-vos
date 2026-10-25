@@ -1,17 +1,17 @@
 # Graph Report - bolivar-con-vos  (2026-10-24)
 
 ## Corpus Check
-- 98 files · ~368,014 words
+- 100 files · ~375,413 words
 - Verdict: corpus is large enough that graph structure adds value.
-- Unclassified: 39 file(s) not represented in the graph (top: .css 29, (none) 5, .geojson 4)
+- Unclassified: 40 file(s) not represented in the graph (top: .css 30, (none) 5, .geojson 4)
 
 ## Summary
-- 1135 nodes · 1711 edges · 120 communities (78 shown, 42 thin omitted)
-- Extraction: 94% EXTRACTED · 6% INFERRED · 0% AMBIGUOUS · INFERRED: 102 edges (avg confidence: 0.85)
+- 1151 nodes · 1736 edges · 122 communities (80 shown, 42 thin omitted)
+- Extraction: 94% EXTRACTED · 6% INFERRED · 0% AMBIGUOUS · INFERRED: 106 edges (avg confidence: 0.85)
 - Token cost: 0 input · 0 output
 
 ## Graph Freshness
-- Built from commit: `6716a3b6`
+- Built from commit: `5753c0ed`
 - Run `git rev-parse HEAD` and compare to check if the graph is stale.
 - Run `graphify update .` after code changes (no API cost).
 
@@ -125,6 +125,8 @@
 - Prompt para Claude Design: las placas de la serie «Lo nuevo»
 - elegirCarrera
 - tabla-feriazo.sql
+- empezarRecorrido
+- tabla-ingresantes.sql
 
 ## God Nodes (most connected - your core abstractions)
 1. `Pantalla Mi año (carrera)` - 19 edges
@@ -139,16 +141,16 @@
 10. `htmlNovedades()` - 9 edges
 
 ## Surprising Connections (you probably didn't know these)
-- `1. Carga fácil de paros y grupos de estudio` --references--> `linea()`  [INFERRED]
-  docs/PROPUESTAS.md → estudiemos/fichas/leer.js
-- `4. Época de parciales en Estudiemos` --references--> `terminar()`  [INFERRED]
-  docs/PROPUESTAS.md → estudiemos/pomodoro.js
 - `4. Época de parciales en Estudiemos` --references--> `anotarHito()`  [INFERRED]
   docs/PROPUESTAS.md → app.js
+- `1. Carga fácil de paros y grupos de estudio` --references--> `linea()`  [INFERRED]
+  docs/PROPUESTAS.md → estudiemos/fichas/leer.js
 - `3. Calendario y avisos: que se revisen todos los días` --references--> `guardarCopiaCursada()`  [INFERRED]
   docs/PROPUESTAS.md → app.js
 - `Pantalla Fonoteca (práctica de audiogramas)` --calls--> `pintarNav()`  [EXTRACTED]
   estudiemos/fonoteca/index.html → app.js
+- `Pantalla Estudiemos (landing de herramientas)` --calls--> `pintarNav()`  [EXTRACTED]
+  estudiemos/index.html → app.js
 
 ## Import Cycles
 - None detected.
@@ -162,7 +164,7 @@
 - **Pantallas que muestran publicaciones de la agenda** — tabla_publicaciones, index_proximodelaagenda, index_calendario_mes, agenda_index_traer, agenda_index_detalle_publicacion, carrera_index_vistanueva [INFERRED 0.85]
 - **El Panel edita el contenido que leen las pantallas públicas** — panel_index, tramites_index, quienes_index, consejo_index, anatomo_index, catedras_index, estudiemos_index [INFERRED 0.95]
 
-## Communities (120 total, 42 thin omitted)
+## Communities (122 total, 42 thin omitted)
 
 ### Community 0 - "La carrera se elige una vez (bolivar-carrera-v2)"
 Cohesion: 0.14
@@ -476,24 +478,32 @@ Nodes (5): Antes de bajar los PNG, Cómo se usa, El prompt base, La nota de arte
 Cohesion: 0.40
 Nodes (4): public.tocar_feriazo, al_tocar_feriazo, feriazo_instagram_unico, public.feriazo
 
+### Community 120 - "empezarRecorrido"
+Cohesion: 0.36
+Nodes (10): empezarRecorrido(), ir(), pintar(), teclas(), terminar(), ubicar(), __recorridoBuscar(), RECORRIDOS (+2 more)
+
+### Community 121 - "tabla-ingresantes.sql"
+Cohesion: 0.60
+Nodes (3): ingresantes_carrera_idx, public.anotar_ingresante(), public.ingresantes
+
 ## Knowledge Gaps
-- **205 isolated node(s):** `session-start.sh script`, `aqui`, `raiz`, `texto`, `f` (+200 more)
-  These have ≤1 connection - possible missing edges or undocumented components. (Counts symbols only; 372 node(s) total have ≤1 connection when file, concept and rationale nodes are included.)
+- **206 isolated node(s):** `session-start.sh script`, `aqui`, `raiz`, `texto`, `f` (+201 more)
+  These have ≤1 connection - possible missing edges or undocumented components. (Counts symbols only; 374 node(s) total have ≤1 connection when file, concept and rationale nodes are included.)
 - **42 thin communities (<3 nodes) omitted from report** — run `graphify query` to explore isolated nodes.
 
 ## Suggested Questions
 _Questions this graph is uniquely positioned to answer:_
 
-- **Why does `4. Época de parciales en Estudiemos` connect `anotar` to `pomodoro.js`, `leer.js`?**
-  _High betweenness centrality (0.067) - this node is a cross-community bridge._
-- **Why does `terminar()` connect `pomodoro.js` to `anotar`?**
-  _High betweenness centrality (0.062) - this node is a cross-community bridge._
-- **Why does `reloj()` connect `pomodoro.js` to `congreso.js`?**
-  _High betweenness centrality (0.059) - this node is a cross-community bridge._
+- **Why does `Pantalla Inicio` connect `Pantalla Mi año (carrera)` to `movimiento.js`, `app.js`, `Detalle de publicación (?id=)`, `Pantalla El Consejo Directivo`, `Mi perfil (mi/index.html)`, `manifest.json`?**
+  _High betweenness centrality (0.124) - this node is a cross-community bridge._
+- **Why does `pedido()` connect `riesgo.js` to `Pantalla El Consejo Directivo`, `fondo-red.js`?**
+  _High betweenness centrality (0.103) - this node is a cross-community bridge._
+- **Why does `Vercel Web Analytics (/_vercel/insights/script.js, v72)` connect `Pantalla El Consejo Directivo` to `Pantalla Mi año (carrera)`?**
+  _High betweenness centrality (0.097) - this node is a cross-community bridge._
 - **Are the 2 inferred relationships involving `pintarFormulario()` (e.g. with `verCuenta()` and `verIg()`) actually correct?**
   _`pintarFormulario()` has 2 INFERRED edges - model-reasoned connections that need verification._
 - **What connects `session-start.sh script`, `aqui`, `raiz` to the rest of the system?**
-  _205 weakly-connected nodes found - possible documentation gaps or missing edges._
+  _206 weakly-connected nodes found - possible documentation gaps or missing edges._
 - **Should `La carrera se elige una vez (bolivar-carrera-v2)` be split into smaller, more focused modules?**
   _Cohesion score 0.14285714285714285 - nodes in this community are weakly interconnected._
 - **Should `app.js` be split into smaller, more focused modules?**
