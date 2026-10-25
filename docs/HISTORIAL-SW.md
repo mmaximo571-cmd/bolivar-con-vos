@@ -539,4 +539,8 @@ todo una entrada con el número, la fecha y el porqué.
    de cada clase y el promedio por materia, con las marcas del 60 y
    el 80. Sus estilos van en `estilos-rediseno.css`, que está en el
    armazón: sin número nuevo, la pregunta saldría sin estilo. */
+/* v97 (24/10/2026) Fechas separa los dos topes de faltas: «Quedás
+   libre» ahora es pasarse del 60% (regularidad) y el 80% queda como
+   promoción, igual que en Mi perfil. La separación de las casillas
+   está en `estilos-rediseno.css`, que está en el armazón. */
 ```

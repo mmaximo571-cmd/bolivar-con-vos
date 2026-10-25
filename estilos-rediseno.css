@@ -876,6 +876,8 @@
   transition:background var(--t-medio,220ms) ease
 }
 .faltas-casillas i.usada{background:var(--ambar)}
+/* Donde termina la promoción y queda solo la regularidad. */
+.faltas-casillas i.corte{margin-left:8px}
 .faltas-detalle{font-size:12.5px;line-height:1.4;color:var(--texto-suave);margin-top:10px}
 /* Dos tintas distintas a propósito: el ámbar se queda en el número de
    38px, que es escala de titular y pasa con 3:1; el rótulo de 13px va

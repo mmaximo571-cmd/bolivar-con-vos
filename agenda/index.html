@@ -838,8 +838,14 @@
     return n < 13 ? 'manana' : n < 18 ? 'tarde' : 'noche';
   }
 
-  /* Tope al 80% de presentismo. */
-  const topeFaltas = c => Math.floor((c.total_clases || 0) * 0.2);
+  /* Los dos topes de faltas (24/10/2026), los mismos que usa Mi
+     perfil: en general la regularidad pide 60% de asistencia y la
+     promoción 80%. Hasta acá había uno solo, al 80%, y «Quedás libre»
+     salía con faltas que todavía dejaban regularizar. Cada cátedra lo
+     fija en su programa: la hoja lo dice. */
+  const PIDE_REGULARIDAD = 0.6;
+  const PIDE_PROMOCION   = 0.8;
+  const topeFaltas = (c, pide) => Math.floor((c.total_clases || 0) * (1 - pide));
 
   /* Mes, Semana, Días (la agenda seguida, día por día) y Mío (lo de
      la persona: clases, finales, lo que marcó «Voy» y los paros). Las
@@ -1049,10 +1055,10 @@
       const celdas = BLOQUES.map(b => {
         const clase = cursada.find(c => c.dia === i+1 && c.bloque === b.k);
         if (clase){
-          const restan = Math.max(topeFaltas(clase) - (faltas[clase.materia] || 0), 0);
+          const restan = Math.max(topeFaltas(clase, PIDE_REGULARIDAD) - (faltas[clase.materia] || 0), 0);
           return `<button type="button" class="semana-celda cursada${paro ? ' con-paro' : ''}"
             data-materia="${esc(clase.materia)}" data-cursada-id="${clase.id}"
-            aria-label="${esc(clase.materia)}, ${esc(clase.hora || '')}${clase.aula ? ', ' + esc(clase.aula) : ''}.${paro ? ' Ese día hay paro.' : ''} Te ${restan === 1 ? 'queda 1 falta' : 'quedan ' + restan + ' faltas'}">
+            aria-label="${esc(clase.materia)}, ${esc(clase.hora || '')}${clase.aula ? ', ' + esc(clase.aula) : ''}.${paro ? ' Ese día hay paro.' : ''} Te ${restan === 1 ? 'queda 1 falta' : 'quedan ' + restan + ' faltas'} para la regularidad">
             <b>${esc(clase.materia)}</b>
             <i>${paro ? 'Hay paro' : `${clase.aula ? esc(clase.aula) + ' · ' : ''}${restan} falta${restan === 1 ? '' : 's'}`}</i>
           </button>`;
@@ -1319,12 +1325,23 @@
 
   function htmlHoja(c){
     const usadas = faltas[c.materia] || 0;
-    const tope   = topeFaltas(c);
+    const tope   = topeFaltas(c, PIDE_REGULARIDAD);
+    const topePromo = topeFaltas(c, PIDE_PROMOCION);
     const restan = tope - usadas;
-    const clase  = restan <= 0 ? 'libre' : (restan <= 1 ? 'filo' : 'bien');
-    const estado = restan <= 0 ? 'Quedás libre' : (restan <= 1 ? 'Al filo' : 'Vas bien');
+    const restanPromo = topePromo - usadas;
+    /* Con las faltas justas todavía se llega al 60%: libre es pasarse,
+       no llegar al tope. */
+    const clase  = restan < 0 ? 'libre' : (restan <= 1 ? 'filo' : 'bien');
+    const estado = restan < 0 ? 'Quedás libre' : (restan <= 1 ? 'Al filo' : 'Vas bien');
+    /* Las casillas de después del tope de promoción van separadas:
+       hasta ahí se promociona, de ahí en más solo se regulariza. */
     const casillas = Array.from({ length: tope }, (_, i) =>
-      `<i class="${i < usadas ? 'usada' : ''}" aria-hidden="true"></i>`).join('');
+      `<i class="${i < usadas ? 'usada' : ''}${i === topePromo && i > 0 ? ' corte' : ''}" aria-hidden="true"></i>`).join('');
+    const promo = restanPromo > 0
+      ? `Para la promoción (80%) ${restanPromo === 1 ? 'te queda 1 falta' : `te quedan ${restanPromo} faltas`}.`
+      : restanPromo === 0
+        ? 'Para la promoción (80%) ya no podés faltar más.'
+        : 'Con estas faltas ya no llegás a la promoción (80%).';
     const dias = cursada.filter(x => x.materia === c.materia)
       .sort((x, y) => x.dia - y.dia)
       .map(x => `${DOW[x.dia - 1]} ${x.hora || ''}`.trim()).join(' y ');
@@ -1342,21 +1359,21 @@
 
       <div class="faltas ${clase}">
         <div class="faltas-cab">
-          <span class="rotulo">Presentismo · pide 80%</span>
+          <span class="rotulo">Regularidad · pide 60%</span>
           <span class="estado">${estado}</span>
         </div>
         <div class="faltas-numero" aria-live="polite">
           <b>${Math.max(restan, 0)}</b>
-          <span>${restan === 1 ? 'falta te queda' : 'faltas te quedan'}</span>
+          <span>${restan === 1 ? 'falta te queda' : 'faltas te quedan'} para regularizar</span>
         </div>
         <div class="faltas-casillas">${casillas}</div>
         <div class="faltas-detalle">Faltaste ${usadas} de ${c.total_clases}.
-          Con el 80% podés faltar ${tope} ${tope === 1 ? 'vez' : 'veces'}.</div>
+          Con el 60% podés faltar ${tope} ${tope === 1 ? 'vez' : 'veces'}. ${promo}
+          Es lo que se pide en general: fijate el programa de tu cátedra.</div>
       </div>
 
       <div class="cursada-acciones">
-        <button type="button" class="boton" data-falta="mas"
-                ${usadas >= tope ? 'disabled' : ''}>Falté hoy</button>
+        <button type="button" class="boton" data-falta="mas">Falté hoy</button>
         <button type="button" class="boton borde" data-falta="menos"
                 ${usadas ? '' : 'disabled'}>Deshacer</button>
       </div>
