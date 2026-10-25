@@ -78,9 +78,9 @@
     "semantic_hash": ""
   },
   "sw.js": {
-    "mtime": 1792884071.0827048,
-    "seen": 1792884526.3532953,
-    "ast_hash": "ce1b0be8deef48a1de097519d5f1d32e",
+    "mtime": 1792888348.3075576,
+    "seen": 1792888595.456352,
+    "ast_hash": "1e939d95cbe442e43f785c4365fb26b6",
     "semantic_hash": ""
   },
   "BITACORA.md": {
@@ -156,9 +156,9 @@
     "semantic_hash": ""
   },
   "mi/index.html": {
-    "mtime": 1790731077.917933,
-    "seen": 1790732169.323892,
-    "ast_hash": "16da33aba5c489279f344d59da27c236",
+    "mtime": 1792888451.5283153,
+    "seen": 1792888595.4564245,
+    "ast_hash": "88c48d7566150878320e935f3544a5e6",
     "semantic_hash": ""
   },
   "panel/index.html": {
@@ -522,9 +522,9 @@
     "semantic_hash": ""
   },
   "sql/tabla-cursada.sql": {
-    "mtime": 1790725615.1300547,
-    "seen": 1790732169.3236585,
-    "ast_hash": "4d7e3c8a2e4838b4ddb555d8814c692f",
+    "mtime": 1792888113.1449573,
+    "seen": 1792888595.4563217,
+    "ast_hash": "db36c8ab6b92cee3cda2b22a4f8cf767",
     "semantic_hash": ""
   },
   "sql/tabla-fotos.sql": {
@@ -594,9 +594,9 @@
     "semantic_hash": ""
   },
   "docs/HISTORIAL-SW.md": {
-    "mtime": 1792884076.9051826,
-    "seen": 1792884526.3533173,
-    "ast_hash": "6e15d2e0812ecab4e552f498c46c2a68",
+    "mtime": 1792888348.3075576,
+    "seen": 1792888595.4563718,
+    "ast_hash": "dfec71b6e584ce052d75e6889a3348eb",
     "semantic_hash": ""
   },
   "docs/prompts/PROMPT-DISENO.md": {
@@ -948,9 +948,9 @@
     "semantic_hash": ""
   },
   "sql/tabla-feriazo.sql": {
-    "mtime": 1792883812.1271203,
-    "seen": 1792884526.3532598,
-    "ast_hash": "6c4cb1694305f0278ff0c937d83499c4",
+    "mtime": 1792884697.7561424,
+    "seen": 1792888595.456324,
+    "ast_hash": "8a41e29eb82fa570ea54dc3493f35dda",
     "semantic_hash": ""
   },
   "feriazo/index.html": {
