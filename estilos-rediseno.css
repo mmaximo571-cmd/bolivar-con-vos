@@ -909,6 +909,70 @@
 .campos-par{display:grid;grid-template-columns:1fr 1fr;gap:0 10px}
 .campos-par .campo{min-width:0}
 
+/* La pregunta de cada clase, arriba de todo en Mi perfil (24/10/2026).
+   Va antes que los trámites y la campana a propósito: es lo único de
+   la pantalla que pide algo, y contestarla es un toque. */
+.pregunta-clase{
+  margin:0 0 18px;padding:16px 16px 12px;border-radius:20px;
+  background:var(--superficie);border:1px solid var(--linea);box-shadow:var(--sombra-1)
+}
+.pregunta-clase.listo{padding:12px 16px}
+.pregunta-ceja{
+  font-family:'Roboto',sans-serif;font-weight:700;font-size:10.5px;letter-spacing:.13em;
+  text-transform:uppercase;color:var(--texto-suave)
+}
+.pregunta-clase h2{margin:6px 0 14px;font-family:'Roboto',sans-serif;font-weight:700;
+  font-size:20px;line-height:1.2;letter-spacing:-.018em}
+.pregunta-acciones{display:grid;grid-template-columns:1fr 1fr;gap:9px}
+.pregunta-clase .boton.texto{margin-top:4px}
+.pregunta-nota{margin:8px 0 0;font-size:13px;line-height:1.45;color:var(--texto-suave);text-align:center}
+.pregunta-deshacer{
+  border:none;background:none;padding:4px 2px;font:inherit;font-weight:700;
+  color:var(--texto);text-decoration:underline;cursor:pointer
+}
+.pregunta-clase .aviso{margin-top:10px}
+
+/* El promedio de cada materia, debajo de la lista de la cursada. Las
+   dos marcas son lo que suelen pedir las cátedras (60 y 80); el
+   número grande lleva el color del estado y el texto chico va en tinta
+   plena, por lo mismo que en `.faltas`: el ámbar a 13px no llega al
+   contraste. */
+.asistencia-recordatorio{
+  margin:4px 0 10px;padding:11px 13px;border-radius:14px;background:var(--superficie-2);
+  font-size:13px;line-height:1.45;color:var(--texto-suave)
+}
+.asistencia-recordatorio b{color:var(--texto)}
+.lista-asistencia{display:flex;flex-direction:column;gap:8px;margin-bottom:14px}
+.asistencia-tarjeta{
+  padding:13px 14px 12px;border-radius:16px;background:var(--superficie);
+  border:1px solid var(--linea);box-shadow:var(--sombra-1)
+}
+.asistencia-cab{display:flex;align-items:baseline;justify-content:space-between;gap:10px}
+.asistencia-cab b{font-weight:700;font-size:15.5px;line-height:1.25;letter-spacing:-.01em;min-width:0}
+.asistencia-pct{font-family:var(--fuente-titulo);font-size:28px;line-height:1;flex:0 0 auto}
+.asistencia-barra{
+  position:relative;height:8px;border-radius:99px;background:var(--linea);
+  margin:12px 0 18px
+}
+.asistencia-barra > i{
+  display:block;height:100%;border-radius:99px;background:var(--texto);
+  transition:width var(--t-medio,220ms) ease
+}
+.asistencia-marca{position:absolute;top:-3px;bottom:-3px;width:2px;margin-left:-1px;
+  background:var(--texto-suave);border-radius:2px}
+.asistencia-marca em{
+  position:absolute;top:16px;left:50%;transform:translateX(-50%);
+  font-style:normal;font-family:var(--fuente-datos);font-size:10.5px;color:var(--texto-suave)
+}
+.asistencia-estado{margin:0;font-weight:700;font-size:13.5px;line-height:1.35}
+.asistencia-detalle{margin:3px 0 0;font-size:12.5px;line-height:1.4;color:var(--texto-suave)}
+.asistencia-detalle:empty{display:none}
+.asistencia-tarjeta.regular .asistencia-pct{color:var(--ambar)}
+.asistencia-tarjeta.regular .asistencia-barra > i{background:var(--ambar)}
+.asistencia-tarjeta.riesgo .asistencia-pct{color:var(--rojo-hoy)}
+.asistencia-tarjeta.riesgo .asistencia-barra > i{background:var(--rojo-hoy)}
+.asistencia-tarjeta.sin-datos .asistencia-pct{color:var(--texto-suave)}
+
 /* --- 17 · El aviso de la mudanza -----------------------------
    Sale una sola vez, la primera visita en labolivarconvos.ar de
    quien venía de bolivar-con-vos.vercel.app (ver «La mudanza» en

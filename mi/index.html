@@ -208,7 +208,7 @@
         <p style="margin:0 0 6px"><b>Qué guardamos:</b> tu correo, el nombre
           que pongas, los trámites que marques, las materias que estés
           preparando, qué avisos de la campana ya leíste y, si la cargás,
-          tu cursada con las faltas. Nada de notas.</p>
+          tu cursada con las clases a las que fuiste y las que faltaste. Nada de notas.</p>
         <p style="margin:0 0 6px"><b>Quién lo ve:</b> vos. El equipo ve tu
           nombre en la lista de cuentas; no ve tu correo, ni qué guardaste, ni
           qué estás preparando, ni tu cursada.</p>
@@ -397,6 +397,8 @@
       <h1 class="titulo-pantalla">HOLA${perfil && perfil.nombre ? ', ' + esc(perfil.nombre.split(' ')[0]).toUpperCase() : ''}</h1>
       <p class="bajada">${esc(usuario.email)}</p>
 
+      <div id="pregunta-clase"></div>
+
       ${esDelEquipo(perfil) ? `
         <a class="boton ancho oscuro" href="../panel/" style="margin-bottom:14px">
           🛠 Panel de la agrupación</a>` : ''}
@@ -413,8 +415,10 @@
       <div class="titulo-seccion" id="cursada">MI CURSADA</div>
       <p style="margin:0 0 12px;font-size:var(--letra-nota);line-height:1.45;color:var(--texto-suave)">
         Cargá qué cursás y cuándo. Aparece en <a href="../agenda/">Fechas</a>,
-        en la vista <b>Semana</b>, y ahí llevás la cuenta de tus faltas.</p>
+        en la vista <b>Semana</b>, y cada vez que entrás acá te preguntamos si
+        fuiste a la última clase: así se arma tu promedio de asistencia.</p>
       <div class="lista-cursada" id="mi-cursada"></div>
+      <div id="mi-asistencia"></div>
       <div class="ficha">
         <form id="form-cursada">
           <div class="campo">
@@ -480,7 +484,7 @@
       <div class="ficha">
         <p style="margin:0 0 12px;font-size:var(--letra-nota);line-height:1.4;color:var(--texto-suave)">
           Se va todo junto: la cuenta, tu nombre, los trámites que guardaste,
-          las materias que estabas preparando y tu cursada con sus faltas.
+          las materias que estabas preparando y tu cursada con su asistencia.
           <b>No se puede deshacer.</b></p>
         <button class="boton borde ancho" id="abrir-borrado">Quiero borrar mi cuenta</button>
 
@@ -685,6 +689,35 @@
   }
   const NOMBRE_BLOQUE = { manana:'mañana', tarde:'tarde', noche:'noche' };
 
+  /* ---------- La asistencia, clase a clase (24/10/2026) ----------
+     Al abrir el perfil se pregunta por cada clase que ya pasó y no se
+     contestó. «Falté» va a `falta`, la misma tabla que usa Fechas,
+     así el perfil y la semana cuentan lo mismo; «Fui» y «No hubo
+     clase» van a `presente`.
+
+     Los porcentajes son lo que suelen pedir las cátedras, no la regla
+     de cada materia: cada una lo fija en su programa. Por eso el
+     recordatorio dice «en general» y manda a fijarse. */
+  const PIDE_PROMOCION   = 0.8;
+  const PIDE_REGULARIDAD = 0.6;
+  /* Más de una semana atrás ya es adivinar, y quien vuelve después de
+     un mes no quiere contestar doce preguntas antes de ver su perfil. */
+  const DIAS_PARA_ATRAS = 7;
+
+  function fechaISO(d){
+    return d.getFullYear() + '-' + String(d.getMonth() + 1).padStart(2, '0') + '-' +
+      String(d.getDate()).padStart(2, '0');
+  }
+  function cuandoFue(iso){
+    const [a, m, d] = iso.split('-').map(Number);
+    const fecha = new Date(a, m - 1, d);
+    const hoy = new Date(); hoy.setHours(0, 0, 0, 0);
+    const dias = Math.round((hoy - fecha) / 864e5);
+    if (dias === 0) return 'hoy';
+    if (dias === 1) return 'ayer';
+    return 'el ' + DIAS_LARGO[(fecha.getDay() + 6) % 7] + ' ' + d;
+  }
+
   /* El renglón del final de la campana trae acá con `#caja-avisos`
      (30/9/2026). La tarjeta se dibuja después de cargar, así que el
      navegador no encuentra solo dónde bajar: se baja a mano, igual que
@@ -700,7 +733,16 @@
     const form  = document.getElementById('form-cursada');
     const msj   = document.getElementById('msj-cursada');
     if (!lista || !form) return;
-    let filas = [];
+    const caja     = document.getElementById('pregunta-clase');
+    const cajaAsis = document.getElementById('mi-asistencia');
+    let filas = [], faltas = [], presentes = [];
+    /* Sin `presente` en la base (o sin poder leer las faltas) la
+       cursada anda igual: solo no se pregunta ni se arma el promedio,
+       porque un promedio con la mitad de los datos miente. */
+    let errorAsistencia = null;
+    /* La última respuesta de esta visita, para poder deshacerla. */
+    let ultima = null;
+    let contestando = false;
 
     function pintar(){
       if (!filas.length){
@@ -720,16 +762,214 @@
     }
 
     async function traer(){
-      const { data, error } = await db.from('cursada')
-        .select('id,materia,dia,bloque,hora,aula,total_clases')
-        .order('dia').order('hora');
-      if (error){ mostrarError(lista, error, 'cargar tu cursada'); return; }
-      filas = data || [];
+      const [cur, fal, pre] = await Promise.all([
+        db.from('cursada')
+          .select('id,materia,dia,bloque,hora,aula,total_clases,creado_at')
+          .order('dia').order('hora'),
+        db.from('falta').select('id,materia,fecha'),
+        db.from('presente').select('id,materia,fecha,hubo_clase')
+      ]);
+      if (cur.error){ mostrarError(lista, cur.error, 'cargar tu cursada'); return; }
+      filas = cur.data || [];
+      errorAsistencia = fal.error || pre.error || null;
+      faltas    = errorAsistencia ? [] : (fal.data || []);
+      presentes = errorAsistencia ? [] : (pre.data || []);
+      if (errorAsistencia) console.error('cargar tu asistencia', errorAsistencia);
       pintar();
+      pintarAsistencia();
+      pintarPregunta();
       /* La copia liviana que usa la tarjeta «Hoy» del inicio, que no
          tiene sesión. Con `typeof` porque esta pantalla llega de la red
          y app.js puede venir del caché viejo, sin la función. */
       if (typeof guardarCopiaCursada === 'function') guardarCopiaCursada(filas, usuario.id);
+    }
+
+    /* Las clases que ya pasaron y no tienen respuesta, de la más vieja
+       a la de hoy: así se contesta en el orden en que pasaron. */
+    function sinContestar(){
+      const ahora = new Date();
+      const hora = String(ahora.getHours()).padStart(2, '0') + ':' +
+                   String(ahora.getMinutes()).padStart(2, '0');
+      const contestadas = new Set(faltas.concat(presentes).map(x => x.materia + '|' + x.fecha));
+      const salen = [];
+      for (let atras = DIAS_PARA_ATRAS; atras >= 0; atras--){
+        const d = new Date(ahora.getFullYear(), ahora.getMonth(), ahora.getDate() - atras);
+        const iso = fechaISO(d);
+        const dia = (d.getDay() + 6) % 7 + 1;
+        filas.forEach(c => {
+          if (c.dia !== dia) return;
+          /* Nada de antes de cargar la materia: nadie se acuerda, y
+             tampoco cambia mucho el promedio. */
+          if (c.creado_at && iso < fechaISO(new Date(c.creado_at))) return;
+          /* La de hoy, recién cuando empezó. */
+          if (atras === 0 && (c.hora || '') > hora) return;
+          const clave = c.materia + '|' + iso;
+          if (contestadas.has(clave)) return;
+          /* Dos bloques de la misma materia el mismo día: una pregunta. */
+          contestadas.add(clave);
+          salen.push({ c, fecha: iso });
+        });
+      }
+      return salen;
+    }
+
+    function textoUltima(){
+      if (!ultima) return '';
+      const m = esc(ultima.materia);
+      const que = ultima.respuesta === 'fui' ? `Fuiste a ${m}`
+                : ultima.respuesta === 'falte' ? `Faltaste a ${m}`
+                : `No hubo clase de ${m}`;
+      return `Anotado: ${que} (${esc(cuandoFue(ultima.fecha))}).
+        <button type="button" class="pregunta-deshacer" data-deshacer>Deshacer</button>`;
+    }
+
+    function pintarPregunta(){
+      if (!caja) return;
+      if (errorAsistencia || !filas.length){ caja.innerHTML = ''; return; }
+      const quedan = sinContestar();
+      if (!quedan.length){
+        /* Se contestó la última: queda el «Anotado» con su deshacer,
+           y en la próxima visita ya no aparece nada. */
+        caja.innerHTML = ultima ? `
+          <section class="pregunta-clase listo">
+            <p class="pregunta-nota">${textoUltima()}</p>
+            <p class="pregunta-nota">Listo, no te queda ninguna por contestar.
+              Tu promedio está en <a href="#cursada">Mi cursada</a>.</p>
+          </section>` : '';
+        return;
+      }
+      const { c, fecha } = quedan[0];
+      const otras = quedan.length - 1;
+      caja.innerHTML = `
+        <section class="pregunta-clase" role="group" aria-labelledby="pregunta-titulo"
+                 data-materia="${esc(c.materia)}" data-fecha="${fecha}">
+          <div class="pregunta-ceja">Tu cursada · ${esc(cuandoFue(fecha))}${
+            c.hora ? ' a las ' + esc(c.hora) : ''}</div>
+          <h2 id="pregunta-titulo">¿Fuiste a ${esc(c.materia)}?</h2>
+          <div class="pregunta-acciones">
+            <button type="button" class="boton" data-respuesta="fui">Fui</button>
+            <button type="button" class="boton borde" data-respuesta="falte">Falté</button>
+          </div>
+          <button type="button" class="boton texto ancho" data-respuesta="sin-clase">
+            No hubo clase (paro, feriado)</button>
+          ${ultima ? `<p class="pregunta-nota">${textoUltima()}</p>` : ''}
+          ${otras ? `<p class="pregunta-nota">${otras === 1
+            ? 'Te queda otra por contestar.'
+            : `Te quedan ${otras} más por contestar.`}</p>` : ''}
+        </section>`;
+    }
+
+    if (caja) caja.addEventListener('click', async ev => {
+      const b = ev.target.closest('[data-respuesta],[data-deshacer]');
+      if (!b || contestando) return;
+      contestando = true;
+      caja.querySelectorAll('button').forEach(x => x.disabled = true);
+      const fallo = texto => {
+        caja.querySelectorAll('button').forEach(x => x.disabled = false);
+        const sec = caja.querySelector('.pregunta-clase');
+        if (sec) sec.insertAdjacentHTML('beforeend',
+          `<div class="aviso error">${esc(texto)}</div>`);
+      };
+
+      if (b.hasAttribute('data-deshacer')){
+        const { error } = await db.from(ultima.tabla).delete().eq('id', ultima.id);
+        contestando = false;
+        if (error){ fallo('No pudimos deshacerlo. ' + errorEnCastellano(error)); return; }
+        ultima = null;
+        await traer();
+        const primero = caja.querySelector('[data-respuesta]');
+        if (primero) primero.focus();
+        return;
+      }
+
+      const sec = b.closest('.pregunta-clase');
+      const materia = sec.dataset.materia, fecha = sec.dataset.fecha;
+      const respuesta = b.dataset.respuesta;
+      const tabla = respuesta === 'falte' ? 'falta' : 'presente';
+      const fila = { usuario_id: usuario.id, materia, fecha };
+      if (tabla === 'presente') fila.hubo_clase = respuesta === 'fui';
+      const { data, error } = await db.from(tabla).insert(fila).select('id').single();
+      contestando = false;
+      if (error){
+        /* Ya estaba contestada desde otro teléfono: se vuelve a contar
+           y aparece la siguiente, sin asustar a nadie. */
+        if (/duplicate|23505/i.test(error.message + error.code)){ await traer(); return; }
+        fallo('No pudimos guardarlo. ' + errorEnCastellano(error));
+        return;
+      }
+      ultima = { tabla, id: data.id, materia, fecha, respuesta };
+      await traer();
+      /* El foco sigue en la pregunta: con lector de pantalla, la
+         siguiente se anuncia sola al entrar al grupo. */
+      const siguiente = caja.querySelector('[data-respuesta]') || caja.querySelector('[data-deshacer]');
+      if (siguiente) siguiente.focus();
+    });
+
+    /* Una tarjeta por materia, no por fila: una materia de dos días por
+       semana tiene un solo promedio. */
+    function pintarAsistencia(){
+      if (!cajaAsis) return;
+      if (!filas.length){ cajaAsis.innerHTML = ''; return; }
+      const recordatorio = `
+        <p class="asistencia-recordatorio"><b>Ojo con los porcentajes:</b> en general,
+          la <a href="../glosario/#promocion">promoción</a> pide el 80% de asistencia
+          y la <a href="../glosario/#regular">regularidad</a>, el 60%. Pero cada cátedra
+          lo fija en su programa: fijate el de tu materia.</p>`;
+      if (errorAsistencia){
+        const faltaTabla = /PGRST205|42P01|presente/i.test(
+          (errorAsistencia.code || '') + (errorAsistencia.message || ''));
+        cajaAsis.innerHTML = recordatorio + `<div class="aviso error">${faltaTabla
+          ? 'El promedio de asistencia todavía no está andando: falta correr la parte 5 de <code>sql/tabla-cursada.sql</code>.'
+          : 'No pudimos cargar tu asistencia. ' + esc(errorEnCastellano(errorAsistencia))}</div>`;
+        return;
+      }
+      const materias = [...new Set(filas.map(c => c.materia))];
+      cajaAsis.innerHTML = recordatorio + `<div class="lista-asistencia">${materias.map(m => {
+        const total = Math.max(...filas.filter(c => c.materia === m).map(c => c.total_clases || 0));
+        const fui   = presentes.filter(x => x.materia === m && x.hubo_clase).length;
+        const falte = faltas.filter(x => x.materia === m).length;
+        const dadas = fui + falte;
+        const pct   = dadas ? Math.round(fui / dadas * 100) : null;
+        /* El margen sale de las clases del cuatri, no de las contestadas:
+           con 16 clases y 4 faltas ya no hay forma de llegar al 80%,
+           aunque el promedio de hoy diga otra cosa. */
+        const margen = pide => Math.floor(total * (1 - pide)) - falte;
+        const paraPromo = margen(PIDE_PROMOCION), paraRegular = margen(PIDE_REGULARIDAD);
+        const estado = pct === null ? 'sin-datos'
+          : (pct < 60 || paraRegular < 0) ? 'riesgo'
+          : (pct < 80 || paraPromo < 0) ? 'regular' : 'promo';
+        const textoEstado = {
+          'sin-datos': 'Todavía no contestaste ninguna clase.',
+          riesgo:  'Estás debajo del 60%: peligra la regularidad.',
+          regular: 'Te alcanza para regularizar, no para promocionar.',
+          promo:   'Vas con asistencia de promoción.'
+        }[estado];
+        const quedan = n => n === 0 ? 'ya no podés faltar más'
+          : `podés faltar ${n} ${n === 1 ? 'vez' : 'veces'} más`;
+        const detalle = !total ? '' : paraPromo >= 0
+          ? `De ${total} clases: para el 80% ${quedan(paraPromo)}, y para el 60%, ${quedan(paraRegular)}.`
+          : paraRegular >= 0
+            ? `De ${total} clases, ya no llegás al 80%. Para el 60% ${quedan(paraRegular)}.`
+            : `De ${total} clases, ya pasaste las faltas del 60%. Hablá con tu cátedra.`;
+        return `
+          <div class="asistencia-tarjeta ${estado}">
+            <div class="asistencia-cab">
+              <b>${esc(m)}</b>
+              <span class="asistencia-pct">${pct === null ? '–' : pct + '%'}</span>
+            </div>
+            <div class="asistencia-barra" role="img" aria-label="${pct === null
+              ? 'Sin clases contestadas'
+              : `Asistencia ${pct}%`}. En general se pide 60% para regularizar y 80% para promocionar.">
+              <i style="width:${pct || 0}%"></i>
+              <span class="asistencia-marca" style="left:60%"><em>60</em></span>
+              <span class="asistencia-marca" style="left:80%"><em>80</em></span>
+            </div>
+            <p class="asistencia-estado">${textoEstado}</p>
+            <p class="asistencia-detalle">${dadas
+              ? `Fuiste a ${fui} de ${dadas} ${dadas === 1 ? 'clase' : 'clases'}. `
+              : ''}${detalle}</p>
+          </div>`;
+      }).join('')}</div>`;
     }
 
     lista.addEventListener('click', async ev => {

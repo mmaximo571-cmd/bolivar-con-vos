@@ -535,4 +535,8 @@ todo una entrada con el número, la fecha y el porqué.
    (SECCIONES), que está en el armazón, y `css/pantallas/inicio.css`,
    que sale de lo guardado: sin número nuevo, quien ya tiene la app no
    vería Feriazo en el menú y la puerta saldría sin estilo. */
+/* v96 (24/10/2026) Asistencia en Mi perfil: la pregunta «¿Fuiste?»
+   de cada clase y el promedio por materia, con las marcas del 60 y
+   el 80. Sus estilos van en `estilos-rediseno.css`, que está en el
+   armazón: sin número nuevo, la pregunta saldría sin estilo. */
 ```
