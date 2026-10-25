@@ -543,4 +543,12 @@ todo una entrada con el número, la fecha y el porqué.
    libre» ahora es pasarse del 60% (regularidad) y el 80% queda como
    promoción, igual que en Mi perfil. La separación de las casillas
    está en `estilos-rediseno.css`, que está en el armazón. */
+/* v98 (24/10/2026) El modo ingreso 2027: el grupo de WhatsApp en
+   Ingreso, la pantalla Primeros pasos y los recorridos guiados
+   (`lib/recorrido.js`, fuera del armazón). Cambian tres cosas del
+   armazón: `app.js` (Primeros pasos en el índice del pie y el
+   buscador), `css/base/04-tarjetas.css` (la tarjeta del kit bajó de
+   inicio.css, ahora la usan tres pantallas) y `css/base/06-hoja.css`
+   (el recorrido). Sin número nuevo, el kit del inicio saldría sin
+   estilo en los teléfonos que ya tienen la app. */
 ```

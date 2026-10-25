@@ -447,6 +447,10 @@
       que:'Las mesas de «Voces que habitan» (fecha, hora, aula, quién expone) y la moderación de las preguntas y los aportes que manda la gente.',
       enlace:'../congreso/', donde:'Congreso' },
 
+    { p:'ingresantes', grupo:'agrupacion', emoji:'🙋', nombre:'Ingresantes',
+      que:'Quienes empiezan en 2027 y dejaron su WhatsApp para entrar al grupo de su carrera. Se marcan a medida que se suman.',
+      enlace:'../ingreso/#grupo', donde:'Ingreso 2027' },
+
     { p:'instagram', grupo:'agrupacion', emoji:'📸', nombre:'Instagram',
       que:'Los posteos que se muestran en la portada. Se cargan a mano: la agrupación elige cuál va.',
       enlace:'../', donde:'la portada' },
@@ -2795,6 +2799,150 @@
     });
   }
 
+  /* ============================================================
+     INGRESANTES 2027  ·  quién quiere entrar al grupo de WhatsApp
+
+     Lo que dejan en `ingreso/#grupo` (sql/tabla-ingresantes.sql). Lo
+     que hace falta para sumar a alguien: abrir el chat con un toque,
+     copiar los números de una carrera de una vez (WhatsApp deja pegar
+     varios al crear el grupo) y marcar a quién ya se sumó, así dos
+     compañeras no le escriben dos veces a la misma persona.
+
+     Se borra a mano, de a uno o todo junto (Máximo, 24/10/2026: sin
+     fecha de borrado). Quien se anotó también se puede borrar sola
+     desde su teléfono.
+     ============================================================ */
+  const CARRERAS_INGRESO = { ts:'Trabajo Social', fono:'Fonoaudiología',
+                             tgcr:'Gestión del Riesgo', nose:'Todavía no sabe' };
+  let filtroIngreso = { carrera:'todas', pendientes:false };
+
+  async function vistaIngresantes(){
+    const { data, error } = await db.from('ingresantes').select('*').order('creado_at', { ascending:false });
+    if (error){
+      zona.innerHTML = /ingresantes/.test(error.message || '')
+        ? `<div class="aviso error">
+             <strong>Falta activar esta sección.</strong><br>
+             Hay que correr <b>sql/tabla-ingresantes.sql</b> en el SQL Editor de
+             Supabase. Es una sola vez.
+           </div>`
+        : `<div class="aviso error">No se pudo cargar: ${esc(error.message)}</div>`;
+      return;
+    }
+    const todos = data || [];
+    const deCarrera = k => todos.filter(x => x.carrera === k);
+    const lista = todos.filter(x =>
+      (filtroIngreso.carrera === 'todas' || x.carrera === filtroIngreso.carrera)
+      && (!filtroIngreso.pendientes || !x.en_el_grupo));
+    const sinSumar = lista.filter(x => !x.en_el_grupo);
+
+    /* De dónde vienen: lo que no dice La Plata. Para saber si conviene
+       armar un grupo de viaje o mandarles Cómo llegar. */
+    const lejos = todos.filter(x => x.localidad && !/la plata|^lp$/i.test(x.localidad.trim()));
+    const porLugar = {};
+    lejos.forEach(x => {
+      const l = x.localidad.trim().replace(/\s+/g, ' ');
+      const k = l.toLowerCase();
+      porLugar[k] = porLugar[k] || { nombre:l, n:0 };
+      porLugar[k].n++;
+    });
+    const lugares = Object.values(porLugar).sort((a, b) => b.n - a.n).slice(0, 8)
+      .map(l => `${esc(l.nombre)} (${l.n})`).join(' · ');
+
+    const saludo = x => encodeURIComponent('¡Hola ' + x.nombre + '! Te escribo de La Bolívar: '
+      + 'te anotaste en la app para el grupo de ingresantes 2027. Te paso el link: ');
+
+    zona.innerHTML = `
+      <h3 class="titulo-pantalla" style="font-size:22px;margin-top:0">INGRESANTES 2027</h3>
+      <p class="letra-chica">Se anotaron <b>${todos.length}</b>
+        (${todos.filter(x => x.en_el_grupo).length} ya en el grupo).
+        ${Object.keys(CARRERAS_INGRESO).map(k => `${CARRERAS_INGRESO[k]}: <b>${deCarrera(k).length}</b>`).join(' · ')}</p>
+      ${lejos.length ? `<p class="letra-chica">No son de La Plata: <b>${lejos.length}</b>. ${lugares}</p>` : ''}
+
+      <div class="chips" role="group" aria-label="Filtrar por carrera" style="margin-top:6px">
+        ${['todas'].concat(Object.keys(CARRERAS_INGRESO)).map(k => `
+          <button type="button" class="chip" data-carrera-ing="${k}"
+            aria-pressed="${filtroIngreso.carrera === k}">${k === 'todas' ? 'Todas' : esc(CARRERAS_INGRESO[k])}</button>`).join('')}
+        <button type="button" class="chip" data-pendientes aria-pressed="${filtroIngreso.pendientes}">Sin sumar</button>
+      </div>
+
+      <div style="margin:8px 0 14px">
+        <button class="mini" id="copiar-numeros" ${sinSumar.length ? '' : 'disabled'}>
+          Copiar los ${sinSumar.length} números sin sumar</button>
+      </div>
+      <div id="msj-ingresantes"></div>
+
+      ${lista.length ? lista.map(x => `
+        <div class="fila-item" style="border:1px solid var(--linea);border-radius:var(--radio-chico);padding:10px;margin-bottom:6px;gap:10px;align-items:flex-start;${x.en_el_grupo ? 'opacity:.6' : ''}">
+          <div class="crecer">
+            <div><b>${esc(x.nombre)}</b> · ${esc(CARRERAS_INGRESO[x.carrera] || x.carrera)}</div>
+            <div class="letra-chica">+${esc(x.telefono)}${x.localidad ? ' · ' + esc(x.localidad) : ''} · ${esc(fechaLinda(x.creado_at))}</div>
+            <label class="letra-chica" style="display:inline-flex;gap:6px;align-items:center;margin-top:6px;cursor:pointer">
+              <input type="checkbox" data-en-grupo="${x.id}" ${x.en_el_grupo ? 'checked' : ''}> Ya está en el grupo</label>
+          </div>
+          <div style="display:flex;flex-direction:column;gap:6px">
+            <a class="mini" href="https://wa.me/${esc(x.telefono)}?text=${saludo(x)}" target="_blank" rel="noopener">Escribirle ↗</a>
+            <button class="mini" data-borrar-ing="${x.id}">Borrar</button>
+          </div>
+        </div>`).join('')
+      : `<div class="vacio">${todos.length ? 'Nadie con ese filtro.' : 'Todavía no se anotó nadie. El formulario está en Ingreso 2027.'}</div>`}
+
+      ${todos.length ? `
+        <h3 class="titulo-pantalla" style="font-size:18px;margin-top:26px">BORRAR TODA LA LISTA</h3>
+        <p class="letra-chica">Cuando los grupos ya estén armados. No se puede deshacer.</p>
+        <button class="mini" id="borrar-todos">Borrar a les ${todos.length}</button>` : ''}`;
+
+    const msj = t => { document.getElementById('msj-ingresantes').innerHTML = t; };
+
+    zona.querySelectorAll('[data-carrera-ing]').forEach(b => {
+      b.onclick = () => { filtroIngreso.carrera = b.dataset.carreraIng; vistaIngresantes(); };
+    });
+    zona.querySelector('[data-pendientes]').onclick = () => {
+      filtroIngreso.pendientes = !filtroIngreso.pendientes; vistaIngresantes();
+    };
+
+    /* Un número por renglón, con el +: así lo pega WhatsApp Web al
+       agregar participantes, y así también una agenda. */
+    document.getElementById('copiar-numeros').onclick = async () => {
+      const texto = sinSumar.map(x => '+' + x.telefono).join('\n');
+      try {
+        await navigator.clipboard.writeText(texto);
+        msj(`<div class="aviso ok">Copiados ${sinSumar.length} números.</div>`);
+      } catch(e){
+        msj(`<div class="aviso">No se pudo copiar solo. Acá están para copiar a mano:<br><textarea readonly style="width:100%;min-height:120px">${esc(texto)}</textarea></div>`);
+      }
+    };
+
+    zona.querySelectorAll('[data-en-grupo]').forEach(c => {
+      c.onchange = async () => {
+        c.disabled = true;
+        const { error: err } = await db.from('ingresantes').update({ en_el_grupo: c.checked }).eq('id', Number(c.dataset.enGrupo));
+        if (err){ c.checked = !c.checked; c.disabled = false; msj(`<div class="aviso error">No se pudo marcar: ${esc(err.message)}</div>`); return; }
+        vistaIngresantes();
+      };
+    });
+
+    zona.querySelectorAll('[data-borrar-ing]').forEach(b => {
+      b.onclick = async () => {
+        const x = todos.find(y => y.id === Number(b.dataset.borrarIng));
+        if (!confirm('¿Borrar a ' + (x ? x.nombre : 'esta persona') + ' de la lista?')) return;
+        b.disabled = true;
+        const { error: err } = await db.from('ingresantes').delete().eq('id', Number(b.dataset.borrarIng));
+        if (err){ b.disabled = false; msj(`<div class="aviso error">No se pudo borrar: ${esc(err.message)}</div>`); return; }
+        vistaIngresantes();
+      };
+    });
+
+    const todosBtn = document.getElementById('borrar-todos');
+    if (todosBtn) todosBtn.onclick = async () => {
+      const ok = prompt('Se borran les ' + todos.length + ' ingresantes y no se puede deshacer. Escribí BORRAR para confirmar.');
+      if (ok !== 'BORRAR') return;
+      todosBtn.disabled = true;
+      const { error: err } = await db.from('ingresantes').delete().in('id', todos.map(x => x.id));
+      if (err){ todosBtn.disabled = false; msj(`<div class="aviso error">No se pudo borrar: ${esc(err.message)}</div>`); return; }
+      vistaIngresantes();
+    };
+  }
+
   function formularioContacto(c){
     const esNuevo = !(c && c.id);
     c = c || { carrera:'todas', tipo:'instagram', activo:true, orden:0 };
@@ -3899,7 +4047,8 @@
        materiales:vistaMateriales, guia:vistaGuia, avisanos:vistaAvisanos,
        quienes:vistaQuienes, consejo:vistaConsejo, registro:vistaRegistro,
        categorias:vistaCategorias, catedras:vistaCatedras, riesgo:vistaRiesgo,
-       instagram:vistaInstagram, buzon:vistaBuzon, congreso:vistaCongreso }[actual])())
+       instagram:vistaInstagram, buzon:vistaBuzon, congreso:vistaCongreso,
+       ingresantes:vistaIngresantes }[actual])())
       /* SI LA VISTA SE CAE, QUE LO DIGA.
          Cuando una vista se rompe a mitad de camino —un archivo que no
          cargó, una tabla que no está— la promesa quedaba rechazada en

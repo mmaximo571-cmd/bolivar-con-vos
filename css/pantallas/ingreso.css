@@ -107,3 +107,54 @@
 .ingreso-fuente{
   font-size:var(--letra-chica);color:var(--texto-suave);margin:28px 0 0
 }
+
+/* ---- El grupo de ingresantes (24/10/2026) ----
+   Los campos son los `.campo` de la base. Lo de acá es lo que tiene
+   este formulario y ningún otro: las carreras como filas grandes para el
+   pulgar, la casilla del consentimiento y el «listo». */
+.ingreso-grupo .ingreso-parrafo{margin-bottom:16px}
+
+/* Sin JavaScript el formulario no puede mandar nada: se esconde y se
+   dice por dónde escribir. Es el mismo `.solo-js` de Trayecto, que vive
+   en su hoja; acá va con el nombre de esta pantalla. */
+.sin-js .ingreso-grupo .solo-js{display:none}
+
+.sin-js-aviso{display:none;font-size:var(--letra-nota);color:var(--texto-suave)}
+
+.sin-js .sin-js-aviso{display:block}
+
+.ingreso-carreras{border:none;padding:0;margin:0 0 14px}
+
+.ingreso-carreras legend{
+  font-family:var(--fuente-sub);font-size:var(--letra-chica);text-transform:uppercase;
+  letter-spacing:.07em;color:var(--texto-suave);margin-bottom:5px;padding:0
+}
+
+.ingreso-carreras label{
+  display:flex;align-items:center;gap:10px;cursor:pointer;
+  padding:11px 12px;border:1px solid var(--linea);border-radius:var(--radio-chico);
+  background:var(--superficie);margin-bottom:6px
+}
+
+.ingreso-carreras input{width:20px;height:20px;margin:0;accent-color:var(--celeste);flex:0 0 auto}
+
+.ingreso-carreras label:has(input:checked){border-color:var(--texto);font-weight:700}
+
+.campo .opcional{text-transform:none;letter-spacing:0}
+
+.ingreso-acepto{
+  display:grid;grid-template-columns:24px 1fr;gap:10px;align-items:start;
+  font-size:var(--letra-nota);color:var(--texto-suave);margin:4px 0 14px;cursor:pointer
+}
+
+.ingreso-acepto input{width:20px;height:20px;margin:1px 0 0;accent-color:var(--celeste)}
+
+.ingreso-error{
+  color:var(--rojo);font-weight:700;font-size:var(--letra-nota);margin:0 0 12px
+}
+
+.ingreso-listo{border-left:6px solid var(--celeste);padding-left:14px}
+
+.ingreso-listo p{margin:0 0 8px}
+
+.ingreso-primeros{margin-top:4px}

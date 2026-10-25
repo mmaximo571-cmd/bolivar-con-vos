@@ -1,0 +1,40 @@
+/* ==========================================================
+   LA BOLIVAR CON VOS · SOLO PARA PRIMEROS PASOS (24/10/2026)
+   Las fichas son las `details.tarjeta` de la base; los pasos, los
+   `.pasos` de los trámites; los botones de abajo, los de Espacios
+   (`.espacio-acciones`). Lo de acá: el número de cada ficha, la marca
+   de «ya lo recorriste» y los rótulos de Android y iPhone.
+   Carga después de la base y antes de estilos-rediseno.
+   ========================================================== */
+.pp-fichas{display:grid;gap:10px;margin-bottom:8px}
+
+.pp-ficha summary{display:flex;align-items:center;gap:12px}
+
+.pp-numero{
+  flex:0 0 auto;width:30px;height:30px;border-radius:50%;
+  background:var(--amarillo);color:var(--sobre-color);
+  display:inline-flex;align-items:center;justify-content:center;
+  font-family:var(--fuente-sub);font-weight:800;font-size:var(--letra-base)
+}
+
+/* Ya recorrida: el número pasa a ser un tilde. Se sigue pudiendo abrir
+   y repetir; solo cambia la marca, para ver qué falta. */
+.pp-ficha.visto .pp-numero{background:var(--celeste);font-size:0}
+
+.pp-ficha.visto .pp-numero::after{content:'✓';font-size:var(--letra-base)}
+
+.pp-ficha .respuesta > p{margin:0 0 10px}
+
+.pp-ficha .pasos{margin-bottom:12px}
+
+.pp-ficha .respuesta .pp-sistema{
+  font-family:var(--fuente-datos);font-weight:700;font-size:var(--letra-mini);
+  letter-spacing:.14em;text-transform:uppercase;color:var(--texto-suave);
+  margin:14px 0 6px
+}
+
+.pp-nota{font-size:var(--letra-nota);color:var(--texto-suave)}
+
+.pp-parrafo{margin:0 0 14px}
+
+.pp-compartir{margin-bottom:8px}

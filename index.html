@@ -222,6 +222,14 @@ setTimeout(function(){
     <!-- LA ALARMA: se anota sola cuando abre la inscripción a una mesa -->
     <div id="alarma"></div>
 
+    <!-- EL MODO INGRESO (24/10/2026). A quien todavía no eligió carrera
+         se le pregunta si empieza en 2027; si dice que sí, acá aparecen
+         las tres cosas para hacer ya (el grupo, la inscripción, la app
+         paso a paso) y el kit «Si recién empezás» sube abajo de esto.
+         Lo arma pintarModoIngreso(), más abajo. Hasta el 30/4/2027:
+         después ya cursan y son estudiantes como cualquiera. -->
+    <div id="modo-ingreso"></div>
+
     <!-- EL CONGRESO, DESTACADO MIENTRAS DURA (7/10/2026). Escrito acá
          y no armado por el guion: se ve desde el primer cuadro. El
          guion de abajo de todo lo esconde pasado octubre y le suma la
@@ -343,7 +351,7 @@ setTimeout(function(){
     </a>
 
     <!-- Para quien recién llega -->
-    <div class="titulo-seccion">SI RECIÉN EMPEZÁS</div>
+    <div class="titulo-seccion" id="kit-titulo">SI RECIÉN EMPEZÁS</div>
     <div class="kit" id="kit"></div>
 
     <!-- EN INSTAGRAM. Una fila que se desliza con todos los posteos
@@ -433,6 +441,8 @@ setTimeout(function(){
 <script src="iconos.js"></script>
 <script src="lib/mudanza.js"></script>
 <script src="app.js"></script>
+<!-- Los recorridos guiados de Primeros pasos (24/10/2026): arranca solo con ?recorrido= -->
+<script src="lib/recorrido.js"></script>
 <!-- El calendario del mes, el MISMO que el de Fechas (30/9/2026): los
      dos marcan lo mismo. Va después de app.js, que tiene lo que usa. -->
 <script src="lib/fecha-al-calendario.js"></script>
@@ -1375,6 +1385,108 @@ addEventListener('pageshow', function(ev){
   }
   pintarKit();
 
+  /* ---------- El modo ingreso (24/10/2026) ----------
+     Quien empieza en 2027 entra a una app pensada para quien ya cursa:
+     la grilla de su año, las mesas, los parciales. Esto le da vuelta la
+     portada mientras es ingresante: arriba de todo, lo que puede hacer
+     ya, y el kit subido abajo de eso.
+
+     A QUIÉN SE LE PREGUNTA. Solo a quien todavía no eligió carrera: quien
+     ya la eligió casi seguro cursa, y preguntarle en cada visita sería
+     ruido. Quien se anota en el grupo desde Ingreso queda en modo
+     ingreso sin que se le pregunte. La respuesta, sí o no, se guarda en
+     el teléfono (`bolivar-ingresante`) y no se vuelve a preguntar. */
+  const LLAVE_INGRESANTE = 'bolivar-ingresante';
+  const FIN_MODO_INGRESO = '2027-04-30';
+
+  function pintarModoIngreso(){
+    const caja = document.getElementById('modo-ingreso');
+    if (!caja) return;
+    let respuesta = null, enElGrupo = false;
+    try {
+      respuesta = localStorage.getItem(LLAVE_INGRESANTE);
+      enElGrupo = !!(JSON.parse(localStorage.getItem('bolivar-ingreso-grupo') || '{}') || {}).anotada;
+    } catch(e){}
+    if (enElGrupo && !respuesta) respuesta = '2027';
+
+    const guardar = v => { try { localStorage.setItem(LLAVE_INGRESANTE, v); } catch(e){} };
+    const hoy = hoyISO();
+
+    if (hoy > FIN_MODO_INGRESO || respuesta === 'no'
+        || (!respuesta && carreraElegidaApp())){
+      caja.innerHTML = '';
+      return;
+    }
+
+    if (!respuesta){
+      caja.innerHTML = `
+        <div class="mi-cursada pregunta modo-ingreso-pregunta">
+          <strong>¿Empezás la facu en 2027?</strong>
+          <p>Te mostramos primero lo que necesitás: anotarte, conocer al
+             resto de les ingresantes y cómo se usa la app.</p>
+          <div class="pregunta-opciones">
+            <button class="pregunta-opcion" type="button" data-ingresante="2027">Sí, empiezo en 2027</button>
+            <button class="pregunta-opcion" type="button" data-ingresante="no">No, ya curso</button>
+          </div>
+        </div>`;
+      caja.querySelectorAll('[data-ingresante]').forEach(b => b.addEventListener('click', () => {
+        guardar(b.dataset.ingresante);
+        if (b.dataset.ingresante === '2027') anotarHito('soy-ingresante');
+        pintarModoIngreso();
+        /* El botón tocado desapareció: el foco va al título nuevo y no
+           se pierde al principio de la página. */
+        const t = document.getElementById('modo-ingreso-titulo');
+        if (t) t.focus();
+      }));
+      return;
+    }
+
+    /* Antes del 11/12 la inscripción es lo urgente; después, el grupo
+       y la app siguen sirviendo hasta que empiecen las clases. */
+    const inscripcion = hoy <= '2026-12-11'
+      ? { titulo: 'Anotarte del 9/11 al 11/12',
+          texto: 'La inscripción es por internet. Qué papeles tener listos y las fechas que no se pueden pasar.' }
+      : { titulo: 'Las fechas que siguen',
+          texto: 'Ya cerró la inscripción. Lo que hay que llevar a Alumnos durante 2027, y cuándo.' };
+    const cosas = [
+      enElGrupo
+        ? { titulo: 'Ya estás en la lista del grupo', url: 'ingreso/#grupo', listo: true,
+            texto: 'Alguien de la agrupación te va a escribir por WhatsApp para sumarte.' }
+        : { titulo: 'Sumate al grupo de ingresantes', url: 'ingreso/#grupo',
+            texto: 'Un grupo de WhatsApp por carrera, para conocerse antes de empezar y enterarte de todo primero.' },
+      Object.assign({ url: 'ingreso/' }, inscripcion),
+      { titulo: 'La app, paso a paso', url: 'primeros-pasos/',
+        texto: 'Cómo se usa cada parte, con un recorrido en la pantalla. Cinco minutos.' }
+    ];
+
+    caja.innerHTML = `
+      <section class="modo-ingreso" aria-labelledby="modo-ingreso-titulo">
+        <h2 class="titulo-seccion" id="modo-ingreso-titulo" tabindex="-1">INGRESO 2027</h2>
+        <div class="kit">
+          ${cosas.map((k, n) => `
+            <a class="tarjeta-kit${k.listo ? ' listo' : ''}" href="${k.url}">
+              <span class="kit-numero" aria-hidden="true">${k.listo ? '✓' : n + 1}</span>
+              <span class="kit-texto">
+                <h3>${esc(k.titulo)}</h3>
+                <p>${esc(k.texto)}</p>
+              </span>
+            </a>`).join('')}
+        </div>
+        <button class="boton texto modo-ingreso-salir" type="button" data-ingresante="no">Ya curso: sacar esto del inicio</button>
+      </section>`;
+    caja.querySelector('[data-ingresante]').addEventListener('click', () => {
+      guardar('no');
+      pintarModoIngreso();
+    });
+
+    /* El kit sube abajo del modo ingreso: es lo segundo que necesita. */
+    const titulo = document.getElementById('kit-titulo'), kit = document.getElementById('kit');
+    if (titulo && kit && caja.nextElementSibling !== titulo){
+      caja.after(titulo, kit);
+    }
+  }
+  pintarModoIngreso();
+
   /* ---------- Leé, mirá, escuchá: tres recomendados ----------
      La lista es la de Estudiemos (`estudiemos/arsenal/datos.json`, 17
      KB). No se pide al abrir: se pide recién cuando la tarjeta está
@@ -2221,7 +2333,8 @@ addEventListener('pageshow', function(ev){
     trayecto:   'trayecto optativo tramo 120 horas actividades acreditar seminarios optativos 255',
     'salud-mental': 'salud mental psicologo psicologa psicologia terapia angustia ansiedad ayuda urgencia hospital guardia 0800 135 suicidio ley 26657 derechos consumos adicciones caps inclusion educativa genero violencia de genero 144 uda acoso abuso protocolo denuncia identidad de genero menstrual disidencias lgbt consejeria',
     llegar:     'como llegar llego micro micros colectivo colectivos bondi linea lineas ramal parada direccion donde queda ubicacion 9 y 63 tren roca terminal estacion sube avenida 7 la plata ciudad perdido',
-    ingreso:    'ingreso ingresante ingresantes inscripcion inscribirme anotarme anotarse empezar la facu 2027 carrera nueva papeles documentacion dni foto titulo secundario certificado vacunas declaracion jurada curso de ingreso',
+    ingreso:    'ingreso ingresante ingresantes inscripcion inscribirme anotarme anotarse empezar la facu 2027 carrera nueva papeles documentacion dni foto titulo secundario certificado vacunas declaracion jurada curso de ingreso grupo de whatsapp grupo de ingresantes',
+    'primeros-pasos': 'primeros pasos como se usa la app tutorial instructivo ayuda instalar instalarla descargar avisos notificaciones recorrido guia explicacion',
     arsenal:    'arsenal libros libro pelis peliculas pelicula cine documentales cortos revistas lecturas leer ver escuchar discos musica recomendaciones recomendados para el finde'
   };
 

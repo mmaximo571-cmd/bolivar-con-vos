@@ -372,3 +372,34 @@ details.area[open] > summary::after{transform:rotate(45deg)}
 .tarjeta.destacada{outline:2px solid var(--texto);outline-offset:2px}
 
 .bloque-sumate .red-pendiente{background:var(--linea-negro);color:var(--sobre-negro-suave)}
+
+/* ---- La tarjeta del kit ----
+   Bajó de inicio.css el 24/10/2026: ahora la usan también Ingreso y
+   Primeros pasos. Va al final para seguir ganándole a la de arriba,
+   como cuando cargaba en la hoja del inicio. */
+.tarjeta-kit{
+  display:flex;align-items:flex-start;gap:13px;
+  background:var(--superficie);border:1px solid var(--linea);
+  border-left:4px solid var(--celeste);border-radius:var(--radio);
+  padding:15px;text-decoration:none;color:var(--texto);box-shadow:var(--sombra)
+}
+
+@media (hover:hover) and (pointer:fine) {
+.tarjeta-kit:hover{border-color:var(--celeste)}
+}
+
+.tarjeta-kit .kit-numero{
+  flex:0 0 auto;width:30px;height:30px;border-radius:50%;
+  background:var(--amarillo);color:var(--sobre-color);
+  display:flex;align-items:center;justify-content:center;
+  font-family:var(--fuente-sub);font-weight:800;font-size:var(--letra-base)
+}
+
+.tarjeta-kit .kit-texto{min-width:0}
+
+.tarjeta-kit h3{
+  font-family:var(--fuente-sub);font-weight:700;font-size:var(--letra-guia);line-height:1.15;
+  text-transform:uppercase;margin-bottom:3px
+}
+
+.tarjeta-kit p{margin:0;font-size:var(--letra-base);line-height:1.35;color:var(--texto-suave)}

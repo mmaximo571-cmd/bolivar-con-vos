@@ -114,6 +114,63 @@
         </div>
       </article>
 
+      <!-- ===== EL GRUPO DE INGRESANTES (24/10/2026) =====
+           Se arma antes de que empiecen las clases para que nadie llegue
+           el primer día sin conocer a nadie, y para avisar por ahí lo que
+           la facultad publique (el curso de ingreso, las fechas). Los
+           datos van a `ingresantes` (sql/tabla-ingresantes.sql) y los ve
+           solo el equipo, en el panel. Va arriba de todo porque es lo
+           único de la pantalla que se puede hacer hoy mismo, antes de
+           que abra la inscripción. -->
+      <h2 class="titulo-seccion" id="grupo">SUMATE AL GRUPO</h2>
+      <article class="modulo ingreso-grupo aparece">
+        <p class="ingreso-parrafo">Armamos un <strong>grupo de WhatsApp de
+          ingresantes</strong> por carrera: para conocerse antes de empezar,
+          preguntar lo que sea y enterarte primero cuando la facultad publique
+          el curso de ingreso. Dejanos tu número y te sumamos.</p>
+
+        <p class="sin-js-aviso">Para anotarte en el grupo hace falta que el
+          navegador tenga JavaScript prendido. Si no, escribinos por Instagram.</p>
+
+        <form id="grupo-form" class="solo-js" novalidate>
+          <div class="campo"><label for="grupo-nombre">¿Cómo te llamás?</label>
+            <input id="grupo-nombre" name="nombre" autocomplete="given-name" maxlength="80" required
+              placeholder="Como te dicen"></div>
+          <div class="campo"><label for="grupo-telefono">Tu WhatsApp</label>
+            <input id="grupo-telefono" name="telefono" type="tel" inputmode="tel" autocomplete="tel"
+              maxlength="25" required placeholder="221 15 555 1234"></div>
+          <fieldset class="ingreso-carreras">
+            <legend>¿Qué carrera vas a hacer?</legend>
+            <label><input type="radio" name="carrera" value="ts" required> Trabajo Social</label>
+            <label><input type="radio" name="carrera" value="fono"> Fonoaudiología</label>
+            <label><input type="radio" name="carrera" value="tgcr"> Tecnicatura en Gestión del Riesgo</label>
+            <label><input type="radio" name="carrera" value="nose"> Todavía no sé</label>
+          </fieldset>
+          <div class="campo"><label for="grupo-localidad">¿De dónde venís? <span class="opcional">(opcional)</span></label>
+            <input id="grupo-localidad" name="localidad" autocomplete="address-level2" maxlength="80"
+              placeholder="La Plata, Berisso, Junín, Paraguay…"></div>
+          <label class="ingreso-acepto">
+            <input type="checkbox" id="grupo-acepto" required>
+            <span>Acepto que La Bolívar guarde estos datos para sumarme al grupo
+              y escribirme sobre el ingreso. Los ve solo el equipo de la
+              agrupación y no se comparten con nadie. Me puedo borrar cuando
+              quiera desde este mismo teléfono.</span>
+          </label>
+          <p class="ingreso-error" id="grupo-error" role="alert" hidden></p>
+          <button class="boton ancho" type="submit" id="grupo-mandar">Quiero entrar al grupo</button>
+        </form>
+
+        <div id="grupo-listo" class="ingreso-listo" hidden>
+          <p><strong id="grupo-listo-titulo">¡Listo, ya estás en la lista!</strong></p>
+          <p id="grupo-listo-texto">Alguien de la agrupación te va a escribir por
+            WhatsApp para sumarte al grupo. Puede tardar unos días: lo hacemos a mano.</p>
+          <div class="espacio-acciones">
+            <button class="boton borde" type="button" id="grupo-corregir">Corregir mis datos</button>
+            <button class="boton texto" type="button" id="grupo-borrar">Borrarme de la lista</button>
+          </div>
+        </div>
+      </article>
+
       <!-- ===== UNA SOLA CARRERA ===== -->
       <h2 class="titulo-seccion">ANTES DE EMPEZAR</h2>
       <div class="aviso ingreso-una-sola aparece">
@@ -268,6 +325,17 @@
         </details>
       </div>
 
+      <!-- ===== LA APP ===== -->
+      <h2 class="titulo-seccion">Y CUANDO EMPIECES</h2>
+      <a class="tarjeta-kit ingreso-primeros" href="../primeros-pasos/">
+        <span class="kit-numero" aria-hidden="true">?</span>
+        <span class="kit-texto">
+          <h3>La app, paso a paso</h3>
+          <p>Cómo armar tu cursada, que te lleguen los avisos al celular, tener
+            las fechas a mano e instalarla. Con un recorrido en cada pantalla.</p>
+        </span>
+      </a>
+
       <p class="ingreso-fuente">
         Sale de la resolución 964-26 de la UNLP, que fija la inscripción para el
         ciclo 2027 en las 17 facultades. Revisado el 11 de octubre de 2026. Lo
@@ -357,6 +425,112 @@
   document.getElementById('ingreso-papeles').addEventListener('change', () => {
     const marcados = cajas.filter(c => c.checked).map(c => c.dataset.papel);
     try { localStorage.setItem(LLAVE, JSON.stringify(marcados)); } catch(e){}
+  });
+
+  /* EL GRUPO DE INGRESANTES. El teléfono guarda una marca al azar y lo
+     que mandó, así la próxima vez ve «ya estás» y se puede corregir o
+     borrar sin cuenta (la base reconoce la marca, ver
+     sql/tabla-ingresantes.sql). El número completo no se guarda acá:
+     solo hace falta para mandarlo. */
+  const LLAVE_GRUPO = 'bolivar-ingreso-grupo';
+  const leerGrupo = () => {
+    try { return JSON.parse(localStorage.getItem(LLAVE_GRUPO) || '{}') || {}; }
+    catch(e){ return {}; }
+  };
+  const guardarGrupo = g => { try { localStorage.setItem(LLAVE_GRUPO, JSON.stringify(g)); } catch(e){} };
+  const marcaGrupo = () => {
+    const g = leerGrupo();
+    if (/^[0-9a-f]{32}$/.test(g.marca || '')) return g.marca;
+    const b = new Uint8Array(16);
+    crypto.getRandomValues(b);
+    g.marca = Array.from(b, x => x.toString(16).padStart(2, '0')).join('');
+    guardarGrupo(g);
+    return g.marca;
+  };
+
+  const form = document.getElementById('grupo-form');
+  const listo = document.getElementById('grupo-listo');
+  const error = document.getElementById('grupo-error');
+  const mandar = document.getElementById('grupo-mandar');
+  const decirError = t => { error.textContent = t; error.hidden = !t; };
+
+  function mostrarListo(si){
+    form.hidden = si;
+    listo.hidden = !si;
+  }
+  if (leerGrupo().anotada) mostrarListo(true);
+
+  /* Lo que contesta la base, dicho para quien lo lee: el error crudo de
+     Postgres no le sirve a nadie. */
+  function motivo(err){
+    const m = String((err && err.message) || '');
+    /* Primero si la función no existe: ese mensaje de PostgREST nombra
+       los parámetros (p_nombre…) y se confundía con «falta el nombre». */
+    if (/could not find|schema cache|PGRST202|does not exist/i.test(m)) return 'Todavía no está abierta la lista. Escribinos por Instagram y te sumamos igual.';
+    if (/no parece un whatsapp/i.test(m)) return 'Ese número no parece un WhatsApp. Escribilo con la característica, por ejemplo 221 15 555 1234.';
+    if (/falta el nombre/i.test(m)) return 'Falta tu nombre.';
+    if (/demasiadas/i.test(m)) return 'Se anotó mucha gente junta. Probá de nuevo en un minuto.';
+    return 'No se pudo mandar. Fijate que tengas señal y probá de nuevo.';
+  }
+
+  form.addEventListener('submit', async ev => {
+    ev.preventDefault();
+    decirError('');
+    const nombre = form.nombre.value.trim();
+    const telefono = form.telefono.value.trim();
+    const carrera = (form.querySelector('[name="carrera"]:checked') || {}).value;
+    const localidad = form.localidad.value.trim();
+    if (nombre.length < 2) return decirError('Falta tu nombre.'), form.nombre.focus();
+    if (telefono.replace(/\D/g, '').length < 8) return decirError('Falta tu WhatsApp, con la característica.'), form.telefono.focus();
+    if (!carrera) return decirError('Elegí la carrera (o «Todavía no sé»).');
+    if (!document.getElementById('grupo-acepto').checked) return decirError('Para anotarte tenés que aceptar que guardemos los datos.');
+
+    mandar.disabled = true; mandar.textContent = 'Mandando…';
+    try {
+      const { error: err } = await db.rpc('anotar_ingresante', {
+        p_marca: marcaGrupo(), p_nombre: nombre, p_telefono: telefono,
+        p_carrera: carrera, p_localidad: localidad });
+      if (err) throw err;
+      const g = leerGrupo();
+      Object.assign(g, { anotada: true, nombre, carrera, localidad });
+      guardarGrupo(g);
+      if (typeof anotarHito === 'function') anotarHito('ingreso-grupo');
+      document.getElementById('grupo-listo-titulo').textContent = '¡Listo, ' + nombre + ', ya estás en la lista!';
+      mostrarListo(true);
+    } catch(e){
+      decirError(motivo(e));
+    } finally {
+      mandar.disabled = false; mandar.textContent = 'Quiero entrar al grupo';
+    }
+  });
+
+  /* Corregir vuelve al formulario con lo que había. El número no está
+     guardado, así que se vuelve a escribir: al mandar, la base pisa la
+     fila de esta misma marca. */
+  document.getElementById('grupo-corregir').addEventListener('click', () => {
+    const g = leerGrupo();
+    form.nombre.value = g.nombre || '';
+    form.localidad.value = g.localidad || '';
+    const r = form.querySelector('[name="carrera"][value="' + (g.carrera || '') + '"]');
+    if (r) r.checked = true;
+    mostrarListo(false);
+    form.telefono.focus();
+  });
+
+  document.getElementById('grupo-borrar').addEventListener('click', async function(){
+    if (!confirm('¿Te borramos de la lista del grupo? Si ya te sumamos, salí del grupo desde WhatsApp.')) return;
+    this.disabled = true;
+    try {
+      const { error: err } = await db.rpc('borrar_ingresante', { p_marca: marcaGrupo() });
+      if (err) throw err;
+      guardarGrupo({});
+      form.reset();
+      mostrarListo(false);
+      decirError('');
+      alert('Listo, ya no estás en la lista.');
+    } catch(e){
+      alert('No se pudo borrar. Fijate que tengas señal y probá de nuevo.');
+    } finally { this.disabled = false; }
   });
 })();
 </script>

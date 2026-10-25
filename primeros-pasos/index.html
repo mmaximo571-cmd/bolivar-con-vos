@@ -1,0 +1,264 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>La app, paso a paso · La Bolívar con vos</title>
+<meta name="description" content="Cómo se usa La Bolívar con vos: instalarla en el celular, elegir tu carrera, tener las fechas a mano, prender los avisos, armar tu cursada y estudiar. Con un recorrido guiado en cada pantalla.">
+<meta name="theme-color" content="#F9E830">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+<!-- Iconos de la app: pestana, Google, y pantalla de inicio del celular -->
+<link rel="icon" type="image/png" sizes="32x32" href="../imagenes/icono-32.png">
+<link rel="icon" type="image/png" sizes="96x96" href="../imagenes/icono-96.png">
+<link rel="icon" type="image/png" sizes="192x192" href="../imagenes/icono-192.png">
+<link rel="apple-touch-icon" href="../imagenes/icono-apple.png">
+<link rel="manifest" href="../manifest.json">
+
+<!-- Como se ve cuando alguien comparte el link por WhatsApp o Instagram -->
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="La Bolivar con vos">
+<meta property="og:title" content="La app, paso a paso · La Bolívar con vos">
+<meta property="og:description" content="Instalala, elegí tu carrera, prendé los avisos y armá tu cursada. Explicado en cinco minutos.">
+<meta property="og:image" content="https://labolivarconvos.ar/imagenes/compartir.png">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="stylesheet" href="../css/tokens.css">
+<link rel="stylesheet" href="../css/base/01-cimientos.css">
+<link rel="stylesheet" href="../css/base/02-encabezado.css">
+<link rel="stylesheet" href="../css/base/03-controles.css">
+<link rel="stylesheet" href="../css/base/04-tarjetas.css">
+<link rel="stylesheet" href="../css/base/05-secciones.css">
+<link rel="stylesheet" href="../css/base/06-hoja.css">
+<link rel="stylesheet" href="../css/base/07-avisos.css">
+<link rel="stylesheet" href="../css/base/08-calendario.css">
+<link rel="stylesheet" href="../css/base/09-avisanos.css">
+<link rel="stylesheet" href="../css/base/10-lectura.css">
+<link rel="stylesheet" href="../css/base/11-navegacion.css">
+<link rel="stylesheet" href="../css/base/12-movimiento.css">
+<link rel="stylesheet" href="../css/pantallas/primeros-pasos.css">
+<link rel="stylesheet" href="../estilos-rediseno.css">
+<!-- EL TEMA, ANTES DE DIBUJAR NADA. Mismo motivo que en el glosario. -->
+<script>
+(function(){try{
+  var g = localStorage.getItem('bolivar-tema') || 'auto';
+  var oscuro = g === 'oscuro' || (g === 'auto' &&
+    window.matchMedia('(prefers-color-scheme: dark)').matches);
+  document.documentElement.dataset.tema = oscuro ? 'oscuro' : 'claro';
+}catch(e){ document.documentElement.dataset.tema = 'claro'; }})();
+</script>
+<!-- Estadisticas de visitas (Vercel Web Analytics, sin cookies) -->
+<script defer src="/_vercel/insights/script.js"></script>
+</head>
+<body class="lectura sin-js">
+
+
+<div id="cabecera"></div>
+
+<!-- ============================================================
+     PRIMEROS PASOS (24/10/2026)
+
+     Los instructivos de la app, para el ingreso 2027. Dos maneras de
+     aprender lo mismo, a propósito:
+
+       - ACÁ SE LEE. Cada ficha cuenta en tres o cuatro pasos para qué
+         sirve una parte de la app y cómo se usa. Escrito en el HTML, como
+         Ingreso y Cómo llegar: abre sin señal y se manda por WhatsApp al
+         grupo de ingresantes.
+       - EN LA PANTALLA SE MUESTRA. «Mostrame en la app» lleva a esa
+         pantalla con `?recorrido=<id>`, y `lib/recorrido.js` la ilumina
+         parte por parte. Los textos de los recorridos están en ese
+         archivo: si se cambia una pantalla, se cambian los dos.
+
+     Instalar la app no tiene recorrido: pasa en el menú del navegador,
+     fuera de la página, y desde la página no se puede señalar.
+     ============================================================ -->
+<main id="contenido" tabindex="-1">
+
+  <div class="banda tinta">
+    <div class="envoltura">
+      <p class="ceja-lectura aparece">Primeros pasos</p>
+      <h1 class="grito aparece">La app,<br><em>paso a paso</em></h1>
+      <p class="bajada-lectura aparece">
+        Todo lo que hace La Bolívar con vos, explicado corto. Leé la ficha
+        que necesites, o tocá <strong>Mostrame en la app</strong> y te
+        llevamos a la pantalla para mostrártelo ahí mismo.
+      </p>
+    </div>
+  </div>
+
+  <div class="banda papel">
+    <div class="envoltura">
+
+      <div class="pp-fichas">
+
+        <details class="tarjeta pp-ficha" id="instalar">
+          <summary><span class="pp-numero" aria-hidden="true">1</span> Tenela en tu celular</summary>
+          <div class="respuesta">
+            <p>La app no está en las tiendas: se instala desde el navegador, en
+              un minuto, y queda con su ícono como cualquier otra.</p>
+            <p class="pp-sistema">En Android, con Chrome</p>
+            <ol class="pasos">
+              <li>Entrá a <strong>labolivarconvos.ar</strong>.</li>
+              <li>Tocá los tres puntitos de arriba a la derecha.</li>
+              <li>Elegí <strong>Instalar app</strong> o <strong>Agregar a la pantalla principal</strong>.</li>
+            </ol>
+            <p class="pp-sistema">En iPhone, con Safari</p>
+            <ol class="pasos">
+              <li>Entrá a <strong>labolivarconvos.ar</strong> desde Safari (desde otro navegador no se puede).</li>
+              <li>Tocá el botón de compartir, el cuadradito con la flecha para arriba.</li>
+              <li>Bajá y elegí <strong>Agregar a inicio</strong>.</li>
+            </ol>
+            <p class="pp-nota">En iPhone, los avisos al celular andan solo con la
+              app instalada así.</p>
+          </div>
+        </details>
+
+        <details class="tarjeta pp-ficha" id="inicio">
+          <summary><span class="pp-numero" aria-hidden="true">2</span> El inicio</summary>
+          <div class="respuesta">
+            <ol class="pasos">
+              <li><strong>Elegí tu carrera.</strong> La app se acomoda: los
+                accesos, las materias y las fechas pasan a ser las tuyas.</li>
+              <li><strong>Usá el buscador.</strong> Escribí con tus palabras:
+                «constancia», «final», «micro». Busca en toda la app.</li>
+              <li><strong>Mirá la campana.</strong> Ahí está lo de hoy, lo de esta
+                semana y lo que cambió, como un paro o una clase suspendida.</li>
+              <li><strong>Si no encontrás algo, Avisanos.</strong> El botón de
+                abajo a la derecha: busca en lo cargado y, si no lo tiene, te
+                pasa con alguien de la agrupación.</li>
+            </ol>
+            <a class="boton ancho" href="../?recorrido=inicio">Mostrame en la app →</a>
+          </div>
+        </details>
+
+        <details class="tarjeta pp-ficha" id="fechas">
+          <summary><span class="pp-numero" aria-hidden="true">3</span> Las fechas</summary>
+          <div class="respuesta">
+            <ol class="pasos">
+              <li><strong>El calendario.</strong> Los días con algo tienen un
+                punto de color. Tocá un día para ver qué hay.</li>
+              <li><strong>Filtrá.</strong> Finales, paros, actividades o grupos de
+                estudio, por separado.</li>
+              <li><strong>Pasalo a tu calendario.</strong> Bajás las fechas que
+                vienen al calendario del celular, con aviso dos días antes.</li>
+              <li><strong>«Voy» y «Me anoto».</strong> En un paro, una actividad o
+                un grupo de estudio, decí que vas: si tenés los avisos prendidos, te avisamos si cambia algo.</li>
+            </ol>
+            <a class="boton ancho" href="../agenda/?recorrido=fechas">Mostrame en la app →</a>
+          </div>
+        </details>
+
+        <details class="tarjeta pp-ficha" id="avisos">
+          <summary><span class="pp-numero" aria-hidden="true">4</span> Los avisos al celular</summary>
+          <div class="respuesta">
+            <ol class="pasos">
+              <li><strong>Entrá a Mi perfil</strong>, desde el menú o el muñequito
+                de arriba.</li>
+              <li><strong>Prendé los avisos</strong> y elegí cuáles querés: paros,
+                inscripción a mesas, novedades, actividades, grupos de estudio.</li>
+              <li><strong>Aceptá</strong> cuando el celular te pregunte si la app
+                puede mandarte notificaciones.</li>
+            </ol>
+            <p class="pp-nota">Si te perdiste uno, todo lo avisado queda en la
+              campana.</p>
+            <a class="boton ancho" href="../mi/?recorrido=avisos">Mostrame en la app →</a>
+          </div>
+        </details>
+
+        <details class="tarjeta pp-ficha" id="cursada">
+          <summary><span class="pp-numero" aria-hidden="true">5</span> Tu cursada y tu asistencia</summary>
+          <div class="respuesta">
+            <ol class="pasos">
+              <li><strong>Creá tu cuenta</strong> en Mi perfil, con un mail y una
+                contraseña. Así no se pierde si cambiás de teléfono.</li>
+              <li><strong>Cargá tus materias</strong>: qué día, a qué hora y en qué
+                aula. Aparecen en Fechas, en la vista Semana.</li>
+              <li><strong>Contestá si fuiste.</strong> Cada vez que entrás te
+                preguntamos por la última clase, y la app te dice cómo venís con
+                la asistencia.</li>
+            </ol>
+            <a class="boton ancho" href="../mi/?recorrido=cursada">Mostrame en la app →</a>
+          </div>
+        </details>
+
+        <details class="tarjeta pp-ficha" id="estudiemos">
+          <summary><span class="pp-numero" aria-hidden="true">6</span> Para estudiar</summary>
+          <div class="respuesta">
+            <ol class="pasos">
+              <li><strong>Elegí la materia</strong> y aparecen sus apuntes,
+                resúmenes, programas y fichas.</li>
+              <li><strong>Mis parciales.</strong> Anotá cuándo rendís y la app te
+                cuenta los días que faltan.</li>
+              <li><strong>El pomodoro.</strong> Un reloj de 25 minutos de foco y 5
+                de descanso.</li>
+              <li><strong>Compartí lo tuyo.</strong> Si un resumen te sirvió,
+                subilo: le sirve a quien viene atrás.</li>
+            </ol>
+            <a class="boton ancho" href="../estudiemos/?recorrido=estudiemos">Mostrame en la app →</a>
+          </div>
+        </details>
+
+        <details class="tarjeta pp-ficha" id="palabras">
+          <summary><span class="pp-numero" aria-hidden="true">7</span> Las palabras de la facu</summary>
+          <div class="respuesta">
+            <p>Cursada, final, promoción, correlativa, comisión: el primer mes
+              se habla en otro idioma. Están todas en el glosario, explicadas
+              entre nosotres.</p>
+            <a class="boton ancho borde" href="../glosario/">Abrir el glosario →</a>
+          </div>
+        </details>
+
+      </div>
+
+      <h2 class="titulo-seccion">PASALO</h2>
+      <p class="pp-parrafo">¿Conocés a alguien que empieza en 2027? Mandale esta
+        página, o la de Ingreso para que se sume al grupo.</p>
+      <div class="espacio-acciones pp-compartir">
+        <a class="boton" id="pp-whatsapp" target="_blank" rel="noopener"
+          href="https://wa.me/?text=La%20app%20de%20la%20facu%2C%20paso%20a%20paso%3A%20https%3A%2F%2Flabolivarconvos.ar%2Fprimeros-pasos%2F">Mandar por WhatsApp ↗
+          <span class="solo-lectores">(abre WhatsApp)</span></a>
+        <a class="boton borde" href="../ingreso/#grupo">Ingreso 2027 y el grupo</a>
+      </div>
+
+    </div>
+  </div>
+</main>
+<div id="pie"></div>
+<script>window.RAIZ = '../';</script>
+<script src="../lib/datos.js"></script>
+<script src="../config.js"></script>
+<script src="../iconos.js"></script>
+<script src="../lib/mudanza.js"></script>
+<script src="../app.js"></script>
+<script src="../fondo-red.js"></script>
+<script src="../lectura.js"></script>
+<script>
+(function primerosPasos(){
+  document.getElementById('cabecera').innerHTML = htmlCabecera();
+  document.getElementById('pie').innerHTML = htmlPie();
+  pintarNav('primeros-pasos');
+  document.body.classList.remove('sin-js');
+  vigilarAparicion();
+
+  /* Con un link a una ficha (#avisos), esa ficha llega abierta: es lo
+     que se manda al grupo cuando alguien pregunta «¿cómo prendo los
+     avisos?». */
+  const abrirDeLaDireccion = () => {
+    const f = location.hash && document.getElementById(location.hash.slice(1));
+    if (f && f.tagName === 'DETAILS'){ f.open = true; f.scrollIntoView({ block: 'start' }); }
+  };
+  abrirDeLaDireccion();
+  window.addEventListener('hashchange', abrirDeLaDireccion);
+
+  /* Las que ya se recorrieron llevan una marca: así se ve qué falta. */
+  let vistos = [];
+  try { vistos = JSON.parse(localStorage.getItem('bolivar-recorridos-vistos') || '[]') || []; } catch(e){}
+  vistos.forEach(id => {
+    const f = document.getElementById(id);
+    if (f) f.classList.add('visto');
+  });
+})();
+</script>
+</body>
+</html>

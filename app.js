@@ -722,7 +722,11 @@ const INDICE_PIE = SECCIONES.concat([
   /* La inscripción para el ciclo 2027 (11/10/2026). Tiene la primera
      tarjeta del kit en el inicio; acá queda para que el buscador
      conteste a «inscripción», «ingreso» o «anotarme». */
-  { id:'ingreso', texto:'Ingreso 2027', url:RAIZ+'ingreso/' }
+  { id:'ingreso', texto:'Ingreso 2027', url:RAIZ+'ingreso/' },
+  /* Los instructivos (24/10/2026): para quien empieza en 2027 y para
+     quien nunca supo que la campana existía. Desde acá la encuentra el
+     buscador del inicio («cómo se usa», «instalar», «tutorial»). */
+  { id:'primeros-pasos', texto:'La app, paso a paso', url:RAIZ+'primeros-pasos/' }
 ]);
 
 /* Los sistemas de la facultad y de la universidad. No son de la app:

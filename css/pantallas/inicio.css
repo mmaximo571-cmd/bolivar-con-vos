@@ -501,32 +501,6 @@ body.antes-de-entrar{padding-bottom:0}
    ============================================================ */
 .kit{display:flex;flex-direction:column;gap:10px;margin-bottom:8px}
 
-.tarjeta-kit{
-  display:flex;align-items:flex-start;gap:13px;
-  background:var(--superficie);border:1px solid var(--linea);
-  border-left:4px solid var(--celeste);border-radius:var(--radio);
-  padding:15px;text-decoration:none;color:var(--texto);box-shadow:var(--sombra)
-}
-
-@media (hover:hover) and (pointer:fine) {
-.tarjeta-kit:hover{border-color:var(--celeste)}
-}
-
-.tarjeta-kit .kit-numero{
-  flex:0 0 auto;width:30px;height:30px;border-radius:50%;
-  background:var(--amarillo);color:var(--sobre-color);
-  display:flex;align-items:center;justify-content:center;
-  font-family:var(--fuente-sub);font-weight:800;font-size:var(--letra-base)
-}
-
-.tarjeta-kit .kit-texto{min-width:0}
-
-.tarjeta-kit h3{
-  font-family:var(--fuente-sub);font-weight:700;font-size:var(--letra-guia);line-height:1.15;
-  text-transform:uppercase;margin-bottom:3px
-}
-
-.tarjeta-kit p{margin:0;font-size:var(--letra-base);line-height:1.35;color:var(--texto-suave)}
 
 /* ============================================================
    PANTALLAS GRANDES
@@ -898,3 +872,21 @@ body.antes-de-entrar{ padding-bottom:0 }
 .cuenta-parciales:focus-visible{ outline:3px solid var(--celeste); outline-offset:3px }
 [data-tema="oscuro"] .cp-mas{ color:var(--celeste-claro) }
 @media (min-width:900px){ #zona-normal > #cuenta-parciales{ grid-column:1 / -1 } }
+
+/* ============================================================
+   EL MODO INGRESO (24/10/2026)
+   La pregunta es la tarjeta de «¿Qué estás estudiando?» (`.mi-cursada
+   .pregunta`, en la base). Lo de acá: el bloque de las tres cosas para
+   hacer, con las tarjetas del kit, y la que ya está hecha apagada.
+   ============================================================ */
+.modo-ingreso{margin:6px 0 4px}
+
+.modo-ingreso .titulo-seccion:focus{outline:none}
+
+.modo-ingreso .kit{margin-bottom:4px}
+
+.tarjeta-kit.listo{border-left-color:var(--linea)}
+
+.tarjeta-kit.listo .kit-numero{background:var(--celeste)}
+
+.modo-ingreso-salir{font-size:var(--letra-nota);padding-left:0}

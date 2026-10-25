@@ -153,3 +153,54 @@
 .hoja-fondo.cerrando .hoja{transform:none;opacity:0}
 }
 }
+
+/* ============================================================
+   EL RECORRIDO GUIADO (lib/recorrido.js, 24/10/2026)
+   El fondo transparente ataja los toques: mientras se explica no se
+   navega sin querer. Lo oscuro es la sombra enorme del foco, así el
+   agujero queda exactamente sobre lo que se explica. La tarjeta es
+   pariente de la hoja: abajo, de borde a borde en el teléfono, y arriba
+   cuando lo iluminado está en la mitad de abajo.
+   ============================================================ */
+.recorrido-fondo{position:fixed;inset:0;z-index:300}
+
+.recorrido-foco{
+  position:fixed;z-index:301;pointer-events:none;border-radius:var(--radio);
+  box-shadow:0 0 0 3px var(--amarillo),0 0 0 9999px rgba(26,26,26,.62);
+  transition:top var(--t-medio) var(--sale),left var(--t-medio) var(--sale),
+             width var(--t-medio) var(--sale),height var(--t-medio) var(--sale)
+}
+
+.recorrido-tarjeta{
+  position:fixed;z-index:302;left:12px;right:12px;bottom:calc(12px + env(safe-area-inset-bottom));
+  max-width:480px;margin:0 auto;padding:16px 18px;
+  background:var(--superficie);color:var(--texto);
+  border:1.5px solid var(--texto);border-radius:var(--radio);box-shadow:var(--sombra);
+  outline:none
+}
+
+.recorrido-tarjeta.arriba{bottom:auto;top:calc(12px + env(safe-area-inset-top))}
+
+.recorrido-tarjeta h2{
+  font-family:var(--fuente-sub);font-weight:700;font-size:var(--letra-guia);
+  text-transform:uppercase;line-height:1.15;margin:0 0 6px
+}
+
+.recorrido-tarjeta p{margin:0 0 12px;line-height:1.4}
+
+.recorrido-cuenta{
+  font-family:var(--fuente-datos);font-size:var(--letra-mini);font-weight:700;
+  letter-spacing:.12em;text-transform:uppercase;color:var(--texto-suave)
+}
+
+.recorrido-botones{display:flex;gap:8px;justify-content:flex-end;align-items:center;flex-wrap:wrap}
+
+/* `.texto` es también la fila de las listas, con ancho entero: acá
+   «Salir» va chico, a la izquierda, y Atrás y Siguiente a la derecha. */
+.recorrido-botones .boton{width:auto;display:inline-flex}
+
+.recorrido-botones .boton.texto{margin:0 auto 0 0;padding-left:0}
+
+@media (prefers-reduced-motion:reduce) {
+.recorrido-foco{transition:none}
+}
