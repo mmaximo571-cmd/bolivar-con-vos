@@ -551,4 +551,11 @@ todo una entrada con el número, la fecha y el porqué.
    inicio.css, ahora la usan tres pantallas) y `css/base/06-hoja.css`
    (el recorrido). Sin número nuevo, el kit del inicio saldría sin
    estilo en los teléfonos que ya tienen la app. */
+/* v99 (28/10/2026) El mazo de Metodología de la investigación (827,
+   Fono): la carpeta nueva `estudiemos/fichas/metodologia-investigacion/`
+   llega igual, nadie la tiene guardada. Lo que cambia es
+   `estudiemos/portada.js` (la baldosa en Repasar) y `estudiemos/huella.js`
+   (que «Seguí donde dejaste» lo reconozca como mazo), y las dos se
+   sirven de lo guardado: sin número nuevo, quien ya tiene la app no
+   vería el mazo en Estudiemos. */
 ```

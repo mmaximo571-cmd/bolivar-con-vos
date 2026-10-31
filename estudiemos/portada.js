@@ -69,6 +69,15 @@
                       try { m = JSON.parse(localStorage.getItem('bolivar-fichas-antropologia') || '{}') || {}; } catch(err){}
                       const n = Object.keys(m).filter(k => m[k] === 'se').length;
                       return n ? { a: n / 31, texto: 'Sabés ' + n + ' de 31' } : null; } },
+    /* El mazo de Metodología (28/10): la 827, segundo de Fono. Misma
+       plantilla y misma cuenta que el de Antropología, con su clave. */
+    { id:'metodo', modo:'repasar', nombre:'Mazo de Metodología', emoji:'🔎',
+      desc:'Paradigmas, Sautu y los alcances de Sampieri, en tarjetas: pregunta, respuesta y cuáles ya sabés.',
+      href:'fichas/metodologia-investigacion/', carreras:['fono'], dato: () => '33 tarjetas · 6 temas',
+      avance: () => { let m = {};
+                      try { m = JSON.parse(localStorage.getItem('bolivar-fichas-metodologia') || '{}') || {}; } catch(err){}
+                      const n = Object.keys(m).filter(k => m[k] === 'se').length;
+                      return n ? { a: n / 33, texto: 'Sabés ' + n + ' de 33' } : null; } },
     /* La línea de tiempo (19/9): Historia Social de América Latina y
        Argentina (214), primer año de Trabajo Social. */
     { id:'linea', modo:'repasar', nombre:'Línea de tiempo de Historia', emoji:'🕰️',
@@ -160,6 +169,7 @@
     videos:   trazo('<rect x="6" y="2.5" width="12" height="19" rx="2"/><path d="M10.5 9.5v5l4-2.5z" fill="currentColor"/>'),
     cuadro:   trazo('<rect x="3.5" y="3.5" width="17" height="17" rx="2"/><path d="M3.5 9.5h17M9.5 9.5v11"/>'),
     mazo:     trazo('<rect x="8" y="3" width="12.5" height="16" rx="2"/><path d="M5 6.5v12.5a2 2 0 0 0 2 2h10"/>'),
+    metodo:   trazo('<circle cx="10.5" cy="10.5" r="6.5"/><path d="M15.3 15.3l5.2 5.2"/>'),
     psico:    trazo('<path d="M7 21v-3.2A7.5 7.5 0 1 1 19.2 12l1.3 3H18.5v2.5a2 2 0 0 1-2 2H14V21"/><path d="M11.5 7.5a2.5 2.5 0 0 1 2.5 2.5c0 1.5-2.5 1.8-2.5 3.5"/>'),
     linea:    trazo('<path d="M12 2.5v19"/><circle cx="12" cy="6" r="2.3" fill="currentColor"/><circle cx="12" cy="12" r="2.3" fill="currentColor"/><circle cx="12" cy="18" r="2.3" fill="currentColor"/><path d="M14.5 6H20M4 12h5.5M14.5 18H20"/>'),
     fonoteca: trazo('<path d="M4 14v-2a8 8 0 0 1 16 0v2"/><rect x="3" y="14" width="4.5" height="6.5" rx="1.5"/><rect x="16.5" y="14" width="4.5" height="6.5" rx="1.5"/>'),

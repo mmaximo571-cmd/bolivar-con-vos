@@ -1,0 +1,389 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Metodología de la investigación · La Bolívar con vos</title>
+<meta name="description" content="Mazo de repaso de Metodología de la investigación para Fono: 33 tarjetas, de Morin a los alcances de Sampieri, y lo que ya sabés queda marcado en el teléfono.">
+<meta name="theme-color" content="#F9E830">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;600;800&family=Montserrat:wght@800&family=Roboto+Mono:wght@400;500&display=swap" rel="stylesheet">
+<!-- Iconos de la app: pestana, Google, y pantalla de inicio del celular -->
+<link rel="icon" type="image/png" sizes="32x32" href="../../../imagenes/icono-32.png">
+<link rel="icon" type="image/png" sizes="96x96" href="../../../imagenes/icono-96.png">
+<link rel="icon" type="image/png" sizes="192x192" href="../../../imagenes/icono-192.png">
+<link rel="apple-touch-icon" href="../../../imagenes/icono-apple.png">
+<link rel="manifest" href="../../../manifest.json">
+
+<!-- Como se ve cuando alguien comparte el link por WhatsApp o Instagram -->
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="La Bolivar con vos">
+<meta property="og:title" content="Metodología de la investigación · La Bolívar con vos">
+<meta property="og:description" content="Mazo de repaso de Metodología de la investigación: 33 tarjetas para Fono.">
+<meta property="og:image" content="https://labolivarconvos.ar/imagenes/compartir.png">
+<meta name="twitter:card" content="summary_large_image">
+
+<!-- EL TEMA, ANTES DE DIBUJAR NADA. Igual que en el resto de la app: si
+     esto viviera en un script del final, la ficha arrancaria clara y
+     pegaria un salto a oscura. -->
+<script>
+(function(){try{
+  var g = localStorage.getItem('bolivar-tema') || 'auto';
+  var oscuro = g === 'oscuro' || (g === 'auto' &&
+    window.matchMedia('(prefers-color-scheme: dark)').matches);
+  document.documentElement.dataset.tema = oscuro ? 'oscuro' : 'claro';
+}catch(e){ document.documentElement.dataset.tema = 'claro'; }})();
+</script>
+
+<style>
+/* ===== LO QUE VINO DEL DISENO, TAL CUAL =====
+   Menos las fuentes: el export las traia embebidas (300 KB en base64)
+   y aca se piden a Google Fonts como en las demas fichas. */
+:root{
+  --color-bg:#FDFCF7; --color-surface:#FFFFFF; --color-text:#1A1A1A;
+  --color-divider:#D8D2C2; --color-neutral-200:#EFEAD9; --color-neutral-300:#D8D2C2;
+  --color-neutral-500:#7C7566; --color-neutral-700:#3A3A3A; --color-neutral-800:#2A2A2A;
+  --color-accent:#B52625; --color-accent-700:#8C1B1A; --color-accent-200:#F6E2E0;
+  --hl:#F9E830; --onhl:#1A1A1A;
+  --mono:'Roboto Mono', ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+}
+*,*::before,*::after{ box-sizing:border-box; }
+body{ margin:0; background:var(--color-bg); color:var(--color-text);
+      font-family:'Archivo', system-ui, sans-serif; font-size:15px; line-height:1.55;
+      -webkit-text-size-adjust:100%; }
+a{ color:var(--color-accent-700); text-decoration:none; }
+a:hover{ color:var(--color-text); }
+button:focus-visible, a:focus-visible{ outline:3px solid var(--color-accent); outline-offset:2px; }
+@keyframes fdar{ from{ opacity:0; transform:translateY(6px); } to{ opacity:1; transform:none; } }
+@media (prefers-reduced-motion:reduce){ *{ animation:none !important; transition:none !important; } }
+
+/* ===== LO QUE AGREGA LA APP ===== */
+
+/* La ficha no carga las hojas de `css/`, igual que las otras: es una pieza de
+   lectura con su propio sistema visual. Lo que se comparte es el tema
+   y la barra de volver. */
+
+/* LOS BLOQUES NEGROS. El diseno pinta la cabecera, la franja de cada
+   carta y el pie con `--color-text` de fondo y `--color-bg` de letra.
+   En tema oscuro esos dos se dan vuelta y los bloques quedaban casi
+   blancos, con el amarillo de «LA SÉ» encima: no se leia. Por eso esos
+   tres bloques usan su propio par de colores, que en los dos temas es
+   oscuro con letra clara. */
+:root{
+  --tinta:#1A1A1A; --sobre-tinta:#FDFCF7;
+  /* El diseno lo usa con un valor de repuesto (#FDFCF7) que no existe
+     en su paleta; sin definirlo, en oscuro asomaba una carta blanca
+     detras del mazo. */
+  --color-neutral-100:#FDFCF7;
+}
+html[data-tema="oscuro"]{
+  color-scheme:dark;
+  --color-bg:#151412; --color-surface:#22201D; --color-text:#FDFCF7;
+  --color-divider:#57524A; --color-neutral-100:#1C1A17; --color-neutral-200:#2C2A26;
+  --color-neutral-500:#A9A294; --color-neutral-700:#D8D3C8;
+  --color-accent:#FF9D8F; --color-accent-700:#FF9D8F;
+  --tinta:#0B0A09;
+}
+
+/* El diseno marca el hover de los botones con un atributo propio de
+   Claude Design (`style-hover`) que el navegador no entiende. Todos
+   dicen lo mismo, asi que alcanza una regla. */
+@media (hover:hover){
+  [style-hover]:hover{ background:var(--color-neutral-200) !important; }
+}
+
+.ficha-barra{
+  position:sticky; top:0; z-index:20;
+  display:flex; flex-wrap:wrap; align-items:center;
+  justify-content:space-between; gap:2px 14px;
+  padding:11px 18px;
+  font-family:Montserrat,sans-serif; font-weight:800;
+  font-size:12px; letter-spacing:.06em; text-transform:uppercase;
+  background:var(--hl);
+  border-bottom:2px solid var(--color-text);
+}
+.ficha-barra a{ color:var(--onhl); text-decoration:none; }
+.ficha-barra a:hover{ text-decoration:underline; }
+</style>
+<!-- Estadisticas de visitas (Vercel Web Analytics, sin cookies) -->
+<script defer src="/_vercel/insights/script.js"></script>
+<!-- Fono a Color: leer a tu manera (11/10/2026). En el <head> y sin
+     defer, para que la letra y el fondo elegidos estén desde el primer cuadro. -->
+<script src="../../../lib/lectura-a-color.js"></script>
+</head>
+<body>
+
+<nav class="ficha-barra">
+<a href="../../">← Estudiemos</a>
+<a href="../">Todas las fichas</a>
+</nav>
+
+<!-- Aca dibuja ficha.js. Vacio hasta que corre el script del final. -->
+<div id="ficha"></div>
+
+<!-- El mazo de Metodología (28/10/2026). Es la misma plantilla que el
+     de Antropología (vino de Claude Design, ver ese archivo): cambian
+     las cartas, la clave donde se guardan las marcas y que los botones
+     de arriba filtran por tema y no por unidad. Las cartas salen del
+     grupo de estudio de la Conducción del CEFTS y de su formulario
+     «Repasemos juntes». -->
+<template id="plantilla">
+<div style="min-height:100vh;background:var(--color-bg)">
+
+  <div style="max-width:620px;margin:0 auto;padding:24px 16px 40px">
+
+    <div style="background:var(--tinta);color:var(--sobre-tinta);border:2px solid var(--color-text);padding:20px">
+      <p style="font-family:var(--mono);font-size:11px;letter-spacing:.12em;margin:0 0 10px;color:var(--hl)">MAZO DE REPASO · GRUPO DE ESTUDIO</p>
+      <h1 style="font-weight:800;font-size:clamp(28px,8vw,44px);line-height:1.02;letter-spacing:-.02em;margin:0;color:var(--sobre-tinta);text-wrap:balance">Metodología de la investigación</h1>
+      <p style="margin:12px 0 0;font-size:14px;line-height:1.5;color:var(--color-neutral-300)">Licenciatura en Fonoaudiología · 827 · FTS / UNLP</p>
+      <div style="display:flex;flex-wrap:wrap;gap:16px;margin-top:16px;padding-top:12px;border-top:2px solid var(--sobre-tinta);font-family:var(--mono);font-size:11px;letter-spacing:.06em">
+        <span>EN EL MAZO: {{ nMazo }}</span>
+        <span style="color:var(--hl)">LA SÉ: {{ nSe }}</span>
+        <span>A REPASAR: {{ nRepasar }}</span>
+      </div>
+    </div>
+
+    <div style="display:flex;align-items:baseline;justify-content:space-between;gap:12px;margin:24px 0 8px">
+      <span style="font-family:var(--mono);font-size:10px;letter-spacing:.16em;color:var(--color-neutral-700)">TEMA</span>
+      <span style="font-family:var(--mono);font-size:10px;letter-spacing:.06em;color:var(--color-neutral-700)">{{ posicion }}</span>
+    </div>
+    <div style="display:flex;flex-wrap:wrap;gap:6px">
+      <sc-for list="{{ unidades }}" as="u" hint-placeholder-count="7">
+        <button type="button" style="{{ u.style }}" onClick="{{ u.onClick }}" aria-pressed="{{ u.on }}">{{ u.label }}</button>
+      </sc-for>
+    </div>
+
+    <div style="height:6px;background:var(--color-neutral-200);border:1px solid var(--color-divider);margin:18px 0 0">
+      <i style="{{ barraStyle }}"></i>
+    </div>
+
+    <div style="position:relative;margin-top:20px">
+      <div style="position:absolute;inset:0;transform:translate(8px,8px);border:2px solid var(--color-divider);background:var(--color-neutral-200)"></div>
+      <div style="position:absolute;inset:0;transform:translate(4px,4px);border:2px solid var(--color-divider);background:var(--color-neutral-100, #FDFCF7)"></div>
+
+      <article style="{{ cartaStyle }}">
+        <div style="display:flex;justify-content:space-between;align-items:center;gap:10px;padding:10px 16px;background:var(--tinta);color:var(--sobre-tinta)">
+          <span style="font-family:var(--mono);font-size:10.5px;letter-spacing:.14em">{{ carta.id }}</span>
+          <span style="font-family:var(--mono);font-size:10.5px;letter-spacing:.1em;color:var(--color-neutral-300)">{{ carta.unidad }} · {{ carta.dificultad }} · {{ carta.tiempo }}</span>
+        </div>
+
+        <div style="padding:20px 18px 18px">
+          <sc-if value="{{ frente }}" hint-placeholder-val="{{ true }}">
+            <div>
+              <span style="display:block;font-family:var(--mono);font-size:10px;letter-spacing:.16em;color:var(--color-neutral-500);margin-bottom:10px">FRENTE · {{ carta.concepto }}</span>
+              <p style="margin:0;font-weight:800;font-size:clamp(20px,5.6vw,26px);line-height:1.2;letter-spacing:-.01em;text-wrap:pretty">{{ carta.pregunta }}</p>
+              <sc-if value="{{ pistaVisible }}" hint-placeholder-val="{{ false }}">
+                <p style="margin:16px 0 0;padding:12px 14px;border-left:8px solid var(--hl);background:var(--color-neutral-200);font-size:14.5px;line-height:1.5">{{ carta.pista }}</p>
+              </sc-if>
+              <sc-if value="{{ pistaOculta }}" hint-placeholder-val="{{ true }}">
+                <button type="button" onClick="{{ verPista }}" style="margin-top:16px;min-height:48px;padding:0 16px;border:1px solid var(--color-divider);background:transparent;color:var(--color-text);font-family:var(--mono);font-size:12px;letter-spacing:.1em;cursor:pointer" style-hover="background:var(--color-neutral-200)">VER PISTA</button>
+              </sc-if>
+            </div>
+          </sc-if>
+
+          <sc-if value="{{ dorso }}" hint-placeholder-val="{{ false }}">
+            <div style="animation:fdar .22s ease both">
+              <span style="display:block;font-family:var(--mono);font-size:10px;letter-spacing:.16em;color:var(--color-accent-700);margin-bottom:10px">DORSO</span>
+              <p style="margin:0 0 16px;font-weight:600;font-size:17px;line-height:1.45;text-wrap:pretty">{{ carta.resumen }}</p>
+              <div style="display:grid;gap:2px;background:var(--color-divider);border:2px solid var(--color-divider)">
+                <sc-for list="{{ puntos }}" as="k" hint-placeholder-count="3">
+                  <div style="background:var(--color-surface);padding:12px 14px;font-size:14.5px;line-height:1.55;text-wrap:pretty">{{ k.rt }}</div>
+                </sc-for>
+              </div>
+              <div style="margin-top:14px;padding-top:12px;border-top:1px solid var(--color-divider);display:grid;gap:4px;font-family:var(--mono);font-size:11px;letter-spacing:.04em;color:var(--color-neutral-700)">
+                <span>AUTORES: {{ carta.autores }}</span>
+                <span>{{ carta.unidad }} · LECTURA {{ carta.tiempo }}</span>
+              </div>
+            </div>
+          </sc-if>
+        </div>
+
+        <button type="button" onClick="{{ darVuelta }}" style="{{ vueltaStyle }}">{{ vueltaTexto }}</button>
+      </article>
+    </div>
+
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:22px">
+      <button type="button" onClick="{{ marcarRepasar }}" style="{{ repasarStyle }}">Repasar</button>
+      <button type="button" onClick="{{ marcarSe }}" style="{{ seStyle }}">La sé</button>
+    </div>
+
+    <div style="display:flex;justify-content:space-between;gap:8px;margin-top:8px">
+      <button type="button" onClick="{{ anterior }}" style="min-height:48px;flex:1;border:1px solid var(--color-divider);background:transparent;color:var(--color-text);font-family:var(--mono);font-size:12px;letter-spacing:.1em;cursor:pointer" style-hover="background:var(--color-neutral-200)">← ANTERIOR</button>
+      <button type="button" onClick="{{ siguiente }}" style="min-height:48px;flex:1;border:1px solid var(--color-divider);background:transparent;color:var(--color-text);font-family:var(--mono);font-size:12px;letter-spacing:.1em;cursor:pointer" style-hover="background:var(--color-neutral-200)">SIGUIENTE →</button>
+    </div>
+
+    <div style="display:flex;flex-wrap:wrap;gap:10px;align-items:center;justify-content:space-between;margin-top:18px">
+      <span style="font-family:var(--mono);font-size:11px;color:var(--color-neutral-700)">{{ estadoCarta }}</span>
+      <button type="button" onClick="{{ borrar }}" style="min-height:48px;padding:0 14px;border:0;background:transparent;color:var(--color-accent-700);font-family:var(--mono);font-size:11px;letter-spacing:.08em;cursor:pointer;text-decoration:underline;text-underline-offset:4px">EMPEZAR DE CERO</button>
+    </div>
+
+    <p style="margin:28px 0 0;padding:14px 16px;border:1px dashed var(--color-divider);font-size:13.5px;line-height:1.55;color:var(--color-neutral-700)">
+      Las 33 tarjetas salen del grupo de estudio de Metodología y del repaso «Repasemos juntes». Los ejemplos de los alcances son inventados, para que se entiendan. Son material de estudio, no el programa de la cátedra: <b>si algo no coincide con lo que dijeron en clase, mandá el dato y lo corregimos.</b> Lo que marcás queda guardado en este teléfono, no se sube a ningún lado.
+    </p>
+  </div>
+
+  <footer style="background:var(--tinta);color:var(--sobre-tinta);padding:20px;display:flex;flex-wrap:wrap;gap:14px;justify-content:space-between;font-family:var(--mono);font-size:11px;letter-spacing:.08em;text-transform:uppercase">
+    <span>MET·INVESTIGACIÓN·33</span>
+    <a href="../" style="color:var(--sobre-tinta)">Volver al índice ↗</a>
+    <span>Propuesta pedagógica 2026</span>
+  </footer>
+</div>
+</template>
+
+<script src="../ficha.js"></script>
+<script>
+const FICHAS = [
+["MET-T1-001",1,"Fácil","25s","Edgar Morin","Paradigma","¿Qué es un paradigma?","Una manera de mirar que no es neutral.","Es un modelo de pensamiento compartido que orienta cómo miramos la realidad y cómo la estudiamos: qué preguntamos, qué damos por válido y con qué método.",["**Orienta la mirada:** define qué se ve de un fenómeno y qué queda afuera.","**No es neutral:** la simplicidad separa las partes; la complejidad las pone en relación.","**En la materia:** simplicidad y complejidad (Morin) y el paradigma sistémico-ecológico (Fono)."]],
+["MET-T1-002",1,"Fácil","25s","Edgar Morin","Paradigma de la simplicidad","¿Qué hace el paradigma de la simplicidad?","Ordena el universo y persigue el desorden.","Pone orden al universo y persigue al desorden. Ve lo uno y lo múltiple, pero no puede ver que «lo uno» puede ser múltiple al mismo tiempo.",["**Separa para estudiar:** invita a desunir las ideas y estudiar cada parte por separado.","**Ejemplo:** el ser humano es biológico y también cultural; la simplicidad estudia lo biológico por un lado y lo cultural por otro.","**Lo que olvida:** que uno no existe sin el otro."]],
+["MET-T1-003",1,"Media","30s","Edgar Morin","Paradigma de la complejidad","¿Qué plantea Morin con el paradigma de la complejidad?","«Nada es simple».","Una manera de pensar la realidad que supera las explicaciones simples, reduccionistas y fragmentadas: la realidad está formada por fenómenos relacionados entre sí.",["**El desafío:** en el mundo existen complejidades; nada es simple.","**Complejo no es complicado:** se trata de reconocer relaciones, contradicciones e incertidumbres que forman parte de un fenómeno.","**Tres principios:** dialógico, de recursividad organizacional y hologramático."]],
+["MET-T1-004",1,"Fácil","15s","Edgar Morin","Los tres principios","¿Cuáles son los tres principios que propone Morin?","Uno habla de opuestos, otro de productos, otro de partes.","Principio dialógico, principio de recursividad organizacional y principio hologramático.",["**Dialógico:** opuestos que conviven y se complementan (orden y desorden).","**Recursividad organizacional:** somos productos y a la vez productores.","**Hologramático:** la parte está en el todo y el todo está en la parte."]],
+["MET-T1-005",1,"Media","30s","Edgar Morin","Principio dialógico","¿Qué dice el principio dialógico?","Amor y conflicto.","Conceptos opuestos pueden coexistir en una relación complementaria: asocia dos términos que son complementarios y a la vez antagonistas.",["**Ejemplo clásico:** amor y conflicto.","**Orden y desorden:** cualquier sistema necesita orden para tener estabilidad.","**Y también desorden:** el caos es lo que permite cambiar, innovar y evolucionar."]],
+["MET-T1-006",1,"Media","30s","Edgar Morin","Recursividad organizacional","¿Qué dice el principio de recursividad organizacional?","Somos productores y también producto.","Somos productos de un proceso de reproducción anterior a nosotros, pero una vez producidos nos volvemos productores del proceso que continúa.",["**La sociedad y los individuos:** la sociedad es producida por las interacciones de los individuos, y a la vez la sociedad produce a los individuos.","**Un círculo, no una línea:** el producto vuelve sobre lo que lo produce.","**Lo que rompe:** la idea lineal de causa-efecto."]],
+["MET-T1-007",1,"Media","30s","Edgar Morin","Principio hologramático","¿Qué dice el principio hologramático?","Como en un holograma.","«La parte está en el todo, y el todo está en la parte»: no se entiende el todo sin sus partes, ni las partes sin concebir el todo.",["**Las partes reflejan el conjunto** y permiten estudiarlo; el conjunto da sentido a cada parte.","**Ejemplo:** cada persona lleva adentro el lenguaje, la cultura, las normas, la historia y las costumbres de su sociedad.","**Y al revés:** la sociedad entera se constituye y se transforma por las interacciones de esas personas."]],
+["MET-T2-008",2,"Fácil","20s","Zygmunt Bauman y Tim May","Pensar sociológicamente","¿Qué nos propone pensar sociológicamente?","Lo contrario de dar las cosas por sentado.","Desfamiliarizar lo cotidiano: cuestionar lo que creemos conocer y mirarlo desde una perspectiva nueva.",["**No es:** dejar de cuestionar las situaciones cotidianas.","**Tampoco es:** dar las cosas por sentado, sin revisión crítica.","**Es una guía para la vida:** ayuda a entender los lazos entre la libertad individual y la colectiva."]],
+["MET-T2-009",2,"Media","30s","Zygmunt Bauman y Tim May","Sociología y sentido común","¿En qué se parecen y en qué se diferencian la sociología y el sentido común?","Están cerca, pero no se confunden.","La sociología está íntimamente relacionada con el sentido común, pero se distingue de él: somete al sentido común a las reglas rigurosas del discurso responsable.",["**Desafía la rutina:** cuestiona los presupuestos que damos por sentado en la vida diaria.","**Red de interdependencia:** muestra que los individuos están inmersos y son partícipes de una red.","**Reglas del discurso responsable:** lo que se afirma tiene que poder sostenerse."]],
+["MET-T2-010",2,"Fácil","20s","Zygmunt Bauman y Tim May","Desfamiliarización","¿Qué es la desfamiliarización?","Volver extraño lo conocido.","La capacidad de ver la vida cotidiana y las cosas que creíamos conocer desde una perspectiva completamente nueva.",["**Nace de cuestionar** lo que creemos saber.","**Abre puertas:** permite ver amplios horizontes de posibilidades.","**Para recordar:** es la respuesta a «¿qué nos propone pensar sociológicamente?»."]],
+["MET-T3-011",3,"Media","30s","Gómez (2003)","Paradigma sistémico-ecológico","¿Qué propone el paradigma sistémico-ecológico para la Fonoaudiología?","El sujeto y sus contextos.","Identificar los procesos de desarrollo humano a partir de la interacción entre las características individuales del sujeto y los factores de los contextos en los que se desenvuelve.",["**No mira al sujeto aislado:** lo mira en relación con su entorno.","**Junta tres miradas:** sistémica, holística/integral y ecológica.","**Para la clínica:** el desarrollo y el desempeño de una persona no se entienden sin su contexto."]],
+["MET-T3-012",3,"Media","30s","Gómez (2003)","Paradigma sistémico","¿Qué plantea el paradigma sistémico?","El individuo forma parte de algo más grande.","El individuo es parte de un sistema; por eso su desarrollo y su desempeño están ligados a las condiciones del entorno.",["**Rechaza la verdad absoluta:** la verdad es una construcción social y puede variar.","**Depende de la significación:** de la cultura, la historia personal y las experiencias de los sujetos.","**Depende de la situación:** lo que vale en un contexto puede no valer en otro."]],
+["MET-T3-013",3,"Fácil","20s","Gómez (2003)","Enfoque holístico o integral","¿A qué se opone el enfoque holístico o integral?","Al reduccionismo.","Se opone a la visión reduccionista del ser humano y de los procesos de salud: considera al sujeto como un todo integrado en sí mismo y en relación con los otros.",["**El sujeto entero:** no una suma de órganos o funciones.","**En relación:** consigo mismo y con los otros.","**El fin:** potenciar sus competencias y sus capacidades."]],
+["MET-T3-014",3,"Fácil","20s","Gómez (2003)","Paradigma ecológico","¿Qué plantea el paradigma ecológico?","Desde que nacemos.","Los sistemas ambientales influyen en el individuo y en su desarrollo como ser humano que se desenvuelve en ellos desde su nacimiento.",["**El ambiente cuenta:** familia, escuela, barrio, cultura.","**Desde el nacimiento:** la influencia es continua, no un momento.","**Se conecta con Morin:** el individuo no se entiende separado de sus contextos."]],
+["MET-T3-015",3,"Media","25s","Gómez (2003)","Niveles de análisis","¿En qué niveles propone Gómez analizar el desarrollo de un sujeto en la atención en salud?","Van del más chico al más amplio.","Gómez (2003) integra el paradigma ecológico y define cuatro niveles: individual, relaciones diádicas, relaciones familiares, y relaciones sociales y culturales.",["**Individual:** el propio sujeto.","**Diádicas y familiares:** el vínculo de a dos y la familia.","**Sociales y culturales:** la comunidad y la cultura en la que vive."]],
+["MET-T4-016",4,"Media","30s","Ruth Sautu","Investigación social científica","Según Sautu, ¿qué es la investigación social científica?","Teoría, metodología y evidencia.","Una forma de conocimiento caracterizada por la construcción de evidencia empírica elaborada a partir de la teoría, aplicando reglas de procedimiento explícitas.",["**Articula tres cosas:** teoría, metodología y evidencia empírica.","**No es solo juntar datos** ni describir hechos.","**Reglas explícitas:** cómo se llegó a la evidencia tiene que estar dicho."]],
+["MET-T4-017",4,"Fácil","20s","Ruth Sautu","No hay un método mejor","¿Existe una metodología mejor que las otras?","Depende de para qué.","No. Para Sautu no hay una metodología ni una técnica superior en abstracto: se evalúan según su adecuación al problema y a los objetivos de investigación.",["**No hay una única teoría** ni una única metodología «mejor».","**La pregunta manda:** el método se elige por el problema.","**Lo mismo con los alcances:** Sampieri dice que ninguno es superior."]],
+["MET-T4-018",4,"Media","30s","Ruth Sautu","Enfoque cualitativo","¿Qué estudia el enfoque cualitativo y con qué técnicas?","Comprender e interpretar.","La construcción social de significados, las perspectivas de los actores y la vida cotidiana, con descripción detallada.",["**Conceptos abiertos:** parte de conceptos menos específicos y puede reelaborarlos durante el estudio.","**Técnicas:** etnografía, biografías, estudios de caso, entrevistas.","**Ojo:** no tiene que ver con medir y comprobar; eso es lo cuantitativo."]],
+["MET-T4-019",4,"Media","30s","Ruth Sautu","Enfoque cuantitativo","¿Qué estudia el enfoque cuantitativo y con qué técnicas?","Medir y comprobar.","La distribución de rasgos, opiniones o conductas; la medición y la prueba de hipótesis.",["**Teoría desde el inicio:** con conceptos, regularidades y modelos.","**Técnicas:** encuestas, experimentos, análisis estadísticos.","**Trabaja con** hipótesis, variables y números."]],
+["MET-T4-020",4,"Fácil","20s","Ruth Sautu","Cuanti, cuali y mixto","¿Cómo se diferencian en una línea los tres enfoques?","Medir, comprender, integrar.","Cuantitativo = medir y comprobar. Cualitativo = comprender e interpretar. Mixto = integra elementos de los dos.",["**Cuantitativo:** parte de hipótesis, trabaja con variables y números, usa estadística.","**Cualitativo:** parte de experiencias y significados, trabaja con datos no estandarizados, analiza el contexto.","**Mixto:** combina las dos lógicas en un mismo estudio."]],
+["MET-T4-021",4,"Media","30s","Ruth Sautu","Objetivos","¿Cómo se construyen el objetivo general y los específicos?","El foco y sus partes.","Derivan de la discusión teórica del problema: el objetivo general es el «foco» de la investigación y se descompone en objetivos específicos.",["**No son una elección aislada:** están construidos teóricamente.","**La teoría define** qué se investiga, desde qué perspectiva y con qué metodología.","**General → específicos:** lo amplio se baja a pasos concretos."]],
+["MET-T4-022",4,"Media","30s","Ruth Sautu","Estado del arte","¿Para qué sirven el estado del arte y la revisión bibliográfica?","Nadie investiga de cero.","Para conocer lo que ya se produjo: qué se investigó, qué resultados y problemas hay, qué marcos teóricos se usaron y qué métodos funcionaron o fallaron.",["**Ubica el proyecto** dentro del conocimiento acumulado.","**Permite aportar** algo nuevo a esa área.","**Se conecta con Sampieri:** de la revisión de la literatura depende el alcance."]],
+["MET-T4-023",4,"Difícil","35s","Ruth Sautu","Lo que no alcanza","¿Qué cosas NO alcanzan para que haya investigación científica?","Muchos datos no son una investigación.","Tener datos o estadísticas sin una construcción teórica que los oriente, o relatar un caso como una nota periodística sin procedimientos explícitos.",["**Creer que la técnica define el enfoque:** usar una técnica no alcanza.","**Objetos demasiado amplios:** «el poder» o «la subjetividad» sin tiempo, lugar ni objeto.","**Buscar una verdad definitiva** e inmutable."]],
+["MET-T5-024",5,"Media","30s","Hernández Sampieri","Alcance de la investigación","¿Cómo se define, según Hernández Sampieri, el alcance de una investigación?","Hasta dónde quiere llegar el estudio.","Es lo que el estudio se propone lograr con el conocimiento que produce: explorar, describir, relacionar variables o explicar causas.",["**Hay cuatro:** exploratorio, descriptivo, correlacional y explicativo.","**Depende de:** el estado del conocimiento sobre el problema y los objetivos del estudio.","**Condiciona** el diseño y los procedimientos de la investigación."]],
+["MET-T5-025",5,"Fácil","20s","Hernández Sampieri","De qué depende","¿De qué depende el alcance de una investigación?","Dos cosas.","De dos cosas: el estado del conocimiento sobre el problema (la revisión de la literatura) y la perspectiva y los objetivos que se le quieran dar al estudio.",["**Si casi no hay nada escrito:** probablemente sea exploratorio.","**Si ya hay mucho:** se puede describir, relacionar o explicar.","**Los objetivos:** qué se quiere saber decide hasta dónde llegar."]],
+["MET-T5-026",5,"Media","30s","Hernández Sampieri","Alcance exploratorio","¿Cuándo un estudio es exploratorio? Dá un ejemplo.","Un tema poco estudiado.","Cuando el tema fue poco estudiado o no se abordó antes: sirve para familiarizarse con él y preparar el terreno para otros estudios.",["**Se usa cuando** la revisión de la literatura muestra que hay poco o nada.","**Ejemplo (inventado):** cómo viven las familias de un pueblo sin estudios previos la noticia de que su bebé tiene hipoacusia.","**Abre preguntas** que después se pueden describir o relacionar."]],
+["MET-T5-027",5,"Media","30s","Hernández Sampieri","Alcance descriptivo","¿Qué busca un estudio descriptivo? Dá un ejemplo.","Cómo es y cómo se manifiesta.","Especificar propiedades y características de personas, grupos o fenómenos: medir o recoger información sobre cada variable, sin relacionarlas.",["**Responde:** ¿cómo es?, ¿cuántos?, ¿dónde?","**Ejemplo (inventado):** cuántos chicos de primer grado de las escuelas de Berisso tienen dificultades de articulación, según la edad.","**No relaciona** variables: eso es el correlacional."]],
+["MET-T5-028",5,"Media","30s","Hernández Sampieri","Dos o más variables","¿Qué alcance identifica y analiza dos o más variables?","Co-relación.","El correlacional: busca conocer la relación o el grado de asociación entre dos o más variables en un contexto.",["**Responde:** si una cambia, ¿cambia la otra?","**Ejemplo (inventado):** si hay relación entre las horas de pantalla por día y el vocabulario de chicos de tres años.","**Ojo:** que dos variables se asocien no prueba que una cause a la otra; eso lo busca el explicativo."]],
+["MET-T5-029",5,"Difícil","35s","Hernández Sampieri","Alcance explicativo","¿Qué busca un estudio explicativo? Dá un ejemplo.","El porqué.","Busca las causas de los fenómenos: por qué ocurren y en qué condiciones se dan, o por qué dos o más variables están relacionadas.",["**Va más allá** de describir o relacionar.","**Ejemplo (inventado):** por qué las otitis a repetición en los primeros años se asocian con demoras en la adquisición del lenguaje.","**Incluye a los otros:** también explora, describe y asocia."]],
+["MET-T5-030",5,"Media","25s","Hernández Sampieri","Más de un alcance","¿Una investigación puede tener más de un alcance?","No es fijo.","Sí. Puede empezar como exploratoria, pasar a descriptiva, después a correlacional, e incluso llegar a ser explicativa.",["**Un descriptivo** puede tener elementos correlacionales.","**Un explicativo** incluye propósitos de exploración, descripción y asociación.","**El alcance no es necesariamente fijo** desde el comienzo."]],
+["MET-T5-031",5,"Fácil","20s","Hernández Sampieri","Ningún alcance es mejor","¿Cuál de los cuatro alcances es el mejor?","Es una pregunta trampa.","Ninguno es superior: los cuatro son significativos y valiosos.",["**La elección depende** del desarrollo del conocimiento sobre el tema.","**Y de** los objetivos y las preguntas de investigación.","**Igual que Sautu:** no hay un método mejor en abstracto."]],
+["MET-T6-032",6,"Media","40s","Sautu · Hernández Sampieri","Verdadero o falso","¿Cuáles son verdaderas? (1) El cuantitativo usa encuestas, experimentos y estadística. (2) Con reunir datos ya hay investigación. (3) Una investigación tiene un solo alcance fijo. (4) No hay un alcance mejor que otro. (5) Lo cualitativo es medir y comprobar.","Son dos.","Verdaderas: la 1 y la 4. Las otras tres son falsas.",["**(2) Falsa:** sin construcción teórica ni reglas explícitas, los datos no alcanzan (Sautu).","**(3) Falsa:** puede empezar exploratoria y terminar explicativa (Sampieri).","**(5) Falsa:** medir y comprobar es lo cuantitativo; lo cualitativo es comprender e interpretar."]],
+["MET-T6-033",6,"Difícil","45s","Hernández Sampieri","Armar la respuesta","«Elegí un alcance, explicalo y mencioná un ejemplo»: ¿cómo se arma una buena respuesta?","Tres pasos.","Nombrar el alcance, decir qué busca y de qué depende, y dar un ejemplo concreto con su pregunta de investigación.",["**1. Nombrar y definir:** «El correlacional busca conocer la relación entre dos o más variables».","**2. Ubicarlo:** se elige según lo que ya se sabe del tema y los objetivos.","**3. Ejemplo propio:** una pregunta con las variables a la vista, mejor si es de Fono."]]
+].map(f => ({ id:f[0], u:f[1], dificultad:f[2], tiempo:f[3], autores:f[4], concepto:f[5], pregunta:f[6], pista:f[7], resumen:f[8], puntos:f[9] }));
+
+/* Los temas reemplazan a las unidades del mazo de Antropología: el
+   grupo de estudio no viene partido por unidad sino por autor. El
+   botón usa el corto; la cabecera de la carta, el largo. */
+const TEMAS = ['Todos', 'Morin', 'Bauman y May', 'Sistémico-ecológico', 'Sautu', 'Sampieri', 'Repaso'];
+const BOTONES = ['TODOS', 'MORIN', 'BAUMAN', 'FONO', 'SAUTU', 'SAMPIERI', 'REPASO'];
+
+const CLAVE = 'bolivar-fichas-metodologia';
+
+class Component extends DCLogic {
+  state = { unidad: 0, i: 0, vuelta: false, pista: false, marcas: {}, orden: [] };
+
+  componentDidMount(){
+    let marcas = {};
+    try { marcas = JSON.parse(localStorage.getItem(CLAVE) || '{}') || {}; } catch(e){ marcas = {}; }
+    this.setState({ marcas, orden: this.armarOrden(0, marcas) });
+  }
+
+  guardar(marcas){
+    try { localStorage.setItem(CLAVE, JSON.stringify(marcas)); } catch(e){}
+  }
+
+  armarOrden(unidad, marcas){
+    const modo = this.props.orden ?? 'Prioriza lo que falta';
+    const base = FICHAS.map((f, n) => n).filter(n => !unidad || FICHAS[n].u === unidad);
+    if (modo === 'Orden del programa') return base;
+    if (modo === 'Al azar'){
+      const a = base.slice();
+      for (let k = a.length - 1; k > 0; k--){ const j = Math.floor(Math.random() * (k + 1)); [a[k], a[j]] = [a[j], a[k]]; }
+      return a;
+    }
+    const peso = n => { const m = marcas[FICHAS[n].id]; return m === 'repasar' ? 0 : m === 'se' ? 2 : 1; };
+    return base.slice().sort((a, b) => peso(a) - peso(b));
+  }
+
+  filtrar(unidad){
+    this.setState({ unidad, i: 0, vuelta: false, pista: false, orden: this.armarOrden(unidad, this.state.marcas) });
+  }
+
+  mover(paso){
+    const n = this.state.orden.length || 1;
+    this.setState({ i: ((this.state.i + paso) % n + n) % n, vuelta: false, pista: false });
+  }
+
+  marcar(valor){
+    const f = this.actual();
+    if (!f) return;
+    const marcas = Object.assign({}, this.state.marcas);
+    if (marcas[f.id] === valor) delete marcas[f.id]; else marcas[f.id] = valor;
+    this.guardar(marcas);
+    this.setState({ marcas });
+    if (this.props.avanzarAlMarcar ?? true) setTimeout(() => this.mover(1), 120);
+  }
+
+  actual(){ const n = this.state.orden[this.state.i]; return n === undefined ? null : FICHAS[n]; }
+
+  rico(texto){
+    const partes = String(texto).split(/(\*\*[^*]+\*\*)/).filter(Boolean).map((t, k) =>
+      t.startsWith('**')
+        ? React.createElement('b', { key: k, style: { fontWeight: 800 } }, t.slice(2, -2))
+        : t);
+    return React.createElement('span', null, partes);
+  }
+
+  renderVals(){
+    const s = this.state;
+    const f = this.actual() || FICHAS[0];
+    const total = s.orden.length || FICHAS.length;
+    const marca = s.marcas[f.id];
+    const vals = Object.values(s.marcas);
+    const chip = (on) => 'min-height:48px;padding:0 14px;cursor:pointer;font-family:var(--mono);font-size:12px;letter-spacing:.08em;border:1px solid ' +
+      (on ? 'var(--color-text);background:var(--color-text);color:var(--color-bg)' : 'var(--color-divider);background:transparent;color:var(--color-text)');
+    const marcaBtn = (on, color) => 'min-height:52px;cursor:pointer;font-family:Archivo,system-ui,sans-serif;font-weight:800;font-size:15px;letter-spacing:.02em;border:2px solid ' + color +
+      (on ? ';background:' + color + ';color:var(--color-bg)' : ';background:transparent;color:' + color);
+
+    return {
+      nMazo: total,
+      nSe: vals.filter(v => v === 'se').length,
+      nRepasar: vals.filter(v => v === 'repasar').length,
+      posicion: (s.i + 1) + ' / ' + total,
+      barraStyle: { display:'block', height:'100%', width: Math.round(((s.i + 1) / total) * 100) + '%', background:'var(--color-text)' },
+      unidades: [0,1,2,3,4,5,6].map(u => ({
+        label: BOTONES[u],
+        on: s.unidad === u,
+        style: chip(s.unidad === u),
+        onClick: () => this.filtrar(u)
+      })),
+      carta: {
+        id: f.id, unidad: TEMAS[f.u], dificultad: f.dificultad, tiempo: f.tiempo,
+        concepto: f.concepto.toUpperCase(), pregunta: f.pregunta, pista: f.pista,
+        resumen: f.resumen, autores: f.autores
+      },
+      cartaStyle: { position:'relative', background:'var(--color-surface)', border:'2px solid var(--color-text)', boxShadow:'2px 2px 0 var(--color-text)', display:'block', minHeight:'320px' },
+      frente: !s.vuelta,
+      dorso: s.vuelta,
+      pistaVisible: s.pista,
+      pistaOculta: !s.pista,
+      verPista: () => this.setState({ pista: true }),
+      puntos: f.puntos.map((p, k) => ({ k, rt: this.rico(p) })),
+      darVuelta: () => this.setState({ vuelta: !s.vuelta }),
+      vueltaTexto: s.vuelta ? 'VOLVER AL FRENTE' : 'DAR VUELTA',
+      vueltaStyle: { width:'100%', minHeight:'56px', cursor:'pointer', border:0, borderTop:'2px solid var(--color-text)',
+        background: s.vuelta ? 'var(--color-text)' : 'var(--hl)', color: s.vuelta ? 'var(--color-bg)' : 'var(--onhl)',
+        fontFamily:'Archivo,system-ui,sans-serif', fontWeight:800, fontSize:'15px', letterSpacing:'.08em' },
+      marcarRepasar: () => this.marcar('repasar'),
+      marcarSe: () => this.marcar('se'),
+      repasarStyle: marcaBtn(marca === 'repasar', 'var(--color-accent)'),
+      seStyle: marcaBtn(marca === 'se', 'var(--color-text)'),
+      anterior: () => this.mover(-1),
+      siguiente: () => this.mover(1),
+      estadoCarta: marca === 'se' ? 'MARCADA: LA SÉ' : marca === 'repasar' ? 'MARCADA: A REPASAR' : 'SIN MARCAR',
+      borrar: () => { this.guardar({}); this.setState({ marcas: {}, i: 0, vuelta: false, pista: false, orden: this.armarOrden(s.unidad, {}) }); }
+    };
+  }
+}
+arrancarFicha();
+</script>
+</body>
+</html>
