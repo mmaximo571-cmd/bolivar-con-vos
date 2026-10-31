@@ -78,9 +78,9 @@
     "semantic_hash": ""
   },
   "sw.js": {
-    "mtime": 1792893760.5121841,
-    "seen": 1792893778.1758552,
-    "ast_hash": "e5eeee766e2165313596e3fddb022ac0",
+    "mtime": 1793203099.5178986,
+    "seen": 1793203691.9226027,
+    "ast_hash": "c59aea17202ebc3d25f6ddf1c8b4748f",
     "semantic_hash": ""
   },
   "BITACORA.md": {
@@ -198,9 +198,9 @@
     "semantic_hash": ""
   },
   "estudiemos/fichas/index.html": {
-    "mtime": 1790725615.1082873,
-    "seen": 1790732169.3238544,
-    "ast_hash": "d348789c057b0182a9513cb389157d85",
+    "mtime": 1793203081.2828562,
+    "seen": 1793203691.9226813,
+    "ast_hash": "e113c4ae35ba02a078045d501cdfc625",
     "semantic_hash": ""
   },
   "estudiemos/fichas/leer.js": {
@@ -390,15 +390,15 @@
     "semantic_hash": ""
   },
   "estudiemos/huella.js": {
-    "mtime": 1789852140.6939785,
-    "seen": 1790732169.323501,
-    "ast_hash": "2fcde29c2b0810c45856deaf8516c12f",
+    "mtime": 1793203081.5329733,
+    "seen": 1793203691.9224348,
+    "ast_hash": "11f97ba520549cf827e8317a386d286c",
     "semantic_hash": ""
   },
   "estudiemos/portada.js": {
-    "mtime": 1791765024.6278315,
-    "seen": 1791765585.5169537,
-    "ast_hash": "07fa9268cba828a4fb0ae6cb2210bd02",
+    "mtime": 1793203081.456668,
+    "seen": 1793203691.922446,
+    "ast_hash": "37f8082a50be93f1541ec40bd0f3d990",
     "semantic_hash": ""
   },
   "estudiemos/territorio.js": {
@@ -594,9 +594,9 @@
     "semantic_hash": ""
   },
   "docs/HISTORIAL-SW.md": {
-    "mtime": 1792893760.514176,
-    "seen": 1792893778.1758907,
-    "ast_hash": "ed7526284294e27dc7002e13898bd09e",
+    "mtime": 1793203099.757086,
+    "seen": 1793203691.9226327,
+    "ast_hash": "b89762ae7b38c6bdd7e454c56b327e12",
     "semantic_hash": ""
   },
   "docs/prompts/PROMPT-DISENO.md": {

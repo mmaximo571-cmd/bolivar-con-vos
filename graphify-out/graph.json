@@ -1824,7 +1824,7 @@
       "file_type": "code",
       "norm_label": "buscar()",
       "source_file": "estudiemos/portada.js",
-      "source_location": "L453"
+      "source_location": "L463"
     },
     {
       "id": "estudiemos_portada_carrera",
@@ -1848,7 +1848,7 @@
       "file_type": "code",
       "norm_label": "carrerademateria()",
       "source_file": "estudiemos/portada.js",
-      "source_location": "L274"
+      "source_location": "L284"
     },
     {
       "id": "estudiemos_portada_dequien",
@@ -1860,7 +1860,7 @@
       "file_type": "code",
       "norm_label": "dequien()",
       "source_file": "estudiemos/portada.js",
-      "source_location": "L151"
+      "source_location": "L160"
     },
     {
       "id": "estudiemos_portada_duracion",
@@ -1872,7 +1872,7 @@
       "file_type": "code",
       "norm_label": "duracion()",
       "source_file": "estudiemos/portada.js",
-      "source_location": "L280"
+      "source_location": "L290"
     },
     {
       "id": "estudiemos_portada_hace",
@@ -1884,7 +1884,7 @@
       "file_type": "code",
       "norm_label": "hace()",
       "source_file": "estudiemos/portada.js",
-      "source_location": "L220"
+      "source_location": "L230"
     },
     {
       "id": "estudiemos_portada_icono",
@@ -1896,7 +1896,7 @@
       "file_type": "code",
       "norm_label": "icono_()",
       "source_file": "estudiemos/portada.js",
-      "source_location": "L169"
+      "source_location": "L179"
     },
     {
       "id": "estudiemos_portada_ordenarmodos",
@@ -1908,7 +1908,7 @@
       "file_type": "code",
       "norm_label": "ordenarmodos()",
       "source_file": "estudiemos/portada.js",
-      "source_location": "L211"
+      "source_location": "L221"
     },
     {
       "id": "estudiemos_portada_pintarcarrera",
@@ -1920,7 +1920,7 @@
       "file_type": "code",
       "norm_label": "pintarcarrera()",
       "source_file": "estudiemos/portada.js",
-      "source_location": "L477"
+      "source_location": "L487"
     },
     {
       "id": "estudiemos_portada_pintarmodo",
@@ -1932,7 +1932,7 @@
       "file_type": "code",
       "norm_label": "pintarmodo()",
       "source_file": "estudiemos/portada.js",
-      "source_location": "L190"
+      "source_location": "L200"
     },
     {
       "id": "estudiemos_portada_pintarpines",
@@ -1944,7 +1944,7 @@
       "file_type": "code",
       "norm_label": "pintarpines()",
       "source_file": "estudiemos/portada.js",
-      "source_location": "L350"
+      "source_location": "L360"
     },
     {
       "id": "estudiemos_portada_pintarseguir",
@@ -1956,7 +1956,7 @@
       "file_type": "code",
       "norm_label": "pintarseguir()",
       "source_file": "estudiemos/portada.js",
-      "source_location": "L232"
+      "source_location": "L242"
     },
     {
       "id": "estudiemos_portada_pintarterritorio",
@@ -1968,7 +1968,7 @@
       "file_type": "code",
       "norm_label": "pintarterritorio()",
       "source_file": "estudiemos/portada.js",
-      "source_location": "L310"
+      "source_location": "L320"
     },
     {
       "id": "estudiemos_portada_pintarvideos",
@@ -1980,7 +1980,7 @@
       "file_type": "code",
       "norm_label": "pintarvideos()",
       "source_file": "estudiemos/portada.js",
-      "source_location": "L281"
+      "source_location": "L291"
     },
     {
       "id": "estudiemos_portada_proyectar",
@@ -1992,7 +1992,7 @@
       "file_type": "code",
       "norm_label": "proyectar()",
       "source_file": "estudiemos/portada.js",
-      "source_location": "L307"
+      "source_location": "L317"
     },
     {
       "id": "estudiemos_portada_tile",
@@ -2004,7 +2004,7 @@
       "file_type": "code",
       "norm_label": "tile()",
       "source_file": "estudiemos/portada.js",
-      "source_location": "L175"
+      "source_location": "L185"
     },
     {
       "id": "estudiemos_portada_todo",
@@ -2016,7 +2016,7 @@
       "file_type": "code",
       "norm_label": "todo()",
       "source_file": "estudiemos/portada.js",
-      "source_location": "L483"
+      "source_location": "L493"
     },
     {
       "id": "estudiemos_portada_traercatalogo",
@@ -2028,7 +2028,7 @@
       "file_type": "code",
       "norm_label": "traercatalogo()",
       "source_file": "estudiemos/portada.js",
-      "source_location": "L404"
+      "source_location": "L414"
     },
     {
       "id": "estudiemos_portada_traerreportes",
@@ -2040,7 +2040,7 @@
       "file_type": "code",
       "norm_label": "traerreportes()",
       "source_file": "estudiemos/portada.js",
-      "source_location": "L382"
+      "source_location": "L392"
     },
     {
       "id": "lib_recorrido_empezarrecorrido",
@@ -3912,7 +3912,7 @@
       "file_type": "code",
       "norm_label": "estado()",
       "source_file": "estudiemos/portada.js",
-      "source_location": "L375"
+      "source_location": "L385"
     },
     {
       "id": "supabase_functions_leer_placa_index_hoyenargentina",
@@ -17556,7 +17556,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "estudiemos/portada.js",
-      "source_location": "L459",
+      "source_location": "L469",
       "weight": 1.0
     },
     {
@@ -17568,7 +17568,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "estudiemos/portada.js",
-      "source_location": "L208",
+      "source_location": "L218",
       "weight": 1.0
     },
     {
@@ -17580,7 +17580,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "estudiemos/portada.js",
-      "source_location": "L353",
+      "source_location": "L363",
       "weight": 1.0
     },
     {
@@ -17592,7 +17592,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "estudiemos/portada.js",
-      "source_location": "L248",
+      "source_location": "L258",
       "weight": 1.0
     },
     {
@@ -17604,7 +17604,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "estudiemos/portada.js",
-      "source_location": "L347",
+      "source_location": "L357",
       "weight": 1.0
     },
     {
@@ -17616,7 +17616,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "estudiemos/portada.js",
-      "source_location": "L286",
+      "source_location": "L296",
       "weight": 1.0
     },
     {
@@ -17628,7 +17628,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "estudiemos/portada.js",
-      "source_location": "L296",
+      "source_location": "L306",
       "weight": 1.0
     },
     {
@@ -17640,7 +17640,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "estudiemos/portada.js",
-      "source_location": "L176",
+      "source_location": "L186",
       "weight": 1.0
     },
     {
@@ -17652,7 +17652,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "estudiemos/portada.js",
-      "source_location": "L180",
+      "source_location": "L190",
       "weight": 1.0
     },
     {
@@ -17664,7 +17664,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "estudiemos/portada.js",
-      "source_location": "L484",
+      "source_location": "L494",
       "weight": 1.0
     },
     {
@@ -17676,7 +17676,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "estudiemos/portada.js",
-      "source_location": "L485",
+      "source_location": "L495",
       "weight": 1.0
     },
     {
@@ -17688,7 +17688,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "estudiemos/portada.js",
-      "source_location": "L486",
+      "source_location": "L496",
       "weight": 1.0
     },
     {
@@ -17700,7 +17700,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "estudiemos/portada.js",
-      "source_location": "L487",
+      "source_location": "L497",
       "weight": 1.0
     },
     {
@@ -17712,7 +17712,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "estudiemos/portada.js",
-      "source_location": "L490",
+      "source_location": "L500",
       "weight": 1.0
     },
     {
@@ -17724,7 +17724,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "estudiemos/portada.js",
-      "source_location": "L491",
+      "source_location": "L501",
       "weight": 1.0
     },
     {
@@ -17736,7 +17736,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "estudiemos/portada.js",
-      "source_location": "L384",
+      "source_location": "L394",
       "weight": 1.0
     },
     {
@@ -17748,7 +17748,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "estudiemos/portada.js",
-      "source_location": "L385",
+      "source_location": "L395",
       "weight": 1.0
     },
     {
@@ -17760,7 +17760,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "estudiemos/portada.js",
-      "source_location": "L396",
+      "source_location": "L406",
       "weight": 1.0
     },
     {
@@ -21420,7 +21420,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "estudiemos/portada.js",
-      "source_location": "L310",
+      "source_location": "L320",
       "weight": 1.0
     },
     {
@@ -21432,7 +21432,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "estudiemos/portada.js",
-      "source_location": "L404",
+      "source_location": "L414",
       "weight": 1.0
     },
     {
@@ -21444,7 +21444,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "estudiemos/portada.js",
-      "source_location": "L483",
+      "source_location": "L493",
       "weight": 1.0
     },
     {
@@ -25856,7 +25856,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "estudiemos/portada.js",
-      "source_location": "L151",
+      "source_location": "L160",
       "weight": 1.0
     },
     {
@@ -25867,7 +25867,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "estudiemos/portada.js",
-      "source_location": "L169",
+      "source_location": "L179",
       "weight": 1.0
     },
     {
@@ -25878,7 +25878,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "estudiemos/portada.js",
-      "source_location": "L175",
+      "source_location": "L185",
       "weight": 1.0
     },
     {
@@ -25889,7 +25889,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "estudiemos/portada.js",
-      "source_location": "L190",
+      "source_location": "L200",
       "weight": 1.0
     },
     {
@@ -25900,7 +25900,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "estudiemos/portada.js",
-      "source_location": "L211",
+      "source_location": "L221",
       "weight": 1.0
     },
     {
@@ -25911,7 +25911,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "estudiemos/portada.js",
-      "source_location": "L220",
+      "source_location": "L230",
       "weight": 1.0
     },
     {
@@ -25922,7 +25922,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "estudiemos/portada.js",
-      "source_location": "L232",
+      "source_location": "L242",
       "weight": 1.0
     },
     {
@@ -25933,7 +25933,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "estudiemos/portada.js",
-      "source_location": "L274",
+      "source_location": "L284",
       "weight": 1.0
     },
     {
@@ -25944,7 +25944,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "estudiemos/portada.js",
-      "source_location": "L280",
+      "source_location": "L290",
       "weight": 1.0
     },
     {
@@ -25955,7 +25955,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "estudiemos/portada.js",
-      "source_location": "L281",
+      "source_location": "L291",
       "weight": 1.0
     },
     {
@@ -25966,7 +25966,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "estudiemos/portada.js",
-      "source_location": "L307",
+      "source_location": "L317",
       "weight": 1.0
     },
     {
@@ -25977,7 +25977,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "estudiemos/portada.js",
-      "source_location": "L350",
+      "source_location": "L360",
       "weight": 1.0
     },
     {
@@ -25999,7 +25999,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "estudiemos/portada.js",
-      "source_location": "L375",
+      "source_location": "L385",
       "weight": 1.0
     },
     {
@@ -26010,7 +26010,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "estudiemos/portada.js",
-      "source_location": "L382",
+      "source_location": "L392",
       "weight": 1.0
     },
     {
@@ -26021,7 +26021,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "estudiemos/portada.js",
-      "source_location": "L477",
+      "source_location": "L487",
       "weight": 1.0
     },
     {
@@ -33029,7 +33029,7 @@
       "confidence_score": 0.85,
       "context": "argument",
       "source_file": "estudiemos/portada.js",
-      "source_location": "L502",
+      "source_location": "L512",
       "weight": 1.0
     },
     {
@@ -34077,5 +34077,5 @@
       "source_file": "panel/index.html"
     }
   ],
-  "built_at_commit": "5753c0edfe1d903d84dfd36d64adf43b9082d138"
+  "built_at_commit": "e4c5b7e001058f13683202b3acbd0c0b06d1fff1"
 }
