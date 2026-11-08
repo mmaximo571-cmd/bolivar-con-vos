@@ -558,4 +558,12 @@ todo una entrada con el número, la fecha y el porqué.
    (que «Seguí donde dejaste» lo reconozca como mazo), y las dos se
    sirven de lo guardado: sin número nuevo, quien ya tiene la app no
    vería el mazo en Estudiemos. */
+/* v100 (8/11/2026) Ingreso 2027 con lo propio de la FTS: los dos
+   pasos (preinscripción en SIU Guaraní y los originales en Ventanilla),
+   los días que la facultad no abre, el mail de ingreso, los videos,
+   el curso introductorio de febrero y los planes de las cuatro
+   carreras. La pantalla llega fresca (primero la red), pero
+   `css/pantallas/ingreso.css` suma tres clases y se sirve de lo
+   guardado: sin número nuevo, quien ya entró a Ingreso vería los
+   rótulos y el aviso de los días cerrados sin estilo. */
 ```

@@ -35,7 +35,9 @@
   border-top:1px solid var(--linea);padding-top:12px;margin:0 0 14px
 }
 
-.ingreso-pasos li strong{display:block;margin-bottom:2px}
+/* Solo el título del paso va en su renglón: los otros `strong` del
+   texto («9 y 63», «obligatorio») son énfasis y siguen en la línea. */
+.ingreso-pasos li > strong:first-child{display:block;margin-bottom:2px}
 
 /* ---- La lista de papeles ----
    Toda la fila es el blanco del dedo, no solo el cuadradito: se tilda
@@ -158,3 +160,22 @@
 .ingreso-listo p{margin:0 0 8px}
 
 .ingreso-primeros{margin-top:4px}
+
+/* ---- Lo propio de la FTS (8/11/2026) ----
+   El trámite ahora tiene dos momentos (el formulario y la Ventanilla),
+   y cada lista lleva su rótulo chico para que se vea a cuál pertenece
+   lo que se tilda. */
+.ingreso-subtitulo{
+  font-family:var(--fuente-sub);font-size:var(--letra-chica);text-transform:uppercase;
+  letter-spacing:.07em;color:var(--texto-suave);margin:22px 0 4px
+}
+
+.ingreso-consejos{margin:0 0 14px;padding-left:20px}
+
+.ingreso-consejos li{margin-bottom:6px}
+
+/* Los días sin atención van pegados a los pasos: es lo que hay que
+   mirar antes de salir con los papeles. */
+.ingreso-cerrado{margin:4px 0 8px}
+
+.ingreso-cerrado > strong:first-child{display:block}

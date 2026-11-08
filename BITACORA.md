@@ -26,9 +26,20 @@ cuentas, ~150 visitas por día. Seis pantallas se llevan el 86 % de las
 visitas. De 17.637 visitas, 12 trajeron `?de=`.
 
 **Urgente, semana del 9/11:**
-1. **La inscripción a la UNLP abre el 9/11 y `sql/tabla-ingresantes.sql`
-   no está corrido**: el grupo de ingresantes no junta a nadie. Antes de
-   correrlo, una revisión de seguridad corta.
+1. ~~`sql/tabla-ingresantes.sql` sin correr~~ ✅ **lo corrió Máximo el
+   8/11**, verificado contra la base (tabla con RLS y las dos funciones).
+   **El mismo día, Ingreso con lo propio de la FTS (v100)**: los dos pasos
+   (preinscripción en SIU Guaraní y los originales en Ventanilla, 9 y 63,
+   de 9 a 16), los días sin atención (9, 11, 12, 16, 19, 23 y 26/11; 7 y
+   8/12; el aviso dice «Hoy no abre» y se va solo), el mail
+   `ingreso@trabajosocial.unlp.edu.ar`, los tres videos, el curso
+   introductorio obligatorio de febrero, «Vivo lejos de La Plata» (art. 12
+   de la 964-26) y los planes en PDF de las cuatro carreras, **con el
+   Profesorado en Trabajo Social**, que no está en Mi año. Fuente: la nota
+   de la FTS del 14/10 (actualizada el 26/10). **Falta:** las fechas del
+   curso introductorio, cuando salgan, en Ingreso y en Fechas. Para leer
+   la página de la FTS desde la nube hay un entorno propio,
+   `bolivar-con-vos`, con `trabajosocial.unlp.edu.ar` y `unlp.edu.ar`.
 2. **Decilo tiene dos pedidos sin contestar** (21 y 25/10).
 3. **Fechas se termina el 18/12**: no hay nada de 2027 cargado.
 4. Novedad con aviso de las mesas de noviembre (inscripción 9 al 12/11).
