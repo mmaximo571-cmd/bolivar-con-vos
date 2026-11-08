@@ -9,9 +9,63 @@ Si algo de acá quedó viejo, se corrige acá mismo al cerrar la sesión.
 
 ---
 
+## Hacia el ingreso 2027 (de acá a febrero) · evaluación del 8/11
+
+**Esta sección manda sobre el resto de la bitácora desde el 8/11.** Las
+elecciones se ganaron. El porqué de todo lo que sigue, con los números
+leídos de Supabase ese día, está en `docs/EVALUACION-NOV-2026.md`: se
+abre cuando haya que discutir una decisión, no en cada sesión.
+
+**Los dos objetivos (Máximo):** que la app le sirva a quien entra en
+2027, y un esquema de trabajo para que en 2027 sea la más completa de
+la UNLP.
+
+**El registro al 8/11:** 951 «eligió carrera» (38 % del padrón), ~400
+«volvió instalada» por semana, 112 avisos prendidos (no crecen), 578
+cuentas, ~150 visitas por día. Seis pantallas se llevan el 86 % de las
+visitas. De 17.637 visitas, 12 trajeron `?de=`.
+
+**Urgente, semana del 9/11:**
+1. **La inscripción a la UNLP abre el 9/11 y `sql/tabla-ingresantes.sql`
+   no está corrido**: el grupo de ingresantes no junta a nadie. Antes de
+   correrlo, una revisión de seguridad corta.
+2. **Decilo tiene dos pedidos sin contestar** (21 y 25/10).
+3. **Fechas se termina el 18/12**: no hay nada de 2027 cargado.
+4. Novedad con aviso de las mesas de noviembre (inscripción 9 al 12/11).
+
+**La propuesta de esquema (falta el visto de Máximo):**
+- **El salto de escala se mide en cobertura, no en pantallas**: que las
+  94 materias de las tres carreras tengan programa (hoy 44), cátedra
+  (76), guía (1) y material. Meta para fin de 2027: las 94 con las tres
+  primeras; primer y segundo año con material.
+- **No se abre una pantalla nueva sin alguien que la mantenga y una
+  meta que la mida.** En marzo se revisa la cola larga una por una.
+- **Células**: comunicación (2 o 3), una persona referente por carrera,
+  Estudiemos, ingreso. Máximo con Claude, el código.
+- **Un informe por mes**, el primer lunes, y todo link con `?de=`.
+- **Honda en la FTS, no ancha**: no se va a otras facultades en 2027.
+
+**El cronograma:**
+
+| Tramo | Fechas | Qué | Código |
+|---|---|---|---|
+| Encender | 9 al 15/11 | Tabla de ingresantes, Decilo al día, mesas, regla del `?de=`, sacar lo de las elecciones | revisión de seguridad de `ingresantes` y los cuatro errores propios del registro |
+| La inscripción | 16/11 al 11/12 | Empuje a ingresantes; armar el grupo; convocar a quien escriba las guías; mesas de nov y dic | el informe del mes en el panel |
+| Contenido de primer año | 12/12 al 31/12 | Las 23 guías de primer año; «Tu verano»; fichas de TS y la Tecnicatura | «Tu verano» y el «¿te sirvió?» |
+| Receso | enero | Fichas; armar las células; la tabla de cobertura; calendario 2027 si sale | chequeos automáticos en GitHub |
+| Febrero | 1/2 al 28/2 | Calendario 2027 antes del 15/2; curso de ingreso y mesas; horarios 2027; repaso de lo vencido | lo que pida el curso de ingreso |
+
+**Metas al 28/2:** 300 en el grupo de ingresantes, 400 «soy
+ingresante», 250 avisos prendidos, 23 de 23 guías de primer año, el
+primer cuatrimestre de 2027 en Fechas, todo pedido de Decilo contestado
+en menos de 48 h, todo link con `?de=`.
+
+---
+
 ## Hacia las elecciones (4, 5 y 6 de noviembre) · plan fijado el 24/9
 
-**Esta sección manda sobre el resto de la bitácora hasta el 6/11.** Lo de
+**Esta sección mandó sobre el resto de la bitácora hasta el 6/11.** Queda
+como registro. Lo de
 «Dónde estamos» para abajo es el registro del lanzamiento del 21/9.
 
 **Cada sesión arranca con un prompt de `docs/prompts/PROMPT-ELECCIONES.md`**: uno por
@@ -745,6 +799,7 @@ sobre los otros. Ahora mandan así, y no se abre un quinto:
 | `docs/prompts/PROMPT-FICHAS.md` | el molde de una ficha de estudio: NotebookLM ordena el contenido, Claude Design lo dibuja, y **nunca al revés** |
 | `docs/prompts/PROMPT-TRAYECTO.md` | **el contenido de una pantalla sola** (13/9): las seis preguntas que el Trayecto Optativo tiene que contestar, y las cinco que todavía son `[FALTA]`. Se usa junto con `docs/prompts/PROMPT-DISENO.md`, no en lugar de él |
 | `docs/prompts/PROMPT-FONOTECA.md` | **la Fonoteca** (13/9): el simulador de práctica audiológica. Las cuatro solapas con lo que depende cada una, y la regla que manda: **nada se publica sin el visto de la profesional**. Como la solapa 1 ya está escrita, el Paso 1 **no es para armarla sino para rediseñarla**, y el Paso 2 es la planilla que se le manda a ella. Va junto con `docs/prompts/PROMPT-DISENO.md` |
+| `docs/EVALUACION-NOV-2026.md` | **la evaluación del 8/11** con los números de Supabase, y el porqué del plan hacia el ingreso 2027 y del esquema de trabajo de 2027. Respaldo, no se lee al arrancar |
 | `marca/VOZ.md` | **la voz de la agrupación** (24/9): cómo se escribe lo que sale en nombre de la app, qué no se promete y cómo se etiquetan los links. Se le pasa a la IA antes de pedirle un texto (el plugin *Marketing* de Claude, NotebookLM, Gemini). Junta reglas que ya estaban decididas; si choca con `LEEME.md`, manda el LEEME |
 | `entrada/` | **el buzón** (8/9). Lo que se trae de AI Studio o de donde sea se deja acá y se vacía en una sola sesión. No decide nada: es material de trabajo, no se sube |
 | Memoria del proyecto | cómo se trabaja y qué no puede esta máquina |
