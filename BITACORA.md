@@ -36,8 +36,11 @@ visitas. De 17.637 visitas, 12 trajeron `?de=`.
    introductorio obligatorio de febrero, «Vivo lejos de La Plata» (art. 12
    de la 964-26) y los planes en PDF de las cuatro carreras, **con el
    Profesorado en Trabajo Social**, que no está en Mi año. Fuente: la nota
-   de la FTS del 14/10 (actualizada el 26/10). **Falta:** las fechas del
-   curso introductorio, cuando salgan, en Ingreso y en Fechas. Para leer
+   de la FTS del 14/10 (actualizada el 26/10). **En Fechas**, la
+   publicación 72, «Inscripción al ingreso 2027» (9/11 al 11/12), con el
+   link a `ingreso/?de=fechas-ingreso`, `alarma` «ninguna» y sin aviso al
+   celular: no se confunde con la alarma de las mesas. **Falta:** las
+   fechas del curso introductorio, cuando salgan, en Ingreso y en Fechas. Para leer
    la página de la FTS desde la nube hay un entorno propio,
    `bolivar-con-vos`, con `trabajosocial.unlp.edu.ar` y `unlp.edu.ar`.
 2. **Decilo tiene dos pedidos sin contestar** (21 y 25/10).
