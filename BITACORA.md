@@ -35,7 +35,22 @@ visitas. De 17.637 visitas, 12 trajeron `?de=`.
    `ingreso@trabajosocial.unlp.edu.ar`, los tres videos, el curso
    introductorio obligatorio de febrero, «Vivo lejos de La Plata» (art. 12
    de la 964-26) y los planes en PDF de las cuatro carreras, **con el
-   Profesorado en Trabajo Social**, que no está en Mi año. Fuente: la nota
+   Profesorado en Trabajo Social**. **El 11/11 el Profesorado entró a Mi
+   año (v103)**: `carrera/plan-prof.js`, transcripto del PDF de la FTS
+   (las 39 materias con trayecto y correlativas, más el Trabajo Final;
+   sin horas, porque el PDF no las trae). En Mi año es un cuarto botón;
+   para el resto de la app y para la base es Trabajo Social
+   (`carreraApp:'ts'`, y `planTs:'prof'` en la llave), y lo marcado se
+   comparte con la Licenciatura. El ☰ dice «Trabajo Social» en vez de
+   «Lic.». **Dos cosas para confirmar en Alumnos:** el PDF pide 321 (el
+   seminario de Género) para Trabajo Social IV donde la Licenciatura pide
+   231 (Trabajo Social III), que parece un error de tipeo; y la referencia
+   del PDF dice que el asterisco es **«replica cuatrimestre»**, que son
+   las mismas diez materias marcadas en la Licenciatura (ver «El asterisco
+   (*) del plan de Trabajo Social»: la pregunta abierta probablemente se
+   contesta con esto). **No lo ven todavía** Estudiemos, Mis parciales ni
+   el panel, que siguen con el plan de la Licenciatura para TS: a quien
+   hace el Profesorado no le aparecen ahí sus ocho materias propias. Fuente: la nota
    de la FTS del 14/10 (actualizada el 26/10). **En Fechas**, la
    publicación 72, «Inscripción al ingreso 2027» (9/11 al 11/12), con el
    link a `ingreso/?de=fechas-ingreso`, `alarma` «ninguna» y sin aviso al

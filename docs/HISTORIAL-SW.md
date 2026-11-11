@@ -578,4 +578,10 @@ todo una entrada con el número, la fecha y el porqué.
    `css/base/02-encabezado.css` el estilo del interruptor y el panel
    del menú que se desliza entero. Los dos están en el armazón: sin
    número nuevo, los teléfonos seguirían con el menú de antes. */
+/* v103 (11/11/2026) El Profesorado en Trabajo Social en Mi año
+   (`carrera/plan-prof.js`, nuevo, fuera del armazón: lo baja quien
+   entra a Mi año). Lo que toca el armazón es `app.js`: el botón de
+   Trabajo Social del ☰ pasa de «Lic. en Trabajo Social» a «Trabajo
+   Social», porque ahora vale para las dos. Sin número nuevo, a quien
+   hace el Profesorado el menú le seguiría diciendo Licenciatura. */
 ```
