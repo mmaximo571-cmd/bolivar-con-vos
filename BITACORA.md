@@ -50,7 +50,11 @@ visitas. De 17.637 visitas, 12 trajeron `?de=`.
    (*) del plan de Trabajo Social»: la pregunta abierta probablemente se
    contesta con esto). **No lo ven todavía** Estudiemos, Mis parciales ni
    el panel, que siguen con el plan de la Licenciatura para TS: a quien
-   hace el Profesorado no le aparecen ahí sus ocho materias propias. Fuente: la nota
+   hace el Profesorado no le aparecen ahí sus ocho materias propias.
+   **Los mails de esas ocho cátedras, cargados el 11/11** en `catedras`
+   con `carrera = 'ts'` y «(Profesorado)» en el nombre: salen en la ficha
+   de cada materia en Mi año y en la pantalla Cátedras, dentro de Trabajo
+   Social. Fuente: la nota
    de la FTS del 14/10 (actualizada el 26/10). **En Fechas**, la
    publicación 72, «Inscripción al ingreso 2027» (9/11 al 11/12), con el
    link a `ingreso/?de=fechas-ingreso`, `alarma` «ninguna» y sin aviso al
