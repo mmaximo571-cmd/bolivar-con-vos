@@ -62,11 +62,14 @@ type Aviso = {
      dice todo lo que decía «nuevo paro», y no tiene que sonar después. */
   tambien?: string[];
   /* Solo a quien ya recibió algo de esta publicación. Es el aviso de
-     cambio: «cambió de aula» no le sirve a quien nunca supo el aula. */
-  soloSiTuvo?: number;
-  /* La publicación de la que habla, en los avisos de eventos. Con esto
-     se sabe quién marcó «Voy» (sección 4 y `anotados`). */
-  pub?: number;
+     cambio: «cambió de aula» no le sirve a quien nunca supo el aula.
+     Es el principio de las claves que cuentan: `pub:12` para una
+     publicación, `serie:…` para un grupo de todas las semanas. */
+  soloSiTuvo?: string;
+  /* Las publicaciones de las que habla, en los avisos de eventos. Con
+     esto se sabe quién marcó «Voy» (sección 4 y `anotados`). Son
+     varias en el cambio de una serie: cada encuentro tiene su «Voy». */
+  pubs?: number[];
 };
 
 type Suscripcion = {
@@ -265,24 +268,42 @@ function normalizar(t: string){
     .toLowerCase().replace(/\s+/g, ' ').trim();
 }
 
-function avisosDeEventos(publicaciones: any[], hoy: string, ahora: number): Aviso[] {
+function avisosDeEventos(publicaciones: any[], hoy: string, ahora: number,
+                         series: Map<string, any[]> = new Map()): Aviso[] {
   const avisos: Aviso[] = [];
   const DIA = 24 * 3600 * 1000;
   const reciente = (t: string | null) => !!t && ahora - Date.parse(t) < DIA;
+  const conMayuscula = (t: string) => t ? t[0].toUpperCase() + t.slice(1) : '';
+  const desdeDe = (p: any) => p.fecha_desde ? String(p.fecha_desde).slice(0, 10) : '';
+  const hastaDe = (p: any) => String(p.fecha_hasta || p.fecha_desde || '').slice(0, 10);
+  const dondeDe = (p: any) => [p.hora, p.lugar].filter(Boolean).join(' · ');
+  /* «Hoy: Paro: …» se lee mal; «Hoy hay paro: …» se lee bien. */
+  const tituloDeHoy = (titulo: string) => /^paro:/i.test(titulo)
+    ? titulo.replace(/^paro:\s*/i, 'Hoy hay paro: ') : `Hoy: ${titulo}`;
+
+  const deSerie = new Map<string, any[]>();
 
   for (const p of publicaciones || []){
     const canal = CANAL_DE[p.categoria];
     if (!canal) continue;
 
-    const desde = p.fecha_desde ? String(p.fecha_desde).slice(0, 10) : '';
-    const hasta = String(p.fecha_hasta || p.fecha_desde || '').slice(0, 10);
+    const desde = desdeDe(p);
+    const hasta = hastaDe(p);
     /* Lo que ya pasó no avisa nada, ni siquiera que se suspendió. */
     if (hasta && hasta < hoy) continue;
 
+    /* Los encuentros de un grupo de todas las semanas van juntos, más
+       abajo: avisan una vez por serie, no una por encuentro. */
+    if (p.serie_id){
+      if (!deSerie.has(p.serie_id)) deSerie.set(p.serie_id, []);
+      deSerie.get(p.serie_id)!.push(p);
+      continue;
+    }
+
     const titulo = String(p.titulo || '').trim();
-    const donde  = [p.hora, p.lugar].filter(Boolean).join(' · ');
+    const donde  = dondeDe(p);
     const url    = `${URL_BASE}/agenda/?id=${p.id}`;
-    const base   = { canal, url, materia: p.materia || undefined, pub: p.id as number };
+    const base   = { canal, url, materia: p.materia || undefined, pubs: [p.id as number] };
 
     const esHoy    = !p.suspendido && desde === hoy;
     const esNueva  = !p.suspendido && reciente(p.publicado_at);
@@ -290,15 +311,10 @@ function avisosDeEventos(publicaciones: any[], hoy: string, ahora: number): Avis
     const claveCambio = esCambio ? `pub:${p.id}:cambio:${Date.parse(p.cambiado_at)}` : '';
     const conCambio = esCambio ? [claveCambio] : [];
 
-    const conMayuscula = (t: string) => t ? t[0].toUpperCase() + t.slice(1) : '';
-
     if (esHoy){
       avisos.push({ ...base,
         clave:   `pub:${p.id}:hoy:${hoy}`,
-        /* «Hoy: Paro: …» se lee mal; «Hoy hay paro: …» se lee bien. */
-        titulo:  /^paro:/i.test(titulo)
-                   ? titulo.replace(/^paro:\s*/i, 'Hoy hay paro: ')
-                   : `Hoy: ${titulo}`,
+        titulo:  tituloDeHoy(titulo),
         cuerpo:  donde || 'Tocá para ver los detalles.',
         tambien: [`pub:${p.id}:nueva`, ...conCambio]
       });
@@ -323,7 +339,141 @@ function avisosDeEventos(publicaciones: any[], hoy: string, ahora: number): Avis
                       ? 'Ya no se hace. Tocá para ver si hay novedades.'
                       : [desde && conMayuscula(cuandoEs(desde, hoy)), donde]
                           .filter(Boolean).join(' · ') || 'Tocá para ver qué cambió.',
-        soloSiTuvo: p.id
+        soloSiTuvo: `pub:${p.id}`
+      });
+    }
+  }
+
+  /* ---- LOS GRUPOS DE TODAS LAS SEMANAS (11/11/2026) ----
+
+     Una serie es una fila por encuentro con el mismo `serie_id` (ver
+     `sql/tabla-publicaciones.sql`, sección 10). Sin juntarlas, un grupo
+     de ocho semanas sonaba ocho veces el día que se cargaba. Ahora:
+
+       nueva    UNA por serie, `serie:…:nueva`, con el día de la semana,
+                la hora, el lugar y cuándo es el primero.
+       hoy      la mañana de cada encuentro, como cualquier evento. Da
+                por mandada la nueva de la serie: quien recibió «Hoy»
+                ya sabe que existe.
+       cambio   UNO por serie y por corrida, aunque se hayan corregido
+                los ocho encuentros de una vez. Solo a quien ya tenía la
+                nueva o algún «Hoy» de la serie (que es lo mismo: «Hoy»
+                anota la nueva), o a quien marcó «Voy» en alguno de los
+                encuentros que cambiaron.
+
+     `series` trae todos los encuentros que vienen de cada serie, no
+     solo los de esta corrida: para decir «todos los jueves» y cuál es
+     el próximo hace falta la serie entera. Si no llegó, se usa lo que
+     hay. */
+  const DIAS_PLURAL = (dia: string) => /s$/.test(dia) ? dia : dia + 's';
+  const diaDe = (iso: string) => DIAS[new Date(iso + 'T12:00:00Z').getUTCDay()];
+  const comoSeRepite = (filas: any[]) => {
+    const dias = new Set(filas.map(f => diaDe(desdeDe(f))));
+    return dias.size === 1 ? `Todos los ${DIAS_PLURAL([...dias][0])}` : 'Cada semana';
+  };
+
+  for (const [sid, filas] of deSerie){
+    filas.sort((a, b) => desdeDe(a).localeCompare(desdeDe(b)));
+    const p0      = filas[0];
+    const canal   = CANAL_DE[p0.categoria];
+    const titulo  = String(p0.titulo || '').trim();
+    const todas   = (series.get(sid) || filas).filter(f => hastaDe(f) >= hoy)
+                      .sort((a, b) => desdeDe(a).localeCompare(desdeDe(b)));
+    const activas = todas.filter(f => !f.suspendido);
+
+    const cambiadas  = filas.filter(f => reciente(f.cambiado_at));
+    const msCambio   = Math.max(0, ...cambiadas.map(f => Date.parse(f.cambiado_at)));
+    const claveCambio = cambiadas.length ? `serie:${sid}:cambio:${msCambio}` : '';
+    const nuevas     = filas.filter(f => !f.suspendido && reciente(f.publicado_at));
+    const deHoy      = filas.filter(f => !f.suspendido && desdeDe(f) === hoy);
+
+    for (const p of deHoy){
+      /* Si el de hoy cambió, «Hoy» ya sale con la hora y el lugar
+         corregidos y da por dicho el cambio: dos timbres en la misma
+         corrida por lo mismo es uno de más. Si cambiaron también los
+         que siguen, lo dice en una línea. (Si «Hoy» ya había salido a
+         la mañana, no vuelve a salir, y el cambio va por su lado.) */
+      const cambioHoy   = cambiadas.some(f => f.id === p.id);
+      const cambioOtros = cambiadas.some(f => f.id !== p.id);
+      avisos.push({
+        canal, materia: p.materia || undefined, pubs: [p.id],
+        url:     `${URL_BASE}/agenda/?id=${p.id}`,
+        clave:   `pub:${p.id}:hoy:${hoy}`,
+        titulo:  tituloDeHoy(String(p.titulo || '').trim()),
+        /* Si la serie es de hoy mismo, este es el único aviso que le
+           llega: tiene que decir también que se repite. */
+        cuerpo:  [dondeDe(p),
+                  nuevas.length ? comoSeRepite(activas.length ? activas : filas) : '',
+                  cambioHoy && cambioOtros ? 'Cambió también para los que siguen' : '']
+                   .filter(Boolean).join(' · ') || 'Tocá para ver los detalles.',
+        tambien: [`pub:${p.id}:nueva`, `serie:${sid}:nueva`, ...(cambioHoy ? [claveCambio] : [])]
+      });
+    }
+
+    if (nuevas.length && !deHoy.length){
+      const proxima = activas[0] || nuevas[0];
+      /* Una serie recién cargada «empieza»; una que se alargó y le
+         llega a quien no la tenía, «sigue». */
+      const arranca = nuevas.some(f => f.id === proxima.id) && !todas.some(f => desdeDe(f) < desdeDe(proxima));
+      avisos.push({
+        canal, materia: p0.materia || undefined, pubs: [proxima.id],
+        url:     `${URL_BASE}/agenda/?id=${proxima.id}`,
+        clave:   `serie:${sid}:nueva`,
+        titulo,
+        cuerpo:  [comoSeRepite(activas.length ? activas : nuevas), dondeDe(proxima),
+                  `${arranca ? 'Empieza' : 'El próximo es'} ${cuandoEs(desdeDe(proxima), hoy)}`]
+                   .filter(Boolean).join(' · '),
+        tambien: claveCambio ? [claveCambio] : []
+      });
+    }
+
+    if (cambiadas.length){
+      cambiadas.sort((a, b) => desdeDe(a).localeCompare(desdeDe(b)));
+      const siguen = cambiadas.filter(f => !f.suspendido);
+      const una = cambiadas.length === 1 ? cambiadas[0] : null;
+      const cuandos = (lista: any[]) => {
+        const c = lista.map(f => cuandoEs(desdeDe(f), hoy));
+        return c.length > 1 ? c.slice(0, -1).join(', ') + ' y ' + c[c.length - 1] : c[0];
+      };
+      /* «Todos los jueves, desde el 19» se puede decir solo si cambiaron
+         TODOS los que vienen desde ese día, y quedaron iguales entre sí.
+         Si no, se nombran los días: decir «todos» de un cambio de dos
+         sería mandar a alguien al aula equivocada. */
+      const deAhiEnMas = siguen.length
+        ? activas.filter(f => desdeDe(f) >= desdeDe(siguen[0])) : [];
+      const todosIguales = siguen.length > 1 && siguen.length === deAhiEnMas.length &&
+        new Set(siguen.map(dondeDe)).size === 1;
+      let tituloCambio: string, cuerpo: string;
+      if (!activas.length){
+        tituloCambio = `Se suspendió: ${titulo}`;
+        cuerpo = 'Se suspendieron todos los encuentros que venían. Tocá para ver si hay novedades.';
+      } else if (!siguen.length){
+        tituloCambio = `Se suspendió: ${titulo}`;
+        cuerpo = `${conMayuscula(cuandos(cambiadas))} no hay encuentro. Los demás siguen igual.`;
+      } else if (una){
+        tituloCambio = `Cambió: ${titulo}`;
+        cuerpo = [conMayuscula(cuandoEs(desdeDe(una), hoy)), dondeDe(una)].filter(Boolean).join(' · ');
+      } else if (todosIguales){
+        tituloCambio = `Cambió: ${titulo}`;
+        cuerpo = [comoSeRepite(siguen), dondeDe(siguen[0]),
+                  `desde ${cuandoEs(desdeDe(siguen[0]), hoy)}`].filter(Boolean).join(' · ');
+      } else {
+        /* «del 19/11 y del 3/12», «de hoy y del jueves 19». */
+        const del = (f: any) => { const c = cuandoEs(desdeDe(f), hoy); return c.startsWith('el ') ? 'del ' + c.slice(3) : 'de ' + c; };
+        const lista = cambiadas.map(del);
+        tituloCambio = `Cambió: ${titulo}`;
+        cuerpo = `Cambiaron los encuentros ${lista.slice(0, -1).join(', ')} y ${lista[lista.length - 1]}` +
+                 '. Tocá para ver cómo quedó cada uno.';
+      }
+      const lleva = (siguen[0] || cambiadas[0]);
+      avisos.push({
+        canal, materia: p0.materia || undefined,
+        pubs:       cambiadas.map(f => f.id),
+        url:        `${URL_BASE}/agenda/?id=${lleva.id}`,
+        clave:      claveCambio,
+        titulo:     tituloCambio,
+        cuerpo:     cuerpo || 'Tocá para ver qué cambió.',
+        soloSiTuvo: `serie:${sid}`
       });
     }
   }
@@ -497,11 +647,30 @@ Deno.serve(async (pedido) => {
   /* Lo publicado o cambiado en el último día, y lo que empieza hoy. */
   const haceUnDia = new Date(Date.now() - 24 * 3600 * 1000).toISOString();
   const { data: paraEventos } = await sb.from('publicaciones')
-    .select('id,titulo,categoria,materia,fecha_desde,fecha_hasta,hora,lugar,suspendido,publicado_at,cambiado_at')
+    .select('id,titulo,categoria,materia,fecha_desde,fecha_hasta,hora,lugar,suspendido,publicado_at,cambiado_at,serie_id')
     .eq('publicado', true)
     .in('categoria', Object.keys(CANAL_DE))
     .or(`publicado_at.gte."${haceUnDia}",cambiado_at.gte."${haceUnDia}",fecha_desde.eq.${hoy}`);
-  avisos.push(...avisosDeEventos(paraEventos || [], hoy, Date.now()));
+
+  /* Las series nuevas o cambiadas, enteras (lo que viene): «todos los
+     jueves» y «el próximo es…» se dicen mirando todos los encuentros,
+     no solo los que cayeron en esta corrida. El «Hoy» de cada semana
+     no la necesita, así que la consulta sale solo si hay algo más. */
+  const series = new Map<string, any[]>();
+  const sids = [...new Set((paraEventos || [])
+    .filter(p => p.serie_id && (Date.parse(p.publicado_at || '') >= Date.parse(haceUnDia) ||
+                                Date.parse(p.cambiado_at  || '') >= Date.parse(haceUnDia)))
+    .map(p => p.serie_id))];
+  if (sids.length){
+    const { data } = await sb.from('publicaciones')
+      .select('id,fecha_desde,fecha_hasta,hora,lugar,suspendido,serie_id')
+      .eq('publicado', true).in('serie_id', sids).gte('fecha_desde', hoy);
+    for (const f of data || []){
+      if (!series.has(f.serie_id)) series.set(f.serie_id, []);
+      series.get(f.serie_id)!.push(f);
+    }
+  }
+  avisos.push(...avisosDeEventos(paraEventos || [], hoy, Date.now(), series));
 
   const haceDosDias = new Date(Date.now() - 48 * 3600 * 1000).toISOString();
   const { data: pedidosMovidos } = await sb.from('buzon_pedidos')
@@ -566,7 +735,7 @@ Deno.serve(async (pedido) => {
      falta saber. Solo cuentan las marcas atadas a un teléfono con los
      avisos prendidos (`suscripcion_id`); las demás son solo número. */
   const voy = new Set<string>();
-  const conVoy = [...new Set(avisos.map(a => a.pub).filter(Boolean))] as number[];
+  const conVoy = [...new Set(avisos.flatMap(a => a.pubs || []))];
   if (conVoy.length){
     const { data } = await sb.from('anotados')
       .select('publicacion_id,suscripcion_id')
@@ -574,14 +743,16 @@ Deno.serve(async (pedido) => {
     for (const v of data || []) voy.add(`${v.suscripcion_id}|${v.publicacion_id}`);
   }
 
-  /* Quién ya recibió algo de cada publicación con aviso de cambio. */
+  /* Quién ya recibió algo de cada publicación (o serie) con aviso de
+     cambio: su «nueva» o un «Hoy». De una serie cuenta la nueva de la
+     serie, que cada «Hoy» de sus encuentros también anota. */
   const tuvo = new Set<string>();
-  const conCambio = [...new Set(avisos.map(a => a.soloSiTuvo).filter(Boolean))] as number[];
-  for (const id of conCambio){
+  const conCambio = [...new Set(avisos.map(a => a.soloSiTuvo).filter(Boolean))] as string[];
+  for (const quien of conCambio){
     const { data } = await sb.from('avisos_enviados')
-      .select('suscripcion_id,clave').like('clave', `pub:${id}:%`);
+      .select('suscripcion_id,clave').like('clave', `${quien}:%`);
     for (const e of data || []){
-      if (/^pub:\d+:(nueva|hoy:)/.test(e.clave)) tuvo.add(`${e.suscripcion_id}|${id}`);
+      if (/^(pub:\d+:(nueva|hoy:)|serie:[^:]+:nueva$)/.test(e.clave)) tuvo.add(`${e.suscripcion_id}|${quien}`);
     }
   }
 
@@ -593,7 +764,7 @@ Deno.serve(async (pedido) => {
       if (a.canal === 'buzon'){
         if (!a.para || !a.para.includes(s.id)) continue;       /* no es para este teléfono */
       } else {
-        const va = !!a.pub && voy.has(`${s.id}|${a.pub}`);    /* marcó «Voy» */
+        const va = (a.pubs || []).some(id => voy.has(`${s.id}|${id}`));   /* marcó «Voy» */
         if (!s[a.canal] && !va) continue;                       /* no lo pidió */
         if (a.usuario && a.usuario !== s.usuario_id) continue;   /* no es para esta persona */
         if (a.soloSiTuvo && !va && !tuvo.has(`${s.id}|${a.soloSiTuvo}`)) continue;

@@ -463,3 +463,33 @@ create policy "publicaciones comunicacion edita novedades"
               and (tipo = 'novedad' or creado_por = auth.uid())
               and public.publicacion_de_comunicacion(
                     tipo, linea, titulo, alarma, avisar, publicado));
+
+
+-- ============================================================
+-- 10. LOS GRUPOS QUE SE REPITEN CADA SEMANA  ·  11/11/2026
+--
+-- El grupo de los jueves se carga una vez y queda para las semanas
+-- que se elijan. Cada encuentro sigue siendo SU fila, con su fecha:
+-- así el calendario, «Voy», los números para el WhatsApp, el aviso
+-- de la mañana y suspender uno solo («este jueves no hay») andan
+-- igual que siempre. Lo único nuevo es `serie_id`, el mismo en todos
+-- los encuentros de una serie, que es lo que permite:
+--   - avisar UNA vez que hay grupo nuevo, y no una por encuentro
+--     (`supabase/functions/avisos`, claves `serie:…`),
+--   - mostrar la serie junta en Fechas, en la campana y en
+--     «Lo que cargaste», y corregir o suspender todos los que vienen.
+--
+-- No es una regla de repetición guardada aparte a propósito: una
+-- regla obligaría a cada pantalla a calcular las fechas, y a la base
+-- a inventar filas para «Voy». Con filas de verdad no cambia nada de
+-- lo que ya anda.
+--
+-- La id la arma `cargar/` al publicar (`crypto.randomUUID()`). Sin
+-- default: una fila suelta no es una serie de uno, es `null`.
+-- ============================================================
+
+alter table public.publicaciones add column if not exists serie_id uuid;
+
+create index if not exists publicaciones_serie_idx
+  on public.publicaciones (serie_id)
+  where serie_id is not null;

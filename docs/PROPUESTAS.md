@@ -344,7 +344,7 @@ si la gente se anota.
 | A quién | General para todes; los **grupos de estudio de sus materias** se resaltan y avisan. |
 | Canales | Uno por categoría: Paros (prendido de fábrica), Grupos de mis materias, Actividades, Comunicados. Las mesas y «mis fechas» siguen como están. |
 | Paros | **Se publican directo** desde `cargar/`, sin visto bueno. |
-| `cargar/` | Suma **Actividades** y **Editar y suspender** lo propio. Sin repetición semanal ni cupo por ahora. |
+| `cargar/` | Suma **Actividades** y **Editar y suspender** lo propio. Sin cupo por ahora. **La repetición semanal de los grupos se sumó el 11/11/2026** (ver abajo). |
 | Qué hace la estudiante | «**Voy**» (me anoto, en los grupos), **pasarlo al calendario** y **compartir por WhatsApp**. |
 | Campana | **Bandeja completa**: Hoy, Esta semana, Nuevo, Cambios; lo leído se sincroniza con cuenta. |
 | Portada | **Tarjeta Hoy** y **lo que marcó «Voy»**. Sin tira de la semana. |
@@ -484,6 +484,13 @@ si la gente se anota.
   grupo no sea de sus materias. **Subida el 30/9/2026 a las 10:31**,
   con el visto bueno de Máximo, igual al archivo del repo.
 - No entró: el calendario suscripto (`webcal://`), que sigue en dudas.
+- **Los grupos de todas las semanas (11/11/2026, v104).** Lo pidió
+  Máximo al ver que en el primer mes casi no se cargaron grupos: cargar
+  el de los jueves una vez para varias semanas. Cada encuentro sigue
+  siendo su fila y la serie es un `serie_id` compartido (sección 10 de
+  `sql/tabla-publicaciones.sql`, aplicada). Avisa una vez por serie
+  (función `avisos` v14, desplegada), y la campana, Fechas y «Lo que
+  cargaste» la muestran junta. «Me anoto» sigue siendo por encuentro.
 
 **Dudas abiertas:**
 

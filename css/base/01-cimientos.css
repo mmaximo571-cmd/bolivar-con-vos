@@ -426,6 +426,27 @@ body{ padding-bottom:calc(80px + env(safe-area-inset-bottom, 0px)) }
       hoja, así que a igual peso ganaría aquella y el `overflow-x:auto`
       seguiría mandando. Es justo el par que busca `orden-css.py`. */
 
+/* La serie, el grupo de todas las semanas (11/11/2026): las fechas que
+   quedan, y abajo, plegado, cada encuentro con sus botones. El día a la
+   izquierda y los botones a la derecha; en un teléfono angosto los
+   botones bajan de renglón en vez de apretar la fecha. Las fechas van
+   con `.tarjeta` adelante también, para ganarle a `.tarjeta p{margin:0}`
+   en la vista previa y en «Lo que cargaste». */
+.serie-fechas,.tarjeta .serie-fechas{margin:8px 0 0}
+
+.serie-uno{margin-top:12px}
+
+.serie-uno summary{cursor:pointer;font-weight:700;font-size:var(--letra-chica)}
+
+.serie-encuentro{
+  display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;
+  gap:6px 12px;padding:8px 0;border-top:1px solid var(--linea)
+}
+
+.serie-uno summary + .serie-encuentro{margin-top:8px}
+
+.serie-encuentro.suspendido > span:first-child{color:var(--texto-suave)}
+
 /* FECHAS (`agenda/`), que todavía no tiene hoja propia: «Voy» y las
    vistas Días y Mío (tanda 3, 30/9/2026).
 
@@ -545,6 +566,27 @@ body{ padding-bottom:calc(80px + env(safe-area-inset-bottom, 0px)) }
 .dias-nada .vacio-titulo{display:block;margin-bottom:6px}
 
 .dias-nada p{margin:0 auto;max-width:32ch}
+
+/* El grupo de todas las semanas (11/11/2026). En la lista, las otras
+   fechas del mes van en un renglón de datos debajo del día y la hora;
+   con `.tarjeta` adelante para ganarle a `.tarjeta p{margin:0}`. En el
+   detalle, cada fecha es un enlace con forma de chip, y la que se está
+   mirando va marcada como el chip elegido. */
+.tarjeta .tarjeta-serie{margin-top:4px;font-family:var(--fuente-datos);font-size:var(--letra-chica)}
+
+.serie-detalle h3{margin:0 0 4px}
+
+.serie-detalle .serie-nota{margin:0 0 10px}
+
+.serie-detalle a.chip{text-decoration:none}
+
+.serie-detalle a.chip[aria-current="page"]{
+  background:var(--amarillo);border-color:var(--amarillo);color:var(--sobre-color);font-weight:700
+}
+
+.serie-detalle a.chip.suspendido{color:var(--texto-suave)}
+
+.serie-detalle .serie-agendar{margin-top:10px}
 
 /* La semana: la clase de un día de paro lleva el borde rojo. Pesa tres
    clases, así que le gana a `.semana-celda.cursada` de
