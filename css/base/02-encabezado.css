@@ -145,7 +145,13 @@
   padding:0 10px 0 18px;margin-bottom:14px
 }
 
-.menu-lista{display:flex;flex-direction:column;overflow-y:auto}
+/* Se desliza el panel entero, no la lista sola (11/11/2026). Con la
+   lista deslizándose adentro de su caja, en un celular se veían seis
+   secciones y nada avisaba que había más; con el interruptor del modo
+   ingreso abajo, la caja se achicaba otros 110 px. */
+.menu-lateral{overflow-y:auto;overscroll-behavior:contain}
+
+.menu-lista{display:flex;flex-direction:column;flex:0 0 auto}
 
 .menu-lista a{
   display:flex;align-items:center;gap:13px;padding:14px 18px;
@@ -182,6 +188,43 @@
    entero, porque «Tec. en Gestión del Riesgo» no entra en un tercio de
    300 px. Mismos colores fijos que el tema: el menú es siempre oscuro. */
 .menu-carrera{padding:16px 18px 14px;border-top:1px solid var(--linea-negro)}
+
+/* --- El modo ingreso 2027, adentro del menú (11/11/2026) ---
+   Un interruptor de verdad (`role="switch"`): prendido o apagado, sin
+   tercera opción. La perilla no es la única pista: el lector de
+   pantalla dice «activado» y el texto de la bajada explica qué hace.
+   Todo el renglón es el botón, para que el dedo no tenga que apuntar a
+   la perilla. Colores fijos: el menú es siempre oscuro. */
+.menu-ingreso{padding:14px 18px 12px;border-top:1px solid var(--linea-negro)}
+
+.interruptor-ingreso{
+  appearance:none;width:100%;display:flex;align-items:center;justify-content:space-between;gap:12px;
+  min-height:48px;padding:6px 0;border:0;background:transparent;cursor:pointer;text-align:left;
+  font-family:var(--fuente-sub);font-size:var(--letra-base);font-weight:700;color:var(--sobre-negro)
+}
+
+.interruptor-ingreso .perilla{
+  position:relative;flex:0 0 auto;width:48px;height:28px;border-radius:var(--radio-pastilla);
+  background:transparent;border:2px solid var(--sobre-negro-suave);transition:background .2s,border-color .2s
+}
+
+.interruptor-ingreso .perilla::after{
+  content:"";position:absolute;top:3px;left:3px;width:18px;height:18px;border-radius:50%;
+  background:var(--sobre-negro-suave);transition:transform .2s,background .2s
+}
+
+.interruptor-ingreso[aria-checked="true"] .perilla{background:var(--amarillo);border-color:var(--amarillo)}
+
+.interruptor-ingreso[aria-checked="true"] .perilla::after{transform:translateX(20px);background:var(--negro)}
+
+.interruptor-ingreso:focus-visible{outline:2px solid var(--amarillo);outline-offset:3px;border-radius:var(--radio-chico)}
+
+@media (prefers-reduced-motion:reduce) {
+.interruptor-ingreso .perilla,
+.interruptor-ingreso .perilla::after{transition:none}
+}
+
+.menu-ingreso-bajada{margin:2px 0 0;font-size:var(--letra-chica);line-height:1.4;color:var(--sobre-negro-tenue)}
 
 .menu-pie{
   padding:16px 18px 0;font-size:var(--letra-chica);line-height:1.5;color:var(--sobre-negro-tenue)

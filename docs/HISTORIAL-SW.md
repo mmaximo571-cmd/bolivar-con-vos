@@ -572,4 +572,10 @@ todo una entrada con el número, la fecha y el porqué.
    `css/pantallas/feriazo.css` se rehízo entera y se sirve de lo
    guardado: sin número nuevo, quien ya entró al Feriazo vería el
    mosaico nuevo con los estilos de la lista vieja. */
+/* v102 (11/11/2026) El modo ingreso 2027 pasa a ser un interruptor de
+   toda la app. `app.js` suma el estado del modo, la navegación que se
+   achica (barra de abajo y ☰) y el interruptor del menú, y
+   `css/base/02-encabezado.css` el estilo del interruptor y el panel
+   del menú que se desliza entero. Los dos están en el armazón: sin
+   número nuevo, los teléfonos seguirían con el menú de antes. */
 ```

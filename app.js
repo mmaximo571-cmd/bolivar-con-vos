@@ -628,6 +628,72 @@ function anotarCarreraApp(id){
   document.dispatchEvent(new CustomEvent('bolivar:carrera', { detail:{ id: id || null } }));
 }
 
+/* ============================================================
+   EL MODO INGRESO 2027 · un interruptor para toda la app (11/11/2026)
+
+   Quien empieza en 2027 entra a una app pensada para quien ya cursa:
+   la grilla de su año, las mesas, los parciales, el Feriazo. Con el
+   modo prendido la barra de abajo y el ☰ se achican a lo que sirve
+   antes de la primera clase —anotarse, llegar, entender las palabras,
+   las fechas— y el inicio se da vuelta: arriba de todo, el recorrido
+   de acá a marzo, que cambia solo según el día y lo ya hecho.
+
+   SACA RUIDO, NO PUERTAS. Lo que sale de la barra y del ☰ sigue en el
+   índice del pie y en el buscador: quien lo busca lo encuentra.
+
+   Vive en `bolivar-ingresante` ('2027' prendido, 'no' apagado), la
+   misma llave que usa la pregunta del inicio desde el 24/10, así
+   quien ya contestó no tiene que volver a hacerlo. Quien se anotó en
+   el grupo desde Ingreso y nunca contestó cuenta como prendido. Se
+   prende y se apaga desde el ☰ y desde el inicio, y avisa con el
+   evento `bolivar:ingreso`. Pasado el 30/4/2027 se apaga solo: para
+   entonces ya cursan y son estudiantes como cualquiera.
+
+   Quien decide el CSS es el atributo `data-ingreso` del <html>. En el
+   inicio lo pone antes el script del <head>, porque ahí lo que se
+   esconde está escrito en el HTML y se vería un instante; en las
+   demás alcanza con la línea de acá abajo, que corre antes de pintar
+   la navegación.
+   ============================================================ */
+const LLAVE_INGRESANTE = 'bolivar-ingresante';
+const FIN_MODO_INGRESO = '2027-04-30';
+
+/* Modo incógnito o memoria llena: lo elegido vale mientras dure la
+   visita, como la carrera. */
+let __ingresoEnVivo = null;
+
+function respuestaIngreso(){
+  let r = null, enElGrupo = false;
+  try {
+    r = localStorage.getItem(LLAVE_INGRESANTE);
+    enElGrupo = !!(JSON.parse(localStorage.getItem('bolivar-ingreso-grupo') || '{}') || {}).anotada;
+  } catch(e){}
+  r = __ingresoEnVivo || r;
+  if (!r && enElGrupo) r = '2027';
+  return r;                            /* '2027', 'no' o null: no contestó */
+}
+
+function modoIngresoVigente(){ return hoyISO() <= FIN_MODO_INGRESO; }
+
+function modoIngreso(){ return modoIngresoVigente() && respuestaIngreso() === '2027'; }
+
+function marcarModoIngreso(){
+  if (modoIngreso()) document.documentElement.dataset.ingreso = 'si';
+  else delete document.documentElement.dataset.ingreso;
+}
+
+function ponerModoIngreso(si){
+  const antes = modoIngreso();
+  __ingresoEnVivo = si ? '2027' : 'no';
+  try { localStorage.setItem(LLAVE_INGRESANTE, __ingresoEnVivo); } catch(e){}
+  marcarModoIngreso();
+  if (antes === modoIngreso()) return;
+  if (si) anotarHito('soy-ingresante');
+  document.dispatchEvent(new CustomEvent('bolivar:ingreso', { detail:{ prendido: !!si } }));
+}
+
+marcarModoIngreso();
+
 const SECCIONES = [
   { id:'inicio',    texto:'Inicio',          icono:'🏠', url:RAIZ },
   { id:'tramites',   texto:'Info útil',       icono:'🧭', url:RAIZ+'tramites/' },
@@ -671,6 +737,39 @@ const SECCIONES_ABAJO = [
   { id:'estudiemos', texto:'Estudiemos' },
   { id:'mi',         texto:'Mi perfil'  }
 ].map(a => Object.assign({}, SECCIONES.find(s => s.id === a.id), a));
+
+/* ------------------------------------------------------------
+   LA NAVEGACIÓN DEL MODO INGRESO
+
+   Salen Mi año, Estudiemos, Espacios y el Feriazo: son de quien ya
+   cursa, y en marzo el recorrido del inicio los trae de vuelta cuando
+   empiezan a servir. Entran las cuatro pantallas que hasta acá solo
+   estaban en el pie: Ingreso, Cómo llegar, el glosario y la app paso
+   a paso. Abajo van Ingreso e Info útil en lugar de Mi año y
+   Estudiemos; Mi perfil sigue arriba a la derecha, en la cabecera.
+
+   `ico` es el dibujo de iconos.js cuando el id no tiene uno propio. */
+const SECCIONES_INGRESO = [
+  SECCIONES[0],
+  { id:'ingreso',        texto:'Ingreso 2027',        icono:'📝', ico:'inscripciones', url:RAIZ+'ingreso/' },
+  { id:'llegar',         texto:'Cómo llegar a la facu', icono:'🚌', ico:'donde-curso', url:RAIZ+'llegar/' },
+  { id:'glosario',       texto:'Glosario universitario', icono:'📖', ico:'plan', url:RAIZ+'glosario/' },
+  SECCIONES.find(s => s.id === 'tramites'),
+  SECCIONES.find(s => s.id === 'agenda'),
+  { id:'primeros-pasos', texto:'La app, paso a paso', icono:'👣', ico:'ayuda', url:RAIZ+'primeros-pasos/' },
+  SECCIONES.find(s => s.id === 'mi'),
+  SECCIONES.find(s => s.id === 'quienes')
+];
+
+const SECCIONES_ABAJO_INGRESO = [
+  { id:'inicio',   texto:'Inicio'    },
+  { id:'ingreso',  texto:'Ingreso'   },
+  { id:'tramites', texto:'Info útil' },
+  { id:'agenda',   texto:'Fechas'    }
+].map(a => Object.assign({}, SECCIONES_INGRESO.find(s => s.id === a.id), a));
+
+function seccionesDelMenu(){ return modoIngreso() ? SECCIONES_INGRESO : SECCIONES; }
+function seccionesDeAbajo(){ return modoIngreso() ? SECCIONES_ABAJO_INGRESO : SECCIONES_ABAJO; }
 
 /* ------------------------------------------------------------
    EL ÍNDICE DEL PIE
@@ -1334,6 +1433,11 @@ function vigilarTitulos(){
    navegacion vive arriba: se ve donde estas parado sin tapar
    contenido, y se recuperan los 64px que comia la barra.
    ------------------------------------------------------------ */
+function htmlEnlacesNav(lista, actual){
+  return lista.map(s => `<a href="${s.url}"${s.id===actual ? ' aria-current="page"' : ''}>
+      <span class="icono">${icono(s.ico || s.id) || s.icono}</span>${esc(s.texto)}</a>`).join('');
+}
+
 function pintarNav(actual){
   const cabecera = document.querySelector('.cabecera');
   if (!cabecera) return;
@@ -1351,9 +1455,7 @@ function pintarNav(actual){
      escritos; lo que cambia de lugar lo agrega `abajo`. */
   document.body.insertAdjacentHTML('beforeend',
     `<nav class="secciones abajo" aria-label="Secciones"><div class="envoltura secciones-fila">` +
-    SECCIONES_ABAJO.map(s => `<a href="${s.url}"${s.id===actual ? ' aria-current="page"' : ''}>
-        <span class="icono">${icono(s.id) || s.icono}</span>${esc(s.texto)}</a>`).join('') +
-    `</div></nav>`);
+    htmlEnlacesNav(seccionesDeAbajo(), actual) + `</div></nav>`);
 
   /* El menu lateral repite las secciones y suma lo que no entra arriba */
   document.body.insertAdjacentHTML('beforeend', `
@@ -1363,10 +1465,17 @@ function pintarNav(actual){
         <span class="marca">LA BOLÍVAR <em>CON VOS</em></span>
         <button class="boton-icono" id="cerrar-menu" aria-label="Cerrar el menú">✕</button>
       </div>
-      <div class="menu-lista">
-        ${SECCIONES.map(s => `<a href="${s.url}"${s.id===actual ? ' aria-current="page"' : ''}>
-            <span class="icono">${icono(s.id) || s.icono}</span>${esc(s.texto)}</a>`).join('')}
-      </div>
+      <div class="menu-lista">${htmlEnlacesNav(seccionesDelMenu(), actual)}</div>
+      ${modoIngresoVigente() ? `
+      <div class="menu-ingreso">
+        <button type="button" class="interruptor-ingreso" id="menu-ingreso" role="switch"
+                aria-checked="${modoIngreso() ? 'true' : 'false'}" aria-describedby="menu-ingreso-bajada">
+          <span class="interruptor-ingreso-texto">Modo ingreso 2027</span>
+          <span class="perilla" aria-hidden="true"></span>
+        </button>
+        <p class="menu-ingreso-bajada" id="menu-ingreso-bajada">Si empezás la facu: el menú y el inicio con lo justo para arrancar.</p>
+        <p class="solo-lectores" id="menu-ingreso-aviso" role="status"></p>
+      </div>` : ''}
       <div class="menu-carrera">
         <span class="menu-tema-rotulo" id="menu-carrera-rotulo">Elegí tu carrera</span>
         <div class="carrera-opciones" role="group" aria-labelledby="menu-carrera-rotulo">
@@ -1496,6 +1605,29 @@ function pintarNav(actual){
     pintarCarreraMenu();
     abrir(false);
   });
+
+  /* EL INTERRUPTOR DEL MODO INGRESO. A diferencia de la carrera, el
+     menú NO se cierra al tocarlo: lo que cambia es el menú mismo, y
+     tiene que verse cambiar. Quien navega escuchando no lo ve, así que
+     se le dice en voz alta qué pasó. */
+  const interruptor = document.getElementById('menu-ingreso');
+  if (interruptor) interruptor.addEventListener('click', () => {
+    ponerModoIngreso(!modoIngreso());
+    const aviso = document.getElementById('menu-ingreso-aviso');
+    if (aviso) aviso.textContent = modoIngreso()
+      ? 'Modo ingreso prendido: el menú muestra lo que necesitás para empezar.'
+      : 'Modo ingreso apagado: ves la app completa.';
+  });
+
+  /* Se prenda donde se prenda —el ☰ o el inicio—, la barra de abajo y
+     el menú se rehacen en el lugar, sin recargar. */
+  document.addEventListener('bolivar:ingreso', () => {
+    const filaAbajo = document.querySelector('.secciones.abajo .secciones-fila');
+    if (filaAbajo) filaAbajo.innerHTML = htmlEnlacesNav(seccionesDeAbajo(), actual);
+    const lista = panel.querySelector('.menu-lista');
+    if (lista) lista.innerHTML = htmlEnlacesNav(seccionesDelMenu(), actual);
+    if (interruptor) interruptor.setAttribute('aria-checked', modoIngreso() ? 'true' : 'false');
+  });
 }
 
 /* ------------------------------------------------------------
@@ -1600,6 +1732,9 @@ function idDeLaAlertaVisible(publicaciones){
 
 async function pintarAlertaMesa(){
   if (document.getElementById('alerta-mesa')) return;
+  /* La inscripción a una mesa de final no es de quien todavía no
+     cursó ninguna materia. */
+  if (modoIngreso()) return;
   if (typeof db === 'undefined' || !db) return;
 
   let filas = null;

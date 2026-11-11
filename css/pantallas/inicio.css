@@ -874,19 +874,142 @@ body.antes-de-entrar{ padding-bottom:0 }
 @media (min-width:900px){ #zona-normal > #cuenta-parciales{ grid-column:1 / -1 } }
 
 /* ============================================================
-   EL MODO INGRESO (24/10/2026)
+   EL MODO INGRESO (24/10 y 11/11/2026)
    La pregunta es la tarjeta de «¿Qué estás estudiando?» (`.mi-cursada
-   .pregunta`, en la base). Lo de acá: el bloque de las tres cosas para
-   hacer, con las tarjetas del kit, y la que ya está hecha apagada.
+   .pregunta`, en la base). Lo de acá: lo que el modo esconde, y el
+   recorrido en cuatro etapas, con la de hoy abierta.
    ============================================================ */
+
+/* LO QUE TODAVÍA NO LE SIRVE. Sigue en el pie y en el buscador; acá
+   solo deja de ocupar la portada. El kit no hace falta: lo suyo (el
+   glosario, cómo llegar, el buffet) está en el recorrido y en los
+   accesos. Las puertas cerradas no se dibujan, no solo se tapan:
+   `display:none` también las saca del orden del teclado. */
+[data-ingreso="si"] #cuenta-parciales,
+[data-ingreso="si"] #congreso-destacado,
+[data-ingreso="si"] .decilo-puerta,
+[data-ingreso="si"] .lme,
+[data-ingreso="si"] .feriazo-puerta,
+[data-ingreso="si"] #kit-titulo,
+[data-ingreso="si"] #kit{display:none}
+
 .modo-ingreso{margin:6px 0 4px}
 
 .modo-ingreso .titulo-seccion:focus{outline:none}
 
-.modo-ingreso .kit{margin-bottom:4px}
+@media (min-width:900px) {
+#zona-normal > #modo-ingreso{grid-column:1 / -1}
+}
 
-.tarjeta-kit.listo{border-left-color:var(--linea)}
+.ingreso-etapas{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:10px}
 
-.tarjeta-kit.listo .kit-numero{background:var(--celeste)}
+.etapa-ingreso details{
+  background:var(--superficie);border:1px solid var(--linea);border-radius:var(--radio);
+  box-shadow:var(--sombra)
+}
 
-.modo-ingreso-salir{font-size:var(--letra-nota);padding-left:0}
+/* La de hoy se distingue por el borde y la ceja en negro, no solo por
+   el color: «Ahora» está escrito. */
+.etapa-ingreso.ahora details{border:2px solid var(--texto)}
+
+.etapa-ingreso.paso details{background:transparent;box-shadow:none}
+
+.etapa-ingreso summary{
+  display:grid;grid-template-columns:1fr auto;align-items:baseline;gap:2px 12px;
+  min-height:48px;padding:13px 15px;cursor:pointer;list-style:none
+}
+
+.etapa-ingreso summary::-webkit-details-marker{display:none}
+
+.etapa-ingreso summary:focus-visible{outline:3px solid var(--celeste);outline-offset:2px;border-radius:var(--radio)}
+
+.etapa-ingreso-cuando{
+  grid-column:1 / -1;font-family:var(--fuente-sub);font-size:var(--letra-mini);font-weight:700;
+  letter-spacing:.08em;text-transform:uppercase;color:var(--texto-suave)
+}
+
+.etapa-ingreso.ahora .etapa-ingreso-cuando{color:var(--texto)}
+
+.etapa-ingreso-nombre{
+  font-family:var(--fuente-sub);font-weight:700;font-size:var(--letra-guia);line-height:1.2;color:var(--texto)
+}
+
+/* La flecha que dice si está abierta, dibujada y no con un caracter:
+   gira sola con el `open`. */
+.etapa-ingreso-cuenta{
+  display:flex;align-items:center;gap:8px;white-space:nowrap;
+  font-size:var(--letra-nota);color:var(--texto-suave)
+}
+
+.etapa-ingreso-cuenta::after{
+  content:"";width:8px;height:8px;border-right:2px solid currentColor;border-bottom:2px solid currentColor;
+  transform:rotate(45deg) translateY(-2px);transition:transform .2s
+}
+
+.etapa-ingreso details[open] .etapa-ingreso-cuenta::after{transform:rotate(-135deg) translateY(-2px)}
+
+.etapa-ingreso-falta{margin:0 15px 8px;font-size:var(--letra-base);line-height:1.35;font-weight:700}
+
+.etapa-ingreso .barra{margin:0 15px 6px}
+
+.pasos-ingreso{list-style:none;margin:0;padding:4px 15px 10px}
+
+.paso-ingreso{
+  display:flex;align-items:flex-start;gap:12px;padding:10px 0;border-top:1px solid var(--linea)
+}
+
+.paso-ingreso:first-child{border-top:0}
+
+/* La casilla y el círculo miden lo mismo, así las filas quedan
+   alineadas; la etiqueta de la casilla mide 44 px, que es lo que pide
+   un dedo. */
+.paso-ingreso-circulo,
+.paso-ingreso-tilde{flex:0 0 44px;height:44px;display:flex;align-items:center;justify-content:center}
+
+.paso-ingreso-circulo{
+  width:30px;height:30px;flex:0 0 30px;margin:7px;border-radius:50%;
+  background:var(--amarillo);color:var(--sobre-color);
+  font-family:var(--fuente-sub);font-weight:800;font-size:var(--letra-base)
+}
+
+.paso-ingreso.hecho .paso-ingreso-circulo{background:var(--celeste)}
+
+.paso-ingreso-tilde{cursor:pointer}
+
+.paso-ingreso-tilde input{width:26px;height:26px;margin:0;accent-color:var(--celeste);cursor:pointer}
+
+.paso-ingreso-enlace{
+  flex:1;min-width:0;display:flex;flex-direction:column;gap:2px;padding:4px 0;
+  text-decoration:none;color:var(--texto)
+}
+
+.paso-ingreso-enlace strong{font-size:var(--letra-base);line-height:1.25}
+
+.paso-ingreso-enlace strong::after{content:" →";color:var(--texto-suave)}
+
+.paso-ingreso-enlace span{font-size:var(--letra-nota);line-height:1.4;color:var(--texto-suave)}
+
+.paso-ingreso-enlace:focus-visible{outline:3px solid var(--celeste);outline-offset:2px;border-radius:var(--radio-chico)}
+
+.paso-ingreso-estado{
+  align-self:flex-start;margin-top:4px;font-style:normal;font-size:var(--letra-mini);font-weight:700;
+  letter-spacing:.06em;text-transform:uppercase;color:var(--texto-suave)
+}
+
+/* Lo hecho se apaga pero se lee: tachar haría difícil leerlo. */
+.paso-ingreso.hecho .paso-ingreso-enlace strong{color:var(--texto-suave)}
+
+.paso-ingreso.hecho .paso-ingreso-estado{color:var(--celeste-hondo)}
+
+[data-tema="oscuro"] .paso-ingreso.hecho .paso-ingreso-estado{color:var(--celeste-claro)}
+
+.modo-ingreso-salir{
+  display:flex;flex-wrap:wrap;align-items:center;gap:0 10px;margin:8px 0 0;
+  font-size:var(--letra-nota);color:var(--texto-suave)
+}
+
+.modo-ingreso-salir .boton{padding-left:0;font-size:var(--letra-nota)}
+
+@media (prefers-reduced-motion:reduce) {
+.etapa-ingreso-cuenta::after{transition:none}
+}
