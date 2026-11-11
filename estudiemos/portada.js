@@ -283,9 +283,10 @@
   const limpiarMateria = t => norma(String(t || '').replace(/\([^)]*\)/g, '')).replace(/\s+/g, ' ').trim();
   function carreraDeMateria(materia){
     const n = limpiarMateria(materia);
-    const planes = [window.PLAN_TS, window.PLAN_TGCR, window.PLAN_FONO].filter(Boolean);
+    /* El Profesorado va como Trabajo Social, que es como lo ve la app. */
+    const planes = [window.PLAN_TS, window.PLAN_PROF, window.PLAN_TGCR, window.PLAN_FONO].filter(Boolean);
     const p = planes.find(pl => (pl.materias || []).some(m => limpiarMateria(m.nombre) === n));
-    return p ? p.id : null;
+    return p ? (p.carreraApp || p.id) : null;
   }
   function duracion(seg){ return Math.floor(seg / 60) + ':' + String(seg % 60).padStart(2, '0'); }
   function pintarVideos(c){

@@ -584,4 +584,11 @@ todo una entrada con el número, la fecha y el porqué.
    Trabajo Social del ☰ pasa de «Lic. en Trabajo Social» a «Trabajo
    Social», porque ahora vale para las dos. Sin número nuevo, a quien
    hace el Profesorado el menú le seguiría diciendo Licenciatura. */
+/* v104 (11/11/2026) El Profesorado fuera de Mi año: Mis parciales
+   sugiere sus materias propias, Estudiemos reconoce sus materiales y
+   videos como de Trabajo Social, el lector de programas del panel las
+   reconoce y Cargar las sugiere. Cambian tres guiones que se sirven de
+   lo guardado (`estudiemos/portada.js`,
+   `estudiemos/mis-parciales/mis-parciales.js` y `lib/leer-programa.js`):
+   sin número nuevo, quien ya entró seguiría con los de antes. */
 ```
