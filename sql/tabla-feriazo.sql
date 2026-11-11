@@ -187,8 +187,8 @@ create policy "fotos feriazo borra comunicacion"
 -- entró no ven ni tocan lo pendiente, lo aprobado se ve con sus
 -- productos, el dueño no toca productos de uno publicado, corrige y
 -- baja lo suyo, y al bajarlo se van los productos). Después se
--- comprobó que no quedó nada. FALTA APLICARLO EN PRODUCCIÓN: hasta
--- entonces `feriazo/` pide las columnas de antes y anda sin productos.
+-- comprobó que no quedó nada. Aplicado en producción el 11/11/2026
+-- (migración `feriazo_abierto`).
 -- ============================================================
 
 alter table public.feriazo alter column instagram drop not null;
