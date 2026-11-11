@@ -49,7 +49,7 @@ tener que abrir 5000 líneas cuando el cambio es de veinte.
 |---|---|---|
 | `css/tokens.css` (310 líneas) | colores, tipografías, redondeos, sombras, modo oscuro | **cualquier cambio de aspecto de toda la app empieza y termina acá** |
 | `css/base/01..12-*.css` | lo que usan todas, partido en doce componentes (ver abajo) | cuando la regla es de un componente compartido |
-| `css/pantallas/*.css` | lo que usa **una sola** pantalla: `carrera`, `inicio`, `estudiemos`, `consejo`, `trayecto`, `anatomo`, `tramites`, `salud-mental`. Excepción: `tramites.css` la carga también Salud mental, entera y a propósito (usa sus acordeones) | cuando el cambio es de esa pantalla; si es de `tramites.css`, mirar también Salud mental |
+| `css/pantallas/*.css` | lo que usa **una sola** pantalla: `carrera`, `inicio`, `estudiemos`, `consejo`, `trayecto`, `anatomo`, `tramites`, `salud-mental`. Excepción: `tramites.css` la carga también Salud mental, entera y a propósito (usa sus acordeones). Otra: `feriazo.css` la cargan `feriazo/`, `feriazo/sumar/` y `cargar/` (por la tarjeta que se ve al revisar); todas sus clases empiezan con `fz-` | cuando el cambio es de esa pantalla; si es de `tramites.css`, mirar también Salud mental |
 | `estilos-rediseno.css` | el rediseño de las tarjetas; **carga último, así que en las tarjetas manda este** | ojo: si una regla de tarjeta no hace efecto, está pisada desde acá |
 
 La regla del reparto: una clase que usa más de una pantalla, o que
@@ -111,6 +111,13 @@ espacios, glosario, quienes, fichas), va al final de
   teléfono, qué marcó, marcar y desmarcar, el número para el grupo y
   compartir por WhatsApp. Después de `app.js`, en `agenda/` y en el
   inicio. No va al armazón.
+- `lib/feriazo.js` — lo que comparten las tres pantallas del Feriazo
+  (11/11/2026): los rubros, los tintes y las portadas, la tarjeta, el
+  Instagram y el WhatsApp como los quiere la base, y subir y borrar
+  fotos. Después de `app.js`, en `feriazo/`, `feriazo/sumar/` y
+  `cargar/` (ahí, antes de `cargar/feriazo.js`). No va al armazón. Las
+  listas están acá y en los `check` de `sql/tabla-feriazo.sql`: si se
+  agrega un rubro o un tinte, va en los dos.
 - `config.js`, `iconos.js`, `lectura.js`, `movimiento.js`,
   `fondo-red.js` — piezas chicas, cada una de una cosa.
 - `lib/datos.js` es el cliente chico de Supabase, el que usa la

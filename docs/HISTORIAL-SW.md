@@ -566,4 +566,10 @@ todo una entrada con el número, la fecha y el porqué.
    `css/pantallas/ingreso.css` suma tres clases y se sirve de lo
    guardado: sin número nuevo, quien ya entró a Ingreso vería los
    rótulos y el aviso de los días cerrados sin estilo. */
+/* v101 (11/11/2026) El Feriazo abierto: productos, el sello de cada
+   emprendimiento (tinte y portada), la ficha en una hoja y el
+   formulario `feriazo/sumar/`. Las pantallas llegan frescas, pero
+   `css/pantallas/feriazo.css` se rehízo entera y se sirve de lo
+   guardado: sin número nuevo, quien ya entró al Feriazo vería el
+   mosaico nuevo con los estilos de la lista vieja. */
 ```

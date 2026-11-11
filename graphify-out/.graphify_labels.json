@@ -66,7 +66,6 @@
   "65": "crearCliente",
   "66": "movimiento.js",
   "67": "localStorage bolivar-carrera-resumen",
-  "68": "pintarFormulario",
   "69": "Detalle de publicación (?id=)",
   "70": "avisos/index.ts",
   "71": "tabla-avisos.sql",
@@ -115,7 +114,6 @@
   "115": "lib/mis-parciales.js",
   "116": "montar",
   "118": "elegirCarrera",
-  "119": "tabla-feriazo.sql",
   "120": "empezarRecorrido",
   "121": "tabla-ingresantes.sql"
 }

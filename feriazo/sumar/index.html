@@ -1,0 +1,538 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Sumá tu emprendimiento · Feriazo · La Bolívar con vos</title>
+<meta name="description" content="Sumá tu emprendimiento al Feriazo de la Facultad de Trabajo Social de la UNLP: cinco pasos cortos y elegís cómo se ve tu tarjeta.">
+<meta name="theme-color" content="#F9E830">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+<!-- Iconos de la app: pestana, Google, y pantalla de inicio del celular -->
+<link rel="icon" type="image/png" sizes="32x32" href="../../imagenes/icono-32.png">
+<link rel="icon" type="image/png" sizes="96x96" href="../../imagenes/icono-96.png">
+<link rel="icon" type="image/png" sizes="192x192" href="../../imagenes/icono-192.png">
+<link rel="apple-touch-icon" href="../../imagenes/icono-apple.png">
+<link rel="manifest" href="../../manifest.json">
+
+<!-- Como se ve cuando alguien comparte el link por WhatsApp o Instagram -->
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="La Bolivar con vos">
+<meta property="og:title" content="Sumá tu emprendimiento al Feriazo">
+<meta property="og:description" content="Los emprendimientos de la gente de la facu y lo que hace cada uno. Acá no se vende: se conoce.">
+<meta property="og:image" content="https://labolivarconvos.ar/imagenes/compartir.png">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="stylesheet" href="../../css/tokens.css">
+<link rel="stylesheet" href="../../css/base/01-cimientos.css">
+<link rel="stylesheet" href="../../css/base/02-encabezado.css">
+<link rel="stylesheet" href="../../css/base/03-controles.css">
+<link rel="stylesheet" href="../../css/base/04-tarjetas.css">
+<link rel="stylesheet" href="../../css/base/05-secciones.css">
+<link rel="stylesheet" href="../../css/base/06-hoja.css">
+<link rel="stylesheet" href="../../css/base/07-avisos.css">
+<link rel="stylesheet" href="../../css/base/08-calendario.css">
+<link rel="stylesheet" href="../../css/base/09-avisanos.css">
+<link rel="stylesheet" href="../../css/base/10-lectura.css">
+<link rel="stylesheet" href="../../css/base/11-navegacion.css">
+<link rel="stylesheet" href="../../css/base/12-movimiento.css">
+<link rel="stylesheet" href="../../css/pantallas/feriazo.css">
+<link rel="stylesheet" href="../../estilos-rediseno.css">
+<!-- EL TEMA, ANTES DE DIBUJAR NADA. Va acá arriba y no en app.js a
+     propósito: app.js carga al final del cuerpo, así que la pantalla
+     arrancaría clara y pegaría un salto a oscura. Son tres renglones. -->
+<script>
+(function(){try{
+  var g = localStorage.getItem('bolivar-tema') || 'auto';
+  var oscuro = g === 'oscuro' || (g === 'auto' &&
+    window.matchMedia('(prefers-color-scheme: dark)').matches);
+  document.documentElement.dataset.tema = oscuro ? 'oscuro' : 'claro';
+}catch(e){ document.documentElement.dataset.tema = 'claro'; }})();
+</script>
+<!-- Estadisticas de visitas (Vercel Web Analytics, sin cookies) -->
+<script defer src="/_vercel/insights/script.js"></script>
+</head>
+<body>
+
+<div id="cabecera"></div>
+
+<main class="envoltura" id="contenido" tabindex="-1">
+  <p class="fz-ceja"><a href="../">← Feriazo</a></p>
+  <h1 class="titulo-pantalla">Sumá tu emprendimiento</h1>
+  <p class="bajada">Son cinco pasos cortos. Lo revisa la agrupación antes de publicarlo.</p>
+  <div id="zona">
+    <div class="esq-tarjeta"><div class="esqueleto esq-linea titulo"></div><div class="esqueleto esq-linea"></div><div class="esqueleto esq-linea media"></div></div>
+  </div>
+  <noscript><div class="aviso">Para mandar tu emprendimiento hace falta JavaScript. Si no,
+    escribinos a @SimonBolivarfts y lo cargamos.</div></noscript>
+</main>
+
+<div id="pie"></div>
+
+<script>window.RAIZ = '../../';</script>
+<!-- La librería GRANDE: esta pantalla necesita la cuenta y subir fotos. -->
+<script src="../../lib/supabase.js"></script>
+<script src="../../config.js"></script>
+<script src="../../iconos.js"></script>
+<script src="../../lib/mudanza.js"></script>
+<script src="../../app.js"></script>
+<script src="../../fondo-red.js"></script>
+<script src="../../lib/feriazo.js"></script>
+<script>
+(async function sumarAlFeriazo(){
+
+  document.getElementById('cabecera').innerHTML = htmlCabecera();
+  document.getElementById('pie').innerHTML = htmlPie();
+  pintarNav('feriazo');
+
+  const zona = document.getElementById('zona');
+  const TOPE_PRODUCTOS = 6;       // el mismo que `tope_feriazo_productos()` en la base
+  const TOPE_EMPRENDIMIENTOS = 3; // el mismo que `tope_feriazo()`
+
+  let usuario = null;
+  try { usuario = (await sesionActual()).usuario; } catch (e){ /* sin sesión */ }
+
+  /* SIN CUENTA NO SE MANDA. La cuenta es lo que deja después corregir
+     o bajar lo propio, y lo que frena que alguien cargue el
+     emprendimiento de otra persona. */
+  if (!usuario){
+    zona.innerHTML = `
+      <div class="vacio">
+        <div class="vacio-titulo">Para sumarlo, entrá con tu cuenta</div>
+        <p>Con la cuenta después podés corregirlo o bajarlo vos, sin pedírselo a nadie.</p>
+        <a class="boton" href="../../mi/">Entrar o crear mi cuenta</a>
+      </div>
+      <p class="fz-nota" style="margin-top:16px">¿Preferís no hacerte una cuenta? Escribinos a
+        <a href="https://www.instagram.com/SimonBolivarfts" target="_blank" rel="noopener">@SimonBolivarfts</a>
+        y lo cargamos nosotres.</p>`;
+    return;
+  }
+
+  let mios = [];
+
+  async function traer(){
+    const { data, error } = await db.from('feriazo').select('*').eq('dueno', usuario.id).order('creado_at');
+    if (error){
+      zona.innerHTML = /dueno|feriazo/.test(error.message || '')
+        ? `<div class="vacio">El formulario todavía no está activado.<br>
+             <small>Al equipo: falta correr <b>sql/tabla-feriazo.sql</b> en Supabase.</small></div>`
+        : '';
+      if (!zona.innerHTML) mostrarError(zona, error, 'cargar lo tuyo');
+      return false;
+    }
+    mios = data || [];
+    if (mios.length){
+      const p = await db.from('feriazo_productos').select('*')
+        .in('feriazo_id', mios.map(e => e.id)).order('orden');
+      mios.forEach(e => { e.productos = (p.data || []).filter(x => x.feriazo_id === e.id); });
+    }
+    return true;
+  }
+
+  /* El estado, dicho en palabras y no con un color. */
+  function estadoDe(e){
+    if (e.publicado) return 'Publicado: ya se ve en el Feriazo';
+    if (e.pendiente) return 'En revisión: sale cuando la agrupación lo apruebe';
+    return 'Oculto por el equipo. Escribinos por Decilo';
+  }
+
+  /* ------------------------------------------------------------
+     LO TUYO + el botón de sumar
+     ------------------------------------------------------------ */
+  function pintarInicio(aviso){
+    if (!mios.length){ pintarFormulario(null, aviso); return; }
+    zona.innerHTML = `
+      ${aviso ? `<div class="aviso ok" role="status">${esc(aviso)}</div>` : ''}
+      <h2 class="titulo-seccion">Lo tuyo</h2>
+      ${mios.map(e => `
+        <div class="fz-mio">
+          <span class="fz-mio-sello fz-t-${tinteFeriazo(e)}" aria-hidden="true"></span>
+          <span class="fz-mio-texto"><b>${esc(e.nombre)}</b><span>${esc(estadoDe(e))}</span></span>
+        </div>
+        <div class="chips" style="margin:-2px 0 14px">
+          <button type="button" class="chip" data-editar="${esc(e.id)}">Corregir</button>
+          <button type="button" class="chip" data-bajar="${esc(e.id)}">Bajarlo</button>
+          ${e.publicado ? `<a class="chip" href="../?e=${encodeURIComponent(e.id)}">Verlo en el Feriazo</a>` : ''}
+        </div>`).join('')}
+      <div id="fz-msj" role="status" aria-live="polite"></div>
+      ${mios.length < TOPE_EMPRENDIMIENTOS
+        ? '<button type="button" class="boton ancho borde" id="fz-otro">Sumar otro emprendimiento</button>'
+        : `<p class="fz-nota">Hasta ${TOPE_EMPRENDIMIENTOS} por cuenta. Para sumar otro, bajá uno.</p>`}`;
+
+    const otro = document.getElementById('fz-otro');
+    if (otro) otro.onclick = () => pintarFormulario(null);
+
+    zona.querySelectorAll('[data-editar]').forEach(b => b.onclick = () =>
+      pintarFormulario(mios.find(e => String(e.id) === b.dataset.editar)));
+
+    zona.querySelectorAll('[data-bajar]').forEach(b => b.onclick = async () => {
+      const e = mios.find(x => String(x.id) === b.dataset.bajar);
+      if (!confirm(`¿Bajar «${e.nombre}» del Feriazo? Se borra con sus productos y sus fotos, y no se puede deshacer.`)) return;
+      b.disabled = true;
+      const { error } = await db.from('feriazo').delete().eq('id', e.id);
+      if (error){
+        b.disabled = false;
+        document.getElementById('fz-msj').innerHTML =
+          `<div class="aviso error">No se pudo bajar: ${esc(error.message)}</div>`;
+        return;
+      }
+      /* Bajarlo es borrar también las fotos: si alguien lo saca, tiene
+         que desaparecer de verdad. */
+      await Promise.all([e.foto_archivo].concat((e.productos || []).map(p => p.foto_archivo))
+        .filter(Boolean).map(borrarFotoFeriazo));
+      await traer();
+      pintarInicio(`«${e.nombre}» se bajó, con sus fotos.`);
+    });
+  }
+
+  /* ------------------------------------------------------------
+     EL FORMULARIO · para sumar uno o corregirlo
+     ------------------------------------------------------------ */
+  function pintarFormulario(e, aviso){
+    const esto = {
+      rubro:   e ? e.rubro : null,
+      quien:   e ? e.quien : null,
+      tinte:   e ? tinteFeriazo(e) : 'menta',
+      portada: e && PORTADAS_FERIAZO[e.portada] ? e.portada : 'inicial',
+      foto:        e ? e.foto : null,
+      fotoArchivo: e ? e.foto_archivo : null,
+      productos: e ? (e.productos || []).map(p => ({
+        nombre: p.nombre, nota: p.nota || '', modo: p.modo, foto: p.foto, foto_archivo: p.foto_archivo
+      })) : [{ nombre:'', nota:'', modo:'pedido', foto:null, foto_archivo:null }],
+      /* Las fotos subidas en esta edición. Si se cancela se borran, y
+         al guardar se borran las que quedaron sin usar: nada huérfano
+         en el depósito. */
+      subidas: []
+    };
+
+    const opciones = (lista, dato, elegido, texto) => Object.keys(lista).map(k => `
+      <button type="button" class="fz-opcion" data-${dato}="${k}" aria-pressed="${k === elegido}">${texto(lista[k])}</button>`).join('');
+
+    zona.innerHTML = `
+      ${aviso ? `<div class="aviso ok" role="status">${esc(aviso)}</div>` : ''}
+      ${e && e.publicado ? `<div class="aviso">Está publicado. Si lo corregís, vuelve a revisión y
+        deja de verse hasta que lo aprueben de nuevo.</div>` : ''}
+
+      <h2 class="titulo-seccion">1 · Lo básico</h2>
+      <div class="campo"><label for="fz-nombre">Cómo se llama</label>
+        <input id="fz-nombre" maxlength="80" autocomplete="off" value="${esc(e ? e.nombre : '')}" placeholder="Migas del Sur"></div>
+      <div class="campo"><label for="fz-desc">Qué hacés, en dos renglones</label>
+        <textarea id="fz-desc" maxlength="240" style="min-height:84px"
+          placeholder="Alfajores y budines caseros. Los llevo a la facu los jueves.">${esc(e ? e.descripcion : '')}</textarea>
+        <p class="letra-chica" id="fz-desc-cuenta" style="margin:4px 0 0"></p></div>
+      <div class="campo"><label for="fz-ig">Instagram del emprendimiento</label>
+        <input id="fz-ig" autocapitalize="none" autocomplete="off" spellcheck="false"
+               value="${esc(e && e.instagram ? '@' + e.instagram : '')}" placeholder="@migasdelsur">
+        <p class="letra-chica" id="fz-ig-ver" style="margin:6px 0 0"></p></div>
+      <div class="campo"><label for="fz-wa">WhatsApp</label>
+        <input id="fz-wa" type="tel" inputmode="tel" autocomplete="off"
+               value="${esc(e && e.whatsapp ? e.whatsapp : '')}" placeholder="221 555 1234">
+        <p class="letra-chica" id="fz-wa-ver" style="margin:6px 0 0">Dejá al menos uno de los dos.
+          El WhatsApp queda a la vista de cualquiera que abra la app.</p></div>
+
+      <h2 class="titulo-seccion" id="fz-rubro-rot">2 · El rubro</h2>
+      <div class="fz-opciones" role="group" aria-labelledby="fz-rubro-rot">
+        ${opciones(RUBROS_FERIAZO, 'rubro', esto.rubro, r => esc(r.texto))}</div>
+      <div class="campo" style="margin-top:14px"><label for="fz-etiquetas">Etiquetas, si querés (hasta 4, separadas con coma)</label>
+        <input id="fz-etiquetas" maxlength="110" autocomplete="off"
+               value="${esc(e ? (e.etiquetas || []).join(', ') : '')}" placeholder="Sin TACC, Retiro en la facu"></div>
+
+      <h2 class="titulo-seccion" id="fz-quien-rot">3 · Quién sos</h2>
+      <div class="fz-segmento" role="group" aria-labelledby="fz-quien-rot" style="margin-bottom:14px">
+        ${Object.keys(QUIEN_FERIAZO).map(k =>
+          `<button type="button" data-quien="${k}" aria-pressed="${k === esto.quien}">${QUIEN_FERIAZO[k]}</button>`).join('')}</div>
+      <div class="campo"><label for="fz-carrera">Carrera (si querés que figure)</label>
+        <select id="fz-carrera">
+          <option value="">No la muestro</option>
+          ${Object.keys(CARRERA_FERIAZO).map(k =>
+            `<option value="${k}"${e && e.carrera === k ? ' selected' : ''}>${CARRERA_FERIAZO[k]}</option>`).join('')}
+        </select></div>
+
+      <h2 class="titulo-seccion">4 · Tu sello</h2>
+      <p class="fz-nota" style="margin:0 0 14px">Elegí un color y una portada. Así tu tarjeta no se parece a la de al lado.</p>
+      <div class="fz-vista" id="fz-vista" aria-label="Así se va a ver tu tarjeta"></div>
+      <div class="fz-muestras" role="group" aria-label="Color">
+        ${Object.keys(TINTES_FERIAZO).map(k =>
+          `<button type="button" class="fz-muestra fz-t-${k}" data-tinte="${k}"
+                   aria-pressed="${k === esto.tinte}" aria-label="${TINTES_FERIAZO[k]}"></button>`).join('')}</div>
+      <div class="fz-opciones de-tres" role="group" aria-label="Portada">
+        ${opciones(PORTADAS_FERIAZO, 'portada', esto.portada, p => `${esc(p.texto)}<small>${esc(p.nota)}</small>`)}</div>
+      <div class="campo" id="fz-frase-campo" style="margin-top:14px" hidden><label for="fz-frase">Tu frase, cortita</label>
+        <input id="fz-frase" maxlength="44" autocomplete="off" value="${esc(e && e.frase ? e.frase : '')}"
+               placeholder="Hecho a mano y con tiempo"></div>
+      <div class="campo" style="margin-top:14px"><label for="fz-logo">Logo, si tenés</label>
+        <p class="letra-chica" style="margin:0 0 6px">Va chiquito y redondo en tu tarjeta.
+          <b>Si se ve la cara de alguien, que esté de acuerdo.</b></p>
+        <div id="fz-logo-vista"></div>
+        <input id="fz-logo" type="file" accept="image/*"></div>
+
+      <h2 class="titulo-seccion">5 · Tus productos</h2>
+      <p class="fz-nota" style="margin:0 0 12px">Hasta ${TOPE_PRODUCTOS}. La foto, el nombre y cómo se consigue.
+        Sin precios: eso se charla por mensaje.</p>
+      <div id="fz-productos"></div>
+      <button type="button" class="boton ancho borde" id="fz-mas">+ Sumar otro producto</button>
+
+      <label class="fz-acepto"><input type="checkbox" id="fz-acepto">
+        <span>Es mi emprendimiento y quiero que aparezca en la app.</span></label>
+
+      <div id="fz-msj" role="status" aria-live="polite"></div>
+      <button type="button" class="boton ancho" id="fz-enviar">Enviar para revisión</button>
+      ${mios.length ? '<button type="button" class="boton ancho texto" id="fz-cancelar" style="margin-top:10px">← Volver sin guardar</button>' : ''}
+      <p class="fz-nota" style="margin-top:16px">Después podés corregirlo o bajarlo desde esta misma pantalla.</p>`;
+
+    const $ = id => document.getElementById(id);
+    const avisar = (texto, clase) => {
+      $('fz-msj').innerHTML = texto ? `<div class="aviso ${clase}">${esc(texto)}</div>` : '';
+    };
+
+    /* ---------- La vista previa: la misma tarjeta que va a salir ---------- */
+    function verTarjeta(){
+      $('fz-vista').innerHTML = htmlTarjetaFeriazo({
+        id: e ? e.id : 2,
+        nombre: $('fz-nombre').value.trim(),
+        rubro: esto.rubro || 'otros',
+        quien: esto.quien, carrera: $('fz-carrera').value || null,
+        tinte: esto.tinte, portada: esto.portada,
+        frase: $('fz-frase').value.trim() || 'Tu frase va acá',
+        foto: esto.foto, productos: esto.productos
+      }, '');
+      $('fz-frase-campo').hidden = esto.portada !== 'frase';
+    }
+
+    /* ---------- Instagram y WhatsApp se ven como van a quedar ---------- */
+    function verIg(){
+      const u = usuarioInstagram($('fz-ig').value);
+      $('fz-ig-ver').innerHTML = !$('fz-ig').value.trim() ? ''
+        : usuarioValido(u)
+          ? `Va a quedar <b>@${esc(u)}</b> · <a href="https://www.instagram.com/${encodeURIComponent(u)}/" target="_blank" rel="noopener">probar el link ↗</a>`
+          : '<b>Así no es un usuario de Instagram:</b> van letras, números, punto y guion bajo, hasta 30.';
+    }
+    function verWa(){
+      const n = numeroWhatsapp($('fz-wa').value);
+      $('fz-wa-ver').innerHTML = !$('fz-wa').value.trim()
+        ? 'Dejá al menos uno de los dos. El WhatsApp queda a la vista de cualquiera que abra la app.'
+        : whatsappValido(n)
+          ? `Va a quedar <b>+${esc(n)}</b>, a la vista de cualquiera que abra la app.`
+          : '<b>Ese número no parece completo.</b> Va con la característica: 221 555 1234.';
+    }
+    function verCuenta(){
+      const n = $('fz-desc').value.trim().length;
+      $('fz-desc-cuenta').textContent = n < 10 ? `${n} de 240 · hacen falta al menos 10` : `${n} de 240`;
+    }
+    $('fz-ig').addEventListener('input', verIg);
+    $('fz-wa').addEventListener('input', verWa);
+    $('fz-desc').addEventListener('input', verCuenta);
+    ['fz-nombre', 'fz-frase', 'fz-carrera'].forEach(id => $(id).addEventListener('input', verTarjeta));
+
+    /* ---------- Elegir de a uno por grupo ---------- */
+    ['rubro', 'quien', 'tinte', 'portada'].forEach(dato =>
+      zona.querySelectorAll(`[data-${dato}]`).forEach(b => b.onclick = () => {
+        esto[dato] = b.dataset[dato];
+        zona.querySelectorAll(`[data-${dato}]`).forEach(x =>
+          x.setAttribute('aria-pressed', String(x === b)));
+        verTarjeta();
+      }));
+
+    /* ---------- Las fotos ---------- */
+    async function subir(archivo){
+      const subida = await subirFotoFeriazo(archivo, usuario.id);
+      esto.subidas.push(subida.nombre);
+      return subida;
+    }
+
+    function pintarLogo(){
+      $('fz-logo-vista').innerHTML = esto.foto ? `
+        <img src="${esc(urlSegura(esto.foto))}" alt="" width="72" height="72"
+             style="width:72px;height:72px;object-fit:cover;border-radius:99px;display:block;margin-bottom:8px">
+        <button type="button" class="boton texto" id="fz-logo-sacar">Sacar el logo</button>` : '';
+      const sacar = $('fz-logo-sacar');
+      if (sacar) sacar.onclick = () => { esto.foto = null; esto.fotoArchivo = null; pintarLogo(); verTarjeta(); };
+    }
+
+    $('fz-logo').onchange = async function(){
+      const archivo = this.files && this.files[0];
+      if (!archivo) return;
+      $('fz-logo-vista').innerHTML = '<p class="letra-chica">Subiendo…</p>';
+      $('fz-enviar').disabled = true;
+      try {
+        const subida = await subir(archivo);
+        esto.foto = subida.url; esto.fotoArchivo = subida.nombre;
+        pintarLogo(); verTarjeta();
+      } catch (err){
+        $('fz-logo-vista').innerHTML = `<div class="aviso error">${esc(err.message || err)}</div>`;
+      }
+      $('fz-enviar').disabled = false;
+      this.value = '';
+    };
+
+    /* ---------- Los productos ---------- */
+    function pintarProductos(){
+      $('fz-productos').innerHTML = esto.productos.map((p, i) => `
+        <div class="fz-fila-prod" data-fila="${i}">
+          <label class="fz-subir">
+            ${p.foto ? `<img src="${esc(urlSegura(p.foto))}" alt="">` : 'Foto'}
+            <input type="file" accept="image/*" data-foto="${i}" aria-label="Foto del producto ${i + 1}">
+          </label>
+          <div class="fz-campos">
+            <input type="text" maxlength="60" autocomplete="off" data-nombre="${i}" value="${esc(p.nombre)}"
+                   placeholder="Qué es" aria-label="Nombre del producto ${i + 1}">
+            <input type="text" maxlength="90" autocomplete="off" data-nota="${i}" value="${esc(p.nota)}"
+                   placeholder="Un detalle, si querés" aria-label="Detalle del producto ${i + 1}">
+            <select data-modo="${i}" aria-label="Cómo se consigue el producto ${i + 1}">
+              ${Object.keys(MODOS_FERIAZO).map(k =>
+                `<option value="${k}"${k === p.modo ? ' selected' : ''}>${MODOS_FERIAZO[k]}</option>`).join('')}
+            </select>
+          </div>
+          <button type="button" class="fz-quitar" data-quitar="${i}" aria-label="Quitar el producto ${i + 1}">✕</button>
+        </div>`).join('');
+      $('fz-mas').hidden = esto.productos.length >= TOPE_PRODUCTOS;
+    }
+
+    /* Un solo oído para toda la lista: las filas se redibujan al sumar
+       o quitar, y lo escrito vive en `esto.productos`, no en los campos. */
+    $('fz-productos').addEventListener('input', ev => {
+      const t = ev.target;
+      ['nombre', 'nota', 'modo'].forEach(dato => {
+        if (t.dataset[dato] != null) esto.productos[Number(t.dataset[dato])][dato] = t.value;
+      });
+    });
+    $('fz-productos').addEventListener('change', async ev => {
+      const t = ev.target;
+      if (t.dataset.foto == null || !t.files || !t.files[0]) return;
+      const p = esto.productos[Number(t.dataset.foto)];
+      const caja = t.parentElement;
+      caja.firstChild.textContent = '…';
+      $('fz-enviar').disabled = true;
+      try {
+        const subida = await subir(t.files[0]);
+        p.foto = subida.url; p.foto_archivo = subida.nombre;
+      } catch (err){
+        avisar(err.message || String(err), 'error');
+      }
+      $('fz-enviar').disabled = false;
+      pintarProductos(); verTarjeta();
+    });
+    $('fz-productos').addEventListener('click', ev => {
+      const b = ev.target.closest('[data-quitar]');
+      if (!b) return;
+      esto.productos.splice(Number(b.dataset.quitar), 1);
+      pintarProductos(); verTarjeta();
+    });
+    $('fz-mas').onclick = () => {
+      esto.productos.push({ nombre:'', nota:'', modo:'pedido', foto:null, foto_archivo:null });
+      pintarProductos();
+      const nuevo = zona.querySelector(`[data-nombre="${esto.productos.length - 1}"]`);
+      if (nuevo) nuevo.focus();
+    };
+
+    /* Las fotos que se subieron ahora y no quedaron en ningún lado. */
+    function borrarLasQueSobran(usadas){
+      return Promise.all(esto.subidas.filter(n => !usadas.includes(n)).map(borrarFotoFeriazo));
+    }
+
+    const cancelar = $('fz-cancelar');
+    if (cancelar) cancelar.onclick = async () => { await borrarLasQueSobran([]); pintarInicio(); };
+
+    /* ---------- Enviar ---------- */
+    $('fz-enviar').onclick = async function(){
+      const nombre = $('fz-nombre').value.trim();
+      const descripcion = $('fz-desc').value.trim();
+      const igEscrito = $('fz-ig').value.trim(), waEscrito = $('fz-wa').value.trim();
+      const instagram = usuarioInstagram(igEscrito), whatsapp = numeroWhatsapp(waEscrito);
+      const frase = $('fz-frase').value.trim();
+      const etiquetas = $('fz-etiquetas').value.split(',').map(t => t.trim()).filter(Boolean);
+      /* Una fila de producto sin nombre es una fila que no se llenó:
+         no se manda y no se reclama. */
+      const productos = esto.productos.filter(p => p.nombre.trim());
+
+      /* Lo que falta se dice todo junto y en palabras: el `check` de la
+         base diría lo mismo, pero en un idioma que no se entiende. */
+      const falta = [];
+      if (nombre.length < 2) falta.push('el nombre');
+      if (descripcion.length < 10) falta.push('contar qué hacés');
+      if (!igEscrito && !waEscrito) falta.push('un Instagram o un WhatsApp');
+      if (igEscrito && !usuarioValido(instagram)) falta.push('un Instagram que ande');
+      if (waEscrito && !whatsappValido(whatsapp)) falta.push('un WhatsApp completo');
+      if (!esto.rubro) falta.push('el rubro');
+      if (!esto.quien) falta.push('decir quién sos');
+      if (esto.portada === 'frase' && frase.length < 3) falta.push('la frase de la portada');
+      if (etiquetas.length > 4 || etiquetas.join('').length > 96) falta.push('dejar hasta 4 etiquetas cortas');
+      if (productos.some(p => p.nombre.trim().length < 2)) falta.push('un nombre de producto más largo');
+      if (!$('fz-acepto').checked) falta.push('marcar que es tu emprendimiento');
+      if (falta.length){ avisar('Falta ' + falta.join(', ') + '.', 'error'); return; }
+
+      /* Siempre sale sin publicar y pendiente: es lo único que la base
+         le deja guardar a quien no es del equipo. */
+      const fila = {
+        nombre, descripcion,
+        instagram: igEscrito ? instagram : null,
+        whatsapp: waEscrito ? whatsapp : null,
+        rubro: esto.rubro, quien: esto.quien,
+        carrera: $('fz-carrera').value || null,
+        tinte: esto.tinte, portada: esto.portada,
+        frase: frase.length >= 3 ? frase : null,
+        etiquetas,
+        foto: esto.foto || null,
+        foto_archivo: esto.foto ? esto.fotoArchivo : null,
+        dueno: usuario.id, publicado: false, pendiente: true
+      };
+
+      const boton = this;
+      boton.disabled = true; boton.textContent = 'Enviando…';
+      const listo = () => { boton.disabled = false; boton.textContent = 'Enviar para revisión'; };
+
+      const r = e
+        ? await db.from('feriazo').update(fila).eq('id', e.id).select('id').single()
+        : await db.from('feriazo').insert(fila).select('id').single();
+      if (r.error){
+        listo();
+        const m = r.error.message || '';
+        avisar(/feriazo_instagram_unico|duplicate/i.test(m)
+            ? `@${instagram} ya está cargado en el Feriazo. Si es tuyo y lo cargó la agrupación, pedí el cambio por Decilo.`
+          : /feriazo_tope/.test(m) ? `Hasta ${TOPE_EMPRENDIMIENTOS} emprendimientos por cuenta.`
+          : 'No se pudo enviar: ' + m, 'error');
+        return;
+      }
+      const id = r.data.id;
+
+      /* Los productos se reemplazan enteros: se borran los que había y
+         se cargan los de ahora. Son seis como mucho, y así no hay que
+         comparar uno por uno qué cambió. */
+      const borrado = await db.from('feriazo_productos').delete().eq('feriazo_id', id);
+      const cargado = borrado.error || !productos.length ? borrado
+        : await db.from('feriazo_productos').insert(productos.map((p, i) => ({
+            feriazo_id: id, nombre: p.nombre.trim(), nota: p.nota.trim() || null,
+            modo: MODOS_FERIAZO[p.modo] ? p.modo : 'pedido',
+            foto: p.foto || null, foto_archivo: p.foto ? p.foto_archivo : null, orden: i
+          })));
+      listo();
+      if (cargado.error){
+        await traer();
+        avisar('El emprendimiento se envió, pero los productos no se pudieron guardar: ' +
+          cargado.error.message + '. Probá de nuevo desde «Corregir».', 'error');
+        return;
+      }
+
+      /* Recién ahora se borran las fotos que ya no se usan: las que se
+         subieron y se cambiaron, y las viejas que se reemplazaron. Si
+         el guardado hubiera fallado, la tarjeta seguiría con las suyas. */
+      const usadas = [fila.foto_archivo].concat(productos.map(p => p.foto ? p.foto_archivo : null)).filter(Boolean);
+      const deAntes = e ? [e.foto_archivo].concat((e.productos || []).map(p => p.foto_archivo)).filter(Boolean) : [];
+      await borrarLasQueSobran(usadas);
+      await Promise.all(deAntes.filter(n => !usadas.includes(n)).map(borrarFotoFeriazo));
+
+      await traer();
+      pintarInicio(`Listo, «${nombre}» quedó enviado. Sale en el Feriazo cuando la agrupación lo revise.`);
+      document.getElementById('contenido').focus();
+      window.scrollTo(0, 0);
+    };
+
+    verIg(); verWa(); verCuenta(); pintarLogo(); pintarProductos(); verTarjeta();
+  }
+
+  if (await traer()) pintarInicio();
+
+})();
+</script>
+</body>
+</html>

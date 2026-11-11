@@ -1,17 +1,17 @@
-# Graph Report - bolivar-con-vos  (2026-11-08)
+# Graph Report - bolivar-con-vos  (2026-11-11)
 
 ## Corpus Check
-- 100 files · ~342,556 words
+- 101 files · ~349,787 words
 - Verdict: corpus is large enough that graph structure adds value.
 - Unclassified: 40 file(s) not represented in the graph (top: .css 30, (none) 5, .geojson 4)
 
 ## Summary
-- 1169 nodes · 1756 edges · 121 communities (78 shown, 43 thin omitted)
-- Extraction: 94% EXTRACTED · 6% INFERRED · 0% AMBIGUOUS · INFERRED: 107 edges (avg confidence: 0.85)
+- 1191 nodes · 1787 edges · 122 communities (78 shown, 44 thin omitted)
+- Extraction: 94% EXTRACTED · 6% INFERRED · 0% AMBIGUOUS · INFERRED: 109 edges (avg confidence: 0.85)
 - Token cost: 0 input · 0 output
 
 ## Graph Freshness
-- Built from commit: `c86e3918`
+- Built from commit: `3e98a99c`
 - Run `git rev-parse HEAD` and compare to check if the graph is stale.
 - Run `graphify update .` after code changes (no API cost).
 
@@ -79,7 +79,7 @@
 - crearCliente
 - movimiento.js
 - localStorage bolivar-carrera-resumen
-- pintarFormulario
+- lib/feriazo.js
 - Detalle de publicación (?id=)
 - avisos/index.ts
 - tabla-avisos.sql
@@ -130,23 +130,23 @@
 3. `pintarNav()` - 14 edges
 4. `pintar()` - 14 edges
 5. `Component` - 11 edges
-6. `pintarFormulario()` - 11 edges
-7. `desdeTexto()` - 11 edges
+6. `desdeTexto()` - 11 edges
+7. `pasar()` - 10 edges
 8. `Evaluación de la app y plan hacia 2027` - 10 edges
-9. `pasar()` - 10 edges
-10. `Mi perfil (mi/index.html)` - 10 edges
+9. `Mi perfil (mi/index.html)` - 10 edges
+10. `htmlNovedades()` - 9 edges
 
 ## Surprising Connections (you probably didn't know these)
 - `1. Carga fácil de paros y grupos de estudio` --references--> `linea()`  [INFERRED]
   docs/PROPUESTAS.md → estudiemos/fichas/leer.js
 - `4. Época de parciales en Estudiemos` --references--> `anotarHito()`  [INFERRED]
   docs/PROPUESTAS.md → app.js
-- `Lo que no se puede medir` --references--> `deDondeVino()`  [INFERRED]
-  docs/EVALUACION-NOV-2026.md → app.js
 - `Pantalla Fonoteca (práctica de audiogramas)` --calls--> `pintarNav()`  [EXTRACTED]
   estudiemos/fonoteca/index.html → app.js
 - `Pantalla Estudiemos (landing de herramientas)` --calls--> `pintarNav()`  [EXTRACTED]
   estudiemos/index.html → app.js
+- `Pantalla Glosario universitario` --calls--> `pintarNav()`  [EXTRACTED]
+  glosario/index.html → app.js
 
 ## Import Cycles
 - None detected.
@@ -160,7 +160,7 @@
 - **Pantallas que muestran publicaciones de la agenda** — tabla_publicaciones, index_proximodelaagenda, index_calendario_mes, agenda_index_traer, agenda_index_detalle_publicacion, carrera_index_vistanueva [INFERRED 0.85]
 - **El Panel edita el contenido que leen las pantallas públicas** — panel_index, tramites_index, quienes_index, consejo_index, anatomo_index, catedras_index, estudiemos_index [INFERRED 0.95]
 
-## Communities (121 total, 43 thin omitted)
+## Communities (122 total, 44 thin omitted)
 
 ### Community 0 - "La carrera se elige una vez (bolivar-carrera-v2)"
 Cohesion: 0.14
@@ -248,7 +248,7 @@ Nodes (21): archivoICS(), bajarICS(), detalleDelEvento(), doblarRenglon(), escap
 
 ### Community 21 - "riesgo.js"
 Cohesion: 0.07
-Nodes (44): abrir(), aFila(), armarCapaBase(), armarMapa(), base(), bloquearDetras(), cambiarEstadoBase(), cargarBase() (+36 more)
+Nodes (45): apagar(), abrir(), aFila(), armarCapaBase(), armarMapa(), base(), bloquearDetras(), cambiarEstadoBase() (+37 more)
 
 ### Community 22 - "PROMPT-FONOTECA.md"
 Cohesion: 0.12
@@ -283,8 +283,8 @@ Cohesion: 0.67
 Nodes (3): vistaAvisanos (contactos y consultas), Tabla Supabase consultas, Tabla Supabase contactos
 
 ### Community 31 - "fondo-red.js"
-Cohesion: 0.19
-Nodes (14): apagar(), armarTodo(), arrancar(), bucle(), Capa(), deLienzo(), esDeNoche(), marcarMedicion() (+6 more)
+Cohesion: 0.20
+Nodes (13): armarTodo(), arrancar(), bucle(), Capa(), deLienzo(), esDeNoche(), marcarMedicion(), nuevoLienzo() (+5 more)
 
 ### Community 35 - "El Trayecto Optativo: qué tiene que decir la pantalla"
 Cohesion: 0.29
@@ -362,9 +362,9 @@ Nodes (3): claveDeEntrada(), entrarAlLlegar(), revisar()
 Cohesion: 0.50
 Nodes (4): localStorage bolivar-carrera-resumen, pintarProgreso, pintarTodo, pintarMiCursada
 
-### Community 68 - "pintarFormulario"
-Cohesion: 0.21
-Nodes (15): achicarFotoFeriazo(), borrarFotoFeriazo(), CARRERA_FERIAZO, montarFeriazoCarga(), avisar(), pintarFormulario(), pintarFoto(), verIg() (+7 more)
+### Community 68 - "lib/feriazo.js"
+Cohesion: 0.09
+Nodes (23): montarFeriazoCarga(), avisar(), htmlPendiente(), pintarFormulario(), pintarFoto(), pintarLista(), traer(), achicarFotoFeriazo() (+15 more)
 
 ### Community 69 - "Detalle de publicación (?id=)"
 Cohesion: 0.24
@@ -463,8 +463,8 @@ Cohesion: 0.33
 Nodes (8): aplicar(), guardar(), montar(), abrir(), cerrar(), pintarTira(), prenderMarcador(), pedirLetra()
 
 ### Community 119 - "tabla-feriazo.sql"
-Cohesion: 0.40
-Nodes (3): al_tocar_feriazo, feriazo_instagram_unico, public.feriazo
+Cohesion: 0.29
+Nodes (11): al_sumar_feriazo, al_sumar_feriazo_producto, al_tocar_feriazo, feriazo_instagram_unico, feriazo_por_dueno, feriazo_productos_por_emprendimiento, public.feriazo, public.feriazo_productos (+3 more)
 
 ### Community 120 - "empezarRecorrido"
 Cohesion: 0.36
@@ -476,23 +476,23 @@ Nodes (3): ingresantes_carrera_idx, public.anotar_ingresante(), public.ingresant
 
 ## Knowledge Gaps
 - **54 isolated node(s):** `Congelamiento de código (16-17/9)`, `anotar(): registro de visitas, búsquedas y errores`, `Prefijos de archivo (pantalla-, material-, texto-, idea-)`, `Estudiemos: material de los grupos de estudio`, `Vista plan (Mi año)` (+49 more)
-  These have ≤1 connection - possible missing edges or undocumented components. (Counts symbols only; 388 node(s) total have ≤1 connection when file, concept and rationale nodes are included.)
-- **43 thin communities (<3 nodes) omitted from report** — run `graphify query` to explore isolated nodes.
+  These have ≤1 connection - possible missing edges or undocumented components. (Counts symbols only; 397 node(s) total have ≤1 connection when file, concept and rationale nodes are included.)
+- **44 thin communities (<3 nodes) omitted from report** — run `graphify query` to explore isolated nodes.
 
 ## Suggested Questions
 _Questions this graph is uniquely positioned to answer:_
 
 - **Why does `Pantalla Inicio` connect `Pantalla Mi año (carrera)` to `movimiento.js`, `app.js`, `Detalle de publicación (?id=)`, `Pantalla El Consejo Directivo`, `Mi perfil (mi/index.html)`, `manifest.json`?**
-  _High betweenness centrality (0.131) - this node is a cross-community bridge._
+  _High betweenness centrality (0.118) - this node is a cross-community bridge._
 - **What connects `Congelamiento de código (16-17/9)`, `anotar(): registro de visitas, búsquedas y errores`, `Prefijos de archivo (pantalla-, material-, texto-, idea-)` to the rest of the system?**
   _54 weakly-connected nodes found - possible documentation gaps or missing edges._
 - **Should `La carrera se elige una vez (bolivar-carrera-v2)` be split into smaller, more focused modules?**
   _Cohesion score 0.14285714285714285 - nodes in this community are weakly interconnected._
-- **Why does `pedido()` connect `riesgo.js` to `Pantalla El Consejo Directivo`, `fondo-red.js`?**
-  _High betweenness centrality (0.112) - this node is a cross-community bridge._
+- **Why does `pedido()` connect `riesgo.js` to `Pantalla El Consejo Directivo`?**
+  _High betweenness centrality (0.108) - this node is a cross-community bridge._
 - **Should `Pantalla Info útil (trámites y FAQ)` be split into smaller, more focused modules?**
   _Cohesion score 0.11695906432748537 - nodes in this community are weakly interconnected._
 - **Why does `Vercel Web Analytics (/_vercel/insights/script.js, v72)` connect `Pantalla El Consejo Directivo` to `Pantalla Mi año (carrera)`?**
-  _High betweenness centrality (0.108) - this node is a cross-community bridge._
+  _High betweenness centrality (0.103) - this node is a cross-community bridge._
 - **Should `app.js` be split into smaller, more focused modules?**
   _Cohesion score 0.06827880512091039 - nodes in this community are weakly interconnected._

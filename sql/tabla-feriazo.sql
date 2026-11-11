@@ -10,6 +10,11 @@
 -- compañeras y compañeros. Por eso la tabla no tiene ni una columna de
 -- plata, y no conviene agregársela.
 --
+-- OJO: DOS DE ESTAS DECISIONES CAMBIARON EL 11/11/2026 (quién carga, y
+-- que el Instagram sea obligatorio). Lo nuevo está en el bloque 3, al
+-- final; lo de acá abajo queda como estaba para que se entienda de
+-- dónde viene. «No es una tienda» sigue en pie.
+--
 -- Lo decidido con Máximo el 24/10/2026 y cómo queda acá:
 --
 --   LO CARGA SOLO EL EQUIPO. Quien quiere sumar su emprendimiento le
@@ -142,3 +147,219 @@ create policy "fotos feriazo borra comunicacion"
   on storage.objects for delete to authenticated
   using (bucket_id = 'fotos' and name like 'feriazo-%'
          and (select public.modera_buzon()));
+
+
+-- ============================================================
+-- 3. EL FERIAZO ABIERTO (11/11/2026)
+--
+-- Lo decidido con Máximo el 11/11/2026, que cambia DOS cosas del 24/10
+-- y deja una como estaba:
+--
+--   AHORA LO MANDA CADA QUIEN, CON SU CUENTA, Y EL EQUIPO LO APRUEBA.
+--   El formulario está en `feriazo/sumar/`. Lo que se manda entra
+--   `pendiente` y sin publicar, y no se ve hasta que el equipo o
+--   comunicación lo aprueban desde `cargar/` (la pestaña Feriazo). El
+--   porqué del 24/10 sigue en pie —que nadie suba el Instagram de otra
+--   persona ni algo que no va—: lo que cambió es quién tipea.
+--
+--   CADA QUIEN CORRIGE Y BAJA LO SUYO. Pero una corrección VUELVE A
+--   REVISIÓN: la política de `update` del dueño solo deja la fila sin
+--   publicar y pendiente. Si no, alcanzaría con que te aprueben una vez
+--   para después poner cualquier cosa.
+--
+--   EL INSTAGRAM YA NO ES OBLIGATORIO y se suma el WhatsApp, optativo.
+--   Tiene que haber al menos uno de los dos: sin contacto no hay a
+--   quién escribirle, que es para lo único que sirve la pantalla.
+--
+--   SIGUE SIN SER UNA TIENDA. Ahora hay productos, pero sin precio: ni
+--   esta tabla ni la de productos tienen una columna de plata. Cada
+--   producto dice solo cómo se consigue (a pedido, hay stock, servicio).
+--
+-- EL SELLO: `tinte`, `portada` y `frase` son cómo se ve la tarjeta de
+-- cada emprendimiento. Los elige quien lo carga, para que el Feriazo
+-- no sea una lista de tarjetas iguales. Las listas viven acá y en
+-- `lib/feriazo.js`: si se agrega un tinte, va en los dos.
+--
+-- ESTADO: ensayado el 11/11/2026 con begin/rollback contra la base
+-- real, con dos cuentas comunes: 19 comprobaciones y ningún fallo
+-- (nadie se publica solo ni al corregir, no se manda sin contacto ni a
+-- nombre de otra cuenta, topes de 3 y de 6, otra cuenta y quien no
+-- entró no ven ni tocan lo pendiente, lo aprobado se ve con sus
+-- productos, el dueño no toca productos de uno publicado, corrige y
+-- baja lo suyo, y al bajarlo se van los productos). Después se
+-- comprobó que no quedó nada. FALTA APLICARLO EN PRODUCCIÓN: hasta
+-- entonces `feriazo/` pide las columnas de antes y anda sin productos.
+-- ============================================================
+
+alter table public.feriazo alter column instagram drop not null;
+
+-- Solo números, con el código del país y sin el +: es lo que pide
+-- wa.me. La app lo arma desde lo que escriba la gente.
+alter table public.feriazo add column if not exists whatsapp text
+  check (whatsapp is null or whatsapp ~ '^[0-9]{10,15}$');
+
+alter table public.feriazo drop constraint if exists feriazo_algun_contacto;
+alter table public.feriazo add constraint feriazo_algun_contacto
+  check (instagram is not null or whatsapp is not null);
+
+-- A los que ya estaban cargados se les reparte un tinte según el id,
+-- UNA sola vez (cuando la columna todavía no existe): si no, saldrían
+-- todos del mismo color. Volver a correr el archivo no los toca.
+do $$
+begin
+  if not exists (select 1 from information_schema.columns
+                  where table_schema = 'public' and table_name = 'feriazo'
+                    and column_name = 'tinte') then
+    alter table public.feriazo add column tinte text not null default 'menta'
+      check (tinte in ('menta', 'rosa', 'cielo', 'papel', 'celeste', 'hondo', 'negro'));
+    update public.feriazo
+       set tinte = (array['menta','rosa','cielo','papel','celeste','hondo','negro'])[1 + (id % 7)::int];
+  end if;
+end $$;
+
+alter table public.feriazo add column if not exists portada text not null default 'inicial'
+  check (portada in ('inicial', 'fotos', 'frase'));
+
+-- La frase de la portada. Corta: entra en una tarjeta de media pantalla.
+alter table public.feriazo add column if not exists frase text
+  check (frase is null or length(btrim(frase)) between 3 and 44);
+
+-- Hasta cuatro etiquetas libres («sin TACC», «envíos»): los productos
+-- son muy distintos entre sí y el rubro solo no alcanza para buscar.
+alter table public.feriazo add column if not exists etiquetas text[] not null default '{}'
+  check (cardinality(etiquetas) <= 4 and length(array_to_string(etiquetas, '')) <= 96);
+
+-- Quién lo mandó. Lo que carga el equipo queda en null. Si la persona
+-- borra su cuenta, el emprendimiento queda a cargo del equipo.
+alter table public.feriazo add column if not exists dueno uuid
+  references auth.users (id) on delete set null;
+
+-- Esperando revisión. No es lo contrario de `publicado`: uno oculto
+-- por el equipo no está publicado ni pendiente.
+alter table public.feriazo add column if not exists pendiente boolean not null default false;
+
+create index if not exists feriazo_por_dueno on public.feriazo (dueno) where dueno is not null;
+
+-- Lo que puede cada quien con LO SUYO. Se suman a las del equipo.
+drop policy if exists "feriazo lo suyo se ve" on public.feriazo;
+create policy "feriazo lo suyo se ve" on public.feriazo
+  for select to authenticated
+  using (dueno = (select auth.uid()));
+
+drop policy if exists "feriazo se manda a revisar" on public.feriazo;
+create policy "feriazo se manda a revisar" on public.feriazo
+  for insert to authenticated
+  with check (dueno = (select auth.uid()) and not publicado and pendiente);
+
+drop policy if exists "feriazo lo suyo se corrige" on public.feriazo;
+create policy "feriazo lo suyo se corrige" on public.feriazo
+  for update to authenticated
+  using (dueno = (select auth.uid()))
+  with check (dueno = (select auth.uid()) and not publicado and pendiente);
+
+drop policy if exists "feriazo lo suyo se baja" on public.feriazo;
+create policy "feriazo lo suyo se baja" on public.feriazo
+  for delete to authenticated
+  using (dueno = (select auth.uid()));
+
+-- Tres por cuenta. Nadie tiene más, y sin tope una sola cuenta puede
+-- llenarle la bandeja de revisión al equipo.
+create or replace function public.tope_feriazo()
+returns trigger language plpgsql security definer set search_path = public as $$
+begin
+  if new.dueno is not null and not public.modera_buzon()
+     and (select count(*) from public.feriazo f where f.dueno = new.dueno) >= 3 then
+    raise exception 'feriazo_tope: hasta tres emprendimientos por cuenta';
+  end if;
+  return new;
+end $$;
+revoke all on function public.tope_feriazo() from public, anon, authenticated;
+
+drop trigger if exists al_sumar_feriazo on public.feriazo;
+create trigger al_sumar_feriazo before insert on public.feriazo
+  for each row execute function public.tope_feriazo();
+
+
+-- ------------------------------------------------------------
+-- 4. LOS PRODUCTOS
+-- ------------------------------------------------------------
+create table if not exists public.feriazo_productos (
+  id            bigint generated by default as identity primary key,
+  -- Si se baja el emprendimiento, se van sus productos.
+  feriazo_id    bigint not null references public.feriazo (id) on delete cascade,
+  nombre        text not null check (length(btrim(nombre)) between 2 and 60),
+  nota          text check (nota is null or length(btrim(nota)) <= 90),
+  -- Cómo se consigue. NO hay precio, y no conviene agregarlo: ver arriba.
+  modo          text not null default 'pedido' check (modo in ('pedido', 'stock', 'servicio')),
+  foto          text check (foto is null or foto ~ '^https://'),
+  foto_archivo  text check (foto_archivo is null or foto_archivo ~ '^feriazo-[a-z0-9-]+\.jpg$'),
+  orden         smallint not null default 0,
+  creado_at     timestamptz not null default now()
+);
+
+create index if not exists feriazo_productos_por_emprendimiento
+  on public.feriazo_productos (feriazo_id, orden);
+
+alter table public.feriazo_productos enable row level security;
+
+revoke all on public.feriazo_productos from anon, authenticated;
+grant select on public.feriazo_productos to anon, authenticated;
+grant insert, update, delete on public.feriazo_productos to authenticated;
+
+-- UN PRODUCTO SE VE SI SE VE SU EMPRENDIMIENTO. El `exists` corre con
+-- los permisos de quien pregunta, así que hereda las políticas de
+-- `feriazo`: cualquiera ve los de los publicados, cada quien los suyos
+-- y el equipo todos. No hay que repetir las tres reglas acá.
+drop policy if exists "feriazo productos lectura" on public.feriazo_productos;
+create policy "feriazo productos lectura" on public.feriazo_productos
+  for select
+  using (exists (select 1 from public.feriazo f where f.id = feriazo_id));
+
+-- Escribe el equipo, o el dueño MIENTRAS NO ESTÉ PUBLICADO: para tocar
+-- los productos de uno publicado primero hay que mandarlo a revisión
+-- (el formulario lo hace solo al guardar).
+drop policy if exists "feriazo productos escritura" on public.feriazo_productos;
+create policy "feriazo productos escritura" on public.feriazo_productos
+  for all to authenticated
+  using ((select public.modera_buzon()) or exists (
+           select 1 from public.feriazo f
+            where f.id = feriazo_id and f.dueno = (select auth.uid()) and not f.publicado))
+  with check ((select public.modera_buzon()) or exists (
+           select 1 from public.feriazo f
+            where f.id = feriazo_id and f.dueno = (select auth.uid()) and not f.publicado));
+
+-- Seis por emprendimiento: es una vidriera, no un catálogo.
+create or replace function public.tope_feriazo_productos()
+returns trigger language plpgsql security definer set search_path = public as $$
+begin
+  if (select count(*) from public.feriazo_productos p where p.feriazo_id = new.feriazo_id) >= 6 then
+    raise exception 'feriazo_tope: hasta seis productos por emprendimiento';
+  end if;
+  return new;
+end $$;
+revoke all on function public.tope_feriazo_productos() from public, anon, authenticated;
+
+drop trigger if exists al_sumar_feriazo_producto on public.feriazo_productos;
+create trigger al_sumar_feriazo_producto before insert on public.feriazo_productos
+  for each row execute function public.tope_feriazo_productos();
+
+
+-- ------------------------------------------------------------
+-- 5. LAS FOTOS DE QUIEN MANDA EL SUYO
+--
+-- Cada cuenta sube y borra SOLO lo que empieza con `feriazo-` y su
+-- propio id: `feriazo-<id de la cuenta>-<cuándo>.jpg`. Así nadie pisa
+-- ni borra la foto de otra persona. El tamaño y el tipo los frena el
+-- depósito (3 MB, imágenes), y la app la achica antes de subir.
+-- ------------------------------------------------------------
+drop policy if exists "fotos feriazo sube quien lo hace" on storage.objects;
+create policy "fotos feriazo sube quien lo hace"
+  on storage.objects for insert to authenticated
+  with check (bucket_id = 'fotos'
+              and name like 'feriazo-' || (select auth.uid())::text || '-%');
+
+drop policy if exists "fotos feriazo borra quien lo hace" on storage.objects;
+create policy "fotos feriazo borra quien lo hace"
+  on storage.objects for delete to authenticated
+  using (bucket_id = 'fotos'
+         and name like 'feriazo-' || (select auth.uid())::text || '-%');

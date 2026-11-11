@@ -1,9 +1,14 @@
 /* ==========================================================
-   LA BOLIVAR CON VOS · SOLO PARA FERIAZO (24/10/2026)
-   Los emprendimientos de la gente de la facu. El fondo, el borde y la
-   sombra de la tarjeta los pone `.tarjeta` (base y rediseño); acá va
-   solo cómo se acomodan la foto y el texto adentro.
+   LA BOLIVAR CON VOS · SOLO PARA FERIAZO (24/10/2026, rehecha el 11/11/2026)
+   Los emprendimientos de la gente de la facu. La usan la vidriera
+   (`feriazo/`), el formulario (`feriazo/sumar/`) y la revisión del
+   equipo (`cargar/`, que la carga por la vista previa de la tarjeta).
    Carga después de base/12 y antes de estilos-rediseno.
+
+   LA IDEA: el Feriazo es una feria, no un listado. Cada emprendimiento
+   tiene su SELLO —un tinte y una portada que elige quien lo carga— y
+   las tarjetas miden distinto, así que dos vecinas nunca son iguales.
+   Todo lo demás (bordes, sombras, letras) es de la app.
    ========================================================== */
 
 .fz-ceja{
@@ -12,59 +17,278 @@
   color:var(--texto-suave)
 }
 
-.fz-cuenta{margin:4px 0 12px;color:var(--texto-suave)}
+/* --- LOS SIETE TINTES ---
+   Ninguno es el amarillo: en cada pantalla el amarillo es de la acción
+   principal. Los cuatro pasteles se dan vuelta de noche solos (son
+   tokens); los tres plenos no cambian y llevan su texto fijo. */
+.fz-t-menta{background:var(--et-gremial);color:var(--texto)}
+.fz-t-rosa{background:var(--et-info);color:var(--texto)}
+.fz-t-cielo{background:var(--et-saberes);color:var(--texto)}
+.fz-t-papel{background:var(--et-frente);color:var(--texto)}
+.fz-t-celeste{background:var(--celeste-claro);color:var(--sobre-color)}
+.fz-t-hondo{background:var(--celeste-hondo);color:var(--sobre-negro)}
+.fz-t-negro{background:var(--negro);color:var(--sobre-negro)}
 
-/* Una columna en el teléfono, dos desde 720: la descripción tiene que
-   entrar en tres renglones sin que la tarjeta quede como una tira. */
-.fz-lista{display:grid;gap:12px}
-@media (min-width:720px){ .fz-lista{grid-template-columns:1fr 1fr} }
-
-.fz-tarjeta{
-  display:grid;grid-template-columns:76px minmax(0,1fr);gap:14px;align-items:start;
-  /* `.tarjeta` no deja seleccionar (es para las que se tocan enteras).
-     Esta no se toca entera, y el usuario de Instagram se copia. */
-  -webkit-user-select:text;user-select:text
+/* --- La fila de «cuántos hay» y el botón de mezclar --- */
+.fz-barra{
+  display:flex;align-items:center;justify-content:space-between;gap:10px;
+  margin:10px 0 10px;min-height:44px
 }
-@media (min-width:400px){ .fz-tarjeta{grid-template-columns:96px minmax(0,1fr)} }
-
-/* Las fotos de perfil de Instagram son cuadradas: el recorte en
-   cuadrado es el que menos les come. */
-.fz-foto{
-  display:block;width:100%;aspect-ratio:1 / 1;object-fit:cover;
-  border-radius:var(--radio-chico);border:2px solid var(--tinta-borde);
-  background:var(--superficie-2)
+.fz-cuenta{margin:0;color:var(--texto-suave)}
+.fz-mezclar{
+  flex:0 0 auto;display:inline-flex;align-items:center;gap:6px;min-height:44px;
+  padding:0 14px;border:1px solid var(--linea);border-radius:var(--radio-pastilla);
+  background:var(--superficie);color:var(--texto);
+  font-family:var(--fuente-sub);font-size:var(--letra-chica);font-weight:700;
+  letter-spacing:.04em;text-transform:uppercase;cursor:pointer
 }
+.fz-mezclar svg{width:16px;height:16px;transition:transform var(--t-medio) var(--sale)}
+.fz-mezclar.girando svg{transform:rotate(180deg)}
+
+/* --- Elegir entre pocas cosas sin gastar el amarillo: el elegido va
+   en tinta. Lo usan «quién lo hace», «cómo se consigue» y el
+   formulario. --- */
+.fz-segmento{
+  display:flex;background:var(--superficie-2);border-radius:var(--radio-pastilla);
+  padding:3px;margin:6px 0 0
+}
+.fz-segmento button{
+  flex:1 1 0;min-width:0;min-height:44px;border:0;background:transparent;
+  border-radius:var(--radio-pastilla);padding:0 4px;cursor:pointer;
+  font-family:var(--fuente-texto);font-size:var(--letra-chica);font-weight:500;
+  color:var(--texto-suave);
+  transition:background var(--t-chico) ease,color var(--t-chico) ease
+}
+.fz-segmento button[aria-pressed="true"]{background:var(--texto);color:var(--fondo);font-weight:700}
+
+/* --- EL MOSAICO ---
+   Columnas del navegador y no una grilla: cada tarjeta mide lo suyo y
+   cae en la columna que le toca sin que nadie calcule nada. Dos en el
+   teléfono, tres desde 720. */
+.fz-mosaico{column-count:2;column-gap:11px}
+@media (min-width:720px){ .fz-mosaico{column-count:3} }
+
+.fz-puesto{
+  display:block;width:100%;margin:0 0 11px;padding:0;text-align:left;
+  break-inside:avoid;overflow:hidden;cursor:pointer;
+  font-family:var(--fuente-texto);color:var(--texto);
+  background:var(--superficie);border:1px solid var(--linea);
+  border-radius:var(--radio-tarjeta, var(--radio));box-shadow:var(--sombra-1);
+  transition:transform var(--t-toque) ease
+}
+div.fz-puesto{cursor:default}
+button.fz-puesto:active{transform:scale(.985)}
+
+.fz-portada{display:flex;padding:14px;overflow:hidden}
+.fz-alto-1{height:104px}
+.fz-alto-2{height:140px}
+.fz-alto-3{height:176px}
 .fz-inicial{
-  display:flex;align-items:center;justify-content:center;
-  background:var(--amarillo);color:var(--sobre-color);
-  font-family:var(--fuente-titulo);font-size:34px;line-height:1
+  align-self:flex-end;font-family:var(--fuente-titulo);font-size:56px;
+  line-height:.86;letter-spacing:-.03em
 }
+.fz-frase{
+  align-self:flex-end;font-weight:700;font-size:19px;line-height:1.15;
+  letter-spacing:-.018em;overflow-wrap:anywhere
+}
+/* Las fotos de los productos, de una a cuatro. Con tres, la primera
+   ocupa la columna entera. */
+.fz-cuadros{display:grid;grid-template-columns:1fr 1fr;gap:6px;width:100%;height:100%;min-height:0}
+.fz-cuadros img{display:block;width:100%;height:100%;min-height:0;object-fit:cover;border-radius:var(--radio-chico)}
+.fz-cuadros-1{grid-template-columns:1fr}
+.fz-cuadros-3 img:first-child{grid-row:span 2}
+.fz-portada:has(.fz-cuadros){padding:8px}
 
-.fz-texto{min-width:0}
+.fz-cuerpo{display:block;position:relative;padding:12px 14px 14px}
+.fz-logo{
+  position:absolute;top:-26px;right:12px;width:44px;height:44px;
+  border-radius:99px;object-fit:cover;background:var(--superficie);
+  border:2px solid var(--superficie);box-shadow:var(--sombra-1)
+}
 .fz-nombre{
-  margin:0 0 3px;font-family:var(--fuente-titulo);font-weight:400;
-  font-size:var(--letra-guia);line-height:1.1;overflow-wrap:anywhere
+  display:block;font-weight:700;font-size:17px;line-height:1.18;
+  letter-spacing:-.018em;margin:0 0 3px;overflow-wrap:anywhere
 }
-.fz-meta{margin:0 0 6px;font-size:var(--letra-chica);color:var(--texto-suave)}
-.fz-desc{margin:0 0 8px;font-size:var(--letra-base);line-height:1.4}
+.fz-quien{display:block;font-size:var(--letra-chica);line-height:1.35;color:var(--texto-suave);margin:0 0 10px}
 
-/* El usuario de Instagram es EL dato de la tarjeta: va en negrita y
-   con el área de toque de un dedo, aunque el texto sea corto. */
-.fz-ig{
-  display:inline-flex;align-items:center;min-height:44px;
-  font-weight:700;text-decoration:underline;text-underline-offset:3px;
-  overflow-wrap:anywhere
+/* --- «Hoy te cruzás con»: uno al azar, a lo ancho --- */
+.fz-destacado{
+  display:grid;grid-template-columns:42% minmax(0,1fr);width:100%;
+  margin:0 0 11px;padding:0;text-align:left;overflow:hidden;cursor:pointer;
+  font-family:var(--fuente-texto);color:var(--texto);
+  background:var(--superficie);border:1px solid var(--linea);
+  border-radius:var(--radio-grande, var(--radio));box-shadow:var(--sombra-2);
+  transition:transform var(--t-toque) ease
+}
+.fz-destacado:active{transform:scale(.985)}
+.fz-destacado .fz-portada{height:auto;min-height:168px}
+.fz-destacado .fz-cuerpo{padding:14px 14px 16px}
+.fz-destacado .fz-nombre{font-size:21px;line-height:1.1}
+.fz-destacado-ceja{
+  display:block;font-weight:700;font-size:var(--letra-mini);letter-spacing:.1em;
+  text-transform:uppercase;color:var(--texto-suave);margin:0 0 6px
+}
+.fz-destacado-desc{
+  display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden;
+  font-size:var(--letra-nota);line-height:1.4;color:var(--texto-suave);margin:0 0 10px
 }
 
-/* «¿Tenés un emprendimiento?» */
+/* --- Un producto --- */
+.fz-prod{
+  display:block;width:100%;margin:0 0 11px;padding:8px 8px 12px;text-align:left;
+  break-inside:avoid;cursor:pointer;
+  font-family:var(--fuente-texto);color:var(--texto);
+  background:var(--superficie);border:1px solid var(--linea);
+  border-radius:var(--radio-tarjeta, var(--radio));box-shadow:var(--sombra-1);
+  transition:transform var(--t-toque) ease
+}
+div.fz-prod{cursor:default}
+button.fz-prod:active{transform:scale(.985)}
+.fz-prod-foto{
+  display:flex;align-items:flex-end;width:100%;aspect-ratio:1 / 1;overflow:hidden;
+  border-radius:var(--radio);padding:10px
+}
+.fz-prod-foto.alta{aspect-ratio:4 / 5}
+.fz-prod-foto:has(img){padding:0}
+.fz-prod-foto img{display:block;width:100%;height:100%;object-fit:cover}
+.fz-prod-foto .fz-inicial{font-size:40px}
+.fz-prod-nombre{display:block;font-weight:700;font-size:var(--letra-densa);line-height:1.2;margin:10px 6px 2px;overflow-wrap:anywhere}
+.fz-prod-de{display:block;font-size:var(--letra-chica);line-height:1.35;color:var(--texto-suave);margin:0 6px 8px}
+.fz-modo{
+  display:inline-block;margin-left:6px;padding:3px 9px;border-radius:var(--radio-pastilla);
+  background:var(--superficie-2);color:var(--texto);
+  font-size:var(--letra-mini);font-weight:700;letter-spacing:.06em;text-transform:uppercase
+}
+.fz-modo.stock{background:var(--celeste-claro);color:var(--sobre-color)}
+.fz-modo.servicio{background:var(--celeste-hondo);color:var(--sobre-negro)}
+
+/* --- LA LLEGADA ---
+   Al entrar y al mezclar, las tarjetas llegan de a una. Es el único
+   movimiento de la pantalla: dice «esto se acaba de barajar». El
+   retraso lo pone el JS en `--i` y se corta en diez, para que la
+   última no tarde más que una hoja en subir. */
+@keyframes fz-llega{ from{ opacity:0;transform:translateY(10px) } }
+.fz-llegan > *{
+  animation:fz-llega var(--t-hoja) var(--sale) backwards;
+  animation-delay:calc(var(--i, 0) * 32ms)
+}
+
+/* --- LA FICHA, adentro de la hoja --- */
+.fz-banda{
+  display:flex;flex-direction:column;justify-content:flex-end;gap:10px;
+  min-height:150px;margin:26px 0 16px;padding:16px;border-radius:var(--radio)
+}
+.fz-banda-ceja{font-weight:700;font-size:var(--letra-mini);letter-spacing:.1em;text-transform:uppercase}
+/* Pisa a `.hoja h2` (base/06), que es más chica y con margen para la
+   cruz: acá el título va adentro de la banda y la cruz queda arriba. */
+.hoja .fz-banda h2{
+  margin:0;font-family:var(--fuente-titulo);font-weight:400;font-size:34px;
+  line-height:.95;letter-spacing:-.02em;text-transform:uppercase;overflow-wrap:anywhere
+}
+.fz-banda .fz-logo{position:static;width:56px;height:56px;align-self:flex-start;margin-bottom:auto}
+.fz-desc{margin:0 0 12px;font-size:var(--letra-guia);line-height:1.4}
+.fz-etiquetas{display:flex;flex-wrap:wrap;gap:8px;margin:0 0 18px}
+.fz-contactos{display:flex;flex-direction:column;gap:10px;margin:0 0 6px}
+.fz-nota{font-size:var(--letra-nota);line-height:1.45;color:var(--texto-suave)}
+/* Los productos de la ficha pasan de costado: así se
+   ve que hay más sin que la hoja se haga eterna (dos y un pedacito del tercero). */
+.fz-carrusel{
+  display:flex;gap:11px;overflow-x:auto;scroll-snap-type:x mandatory;
+  margin:0 -16px;padding:2px 16px 10px;scrollbar-width:none
+}
+.fz-carrusel::-webkit-scrollbar{display:none}
+.fz-carrusel .fz-prod{flex:0 0 46%;max-width:200px;margin:0;scroll-snap-align:start}
+.fz-prod-nota{display:block;font-size:var(--letra-chica);line-height:1.35;color:var(--texto-suave);margin:0 6px 8px}
+
+/* --- «¿Tenés un emprendimiento?» --- */
 .fz-sumate{
-  margin:26px 0 8px;padding:16px;
-  border:2px dashed var(--tinta-borde);border-radius:var(--radio)
+  margin:26px 0 8px;padding:18px 16px;border-radius:var(--radio-grande, var(--radio));
+  background:var(--negro);color:var(--sobre-negro)
 }
 .fz-sumate h2{
   margin:0 0 6px;font-family:var(--fuente-titulo);font-weight:400;
-  font-size:var(--letra-guia);line-height:1.1
+  font-size:var(--letra-sub);line-height:1.1
 }
-.fz-sumate p{margin:0 0 12px}
-.fz-sumate p:last-child{margin:12px 0 0}
-.fz-sumate a:not(.boton){text-decoration:underline}
+.fz-sumate p{margin:0 0 14px;color:var(--sobre-negro-suave)}
+.fz-sumate p:last-child{margin:14px 0 0;font-size:var(--letra-chica)}
+.fz-sumate a:not(.boton){color:var(--sobre-negro);text-decoration:underline}
+.fz-sumate a:focus-visible{outline-color:var(--amarillo)}
+
+/* ==========================================================
+   EL FORMULARIO (`feriazo/sumar/`) y la revisión (`cargar/`)
+   ========================================================== */
+
+/* Lo ya mandado, con su estado dicho en palabras */
+.fz-mio{
+  display:flex;align-items:center;gap:12px;padding:12px 14px;margin:0 0 8px;
+  background:var(--superficie);border:1px solid var(--linea);
+  border-radius:var(--radio);box-shadow:var(--sombra-1)
+}
+.fz-mio-texto{flex:1 1 auto;min-width:0}
+.fz-mio-texto b{display:block;overflow-wrap:anywhere}
+.fz-mio-texto span{display:block;font-size:var(--letra-chica);color:var(--texto-suave)}
+.fz-mio-sello{flex:0 0 40px;width:40px;height:40px;border-radius:99px}
+
+/* Opciones de a una: el elegido lleva anillo de tinta, no amarillo
+   (el amarillo de esta pantalla es «Enviar para revisión»). */
+.fz-opciones{display:grid;grid-template-columns:repeat(2, minmax(0, 1fr));gap:8px}
+.fz-opciones.de-tres{grid-template-columns:repeat(3, minmax(0, 1fr))}
+.fz-opcion{
+  display:flex;flex-direction:column;justify-content:center;gap:2px;min-height:52px;
+  padding:8px 12px;border:1px solid var(--linea);border-radius:var(--radio);
+  background:var(--superficie);color:var(--texto);text-align:left;cursor:pointer;
+  font-family:var(--fuente-texto);font-size:var(--letra-nota);
+  transition:box-shadow var(--t-chico) ease
+}
+.fz-opcion small{font-size:var(--letra-mini);color:var(--texto-suave);font-weight:400}
+.fz-opcion[aria-pressed="true"]{box-shadow:0 0 0 2px var(--texto);font-weight:700}
+
+.fz-muestras{display:flex;justify-content:space-between;gap:4px;margin:0 0 16px}
+.fz-muestra{
+  width:44px;height:44px;flex:0 0 auto;padding:0;cursor:pointer;
+  border-radius:99px;border:1px solid var(--linea);
+  transition:box-shadow var(--t-chico) ease
+}
+.fz-muestra[aria-pressed="true"]{box-shadow:0 0 0 2px var(--fondo), 0 0 0 4px var(--texto)}
+
+/* La vista previa: la tarjeta tal cual va a salir, sobre un fondo
+   suave para que se lea como «esto es una muestra». */
+.fz-vista{
+  display:flex;justify-content:center;padding:18px 0;margin:0 0 16px;
+  background:var(--superficie-2);border-radius:var(--radio-grande, var(--radio))
+}
+.fz-vista .fz-puesto{width:190px;margin:0}
+
+.fz-fila-prod{display:grid;grid-template-columns:56px minmax(0,1fr) 44px;gap:8px;align-items:start;margin:0 0 10px}
+.fz-fila-prod .fz-campos{display:grid;gap:6px;min-width:0}
+.fz-fila-prod input[type="text"],.fz-fila-prod select{
+  width:100%;min-width:0;height:48px;padding:0 10px;
+  font-family:var(--fuente-texto);font-size:16px;
+  border:1px solid var(--linea);border-radius:var(--radio-chico);
+  background:var(--superficie);color:var(--texto)
+}
+/* La foto del producto: el `label` ES el botón, y el campo de archivo
+   queda adentro, invisible pero alcanzable con el teclado. */
+.fz-subir{
+  position:relative;display:flex;align-items:center;justify-content:center;
+  width:56px;height:56px;overflow:hidden;cursor:pointer;
+  border:1.5px dashed var(--texto-suave);border-radius:var(--radio-chico);
+  color:var(--texto-suave);font-size:var(--letra-mini);font-weight:700;
+  letter-spacing:.06em;text-transform:uppercase
+}
+.fz-subir:has(img){border-style:solid;border-color:var(--linea)}
+.fz-subir img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.fz-subir input{position:absolute;inset:0;opacity:0;cursor:pointer}
+.fz-subir:focus-within{outline:3px solid var(--celeste);outline-offset:2px}
+.fz-quitar{
+  width:44px;height:48px;border:0;background:transparent;color:var(--texto-suave);
+  font-size:20px;line-height:1;cursor:pointer;border-radius:var(--radio-chico)
+}
+.fz-acepto{display:flex;gap:12px;align-items:flex-start;min-height:48px;margin:26px 0 16px;line-height:1.4;cursor:pointer}
+.fz-acepto input{flex:0 0 22px;width:22px;height:22px;margin:2px 0 0;accent-color:var(--texto)}
+
+@media (prefers-reduced-motion:reduce){
+  .fz-llegan > *{animation:none}
+  .fz-puesto,.fz-prod,.fz-destacado,.fz-segmento button,.fz-opcion,.fz-muestra,.fz-mezclar svg{transition:none}
+  button.fz-puesto:active,button.fz-prod:active,.fz-destacado:active{transform:none;opacity:.7}
+}

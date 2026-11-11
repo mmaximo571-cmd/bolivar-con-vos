@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Feriazo · La Bolívar con vos</title>
-<meta name="description" content="Los emprendimientos de estudiantes, docentes y no docentes de la Facultad de Trabajo Social de la UNLP, con su Instagram.">
+<meta name="description" content="Los emprendimientos de estudiantes, docentes y no docentes de la Facultad de Trabajo Social de la UNLP, con lo que hace cada uno y cómo escribirle.">
 <meta name="theme-color" content="#F9E830">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -20,7 +20,7 @@
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="La Bolivar con vos">
 <meta property="og:title" content="Feriazo · estudiantes y trabajadores">
-<meta property="og:description" content="Los emprendimientos de la gente de la facu, con su Instagram. Acá no se vende: se conoce.">
+<meta property="og:description" content="Los emprendimientos de la gente de la facu y lo que hace cada uno. Acá no se vende: se conoce.">
 <meta property="og:image" content="https://labolivarconvos.ar/imagenes/compartir.png">
 <meta name="twitter:card" content="summary_large_image">
 <link rel="stylesheet" href="../css/tokens.css">
@@ -60,22 +60,35 @@
   <p class="fz-ceja">Estudiantes y trabajadores</p>
   <h1 class="titulo-pantalla">Feriazo</h1>
   <p class="bajada">
-    Lo que hacen compañeras y compañeros, docentes y no docentes de la
-    facu. <strong>Acá no se compra ni se vende: se conoce.</strong> Si algo
-    te gusta, escribile por su Instagram.
+    Lo que hacen compañeres, docentes y no docentes de la facu.
+    <strong>Acá no se compra ni se vende: se conoce.</strong> Si algo te
+    gusta, le escribís a quien lo hace.
   </p>
 
-  <div class="buscador" style="margin-bottom:6px">
+  <div class="buscador" style="margin-bottom:12px">
     <span class="lupa">🔍</span>
     <input id="filtro" type="search" autocomplete="off"
-           placeholder="Buscar: alfajores, aros, plantas…" aria-label="Buscar un emprendimiento">
+           placeholder="Buscar: alfajores, aros, plantas…" aria-label="Buscar en el Feriazo">
+  </div>
+
+  <!-- Dos formas de mirar lo mismo: por quién lo hace o por lo que hace. -->
+  <div class="pestanas" id="vistas" role="tablist" aria-label="Qué mirar" hidden>
+    <button type="button" class="pestana" role="tab" data-vista="emp" aria-selected="true">Emprendimientos</button>
+    <button type="button" class="pestana" role="tab" data-vista="prod" aria-selected="false">Productos</button>
   </div>
 
   <div class="chips" id="chips" role="group" aria-label="Rubro" hidden></div>
+  <div class="fz-segmento" id="segmento" role="group" hidden></div>
 
-  <p class="letra-chica fz-cuenta" id="cuenta" role="status" aria-live="polite"></p>
+  <div class="fz-barra">
+    <p class="letra-chica fz-cuenta" id="cuenta" role="status" aria-live="polite"></p>
+    <button type="button" class="fz-mezclar" id="mezclar" hidden>
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 7h3c5 0 5 10 10 10h3M4 17h3c1.6 0 2.7-1 3.6-2.3M20 7h-3c-1.6 0-2.7 1-3.6 2.3M17 4l3 3-3 3M17 14l3 3-3 3"/></svg>
+      Mezclar
+    </button>
+  </div>
 
-  <div class="fz-lista" id="lista">
+  <div id="lista">
     <div class="esq-tarjeta"><div class="esqueleto esq-linea titulo"></div><div class="esqueleto esq-linea"></div><div class="esqueleto esq-linea media"></div></div>
     <div class="esq-tarjeta"><div class="esqueleto esq-linea titulo"></div><div class="esqueleto esq-linea"></div><div class="esqueleto esq-linea corta"></div></div>
   </div>
@@ -84,16 +97,24 @@
        quien llega buscando cómo sumarse. -->
   <section class="fz-sumate" aria-labelledby="fz-sumate-titulo">
     <h2 id="fz-sumate-titulo">¿Tenés un emprendimiento?</h2>
-    <p>Mandanos por Instagram el nombre, tu usuario, una línea de qué hacés
-      y una foto o el logo, y lo sumamos. Es gratis y lo carga la agrupación.</p>
-    <a class="boton" href="https://www.instagram.com/SimonBolivarfts" target="_blank"
-       rel="noopener">Escribinos a @SimonBolivarfts <span class="solo-lectores">(se abre Instagram)</span></a>
-    <p class="letra-chica">¿Ya está y querés cambiar algo, o bajarlo? Pedilo por
-      <a href="../decilo/">Decilo</a>.</p>
+    <p>Sumalo vos: son cinco pasos cortos y elegís cómo se ve tu tarjeta.
+      Lo revisa la agrupación antes de publicarlo. Es gratis.</p>
+    <a class="boton" href="sumar/">Sumar el mío</a>
+    <p>¿No tenés cuenta en la app o preferís que lo carguemos? Escribinos a
+      <a href="https://www.instagram.com/SimonBolivarfts" target="_blank" rel="noopener">@SimonBolivarfts
+      <span class="solo-lectores">(se abre Instagram)</span></a>.</p>
   </section>
 </main>
 
 <div id="pie"></div>
+
+<!-- La ficha de cada emprendimiento -->
+<div class="hoja-fondo" id="hoja-fondo" hidden>
+  <div class="hoja" role="dialog" aria-modal="true" aria-labelledby="hoja-titulo">
+    <button class="hoja-cerrar" id="hoja-cerrar" aria-label="Cerrar">✕</button>
+    <div id="hoja-cuerpo"></div>
+  </div>
+</div>
 
 <script>window.RAIZ = '../';</script>
 <!-- El cliente CHICO: esta pantalla solo lee datos públicos. -->
@@ -103,6 +124,9 @@
 <script src="../lib/mudanza.js"></script>
 <script src="../app.js"></script>
 <script src="../fondo-red.js"></script>
+<!-- Las listas, el sello y la tarjeta: los comparte con el formulario
+     y con la revisión del equipo. -->
+<script src="../lib/feriazo.js"></script>
 <script>
 (async function feriazo(){
 
@@ -110,38 +134,26 @@
   document.getElementById('pie').innerHTML = htmlPie();
   pintarNav('feriazo');
 
-  const lista  = document.getElementById('lista');
-  const chips  = document.getElementById('chips');
-  const filtro = document.getElementById('filtro');
-  const cuenta = document.getElementById('cuenta');
-
-  /* La misma lista que el `check` de `sql/tabla-feriazo.sql` y que
-     `cargar/feriazo.js`: si se agrega un rubro, va en los tres. */
-  const RUBROS_FERIAZO = {
-    comida:    { texto:'Comida',            emoji:'🍪' },
-    ropa:      { texto:'Ropa y accesorios', emoji:'👕' },
-    arte:      { texto:'Arte y artesanías', emoji:'🎨' },
-    bienestar: { texto:'Cosmética y bienestar', emoji:'🌿' },
-    plantas:   { texto:'Plantas y huerta',  emoji:'🪴' },
-    libros:    { texto:'Libros y papelería', emoji:'📓' },
-    servicios: { texto:'Servicios y clases', emoji:'🛠' },
-    otros:     { texto:'Otros',             emoji:'✨' }
-  };
-
-  const CARRERA = { ts:'Trabajo Social', fono:'Fonoaudiología', tgcr:'Gestión del Riesgo' };
-
-  /* «Estudiante de Trabajo Social», «Docente de Fono», «No docente». */
-  function quienLoHace(e){
-    const base = { estudiante:'Estudiante', docente:'Docente', nodocente:'No docente' }[e.quien] || '';
-    return base && e.carrera && CARRERA[e.carrera] ? base + ' de ' + CARRERA[e.carrera] : base;
-  }
+  const lista    = document.getElementById('lista');
+  const chips    = document.getElementById('chips');
+  const segmento = document.getElementById('segmento');
+  const vistas   = document.getElementById('vistas');
+  const filtro   = document.getElementById('filtro');
+  const cuenta   = document.getElementById('cuenta');
+  const mezclarB = document.getElementById('mezclar');
+  /* La hoja de la ficha. Va acá arriba y no al lado de `abrirFicha`:
+     lo guardado de la visita anterior se engancha antes de que el
+     guion llegue hasta allá, y una `const` todavía no existiría. */
+  const fondo  = document.getElementById('hoja-fondo');
+  const cuerpo = document.getElementById('hoja-cuerpo');
+  let quienAbrio = null;
 
   /* EL ORDEN SE MEZCLA EN CADA VISITA. En orden alfabético, «Alfajores
      Ana» sale siempre primero y «Zapatillas Zoe» siempre al fondo, que
      es donde no llega nadie. Mezclado, cada emprendimiento tiene las
      mismas chances de ser el primero que alguien ve. Se mezcla UNA vez
-     por visita: si se mezclara al filtrar, la lista saltaría cada vez
-     que se toca un chip. */
+     por visita y cuando se toca «Mezclar»: si se mezclara al filtrar,
+     la lista saltaría cada vez que se toca un chip. */
   function mezclar(filas){
     const a = filas.slice();
     for (let i = a.length - 1; i > 0; i--){
@@ -151,9 +163,20 @@
     return a;
   }
 
-  let todos = [];
+  let todos = [];             // emprendimientos, cada uno con sus `productos`
+  let productos = [];         // todos los productos, mezclados, con `de` (su emprendimiento)
+  let vista = 'emp';          // 'emp' | 'prod'
   let rubroActivo = null;     // null = todos
+  let quienActivo = null;     // en Emprendimientos
+  let modoActivo = null;      // en Productos
   let enganchado = false;
+  let llegan = true;          // la próxima vez que se dibuje, las tarjetas entran de a una
+
+  function ordenar(filas){
+    todos = mezclar(filas);
+    productos = mezclar(todos.flatMap(e => (e.productos || []).map(p => Object.assign({ de: e }, p))));
+    llegan = true;
+  }
 
   /* ============================================================
      LO GUARDADO DE LA VISITA ANTERIOR
@@ -163,23 +186,43 @@
      ============================================================ */
   const memoria = memoriaDe('feriazo');
   if (memoria && (memoria.datos || []).length){
-    todos = mezclar(memoria.datos);
+    ordenar(memoria.datos);
     dibujar();
     enganchar();
     avisarMostrandoGuardado(memoria.cuando);
   }
 
+  /* DOS PEDIDOS Y NO UNO CON LOS PRODUCTOS ADENTRO: el cliente chico
+     no sabe traer una tabla metida en otra.
+     Si la base todavía no tiene lo del 11/11/2026 (el sello y los
+     productos), se pide lo de antes: la pantalla anda igual, sin
+     productos y con todas las tarjetas del mismo tinte, hasta que se
+     corra `sql/tabla-feriazo.sql`. */
+  const COLUMNAS_DE_ANTES = 'id,nombre,instagram,descripcion,rubro,quien,carrera,foto';
   let frescos = null;
   try {
-    const { data, error } = await conPaciencia(
+    let r = await conPaciencia(
       db.from('feriazo')
-        .select('id,nombre,instagram,descripcion,rubro,quien,carrera,foto')
+        .select(COLUMNAS_DE_ANTES + ',whatsapp,tinte,portada,frase,etiquetas')
         .eq('publicado', true));
-    if (error) throw error;
-    frescos = data || [];
+    let deProductos = [];
+    if (r.error){
+      r = await conPaciencia(db.from('feriazo').select(COLUMNAS_DE_ANTES).eq('publicado', true));
+      if (r.error) throw r.error;
+    } else {
+      const p = await conPaciencia(
+        db.from('feriazo_productos')
+          .select('id,feriazo_id,nombre,nota,modo,foto')
+          .order('orden'));
+      if (!p.error) deProductos = p.data || [];
+    }
+    frescos = (r.data || []).map(e => Object.assign({}, e, {
+      productos: deProductos.filter(p => p.feriazo_id === e.id)
+    }));
   } catch (e) {
     if (memoria){
       avisarNoSePudoActualizar(memoria.cuando);
+      abrirLaDelEnlace();
       return;
     }
     if (e && /feriazo/.test(e.message || '')){
@@ -201,104 +244,269 @@
         Todavía no hay emprendimientos cargados.<br>
         <small>Si tenés uno, sé el primero: abajo dice cómo.</small>
       </div>`;
-    chips.hidden = true;
+    chips.hidden = segmento.hidden = vistas.hidden = mezclarB.hidden = true;
     filtro.parentElement.hidden = true;
     return;
   }
 
-  todos = mezclar(frescos);
+  /* Si ya se estaba mirando lo guardado, lo nuevo entra sin la llegada
+     escalonada: que la lista se rearme sola a los dos segundos ya es
+     bastante movimiento que nadie pidió. */
+  const yaHabia = todos.length > 0;
+  ordenar(frescos);
+  if (yaHabia) llegan = false;
   guardarEnMemoria('feriazo', frescos);
   dibujar();
   enganchar();
   sacarAvisoGuardado();
+  abrirLaDelEnlace();
 
 
-  /* ---------- Los chips de rubro ---------- */
-  function pintarChips(){
-    /* Solo los rubros que tienen algo: un chip que lleva a una lista
-       vacía es una promesa que no se cumple. Con uno solo, no hay nada
-       que elegir. */
-    const conDatos = Object.keys(RUBROS_FERIAZO).filter(r => todos.some(x => x.rubro === r));
-    if (conDatos.length < 2){ chips.hidden = true; return; }
+  /* ---------- Los filtros ---------- */
+  function pintarFiltros(){
+    /* La pestaña Productos aparece recién cuando hay alguno: una
+       pestaña que lleva a una lista vacía es una promesa que no se
+       cumple. */
+    vistas.hidden = !productos.length;
+    if (!productos.length) vista = 'emp';
+    vistas.querySelectorAll('[data-vista]').forEach(b =>
+      b.setAttribute('aria-selected', String(b.dataset.vista === vista)));
+    moverSubrayado();
+
+    /* Solo los rubros que tienen algo en la vista que se mira. Con uno
+       solo, no hay nada que elegir. */
+    const tiene = r => vista === 'emp' ? todos.some(x => x.rubro === r)
+                                       : productos.some(p => p.de.rubro === r);
+    const conDatos = Object.keys(RUBROS_FERIAZO).filter(tiene);
     if (rubroActivo && !conDatos.includes(rubroActivo)) rubroActivo = null;
-    chips.hidden = false;
-    chips.innerHTML =
-      `<button class="chip" data-rubro="" aria-pressed="${rubroActivo ? 'false' : 'true'}">Todos</button>` +
-      conDatos.map(r => `
-        <button class="chip" data-rubro="${esc(r)}" aria-pressed="${r === rubroActivo}">
-          <span aria-hidden="true">${RUBROS_FERIAZO[r].emoji}</span> ${esc(RUBROS_FERIAZO[r].texto)}</button>`).join('');
+    chips.hidden = conDatos.length < 2;
+    if (!chips.hidden){
+      chips.innerHTML =
+        `<button class="chip" data-rubro="" aria-pressed="${rubroActivo ? 'false' : 'true'}">Todos</button>` +
+        conDatos.map(r => `
+          <button class="chip" data-rubro="${esc(r)}" aria-pressed="${r === rubroActivo}">
+            <span aria-hidden="true">${RUBROS_FERIAZO[r].emoji}</span> ${esc(RUBROS_FERIAZO[r].texto)}</button>`).join('');
+    }
+
+    /* El segundo corte cambia con la vista: de un emprendimiento
+       importa quién lo hace; de un producto, cómo se consigue. */
+    const opciones = vista === 'emp'
+      ? [['', 'Todes'], ['estudiante', 'Estudiantes'], ['docente', 'Docentes'], ['nodocente', 'No docentes']]
+          .filter(o => !o[0] || todos.some(e => e.quien === o[0]))
+      : [['', 'Todo'], ['pedido', 'A pedido'], ['stock', 'Hay stock'], ['servicio', 'Servicios']]
+          .filter(o => !o[0] || productos.some(p => p.modo === o[0]));
+    const activo = vista === 'emp' ? quienActivo : modoActivo;
+    segmento.hidden = opciones.length < 3;
+    segmento.setAttribute('aria-label', vista === 'emp' ? 'Quién lo hace' : 'Cómo se consigue');
+    segmento.innerHTML = opciones.map(o =>
+      `<button type="button" data-corte="${o[0]}" aria-pressed="${(activo || '') === o[0]}">${o[1]}</button>`).join('');
   }
 
-  /* ---------- Una tarjeta ---------- */
-  /* `function` y no `const`: lo guardado se dibuja arriba de todo,
-     antes de que este renglón se lea, y una `const` todavía no existe. */
-  function inicial(e){ return (e.nombre || '?').trim().charAt(0).toUpperCase(); }
-  function htmlInicial(letra){
-    return `<span class="fz-foto fz-inicial" aria-hidden="true">${esc(letra)}</span>`;
+  /* El subrayado de las pestañas viaja (ver `css/base/05-secciones.css`):
+     hay que decirle dónde está la elegida y cuánto mide. */
+  function moverSubrayado(){
+    const elegida = vistas.querySelector('[aria-selected="true"]');
+    if (vistas.hidden || !elegida || !elegida.offsetWidth) return;
+    vistas.style.setProperty('--pestana-x', elegida.offsetLeft + 'px');
+    vistas.style.setProperty('--pestana-ancho', elegida.offsetWidth);
   }
+  window.addEventListener('resize', moverSubrayado);
 
-  function htmlTarjeta(e){
-    const rubro = RUBROS_FERIAZO[e.rubro] || RUBROS_FERIAZO.otros;
-    const quien = quienLoHace(e);
-    /* El usuario ya viene limpio de la base (el `check` solo deja
-       letras, números, punto y guion bajo); igual se escapa, porque
-       esta pantalla no tiene por qué confiar en eso. */
-    const ig = encodeURIComponent(e.instagram);
-    /* Sin foto, la inicial sobre amarillo: la tarjeta mide lo mismo y
-       la lista no queda dentada. */
-    const foto = /^https:\/\//i.test(e.foto || '')
-      ? `<img class="fz-foto" src="${esc(e.foto)}" alt="" width="96" height="96"
-              loading="lazy" decoding="async" data-inicial="${esc(inicial(e))}">`
-      : htmlInicial(inicial(e));
+  /* ---------- Un producto ---------- */
+  function htmlProducto(p, e, atributos){
+    const foto = /^https:\/\//i.test(p.foto || '')
+      ? `<img src="${esc(urlSegura(p.foto))}" alt="" loading="lazy" decoding="async">`
+      : `<span class="fz-inicial" aria-hidden="true">${esc(inicialesFeriazo(p.nombre))}</span>`;
+    const marca = atributos ? 'button type="button"' : 'div';
     return `
-      <article class="tarjeta fz-tarjeta">
-        ${foto}
-        <div class="fz-texto">
-          <h2 class="fz-nombre">${esc(e.nombre)}</h2>
-          <p class="fz-meta"><span aria-hidden="true">${rubro.emoji}</span> ${esc(rubro.texto)}${
-            quien ? ' · ' + esc(quien) : ''}</p>
-          <p class="fz-desc">${esc(e.descripcion)}</p>
-          <a class="fz-ig" href="https://www.instagram.com/${ig}/" target="_blank" rel="noopener">
-            @${esc(e.instagram)} <span class="solo-lectores">en Instagram (se abre aparte)</span></a>
-        </div>
-      </article>`;
+      <${marca} class="fz-prod" ${atributos || ''}>
+        <span class="fz-prod-foto fz-t-${tinteFeriazo(e)}${Number(p.id) % 2 ? ' alta' : ''}">${foto}</span>
+        <span class="fz-prod-nombre">${esc(p.nombre)}</span>
+        ${atributos ? `<span class="fz-prod-de">de ${esc(e.nombre)}</span>`
+                    : (p.nota ? `<span class="fz-prod-nota">${esc(p.nota)}</span>` : '')}
+        <span class="fz-modo ${esc(p.modo)}">${esc(MODOS_FERIAZO[p.modo] || MODOS_FERIAZO.pedido)}</span>
+      </${atributos ? 'button' : 'div'}>`;
+  }
+
+  /* ---------- «Hoy te cruzás con»: el primero del mazo, a lo ancho ---------- */
+  function htmlDestacado(e){
+    const rubro = RUBROS_FERIAZO[e.rubro] || RUBROS_FERIAZO.otros;
+    return `
+      <button type="button" class="fz-destacado" data-abrir="${esc(e.id)}">
+        ${htmlPortadaFeriazo(e, 3)}
+        <span class="fz-cuerpo">
+          <span class="fz-destacado-ceja">Hoy te cruzás con</span>
+          <span class="fz-nombre">${esc(e.nombre)}</span>
+          <span class="fz-destacado-desc">${esc(e.descripcion)}</span>
+          <span class="etiqueta">${esc(rubro.texto)}</span>
+        </span>
+      </button>`;
   }
 
   /* ---------- La lista ---------- */
+  function coincide(e, busca){
+    return normalizar(e.nombre).includes(busca) ||
+      normalizar(e.descripcion).includes(busca) ||
+      normalizar(e.instagram || '').includes(busca) ||
+      normalizar((RUBROS_FERIAZO[e.rubro] || {}).texto).includes(busca) ||
+      (e.etiquetas || []).some(t => normalizar(t).includes(busca));
+  }
+
   function dibujar(){
-    pintarChips();
+    pintarFiltros();
 
     const busca = normalizar(filtro.value.trim());
+    const esEmp = vista === 'emp';
+    const total = esEmp ? todos.length : productos.length;
 
-    /* BUSCAR PISA EL CHIP, igual que en Cátedras: quien escribe
-       «alfajores» quiere encontrarlos, esté el chip que esté. */
-    const filas = busca
-      ? todos.filter(e =>
-          normalizar(e.nombre).includes(busca) ||
-          normalizar(e.descripcion).includes(busca) ||
-          normalizar(e.instagram).includes(busca) ||
-          normalizar((RUBROS_FERIAZO[e.rubro] || {}).texto).includes(busca))
-      : todos.filter(e => !rubroActivo || e.rubro === rubroActivo);
+    /* BUSCAR PISA LOS FILTROS, igual que en Cátedras: quien escribe
+       «alfajores» quiere encontrarlos, esté el chip que esté. Y busca
+       también adentro de los productos: «budín» encuentra a quien lo
+       hace aunque su tarjeta no lo diga. */
+    let filas;
+    if (esEmp){
+      filas = busca
+        ? todos.filter(e => coincide(e, busca) ||
+            (e.productos || []).some(p => normalizar(p.nombre).includes(busca)))
+        : todos.filter(e => (!rubroActivo || e.rubro === rubroActivo) &&
+                            (!quienActivo || e.quien === quienActivo));
+    } else {
+      filas = busca
+        ? productos.filter(p => normalizar(p.nombre).includes(busca) ||
+            normalizar(p.nota || '').includes(busca) || coincide(p.de, busca))
+        : productos.filter(p => (!rubroActivo || p.de.rubro === rubroActivo) &&
+                                (!modoActivo || p.modo === modoActivo));
+    }
 
-    cuenta.textContent = filas.length === todos.length
-      ? `${todos.length} emprendimiento${todos.length === 1 ? '' : 's'} · el orden se mezcla en cada visita`
-      : `${filas.length} de ${todos.length}`;
+    const que = esEmp ? ['emprendimiento', 'emprendimientos'] : ['producto', 'productos'];
+    cuenta.textContent = filas.length === total
+      ? `${total} ${que[total === 1 ? 0 : 1]}`
+      : `${filas.length} de ${total}`;
+    /* Mezclar tiene sentido cuando hay un mazo: con dos tarjetas es un
+       botón que no hace nada que se note. */
+    mezclarB.hidden = total < 4;
 
     if (!filas.length){
       lista.innerHTML = `<div class="vacio">
-          No encontramos ningún emprendimiento con eso.<br>
-          <small>Probá con otra palabra, o mirá todos.</small>
+          No encontramos nada con eso.<br>
+          <small>Probá con otra palabra, o sacá los filtros.</small>
         </div>`;
       return;
     }
-    lista.innerHTML = filas.map(htmlTarjeta).join('');
+
+    /* El destacado va solo cuando se mira todo, sin buscar ni filtrar:
+       con un filtro puesto, «hoy te cruzás con» uno que no pediste
+       estorba. */
+    const sinFiltros = !busca && !rubroActivo && !quienActivo;
+    const conDestacado = esEmp && sinFiltros && filas.length >= 4;
+    const resto = conDestacado ? filas.slice(1) : filas;
+    const retraso = i => `style="--i:${Math.min(i, 10)}"`;
+
+    lista.innerHTML =
+      (conDestacado ? htmlDestacado(filas[0]) : '') +
+      `<div class="fz-mosaico${llegan ? ' fz-llegan' : ''}">${
+        esEmp ? resto.map((e, i) => htmlTarjetaFeriazo(e, `data-abrir="${esc(e.id)}" ${retraso(i)}`)).join('')
+              : resto.map((p, i) => htmlProducto(p, p.de, `data-abrir="${esc(p.de.id)}" ${retraso(i)}`)).join('')
+      }</div>`;
+    llegan = false;
 
     /* Una foto que ya no está (se borró del depósito y quedó la lista
-       guardada de ayer) se ve como imagen rota. Mejor la inicial. */
-    lista.querySelectorAll('img.fz-foto').forEach(img =>
-      img.addEventListener('error', () => {
-        img.outerHTML = htmlInicial(img.dataset.inicial || '?');
-      }, { once: true }));
+       guardada de ayer) se ve como imagen rota. Mejor sin ella. */
+    lista.querySelectorAll('img').forEach(img =>
+      img.addEventListener('error', () => img.remove(), { once: true }));
+  }
+
+  /* ============================================================
+     LA FICHA
+     ============================================================ */
+  /* La dirección de la ficha, para compartirla: `…/feriazo/?e=12`. */
+  function direccionDe(id){
+    const u = new URL(location.href);
+    u.search = ''; u.hash = '';
+    if (id != null) u.searchParams.set('e', id);
+    return u.toString();
+  }
+
+  function abrirFicha(id, desde){
+    const e = todos.find(x => String(x.id) === String(id));
+    if (!e) return;
+    quienAbrio = desde || null;
+
+    const rubro = RUBROS_FERIAZO[e.rubro] || RUBROS_FERIAZO.otros;
+    const quien = quienLoHaceFeriazo(e);
+    const prods = e.productos || [];
+    const saludo = encodeURIComponent(`Hola. Vi «${e.nombre}» en el Feriazo de La Bolívar con vos.`);
+
+    /* El primer contacto que haya es el botón amarillo; el otro, de
+       borde. El usuario ya viene limpio de la base, igual se escapa:
+       esta pantalla no tiene por qué confiar en eso. */
+    const contactos = [];
+    if (e.instagram) contactos.push(
+      `href="https://www.instagram.com/${encodeURIComponent(e.instagram)}/">Escribile por Instagram
+         <span class="solo-lectores">a @${esc(e.instagram)} (se abre aparte)</span>`);
+    if (/^[0-9]{10,15}$/.test(e.whatsapp || '')) contactos.push(
+      `href="https://wa.me/${e.whatsapp}?text=${saludo}">Escribile por WhatsApp
+         <span class="solo-lectores">(se abre aparte)</span>`);
+
+    cuerpo.innerHTML = `
+      <div class="fz-banda fz-t-${tinteFeriazo(e)}">
+        ${htmlLogoFeriazo(e)}
+        <span class="fz-banda-ceja">${esc(rubro.texto)}${quien ? ' · ' + esc(quien) : ''}</span>
+        <h2 id="hoja-titulo" tabindex="-1">${esc(e.nombre)}</h2>
+      </div>
+      <p class="fz-desc">${esc(e.descripcion)}</p>
+      ${(e.etiquetas || []).length ? `<div class="fz-etiquetas">${
+        e.etiquetas.map(t => `<span class="etiqueta">${esc(t)}</span>`).join('')}</div>` : ''}
+      <div class="fz-contactos">
+        ${contactos.map((c, i) =>
+          `<a class="boton ancho${i ? ' borde' : ''}" target="_blank" rel="noopener" ${c}</a>`).join('')}
+        <button type="button" class="boton ancho texto" id="fz-compartir">Compartir este emprendimiento</button>
+      </div>
+      <p class="fz-nota" id="fz-compartido" role="status" aria-live="polite"></p>
+      ${prods.length ? `
+        <h3 class="titulo-seccion">Lo que hace</h3>
+        <div class="fz-carrusel">${prods.map(p => htmlProducto(p, e, '')).join('')}</div>` : ''}
+      <p class="fz-nota" style="margin-top:18px">El trato es directo con quien lo hace: precios,
+        entregas y pedidos se arreglan por mensaje.</p>`;
+
+    cuerpo.querySelectorAll('img').forEach(img =>
+      img.addEventListener('error', () => img.remove(), { once: true }));
+
+    document.getElementById('fz-compartir').onclick = async function(){
+      const dato = { title: e.nombre, text: `${e.nombre}, en el Feriazo de La Bolívar con vos`, url: direccionDe(e.id) };
+      const aviso = document.getElementById('fz-compartido');
+      try {
+        if (navigator.share) await navigator.share(dato);
+        else {
+          await navigator.clipboard.writeText(dato.url);
+          aviso.textContent = 'Enlace copiado. Pegalo donde quieras.';
+        }
+      } catch (err){
+        /* Cerrar el menú de compartir sin elegir nada no es un error. */
+        if (err && err.name !== 'AbortError') aviso.textContent = 'No se pudo compartir. El enlace es ' + dato.url;
+      }
+    };
+
+    fondo.hidden = false;
+    document.body.style.overflow = 'hidden';
+    history.replaceState(null, '', direccionDe(e.id));
+    document.getElementById('hoja-cerrar').focus();
+  }
+
+  function cerrarFicha(){
+    fondo.hidden = true;
+    document.body.style.overflow = '';
+    history.replaceState(null, '', direccionDe(null));
+    /* El foco vuelve a la tarjeta que la abrió, si sigue ahí: con
+       lector de pantalla, cerrar no puede mandarte al principio. */
+    if (quienAbrio && document.contains(quienAbrio)) quienAbrio.focus();
+    quienAbrio = null;
+  }
+
+  /* Quien llega con un enlace compartido cae derecho en esa ficha. */
+  function abrirLaDelEnlace(){
+    const id = new URLSearchParams(location.search).get('e');
+    if (id && fondo.hidden) abrirFicha(id, null);
   }
 
   /* ---------- Enganchar una sola vez ---------- */
@@ -311,12 +519,48 @@
       dibujar();
     });
 
+    vistas.addEventListener('click', function(ev){
+      const b = ev.target.closest('[data-vista]');
+      if (!b || b.dataset.vista === vista) return;
+      vista = b.dataset.vista;
+      rubroActivo = null;
+      filtro.value = '';
+      llegan = true;
+      dibujar();
+    });
+
     chips.addEventListener('click', function(ev){
       const b = ev.target.closest('[data-rubro]');
       if (!b) return;
       rubroActivo = b.dataset.rubro || null;
       filtro.value = '';
       dibujar();
+    });
+
+    segmento.addEventListener('click', function(ev){
+      const b = ev.target.closest('[data-corte]');
+      if (!b) return;
+      if (vista === 'emp') quienActivo = b.dataset.corte || null;
+      else modoActivo = b.dataset.corte || null;
+      filtro.value = '';
+      dibujar();
+    });
+
+    mezclarB.addEventListener('click', function(){
+      ordenar(todos);
+      mezclarB.classList.toggle('girando');
+      dibujar();
+    });
+
+    lista.addEventListener('click', function(ev){
+      const b = ev.target.closest('[data-abrir]');
+      if (b) abrirFicha(b.dataset.abrir, b);
+    });
+
+    document.getElementById('hoja-cerrar').addEventListener('click', cerrarFicha);
+    fondo.addEventListener('click', e => { if (e.target === fondo) cerrarFicha(); });
+    document.addEventListener('keydown', e => {
+      if (e.key === 'Escape' && !fondo.hidden) cerrarFicha();
     });
   }
 
