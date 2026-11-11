@@ -581,10 +581,16 @@ function olvidarCopiaCursada(){
    preguntando. `carreraElegidaApp` distingue eso; `carreraActual`, no.
 
    Si alguna vez hay una cuarta carrera, se agrega acá y en carrera/.
+
+   EL PROFESORADO EN TRABAJO SOCIAL (11/11/2026) no es una cuarta:
+   comparte las cátedras, los programas y las fichas, así que para la
+   app es 'ts'. Solo Mi año dibuja su plan aparte (carrera/plan-prof.js
+   y `planTs` en la llave). Por eso el botón dice «Trabajo Social» y
+   no «Lic.»: a quien hace el Profesorado no le dice otra carrera.
    ============================================================ */
 const CARRERAS_APP = [
-  { id:'ts',   corto:'Trabajo Social',     menu:'Lic. en Trabajo Social',
-    largo:'Licenciatura en Trabajo Social' },
+  { id:'ts',   corto:'Trabajo Social',     menu:'Trabajo Social',
+    largo:'Licenciatura o Profesorado en Trabajo Social' },
   { id:'tgcr', corto:'Gestión del Riesgo', menu:'Tec. en Gestión del Riesgo',
     largo:'Tecnicatura en Gestión Comunitaria del Riesgo' },
   { id:'fono', corto:'Fonoaudiología',     menu:'Lic. en Fonoaudiología',

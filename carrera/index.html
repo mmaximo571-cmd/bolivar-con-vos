@@ -304,6 +304,7 @@
 <script src="../app.js"></script>
 <script src="../fondo-red.js"></script>
 <script src="plan.js"></script>
+<script src="plan-prof.js"></script>
 <script src="plan-tgcr.js"></script>
 <script src="plan-fono.js"></script>
 <script src="../lib/leer-analitico.js"></script>
@@ -334,10 +335,32 @@ document.getElementById('pie').innerHTML = htmlPie();
 pintarNav('carrera');
 
 /* ============================================================
-   LAS TRES CARRERAS
+   LAS CUATRO CARRERAS
    El orden de acá es el orden en que aparecen los botones de arriba.
+
+   EL PROFESORADO (11/11/2026) es una carrera en esta pantalla y
+   Trabajo Social en todas las demás: su plan trae `carreraApp:'ts'`
+   (ver carrera/plan-prof.js). De ahí salen dos ids:
+     · PLAN.id      qué plan se dibuja ('prof'): los botones de arriba
+     · idApp(PLAN)  la carrera para el resto ('ts'): lo que lee el menú
+                    ☰ y el inicio, lo que se consulta en la base, y el
+                    lugar donde se guarda lo marcado (que comparte con
+                    la Licenciatura: los códigos son los mismos)
+   Qué plan de Trabajo Social se está mirando se guarda aparte, en
+   `guardado.planTs`, para que `guardado.carrera` siga diciendo 'ts'
+   y ninguna otra pantalla tenga que saber que el Profesorado existe.
    ============================================================ */
-const CARRERAS = [window.PLAN_TS, window.PLAN_TGCR, window.PLAN_FONO];
+const CARRERAS = [window.PLAN_TS, window.PLAN_PROF, window.PLAN_TGCR, window.PLAN_FONO];
+
+const idApp = p => p.carreraApp || p.id;
+
+/* El plan que corresponde a lo guardado: la carrera, y si es Trabajo
+   Social, cuál de los dos. */
+function planGuardado(g){
+  g = g || guardado;
+  const c = g.carrera || 'ts';
+  return c === 'ts' && g.planTs === 'prof' ? 'prof' : c;
+}
 
 /* Estas cuatro cambian cada vez que se elige otra carrera */
 let PLAN, MATERIAS, POR_COD, HABILITA, datos;
@@ -586,11 +609,13 @@ function elegirCarrera(id){
     if (HABILITA[c] && HABILITA[c].indexOf(m.cod) === -1) HABILITA[c].push(m.cod);
   }));
 
-  guardado.carrera = PLAN.id;
-  if (!guardado.datos[PLAN.id]) {
-    guardado.datos[PLAN.id] = { estados:{}, notas:{}, fechas:{}, suponer:false, idioma:false };
+  guardado.carrera = idApp(PLAN);
+  if (PLAN.carreraApp) guardado.planTs = PLAN.id;
+  else delete guardado.planTs;
+  if (!guardado.datos[idApp(PLAN)]) {
+    guardado.datos[idApp(PLAN)] = { estados:{}, notas:{}, fechas:{}, suponer:false, idioma:false };
   }
-  datos = guardado.datos[PLAN.id];
+  datos = guardado.datos[idApp(PLAN)];
   if (!datos.estados) datos.estados = {};
   /* Quien ya venía usando la app no tenía notas guardadas */
   if (!datos.notas) datos.notas = {};
@@ -709,7 +734,7 @@ function pintarProgreso(){
     localStorage.setItem('bolivar-carrera-resumen', JSON.stringify({
       /* `id` le dice al inicio de qué carrera es: si la persona
          después elige otra, no le muestra esta barra. */
-      id: PLAN.id, carrera: PLAN.nombreCorto, aprobadas: aprobadas, total: total,
+      id: idApp(PLAN), carrera: PLAN.nombreCorto, aprobadas: aprobadas, total: total,
       cursadas: cursadas, cursando: cursandoAhora
     }));
   } catch(e){ /* modo incógnito: la tarjeta muestra la invitación */ }
@@ -2000,7 +2025,7 @@ function indexarCatedras(filas){
 }
 
 async function cargarCatedras(){
-  const llave = 'catedras-' + PLAN.id;
+  const llave = 'catedras-' + idApp(PLAN);
 
   /* Primero lo guardado, para que la ficha no espere nada. */
   const m = memoriaDe(llave);
@@ -2009,7 +2034,7 @@ async function cargarCatedras(){
   try {
     const { data, error } = await db.from('catedras')
       .select('materia_cod,mails,telefono')
-      .eq('carrera', PLAN.id).eq('publicado', true);
+      .eq('carrera', idApp(PLAN)).eq('publicado', true);
     if (error) return;
 
     if (!data || !data.length){
@@ -2665,8 +2690,12 @@ function huellaAno(g){
       ['estados', 'notas', 'fechas', 'regular'].every(k => !Object.keys(una[k]).length);
     if (!vacia) porCarrera[id] = una;
   });
-  return JSON.stringify({ carrera: (g && g.carrera) || 'ts',
-    eligio: !!(g && g.eligioCarrera), datos: porCarrera });
+  /* El plan de Trabajo Social entra solo si es el Profesorado: así la
+     huella de quien nunca lo eligió queda igual que antes, y su
+     próxima visita no parece «cambié algo acá». */
+  return JSON.stringify(Object.assign({ carrera: (g && g.carrera) || 'ts',
+    eligio: !!(g && g.eligioCarrera) }, g && g.planTs ? { plan: g.planTs } : {},
+    { datos: porCarrera }));
 }
 
 function hayAlgoEnAno(g){
@@ -2685,6 +2714,10 @@ function juntarAnos(a, b){
     datos: {}
   };
   if (a.momento || b.momento) r.momento = a.momento || b.momento;
+  /* Licenciatura o Profesorado va con la carrera: lo de acá si acá
+     ya se eligió, si no lo de arriba. */
+  const planTs = a.eligioCarrera ? a.planTs : (b.planTs || a.planTs);
+  if (planTs) r.planTs = planTs;
 
   const ids = Object.keys(a.datos || {}).concat(Object.keys(b.datos || {}));
   ids.filter((id, i) => ids.indexOf(id) === i).forEach(id => {
@@ -2729,7 +2762,7 @@ function juntarAnos(a, b){
 function aplicarAno(nuevo){
   guardado = Object.assign({ carrera:'ts', datos:{} }, JSON.parse(JSON.stringify(nuevo)));
   if (!guardado.datos) guardado.datos = {};
-  elegirCarrera(guardado.carrera || 'ts');      /* esto ya lo guarda en el teléfono */
+  elegirCarrera(planGuardado());      /* esto ya lo guarda en el teléfono */
   if (guardado.eligioCarrera) mostrarBienvenida(false);
   pintarSelectorCarrera();
   pintarTodo();
@@ -2945,7 +2978,9 @@ document.addEventListener('bolivar:carrera', e => {
   const id = e.detail && e.detail.id;
   if (!id) return;
   const estabaPreguntando = !guardado.eligioCarrera;
-  if (id !== PLAN.id) elegirCarrera(id);
+  /* El menú solo sabe de Trabajo Social: si se está mirando el
+     Profesorado y llega 'ts', ya es la carrera que se eligió. */
+  if (id !== idApp(PLAN)) elegirCarrera(id);
   guardado.eligioCarrera = true;
   persistir();
   if (estabaPreguntando) mostrarBienvenida(false);
@@ -3071,7 +3106,7 @@ async function pintarFinal(){
   try {
     const { data, error } = await conPaciencia(
       db.from('preparaciones').select('*')
-        .eq('carrera', PLAN.id).order('mesa_fecha', { nullsFirst:false }));
+        .eq('carrera', idApp(PLAN)).order('mesa_fecha', { nullsFirst:false }));
     if (error) throw error;
     filas = data || [];
   } catch(e){
@@ -3194,7 +3229,7 @@ async function vistaNueva(cod){
   try {
     const { data } = await db.from('programas')
       .select('id,unidades,pdf_url,catedra')
-      .eq('carrera', PLAN.id).eq('materia_cod', cod)
+      .eq('carrera', idApp(PLAN)).eq('materia_cod', cod)
       .eq('publicado', true).limit(1);
     if (data && data.length) programa = data[0];
   } catch(e){ /* sin programa cargado se arranca en blanco */ }
@@ -3270,7 +3305,7 @@ async function vistaNueva(cod){
     const programaId = programa ? programa.id : null;
 
     const { data, error } = await db.from('preparaciones').insert({
-      carrera: PLAN.id, materia_cod: cod, materia: m.nombre,
+      carrera: idApp(PLAN), materia_cod: cod, materia: m.nombre,
       mesa_fecha: fecha, unidades: unidades, programa_id: programaId
     }).select().single();
 
@@ -3650,8 +3685,8 @@ if (location.hash === '#finales') verPestana('final');
    no hace falta acordarse de reabrirlo acá. */
 function empezarDeNuevo(){
   if (!confirm(`¿Borrar todo lo que marcaste en ${PLAN.nombreCorto} y empezar de nuevo?\n\nLo de las otras carreras no se toca.`)) return;
-  guardado.datos[PLAN.id] = { estados:{}, notas:{}, fechas:{}, regular:{}, suponer:false, idioma:false };
-  datos = guardado.datos[PLAN.id];
+  guardado.datos[idApp(PLAN)] = { estados:{}, notas:{}, fechas:{}, regular:{}, suponer:false, idioma:false };
+  datos = guardado.datos[idApp(PLAN)];
   cerrarDialogo();
   persistir();
   pintarTodo();
@@ -3772,7 +3807,9 @@ function pintarDesdeSiu(){
 
   /* siu.paso === 'vista' */
   const l = siu.lectura;
-  const otra = l.carrera && l.carrera !== PLAN.id
+  /* El reporte del SIU de alguien del Profesorado se lee como de
+     Trabajo Social: para esto son la misma carrera. */
+  const otra = l.carrera && l.carrera !== idApp(PLAN)
     ? CARRERAS.filter(c => c && c.id === l.carrera)[0] : null;
   if (otra){
     caja.innerHTML = titulo +
@@ -3886,7 +3923,7 @@ function pintarTodo(){
   moverSubrayado();
 }
 
-elegirCarrera(guardado.carrera || 'ts');
+elegirCarrera(planGuardado());
 
 /* La copia de respaldo. El punto de partida es lo que hay ahora en el
    teléfono: abrir la app no cambió nada, así que no gasta una subida.
