@@ -48,9 +48,13 @@ visitas. De 17.637 visitas, 12 trajeron `?de=`.
    del PDF dice que el asterisco es **«replica cuatrimestre»**, que son
    las mismas diez materias marcadas en la Licenciatura (ver «El asterisco
    (*) del plan de Trabajo Social»: la pregunta abierta probablemente se
-   contesta con esto). **No lo ven todavía** Estudiemos, Mis parciales ni
-   el panel, que siguen con el plan de la Licenciatura para TS: a quien
-   hace el Profesorado no le aparecen ahí sus ocho materias propias.
+   contesta con esto). **El mismo día, fuera de Mi año (v104):** Mis
+   parciales sugiere las materias del Profesorado a quien lo eligió
+   (lee `planTs`), Estudiemos reconoce sus materiales y videos como de
+   Trabajo Social, el lector de programas del panel las reconoce y las
+   guarda con `carrera = 'ts'`, y Cargar las sugiere al escribir.
+   `estudiemos/anterior.html`, la versión vieja de Estudiemos, no se
+   tocó.
    **Los mails de esas ocho cátedras, cargados el 11/11** en `catedras`
    con `carrera = 'ts'` y «(Profesorado)» en el nombre: salen en la ficha
    de cada materia en Mi año y en la pantalla Cátedras, dentro de Trabajo

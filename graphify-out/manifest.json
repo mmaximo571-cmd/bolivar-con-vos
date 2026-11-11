@@ -60,10 +60,10 @@
     "semantic_hash": ""
   },
   "lib/leer-programa.js": {
-    "mtime": 1794148081.9722047,
-    "seen": 1794437017.5608857,
-    "ast_hash": "db11e2b0cbacdd7b06f7c2a025bae585",
-    "semantic_hash": "db11e2b0cbacdd7b06f7c2a025bae585"
+    "mtime": 1794438194.1729653,
+    "seen": 1794438248.372938,
+    "ast_hash": "9e306c9b739687fd476c3edbcc3e5814",
+    "semantic_hash": ""
   },
   "manifest.json": {
     "mtime": 1794148081.9777703,
@@ -78,15 +78,15 @@
     "semantic_hash": ""
   },
   "sw.js": {
-    "mtime": 1794436918.4040406,
-    "seen": 1794437017.5609703,
-    "ast_hash": "f60080e49d5b471c32915b3ce7087017",
+    "mtime": 1794438203.2837265,
+    "seen": 1794438248.3730078,
+    "ast_hash": "084480952b0e319b0712c0b01102f96e",
     "semantic_hash": ""
   },
   "BITACORA.md": {
-    "mtime": 1794437010.8345993,
-    "seen": 1794437017.5609725,
-    "ast_hash": "a446e6b05d2a59a2c2442d193c176c12",
+    "mtime": 1794438246.634953,
+    "seen": 1794438248.3730104,
+    "ast_hash": "355ba5c4322abb81ee219887d5d05d36",
     "semantic_hash": ""
   },
   "LEEME.md": {
@@ -138,9 +138,9 @@
     "semantic_hash": ""
   },
   "estudiemos/index.html": {
-    "mtime": 1794148081.7127118,
-    "seen": 1794437017.5610075,
-    "ast_hash": "7ff3c57a12f0b7f62a9f9a6d632a4844",
+    "mtime": 1794438194.169988,
+    "seen": 1794438248.3730588,
+    "ast_hash": "b1c95eaa13c48de5d453d3259d624218",
     "semantic_hash": ""
   },
   "glosario/index.html": {
@@ -150,8 +150,8 @@
     "semantic_hash": ""
   },
   "index.html": {
-    "mtime": 1794436684.424062,
-    "seen": 1794437017.5610144,
+    "mtime": 1794437110.1320875,
+    "seen": 1794438248.3730657,
     "ast_hash": "b2aeda4dfb10ca1c678b42750cb962f2",
     "semantic_hash": ""
   },
@@ -162,9 +162,9 @@
     "semantic_hash": ""
   },
   "panel/index.html": {
-    "mtime": 1794148081.981826,
-    "seen": 1794437017.5610213,
-    "ast_hash": "f9440a250b3ec1df7f96e4018f668893",
+    "mtime": 1794438194.1687927,
+    "seen": 1794438248.3730755,
+    "ast_hash": "8ab12edfc63d3a478dd12ca1b33fd619",
     "semantic_hash": ""
   },
   "quienes/index.html": {
@@ -396,9 +396,9 @@
     "semantic_hash": ""
   },
   "estudiemos/portada.js": {
-    "mtime": 1794148081.7141485,
-    "seen": 1794437017.5608633,
-    "ast_hash": "37f8082a50be93f1541ec40bd0f3d990",
+    "mtime": 1794438194.1703558,
+    "seen": 1794438248.3729112,
+    "ast_hash": "4b971e607500727418a74430d54549e5",
     "semantic_hash": ""
   },
   "estudiemos/territorio.js": {
@@ -510,9 +510,9 @@
     "semantic_hash": ""
   },
   "sql/tabla-catedras.sql": {
-    "mtime": 1794148081.9852376,
-    "seen": 1794437017.5609198,
-    "ast_hash": "bd616b07d5e3926eaac5999bc4662fee",
+    "mtime": 1794437921.0210092,
+    "seen": 1794438248.3729794,
+    "ast_hash": "e0bae41224f9144b4ceafaf7172b592b",
     "semantic_hash": ""
   },
   "sql/tabla-consejo.sql": {
@@ -594,9 +594,9 @@
     "semantic_hash": ""
   },
   "docs/HISTORIAL-SW.md": {
-    "mtime": 1794436918.4172711,
-    "seen": 1794437017.5609858,
-    "ast_hash": "f0553dda2c000de612c69c07df802f93",
+    "mtime": 1794438203.2980325,
+    "seen": 1794438248.373023,
+    "ast_hash": "a599cd104deaa8883571658d76cdd0bd",
     "semantic_hash": ""
   },
   "docs/prompts/PROMPT-DISENO.md": {
@@ -636,9 +636,9 @@
     "semantic_hash": ""
   },
   "sql/contenido-catedras.md": {
-    "mtime": 1794437010.832484,
-    "seen": 1794437017.5610268,
-    "ast_hash": "a4457d83a651b5db6ec380716ac461c1",
+    "mtime": 1794437921.0220191,
+    "seen": 1794438248.3730814,
+    "ast_hash": "dce4976ab46274928455812eedcb11cb",
     "semantic_hash": ""
   },
   "docs/PROPUESTAS.md": {
@@ -654,9 +654,9 @@
     "semantic_hash": ""
   },
   "cargar/index.html": {
-    "mtime": 1794436684.416062,
-    "seen": 1794437017.5609782,
-    "ast_hash": "9fea077ae473141662ed16778d66df44",
+    "mtime": 1794438194.1741834,
+    "seen": 1794438248.3730147,
+    "ast_hash": "c9a1d9510e96ec19d2dc268087681060",
     "semantic_hash": ""
   },
   "sql/tabla-campana.sql": {
@@ -906,15 +906,15 @@
     "semantic_hash": ""
   },
   "ingreso/index.html": {
-    "mtime": 1794437010.8319736,
-    "seen": 1794437017.5610154,
+    "mtime": 1794437110.1320875,
+    "seen": 1794438248.3730674,
     "ast_hash": "febc39834b5ee97197e2b5f1b6216cb0",
     "semantic_hash": ""
   },
   "estudiemos/mis-parciales/mis-parciales.js": {
-    "mtime": 1794148081.7141485,
-    "seen": 1794437017.5608597,
-    "ast_hash": "88c9f241712bfadcb91ffcc056a1b0df",
+    "mtime": 1794438194.1722894,
+    "seen": 1794438248.3729048,
+    "ast_hash": "2d732d38476c77b45ef62025c256c03e",
     "semantic_hash": ""
   },
   "lib/lectura-a-color.js": {
@@ -930,9 +930,9 @@
     "semantic_hash": ""
   },
   "estudiemos/mis-parciales/index.html": {
-    "mtime": 1794148081.7127118,
-    "seen": 1794437017.5610085,
-    "ast_hash": "7cf6081b3c10a24a2a2b0e9b1ccdc653",
+    "mtime": 1794438194.1658282,
+    "seen": 1794438248.37306,
+    "ast_hash": "2955418e7db077bcc1c2c061783027e0",
     "semantic_hash": ""
   },
   "cargar/feriazo.js": {

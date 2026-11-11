@@ -71,6 +71,18 @@
      LAS MATERIAS: las del plan, para escribirlas igual siempre
      ============================================================ */
   const PLANES = { ts: window.PLAN_TS, tgcr: window.PLAN_TGCR, fono: window.PLAN_FONO };
+  /* Para la app el Profesorado es Trabajo Social; cuál de los dos
+     planes hace lo dice Mi año en `planTs`. Sin esto, a quien hace el
+     Profesorado no le aparecían sus materias propias (las de
+     Educación, las Prácticas), y las cursa. */
+  function planDe(c){
+    if (c !== 'ts' || !window.PLAN_PROF) return PLANES[c];
+    try {
+      const g = JSON.parse(localStorage.getItem('bolivar-carrera-v2') || '{}');
+      if (g.planTs === 'prof') return window.PLAN_PROF;
+    } catch(err){}
+    return PLANES[c];
+  }
   function carrera(){
     try { const c = hay('carreraElegidaApp') ? carreraElegidaApp() : null; return c ? c.id : null; }
     catch(err){ return null; }
@@ -78,7 +90,7 @@
   /* Las que está cursando, según su organizador de la carrera. Son las
      primeras sugeridas: es casi seguro que el parcial es de una de esas. */
   function cursando(){
-    const c = carrera(), plan = c && PLANES[c];
+    const c = carrera(), plan = c && planDe(c);
     if (!plan || !plan.materias) return [];
     try {
       const g = JSON.parse(localStorage.getItem('bolivar-carrera-v2') || '{}');
@@ -88,7 +100,9 @@
   }
   function materiasDelPlan(){
     const c = carrera();
-    const planes = c && PLANES[c] ? [PLANES[c]] : Object.values(PLANES);
+    /* Sin carrera elegida van todos, el Profesorado también: los
+       repetidos con la Licenciatura los saca `materiasSugeridas`. */
+    const planes = c && planDe(c) ? [planDe(c)] : Object.values(PLANES).concat(window.PLAN_PROF || []);
     const nombres = [];
     planes.forEach(p => (p && p.materias || []).forEach(m => nombres.push(m.nombre)));
     return nombres;
