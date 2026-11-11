@@ -591,4 +591,10 @@ todo una entrada con el número, la fecha y el porqué.
    suma `--rojo-chispa` y `--fuente-sello`; y `css/pantallas/ingreso.css`
    se sirve de lo guardado. Sin número nuevo, quien ya entró a Ingreso
    vería el sello sin estilo. */
+/* v105 (11/11/2026) El sello del ingreso sube a la base para que lo use
+   también la tarjeta «Tu ingreso 2027» del inicio: `.sello` y su
+   versión chica en `css/base/05-secciones.css`, sus `@keyframes` en
+   `css/base/12-movimiento.css` y la forma de la estrella (`--estrella`)
+   en `css/tokens.css`. Los tres están en el armazón: sin número nuevo,
+   el inicio pintaría el sello sin estilo. */
 ```

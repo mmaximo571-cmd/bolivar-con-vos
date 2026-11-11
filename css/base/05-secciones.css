@@ -310,3 +310,96 @@
 .espacio-horario > span:last-child{white-space:nowrap}
 
 .espacio-telefono{font-family:var(--fuente-datos);font-weight:700;margin:10px 0 0}
+
+/* ==========================================================
+   EL SELLO DEL INGRESO 2027 (11/11/2026)
+   Lo que la campaña de ingreso pega en todos lados: un rótulo con
+   borde negro grueso, la sombra roja corrida (la «segunda tinta» de
+   la app, pero gorda y roja), apenas torcido, y la estrella de ocho
+   puntas en la esquina. Los colores son los de la marca y no se dan
+   vuelta de noche: es un objeto impreso, como el logo.
+
+   Nació en la cabecera de Ingreso y subió a la base cuando lo pidió
+   también la tarjeta «Tu ingreso 2027» del inicio. Lo que lo rodea en
+   cada pantalla (los títulos como franja, la ventana con su marco, la
+   etapa de hoy) sigue en la hoja de cada una.
+
+   La versión apaisada: «INGRESO» sobre «FTS · UNLP» a la izquierda,
+   «2027» en el bloque amarillo a la derecha. El contorno blanco es el
+   troquel de una calcomanía: en Ingreso va sobre la banda negra, y sin
+   él el borde negro se perdería contra el fondo. Se hace con cuatro
+   `drop-shadow` y no con un `outline` porque tiene que rodear también
+   la sombra roja y la estrella, que no son una caja.
+   ========================================================== */
+.sello{
+  --sello-borde:3px;
+  position:relative;display:inline-grid;
+  grid-template-columns:auto auto;grid-template-areas:"ingreso anio" "casa anio";
+  margin:14px 18px 26px 2px;
+  font-family:var(--fuente-sello);font-weight:900;line-height:1;text-transform:uppercase;
+  background:var(--amarillo);color:var(--sobre-color);
+  border:var(--sello-borde) solid var(--negro);border-radius:14px;
+  box-shadow:7px 7px 0 var(--rojo-solido);
+  transform:rotate(-2.5deg);transform-origin:30% 60%;
+  filter:drop-shadow(2px 0 0 var(--sobre-negro)) drop-shadow(-2px 0 0 var(--sobre-negro))
+         drop-shadow(0 2px 0 var(--sobre-negro)) drop-shadow(0 -2px 0 var(--sobre-negro))
+}
+
+/* Las puntas de adentro siguen la curva del borde: 14 menos los 3 del
+   borde. Con `overflow:hidden` se cortaría la estrella. */
+.sello-ingreso{
+  grid-area:ingreso;align-self:stretch;display:flex;align-items:center;
+  background:var(--negro);color:var(--amarillo);border-radius:11px 0 0 0;
+  font-stretch:125%;font-size:clamp(17px, 5.2vw, 26px);letter-spacing:.16em;
+  padding:.75em .55em .7em .8em
+}
+
+.sello-casa{
+  grid-area:casa;display:flex;align-items:center;
+  background:var(--celeste-claro);border-radius:0 0 0 11px;
+  border-top:var(--sello-borde) solid var(--negro);
+  font-stretch:125%;font-size:clamp(11px, 3.2vw, 15px);letter-spacing:.3em;
+  padding:.75em .6em .7em 1.05em;white-space:nowrap
+}
+
+/* Con el espaciado tan abierto, los espacios de alrededor del punto
+   no se notaban y quedaba «FTS·UNLP» de una sola pieza. */
+.sello-casa > span[aria-hidden]{margin:0 .3em}
+
+/* El año apretado y alto, como en el sello: lo ancho es «INGRESO», lo
+   que pesa es el número. */
+.sello-anio{
+  grid-area:anio;display:flex;align-items:center;justify-content:center;
+  border-left:var(--sello-borde) solid var(--negro);
+  font-stretch:72%;font-size:clamp(50px, 16vw, 84px);letter-spacing:-.01em;
+  padding:.08em .2em .02em .18em;font-variant-numeric:lining-nums
+}
+
+/* La estrella cae sobre la esquina y pisa la sombra roja, por eso es
+   otro rojo (--rojo-chispa). La forma es `--estrella`, de tokens. */
+.sello::after{
+  content:"";position:absolute;top:-22px;right:-24px;width:46px;height:46px;
+  background:var(--rojo-chispa);clip-path:var(--estrella)
+}
+
+/* El chico, para cuando el sello es el título de una tarjeta y no la
+   cabecera de una pantalla. Mismas proporciones, un tercio menos. */
+.sello.chico{margin:10px 16px 18px 2px;box-shadow:5px 5px 0 var(--rojo-solido)}
+
+.sello.chico .sello-ingreso{font-size:clamp(14px, 4.2vw, 19px)}
+
+.sello.chico .sello-casa{font-size:clamp(10px, 2.7vw, 12px)}
+
+.sello.chico .sello-anio{font-size:clamp(40px, 12vw, 58px)}
+
+.sello.chico::after{top:-17px;right:-18px;width:34px;height:34px}
+
+/* Al llegar, el sello se pega: entra un poco más grande y más torcido
+   y se asienta; la estrella salta después. Va aparte, en `.se-pega`,
+   porque el inicio repinta su bloque con cada tilde, y el sello se
+   volvería a pegar cada vez. Con menos movimiento, aparece quieto. */
+@media (prefers-reduced-motion:no-preference) {
+.sello.se-pega{animation:sello-pegar 520ms var(--sale) both}
+
+.sello.se-pega::after{animation:sello-chispa 420ms var(--sale) 380ms both}
+}

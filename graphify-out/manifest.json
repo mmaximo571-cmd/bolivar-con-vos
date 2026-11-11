@@ -78,15 +78,15 @@
     "semantic_hash": ""
   },
   "sw.js": {
-    "mtime": 1794438087.569853,
-    "seen": 1794438101.0200236,
-    "ast_hash": "084480952b0e319b0712c0b01102f96e",
+    "mtime": 1794438347.203077,
+    "seen": 1794438347.937167,
+    "ast_hash": "9c8ecaaa84a8e9054899fdd32dd4066e",
     "semantic_hash": ""
   },
   "BITACORA.md": {
-    "mtime": 1794438095.6811178,
-    "seen": 1794438101.0200264,
-    "ast_hash": "6f6dd677af77e8b8167bd998e0091624",
+    "mtime": 1794438347.2176256,
+    "seen": 1794438347.9371712,
+    "ast_hash": "b84447de8ef5fd87496c3143f12bc01e",
     "semantic_hash": ""
   },
   "LEEME.md": {
@@ -150,9 +150,9 @@
     "semantic_hash": ""
   },
   "index.html": {
-    "mtime": 1794437810.914998,
-    "seen": 1794438101.0200732,
-    "ast_hash": "b2aeda4dfb10ca1c678b42750cb962f2",
+    "mtime": 1794438331.158452,
+    "seen": 1794438347.937238,
+    "ast_hash": "f085b5610a3b7688c0d978ef5c9cb2c6",
     "semantic_hash": ""
   },
   "mi/index.html": {
@@ -594,9 +594,9 @@
     "semantic_hash": ""
   },
   "docs/HISTORIAL-SW.md": {
-    "mtime": 1794438087.5863097,
-    "seen": 1794438101.0200408,
-    "ast_hash": "71bd51d4a7b391d39b4f56356ebc626f",
+    "mtime": 1794438347.2151954,
+    "seen": 1794438347.937192,
+    "ast_hash": "334b2c2ba75e17f19b6f145123efb0c0",
     "semantic_hash": ""
   },
   "docs/prompts/PROMPT-DISENO.md": {
@@ -906,9 +906,9 @@
     "semantic_hash": ""
   },
   "ingreso/index.html": {
-    "mtime": 1794437998.4386306,
-    "seen": 1794438101.0200746,
-    "ast_hash": "dc5e215aa434f73e7dfefff3fb279f89",
+    "mtime": 1794438331.158452,
+    "seen": 1794438347.93724,
+    "ast_hash": "c4e8e2d6b6c5f704943b73606596abdd",
     "semantic_hash": ""
   },
   "estudiemos/mis-parciales/mis-parciales.js": {

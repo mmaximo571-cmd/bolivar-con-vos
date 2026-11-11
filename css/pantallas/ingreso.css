@@ -9,99 +9,11 @@
 
 /* ==========================================================
    EL SELLO DEL INGRESO 2027 (11/11/2026)
-   Lo que la campaña de ingreso pega en todos lados: un rótulo con
-   borde negro grueso, la sombra roja corrida (la «segunda tinta» de
-   la app, pero gorda y roja), apenas torcido, y la estrella de ocho
-   puntas en la esquina. Los colores son los de la marca y no se dan
-   vuelta de noche: es un objeto impreso, como el logo.
-
-   Acá vive todo lo del sello: es de una sola pantalla. Si otra lo
-   quiere (la tarjeta «Tu ingreso 2027» del inicio, por ejemplo), lo
-   que use sube a la base y se va de acá.
+   El sello en sí (`.sello` y sus partes) subió a la base el mismo día,
+   a `css/base/05-secciones.css`, cuando lo pidió también la tarjeta
+   «Tu ingreso 2027» del inicio. Acá queda lo que es solo de esta
+   pantalla: los títulos como la franja negra y el marco de la ventana.
    ========================================================== */
-
-/* ---- El sello de la cabecera ----
-   La versión apaisada: «INGRESO» sobre «FTS · UNLP» a la izquierda,
-   «2027» en el bloque amarillo a la derecha. Va sobre la banda negra,
-   así que el borde negro se perdería contra el fondo: el contorno
-   blanco es el troquel de una calcomanía pegada ahí, y es lo que lo
-   despega. Se hace con cuatro `drop-shadow` y no con un `outline`
-   porque tiene que rodear también la sombra roja y la estrella, que
-   no son una caja. */
-.sello{
-  --sello-borde:3px;
-  position:relative;display:inline-grid;
-  grid-template-columns:auto auto;grid-template-areas:"ingreso anio" "casa anio";
-  margin:14px 18px 26px 2px;
-  font-family:var(--fuente-sello);font-weight:900;line-height:1;text-transform:uppercase;
-  background:var(--amarillo);color:var(--sobre-color);
-  border:var(--sello-borde) solid var(--negro);border-radius:14px;
-  box-shadow:7px 7px 0 var(--rojo-solido);
-  transform:rotate(-2.5deg);transform-origin:30% 60%;
-  filter:drop-shadow(2px 0 0 var(--sobre-negro)) drop-shadow(-2px 0 0 var(--sobre-negro))
-         drop-shadow(0 2px 0 var(--sobre-negro)) drop-shadow(0 -2px 0 var(--sobre-negro))
-}
-
-/* Las puntas de adentro siguen la curva del borde: 14 menos los 3 del
-   borde. Con `overflow:hidden` se cortaría la estrella. */
-.sello-ingreso{
-  grid-area:ingreso;align-self:stretch;display:flex;align-items:center;
-  background:var(--negro);color:var(--amarillo);border-radius:11px 0 0 0;
-  font-stretch:125%;font-size:clamp(17px, 5.2vw, 26px);letter-spacing:.16em;
-  padding:.75em .55em .7em .8em
-}
-
-.sello-casa{
-  grid-area:casa;display:flex;align-items:center;
-  background:var(--celeste-claro);border-radius:0 0 0 11px;
-  border-top:var(--sello-borde) solid var(--negro);
-  font-stretch:125%;font-size:clamp(11px, 3.2vw, 15px);letter-spacing:.3em;
-  padding:.75em .6em .7em 1.05em;white-space:nowrap
-}
-
-/* Con el espaciado tan abierto, los espacios de alrededor del punto
-   no se notaban y quedaba «FTS·UNLP» de una sola pieza. */
-.sello-casa > span[aria-hidden]{margin:0 .3em}
-
-/* El año apretado y alto, como en el sello: lo ancho es «INGRESO», lo
-   que pesa es el número. */
-.sello-anio{
-  grid-area:anio;display:flex;align-items:center;justify-content:center;
-  border-left:var(--sello-borde) solid var(--negro);
-  font-stretch:72%;font-size:clamp(50px, 16vw, 84px);letter-spacing:-.01em;
-  padding:.08em .2em .02em .18em;font-variant-numeric:lining-nums
-}
-
-/* La estrella de ocho puntas, desparejas como la impresa: si fuera
-   perfecta parecería un ícono y no un sello. Cae sobre la esquina y
-   pisa la sombra roja, por eso es otro rojo (--rojo-chispa). */
-.sello::after{
-  content:"";position:absolute;top:-22px;right:-24px;width:46px;height:46px;
-  background:var(--rojo-chispa);
-  clip-path:polygon(50% 0%,57% 32%,81% 19%,68% 43%,99% 50%,68% 57%,80% 80%,57% 68%,
-                    50% 97%,43% 68%,20% 80%,32% 57%,2% 50%,32% 43%,21% 21%,43% 32%)
-}
-
-/* Al llegar, el sello se pega: entra un poco más grande y más torcido
-   y se asienta; la estrella salta después. Es el único movimiento
-   propio de la pantalla. Con menos movimiento, aparece quieto. */
-@media (prefers-reduced-motion:no-preference) {
-.sello{animation:sello-pegar 520ms var(--sale) both}
-
-.sello::after{animation:sello-chispa 420ms var(--sale) 380ms both}
-}
-
-@keyframes sello-pegar{
-  from{opacity:0;transform:rotate(-8deg) scale(1.12)}
-  60%{opacity:1;transform:rotate(-1.5deg) scale(.985)}
-  to{transform:rotate(-2.5deg) scale(1)}
-}
-
-@keyframes sello-chispa{
-  from{transform:scale(0) rotate(-70deg)}
-  70%{transform:scale(1.15) rotate(8deg)}
-  to{transform:scale(1) rotate(0)}
-}
 
 /* ---- Los títulos de sección, como la franja negra del sello ----
    Las letras amarillas estiradas sobre negro. Sin rotación ni
@@ -158,9 +70,7 @@
    lo dice el texto; la estrella lo dice de lejos. */
 .ingreso-ventana.abierta::after{
   content:"";position:absolute;top:-19px;right:-19px;width:40px;height:40px;
-  background:var(--rojo-chispa);
-  clip-path:polygon(50% 0%,57% 32%,81% 19%,68% 43%,99% 50%,68% 57%,80% 80%,57% 68%,
-                    50% 97%,43% 68%,20% 80%,32% 57%,2% 50%,32% 43%,21% 21%,43% 32%)
+  background:var(--rojo-chispa);clip-path:var(--estrella)
 }
 
 .ingreso-parrafo{margin:0 0 14px}
