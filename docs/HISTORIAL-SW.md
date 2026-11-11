@@ -584,4 +584,11 @@ todo una entrada con el número, la fecha y el porqué.
    Trabajo Social del ☰ pasa de «Lic. en Trabajo Social» a «Trabajo
    Social», porque ahora vale para las dos. Sin número nuevo, a quien
    hace el Profesorado el menú le seguiría diciendo Licenciatura. */
+/* v104 (11/11/2026) El sello del ingreso 2027 en Ingreso: el rótulo de
+   la campaña (borde negro, sombra roja, estrella) en la cabecera, la
+   ventana de inscripción con su marco y los títulos de sección como la
+   franja negra del sello. `css/tokens.css`, que está en el armazón,
+   suma `--rojo-chispa` y `--fuente-sello`; y `css/pantallas/ingreso.css`
+   se sirve de lo guardado. Sin número nuevo, quien ya entró a Ingreso
+   vería el sello sin estilo. */
 ```
