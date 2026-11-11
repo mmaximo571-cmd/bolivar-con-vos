@@ -155,7 +155,8 @@ cargarlo hay que resolver lo que está anotado abajo en «Lo que falta decidir»
    11/11/2026 está en Mi año** (`carrera/plan-prof.js`), y para la base es
    `carrera = 'ts'`: estos ocho mails van con ese valor y el código de su
    materia (321, 331, 332, 342, 322, 341, 343, 351), que no choca con ningún
-   código de la Licenciatura. **Todavía no están cargados.**
+   código de la Licenciatura. ✅ **Cargados el 11/11/2026** (ver
+   `sql/tabla-catedras.sql`), con «(Profesorado)» en el nombre.
 
 6. **Mails repetidos entre carreras y años**, que es correcto: Salud Colectiva,
    Teorías de la cultura, Introducción a la Filosofía y Psicología del Desarrollo
