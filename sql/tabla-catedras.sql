@@ -235,6 +235,27 @@ insert into public.catedras (carrera, materia_cod, materia, mails, nota, publica
 on conflict (carrera, materia_cod) do nothing;
 
 
+-- ---------- Las ocho del Profesorado (cargadas el 11/11/2026) ----------
+-- El Profesorado en Trabajo Social es 'ts' para la base (ver
+-- carrera/plan-prof.js): sus materias propias van con ese valor y su
+-- código, que no choca con ninguno de la Licenciatura. El nombre lleva
+-- «(Profesorado)» porque la pantalla de Cátedras las lista junto a las
+-- de la Licenciatura, y sin eso parecerían materias de esa carrera.
+-- Mails del material del 4/9 (`sql/contenido-catedras.md`). El año va
+-- en la misma fila: estas no están en la lista de abajo.
+insert into public.catedras (carrera, materia_cod, materia, mails, anio) values
+('ts','321','Seminario Perspectivas de Género en la Intervención Profesional (Profesorado)', array['perspectivagipts@gmail.com'], 3),
+('ts','331','Fundamentos de la Educación (Profesorado)', array['fundamentosdelaeducacionfts@gmail.com'], 3),
+('ts','332','Política e Instituciones Educativas (Profesorado)', array['pie.ts@gmail.com'], 3),
+('ts','342','Didáctica de las Ciencias Sociales y el Trabajo Social (Profesorado)', array['didacticatrabajosocial2@gmail.com'], 4),
+('ts','343','Diseño y Planeamiento del Currículo (Profesorado)', array['catedradypc@gmail.com'], 4),
+('ts','322','Seminario de Educación en Entornos Virtuales (Profesorado)', array['aguinaga.adriana@gmail.com'], 5),
+('ts','341','Prácticas Educativas en Perspectiva de Inclusión (Profesorado)', array['pecpi2018@gmail.com'], 5),
+('ts','351','Prácticas de la Enseñanza (Profesorado)', array['silviapereztorrecilla@gmail.com'], 5)
+on conflict (carrera, materia_cod) do update
+  set materia = excluded.materia, mails = excluded.mails, anio = excluded.anio, actualizado_at = now();
+
+
 -- ---------- El año de cada materia ----------
 -- Sale de `carrera/plan.js`, `plan-fono.js` y `plan-tgcr.js`, que
 -- siguen siendo la fuente. Se copia acá para que la pantalla de

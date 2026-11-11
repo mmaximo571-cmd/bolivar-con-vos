@@ -293,6 +293,7 @@
 <script src="../movimiento.js"></script>
 <!-- Los planes, solo para saber de qué carrera es cada materia -->
 <script src="../carrera/plan.js"></script>
+<script src="../carrera/plan-prof.js"></script>
 <script src="../carrera/plan-tgcr.js"></script>
 <script src="../carrera/plan-fono.js"></script>
 <script src="videos/videos.js"></script>
@@ -403,13 +404,15 @@
      por no reconocerlo es peor que mostrarlo de más. Baja solo lo que
      con seguridad es de otra carrera.
      ============================================================ */
-  const PLANES = [window.PLAN_TS, window.PLAN_TGCR, window.PLAN_FONO].filter(Boolean);
+  /* El Profesorado cuenta como Trabajo Social (`carreraApp`): sus
+     materias propias son de quien elige Trabajo Social en la app. */
+  const PLANES = [window.PLAN_TS, window.PLAN_PROF, window.PLAN_TGCR, window.PLAN_FONO].filter(Boolean);
   const limpiarMateria = s =>
     normalizar(String(s || '').replace(/\([^)]*\)/g, '')).replace(/\s+/g, ' ').trim();
   function esDeOtraCarrera(materia){
     const n = limpiarMateria(materia);
     const de = PLANES.filter(p => p.materias.some(m => limpiarMateria(m.nombre) === n))
-      .map(p => p.id);
+      .map(p => p.carreraApp || p.id);
     return de.length > 0 && de.indexOf(carreraActual().id) === -1;
   }
 

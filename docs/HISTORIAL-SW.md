@@ -584,14 +584,21 @@ todo una entrada con el número, la fecha y el porqué.
    Trabajo Social del ☰ pasa de «Lic. en Trabajo Social» a «Trabajo
    Social», porque ahora vale para las dos. Sin número nuevo, a quien
    hace el Profesorado el menú le seguiría diciendo Licenciatura. */
-/* v104 (11/11/2026) El sello del ingreso 2027 en Ingreso: el rótulo de
+/* v104 (11/11/2026) El Profesorado fuera de Mi año: Mis parciales
+   sugiere sus materias propias, Estudiemos reconoce sus materiales y
+   videos como de Trabajo Social, el lector de programas del panel las
+   reconoce y Cargar las sugiere. Cambian tres guiones que se sirven de
+   lo guardado (`estudiemos/portada.js`,
+   `estudiemos/mis-parciales/mis-parciales.js` y `lib/leer-programa.js`):
+   sin número nuevo, quien ya entró seguiría con los de antes. */
+/* v105 (11/11/2026) El sello del ingreso 2027 en Ingreso: el rótulo de
    la campaña (borde negro, sombra roja, estrella) en la cabecera, la
    ventana de inscripción con su marco y los títulos de sección como la
    franja negra del sello. `css/tokens.css`, que está en el armazón,
    suma `--rojo-chispa` y `--fuente-sello`; y `css/pantallas/ingreso.css`
    se sirve de lo guardado. Sin número nuevo, quien ya entró a Ingreso
    vería el sello sin estilo. */
-/* v105 (11/11/2026) El sello del ingreso sube a la base para que lo use
+/* v106 (11/11/2026) El sello del ingreso sube a la base para que lo use
    también la tarjeta «Tu ingreso 2027» del inicio: `.sello` y su
    versión chica en `css/base/05-secciones.css`, sus `@keyframes` en
    `css/base/12-movimiento.css` y la forma de la estrella (`--estrella`)
