@@ -44,6 +44,15 @@
      ese color no son el mismo trabajo, y un solo valor no sirve para
      los dos. */
   --celeste-hondo: #015B6E;
+  /* La estrella del sello del ingreso (11/11/2026). Más viva que
+     --rojo-solido a propósito: en el sello impreso la estrella se
+     apoya sobre la sombra roja, y si fueran el mismo rojo la punta
+     se perdería en la sombra. No es para texto ni para fondos. */
+  --rojo-chispa: #E8392E;
+  /* Y su forma: ocho puntas desparejas, como la impresa. Si fuera
+     perfecta parecería un ícono y no un sello. Va con `clip-path`. */
+  --estrella: polygon(50% 0%,57% 32%,81% 19%,68% 43%,99% 50%,68% 57%,80% 80%,57% 68%,
+                      50% 97%,43% 68%,20% 80%,32% 57%,2% 50%,32% 43%,21% 21%,43% 32%);
 
   /* Estas dos TAMPOCO cambian de noche, y es a propósito:
      - sobre-color: texto oscuro cuando el fondo es amarillo o celeste.
@@ -152,6 +161,13 @@
   --fuente-sub:     'Roboto', sans-serif;                  /* controles y subtítulos */
   --fuente-texto:   'Roboto', sans-serif;                  /* cuerpo */
   --fuente-datos:   'Roboto', sans-serif;                  /* fechas y cantidades */
+  /* La tercera voz, SOLO para el sello del ingreso (11/11/2026): la de
+     la campaña, que estira «INGRESO» y aprieta «2027». Es Archivo, la
+     misma familia del título, con el eje de ancho (62 a 125 %). La piden
+     Ingreso y el inicio, y el inicio la baja solo si dibuja el sello
+     (en modo ingreso): una @font-face que nadie usa no se descarga. Sin ella cae en Archivo Black, que
+     ya está guardada, y el sello se sigue leyendo. */
+  --fuente-sello:   'Archivo', 'Archivo Black', sans-serif;
 
   /* --- LA ESCALA DE LETRA ---
 

@@ -484,7 +484,7 @@ si la gente se anota.
   grupo no sea de sus materias. **Subida el 30/9/2026 a las 10:31**,
   con el visto bueno de Máximo, igual al archivo del repo.
 - No entró: el calendario suscripto (`webcal://`), que sigue en dudas.
-- **Los grupos de todas las semanas (11/11/2026, v105).** Lo pidió
+- **Los grupos de todas las semanas (11/11/2026, v107).** Lo pidió
   Máximo al ver que en el primer mes casi no se cargaron grupos: cargar
   el de los jueves una vez para varias semanas. Cada encuentro sigue
   siendo su fila y la serie es un `serie_id` compartido (sección 10 de
