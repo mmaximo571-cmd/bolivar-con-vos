@@ -7,26 +7,71 @@
    Carga después de la base y antes de estilos-rediseno.
    ========================================================== */
 
+/* ==========================================================
+   EL SELLO DEL INGRESO 2027 (11/11/2026)
+   El sello en sí (`.sello` y sus partes) subió a la base el mismo día,
+   a `css/base/05-secciones.css`, cuando lo pidió también la tarjeta
+   «Tu ingreso 2027» del inicio. Acá queda lo que es solo de esta
+   pantalla: los títulos como la franja negra y el marco de la ventana.
+   ========================================================== */
+
+/* ---- Los títulos de sección, como la franja negra del sello ----
+   Las letras amarillas estiradas sobre negro. Sin rotación ni
+   estrella: el sello de arriba es uno solo y estos lo repiten en
+   voz baja. Cada título mide lo que su texto, como una cinta. */
+.pantalla-ingreso .titulo-seccion{
+  width:fit-content;max-width:100%;
+  font-family:var(--fuente-sello);font-weight:900;font-stretch:125%;
+  font-size:var(--letra-chica);letter-spacing:.14em;line-height:1.25;
+  color:var(--amarillo);background:var(--negro);
+  padding:8px 12px 7px;border-radius:var(--radio-chico);
+  box-shadow:3px 3px 0 var(--rojo-solido)
+}
+
 /* ---- La ventana de inscripción ----
    Las dos fechas en grande y solas, como la esquina de Cómo llegar:
-   es lo único que alguien tiene que recordar de memoria. */
+   es lo único que alguien tiene que recordar de memoria. Lleva el
+   marco del sello (borde grueso, sombra roja) sin torcerse: tiene
+   botones y texto que se leen, y torcido se leerían peor. */
+.ingreso-ventana{
+  position:relative;
+  border:3px solid var(--texto);border-radius:14px;
+  box-shadow:6px 6px 0 var(--rojo-solido);
+  margin:4px 6px 22px 0
+}
+
 .ingreso-rotulo{
-  font-family:var(--fuente-datos);font-weight:700;font-size:var(--letra-mini);
-  letter-spacing:.16em;text-transform:uppercase;color:var(--texto-suave);margin:0
+  display:inline-block;
+  font-family:var(--fuente-sello);font-weight:900;font-stretch:125%;
+  font-size:var(--letra-mini);letter-spacing:.16em;text-transform:uppercase;
+  color:var(--amarillo);background:var(--negro);
+  padding:6px 9px 5px;border-radius:4px;margin:0
 }
 
 .ingreso-fechas-grandes{
-  font-family:var(--fuente-titulo);font-size:var(--letra-dato);line-height:1;
-  margin:6px 0 8px
+  font-family:var(--fuente-sello);font-weight:900;font-stretch:72%;
+  font-size:clamp(52px, 17vw, 76px);line-height:.95;letter-spacing:-.005em;
+  margin:12px 0 8px
+}
+
+/* La flecha no es del sello: va en la letra de siempre y más chica,
+   para que las dos fechas sean lo único que pesa. */
+.ingreso-fechas-grandes > span[aria-hidden]{
+  font-family:var(--fuente-texto);font-weight:400;font-size:.5em;vertical-align:.25em;
+  color:var(--texto-suave);margin:0 .1em
 }
 
 .ingreso-estado{color:var(--texto-suave);font-size:var(--letra-nota);margin:4px 0 0}
 
 .ingreso-estado strong{color:var(--texto)}
 
-/* Mientras está abierta, el módulo se marca con el amarillo de la
-   casa: es el único momento en que hay que hacer algo ya. */
-.ingreso-ventana.abierta{border-left:6px solid var(--amarillo)}
+/* Mientras está abierta, la ventana se lleva la estrella del sello:
+   es el único momento en que hay que hacer algo ya. «Está abierta»
+   lo dice el texto; la estrella lo dice de lejos. */
+.ingreso-ventana.abierta::after{
+  content:"";position:absolute;top:-19px;right:-19px;width:40px;height:40px;
+  background:var(--rojo-chispa);clip-path:var(--estrella)
+}
 
 .ingreso-parrafo{margin:0 0 14px}
 

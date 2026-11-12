@@ -895,7 +895,10 @@ body.antes-de-entrar{ padding-bottom:0 }
 
 .modo-ingreso{margin:6px 0 4px}
 
-.modo-ingreso .titulo-seccion:focus{outline:none}
+/* El título es el sello chico de la campaña (en la base, 11/11/2026),
+   sin `.se-pega`: este bloque se repinta con cada tilde. Recibe el
+   foco al prender el modo, pero no es algo que se toque: sin anillo. */
+.modo-ingreso .sello:focus{outline:none}
 
 @media (min-width:900px) {
 #zona-normal > #modo-ingreso{grid-column:1 / -1}
@@ -909,8 +912,15 @@ body.antes-de-entrar{ padding-bottom:0 }
 }
 
 /* La de hoy se distingue por el borde y la ceja en negro, no solo por
-   el color: «Ahora» está escrito. */
-.etapa-ingreso.ahora details{border:2px solid var(--texto)}
+   el color: «Ahora» está escrito. Lleva el marco del sello de arriba
+   (borde grueso, sombra roja), como la ventana de inscripción de
+   Ingreso: es lo que hay que hacer ya. El margen deja lugar a la
+   sombra, que si no se pega al borde de la pantalla. */
+.etapa-ingreso.ahora{margin-right:6px}
+
+.etapa-ingreso.ahora details{
+  border:3px solid var(--texto);border-radius:14px;box-shadow:6px 6px 0 var(--rojo-solido)
+}
 
 .etapa-ingreso.paso details{background:transparent;box-shadow:none}
 

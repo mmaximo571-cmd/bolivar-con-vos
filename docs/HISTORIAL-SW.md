@@ -591,4 +591,17 @@ todo una entrada con el número, la fecha y el porqué.
    lo guardado (`estudiemos/portada.js`,
    `estudiemos/mis-parciales/mis-parciales.js` y `lib/leer-programa.js`):
    sin número nuevo, quien ya entró seguiría con los de antes. */
+/* v105 (11/11/2026) El sello del ingreso 2027 en Ingreso: el rótulo de
+   la campaña (borde negro, sombra roja, estrella) en la cabecera, la
+   ventana de inscripción con su marco y los títulos de sección como la
+   franja negra del sello. `css/tokens.css`, que está en el armazón,
+   suma `--rojo-chispa` y `--fuente-sello`; y `css/pantallas/ingreso.css`
+   se sirve de lo guardado. Sin número nuevo, quien ya entró a Ingreso
+   vería el sello sin estilo. */
+/* v106 (11/11/2026) El sello del ingreso sube a la base para que lo use
+   también la tarjeta «Tu ingreso 2027» del inicio: `.sello` y su
+   versión chica en `css/base/05-secciones.css`, sus `@keyframes` en
+   `css/base/12-movimiento.css` y la forma de la estrella (`--estrella`)
+   en `css/tokens.css`. Los tres están en el armazón: sin número nuevo,
+   el inicio pintaría el sello sin estilo. */
 ```

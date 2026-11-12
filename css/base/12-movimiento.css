@@ -261,3 +261,17 @@
 
 .mov-palabra{ opacity:1 !important }
 }
+
+/* El sello del ingreso se pega y la estrella salta (11/11/2026). Ver
+   `.sello.se-pega` en 05-secciones. */
+@keyframes sello-pegar{
+  from{opacity:0;transform:rotate(-8deg) scale(1.12)}
+  60%{opacity:1;transform:rotate(-1.5deg) scale(.985)}
+  to{transform:rotate(-2.5deg) scale(1)}
+}
+
+@keyframes sello-chispa{
+  from{transform:scale(0) rotate(-70deg)}
+  70%{transform:scale(1.15) rotate(8deg)}
+  to{transform:scale(1) rotate(0)}
+}
