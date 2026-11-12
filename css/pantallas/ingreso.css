@@ -11,22 +11,10 @@
    EL SELLO DEL INGRESO 2027 (11/11/2026)
    El sello en sí (`.sello` y sus partes) subió a la base el mismo día,
    a `css/base/05-secciones.css`, cuando lo pidió también la tarjeta
-   «Tu ingreso 2027» del inicio. Acá queda lo que es solo de esta
-   pantalla: los títulos como la franja negra y el marco de la ventana.
+   «Tu ingreso 2027» del inicio. Los títulos como la franja negra
+   subieron el 12/11, cuando los quiso también Primeros pasos. Acá
+   queda lo que es solo de esta pantalla: el marco de la ventana.
    ========================================================== */
-
-/* ---- Los títulos de sección, como la franja negra del sello ----
-   Las letras amarillas estiradas sobre negro. Sin rotación ni
-   estrella: el sello de arriba es uno solo y estos lo repiten en
-   voz baja. Cada título mide lo que su texto, como una cinta. */
-.pantalla-ingreso .titulo-seccion{
-  width:fit-content;max-width:100%;
-  font-family:var(--fuente-sello);font-weight:900;font-stretch:125%;
-  font-size:var(--letra-chica);letter-spacing:.14em;line-height:1.25;
-  color:var(--amarillo);background:var(--negro);
-  padding:8px 12px 7px;border-radius:var(--radio-chico);
-  box-shadow:3px 3px 0 var(--rojo-solido)
-}
 
 /* ---- La ventana de inscripción ----
    Las dos fechas en grande y solas, como la esquina de Cómo llegar:
