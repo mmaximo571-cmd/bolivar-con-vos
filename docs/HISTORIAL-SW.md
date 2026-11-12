@@ -584,7 +584,14 @@ todo una entrada con el número, la fecha y el porqué.
    Trabajo Social del ☰ pasa de «Lic. en Trabajo Social» a «Trabajo
    Social», porque ahora vale para las dos. Sin número nuevo, a quien
    hace el Profesorado el menú le seguiría diciendo Licenciatura. */
-/* v104 (11/11/2026) Los grupos de estudio que se repiten todas las
+/* v104 (11/11/2026) El Profesorado fuera de Mi año: Mis parciales
+   sugiere sus materias propias, Estudiemos reconoce sus materiales y
+   videos como de Trabajo Social, el lector de programas del panel las
+   reconoce y Cargar las sugiere. Cambian tres guiones que se sirven de
+   lo guardado (`estudiemos/portada.js`,
+   `estudiemos/mis-parciales/mis-parciales.js` y `lib/leer-programa.js`):
+   sin número nuevo, quien ya entró seguiría con los de antes. */
+/* v105 (12/11/2026) Los grupos de estudio que se repiten todas las
    semanas (`serie_id` en `publicaciones`, sección 10 de
    `sql/tabla-publicaciones.sql`). Del armazón cambian dos: `app.js`
    (la campana nombra una serie una vez y no una por encuentro, y pide

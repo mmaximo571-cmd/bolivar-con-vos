@@ -106,6 +106,7 @@
      un grupo. Escrita igual que en el plan, la materia es la que
      encuentra a quien la cursa y le hace sonar el aviso. -->
 <script src="../carrera/plan.js"></script>
+<script src="../carrera/plan-prof.js"></script>
 <script src="../carrera/plan-fono.js"></script>
 <script src="../carrera/plan-tgcr.js"></script>
 <script src="../fondo-red.js"></script>
@@ -304,11 +305,12 @@
 
   const QUE_DE_CATEGORIA = { paro:'paro', grupo:'grupo', actividad:'actividad' };
 
-  /* Todas las materias de los tres planes, sin repetir. Si algún plan no
+  /* Todas las materias de los cuatro planes (el Profesorado suma las
+     suyas), sin repetir. Si algún plan no
      cargó, se sugiere con lo que haya: es una ayuda, no un requisito. */
   const MATERIAS = (function(){
     const nombres = new Set();
-    ['PLAN_TS', 'PLAN_FONO', 'PLAN_TGCR'].forEach(k => {
+    ['PLAN_TS', 'PLAN_PROF', 'PLAN_FONO', 'PLAN_TGCR'].forEach(k => {
       const plan = window[k];
       ((plan && plan.materias) || []).forEach(m => { if (m && m.nombre) nombres.add(m.nombre); });
     });
