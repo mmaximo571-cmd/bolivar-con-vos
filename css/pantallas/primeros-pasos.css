@@ -10,18 +10,26 @@
 
 .pp-ficha summary{display:flex;align-items:center;gap:12px}
 
+/* El número de cada ficha es el bloque del año del sello en chico
+   (12/11/2026): amarillo, borde negro, la cifra apretada y la sombra
+   roja corrida. Las fichas sí van en orden —instalarla primero, el
+   glosario al final—, por eso llevan número. Los colores son los del
+   sello y no se dan vuelta de noche. */
 .pp-numero{
-  flex:0 0 auto;width:30px;height:30px;border-radius:50%;
+  flex:0 0 auto;width:32px;height:34px;border-radius:7px;
   background:var(--amarillo);color:var(--sobre-color);
+  border:2px solid var(--negro);box-shadow:2px 2px 0 var(--rojo-solido);
   display:inline-flex;align-items:center;justify-content:center;
-  font-family:var(--fuente-sub);font-weight:800;font-size:var(--letra-base)
+  font-family:var(--fuente-sello);font-weight:900;font-stretch:72%;
+  font-size:22px;line-height:1
 }
 
-/* Ya recorrida: el número pasa a ser un tilde. Se sigue pudiendo abrir
-   y repetir; solo cambia la marca, para ver qué falta. */
-.pp-ficha.visto .pp-numero{background:var(--celeste);font-size:0}
+/* Ya recorrida: el número pasa a ser un tilde, sobre la franja celeste
+   del sello. Se sigue pudiendo abrir y repetir; solo cambia la marca,
+   para ver qué falta. */
+.pp-ficha.visto .pp-numero{background:var(--celeste-claro);font-size:0}
 
-.pp-ficha.visto .pp-numero::after{content:'✓';font-size:var(--letra-base)}
+.pp-ficha.visto .pp-numero::after{content:'✓';font-family:var(--fuente-sub);font-weight:700;font-size:var(--letra-base)}
 
 .pp-ficha .respuesta > p{margin:0 0 10px}
 

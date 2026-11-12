@@ -604,4 +604,10 @@ todo una entrada con el número, la fecha y el porqué.
    `css/base/12-movimiento.css` y la forma de la estrella (`--estrella`)
    en `css/tokens.css`. Los tres están en el armazón: sin número nuevo,
    el inicio pintaría el sello sin estilo. */
+/* v107 (12/11/2026) El sello del ingreso en Primeros pasos. Los títulos
+   como la franja negra del sello suben de `css/pantallas/ingreso.css`
+   a `css/base/05-secciones.css` (`.ingreso-2027 .titulo-seccion`),
+   porque ahora los usan dos pantallas. La base está en el armazón: sin
+   número nuevo, Primeros pasos e Ingreso mostrarían los títulos de
+   antes. */
 ```

@@ -403,3 +403,18 @@
 
 .sello.se-pega::after{animation:sello-chispa 420ms var(--sale) 380ms both}
 }
+
+/* ---- Los títulos de sección de las pantallas del ingreso ----
+   Como la franja negra del sello: letras amarillas estiradas sobre
+   negro. Sin rotación ni estrella: el sello de arriba es uno solo y
+   estos lo repiten en voz baja. Cada título mide lo que su texto, como
+   una cinta. Lo prende la clase `ingreso-2027` del <body>, que llevan
+   Ingreso y Primeros pasos (11 y 12/11/2026). */
+.ingreso-2027 .titulo-seccion{
+  width:fit-content;max-width:100%;
+  font-family:var(--fuente-sello);font-weight:900;font-stretch:125%;
+  font-size:var(--letra-chica);letter-spacing:.14em;line-height:1.25;
+  color:var(--amarillo);background:var(--negro);
+  padding:8px 12px 7px;border-radius:var(--radio-chico);
+  box-shadow:3px 3px 0 var(--rojo-solido)
+}

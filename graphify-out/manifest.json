@@ -60,8 +60,8 @@
     "semantic_hash": ""
   },
   "lib/leer-programa.js": {
-    "mtime": 1794438407.3950193,
-    "seen": 1794438440.9168928,
+    "mtime": 1794438477.0230217,
+    "seen": 1794495296.2213106,
     "ast_hash": "9e306c9b739687fd476c3edbcc3e5814",
     "semantic_hash": ""
   },
@@ -78,15 +78,15 @@
     "semantic_hash": ""
   },
   "sw.js": {
-    "mtime": 1794438432.4720454,
-    "seen": 1794438440.916942,
-    "ast_hash": "dbad38e8e756c9cd548485773a7b5a2b",
+    "mtime": 1794495288.9069736,
+    "seen": 1794495296.2213852,
+    "ast_hash": "b63c1e9e86f252af90b862152093b372",
     "semantic_hash": ""
   },
   "BITACORA.md": {
-    "mtime": 1794438432.4681318,
-    "seen": 1794438440.9169438,
-    "ast_hash": "c0470215dcb76c64c3a2d26e7b38aed0",
+    "mtime": 1794495288.932463,
+    "seen": 1794495296.221393,
+    "ast_hash": "3c6b1f0a1d2a91d997dc63e787a8d895",
     "semantic_hash": ""
   },
   "LEEME.md": {
@@ -138,8 +138,8 @@
     "semantic_hash": ""
   },
   "estudiemos/index.html": {
-    "mtime": 1794438407.3870192,
-    "seen": 1794438440.916973,
+    "mtime": 1794438477.0190217,
+    "seen": 1794495296.2214549,
     "ast_hash": "b1c95eaa13c48de5d453d3259d624218",
     "semantic_hash": ""
   },
@@ -162,8 +162,8 @@
     "semantic_hash": ""
   },
   "panel/index.html": {
-    "mtime": 1794438407.3950193,
-    "seen": 1794438440.9169848,
+    "mtime": 1794438477.0230217,
+    "seen": 1794495296.2214768,
     "ast_hash": "8ab12edfc63d3a478dd12ca1b33fd619",
     "semantic_hash": ""
   },
@@ -396,8 +396,8 @@
     "semantic_hash": ""
   },
   "estudiemos/portada.js": {
-    "mtime": 1794438407.3910193,
-    "seen": 1794438440.9168766,
+    "mtime": 1794438477.0190217,
+    "seen": 1794495296.2212846,
     "ast_hash": "4b971e607500727418a74430d54549e5",
     "semantic_hash": ""
   },
@@ -510,8 +510,8 @@
     "semantic_hash": ""
   },
   "sql/tabla-catedras.sql": {
-    "mtime": 1794438407.3950193,
-    "seen": 1794438440.916918,
+    "mtime": 1794438477.0230217,
+    "seen": 1794495296.2213507,
     "ast_hash": "e0bae41224f9144b4ceafaf7172b592b",
     "semantic_hash": ""
   },
@@ -594,9 +594,9 @@
     "semantic_hash": ""
   },
   "docs/HISTORIAL-SW.md": {
-    "mtime": 1794438432.46847,
-    "seen": 1794438440.9169543,
-    "ast_hash": "d896eb83204ae2b26e2f86a744a51d23",
+    "mtime": 1794495288.9275842,
+    "seen": 1794495296.2214127,
+    "ast_hash": "6f2eccffc167a1478837618294937b14",
     "semantic_hash": ""
   },
   "docs/prompts/PROMPT-DISENO.md": {
@@ -636,8 +636,8 @@
     "semantic_hash": ""
   },
   "sql/contenido-catedras.md": {
-    "mtime": 1794438407.3950193,
-    "seen": 1794438440.9169893,
+    "mtime": 1794438477.0230217,
+    "seen": 1794495296.2214851,
     "ast_hash": "dce4976ab46274928455812eedcb11cb",
     "semantic_hash": ""
   },
@@ -654,8 +654,8 @@
     "semantic_hash": ""
   },
   "cargar/index.html": {
-    "mtime": 1794438407.3870192,
-    "seen": 1794438440.9169483,
+    "mtime": 1794438477.0190217,
+    "seen": 1794495296.2213998,
     "ast_hash": "c9a1d9510e96ec19d2dc268087681060",
     "semantic_hash": ""
   },
@@ -906,14 +906,14 @@
     "semantic_hash": ""
   },
   "ingreso/index.html": {
-    "mtime": 1794438421.7870197,
-    "seen": 1794438440.91698,
-    "ast_hash": "c4e8e2d6b6c5f704943b73606596abdd",
+    "mtime": 1794495262.3524694,
+    "seen": 1794495296.2214684,
+    "ast_hash": "4df8f808d82eaaf8273f31ebc774b394",
     "semantic_hash": ""
   },
   "estudiemos/mis-parciales/mis-parciales.js": {
-    "mtime": 1794438407.3910193,
-    "seen": 1794438440.9168732,
+    "mtime": 1794438477.0190217,
+    "seen": 1794495296.2212784,
     "ast_hash": "2d732d38476c77b45ef62025c256c03e",
     "semantic_hash": ""
   },
@@ -930,8 +930,8 @@
     "semantic_hash": ""
   },
   "estudiemos/mis-parciales/index.html": {
-    "mtime": 1794438407.3870192,
-    "seen": 1794438440.916974,
+    "mtime": 1794438477.0190217,
+    "seen": 1794495296.221457,
     "ast_hash": "2955418e7db077bcc1c2c061783027e0",
     "semantic_hash": ""
   },
@@ -966,9 +966,9 @@
     "semantic_hash": ""
   },
   "primeros-pasos/index.html": {
-    "mtime": 1794148080.4582348,
-    "seen": 1794438440.9169862,
-    "ast_hash": "a7d9bd7ac8b0d1bb0fcb40ff6f46f2ac",
+    "mtime": 1794495262.3524694,
+    "seen": 1794495296.2214787,
+    "ast_hash": "970194dd8f717e74bcac9a77251d11e2",
     "semantic_hash": ""
   },
   "docs/EVALUACION-NOV-2026.md": {

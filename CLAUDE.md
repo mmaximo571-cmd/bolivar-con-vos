@@ -68,7 +68,7 @@ Ninguno pasa de 420 líneas, y el nombre dice qué hay adentro:
 | `02-encabezado` | la marca, el menú lateral, la campana, el buscador, el índice del pie |
 | `03-controles` | botones, campos, interruptores, chips |
 | `04-tarjetas` | tarjetas y cómo se agrupan: listas, filas, grupos, módulos, bloques |
-| `05-secciones` | las secciones, los espacios, los pasos de un trámite, las pestañas, el sello del ingreso 2027 (`.sello`, lo usan Ingreso y el inicio) |
+| `05-secciones` | las secciones, los espacios, los pasos de un trámite, las pestañas, el sello del ingreso 2027 (`.sello`, lo usan Ingreso, Primeros pasos y el inicio) y los títulos como su franja negra (`.ingreso-2027 .titulo-seccion`, la clase va en el `<body>`) |
 | `06-hoja` | la hoja que sube desde abajo. **Acá vive `--t-hoja`** |
 | `07-avisos` | avisos, alertas, la alarma de inscripción, pantallas vacías, errores, esqueletos |
 | `08-calendario` | el calendario mensual y «pasalo a tu calendario» |
