@@ -997,8 +997,11 @@ function avisoDeBandeja(p, hoy, ahora){
                 : cambio ? 'cambios' : nuevo ? 'nuevo' : '';
   if (!seccion) return null;
 
-  /* Su aviso de ahora: el más reciente de los que tiene. */
-  let actual = { clave: 'pub:' + p.id + ':nueva', momento: tPub };
+  /* Su aviso de ahora: el más reciente de los que tiene. El de «nueva»
+     de un grupo de todas las semanas es de la serie, no del encuentro
+     (11/11/2026): leído una vez, no vuelve cada semana con el que sigue. */
+  let actual = { clave: p.serie_id ? 'serie:' + p.serie_id + ':nueva' : 'pub:' + p.id + ':nueva',
+                 momento: tPub };
   if (cambio && tCam > actual.momento)
     actual = { clave: 'pub:' + p.id + ':cambio:' + tCam, momento: tCam };
   if (esHoy){
@@ -1010,13 +1013,50 @@ function avisoDeBandeja(p, hoy, ahora){
   return { p, cat, seccion, ultimoDia, cambio, clave: actual.clave, momento: actual.momento };
 }
 
+/* LAS SERIES (11/11/2026). Un grupo de todas las semanas son varias
+   filas, y sin esto la bandeja lo nombraba una vez por encuentro: el de
+   esta semana en «Esta semana» y los otros en «Nuevo». Queda el
+   encuentro de hoy o de esta semana, si hay; la serie en «Nuevo», si no
+   hay; y un cambio, si es de otro encuentro («se suspendió el del 27»)
+   o si no hay ninguno esta semana. El cambio de toda la serie de una
+   vez ya lo dice el de esta semana con «Cambió»: no se repite. */
+function juntarSeriesDeBandeja(avisos){
+  const quedan = [], series = new Map();
+  avisos.forEach(a => {
+    const sid = a.p.serie_id;
+    if (!sid){ quedan.push(a); return; }
+    if (!series.has(sid)) series.set(sid, []);
+    series.get(sid).push(a);
+  });
+  const fecha = a => String(a.p.fecha_desde || '');
+  const tCam  = a => Date.parse(a.p.cambiado_at || '') || 0;
+  const mismoCambio = (x, y) => x.cambio && y.cambio && Math.abs(tCam(x) - tCam(y)) < 60000;
+  series.forEach(lista => {
+    lista.sort((x, y) => fecha(x).localeCompare(fecha(y)));
+    const dias = new Set(lista.map(a => {
+      const [y, m, d] = fecha(a).slice(0, 10).split('-').map(Number);
+      return new Date(y, m - 1, d).getDay();
+    }));
+    const serie = { dia: dias.size === 1 ? DIAS_BANDEJA[[...dias][0]] : null };
+    const estaSemana = lista.find(a => a.seccion === 'hoy' || a.seccion === 'semana');
+    const cambio = lista.find(a => a.seccion === 'cambios');
+    const nuevo  = lista.find(a => a.seccion === 'nuevo');
+    if (estaSemana) quedan.push(estaSemana);
+    if (cambio && !(estaSemana && mismoCambio(estaSemana, cambio))){
+      /* Si cambiaron varios a la vez, el renglón habla de la serie. */
+      if (lista.filter(a => mismoCambio(a, cambio)).length > 1) cambio.serie = serie;
+      quedan.push(cambio);
+    }
+    if (nuevo && !estaSemana){ nuevo.serie = serie; quedan.push(nuevo); }
+  });
+  return quedan;
+}
+
 function armarBandeja(lista){
   const hoy = hoyISO(), ahora = Date.now();
   const b = { hoy:[], semana:[], cambios:[], nuevo:[] };
-  (lista || []).forEach(p => {
-    const a = avisoDeBandeja(p, hoy, ahora);
-    if (a) b[a.seccion].push(a);
-  });
+  juntarSeriesDeBandeja((lista || []).map(p => avisoDeBandeja(p, hoy, ahora)).filter(Boolean))
+    .forEach(a => b[a.seccion].push(a));
   const hora  = a => String(a.p.hora || '99');
   const fecha = a => String(a.p.fecha_desde || '');
   /* Hoy: el paro primero, después por hora. */
@@ -1043,6 +1083,12 @@ function cuandoEnBandeja(a, hoy){
     const [y, m, dd] = d.split('-').map(Number);
     const dia = DIAS_BANDEJA[new Date(y, m - 1, dd).getDay()];
     return dia[0].toUpperCase() + dia.slice(1) + ' ' + dd;
+  }
+  /* Un renglón que habla de toda la serie (ver `juntarSeriesDeBandeja`). */
+  if (a.serie){
+    const dia = a.serie.dia;
+    return (dia ? 'Todos los ' + (/s$/.test(dia) ? dia : dia + 's') : 'Cada semana') +
+           ', desde el ' + fechaLinda(d);
   }
   return rangoLindo(a.p.fecha_desde, a.p.fecha_hasta);
 }
@@ -1150,7 +1196,7 @@ async function traerNovedades(){
 
   const hoy = hoyISO();
   const columnas = 'id,titulo,tipo,linea,categoria,materia,suspendido,fecha_desde,' +
-                   'fecha_hasta,hora,lugar,creado_at,publicado_at,cambiado_at';
+                   'fecha_hasta,hora,lugar,creado_at,publicado_at,cambiado_at,serie_id';
   let r;
   try {
     r = await db.from('publicaciones').select(columnas).eq('publicado', true)

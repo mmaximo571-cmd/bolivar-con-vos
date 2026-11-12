@@ -2687,6 +2687,9 @@ addEventListener('pageshow', function(ev){
         if (va !== vb) return va - vb;
         return String(a.fecha_desde || '').localeCompare(String(b.fecha_desde || ''));
       })
+      /* Un grupo de todas las semanas sale una vez, con el próximo
+         encuentro (que es el primero después de ordenar), no cuatro. */
+      .filter((p, i, todas) => !p.serie_id || todas.findIndex(x => x.serie_id === p.serie_id) === i)
       .slice(0, 4);
 
     const cHit = (catedras || [])

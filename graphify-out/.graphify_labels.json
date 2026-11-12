@@ -91,7 +91,6 @@
   "92": "contenido-alumnes.sql",
   "93": "contenido-boleto.sql",
   "94": "contenido-linktree.sql",
-  "95": "rangoLindo",
   "96": "tabla-fotos.sql",
   "97": "tabla-programas-pdf.sql",
   "98": "tabla-seguridad.sql",
@@ -112,7 +111,6 @@
   "114": "mis-parciales/mis-parciales.js",
   "115": "lib/mis-parciales.js",
   "116": "montar",
-  "118": "elegirCarrera",
   "120": "empezarRecorrido",
   "121": "tabla-ingresantes.sql"
 }

@@ -184,7 +184,8 @@
         p.suspendido ? ';text-decoration:line-through;opacity:.7' : ''}">${esc(p.titulo)}</h1>
 
       ${p.suspendido ? `<div class="aviso error" role="status"><strong>Se suspendió.</strong>
-          Ya no se hace en esta fecha. Si se reprograma, aparece de nuevo en la agenda.</div>`
+          ${p.serie_id ? 'Este encuentro no se hace. Fijate abajo los otros días del grupo.'
+            : 'Ya no se hace en esta fecha. Si se reprograma, aparece de nuevo en la agenda.'}</div>`
         : cambioReciente(p) ? `<div class="aviso" role="status"><strong>Cambió hace poco.</strong>
           Fijate bien el día, la hora y el lugar de abajo.</div>` : ''}
 
@@ -193,6 +194,8 @@
           ${p.hora  ? `<dt>Hora</dt><dd>${esc(p.hora)}</dd>`   : ''}
           ${p.lugar ? `<dt>Dónde</dt><dd>${esc(p.lugar)}</dd>` : ''}
         </dl></div>` : ''}
+
+      ${p.serie_id ? '<div class="ficha serie-detalle" id="serie" hidden></div>' : ''}
 
       ${conVoy ? '<section class="voy" id="voy" aria-label="Quiénes van"></section>' : ''}
 
@@ -217,6 +220,57 @@
        El botón de Google no necesita nada: es un enlace común. */
     const botonICS = contenido.querySelector('[data-agendar]');
     if (botonICS) botonICS.addEventListener('click', () => bajarICS([p], p.titulo));
+
+    /* LA SERIE (11/11/2026): el grupo de todas las semanas. Esta página
+       es UN encuentro (el de la fecha de arriba, con su «Me anoto»); acá
+       van los otros que vienen, cada uno a su página, y el calendario
+       con todos de una. No frena nada: si no llega, la página es la de
+       un encuentro suelto. Con el cliente chico no hay `gte`: se traen
+       todos los de la serie (son veinte a lo sumo) y se filtra acá. */
+    if (p.serie_id) (async () => {
+      const caja = document.getElementById('serie');
+      let filas = [];
+      try {
+        const { data, error } = await db.from('publicaciones')
+          .select('id,titulo,fecha_desde,fecha_hasta,hora,lugar,cuerpo,suspendido,serie_id')
+          .eq('serie_id', p.serie_id).eq('publicado', true)
+          .order('fecha_desde', { ascending: true });
+        if (error) return;
+        filas = (data || []).filter(f => todaviaViene(f) || String(f.id) === String(p.id));
+      } catch(e){ return; }
+      if (!caja || filas.length < 2) return;
+
+      const diaDe = iso => {
+        const [a, m, d] = String(iso).slice(0, 10).split('-').map(Number);
+        return ['domingo','lunes','martes','miércoles','jueves','viernes','sábado'][new Date(a, m - 1, d).getDay()];
+      };
+      const corta = iso => { const [, m, d] = String(iso).slice(0, 10).split('-').map(Number); return `${d}/${m}`; };
+      const dias = new Set(filas.map(f => diaDe(f.fecha_desde)));
+      const dia = dias.size === 1 ? [...dias][0] : null;
+      const losDias = dia ? 'Todos los ' + (/s$/.test(dia) ? dia : dia + 's') : 'Una vez por semana';
+      const paraAgendar = filas.filter(f => !f.suspendido && todaviaViene(f));
+
+      caja.innerHTML = `
+        <h3>${esc(losDias)}</h3>
+        <p class="letra-chica serie-nota">Es un grupo que se repite. Cada encuentro va
+          aparte: tocá el día que quieras ver${conVoy ? ' o al que te quieras anotar' : ''}.</p>
+        <div class="chips elegir-uno">
+          ${filas.map(f => `
+            <a class="chip${f.suspendido ? ' suspendido' : ''}" href="?id=${esc(f.id)}"${
+              String(f.id) === String(p.id) ? ' aria-current="page"' : ''}
+               aria-label="${esc(diaDe(f.fecha_desde) + ' ' + fechaLinda(f.fecha_desde))}${
+                 f.suspendido ? ', suspendido' : ''}">${f.suspendido
+              ? `<s>${esc(corta(f.fecha_desde))}</s>` : esc(corta(f.fecha_desde))}</a>`).join('')}
+        </div>
+        ${paraAgendar.length > 1 ? `
+          <button type="button" class="boton borde ancho serie-agendar" data-agendar-serie>
+            Pasar los ${paraAgendar.length} encuentros a tu calendario
+          </button>` : ''}`;
+      caja.hidden = false;
+
+      const todos = caja.querySelector('[data-agendar-serie]');
+      if (todos) todos.addEventListener('click', () => bajarICS(paraAgendar, p.titulo));
+    })();
 
     document.title = p.titulo + ' · La Bolívar con vos';
     if (!conVoy) return;
@@ -432,6 +486,7 @@
       <h3>${esc(p.titulo)}</h3>
       ${datos ? `<p>${datos}</p>`
               : (p.cuerpo ? `<p>${esc(p.cuerpo.slice(0,140))}${p.cuerpo.length > 140 ? '…' : ''}</p>` : '')}
+      ${htmlOtrasDeLaSerie(p)}
       <div class="tarjeta-pies">
         ${esHoy ? '<span class="insignia-hoy">Hoy</span>' : ''}
         ${p.suspendido ? '<span class="etiqueta suspendido">Suspendido</span>'
@@ -451,6 +506,54 @@
         </div></a>`;
 
     return `<a class="${clases}" href="${esc(hrefDe(p))}">${cuerpo}</a>`;
+  }
+
+  /* LAS SERIES EN LA LISTA (11/11/2026). Un grupo de todas las semanas
+     es UNA tarjeta por mes: cuatro iguales seguidas se leen como un
+     error y tapan lo demás del mes. La que se ve es la del día que se
+     tocó en el calendario, o si no la próxima que se hace; las otras
+     fechas del mes van en un renglón, tachadas las suspendidas. Lo que
+     ya pasó no se nombra, salvo en un mes que ya pasó entero. El
+     calendario, Días y Mío no se tocan: ahí cada encuentro va en su día. */
+  function juntarSeries(lista){
+    const hoy = hoyISO();
+    const vino = f => String(f.fecha_desde).slice(0, 10) >= hoy;
+    const series = new Map();
+    lista.forEach(p => {
+      if (!p.serie_id) return;
+      if (!series.has(p.serie_id)) series.set(p.serie_id, []);
+      series.get(p.serie_id).push(p);
+    });
+    const tapadas = new Set(), caras = new Map();
+    series.forEach(filas => {
+      if (filas.length < 2) return;
+      const cara = (diaElegido && filas.find(f => caeEnElDia(f, diaElegido)))
+        || filas.find(f => vino(f) && !f.suspendido)
+        || filas.find(vino)
+        || filas[0];
+      const otras = filas.filter(f => f !== cara && (vino(f) || !vino(cara)));
+      filas.forEach(f => { if (f !== cara) tapadas.add(f); });
+      caras.set(cara, Object.assign({}, cara, { otrasDeLaSerie: otras }));
+    });
+    return lista.filter(p => !tapadas.has(p)).map(p => caras.get(p) || p);
+  }
+
+  function htmlOtrasDeLaSerie(p){
+    const otras = p.otrasDeLaSerie;
+    if (!otras || !otras.length) return '';
+    const dias = new Set([p, ...otras].map(f => {
+      const [a, m, d] = String(f.fecha_desde).slice(0, 10).split('-').map(Number);
+      return new Date(a, m - 1, d).getDay();
+    }));
+    const dia = dias.size === 1 ? DIAS_SEMANA[[...dias][0]] : null;
+    const fechas = otras.map(f => {
+      const t = esc(fechaCorta(String(f.fecha_desde).slice(0, 10)));
+      return f.suspendido ? `<s>${t}</s>` : t;
+    });
+    const lista = fechas.length > 1
+      ? fechas.slice(0, -1).join(', ') + ' y ' + fechas[fechas.length - 1] : fechas[0];
+    return `<p class="tarjeta-serie">${dia ? 'Todos los ' + esc(/s$/.test(dia) ? dia : dia + 's')
+      : 'Cada semana'} · también ${lista}</p>`;
   }
 
   /* '2026-09-04' -> '2026-09'. Agrupar por mes y no por categoría es la
@@ -546,18 +649,20 @@
       primeraVez = false;
     }
 
-    const deMes = k => porMes[k]
-      .sort((a, b) => a.fecha_desde.localeCompare(b.fecha_desde))
-      .map(tarjeta).join('');
+    /* La cuenta del mes es la de tarjetas, no la de filas: una serie
+       cuenta una vez, como se ve. */
+    const deMes = k => juntarSeries(porMes[k]
+      .sort((a, b) => a.fecha_desde.localeCompare(b.fecha_desde)));
+    const mes = k => { const t = deMes(k); return grupo(k, nombreMes(k), t.map(tarjeta).join(''), t.length); };
 
-    let html = porVenir.map(k => grupo(k, nombreMes(k), deMes(k), porMes[k].length)).join('');
+    let html = porVenir.map(mes).join('');
 
     if (sinFecha.length)
       html += grupo('sin-fecha', 'SIN FECHA', sinFecha.map(tarjeta).join(''), sinFecha.length);
 
     if (pasados.length)
       html += `<div class="titulo-seccion" style="margin-top:22px">YA PASARON</div>` +
-              pasados.map(k => grupo(k, nombreMes(k), deMes(k), porMes[k].length)).join('');
+              pasados.map(mes).join('');
 
     zonas.innerHTML = html;
   }

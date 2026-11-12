@@ -224,11 +224,17 @@
      uno, y `relativa` la palabra («mañana») de la que salió la fecha.
      `repite` es el título de lo que se está copiando. Los tres sirven
      solo para decirle a la persona qué hay que revisar. */
+  /* `veces` es cuántos encuentros, uno por semana (11/11/2026): 1 es
+     «solo ese día». `serie` es la serie entera que se está corrigiendo
+     («Editar todos los que vienen»): { id, filas }, con las filas que
+     vienen; ahí `fecha` es la del primero y `antes.fecha` la de antes. */
   const esto = { que:null, fecha:null, hora:null, lugar:'', detalle:'', asunto:'',
-                 editando:null, antes:null, pegado:null, relativa:null, repite:null, placa:false };
+                 editando:null, antes:null, pegado:null, relativa:null, repite:null, placa:false,
+                 veces:1, serie:null };
 
-  /* Todo lo que no es lo cargado: lo que se limpia al empezar otra cosa. */
-  const SIN_ORIGEN = { pegado:null, relativa:null, repite:null, placa:false };
+  /* Lo que se limpia al empezar otra cosa: de dónde salió, si se repite
+     y si es una serie entera. */
+  const SIN_ORIGEN = { pegado:null, relativa:null, repite:null, placa:false, veces:1, serie:null };
 
   /* Las tres clases de cosa que se cargan acá, con TODO lo que cada una
      implica junto. Agregar otra (un taller) es agregar un renglón a
@@ -273,6 +279,10 @@
            de cada quien, la materia es la que hace sonar el aviso. */
         sugerencias: true
       },
+      /* El grupo de los jueves se carga una vez para varias semanas
+         (11/11/2026). Una actividad semanal (la asamblea de cada
+         martes) sería sumar esta línea allá: todo lo demás ya sirve. */
+      repetible: true,
       titulo: e => 'Grupo de estudio de ' + e.asunto,
       asunto: p => p.materia ||
         String(p.titulo || '').replace(/^Grupo de estudio de\s*/i, '')
@@ -356,6 +366,79 @@
   }
 
   /* ------------------------------------------------------------
+     LO QUE SE REPITE CADA SEMANA (11/11/2026)
+
+     Un grupo semanal se guarda como una fila por encuentro, todas con
+     el mismo `serie_id` (ver el porqué en `sql/tabla-publicaciones.sql`,
+     sección 10). Acá solo se calculan las fechas: siete días entre una
+     y otra, armadas con la fecha local por lo mismo que `aISO`.
+
+     El tope de veinte es un cuatrimestre y un poco más. Más que eso es
+     un error de dedo, y veinte filas mal cargadas ya cuestan corregir.
+     ------------------------------------------------------------ */
+  const MAX_ENCUENTROS = 20;
+  const SEMANAS = [4, 8, 12];
+
+  function sumarDias(iso, n){
+    const [a, m, d] = iso.split('-').map(Number);
+    return aISO(new Date(a, m - 1, d + n));
+  }
+
+  function diasEntre(desde, hasta){
+    const [a1, m1, d1] = desde.split('-').map(Number);
+    const [a2, m2, d2] = hasta.split('-').map(Number);
+    return Math.round((Date.UTC(a2, m2 - 1, d2) - Date.UTC(a1, m1 - 1, d1)) / 86400000);
+  }
+
+  function fechasDeLaSerie(desde, veces){
+    return Array.from({ length: veces }, (_, i) => sumarDias(desde, 7 * i));
+  }
+
+  /* «jueves», y en plural «los jueves», «los sábados». */
+  function diaDe(iso){
+    const [a, m, d] = iso.split('-').map(Number);
+    return DIAS[new Date(a, m - 1, d).getDay()];
+  }
+  const losDias = dia => 'los ' + (/s$/.test(dia) ? dia : dia + 's');
+
+  const cortita = iso => { const [, m, d] = iso.split('-').map(Number); return `${d}/${m}`; };
+
+  function enLista(cosas){
+    return cosas.length > 1
+      ? cosas.slice(0, -1).join(', ') + ' y ' + cosas[cosas.length - 1] : (cosas[0] || '');
+  }
+
+  const fechaDe = p => String(p.fecha_desde).slice(0, 10);
+
+  /* El día de la semana de una serie, si todos sus encuentros caen el
+     mismo. Si uno se corrió a mano, ya no es «todos los jueves». */
+  function diaDeLaSerie(filas){
+    const dias = new Set(filas.map(f => diaDe(fechaDe(f))));
+    return dias.size === 1 ? [...dias][0] : null;
+  }
+
+  function nuevaSerie(){
+    if (crypto.randomUUID) return crypto.randomUUID();
+    /* Fuera de https no hay `randomUUID`; una v4 a mano es lo mismo. */
+    const b = crypto.getRandomValues(new Uint8Array(16));
+    b[6] = (b[6] & 0x0f) | 0x40;
+    b[8] = (b[8] & 0x3f) | 0x80;
+    const h = Array.from(b, x => x.toString(16).padStart(2, '0')).join('');
+    return `${h.slice(0, 8)}-${h.slice(8, 12)}-${h.slice(12, 16)}-${h.slice(16, 20)}-${h.slice(20)}`;
+  }
+
+  /* Cómo se dice el cuándo de lo que se está cargando, en la bajada
+     del paso 3 y en la vista previa. */
+  function cuandoSeRepite(){
+    if (esto.serie){
+      const n = esto.serie.filas.length;
+      return n === 1 ? 'el encuentro que viene' : `los ${n} encuentros que vienen`;
+    }
+    return esto.veces > 1 && esto.fecha
+      ? `todos ${losDias(diaDe(esto.fecha))}, ${esto.veces} encuentros` : '';
+  }
+
+  /* ------------------------------------------------------------
      LOS PASOS
 
      Cada uno dibuja y engancha lo suyo. `paso1` no recibe nada porque
@@ -366,6 +449,7 @@
   function encabezado(n, texto){
     return `
       <p class="bajada" style="margin-bottom:6px">${esto.editando ? 'Corrigiendo · '
+        : esto.serie ? 'Corrigiendo todos los que vienen · '
         : esto.repite ? 'Repitiendo · ' : esto.placa ? 'Desde la placa · '
         : esto.pegado ? 'Desde el mensaje · ' : ''}Paso ${n} de 3</p>
       <h1 class="titulo-pantalla">${texto}</h1>
@@ -382,7 +466,7 @@
   const QUE_FALTA = { paro:'por qué es el paro', grupo:'la materia', actividad:'qué es' };
 
   function cajaDeOrigen(){
-    if (esto.editando || (!esto.pegado && !esto.repite)) return '';
+    if (esto.editando || esto.serie || (!esto.pegado && !esto.repite)) return '';
     if (esto.repite) return `
       <div class="aviso ok">Copiaste «${esc(esto.repite)}». Elegí el día nuevo y
         revisá que la hora y el lugar sigan siendo los mismos.</div>`;
@@ -399,7 +483,9 @@
         Completé lo que pude leer ${esto.placa ? 'de la placa' : 'del mensaje'}. <strong>Revisalo:</strong> lo
         adiviné, no lo sé.${falta.length ? ` No encontré ${esc(lista)}.` : ''}${
         esto.relativa && esto.fecha ? ` «${esc(esto.relativa)}» lo tomé como el
-        ${esc(enPalabras(esto.fecha))}: si ${esto.placa ? 'la placa' : 'el mensaje'} es de otro día, cambiá la fecha.` : ''}
+        ${esc(enPalabras(esto.fecha))}: si ${esto.placa ? 'la placa' : 'el mensaje'} es de otro día, cambiá la fecha.` : ''}${
+        esto.veces > 1 ? ` Dice que se repite: lo dejé para ${esto.veces} semanas, y se
+        cambia en el paso 2.` : ''}
         <details style="margin-top:8px">
           <summary style="cursor:pointer;font-weight:700">${esto.placa
             ? 'Ver el texto de la placa' : 'Ver el mensaje que pegaste'}</summary>
@@ -489,7 +575,9 @@
     Object.assign(esto, {
       que: l.que, fecha: l.fecha, hora: l.hora, lugar: l.lugar, asunto: l.asunto,
       detalle: '', editando: null, antes: null
-    }, SIN_ORIGEN, { pegado: texto, relativa: l.relativa });
+    }, SIN_ORIGEN, { pegado: texto, relativa: l.relativa,
+      /* Un mes, de entrada: es lo que más se pide, y se ve antes de publicar. */
+      veces: l.semanal && l.que && CLASES[l.que].repetible ? 4 : 1 });
     seguirConLoLeido('No me di cuenta de qué es.');
   }
 
@@ -561,10 +649,14 @@
        mensaje que vino compartido junto con la placa. */
     const cuadro = document.getElementById('pegado');
     if (r.texto) cuadro.value = r.texto;
+    /* «Todos los jueves» en la placa: lo mismo que en un mensaje. */
+    const semanal = !!(r.texto && window.leerAviso && CLASES[r.que] && CLASES[r.que].repetible &&
+                       window.leerAviso(r.texto, { que: r.que }).semanal);
     Object.assign(esto, {
       que: r.que, fecha: r.fecha, hora: r.hora, lugar: r.lugar || '', asunto,
       detalle: '', editando: null, antes: null
-    }, SIN_ORIGEN, { pegado: r.texto || '', relativa: r.relativa, placa: true });
+    }, SIN_ORIGEN, { pegado: r.texto || '', relativa: r.relativa, placa: true,
+                     veces: semanal ? 4 : 1 });
     seguirConLoLeido('Leí la placa pero no me di cuenta de qué es.');
   }
 
@@ -609,19 +701,37 @@
   async function pintarLoMio(){
     const caja = document.getElementById('lo-mio');
     if (!caja) return;
+    const hoy = aISO(new Date());
     const ayer = aISO(new Date(Date.now() - 86400000));
     const { data, error } = await db.from('publicaciones')
-      .select('id,titulo,categoria,materia,fecha_desde,fecha_hasta,hora,lugar,cuerpo,publicado,suspendido')
+      .select('id,titulo,categoria,materia,fecha_desde,fecha_hasta,hora,lugar,cuerpo,publicado,suspendido,serie_id')
       .eq('creado_por', usuario.id)
       .in('categoria', Object.keys(QUE_DE_CATEGORIA))
       .gte('fecha_desde', ayer)
       .order('fecha_desde', { ascending: true })
-      .limit(30);
+      /* Una serie son hasta veinte filas: con las 30 de antes, dos
+         grupos semanales tapaban todo lo demás. */
+      .limit(200);
     /* Sin la columna `categoria` (falta correr el SQL) no se dibuja
        nada: la carga sigue andando igual y esto es un agregado. */
     if (error || !document.getElementById('lo-mio')) return;
     mio = data || [];
-    if (!mio.length){ caja.innerHTML = ''; return; }
+
+    /* Los encuentros de una serie van juntos, en una tarjeta, en el
+       lugar del primero que viene. El de ayer de una serie ya no se
+       corrige: no entra (uno suelto de ayer sí, como siempre). */
+    const cosas = [], series = new Map();
+    mio.forEach(p => {
+      if (!p.serie_id){ cosas.push({ p }); return; }
+      if (fechaDe(p) < hoy) return;
+      if (!series.has(p.serie_id)){
+        const s = { id: p.serie_id, filas: [] };
+        series.set(p.serie_id, s);
+        cosas.push({ s });
+      }
+      series.get(p.serie_id).filas.push(p);
+    });
+    if (!cosas.length){ caja.innerHTML = ''; return; }
 
     /* Cuántos dijeron «Voy», y en los grupos los números que dejaron
        para que los sumen al de WhatsApp (tanda 3, 30/9/2026). Los
@@ -650,37 +760,90 @@
         : `${n} ${n === 1 ? 'persona dijo' : 'personas dijeron'} que va`;
     };
 
+    const htmlNumeros = (tels, deSerie) => tels.length ? `
+      <details style="margin-top:8px">
+        <summary class="letra-chica" style="cursor:pointer;font-weight:700">${tels.length} ${
+          tels.length === 1 ? 'número' : 'números'} para sumar al grupo de WhatsApp</summary>
+        <ul style="margin:6px 0 0;padding-left:18px">${tels.map(t => `<li>${esc(t)}</li>`).join('')}</ul>
+        <p class="letra-chica" style="margin:6px 0 0">Usalos solo para sumar gente a este grupo.
+          Se borran solos dos días después del encuentro${deSerie ? ' en el que se anotaron' : ''}.</p>
+      </details>` : '';
+
+    const htmlSuelta = p => {
+      const c = CLASES[QUE_DE_CATEGORIA[p.categoria]];
+      const estado = p.suspendido ? 'Suspendido'
+                   : !p.publicado ? 'Sin publicar' : '';
+      return `
+        <div class="tarjeta ${esc(c.linea)}${p.suspendido ? ' suspendida' : ''}">
+          <h3>${c.emoji} ${esc(p.titulo)}</h3>
+          <p>${esc(enPalabras(fechaDe(p)))}${
+            p.hora ? ' · ' + esc(p.hora) : ''}${p.lugar ? ' · ' + esc(p.lugar) : ''}</p>
+          ${estado ? `<div class="tarjeta-pies"><span class="etiqueta">${estado}</span></div>` : ''}
+          ${p.publicado && !p.suspendido ? `<p class="voy-cuenta" style="margin:8px 0 0">${esc(cuantosVanA(p))}</p>` : ''}
+          ${htmlNumeros(numeros[p.id] || [], false)}
+          <div class="chips" style="margin-top:10px">
+            ${p.suspendido ? '' : `<button type="button" class="chip" data-editar="${p.id}">Editar</button>`}
+            ${!p.publicado ? `<button type="button" class="chip" data-publicar="${p.id}">Publicar ya</button>` : ''}
+            <button type="button" class="chip" data-suspender="${p.id}">${
+              p.suspendido ? 'Volver a activar' : 'Suspender'}</button>
+            <button type="button" class="chip" data-repetir="${p.id}">Repetir otro día</button>
+          </div>
+        </div>`;
+    };
+
+    /* LA SERIE (11/11/2026). Arriba lo de todos (el día de la semana,
+       la hora y el lugar del próximo, las fechas que quedan, tachadas
+       las suspendidas); abajo, plegado, cada encuentro con lo suyo, que
+       es lo que se usa cuando «este jueves cambiamos de aula». Los
+       números se juntan: el grupo de WhatsApp es uno para toda la
+       serie, aunque cada quien se anote en un encuentro. */
+    const htmlSerie = s => {
+      const p = s.filas[0];
+      const c = CLASES[QUE_DE_CATEGORIA[p.categoria]];
+      const activas = s.filas.filter(f => !f.suspendido);
+      const proxima = activas[0];
+      const dia = diaDeLaSerie(s.filas);
+      const tels = [...new Set(s.filas.flatMap(f => numeros[f.id] || []))];
+      const quedan = s.filas.length;
+      return `
+        <div class="tarjeta ${esc(c.linea)}${proxima ? '' : ' suspendida'}">
+          <h3>${c.emoji} ${esc((proxima || p).titulo)}</h3>
+          <p>${dia ? 'Todos ' + esc(losDias(dia)) : 'Cada semana'}${
+            (proxima || p).hora ? ' · ' + esc((proxima || p).hora) : ''}${
+            (proxima || p).lugar ? ' · ' + esc((proxima || p).lugar) : ''}</p>
+          <p class="letra-chica serie-fechas">${quedan === 1 ? 'Queda 1 encuentro' : `Quedan ${quedan} encuentros`}:
+            ${enLista(s.filas.map(f => f.suspendido
+              ? `<s title="Suspendido">${esc(cortita(fechaDe(f)))}</s>` : esc(cortita(fechaDe(f)))))}</p>
+          ${proxima
+            ? `<p class="voy-cuenta" style="margin:8px 0 0">El ${esc(enPalabras(fechaDe(proxima)))}: ${
+                esc(cuantosVanA(proxima).toLowerCase())}</p>`
+            : '<div class="tarjeta-pies"><span class="etiqueta">Suspendido</span></div>'}
+          ${htmlNumeros(tels, true)}
+          <div class="chips elegir-uno" style="margin-top:10px">
+            ${proxima ? `<button type="button" class="chip" data-serie-editar="${esc(s.id)}">Editar todos los que vienen</button>` : ''}
+            <button type="button" class="chip" data-serie-sumar="${esc(s.id)}">Sumar 4 semanas más</button>
+            <button type="button" class="chip" data-serie-suspender="${esc(s.id)}">${
+              proxima ? 'Suspender todos' : 'Volver a activar todos'}</button>
+          </div>
+          <details class="serie-uno">
+            <summary>Cambiar o suspender un solo encuentro</summary>
+            ${s.filas.map(f => `
+              <div class="serie-encuentro${f.suspendido ? ' suspendido' : ''}">
+                <span>${esc(enPalabras(fechaDe(f)))}${f.suspendido ? ' · suspendido' : ''}</span>
+                <span class="chips">
+                  ${f.suspendido ? '' : `<button type="button" class="chip" data-editar="${f.id}">Editar</button>`}
+                  <button type="button" class="chip" data-suspender="${f.id}">${
+                    f.suspendido ? 'Volver a activar' : 'Suspender'}</button>
+                </span>
+              </div>`).join('')}
+          </details>
+        </div>`;
+    };
+
     caja.innerHTML = `
       <div class="titulo-seccion" style="margin-top:26px">LO QUE CARGASTE</div>
       <div class="grupo">
-        ${mio.map(p => {
-          const c = CLASES[QUE_DE_CATEGORIA[p.categoria]];
-          const estado = p.suspendido ? 'Suspendido'
-                       : !p.publicado ? 'Sin publicar' : '';
-          return `
-          <div class="tarjeta ${esc(c.linea)}${p.suspendido ? ' suspendida' : ''}">
-            <h3>${c.emoji} ${esc(p.titulo)}</h3>
-            <p>${esc(enPalabras(String(p.fecha_desde).slice(0, 10)))}${
-              p.hora ? ' · ' + esc(p.hora) : ''}${p.lugar ? ' · ' + esc(p.lugar) : ''}</p>
-            ${estado ? `<div class="tarjeta-pies"><span class="etiqueta">${estado}</span></div>` : ''}
-            ${p.publicado && !p.suspendido ? `<p class="voy-cuenta" style="margin:8px 0 0">${esc(cuantosVanA(p))}</p>` : ''}
-            ${(numeros[p.id] || []).length ? `
-              <details style="margin-top:8px">
-                <summary class="letra-chica" style="cursor:pointer;font-weight:700">${numeros[p.id].length} ${
-                  numeros[p.id].length === 1 ? 'número' : 'números'} para sumar al grupo de WhatsApp</summary>
-                <ul style="margin:6px 0 0;padding-left:18px">${numeros[p.id].map(t => `<li>${esc(t)}</li>`).join('')}</ul>
-                <p class="letra-chica" style="margin:6px 0 0">Usalos solo para sumar gente a este grupo.
-                  Se borran solos dos días después del encuentro.</p>
-              </details>` : ''}
-            <div class="chips" style="margin-top:10px">
-              ${p.suspendido ? '' : `<button type="button" class="chip" data-editar="${p.id}">Editar</button>`}
-              ${!p.publicado ? `<button type="button" class="chip" data-publicar="${p.id}">Publicar ya</button>` : ''}
-              <button type="button" class="chip" data-suspender="${p.id}">${
-                p.suspendido ? 'Volver a activar' : 'Suspender'}</button>
-              <button type="button" class="chip" data-repetir="${p.id}">Repetir otro día</button>
-            </div>
-          </div>`;
-        }).join('')}
+        ${cosas.map(x => x.s ? htmlSerie(x.s) : htmlSuelta(x.p)).join('')}
       </div>
       <div id="msj-mio"></div>`;
 
@@ -695,6 +858,22 @@
     });
     caja.querySelectorAll('[data-repetir]').forEach(b => {
       b.onclick = () => repetir(mio.find(p => String(p.id) === b.dataset.repetir));
+    });
+    const filasDe = id => (series.get(id) || { filas: [] }).filas;
+    caja.querySelectorAll('[data-serie-editar]').forEach(b => {
+      /* Desde el próximo que se hace: corregir uno suspendido como si
+         fuera el primero correría la serie desde una fecha que no va. */
+      b.onclick = () => {
+        const filas = filasDe(b.dataset.serieEditar);
+        const primera = filas.findIndex(f => !f.suspendido);
+        editarSerie(filas.slice(Math.max(0, primera)));
+      };
+    });
+    caja.querySelectorAll('[data-serie-sumar]').forEach(b => {
+      b.onclick = () => alargarSerie(filasDe(b.dataset.serieSumar), b);
+    });
+    caja.querySelectorAll('[data-serie-suspender]').forEach(b => {
+      b.onclick = () => suspenderSerie(filasDe(b.dataset.serieSuspender), b);
     });
   }
 
@@ -730,8 +909,62 @@
       detalle: p.cuerpo || '',
       asunto:  CLASES[que].asunto(p),
       editando: null, antes: null
-    }, SIN_ORIGEN, { repite: p.titulo });
+    }, SIN_ORIGEN, { repite: p.titulo,
+      /* Lo que era de todas las semanas, se copia de todas las semanas. */
+      veces: p.serie_id && CLASES[que].repetible ? 4 : 1 });
     paso2();
+  }
+
+  /* «Editar todos los que vienen»: el formulario de siempre, con lo del
+     próximo encuentro. Se guarda en todos (ver `guardarSerie`). */
+  function editarSerie(filas){
+    if (!filas || !filas.length) return;
+    const p = filas[0];
+    const que = QUE_DE_CATEGORIA[p.categoria];
+    Object.assign(esto, {
+      que,
+      fecha:   fechaDe(p),
+      hora:    p.hora || null,
+      lugar:   p.lugar || '',
+      detalle: p.cuerpo || '',
+      asunto:  CLASES[que].asunto(p),
+      editando: null,
+      antes:   { fecha: fechaDe(p), hora: p.hora || null, lugar: p.lugar || '' }
+    }, SIN_ORIGEN, { serie: { id: p.serie_id, filas } });
+    paso2();
+  }
+
+  /* Sumar semanas al final, con lo del último encuentro. */
+  async function alargarSerie(filas, boton){
+    const ultima = filas[filas.length - 1];
+    const fechas = fechasDeLaSerie(sumarDias(fechaDe(ultima), 7), 4);
+    if (!confirm(`¿Sumar 4 encuentros más, hasta el ${enPalabras(fechas[3])}?\n\n` +
+                 'Se ven ya en la agenda, igual que los otros.')) return;
+    if (boton) boton.disabled = true;
+    const { error } = await db.from('publicaciones').insert(fechas.map(f => ({
+      tipo: 'evento', linea: CLASES[QUE_DE_CATEGORIA[ultima.categoria]].linea,
+      categoria: ultima.categoria,
+      publicado: true, alarma: 'ninguna', avisar: false, creado_por: usuario.id,
+      titulo: ultima.titulo, cuerpo: ultima.cuerpo || null, hora: ultima.hora || null,
+      lugar: ultima.lugar, materia: ultima.materia || null,
+      fecha_desde: f, serie_id: ultima.serie_id
+    })));
+    terminarCambio(error, boton);
+  }
+
+  /* Suspender o volver a activar todos los que vienen, de una vez. */
+  async function suspenderSerie(filas, boton){
+    const suspendiendo = filas.some(f => !f.suspendido);
+    if (suspendiendo && !confirm(
+        '¿Suspender todos los encuentros que vienen de «' + filas[0].titulo + '»?\n\n' +
+        'Quedan tachados en la agenda y a quien ya le había llegado el aviso del ' +
+        'grupo le avisamos una sola vez.')) return;
+    if (boton) boton.disabled = true;
+    const { error } = await db.from('publicaciones')
+      .update({ suspendido: suspendiendo })
+      .eq('serie_id', filas[0].serie_id)
+      .gte('fecha_desde', fechaDe(filas[0]));
+    terminarCambio(error, boton);
   }
 
   /* Lo que ya pasó no está en «Lo que cargaste» (esa lista es para
@@ -743,7 +976,7 @@
     if (!caja) return;
     const ayer = aISO(new Date(Date.now() - 86400000));
     const { data, error } = await db.from('publicaciones')
-      .select('id,titulo,categoria,materia,fecha_desde,hora,lugar,cuerpo')
+      .select('id,titulo,categoria,materia,fecha_desde,hora,lugar,cuerpo,serie_id')
       .eq('creado_por', usuario.id)
       .in('categoria', Object.keys(QUE_DE_CATEGORIA))
       .lt('fecha_desde', ayer)
@@ -770,15 +1003,24 @@
   async function suspender(p, boton){
     if (!p) return;
     const suspendiendo = !p.suspendido;
-    if (suspendiendo && !confirm(
-        '¿Suspender «' + p.titulo + '»?\n\nQueda tachado en la agenda y a quien ya ' +
-        'le había llegado el aviso le avisamos que se suspendió.')) return;
+    /* En una serie se suspende UN encuentro («este jueves no hay»), y
+       eso es lo que tiene que decir la pregunta. */
+    if (suspendiendo && !confirm(p.serie_id
+        ? '¿Suspender el encuentro del ' + enPalabras(fechaDe(p)) + '?\n\nLos demás ' +
+          'siguen igual. Queda tachado en la agenda y a quien ya le había llegado ' +
+          'el aviso del grupo le avisamos.'
+        : '¿Suspender «' + p.titulo + '»?\n\nQueda tachado en la agenda y a quien ya ' +
+          'le había llegado el aviso le avisamos que se suspendió.')) return;
     cambiarFila(p.id, { suspendido: suspendiendo }, boton);
   }
 
   async function cambiarFila(id, cambios, boton){
     if (boton) boton.disabled = true;
     const { error } = await db.from('publicaciones').update(cambios).eq('id', id);
+    terminarCambio(error, boton);
+  }
+
+  function terminarCambio(error, boton){
     if (error){
       if (boton) boton.disabled = false;
       const msj = document.getElementById('msj-mio');
@@ -812,6 +1054,8 @@
         </div>
       </div>
 
+      ${htmlSeRepite(c)}
+
       <div id="msj"></div>
       <button class="boton ancho" id="seguir">Seguir</button>
       <button class="boton ancho borde" id="atras" style="margin-top:10px">← Volver</button>`;
@@ -825,6 +1069,19 @@
     });
     document.getElementById('otra-fecha').onchange = ev => {
       esto.fecha = ev.target.value || null; paso2();
+    };
+
+    contenido.querySelectorAll('[data-veces]').forEach(b => {
+      b.onclick = () => { esto.veces = Number(b.dataset.veces) || 1; paso2(); };
+    });
+    const hasta = document.getElementById('hasta-fecha');
+    if (hasta) hasta.onchange = ev => {
+      /* Hasta un día es cuántas semanas entran hasta ese día, ese
+         incluido. Antes del primero no hay serie: queda en dos. */
+      if (!ev.target.value || !esto.fecha) return;
+      const semanas = Math.floor(diasEntre(esto.fecha, ev.target.value) / 7) + 1;
+      esto.veces = Math.min(MAX_ENCUENTROS, Math.max(2, semanas));
+      paso2();
     };
 
     const horas = document.getElementById('horas');
@@ -848,8 +1105,59 @@
           '<div class="aviso error">Falta el día. Sin día no aparece en el calendario.</div>';
         return;
       }
+      /* Correr una serie hacia atrás puede dejar el primero en el
+         pasado, y eso se publicaría sin que nadie lo vea. */
+      if (esto.serie && esto.fecha < aISO(new Date())){
+        document.getElementById('msj').innerHTML =
+          '<div class="aviso error">El primer encuentro quedaría antes de hoy. Elegí hoy o un día que venga.</div>';
+        return;
+      }
       paso3();
     };
+  }
+
+  /* ¿SE REPITE? (11/11/2026)
+
+     Solo en lo que se puede repetir (`repetible` en CLASES) y solo al
+     cargar algo nuevo: corregir un encuentro no lo vuelve serie, y
+     corregir la serie entera ya sabe cuántos son. Las fechas se dicen
+     todas, una por una: es lo que se va a publicar, y un «8 semanas»
+     solo no le dice a nadie que la última cae en vacaciones. */
+  function htmlSeRepite(c){
+    if (esto.serie) return `
+      <div class="aviso ok">Lo que cambies se cambia en ${esc(cuandoSeRepite())}.
+        Si cambiás el día, se corren todos juntos: el grupo pasa a ser de ese día.</div>`;
+    if (!c.repetible || esto.editando) return '';
+    const dia = esto.fecha ? diaDe(esto.fecha) : '';
+    const fechas = esto.fecha && esto.veces > 1 ? fechasDeLaSerie(esto.fecha, esto.veces) : [];
+    return `
+      <div class="ficha">
+        <h3>¿Se repite?</h3>
+        <div class="chips elegir-uno">
+          <button type="button" class="chip" aria-pressed="${esto.veces === 1}"
+                  data-veces="1">Solo ese día</button>
+          <button type="button" class="chip" aria-pressed="${esto.veces > 1}"
+                  data-veces="${esto.veces > 1 ? esto.veces : 4}">${
+            dia ? 'Todos ' + esc(losDias(dia)) : 'Todas las semanas'}</button>
+        </div>
+        ${esto.veces > 1 ? `
+          <p class="bajada" style="margin:14px 0 8px">¿Por cuántas semanas?</p>
+          <div class="chips elegir-uno">
+            ${SEMANAS.map(n => `
+              <button type="button" class="chip" aria-pressed="${esto.veces === n}"
+                      data-veces="${n}">${n} semanas</button>`).join('')}
+          </div>
+          <div class="campo" style="margin-top:12px">
+            <label for="hasta-fecha">…o hasta el día</label>
+            <input id="hasta-fecha" type="date" ${esto.fecha ? '' : 'disabled'}
+                   value="${esc(fechas.length ? fechas[fechas.length - 1] : '')}"
+                   min="${esc(esto.fecha ? sumarDias(esto.fecha, 7) : '')}"
+                   max="${esc(esto.fecha ? sumarDias(esto.fecha, 7 * (MAX_ENCUENTROS - 1)) : '')}">
+          </div>
+          <p class="letra-chica serie-fechas">${fechas.length
+            ? `Son ${fechas.length} encuentros: ${esc(enLista(fechas.map(cortita)))}.`
+            : 'Elegí el primer día y te muestro todas las fechas.'}</p>` : ''}
+      </div>`;
   }
 
   function paso3(){
@@ -857,7 +1165,8 @@
     contenido.innerHTML = `
       ${encabezado(3, '¿DÓNDE<br>Y QUÉ?')}
       <p class="bajada">${c.emoji} ${esc(c.nombre)} · ${esc(enPalabras(esto.fecha))}${
-        esto.hora ? ' · ' + esc(esto.hora) : ''}</p>
+        esto.hora ? ' · ' + esc(esto.hora) : ''}${
+        cuandoSeRepite() ? ' · ' + esc(cuandoSeRepite()) : ''}</p>
 
       <div class="ficha">
         <h3>${esc(c.campo.titulo)}</h3>
@@ -953,16 +1262,29 @@
     const c = CLASES[esto.que];
     const titulo = c.titulo(esto);
     const editando = !!esto.editando;
+    const serie = esto.serie;
+
+    /* Las fechas que se van a guardar: la única, las de la serie nueva,
+       o las de la serie que se corrige, corridas lo mismo que el
+       primero. */
+    const fechas = serie
+      ? serie.filas.map(f => sumarDias(fechaDe(f), diasEntre(esto.antes.fecha, esto.fecha)))
+      : esto.veces > 1 && !editando ? fechasDeLaSerie(esto.fecha, esto.veces) : [esto.fecha];
+    const varias = fechas.length > 1;
+    const dia = diaDeLaSerie(fechas.map(f => ({ fecha_desde: f })));
 
     /* Solo el día, la hora y el lugar avisan un cambio (lo decide el
        disparador de la base). Una coma en el detalle no despierta a
        nadie, y así se le dice a quien edita. */
-    const avisaCambio = editando && esto.antes && (
+    const avisaCambio = (editando || serie) && esto.antes && (
       esto.antes.fecha !== esto.fecha ||
       (esto.antes.hora || null) !== (esto.hora || null) ||
       esto.antes.lugar !== esto.lugar);
 
-    const textoBoton = editando ? 'Guardar los cambios' : 'Publicar';
+    const cuales = varias ? `los ${fechas.length} encuentros que vienen` : 'el encuentro que viene';
+    const textoBoton = serie ? (varias ? `Guardar en los ${fechas.length}` : 'Guardar los cambios')
+                     : editando ? 'Guardar los cambios'
+                     : varias ? `Publicar los ${fechas.length} encuentros` : 'Publicar';
 
     contenido.innerHTML = `
       <p class="bajada" style="margin-bottom:6px">Antes de guardar</p>
@@ -971,25 +1293,43 @@
       <div class="tarjeta ${esc(c.linea)} cat-${esc(c.categoria)}">
         <h3>${esc(titulo)}</h3>
         <p>
-          ${esc(enPalabras(esto.fecha))}${esto.hora ? ' · ' + esc(esto.hora) : ''}<br>
+          ${varias
+            ? (dia ? 'Todos ' + esc(losDias(dia)) : 'Cada semana')
+            : esc(enPalabras(esto.fecha))}${esto.hora ? ' · ' + esc(esto.hora) : ''}<br>
           ${esc(esto.lugar)}
           ${esto.detalle ? '<br><br>' + esc(esto.detalle) : ''}
         </p>
+        ${varias ? `<p class="letra-chica serie-fechas">${fechas.length} encuentros:
+          ${esc(enLista(fechas.map(cortita)))}</p>` : ''}
         <div class="tarjeta-pies">
           <span class="etiqueta cat-${esc(c.categoria)}">${esc(ROTULO[c.categoria])}</span>
         </div>
       </div>
 
       <div class="aviso ok" style="margin-top:16px">
-        ${!editando
-          ? '<strong>Esto se va a ver ya</strong> en la agenda y en el calendario de ' +
-            'la app, y les llega un aviso al celular a quienes tengan prendidos los ' +
-            'avisos de ' + CANAL[c.categoria] + '. Revisá bien el día y el lugar.'
-          : avisaCambio
-            ? '<strong>Cambia el día, la hora o el lugar.</strong> A quienes ya les ' +
-              'había llegado el aviso les llega otro con el cambio.'
-            : 'Se corrige en la agenda. Como no cambia el día, la hora ni el lugar, ' +
-              'no le suena el teléfono a nadie.'}
+        ${serie
+          ? avisaCambio
+            ? `<strong>Cambia el día, la hora o el lugar de ${cuales}.</strong> A quienes ` +
+              'ya les había llegado el aviso del grupo les llega uno solo con el cambio.'
+            : `Se corrige en ${cuales}. Como no cambia el día, la hora ni el lugar, ` +
+              'no le suena el teléfono a nadie.'
+          : editando
+            ? avisaCambio
+              ? '<strong>Cambia el día, la hora o el lugar.</strong> A quienes ya les ' +
+                'había llegado el aviso les llega otro con el cambio.'
+              : 'Se corrige en la agenda. Como no cambia el día, la hora ni el lugar, ' +
+                'no le suena el teléfono a nadie.'
+            : varias
+              /* Lo que más importa decir de una serie: que no van a
+                 sonar ocho teléfonos por ocho encuentros. */
+              ? `<strong>Esto se va a ver ya</strong> en la agenda y en el calendario de ` +
+                `la app, los ${fechas.length} encuentros, y les llega <strong>un solo ` +
+                'aviso</strong> al celular a quienes tengan prendidos los avisos de ' +
+                CANAL[c.categoria] + '. Después, la mañana de cada encuentro, el ' +
+                'recordatorio del día. Revisá bien el día y el lugar.'
+              : '<strong>Esto se va a ver ya</strong> en la agenda y en el calendario de ' +
+                'la app, y les llega un aviso al celular a quienes tengan prendidos los ' +
+                'avisos de ' + CANAL[c.categoria] + '. Revisá bien el día y el lugar.'}
       </div>
 
       <div id="msj"></div>
@@ -1013,21 +1353,32 @@
         materia:     c.categoria === 'grupo' ? esto.asunto : null
       };
 
-      const { error } = editando
-        ? await db.from('publicaciones').update(comun).eq('id', esto.editando)
-        : await db.from('publicaciones').insert(Object.assign({
-            tipo:        'evento',
-            linea:       c.linea,
-            categoria:   c.categoria,
-            publicado:   true,
-            /* Los dos que la base también exige, y que acá no se
-               preguntan nunca: un evento no usa la marca manual de
-               avisar (avisa solo, por su canal) y no toca la alarma de
-               mesas. Ver `sql/tabla-publicaciones.sql`. */
-            alarma:      'ninguna',
-            avisar:      false,
-            creado_por:  usuario.id
-          }, comun));
+      let error = null;
+      if (serie){
+        error = await guardarSerie(comun, fechas);
+      } else if (editando){
+        ({ error } = await db.from('publicaciones').update(comun).eq('id', esto.editando));
+      } else {
+        const fila = Object.assign({
+          tipo:        'evento',
+          linea:       c.linea,
+          categoria:   c.categoria,
+          publicado:   true,
+          /* Los dos que la base también exige, y que acá no se
+             preguntan nunca: un evento no usa la marca manual de
+             avisar (avisa solo, por su canal) y no toca la alarma de
+             mesas. Ver `sql/tabla-publicaciones.sql`. */
+          alarma:      'ninguna',
+          avisar:      false,
+          creado_por:  usuario.id
+        }, comun);
+        /* Una serie va en UN pedido: o entran todos los encuentros o
+           ninguno, nunca la mitad. */
+        const sid = varias ? nuevaSerie() : null;
+        ({ error } = await db.from('publicaciones').insert(sid
+          ? fechas.map(f => Object.assign({}, fila, { fecha_desde: f, serie_id: sid }))
+          : fila));
+      }
 
       if (error){
         this.disabled = false;
@@ -1045,8 +1396,29 @@
         return;
       }
 
-      listo(editando);
+      listo({ corregido: editando || !!serie, encuentros: fechas.length });
     };
+  }
+
+  /* La serie entera. Sin cambio de día es UNA orden para todos los que
+     vienen, así el disparador les pone a todos la misma hora de cambio
+     y la función de avisos los junta en un solo aviso. Con cambio de
+     día, cada encuentro va a su fecha nueva (son órdenes separadas,
+     a milisegundos: la función también las junta). Reintentar después
+     de un error escribe las mismas fechas, no las corre dos veces. */
+  async function guardarSerie(comun, fechas){
+    const { id, filas } = esto.serie;
+    const cambios = Object.assign({}, comun);
+    delete cambios.fecha_desde;
+    if (fechas[0] === fechaDe(filas[0])){
+      const { error } = await db.from('publicaciones').update(cambios)
+        .eq('serie_id', id).gte('fecha_desde', fechaDe(filas[0]));
+      return error;
+    }
+    const r = await Promise.all(filas.map((f, i) => db.from('publicaciones')
+      .update(Object.assign({}, cambios, { fecha_desde: fechas[i] })).eq('id', f.id)));
+    const fallo = r.find(x => x.error);
+    return fallo ? fallo.error : null;
   }
 
   /* ------------------------------------------------------------
@@ -1056,15 +1428,22 @@
      WhatsApp, y ahí perdimos lo que ganamos. Así que se dice qué pasó
      y qué sigue.
      ------------------------------------------------------------ */
-  function listo(fueEdicion){
+  function listo({ corregido, encuentros }){
+    const varios = encuentros > 1;
     contenido.innerHTML = `
       <h1 class="titulo-pantalla">YA<br>ESTÁ</h1>
       <p class="bajada">
-        ${fueEdicion
-          ? 'Quedó corregido en la agenda y en el calendario de la app.'
-          : 'Ya se ve en la agenda y en el calendario de la app. El aviso al ' +
-            'celular sale en la próxima vuelta del reloj (cada hora en punto, ' +
-            'de 9 a 21).'}
+        ${corregido
+          ? (varios ? `Quedaron corregidos los ${encuentros} encuentros que vienen,`
+                    : 'Quedó corregido') + ' en la agenda y en el calendario de la app.'
+          : (varios
+              ? `Ya se ven los ${encuentros} encuentros en la agenda y en el calendario ` +
+                'de la app. El aviso al celular sale una sola vez, en la próxima vuelta ' +
+                'del reloj (cada hora en punto, de 9 a 21), y la mañana de cada ' +
+                'encuentro sale el recordatorio del día.'
+              : 'Ya se ve en la agenda y en el calendario de la app. El aviso al ' +
+                'celular sale en la próxima vuelta del reloj (cada hora en punto, ' +
+                'de 9 a 21).')}
       </p>
       <div class="grupo">
         <a class="boton ancho" href="../agenda/">Verlo en la agenda</a>
