@@ -615,4 +615,12 @@ todo una entrada con el número, la fecha y el porqué.
    otra carrera (`esParaMiCarrera`). Lo estrenó el aviso del visor 3D,
    que es solo para Fono. Sin número nuevo, los teléfonos seguirían con
    el app.js de antes y le mostrarían el aviso de Fono a todas. */
+/* v109 (17/11/2026) Los grupos de estudio que se repiten todas las
+   semanas (`serie_id` en `publicaciones`, sección 11 de
+   `sql/tabla-publicaciones.sql`). Del armazón cambian dos: `app.js`
+   (la campana nombra una serie una vez y no una por encuentro, y pide
+   `serie_id`) y `css/base/01-cimientos.css` (la serie en `cargar/` y
+   en Fechas). `cargar/`, `agenda/`, el inicio y `lib/leer-aviso.js`
+   llegan frescos o no son del armazón. Sin número nuevo, la campana
+   vieja mostraría un grupo de ocho semanas ocho veces en «Nuevo». */
 ```
