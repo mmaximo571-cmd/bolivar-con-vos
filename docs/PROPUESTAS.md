@@ -484,10 +484,10 @@ si la gente se anota.
   grupo no sea de sus materias. **Subida el 30/9/2026 a las 10:31**,
   con el visto bueno de Máximo, igual al archivo del repo.
 - No entró: el calendario suscripto (`webcal://`), que sigue en dudas.
-- **Los grupos de todas las semanas (11/11/2026, v108).** Lo pidió
+- **Los grupos de todas las semanas (11/11/2026, v109).** Lo pidió
   Máximo al ver que en el primer mes casi no se cargaron grupos: cargar
   el de los jueves una vez para varias semanas. Cada encuentro sigue
-  siendo su fila y la serie es un `serie_id` compartido (sección 10 de
+  siendo su fila y la serie es un `serie_id` compartido (sección 11 de
   `sql/tabla-publicaciones.sql`, aplicada). Avisa una vez por serie
   (función `avisos` v14, desplegada), y la campana, Fechas y «Lo que
   cargaste» la muestran junta. «Me anoto» sigue siendo por encuentro.

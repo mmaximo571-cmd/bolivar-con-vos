@@ -1068,6 +1068,8 @@
           <div class="crecer">
             <span class="etiqueta ${esc(p.linea)}">${esc(NOMBRE_LINEA[p.linea] || p.linea)}</span>
             ${p.categoria ? `<span class="etiqueta cat-${esc(p.categoria)}">${esc(p.categoria)}</span>` : ''}
+            ${Array.isArray(p.carreras) && p.carreras.length ? `<span class="etiqueta">Solo ${esc(
+              CARRERAS_APP.filter(c => p.carreras.indexOf(c.id) >= 0).map(c => c.corto).join(' y '))}</span>` : ''}
             <h3>${esc(p.titulo)}</h3>
             <p>${esc(rangoLindo(p.fecha_desde, p.fecha_hasta) || 'Sin fecha')}${p.publicado ? '' : ' · BORRADOR'}${
               p.suspendido ? ' · SUSPENDIDO' : ''}${
@@ -1183,6 +1185,24 @@
       <div class="campo"><label for="link_url">Enlace (opcional)</label>
         <input id="link_url" type="url" value="${esc(p.link_url || '')}" placeholder="https://…"></div>
 
+      <!-- PARA QUIÉN (17/11/2026). Ninguna marcada es para todas, que es
+           lo de siempre. Con alguna, la campana, el inicio y Fechas se la
+           esconden a quien eligió otra carrera en el teléfono. Las
+           casillas pisan el estilo de .campo label, que es para rótulos. -->
+      <div class="campo" role="group" aria-labelledby="carreras-rotulo">
+        <label id="carreras-rotulo">¿Para qué carrera?</label>
+        ${CARRERAS_APP.map(c => `
+          <label class="fila-item" style="display:flex;gap:8px;margin:6px 0;text-transform:none;
+                 letter-spacing:0;font-size:var(--letra-base);color:var(--texto)">
+            <input type="checkbox" class="pub-carrera" value="${c.id}"
+                   ${Array.isArray(p.carreras) && p.carreras.indexOf(c.id) >= 0 ? 'checked' : ''}>
+            ${esc(c.corto)}</label>`).join('')}
+        <small style="display:block;margin-top:6px;color:var(--texto-suave);
+                      font-size:var(--letra-nota);line-height:1.45">
+          Sin marcar ninguna, es para todas. Marcando alguna, la ve solo quien eligió
+          esa carrera en el teléfono, y quien todavía no eligió ninguna. El aviso al
+          celular todavía no sabe de carreras: con una carrera marcada no puede sonar.</small></div>
+
       <div class="campo"><label for="publicado">¿Se ve en la app?</label>
         <select id="publicado">
           <option value="si"${p.publicado ? ' selected' : ''}>Sí, publicada</option>
@@ -1254,6 +1274,18 @@
         return;
       }
 
+      /* Todas marcadas es lo mismo que ninguna: se guarda vacío, así una
+         carrera nueva no queda afuera de algo que era para todas. */
+      let carreras = [...document.querySelectorAll('.pub-carrera:checked')].map(x => x.value);
+      if (carreras.length === CARRERAS_APP.length) carreras = [];
+      if (carreras.length && val('avisar') === 'si'){
+        document.getElementById('msj').innerHTML =
+          '<div class="aviso error">El aviso al celular todavía no sabe de carreras: ' +
+          'le sonaría a todas. O sacás la carrera, o elegís «No» en ' +
+          '«¿Le suena el teléfono a la gente?».</div>';
+        return;
+      }
+
       this.disabled = true; this.textContent = 'Guardando…';
 
       const categoria = val('categoria');
@@ -1276,7 +1308,8 @@
         imagen_url:  nulo('imagen_url'),
         link_url:    enlace('link_url'),
         publicado:   val('publicado') === 'si',
-        avisar:      val('avisar') === 'si'
+        avisar:      val('avisar') === 'si',
+        carreras:    carreras.length ? carreras : null
       };
 
       const { error } = esNuevo
@@ -2665,9 +2698,10 @@
       <a class="boton borde ancho" href="../anatomo/" target="_blank" rel="noopener"
          style="margin-top:10px">Ver cómo quedó ↗</a>
       <p class="letra-chica" style="margin-top:12px">
-        Los <b>modelos 3D</b> de los módulos 3 y 5 no se tocan desde acá: están
-        atados a su licencia y a su atribución. Si hace falta cambiarlos,
-        avisá.</p>
+        Los <b>modelos 3D</b> (los de Sketchfab y los enlaces al visor de la
+        app) no se tocan desde acá: están atados a su licencia y a su
+        atribución. Si se cambia el número de un módulo, su modelo se va
+        con el número. Si hace falta cambiarlos, avisá.</p>
       <div id="msj"></div>`;
 
     const campo = document.getElementById('modulos');
@@ -2691,12 +2725,19 @@
     document.getElementById('guardar-guia').onclick = async function(){
       this.disabled = true; this.textContent = 'Guardando…';
 
-      /* Los modelos 3D se conservan: no se editan desde acá, así que se
+      /* Los modelos 3D (`modelo` y los que siguen en `modelos`) y el
+         enlace al visor de la app (`visor`, desde el 17/11/2026) se conservan: no se editan desde acá, así que se
          vuelven a pegar sobre los módulos por número. */
-      const viejos = {};
-      (g.modulos || []).forEach(m => { if (m.modelo) viejos[m.numero] = m.modelo; });
+      const viejos = {}, visores = {}, otros = {};
+      (g.modulos || []).forEach(m => {
+        if (m.modelo) viejos[m.numero] = m.modelo;
+        if (m.visor) visores[m.numero] = m.visor;
+        if (Array.isArray(m.modelos) && m.modelos.length) otros[m.numero] = m.modelos;
+      });
       const modulos = leerModulos(campo.value).map(m =>
-        Object.assign(m, { modelo: viejos[m.numero] || null }));
+        Object.assign(m, { modelo: viejos[m.numero] || null },
+                         visores[m.numero] ? { visor: visores[m.numero] } : {},
+                         otros[m.numero] ? { modelos: otros[m.numero] } : {}));
 
       const { error } = await db.from('guia_materia').update({
         bajada:       val('bajada'),

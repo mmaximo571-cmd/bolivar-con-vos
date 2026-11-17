@@ -49,7 +49,7 @@ tener que abrir 5000 líneas cuando el cambio es de veinte.
 |---|---|---|
 | `css/tokens.css` (310 líneas) | colores, tipografías, redondeos, sombras, modo oscuro | **cualquier cambio de aspecto de toda la app empieza y termina acá** |
 | `css/base/01..12-*.css` | lo que usan todas, partido en doce componentes (ver abajo) | cuando la regla es de un componente compartido |
-| `css/pantallas/*.css` | lo que usa **una sola** pantalla: `carrera`, `inicio`, `estudiemos`, `consejo`, `trayecto`, `anatomo`, `tramites`, `salud-mental`. Excepción: `tramites.css` la carga también Salud mental, entera y a propósito (usa sus acordeones). Otra: `feriazo.css` la cargan `feriazo/`, `feriazo/sumar/` y `cargar/` (por la tarjeta que se ve al revisar); todas sus clases empiezan con `fz-` | cuando el cambio es de esa pantalla; si es de `tramites.css`, mirar también Salud mental |
+| `css/pantallas/*.css` | lo que usa **una sola** pantalla: `carrera`, `inicio`, `estudiemos`, `consejo`, `trayecto`, `anatomo`, `anatomo-3d` (todas sus clases empiezan con `v3d-`), `tramites`, `salud-mental`. Excepción: `tramites.css` la carga también Salud mental, entera y a propósito (usa sus acordeones). Otra: `feriazo.css` la cargan `feriazo/`, `feriazo/sumar/` y `cargar/` (por la tarjeta que se ve al revisar); todas sus clases empiezan con `fz-` | cuando el cambio es de esa pantalla; si es de `tramites.css`, mirar también Salud mental |
 | `estilos-rediseno.css` | el rediseño de las tarjetas; **carga último, así que en las tarjetas manda este** | ojo: si una regla de tarjeta no hace efecto, está pisada desde acá |
 
 La regla del reparto: una clase que usa más de una pantalla, o que
@@ -118,6 +118,12 @@ espacios, glosario, quienes, fichas), va al final de
   `cargar/` (ahí, antes de `cargar/feriazo.js`). No va al armazón. Las
   listas están acá y en los `check` de `sql/tabla-feriazo.sql`: si se
   agrega un rubro o un tinte, va en los dos.
+- `anatomo/3d/` — el visor 3D de Anatomofisiología (17/11/2026):
+  `piezas.js` (nombres, funciones y qué mallas van en cada vista),
+  `visor.js` (WebGL a mano, sin librerías) y `datos/*.bin` (la
+  geometría de BodyParts3D). Los `.bin` los arma `armar-datos.mjs`
+  desde el repositorio de Human Atlas: si se toca `piezas.js`, se
+  vuelve a correr. No va al armazón.
 - `config.js`, `iconos.js`, `lectura.js`, `movimiento.js`,
   `fondo-red.js` — piezas chicas, cada una de una cosa.
 - `lib/datos.js` es el cliente chico de Supabase, el que usa la

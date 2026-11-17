@@ -922,7 +922,11 @@ addEventListener('pageshow', function(ev){
     ]));
     for (const r of [rCat, rTra, rFaq, rPub]) if (r.error) throw r.error;
     categorias = rCat.data; tramites = rTra.data;
-    preguntas = rFaq.data;  publicaciones = rPub.data;
+    preguntas = rFaq.data;
+    /* Lo que es de otra carrera no sale (17/11/2026). El `typeof` es
+       por el teléfono que todavía tiene el app.js de antes de v108. */
+    publicaciones = typeof esParaMiCarrera === 'function'
+      ? (rPub.data || []).filter(esParaMiCarrera) : rPub.data;
     /* `rIg` queda AFUERA del control de errores de arriba a propósito:
        si la tabla no está o falla, el inicio pierde las placas y no se
        entera de nada más. Una novedad escrita que no llega es un error;

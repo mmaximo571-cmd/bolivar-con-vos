@@ -141,9 +141,15 @@
     { id:'fonoteca', modo:'practicar', nombre:'Fonoteca', emoji:'🎧', oculta:true,
       desc:'Audiogramas para diagnosticar cada oído, con devolución.', href:'fonoteca/', carreras:['fono'],
       dato: () => '6 casos' },
-    { id:'anatomo', modo:'practicar', nombre:'Anatomofisiología 3D', ico:'plan', emoji:'🧠',
-      desc:'La laringe y el oído para girar, y el programa de la materia.', href:'../anatomo/', carreras:['fono'],
-      dato: () => '2 modelos 3D' },
+    /* El visor propio (17/11/2026): las piezas se tocan y dicen qué
+       hacen. Las cuentas salen de anatomo/3d/piezas.js. */
+    { id:'anatomo3d', modo:'practicar', nombre:'Anatomía en 3D', emoji:'🧠',
+      desc:'Laringe, deglución y respiración: girá, tocá una pieza, leé qué hace y practicá.',
+      href:'../anatomo/3d/', carreras:['fono'],
+      dato: () => '3 vistas · 74 estructuras' },
+    { id:'anatomo', modo:'practicar', nombre:'Anatomofisiología', ico:'plan', emoji:'🧠',
+      desc:'El programa de la materia módulo por módulo, con modelos 3D.', href:'../anatomo/', carreras:['fono'],
+      dato: () => '6 módulos · bibliografía y fechas' },
     { id:'finales', modo:'practicar', nombre:'Preparar un final', ico:'carrera', emoji:'📅',
       desc:'El programa, la fecha de la mesa y cuánto te falta.', href:'../carrera/#finales', carreras:null,
       dato: () => '9 turnos de examen' }
@@ -174,6 +180,7 @@
     linea:    trazo('<path d="M12 2.5v19"/><circle cx="12" cy="6" r="2.3" fill="currentColor"/><circle cx="12" cy="12" r="2.3" fill="currentColor"/><circle cx="12" cy="18" r="2.3" fill="currentColor"/><path d="M14.5 6H20M4 12h5.5M14.5 18H20"/>'),
     fonoteca: trazo('<path d="M4 14v-2a8 8 0 0 1 16 0v2"/><rect x="3" y="14" width="4.5" height="6.5" rx="1.5"/><rect x="16.5" y="14" width="4.5" height="6.5" rx="1.5"/>'),
     anatomo:  trazo('<path d="M12 2.8l8 4.6v9.2l-8 4.6-8-4.6V7.4z"/><path d="M4 7.4l8 4.6 8-4.6M12 12v9.2"/>'),
+    anatomo3d:trazo('<path d="M12 2.8l8 4.6v9.2l-8 4.6-8-4.6V7.4z"/><path d="M4 7.4l8 4.6 8-4.6M12 12v9.2"/><circle cx="12" cy="12" r="1.8" fill="currentColor"/>'),
     arsenal:  trazo('<path d="M4.5 4h4v16h-4zM10.5 4h4v16h-4z"/><path d="M15.6 5.2l3.5-.9 3.3 14.9-3.5.9z"/>')
   };
   function icono_(h){

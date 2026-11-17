@@ -351,7 +351,7 @@ function avisosDeEventos(publicaciones: any[], hoy: string, ahora: number,
   /* ---- LOS GRUPOS DE TODAS LAS SEMANAS (11/11/2026) ----
 
      Una serie es una fila por encuentro con el mismo `serie_id` (ver
-     `sql/tabla-publicaciones.sql`, sección 10). Sin juntarlas, un grupo
+     `sql/tabla-publicaciones.sql`, sección 11). Sin juntarlas, un grupo
      de ocho semanas sonaba ocho veces el día que se cargaba. Ahora:
 
        nueva    UNA por serie, `serie:…:nueva`, con el día de la semana,

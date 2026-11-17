@@ -1013,6 +1013,15 @@ function avisoDeBandeja(p, hoy, ahora){
   return { p, cat, seccion, ultimoDia, cambio, clave: actual.clave, momento: actual.momento };
 }
 
+/* ¿Es para la carrera de este teléfono? (17/11/2026) `carreras` vacío
+   es para todas. Quien todavía no eligió carrera lo ve igual: mejor que
+   le sobre un aviso a que a alguien de Fono se le pierda el suyo. */
+function esParaMiCarrera(p){
+  if (!Array.isArray(p.carreras) || !p.carreras.length) return true;
+  const c = carreraElegidaApp();
+  return !c || p.carreras.indexOf(c.id) >= 0;
+}
+
 /* LAS SERIES (11/11/2026). Un grupo de todas las semanas son varias
    filas, y sin esto la bandeja lo nombraba una vez por encuentro: el de
    esta semana en «Esta semana» y los otros en «Nuevo». Queda el
@@ -1055,7 +1064,8 @@ function juntarSeriesDeBandeja(avisos){
 function armarBandeja(lista){
   const hoy = hoyISO(), ahora = Date.now();
   const b = { hoy:[], semana:[], cambios:[], nuevo:[] };
-  juntarSeriesDeBandeja((lista || []).map(p => avisoDeBandeja(p, hoy, ahora)).filter(Boolean))
+  juntarSeriesDeBandeja((lista || []).filter(esParaMiCarrera)
+    .map(p => avisoDeBandeja(p, hoy, ahora)).filter(Boolean))
     .forEach(a => b[a.seccion].push(a));
   const hora  = a => String(a.p.hora || '99');
   const fecha = a => String(a.p.fecha_desde || '');
@@ -1196,7 +1206,7 @@ async function traerNovedades(){
 
   const hoy = hoyISO();
   const columnas = 'id,titulo,tipo,linea,categoria,materia,suspendido,fecha_desde,' +
-                   'fecha_hasta,hora,lugar,creado_at,publicado_at,cambiado_at,serie_id';
+                   'fecha_hasta,hora,lugar,creado_at,publicado_at,cambiado_at,carreras,serie_id';
   let r;
   try {
     r = await db.from('publicaciones').select(columnas).eq('publicado', true)
