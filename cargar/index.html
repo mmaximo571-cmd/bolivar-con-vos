@@ -224,7 +224,8 @@
      uno, y `relativa` la palabra («mañana») de la que salió la fecha.
      `repite` es el título de lo que se está copiando. Los tres sirven
      solo para decirle a la persona qué hay que revisar. */
-  const esto = { que:null, fecha:null, hora:null, lugar:'', detalle:'', asunto:'',
+  /* `carreras` (17/11/2026): vacío es para todas, que es lo normal. */
+  const esto = { que:null, fecha:null, hora:null, lugar:'', detalle:'', asunto:'', carreras:[],
                  editando:null, antes:null, pegado:null, relativa:null, repite:null, placa:false };
 
   /* Todo lo que no es lo cargado: lo que se limpia al empezar otra cosa. */
@@ -469,7 +470,7 @@
     contenido.querySelectorAll('[data-que]').forEach(b => {
       b.onclick = () => {
         if (pegado.value.trim()){ desdeElMensaje(pegado.value.trim(), b.dataset.que); return; }
-        Object.assign(esto, { que: b.dataset.que, editando: null, antes: null }, SIN_ORIGEN);
+        Object.assign(esto, { que: b.dataset.que, editando: null, antes: null, carreras: [] }, SIN_ORIGEN);
         paso2();
       };
     });
@@ -488,7 +489,7 @@
       : { que, fecha:null, hora:null, lugar:'', asunto:'', relativa:null };
     Object.assign(esto, {
       que: l.que, fecha: l.fecha, hora: l.hora, lugar: l.lugar, asunto: l.asunto,
-      detalle: '', editando: null, antes: null
+      detalle: '', editando: null, antes: null, carreras: []
     }, SIN_ORIGEN, { pegado: texto, relativa: l.relativa });
     seguirConLoLeido('No me di cuenta de qué es.');
   }
@@ -563,7 +564,7 @@
     if (r.texto) cuadro.value = r.texto;
     Object.assign(esto, {
       que: r.que, fecha: r.fecha, hora: r.hora, lugar: r.lugar || '', asunto,
-      detalle: '', editando: null, antes: null
+      detalle: '', editando: null, antes: null, carreras: []
     }, SIN_ORIGEN, { pegado: r.texto || '', relativa: r.relativa, placa: true });
     seguirConLoLeido('Leí la placa pero no me di cuenta de qué es.');
   }
@@ -611,7 +612,7 @@
     if (!caja) return;
     const ayer = aISO(new Date(Date.now() - 86400000));
     const { data, error } = await db.from('publicaciones')
-      .select('id,titulo,categoria,materia,fecha_desde,fecha_hasta,hora,lugar,cuerpo,publicado,suspendido')
+      .select('id,titulo,categoria,materia,fecha_desde,fecha_hasta,hora,lugar,cuerpo,publicado,suspendido,carreras')
       .eq('creado_por', usuario.id)
       .in('categoria', Object.keys(QUE_DE_CATEGORIA))
       .gte('fecha_desde', ayer)
@@ -708,6 +709,7 @@
       lugar:   p.lugar || '',
       detalle: p.cuerpo || '',
       asunto:  CLASES[que].asunto(p),
+      carreras: Array.isArray(p.carreras) ? p.carreras.slice() : [],
       editando: p.id,
       antes:   { fecha: String(p.fecha_desde).slice(0, 10), hora: p.hora || null, lugar: p.lugar || '' }
     }, SIN_ORIGEN);
@@ -729,6 +731,7 @@
       lugar:   p.lugar || '',
       detalle: p.cuerpo || '',
       asunto:  CLASES[que].asunto(p),
+      carreras: Array.isArray(p.carreras) ? p.carreras.slice() : [],
       editando: null, antes: null
     }, SIN_ORIGEN, { repite: p.titulo });
     paso2();
@@ -743,7 +746,7 @@
     if (!caja) return;
     const ayer = aISO(new Date(Date.now() - 86400000));
     const { data, error } = await db.from('publicaciones')
-      .select('id,titulo,categoria,materia,fecha_desde,hora,lugar,cuerpo')
+      .select('id,titulo,categoria,materia,fecha_desde,hora,lugar,cuerpo,carreras')
       .eq('creado_por', usuario.id)
       .in('categoria', Object.keys(QUE_DE_CATEGORIA))
       .lt('fecha_desde', ayer)
@@ -852,6 +855,38 @@
     };
   }
 
+  /* PARA QUIÉN (17/11/2026). Lo normal es «todas» y viene marcado.
+     Las carreras se prenden y se apagan de a una; marcar las tres es
+     lo mismo que «todas». Tocar un chip redibuja solo los chips, no el
+     paso: así no se pierde lo que ya está escrito arriba. */
+  function pintarParaQuien(){
+    const caja = document.getElementById('para-quien');
+    if (!caja) return;
+    const todas = !esto.carreras.length;
+    caja.innerHTML =
+      `<button type="button" class="chip" data-para="" aria-pressed="${todas}">Todas las carreras</button>` +
+      CARRERAS_APP.map(c => `<button type="button" class="chip" data-para="${c.id}"
+         aria-pressed="${esto.carreras.indexOf(c.id) >= 0}">${esc(c.corto)}</button>`).join('');
+    caja.querySelectorAll('[data-para]').forEach(b => b.onclick = () => {
+      const id = b.dataset.para;
+      if (!id) esto.carreras = [];
+      else if (esto.carreras.indexOf(id) >= 0) esto.carreras = esto.carreras.filter(x => x !== id);
+      else esto.carreras = esto.carreras.concat(id);
+      if (esto.carreras.length === CARRERAS_APP.length) esto.carreras = [];
+      pintarParaQuien();
+    });
+    document.getElementById('para-quien-nota').textContent = todas
+      ? 'Lo ve toda la facultad.'
+      : 'En la app lo ven solo quienes eligieron ' + nombresDeCarreras(esto.carreras) +
+        ' (y quien todavía no eligió carrera). El aviso al celular todavía no sabe de ' +
+        'carreras: ese le llega a todas.';
+  }
+
+  function nombresDeCarreras(ids){
+    const n = CARRERAS_APP.filter(c => ids.indexOf(c.id) >= 0).map(c => c.corto);
+    return n.length > 1 ? n.slice(0, -1).join(', ') + ' y ' + n[n.length - 1] : n.join('');
+  }
+
   function paso3(){
     const c = CLASES[esto.que];
     contenido.innerHTML = `
@@ -881,6 +916,12 @@
       </div>
 
       <div class="ficha">
+        <h3>¿Para quién es?</h3>
+        <div class="chips" id="para-quien" role="group" aria-label="Para qué carrera es"></div>
+        <p class="letra-chica" id="para-quien-nota" style="margin-top:6px"></p>
+      </div>
+
+      <div class="ficha">
         <h3>¿Querés agregar algo?</h3>
         <div class="campo">
           <textarea id="detalle" maxlength="400"
@@ -892,6 +933,8 @@
       <div id="msj"></div>
       <button class="boton ancho" id="seguir">Ver cómo va a quedar</button>
       <button class="boton ancho borde" id="atras" style="margin-top:10px">← Volver</button>`;
+
+    pintarParaQuien();
 
     const lugares = document.getElementById('lugares');
     lugares.innerHTML = LUGARES.map(l =>
@@ -977,6 +1020,7 @@
         </p>
         <div class="tarjeta-pies">
           <span class="etiqueta cat-${esc(c.categoria)}">${esc(ROTULO[c.categoria])}</span>
+          ${esto.carreras.length ? `<span class="etiqueta">Solo ${esc(nombresDeCarreras(esto.carreras))}</span>` : ''}
         </div>
       </div>
 
@@ -990,6 +1034,9 @@
               'había llegado el aviso les llega otro con el cambio.'
             : 'Se corrige en la agenda. Como no cambia el día, la hora ni el lugar, ' +
               'no le suena el teléfono a nadie.'}
+        ${esto.carreras.length ? '<br><br><strong>Es solo para ' + esc(nombresDeCarreras(esto.carreras)) +
+          '</strong>: en la app no lo ven las otras carreras, pero el aviso al celular ' +
+          'todavía les llega a todas.' : ''}
       </div>
 
       <div id="msj"></div>
@@ -1010,7 +1057,8 @@
         fecha_desde: esto.fecha,
         hora:        esto.hora || null,
         lugar:       esto.lugar,
-        materia:     c.categoria === 'grupo' ? esto.asunto : null
+        materia:     c.categoria === 'grupo' ? esto.asunto : null,
+        carreras:    esto.carreras.length ? esto.carreras : null
       };
 
       const { error } = editando
@@ -1076,7 +1124,7 @@
          cosas del mismo día, y volver a elegirlo cansa. */
       const fecha = esto.fecha;
       Object.assign(esto, { que:null, fecha, hora:null, lugar:'', detalle:'', asunto:'',
-                            editando:null, antes:null }, SIN_ORIGEN);
+                            editando:null, antes:null, carreras:[] }, SIN_ORIGEN);
       paso1();
     };
   }
