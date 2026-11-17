@@ -373,7 +373,10 @@
     ]);
     if (error){ if (avisar) mostrarError(zonas, error, 'cargar la agenda'); return false; }
     /* Si las mesas no llegan, la agenda sale igual, sin ellas. */
-    publicaciones = data.concat((!rCongreso.error && rCongreso.data || []).map(comoFecha));
+    /* Lo que es de otra carrera no sale (17/11/2026); el `typeof`, por
+       el teléfono que todavía tiene el app.js de antes de v108. */
+    publicaciones = (typeof esParaMiCarrera === 'function' ? data.filter(esParaMiCarrera) : data)
+      .concat((!rCongreso.error && rCongreso.data || []).map(comoFecha));
     cuentas = c || {};
     if (typeof limpiarVoy === 'function') limpiarVoy(publicaciones);
     return true;

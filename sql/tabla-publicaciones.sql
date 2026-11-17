@@ -463,3 +463,29 @@ create policy "publicaciones comunicacion edita novedades"
               and (tipo = 'novedad' or creado_por = auth.uid())
               and public.publicacion_de_comunicacion(
                     tipo, linea, titulo, alarma, avisar, publicado));
+
+
+-- ============================================================
+-- 10. PARA UNA SOLA CARRERA  ·  `carreras`  ·  17/11/2026
+--
+-- Hasta acá todo era para todas. El visor 3D de Anatomofisiología es
+-- de Fono, y avisárselo a Trabajo Social es ruido. `carreras` en null
+-- (o vacío) sigue siendo «para todas»; con valores, la campana se la
+-- muestra solo a quien eligió una de esas carreras en el teléfono, y a
+-- quien todavía no eligió ninguna (mejor que le sobre a que le falte).
+--
+-- OJO: el aviso al celular (`avisar`) todavía NO sabe de carreras: la
+-- suscripción no guarda la carrera. Una publicación con `carreras` y
+-- `avisar` le sonaría a todos, así que se prohíbe la combinación hasta
+-- que la función `avisos` aprenda a filtrar.
+-- ============================================================
+alter table public.publicaciones
+  add column if not exists carreras text[];
+
+alter table public.publicaciones drop constraint if exists publicaciones_carreras_validas;
+alter table public.publicaciones add constraint publicaciones_carreras_validas
+  check (carreras is null or carreras <@ array['ts', 'tgcr', 'fono']::text[]);
+
+alter table public.publicaciones drop constraint if exists publicaciones_carreras_sin_aviso;
+alter table public.publicaciones add constraint publicaciones_carreras_sin_aviso
+  check (carreras is null or cardinality(carreras) = 0 or not avisar);

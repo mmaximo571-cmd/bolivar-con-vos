@@ -1010,10 +1010,19 @@ function avisoDeBandeja(p, hoy, ahora){
   return { p, cat, seccion, ultimoDia, cambio, clave: actual.clave, momento: actual.momento };
 }
 
+/* ¿Es para la carrera de este teléfono? (17/11/2026) `carreras` vacío
+   es para todas. Quien todavía no eligió carrera lo ve igual: mejor que
+   le sobre un aviso a que a alguien de Fono se le pierda el suyo. */
+function esParaMiCarrera(p){
+  if (!Array.isArray(p.carreras) || !p.carreras.length) return true;
+  const c = carreraElegidaApp();
+  return !c || p.carreras.indexOf(c.id) >= 0;
+}
+
 function armarBandeja(lista){
   const hoy = hoyISO(), ahora = Date.now();
   const b = { hoy:[], semana:[], cambios:[], nuevo:[] };
-  (lista || []).forEach(p => {
+  (lista || []).filter(esParaMiCarrera).forEach(p => {
     const a = avisoDeBandeja(p, hoy, ahora);
     if (a) b[a.seccion].push(a);
   });
@@ -1150,7 +1159,7 @@ async function traerNovedades(){
 
   const hoy = hoyISO();
   const columnas = 'id,titulo,tipo,linea,categoria,materia,suspendido,fecha_desde,' +
-                   'fecha_hasta,hora,lugar,creado_at,publicado_at,cambiado_at';
+                   'fecha_hasta,hora,lugar,creado_at,publicado_at,cambiado_at,carreras';
   let r;
   try {
     r = await db.from('publicaciones').select(columnas).eq('publicado', true)

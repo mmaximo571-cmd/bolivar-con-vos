@@ -2692,17 +2692,19 @@
     document.getElementById('guardar-guia').onclick = async function(){
       this.disabled = true; this.textContent = 'Guardando…';
 
-      /* Los modelos 3D y el enlace al visor de la app (`visor`, desde
-         el 17/11/2026) se conservan: no se editan desde acá, así que se
+      /* Los modelos 3D (`modelo` y los que siguen en `modelos`) y el
+         enlace al visor de la app (`visor`, desde el 17/11/2026) se conservan: no se editan desde acá, así que se
          vuelven a pegar sobre los módulos por número. */
-      const viejos = {}, visores = {};
+      const viejos = {}, visores = {}, otros = {};
       (g.modulos || []).forEach(m => {
         if (m.modelo) viejos[m.numero] = m.modelo;
         if (m.visor) visores[m.numero] = m.visor;
+        if (Array.isArray(m.modelos) && m.modelos.length) otros[m.numero] = m.modelos;
       });
       const modulos = leerModulos(campo.value).map(m =>
         Object.assign(m, { modelo: viejos[m.numero] || null },
-                         visores[m.numero] ? { visor: visores[m.numero] } : {}));
+                         visores[m.numero] ? { visor: visores[m.numero] } : {},
+                         otros[m.numero] ? { modelos: otros[m.numero] } : {}));
 
       const { error } = await db.from('guia_materia').update({
         bajada:       val('bajada'),

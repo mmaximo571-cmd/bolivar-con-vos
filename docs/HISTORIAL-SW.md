@@ -610,4 +610,9 @@ todo una entrada con el número, la fecha y el porqué.
    porque ahora los usan dos pantallas. La base está en el armazón: sin
    número nuevo, Primeros pasos e Ingreso mostrarían los títulos de
    antes. */
+/* v108 (17/11/2026) La campana sabe de carreras. `app.js` pide la
+   columna nueva `carreras` de `publicaciones` y esconde lo que es de
+   otra carrera (`esParaMiCarrera`). Lo estrenó el aviso del visor 3D,
+   que es solo para Fono. Sin número nuevo, los teléfonos seguirían con
+   el app.js de antes y le mostrarían el aviso de Fono a todas. */
 ```

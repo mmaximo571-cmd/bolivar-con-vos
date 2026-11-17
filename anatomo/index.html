@@ -175,7 +175,9 @@ function pintar(g){
   const lista = a => (Array.isArray(a) ? a : []);
 
   /* Cada módulo: qué entra, cuándo se da, qué hay que leer, y el modelo
-     3D si lo tiene. Ese es el orden en que sirve. */
+     3D si lo tiene. Ese es el orden en que sirve. `modelos` (desde el
+     17/11/2026) son los que vienen después del primero: Audición tiene
+     el oído medio y el interno, y `modelo` solo sostenía uno. */
   const html = `
     <p class="ceja-materia">${esc(g.materia_cod)} · Licenciatura en Fonoaudiología${
       g.anio_programa ? ' · Programa ' + g.anio_programa : ''}</p>
@@ -195,7 +197,8 @@ function pintar(g){
         <ul>${lista(m.contenidos).map(c => `<li>${esc(c)}</li>`).join('')}</ul>
 
         ${VISTAS_VISOR[m.visor] ? bloqueVisor(m.visor) : ''}
-        ${m.modelo && m.modelo.url ? bloqueModelo(m.modelo, m.numero) : ''}
+        ${[m.modelo].concat(lista(m.modelos)).filter(x => x && x.url)
+            .map(x => bloqueModelo(x, m.numero)).join('')}
 
         ${lista(m.obligatoria).length ? `
           <h4>Para leer</h4>
