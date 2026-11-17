@@ -2665,9 +2665,10 @@
       <a class="boton borde ancho" href="../anatomo/" target="_blank" rel="noopener"
          style="margin-top:10px">Ver cómo quedó ↗</a>
       <p class="letra-chica" style="margin-top:12px">
-        Los <b>modelos 3D</b> de los módulos 3 y 5 no se tocan desde acá: están
-        atados a su licencia y a su atribución. Si hace falta cambiarlos,
-        avisá.</p>
+        Los <b>modelos 3D</b> (los de Sketchfab y los enlaces al visor de la
+        app) no se tocan desde acá: están atados a su licencia y a su
+        atribución. Si se cambia el número de un módulo, su modelo se va
+        con el número. Si hace falta cambiarlos, avisá.</p>
       <div id="msj"></div>`;
 
     const campo = document.getElementById('modulos');
@@ -2691,12 +2692,17 @@
     document.getElementById('guardar-guia').onclick = async function(){
       this.disabled = true; this.textContent = 'Guardando…';
 
-      /* Los modelos 3D se conservan: no se editan desde acá, así que se
+      /* Los modelos 3D y el enlace al visor de la app (`visor`, desde
+         el 17/11/2026) se conservan: no se editan desde acá, así que se
          vuelven a pegar sobre los módulos por número. */
-      const viejos = {};
-      (g.modulos || []).forEach(m => { if (m.modelo) viejos[m.numero] = m.modelo; });
+      const viejos = {}, visores = {};
+      (g.modulos || []).forEach(m => {
+        if (m.modelo) viejos[m.numero] = m.modelo;
+        if (m.visor) visores[m.numero] = m.visor;
+      });
       const modulos = leerModulos(campo.value).map(m =>
-        Object.assign(m, { modelo: viejos[m.numero] || null }));
+        Object.assign(m, { modelo: viejos[m.numero] || null },
+                         visores[m.numero] ? { visor: visores[m.numero] } : {}));
 
       const { error } = await db.from('guia_materia').update({
         bajada:       val('bajada'),
