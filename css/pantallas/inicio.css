@@ -1018,7 +1018,7 @@ body.antes-de-entrar{ padding-bottom:0 }
   font-size:var(--letra-nota);color:var(--texto-suave)
 }
 
-.modo-ingreso-salir .boton{padding-left:0;font-size:var(--letra-nota)}
+.modo-ingreso-salir .boton{padding-left:0}
 
 @media (prefers-reduced-motion:reduce) {
 .etapa-ingreso-cuenta::after{transition:none}
