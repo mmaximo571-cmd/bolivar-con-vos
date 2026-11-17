@@ -1,18 +1,18 @@
 # Graph Report - bolivar-con-vos  (2026-11-17)
 
 ## Corpus Check
-- 105 files · ~363,667 words
+- 106 files · ~366,113 words
 - Verdict: corpus is large enough that graph structure adds value.
 - Unclassified: 44 file(s) not represented in the graph (top: .css 31, (none) 5, .geojson 4)
-- WARNING: 44 of 214 files seen (21%) have no supported extractor and are missing from this graph entirely. It may look complete while representing only part of the codebase.
+- WARNING: 44 of 215 files seen (20%) have no supported extractor and are missing from this graph entirely. It may look complete while representing only part of the codebase.
 
 ## Summary
-- 1254 nodes · 1925 edges · 129 communities (82 shown, 47 thin omitted)
+- 1255 nodes · 1925 edges · 130 communities (82 shown, 48 thin omitted)
 - Extraction: 94% EXTRACTED · 6% INFERRED · 0% AMBIGUOUS · INFERRED: 111 edges (avg confidence: 0.85)
 - Token cost: 349,538 input · 0 output
 
 ## Graph Freshness
-- Built from commit: `0da8fc24`
+- Built from commit: `c19bcbfd`
 - Run `git rev-parse HEAD` and compare to check if the graph is stale.
 - Run `graphify update .` after code changes (no API cost).
 
@@ -27,7 +27,7 @@
 - leer-programa.js
 - Mi perfil (mi/index.html)
 - manifest.json
-- anotar
+- anotarHito
 - arsenal.js
 - portada.js
 - htmlNovedades
@@ -146,10 +146,10 @@
   docs/PROPUESTAS.md → app.js
 - `1. Carga fácil de paros y grupos de estudio` --references--> `linea()`  [INFERRED]
   docs/PROPUESTAS.md → estudiemos/fichas/leer.js
-- `Lo que no se puede medir` --references--> `deDondeVino()`  [INFERRED]
-  docs/EVALUACION-NOV-2026.md → app.js
-- `Pantalla Cátedras` --calls--> `anotarBusqueda()`  [EXTRACTED]
-  carrera/index.html → app.js
+- `5. Registrar` --references--> `traerCatalogo()`  [INFERRED]
+  .claude/skills/hacer-ficha/SKILL.md → estudiemos/portada.js
+- `vistaTramites (editor de trámites)` --calls--> `mostrarError()`  [EXTRACTED]
+  panel/index.html → app.js
 - `3. Calendario y avisos: que se revisen todos los días` --references--> `guardarCopiaCursada()`  [INFERRED]
   docs/PROPUESTAS.md → app.js
 
@@ -165,7 +165,7 @@
 - **Pantallas que muestran publicaciones de la agenda** — tabla_publicaciones, index_proximodelaagenda, index_calendario_mes, agenda_index_traer, agenda_index_detalle_publicacion, carrera_index_vistanueva [INFERRED 0.85]
 - **El Panel edita el contenido que leen las pantallas públicas** — panel_index, tramites_index, quienes_index, consejo_index, anatomo_index, catedras_index, estudiemos_index [INFERRED 0.95]
 
-## Communities (129 total, 47 thin omitted)
+## Communities (130 total, 48 thin omitted)
 
 ### Community 0 - "La carrera se elige una vez (bolivar-carrera-v2)"
 Cohesion: 0.14
@@ -207,7 +207,7 @@ Nodes (14): explicarError() / errores en castellano, movimiento.js (entrarAlLleg
 Cohesion: 0.09
 Nodes (21): background_color, description, display, icons, id, lang, name, orientation (+13 more)
 
-### Community 10 - "anotar"
+### Community 10 - "anotarHito"
 Cohesion: 0.25
 Nodes (8): anotarCarreraApp(), anotarHito(), carreraActual(), carreraElegidaApp(), leerCarreraGuardada(), carreraDeLaPersona, 4. Época de parciales en Estudiemos, esDeOtraCarrera (filtra materiales por plan)
 
@@ -497,23 +497,23 @@ Nodes (3): buscar (buscador de trámites, FAQ y cátedras), pedirCatedras, Tabla
 
 ## Knowledge Gaps
 - **54 isolated node(s):** `Congelamiento de código (16-17/9)`, `anotar(): registro de visitas, búsquedas y errores`, `Prefijos de archivo (pantalla-, material-, texto-, idea-)`, `Estudiemos: material de los grupos de estudio`, `Vista plan (Mi año)` (+49 more)
-  These have ≤1 connection - possible missing edges or undocumented components. (Counts symbols only; 411 node(s) total have ≤1 connection when file, concept and rationale nodes are included.)
-- **47 thin communities (<3 nodes) omitted from report** — run `graphify query` to explore isolated nodes.
+  These have ≤1 connection - possible missing edges or undocumented components. (Counts symbols only; 412 node(s) total have ≤1 connection when file, concept and rationale nodes are included.)
+- **48 thin communities (<3 nodes) omitted from report** — run `graphify query` to explore isolated nodes.
 
 ## Suggested Questions
 _Questions this graph is uniquely positioned to answer:_
 
-- **Why does `Pantalla Fonoteca (práctica de audiogramas)` connect `Pantalla El Consejo Directivo` to `pintarNav`?**
-  _High betweenness centrality (0.120) - this node is a cross-community bridge._
+- **Why does `Fonoteca oculta en Estudiemos (oculta:true, v71)` connect `Pantalla El Consejo Directivo` to `portada.js`?**
+  _High betweenness centrality (0.110) - this node is a cross-community bridge._
 - **What connects `Congelamiento de código (16-17/9)`, `anotar(): registro de visitas, búsquedas y errores`, `Prefijos de archivo (pantalla-, material-, texto-, idea-)` to the rest of the system?**
   _54 weakly-connected nodes found - possible documentation gaps or missing edges._
 - **Should `La carrera se elige una vez (bolivar-carrera-v2)` be split into smaller, more focused modules?**
   _Cohesion score 0.14285714285714285 - nodes in this community are weakly interconnected._
-- **Why does `Fonoteca oculta en Estudiemos (oculta:true, v71)` connect `Pantalla El Consejo Directivo` to `portada.js`?**
-  _High betweenness centrality (0.119) - this node is a cross-community bridge._
+- **Why does `Pantalla Fonoteca (práctica de audiogramas)` connect `Pantalla El Consejo Directivo` to `pintarNav`?**
+  _High betweenness centrality (0.110) - this node is a cross-community bridge._
 - **Should `app.js` be split into smaller, more focused modules?**
   _Cohesion score 0.06341463414634146 - nodes in this community are weakly interconnected._
 - **Why does `escribir()` connect `Component` to `portada.js`?**
-  _High betweenness centrality (0.118) - this node is a cross-community bridge._
+  _High betweenness centrality (0.107) - this node is a cross-community bridge._
 - **Should `manifest.json` be split into smaller, more focused modules?**
   _Cohesion score 0.09090909090909091 - nodes in this community are weakly interconnected._
