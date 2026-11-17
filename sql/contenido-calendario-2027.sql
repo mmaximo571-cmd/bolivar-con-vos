@@ -72,8 +72,7 @@ with calendario (titulo, cuerpo, fecha_desde, fecha_hasta, alarma, periodo, carr
   ('Inscripción a seminarios de verano',
      'Si hay demanda se abre una segunda inscripción. La sumamos cuando tenga fecha.',
      date '2027-02-03', date '2027-02-04', 'ninguna', null, null),
-  ('Inscripción a la mesa de febrero',
-     'El lunes 8 y el martes 9 son feriados de Carnaval.',
+  ('Inscripción a la mesa de febrero', null,
      date '2027-02-08', date '2027-02-11', 'inscripcion', 'febrero', null),
   ('Mesa de examen de febrero', null,
      date '2027-02-15', date '2027-02-19', 'mesa', 'febrero', null),
@@ -207,7 +206,12 @@ select 'fecha', 'info', 'fecha', c.titulo, c.cuerpo, c.fecha_desde, c.fecha_hast
 
 
 -- ============================================================
--- PASO 2  ·  el viernes, después de la votación
+-- PASO 2  ·  el viernes 20/11 a las 17, cuando se vota
+--
+-- Los pedidos de modificación que lleva el CEFTS a la sesión son
+-- internos: nada de lo que se publica acá los nombra, ni las fechas
+-- ni el comunicado. Si el Consejo acepta alguno, se ve solo en que la
+-- fecha cambió.
 --
 -- Antes de publicar, si el Consejo movió algo, se corrige acá. Así,
 -- por ejemplo, si la inscripción a la mesa de febrero se corre:
@@ -242,15 +246,22 @@ select 'fecha', 'info', 'fecha', c.titulo, c.cuerpo, c.fecha_desde, c.fecha_hast
 --    and publicado_at > now() - interval '1 hour';
 --
 -- -- El único aviso de que está. `avisar = true` lo manda también al
--- -- celular de quien prendió las novedades; se deja apagado salvo
--- -- que se decida lo contrario.
+-- -- celular de quien prendió las novedades (decidido el 17/11).
 -- insert into public.publicaciones
 --   (tipo, linea, categoria, titulo, cuerpo, link_url, alarma, avisar, publicado)
 -- values
 --   ('novedad', 'info', 'comunicado',
 --    'Ya está el calendario académico 2027',
---    'Lo aprobó el Consejo Directivo el viernes 20 de noviembre. Están las inscripciones, las mesas, el inicio de clases y los recesos, y la alarma de mesas ya lo sigue. Lo que la Facultad todavía no fijó (segundas inscripciones a seminarios, cierre de padrones) lo sumamos cuando tenga fecha.',
+--    'Lo aprobó hoy el Consejo Directivo. Están las inscripciones, las mesas, el inicio de clases y los recesos, y la alarma de mesas ya lo sigue. Lo que todavía no tiene fecha lo sumamos cuando se fije.',
 --    'https://labolivarconvos.ar/agenda/',
---    'ninguna', false, true);
+--    'ninguna', true, true);
 --
 -- commit;
+--
+-- -- El reloj de los avisos corre a las en punto. Publicado a las 17,
+-- -- el timbre saldría recién a las 18: esto le da una vuelta más ahora.
+-- -- Es seguro: lo que ya salió está anotado en `avisos_enviados` y no
+-- -- vuelve a sonar.
+-- do $$ begin
+--   execute (select command from cron.job where jobname = 'avisos-cada-hora');
+-- end $$;
