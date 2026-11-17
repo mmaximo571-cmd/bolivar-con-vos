@@ -100,6 +100,11 @@ espacios, glosario, quienes, fichas), va al final de
   avisos.
 - `lib/mudanza.js` — la mudanza desde la dirección vieja de Vercel.
   Carga **antes** de `app.js` y no depende de nada.
+- `lib/desfase.js` — ataja el error de la primera carga después de
+  cada publicación (HTML nuevo con `app.js` viejo de la caja) y recarga
+  una vez (17/11/2026, v108). Carga **antes** de `app.js` en las 49
+  pantallas, no depende de nada y está en el armazón. Una pantalla
+  nueva lo lleva igual que `lib/mudanza.js`.
 - `lib/fecha-al-calendario.js` — pasar una fecha al calendario del
   celular (ICS y Google) y `montarCalendario`, el calendario del mes.
   Carga **después** de `app.js`, en `agenda/` y en el inicio: desde el
@@ -150,7 +155,7 @@ guarda, o el contenido de algo que ya está en la lista, hay que subir
 siguen con lo viejo.
 
 En el armazón van solo `css/tokens.css`, los doce de `css/base/`,
-`estilos-rediseno.css`, `app.js`, `lib/mudanza.js` y las piezas chicas:
+`estilos-rediseno.css`, `app.js`, `lib/mudanza.js`, `lib/desfase.js` y las piezas chicas:
 lo que usa cualquier pantalla. Una hoja o un guion de **una** pantalla no
 va en la lista; lo baja quien entre ahí y queda guardado solo por la
 regla del final de `sw.js`.

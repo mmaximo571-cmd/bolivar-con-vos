@@ -2188,6 +2188,12 @@ function sacarAvisoGuardado(){
    · Si ya pasaron unos segundos, la persona está leyendo. Moverle la
      pantalla de golpe es peor que un estilo desactualizado; se deja
      así y la próxima pantalla que abra ya sale entera.
+
+   Esto solo no alcanzaba (11/11/2026, «respuestaIngreso is not
+   defined», 64 veces en una semana): la recarga llega DESPUÉS de que la
+   pantalla corrió y el error ya se anotó. El error lo ataja antes
+   `lib/desfase.js`, que carga antes que este archivo y es el que
+   explica el porqué entero. Esto queda como segunda red.
    ------------------------------------------------------------ */
 
 if ('serviceWorker' in navigator){

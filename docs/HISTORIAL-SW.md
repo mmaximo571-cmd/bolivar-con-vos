@@ -610,4 +610,12 @@ todo una entrada con el número, la fecha y el porqué.
    porque ahora los usan dos pantallas. La base está en el armazón: sin
    número nuevo, Primeros pasos e Ingreso mostrarían los títulos de
    antes. */
+/* v108 (17/11/2026) La guardia del desfase: `lib/desfase.js`, nuevo,
+   entra al armazón y lo cargan las 49 pantallas antes de `app.js`.
+   Ataja el ReferenceError de la primera carga después de cada
+   publicación (HTML nuevo de la red con `app.js` viejo de la caja del
+   service worker viejo: «respuestaIngreso is not defined», 64 veces
+   del 11 al 17/11 en el inicio), no lo deja anotar y recarga una vez
+   cuando el service worker nuevo toma el control. `app.js` cambia solo
+   en un comentario, y `sw.js` en otro. */
 ```
