@@ -1,8 +1,8 @@
 {
   "app.js": {
-    "mtime": 1794930389.9618628,
-    "seen": 1794931078.8541129,
-    "ast_hash": "c1171a721a6dc66cf2c54e31ec1afada",
+    "mtime": 1794933532.2633402,
+    "seen": 1794934411.0522006,
+    "ast_hash": "daa62bbb9fba9a506d1c0b1824aea334",
     "semantic_hash": ""
   },
   "carrera/plan-fono.js": {
@@ -78,9 +78,9 @@
     "semantic_hash": ""
   },
   "sw.js": {
-    "mtime": 1794930390.2481508,
-    "seen": 1794931078.8542113,
-    "ast_hash": "b63c1e9e86f252af90b862152093b372",
+    "mtime": 1794933554.8787794,
+    "seen": 1794934411.0523481,
+    "ast_hash": "f7e1caa7d5a82f3d567ce2e8e92b3c63",
     "semantic_hash": ""
   },
   "BITACORA.md": {
@@ -150,9 +150,9 @@
     "semantic_hash": ""
   },
   "index.html": {
-    "mtime": 1794930390.232244,
-    "seen": 1794931078.8542461,
-    "ast_hash": "f085b5610a3b7688c0d978ef5c9cb2c6",
+    "mtime": 1794933535.9273405,
+    "seen": 1794934411.0523887,
+    "ast_hash": "44df0627e2792c5aae00aa100ed53274",
     "semantic_hash": ""
   },
   "mi/index.html": {
@@ -594,9 +594,9 @@
     "semantic_hash": ""
   },
   "docs/HISTORIAL-SW.md": {
-    "mtime": 1794930389.9798748,
-    "seen": 1794931078.8542225,
-    "ast_hash": "6f2eccffc167a1478837618294937b14",
+    "mtime": 1794933560.8313413,
+    "seen": 1794934411.052361,
+    "ast_hash": "874670b49a2df3ef0c510f5dffaf79b9",
     "semantic_hash": ""
   },
   "docs/prompts/PROMPT-DISENO.md": {

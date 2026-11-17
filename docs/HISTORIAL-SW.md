@@ -610,4 +610,13 @@ todo una entrada con el número, la fecha y el porqué.
    porque ahora los usan dos pantallas. La base está en el armazón: sin
    número nuevo, Primeros pasos e Ingreso mostrarían los títulos de
    antes. */
+/* v108 (17/11/2026) La recarga de la carga mezclada ya no depende de
+   los cinco segundos. Del 11 al 17/11 el inicio anotó 64 «respuestaIngreso
+   / modoIngreso is not defined»: HTML nuevo con app.js viejo, y el
+   service worker nuevo tardaba más de cinco segundos en tomar el
+   control, así que no se recargaba. Ahora app.js, si la carga tiró un
+   «no existe tal función», busca la versión nueva y recarga cuando toma
+   el control (una vez por minuto, nunca mientras se escribe). El inicio,
+   además, se salta el bloque del ingreso si el app.js guardado no lo
+   tiene. app.js está en el armazón: sin número nuevo no llega. */
 ```

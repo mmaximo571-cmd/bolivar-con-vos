@@ -1539,6 +1539,11 @@ addEventListener('pageshow', function(ev){
   function pintarModoIngreso(){
     const caja = document.getElementById('modo-ingreso');
     if (!caja) return;
+    /* Con un app.js guardado de antes del 11/11 estas funciones no
+       existen, y como el inicio es UNA función, romperse acá dejaba sin
+       dibujar todo lo de abajo (ver «los cinco segundos no alcanzaban»
+       en app.js). Sin ellas el bloque queda vacío esa sola vez. */
+    if (typeof respuestaIngreso !== 'function' || typeof modoIngresoVigente !== 'function') return;
     const respuesta = respuestaIngreso();
 
     if (!modoIngresoVigente() || respuesta === 'no'
@@ -2126,7 +2131,7 @@ addEventListener('pageshow', function(ev){
     puertas.splice(donde === -1 ? puertas.length : Math.min(donde, puertas.length),
                    0, saludMental);
 
-    const accesos = modoIngreso() ? accesosDeIngreso() : [{ dibujo: icono('carrera') || '🎓',
+    const accesos = typeof modoIngreso === 'function' && modoIngreso() ? accesosDeIngreso() : [{ dibujo: icono('carrera') || '🎓',
                        nombre:'Mi año',
                        bajada:'Qué podés cursar y promocionar',
                        url:'carrera/', destacado:true }].concat(propias,

@@ -2188,20 +2188,84 @@ function sacarAvisoGuardado(){
    · Si ya pasaron unos segundos, la persona está leyendo. Moverle la
      pantalla de golpe es peor que un estilo desactualizado; se deja
      así y la próxima pantalla que abra ya sale entera.
+
+   LOS CINCO SEGUNDOS NO ALCANZABAN (17/11/2026, v108). Del 11 al 17/11
+   el registro juntó 64 «respuestaIngreso / modoIngreso is not defined»
+   en el inicio, y casi ninguno tuvo la recarga: el service worker nuevo
+   baja treinta archivos antes de tomar el control, y en un teléfono
+   con la red de la facultad eso tarda más de cinco segundos. Y ahí no
+   era «un estilo desactualizado»: el inicio es una sola función, y al
+   romperse en el bloque del ingreso se quedaba sin todo lo de abajo.
+
+   Así que hay una segunda puerta, que no mira el reloj: si ESTA carga
+   tiró un «no existe tal función» —la firma exacta de la mezcla— la
+   pantalla está rota, y recargar es mejor que dejarla así. Se le pide
+   al navegador que busque la versión nueva ya mismo y se recarga
+   apenas toma el control. Sus frenos:
+
+   · Solo si hay una versión nueva en camino. Una función que falta de
+     verdad (un error nuestro) no trae service worker nuevo, así que no
+     recarga: se anota como cualquier error y se arregla en el código.
+   · No si la persona está escribiendo: perder lo tipeado es peor.
+   · Una vez por minuto como mucho, guardado en sessionStorage, porque
+     el freno de `yaRecargue` se pierde con la recarga misma. Sin
+     sessionStorage esta puerta no se abre.
    ------------------------------------------------------------ */
 
 if ('serviceWorker' in navigator){
   const habiaUnoAntes = !!navigator.serviceWorker.controller;
   const arranco = Date.now();
   let yaRecargue = false;
+  let cargaMezclada = false, tomoElControl = false;
 
   window.addEventListener('load', function(){
     navigator.serviceWorker.register(RAIZ + 'sw.js', { scope: RAIZ })
       .catch(function(){ /* sin service worker la app anda igual, solo sin guardar */ });
   });
 
+  function estaEscribiendo(){
+    const a = document.activeElement;
+    return !!a && (a.isContentEditable || /^(INPUT|TEXTAREA|SELECT)$/.test(a.tagName));
+  }
+
+  function recargarPorMezcla(){
+    if (yaRecargue || estaEscribiendo()) return;
+    try {
+      const antes = Number(sessionStorage.getItem('bolivar-recarga-mezcla')) || 0;
+      if (Date.now() - antes < 60000) return;
+      sessionStorage.setItem('bolivar-recarga-mezcla', String(Date.now()));
+    } catch(e){ return; }
+    yaRecargue = true;
+    location.reload();
+  }
+
+  /* Chrome dice «x is not defined» y Safari «Can't find variable: x».
+     «is not a function» es la misma mezcla con un objeto que el app.js
+     viejo tiene pero sin el método nuevo. */
+  const FIRMA_DE_MEZCLA = /is not defined|Can't find variable|is not a function/;
+
+  function vigilarMezcla(texto){
+    if (!habiaUnoAntes || cargaMezclada || !FIRMA_DE_MEZCLA.test(String(texto || ''))) return;
+    cargaMezclada = true;
+    if (tomoElControl){ recargarPorMezcla(); return; }
+    /* El chequeo normal recién sale con `load`, y a veces más tarde.
+       Si hay versión nueva instalándose, el `controllerchange` de abajo
+       recarga; si no hay ninguna, no pasa nada. */
+    navigator.serviceWorker.getRegistration()
+      .then(function(reg){ return reg && reg.update(); })
+      .catch(function(){ /* sin red no hay versión nueva que buscar */ });
+  }
+
+  window.addEventListener('error', function(e){ vigilarMezcla(e.message); });
+  window.addEventListener('unhandledrejection', function(e){
+    const r = e.reason;
+    vigilarMezcla(r && (r.message || r));
+  });
+
   navigator.serviceWorker.addEventListener('controllerchange', function(){
+    tomoElControl = true;
     if (!habiaUnoAntes) return;              /* primera visita: nada que arreglar */
+    if (cargaMezclada){ recargarPorMezcla(); return; } /* rota: se recarga aunque esté leyendo */
     if (yaRecargue) return;                  /* el freno del bucle */
     if (Date.now() - arranco > 5000) return; /* ya está leyendo: no se le mueve */
     yaRecargue = true;

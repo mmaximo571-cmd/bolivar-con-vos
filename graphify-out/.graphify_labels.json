@@ -15,8 +15,6 @@
   "14": "leer.js",
   "16": "ficha.js",
   "17": "pantallaMiCuenta",
-  "18": "tabla-avisanos.sql",
-  "19": "tabla-registro.sql",
   "20": "fecha-al-calendario.js",
   "21": "riesgo.js",
   "22": "PROMPT-FONOTECA.md",
@@ -25,7 +23,6 @@
   "25": "Mails de las cátedras · material en crudo",
   "26": "CASOS (audiogramas clínicos con diagnóstico escrito)",
   "27": "lectura.js",
-  "28": "tabla-cursada.sql",
   "29": "El molde para armar una ficha de estudio",
   "30": "vistaAvisanos (contactos y consultas)",
   "31": "fondo-red.js",
@@ -74,7 +71,6 @@
   "75": "session-start.sh",
   "76": "pomodoro.js",
   "77": "huella.js",
-  "78": "tabla-buzon.sql",
   "79": "publicaciones_alarma_idx",
   "80": "tabla-catedras.sql",
   "81": "territorio.js",
@@ -112,6 +108,5 @@
   "114": "mis-parciales/mis-parciales.js",
   "115": "lib/mis-parciales.js",
   "116": "montar",
-  "120": "empezarRecorrido",
-  "121": "tabla-ingresantes.sql"
+  "120": "empezarRecorrido"
 }
