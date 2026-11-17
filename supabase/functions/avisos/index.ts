@@ -183,7 +183,11 @@ function avisosDeNovedades(publicaciones: any[]): Aviso[] {
     clave:  `novedad:${p.id}`,
     canal:  'novedades' as const,
     titulo: String(p.titulo || 'Hay una novedad'),
-    cuerpo: String(p.linea || p.cuerpo || '').replace(/\s+/g, ' ').trim().slice(0, 120),
+    /* El texto del comunicado. Antes decía `p.linea || p.cuerpo`, de
+       cuando `linea` era una bajada; hoy es la línea (info, frente…)
+       y nunca está vacía, así que el celular mostraba «info». */
+    cuerpo: recortar(String(p.cuerpo || '').replace(/\s+/g, ' ').trim(), 120)
+              || 'Tocá para ver los detalles.',
     url:    `${URL_BASE}/agenda/?id=${p.id}`
   }));
 }
