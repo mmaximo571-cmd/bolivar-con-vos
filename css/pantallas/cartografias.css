@@ -414,3 +414,52 @@
 .carto-miembro-acciones .boton.texto{ width:auto; min-height:36px; margin:0; padding:0 }
 
 .carto-salidas{ display:grid; gap:10px }
+
+/* ============================================================
+   TANDA 3: sin señal, en vivo, publicar y solo mirar
+   ============================================================ */
+
+/* Lo que está en el teléfono sin mandar. */
+.carto-cola{
+  display:flex; flex-wrap:wrap; align-items:center; gap:4px 12px;
+  margin-top:10px; padding:10px 14px; border-radius:var(--radio-chico);
+  background:var(--superficie); border:1.5px dashed var(--tinta-borde)
+}
+.carto-cola.con-fallo{ border-color:var(--rojo); background:var(--aviso-error) }
+.carto-cola-texto{ flex:1 1 220px; margin:0; font-size:var(--letra-nota) }
+.carto-cola .boton.texto{ width:auto; min-height:40px; margin:0; padding:0 }
+.carto-pin.en-telefono{ border-style:dashed; box-shadow:none; opacity:.75 }
+
+/* «En vivo»: un punto que late despacio. Sin movimiento si se pidió. */
+.carto-en-vivo{
+  display:inline-flex; align-items:center; gap:6px; margin-left:auto;
+  font-family:var(--fuente-sub); font-weight:700; font-size:var(--letra-mini);
+  text-transform:uppercase; letter-spacing:.07em; color:var(--texto-suave)
+}
+.carto-en-vivo::before{
+  content:""; width:8px; height:8px; border-radius:50%; background:#2F7D32;
+  animation:carto-latido 2.4s ease-in-out infinite
+}
+@keyframes carto-latido{ 50%{ opacity:.35 } }
+@media (prefers-reduced-motion: reduce){ .carto-en-vivo::before{ animation:none } }
+.carto-fila-titulo .carto-en-vivo + .boton.texto{ margin-left:12px }
+
+/* Publicar */
+.carto-pub-esperando{
+  padding:10px 14px; border-radius:var(--radio-chico);
+  background:var(--amarillo); color:var(--sobre-color); font-weight:600
+}
+#publicar-botones{ margin-top:12px }
+
+/* Una foto (la publicada, o la pedida que revisa el equipo): sin
+   dibujar, sin grupo, sin publicar. Se mira, se prende la información
+   de base y se baja. */
+.carto-solo-mirar .carto-herramientas,
+.carto-solo-mirar #carto-compartir,
+.carto-solo-mirar #carto-cola,
+.carto-solo-mirar #form-referencia,
+.carto-solo-mirar #seccion-grupo,
+.carto-solo-mirar #seccion-publicar,
+.carto-solo-mirar #actualizar,
+.carto-solo-mirar #en-vivo{ display:none !important }
+.carto-solo-mirar .carto-marco{ margin-top:12px }

@@ -126,6 +126,17 @@
     </div>
   </div>
 
+  <!-- LAS PUBLICADAS. Aparte de la lista porque se ven sin cuenta: son
+       las que el grupo pidió publicar y el equipo revisó. Cada una es una
+       foto del momento en que se pidió, sin quién dibujó qué. -->
+  <div class="envoltura" id="vista-publicadas" hidden>
+    <section aria-labelledby="publicadas-titulo">
+      <h2 class="carto-subtitulo" id="publicadas-titulo">Cartografías publicadas</h2>
+      <p class="letra-chica carto-ayuda">Las que armaron otros grupos y decidieron compartir. Se ven sin cuenta.</p>
+      <ul class="carto-lista" id="publicadas-lista"></ul>
+    </section>
+  </div>
+
   <!-- ---------- UNA ABIERTA ---------- -->
   <div id="vista-mapa" hidden>
     <!-- El código del grupo, en una fila: el mapa tiene que quedar a la
@@ -137,6 +148,12 @@
         <p class="carto-ticket-codigo" id="carto-codigo"></p>
         <button type="button" class="boton oscuro carto-invitar" id="invitar">Invitar</button>
         <button type="button" class="boton texto carto-copiar" id="copiar-link">Copiar el link</button>
+      </div>
+
+      <!-- Sin señal: lo dibujado queda en el teléfono y se manda solo. -->
+      <div class="carto-cola" id="carto-cola" role="status" aria-live="polite" hidden>
+        <p class="carto-cola-texto" id="carto-cola-texto"></p>
+        <button type="button" class="boton texto" id="enviar-cola">Mandar ahora</button>
       </div>
     </div>
 
@@ -201,6 +218,7 @@
       <section aria-labelledby="leyenda-titulo">
         <div class="carto-fila-titulo">
           <h2 class="carto-subtitulo" id="leyenda-titulo">Referencias</h2>
+          <span class="carto-en-vivo" id="en-vivo" hidden title="Lo que dibuja el resto aparece solo">En vivo</span>
           <button type="button" class="boton texto" id="actualizar">Actualizar</button>
         </div>
         <p class="letra-chica carto-ayuda">Tocá una para mostrarla u ocultarla en el mapa.</p>
@@ -241,7 +259,16 @@
         <p class="letra-chica carto-ayuda" id="bajar-estado" role="status" aria-live="polite"></p>
       </section>
 
-      <section aria-labelledby="grupo-titulo">
+      <!-- PUBLICAR. Quien coordina pide; el equipo revisa en el panel. Se
+           publica una foto del momento, sin quién dibujó qué. -->
+      <section aria-labelledby="publicar-titulo" id="seccion-publicar" hidden>
+        <h2 class="carto-subtitulo" id="publicar-titulo">Publicar</h2>
+        <div id="publicar-estado"></div>
+        <div class="carto-botones" id="publicar-botones"></div>
+        <div class="aviso error" id="publicar-error" hidden></div>
+      </section>
+
+      <section aria-labelledby="grupo-titulo" id="seccion-grupo">
         <h2 class="carto-subtitulo" id="grupo-titulo">El grupo</h2>
         <p id="grupo-texto"></p>
 

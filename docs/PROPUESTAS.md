@@ -30,7 +30,7 @@ discutirla en tres meses.
 | 2 | Anotarse a un grupo de estudio | chica | hecha en la tanda 3 de la 3 (30/9) |
 | 3 | Calendario y avisos: que se revisen todos los días | grande, en tres tandas | hecha: las tres tandas y la función `avisos` v11 en producción (30/9) |
 | 4 | Época de parciales en Estudiemos (va con el reel) | chica | hecha el 4/10 (v83), falta publicar |
-| 5 | Cartografía social del Gran La Plata | grande, en tres tandas | en curso: tandas 1 y 2 hechas y en producción el 18/11 |
+| 5 | Cartografía social del Gran La Plata | grande, en tres tandas | hecha: las tres tandas el 18/11 |
 
 ## Las propuestas
 
@@ -564,9 +564,8 @@ panel: sin grupos, el atajo lleva a una lista vacía y conviene esconderlo.
   `mapa/capas.js`. Probablemente una pantalla nueva con su hoja, una o
   dos tablas nuevas en `sql/` y lo que se pueda reusar de `mapa/`.
 - **Tamaño:** grande (hay que partirla).
-- **Estado:** en curso. La tanda 1 se hizo el 18/11/2026 (v110) y la
-  base ya está al día con `sql/tabla-cartografias.sql`. Detalle en
-  `BITACORA.md`.
+- **Estado:** hecha. Las tres tandas se hicieron el 18/11/2026. Detalle
+  en `BITACORA.md`.
 
 Lo decidido (Máximo, 18/11/2026):
 - **Grupos cerrados.** Quien crea una cartografía la coordina y reparte
@@ -586,9 +585,11 @@ Las tandas:
    el grupo: **apodo por grupo** (decisión de Máximo: el nombre del
    perfil no sale nunca), sacar a alguien, coordinar entre varias
    personas, cambiar el código.
-3. Dibujar sin señal (la cola del teléfono, como en `mapa/`; el `id` ya
-   lo pone el teléfono para eso); ver en vivo lo que dibuja el resto;
-   publicar una cartografía, con moderación del equipo.
+3. **Hecha (18/11).** Dibujar sin señal (una cola en el teléfono que se
+   manda sola; borrar pide señal); abrir sin señal lo que se bajó; ver
+   en vivo lo que dibuja el resto (Realtime); publicar con revisión del
+   equipo en el panel. Decisiones de Máximo: se publica **una foto del
+   momento** (lo de después no sale sin otro pedido) y **sin autoría**.
 
 Notas: las dudas de la primera charla (las cuatro primeras, ya decididas arriba).
 - ¿Quién dibuja? ¿Cualquiera con cuenta, o grupos cerrados con quien los
