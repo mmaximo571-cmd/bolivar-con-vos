@@ -64,13 +64,27 @@
 #codigo{ text-transform:uppercase; letter-spacing:.2em; font-family:var(--fuente-datos); font-weight:700 }
 
 /* ---------- compartir el código ---------- */
-.carto-compartir{ padding-top:10px }
-.carto-codigo{ margin:0 0 10px; font-size:var(--letra-nota) }
-.carto-codigo strong{
-  font-family:var(--fuente-datos); font-size:20px; letter-spacing:.18em;
-  padding:2px 8px; background:var(--amarillo); color:var(--sobre-color); border-radius:var(--radio-chico)
+/* Un talón: rótulo, código y «Invitar» en una fila, para que el mapa
+   quede arriba. El borde cortado es el troquel de una entrada. */
+.carto-ticket{
+  display:grid; grid-template-columns:auto 1fr auto; align-items:center; gap:4px 12px;
+  margin-top:12px; padding:8px 8px 8px 14px;
+  background:var(--amarillo); color:var(--sobre-color);
+  border:1.5px dashed var(--negro); border-radius:var(--radio)
 }
-.carto-compartir .boton{ min-height:44px }
+.carto-ticket-rotulo{
+  margin:0; font-family:var(--fuente-sub); font-weight:700; font-size:var(--letra-mini);
+  text-transform:uppercase; letter-spacing:.08em; line-height:1.15
+}
+.carto-ticket-codigo{
+  margin:0; font-family:var(--fuente-titulo); font-size:24px; letter-spacing:.14em;
+  line-height:1; white-space:nowrap
+}
+.carto-ticket .carto-invitar{ min-height:44px; padding:0 18px; box-shadow:none }
+.carto-ticket .carto-copiar{
+  grid-column:1 / -1; justify-self:start; width:auto; min-height:32px;
+  margin:0; padding:0; color:var(--sobre-color); border:0; font-size:var(--letra-chica)
+}
 
 /* ---------- las tres herramientas ---------- */
 .carto-herramientas{
@@ -179,7 +193,7 @@
 .carto-opcion:has(input:focus-visible){ outline:3px solid var(--celeste); outline-offset:2px }
 
 .carto-muestra{
-  width:28px; height:28px; flex:none; border-radius:50%;
+  width:30px; height:30px; flex:none; border-radius:50%;
   display:inline-grid; place-items:center; vertical-align:middle;
   background:var(--ref, #8A8A8A); color:#FFFFFF; border:1.5px solid #1A1A1A;
   font-size:14px; font-weight:800; font-family:var(--fuente-sub); line-height:1
@@ -187,6 +201,8 @@
 
 /* La leyenda: cada renglón es un interruptor de su referencia. */
 .carto-leyenda{ list-style:none; margin:0; padding:0; display:grid; gap:6px }
+/* Con lugar, la plancha de figuritas va en dos columnas. */
+@media (min-width:560px){ .carto-leyenda{ grid-template-columns:1fr 1fr } }
 .carto-ref{
   width:100%; display:flex; align-items:center; gap:10px; min-height:52px;
   padding:6px 12px; cursor:pointer; text-align:left;
@@ -215,6 +231,7 @@
 .carto-color:has(input:focus-visible){ outline:3px solid var(--celeste); outline-offset:3px }
 
 /* La ficha */
+.carto-ficha{ border-left:8px solid var(--ref, var(--tinta-borde)) }
 .carto-ficha-ref{
   display:flex; align-items:center; gap:8px; margin:14px 0 6px;
   font-family:var(--fuente-sub); font-size:var(--letra-chica); text-transform:uppercase;
@@ -225,3 +242,93 @@
 .carto-ficha-relato:empty{ display:none }
 
 .carto-volver{ margin:28px 0 0 }
+
+/* ============================================================
+   LA PORTADA: el plano del casco con las figuritas
+   ============================================================ */
+.carto-plano{ margin:4px 0 6px }
+.carto-plano-lamina{
+  position:relative; aspect-ratio:360 / 230; max-width:520px;
+  background:var(--superficie);
+  border:1.5px solid var(--tinta-borde); border-radius:var(--radio); box-shadow:var(--sombra);
+  overflow:hidden
+}
+.pl-dibujo{ position:absolute; inset:0; width:100%; height:100% }
+
+.pl-rio{ fill:var(--celeste-claro); opacity:.55 }
+.pl-costa{ fill:none; stroke:var(--celeste-hondo); stroke-width:1.5 }
+.pl-ola{ fill:none; stroke:var(--celeste-hondo); stroke-width:1.2; stroke-linecap:round; opacity:.7 }
+.pl-casco{ fill:var(--fondo) }
+.pl-bosque{ fill:#2F7D32; opacity:.32 }
+.pl-calle{ stroke:var(--texto-suave); stroke-width:.4; opacity:.45 }
+.pl-avenida{ stroke:var(--texto); stroke-width:1; opacity:.7 }
+.pl-rombo{ fill:none; stroke:var(--texto); stroke-width:1.2; opacity:.8 }
+.pl-diagonal{ stroke:var(--texto); stroke-width:1.8 }
+.pl-plaza{ fill:var(--texto) }
+.pl-borde{ fill:none; stroke:var(--texto); stroke-width:2.2 }
+.pl-rotulo{
+  font-family:var(--fuente-sub); font-weight:700; font-size:9.5px;
+  letter-spacing:.14em; text-transform:uppercase; fill:var(--texto-suave)
+}
+.pl-rotulo-rio{ font-style:italic; fill:var(--celeste-hondo); text-anchor:middle; letter-spacing:.08em }
+.pl-rotulo-lp{ font-size:11px; fill:var(--texto) }
+[data-tema="oscuro"] .pl-rio{ opacity:.25 }
+[data-tema="oscuro"] .pl-costa,
+[data-tema="oscuro"] .pl-ola,
+[data-tema="oscuro"] .pl-rotulo-rio{ stroke:var(--celeste-claro); fill:var(--celeste-claro) }
+[data-tema="oscuro"] .pl-costa,
+[data-tema="oscuro"] .pl-ola{ fill:none }
+
+/* Las figuritas: el mismo pin del mapa, más chico, pegado con un
+   golpecito y un poco torcido, como se pega a mano. */
+.carto-figurita{
+  position:absolute; width:40px; height:40px;
+  transform:translate(-20px, -38px) scale(.8) rotate(var(--giro, 0deg));
+  transform-origin:20px 38px;
+  animation:carto-pegar .42s var(--sale) both;
+  animation-delay:calc(180ms + var(--i) * 70ms)
+}
+.carto-figurita:nth-child(odd){ --giro:-6deg }
+.carto-figurita:nth-child(3n){ --giro:5deg }
+@keyframes carto-pegar{
+  from{ opacity:0; transform:translate(-20px, -62px) scale(1.05) rotate(calc(var(--giro, 0deg) - 10deg)) }
+  70% { opacity:1 }
+  to  { opacity:1; transform:translate(-20px, -38px) scale(.8) rotate(var(--giro, 0deg)) }
+}
+@media (prefers-reduced-motion: reduce){ .carto-figurita{ animation:none } }
+
+.carto-plano-pie{ margin:10px 0 0; font-size:var(--letra-chica); color:var(--texto-suave); max-width:46ch }
+
+/* Los dos formularios, lado a lado cuando entran. */
+@media (min-width:640px){
+  .carto-dos{ display:grid; grid-template-columns:1fr 1fr; gap:16px; align-items:start }
+  .carto-dos .carto-caja{ margin:22px 0 }
+}
+
+/* La lista vacía: los tres pasos para arrancar. Es un orden de verdad
+   (no se puede pasar un código que no existe), por eso van numerados. */
+.carto-empezar{
+  list-style:none; padding:16px 18px;
+  border:1.5px dashed var(--tinta-borde); border-radius:var(--radio); background:var(--superficie)
+}
+.carto-empezar-titulo{ margin:0 0 10px; font-family:var(--fuente-sub); font-weight:800; font-size:var(--letra-guia) }
+.carto-pasos{ margin:0; padding:0; list-style:none; counter-reset:paso; display:grid; gap:10px }
+.carto-pasos li{
+  counter-increment:paso; position:relative; padding:3px 0 0 40px; min-height:28px;
+  font-size:var(--letra-base); line-height:1.4
+}
+.carto-pasos li::before{
+  content:counter(paso); position:absolute; left:0; top:0;
+  display:grid; place-items:center; width:28px; height:28px;
+  border-radius:50%; background:var(--amarillo); color:var(--sobre-color);
+  border:1.5px solid var(--negro);
+  font-family:var(--fuente-titulo); font-size:14px; line-height:1
+}
+.carto-empezar-pie{ margin:14px 0 0; font-size:var(--letra-nota); color:var(--texto-suave) }
+
+/* En el modo oscuro la tinta de los pines (#1A1A1A) se pierde contra el
+   fondo, y con ella la referencia «Recorridos», que es negra: el borde
+   pasa a ser del color del texto. */
+[data-tema="oscuro"] .carto-pin,
+[data-tema="oscuro"] .carto-muestra{ border-color:var(--texto) }
+[data-tema="oscuro"] .carto-pin{ box-shadow:2px 2px 0 rgba(0,0,0,.6) }

@@ -132,6 +132,7 @@
      ============================================================ */
   async function mostrarLista(){
     $('vista-lista').hidden = false;
+    dibujarPlano();
     const pendiente = leerPendiente();
     if (pendiente && !$('codigo').value) $('codigo').value = pendiente;
 
@@ -155,10 +156,14 @@
 
     if (!filas.length){
       lista.innerHTML = `
-        <li class="vacio">
-          <span class="vacio-icono" aria-hidden="true">🧭</span>
-          <p class="vacio-titulo">Todavía ninguna</p>
-          <p>Sumate con el código que te pasó tu grupo, o creá una y repartí el código.</p>
+        <li class="carto-empezar">
+          <p class="carto-empezar-titulo">Todavía no estás en ninguna</p>
+          <ol class="carto-pasos">
+            <li><strong>Creá una</strong> con el nombre del barrio o del taller.</li>
+            <li><strong>Pasale el código</strong> a tu grupo.</li>
+            <li><strong>Dibujen juntes</strong> lugares, recorridos y zonas.</li>
+          </ol>
+          <p class="carto-empezar-pie">¿Te pasaron un código? Escribilo acá abajo.</p>
         </li>`;
       return;
     }
@@ -219,6 +224,72 @@
 
 
   /* ============================================================
+     EL PLANO DE LA PORTADA
+
+     El casco de La Plata como lo reconoce cualquiera que vive acá: el
+     cuadrado girado, las avenidas cada seis cuadras con su plaza en el
+     cruce, las dos diagonales de punta a punta y el rombo de las otras,
+     el Bosque del lado del río, y el río con Berisso y Ensenada. Es un
+     dibujo, no un mapa: las proporciones están simplificadas.
+
+     Encima, las ocho referencias fijas pegadas como figuritas. Salen de
+     `REFERENCIAS_FIJAS`: si cambia la lista, cambia el plano.
+     ============================================================ */
+  const ANCHO = 360, ALTO = 230;
+  // Dónde se pega cada figurita (en las coordenadas del dibujo).
+  const LUGARES = [[118, 98], [178, 104], [150, 150], [94, 150],
+                   [214, 150], [292, 128], [130, 196], [200, 70]];
+
+  function dibujarPlano(){
+    const caja = $('plano');
+    if (!caja || caja.childElementCount) return;
+
+    const L2 = 65;                     // medio lado del casco
+    const paso = (2 * L2) / 12;        // 12 franjas de 3 cuadras
+    let calles = '', plazas = '';
+    for (let i = 1; i < 12; i++){
+      const p = (-L2 + i * paso).toFixed(1);
+      const avenida = i % 2 === 0;     // cada 6 cuadras, una avenida
+      const clase = avenida ? 'pl-avenida' : 'pl-calle';
+      calles += `<line class="${clase}" x1="${p}" y1="${-L2}" x2="${p}" y2="${L2}"/>` +
+                `<line class="${clase}" x1="${-L2}" y1="${p}" x2="${L2}" y2="${p}"/>`;
+      if (avenida) for (let j = 2; j < 12; j += 2)
+        plazas += `<rect class="pl-plaza" x="${(+p - 2.2).toFixed(1)}" y="${(-L2 + j * paso - 2.2).toFixed(1)}" width="4.4" height="4.4"/>`;
+    }
+
+    const svg = `
+      <svg viewBox="0 0 ${ANCHO} ${ALTO}" class="pl-dibujo" focusable="false">
+        <path class="pl-rio" d="M176 0 C 232 34 292 70 360 84 L360 0 Z"/>
+        <path class="pl-costa" d="M176 0 C 232 34 292 70 360 84"/>
+        <path class="pl-ola" d="M262 22 q8 -5 16 0 t16 0"/>
+        <path class="pl-ola" d="M314 44 q8 -5 16 0 t16 0"/>
+        <text class="pl-rotulo pl-rotulo-rio" x="300" y="16">Río de la Plata</text>
+        <g transform="translate(150 125) rotate(45)">
+          <rect class="pl-casco" x="${-L2}" y="${-L2}" width="${2 * L2}" height="${2 * L2}"/>
+          <rect class="pl-bosque" x="-4" y="${-L2 + 1}" width="34" height="${(paso * 1.6).toFixed(1)}"/>
+          ${calles}
+          <polygon class="pl-rombo" points="0,${-L2} ${L2},0 0,${L2} ${-L2},0"/>
+          <line class="pl-diagonal" x1="${-L2}" y1="${-L2}" x2="${L2}" y2="${L2}"/>
+          <line class="pl-diagonal" x1="${L2}" y1="${-L2}" x2="${-L2}" y2="${L2}"/>
+          ${plazas}
+          <rect class="pl-borde" x="${-L2}" y="${-L2}" width="${2 * L2}" height="${2 * L2}"/>
+        </g>
+        <text class="pl-rotulo" x="232" y="86">Ensenada</text>
+        <text class="pl-rotulo" x="290" y="152">Berisso</text>
+        <text class="pl-rotulo pl-rotulo-lp" x="20" y="210">La Plata</text>
+      </svg>`;
+
+    const figuritas = REFERENCIAS_FIJAS.map((r, i) => {
+      const [x, y] = LUGARES[i % LUGARES.length];
+      return `<span class="carto-figurita" style="left:${(x / ANCHO * 100).toFixed(2)}%;top:${(y / ALTO * 100).toFixed(2)}%;--i:${i}">
+        <span class="carto-pin" style="--ref:${r.color}"><span>${r.glifo}</span></span></span>`;
+    }).join('');
+
+    caja.innerHTML = svg + figuritas;
+  }
+
+
+  /* ============================================================
      3. UNA CARTOGRAFÍA ABIERTA
      ============================================================ */
   const estado = {
@@ -250,7 +321,6 @@
     if (!listo) return;
 
     document.title = estado.carto.nombre + ' · Cartografías sociales';
-    $('carto-ceja').textContent = 'Cartografía social';
     $('carto-titulo').textContent = estado.carto.nombre;
     $('carto-bajada').textContent = estado.carto.descripcion || '';
     $('vista-mapa').hidden = false;
@@ -326,9 +396,19 @@
   function pintarCompartir(){
     const c = estado.carto;
     const link = location.origin + location.pathname + '?sumarme=' + c.codigo;
+    const texto = `Sumate a la cartografía «${c.nombre}» en La Bolívar con vos (código ${c.codigo})`;
     $('carto-codigo').textContent = c.codigo;
-    $('compartir-wa').href = 'https://wa.me/?text=' + encodeURIComponent(
-      `Sumate a la cartografía «${c.nombre}» en La Bolívar con vos: ${link} (código ${c.codigo})`);
+    /* El menú de compartir del teléfono deja elegir WhatsApp, Telegram o
+       el mail del grupo. Donde no existe (casi toda compu), WhatsApp. Si
+       la persona lo cierra sin elegir, no pasa nada: no es un error. */
+    $('invitar').onclick = async () => {
+      if (navigator.share){
+        try { await navigator.share({ title: c.nombre, text: texto, url: link }); }
+        catch(e){}
+        return;
+      }
+      window.open('https://wa.me/?text=' + encodeURIComponent(texto + ': ' + link), '_blank', 'noopener');
+    };
     $('copiar-link').onclick = async () => {
       const boton = $('copiar-link');
       try { await navigator.clipboard.writeText(link); boton.textContent = 'Copiado'; }
@@ -419,6 +499,9 @@
   /* ---------- el grupo ---------- */
   function pintarGrupo(){
     const n = estado.miembros;
+    $('carto-ceja').textContent =
+      (estado.rol === 'coordina' ? 'La coordinás' : 'Participás') + ' · ' +
+      (n === 1 ? '1 persona' : n + ' personas');
     const gente = n === 1 ? 'Por ahora estás solo vos.' : `Son ${n} personas en el grupo.`;
     const boton = $('salir-o-borrar');
     if (estado.rol === 'coordina'){
@@ -817,6 +900,7 @@
 
     const panel = $('panel-ficha');
     panel.dataset.id = id;
+    panel.style.setProperty('--ref', ref.color);
     panel.innerHTML = `
       <p class="carto-ficha-ref">${muestra(ref)} ${esc(ref.nombre)} · ${TIPOS[e.tipo]}</p>
       <h2 class="carto-ficha-titulo">${esc(e.titulo)}</h2>
