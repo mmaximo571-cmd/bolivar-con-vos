@@ -332,3 +332,85 @@
 [data-tema="oscuro"] .carto-pin,
 [data-tema="oscuro"] .carto-muestra{ border-color:var(--texto) }
 [data-tema="oscuro"] .carto-pin{ box-shadow:2px 2px 0 rgba(0,0,0,.6) }
+
+/* ============================================================
+   TANDA 2: corregir, la información de base, bajar, el grupo
+   ============================================================ */
+
+/* Los puntos de un dibujo, que se arrastran. El área que responde al
+   dedo es de 32 px; lo que se ve, de 16: si no, tapan la calle. */
+/* Con `.leaflet-marker-icon` adelante: la hoja de Leaflet se carga
+   después que esta y su `display:block` pesa lo mismo, así que ganaba. */
+.leaflet-marker-icon.carto-vertice{ background:none; border:none; display:grid; place-items:center; cursor:grab }
+.carto-vertice::after{
+  content:""; display:block; width:16px; height:16px; border-radius:50%;
+  background:#FFFFFF; border:2.5px solid #1A1A1A; box-shadow:1px 1px 0 #1A1A1A
+}
+.carto-vertice.primero::after{ width:20px; height:20px; background:#F9E830 }
+.carto-vertice.leaflet-drag-target,
+.carto-vertice:active{ cursor:grabbing }
+
+/* La información de base: un interruptor por capa, con su muestra. */
+.carto-capas{ list-style:none; margin:0; padding:0; display:grid; gap:6px }
+.carto-capa{
+  display:flex; align-items:center; gap:12px; min-height:52px; padding:6px 12px; cursor:pointer;
+  background:var(--superficie); border:1.5px solid var(--linea); border-radius:var(--radio-chico)
+}
+.carto-capa input{ width:20px; height:20px; flex:none; accent-color:var(--texto) }
+.carto-capa:has(input:checked){ border-color:var(--texto) }
+.carto-capa:has(input:disabled){ opacity:.6; cursor:default }
+.carto-capa-muestra{
+  width:26px; height:18px; flex:none; border-radius:3px;
+  border:1.5px solid var(--texto); opacity:.85
+}
+.carto-capa-nombre{ flex:1; font-weight:600; font-size:var(--letra-densa); line-height:1.25 }
+.carto-capa-nombre small{ display:block; font-weight:400; font-size:var(--letra-chica); color:var(--texto-suave) }
+.carto-capa-nombre small.con-problema{ color:var(--rojo) }
+
+/* La ficha de una capa de base, en el globito de Leaflet. */
+.pantalla-cartografias .leaflet-popup-content-wrapper,
+.pantalla-cartografias .leaflet-popup-tip{
+  background:var(--superficie); color:var(--texto);
+  border:1.5px solid var(--tinta-borde); box-shadow:var(--sombra)
+}
+.pantalla-cartografias .leaflet-popup-content-wrapper{ border-radius:var(--radio) }
+.pantalla-cartografias .leaflet-popup-content{ margin:12px 14px; font-size:var(--letra-nota); line-height:1.4 }
+.carto-base-ficha p{ margin:0 0 6px }
+.carto-base-capa{
+  font-family:var(--fuente-sub); font-size:var(--letra-mini); text-transform:uppercase;
+  letter-spacing:.07em; color:var(--texto-suave)
+}
+.carto-base-titulo{ font-family:var(--fuente-sub); font-weight:800; font-size:16px }
+.carto-base-fuente{ font-size:var(--letra-chica); color:var(--texto-suave) }
+
+/* El grupo */
+.carto-apodo{ margin:14px 0 18px }
+.carto-apodo label{
+  display:block; margin-bottom:6px; font-family:var(--fuente-sub); font-weight:700;
+  font-size:var(--letra-chica); text-transform:uppercase; letter-spacing:.06em
+}
+.carto-fila-campo{ display:flex; gap:8px }
+.carto-fila-campo input{
+  flex:1; min-width:0; min-height:48px; padding:0 14px; font:inherit;
+  background:var(--superficie); color:var(--texto);
+  border:1.5px solid var(--linea); border-radius:var(--radio-chico)
+}
+.carto-fila-campo input:focus{ border-color:var(--texto) }
+.carto-fila-campo .boton{ flex:none; min-height:48px; padding:0 18px }
+
+.carto-miembros{ list-style:none; margin:0 0 16px; padding:0; border-top:1px solid var(--linea) }
+.carto-miembro{
+  display:flex; flex-wrap:wrap; align-items:center; gap:4px 10px;
+  padding:10px 0; border-bottom:1px solid var(--linea)
+}
+.carto-miembro-nombre{ flex:1 1 auto; font-weight:600; overflow-wrap:anywhere }
+.carto-vos{
+  font-size:var(--letra-mini); font-weight:700; text-transform:uppercase; letter-spacing:.06em;
+  color:var(--texto-suave)
+}
+.carto-miembro .carto-rol{ margin:0 }
+.carto-miembro-acciones{ flex:1 0 100%; display:flex; flex-wrap:wrap; gap:4px 16px }
+/* `.texto` de la base ocupa todo el ancho: acá van varios en una fila. */
+.carto-miembro-acciones .boton.texto{ width:auto; min-height:36px; margin:0; padding:0 }
+
+.carto-salidas{ display:grid; gap:10px }

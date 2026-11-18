@@ -84,9 +84,9 @@
     "semantic_hash": ""
   },
   "BITACORA.md": {
-    "mtime": 1795035534.2680714,
-    "seen": 1795035535.8468091,
-    "ast_hash": "dad02db0403d930e23a9f1f74e227bc6",
+    "mtime": 1795036338.9478304,
+    "seen": 1795036349.7564006,
+    "ast_hash": "0f805cc338a9842755e7ea6c074810a8",
     "semantic_hash": ""
   },
   "LEEME.md": {
@@ -642,9 +642,9 @@
     "semantic_hash": ""
   },
   "docs/PROPUESTAS.md": {
-    "mtime": 1795034886.6576862,
-    "seen": 1795035535.8468246,
-    "ast_hash": "42e77e5bcb1b61dd09293d49bab87b75",
+    "mtime": 1795036338.9447107,
+    "seen": 1795036349.7564251,
+    "ast_hash": "5614f594dadcd3d4cfc6f16b11874359",
     "semantic_hash": ""
   },
   "sql/tabla-publicaciones.sql": {
@@ -1020,9 +1020,9 @@
     "semantic_hash": ""
   },
   "cartografias/cartografias.js": {
-    "mtime": 1795035506.4436014,
-    "seen": 1795035535.846698,
-    "ast_hash": "f6e781cf09394646e3a37cf88cb9342c",
+    "mtime": 1795036338.9441006,
+    "seen": 1795036349.756249,
+    "ast_hash": "d058fe083e498e02e8e9e83f7b052c98",
     "semantic_hash": ""
   },
   "cartografias/referencias.js": {
@@ -1032,15 +1032,15 @@
     "semantic_hash": ""
   },
   "sql/tabla-cartografias.sql": {
-    "mtime": 1795034756.193562,
-    "seen": 1795035535.8467798,
-    "ast_hash": "0c2d4eceac76569b3f57ff32900b008c",
+    "mtime": 1795035723.1225166,
+    "seen": 1795036349.756356,
+    "ast_hash": "0c2391fdd79b7857137c72a85dbfa01b",
     "semantic_hash": ""
   },
   "cartografias/index.html": {
-    "mtime": 1795035380.3764105,
-    "seen": 1795035535.8468168,
-    "ast_hash": "6526821506482d7d59687708da7faedc",
+    "mtime": 1795035788.1877065,
+    "seen": 1795036349.7564132,
+    "ast_hash": "2125eac90b6fb9a2923d39a599010bbc",
     "semantic_hash": ""
   }
 }

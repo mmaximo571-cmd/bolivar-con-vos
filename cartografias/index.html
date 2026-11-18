@@ -221,10 +221,48 @@
         </form>
       </section>
 
+      <!-- LO QUE YA ESTÁ RELEVADO. Las mismas capas de `mapa/`
+           (`mapa/capas-base.js` y `mapa/datos/`), para leer lo dibujado
+           contra lo que ya se sabe del territorio. No se mezclan con lo
+           del grupo: van debajo, y no se pueden tocar para editarlas. -->
+      <section aria-labelledby="base-titulo">
+        <h2 class="carto-subtitulo" id="base-titulo">Información de base</h2>
+        <p class="letra-chica carto-ayuda">Lo que ya relevaron otros, para leer el mapa del grupo contra eso. Cada capa se baja la primera vez que la prendés.</p>
+        <ul class="carto-capas" id="capas-base"></ul>
+      </section>
+
+      <section aria-labelledby="bajar-titulo">
+        <h2 class="carto-subtitulo" id="bajar-titulo">Bajar el mapa</h2>
+        <p class="letra-chica carto-ayuda">La imagen sale como se ve el mapa ahora (el encuadre, las referencias y las capas prendidas), con la leyenda abajo.</p>
+        <div class="carto-botones">
+          <button type="button" class="boton borde" id="bajar-imagen">Imagen para presentar</button>
+          <button type="button" class="boton borde" id="bajar-geojson">Datos para QGIS</button>
+        </div>
+        <p class="letra-chica carto-ayuda" id="bajar-estado" role="status" aria-live="polite"></p>
+      </section>
+
       <section aria-labelledby="grupo-titulo">
         <h2 class="carto-subtitulo" id="grupo-titulo">El grupo</h2>
         <p id="grupo-texto"></p>
-        <button type="button" class="boton peligro ancho" id="salir-o-borrar"></button>
+
+        <form class="carto-apodo" id="form-apodo" novalidate hidden>
+          <label for="apodo">Cómo te ve este grupo</label>
+          <div class="carto-fila-campo">
+            <input id="apodo" maxlength="40" autocomplete="nickname" placeholder="Ej.: Lu, o el nombre de tu organización">
+            <button type="submit" class="boton borde" id="apodo-guardar">Guardar</button>
+          </div>
+          <p class="letra-chica carto-ayuda">El nombre de tu cuenta no se muestra nunca. Sin apodo, aparecés como «Participante» y un número.</p>
+          <div class="aviso error" id="apodo-error" hidden></div>
+        </form>
+
+        <ul class="carto-miembros" id="miembros"></ul>
+        <div class="aviso error" id="grupo-error" hidden></div>
+
+        <div class="carto-salidas">
+          <button type="button" class="boton borde ancho" id="cambiar-codigo" hidden>Cambiar el código</button>
+          <button type="button" class="boton borde ancho" id="salir" hidden>Salir de la cartografía</button>
+          <button type="button" class="boton peligro ancho" id="borrar-carto" hidden>Borrar la cartografía</button>
+        </div>
       </section>
 
       <p class="carto-volver"><a href="./">← Tus cartografías</a></p>
@@ -243,6 +281,8 @@
 <script src="../lib/mudanza.js"></script>
 <script src="../app.js"></script>
 <script src="../fondo-red.js"></script>
+<!-- Las capas de base son las de `mapa/`: una sola lista para las dos. -->
+<script src="../mapa/capas-base.js"></script>
 <script src="referencias.js"></script>
 <script src="cartografias.js"></script>
 </body>

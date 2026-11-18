@@ -124,6 +124,12 @@ espacios, glosario, quienes, fichas), va al final de
   geometría de BodyParts3D). Los `.bin` los arma `armar-datos.mjs`
   desde el repositorio de Human Atlas: si se toca `piezas.js`, se
   vuelve a correr. No va al armazón.
+- `cartografias/` — las cartografías sociales (18/11/2026):
+  `cartografias.js` (todo, en ocho partes numeradas) y `referencias.js`
+  (las ocho referencias fijas, que también dibujan el plano de la
+  portada). Carga además **`../mapa/capas-base.js`** y pide los
+  GeoJSON de `mapa/datos/`: si se cambia una capa de base, cambia en las
+  dos pantallas. No va al armazón.
 - `config.js`, `iconos.js`, `lectura.js`, `movimiento.js`,
   `fondo-red.js` — piezas chicas, cada una de una cosa.
 - `lib/datos.js` es el cliente chico de Supabase, el que usa la
