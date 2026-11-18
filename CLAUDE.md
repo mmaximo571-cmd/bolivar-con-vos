@@ -125,11 +125,14 @@ espacios, glosario, quienes, fichas), va al final de
   desde el repositorio de Human Atlas: si se toca `piezas.js`, se
   vuelve a correr. No va al armazón.
 - `cartografias/` — las cartografías sociales (18/11/2026):
-  `cartografias.js` (todo, en ocho partes numeradas) y `referencias.js`
-  (las ocho referencias fijas, que también dibujan el plano de la
-  portada). Carga además **`../mapa/capas-base.js`** y pide los
-  GeoJSON de `mapa/datos/`: si se cambia una capa de base, cambia en las
-  dos pantallas. No va al armazón.
+  `cartografias.js` (todo, en once partes numeradas: dibujar, el grupo,
+  sin señal, en vivo con Realtime, publicar) y `referencias.js` (las
+  ocho referencias fijas, que también dibujan el plano de la portada).
+  Carga además **`../mapa/capas-base.js`** y pide los GeoJSON de
+  `mapa/datos/`: si se cambia una capa de base, cambia en las dos
+  pantallas. `referencias.js` lo carga también el **panel** (la sección
+  «Cartografías», donde el equipo revisa lo que se pide publicar). No va
+  al armazón.
 - `config.js`, `iconos.js`, `lectura.js`, `movimiento.js`,
   `fondo-red.js` — piezas chicas, cada una de una cosa.
 - `lib/datos.js` es el cliente chico de Supabase, el que usa la

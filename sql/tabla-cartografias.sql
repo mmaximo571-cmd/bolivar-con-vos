@@ -566,3 +566,186 @@ begin
 end $fn$;
 revoke execute on function public.cartografia_cambiar_codigo(uuid) from public, anon;
 grant execute on function public.cartografia_cambiar_codigo(uuid) to authenticated;
+
+
+-- ============================================================
+-- TANDA 3 (18/11/2026)  ·  publicar, y ver en vivo
+--
+-- PUBLICAR (decisión de Máximo): se publica UNA FOTO DEL MOMENTO, y
+-- SIN AUTORÍA. Quien coordina pide publicar; la base saca la foto en ese
+-- instante (lo dibujado y las referencias propias, sin `autor`); el
+-- equipo la mira en el panel y la aprueba o la rechaza con un motivo.
+-- Lo que el grupo dibuje después no sale hasta otro pedido y otra
+-- revisión: nada llega al público sin que alguien lo mire. Mientras se
+-- revisa un pedido nuevo, sigue a la vista la foto aprobada antes.
+--
+-- Dos tablas y no una con dos columnas: los permisos de columna son por
+-- rol, no por fila, y con una sola tabla cualquiera con cuenta podría
+-- leer la foto PEDIDA (sin revisar) de una cartografía publicada.
+-- ============================================================
+
+create table if not exists public.cartografia_pedidos (
+  cartografia  uuid primary key references public.cartografias(id) on delete cascade,
+  nombre       text not null,
+  descripcion  text not null default '',
+  foto         jsonb not null,
+  estado       text not null default 'esperando' check (estado in ('esperando','rechazado')),
+  motivo       text check (motivo is null or char_length(motivo) <= 300),
+  pedida_at    timestamptz not null default now(),
+  pedida_por   uuid references auth.users(id) on delete set null,
+  revisada_at  timestamptz
+);
+create index if not exists cartografia_pedidos_pedida_por_idx
+  on public.cartografia_pedidos (pedida_por);
+
+create table if not exists public.cartografias_publicadas (
+  cartografia  uuid primary key references public.cartografias(id) on delete cascade,
+  nombre       text not null,
+  descripcion  text not null default '',
+  foto         jsonb not null,
+  publicada_at timestamptz not null default now(),
+  -- Quién del equipo la aprobó: no se lee (ver los grant de abajo).
+  revisada_por uuid references auth.users(id) on delete set null
+);
+create index if not exists cartografias_publicadas_revisada_por_idx
+  on public.cartografias_publicadas (revisada_por);
+
+alter table public.cartografia_pedidos     enable row level security;
+alter table public.cartografias_publicadas enable row level security;
+revoke all on public.cartografia_pedidos     from anon, authenticated;
+revoke all on public.cartografias_publicadas from anon, authenticated;
+
+-- El pedido lo ve el grupo (para saber en qué está) y el equipo (para
+-- revisarlo). Se entra y se cambia solo por las funciones de abajo;
+-- quien coordina lo puede retirar.
+grant select, delete on public.cartografia_pedidos to authenticated;
+
+drop policy if exists "pedidos los ve el grupo y el equipo" on public.cartografia_pedidos;
+create policy "pedidos los ve el grupo y el equipo"
+  on public.cartografia_pedidos for select to authenticated
+  using (public.es_de_la_cartografia(cartografia) or (select public.es_equipo()));
+
+drop policy if exists "pedidos los retira quien coordina" on public.cartografia_pedidos;
+create policy "pedidos los retira quien coordina"
+  on public.cartografia_pedidos for delete to authenticated
+  using (public.coordina_la_cartografia(cartografia));
+
+-- Lo publicado lo ve todo el mundo, con o sin cuenta. Lo despublica
+-- quien coordina o el equipo.
+grant select (cartografia, nombre, descripcion, foto, publicada_at)
+  on public.cartografias_publicadas to anon, authenticated;
+grant delete on public.cartografias_publicadas to authenticated;
+
+drop policy if exists "publicadas las ve cualquiera" on public.cartografias_publicadas;
+create policy "publicadas las ve cualquiera"
+  on public.cartografias_publicadas for select to anon, authenticated
+  using (true);
+
+drop policy if exists "publicadas las baja quien coordina o el equipo" on public.cartografias_publicadas;
+create policy "publicadas las baja quien coordina o el equipo"
+  on public.cartografias_publicadas for delete to authenticated
+  using (public.coordina_la_cartografia(cartografia) or (select public.es_equipo()));
+
+
+-- PEDIR. La foto la saca la base y no el teléfono: así es exactamente lo
+-- que está guardado, y `autor` no viaja ni por error. Las referencias
+-- fijas van solo con su id (la pantalla las conoce); las propias, con
+-- su nombre y su color, porque pueden cambiar o borrarse después.
+create or replace function public.cartografia_pedir_publicacion(p_cartografia uuid)
+returns void
+language plpgsql security definer set search_path = public as $fn$
+declare
+  v_nombre text;
+  v_descripcion text;
+  v_foto jsonb;
+begin
+  if not public.coordina_la_cartografia(p_cartografia) then
+    raise exception 'solo quien coordina';
+  end if;
+  select nombre, descripcion into v_nombre, v_descripcion
+    from public.cartografias where id = p_cartografia;
+
+  select jsonb_build_object(
+    'type', 'FeatureCollection',
+    'referencias', coalesce((
+      select jsonb_agg(jsonb_build_object('id', r.id, 'nombre', r.nombre, 'color', r.color) order by r.creada_at)
+        from public.cartografia_referencias r where r.cartografia = p_cartografia), '[]'::jsonb),
+    'features', coalesce((
+      select jsonb_agg(jsonb_build_object(
+               'type', 'Feature',
+               'geometry', e.geometria,
+               'properties', jsonb_build_object(
+                 'id', e.id, 'referencia', e.referencia, 'tipo', e.tipo,
+                 'titulo', e.titulo, 'relato', e.relato, 'fecha', e.creado_en_dispositivo))
+             order by e.creado_en_dispositivo)
+        from public.cartografia_elementos e where e.cartografia = p_cartografia), '[]'::jsonb))
+  into v_foto;
+
+  if jsonb_array_length(v_foto->'features') = 0 then
+    raise exception 'no hay nada dibujado';
+  end if;
+
+  insert into public.cartografia_pedidos
+    (cartografia, nombre, descripcion, foto, estado, motivo, pedida_at, pedida_por, revisada_at)
+  values (p_cartografia, v_nombre, v_descripcion, v_foto, 'esperando', null, now(), auth.uid(), null)
+  on conflict (cartografia) do update set
+    nombre = excluded.nombre, descripcion = excluded.descripcion, foto = excluded.foto,
+    estado = 'esperando', motivo = null, pedida_at = now(), pedida_por = auth.uid(),
+    revisada_at = null;
+end $fn$;
+revoke execute on function public.cartografia_pedir_publicacion(uuid) from public, anon;
+grant execute on function public.cartografia_pedir_publicacion(uuid) to authenticated;
+
+-- APROBAR. Pasa la foto del pedido a lo publicado (reemplaza la que
+-- hubiera) y borra el pedido.
+create or replace function public.cartografia_aprobar(p_cartografia uuid)
+returns void
+language plpgsql security definer set search_path = public as $fn$
+declare
+  v public.cartografia_pedidos%rowtype;
+begin
+  if not public.es_equipo() then raise exception 'solo el equipo'; end if;
+  select * into v from public.cartografia_pedidos
+   where cartografia = p_cartografia and estado = 'esperando';
+  if not found then raise exception 'no hay pedido esperando'; end if;
+
+  insert into public.cartografias_publicadas (cartografia, nombre, descripcion, foto, publicada_at, revisada_por)
+  values (v.cartografia, v.nombre, v.descripcion, v.foto, now(), auth.uid())
+  on conflict (cartografia) do update set
+    nombre = excluded.nombre, descripcion = excluded.descripcion, foto = excluded.foto,
+    publicada_at = now(), revisada_por = auth.uid();
+  delete from public.cartografia_pedidos where cartografia = p_cartografia;
+end $fn$;
+revoke execute on function public.cartografia_aprobar(uuid) from public, anon;
+grant execute on function public.cartografia_aprobar(uuid) to authenticated;
+
+-- RECHAZAR, con un motivo que el grupo lee en la pantalla. El pedido
+-- queda (rechazado) hasta que pidan de nuevo o lo retiren.
+create or replace function public.cartografia_rechazar(p_cartografia uuid, p_motivo text)
+returns void
+language plpgsql security definer set search_path = public as $fn$
+begin
+  if not public.es_equipo() then raise exception 'solo el equipo'; end if;
+  update public.cartografia_pedidos
+     set estado = 'rechazado', motivo = left(nullif(btrim(p_motivo), ''), 300), revisada_at = now()
+   where cartografia = p_cartografia and estado = 'esperando';
+  if not found then raise exception 'no hay pedido esperando'; end if;
+end $fn$;
+revoke execute on function public.cartografia_rechazar(uuid, text) from public, anon;
+grant execute on function public.cartografia_rechazar(uuid, text) to authenticated;
+
+
+-- VER EN VIVO. Lo que dibuja el resto aparece sin tocar «Actualizar».
+-- Realtime respeta las políticas de arriba para altas y cambios: cada
+-- quien recibe solo lo de sus grupos. Las bajas llegan a todos con el
+-- id y nada más (así funciona Realtime): la pantalla saca el id si lo
+-- tiene y si no, lo ignora.
+do $$
+begin
+  if exists (select 1 from pg_publication where pubname = 'supabase_realtime')
+     and not exists (select 1 from pg_publication_tables
+                     where pubname = 'supabase_realtime' and schemaname = 'public'
+                       and tablename = 'cartografia_elementos') then
+    alter publication supabase_realtime add table public.cartografia_elementos;
+  end if;
+end $$;

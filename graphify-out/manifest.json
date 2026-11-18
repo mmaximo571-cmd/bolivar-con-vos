@@ -84,9 +84,9 @@
     "semantic_hash": ""
   },
   "BITACORA.md": {
-    "mtime": 1795036338.9478304,
-    "seen": 1795036349.7564006,
-    "ast_hash": "0f805cc338a9842755e7ea6c074810a8",
+    "mtime": 1795040241.7740662,
+    "seen": 1795040245.1665533,
+    "ast_hash": "2658c795c4ac7fc24811454b9cb1c08c",
     "semantic_hash": ""
   },
   "LEEME.md": {
@@ -162,9 +162,9 @@
     "semantic_hash": ""
   },
   "panel/index.html": {
-    "mtime": 1795011837.385896,
-    "seen": 1795034517.498559,
-    "ast_hash": "534bd7eadbad78e726de7c0d95e4b64f",
+    "mtime": 1795039918.964875,
+    "seen": 1795040245.1666014,
+    "ast_hash": "5b2f64b337060cbe9c2f604743b822a2",
     "semantic_hash": ""
   },
   "quienes/index.html": {
@@ -642,9 +642,9 @@
     "semantic_hash": ""
   },
   "docs/PROPUESTAS.md": {
-    "mtime": 1795036338.9447107,
-    "seen": 1795036349.7564251,
-    "ast_hash": "5614f594dadcd3d4cfc6f16b11874359",
+    "mtime": 1795040241.7712908,
+    "seen": 1795040245.1665676,
+    "ast_hash": "d35bd361800de5a46275fbfb5134286f",
     "semantic_hash": ""
   },
   "sql/tabla-publicaciones.sql": {
@@ -1020,9 +1020,9 @@
     "semantic_hash": ""
   },
   "cartografias/cartografias.js": {
-    "mtime": 1795036338.9441006,
-    "seen": 1795036349.756249,
-    "ast_hash": "d058fe083e498e02e8e9e83f7b052c98",
+    "mtime": 1795040241.7702794,
+    "seen": 1795040245.1664243,
+    "ast_hash": "1e6dd1f0907170ae4c3d5393b6282318",
     "semantic_hash": ""
   },
   "cartografias/referencias.js": {
@@ -1032,15 +1032,15 @@
     "semantic_hash": ""
   },
   "sql/tabla-cartografias.sql": {
-    "mtime": 1795035723.1225166,
-    "seen": 1795036349.756356,
-    "ast_hash": "0c2391fdd79b7857137c72a85dbfa01b",
+    "mtime": 1795039607.136606,
+    "seen": 1795040245.1665258,
+    "ast_hash": "0fe6a535f66a14d3d5bf05503b700cfc",
     "semantic_hash": ""
   },
   "cartografias/index.html": {
-    "mtime": 1795035788.1877065,
-    "seen": 1795036349.7564132,
-    "ast_hash": "2125eac90b6fb9a2923d39a599010bbc",
+    "mtime": 1795039683.5523782,
+    "seen": 1795040245.1665604,
+    "ast_hash": "3e65ec1dbfd1a49f0f9e4dd708de9899",
     "semantic_hash": ""
   }
 }

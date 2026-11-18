@@ -12,13 +12,13 @@
    Las partes, en orden: 1 arrancar, 2 la lista, 3 una abierta (el
    código, la leyenda, las referencias propias, el grupo), 4 el mapa,
    5 dibujar y corregir, 6 la ficha, 7 la información de base,
-   8 bajar el mapa. La tanda 2 (18/11/2026) sumó corregir, el grupo
-   con apodos, la información de base y bajar.
+   8 bajar el mapa, 9 sin señal (la cola del teléfono), 10 en vivo,
+   11 publicar y mirar lo publicado. Las tres tandas de la propuesta 5
+   de `docs/PROPUESTAS.md` se hicieron el 18/11/2026.
 
-   Lo que todavía NO hace (tanda 3 de la propuesta 5 de
-   `docs/PROPUESTAS.md`): dibujar sin señal, ver en vivo lo que dibuja
-   el resto (por ahora, «Actualizar» y al volver a la pantalla) y
-   publicar una cartografía.
+   Tres modos según la dirección: la lista, una cartografía del grupo
+   (`?c=`), y una foto para solo mirar: la publicada (`?ver=`, sin
+   cuenta) o la pedida que revisa el equipo (`?revisar=`).
    ============================================================ */
 (function cartografiasSociales(){
 
@@ -43,8 +43,7 @@
 
   const params = new URLSearchParams(location.search);
   let yo = null;
-
-  arrancar();
+  // `arrancar()` se llama al final del archivo, cuando ya existe todo.
 
 
   /* ============================================================
@@ -54,10 +53,11 @@
     // Sin cliente de datos, app.js ya puso su cartel.
     if (!db || !('auth' in db)) return;
 
-    let sesion;
-    try { sesion = await conPaciencia(sesionActual()); }
-    catch(e){ mostrarError($('carto-aviso'), e, 'ver si entraste con tu cuenta'); return; }
-    yo = sesion.usuario;
+    // Lo publicado se ve sin cuenta: no hace falta preguntar quién es.
+    const ver = params.get('ver');
+    if (ver && esId(ver)) return abrirFoto(ver, 'publica');
+
+    yo = await quienSoy();
 
     const codigoDelLink = limpiarCodigo(params.get('sumarme'));
 
@@ -74,8 +74,15 @@
              Entrá desde <a href="../mi/">Mi perfil</a> y volvé${codigoDelLink
                ? ': tu código va a estar esperándote' : ''}.</p>
         </div>`;
+      mostrarPublicadas();
       return;
     }
+
+    // Lo que quedó en el teléfono de otra visita sin señal sale ahora.
+    enviarCola();
+
+    const revisar = params.get('revisar');
+    if (revisar && esId(revisar)) return abrirFoto(revisar, 'revision');
 
     if (codigoDelLink){
       const r = await sumarmeCon(codigoDelLink);
@@ -88,8 +95,47 @@
     }
 
     const c = params.get('c');
-    if (c && /^[0-9a-f-]{36}$/i.test(c)) abrir(c);
+    if (c && esId(c)) abrir(c);
     else mostrarLista();
+  }
+
+  function esId(t){ return /^[0-9a-f-]{36}$/i.test(t || ''); }
+
+  /* LO GUARDADO EN EL TELÉFONO. En localStorage y no en IndexedDB: son
+     pocos kilos (una cartografía de un taller no pasa de doscientas
+     cosas) y así no hay dos caminos según el navegador. Todo envuelto:
+     una ventana privada o un teléfono lleno no tienen que romper nada. */
+  const LISTA_GUARDADA = 'bolivar-carto-mias';
+  const COLA = 'bolivar-carto-cola';
+  const copiaDe = id => 'bolivar-carto-copia-' + id;
+
+  function leerGuardado(clave){
+    try { return JSON.parse(localStorage.getItem(clave)); } catch(e){ return null; }
+  }
+  function guardarLocal(clave, valor){
+    try { localStorage.setItem(clave, JSON.stringify(valor)); return true; } catch(e){ return false; }
+  }
+
+  /* Sin señal, `sesionActual()` le pregunta al servidor y vuelve sin
+     usuario. La sesión guardada en el teléfono sí está, y alcanza para
+     abrir lo bajado y dibujar en la cola: cuando vuelva la señal, la
+     base decide si todavía vale. */
+  async function quienSoy(){
+    let usuario = null;
+    try { usuario = (await conPaciencia(sesionActual(), 10)).usuario; } catch(e){}
+    if (usuario) return usuario;
+    try {
+      const { data } = await db.auth.getSession();
+      return (data && data.session && data.session.user) || null;
+    } catch(e){ return null; }
+  }
+
+  /* ¿Falló por falta de señal, o por otra cosa? Lo primero se guarda en
+     el teléfono y se reintenta; lo segundo se dice. */
+  function esSinSenal(error){
+    if (navigator.onLine === false) return true;
+    const m = String((error && (error.message || error)) || '');
+    return /failed to fetch|networkerror|load failed|network request failed|tardando demasiado/i.test(m);
   }
 
   function limpiarCodigo(t){
@@ -118,6 +164,12 @@
       return 'Se dibujó mucho en poco tiempo. Esperá unos minutos y volvé a guardar.';
     if (/geometria_ok/.test(m))
       return 'El dibujo tiene que quedar dentro de La Plata, Berisso o Ensenada.';
+    if (/no hay nada dibujado/.test(m))
+      return 'Todavía no hay nada dibujado para publicar.';
+    if (/no hay pedido esperando/.test(m))
+      return 'Ese pedido ya se revisó o se retiró.';
+    if (/solo el equipo/.test(m))
+      return 'Eso lo hace el equipo, desde el panel.';
     if (/tiene que quedar alguien coordinando/.test(m))
       return 'Tiene que quedar al menos una persona coordinando. Primero nombrá a otra.';
     if (/solo quien coordina/.test(m))
@@ -146,12 +198,25 @@
     const pendiente = leerPendiente();
     if (pendiente && !$('codigo').value) $('codigo').value = pendiente;
 
+    mostrarPublicadas();
     const lista = $('mias-lista');
     lista.innerHTML = '<li class="carto-cargando">Buscando tus cartografías…</li>';
 
-    const r = await pedir(db.from('cartografia_miembros')
+    let r = await pedir(db.from('cartografia_miembros')
       .select('rol, cartografias(id, nombre, descripcion)')
       .eq('usuario', yo.id));
+
+    /* Sin señal, la lista de la última vez: cada una se abre con lo que
+       se bajó entonces (ver `leerCopia`). */
+    if (r.error && esSinSenal(r.error)){
+      const vieja = leerGuardado(LISTA_GUARDADA);
+      if (vieja){
+        r = { data: vieja };
+        $('carto-aviso').innerHTML = '<div class="aviso">Sin señal: estas son tus cartografías de la última vez. Se abren con lo que bajaste.</div>';
+      }
+    } else if (!r.error){
+      guardarLocal(LISTA_GUARDADA, r.data || []);
+    }
 
     if (r.error){
       lista.innerHTML = '';
@@ -186,6 +251,22 @@
         <span class="carto-rol">${f.rol === 'coordina' ? 'Coordinás' : 'Participás'}</span>
       </a></li>`;
     }).join('');
+  }
+
+  /* Las publicadas: se ven con o sin cuenta. Si la base todavía no
+     tiene la tanda 3, o no hay ninguna, la sección no aparece. */
+  async function mostrarPublicadas(){
+    const r = await pedir(db.from('cartografias_publicadas')
+      .select('cartografia, nombre, descripcion, publicada_at')
+      .order('publicada_at', { ascending: false }).limit(50));
+    if (r.error || !r.data || !r.data.length){ $('vista-publicadas').hidden = true; return; }
+    $('publicadas-lista').innerHTML = r.data.map(p => `
+      <li><a class="carto-tarjeta" href="?ver=${encodeURIComponent(p.cartografia)}">
+        <span class="carto-tarjeta-nombre">${esc(p.nombre)}</span>
+        ${p.descripcion ? `<span class="carto-tarjeta-desc">${esc(p.descripcion)}</span>` : ''}
+        <span class="carto-tarjeta-desc">Publicada el ${esc(fechaCorta(p.publicada_at))}</span>
+      </a></li>`).join('');
+    $('vista-publicadas').hidden = false;
   }
 
   async function sumarmeCon(codigo){
@@ -308,7 +389,10 @@
     conApodos: true,          // false si la base todavía no tiene la tanda 2
     propias: [], elementos: [],
     ocultas: new Set(),       // referencias apagadas en el mapa
-    traidoEn: 0
+    traidoEn: 0,
+    soloMirar: null,          // 'publica' | 'revision': una foto, sin grupo
+    pedido: null,             // el pedido de publicación, si hay
+    publicada: null           // la versión publicada, si hay
   };
 
   async function abrir(id){
@@ -319,6 +403,26 @@
       pedir(db.from('cartografias').select('id, nombre, descripcion, codigo').eq('id', id).maybeSingle()),
       traerLoDeAdentro(id)
     ]);
+
+    /* SIN SEÑAL: lo que se bajó la última vez. Se puede mirar y dibujar;
+       lo dibujado queda en el teléfono y se manda solo cuando vuelva. */
+    if ((c.error && esSinSenal(c.error)) || listo === 'sin-senal'){
+      const copia = leerGuardado(copiaDe(id));
+      if (!copia || !copia.carto){
+        $('carto-titulo').innerHTML = 'Cartografías <em>sociales</em>';
+        $('carto-aviso').innerHTML = `<div class="aviso error">No hay señal, y esta cartografía todavía no está bajada en el teléfono. Abrila una vez con señal y después vas a poder usarla sin.
+          <br><a href="./">Ver tus cartografías</a></div>`;
+        return;
+      }
+      Object.assign(estado, {
+        carto: copia.carto, rol: copia.rol, lista: copia.lista || [], miembros: (copia.lista || []).length,
+        conApodos: copia.conApodos !== false, propias: copia.propias || [],
+        elementos: (copia.elementos || []).filter(geometriaUsable), traidoEn: Date.now()
+      });
+      mostrarAbierta();
+      $('carto-aviso').innerHTML = `<div class="aviso">Sin señal: ves lo que bajaste el ${esc(fechaCorta(copia.guardada))}. Lo que dibujes queda en el teléfono y se manda solo cuando vuelva.</div>`;
+      return;
+    }
 
     if (c.error || !c.data){
       $('carto-titulo').innerHTML = 'Cartografías <em>sociales</em>';
@@ -332,6 +436,16 @@
     estado.carto = c.data;
     if (!listo) return;
 
+    mostrarAbierta();
+    guardarCopia();
+    escucharEnVivo();
+    traerPublicacion();
+  }
+
+  /* Lo mismo con señal que sin: pinta una cartografía con lo que hay en
+     `estado`, y suma lo que quedó en el teléfono sin mandar. */
+  function mostrarAbierta(){
+    mezclarCola();
     document.title = estado.carto.nombre + ' · Cartografías sociales';
     $('carto-titulo').textContent = estado.carto.nombre;
     $('carto-bajada').textContent = estado.carto.descripcion || '';
@@ -343,6 +457,23 @@
     armarFormReferencia();
     armarListaBase();
     armarMapa();
+    pintarCola();
+  }
+
+  /* La copia para abrirla sin señal. Sin lo que está en la cola: eso ya
+     vive en la cola y se vuelve a sumar al abrir. */
+  function guardarCopia(){
+    if (!estado.carto || estado.soloMirar) return;
+    guardarLocal(copiaDe(estado.carto.id), {
+      carto: estado.carto, rol: estado.rol, lista: estado.lista, conApodos: estado.conApodos,
+      propias: estado.propias, elementos: estado.elementos.filter(e => !e.enCola), guardada: Date.now()
+    });
+    /* Y en la lista guardada: si alguien entró directo por el link, sin
+       pasar por la lista, sin señal la lista igual tiene que mostrarla. */
+    const lista = (leerGuardado(LISTA_GUARDADA) || []).filter(f => f.cartografias && f.cartografias.id !== estado.carto.id);
+    const { id, nombre, descripcion } = estado.carto;
+    lista.push({ rol: estado.rol, cartografias: { id, nombre, descripcion } });
+    guardarLocal(LISTA_GUARDADA, lista);
   }
 
   /* Miembros, referencias propias y lo dibujado. Se usa al abrir y en
@@ -368,6 +499,7 @@
     ]);
     const fallo = m.error || ref.error || el.error;
     if (fallo){
+      if (esSinSenal(fallo)) return 'sin-senal';
       if (faltaElSQL(fallo))
         $('carto-aviso').innerHTML = `<div class="aviso error">${esc(textoDelError(fallo))}</div>`;
       else mostrarError($('carto-aviso'), fallo, 'traer lo dibujado');
@@ -395,12 +527,20 @@
   }
 
   async function actualizar(){
-    if (!estado.carto) return;
+    if (!estado.carto || estado.soloMirar) return;
     const boton = $('actualizar');
     boton.disabled = true;
     const ok = await traerLoDeAdentro(estado.carto.id);
     boton.disabled = false;
+    if (ok === 'sin-senal'){
+      $('carto-aviso').innerHTML = '<div class="aviso">Sin señal: seguís viendo lo de antes. Probá «Actualizar» cuando vuelva.</div>';
+      return;
+    }
     if (!ok) return;
+    mezclarCola();
+    guardarCopia();
+    traerPublicacion();
+    if (!canal) escucharEnVivo();
     if (!estado.rol){ location.href = './'; return; }
     pintarLeyenda();
     pintarGrupo();
@@ -772,15 +912,18 @@
       if (dibujo.editando && dibujo.editando.id === e.id) return;
       const ref = buscarReferencia(refs, e.referencia);
       let capa;
+      /* Lo que está en el teléfono sin mandar se ve punteado: está en
+         el mapa de quien lo dibujó, pero todavía no en el del grupo. */
+      const punteado = e.enCola ? '6 6' : null;
       if (e.tipo === 'punto'){
         capa = L.marker(aLeaflet(e.geometria.coordinates), {
-          icon: iconoDe(ref), title: e.titulo, keyboard: true, riseOnHover: true });
+          icon: iconoDe(ref, e.enCola ? 'en-telefono' : ''), title: e.titulo, keyboard: true, riseOnHover: true });
       } else if (e.tipo === 'linea'){
         capa = L.polyline(e.geometria.coordinates.map(aLeaflet), {
-          color: ref.color, weight: 5, opacity: .9, lineCap: 'round', lineJoin: 'round' });
+          color: ref.color, weight: 5, opacity: .9, lineCap: 'round', lineJoin: 'round', dashArray: punteado });
       } else {
         capa = L.polygon(e.geometria.coordinates[0].slice(0, -1).map(aLeaflet), {
-          color: ref.color, weight: 2.5, fillColor: ref.color, fillOpacity: .22 });
+          color: ref.color, weight: 2.5, fillColor: ref.color, fillOpacity: .22, dashArray: punteado });
       }
       /* Mientras se dibuja, tocar algo ya dibujado es tocar el mapa: si
          no, no se podría marcar un lugar adentro de una zona. */
@@ -1078,15 +1221,27 @@
 
     if (ed){
       const cambios = Object.assign({ editado_at: new Date().toISOString() }, datos);
-      const r = await pedir(db.from('cartografia_elementos').update(cambios).eq('id', ed.id).select('id'));
+      const e = estado.elementos.find(x => x.id === ed.id);
+      /* Lo que todavía está en la cola se corrige en la cola: en la base
+         no existe, y mandarle un cambio sería pedir algo que no está. */
+      let aLaCola = !!(e && e.enCola);
+      if (!aLaCola){
+        const r = await pedir(db.from('cartografia_elementos').update(cambios).eq('id', ed.id).select('id'));
+        if (r.error && esSinSenal(r.error)) aLaCola = true;
+        else if (r.error || !r.data || !r.data.length){
+          boton.disabled = false;
+          mostrarFallo('elemento-error', r.error ? textoDelError(r.error)
+            : 'No se pudo guardar. Puede que ya no esté: tocá «Actualizar».');
+          return;
+        }
+      }
       boton.disabled = false;
-      if (r.error || !r.data || !r.data.length){
-        mostrarFallo('elemento-error', r.error ? textoDelError(r.error)
-          : 'No se pudo guardar. Puede que ya no esté: tocá «Actualizar».');
+      if (aLaCola && !encolar({ op: 'cambio', id: ed.id, cartografia: estado.carto.id, cambios })){
+        mostrarFallo('elemento-error', 'No hay señal, y el teléfono no tiene lugar para guardarlo. Probá cuando vuelva.');
         return;
       }
-      const e = estado.elementos.find(x => x.id === ed.id);
-      if (e) Object.assign(e, cambios);
+      if (e) Object.assign(e, cambios, aLaCola ? { enCola: true } : {});
+      if (aLaCola){ pintarCola(); programarReintento(); } else guardarCopia();
       estado.ocultas.delete(ref);
       descartarNuevo(true);
       pintarLeyenda();
@@ -1103,13 +1258,19 @@
     const r = await pedir(db.from('cartografia_elementos').insert(fila));
     boton.disabled = false;
     // 23505: el pedido llegó antes y se perdió la respuesta. Ya está.
+    let aLaCola = false;
     if (r.error && r.error.code !== '23505'){
-      mostrarFallo('elemento-error', textoDelError(r.error));
-      return;
+      if (!esSinSenal(r.error)){ mostrarFallo('elemento-error', textoDelError(r.error)); return; }
+      if (!encolar({ op: 'nuevo', id: fila.id, cartografia: fila.cartografia, fila })){
+        mostrarFallo('elemento-error', 'No hay señal, y el teléfono no tiene lugar para guardarlo. Probá cuando vuelva.');
+        return;
+      }
+      aLaCola = true;
     }
 
     if (typeof anotarHito === 'function') anotarHito('dibujó en una cartografía');
-    estado.elementos.push(Object.assign({ autor: yo.id }, fila));
+    estado.elementos.push(Object.assign({ autor: yo.id }, fila, aLaCola ? { enCola: true } : {}));
+    if (aLaCola){ pintarCola(); programarReintento(); } else guardarCopia();
     estado.ocultas.delete(ref);
     descartarNuevo(true);
     pintarLeyenda();
@@ -1144,7 +1305,7 @@
     const e = estado.elementos.find(x => x.id === id);
     if (!e) return;
     const ref = buscarReferencia(todasLasReferencias(estado.propias), e.referencia);
-    const mio = e.autor === yo.id;
+    const mio = !!yo && !estado.soloMirar && e.autor === yo.id;
     const puedeBorrar = mio || estado.rol === 'coordina';
     const relato = e.relato
       ? e.relato.split(/\n{2,}/).map(p => `<p>${esc(p).replace(/\n/g, '<br>')}</p>`).join('')
@@ -1156,7 +1317,8 @@
     const pie = [
       fechaCorta(e.creado_en_dispositivo),
       mio ? 'Lo dibujaste vos' : estado.conApodos ? 'Lo dibujó ' + etiquetaDe(e.autor) : '',
-      e.editado_at ? 'corregido el ' + fechaCorta(e.editado_at) : ''
+      e.editado_at ? 'corregido el ' + fechaCorta(e.editado_at) : '',
+      e.enCola ? 'en el teléfono, sin mandar' : ''
     ].filter(Boolean).join(' · ');
 
     const panel = $('panel-ficha');
@@ -1194,19 +1356,34 @@
     const id = $('panel-ficha').dataset.id;
     const e = estado.elementos.find(x => x.id === id);
     if (!e || !window.confirm(`¿Borrar «${e.titulo}» del mapa del grupo? No se puede deshacer.`)) return;
+    const caja = $('panel-ficha').querySelector('[data-error]');
+    const nuevoEnCola = leerCola().some(op => op.id === id && op.op === 'nuevo');
+    if (nuevoEnCola){
+      sacarDeLaCola(id);
+      estado.elementos = estado.elementos.filter(x => x.id !== id);
+      cerrarFicha(); pintarLeyenda(); pintarElementos(); pintarCola();
+      return;
+    }
     b.disabled = true;
     const r = await pedir(db.from('cartografia_elementos').delete().eq('id', id).select('id'));
     b.disabled = false;
-    const caja = $('panel-ficha').querySelector('[data-error]');
+    if (r.error && esSinSenal(r.error)){
+      caja.textContent = 'Para borrar hace falta señal: así no se borra algo que otra persona corrigió mientras tanto. Probá cuando vuelva.';
+      caja.hidden = false;
+      return;
+    }
     if (r.error || !r.data || !r.data.length){
       caja.textContent = r.error ? textoDelError(r.error) : 'No se pudo borrar. Puede que ya no esté: tocá «Actualizar».';
       caja.hidden = false;
       return;
     }
+    sacarDeLaCola(id);     // si había una corrección esperando, ya no hace falta
     estado.elementos = estado.elementos.filter(x => x.id !== id);
     cerrarFicha();
     pintarLeyenda();
     pintarElementos();
+    guardarCopia();
+    pintarCola();
   });
 
 
@@ -1681,5 +1858,323 @@
 
     return { lienzo, conCalles: huboCalles };
   }
+
+
+  /* ============================================================
+     9. SIN SEÑAL: LO QUE QUEDA EN EL TELÉFONO
+
+     En un barrio sin señal se dibuja igual. Lo nuevo y lo corregido que
+     no se pudo mandar va a una cola en el teléfono, y se manda solo: al
+     abrir la pantalla, al volver la señal, al volver a la pestaña y cada
+     treinta segundos mientras quede algo. Como en `mapa/`, el `id` lo
+     puso el teléfono: si un envío llegó y se perdió la respuesta, el
+     reintento choca con la clave (23505) y se toma como «ya estaba».
+
+     Borrar pide señal: un borrado en cola que se manda horas después,
+     cuando otra persona ya corrigió eso, es peor que esperar.
+
+     Cada cosa de la cola es { op:'nuevo', id, cartografia, fila } o
+     { op:'cambio', id, cartografia, cambios }, y `fallo` si la base la
+     rechazó por otra cosa que la señal (eso no se reintenta solo).
+     ============================================================ */
+  let enviandoCola = false, reintentoCola = null;
+
+  function leerCola(){ const c = leerGuardado(COLA); return Array.isArray(c) ? c : []; }
+
+  function encolar(op){
+    const cola = leerCola();
+    const previa = cola.find(x => x.id === op.id);
+    if (previa && previa.op === 'nuevo'){
+      /* Corregir algo que todavía no salió es cambiar el alta. Sin
+         `editado_at`: en un alta la base no lo deja escribir. */
+      const extra = Object.assign({}, op.op === 'nuevo' ? op.fila : op.cambios);
+      delete extra.editado_at;
+      Object.assign(previa.fila, extra);
+    }
+    else if (previa) Object.assign(previa.cambios, op.op === 'nuevo' ? op.fila : op.cambios);
+    else cola.push(op);
+    if (previa) delete previa.fallo;
+    return guardarLocal(COLA, cola);
+  }
+
+  function sacarDeLaCola(id){
+    guardarLocal(COLA, leerCola().filter(x => x.id !== id));
+  }
+
+  /* Lo de la cola de ESTA cartografía, sumado a lo que vino de la base
+     (o de la copia): así se ve en el mapa aunque todavía no haya salido. */
+  function mezclarCola(){
+    if (!estado.carto || estado.soloMirar) return;
+    leerCola().filter(op => op.cartografia === estado.carto.id).forEach(op => {
+      const e = estado.elementos.find(x => x.id === op.id);
+      if (op.op === 'nuevo'){
+        if (e) Object.assign(e, op.fila, { enCola: true });
+        else estado.elementos.push(Object.assign({ autor: yo && yo.id }, op.fila, { enCola: true }));
+      } else if (e) Object.assign(e, op.cambios, { enCola: true });
+    });
+  }
+
+  function pintarCola(){
+    const caja = $('carto-cola');
+    if (!caja) return;
+    const cola = leerCola();
+    const deAca = estado.carto && !estado.soloMirar ? cola.filter(op => op.cartografia === estado.carto.id) : [];
+    const otras = cola.length - deAca.length;
+    if (!cola.length || estado.soloMirar){ caja.hidden = true; return; }
+    const fallidas = deAca.filter(op => op.fallo);
+    const n = deAca.length;
+    const partes = [];
+    if (n) partes.push(n === 1 ? 'Hay 1 cosa en el teléfono, sin mandar.' : `Hay ${n} cosas en el teléfono, sin mandar.`);
+    if (otras) partes.push(otras === 1 ? '1 más es de otra cartografía.' : `${otras} más son de otras cartografías.`);
+    if (fallidas.length) partes.push('La base no aceptó ' + (fallidas.length === 1 ? 'una' : fallidas.length) + ': ' + fallidas[0].fallo);
+    else if (n) partes.push('Se manda sola cuando haya señal. No cierres sesión hasta que salga.');
+    $('carto-cola-texto').textContent = partes.join(' ');
+    caja.classList.toggle('con-fallo', fallidas.length > 0);
+    caja.hidden = false;
+  }
+
+  function programarReintento(){
+    clearTimeout(reintentoCola);
+    if (leerCola().some(op => !op.fallo)) reintentoCola = setTimeout(() => enviarCola(), 30000);
+  }
+
+  async function enviarCola(forzar){
+    if (enviandoCola || !yo) return;
+    if (!leerCola().length){ pintarCola(); return; }
+    enviandoCola = true;
+    for (const op of leerCola()){
+      if (op.fallo && !forzar) continue;
+      const r = op.op === 'nuevo'
+        ? await pedir(db.from('cartografia_elementos').insert(op.fila))
+        : await pedir(db.from('cartografia_elementos').update(op.cambios).eq('id', op.id).select('id'));
+      if (r.error && r.error.code !== '23505' && esSinSenal(r.error)) break;   // sigue sin señal
+
+      let fallo = null;
+      if (r.error && r.error.code !== '23505') fallo = textoDelError(r.error);
+      else if (op.op === 'cambio' && (!r.data || !r.data.length)) fallo = 'ya no está en el mapa (alguien lo borró).';
+
+      const cola = leerCola();
+      if (fallo){
+        const x = cola.find(y => y.id === op.id);
+        if (x) x.fallo = fallo;
+        guardarLocal(COLA, cola);
+      } else {
+        guardarLocal(COLA, cola.filter(y => y.id !== op.id));
+        if (estado.carto && op.cartografia === estado.carto.id){
+          const e = estado.elementos.find(x => x.id === op.id);
+          if (e) delete e.enCola;
+        }
+      }
+    }
+    enviandoCola = false;
+    if (estado.carto && !estado.soloMirar){
+      pintarElementos();
+      guardarCopia();
+      const abierta = $('panel-ficha').dataset.id;
+      if (abierta) abrirFicha(abierta);
+    }
+    pintarCola();
+    programarReintento();
+  }
+
+  $('enviar-cola').addEventListener('click', () => enviarCola(true));
+  window.addEventListener('online', () => enviarCola());
+  document.addEventListener('visibilitychange', () => {
+    if (document.visibilityState === 'visible') enviarCola();
+  });
+
+
+  /* ============================================================
+     10. EN VIVO
+
+     Lo que dibuja el resto del grupo aparece sin tocar «Actualizar», con
+     Realtime de Supabase (la tabla está en la publicación desde la tanda
+     3 de `sql/tabla-cartografias.sql`). Las altas y los cambios llegan
+     filtrados por las políticas: solo lo de este grupo. Las bajas llegan
+     sin filtro y con el id solo (así es Realtime): se saca si está.
+     Sin Realtime, o sin señal, queda «Actualizar» como antes.
+     ============================================================ */
+  let canal = null;
+
+  function escucharEnVivo(){
+    if (canal || estado.soloMirar || !estado.carto || typeof db.channel !== 'function') return;
+    const id = estado.carto.id;
+    canal = db.channel('cartografia-' + id)
+      .on('postgres_changes',
+          { event: 'INSERT', schema: 'public', table: 'cartografia_elementos', filter: 'cartografia=eq.' + id },
+          p => alCambiarEnVivo(p.new))
+      .on('postgres_changes',
+          { event: 'UPDATE', schema: 'public', table: 'cartografia_elementos', filter: 'cartografia=eq.' + id },
+          p => alCambiarEnVivo(p.new))
+      .on('postgres_changes',
+          { event: 'DELETE', schema: 'public', table: 'cartografia_elementos' },
+          p => alBorrarseEnVivo(p.old && p.old.id))
+      .subscribe(estadoCanal => {
+        $('en-vivo').hidden = estadoCanal !== 'SUBSCRIBED';
+      });
+  }
+
+  function alCambiarEnVivo(fila){
+    if (!fila || !estado.carto || fila.cartografia !== estado.carto.id || !geometriaUsable(fila)) return;
+    const e = estado.elementos.find(x => x.id === fila.id);
+    // Lo propio que está en la cola manda sobre lo que llega: es más nuevo.
+    if (e && e.enCola) return;
+    if (e) Object.assign(e, fila); else estado.elementos.push(fila);
+    repintarPorCambio(fila.id);
+  }
+
+  function alBorrarseEnVivo(id){
+    if (!id || !estado.elementos.some(x => x.id === id)) return;
+    estado.elementos = estado.elementos.filter(x => x.id !== id);
+    repintarPorCambio(id, true);
+  }
+
+  function repintarPorCambio(id, seFue){
+    pintarLeyenda();
+    pintarElementos();
+    guardarCopia();
+    if ($('panel-ficha').dataset.id === id){
+      if (seFue) cerrarFicha(); else abrirFicha(id);
+    }
+  }
+
+
+  /* ============================================================
+     11. PUBLICAR, Y MIRAR LO PUBLICADO
+
+     Decisión de Máximo: se publica una FOTO DEL MOMENTO y SIN AUTORÍA.
+     Quien coordina pide; la base saca la foto (`cartografia_pedir_
+     publicacion`); el equipo la revisa en el panel, en «Cartografías»,
+     y la aprueba o la rechaza con un motivo que el grupo lee acá.
+
+     `abrirFoto` muestra una foto (la publicada, para cualquiera; o la
+     pedida, para el equipo que revisa) con el mismo mapa, la misma
+     leyenda y las mismas descargas, pero sin dibujar ni grupo.
+     ============================================================ */
+  async function traerPublicacion(){
+    if (!estado.carto || estado.soloMirar || !estado.rol) return;
+    const id = estado.carto.id;
+    const [pe, pu] = await Promise.all([
+      pedir(db.from('cartografia_pedidos').select('estado, motivo, pedida_at, revisada_at').eq('cartografia', id).maybeSingle()),
+      pedir(db.from('cartografias_publicadas').select('publicada_at').eq('cartografia', id).maybeSingle())
+    ]);
+    // Sin la tanda 3 en la base, o sin señal: la sección no aparece.
+    if (pe.error || pu.error){ $('seccion-publicar').hidden = true; return; }
+    estado.pedido = pe.data;
+    estado.publicada = pu.data;
+    pintarPublicacion();
+  }
+
+  function pintarPublicacion(){
+    const coordina = estado.rol === 'coordina';
+    const pe = estado.pedido, pu = estado.publicada;
+    const enlace = `?ver=${encodeURIComponent(estado.carto.id)}`;
+    const partes = [];
+    if (pu) partes.push(`<p>Está publicada desde el ${esc(fechaCorta(pu.publicada_at))}: cualquiera la ve, sin cuenta, como estaba ese día. <a href="${enlace}">Ver la versión publicada</a></p>`);
+    if (pe && pe.estado === 'esperando')
+      partes.push(`<p class="carto-pub-esperando">Se pidió publicar${pu ? ' lo de ahora' : ''} el ${esc(fechaCorta(pe.pedida_at))}. El equipo lo está mirando.</p>`);
+    if (pe && pe.estado === 'rechazado')
+      partes.push(`<div class="aviso">El equipo no la publicó${pe.motivo ? `: «${esc(pe.motivo)}»` : '.'} Corrijan lo que haga falta y ${coordina ? 'pedí' : 'quien coordina puede pedir'} de nuevo.</div>`);
+    if (!pu && !pe) partes.push(`<p>Por ahora la ve solo el grupo. ${coordina
+      ? 'Si la quieren compartir, pedí publicarla: el equipo la mira antes de que salga.'
+      : 'Publicarla lo pide quien coordina.'}</p>`);
+    if (coordina) partes.push('<p class="letra-chica carto-ayuda">Se publica una foto de este momento, sin quién dibujó qué. Lo que dibujen después no sale hasta que pidas de nuevo.</p>');
+    $('publicar-estado').innerHTML = partes.join('');
+
+    const botones = [];
+    if (coordina){
+      const textoPedir = pe && pe.estado === 'esperando' ? 'Mandar lo de ahora al pedido'
+        : pu ? 'Publicar lo de ahora' : pe ? 'Pedir de nuevo' : 'Pedir que se publique';
+      botones.push(`<button type="button" class="boton" data-publicar="pedir">${textoPedir}</button>`);
+      if (pe) botones.push('<button type="button" class="boton borde" data-publicar="retirar">Retirar el pedido</button>');
+      if (pu) botones.push('<button type="button" class="boton borde" data-publicar="despublicar">Despublicar</button>');
+    }
+    $('publicar-botones').innerHTML = botones.join('');
+    $('seccion-publicar').hidden = false;
+  }
+
+  $('publicar-botones').addEventListener('click', async ev => {
+    const b = ev.target.closest('[data-publicar]');
+    if (!b) return;
+    const accion = b.dataset.publicar;
+    const id = estado.carto.id;
+    const enCola = leerCola().filter(op => op.cartografia === id).length;
+    const n = estado.elementos.length - enCola;
+    const pregunta = {
+      pedir: `Se le manda al equipo una foto de lo que hay ahora en la base (${n === 1 ? '1 cosa' : n + ' cosas'}), sin quién dibujó qué.` +
+             (enCola ? ` Lo que está en el teléfono sin mandar (${enCola}) no entra.` : '') + ' ¿Seguimos?',
+      retirar: '¿Retirar el pedido? El equipo deja de verlo.',
+      despublicar: '¿Despublicar? Deja de verse para todo el mundo. Para volver a publicarla hay que pedirlo de nuevo.'
+    }[accion];
+    if (!window.confirm(pregunta)) return;
+
+    mostrarFallo('publicar-error', '');
+    b.disabled = true;
+    const r = accion === 'pedir'
+      ? await pedir(db.rpc('cartografia_pedir_publicacion', { p_cartografia: id }))
+      : accion === 'retirar'
+        ? await pedir(db.from('cartografia_pedidos').delete().eq('cartografia', id).select('cartografia'))
+        : await pedir(db.from('cartografias_publicadas').delete().eq('cartografia', id).select('cartografia'));
+    b.disabled = false;
+    if (r.error || (accion !== 'pedir' && (!r.data || !r.data.length))){
+      mostrarFallo('publicar-error', r.error ? textoDelError(r.error) : 'No se pudo. Tocá «Actualizar» y probá de nuevo.');
+      return;
+    }
+    if (accion === 'pedir' && typeof anotarHito === 'function') anotarHito('pidió publicar una cartografía');
+    traerPublicacion();
+  });
+
+  async function abrirFoto(id, tipo){
+    estado.soloMirar = tipo;
+    document.body.classList.add('carto-solo-mirar');
+    $('carto-titulo').textContent = 'Abriendo…';
+    $('carto-bajada').textContent = '';
+
+    const r = tipo === 'publica'
+      ? await pedir(db.from('cartografias_publicadas')
+          .select('cartografia, nombre, descripcion, foto, publicada_at').eq('cartografia', id).maybeSingle())
+      : await pedir(db.from('cartografia_pedidos')
+          .select('cartografia, nombre, descripcion, foto, estado, pedida_at').eq('cartografia', id).maybeSingle());
+
+    if (r.error || !r.data){
+      $('carto-titulo').innerHTML = 'Cartografías <em>sociales</em>';
+      const texto = r.error && esSinSenal(r.error) ? 'No hay señal. Probá de nuevo cuando vuelva.'
+        : tipo === 'publica' ? 'Esta cartografía no está publicada: puede que la hayan despublicado.'
+        : 'No encontramos ese pedido. Puede que ya se haya revisado, o que no seas del equipo.';
+      $('carto-aviso').innerHTML = `<div class="aviso error">${esc(texto)}<br><a href="./">Ver las cartografías</a></div>`;
+      if (tipo === 'publica') mostrarPublicadas();
+      return;
+    }
+
+    const foto = r.data.foto || {};
+    estado.carto = { id, nombre: r.data.nombre, descripcion: r.data.descripcion };
+    estado.rol = null; estado.lista = []; estado.miembros = 0; estado.conApodos = false;
+    estado.propias = (foto.referencias || []).filter(x => x && /^#[0-9a-f]{6}$/i.test(x.color));
+    estado.elementos = (foto.features || []).map(f => {
+      const p = (f && f.properties) || {};
+      return { id: p.id, referencia: p.referencia, tipo: p.tipo, geometria: f.geometry,
+               titulo: p.titulo || '', relato: p.relato || '', creado_en_dispositivo: p.fecha };
+    }).filter(e => e.id && geometriaUsable(e));
+
+    document.title = estado.carto.nombre + ' · Cartografías sociales';
+    $('carto-ceja').textContent = tipo === 'publica'
+      ? 'Cartografía publicada · ' + fechaCorta(r.data.publicada_at)
+      : 'Pedido para publicar · ' + (r.data.estado === 'rechazado' ? 'rechazado' : 'para revisar');
+    $('carto-titulo').textContent = estado.carto.nombre;
+    $('carto-bajada').textContent = estado.carto.descripcion || '';
+    if (tipo === 'revision')
+      $('carto-aviso').innerHTML = '<div class="aviso">Así se vería publicada. Se aprueba o se rechaza desde el <a href="../panel/">panel</a>, en «Cartografías».</div>';
+    $('vista-mapa').hidden = false;
+
+    pintarLeyenda();
+    armarListaBase();
+    armarMapa();
+  }
+
+
+  /* Al final y no arriba: la versión publicada abre sin esperar nada, y
+     llamada arriba usaba `estado` antes de que existiera (un `const`
+     todavía no leído no es «vacío», es un error que corta todo). */
+  arrancar();
 
 })();
