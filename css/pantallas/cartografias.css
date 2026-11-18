@@ -1,0 +1,227 @@
+/* ============================================================
+   CARTOGRAFÍAS SOCIALES  ·  estilos de `cartografias/`
+
+   Solo de esta pantalla: todas las clases empiezan con `carto-`. Usa
+   las variables de `tokens.css`, así que el tema oscuro llega solo.
+   El mapa se viste igual que el de `mapa/` (bordes de tinta, sombra
+   corrida), pero las reglas no se comparten: allá viven en
+   `mapa/mapa.css` y están atadas a `.pantalla-mapa`.
+   ============================================================ */
+
+.pantalla-cartografias{ --alto-barra: calc(80px + env(safe-area-inset-bottom, 0px)) }
+
+/* ---------- la cabeza ---------- */
+.carto-cabeza{ padding-top:18px; padding-bottom:6px }
+.carto-cabeza .ceja-lectura{ margin:0 0 4px }
+.carto-titulo{
+  font-family:var(--fuente-titulo); font-weight:400; text-transform:uppercase;
+  font-size:clamp(26px, 7.5vw, 38px); line-height:1.04; letter-spacing:-.01em; margin:0;
+  overflow-wrap:anywhere
+}
+.carto-titulo em{ font-style:normal; color:var(--rojo) }
+.carto-bajada{ margin:10px 0 0; font-size:var(--letra-base); line-height:1.45; color:var(--texto-suave); max-width:46ch }
+.carto-bajada:empty{ display:none }
+
+.carto-subtitulo{
+  font-family:var(--fuente-sub); font-weight:800; font-size:var(--letra-sub);
+  margin:26px 0 10px; line-height:1.2
+}
+.carto-subtitulo-chico{ font-family:var(--fuente-sub); font-weight:800; font-size:17px; margin:0 0 10px }
+.carto-ayuda{ color:var(--texto-suave); margin:4px 0 10px }
+.carto-opcional{ font-weight:400; color:var(--texto-suave) }
+.carto-cargando{ list-style:none; color:var(--texto-suave); padding:12px 0 }
+
+/* Una caja con borde de tinta: los formularios y la ficha. */
+.carto-caja{
+  margin:22px 0; padding:4px 16px 16px;
+  background:var(--superficie); border:1.5px solid var(--tinta-borde);
+  border-radius:var(--radio); box-shadow:var(--sombra)
+}
+.carto-caja:focus{ outline:none }
+.carto-caja > .carto-subtitulo:first-child{ margin-top:14px }
+
+.carto-botones{ display:flex; flex-wrap:wrap; gap:10px }
+.carto-botones .boton{ flex:1 1 140px }
+
+/* ---------- la lista ---------- */
+.carto-lista{ list-style:none; margin:0; padding:0; display:grid; gap:12px }
+.carto-tarjeta{
+  display:grid; gap:4px; padding:14px 16px; text-decoration:none; color:var(--texto);
+  background:var(--superficie); border:1.5px solid var(--tinta-borde);
+  border-radius:var(--radio); box-shadow:var(--sombra);
+  transition:transform .1s ease-out
+}
+.carto-tarjeta:active{ transform:translate(1px, 1px); box-shadow:1px 1px 0 var(--tinta-borde) }
+.carto-tarjeta-nombre{ font-family:var(--fuente-sub); font-weight:800; font-size:18px; overflow-wrap:anywhere }
+.carto-tarjeta-desc{ color:var(--texto-suave); font-size:var(--letra-nota); line-height:1.4 }
+.carto-rol{
+  justify-self:start; margin-top:4px; padding:3px 10px; border-radius:var(--radio-pastilla);
+  background:var(--amarillo); color:var(--sobre-color);
+  font-family:var(--fuente-sub); font-weight:700; font-size:var(--letra-mini);
+  text-transform:uppercase; letter-spacing:.06em
+}
+
+#codigo{ text-transform:uppercase; letter-spacing:.2em; font-family:var(--fuente-datos); font-weight:700 }
+
+/* ---------- compartir el código ---------- */
+.carto-compartir{ padding-top:10px }
+.carto-codigo{ margin:0 0 10px; font-size:var(--letra-nota) }
+.carto-codigo strong{
+  font-family:var(--fuente-datos); font-size:20px; letter-spacing:.18em;
+  padding:2px 8px; background:var(--amarillo); color:var(--sobre-color); border-radius:var(--radio-chico)
+}
+.carto-compartir .boton{ min-height:44px }
+
+/* ---------- las tres herramientas ---------- */
+.carto-herramientas{
+  display:grid; grid-template-columns:repeat(3, 1fr); gap:8px;
+  padding-top:14px; padding-bottom:12px
+}
+.carto-herramienta{
+  min-height:64px; display:grid; justify-items:center; align-content:center; gap:6px;
+  padding:8px 4px; cursor:pointer;
+  background:var(--superficie); color:var(--texto);
+  border:1.5px solid var(--tinta-borde); border-radius:var(--radio); box-shadow:var(--sombra);
+  font-family:var(--fuente-sub); font-weight:700; font-size:var(--letra-nota);
+  transition:transform .1s ease-out
+}
+.carto-herramienta:active{ transform:scale(.97) }
+.carto-herramienta[aria-pressed="true"]{ background:var(--amarillo); color:var(--sobre-color); box-shadow:none }
+.carto-herramienta:disabled{ opacity:.5; cursor:default }
+
+/* La forma de cada herramienta, dibujada con CSS: un punto, una línea
+   quebrada, un cuadrado de borde punteado. */
+.carto-herr-forma{ width:26px; height:18px; position:relative; display:block }
+.forma-punto::before{
+  content:""; position:absolute; left:8px; top:4px; width:10px; height:10px;
+  border-radius:50%; background:currentColor
+}
+.forma-linea::before{
+  content:""; position:absolute; left:1px; right:1px; top:8px; height:3px;
+  background:currentColor; border-radius:2px; transform:rotate(-18deg)
+}
+.forma-zona::before{
+  content:""; position:absolute; inset:1px 3px; border:2.5px dashed currentColor;
+  border-radius:4px; background:color-mix(in srgb, currentColor 18%, transparent)
+}
+
+/* ---------- el mapa ---------- */
+.carto-marco{ position:relative }
+.carto-lienzo{
+  height:max(340px, calc(100dvh - var(--alto-barra) - 260px));
+  background:var(--superficie-2);
+  border-top:1.5px solid var(--texto); border-bottom:1.5px solid var(--texto);
+  z-index:0
+}
+.carto-lienzo.dibujando{ cursor:crosshair; box-shadow:inset 0 0 0 4px var(--amarillo) }
+.carto-lienzo.vacio-mapa{ height:140px }
+
+.carto-sin{
+  position:absolute; left:12px; right:12px; top:12px; z-index:500; margin:0;
+  padding:10px 14px; border-radius:var(--radio-chico);
+  font-size:var(--letra-chica); font-weight:500;
+  background:var(--negro); color:var(--sobre-negro); box-shadow:var(--sombra)
+}
+.carto-lienzo.vacio-mapa + .carto-sin{ position:static; margin:12px }
+
+/* La barra de dibujo va abajo del mapa, adentro: el dedo está ahí, y
+   arriba quedaría tapada por la mano que toca. */
+.carto-dibujando{
+  position:absolute; left:10px; right:10px; bottom:10px; z-index:600;
+  padding:10px 12px; border-radius:var(--radio);
+  background:var(--superficie); color:var(--texto);
+  border:1.5px solid var(--tinta-borde); box-shadow:var(--sombra)
+}
+.carto-dibujando[hidden]{ display:none }
+.carto-dibujando-texto{ margin:0 0 8px; font-family:var(--fuente-sub); font-weight:700; font-size:var(--letra-nota) }
+.carto-dibujando-botones{ display:flex; flex-wrap:wrap; gap:8px }
+.carto-dibujando-botones .boton{ flex:1 1 auto; min-height:44px; padding-left:12px; padding-right:12px }
+
+/* Leaflet con la ropa de la app */
+.pantalla-cartografias .leaflet-container{ font-family:var(--fuente-texto); background:var(--superficie-2) }
+.pantalla-cartografias .leaflet-bar a{ width:40px; height:40px; line-height:40px; font-size:20px }
+[data-tema="oscuro"] .pantalla-cartografias .leaflet-tile-pane{ filter:brightness(.8) contrast(1.1) saturate(.8) }
+
+/* Los pines: la misma gota dada vuelta de `mapa/`, con el color de su
+   referencia en `--ref`. */
+.carto-pin-envoltura{ background:none; border:none }
+.carto-pin{
+  position:absolute; left:3px; top:0; width:34px; height:34px;
+  border-radius:50% 50% 50% 0; transform:rotate(-45deg);
+  display:grid; place-items:center;
+  background:var(--ref, #8A8A8A); color:#FFFFFF;
+  border:2px solid #1A1A1A; box-shadow:2px 2px 0 #1A1A1A
+}
+.carto-pin > span{ transform:rotate(45deg); font-size:16px; line-height:1; font-weight:800; font-family:var(--fuente-sub) }
+.carto-pin.nuevo{ color:#1A1A1A; border-style:dashed; box-shadow:none }
+.carto-pin.nuevo > span{ font-size:20px }
+
+/* ---------- debajo del mapa ---------- */
+.carto-debajo{ padding-bottom:calc(var(--alto-barra) + 24px) }
+.carto-fila-titulo{ display:flex; align-items:baseline; justify-content:space-between; gap:12px }
+/* `.texto` de la base (las fichas de texto) le pone width:100% a todo
+   lo que tenga esa clase, y este botón se iba 109 px fuera de la
+   pantalla. */
+.carto-fila-titulo .boton.texto{ flex:none; width:auto; min-height:44px; margin-top:0 }
+
+.carto-paso{ border:none; margin:0 0 14px; padding:0 }
+.carto-paso legend{ font-family:var(--fuente-sub); font-weight:700; font-size:var(--letra-nota); margin-bottom:8px; padding:0 }
+
+/* Elegir la referencia: una grilla de opciones con su muestra. */
+.carto-elegir{ display:grid; grid-template-columns:repeat(auto-fill, minmax(150px, 1fr)); gap:8px }
+.carto-opcion{
+  display:flex; align-items:center; gap:8px; min-height:48px; padding:6px 10px; cursor:pointer;
+  border:1.5px solid var(--linea); border-radius:var(--radio-chico); background:var(--fondo);
+  font-size:var(--letra-nota); line-height:1.2
+}
+.carto-opcion input{ position:absolute; opacity:0; pointer-events:none }
+.carto-opcion:has(input:checked){ border-color:var(--texto); background:var(--amarillo); color:var(--sobre-color); font-weight:700 }
+.carto-opcion:has(input:focus-visible){ outline:3px solid var(--celeste); outline-offset:2px }
+
+.carto-muestra{
+  width:28px; height:28px; flex:none; border-radius:50%;
+  display:inline-grid; place-items:center; vertical-align:middle;
+  background:var(--ref, #8A8A8A); color:#FFFFFF; border:1.5px solid #1A1A1A;
+  font-size:14px; font-weight:800; font-family:var(--fuente-sub); line-height:1
+}
+
+/* La leyenda: cada renglón es un interruptor de su referencia. */
+.carto-leyenda{ list-style:none; margin:0; padding:0; display:grid; gap:6px }
+.carto-ref{
+  width:100%; display:flex; align-items:center; gap:10px; min-height:52px;
+  padding:6px 12px; cursor:pointer; text-align:left;
+  background:var(--superficie); color:var(--texto);
+  border:1.5px solid var(--linea); border-radius:var(--radio-chico);
+  font:inherit
+}
+.carto-ref[aria-pressed="false"]{ opacity:.5 }
+.carto-ref[aria-pressed="false"] .carto-ref-nombre{ text-decoration:line-through }
+.carto-ref-nombre{ flex:1; font-weight:600; font-size:var(--letra-densa); line-height:1.25 }
+.carto-ref-nombre small{ display:block; font-weight:400; font-size:var(--letra-chica); color:var(--texto-suave); text-decoration:none }
+.carto-propia{
+  font-size:var(--letra-mini); font-weight:700; text-transform:uppercase; letter-spacing:.05em;
+  color:var(--texto-suave)
+}
+.carto-ref-n{ font-family:var(--fuente-datos); font-weight:700; font-size:var(--letra-base); min-width:2ch; text-align:right }
+
+.carto-nueva-ref{ margin-top:18px; padding-top:14px; border-top:1px dashed var(--linea) }
+.carto-colores{ display:flex; flex-wrap:wrap; gap:10px }
+.carto-color{
+  width:40px; height:40px; border-radius:50%; cursor:pointer; position:relative;
+  background:var(--ref); border:2px solid var(--superficie); box-shadow:0 0 0 1.5px var(--linea)
+}
+.carto-color input{ position:absolute; opacity:0; pointer-events:none }
+.carto-color:has(input:checked){ box-shadow:0 0 0 3px var(--texto) }
+.carto-color:has(input:focus-visible){ outline:3px solid var(--celeste); outline-offset:3px }
+
+/* La ficha */
+.carto-ficha-ref{
+  display:flex; align-items:center; gap:8px; margin:14px 0 6px;
+  font-family:var(--fuente-sub); font-size:var(--letra-chica); text-transform:uppercase;
+  letter-spacing:.06em; color:var(--texto-suave)
+}
+.carto-ficha-titulo{ font-family:var(--fuente-sub); font-weight:800; font-size:var(--letra-sub); margin:0 0 8px; overflow-wrap:anywhere }
+.carto-ficha-relato p{ margin:0 0 8px; line-height:1.5; overflow-wrap:anywhere }
+.carto-ficha-relato:empty{ display:none }
+
+.carto-volver{ margin:28px 0 0 }

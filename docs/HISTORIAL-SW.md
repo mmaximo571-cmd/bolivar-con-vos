@@ -623,4 +623,10 @@ todo una entrada con el número, la fecha y el porqué.
    en Fechas). `cargar/`, `agenda/`, el inicio y `lib/leer-aviso.js`
    llegan frescos o no son del armazón. Sin número nuevo, la campana
    vieja mostraría un grupo de ocho semanas ocho veces en «Nuevo». */
+/* v110 (18/11/2026) Las cartografías sociales (`cartografias/`).
+   Del armazón cambia solo `app.js`: suma la pantalla al índice del pie,
+   que es también de donde sale el buscador del inicio. La pantalla, su
+   hoja (`css/pantallas/cartografias.css`) y sus guiones no van a la
+   lista: los baja quien entre. Sin número nuevo, el pie y el buscador
+   no sabrían que existe. */
 ```

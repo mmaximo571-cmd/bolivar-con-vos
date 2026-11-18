@@ -30,6 +30,7 @@ discutirla en tres meses.
 | 2 | Anotarse a un grupo de estudio | chica | hecha en la tanda 3 de la 3 (30/9) |
 | 3 | Calendario y avisos: que se revisen todos los días | grande, en tres tandas | hecha: las tres tandas y la función `avisos` v11 en producción (30/9) |
 | 4 | Época de parciales en Estudiemos (va con el reel) | chica | hecha el 4/10 (v83), falta publicar |
+| 5 | Cartografía social del Gran La Plata | grande, en tres tandas | en curso: tanda 1 hecha y en producción el 18/11 (v110) |
 
 ## Las propuestas
 
@@ -539,6 +540,70 @@ Notas: la tira se esconde sola después del 21/11 (cierre de clases del
 interruptor con `typeof` antes de llamar a lo de `app.js`, por si llega
 el viejo del caché. Los grupos de estudio los carga el equipo desde el
 panel: sin grupos, el atajo lleva a una lista vacía y conviene esconderlo.
+
+---
+
+### 5. Cartografía social del Gran La Plata
+
+- **Qué:** una herramienta para armar cartografías sociales de los
+  territorios de La Plata, Berisso y Ensenada: un mapa base del Gran La
+  Plata sobre el que un grupo (una cátedra, una práctica, una
+  organización del barrio) marca lugares, recorridos y zonas, y les pone
+  qué son y qué se dijo de ellos.
+- **Por qué:** la cartografía social es una técnica que se usa en la
+  carrera y en el trabajo territorial, y hoy se hace en papel o en
+  herramientas sueltas que no conocen el territorio. Tenerla anclada a un
+  mapa real del Gran La Plata deja el trabajo guardado, compartible y
+  comparable entre grupos.
+- **Dónde toca:** `cartografias/` (`index.html`, `cartografias.js`,
+  `referencias.js`), `css/pantallas/cartografias.css`,
+  `sql/tabla-cartografias.sql`, el índice del pie en `app.js`. Antes de
+  empezar se miró: `mapa/` ya tiene Leaflet, OpenStreetMap, capas GeoJSON de
+  la zona (`mapa/datos/`: RENABAP, hídrico, industrial, contención) y
+  reportes en `sql/tabla-riesgo.sql`; la lista de capas vive en
+  `mapa/capas.js`. Probablemente una pantalla nueva con su hoja, una o
+  dos tablas nuevas en `sql/` y lo que se pueda reusar de `mapa/`.
+- **Tamaño:** grande (hay que partirla).
+- **Estado:** en curso. La tanda 1 se hizo el 18/11/2026 (v110) y la
+  base ya está al día con `sql/tabla-cartografias.sql`. Detalle en
+  `BITACORA.md`.
+
+Lo decidido (Máximo, 18/11/2026):
+- **Grupos cerrados.** Quien crea una cartografía la coordina y reparte
+  un código; con el código se suma gente. Solo la ve el grupo.
+- **Puntos, líneas y zonas** desde el principio.
+- **Ocho referencias fijas + las propias** de cada grupo, que crea quien
+  coordina (`cartografias/referencias.js`).
+- **Pantalla nueva**, `cartografias/`, aparte de `mapa/`.
+
+Las tandas:
+1. **Hecha.** Las tablas y los permisos; crear, sumarse con código o
+   link, salir y borrar; dibujar las tres formas; la ficha, la leyenda
+   y las referencias propias.
+2. Editar lo ya dibujado (texto y forma); prender las capas de base de
+   `mapa/` (RENABAP, hídrico, industrial) como referencia; exportar
+   (GeoJSON para QGIS, imagen para presentar); el grupo: ver quiénes
+   son, sacar a alguien, cambiar el código, pasar la coordinación.
+3. Dibujar sin señal (la cola del teléfono, como en `mapa/`; el `id` ya
+   lo pone el teléfono para eso); ver en vivo lo que dibuja el resto;
+   publicar una cartografía, con moderación del equipo.
+
+Notas: las dudas de la primera charla (las cuatro primeras, ya decididas arriba).
+- ¿Quién dibuja? ¿Cualquiera con cuenta, o grupos cerrados con quien los
+  arma? ¿Lo de un grupo lo ve el resto?
+- ¿Qué se marca? Puntos, líneas (recorridos) y polígonos (zonas), o solo
+  puntos al principio. Qué categorías (recursos, conflictos, actores,
+  instituciones, lugares de encuentro, riesgos...) y si las define cada
+  grupo.
+- ¿Se reusa el mapa de `mapa/` como base o es otra pantalla con sus
+  propias capas? Las capas de riesgo y RENABAP podrían prenderse como
+  referencia.
+- Privacidad: marcar casas o personas en un mapa público es delicado;
+  hace falta una regla clara de qué se puede publicar.
+- Exportar: imagen o PDF para presentar, y GeoJSON para quien trabaje
+  con QGIS.
+- Mapa base sin conexión: hoy las teselas de OpenStreetMap no se
+  guardan; en el territorio puede no haber señal.
 
 ---
 
