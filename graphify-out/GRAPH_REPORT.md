@@ -1,18 +1,18 @@
 # Graph Report - bolivar-con-vos  (2026-11-18)
 
 ## Corpus Check
-- 108 files · ~378,489 words
+- 108 files · ~379,439 words
 - Verdict: corpus is large enough that graph structure adds value.
 - Unclassified: 45 file(s) not represented in the graph (top: .css 32, (none) 5, .geojson 4)
 - WARNING: 45 of 219 files seen (21%) have no supported extractor and are missing from this graph entirely. It may look complete while representing only part of the codebase.
 
 ## Summary
-- 1321 nodes · 2063 edges · 133 communities (85 shown, 48 thin omitted)
+- 1323 nodes · 2067 edges · 134 communities (87 shown, 47 thin omitted)
 - Extraction: 95% EXTRACTED · 5% INFERRED · 0% AMBIGUOUS · INFERRED: 111 edges (avg confidence: 0.85)
 - Token cost: 349,538 input · 0 output
 
 ## Graph Freshness
-- Built from commit: `082f0d99`
+- Built from commit: `bc5d16e9`
 - Run `git rev-parse HEAD` and compare to check if the graph is stale.
 - Run `graphify update .` after code changes (no API cost).
 
@@ -120,7 +120,7 @@
 - mis-parciales/mis-parciales.js
 - lib/mis-parciales.js
 - montar
-- elegirCarrera
+- Pantalla El Consejo Directivo
 - tabla-feriazo.sql
 - empezarRecorrido
 - tabla-ingresantes.sql
@@ -132,6 +132,7 @@
 - tabla-cartografias.sql
 - leer.js
 - referencias.js
+- buscar (buscador de trámites, FAQ y cátedras)
 
 ## God Nodes (most connected - your core abstractions)
 1. `pintarNav()` - 20 edges
@@ -148,14 +149,14 @@
 ## Surprising Connections (you probably didn't know these)
 - `4. Época de parciales en Estudiemos` --references--> `anotarHito()`  [INFERRED]
   docs/PROPUESTAS.md → app.js
-- `Lo que no se puede medir` --references--> `deDondeVino()`  [INFERRED]
-  docs/EVALUACION-NOV-2026.md → app.js
 - `3. Calendario y avisos: que se revisen todos los días` --references--> `guardarCopiaCursada()`  [INFERRED]
   docs/PROPUESTAS.md → app.js
+- `5. Registrar` --references--> `traerCatalogo()`  [INFERRED]
+  .claude/skills/hacer-ficha/SKILL.md → estudiemos/portada.js
+- `Lo que no se puede medir` --references--> `deDondeVino()`  [INFERRED]
+  docs/EVALUACION-NOV-2026.md → app.js
 - `Pantalla Fonoteca (práctica de audiogramas)` --calls--> `pintarNav()`  [EXTRACTED]
   estudiemos/fonoteca/index.html → app.js
-- `Pantalla Estudiemos (landing de herramientas)` --calls--> `pintarNav()`  [EXTRACTED]
-  estudiemos/index.html → app.js
 
 ## Import Cycles
 - None detected.
@@ -169,7 +170,7 @@
 - **Pantallas que muestran publicaciones de la agenda** — tabla_publicaciones, index_proximodelaagenda, index_calendario_mes, agenda_index_traer, agenda_index_detalle_publicacion, carrera_index_vistanueva [INFERRED 0.85]
 - **El Panel edita el contenido que leen las pantallas públicas** — panel_index, tramites_index, quienes_index, consejo_index, anatomo_index, catedras_index, estudiemos_index [INFERRED 0.95]
 
-## Communities (133 total, 48 thin omitted)
+## Communities (134 total, 47 thin omitted)
 
 ### Community 0 - "La carrera se elige una vez (bolivar-carrera-v2)"
 Cohesion: 0.14
@@ -177,7 +178,7 @@ Nodes (12): Versión 2.0 de AI Studio (React + Tailwind), La carrera se elige un
 
 ### Community 1 - "Pantalla Mi año (carrera)"
 Cohesion: 0.16
-Nodes (15): Pantalla Agenda (Fechas y novedades), Pantalla Mi año (carrera), Vista plan (Mi año), estilos.css, Pantalla Glosario universitario, icono(), iconoDeCategoria(), Pantalla Inicio (+7 more)
+Nodes (13): Pantalla Agenda (Fechas y novedades), Pantalla Mi año (carrera), abrirDialogo (asistente de carga por pasos), elegirCarrera, Vista plan (Mi año), estilos.css, icono(), iconoDeCategoria() (+5 more)
 
 ### Community 2 - "tabla-anotados.sql"
 Cohesion: 0.27
@@ -221,7 +222,7 @@ Nodes (23): alFiltrar(), alMarcar(), armar(), arrancar(), avisar(), errorDeJSON(
 
 ### Community 12 - "portada.js"
 Cohesion: 0.11
-Nodes (28): 1. De dónde viene el contenido, 2. El nombre, 3. Camino A · Ficha de texto (a y b), 4. Camino C · Ficha con diseño propio (Claude Design), 5. Registrar, 6. Probar, 7. Cerrar, Hacer una ficha de Estudiemos (+20 more)
+Nodes (27): 1. De dónde viene el contenido, 2. El nombre, 3. Camino A · Ficha de texto (a y b), 4. Camino C · Ficha con diseño propio (Claude Design), 5. Registrar, 6. Probar, 7. Cerrar, Hacer una ficha de Estudiemos (+19 more)
 
 ### Community 13 - "htmlNovedades"
 Cohesion: 0.18
@@ -264,8 +265,8 @@ Cohesion: 0.12
 Nodes (16): Dónde vive, El navegador de Instagram, El orden, y por qué cada solapa tiene que poder salir sola, El volumen, si hay tonos, La Fonoteca: el simulador de práctica audiológica, La regla que va antes que todas, Lo que no se negocia, en todas las solapas, Nada copiado (+8 more)
 
 ### Community 23 - "Component"
-Cohesion: 0.08
-Nodes (18): crearMarcas(), avisar(), escribir(), leer(), poner(), tiene(), vacio(), get() (+10 more)
+Cohesion: 0.09
+Nodes (19): crearMarcas(), avisar(), escribir(), leer(), poner(), tiene(), vacio(), get() (+11 more)
 
 ### Community 24 - "LEEME · La Bolívar con vos"
 Cohesion: 0.67
@@ -304,8 +305,8 @@ Cohesion: 0.43
 Nodes (4): preparaciones_unico_idx, programas_unico_idx, public.preparaciones, public.programas
 
 ### Community 38 - "Pantalla El Consejo Directivo"
-Cohesion: 0.09
-Nodes (28): Pantalla Anatomofisiología (guía de materia), bloqueModelo / sinFechas, conPaciencia(), guardarEnMemoria(), memoriaDe(), armarPosteos() (embed IG diferido), Conquistas con posteo (CONQUISTAS, v70), htmlConquistas() (línea por año) (+20 more)
+Cohesion: 0.11
+Nodes (20): Pantalla Anatomofisiología (guía de materia), bloqueModelo / sinFechas, conPaciencia(), guardarEnMemoria(), memoriaDe(), Pantalla Fichas de estudio, Pantalla Fonoteca (práctica de audiogramas), Pantalla Estudiemos (landing de herramientas) (+12 more)
 
 ### Community 40 - "tabla-riesgo.sql"
 Cohesion: 0.47
@@ -471,6 +472,10 @@ Nodes (11): claveMateria(), cuantoFaltaParcial(), DIAS_PARCIAL, diasHastaParcial
 Cohesion: 0.33
 Nodes (8): aplicar(), guardar(), montar(), abrir(), cerrar(), pintarTira(), prenderMarcador(), pedirLetra()
 
+### Community 118 - "Pantalla El Consejo Directivo"
+Cohesion: 0.27
+Nodes (9): armarPosteos() (embed IG diferido), Conquistas con posteo (CONQUISTAS, v70), htmlConquistas() (línea por año), Pantalla El Consejo Directivo, Solapa «Los logros» del panel (logros de pagina_consejo), vistaConsejo (editor Consejo Directivo), Tabla Supabase pagina_consejo, DEL_ARMAZON (+1 more)
+
 ### Community 119 - "tabla-feriazo.sql"
 Cohesion: 0.29
 Nodes (11): al_sumar_feriazo, al_sumar_feriazo_producto, al_tocar_feriazo, feriazo_instagram_unico, feriazo_por_dueno, feriazo_productos_por_emprendimiento, public.feriazo, public.feriazo_productos (+3 more)
@@ -501,35 +506,39 @@ Nodes (4): menosMovimiento(), pintarAvisanos(), esconderGlobo(), mostrarGlobo()
 
 ### Community 127 - "cartografias.js"
 Cohesion: 0.12
-Nodes (36): abrir(), abrirFicha(), actualizar(), alTocarMapa(), armarFormReferencia(), armarMapa(), arrancar(), borrarPendiente() (+28 more)
+Nodes (37): abrir(), abrirFicha(), actualizar(), alTocarMapa(), armarFormReferencia(), armarMapa(), arrancar(), borrarPendiente() (+29 more)
 
 ### Community 129 - "tabla-cartografias.sql"
-Cohesion: 0.22
-Nodes (16): cartografia_elementos_autor_idx, cartografia_elementos_cartografia_idx, cartografia_freno, cartografia_intentos_idx, cartografia_miembros_usuario_idx, cartografia_referencias_cartografia_idx, public.cartografia_elementos, public.cartografia_freno() (+8 more)
+Cohesion: 0.21
+Nodes (17): cartografia_elementos_autor_idx, cartografia_elementos_cartografia_idx, cartografia_freno, cartografia_intentos_idx, cartografia_miembros_usuario_idx, cartografia_referencias_cartografia_idx, cartografias_creada_por_idx, public.cartografia_elementos (+9 more)
 
 ### Community 130 - "leer.js"
 Cohesion: 0.44
 Nodes (8): campos(), esc(), leer(), linea(), maquinas(), noEsta(), pintar(), preguntas()
 
+### Community 133 - "buscar (buscador de trámites, FAQ y cátedras)"
+Cohesion: 0.67
+Nodes (3): buscar (buscador de trámites, FAQ y cátedras), pedirCatedras, Tabla Supabase tramites
+
 ## Knowledge Gaps
 - **54 isolated node(s):** `Congelamiento de código (16-17/9)`, `anotar(): registro de visitas, búsquedas y errores`, `Prefijos de archivo (pantalla-, material-, texto-, idea-)`, `Estudiemos: material de los grupos de estudio`, `Vista plan (Mi año)` (+49 more)
   These have ≤1 connection - possible missing edges or undocumented components. (Counts symbols only; 420 node(s) total have ≤1 connection when file, concept and rationale nodes are included.)
-- **48 thin communities (<3 nodes) omitted from report** — run `graphify query` to explore isolated nodes.
+- **47 thin communities (<3 nodes) omitted from report** — run `graphify query` to explore isolated nodes.
 
 ## Suggested Questions
 _Questions this graph is uniquely positioned to answer:_
 
 - **Why does `Pantalla Fonoteca (práctica de audiogramas)` connect `Pantalla El Consejo Directivo` to `pintarNav`?**
-  _High betweenness centrality (0.086) - this node is a cross-community bridge._
+  _High betweenness centrality (0.091) - this node is a cross-community bridge._
 - **What connects `Congelamiento de código (16-17/9)`, `anotar(): registro de visitas, búsquedas y errores`, `Prefijos de archivo (pantalla-, material-, texto-, idea-)` to the rest of the system?**
   _54 weakly-connected nodes found - possible documentation gaps or missing edges._
 - **Should `La carrera se elige una vez (bolivar-carrera-v2)` be split into smaller, more focused modules?**
   _Cohesion score 0.14285714285714285 - nodes in this community are weakly interconnected._
 - **Why does `Fonoteca oculta en Estudiemos (oculta:true, v71)` connect `Pantalla El Consejo Directivo` to `portada.js`?**
-  _High betweenness centrality (0.086) - this node is a cross-community bridge._
+  _High betweenness centrality (0.091) - this node is a cross-community bridge._
 - **Should `Pantalla Info útil (trámites y FAQ)` be split into smaller, more focused modules?**
   _Cohesion score 0.14166666666666666 - nodes in this community are weakly interconnected._
-- **Why does `escribir()` connect `Component` to `portada.js`?**
-  _High betweenness centrality (0.086) - this node is a cross-community bridge._
 - **Should `app.js` be split into smaller, more focused modules?**
   _Cohesion score 0.06890756302521009 - nodes in this community are weakly interconnected._
+- **Should `manifest.json` be split into smaller, more focused modules?**
+  _Cohesion score 0.09090909090909091 - nodes in this community are weakly interconnected._

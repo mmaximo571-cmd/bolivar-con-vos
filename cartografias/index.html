@@ -77,11 +77,22 @@
 
   <!-- ---------- LA LISTA ---------- -->
   <div class="envoltura" id="vista-lista" hidden>
+    <!-- EL PLANO. El casco de La Plata con sus diagonales, el Bosque y el
+         río, y encima las ocho referencias fijas «pegadas» como en un
+         taller de mapeo. No es un adorno: es la leyenda con la que arranca
+         toda cartografía. Lo dibuja `dibujarPlano()` desde
+         `referencias.js`, así no se desacomoda si cambia la lista. -->
+    <figure class="carto-plano">
+      <div class="carto-plano-lamina" id="plano" aria-hidden="true"></div>
+      <figcaption class="carto-plano-pie">Las ocho referencias con las que arranca cada cartografía. Cada grupo suma las suyas.</figcaption>
+    </figure>
+
     <section aria-labelledby="mias-titulo">
       <h2 class="carto-subtitulo" id="mias-titulo">Tus cartografías</h2>
       <ul class="carto-lista" id="mias-lista"></ul>
     </section>
 
+    <div class="carto-dos">
     <section class="carto-caja" aria-labelledby="sumarme-titulo">
       <h2 class="carto-subtitulo" id="sumarme-titulo">Sumarme con un código</h2>
       <form id="form-sumarme" novalidate>
@@ -112,15 +123,20 @@
         <button type="submit" class="boton oscuro ancho" id="crear-enviar">Crear y abrir</button>
       </form>
     </section>
+    </div>
   </div>
 
   <!-- ---------- UNA ABIERTA ---------- -->
   <div id="vista-mapa" hidden>
-    <div class="envoltura carto-compartir" id="carto-compartir" hidden>
-      <p class="carto-codigo">Código para sumar gente: <strong id="carto-codigo"></strong></p>
-      <div class="carto-botones">
-        <a class="boton borde" id="compartir-wa" target="_blank" rel="noopener">Pasarlo por WhatsApp</a>
-        <button type="button" class="boton borde" id="copiar-link">Copiar el link</button>
+    <!-- El código del grupo, en una fila: el mapa tiene que quedar a la
+         vista sin bajar. «Invitar» abre el menú de compartir del teléfono
+         (o WhatsApp, donde no lo hay). -->
+    <div class="envoltura">
+      <div class="carto-ticket" id="carto-compartir" hidden>
+        <p class="carto-ticket-rotulo">Código<br>del grupo</p>
+        <p class="carto-ticket-codigo" id="carto-codigo"></p>
+        <button type="button" class="boton oscuro carto-invitar" id="invitar">Invitar</button>
+        <button type="button" class="boton texto carto-copiar" id="copiar-link">Copiar el link</button>
       </div>
     </div>
 
