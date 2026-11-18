@@ -30,7 +30,7 @@ discutirla en tres meses.
 | 2 | Anotarse a un grupo de estudio | chica | hecha en la tanda 3 de la 3 (30/9) |
 | 3 | Calendario y avisos: que se revisen todos los días | grande, en tres tandas | hecha: las tres tandas y la función `avisos` v11 en producción (30/9) |
 | 4 | Época de parciales en Estudiemos (va con el reel) | chica | hecha el 4/10 (v83), falta publicar |
-| 5 | Cartografía social del Gran La Plata | grande, en tres tandas | en curso: tandas 1 y 2 hechas el 18/11 |
+| 5 | Cartografía social del Gran La Plata | grande, en tres tandas | en curso: tandas 1 y 2 hechas y en producción el 18/11 |
 
 ## Las propuestas
 
