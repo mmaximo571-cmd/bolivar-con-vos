@@ -30,7 +30,7 @@ discutirla en tres meses.
 | 2 | Anotarse a un grupo de estudio | chica | hecha en la tanda 3 de la 3 (30/9) |
 | 3 | Calendario y avisos: que se revisen todos los días | grande, en tres tandas | hecha: las tres tandas y la función `avisos` v11 en producción (30/9) |
 | 4 | Época de parciales en Estudiemos (va con el reel) | chica | hecha el 4/10 (v83), falta publicar |
-| 5 | Cartografía social del Gran La Plata | grande (hay que partirla) | pensándola |
+| 5 | Cartografía social del Gran La Plata | grande, en tres tandas | en curso: tanda 1 hecha el 18/11 (v110), falta correr el SQL |
 
 ## Las propuestas
 
@@ -555,16 +555,39 @@ panel: sin grupos, el atajo lleva a una lista vacía y conviene esconderlo.
   herramientas sueltas que no conocen el territorio. Tenerla anclada a un
   mapa real del Gran La Plata deja el trabajo guardado, compartible y
   comparable entre grupos.
-- **Dónde toca:** a averiguar con `graphify query` al retomarla. Punto
-  de partida: `mapa/` ya tiene Leaflet, OpenStreetMap, capas GeoJSON de
+- **Dónde toca:** `cartografias/` (`index.html`, `cartografias.js`,
+  `referencias.js`), `css/pantallas/cartografias.css`,
+  `sql/tabla-cartografias.sql`, el índice del pie en `app.js`. Antes de
+  empezar se miró: `mapa/` ya tiene Leaflet, OpenStreetMap, capas GeoJSON de
   la zona (`mapa/datos/`: RENABAP, hídrico, industrial, contención) y
   reportes en `sql/tabla-riesgo.sql`; la lista de capas vive en
   `mapa/capas.js`. Probablemente una pantalla nueva con su hoja, una o
   dos tablas nuevas en `sql/` y lo que se pueda reusar de `mapa/`.
 - **Tamaño:** grande (hay que partirla).
-- **Estado:** pensándola. Se retoma con conexión (18/11/2026).
+- **Estado:** en curso. La tanda 1 se hizo el 18/11/2026 (v110), falta
+  correr `sql/tabla-cartografias.sql`. Detalle en `BITACORA.md`.
 
-Notas: dudas abiertas para la primera charla.
+Lo decidido (Máximo, 18/11/2026):
+- **Grupos cerrados.** Quien crea una cartografía la coordina y reparte
+  un código; con el código se suma gente. Solo la ve el grupo.
+- **Puntos, líneas y zonas** desde el principio.
+- **Ocho referencias fijas + las propias** de cada grupo, que crea quien
+  coordina (`cartografias/referencias.js`).
+- **Pantalla nueva**, `cartografias/`, aparte de `mapa/`.
+
+Las tandas:
+1. **Hecha.** Las tablas y los permisos; crear, sumarse con código o
+   link, salir y borrar; dibujar las tres formas; la ficha, la leyenda
+   y las referencias propias.
+2. Editar lo ya dibujado (texto y forma); prender las capas de base de
+   `mapa/` (RENABAP, hídrico, industrial) como referencia; exportar
+   (GeoJSON para QGIS, imagen para presentar); el grupo: ver quiénes
+   son, sacar a alguien, cambiar el código, pasar la coordinación.
+3. Dibujar sin señal (la cola del teléfono, como en `mapa/`; el `id` ya
+   lo pone el teléfono para eso); ver en vivo lo que dibuja el resto;
+   publicar una cartografía, con moderación del equipo.
+
+Notas: las dudas de la primera charla (las cuatro primeras, ya decididas arriba).
 - ¿Quién dibuja? ¿Cualquiera con cuenta, o grupos cerrados con quien los
   arma? ¿Lo de un grupo lo ve el resto?
 - ¿Qué se marca? Puntos, líneas (recorridos) y polígonos (zonas), o solo
