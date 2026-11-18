@@ -468,3 +468,101 @@ revoke execute on function public.cartografia_freno() from public, anon, authent
 drop trigger if exists cartografia_freno on public.cartografia_elementos;
 create trigger cartografia_freno before insert on public.cartografia_elementos
   for each row execute function public.cartografia_freno();
+
+
+-- ============================================================
+-- TANDA 2 (18/11/2026)  ·  apodos, coordinar entre varias, el código
+--
+-- Lo que necesita la pantalla para manejar el grupo. Se agrega al
+-- final, como todo lo de este archivo: se puede volver a correr entero.
+-- ============================================================
+
+-- EL APODO. Cada persona elige cómo la ve cada grupo («Lu», «Comedor
+-- La Esperanza»). El nombre del perfil NO sale nunca de `perfiles`:
+-- esa tabla sigue siendo de cada quien y del equipo. Sin apodo, la
+-- pantalla dice «Participante 3» (por el orden en que se sumó).
+alter table public.cartografia_miembros
+  add column if not exists apodo text
+  check (apodo is null or char_length(btrim(apodo)) between 1 and 40);
+
+-- El apodo propio se cambia a mano; el rol, solo por la función de abajo.
+grant update (apodo) on public.cartografia_miembros to authenticated;
+
+drop policy if exists "miembros cada quien su apodo" on public.cartografia_miembros;
+create policy "miembros cada quien su apodo"
+  on public.cartografia_miembros for update to authenticated
+  using (usuario = (select auth.uid()))
+  with check (usuario = (select auth.uid()));
+
+-- ¿Hay alguien más que coordine? Para que quien coordina se pueda ir
+-- (o dejar de coordinar) sin dejar el mapa sin nadie que lo cuide.
+create or replace function public.coordina_alguien_mas(p_cartografia uuid)
+returns boolean language sql stable security definer set search_path = public as $$
+  select exists (select 1 from public.cartografia_miembros
+                 where cartografia = p_cartografia and rol = 'coordina'
+                   and usuario <> auth.uid());
+$$;
+revoke execute on function public.coordina_alguien_mas(uuid) from public, anon;
+grant execute on function public.coordina_alguien_mas(uuid) to authenticated;
+
+-- Irse o sacar: ahora quien coordina también se puede ir, si queda otra
+-- persona coordinando. A quien coordina no lo saca nadie: primero se le
+-- saca la coordinación.
+drop policy if exists "miembros irse o sacar" on public.cartografia_miembros;
+create policy "miembros irse o sacar"
+  on public.cartografia_miembros for delete to authenticated
+  using (
+    (usuario = (select auth.uid())
+       and (rol = 'participa' or public.coordina_alguien_mas(cartografia)))
+    or (rol = 'participa' and public.coordina_la_cartografia(cartografia))
+  );
+
+-- CAMBIAR EL ROL. Quien coordina nombra a otras personas o les saca la
+-- coordinación (también a sí misma), siempre que quede al menos una.
+create or replace function public.cartografia_cambiar_rol(
+  p_cartografia uuid, p_usuario uuid, p_rol text)
+returns void
+language plpgsql security definer set search_path = public as $fn$
+begin
+  if not public.coordina_la_cartografia(p_cartografia) then
+    raise exception 'solo quien coordina';
+  end if;
+  if p_rol not in ('coordina', 'participa') then
+    raise exception 'rol desconocido';
+  end if;
+  if p_rol = 'participa' and (select count(*) from public.cartografia_miembros
+        where cartografia = p_cartografia and rol = 'coordina' and usuario <> p_usuario) = 0 then
+    raise exception 'tiene que quedar alguien coordinando';
+  end if;
+  update public.cartografia_miembros set rol = p_rol
+   where cartografia = p_cartografia and usuario = p_usuario;
+  if not found then raise exception 'no es del grupo'; end if;
+end $fn$;
+revoke execute on function public.cartografia_cambiar_rol(uuid, uuid, text) from public, anon;
+grant execute on function public.cartografia_cambiar_rol(uuid, uuid, text) to authenticated;
+
+-- CAMBIAR EL CÓDIGO. Para cuando circuló donde no tenía que circular.
+-- El viejo deja de andar en el momento; quien ya está adentro sigue.
+create or replace function public.cartografia_cambiar_codigo(p_cartografia uuid)
+returns text
+language plpgsql security definer set search_path = public as $fn$
+declare
+  v_codigo text;
+  letras constant text := 'ABCDEFGHJKMNPQRSTUVWXYZ23456789';
+  i int;
+begin
+  if not public.coordina_la_cartografia(p_cartografia) then
+    raise exception 'solo quien coordina';
+  end if;
+  loop
+    v_codigo := '';
+    for i in 1..6 loop
+      v_codigo := v_codigo || substr(letras, 1 + floor(random() * length(letras))::int, 1);
+    end loop;
+    exit when not exists (select 1 from public.cartografias c where c.codigo = v_codigo);
+  end loop;
+  update public.cartografias set codigo = v_codigo where id = p_cartografia;
+  return v_codigo;
+end $fn$;
+revoke execute on function public.cartografia_cambiar_codigo(uuid) from public, anon;
+grant execute on function public.cartografia_cambiar_codigo(uuid) to authenticated;

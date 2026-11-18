@@ -9,10 +9,16 @@
    Todo pide cuenta: las cartografías son de cada grupo y la base no le
    muestra nada a quien no está adentro (`sql/tabla-cartografias.sql`).
 
-   Lo que esta primera tanda NO hace todavía (propuesta 5 de
-   `docs/PROPUESTAS.md`): dibujar sin señal, editar lo ya dibujado,
-   prender las capas de base de `mapa/`, exportar, y ver en vivo lo que
-   dibuja el resto (por ahora, «Actualizar» y al volver a la pantalla).
+   Las partes, en orden: 1 arrancar, 2 la lista, 3 una abierta (el
+   código, la leyenda, las referencias propias, el grupo), 4 el mapa,
+   5 dibujar y corregir, 6 la ficha, 7 la información de base,
+   8 bajar el mapa. La tanda 2 (18/11/2026) sumó corregir, el grupo
+   con apodos, la información de base y bajar.
+
+   Lo que todavía NO hace (tanda 3 de la propuesta 5 de
+   `docs/PROPUESTAS.md`): dibujar sin señal, ver en vivo lo que dibuja
+   el resto (por ahora, «Actualizar» y al volver a la pantalla) y
+   publicar una cartografía.
    ============================================================ */
 (function cartografiasSociales(){
 
@@ -112,6 +118,10 @@
       return 'Se dibujó mucho en poco tiempo. Esperá unos minutos y volvé a guardar.';
     if (/geometria_ok/.test(m))
       return 'El dibujo tiene que quedar dentro de La Plata, Berisso o Ensenada.';
+    if (/tiene que quedar alguien coordinando/.test(m))
+      return 'Tiene que quedar al menos una persona coordinando. Primero nombrá a otra.';
+    if (/solo quien coordina/.test(m))
+      return 'Eso lo puede hacer solo quien coordina.';
     if (/row-level security/.test(m))
       return 'No tenés permiso para esto. Puede que ya no seas parte del grupo.';
     return errorEnCastellano(error);
@@ -294,6 +304,8 @@
      ============================================================ */
   const estado = {
     carto: null, rol: null, miembros: 0,
+    lista: [],                // los miembros, en el orden en que se sumaron
+    conApodos: true,          // false si la base todavía no tiene la tanda 2
     propias: [], elementos: [],
     ocultas: new Set(),       // referencias apagadas en el mapa
     traidoEn: 0
@@ -329,17 +341,29 @@
     pintarLeyenda();
     pintarGrupo();
     armarFormReferencia();
+    armarListaBase();
     armarMapa();
   }
 
   /* Miembros, referencias propias y lo dibujado. Se usa al abrir y en
      «Actualizar». Devuelve false si algo falló (y ya lo avisó). */
   async function traerLoDeAdentro(id){
+    /* Sin la tanda 2 de la base todavía no existe `apodo` (error 42703):
+       se sigue sin apodos y sin manejar el grupo, como en la tanda 1. */
+    const traerMiembros = async () => {
+      const r = await pedir(db.from('cartografia_miembros')
+        .select('usuario, rol, apodo, sumado_at').eq('cartografia', id).order('sumado_at'));
+      if (!r.error || r.error.code !== '42703') return r;
+      const viejo = await pedir(db.from('cartografia_miembros')
+        .select('usuario, rol, sumado_at').eq('cartografia', id).order('sumado_at'));
+      viejo.sinApodos = true;
+      return viejo;
+    };
     const [m, ref, el] = await Promise.all([
-      pedir(db.from('cartografia_miembros').select('usuario, rol').eq('cartografia', id)),
+      traerMiembros(),
       pedir(db.from('cartografia_referencias').select('id, nombre, color').eq('cartografia', id).order('creada_at')),
       pedir(db.from('cartografia_elementos')
-        .select('id, autor, referencia, tipo, geometria, titulo, relato, creado_en_dispositivo')
+        .select('id, autor, referencia, tipo, geometria, titulo, relato, creado_en_dispositivo, editado_at')
         .eq('cartografia', id).order('creado_en_dispositivo'))
     ]);
     const fallo = m.error || ref.error || el.error;
@@ -353,6 +377,8 @@
     const mio = (m.data || []).find(x => x.usuario === yo.id);
     estado.rol = mio ? mio.rol : null;
     estado.miembros = (m.data || []).length;
+    estado.lista = m.data || [];
+    estado.conApodos = !m.sinApodos;
     // Un color que no sea un color no llega nunca al estilo en línea.
     estado.propias = (ref.data || []).filter(r => /^#[0-9a-f]{6}$/i.test(r.color));
     estado.elementos = (el.data || []).filter(geometriaUsable);
@@ -497,39 +523,147 @@
 
 
   /* ---------- el grupo ---------- */
-  function pintarGrupo(){
-    const n = estado.miembros;
-    $('carto-ceja').textContent =
-      (estado.rol === 'coordina' ? 'La coordinás' : 'Participás') + ' · ' +
-      (n === 1 ? '1 persona' : n + ' personas');
-    const gente = n === 1 ? 'Por ahora estás solo vos.' : `Son ${n} personas en el grupo.`;
-    const boton = $('salir-o-borrar');
-    if (estado.rol === 'coordina'){
-      $('grupo-texto').textContent = gente + ' La coordinás vos: podés sumar referencias y borrar lo que no va.';
-      boton.textContent = 'Borrar la cartografía';
-    } else {
-      $('grupo-texto').textContent = gente + ' Podés dibujar y borrar lo tuyo.';
-      boton.textContent = 'Salir de la cartografía';
-    }
+
+  /* Cómo ve el grupo a cada quien: su apodo, o «Participante N» por el
+     orden en que se sumó. El nombre de la cuenta no se pide nunca: la
+     tabla `perfiles` sigue siendo de cada quien y del equipo. */
+  function etiquetaDe(usuario){
+    const i = estado.lista.findIndex(m => m.usuario === usuario);
+    if (i === -1) return 'Alguien que ya no está en el grupo';
+    const apodo = (estado.lista[i].apodo || '').trim();
+    return apodo || 'Participante ' + (i + 1);
   }
 
-  $('salir-o-borrar').addEventListener('click', async () => {
-    const c = estado.carto;
+  function pintarGrupo(){
+    const n = estado.miembros;
     const coordina = estado.rol === 'coordina';
-    const pregunta = coordina
-      ? `¿Borrar «${c.nombre}» para todo el grupo? Se pierde todo lo dibujado (${estado.elementos.length}). No se puede deshacer.`
-      : `¿Salir de «${c.nombre}»? Lo que dibujaste queda en el mapa del grupo. Para volver vas a necesitar el código.`;
-    if (!window.confirm(pregunta)) return;
+    const coordinadores = estado.lista.filter(m => m.rol === 'coordina').length;
+    const maneja = coordina && estado.conApodos;
 
-    const boton = $('salir-o-borrar');
+    $('carto-ceja').textContent =
+      (coordina ? 'La coordinás' : 'Participás') + ' · ' +
+      (n === 1 ? '1 persona' : n + ' personas');
+    $('grupo-texto').textContent = coordina
+      ? 'La coordinás: podés sumar referencias, borrar lo que no va y decidir quién está.'
+      : 'Podés dibujar, y corregir o borrar lo tuyo.';
+
+    $('form-apodo').hidden = !estado.conApodos;
+    if (estado.conApodos && document.activeElement !== $('apodo'))
+      $('apodo').value = (estado.lista.find(m => m.usuario === yo.id) || {}).apodo || '';
+
+    $('miembros').innerHTML = estado.lista.map(m => {
+      const vos = m.usuario === yo.id;
+      const acciones = [];
+      const boton = (accion, texto) =>
+        `<button type="button" class="boton texto" data-miembro="${accion}" data-usuario="${esc(m.usuario)}">${texto}</button>`;
+      if (maneja){
+        if (m.rol === 'participa'){
+          acciones.push(boton('coordinar', 'Que coordine'));
+          acciones.push(boton('sacar', 'Sacar del grupo'));
+        } else if (coordinadores > 1){
+          acciones.push(boton('participar', vos ? 'Dejar de coordinar' : 'Quitarle la coordinación'));
+        }
+      }
+      return `<li class="carto-miembro">
+        <span class="carto-miembro-nombre">${esc(etiquetaDe(m.usuario))}${vos ? ' <span class="carto-vos">vos</span>' : ''}</span>
+        ${m.rol === 'coordina' ? '<span class="carto-rol">Coordina</span>' : ''}
+        ${acciones.length ? `<span class="carto-miembro-acciones">${acciones.join('')}</span>` : ''}
+      </li>`;
+    }).join('');
+
+    $('cambiar-codigo').hidden = !maneja;
+    // Quien coordina se puede ir solo si queda otra persona coordinando.
+    $('salir').hidden = coordina && coordinadores < 2;
+    $('borrar-carto').hidden = !coordina;
+  }
+
+  $('form-apodo').addEventListener('submit', async ev => {
+    ev.preventDefault();
+    mostrarFallo('apodo-error', '');
+    const apodo = $('apodo').value.trim().slice(0, 40);
+    const boton = $('apodo-guardar');
     boton.disabled = true;
-    const r = coordina
-      ? await pedir(db.from('cartografias').delete().eq('id', c.id).select('id'))
-      : await pedir(db.from('cartografia_miembros').delete()
-          .eq('cartografia', c.id).eq('usuario', yo.id).select('usuario'));
+    const r = await pedir(db.from('cartografia_miembros').update({ apodo: apodo || null })
+      .eq('cartografia', estado.carto.id).eq('usuario', yo.id).select('apodo'));
     boton.disabled = false;
     if (r.error || !r.data || !r.data.length){
-      window.alert(r.error ? textoDelError(r.error) : 'No se pudo. Probá de nuevo en un rato.');
+      mostrarFallo('apodo-error', r.error ? textoDelError(r.error) : 'No se pudo guardar. Tocá «Actualizar» y probá de nuevo.');
+      return;
+    }
+    const yoEnLista = estado.lista.find(m => m.usuario === yo.id);
+    if (yoEnLista) yoEnLista.apodo = apodo || null;
+    pintarGrupo();
+    boton.textContent = 'Guardado';
+    setTimeout(() => { boton.textContent = 'Guardar'; }, 2000);
+  });
+
+  $('miembros').addEventListener('click', async ev => {
+    const b = ev.target.closest('[data-miembro]');
+    if (!b) return;
+    const usuario = b.dataset.usuario, accion = b.dataset.miembro;
+    const quien = etiquetaDe(usuario);
+    const pregunta = {
+      coordinar: `¿Que «${quien}» también coordine? Va a poder sumar referencias, borrar cualquier cosa y decidir quién está.`,
+      participar: usuario === yo.id
+        ? '¿Dejar de coordinar? Seguís en el grupo y podés dibujar.'
+        : `¿Quitarle la coordinación a «${quien}»? Sigue en el grupo.`,
+      sacar: `¿Sacar a «${quien}» del grupo? Lo que dibujó queda en el mapa. Para volver va a necesitar el código.`
+    }[accion];
+    if (!pregunta || !window.confirm(pregunta)) return;
+
+    mostrarFallo('grupo-error', '');
+    b.disabled = true;
+    const r = accion === 'sacar'
+      ? await pedir(db.from('cartografia_miembros').delete()
+          .eq('cartografia', estado.carto.id).eq('usuario', usuario).select('usuario'))
+      : await pedir(db.rpc('cartografia_cambiar_rol', {
+          p_cartografia: estado.carto.id, p_usuario: usuario,
+          p_rol: accion === 'coordinar' ? 'coordina' : 'participa' }));
+    b.disabled = false;
+    if (r.error || (accion === 'sacar' && (!r.data || !r.data.length))){
+      mostrarFallo('grupo-error', r.error ? textoDelError(r.error) : 'No se pudo. Tocá «Actualizar» y probá de nuevo.');
+      return;
+    }
+    actualizar();
+  });
+
+  $('cambiar-codigo').addEventListener('click', async () => {
+    if (!window.confirm('¿Cambiar el código? El de ahora deja de andar en el momento, también el link. Quien ya está en el grupo sigue adentro.')) return;
+    mostrarFallo('grupo-error', '');
+    const boton = $('cambiar-codigo');
+    boton.disabled = true;
+    const r = await pedir(db.rpc('cartografia_cambiar_codigo', { p_cartografia: estado.carto.id }));
+    boton.disabled = false;
+    if (r.error || !r.data){ mostrarFallo('grupo-error', textoDelError(r.error)); return; }
+    estado.carto.codigo = r.data;
+    pintarCompartir();
+    $('carto-compartir').scrollIntoView({ block: 'center', behavior: 'smooth' });
+  });
+
+  $('salir').addEventListener('click', async () => {
+    const c = estado.carto;
+    if (!window.confirm(`¿Salir de «${c.nombre}»? Lo que dibujaste queda en el mapa del grupo. Para volver vas a necesitar el código.`)) return;
+    const boton = $('salir');
+    boton.disabled = true;
+    const r = await pedir(db.from('cartografia_miembros').delete()
+      .eq('cartografia', c.id).eq('usuario', yo.id).select('usuario'));
+    boton.disabled = false;
+    if (r.error || !r.data || !r.data.length){
+      mostrarFallo('grupo-error', r.error ? textoDelError(r.error) : 'No se pudo. Si coordinás, primero nombrá a otra persona.');
+      return;
+    }
+    location.href = './';
+  });
+
+  $('borrar-carto').addEventListener('click', async () => {
+    const c = estado.carto;
+    if (!window.confirm(`¿Borrar «${c.nombre}» para todo el grupo? Se pierde todo lo dibujado (${estado.elementos.length}). No se puede deshacer.`)) return;
+    const boton = $('borrar-carto');
+    boton.disabled = true;
+    const r = await pedir(db.from('cartografias').delete().eq('id', c.id).select('id'));
+    boton.disabled = false;
+    if (r.error || !r.data || !r.data.length){
+      mostrarFallo('grupo-error', r.error ? textoDelError(r.error) : 'No se pudo. Probá de nuevo en un rato.');
       return;
     }
     location.href = './';
@@ -568,6 +702,8 @@
       aviso.hidden = false;
       $('lienzo').classList.add('vacio-mapa');
       document.querySelectorAll('.carto-herramienta').forEach(b => { b.disabled = true; });
+      $('bajar-imagen').disabled = true;
+      pintarListaBase();
       return;
     }
 
@@ -588,12 +724,19 @@
     });
     fondo.on('load', () => { if (avisoAzulejos) $('mapa-sin').hidden = true; avisoAzulejos = false; });
 
+    /* La información de base va en su propio plano, DEBAJO de lo del
+       grupo (que va en el de siempre, 400): lo dibujado nunca queda
+       tapado. En canvas y no en SVG: RENABAP son cientos de polígonos. */
+    mapa.createPane('base').style.zIndex = 350;
+    lienzoBase = L.canvas({ pane: 'base', tolerance: 8 });
+
     capaElementos = L.layerGroup().addTo(mapa);
     capaDibujo = L.layerGroup().addTo(mapa);
     mapa.on('click', e => alTocarMapa(e.latlng));
 
     pintarElementos();
     encuadrar();
+    aplicarBase();
   }
 
   /* La primera vista: todo lo dibujado, o la zona entera si no hay nada. */
@@ -626,6 +769,7 @@
     const orden = { zona: 0, linea: 1, punto: 2 };
     estado.elementos.slice().sort((a, b) => orden[a.tipo] - orden[b.tipo]).forEach(e => {
       if (estado.ocultas.has(e.referencia)) return;
+      if (dibujo.editando && dibujo.editando.id === e.id) return;
       const ref = buscarReferencia(refs, e.referencia);
       let capa;
       if (e.tipo === 'punto'){
@@ -652,33 +796,67 @@
 
 
   /* ============================================================
-     5. DIBUJAR
+     5. DIBUJAR Y CORREGIR
 
-     A dedo y sin librerías: cada toque en el mapa es un vértice. Un
-     lugar es un toque (y se puede corregir tocando de nuevo); un
-     recorrido, dos o más; una zona, tres o más, y se cierra sola.
-     Arrastrar sigue moviendo el mapa: Leaflet distingue el toque del
-     arrastre.
+     A dedo y sin librerías: cada toque en el mapa es un punto nuevo, y
+     cada punto se puede arrastrar para corregirlo. Un lugar es un punto;
+     un recorrido, dos o más; una zona, tres o más, y se cierra sola (o
+     tocando el primero). Arrastrar el mapa sigue moviendo el mapa:
+     Leaflet distingue el toque del arrastre.
+
+     Corregir es el mismo camino con lo ya dibujado cargado: la forma con
+     sus puntos para mover, y después el formulario con lo que decía.
      ============================================================ */
-  const dibujo = { modo: null, vertices: [], listo: false };
+  const dibujo = {
+    modo: null,         // 'punto' | 'linea' | 'zona' mientras se dibuja
+    vertices: [],
+    listo: false,       // { tipo } cuando ya se terminó y falta el formulario
+    editando: null      // { id, referencia, titulo, relato } al corregir
+  };
+  let capaForma = null;
 
   document.querySelectorAll('.carto-herramienta').forEach(b =>
     b.addEventListener('click', () => empezar(b.dataset.modo)));
 
-  function empezar(modo){
-    if (!mapa) return;
-    if (dibujo.listo && $('el-titulo').value.trim()
-        && !window.confirm('Hay un dibujo sin guardar. ¿Descartarlo y empezar otro?')) return;
-    cerrarFicha();
-    descartarNuevo(true);
-    dibujo.modo = modo;
-    dibujo.vertices = [];
+  function hayAlgoSinGuardar(){
+    return (dibujo.listo && $('el-titulo').value.trim()) || !!dibujo.editando;
+  }
+
+  function mostrarBarra(modo){
     document.querySelectorAll('.carto-herramienta').forEach(b =>
       b.setAttribute('aria-pressed', String(b.dataset.modo === modo)));
     $('dibujo-gps').hidden = modo !== 'punto' || !('geolocation' in navigator);
     $('dibujando').hidden = false;
     $('lienzo').classList.add('dibujando');
+  }
+
+  function empezar(modo){
+    if (!mapa) return;
+    if (hayAlgoSinGuardar()
+        && !window.confirm('Hay un dibujo sin guardar. ¿Descartarlo y empezar otro?')) return;
+    cerrarFicha();
+    descartarNuevo(true);
+    dibujo.modo = modo;
+    dibujo.vertices = [];
+    mostrarBarra(modo);
     pintarDibujo();
+    $('lienzo').scrollIntoView({ block: 'nearest', behavior: 'smooth' });
+  }
+
+  function editar(id){
+    const e = estado.elementos.find(x => x.id === id);
+    if (!e || !mapa) return;
+    cerrarFicha();
+    descartarNuevo(true);
+    const c = e.geometria.coordinates;
+    const pares = e.tipo === 'punto' ? [c] : e.tipo === 'linea' ? c : c[0].slice(0, -1);
+    dibujo.editando = { id: e.id, referencia: e.referencia, titulo: e.titulo, relato: e.relato || '' };
+    dibujo.modo = e.tipo;
+    dibujo.vertices = pares.map(([lng, lat]) => L.latLng(lat, lng));
+    pintarElementos();          // esconde el original mientras se corrige
+    mostrarBarra(e.tipo);
+    pintarDibujo();
+    mapa.fitBounds(L.latLngBounds(dibujo.vertices).pad(0.5), { maxZoom: 17 });
     $('lienzo').scrollIntoView({ block: 'nearest', behavior: 'smooth' });
   }
 
@@ -687,8 +865,14 @@
     return p.lat >= z.latMin && p.lat <= z.latMax && p.lng >= z.lngMin && p.lng <= z.lngMax;
   }
 
+  /* Al soltar un punto arrastrado, el navegador dispara además un toque
+     en el mapa justo donde se soltó, y aparecía un punto nuevo encima.
+     Lo que llega en ese instante no cuenta. */
+  let soltadoEn = 0;
+
   function alTocarMapa(p){
     if (!dibujo.modo) return;
+    if (Date.now() - soltadoEn < 400) return;
     if (!dentroDeLaZona(p)){
       $('dibujando-texto').textContent = 'Eso queda fuera de La Plata, Berisso y Ensenada.';
       return;
@@ -700,38 +884,68 @@
 
   function minimo(modo){ return modo === 'punto' ? 1 : modo === 'linea' ? 2 : 3; }
 
+  /* La forma va aparte de los puntos para poder redibujarla mientras se
+     arrastra uno, sin tocar el punto que el dedo tiene agarrado. */
+  function pintarForma(modo, final){
+    capaForma.clearLayers();
+    const v = dibujo.vertices;
+    const estilo = { color: '#1A1A1A', weight: 4, opacity: .9, interactive: false,
+                     dashArray: final ? null : '8 8', fillColor: '#F9E830', fillOpacity: .3 };
+    if (modo === 'linea' && v.length >= 2) capaForma.addLayer(L.polyline(v, estilo));
+    if (modo === 'zona' && v.length >= 3) capaForma.addLayer(L.polygon(v, estilo));
+    else if (modo === 'zona' && v.length === 2) capaForma.addLayer(L.polyline(v, estilo));
+  }
+
   function pintarDibujo(){
     capaDibujo.clearLayers();
+    capaForma = L.layerGroup().addTo(capaDibujo);
     const v = dibujo.vertices;
     const modo = dibujo.modo || (dibujo.listo && dibujo.listo.tipo);
     const final = !!dibujo.listo;
-    const estilo = { color: '#1A1A1A', weight: 4, opacity: .9,
-                     dashArray: final ? null : '8 8', fillColor: '#F9E830', fillOpacity: .3 };
+    pintarForma(modo, final);
 
-    if (modo === 'linea' && v.length >= 2) capaDibujo.addLayer(L.polyline(v, estilo));
-    if (modo === 'zona' && v.length >= 3) capaDibujo.addLayer(L.polygon(v, estilo));
-    else if (modo === 'zona' && v.length === 2) capaDibujo.addLayer(L.polyline(v, estilo));
-
-    if (modo === 'punto' && v.length){
-      capaDibujo.addLayer(L.marker(v[0], {
-        icon: iconoDe({ color: '#F9E830', glifo: '＋' }, 'nuevo'), interactive: false }));
-    } else {
-      v.forEach((p, i) => capaDibujo.addLayer(L.circleMarker(p, {
-        radius: i === 0 ? 8 : 6, color: '#1A1A1A', weight: 2,
-        fillColor: i === 0 ? '#F9E830' : '#FFFFFF', fillOpacity: 1, interactive: false })));
-    }
+    v.forEach((p, i) => {
+      const icono = modo === 'punto'
+        ? iconoDe({ color: '#F9E830', glifo: '＋' }, 'nuevo')
+        : L.divIcon({ className: 'carto-vertice' + (i === 0 ? ' primero' : ''), iconSize: [32, 32] });
+      /* Leaflet apila los marcadores según la altura en el mapa: sin el
+         `zIndexOffset`, un pin que queda más abajo tapa el punto que se
+         quiere mover y el dedo agarra el pin. */
+      const marca = L.marker(p, { icon: icono, draggable: !final, interactive: !final,
+                                  keyboard: false, autoPan: true, zIndexOffset: 1000 });
+      let antes = p;
+      marca.on('dragstart', () => { antes = marca.getLatLng(); });
+      marca.on('drag', () => { dibujo.vertices[i] = marca.getLatLng(); pintarForma(modo, false); });
+      marca.on('dragend', () => {
+        soltadoEn = Date.now();
+        const ahora = marca.getLatLng();
+        if (!dentroDeLaZona(ahora)){
+          marca.setLatLng(antes);
+          dibujo.vertices[i] = antes;
+          pintarForma(modo, false);
+          $('dibujando-texto').textContent = 'Eso queda fuera de La Plata, Berisso y Ensenada.';
+          return;
+        }
+        dibujo.vertices[i] = ahora;
+      });
+      // En una zona, tocar el primer punto la cierra.
+      if (i === 0 && modo === 'zona') marca.on('click', () => {
+        if (dibujo.vertices.length >= 3) terminarDibujo();
+      });
+      capaDibujo.addLayer(marca);
+    });
     if (final) return;
 
     const n = v.length;
     const textos = {
-      punto: n ? 'Si no es ahí, tocá de nuevo. Cuando esté bien, «Listo».'
+      punto: n ? 'Arrastralo si no quedó justo. Cuando esté bien, «Listo».'
                : 'Tocá el mapa donde está el lugar.',
       linea: !n ? 'Tocá el mapa donde empieza el recorrido.'
            : n === 1 ? 'Ahora tocá por dónde sigue, esquina por esquina.'
-           : `${n} puntos. Seguí tocando, o «Listo» si llegaste.`,
+           : `${n} puntos. Seguí tocando, arrastrá uno para moverlo, o «Listo».`,
       zona:  !n ? 'Tocá el mapa en una esquina de la zona.'
            : n < 3 ? 'Seguí tocando el borde. Hacen falta tres puntos como mínimo.'
-           : `${n} puntos. Seguí el borde, o «Listo»: se cierra sola.`
+           : `${n} puntos. Seguí el borde, o tocá el primero para cerrarla.`
     };
     $('dibujando-texto').textContent = textos[dibujo.modo];
     $('dibujo-listo').disabled = n < minimo(dibujo.modo);
@@ -760,8 +974,8 @@
     }, { enableHighAccuracy: true, timeout: 15000, maximumAge: 30000 });
   });
 
-  $('dibujo-listo').addEventListener('click', () => {
-    if (dibujo.vertices.length < minimo(dibujo.modo)) return;
+  function terminarDibujo(){
+    if (!dibujo.modo || dibujo.vertices.length < minimo(dibujo.modo)) return;
     dibujo.listo = { tipo: dibujo.modo };
     dibujo.modo = null;
     $('dibujando').hidden = true;
@@ -769,20 +983,33 @@
     document.querySelectorAll('.carto-herramienta').forEach(b => b.setAttribute('aria-pressed', 'false'));
     pintarDibujo();
 
-    $('nuevo-titulo').textContent = ({ punto: '¿Qué es este lugar?',
-      linea: '¿Qué es este recorrido?', zona: '¿Qué es esta zona?' })[dibujo.listo.tipo];
+    const ed = dibujo.editando;
+    $('nuevo-titulo').textContent = ed
+      ? ({ punto: 'Corregí este lugar', linea: 'Corregí este recorrido', zona: 'Corregí esta zona' })[dibujo.listo.tipo]
+      : ({ punto: '¿Qué es este lugar?', linea: '¿Qué es este recorrido?', zona: '¿Qué es esta zona?' })[dibujo.listo.tipo];
+    $('elemento-guardar').textContent = ed ? 'Guardar los cambios' : 'Guardar en el mapa';
+    $('elemento-descartar').textContent = ed ? 'Dejarlo como estaba' : 'Descartar';
+    if (ed && !$('el-titulo').value){
+      $('el-titulo').value = ed.titulo;
+      $('el-relato').value = ed.relato;
+      $('relato-cuenta').textContent = ed.relato.length;
+    }
     pintarElegirReferencia();
     mostrarFallo('elemento-error', '');
     $('panel-nuevo').hidden = false;
     $('panel-nuevo').scrollIntoView({ block: 'start', behavior: 'smooth' });
     $('panel-nuevo').focus({ preventScroll: true });
-  });
+  }
+  $('dibujo-listo').addEventListener('click', terminarDibujo);
 
-  /* `callado`: al empezar otro dibujo no hace falta mover el foco. */
+  /* `callado`: al empezar otro dibujo no hace falta mover el foco. Si se
+     estaba corrigiendo, el original vuelve a su lugar. */
   function descartarNuevo(callado){
+    const corrigiendo = !!dibujo.editando;
     dibujo.modo = null;
     dibujo.vertices = [];
     dibujo.listo = false;
+    dibujo.editando = null;
     if (capaDibujo) capaDibujo.clearLayers();
     $('dibujando').hidden = true;
     $('lienzo').classList.remove('dibujando');
@@ -790,14 +1017,17 @@
     $('panel-nuevo').hidden = true;
     $('form-elemento').reset();
     $('relato-cuenta').textContent = '0';
+    if (corrigiendo) pintarElementos();
     if (!callado) $('lienzo').scrollIntoView({ block: 'nearest', behavior: 'smooth' });
   }
 
   function pintarElegirReferencia(){
     const antes = (document.querySelector('input[name="referencia"]:checked') || {}).value;
     /* Un recorrido casi siempre es eso: un recorrido. Se ofrece
-       marcado; si es otra cosa, se toca otra. */
-    const sugerida = antes || (dibujo.listo && dibujo.listo.tipo === 'linea' ? 'recorridos' : '');
+       marcado; si es otra cosa, se toca otra. Al corregir, la que tenía. */
+    const sugerida = antes
+      || (dibujo.editando && dibujo.editando.referencia)
+      || (dibujo.listo && dibujo.listo.tipo === 'linea' ? 'recorridos' : '');
     $('elegir-referencia').innerHTML = todasLasReferencias(estado.propias).map(r => `
       <label class="carto-opcion">
         <input type="radio" name="referencia" value="${esc(r.id)}" ${r.id === sugerida ? 'checked' : ''}>
@@ -835,19 +1065,41 @@
     if (!ref){ mostrarFallo('elemento-error', 'Elegí una referencia: es lo que dice qué es en la leyenda.'); return; }
     if (!titulo){ mostrarFallo('elemento-error', 'Ponele un nombre corto.'); $('el-titulo').focus(); return; }
 
-    const fila = {
-      id: nuevoId(),
-      cartografia: estado.carto.id,
+    const tipo = dibujo.listo.tipo;
+    const datos = {
       referencia: ref,
-      tipo: dibujo.listo.tipo,
-      geometria: geometriaDe(dibujo.listo.tipo, dibujo.vertices),
+      geometria: geometriaDe(tipo, dibujo.vertices),
       titulo,
-      relato: $('el-relato').value.trim(),
-      creado_en_dispositivo: new Date().toISOString()
+      relato: $('el-relato').value.trim()
     };
-
+    const ed = dibujo.editando;
     const boton = $('elemento-guardar');
     boton.disabled = true;
+
+    if (ed){
+      const cambios = Object.assign({ editado_at: new Date().toISOString() }, datos);
+      const r = await pedir(db.from('cartografia_elementos').update(cambios).eq('id', ed.id).select('id'));
+      boton.disabled = false;
+      if (r.error || !r.data || !r.data.length){
+        mostrarFallo('elemento-error', r.error ? textoDelError(r.error)
+          : 'No se pudo guardar. Puede que ya no esté: tocá «Actualizar».');
+        return;
+      }
+      const e = estado.elementos.find(x => x.id === ed.id);
+      if (e) Object.assign(e, cambios);
+      estado.ocultas.delete(ref);
+      descartarNuevo(true);
+      pintarLeyenda();
+      abrirFicha(ed.id);
+      return;
+    }
+
+    const fila = Object.assign({
+      id: nuevoId(),
+      cartografia: estado.carto.id,
+      tipo,
+      creado_en_dispositivo: new Date().toISOString()
+    }, datos);
     const r = await pedir(db.from('cartografia_elementos').insert(fila));
     boton.disabled = false;
     // 23505: el pedido llegó antes y se perdió la respuesta. Ya está.
@@ -898,6 +1150,15 @@
       ? e.relato.split(/\n{2,}/).map(p => `<p>${esc(p).replace(/\n/g, '<br>')}</p>`).join('')
       : '';
 
+    /* Quién lo dibujó, con el apodo que eligió para este grupo. Lo
+       corrige solo quien lo dibujó: quien coordina puede borrarlo, pero
+       no cambiarle las palabras a otra persona. */
+    const pie = [
+      fechaCorta(e.creado_en_dispositivo),
+      mio ? 'Lo dibujaste vos' : estado.conApodos ? 'Lo dibujó ' + etiquetaDe(e.autor) : '',
+      e.editado_at ? 'corregido el ' + fechaCorta(e.editado_at) : ''
+    ].filter(Boolean).join(' · ');
+
     const panel = $('panel-ficha');
     panel.dataset.id = id;
     panel.style.setProperty('--ref', ref.color);
@@ -905,9 +1166,10 @@
       <p class="carto-ficha-ref">${muestra(ref)} ${esc(ref.nombre)} · ${TIPOS[e.tipo]}</p>
       <h2 class="carto-ficha-titulo">${esc(e.titulo)}</h2>
       <div class="carto-ficha-relato">${relato}</div>
-      <p class="letra-chica carto-ayuda">${esc(fechaCorta(e.creado_en_dispositivo))}${mio ? ' · Lo dibujaste vos' : ''}</p>
+      <p class="letra-chica carto-ayuda">${esc(pie)}</p>
       <div class="carto-botones">
         <button type="button" class="boton borde" data-accion="cerrar">Cerrar</button>
+        ${mio ? '<button type="button" class="boton" data-accion="editar">Corregir</button>' : ''}
         ${puedeBorrar ? '<button type="button" class="boton peligro" data-accion="borrar">Borrar del mapa</button>' : ''}
       </div>
       <div class="aviso error" data-error hidden></div>`;
@@ -927,6 +1189,7 @@
     const b = ev.target.closest('[data-accion]');
     if (!b) return;
     if (b.dataset.accion === 'cerrar'){ cerrarFicha(); return; }
+    if (b.dataset.accion === 'editar'){ editar($('panel-ficha').dataset.id); return; }
 
     const id = $('panel-ficha').dataset.id;
     const e = estado.elementos.find(x => x.id === id);
@@ -945,5 +1208,478 @@
     pintarLeyenda();
     pintarElementos();
   });
+
+
+  /* ============================================================
+     7. LA INFORMACIÓN DE BASE
+
+     Las capas de `mapa/` (la lista en `mapa/capas-base.js`, los
+     archivos en `mapa/datos/`): arroyos, polo industrial, barrios
+     RENABAP, salud y clubes. Van debajo de lo que dibuja el grupo, en un
+     solo canvas como allá, y se piden recién al prenderlas. Lo prendido
+     queda anotado en el teléfono para la próxima vez.
+     ============================================================ */
+  const BASE_GUARDADA = 'bolivar-carto-base';
+  const base = { prendidas: new Set(leerBase()), capas: {}, datos: {}, estado: {}, pedidos: new Map() };
+  let lienzoBase = null;
+
+  function leerBase(){
+    try { const g = JSON.parse(localStorage.getItem(BASE_GUARDADA)); return Array.isArray(g) ? g : []; }
+    catch(e){ return []; }
+  }
+  function guardarBase(){
+    try { localStorage.setItem(BASE_GUARDADA, JSON.stringify([...base.prendidas])); } catch(e){}
+  }
+  function hayCapasBase(){ return typeof CAPAS_BASE !== 'undefined' && Array.isArray(CAPAS_BASE); }
+
+  const TEXTO_BASE = {
+    cargando:   'Bajando…',
+    falta:      'Todavía no está cargada en la app',
+    red:        'No se pudo bajar. Apagala y prendela para probar de nuevo',
+    formato:    'El archivo no es un GeoJSON válido',
+    proyeccion: 'El archivo no está en latitud y longitud'
+  };
+
+  /* La muestra de cada capa, con el mismo color con que se pinta. */
+  function muestraBase(c){
+    if (c.tipos){
+      const paso = 100 / c.tipos.length;
+      return 'background:linear-gradient(90deg,' + c.tipos.map((t, i) =>
+        `${t.color} ${(i * paso).toFixed(0)}% ${((i + 1) * paso).toFixed(0)}%`).join(',') + ')';
+    }
+    const est = c.estilo({ geometry: { type: 'Polygon' }, properties: {} }) || {};
+    return `background:${est.fillColor || est.color || '#888'};border-color:${est.color || '#888'}`;
+  }
+
+  /* Se arma una vez y después solo se le cambian los textos: rehacer la
+     lista con cada cambio le sacaría el foco a quien usa el teclado. */
+  function armarListaBase(){
+    if (!hayCapasBase()){ $('capas-base').closest('section').hidden = true; return; }
+    if ($('capas-base').childElementCount) return;
+    $('capas-base').innerHTML = CAPAS_BASE.map(c => `
+      <li><label class="carto-capa">
+        <input type="checkbox" role="switch" data-base="${esc(c.id)}" ${base.prendidas.has(c.id) ? 'checked' : ''}>
+        <span class="carto-capa-muestra" style="${muestraBase(c)}" aria-hidden="true"></span>
+        <span class="carto-capa-nombre">${esc(c.nombre)}<small data-estado-base="${esc(c.id)}">${esc(c.detalle)}</small></span>
+      </label></li>`).join('');
+    pintarListaBase();
+  }
+
+  function pintarListaBase(){
+    if (!hayCapasBase()) return;
+    // Sin Leaflet no hay dónde dibujarla: se dice, en vez de dejar un
+    // interruptor que se prende y no hace nada.
+    const sinLeaflet = $('lienzo').classList.contains('vacio-mapa');
+    CAPAS_BASE.forEach(c => {
+      const i = document.querySelector(`[data-base="${c.id}"]`);
+      const t = document.querySelector(`[data-estado-base="${c.id}"]`);
+      if (!i || !t) return;
+      const prendida = base.prendidas.has(c.id);
+      const est = base.estado[c.id];
+      i.checked = prendida;
+      i.disabled = sinLeaflet;
+      t.textContent = sinLeaflet ? 'Necesita el mapa, que todavía no bajó'
+        : !prendida || !est || est === 'lista' ? c.detalle
+        : TEXTO_BASE[est] || c.detalle;
+      t.classList.toggle('con-problema', prendida && !!est && est !== 'lista' && est !== 'cargando');
+    });
+  }
+
+  $('capas-base').addEventListener('change', ev => {
+    const i = ev.target.closest('[data-base]');
+    if (!i) return;
+    const id = i.dataset.base;
+    if (i.checked){
+      base.prendidas.add(id);
+      // Un error no se reintenta solo: se reintenta al volver a prenderla.
+      if (base.estado[id] && base.estado[id] !== 'lista' && base.estado[id] !== 'cargando') delete base.estado[id];
+    } else base.prendidas.delete(id);
+    guardarBase();
+    aplicarBase();
+  });
+
+  function aplicarBase(){
+    if (!hayCapasBase()) return;
+    if (mapa) CAPAS_BASE.forEach(c => {
+      const prendida = base.prendidas.has(c.id);
+      if (prendida && !base.capas[c.id] && !base.estado[c.id]) cargarBase(c);
+      const capa = base.capas[c.id];
+      if (capa){ if (prendida) capa.grupo.addTo(mapa); else mapa.removeLayer(capa.grupo); }
+    });
+    if (mapa) ordenarBase();
+    pintarListaBase();
+  }
+
+  function traerBase(c){
+    if (!base.pedidos.has(c.id)){
+      const pedido = (async () => {
+        const corte = new AbortController();
+        const plazo = setTimeout(() => corte.abort(), 45000);
+        let r;
+        try { r = await fetch('../mapa/datos/' + c.archivo, { signal: corte.signal }); }
+        catch(e){ throw { tipo: 'red' }; }
+        finally { clearTimeout(plazo); }
+        if (r.status === 404) throw { tipo: 'falta' };
+        if (!r.ok) throw { tipo: 'red' };
+        let datos;
+        try { datos = await r.json(); } catch(e){ throw { tipo: 'formato' }; }
+        if (!datos || !Array.isArray(datos.features)) throw { tipo: 'formato' };
+        // POSGAR (metros) se dibujaría en medio del océano sin avisar.
+        const f = datos.features.find(x => x && x.geometry && x.geometry.coordinates);
+        let k = f && f.geometry.coordinates;
+        while (Array.isArray(k) && Array.isArray(k[0])) k = k[0];
+        if (Array.isArray(k) && (Math.abs(k[0]) > 180 || Math.abs(k[1]) > 90)) throw { tipo: 'proyeccion' };
+        return datos;
+      })();
+      pedido.catch(() => base.pedidos.delete(c.id));
+      base.pedidos.set(c.id, pedido);
+    }
+    return base.pedidos.get(c.id);
+  }
+
+  function cargarBase(c){
+    base.estado[c.id] = 'cargando';
+    traerBase(c).then(datos => {
+      base.datos[c.id] = datos;
+      base.capas[c.id] = armarCapaBase(c, datos);
+      base.estado[c.id] = 'lista';
+      aplicarBase();
+    }, e => {
+      base.estado[c.id] = (e && e.tipo) || 'red';
+      aplicarBase();
+    });
+  }
+
+  function armarCapaBase(c, datos){
+    const de = tipos => ({ type: 'FeatureCollection',
+      features: datos.features.filter(f => f && f.geometry && tipos.indexOf(f.geometry.type) !== -1) });
+    const comun = {
+      style: c.estilo, renderer: lienzoBase, pane: 'base',
+      onEachFeature: (f, capa) => capa.on('click', ev => {
+        L.DomEvent.stopPropagation(ev);
+        /* Mientras se dibuja, tocar un barrio es poner un punto ahí,
+           no abrir su ficha encima. */
+        if (dibujo.modo) alTocarMapa(ev.latlng);
+        else if (!dibujo.listo) fichaDeBase(c, f, ev.latlng);
+      })
+    };
+    const rellenos = L.geoJSON(de(['Polygon', 'MultiPolygon']), comun);
+    const lineas   = L.geoJSON(de(['LineString', 'MultiLineString']), comun);
+    const puntos   = L.geoJSON(de(['Point', 'MultiPoint']), Object.assign({}, comun, {
+      pointToLayer: (f, latlng) => {
+        const tipo = tipoDePunto(c, f.properties);
+        return L.circleMarker(latlng, Object.assign({}, c.estilo(f), {
+          fillColor: tipo ? tipo.color : '#8A8A8A', renderer: lienzoBase, pane: 'base' }));
+      }
+    }));
+    return { grupo: L.featureGroup([rellenos, lineas, puntos]), rellenos, lineas, puntos };
+  }
+
+  /* En un canvas manda el orden en que se agregó: los rellenos al
+     fondo, las líneas en el medio, los puntos adelante. */
+  function ordenarBase(){
+    const prendidas = CAPAS_BASE.filter(c => base.prendidas.has(c.id) && base.capas[c.id]).map(c => base.capas[c.id]);
+    prendidas.forEach(c => c.lineas.bringToFront());
+    prendidas.forEach(c => c.puntos.bringToFront());
+    prendidas.forEach(c => c.rellenos.bringToBack());
+  }
+
+  function fichaDeBase(c, f, donde){
+    const p = f.properties || {};
+    const tipo = tipoDePunto(c, p);
+    const tipoCrudo = p.tipo || p.Tipo || p.TIPO || '';
+    const nombre = primerCampo(p, CAMPOS_NOMBRE);
+    const descripcion = primerCampo(p, CAMPOS_DESCRIPCION);
+    L.popup({ maxWidth: 260 }).setLatLng(donde).setContent(`
+      <div class="carto-base-ficha">
+        <p class="carto-base-capa">${esc(c.nombre)}${tipo ? ' · ' + esc(tipo.nombre) : tipoCrudo ? ' · ' + esc(tipoCrudo) : ''}</p>
+        <p class="carto-base-titulo">${esc(nombre || c.detalle)}</p>
+        ${descripcion ? `<p>${esc(descripcion)}</p>` : ''}
+        ${c.fuente ? `<p class="carto-base-fuente">Fuente: ${esc(c.fuente)}</p>` : ''}
+      </div>`).openOn(mapa);
+  }
+
+
+  /* ============================================================
+     8. BAJAR EL MAPA
+
+     Dos cosas distintas para dos usos distintos:
+       · la imagen, para presentar: el mapa como se ve ahora, con la
+         leyenda abajo. Se dibuja a mano en un canvas (sin librerías):
+         las calles, las capas de base prendidas y lo del grupo.
+       · los datos, para QGIS: todo lo dibujado en GeoJSON, con su
+         referencia, su nombre y su relato. Sin quién lo dibujó.
+     ============================================================ */
+  function nombreDeArchivo(ext){
+    const limpio = String(estado.carto.nombre || '').normalize('NFD').replace(/[̀-ͯ]/g, '')
+      .toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '').slice(0, 60);
+    return (limpio || 'cartografia') + '.' + ext;
+  }
+
+  function bajarArchivo(blob, nombre){
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url; a.download = nombre;
+    document.body.append(a); a.click(); a.remove();
+    setTimeout(() => URL.revokeObjectURL(url), 15000);
+  }
+
+  $('bajar-geojson').addEventListener('click', () => {
+    if (!estado.carto) return;
+    const refs = todasLasReferencias(estado.propias);
+    const coleccion = {
+      type: 'FeatureCollection',
+      name: estado.carto.nombre,
+      features: estado.elementos.map(e => {
+        const r = buscarReferencia(refs, e.referencia);
+        return { type: 'Feature', geometry: e.geometria, properties: {
+          titulo: e.titulo,
+          relato: e.relato || '',
+          referencia: r.nombre,
+          color: r.color,
+          tipo: TIPOS[e.tipo],
+          fecha: String(e.creado_en_dispositivo || '').slice(0, 10),
+          corregido: e.editado_at ? String(e.editado_at).slice(0, 10) : null
+        } };
+      })
+    };
+    const nombre = nombreDeArchivo('geojson');
+    bajarArchivo(new Blob([JSON.stringify(coleccion, null, 1)], { type: 'application/geo+json' }), nombre);
+    const n = estado.elementos.length;
+    $('bajar-estado').textContent = `Listo: ${n === 1 ? '1 elemento' : n + ' elementos'} en «${nombre}». En QGIS se abre arrastrando el archivo a la ventana.`;
+  });
+
+  $('bajar-imagen').addEventListener('click', async () => {
+    if (!mapa || !estado.carto) return;
+    const boton = $('bajar-imagen');
+    boton.disabled = true;
+    $('bajar-estado').textContent = 'Armando la imagen…';
+    try {
+      let hecho = await armarImagen(true);
+      let blob = await aBlob(hecho.lienzo).catch(() => null);
+      /* Si las calles «ensuciaron» el canvas (un servidor sin permiso de
+         CORS), el navegador no deja sacarlo: se arma otra vez sin ellas. */
+      if (!blob){ hecho = await armarImagen(false); blob = await aBlob(hecho.lienzo); }
+      const nombre = nombreDeArchivo('png');
+      bajarArchivo(blob, nombre);
+      $('bajar-estado').textContent = hecho.conCalles
+        ? `Listo: «${nombre}».`
+        : `Listo: «${nombre}», pero sin las calles de fondo, que no se pudieron bajar.`;
+    } catch(e){
+      $('bajar-estado').textContent = 'No se pudo armar la imagen. Probá de nuevo en un rato.';
+    }
+    boton.disabled = false;
+  });
+
+  function aBlob(lienzo){
+    return new Promise((ok, mal) => {
+      try { lienzo.toBlob(b => b ? ok(b) : mal(new Error('vacío')), 'image/png'); }
+      catch(e){ mal(e); }
+    });
+  }
+
+  /* Las teselas de OpenStreetMap del encuadre de ahora. El zoom de
+     Leaflet acá es siempre entero, así que encajan sin escalar. */
+  async function dibujarCalles(x, tam){
+    const z = mapa.getZoom(), T = 256;
+    const lim = mapa.getPixelBounds();
+    const desde = lim.min.divideBy(T).floor(), hasta = lim.max.divideBy(T).floor();
+    const pedidos = [];
+    for (let tx = desde.x; tx <= hasta.x; tx++) for (let ty = desde.y; ty <= hasta.y; ty++){
+      pedidos.push(new Promise(ok => {
+        const img = new Image();
+        img.crossOrigin = 'anonymous';
+        const plazo = setTimeout(() => ok(null), 10000);
+        img.onload = () => { clearTimeout(plazo); ok({ img, tx, ty }); };
+        img.onerror = () => { clearTimeout(plazo); ok(null); };
+        img.src = `https://tile.openstreetmap.org/${z}/${tx}/${ty}.png`;
+      }));
+    }
+    const azulejos = (await Promise.all(pedidos)).filter(Boolean);
+    azulejos.forEach(a => x.drawImage(a.img, a.tx * T - lim.min.x, a.ty * T - lim.min.y, T, T));
+    return azulejos.length > 0;
+  }
+
+  function camino(x, anillos, cerrar){
+    x.beginPath();
+    anillos.forEach(a => {
+      a.forEach(([lng, lat], i) => {
+        const p = mapa.latLngToContainerPoint([lat, lng]);
+        if (i) x.lineTo(p.x, p.y); else x.moveTo(p.x, p.y);
+      });
+      if (cerrar) x.closePath();
+    });
+  }
+
+  /* El estilo de Leaflet pasado a canvas. */
+  function pintarCamino(x, est, conRelleno){
+    if (conRelleno && est.fill !== false){
+      x.globalAlpha = est.fillOpacity == null ? .2 : est.fillOpacity;
+      x.fillStyle = est.fillColor || est.color || '#3388ff';
+      x.fill('evenodd');
+    }
+    if (est.stroke !== false){
+      x.globalAlpha = est.opacity == null ? 1 : est.opacity;
+      x.strokeStyle = est.color || '#3388ff';
+      x.lineWidth = est.weight == null ? 3 : est.weight;
+      x.lineCap = est.lineCap || 'round';
+      x.lineJoin = est.lineJoin || 'round';
+      x.setLineDash(est.dashArray ? String(est.dashArray).split(/[ ,]+/).map(Number) : []);
+      x.stroke();
+    }
+    x.globalAlpha = 1;
+    x.setLineDash([]);
+  }
+
+  function dibujarGeometria(x, g, est, alPunto){
+    if (!g || !g.coordinates) return;
+    const c = g.coordinates;
+    if (g.type === 'Polygon'){ camino(x, c, true); pintarCamino(x, est, true); }
+    else if (g.type === 'MultiPolygon') c.forEach(p => { camino(x, p, true); pintarCamino(x, est, true); });
+    else if (g.type === 'LineString'){ camino(x, [c], false); pintarCamino(x, est, false); }
+    else if (g.type === 'MultiLineString'){ camino(x, c, false); pintarCamino(x, est, false); }
+    else if (g.type === 'Point') alPunto(c);
+    else if (g.type === 'MultiPoint') c.forEach(alPunto);
+  }
+
+  /* El pin de un lugar: un círculo con su glifo y una punta abajo. */
+  function dibujarPin(x, [lng, lat], ref){
+    const p = mapa.latLngToContainerPoint([lat, lng]);
+    const cx = p.x, cy = p.y - 19, r = 13;
+    x.beginPath();
+    x.moveTo(cx - 7, cy + 9); x.lineTo(cx, p.y); x.lineTo(cx + 7, cy + 9); x.closePath();
+    x.fillStyle = '#1A1A1A'; x.fill();
+    x.beginPath(); x.arc(cx, cy, r, 0, Math.PI * 2);
+    x.fillStyle = ref.color; x.fill();
+    x.lineWidth = 2; x.strokeStyle = '#1A1A1A'; x.stroke();
+    x.fillStyle = '#FFFFFF';
+    x.font = '700 14px Roboto, "Apple Color Emoji", "Segoe UI Emoji", "Noto Color Emoji", sans-serif';
+    x.textAlign = 'center'; x.textBaseline = 'middle';
+    x.fillText(ref.glifo, cx, cy + 1);
+  }
+
+  /* Corta un texto en renglones que entren en `ancho`. */
+  function renglones(x, texto, ancho){
+    const palabras = String(texto).split(/\s+/);
+    const salida = [];
+    let linea = '';
+    palabras.forEach(p => {
+      const prueba = linea ? linea + ' ' + p : p;
+      if (x.measureText(prueba).width > ancho && linea){ salida.push(linea); linea = p; }
+      else linea = prueba;
+    });
+    if (linea) salida.push(linea);
+    return salida;
+  }
+
+  async function armarImagen(conCalles){
+    try { await Promise.all([document.fonts.load('22px "Archivo Black"'), document.fonts.load('700 14px Roboto')]); }
+    catch(e){}
+
+    const tam = mapa.getSize();
+    const E = 2;                                    // el doble, para que se vea nítida
+    const M = 20;                                   // el margen del pie
+    const refs = todasLasReferencias(estado.propias);
+    const visibles = estado.elementos.filter(e => !estado.ocultas.has(e.referencia));
+    const usadas = refs.filter(r => visibles.some(e => e.referencia === r.id));
+    const capas = hayCapasBase()
+      ? CAPAS_BASE.filter(c => base.prendidas.has(c.id) && base.datos[c.id]) : [];
+
+    // Primero se mide el pie, para saber de qué alto hacer el lienzo.
+    const medir = document.createElement('canvas').getContext('2d');
+    const anchoUtil = tam.x - 2 * M;
+    const columnas = tam.x >= 560 ? 2 : 1;
+    const items = usadas.map(r => ({ tipo: 'ref', r })).concat(capas.map(c => ({ tipo: 'base', c })));
+    const filas = Math.ceil(items.length / columnas);
+    medir.font = '400 11px Roboto, sans-serif';
+    const fuentes = ['Calles: © OpenStreetMap y sus colaboradores']
+      .concat(capas.filter(c => c.fuente).map(c => c.nombre + ': ' + c.fuente));
+    const lineasFuente = renglones(medir, fuentes.join(' · '), anchoUtil);
+    medir.font = '22px "Archivo Black", sans-serif';
+    const lineasTitulo = renglones(medir, estado.carto.nombre.toUpperCase(), anchoUtil).slice(0, 3);
+    const altoPie = M + lineasTitulo.length * 26 + 22 + (filas ? 14 + filas * 26 : 0) + 10 + lineasFuente.length * 15 + M;
+
+    const lienzo = document.createElement('canvas');
+    lienzo.width = tam.x * E;
+    lienzo.height = (tam.y + altoPie) * E;
+    const x = lienzo.getContext('2d');
+    x.scale(E, E);
+
+    // El mapa
+    x.fillStyle = '#F3F0E6';
+    x.fillRect(0, 0, tam.x, tam.y);
+    const huboCalles = conCalles ? await dibujarCalles(x, tam) : false;
+    x.save();
+    x.beginPath(); x.rect(0, 0, tam.x, tam.y); x.clip();
+    capas.forEach(c => base.datos[c.id].features.forEach(f => {
+      if (!f || !f.geometry) return;
+      const est = c.estilo(f) || {};
+      dibujarGeometria(x, f.geometry, est, ([lng, lat]) => {
+        const p = mapa.latLngToContainerPoint([lat, lng]);
+        const tipo = tipoDePunto(c, f.properties);
+        x.beginPath(); x.arc(p.x, p.y, est.radius || 6, 0, Math.PI * 2);
+        x.fillStyle = tipo ? tipo.color : '#8A8A8A'; x.fill();
+        x.lineWidth = est.weight || 1.5; x.strokeStyle = est.color || '#1A1A1A'; x.stroke();
+      });
+    }));
+    const orden = { zona: 0, linea: 1, punto: 2 };
+    visibles.slice().sort((a, b) => orden[a.tipo] - orden[b.tipo]).forEach(e => {
+      const ref = buscarReferencia(refs, e.referencia);
+      if (e.tipo === 'punto') dibujarPin(x, e.geometria.coordinates, ref);
+      else if (e.tipo === 'linea') dibujarGeometria(x, e.geometria, { color: ref.color, weight: 5, opacity: .9 });
+      else dibujarGeometria(x, e.geometria, { color: ref.color, weight: 2.5, fillColor: ref.color, fillOpacity: .22 });
+    });
+    x.restore();
+
+    // El pie: el nombre, la fecha, la leyenda y las fuentes
+    let y = tam.y;
+    x.fillStyle = '#FFFFFF';
+    x.fillRect(0, y, tam.x, altoPie);
+    x.fillStyle = '#1A1A1A';
+    x.fillRect(0, y, tam.x, 2);
+    y += M;
+    x.textAlign = 'left'; x.textBaseline = 'top';
+    x.font = '22px "Archivo Black", sans-serif';
+    lineasTitulo.forEach(l => { x.fillText(l, M, y); y += 26; });
+    x.font = '400 12px Roboto, sans-serif';
+    x.fillStyle = '#4E4E4E';
+    x.fillText('Cartografía social · ' + new Date().toLocaleDateString('es-AR',
+      { day: 'numeric', month: 'long', year: 'numeric' }) + ' · La Bolívar con vos', M, y);
+    y += 22;
+    if (filas){
+      y += 14;
+      const anchoCol = anchoUtil / columnas;
+      items.forEach((it, i) => {
+        const cx = M + (i % columnas) * anchoCol;
+        const cy = y + Math.floor(i / columnas) * 26;
+        if (it.tipo === 'ref'){
+          x.beginPath(); x.arc(cx + 9, cy + 9, 9, 0, Math.PI * 2);
+          x.fillStyle = it.r.color; x.fill();
+          x.lineWidth = 1.5; x.strokeStyle = '#1A1A1A'; x.stroke();
+        } else {
+          const est = it.c.estilo({ geometry: { type: 'Polygon' }, properties: {} }) || {};
+          x.fillStyle = it.c.tipos ? it.c.tipos[0].color : (est.fillColor || est.color || '#888');
+          x.globalAlpha = it.c.tipos ? 1 : .6;
+          x.fillRect(cx, cy + 2, 18, 14);
+          x.globalAlpha = 1;
+          x.lineWidth = 1.5; x.strokeStyle = est.color || '#1A1A1A'; x.strokeRect(cx, cy + 2, 18, 14);
+        }
+        const n = it.tipo === 'ref' ? visibles.filter(e => e.referencia === it.r.id).length : null;
+        x.fillStyle = '#1A1A1A';
+        x.font = '500 13px Roboto, sans-serif';
+        x.textBaseline = 'middle';
+        const texto = it.tipo === 'ref' ? `${it.r.nombre} (${n})` : it.c.nombre;
+        x.fillText(renglones(x, texto, anchoCol - 34)[0] || '', cx + 26, cy + 10);
+        x.textBaseline = 'top';
+      });
+      y += filas * 26;
+    }
+    y += 10;
+    x.font = '400 11px Roboto, sans-serif';
+    x.fillStyle = '#4E4E4E';
+    lineasFuente.forEach(l => { x.fillText(l, M, y); y += 15; });
+
+    return { lienzo, conCalles: huboCalles };
+  }
 
 })();

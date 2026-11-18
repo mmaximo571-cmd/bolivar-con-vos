@@ -30,7 +30,7 @@ discutirla en tres meses.
 | 2 | Anotarse a un grupo de estudio | chica | hecha en la tanda 3 de la 3 (30/9) |
 | 3 | Calendario y avisos: que se revisen todos los días | grande, en tres tandas | hecha: las tres tandas y la función `avisos` v11 en producción (30/9) |
 | 4 | Época de parciales en Estudiemos (va con el reel) | chica | hecha el 4/10 (v83), falta publicar |
-| 5 | Cartografía social del Gran La Plata | grande, en tres tandas | en curso: tanda 1 hecha y en producción el 18/11 (v110) |
+| 5 | Cartografía social del Gran La Plata | grande, en tres tandas | en curso: tandas 1 y 2 hechas el 18/11 |
 
 ## Las propuestas
 
@@ -580,10 +580,12 @@ Las tandas:
 1. **Hecha.** Las tablas y los permisos; crear, sumarse con código o
    link, salir y borrar; dibujar las tres formas; la ficha, la leyenda
    y las referencias propias.
-2. Editar lo ya dibujado (texto y forma); prender las capas de base de
-   `mapa/` (RENABAP, hídrico, industrial) como referencia; exportar
-   (GeoJSON para QGIS, imagen para presentar); el grupo: ver quiénes
-   son, sacar a alguien, cambiar el código, pasar la coordinación.
+2. **Hecha (18/11).** Corregir lo ya dibujado (texto y forma, con los
+   puntos que se arrastran); las capas de base de `mapa/` como
+   referencia; bajar el mapa (imagen para presentar, GeoJSON para QGIS);
+   el grupo: **apodo por grupo** (decisión de Máximo: el nombre del
+   perfil no sale nunca), sacar a alguien, coordinar entre varias
+   personas, cambiar el código.
 3. Dibujar sin señal (la cola del teléfono, como en `mapa/`; el `id` ya
    lo pone el teléfono para eso); ver en vivo lo que dibuja el resto;
    publicar una cartografía, con moderación del equipo.
