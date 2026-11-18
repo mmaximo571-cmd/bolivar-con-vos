@@ -30,7 +30,7 @@ discutirla en tres meses.
 | 2 | Anotarse a un grupo de estudio | chica | hecha en la tanda 3 de la 3 (30/9) |
 | 3 | Calendario y avisos: que se revisen todos los días | grande, en tres tandas | hecha: las tres tandas y la función `avisos` v11 en producción (30/9) |
 | 4 | Época de parciales en Estudiemos (va con el reel) | chica | hecha el 4/10 (v83), falta publicar |
-| 5 | Cartografía social del Gran La Plata | grande, en tres tandas | en curso: tanda 1 hecha el 18/11 (v110), falta correr el SQL |
+| 5 | Cartografía social del Gran La Plata | grande, en tres tandas | en curso: tanda 1 hecha y en producción el 18/11 (v110) |
 
 ## Las propuestas
 
@@ -565,7 +565,7 @@ panel: sin grupos, el atajo lleva a una lista vacía y conviene esconderlo.
   dos tablas nuevas en `sql/` y lo que se pueda reusar de `mapa/`.
 - **Tamaño:** grande (hay que partirla).
 - **Estado:** en curso. La tanda 1 se hizo el 18/11/2026 (v110), falta
-  correr `sql/tabla-cartografias.sql`. Detalle en `BITACORA.md`.
+  correr de nuevo `sql/tabla-cartografias.sql` (arreglo de rendimiento). Detalle en `BITACORA.md`.
 
 Lo decidido (Máximo, 18/11/2026):
 - **Grupos cerrados.** Quien crea una cartografía la coordina y reparte

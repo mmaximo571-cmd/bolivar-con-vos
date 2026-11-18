@@ -59,6 +59,9 @@ create table if not exists public.cartografias (
   creada_por   uuid default auth.uid() references auth.users(id) on delete set null,
   creada_at    timestamptz not null default now()
 );
+-- Para el `set null` al borrar una cuenta: sin índice, recorre la tabla.
+create index if not exists cartografias_creada_por_idx
+  on public.cartografias (creada_por);
 
 create table if not exists public.cartografia_miembros (
   cartografia  uuid not null references public.cartografias(id) on delete cascade,
@@ -239,6 +242,10 @@ grant update (referencia, geometria, titulo, relato, editado_at)
 grant delete on public.cartografia_elementos to authenticated;
 
 
+-- En las políticas, `(select auth.uid())` y no `auth.uid()` a secas:
+-- así Postgres lo calcula una vez por consulta y no una por fila (ver
+-- `sql/arreglo-rls-rendimiento.sql`).
+
 -- ---------- cartografias ----------
 drop policy if exists "cartografias las ve el grupo" on public.cartografias;
 create policy "cartografias las ve el grupo"
@@ -270,7 +277,7 @@ drop policy if exists "miembros irse o sacar" on public.cartografia_miembros;
 create policy "miembros irse o sacar"
   on public.cartografia_miembros for delete to authenticated
   using (
-    (usuario = auth.uid() and rol = 'participa')
+    (usuario = (select auth.uid()) and rol = 'participa')
     or (rol = 'participa' and public.coordina_la_cartografia(cartografia))
   );
 
@@ -312,7 +319,7 @@ drop policy if exists "elementos dibuja el grupo" on public.cartografia_elemento
 create policy "elementos dibuja el grupo"
   on public.cartografia_elementos for insert to authenticated
   with check (
-    autor = auth.uid()
+    autor = (select auth.uid())
     and public.es_de_la_cartografia(cartografia)
     and creado_en_dispositivo between now() - interval '30 days'
                                   and now() + interval '1 day'
@@ -322,15 +329,15 @@ create policy "elementos dibuja el grupo"
 drop policy if exists "elementos cambia quien lo dibujo" on public.cartografia_elementos;
 create policy "elementos cambia quien lo dibujo"
   on public.cartografia_elementos for update to authenticated
-  using (autor = auth.uid() and public.es_de_la_cartografia(cartografia))
-  with check (autor = auth.uid() and public.es_de_la_cartografia(cartografia));
+  using (autor = (select auth.uid()) and public.es_de_la_cartografia(cartografia))
+  with check (autor = (select auth.uid()) and public.es_de_la_cartografia(cartografia));
 
 -- Borra quien lo dibujó o quien coordina (para limpiar lo que no va).
 drop policy if exists "elementos borra quien lo dibujo o coordina" on public.cartografia_elementos;
 create policy "elementos borra quien lo dibujo o coordina"
   on public.cartografia_elementos for delete to authenticated
   using (
-    (autor = auth.uid() and public.es_de_la_cartografia(cartografia))
+    (autor = (select auth.uid()) and public.es_de_la_cartografia(cartografia))
     or public.coordina_la_cartografia(cartografia)
   );
 
