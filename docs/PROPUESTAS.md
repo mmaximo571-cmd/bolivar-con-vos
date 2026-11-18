@@ -564,8 +564,9 @@ panel: sin grupos, el atajo lleva a una lista vacía y conviene esconderlo.
   `mapa/capas.js`. Probablemente una pantalla nueva con su hoja, una o
   dos tablas nuevas en `sql/` y lo que se pueda reusar de `mapa/`.
 - **Tamaño:** grande (hay que partirla).
-- **Estado:** en curso. La tanda 1 se hizo el 18/11/2026 (v110), falta
-  correr de nuevo `sql/tabla-cartografias.sql` (arreglo de rendimiento). Detalle en `BITACORA.md`.
+- **Estado:** en curso. La tanda 1 se hizo el 18/11/2026 (v110) y la
+  base ya está al día con `sql/tabla-cartografias.sql`. Detalle en
+  `BITACORA.md`.
 
 Lo decidido (Máximo, 18/11/2026):
 - **Grupos cerrados.** Quien crea una cartografía la coordina y reparte
