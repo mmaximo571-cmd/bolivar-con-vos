@@ -21,7 +21,7 @@
    lista, porque acá abajo se sirve lo guardado antes que la red.
    Por qué subió cada número (v4 en adelante): `docs/HISTORIAL-SW.md`.
    Al subirlo, anotar ahí el número, la fecha y el porqué. */
-const VERSION = 'bolivar-v110';
+const VERSION = 'bolivar-v111';
 const ARMAZON = VERSION + '-armazon';
 const PAGINAS = VERSION + '-paginas';
 
@@ -59,6 +59,11 @@ const DEL_ARMAZON = [
      y la segunda una, y ninguna dibuja su calendario sin red. Quedan
      guardadas solas por la regla del final. */
   '/lib/mudanza.js',
+  /* La guardia del desfase (17/11/2026, v111): ataja el error de la
+     primera carga después de cada publicación, cuando la pantalla
+     llega nueva de la red y `app.js` sale viejo de la caja de abajo.
+     El porqué entero, en el archivo. La usan todas las pantallas. */
+  '/lib/desfase.js',
   '/app.js',
   '/iconos.js',
   '/config.js',
@@ -332,6 +337,13 @@ self.addEventListener('fetch', evento => {
 
   /* El armazón: se sirve de lo guardado al instante y se refresca
      por detrás, así nunca se espera pero tampoco se queda viejo.
+
+     EL PRECIO: la pantalla va por red y esto va por caja, así que en
+     la primera carga después de una publicación quien atiende es el
+     service worker VIEJO y pueden juntarse un HTML nuevo con un
+     `app.js` viejo («respuestaIngreso is not defined», 11/11/2026).
+     No se arregla acá porque en esa carga este archivo también es el
+     viejo: lo ataja `lib/desfase.js`, que es nuevo para la caja vieja.
 
      OJO CON DÓNDE SE BUSCA. Antes decía `caches.match(pedido)` a secas,
      y eso busca en TODAS las cajas guardadas, incluidas las de versiones

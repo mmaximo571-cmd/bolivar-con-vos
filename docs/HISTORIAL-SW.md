@@ -629,4 +629,12 @@ todo una entrada con el número, la fecha y el porqué.
    hoja (`css/pantallas/cartografias.css`) y sus guiones no van a la
    lista: los baja quien entre. Sin número nuevo, el pie y el buscador
    no sabrían que existe. */
+/* v111 (21/11/2026) La guardia del desfase: `lib/desfase.js`, nuevo,
+   entra al armazón y lo cargan todas las pantallas antes de `app.js`.
+   Ataja el ReferenceError de la primera carga después de cada
+   publicación (HTML nuevo de la red con `app.js` viejo de la caja del
+   service worker viejo: «respuestaIngreso is not defined», 64 veces
+   del 11 al 17/11 en el inicio), no lo deja anotar y recarga una vez
+   cuando el service worker nuevo toma el control. `app.js` cambia solo
+   en un comentario, y `sw.js` en otro. */
 ```
