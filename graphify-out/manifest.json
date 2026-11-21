@@ -1,1004 +1,1052 @@
 {
   "app.js": {
-    "mtime": 1794931664.2175438,
-    "seen": 1794932167.6278186,
-    "ast_hash": "9476b74e58749a25161f0b4df8b39a46",
+    "mtime": 1795219408.6302407,
+    "seen": 1795219440.4285438,
+    "ast_hash": "027f01c06cc37406d54a0c0cbca6c825",
     "semantic_hash": ""
   },
   "carrera/plan-fono.js": {
     "mtime": 1794930389.7475395,
-    "seen": 1794932167.627824,
+    "seen": 1795219440.428548,
     "ast_hash": "60ed96dbf6e494c1b3a4cd78730c866c",
     "semantic_hash": ""
   },
   "carrera/plan-tgcr.js": {
     "mtime": 1794930389.7475395,
-    "seen": 1794932167.6278293,
+    "seen": 1795219440.428552,
     "ast_hash": "8a5fb93845e93da5ded15d335c64dea6",
     "semantic_hash": "8a5fb93845e93da5ded15d335c64dea6"
   },
   "carrera/plan.js": {
     "mtime": 1794930389.7475395,
-    "seen": 1794932167.6278315,
+    "seen": 1795219440.4285538,
     "ast_hash": "bcd120cc3dfb898d9264d00e9a32b345",
     "semantic_hash": ""
   },
   "config.js": {
     "mtime": 1794930389.7475395,
-    "seen": 1794932167.6278353,
+    "seen": 1795219440.4285605,
     "ast_hash": "c3e0748c02a1fe702037d6261e787ce4",
     "semantic_hash": ""
   },
   "estudiemos/fichas/ficha.js": {
     "mtime": 1794930389.776,
-    "seen": 1794932167.6278496,
+    "seen": 1795219440.428573,
     "ast_hash": "65445a049915ef339e5761db834dcdd8",
     "semantic_hash": ""
   },
   "iconos.js": {
     "mtime": 1794930390.1078942,
-    "seen": 1794932167.6278687,
+    "seen": 1795219440.4285889,
     "ast_hash": "8d400f06ca0f6d461c7774a036af6906",
     "semantic_hash": ""
   },
   "lectura.js": {
     "mtime": 1794930390.1118941,
-    "seen": 1794932167.6278708,
+    "seen": 1795219440.4285905,
     "ast_hash": "dee865def3cc416e133ce37a26f6b815",
     "semantic_hash": "dee865def3cc416e133ce37a26f6b815"
   },
   "lib/avisanos.js": {
     "mtime": 1794930390.1118941,
-    "seen": 1794932167.627872,
+    "seen": 1795219440.4285922,
     "ast_hash": "04eb6a191d3c3774c3a0eccf847a6616",
     "semantic_hash": ""
   },
   "lib/datos.js": {
     "mtime": 1794930390.1138346,
-    "seen": 1794932167.6278758,
+    "seen": 1795219440.4285948,
     "ast_hash": "f7a604f7a927a7492595077df038efb0",
     "semantic_hash": ""
   },
   "lib/leer-programa.js": {
     "mtime": 1794930390.1138346,
-    "seen": 1794932167.6278882,
+    "seen": 1795219440.4286058,
     "ast_hash": "9e306c9b739687fd476c3edbcc3e5814",
     "semantic_hash": ""
   },
   "manifest.json": {
     "mtime": 1794930390.119894,
-    "seen": 1794932167.6278987,
+    "seen": 1795219440.4286215,
     "ast_hash": "5beeb8a378bab9868b3173937d1c65e8",
     "semantic_hash": ""
   },
   "movimiento.js": {
     "mtime": 1794930390.1263623,
-    "seen": 1794932167.6279078,
+    "seen": 1795219440.4286318,
     "ast_hash": "ce3c1ff33c0cb9d9d07ee21bbc6e1610",
     "semantic_hash": ""
   },
   "sw.js": {
-    "mtime": 1794931652.693107,
-    "seen": 1794932167.6279566,
-    "ast_hash": "ebab619b39c33983d44a8bcb124de592",
+    "mtime": 1795219417.9683623,
+    "seen": 1795219440.4286795,
+    "ast_hash": "4df33bb5a2dc5791b21accc647eade0c",
     "semantic_hash": ""
   },
   "BITACORA.md": {
-    "mtime": 1794930389.7408955,
-    "seen": 1794932167.6279602,
-    "ast_hash": "3c6b1f0a1d2a91d997dc63e787a8d895",
+    "mtime": 1795219408.5942407,
+    "seen": 1795219440.4286823,
+    "ast_hash": "59aaaceb6eba546567ffe942437c68f4",
     "semantic_hash": ""
   },
   "LEEME.md": {
     "mtime": 1794930389.7408955,
-    "seen": 1794932167.6279624,
+    "seen": 1795219440.4286833,
     "ast_hash": "62b2c3ab360ead5f86f4ca765a7b4bdb",
     "semantic_hash": ""
   },
   "agenda/index.html": {
-    "mtime": 1794931644.1594088,
-    "seen": 1794932167.6279635,
-    "ast_hash": "f9d7221b069c070a76672086995d019e",
+    "mtime": 1795219408.5942407,
+    "seen": 1795219440.4286845,
+    "ast_hash": "baf865138deae4c04f6678d3521e7770",
     "semantic_hash": ""
   },
   "anatomo/index.html": {
-    "mtime": 1794931644.1628869,
-    "seen": 1794932167.6279652,
-    "ast_hash": "7d551a07dd5ab6577a595b1a296359de",
+    "mtime": 1795219408.6262407,
+    "seen": 1795219440.4286873,
+    "ast_hash": "b38ba576c0c7ea43e67f5a3179c2c63d",
     "semantic_hash": ""
   },
   "carrera/index.html": {
     "mtime": 1794931644.166325,
-    "seen": 1794932167.6279678,
+    "seen": 1795219440.42869,
     "ast_hash": "93287129feb9ea0103267602e4278934",
     "semantic_hash": ""
   },
   "catedras/index.html": {
     "mtime": 1794931644.1672263,
-    "seen": 1794932167.627969,
+    "seen": 1795219440.4286923,
     "ast_hash": "0be5a28103ba8d90462c9333256ca9d1",
     "semantic_hash": ""
   },
   "consejo/index.html": {
     "mtime": 1794931644.1686125,
-    "seen": 1794932167.6279716,
+    "seen": 1795219440.4286947,
     "ast_hash": "6082673ea1a5ab682b59c013a64ab62b",
     "semantic_hash": ""
   },
   "entrada/LEEME.txt": {
     "mtime": 1794930389.772364,
-    "seen": 1794932167.6279933,
+    "seen": 1795219440.4287152,
     "ast_hash": "c064038e814ad8f63973e4bad61fbc14",
     "semantic_hash": ""
   },
   "estudiemos/fonoteca/index.html": {
     "mtime": 1794931644.1812277,
-    "seen": 1794932167.6280007,
+    "seen": 1795219440.4287229,
     "ast_hash": "63c89ee774adc44511b04000099fcc63",
     "semantic_hash": ""
   },
   "estudiemos/index.html": {
     "mtime": 1794931644.1820982,
-    "seen": 1794932167.6280017,
+    "seen": 1795219440.4287243,
     "ast_hash": "27456172818499d42110c2cf9f1ce3eb",
     "semantic_hash": ""
   },
   "glosario/index.html": {
     "mtime": 1794931644.1839163,
-    "seen": 1794932167.6280072,
+    "seen": 1795219440.4287298,
     "ast_hash": "0068483a39d6ee33e7ec8be0c3e16e41",
     "semantic_hash": ""
   },
   "index.html": {
-    "mtime": 1794931644.1857846,
-    "seen": 1794932167.6280081,
-    "ast_hash": "b3af408c84758b6f14afb395def449be",
+    "mtime": 1795219408.6462407,
+    "seen": 1795219440.4287312,
+    "ast_hash": "b1c5ca85e8f4fc5d570c397e5f222ef7",
     "semantic_hash": ""
   },
   "mi/index.html": {
     "mtime": 1794931644.1886666,
-    "seen": 1794932167.6280148,
+    "seen": 1795219440.428738,
     "ast_hash": "d371b9c950425425f9233468ffcc0824",
     "semantic_hash": ""
   },
   "panel/index.html": {
-    "mtime": 1794931644.1909428,
-    "seen": 1794932167.6280155,
-    "ast_hash": "ddff098b2149edfa9da7bbcd51f61967",
+    "mtime": 1795219408.6462407,
+    "seen": 1795219440.428739,
+    "ast_hash": "9d8dfa6f8b13d0ce9cc9613ce9d820d5",
     "semantic_hash": ""
   },
   "quienes/index.html": {
     "mtime": 1794931644.191892,
-    "seen": 1794932167.628018,
+    "seen": 1795219440.428742,
     "ast_hash": "e81b47333cb2dffccc288d7c36455b02",
     "semantic_hash": ""
   },
   "sin-conexion.html": {
     "mtime": 1794930390.1278942,
-    "seen": 1794932167.6280203,
+    "seen": 1795219440.4287446,
     "ast_hash": "de0afaea8b7e97e3d83d417ff757df3e",
     "semantic_hash": ""
   },
   "tramites/index.html": {
     "mtime": 1794931644.192965,
-    "seen": 1794932167.6280224,
+    "seen": 1795219440.428747,
     "ast_hash": "86efe89dabf8a40bb15fd802c6d3bd38",
     "semantic_hash": ""
   },
   "trayecto/index.html": {
     "mtime": 1794931644.193439,
-    "seen": 1794932167.6280236,
+    "seen": 1795219440.4287484,
     "ast_hash": "c466e37a948952654981bb72fe3392e1",
     "semantic_hash": ""
   },
   "espacios/index.html": {
     "mtime": 1794931644.1701427,
-    "seen": 1794932167.6279948,
+    "seen": 1795219440.4287167,
     "ast_hash": "22a0ac79e137e4f61ce820b0d0785fe1",
     "semantic_hash": ""
   },
   "estudiemos/fichas/index.html": {
     "mtime": 1794931644.1786633,
-    "seen": 1794932167.6279995,
+    "seen": 1795219440.4287217,
     "ast_hash": "6cda132ea324772dc8c04627f495e7bc",
     "semantic_hash": ""
   },
   "estudiemos/fichas/leer.js": {
     "mtime": 1794930389.776,
-    "seen": 1794932167.6278515,
+    "seen": 1795219440.4285746,
     "ast_hash": "fdc2e7b74e35c3c5c2bd1301a6b55ef1",
     "semantic_hash": ""
   },
   "estudiemos/fichas/ficha-parser.js": {
     "mtime": 1794930389.776,
-    "seen": 1794932167.6278462,
+    "seen": 1795219440.4285696,
     "ast_hash": "aa2876c8595ee6c3ae509b9e774db0f6",
     "semantic_hash": ""
   },
   "estudiemos/fichas/ficha-texto.js": {
     "mtime": 1794930389.776,
-    "seen": 1794932167.627848,
+    "seen": 1795219440.4285715,
     "ast_hash": "ba0f7cef3479956b5f807cd204f8bd7f",
     "semantic_hash": ""
   },
   "mapa/capas.js": {
     "mtime": 1794930390.122731,
-    "seen": 1794932167.6279016,
+    "seen": 1795219440.4286246,
     "ast_hash": "8c420aefb8c64dd2525de067e70be5f9",
     "semantic_hash": ""
   },
   "mapa/riesgo.js": {
     "mtime": 1794930390.123894,
-    "seen": 1794932167.6279068,
+    "seen": 1795219440.4286306,
     "ast_hash": "5e77e26892b63c6fa7d47d7e2c83666c",
     "semantic_hash": ""
   },
   "mapa/index.html": {
-    "mtime": 1794931644.1876464,
-    "seen": 1794932167.6280138,
-    "ast_hash": "52b77e357f4856cd7d2285cce77a6e00",
+    "mtime": 1795219408.6462407,
+    "seen": 1795219440.4287367,
+    "ast_hash": "759d9d2ff54b2feb7b1f5a1f945dcc57",
     "semantic_hash": ""
   },
   "mapa/capas-base.js": {
     "mtime": 1794930390.119894,
-    "seen": 1794932167.6279001,
+    "seen": 1795219440.428623,
     "ast_hash": "b99ef50f37a545803e14df27f0c988a4",
     "semantic_hash": ""
   },
   "mapa/datos/LEEME.md": {
     "mtime": 1794930390.122731,
-    "seen": 1794932167.6280115,
+    "seen": 1795219440.4287348,
     "ast_hash": "98b7d7caf832183a9390d5579895a9ab",
     "semantic_hash": ""
   },
   "mapa/datos/herramientas/ada.ps1": {
     "mtime": 1794930390.122832,
-    "seen": 1794932167.6279027,
+    "seen": 1795219440.4286258,
     "ast_hash": "f062a66875211451959f8240a103eea5",
     "semantic_hash": ""
   },
   "mapa/datos/herramientas/convertir.ps1": {
     "mtime": 1794930390.1229987,
-    "seen": 1794932167.6279042,
+    "seen": 1795219440.4286275,
     "ast_hash": "9ccc639206efe08ef6be3cbc2a86f3cd",
     "semantic_hash": ""
   },
   "mapa/datos/herramientas/unir.ps1": {
     "mtime": 1794930390.1229987,
-    "seen": 1794932167.6279056,
+    "seen": 1795219440.4286292,
     "ast_hash": "f50c8e9cebff13be203cf8c76f52bb56",
     "semantic_hash": ""
   },
   "mapa/datos/herramientas/mapas-ada.txt": {
     "mtime": 1794930390.1229987,
-    "seen": 1794932167.6280127,
+    "seen": 1795219440.4287357,
     "ast_hash": "f37c611743398b44eb895382a08215c0",
     "semantic_hash": ""
   },
   "fondo-red.js": {
     "mtime": 1794930390.104996,
-    "seen": 1794932167.6278675,
+    "seen": 1795219440.428587,
     "ast_hash": "d34b793071a1a8ca5b9531facf671da0",
     "semantic_hash": ""
   },
   "lib/leer-analitico.js": {
     "mtime": 1794930390.1138346,
-    "seen": 1794932167.6278846,
+    "seen": 1795219440.4286027,
     "ast_hash": "10a99794a351bc2de930300830c1851e",
     "semantic_hash": ""
   },
   "donde-curso/index.html": {
     "mtime": 1794931644.1697307,
-    "seen": 1794932167.6279922,
+    "seen": 1795219440.428714,
     "ast_hash": "b721d6e5f9aed232d596174f9eea5dbb",
     "semantic_hash": ""
   },
   "estudiemos/videos/videos.js": {
     "mtime": 1794930390.099894,
-    "seen": 1794932167.627865,
+    "seen": 1795219440.4285853,
     "ast_hash": "49dc9493a6774d01adde4ad8189489cb",
     "semantic_hash": ""
   },
   "estudiemos/videos/index.html": {
     "mtime": 1794931644.1828365,
-    "seen": 1794932167.628004,
+    "seen": 1795219440.428726,
     "ast_hash": "0febda5b17cebe87c39bf7c3fda6c8a2",
     "semantic_hash": ""
   },
   "estudiemos/videos/anatomia.jpg": {
     "mtime": 1794930389.899894,
-    "seen": 1794932167.6280391,
+    "seen": 1795219440.428764,
     "ast_hash": "c793cc1197c83b87178fec3e0e700350",
     "semantic_hash": ""
   },
   "estudiemos/videos/audiologia-2.jpg": {
     "mtime": 1794930389.919894,
-    "seen": 1794932167.6280398,
+    "seen": 1795219440.4287655,
     "ast_hash": "fb8ae0b75d744b2325f22d1c2cd462a2",
     "semantic_hash": ""
   },
   "estudiemos/videos/audiologia.jpg": {
     "mtime": 1794930389.939894,
-    "seen": 1794932167.6280413,
+    "seen": 1795219440.4287665,
     "ast_hash": "76ad2c618926e129cb35232a954619dd",
     "semantic_hash": ""
   },
   "estudiemos/videos/bases.jpg": {
     "mtime": 1794930389.9638941,
-    "seen": 1794932167.6280422,
+    "seen": 1795219440.4287674,
     "ast_hash": "d85d5b85840184c31038588692ee2f0e",
     "semantic_hash": ""
   },
   "estudiemos/videos/procesos-parte-2.jpg": {
     "mtime": 1794930390.0198941,
-    "seen": 1794932167.6280432,
+    "seen": 1795219440.428769,
     "ast_hash": "687ce68b5348b776da32e453f8a3aeb0",
     "semantic_hash": ""
   },
   "estudiemos/videos/tamaroff-allegri-parte-2.jpg": {
     "mtime": 1794930390.031894,
-    "seen": 1794932167.6280448,
+    "seen": 1795219440.4287705,
     "ast_hash": "52c1c534e935f26234b1e0362b501eca",
     "semantic_hash": ""
   },
   "estudiemos/videos/trabajo-social-1.jpg": {
     "mtime": 1794930390.059894,
-    "seen": 1794932167.6280458,
+    "seen": 1795219440.4287717,
     "ast_hash": "f0c3bb05b498e195b254bada22b9585b",
     "semantic_hash": ""
   },
   "estudiemos/videos/anatomia.mp4": {
     "mtime": 1794930389.919894,
-    "seen": 1794932167.6280468,
+    "seen": 1795219440.4287732,
     "ast_hash": "278bfaf86396f2d1cff1c236db6092c8",
     "semantic_hash": ""
   },
   "estudiemos/videos/audiologia-2.mp4": {
     "mtime": 1794930389.939894,
-    "seen": 1794932167.628048,
+    "seen": 1795219440.428774,
     "ast_hash": "b5eb2edb3af464c27fecf4781952f0ed",
     "semantic_hash": ""
   },
   "estudiemos/videos/audiologia.mp4": {
     "mtime": 1794930389.9638941,
-    "seen": 1794932167.628049,
+    "seen": 1795219440.4287753,
     "ast_hash": "82459cab801174167b51ab024b76c4f0",
     "semantic_hash": ""
   },
   "estudiemos/videos/bases.mp4": {
     "mtime": 1794930390.0158942,
-    "seen": 1794932167.6280918,
+    "seen": 1795219440.4287765,
     "ast_hash": "529ef260c81bc9b48e87cb2c4e6aef5d",
     "semantic_hash": ""
   },
   "estudiemos/videos/procesos-parte-2.mp4": {
     "mtime": 1794930390.031894,
-    "seen": 1794932167.62817,
+    "seen": 1795219440.4287775,
     "ast_hash": "720a7e966d8a8c2c001868d7f4309f48",
     "semantic_hash": ""
   },
   "estudiemos/videos/tamaroff-allegri-parte-2.mp4": {
     "mtime": 1794930390.059894,
-    "seen": 1794932167.6281724,
+    "seen": 1795219440.4287786,
     "ast_hash": "55bf604cfa3ad69fbd561b08933d9a07",
     "semantic_hash": ""
   },
   "estudiemos/videos/trabajo-social-1.mp4": {
     "mtime": 1794930390.099894,
-    "seen": 1794932167.6281748,
+    "seen": 1795219440.4287798,
     "ast_hash": "3cba86bdfe4286b9c7c10ddedf1e2864",
     "semantic_hash": ""
   },
   "estudiemos/huella.js": {
     "mtime": 1794930389.7814636,
-    "seen": 1794932167.6278534,
+    "seen": 1795219440.428576,
     "ast_hash": "11f97ba520549cf827e8317a386d286c",
     "semantic_hash": ""
   },
   "estudiemos/portada.js": {
-    "mtime": 1794930389.7843256,
-    "seen": 1794932167.6278617,
-    "ast_hash": "4b971e607500727418a74430d54549e5",
+    "mtime": 1795219408.6342409,
+    "seen": 1795219440.428582,
+    "ast_hash": "ebe557de52ecccbc3e3f7e93a03ff5cf",
     "semantic_hash": ""
   },
   "estudiemos/territorio.js": {
     "mtime": 1794930389.7843256,
-    "seen": 1794932167.6278634,
+    "seen": 1795219440.4285834,
     "ast_hash": "2538ad6253dab701563ae430037d75ff",
     "semantic_hash": ""
   },
   "estudiemos/anterior.html": {
     "mtime": 1794931644.1707916,
-    "seen": 1794932167.6279962,
+    "seen": 1795219440.4287179,
     "ast_hash": "3434e3caad8d24c551410e92d1cfd0ac",
     "semantic_hash": ""
   },
   "supabase/functions/avisos/index.ts": {
-    "mtime": 1794930390.1325586,
-    "seen": 1794932167.6279519,
-    "ast_hash": "b2a167c7cf15f2dc46bc035273a8201b",
+    "mtime": 1795219408.6462407,
+    "seen": 1795219440.4286757,
+    "ast_hash": "261a40d2a82f26d9bcd662db2949861e",
     "semantic_hash": ""
   },
   "estudiemos/pomodoro.js": {
     "mtime": 1794930389.7843256,
-    "seen": 1794932167.62786,
+    "seen": 1795219440.4285805,
     "ast_hash": "82e99e098c67db2a8b1cdef79be37fe3",
     "semantic_hash": ""
   },
   "supabase/functions/reloj/index.ts": {
     "mtime": 1794930390.1325586,
-    "seen": 1794932167.6279552,
+    "seen": 1795219440.428678,
     "ast_hash": "c2e81150928e13b83518a4847078bb9d",
     "semantic_hash": ""
   },
   "decilo/index.html": {
     "mtime": 1794931644.169139,
-    "seen": 1794932167.6279728,
+    "seen": 1795219440.428696,
     "ast_hash": "b9e5b02d06c992e8fbc370a649dfdf0c",
     "semantic_hash": ""
   },
   "carrera/tarjeta-avance.js": {
     "mtime": 1794930389.7475395,
-    "seen": 1794932167.627834,
+    "seen": 1795219440.428556,
     "ast_hash": "03718b9a18a37a1b3a4901c7c7681996",
     "semantic_hash": ""
   },
   "lib/fecha-al-calendario.js": {
     "mtime": 1794930390.1138346,
-    "seen": 1794932167.6278794,
+    "seen": 1795219440.4285982,
     "ast_hash": "ea88f42946adc34891de78ab01d80ec5",
     "semantic_hash": ""
   },
   "lib/mudanza.js": {
     "mtime": 1794930390.1138346,
-    "seen": 1794932167.6278913,
+    "seen": 1795219440.4286082,
     "ast_hash": "86c81fde4671f80f722caf488133afeb",
     "semantic_hash": ""
   },
   "lib/tarjeta-avisos.js": {
     "mtime": 1794930390.119894,
-    "seen": 1794932167.6278954,
+    "seen": 1795219440.4286108,
     "ast_hash": "08b4e7f24e903a7206486ad830da93c8",
     "semantic_hash": ""
   },
   "sql/contenido-alumnes.sql": {
     "mtime": 1794930390.130568,
-    "seen": 1794932167.6279132,
+    "seen": 1795219440.428637,
     "ast_hash": "bd11f016e3cc862cf67a48203eb6a526",
     "semantic_hash": ""
   },
   "sql/contenido-boleto.sql": {
     "mtime": 1794930390.130568,
-    "seen": 1794932167.6279144,
+    "seen": 1795219440.428638,
     "ast_hash": "bc35847d465c2bbb3709f6acbebf078b",
     "semantic_hash": ""
   },
   "sql/contenido-linktree.sql": {
     "mtime": 1794930390.130568,
-    "seen": 1794932167.6279156,
+    "seen": 1795219440.4286392,
     "ast_hash": "9efcd4c5fedd5772725e17694416fb9a",
     "semantic_hash": ""
   },
   "sql/tabla-alarma.sql": {
     "mtime": 1794930390.130568,
-    "seen": 1794932167.6279168,
+    "seen": 1795219440.4286404,
     "ast_hash": "98ca09ae31dbc37ea1e047f8fc1234d2",
     "semantic_hash": ""
   },
   "sql/tabla-avisanos.sql": {
     "mtime": 1794930390.130568,
-    "seen": 1794932167.6279197,
+    "seen": 1795219440.428643,
     "ast_hash": "905a70079881dd779fdc333e7e4ddea1",
     "semantic_hash": ""
   },
   "sql/tabla-avisos.sql": {
     "mtime": 1794930390.130568,
-    "seen": 1794932167.6279206,
+    "seen": 1795219440.4286442,
     "ast_hash": "16be88446a72a7e06840abbb1b51b9bd",
     "semantic_hash": ""
   },
   "sql/tabla-borrar-cuenta.sql": {
     "mtime": 1794930390.130568,
-    "seen": 1794932167.6279216,
+    "seen": 1795219440.4286456,
     "ast_hash": "067fc2ee8219868d6bc4b12caa378560",
     "semantic_hash": ""
   },
   "sql/tabla-buzon.sql": {
     "mtime": 1794930390.130568,
-    "seen": 1794932167.6279225,
+    "seen": 1795219440.4286468,
     "ast_hash": "0488d5454b70f06721f8f2f79b3208f9",
     "semantic_hash": ""
   },
   "sql/tabla-catedras.sql": {
     "mtime": 1794930390.130568,
-    "seen": 1794932167.6279247,
+    "seen": 1795219440.428651,
     "ast_hash": "e0bae41224f9144b4ceafaf7172b592b",
     "semantic_hash": ""
   },
   "sql/tabla-consejo.sql": {
     "mtime": 1794930390.130568,
-    "seen": 1794932167.627927,
+    "seen": 1795219440.4286532,
     "ast_hash": "9dd159bbcf8b2e014e963402140356ce",
     "semantic_hash": ""
   },
   "sql/tabla-cursada.sql": {
     "mtime": 1794930390.130568,
-    "seen": 1794932167.6279285,
+    "seen": 1795219440.4286547,
     "ast_hash": "db36c8ab6b92cee3cda2b22a4f8cf767",
     "semantic_hash": ""
   },
   "sql/tabla-fotos.sql": {
     "mtime": 1794930390.130568,
-    "seen": 1794932167.6279314,
+    "seen": 1795219440.4286568,
     "ast_hash": "c30c557a3177365cec11bdc39eb8dc51",
     "semantic_hash": ""
   },
   "sql/tabla-guia.sql": {
     "mtime": 1794930390.130568,
-    "seen": 1794932167.6279328,
+    "seen": 1795219440.4286582,
     "ast_hash": "361cedaabfa12798fc5f0b8fbb6eb7ff",
     "semantic_hash": ""
   },
   "sql/tabla-materiales.sql": {
     "mtime": 1794930390.130568,
-    "seen": 1794932167.627936,
+    "seen": 1795219440.4286606,
     "ast_hash": "76a2d6f280f8731adefed050e574f04a",
     "semantic_hash": ""
   },
   "sql/tabla-organizador.sql": {
     "mtime": 1794930390.130568,
-    "seen": 1794932167.6279385,
+    "seen": 1795219440.4286635,
     "ast_hash": "ac544124f60296371bda2af8d75c28d9",
     "semantic_hash": ""
   },
   "sql/tabla-posteos-ig.sql": {
     "mtime": 1794930390.130568,
-    "seen": 1794932167.62794,
+    "seen": 1795219440.4286652,
     "ast_hash": "70c4226ccec2152e32d31e92c0d391fb",
     "semantic_hash": ""
   },
   "sql/tabla-programas-pdf.sql": {
     "mtime": 1794930390.130568,
-    "seen": 1794932167.6279411,
+    "seen": 1795219440.4286664,
     "ast_hash": "6d887769c8b6da87c7aaf8b301061040",
     "semantic_hash": ""
   },
   "sql/tabla-quienes.sql": {
     "mtime": 1794930390.130568,
-    "seen": 1794932167.6279447,
+    "seen": 1795219440.4286692,
     "ast_hash": "2912827baffcbc0b64b24708e6cff10e",
     "semantic_hash": ""
   },
   "sql/tabla-registro.sql": {
     "mtime": 1794930390.130568,
-    "seen": 1794932167.6279464,
+    "seen": 1795219440.4286704,
     "ast_hash": "9fd9b8946b2ee5394532f3dcc7898772",
     "semantic_hash": ""
   },
   "sql/tabla-respaldos.sql": {
     "mtime": 1794930390.130568,
-    "seen": 1794932167.6279478,
+    "seen": 1795219440.4286718,
     "ast_hash": "1092d038bb68278789f8e83a1fa6aa52",
     "semantic_hash": ""
   },
   "sql/tabla-riesgo.sql": {
     "mtime": 1794930390.130568,
-    "seen": 1794932167.6279492,
+    "seen": 1795219440.428673,
     "ast_hash": "64aab9232c34f19a5499cf7be832f134",
     "semantic_hash": ""
   },
   "sql/tabla-seguridad.sql": {
     "mtime": 1794930390.130568,
-    "seen": 1794932167.6279504,
+    "seen": 1795219440.428674,
     "ast_hash": "43aaf9aa9b83349469150626103df13a",
     "semantic_hash": ""
   },
   "docs/HISTORIAL-SW.md": {
-    "mtime": 1794931664.218982,
-    "seen": 1794932167.6279757,
-    "ast_hash": "d415890604194a583cd26fe614ad26b3",
+    "mtime": 1795219417.9680378,
+    "seen": 1795219440.4286983,
+    "ast_hash": "0c47d79e78001d5b80d21cc85753ddf1",
     "semantic_hash": ""
   },
   "docs/prompts/PROMPT-DISENO.md": {
     "mtime": 1794930389.7710423,
-    "seen": 1794932167.62798,
+    "seen": 1795219440.428702,
     "ast_hash": "1f02247310ed54d744544b8fac397ca4",
     "semantic_hash": ""
   },
   "docs/prompts/PROMPT-ELECCIONES.md": {
     "mtime": 1794930389.7710423,
-    "seen": 1794932167.6279814,
+    "seen": 1795219440.4287038,
     "ast_hash": "c55b1ea8ab60cfabe884ee5f52bda939",
     "semantic_hash": ""
   },
   "docs/prompts/PROMPT-FICHAS.md": {
     "mtime": 1794930389.7710423,
-    "seen": 1794932167.6279826,
+    "seen": 1795219440.428705,
     "ast_hash": "d5d4a66f137befbf73a5e819a2162cce",
     "semantic_hash": ""
   },
   "docs/prompts/PROMPT-FONOTECA.md": {
     "mtime": 1794930389.7710423,
-    "seen": 1794932167.6279843,
+    "seen": 1795219440.4287066,
     "ast_hash": "ddaf45306fc7fdd37e65cd013a58e72f",
     "semantic_hash": ""
   },
   "docs/prompts/PROMPT-SESION.md": {
     "mtime": 1794930389.7710423,
-    "seen": 1794932167.6279855,
+    "seen": 1795219440.4287078,
     "ast_hash": "64e24ef2a9b71b7e8123342ff3b0f844",
     "semantic_hash": ""
   },
   "docs/prompts/PROMPT-TRAYECTO.md": {
     "mtime": 1794930389.7710423,
-    "seen": 1794932167.6279867,
+    "seen": 1795219440.428709,
     "ast_hash": "f9a8d98ee0cd31e97010f0e1eb7e62d5",
     "semantic_hash": ""
   },
   "sql/contenido-catedras.md": {
     "mtime": 1794930390.130568,
-    "seen": 1794932167.6280215,
+    "seen": 1795219440.4287457,
     "ast_hash": "dce4976ab46274928455812eedcb11cb",
     "semantic_hash": ""
   },
   "docs/PROPUESTAS.md": {
-    "mtime": 1794930389.770311,
-    "seen": 1794932167.6279774,
-    "ast_hash": "da1796fe89433cb8ae823d324ba8c480",
+    "mtime": 1795219408.6342409,
+    "seen": 1795219440.4286997,
+    "ast_hash": "d35bd361800de5a46275fbfb5134286f",
     "semantic_hash": ""
   },
   "sql/tabla-publicaciones.sql": {
-    "mtime": 1794930390.130568,
-    "seen": 1794932167.6279433,
-    "ast_hash": "0c4f04499e5d209e8ef927f3b27682f9",
+    "mtime": 1795219408.6462407,
+    "seen": 1795219440.428668,
+    "ast_hash": "5768710851360956e567962515f4cee4",
     "semantic_hash": ""
   },
   "cargar/index.html": {
-    "mtime": 1794931644.163827,
-    "seen": 1794932167.6279664,
-    "ast_hash": "32b2b299606618f4e9c1831495e31010",
+    "mtime": 1795219408.6302407,
+    "seen": 1795219440.4286885,
+    "ast_hash": "cc8229c4ca3d99defb36bb373a7b87d6",
     "semantic_hash": ""
   },
   "sql/tabla-campana.sql": {
     "mtime": 1794930390.130568,
-    "seen": 1794932167.6279237,
+    "seen": 1795219440.4286485,
     "ast_hash": "f4aa1f05b797eee215e47c4a8e811389",
     "semantic_hash": ""
   },
   "sql/tabla-anotados.sql": {
     "mtime": 1794930390.130568,
-    "seen": 1794932167.6279185,
+    "seen": 1795219440.4286418,
     "ast_hash": "57c3f0abdffa8dfad7f794b77697763b",
     "semantic_hash": ""
   },
   "lib/voy.js": {
     "mtime": 1794930390.119894,
-    "seen": 1794932167.6278968,
+    "seen": 1795219440.42862,
     "ast_hash": "3c976c678b58d9a1880c57db5098f395",
     "semantic_hash": ""
   },
   ".claude/hooks/session-start.sh": {
     "mtime": 1794930389.7402868,
-    "seen": 1794932167.6277995,
+    "seen": 1795219440.4285204,
     "ast_hash": "c2970071ca74218084e4383ab9f99c04",
     "semantic_hash": ""
   },
   ".claude/settings.json": {
     "mtime": 1794930389.7402868,
-    "seen": 1794932167.62781,
+    "seen": 1795219440.42853,
     "ast_hash": "3850be437051ab4f71f6bcc13d97fbaa",
     "semantic_hash": ""
   },
   "estudiemos/arsenal/arsenal.js": {
     "mtime": 1794930389.7734222,
-    "seen": 1794932167.6278408,
+    "seen": 1795219440.4285643,
     "ast_hash": "46fa3a867bf6effb4801b44414345075",
     "semantic_hash": ""
   },
   "estudiemos/arsenal/datos.json": {
     "mtime": 1794930389.7734222,
-    "seen": 1794932167.6278427,
+    "seen": 1795219440.4285657,
     "ast_hash": "6a8729b055cdefc2f682dce5c03e8932",
     "semantic_hash": ""
   },
   "estudiemos/arsenal/marcas.js": {
     "mtime": 1794930389.7734222,
-    "seen": 1794932167.627844,
+    "seen": 1795219440.4285674,
     "ast_hash": "4e0c9fa98b07a67136707111ead33e03",
     "semantic_hash": ""
   },
   "estudiemos/parciales.js": {
     "mtime": 1794930389.7843256,
-    "seen": 1794932167.6278582,
+    "seen": 1795219440.428579,
     "ast_hash": "4a79d817c6b061b5a667e1cef02bbfa9",
     "semantic_hash": ""
   },
   "estudiemos/arsenal/COMO-SUMAR.md": {
     "mtime": 1794930389.7733219,
-    "seen": 1794932167.6279974,
+    "seen": 1795219440.4287193,
     "ast_hash": "c9ac63cd133d989e53cc422b1382bdb1",
     "semantic_hash": ""
   },
   "estudiemos/arsenal/index.html": {
     "mtime": 1794931644.17124,
-    "seen": 1794932167.6279988,
+    "seen": 1795219440.4287207,
     "ast_hash": "d185e5af048d1e5b0c1ed333a990dd52",
     "semantic_hash": ""
   },
   "salud-mental/index.html": {
     "mtime": 1794931644.1925437,
-    "seen": 1794932167.6280189,
+    "seen": 1795219440.4287431,
     "ast_hash": "ea059cb6383257fa146758ffce0bd912",
     "semantic_hash": ""
   },
   "congreso/congreso.js": {
     "mtime": 1794930389.7598941,
-    "seen": 1794932167.627838,
+    "seen": 1795219440.4285624,
     "ast_hash": "3bce88771f579f3a09d26ff353033e41",
     "semantic_hash": ""
   },
   "sql/tabla-congreso.sql": {
     "mtime": 1794930390.130568,
-    "seen": 1794932167.627926,
+    "seen": 1795219440.428652,
     "ast_hash": "d815251d79042f4203b055a3f3ea48ab",
     "semantic_hash": ""
   },
   "congreso/index.html": {
     "mtime": 1794931644.1681967,
-    "seen": 1794932167.6279705,
+    "seen": 1795219440.4286938,
     "ast_hash": "5c6509a611aedfd3208f6a12e305a000",
     "semantic_hash": ""
   },
   "congreso/circular-voces-que-habitan.pdf": {
     "mtime": 1794930389.7598941,
-    "seen": 1794932167.6280248,
+    "seen": 1795219440.4287493,
     "ast_hash": "85283e52f1873d272c3b6352c20c8a99",
     "semantic_hash": ""
   },
   "congreso/fachada-trazo.webp": {
     "mtime": 1794930389.7598941,
-    "seen": 1794932167.6280265,
+    "seen": 1795219440.4287503,
     "ast_hash": "6ac751114c7c226af725644711c83847",
     "semantic_hash": ""
   },
   "congreso/fachada.webp": {
     "mtime": 1794930389.7598941,
-    "seen": 1794932167.6280277,
+    "seen": 1795219440.4287517,
     "ast_hash": "70cb289a274b5e769cb12bb20786fa34",
     "semantic_hash": ""
   },
   "congreso/logo.webp": {
     "mtime": 1794930389.7598941,
-    "seen": 1794932167.6280286,
+    "seen": 1795219440.4287527,
     "ast_hash": "fa12cbe06f5e4c9ab37d42270c883f1b",
     "semantic_hash": ""
   },
   "congreso/ojitos.webp": {
     "mtime": 1794930389.7598941,
-    "seen": 1794932167.6280293,
+    "seen": 1795219440.4287539,
     "ast_hash": "4b8564281e9e92c254c170d5cc78e94a",
     "semantic_hash": ""
   },
   "congreso/placas/mesa-1.webp": {
     "mtime": 1794930389.7598941,
-    "seen": 1794932167.6280305,
+    "seen": 1795219440.428755,
     "ast_hash": "4e9d33fa4e067608266b0931c188b8b2",
     "semantic_hash": ""
   },
   "congreso/placas/mesa-3.webp": {
     "mtime": 1794930389.7654316,
-    "seen": 1794932167.6280315,
+    "seen": 1795219440.4287565,
     "ast_hash": "ea0fa5d2a4c91bf43d0baca8b948e3bc",
     "semantic_hash": ""
   },
   "congreso/placas/mesa-4.webp": {
     "mtime": 1794930389.7654316,
-    "seen": 1794932167.6280324,
+    "seen": 1795219440.4287574,
     "ast_hash": "9859c4e02a20b2dd9e0afaf468ed409c",
     "semantic_hash": ""
   },
   "congreso/placas/mesa-5.webp": {
     "mtime": 1794930389.7654316,
-    "seen": 1794932167.6280336,
+    "seen": 1795219440.4287586,
     "ast_hash": "9bed04a077017bf835903aa572f4fbd6",
     "semantic_hash": ""
   },
   "congreso/placas/mesa-6.webp": {
     "mtime": 1794930389.7654316,
-    "seen": 1794932167.6280346,
+    "seen": 1795219440.4287598,
     "ast_hash": "941a62baaecf5073895fb5cd18bbb904",
     "semantic_hash": ""
   },
   "congreso/placas/portada.webp": {
     "mtime": 1794930389.7654316,
-    "seen": 1794932167.6280355,
+    "seen": 1795219440.4287608,
     "ast_hash": "ead2ab34457d8e6728049bb0801ec140",
     "semantic_hash": ""
   },
   "lib/leer-aviso.js": {
-    "mtime": 1794930390.1138346,
-    "seen": 1794932167.6278863,
-    "ast_hash": "6fb8350129d404af6c00226f4f6b5d82",
+    "mtime": 1795219408.6462407,
+    "seen": 1795219440.4286044,
+    "ast_hash": "4050f6306310eee5b977a444cda89f46",
     "semantic_hash": ""
   },
   "supabase/functions/leer-placa/index.ts": {
     "mtime": 1794930390.1325586,
-    "seen": 1794932167.627953,
+    "seen": 1795219440.4286768,
     "ast_hash": "61f34af13154761f9c5e358b0884d8ae",
     "semantic_hash": ""
   },
   "lib/compartido.js": {
     "mtime": 1794930390.1138346,
-    "seen": 1794932167.6278741,
+    "seen": 1795219440.4285939,
     "ast_hash": "3cd99e8d377f5a7e12d430aa91a6d1e2",
     "semantic_hash": ""
   },
   "sql/tabla-mi-ano.sql": {
     "mtime": 1794930390.130568,
-    "seen": 1794932167.6279376,
+    "seen": 1795219440.4286625,
     "ast_hash": "9ad8a2a65b559ef7d9cb409227b0bf19",
     "semantic_hash": ""
   },
   "docs/prompts/PROMPT-CURADURIA.md": {
     "mtime": 1794930389.770311,
-    "seen": 1794932167.627979,
+    "seen": 1795219440.428701,
     "ast_hash": "35d159d985c2d896b20882204e5b2824",
     "semantic_hash": ""
   },
   "docs/prompts/gemini/1-curaduria.txt": {
     "mtime": 1794930389.7710423,
-    "seen": 1794932167.6279879,
+    "seen": 1795219440.4287105,
     "ast_hash": "857e06c496c63f848492687969396cbf",
     "semantic_hash": ""
   },
   "docs/prompts/gemini/2-ideas.txt": {
     "mtime": 1794930389.7718472,
-    "seen": 1794932167.6279898,
+    "seen": 1795219440.4287117,
     "ast_hash": "0f597a028911bb1fef0edc17088f914e",
     "semantic_hash": ""
   },
   "docs/prompts/gemini/3-diseno.txt": {
     "mtime": 1794930389.7718472,
-    "seen": 1794932167.6279907,
+    "seen": 1795219440.4287128,
     "ast_hash": "4f3b8a86379cfb097a80ab3044fa1fe3",
     "semantic_hash": ""
   },
   ".claude/skills/hacer-ficha/scripts/revisar-ficha.mjs": {
     "mtime": 1794930389.7408955,
-    "seen": 1794932167.627815,
+    "seen": 1795219440.4285338,
     "ast_hash": "79e0bea459c774bff27d19a96efdc160",
     "semantic_hash": ""
   },
   ".claude/skills/hacer-ficha/SKILL.md": {
     "mtime": 1794930389.7407095,
-    "seen": 1794932167.6279585,
+    "seen": 1795219440.428681,
     "ast_hash": "4b9ff7c681a75da8b08176230d73c88d",
     "semantic_hash": ""
   },
   "congreso/placas/semana-1.webp": {
     "mtime": 1794930389.7654316,
-    "seen": 1794932167.6280365,
+    "seen": 1795219440.4287622,
     "ast_hash": "fedd4efe4c691191558a7dd4aa401173",
     "semantic_hash": ""
   },
   "congreso/placas/semana-2.webp": {
     "mtime": 1794930389.7654316,
-    "seen": 1794932167.6280377,
+    "seen": 1795219440.428763,
     "ast_hash": "78ac90e59159866520dd0e75a6212480",
     "semantic_hash": ""
   },
   "sql/arreglo-rls-rendimiento.sql": {
     "mtime": 1794930390.1278942,
-    "seen": 1794932167.6279104,
+    "seen": 1795219440.4286342,
     "ast_hash": "3c14691da424d49c547c5d8caca4dd05",
     "semantic_hash": ""
   },
   "sql/arreglo-seguridad-11-10.sql": {
     "mtime": 1794930390.130568,
-    "seen": 1794932167.627912,
+    "seen": 1795219440.4286356,
     "ast_hash": "90aef36d2d3cae6bbfb6cce7d4c623c4",
     "semantic_hash": ""
   },
   "llegar/index.html": {
     "mtime": 1794931644.1872134,
-    "seen": 1794932167.6280103,
+    "seen": 1795219440.4287333,
     "ast_hash": "317ac33471ac14901520eab21d89e236",
     "semantic_hash": ""
   },
   "ingreso/index.html": {
     "mtime": 1794931644.1866338,
-    "seen": 1794932167.6280096,
+    "seen": 1795219440.4287324,
     "ast_hash": "ee32fefce22a4cfc0324aff4b7286885",
     "semantic_hash": ""
   },
   "estudiemos/mis-parciales/mis-parciales.js": {
     "mtime": 1794930389.7843256,
-    "seen": 1794932167.6278558,
+    "seen": 1795219440.4285772,
     "ast_hash": "2d732d38476c77b45ef62025c256c03e",
     "semantic_hash": ""
   },
   "lib/lectura-a-color.js": {
     "mtime": 1794930390.1138346,
-    "seen": 1794932167.627883,
+    "seen": 1795219440.4286013,
     "ast_hash": "f50def6319d3e065ea6573afc18ebdbe",
     "semantic_hash": ""
   },
   "lib/mis-parciales.js": {
     "mtime": 1794930390.1138346,
-    "seen": 1794932167.6278896,
+    "seen": 1795219440.428607,
     "ast_hash": "82573ab51529363c84fa51242958fed7",
     "semantic_hash": ""
   },
   "estudiemos/mis-parciales/index.html": {
     "mtime": 1794931644.182502,
-    "seen": 1794932167.6280031,
+    "seen": 1795219440.428725,
     "ast_hash": "4474feb54d0d6e83c258c8ddb778c23a",
     "semantic_hash": ""
   },
   "cargar/feriazo.js": {
     "mtime": 1794930389.743894,
-    "seen": 1794932167.627821,
+    "seen": 1795219440.4285457,
     "ast_hash": "5f880713b83dcc630214ed7e48213090",
     "semantic_hash": ""
   },
   "sql/tabla-feriazo.sql": {
     "mtime": 1794930390.130568,
-    "seen": 1794932167.6279302,
+    "seen": 1795219440.4286559,
     "ast_hash": "363cc096b627888995da029ad4beb8e0",
     "semantic_hash": ""
   },
   "feriazo/index.html": {
     "mtime": 1794931644.1832,
-    "seen": 1794932167.6280053,
+    "seen": 1795219440.4287274,
     "ast_hash": "186393f7bb314568ea47f2d8b3165ccf",
     "semantic_hash": ""
   },
   "lib/recorrido.js": {
     "mtime": 1794930390.115894,
-    "seen": 1794932167.6278932,
+    "seen": 1795219440.4286096,
     "ast_hash": "5d3e9b2b9e171383ff5c7210732bda52",
     "semantic_hash": ""
   },
   "sql/tabla-ingresantes.sql": {
     "mtime": 1794930390.130568,
-    "seen": 1794932167.6279347,
+    "seen": 1795219440.4286594,
     "ast_hash": "1b3790d0239c038fd2968beeabca2a1c",
     "semantic_hash": ""
   },
   "primeros-pasos/index.html": {
     "mtime": 1794931644.1916618,
-    "seen": 1794932167.6280167,
+    "seen": 1795219440.4287403,
     "ast_hash": "f6dbf9e2bac239af65e6a10f4fccb8f9",
     "semantic_hash": ""
   },
   "docs/EVALUACION-NOV-2026.md": {
     "mtime": 1794930389.7680326,
-    "seen": 1794932167.6279745,
+    "seen": 1795219440.4286973,
     "ast_hash": "7208e0dfb405e4c50a69af074cee1a81",
     "semantic_hash": ""
   },
   "lib/feriazo.js": {
     "mtime": 1794930390.1138346,
-    "seen": 1794932167.627881,
+    "seen": 1795219440.4286,
     "ast_hash": "c3ffdbdb87ae8480f1d063bd02242c63",
     "semantic_hash": ""
   },
   "feriazo/sumar/index.html": {
     "mtime": 1794931644.1834702,
-    "seen": 1794932167.6280062,
+    "seen": 1795219440.4287286,
     "ast_hash": "065f37fd81f3ed5fd0992bb57839cdb6",
     "semantic_hash": ""
   },
   "carrera/plan-prof.js": {
     "mtime": 1794930389.7475395,
-    "seen": 1794932167.6278262,
+    "seen": 1795219440.42855,
     "ast_hash": "630dea98a2967149aa13a7ca56b8a357",
     "semantic_hash": ""
   },
+  "anatomo/3d/armar-datos.mjs": {
+    "mtime": 1795219408.5942407,
+    "seen": 1795219440.4285374,
+    "ast_hash": "6368bc4b783ea6202ab36f2e5f059664",
+    "semantic_hash": ""
+  },
+  "anatomo/3d/piezas.js": {
+    "mtime": 1795219408.6262407,
+    "seen": 1795219440.42854,
+    "ast_hash": "afe6ee86dff4b0f64f0406c905b235e1",
+    "semantic_hash": ""
+  },
+  "anatomo/3d/visor.js": {
+    "mtime": 1795219408.6262407,
+    "seen": 1795219440.428542,
+    "ast_hash": "fd7e5a0feab8d34de33e86ab5cd0abc6",
+    "semantic_hash": ""
+  },
+  "anatomo/3d/index.html": {
+    "mtime": 1795219423.704437,
+    "seen": 1795219440.428686,
+    "ast_hash": "f513aab1d7d0c8648936218b1a9b4101",
+    "semantic_hash": ""
+  },
+  "cartografias/cartografias.js": {
+    "mtime": 1795219408.6302407,
+    "seen": 1795219440.4285579,
+    "ast_hash": "1e6dd1f0907170ae4c3d5393b6282318",
+    "semantic_hash": ""
+  },
+  "cartografias/referencias.js": {
+    "mtime": 1795219408.6329894,
+    "seen": 1795219440.428559,
+    "ast_hash": "dfc308a3e70ed713781d295cdd7960d5",
+    "semantic_hash": ""
+  },
+  "sql/tabla-cartografias.sql": {
+    "mtime": 1795219408.6462407,
+    "seen": 1795219440.4286497,
+    "ast_hash": "0fe6a535f66a14d3d5bf05503b700cfc",
+    "semantic_hash": ""
+  },
+  "cartografias/index.html": {
+    "mtime": 1795219423.7073016,
+    "seen": 1795219440.4286911,
+    "ast_hash": "910895b60a402b43066abcb9001c6a30",
+    "semantic_hash": ""
+  },
   "lib/desfase.js": {
-    "mtime": 1794931638.1274085,
-    "seen": 1794932167.6278772,
-    "ast_hash": "cd819405c9dc044d33b5e1528d01bdf7",
+    "mtime": 1795219423.6576123,
+    "seen": 1795219440.4285967,
+    "ast_hash": "b56e01f99f0386771a69f52434f6d54b",
     "semantic_hash": ""
   }
 }

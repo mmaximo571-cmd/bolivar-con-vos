@@ -463,3 +463,59 @@ create policy "publicaciones comunicacion edita novedades"
               and (tipo = 'novedad' or creado_por = auth.uid())
               and public.publicacion_de_comunicacion(
                     tipo, linea, titulo, alarma, avisar, publicado));
+
+
+-- ============================================================
+-- 10. PARA UNA SOLA CARRERA  ·  `carreras`  ·  17/11/2026
+--
+-- Hasta acá todo era para todas. El visor 3D de Anatomofisiología es
+-- de Fono, y avisárselo a Trabajo Social es ruido. `carreras` en null
+-- (o vacío) sigue siendo «para todas»; con valores, la campana se la
+-- muestra solo a quien eligió una de esas carreras en el teléfono, y a
+-- quien todavía no eligió ninguna (mejor que le sobre a que le falte).
+--
+-- OJO: el aviso al celular (`avisar`) todavía NO sabe de carreras: la
+-- suscripción no guarda la carrera. Una publicación con `carreras` y
+-- `avisar` le sonaría a todos, así que se prohíbe la combinación hasta
+-- que la función `avisos` aprenda a filtrar.
+-- ============================================================
+alter table public.publicaciones
+  add column if not exists carreras text[];
+
+alter table public.publicaciones drop constraint if exists publicaciones_carreras_validas;
+alter table public.publicaciones add constraint publicaciones_carreras_validas
+  check (carreras is null or carreras <@ array['ts', 'tgcr', 'fono']::text[]);
+
+alter table public.publicaciones drop constraint if exists publicaciones_carreras_sin_aviso;
+alter table public.publicaciones add constraint publicaciones_carreras_sin_aviso
+  check (carreras is null or cardinality(carreras) = 0 or not avisar);
+
+
+-- ============================================================
+-- 11. LOS GRUPOS QUE SE REPITEN CADA SEMANA  ·  11/11/2026
+--
+-- El grupo de los jueves se carga una vez y queda para las semanas
+-- que se elijan. Cada encuentro sigue siendo SU fila, con su fecha:
+-- así el calendario, «Voy», los números para el WhatsApp, el aviso
+-- de la mañana y suspender uno solo («este jueves no hay») andan
+-- igual que siempre. Lo único nuevo es `serie_id`, el mismo en todos
+-- los encuentros de una serie, que es lo que permite:
+--   - avisar UNA vez que hay grupo nuevo, y no una por encuentro
+--     (`supabase/functions/avisos`, claves `serie:…`),
+--   - mostrar la serie junta en Fechas, en la campana y en
+--     «Lo que cargaste», y corregir o suspender todos los que vienen.
+--
+-- No es una regla de repetición guardada aparte a propósito: una
+-- regla obligaría a cada pantalla a calcular las fechas, y a la base
+-- a inventar filas para «Voy». Con filas de verdad no cambia nada de
+-- lo que ya anda.
+--
+-- La id la arma `cargar/` al publicar (`crypto.randomUUID()`). Sin
+-- default: una fila suelta no es una serie de uno, es `null`.
+-- ============================================================
+
+alter table public.publicaciones add column if not exists serie_id uuid;
+
+create index if not exists publicaciones_serie_idx
+  on public.publicaciones (serie_id)
+  where serie_id is not null;

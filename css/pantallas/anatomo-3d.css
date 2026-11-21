@@ -1,0 +1,160 @@
+/* ==========================================================
+   LA BOLIVAR CON VOS · SOLO PARA ANATOMO/3D
+   El visor 3D de Anatomofisiología (17/11/2026).
+   Carga despues de tokens.css y base.css; solo la usa esta pantalla.
+   Todas sus clases empiezan con v3d-.
+   ========================================================== */
+
+.v3d-ceja{
+  font-family:var(--fuente-datos);font-size:var(--letra-chica);
+  letter-spacing:.1em;text-transform:uppercase;color:var(--texto-suave);
+  margin:22px 0 2px
+}
+
+.v3d-ceja a{color:inherit}
+
+.v3d-bajada{color:var(--texto-suave);font-size:var(--letra-nota);line-height:1.45;margin:4px 0 12px}
+
+/* ---- El lienzo ----
+   Cuadrado en el teléfono, más apaisado en pantallas grandes, y
+   nunca más alto que lo que deja la pantalla: con el lienzo ocupando
+   todo, no habría dónde apoyar el dedo para bajar la página.
+   touch-action:none porque el dedo sobre el modelo gira el modelo, no
+   la página. */
+.v3d-caja{
+  position:relative;border:1.5px solid var(--tinta-borde);border-radius:var(--radio);
+  background:radial-gradient(circle at 50% 40%, var(--superficie) 0%, var(--superficie-2) 75%);
+  box-shadow:var(--sombra);overflow:hidden
+}
+
+.v3d-lienzo{
+  display:block;width:100%;aspect-ratio:1 / 1;max-height:62vh;
+  touch-action:none;cursor:grab
+}
+
+.v3d-lienzo:active{cursor:grabbing}
+
+.v3d-lienzo:focus-visible{outline:3px solid var(--celeste);outline-offset:-3px}
+
+@media (min-width:600px){
+.v3d-lienzo{aspect-ratio:4 / 3}
+}
+
+/* Sin WebGL el lienzo no dibuja nada: se achica al cartel. */
+.v3d-caja.sin-3d .v3d-lienzo,
+.v3d-caja.sin-3d .v3d-encuadrar{display:none}
+
+.v3d-caja.sin-3d .v3d-cartel{position:static}
+
+.v3d-cartel{
+  position:absolute;inset:0;display:flex;flex-direction:column;
+  align-items:center;justify-content:center;gap:10px;padding:16px;
+  text-align:center;font-size:var(--letra-nota);color:var(--texto-suave)
+}
+
+.v3d-cartel[hidden]{display:none}
+
+.v3d-cartel p{margin:0}
+
+.v3d-barra{
+  width:min(220px, 70%);height:6px;border-radius:var(--radio-pastilla);
+  background:var(--linea);overflow:hidden
+}
+
+.v3d-barra span{display:block;height:100%;width:0;background:var(--celeste);transition:width var(--t-chico) linear}
+
+.v3d-encuadrar{
+  position:absolute;right:10px;top:10px;width:44px;height:44px;
+  border-radius:50%;border:1.5px solid var(--tinta-borde);
+  background:var(--superficie);color:var(--texto);font-size:22px;line-height:1;cursor:pointer
+}
+
+/* ---- La ficha de la pieza elegida ---- */
+.v3d-ficha{
+  margin-top:14px;padding:14px 16px;border:1.5px solid var(--tinta-borde);
+  border-radius:var(--radio);background:var(--superficie);box-shadow:var(--sombra)
+}
+
+.v3d-ficha[hidden]{display:none}
+
+.v3d-ficha-grupo{
+  display:flex;align-items:center;gap:6px;margin:0;
+  font-family:var(--fuente-datos);font-size:var(--letra-mini);
+  letter-spacing:.08em;text-transform:uppercase;color:var(--texto-suave)
+}
+
+.v3d-ficha-nombre{
+  font-family:var(--fuente-sub);font-weight:700;font-size:var(--letra-sub);
+  line-height:1.15;margin:4px 0 6px
+}
+
+.v3d-ficha-func{margin:0;font-size:var(--letra-base);line-height:1.5}
+
+.v3d-ficha-botones{display:flex;flex-wrap:wrap;gap:8px;margin-top:12px}
+
+/* El punto de color es el del modelo: así se sabe qué es cada cosa
+   sin leer. Lleva borde porque los huesos, casi blancos, se perderían
+   sobre la tarjeta. */
+.v3d-punto{
+  display:inline-block;width:10px;height:10px;border-radius:50%;
+  border:1px solid rgba(0,0,0,.35);margin-right:6px;vertical-align:-1px;flex:0 0 auto
+}
+
+/* ---- Practicar ---- */
+.v3d-practica{margin-top:14px}
+
+.v3d-practica .boton{width:100%}
+
+.v3d-quiz{
+  padding:14px 16px;border-radius:var(--radio);
+  background:var(--negro);color:var(--sobre-negro)
+}
+
+.v3d-quiz-cuenta{
+  margin:0;font-family:var(--fuente-datos);font-size:var(--letra-chica);
+  color:var(--sobre-negro-tenue);letter-spacing:.06em
+}
+
+.v3d-quiz-pregunta{margin:4px 0 0;font-size:var(--letra-guia);line-height:1.35}
+
+.v3d-quiz-pregunta b{color:var(--amarillo)}
+
+/* ---- Grupos y lista ---- */
+.v3d-grupos{flex-wrap:wrap;overflow:visible}
+
+.v3d-grupos .chip[aria-pressed="false"]{opacity:.55;text-decoration:line-through}
+
+.v3d-todas{
+  margin-top:14px;border:1px solid var(--linea);border-radius:var(--radio);
+  background:var(--superficie);padding:0 14px
+}
+
+.v3d-todas > summary{
+  cursor:pointer;padding:13px 0;font-family:var(--fuente-sub);font-weight:700;
+  font-size:var(--letra-base)
+}
+
+.v3d-lista-grupo{
+  margin:12px 0 4px;font-family:var(--fuente-datos);font-size:var(--letra-mini);
+  letter-spacing:.08em;text-transform:uppercase;color:var(--texto-suave)
+}
+
+.v3d-lista{list-style:none;margin:0;padding:0}
+
+.v3d-lista button{
+  width:100%;text-align:left;background:none;border:0;border-bottom:1px solid var(--linea);
+  padding:10px 0;font:inherit;font-size:var(--letra-densa);color:var(--texto);cursor:pointer
+}
+
+.v3d-lista li:last-child button{border-bottom:0}
+
+.v3d-lista button[aria-pressed="true"]{font-weight:700;box-shadow:inset 4px 0 0 var(--amarillo);padding-left:10px}
+
+.v3d-todas > div{padding-bottom:12px}
+
+.v3d-credito{
+  margin-top:22px;font-family:var(--fuente-datos);font-size:var(--letra-chica);
+  line-height:1.5;color:var(--texto-suave)
+}
+
+.v3d-aviso{margin-top:10px}

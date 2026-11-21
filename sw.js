@@ -21,7 +21,7 @@
    lista, porque acá abajo se sirve lo guardado antes que la red.
    Por qué subió cada número (v4 en adelante): `docs/HISTORIAL-SW.md`.
    Al subirlo, anotar ahí el número, la fecha y el porqué. */
-const VERSION = 'bolivar-v108';
+const VERSION = 'bolivar-v111';
 const ARMAZON = VERSION + '-armazon';
 const PAGINAS = VERSION + '-paginas';
 
@@ -59,7 +59,7 @@ const DEL_ARMAZON = [
      y la segunda una, y ninguna dibuja su calendario sin red. Quedan
      guardadas solas por la regla del final. */
   '/lib/mudanza.js',
-  /* La guardia del desfase (17/11/2026, v108): ataja el error de la
+  /* La guardia del desfase (17/11/2026, v111): ataja el error de la
      primera carga después de cada publicación, cuando la pantalla
      llega nueva de la red y `app.js` sale viejo de la caja de abajo.
      El porqué entero, en el archivo. La usan todas las pantallas. */

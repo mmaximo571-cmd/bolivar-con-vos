@@ -1,0 +1,117 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Anatomía en 3D · La Bolívar con vos</title>
+<meta name="description" content="La laringe, la deglución y la respiración en 3D: girá el modelo, tocá una pieza y leé qué hace. Con modo práctica.">
+<meta name="theme-color" content="#F9E830">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+<link rel="icon" type="image/png" sizes="32x32" href="../../imagenes/icono-32.png">
+<link rel="icon" type="image/png" sizes="96x96" href="../../imagenes/icono-96.png">
+<link rel="icon" type="image/png" sizes="192x192" href="../../imagenes/icono-192.png">
+<link rel="apple-touch-icon" href="../../imagenes/icono-apple.png">
+<link rel="manifest" href="../../manifest.json">
+
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="La Bolivar con vos">
+<meta property="og:title" content="Anatomía en 3D · La Bolívar con vos">
+<meta property="og:description" content="La laringe, la deglución y la respiración para girar, tocar y practicar.">
+<meta property="og:image" content="https://labolivarconvos.ar/imagenes/compartir.png">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="stylesheet" href="../../css/tokens.css">
+<link rel="stylesheet" href="../../css/base/01-cimientos.css">
+<link rel="stylesheet" href="../../css/base/02-encabezado.css">
+<link rel="stylesheet" href="../../css/base/03-controles.css">
+<link rel="stylesheet" href="../../css/base/04-tarjetas.css">
+<link rel="stylesheet" href="../../css/base/05-secciones.css">
+<link rel="stylesheet" href="../../css/base/06-hoja.css">
+<link rel="stylesheet" href="../../css/base/07-avisos.css">
+<link rel="stylesheet" href="../../css/base/08-calendario.css">
+<link rel="stylesheet" href="../../css/base/09-avisanos.css">
+<link rel="stylesheet" href="../../css/base/10-lectura.css">
+<link rel="stylesheet" href="../../css/base/11-navegacion.css">
+<link rel="stylesheet" href="../../css/base/12-movimiento.css">
+<link rel="stylesheet" href="../../css/pantallas/anatomo-3d.css">
+<link rel="stylesheet" href="../../estilos-rediseno.css">
+<script>
+(function(){try{
+  var g = localStorage.getItem('bolivar-tema') || 'auto';
+  var oscuro = g === 'oscuro' || (g === 'auto' &&
+    window.matchMedia('(prefers-color-scheme: dark)').matches);
+  document.documentElement.dataset.tema = oscuro ? 'oscuro' : 'claro';
+}catch(e){ document.documentElement.dataset.tema = 'claro'; }})();
+</script>
+<script defer src="/_vercel/insights/script.js"></script>
+</head>
+<body>
+
+<div id="cabecera"></div>
+
+<main class="envoltura" id="contenido" tabindex="-1">
+  <p class="v3d-ceja"><a href="../">Anatomofisiología</a> · Fonoaudiología</p>
+  <h1 class="titulo-pantalla">Anatomía en 3D</h1>
+  <p class="bajada">Girá el modelo con un dedo, acercá con dos y tocá una pieza para
+    ver cómo se llama y qué hace.</p>
+
+  <div class="chips" id="v3d-vistas" role="group" aria-label="Qué querés ver"></div>
+  <p class="v3d-bajada" id="v3d-bajada"></p>
+
+  <div class="v3d-caja" id="v3d-caja">
+    <canvas id="v3d-lienzo" class="v3d-lienzo" tabindex="0"
+            aria-label="Modelo 3D. Con el teclado: las flechas giran, más y menos acercan, cero vuelve a encuadrar. Las mismas piezas están en la lista de abajo."></canvas>
+    <div class="v3d-cartel" id="v3d-cartel" hidden></div>
+    <button class="v3d-encuadrar" type="button" id="v3d-encuadrar"
+            aria-label="Volver a encuadrar">⟲</button>
+  </div>
+
+  <div id="v3d-practica" class="v3d-practica" aria-live="polite"></div>
+  <section id="v3d-ficha" class="v3d-ficha" aria-live="polite" hidden></section>
+
+  <div class="titulo-seccion">QUÉ SE VE</div>
+  <p class="letra-chica" style="margin-top:0">Tocá un grupo para esconderlo y ver lo que tapa.</p>
+  <div class="chips v3d-grupos" id="v3d-grupos" role="group" aria-label="Grupos que se ven"></div>
+
+  <details class="v3d-todas">
+    <summary>Todas las piezas, por nombre</summary>
+    <div id="v3d-lista"></div>
+  </details>
+
+  <p class="v3d-credito">
+    Modelos: <a href="https://dbarchive.biosciencedbc.jp/en/bodyparts3d/download.html" target="_blank" rel="noopener">BodyParts3D</a>,
+    © The Database Center for Life Science, con licencia
+    <a href="https://creativecommons.org/licenses/by/4.0/deed.es" target="_blank" rel="noopener">CC BY 4.0</a>.
+    Convertidos por el proyecto <a href="https://github.com/ashemag/human-atlas" target="_blank" rel="noopener">Human Atlas</a>;
+    la agrupación eligió las piezas, simplificó las mallas más pesadas y escribió los nombres y las funciones.
+  </p>
+  <p class="letra-chica v3d-aviso">
+    Es un cuerpo de referencia (un varón adulto) y no trae todo: faltan los pulmones,
+    el oído medio e interno y los nervios. Para estudiar, no para diagnosticar.
+    <b>Si una función no coincide con lo que dijeron en clase, vale la cátedra:
+    mandá el dato y lo corregimos.</b>
+  </p>
+</main>
+
+<div id="pie"></div>
+
+<script>window.RAIZ = '../../';</script>
+<script src="../../lib/datos.js"></script>
+<script src="../../config.js"></script>
+<script src="../../iconos.js"></script>
+<script src="../../lib/mudanza.js"></script>
+<script src="../../lib/desfase.js"></script>
+<script src="../../app.js"></script>
+<script src="../../fondo-red.js"></script>
+<script>
+  document.getElementById('cabecera').innerHTML = htmlCabecera();
+  document.getElementById('pie').innerHTML = htmlPie();
+  pintarNav('estudiemos');
+</script>
+<script src="piezas.js"></script>
+<script src="visor.js"></script>
+<!-- Anota en el teléfono que estudiaste esto (ver estudiemos/huella.js) -->
+<script src="../../estudiemos/huella.js" async></script>
+</body>
+</html>

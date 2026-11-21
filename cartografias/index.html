@@ -1,0 +1,317 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Cartografías sociales · La Bolívar con vos</title>
+<meta name="description" content="Armá con tu grupo la cartografía social de un territorio de La Plata, Berisso o Ensenada: lugares, recorridos y zonas sobre un mapa real.">
+<meta name="theme-color" content="#F9E830">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+<link rel="icon" type="image/png" sizes="32x32" href="../imagenes/icono-32.png">
+<link rel="icon" type="image/png" sizes="96x96" href="../imagenes/icono-96.png">
+<link rel="icon" type="image/png" sizes="192x192" href="../imagenes/icono-192.png">
+<link rel="apple-touch-icon" href="../imagenes/icono-apple.png">
+<link rel="manifest" href="../manifest.json">
+
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="La Bolivar con vos">
+<meta property="og:title" content="Cartografías sociales · La Bolívar con vos">
+<meta property="og:description" content="El territorio, dibujado en grupo: lugares, recorridos y zonas de La Plata, Berisso y Ensenada.">
+<meta property="og:image" content="https://labolivarconvos.ar/imagenes/compartir.png">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="stylesheet" href="../css/tokens.css">
+<link rel="stylesheet" href="../css/base/01-cimientos.css">
+<link rel="stylesheet" href="../css/base/02-encabezado.css">
+<link rel="stylesheet" href="../css/base/03-controles.css">
+<link rel="stylesheet" href="../css/base/04-tarjetas.css">
+<link rel="stylesheet" href="../css/base/05-secciones.css">
+<link rel="stylesheet" href="../css/base/06-hoja.css">
+<link rel="stylesheet" href="../css/base/07-avisos.css">
+<link rel="stylesheet" href="../css/base/08-calendario.css">
+<link rel="stylesheet" href="../css/base/09-avisanos.css">
+<link rel="stylesheet" href="../css/base/10-lectura.css">
+<link rel="stylesheet" href="../css/base/11-navegacion.css">
+<link rel="stylesheet" href="../css/base/12-movimiento.css">
+<link rel="stylesheet" href="../css/pantallas/cartografias.css">
+<link rel="stylesheet" href="../estilos-rediseno.css">
+<script>
+(function(){try{
+  var g = localStorage.getItem('bolivar-tema') || 'auto';
+  var oscuro = g === 'oscuro' || (g === 'auto' &&
+    window.matchMedia('(prefers-color-scheme: dark)').matches);
+  document.documentElement.dataset.tema = oscuro ? 'oscuro' : 'claro';
+}catch(e){ document.documentElement.dataset.tema = 'claro'; }})();
+</script>
+<!-- Estadisticas de visitas (Vercel Web Analytics, sin cookies) -->
+<script defer src="/_vercel/insights/script.js"></script>
+</head>
+<body class="pantalla-cartografias">
+
+<div id="cabecera"></div>
+
+<!-- ============================================================
+     CARTOGRAFÍAS SOCIALES
+
+     Mapas de un grupo, dibujados en conjunto. Dos vistas en la misma
+     pantalla, según la dirección:
+       cartografias/            la lista: las tuyas, sumarte, crear
+       cartografias/?c=<id>     una abierta: el mapa y su leyenda
+       cartografias/?sumarme=X  el link que se comparte: suma y abre
+
+     La lógica está en `cartografias.js`; las referencias fijas, en
+     `referencias.js`; las tablas y los permisos, en
+     `sql/tabla-cartografias.sql`. El porqué de cada decisión, en la
+     propuesta 5 de `docs/PROPUESTAS.md`.
+     ============================================================ -->
+<main id="contenido" tabindex="-1">
+
+  <div class="envoltura carto-cabeza">
+    <p class="ceja-lectura" id="carto-ceja">Herramienta territorial · La Plata, Berisso y Ensenada</p>
+    <h1 class="carto-titulo" id="carto-titulo">Cartografías <em>sociales</em></h1>
+    <p class="carto-bajada" id="carto-bajada">El territorio, dibujado en grupo: los lugares, los recorridos y las zonas que importan, sobre un mapa real.</p>
+  </div>
+
+  <div class="envoltura" id="carto-aviso" role="status" aria-live="polite"></div>
+
+  <!-- ---------- LA LISTA ---------- -->
+  <div class="envoltura" id="vista-lista" hidden>
+    <!-- EL PLANO. El casco de La Plata con sus diagonales, el Bosque y el
+         río, y encima las ocho referencias fijas «pegadas» como en un
+         taller de mapeo. No es un adorno: es la leyenda con la que arranca
+         toda cartografía. Lo dibuja `dibujarPlano()` desde
+         `referencias.js`, así no se desacomoda si cambia la lista. -->
+    <figure class="carto-plano">
+      <div class="carto-plano-lamina" id="plano" aria-hidden="true"></div>
+      <figcaption class="carto-plano-pie">Las ocho referencias con las que arranca cada cartografía. Cada grupo suma las suyas.</figcaption>
+    </figure>
+
+    <section aria-labelledby="mias-titulo">
+      <h2 class="carto-subtitulo" id="mias-titulo">Tus cartografías</h2>
+      <ul class="carto-lista" id="mias-lista"></ul>
+    </section>
+
+    <div class="carto-dos">
+    <section class="carto-caja" aria-labelledby="sumarme-titulo">
+      <h2 class="carto-subtitulo" id="sumarme-titulo">Sumarme con un código</h2>
+      <form id="form-sumarme" novalidate>
+        <div class="campo">
+          <label for="codigo">El código que te pasó quien coordina</label>
+          <input id="codigo" name="codigo" autocomplete="off" autocapitalize="characters"
+                 spellcheck="false" maxlength="8" placeholder="Ej.: K7RM2Q">
+        </div>
+        <div class="aviso error" id="sumarme-error" hidden></div>
+        <button type="submit" class="boton ancho" id="sumarme-enviar">Sumarme</button>
+      </form>
+    </section>
+
+    <section class="carto-caja" aria-labelledby="crear-titulo">
+      <h2 class="carto-subtitulo" id="crear-titulo">Crear una cartografía</h2>
+      <p class="letra-chica carto-ayuda">La coordinás vos: te da un código para que se sume tu grupo. Solo la ve quien está adentro.</p>
+      <form id="form-crear" novalidate>
+        <div class="campo">
+          <label for="crear-nombre">Nombre</label>
+          <input id="crear-nombre" maxlength="80" placeholder="Ej.: Barrio Hipódromo · Taller de TS II">
+        </div>
+        <div class="campo">
+          <label for="crear-descripcion">De qué trata <span class="carto-opcional">(opcional)</span></label>
+          <textarea id="crear-descripcion" maxlength="400" rows="2"
+            placeholder="Ej.: Qué recursos y qué problemas ve el barrio, contado por sus vecines"></textarea>
+        </div>
+        <div class="aviso error" id="crear-error" hidden></div>
+        <button type="submit" class="boton oscuro ancho" id="crear-enviar">Crear y abrir</button>
+      </form>
+    </section>
+    </div>
+  </div>
+
+  <!-- LAS PUBLICADAS. Aparte de la lista porque se ven sin cuenta: son
+       las que el grupo pidió publicar y el equipo revisó. Cada una es una
+       foto del momento en que se pidió, sin quién dibujó qué. -->
+  <div class="envoltura" id="vista-publicadas" hidden>
+    <section aria-labelledby="publicadas-titulo">
+      <h2 class="carto-subtitulo" id="publicadas-titulo">Cartografías publicadas</h2>
+      <p class="letra-chica carto-ayuda">Las que armaron otros grupos y decidieron compartir. Se ven sin cuenta.</p>
+      <ul class="carto-lista" id="publicadas-lista"></ul>
+    </section>
+  </div>
+
+  <!-- ---------- UNA ABIERTA ---------- -->
+  <div id="vista-mapa" hidden>
+    <!-- El código del grupo, en una fila: el mapa tiene que quedar a la
+         vista sin bajar. «Invitar» abre el menú de compartir del teléfono
+         (o WhatsApp, donde no lo hay). -->
+    <div class="envoltura">
+      <div class="carto-ticket" id="carto-compartir" hidden>
+        <p class="carto-ticket-rotulo">Código<br>del grupo</p>
+        <p class="carto-ticket-codigo" id="carto-codigo"></p>
+        <button type="button" class="boton oscuro carto-invitar" id="invitar">Invitar</button>
+        <button type="button" class="boton texto carto-copiar" id="copiar-link">Copiar el link</button>
+      </div>
+
+      <!-- Sin señal: lo dibujado queda en el teléfono y se manda solo. -->
+      <div class="carto-cola" id="carto-cola" role="status" aria-live="polite" hidden>
+        <p class="carto-cola-texto" id="carto-cola-texto"></p>
+        <button type="button" class="boton texto" id="enviar-cola">Mandar ahora</button>
+      </div>
+    </div>
+
+    <!-- LAS HERRAMIENTAS. Tres maneras de dibujar, con palabras y no
+         con íconos sueltos: quien no hizo nunca una cartografía no
+         sabe qué es un polígono, pero sabe qué es una zona. -->
+    <div class="envoltura carto-herramientas" role="group" aria-label="Dibujar">
+      <button type="button" class="carto-herramienta" data-modo="punto">
+        <span class="carto-herr-forma forma-punto" aria-hidden="true"></span>Un lugar</button>
+      <button type="button" class="carto-herramienta" data-modo="linea">
+        <span class="carto-herr-forma forma-linea" aria-hidden="true"></span>Un recorrido</button>
+      <button type="button" class="carto-herramienta" data-modo="zona">
+        <span class="carto-herr-forma forma-zona" aria-hidden="true"></span>Una zona</button>
+    </div>
+
+    <div class="carto-marco">
+      <div class="carto-lienzo" id="lienzo" aria-label="Mapa de la cartografía"></div>
+      <p class="carto-sin" id="mapa-sin" hidden></p>
+
+      <!-- La barra de dibujo: aparece encima del mapa mientras se dibuja. -->
+      <div class="carto-dibujando" id="dibujando" hidden>
+        <p class="carto-dibujando-texto" id="dibujando-texto" aria-live="polite"></p>
+        <div class="carto-dibujando-botones">
+          <button type="button" class="boton borde" id="dibujo-gps" hidden>📍 Donde estoy</button>
+          <button type="button" class="boton borde" id="dibujo-deshacer">Deshacer</button>
+          <button type="button" class="boton borde" id="dibujo-cancelar">Cancelar</button>
+          <button type="button" class="boton" id="dibujo-listo">Listo</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="envoltura carto-debajo">
+      <!-- Lo que se dibujó y todavía no tiene nombre. -->
+      <section class="carto-caja" id="panel-nuevo" hidden aria-labelledby="nuevo-titulo" tabindex="-1">
+        <h2 class="carto-subtitulo" id="nuevo-titulo">¿Qué es?</h2>
+        <form id="form-elemento" novalidate>
+          <fieldset class="carto-paso">
+            <legend>Referencia</legend>
+            <div class="carto-elegir" id="elegir-referencia"></div>
+          </fieldset>
+          <div class="campo">
+            <label for="el-titulo">Un nombre corto</label>
+            <input id="el-titulo" maxlength="80" placeholder="Ej.: La canchita de 7 y 520">
+          </div>
+          <div class="campo">
+            <label for="el-relato">Qué se dijo de esto <span class="carto-opcional">(opcional)</span></label>
+            <textarea id="el-relato" maxlength="1000" rows="4"
+              placeholder="Lo que contó el grupo: para qué se usa, qué pasa ahí, cómo se vive"></textarea>
+            <p class="letra-chica carto-ayuda"><span id="relato-cuenta">0</span>/1000 · Sin nombres ni datos de vecines.</p>
+          </div>
+          <div class="aviso error" id="elemento-error" hidden></div>
+          <div class="carto-botones">
+            <button type="submit" class="boton" id="elemento-guardar">Guardar en el mapa</button>
+            <button type="button" class="boton borde" id="elemento-descartar">Descartar</button>
+          </div>
+        </form>
+      </section>
+
+      <!-- La ficha de lo que se tocó en el mapa. -->
+      <section class="carto-caja carto-ficha" id="panel-ficha" hidden aria-live="polite" tabindex="-1"></section>
+
+      <section aria-labelledby="leyenda-titulo">
+        <div class="carto-fila-titulo">
+          <h2 class="carto-subtitulo" id="leyenda-titulo">Referencias</h2>
+          <span class="carto-en-vivo" id="en-vivo" hidden title="Lo que dibuja el resto aparece solo">En vivo</span>
+          <button type="button" class="boton texto" id="actualizar">Actualizar</button>
+        </div>
+        <p class="letra-chica carto-ayuda">Tocá una para mostrarla u ocultarla en el mapa.</p>
+        <ul class="carto-leyenda" id="leyenda"></ul>
+
+        <form class="carto-nueva-ref" id="form-referencia" hidden novalidate>
+          <h3 class="carto-subtitulo-chico">Sumar una referencia propia</h3>
+          <div class="campo">
+            <label for="ref-nombre">Nombre</label>
+            <input id="ref-nombre" maxlength="40" placeholder="Ej.: Huertas comunitarias">
+          </div>
+          <fieldset class="carto-paso">
+            <legend>Color</legend>
+            <div class="carto-colores" id="ref-colores"></div>
+          </fieldset>
+          <div class="aviso error" id="referencia-error" hidden></div>
+          <button type="submit" class="boton borde ancho" id="referencia-guardar">Sumar referencia</button>
+        </form>
+      </section>
+
+      <!-- LO QUE YA ESTÁ RELEVADO. Las mismas capas de `mapa/`
+           (`mapa/capas-base.js` y `mapa/datos/`), para leer lo dibujado
+           contra lo que ya se sabe del territorio. No se mezclan con lo
+           del grupo: van debajo, y no se pueden tocar para editarlas. -->
+      <section aria-labelledby="base-titulo">
+        <h2 class="carto-subtitulo" id="base-titulo">Información de base</h2>
+        <p class="letra-chica carto-ayuda">Lo que ya relevaron otros, para leer el mapa del grupo contra eso. Cada capa se baja la primera vez que la prendés.</p>
+        <ul class="carto-capas" id="capas-base"></ul>
+      </section>
+
+      <section aria-labelledby="bajar-titulo">
+        <h2 class="carto-subtitulo" id="bajar-titulo">Bajar el mapa</h2>
+        <p class="letra-chica carto-ayuda">La imagen sale como se ve el mapa ahora (el encuadre, las referencias y las capas prendidas), con la leyenda abajo.</p>
+        <div class="carto-botones">
+          <button type="button" class="boton borde" id="bajar-imagen">Imagen para presentar</button>
+          <button type="button" class="boton borde" id="bajar-geojson">Datos para QGIS</button>
+        </div>
+        <p class="letra-chica carto-ayuda" id="bajar-estado" role="status" aria-live="polite"></p>
+      </section>
+
+      <!-- PUBLICAR. Quien coordina pide; el equipo revisa en el panel. Se
+           publica una foto del momento, sin quién dibujó qué. -->
+      <section aria-labelledby="publicar-titulo" id="seccion-publicar" hidden>
+        <h2 class="carto-subtitulo" id="publicar-titulo">Publicar</h2>
+        <div id="publicar-estado"></div>
+        <div class="carto-botones" id="publicar-botones"></div>
+        <div class="aviso error" id="publicar-error" hidden></div>
+      </section>
+
+      <section aria-labelledby="grupo-titulo" id="seccion-grupo">
+        <h2 class="carto-subtitulo" id="grupo-titulo">El grupo</h2>
+        <p id="grupo-texto"></p>
+
+        <form class="carto-apodo" id="form-apodo" novalidate hidden>
+          <label for="apodo">Cómo te ve este grupo</label>
+          <div class="carto-fila-campo">
+            <input id="apodo" maxlength="40" autocomplete="nickname" placeholder="Ej.: Lu, o el nombre de tu organización">
+            <button type="submit" class="boton borde" id="apodo-guardar">Guardar</button>
+          </div>
+          <p class="letra-chica carto-ayuda">El nombre de tu cuenta no se muestra nunca. Sin apodo, aparecés como «Participante» y un número.</p>
+          <div class="aviso error" id="apodo-error" hidden></div>
+        </form>
+
+        <ul class="carto-miembros" id="miembros"></ul>
+        <div class="aviso error" id="grupo-error" hidden></div>
+
+        <div class="carto-salidas">
+          <button type="button" class="boton borde ancho" id="cambiar-codigo" hidden>Cambiar el código</button>
+          <button type="button" class="boton borde ancho" id="salir" hidden>Salir de la cartografía</button>
+          <button type="button" class="boton peligro ancho" id="borrar-carto" hidden>Borrar la cartografía</button>
+        </div>
+      </section>
+
+      <p class="carto-volver"><a href="./">← Tus cartografías</a></p>
+    </div>
+  </div>
+
+</main>
+
+<div id="pie"></div>
+
+<script>window.RAIZ = '../';</script>
+<!-- La librería grande y no el cliente chico: todo acá pide sesión. -->
+<script src="../lib/supabase.js"></script>
+<script src="../config.js"></script>
+<script src="../iconos.js"></script>
+<script src="../lib/mudanza.js"></script>
+<script src="../lib/desfase.js"></script>
+<script src="../app.js"></script>
+<script src="../fondo-red.js"></script>
+<!-- Las capas de base son las de `mapa/`: una sola lista para las dos. -->
+<script src="../mapa/capas-base.js"></script>
+<script src="referencias.js"></script>
+<script src="cartografias.js"></script>
+</body>
+</html>

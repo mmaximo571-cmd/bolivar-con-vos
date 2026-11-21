@@ -30,6 +30,7 @@ discutirla en tres meses.
 | 2 | Anotarse a un grupo de estudio | chica | hecha en la tanda 3 de la 3 (30/9) |
 | 3 | Calendario y avisos: que se revisen todos los días | grande, en tres tandas | hecha: las tres tandas y la función `avisos` v11 en producción (30/9) |
 | 4 | Época de parciales en Estudiemos (va con el reel) | chica | hecha el 4/10 (v83), falta publicar |
+| 5 | Cartografía social del Gran La Plata | grande, en tres tandas | hecha: las tres tandas el 18/11 |
 
 ## Las propuestas
 
@@ -344,7 +345,7 @@ si la gente se anota.
 | A quién | General para todes; los **grupos de estudio de sus materias** se resaltan y avisan. |
 | Canales | Uno por categoría: Paros (prendido de fábrica), Grupos de mis materias, Actividades, Comunicados. Las mesas y «mis fechas» siguen como están. |
 | Paros | **Se publican directo** desde `cargar/`, sin visto bueno. |
-| `cargar/` | Suma **Actividades** y **Editar y suspender** lo propio. Sin repetición semanal ni cupo por ahora. |
+| `cargar/` | Suma **Actividades** y **Editar y suspender** lo propio. Sin cupo por ahora. **La repetición semanal de los grupos se sumó el 11/11/2026** (ver abajo). |
 | Qué hace la estudiante | «**Voy**» (me anoto, en los grupos), **pasarlo al calendario** y **compartir por WhatsApp**. |
 | Campana | **Bandeja completa**: Hoy, Esta semana, Nuevo, Cambios; lo leído se sincroniza con cuenta. |
 | Portada | **Tarjeta Hoy** y **lo que marcó «Voy»**. Sin tira de la semana. |
@@ -484,6 +485,13 @@ si la gente se anota.
   grupo no sea de sus materias. **Subida el 30/9/2026 a las 10:31**,
   con el visto bueno de Máximo, igual al archivo del repo.
 - No entró: el calendario suscripto (`webcal://`), que sigue en dudas.
+- **Los grupos de todas las semanas (11/11/2026, v109).** Lo pidió
+  Máximo al ver que en el primer mes casi no se cargaron grupos: cargar
+  el de los jueves una vez para varias semanas. Cada encuentro sigue
+  siendo su fila y la serie es un `serie_id` compartido (sección 11 de
+  `sql/tabla-publicaciones.sql`, aplicada). Avisa una vez por serie
+  (función `avisos` v14, desplegada), y la campana, Fechas y «Lo que
+  cargaste» la muestran junta. «Me anoto» sigue siendo por encuentro.
 
 **Dudas abiertas:**
 
@@ -532,6 +540,73 @@ Notas: la tira se esconde sola después del 21/11 (cierre de clases del
 interruptor con `typeof` antes de llamar a lo de `app.js`, por si llega
 el viejo del caché. Los grupos de estudio los carga el equipo desde el
 panel: sin grupos, el atajo lleva a una lista vacía y conviene esconderlo.
+
+---
+
+### 5. Cartografía social del Gran La Plata
+
+- **Qué:** una herramienta para armar cartografías sociales de los
+  territorios de La Plata, Berisso y Ensenada: un mapa base del Gran La
+  Plata sobre el que un grupo (una cátedra, una práctica, una
+  organización del barrio) marca lugares, recorridos y zonas, y les pone
+  qué son y qué se dijo de ellos.
+- **Por qué:** la cartografía social es una técnica que se usa en la
+  carrera y en el trabajo territorial, y hoy se hace en papel o en
+  herramientas sueltas que no conocen el territorio. Tenerla anclada a un
+  mapa real del Gran La Plata deja el trabajo guardado, compartible y
+  comparable entre grupos.
+- **Dónde toca:** `cartografias/` (`index.html`, `cartografias.js`,
+  `referencias.js`), `css/pantallas/cartografias.css`,
+  `sql/tabla-cartografias.sql`, el índice del pie en `app.js`. Antes de
+  empezar se miró: `mapa/` ya tiene Leaflet, OpenStreetMap, capas GeoJSON de
+  la zona (`mapa/datos/`: RENABAP, hídrico, industrial, contención) y
+  reportes en `sql/tabla-riesgo.sql`; la lista de capas vive en
+  `mapa/capas.js`. Probablemente una pantalla nueva con su hoja, una o
+  dos tablas nuevas en `sql/` y lo que se pueda reusar de `mapa/`.
+- **Tamaño:** grande (hay que partirla).
+- **Estado:** hecha. Las tres tandas se hicieron el 18/11/2026. Detalle
+  en `BITACORA.md`.
+
+Lo decidido (Máximo, 18/11/2026):
+- **Grupos cerrados.** Quien crea una cartografía la coordina y reparte
+  un código; con el código se suma gente. Solo la ve el grupo.
+- **Puntos, líneas y zonas** desde el principio.
+- **Ocho referencias fijas + las propias** de cada grupo, que crea quien
+  coordina (`cartografias/referencias.js`).
+- **Pantalla nueva**, `cartografias/`, aparte de `mapa/`.
+
+Las tandas:
+1. **Hecha.** Las tablas y los permisos; crear, sumarse con código o
+   link, salir y borrar; dibujar las tres formas; la ficha, la leyenda
+   y las referencias propias.
+2. **Hecha (18/11).** Corregir lo ya dibujado (texto y forma, con los
+   puntos que se arrastran); las capas de base de `mapa/` como
+   referencia; bajar el mapa (imagen para presentar, GeoJSON para QGIS);
+   el grupo: **apodo por grupo** (decisión de Máximo: el nombre del
+   perfil no sale nunca), sacar a alguien, coordinar entre varias
+   personas, cambiar el código.
+3. **Hecha (18/11).** Dibujar sin señal (una cola en el teléfono que se
+   manda sola; borrar pide señal); abrir sin señal lo que se bajó; ver
+   en vivo lo que dibuja el resto (Realtime); publicar con revisión del
+   equipo en el panel. Decisiones de Máximo: se publica **una foto del
+   momento** (lo de después no sale sin otro pedido) y **sin autoría**.
+
+Notas: las dudas de la primera charla (las cuatro primeras, ya decididas arriba).
+- ¿Quién dibuja? ¿Cualquiera con cuenta, o grupos cerrados con quien los
+  arma? ¿Lo de un grupo lo ve el resto?
+- ¿Qué se marca? Puntos, líneas (recorridos) y polígonos (zonas), o solo
+  puntos al principio. Qué categorías (recursos, conflictos, actores,
+  instituciones, lugares de encuentro, riesgos...) y si las define cada
+  grupo.
+- ¿Se reusa el mapa de `mapa/` como base o es otra pantalla con sus
+  propias capas? Las capas de riesgo y RENABAP podrían prenderse como
+  referencia.
+- Privacidad: marcar casas o personas en un mapa público es delicado;
+  hace falta una regla clara de qué se puede publicar.
+- Exportar: imagen o PDF para presentar, y GeoJSON para quien trabaje
+  con QGIS.
+- Mapa base sin conexión: hoy las teselas de OpenStreetMap no se
+  guardan; en el territorio puede no haber señal.
 
 ---
 

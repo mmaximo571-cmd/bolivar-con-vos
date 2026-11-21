@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Anatomofisiología · La Bolívar con vos</title>
-<meta name="description" content="El programa de Anatomofisiología Fonoaudiológica ordenado por módulos: qué entra, qué libro leer, qué fecha, y modelos 3D de la laringe y el oído.">
+<meta name="description" content="El programa de Anatomofisiología Fonoaudiológica ordenado por módulos: qué entra, qué libro leer, qué fecha, y modelos 3D de la laringe, la deglución, la respiración y el oído.">
 <meta name="theme-color" content="#F9E830">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -20,7 +20,7 @@
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="La Bolivar con vos">
 <meta property="og:title" content="Anatomofisiología Fonoaudiológica · La Bolívar con vos">
-<meta property="og:description" content="El programa ordenado por módulos, con la bibliografía, las fechas y modelos 3D de la laringe y el oído.">
+<meta property="og:description" content="El programa ordenado por módulos, con la bibliografía, las fechas y modelos 3D para tocar: laringe, deglución, respiración y oído.">
 <meta property="og:image" content="https://labolivarconvos.ar/imagenes/compartir.png">
 <meta name="twitter:card" content="summary_large_image">
 <link rel="stylesheet" href="../css/tokens.css">
@@ -176,7 +176,9 @@ function pintar(g){
   const lista = a => (Array.isArray(a) ? a : []);
 
   /* Cada módulo: qué entra, cuándo se da, qué hay que leer, y el modelo
-     3D si lo tiene. Ese es el orden en que sirve. */
+     3D si lo tiene. Ese es el orden en que sirve. `modelos` (desde el
+     17/11/2026) son los que vienen después del primero: Audición tiene
+     el oído medio y el interno, y `modelo` solo sostenía uno. */
   const html = `
     <p class="ceja-materia">${esc(g.materia_cod)} · Licenciatura en Fonoaudiología${
       g.anio_programa ? ' · Programa ' + g.anio_programa : ''}</p>
@@ -195,7 +197,9 @@ function pintar(g){
         <h4>Qué entra</h4>
         <ul>${lista(m.contenidos).map(c => `<li>${esc(c)}</li>`).join('')}</ul>
 
-        ${m.modelo && m.modelo.url ? bloqueModelo(m.modelo, m.numero) : ''}
+        ${VISTAS_VISOR[m.visor] ? bloqueVisor(m.visor) : ''}
+        ${[m.modelo].concat(lista(m.modelos)).filter(x => x && x.url)
+            .map(x => bloqueModelo(x, m.numero)).join('')}
 
         ${lista(m.obligatoria).length ? `
           <h4>Para leer</h4>
@@ -261,6 +265,27 @@ function pintar(g){
   });
 }
 })();
+
+/* EL VISOR DE LA APP (17/11/2026). Un módulo con `visor` en la base
+   lleva a `3d/` abierto en esa vista. A diferencia de Sketchfab, ahí
+   cada pieza se toca y dice qué hace, y se puede practicar. Las vistas
+   son las de `3d/piezas.js`; si se suma una, va también acá. */
+const VISTAS_VISOR = {
+  laringe:     'la laringe: cartílagos, músculos intrínsecos y ligamentos',
+  deglucion:   'la deglución: lengua, velo del paladar, faringe e hioides',
+  respiracion: 'la respiración: nariz, árbol bronquial, diafragma y costillas'
+};
+
+function bloqueVisor(vista){
+  return `
+    <a class="modelo-visor" href="3d/?vista=${esc(vista)}">
+      <span class="modelo3d-cubo" aria-hidden="true">3D</span>
+      <span class="modelo-visor-texto">
+        <strong>Tocá cada pieza: ${esc(VISTAS_VISOR[vista])}</strong>
+        <span>En el visor de la app: girás, tocás, leés qué hace y practicás · 1 a 2 MB</span>
+      </span>
+    </a>`;
+}
 
 /* La tapa del modelo: lo que se ve antes de descargarlo. Dice cuánto
    pesa aproximadamente, porque en la red de la facultad eso importa. */

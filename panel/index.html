@@ -315,6 +315,9 @@
      Esto lo carga SOLO el panel. La app que usa el estudiante no baja
      ni un byte de pdf.js. -->
 <script src="../mapa/capas.js"></script>
+<!-- Los nombres de las referencias fijas de las cartografías sociales,
+     para mostrar «Conflictos y problemas» y no «conflictos». -->
+<script src="../cartografias/referencias.js"></script>
 <script src="../carrera/plan.js"></script>
 <script src="../carrera/plan-prof.js"></script>
 <script src="../carrera/plan-tgcr.js"></script>
@@ -472,6 +475,10 @@
     { p:'riesgo', grupo:'equipo', emoji:'🗺', nombre:'Mapa de riesgo',
       que:'Los puntos que carga la gente esperan acá: nada sale al mapa público sin que alguien lo mire.',
       enlace:'../mapa/', donde:'Mapa' },
+
+    { p:'cartografias', grupo:'equipo', emoji:'🧭', nombre:'Cartografías',
+      que:'Los grupos que piden publicar su cartografía social esperan acá: se lee lo dibujado y se aprueba o se rechaza con un motivo.',
+      enlace:'../cartografias/', donde:'Cartografías sociales' },
 
     { p:'registro', grupo:'equipo', emoji:'📈', nombre:'Registro',
       que:'Cuánto se usó la app y qué se buscó. Es la única sección que se mira y no se edita.',
@@ -1069,6 +1076,8 @@
           <div class="crecer">
             <span class="etiqueta ${esc(p.linea)}">${esc(NOMBRE_LINEA[p.linea] || p.linea)}</span>
             ${p.categoria ? `<span class="etiqueta cat-${esc(p.categoria)}">${esc(p.categoria)}</span>` : ''}
+            ${Array.isArray(p.carreras) && p.carreras.length ? `<span class="etiqueta">Solo ${esc(
+              CARRERAS_APP.filter(c => p.carreras.indexOf(c.id) >= 0).map(c => c.corto).join(' y '))}</span>` : ''}
             <h3>${esc(p.titulo)}</h3>
             <p>${esc(rangoLindo(p.fecha_desde, p.fecha_hasta) || 'Sin fecha')}${p.publicado ? '' : ' · BORRADOR'}${
               p.suspendido ? ' · SUSPENDIDO' : ''}${
@@ -1184,6 +1193,24 @@
       <div class="campo"><label for="link_url">Enlace (opcional)</label>
         <input id="link_url" type="url" value="${esc(p.link_url || '')}" placeholder="https://…"></div>
 
+      <!-- PARA QUIÉN (17/11/2026). Ninguna marcada es para todas, que es
+           lo de siempre. Con alguna, la campana, el inicio y Fechas se la
+           esconden a quien eligió otra carrera en el teléfono. Las
+           casillas pisan el estilo de .campo label, que es para rótulos. -->
+      <div class="campo" role="group" aria-labelledby="carreras-rotulo">
+        <label id="carreras-rotulo">¿Para qué carrera?</label>
+        ${CARRERAS_APP.map(c => `
+          <label class="fila-item" style="display:flex;gap:8px;margin:6px 0;text-transform:none;
+                 letter-spacing:0;font-size:var(--letra-base);color:var(--texto)">
+            <input type="checkbox" class="pub-carrera" value="${c.id}"
+                   ${Array.isArray(p.carreras) && p.carreras.indexOf(c.id) >= 0 ? 'checked' : ''}>
+            ${esc(c.corto)}</label>`).join('')}
+        <small style="display:block;margin-top:6px;color:var(--texto-suave);
+                      font-size:var(--letra-nota);line-height:1.45">
+          Sin marcar ninguna, es para todas. Marcando alguna, la ve solo quien eligió
+          esa carrera en el teléfono, y quien todavía no eligió ninguna. El aviso al
+          celular todavía no sabe de carreras: con una carrera marcada no puede sonar.</small></div>
+
       <div class="campo"><label for="publicado">¿Se ve en la app?</label>
         <select id="publicado">
           <option value="si"${p.publicado ? ' selected' : ''}>Sí, publicada</option>
@@ -1255,6 +1282,18 @@
         return;
       }
 
+      /* Todas marcadas es lo mismo que ninguna: se guarda vacío, así una
+         carrera nueva no queda afuera de algo que era para todas. */
+      let carreras = [...document.querySelectorAll('.pub-carrera:checked')].map(x => x.value);
+      if (carreras.length === CARRERAS_APP.length) carreras = [];
+      if (carreras.length && val('avisar') === 'si'){
+        document.getElementById('msj').innerHTML =
+          '<div class="aviso error">El aviso al celular todavía no sabe de carreras: ' +
+          'le sonaría a todas. O sacás la carrera, o elegís «No» en ' +
+          '«¿Le suena el teléfono a la gente?».</div>';
+        return;
+      }
+
       this.disabled = true; this.textContent = 'Guardando…';
 
       const categoria = val('categoria');
@@ -1277,7 +1316,8 @@
         imagen_url:  nulo('imagen_url'),
         link_url:    enlace('link_url'),
         publicado:   val('publicado') === 'si',
-        avisar:      val('avisar') === 'si'
+        avisar:      val('avisar') === 'si',
+        carreras:    carreras.length ? carreras : null
       };
 
       const { error } = esNuevo
@@ -2666,9 +2706,10 @@
       <a class="boton borde ancho" href="../anatomo/" target="_blank" rel="noopener"
          style="margin-top:10px">Ver cómo quedó ↗</a>
       <p class="letra-chica" style="margin-top:12px">
-        Los <b>modelos 3D</b> de los módulos 3 y 5 no se tocan desde acá: están
-        atados a su licencia y a su atribución. Si hace falta cambiarlos,
-        avisá.</p>
+        Los <b>modelos 3D</b> (los de Sketchfab y los enlaces al visor de la
+        app) no se tocan desde acá: están atados a su licencia y a su
+        atribución. Si se cambia el número de un módulo, su modelo se va
+        con el número. Si hace falta cambiarlos, avisá.</p>
       <div id="msj"></div>`;
 
     const campo = document.getElementById('modulos');
@@ -2692,12 +2733,19 @@
     document.getElementById('guardar-guia').onclick = async function(){
       this.disabled = true; this.textContent = 'Guardando…';
 
-      /* Los modelos 3D se conservan: no se editan desde acá, así que se
+      /* Los modelos 3D (`modelo` y los que siguen en `modelos`) y el
+         enlace al visor de la app (`visor`, desde el 17/11/2026) se conservan: no se editan desde acá, así que se
          vuelven a pegar sobre los módulos por número. */
-      const viejos = {};
-      (g.modulos || []).forEach(m => { if (m.modelo) viejos[m.numero] = m.modelo; });
+      const viejos = {}, visores = {}, otros = {};
+      (g.modulos || []).forEach(m => {
+        if (m.modelo) viejos[m.numero] = m.modelo;
+        if (m.visor) visores[m.numero] = m.visor;
+        if (Array.isArray(m.modelos) && m.modelos.length) otros[m.numero] = m.modelos;
+      });
       const modulos = leerModulos(campo.value).map(m =>
-        Object.assign(m, { modelo: viejos[m.numero] || null }));
+        Object.assign(m, { modelo: viejos[m.numero] || null },
+                         visores[m.numero] ? { visor: visores[m.numero] } : {},
+                         otros[m.numero] ? { modelos: otros[m.numero] } : {}));
 
       const { error } = await db.from('guia_materia').update({
         bajada:       val('bajada'),
@@ -3388,6 +3436,117 @@
   }
 
   /* ============================================================
+     CARTOGRAFÍAS SOCIALES · los pedidos para publicar
+
+     Un grupo arma su cartografía y quien coordina pide publicarla. Lo
+     que llega acá es una FOTO del momento del pedido, sin quién dibujó
+     qué (sql/tabla-cartografias.sql, tanda 3). Se lee como el mapa de
+     riesgo: que los relatos no tengan nombres de vecines ni datos que
+     identifiquen a alguien. «Ver en el mapa» la abre como se vería
+     publicada. El motivo de un rechazo lo lee el grupo en su pantalla.
+     ============================================================ */
+  async function vistaCartografias(){
+    const [pe, pu] = await Promise.all([
+      db.from('cartografia_pedidos')
+        .select('cartografia, nombre, descripcion, foto, estado, motivo, pedida_at')
+        .order('pedida_at', { ascending:true }).limit(50),
+      db.from('cartografias_publicadas')
+        .select('cartografia, nombre, publicada_at')
+        .order('publicada_at', { ascending:false }).limit(100)
+    ]);
+    const error = pe.error || pu.error;
+    if (error){
+      zona.innerHTML = /cartografia/.test(error.message || '')
+        ? `<div class="aviso error">
+             <strong>Falta activar esta sección.</strong><br>
+             Hay que correr la tanda 3 de <b>sql/tabla-cartografias.sql</b> en
+             el SQL Editor de Supabase.
+           </div>`
+        : `<div class="aviso error">No se pudo cargar: ${esc(error.message)}</div>`;
+      return;
+    }
+
+    const nombreRef = (foto, id) => {
+      const propia = ((foto && foto.referencias) || []).find(r => r.id === id);
+      if (propia) return propia.nombre;
+      const fija = (typeof REFERENCIAS_FIJAS !== 'undefined' ? REFERENCIAS_FIJAS : []).find(r => r.id === id);
+      return fija ? fija.glifo + ' ' + fija.nombre : id;
+    };
+    const TIPO = { punto:'Lugar', linea:'Recorrido', zona:'Zona' };
+    const esperando = (pe.data || []).filter(x => x.estado === 'esperando');
+
+    zona.innerHTML = `
+      <h3 class="titulo-pantalla" style="font-size:22px;margin-top:0">PARA REVISAR</h3>
+      <p class="letra-chica">Los más viejos primero. Se publica exactamente esto: una foto
+        del momento del pedido, sin quién dibujó qué. Lo que el grupo dibuje después no
+        sale hasta otro pedido.</p>
+      ${esperando.length ? esperando.map(x => {
+        const rasgos = (x.foto && x.foto.features) || [];
+        return `
+        <div class="tarjeta" style="margin-bottom:10px">
+          <h3>${esc(x.nombre)}</h3>
+          ${x.descripcion ? `<p>${esc(x.descripcion)}</p>` : ''}
+          <div class="meta">
+            <span>Pedida el ${esc(fechaLinda(x.pedida_at))}</span>
+            <span>${rasgos.length === 1 ? '1 cosa dibujada' : rasgos.length + ' cosas dibujadas'}</span>
+            <a href="../cartografias/?revisar=${encodeURIComponent(x.cartografia)}" target="_blank" rel="noopener">Ver en el mapa ↗</a>
+          </div>
+          <details style="margin-top:8px">
+            <summary>Leer lo que dice cada cosa</summary>
+            <ul style="margin:8px 0 0;padding-left:18px">
+              ${rasgos.map(f => { const p = f.properties || {}; return `
+                <li style="margin-bottom:6px"><b>${esc(p.titulo || '')}</b>
+                  <span class="letra-chica">· ${esc(nombreRef(x.foto, p.referencia))} · ${esc(TIPO[p.tipo] || '')}</span>
+                  ${p.relato ? `<br>${esc(p.relato)}` : ''}</li>`; }).join('')}
+            </ul>
+          </details>
+          <div class="fila-item" style="gap:8px;margin-top:10px">
+            <button class="boton" data-carto="aprobar" data-id="${esc(x.cartografia)}">Publicar</button>
+            <button class="boton borde" data-carto="rechazar" data-id="${esc(x.cartografia)}">Rechazar</button>
+          </div>
+        </div>`; }).join('')
+      : `<div class="vacio">No hay cartografías esperando revisión.</div>`}
+
+      <h3 class="titulo-pantalla" style="font-size:22px">PUBLICADAS</h3>
+      ${(pu.data || []).length ? (pu.data || []).map(x => `
+        <div class="tarjeta" style="margin-bottom:8px">
+          <h3>${esc(x.nombre)}</h3>
+          <div class="meta">
+            <span>Desde el ${esc(fechaLinda(x.publicada_at))}</span>
+            <a href="../cartografias/?ver=${encodeURIComponent(x.cartografia)}" target="_blank" rel="noopener">Ver ↗</a>
+          </div>
+          <div class="fila-item" style="gap:8px;margin-top:10px">
+            <button class="boton borde" data-carto="despublicar" data-id="${esc(x.cartografia)}">Despublicar</button>
+          </div>
+        </div>`).join('')
+      : `<div class="vacio">Todavía no hay ninguna publicada.</div>`}`;
+
+    zona.onclick = async ev => {
+      const b = ev.target.closest('[data-carto]');
+      if (!b) return;
+      const id = b.dataset.id, accion = b.dataset.carto;
+      let r;
+      if (accion === 'aprobar'){
+        if (!confirm('¿Publicarla? Va a verse sin cuenta, tal como está en este pedido.')) return;
+        b.disabled = true;
+        r = await db.rpc('cartografia_aprobar', { p_cartografia: id });
+      } else if (accion === 'rechazar'){
+        const motivo = prompt('¿Por qué no se publica? El grupo lo lee en su pantalla (hasta 300 letras).', '');
+        if (motivo === null) return;
+        b.disabled = true;
+        r = await db.rpc('cartografia_rechazar', { p_cartografia: id, p_motivo: motivo });
+      } else {
+        if (!confirm('¿Despublicarla? Deja de verse para todo el mundo. El grupo la conserva.')) return;
+        b.disabled = true;
+        r = await db.from('cartografias_publicadas').delete().eq('cartografia', id);
+      }
+      if (r.error){ b.disabled = false; aviso('No se pudo: ' + r.error.message, 'error'); return; }
+      zona.onclick = null;
+      vistaCartografias();
+    };
+  }
+
+  /* ============================================================
      EN INSTAGRAM  ·  las placas que se ven en el inicio
 
      La grilla del inicio sale de `posteos_ig`. Se carga a mano y no
@@ -4049,6 +4208,7 @@
        materiales:vistaMateriales, guia:vistaGuia, avisanos:vistaAvisanos,
        quienes:vistaQuienes, consejo:vistaConsejo, registro:vistaRegistro,
        categorias:vistaCategorias, catedras:vistaCatedras, riesgo:vistaRiesgo,
+       cartografias:vistaCartografias,
        instagram:vistaInstagram, buzon:vistaBuzon, congreso:vistaCongreso,
        ingresantes:vistaIngresantes }[actual])())
       /* SI LA VISTA SE CAE, QUE LO DIGA.
